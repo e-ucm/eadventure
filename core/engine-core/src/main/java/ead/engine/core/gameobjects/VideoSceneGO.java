@@ -46,7 +46,6 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -71,15 +70,14 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	private boolean error;
 
 	@Inject
-	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringsReader,
+	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState,
-			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
+//			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
 			EventGOFactory eventFactory) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		logger.info("New instance");
-		this.specialAssetRenderer = specialAssetRenderer;
+		this.specialAssetRenderer = null;
 		this.component = null;
 		this.error = false;
 	}

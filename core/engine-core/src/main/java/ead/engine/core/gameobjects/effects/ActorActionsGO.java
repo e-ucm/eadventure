@@ -66,11 +66,10 @@ public class ActorActionsGO extends
 
 	@Inject
 	public ActorActionsGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, ActionsHUD actionsHUD,
 			GameObjectManager gameObjectManager) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.actionsHUD = actionsHUD;
 		this.gameObjectManager = gameObjectManager;
 	}

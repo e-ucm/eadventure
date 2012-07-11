@@ -48,12 +48,12 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
 /**
- * Scene element definition in the eAdventure model. Definition for scene elements, placed in
- * eAdventure scene.
+ * Scene element definition in the eAdventure model. Definition for scene
+ * elements, placed in eAdventure scene.
  */
-public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
-		Documented, Named, Evented, WithActions {
-	
+public interface EAdSceneElementDef extends EAdElement, Resourced,
+		WithBehavior, Documented, Named, Evented, WithActions {
+
 	/**
 	 * Sets the appearance in the given bundle
 	 * 
@@ -63,7 +63,7 @@ public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
 	 *            the appearance
 	 */
 	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
-	
+
 	/**
 	 * Sets the initial appearance for the scene element
 	 * 
@@ -71,5 +71,20 @@ public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
 	 *            the initial appearance
 	 */
 	public void setAppearance(EAdDrawable appearance);
+
+	/**
+	 * Returns the default appearance for this definition
+	 * 
+	 * @return
+	 */
+	EAdDrawable getAppearance();
+
+	/**
+	 * Returns the appearance for the given bundle
+	 * 
+	 * @param bundle
+	 * @return
+	 */
+	EAdDrawable getAppaerance(EAdBundleId bundle);
 
 }

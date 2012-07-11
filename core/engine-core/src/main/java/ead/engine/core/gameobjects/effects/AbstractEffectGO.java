@@ -73,10 +73,9 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	protected EAdSceneElement parent;
 	
 	@Inject
-	public AbstractEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
+	public AbstractEffectGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

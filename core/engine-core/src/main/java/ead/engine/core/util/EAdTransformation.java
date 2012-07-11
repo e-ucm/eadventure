@@ -52,6 +52,8 @@ public interface EAdTransformation extends Cloneable {
 	 * @return the transformation matrix
 	 */
 	EAdMatrix getMatrix();
+	
+	void setMatrix(EAdMatrix matrix);
 
 	/**
 	 * @return true if the transformed elements must be visible

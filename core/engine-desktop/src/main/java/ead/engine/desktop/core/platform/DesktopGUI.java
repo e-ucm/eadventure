@@ -119,6 +119,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	private Object currentComponent;
 	
 	private GameController gameController;
+	
+	protected GameLoop gameLoop;
 
 	@Inject
 	public DesktopGUI(EngineConfiguration conf,
@@ -126,8 +128,9 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			DesktopCanvas canvas, GameLoop gameLoop, GameController gameController) {
 		super(conf, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas, gameLoop);
+				gameObjectFactory, canvas);
 		this.gameController = gameController;
+		this.gameLoop = gameLoop;
 		// try {
 		// this.robot = new Robot();
 		// } catch (AWTException e) {
@@ -473,6 +476,14 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			frame.dispose();
 		}
 
+	}
+	
+	public int getSkippedMilliseconds() {
+		return gameLoop.getSkipMillisTick();
+	}
+
+	public int getTicksPerSecond() {
+		return gameLoop.getTicksPerSecond();
 	}
 
 }

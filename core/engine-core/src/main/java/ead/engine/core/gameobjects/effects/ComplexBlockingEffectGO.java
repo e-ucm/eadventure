@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ComplexBlockingEffect;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.util.StringHandler;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -54,31 +53,31 @@ import ead.engine.core.util.EAdTransformation;
 
 public class ComplexBlockingEffectGO extends
 		AbstractEffectGO<ComplexBlockingEffect> {
-	
+
 	private EvaluatorFactory evaluatorFactory;
 
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, EvaluatorFactory evaluatorFactory ) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.evaluatorFactory = evaluatorFactory;
 	}
-	
-	public void initialize( ){
+
+	public void initialize() {
 		super.initialize();
-		for ( EAdEffect e: element.getInitEffects() ){
+		for (EAdEffect e : element.getInitEffects()) {
 			gameState.addEffect(e);
 		}
 	}
-	
+
 	public boolean processAction(InputAction<?> action) {
-		if ( element.isOpaque() ){
+		if (element.isOpaque()) {
 			action.consume();
 			return true;
 		}
 		return false;
-		
+
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class ComplexBlockingEffectGO extends
 		}
 
 	}
-	
+
 	public boolean contains(int x, int y) {
 		return element.isOpaque();
 	}

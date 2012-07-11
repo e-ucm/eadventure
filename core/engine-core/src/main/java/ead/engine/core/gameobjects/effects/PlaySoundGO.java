@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
@@ -50,10 +49,9 @@ import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 
 	@Inject
-	public PlaySoundGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
+	public PlaySoundGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

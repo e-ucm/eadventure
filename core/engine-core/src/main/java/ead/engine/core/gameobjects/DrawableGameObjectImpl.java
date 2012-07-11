@@ -38,7 +38,6 @@
 package ead.engine.core.gameobjects;
 
 import ead.common.model.EAdElement;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -50,31 +49,25 @@ import ead.engine.core.util.EAdTransformationImpl;
 
 public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 		GameObjectImpl<T> implements DrawableGO<T> {
-	
+
 	protected SceneElementGOFactory sceneElementFactory;
-	
+
 	/**
 	 * The game's asset handler
 	 */
 	protected AssetHandler assetHandler;
 
-	/**
-	 * The string handler
-	 */
-	protected StringHandler stringsHandler;
-
 	protected GUI gui;
-	
-	protected EAdTransformationImpl transformation;
+
+	protected EAdTransformation transformation;
 
 	protected boolean enable;
 
 	public DrawableGameObjectImpl(AssetHandler assetHandler,
-			StringHandler stringsHandler, SceneElementGOFactory sceneElementFactory,
-			GUI gui, GameState gameState) {
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState) {
 		super(gameState);
 		this.assetHandler = assetHandler;
-		this.stringsHandler = stringsHandler;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
 	}
@@ -88,17 +81,17 @@ public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 	public boolean isEnable() {
 		return enable;
 	}
-	
+
 	public EAdTransformation getTransformation() {
 		return transformation;
 	}
-	
+
 	@Override
 	public SceneElementGO<?> getDraggableElement() {
 		return null;
 	}
-	
-	public void resetTransfromation(){
+
+	public void resetTransfromation() {
 		transformation.getMatrix().setIdentity();
 	}
 

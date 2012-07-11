@@ -50,7 +50,6 @@ import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -83,15 +82,14 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	private OperatorFactory operatorFactory;
 
 	private float alpha;
-	
+
 	private String previousState;
 
 	@Inject
 	public SpeakGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 
@@ -117,9 +115,11 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	@Override
 	public void initialize() {
 		super.initialize();
-		if ( element.getStateField() != null ){
-			previousState = gameState.getValueMap().getValue(element.getStateField());
-			gameState.getValueMap().setValue(element.getStateField(), CommonStates.EAD_STATE_TALKING.toString());
+		if (element.getStateField() != null) {
+			previousState = gameState.getValueMap().getValue(
+					element.getStateField());
+			gameState.getValueMap().setValue(element.getStateField(),
+					CommonStates.EAD_STATE_TALKING.toString());
 		}
 		finished = false;
 		ballon = sceneElementFactory.get(getSceneElement());
@@ -138,31 +138,26 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		int bottom = height / HEIGHT_PROPORTION + top;
 
 		BezierShape rectangle = null;
-		
-		
 
-		if (element.getX() != null && element.getY() != null) {
+		if ( element.getX() != null && element.getY() != null) {
 			EAdPosition p = gameState.getScene().getPosition();
-			
+
 			Integer xOrigin = operatorFactory.operate(Integer.class,
 					element.getX());
 			Integer yOrigin = operatorFactory.operate(Integer.class,
 					element.getY());
-			
-			
+
 			xOrigin += p.getX();
 			yOrigin += p.getY();
-			
-			
-			if ( yOrigin < height / 2 ){
+
+			if (yOrigin < height / 2) {
 				bottom = height - verticalMargin;
 				top = bottom - height / HEIGHT_PROPORTION;
 				yOrigin = top - MARGIN * 2;
-			}
-			else {
+			} else {
 				yOrigin = bottom + MARGIN * 2;
 			}
-			
+
 			rectangle = new BallonShape(left, top, right, bottom,
 					element.getBallonType(), xOrigin, yOrigin);
 		} else {
@@ -240,12 +235,11 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	@Override
 	public void finish() {
-		if ( element.getStateField() != null ){
-			gameState.getValueMap().setValue(element.getStateField(), previousState);
+		if (element.getStateField() != null) {
+			gameState.getValueMap().setValue(element.getStateField(),
+					previousState);
 		}
 		super.finish();
 	}
-	
-	
 
 }

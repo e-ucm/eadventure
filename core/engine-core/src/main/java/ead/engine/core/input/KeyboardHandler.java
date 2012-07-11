@@ -37,8 +37,8 @@
 
 package ead.engine.core.input;
 
+import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.states.KeyboardState;
@@ -48,7 +48,7 @@ public class KeyboardHandler  {
 	private Queue<KeyInputAction> keyActions;
 	
 	public KeyboardHandler() {
-		keyActions = new ConcurrentLinkedQueue<KeyInputAction>();
+		keyActions = new LinkedList<KeyInputAction>();
 	}
 	
 	/**

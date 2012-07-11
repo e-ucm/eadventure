@@ -46,16 +46,15 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
-import ead.common.util.Interpolator;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
+import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
@@ -116,11 +115,10 @@ public class MoveSceneElementGO extends
 	private int currentSide;
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory,
 			TrajectoryFactory trajectoryFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 		this.trajectoryFactory = trajectoryFactory;
 	}

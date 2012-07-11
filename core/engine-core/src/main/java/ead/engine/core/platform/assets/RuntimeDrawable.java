@@ -37,6 +37,8 @@
 
 package ead.engine.core.platform.assets;
 
+import java.util.List;
+
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
@@ -84,5 +86,7 @@ public interface RuntimeDrawable<T extends EAdDrawable, GraphicContext> extends
 	 * @return
 	 */
 	boolean contains(int x, int y);
+	
+	RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level);
 
 }

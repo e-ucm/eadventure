@@ -178,4 +178,14 @@ public class SceneElementDef extends ResourcedElement implements
 		}
 		resources.addAsset(bundle, SceneElementDef.appearance, appearance);
 	}
+
+	@Override
+	public EAdDrawable getAppearance() {
+		return (EAdDrawable) getResources().getAsset(getInitialBundle(), SceneElementDef.appearance);
+	}
+
+	@Override
+	public EAdDrawable getAppaerance(EAdBundleId bundle) {
+		return (EAdDrawable) getResources().getAsset(bundle, SceneElementDef.appearance);
+	}
 }

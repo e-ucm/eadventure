@@ -58,7 +58,6 @@ import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.resources.assets.drawable.filters.MatrixFilter;
-import ead.elementfactories.demos.scenes.InitScene;
 
 /**
  * A complete model containing all possibles eAdventure elements. 
@@ -77,7 +76,7 @@ public class CompleteModel extends BasicAdventureModel {
 		drawable.addDrawable("state2", getDrawableWithAllBasicDrawables());
 		BasicScene scene = new BasicScene( drawable );
 		chapter.getScenes().add(scene);
-		chapter.getScenes().add(new InitScene());
+//		chapter.getScenes().add(new InitScene());
 	}
 	
 	public EAdDrawable getDrawableWithAllBasicDrawables( ){
