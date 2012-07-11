@@ -39,12 +39,14 @@ package ead.engine.core.gameobjects;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.ComposedScene;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -54,8 +56,6 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 		implements SceneGO<ComposedScene> {
@@ -66,10 +66,9 @@ public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 
 	@Inject
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
-			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
+		super(assetHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
 		logger.info("New instance");
 	}

@@ -73,9 +73,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends DrawableGame
 	protected EAdSceneElement parent;
 
 	@Inject
-	public AbstractEffectGO(AssetHandler assetHandler, StringHandler stringsReader,
-			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+	public AbstractEffectGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

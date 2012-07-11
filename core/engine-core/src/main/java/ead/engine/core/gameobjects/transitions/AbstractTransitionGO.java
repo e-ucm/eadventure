@@ -53,7 +53,6 @@ import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.SceneGOImpl;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -97,11 +96,10 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	private boolean firstUpdate;
 
 	public AbstractTransitionGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler ) {
-		super(assetHandler, stringHandler, sceneElementFactory, gui, gameState,
+		super(assetHandler, sceneElementFactory, gui, gameState,
 				eventFactory);
 		this.sceneLoader = sceneLoader;
 		EAdScene scene = this.createLoadingScene();

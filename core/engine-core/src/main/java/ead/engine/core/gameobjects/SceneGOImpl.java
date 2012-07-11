@@ -48,7 +48,6 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -68,9 +67,9 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	private ArrayList<EAdSceneElement> orderedElements;
 
 	@Inject
-	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
+	public SceneGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		orderedElements = new ArrayList<EAdSceneElement>();
 	}
 

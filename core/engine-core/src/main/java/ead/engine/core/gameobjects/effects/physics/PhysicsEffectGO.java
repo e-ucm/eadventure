@@ -37,16 +37,16 @@
 
 package ead.engine.core.gameobjects.effects.physics;
 
-import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.collision.shapes.Shape;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.joints.RevoluteJointDef;
+//import org.jbox2d.collision.shapes.CircleShape;
+//import org.jbox2d.collision.shapes.PolygonShape;
+//import org.jbox2d.collision.shapes.Shape;
+//import org.jbox2d.common.Vec2;
+//import org.jbox2d.dynamics.Body;
+//import org.jbox2d.dynamics.BodyDef;
+//import org.jbox2d.dynamics.BodyType;
+//import org.jbox2d.dynamics.FixtureDef;
+//import org.jbox2d.dynamics.World;
+//import org.jbox2d.dynamics.joints.RevoluteJointDef;
 
 import com.google.inject.Inject;
 
@@ -58,7 +58,6 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
@@ -69,27 +68,26 @@ import ead.engine.core.platform.assets.AssetHandler;
 public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	public static float WORLD_SCALE = 15.0f;
-
-	private World world;
-
-	private float timeStep;
-
-	private int velocityIterations;
-
-	private int positionIterations;
-
-	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDef<Body>(
-			"ph_body", Body.class, null);
-
-	public static final EAdVarDef<World> VAR_PH_WORLD = new VarDef<World>(
-			"ph_world", World.class, null);
+//
+//	private World world;
+//
+//	private float timeStep;
+//
+//	private int velocityIterations;
+//
+//	private int positionIterations;
+//
+//	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDef<Body>(
+//			"ph_body", Body.class, null);
+//
+//	public static final EAdVarDef<World> VAR_PH_WORLD = new VarDef<World>(
+//			"ph_world", World.class, null);
 
 	@Inject
 	public PhysicsEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
@@ -97,64 +95,64 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		super.initialize();
 
 		// doStep true = not simulate inactive bodies
-		world = new World(new Vec2(0.0f, 10.0f), true);
-		world.setContinuousPhysics(true);
-		world.setWarmStarting(true);
-		world.setAutoClearForces(true);
-		ValueMap valueMap = gameState.getValueMap();
-		valueMap.setValue(null, VAR_PH_WORLD, world);
-
-		timeStep = 1.0f / gui.getTicksPerSecond();
-		velocityIterations = 24;
-		positionIterations = 8;
-
-		for (EAdSceneElement e : element.getElements()) {
-			createBody(world, e, valueMap);
-		}
-
-		for (EAdSceneElement e : element.getJoints()) {
-			createBody(world, e, valueMap);
-		}
-
-		RevoluteJointDef jd = new RevoluteJointDef();
-		jd.collideConnected = false;
-
-		for (int i = 0; i < element.getJoints().size() - 1; i += 2) {
-			EAdSceneElement e1 = element.getJoints().get(i);
-			EAdSceneElement e2 = element.getJoints().get(i + 1);
-			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
-			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
-			jd.initialize(b2, b1, new Vec2(b1.getPosition().x,
-					b1.getPosition().y));
-			world.createJoint(jd);
-		}
+//		world = new World(new Vec2(0.0f, 10.0f), true);
+//		world.setContinuousPhysics(true);
+//		world.setWarmStarting(true);
+//		world.setAutoClearForces(true);
+//		ValueMap valueMap = gameState.getValueMap();
+//		valueMap.setValue(null, VAR_PH_WORLD, world);
+//
+//		timeStep = 1.0f / gui.getTicksPerSecond();
+//		velocityIterations = 24;
+//		positionIterations = 8;
+//
+//		for (EAdSceneElement e : element.getElements()) {
+//			createBody(world, e, valueMap);
+//		}
+//
+//		for (EAdSceneElement e : element.getJoints()) {
+//			createBody(world, e, valueMap);
+//		}
+//
+//		RevoluteJointDef jd = new RevoluteJointDef();
+//		jd.collideConnected = false;
+//
+//		for (int i = 0; i < element.getJoints().size() - 1; i += 2) {
+//			EAdSceneElement e1 = element.getJoints().get(i);
+//			EAdSceneElement e2 = element.getJoints().get(i + 1);
+//			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
+//			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
+//			jd.initialize(b2, b1, new Vec2(b1.getPosition().x,
+//					b1.getPosition().y));
+//			world.createJoint(jd);
+//		}
 
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		world.step(timeStep, velocityIterations, positionIterations);
-
-		EAdScene scene = gameState.getScene().getElement();
-
-		if (scene != null) {
-			for (EAdSceneElement e : scene.getSceneElements()) {
-				ValueMap valueMap = gameState.getValueMap();
-				Body b = valueMap.getValue(e, VAR_PH_BODY);
-				if (b != null) {
-
-					valueMap.setValue(e, SceneElement.VAR_X,
-							(int) (b.getWorldCenter().x * WORLD_SCALE));
-					valueMap.setValue(e, SceneElement.VAR_Y,
-							(int) (b.getWorldCenter().y * WORLD_SCALE));
-					valueMap.setValue(e, SceneElement.VAR_ROTATION,
-							b.getAngle());
-				}
-			}
-		} else {
-			stop();
-		}
+//		world.step(timeStep, velocityIterations, positionIterations);
+//
+//		EAdScene scene = gameState.getScene().getElement();
+//
+//		if (scene != null) {
+//			for (EAdSceneElement e : scene.getSceneElements()) {
+//				ValueMap valueMap = gameState.getValueMap();
+//				Body b = valueMap.getValue(e, VAR_PH_BODY);
+//				if (b != null) {
+//
+//					valueMap.setValue(e, SceneElement.VAR_X,
+//							(int) (b.getWorldCenter().x * WORLD_SCALE));
+//					valueMap.setValue(e, SceneElement.VAR_Y,
+//							(int) (b.getWorldCenter().y * WORLD_SCALE));
+//					valueMap.setValue(e, SceneElement.VAR_ROTATION,
+//							b.getAngle());
+//				}
+//			}
+//		} else {
+//			stop();
+//		}
 	}
 
 	@Override
@@ -167,58 +165,58 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		return false;
 	}
 
-	public static void createBody(World world, EAdSceneElement e,
-			ValueMap valueMap) {
-		float x = valueMap.getValue(e, SceneElement.VAR_X) / WORLD_SCALE;
-		float y = valueMap.getValue(e, SceneElement.VAR_Y) / WORLD_SCALE;
-		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH)
-				/ WORLD_SCALE;
-		float height = valueMap.getValue(e, SceneElement.VAR_HEIGHT)
-				/ WORLD_SCALE;
-
-		// TODO what if corner is not center?
-		PhType phType = valueMap.getValue(e, PhysicsEffect.VAR_PH_TYPE);
-		PhShape phShape = valueMap.getValue(e, PhysicsEffect.VAR_PH_SHAPE);
-
-		Shape s = null;
-		switch (phShape) {
-		case CIRCULAR:
-			s = new CircleShape();
-			s.m_radius = width / 2;
-			break;
-		default:
-			s = new PolygonShape();
-			((PolygonShape) s).setAsBox(width / 2, height / 2);
-
-		}
-
-		BodyDef bd = new BodyDef();
-
-		switch (phType) {
-		case STATIC:
-			bd.type = BodyType.STATIC;
-			break;
-		case DYNAMIC:
-			bd.type = BodyType.DYNAMIC;
-			break;
-		}
-
-		bd.position.set(x, y);
-		bd.angle = valueMap.getValue(e, SceneElement.VAR_ROTATION);
-
-		FixtureDef fixture = new FixtureDef();
-		fixture.shape = s;
-		fixture.density = valueMap.getValue(e, PhysicsEffect.VAR_PH_DENSITY);
-		fixture.friction = valueMap.getValue(e, PhysicsEffect.VAR_PH_FRICTION);
-		fixture.restitution = valueMap.getValue(e,
-				PhysicsEffect.VAR_PH_RESTITUTION);
-
-		Body body = world.createBody(bd);
-		body.createFixture(fixture);
-
-		body.resetMassData();
-
-		valueMap.setValue(e, VAR_PH_BODY, body);
-	}
+//	public static void createBody(World world, EAdSceneElement e,
+//			ValueMap valueMap) {
+//		float x = valueMap.getValue(e, SceneElement.VAR_X) / WORLD_SCALE;
+//		float y = valueMap.getValue(e, SceneElement.VAR_Y) / WORLD_SCALE;
+//		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH)
+//				/ WORLD_SCALE;
+//		float height = valueMap.getValue(e, SceneElement.VAR_HEIGHT)
+//				/ WORLD_SCALE;
+//
+//		// TODO what if corner is not center?
+//		PhType phType = valueMap.getValue(e, PhysicsEffect.VAR_PH_TYPE);
+//		PhShape phShape = valueMap.getValue(e, PhysicsEffect.VAR_PH_SHAPE);
+//
+//		Shape s = null;
+//		switch (phShape) {
+//		case CIRCULAR:
+//			s = new CircleShape();
+//			s.m_radius = width / 2;
+//			break;
+//		default:
+//			s = new PolygonShape();
+//			((PolygonShape) s).setAsBox(width / 2, height / 2);
+//
+//		}
+//
+//		BodyDef bd = new BodyDef();
+//
+//		switch (phType) {
+//		case STATIC:
+//			bd.type = BodyType.STATIC;
+//			break;
+//		case DYNAMIC:
+//			bd.type = BodyType.DYNAMIC;
+//			break;
+//		}
+//
+//		bd.position.set(x, y);
+//		bd.angle = valueMap.getValue(e, SceneElement.VAR_ROTATION);
+//
+//		FixtureDef fixture = new FixtureDef();
+//		fixture.shape = s;
+//		fixture.density = valueMap.getValue(e, PhysicsEffect.VAR_PH_DENSITY);
+//		fixture.friction = valueMap.getValue(e, PhysicsEffect.VAR_PH_FRICTION);
+//		fixture.restitution = valueMap.getValue(e,
+//				PhysicsEffect.VAR_PH_RESTITUTION);
+//
+//		Body body = world.createBody(bd);
+//		body.createFixture(fixture);
+//
+//		body.resetMassData();
+//
+//		valueMap.setValue(e, VAR_PH_BODY, body);
+//	}
 
 }

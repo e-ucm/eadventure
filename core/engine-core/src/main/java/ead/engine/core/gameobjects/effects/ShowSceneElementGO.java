@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -55,10 +54,9 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	private int time;
 
 	@Inject
-	public ShowSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
+	public ShowSceneElementGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.util.EAdTransformation;
 
 public interface Renderable {
-	
+
 	/**
 	 * Layout out the child game objects of this game objects
 	 * 
@@ -49,11 +49,11 @@ public interface Renderable {
 	 *            the transformation accumulated by this game object container
 	 */
 	void doLayout(EAdTransformation transformation);
-	
+
 	void update();
-	
-	boolean contains( int x, int y );
-	
+
+	boolean contains(int x, int y);
+
 	/**
 	 * Process the action in the graphic interface (click, etc.)
 	 * 
@@ -62,7 +62,7 @@ public interface Renderable {
 	 * @return {@code true} if he action has been processed by the object
 	 */
 	boolean processAction(InputAction<?> action);
-	
+
 	/**
 	 * Returns the transformation (translation, rotation, scale, etc.) of this
 	 * game object

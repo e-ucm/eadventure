@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
@@ -70,10 +69,9 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Inject
 	public ChangeSceneGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, TransitionFactory transitionFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.transitionFactory = transitionFactory;
 	}
 

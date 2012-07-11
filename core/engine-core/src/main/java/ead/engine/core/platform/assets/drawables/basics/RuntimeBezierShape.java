@@ -63,6 +63,13 @@ public abstract class RuntimeBezierShape<GraphicContext> extends
 	@Override
 	public boolean loadAsset() {
 
+		if (descriptor.getPoints().size() < 0) {
+			logger.warn(
+					"Bezier shape descriptor hasn't got enough points. ({})",
+					descriptor.toString());
+			return false;
+		}
+
 		Integer points = 1;
 		int xMax = Integer.MIN_VALUE;
 		int xMin = Integer.MAX_VALUE;

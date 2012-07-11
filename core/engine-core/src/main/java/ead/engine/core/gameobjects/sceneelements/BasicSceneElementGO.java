@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.util.StringHandler;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -63,9 +62,9 @@ public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
 
 	@Inject
 	public BasicSceneElementGO(AssetHandler assetHandler, StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState,
 			EvaluatorFactory evaluatorFactory, EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, eventFactory);
+
 		this.evaluatorFactory = evaluatorFactory;
 	}
 

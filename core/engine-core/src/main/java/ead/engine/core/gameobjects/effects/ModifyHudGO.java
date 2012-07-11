@@ -57,8 +57,7 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
 			SceneElementGOFactory sceneElementGOFactory, GUI gui,
 			GameState gameState, TopBasicHUD basicHUD) {
-		super(assetHandler, stringsReader, sceneElementGOFactory, gui,
-				gameState);
+		super(assetHandler, sceneElementGOFactory, gui, gameState);
 		this.basicHUD = basicHUD;
 	}
 
@@ -68,7 +67,7 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 		if (element.getAdd()) {
 			if (!basicHUD.getContaintedGOs().contains(drawable))
 				basicHUD.getContaintedGOs().add(drawable);
-		} else{
+		} else {
 			basicHUD.getContaintedGOs().remove(drawable);
 		}
 	}

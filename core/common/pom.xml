@@ -52,12 +52,12 @@
 	</dependency>
 
     <!-- tests -->
-    <dependency>
+   <!--  <dependency>
       <groupId>ead</groupId>
       <artifactId>test-suite</artifactId>
       <version>${project.version}</version>
 	  <scope>test</scope>
-    </dependency>
+    </dependency> --> 
 
     <dependency>
       <groupId>junit</groupId>

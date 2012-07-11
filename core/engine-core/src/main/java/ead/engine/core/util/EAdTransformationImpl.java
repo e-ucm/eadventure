@@ -74,6 +74,10 @@ public class EAdTransformationImpl implements EAdTransformation {
 	public EAdMatrix getMatrix() {
 		return matrix;
 	}
+	
+	public void setMatrix(EAdMatrix matrix) {
+		this.matrix = matrix;
+	}
 
 	@Override
 	public boolean isVisible() {

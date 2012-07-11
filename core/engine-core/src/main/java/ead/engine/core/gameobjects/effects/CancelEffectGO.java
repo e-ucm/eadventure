@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.CancelEffectEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
@@ -51,10 +50,9 @@ public class CancelEffectGO extends AbstractEffectGO<CancelEffectEf> {
 
 	@Inject
 	public CancelEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
