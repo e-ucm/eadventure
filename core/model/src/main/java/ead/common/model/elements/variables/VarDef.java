@@ -62,7 +62,7 @@ public class VarDef<T> implements EAdVarDef<T> {
 
 	/**
 	 * Constructs a variable definition
-	 * 
+	 *
 	 * @param name
 	 *            variable's name
 	 * @param type
@@ -75,7 +75,7 @@ public class VarDef<T> implements EAdVarDef<T> {
 	 *            if the variable is global
 	 */
 	public VarDef(String name, Class<T> type, T initialValue) {
-		this.id = "var_" + "name_" + Math.round(Math.random() * 100);
+		this.id = "var_" + name + "_" + Math.round(Math.random() * 10000);
 		this.name = name;
 		this.type = type;
 		this.initialValue = initialValue;
@@ -100,7 +100,7 @@ public class VarDef<T> implements EAdVarDef<T> {
 	public String getId() {
 		return id;
 	}
-	
+
 	public boolean equals( Object o ){
 		if ( o != null && o instanceof VarDef ){
 			VarDef<?> var = (VarDef<?>) o;
@@ -110,27 +110,28 @@ public class VarDef<T> implements EAdVarDef<T> {
 				return false;
 			if (initialValue == null ^ var.initialValue == null)
 				return false;
-			return (name == null || var.name.equals(name)) 
+			return (name == null || var.name.equals(name))
 					&& (type == null || var.type.equals(type))
 					&& (initialValue == null || var.initialValue.equals(initialValue));
 		}
 		return false;
 	}
-	
+
 	public int hashCode(){
 		return (name + type + initialValue + "").hashCode();
 	}
-	
+
 	public String toString(){
-		return name + ""; 
+		return name + "";
 	}
 
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
 
 	public void setName(String name) {
+		this.id = "var_" + name + "_" + Math.round(Math.random() * 10000);
 		this.name = name;
 	}
 
@@ -141,5 +142,5 @@ public class VarDef<T> implements EAdVarDef<T> {
 	public void setInitialValue(T initialValue) {
 		this.initialValue = initialValue;
 	}
-	
+
 }
