@@ -45,7 +45,6 @@ import com.google.inject.name.Names;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -83,7 +82,6 @@ import ead.engine.core.platform.AbstractEngineConfiguration;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.GenericInjector;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.plugins.PluginHandler;
@@ -97,7 +95,7 @@ import ead.engine.java.core.game.GameLoopImpl;
 import ead.engine.java.core.game.GameProfilerImpl;
 import ead.engine.java.core.platform.JavaInjector;
 import ead.engine.java.core.platform.JavaPluginHandler;
-import ead.engine.java.core.platform.JavaReflectionProvider;
+import ead.tools.GenericInjector;
 import es.eucm.glas.tracker.GLASTracker;
 import es.eucm.glas.tracker.JerseyTracker;
 
@@ -126,7 +124,6 @@ public class JavaBasicGameModule extends AbstractModule {
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class);
 
-		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
 		bind(SceneLoader.class).to(DefaultSceneLoader.class);
 
 		bind(EAdAdventureModel.class).to(BasicAdventureModel.class);

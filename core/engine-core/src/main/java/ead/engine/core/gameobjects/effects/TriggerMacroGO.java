@@ -43,7 +43,6 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -58,10 +57,10 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 	private EffectGO<?>[] effects;
 
 	@Inject
-	public TriggerMacroGO(AssetHandler assetHandler, StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState,
-			EvaluatorFactory evaluator) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+	public TriggerMacroGO(AssetHandler assetHandler,
+			EvaluatorFactory evaluator, SceneElementGOFactory factory, GUI gui,
+			GameState gameState) {
+		super(assetHandler, factory, gui, gameState);
 		this.evaluator = evaluator;
 	}
 

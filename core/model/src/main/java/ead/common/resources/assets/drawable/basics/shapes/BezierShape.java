@@ -171,14 +171,19 @@ public class BezierShape implements EAdShape, Cloneable {
 	}
 
 	public void curveTo(EAdPosition p1, EAdPosition p2, EAdPosition p3) {
+		curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(),
+				p3.getY());
+	}
+
+	public void curveTo(int x1, int y1, int x2, int y2, int x3, int y3) {
 		checkMoveTo();
 		points.add(3);
-		points.add(p1.getX());
-		points.add(p1.getY());
-		points.add(p2.getX());
-		points.add(p2.getY());
-		points.add(p3.getX());
-		points.add(p3.getY());
+		points.add(x1);
+		points.add(y1);
+		points.add(x2);
+		points.add(y2);
+		points.add(x3);
+		points.add(y3);
 	}
 
 	public void setClosed(boolean closed) {

@@ -40,7 +40,7 @@ package ead.engine.java.core.platform;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import ead.engine.core.platform.GenericInjector;
+import ead.tools.GenericInjector;
 
 public class JavaInjector implements GenericInjector {
 	

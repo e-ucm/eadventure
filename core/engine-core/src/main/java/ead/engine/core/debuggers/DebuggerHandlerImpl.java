@@ -45,7 +45,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.platform.GenericInjector;
+import ead.tools.GenericInjector;
 
 @Singleton
 public class DebuggerHandlerImpl implements DebuggerHandler {

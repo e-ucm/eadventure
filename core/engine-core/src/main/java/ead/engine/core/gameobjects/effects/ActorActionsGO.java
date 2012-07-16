@@ -44,7 +44,6 @@ import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -66,11 +65,10 @@ public class ActorActionsGO extends
 
 	@Inject
 	public ActorActionsGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, ActionsHUD actionsHUD,
 			GameObjectManager gameObjectManager) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.actionsHUD = actionsHUD;
 		this.gameObjectManager = gameObjectManager;
 	}

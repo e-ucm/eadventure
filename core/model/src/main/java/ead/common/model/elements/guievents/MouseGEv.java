@@ -59,18 +59,18 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 			MouseGEvType.ENTERED, MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_EXITED = new MouseGEv(
 			MouseGEvType.EXITED, MouseGEvButtonType.NO_BUTTON);
-	public static final MouseGEv MOUSE_DRAG = new MouseGEv(
-			MouseGEvType.DRAG, MouseGEvButtonType.NO_BUTTON);
+	public static final MouseGEv MOUSE_DRAG = new MouseGEv(MouseGEvType.DRAG,
+			MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_START_DRAG = new MouseGEv(
 			MouseGEvType.START_DRAG, MouseGEvButtonType.NO_BUTTON);
-	public static final MouseGEv MOUSE_MOVED = new MouseGEv(
-			MouseGEvType.MOVED, MouseGEvButtonType.NO_BUTTON);
+	public static final MouseGEv MOUSE_MOVED = new MouseGEv(MouseGEvType.MOVED,
+			MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_LEFT_PRESSED = new MouseGEv(
 			MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_1);
 	public static final MouseGEv MOUSE_LEFT_RELEASED = new MouseGEv(
 			MouseGEvType.RELEASED, MouseGEvButtonType.BUTTON_1);
-	public static final MouseGEv MOUSE_DROP = new MouseGEv(
-			MouseGEvType.DROP, MouseGEvButtonType.NO_BUTTON);
+	public static final MouseGEv MOUSE_DROP = new MouseGEv(MouseGEvType.DROP,
+			MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_SWIPE_RIGHT = new MouseGEv(
 			MouseGEvType.SWIPE_RIGHT, MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_SWIPE_LEFT = new MouseGEv(
@@ -125,6 +125,14 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 			if (button == MouseGEvButtonType.BUTTON_1)
 				return MOUSE_LEFT_RELEASED;
 			break;
+		case DROP:
+			return MOUSE_DROP;
+		case START_DRAG:
+			return MOUSE_START_DRAG;
+		case SWIPE_LEFT:
+			return MOUSE_SWIPE_LEFT;
+		case SWIPE_RIGHT:
+			return MOUSE_SWIPE_RIGHT;
 		}
 		return new MouseGEv(type, button);
 	}
@@ -140,11 +148,9 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 		this.button = button;
 	}
 
-
 	public MouseGEvType getType() {
 		return type;
 	}
-
 
 	public MouseGEvButtonType getButton() {
 		return button;
@@ -160,7 +166,7 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 	}
 
 	public String toString() {
-		if ( button == null || type == null){
+		if (button == null || type == null) {
 			return "mousevent";
 		}
 		return type.toString() + ";" + button.toString();
@@ -177,8 +183,5 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 	public void setButton(MouseGEvButtonType button) {
 		this.button = button;
 	}
-	
-	
-	
 
 }

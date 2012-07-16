@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
@@ -57,10 +56,9 @@ public class HighlightSceneElementGO extends
 	private boolean started;
 
 	@Inject
-	public HighlightSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
+	public HighlightSceneElementGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

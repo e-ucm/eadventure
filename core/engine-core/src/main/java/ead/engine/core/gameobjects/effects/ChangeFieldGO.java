@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operators.OperatorFactory;
@@ -54,9 +53,9 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
 	@Inject
 	public ChangeFieldGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory sceneElementFactory,
-			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, sceneElementFactory, gui, gameState);
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, OperatorFactory operatorFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

@@ -37,13 +37,16 @@
 
 package ead.engine.core.gameobjects.huds;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
@@ -51,16 +54,13 @@ import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.platform.GUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.tools.StringHandler;
 
 /**
  * <p>

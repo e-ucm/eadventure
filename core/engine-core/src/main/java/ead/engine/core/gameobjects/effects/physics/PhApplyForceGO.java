@@ -37,10 +37,10 @@
 
 package ead.engine.core.gameobjects.effects.physics;
 
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.World;
+//import org.jbox2d.common.Vec2;
+//import org.jbox2d.dynamics.Body;
+//import org.jbox2d.dynamics.BodyType;
+//import org.jbox2d.dynamics.World;
 
 import com.google.inject.Inject;
 
@@ -48,7 +48,6 @@ import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
@@ -63,9 +62,9 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 
 	@Inject
 	public PhApplyForceGO(AssetHandler assetHandler,
-			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, OperatorFactory operatorFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 
@@ -75,31 +74,31 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 		float x = operatorFactory.operate(Float.class, element.getxForce());
 		float y = operatorFactory.operate(Float.class, element.getyForce());
 		ValueMap valueMap = gameState.getValueMap();
-		Body b = valueMap.getValue(element.getSceneElement(),
-				PhysicsEffectGO.VAR_PH_BODY);
-		if (b != null) {
-			b.applyForce(new Vec2(x, y), b.getWorldCenter());
-		} else {
-			World w = valueMap.getValue(null, PhysicsEffectGO.VAR_PH_WORLD);
-			if (w != null) {
-				valueMap.setValue(element.getSceneElement(),
-						PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
-				valueMap.setValue(element.getSceneElement(),
-						PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-				valueMap.setValue(element.getSceneElement(),
-						PhysicsEffect.VAR_PH_FRICTION, 0.1f);
-				valueMap.setValue(element.getSceneElement(),
-						PhysicsEffect.VAR_PH_DENSITY, 1.0f);
-				PhysicsEffectGO.createBody(w, (EAdSceneElement) element.getSceneElement(),
-						valueMap);
-				b = valueMap.getValue(element.getSceneElement(),
-						PhysicsEffectGO.VAR_PH_BODY);
-				if (b != null) {
-					b.setType(BodyType.DYNAMIC);
-					b.applyForce(new Vec2(x, y), b.getWorldCenter());
-				}
-			}
-		}
+//		Body b = valueMap.getValue(element.getSceneElement(),
+//				PhysicsEffectGO.VAR_PH_BODY);
+//		if (b != null) {
+//			b.applyForce(new Vec2(x, y), b.getWorldCenter());
+//		} else {
+//			World w = valueMap.getValue(null, PhysicsEffectGO.VAR_PH_WORLD);
+//			if (w != null) {
+//				valueMap.setValue(element.getSceneElement(),
+//						PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
+//				valueMap.setValue(element.getSceneElement(),
+//						PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
+//				valueMap.setValue(element.getSceneElement(),
+//						PhysicsEffect.VAR_PH_FRICTION, 0.1f);
+//				valueMap.setValue(element.getSceneElement(),
+//						PhysicsEffect.VAR_PH_DENSITY, 1.0f);
+//				PhysicsEffectGO.createBody(w,
+//						(EAdSceneElement) element.getSceneElement(), valueMap);
+//				b = valueMap.getValue(element.getSceneElement(),
+//						PhysicsEffectGO.VAR_PH_BODY);
+//				if (b != null) {
+//					b.setType(BodyType.DYNAMIC);
+//					b.applyForce(new Vec2(x, y), b.getWorldCenter());
+//				}
+//			}
+//		}
 	}
 
 	@Override

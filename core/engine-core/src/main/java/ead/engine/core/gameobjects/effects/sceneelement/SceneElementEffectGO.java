@@ -41,7 +41,6 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -54,10 +53,9 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 	protected EAdSceneElement sceneElement;
 
 	public SceneElementEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

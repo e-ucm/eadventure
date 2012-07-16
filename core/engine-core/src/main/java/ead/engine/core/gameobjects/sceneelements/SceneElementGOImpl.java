@@ -58,7 +58,6 @@ import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.DrawableGameObjectImpl;
@@ -77,7 +76,7 @@ import ead.engine.core.util.EAdTransformation;
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		DrawableGameObjectImpl<T> implements SceneElementGO<T> {
 
-	private static final Logger logger = LoggerFactory
+	protected static final Logger logger = LoggerFactory
 			.getLogger("SceneElementGOImpl");
 
 	private EventGOFactory eventFactory;
@@ -118,10 +117,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		eventGOList = new ArrayList<EventGO<?>>();
 		this.eventFactory = eventFactory;
 		this.statesList = new ArrayList<String>();
@@ -226,7 +224,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 					.getAsset(currentBundle, SceneElementDef.appearance);
 			if (a != null) {
 				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
-						.getRuntimeAsset(a, true);
+                        .getRuntimeAsset(a, true);
 				if (runtimeDrawable != null) {
 					currentDrawable = runtimeDrawable.getDrawable(
 							timeDisplayed, statesList, 0);

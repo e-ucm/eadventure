@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.util.Interpolator;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operators.OperatorFactory;
@@ -83,10 +82,9 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

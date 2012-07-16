@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -48,6 +47,7 @@ import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.tools.StringHandler;
 
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 
@@ -57,8 +57,7 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
 			SceneElementGOFactory sceneElementGOFactory, GUI gui,
 			GameState gameState, TopBasicHUD basicHUD) {
-		super(assetHandler, stringsReader, sceneElementGOFactory, gui,
-				gameState);
+		super(assetHandler, sceneElementGOFactory, gui, gameState);
 		this.basicHUD = basicHUD;
 	}
 
@@ -68,7 +67,7 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 		if (element.getAdd()) {
 			if (!basicHUD.getContaintedGOs().contains(drawable))
 				basicHUD.getContaintedGOs().add(drawable);
-		} else{
+		} else {
 			basicHUD.getContaintedGOs().remove(drawable);
 		}
 	}

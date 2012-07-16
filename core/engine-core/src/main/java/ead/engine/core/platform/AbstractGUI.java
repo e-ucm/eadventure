@@ -91,21 +91,18 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GenericCanvas eAdCanvas;
 
-	protected GameLoop gameLoop;
-
 	private Game game;
 
 	public AbstractGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GenericCanvas<T> canvas, GameLoop gameLoop) {
+			GenericCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.inputHandler = inputHandler;
 		this.gameState = gameState;
 		this.gameObjectFactory = gameObjectFactory;
 		this.eAdCanvas = canvas;
-		this.gameLoop = gameLoop;
 		logger.info("Created abstract GUI");
 	}
 
@@ -255,11 +252,5 @@ public abstract class AbstractGUI<T> implements GUI {
 		inputHandler.setInitialTransformation(initialTransformation);
 	}
 
-	public int getSkippedMilliseconds() {
-		return gameLoop.getSkipMillisTick();
-	}
 
-	public int getTicksPerSecond() {
-		return gameLoop.getTicksPerSecond();
-	}
 }

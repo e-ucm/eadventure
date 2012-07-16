@@ -37,16 +37,16 @@
 
 package ead.engine.core.platform.rendering;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 

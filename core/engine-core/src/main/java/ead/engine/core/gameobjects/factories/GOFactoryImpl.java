@@ -46,9 +46,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.gameobjects.go.GameObject;
-import ead.engine.core.platform.GenericInjector;
+import ead.tools.GenericInjector;
+import ead.tools.ReflectionProvider;
 
 @Singleton
 public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>>

@@ -41,9 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.util.StringHandler;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.inventory.InventoryHandler;
@@ -67,10 +66,9 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 
 	@Inject
 	public ModifyInventoryGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, InventoryHandler inventoryHandler) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.inventoryHandler = inventoryHandler;
 	}
 

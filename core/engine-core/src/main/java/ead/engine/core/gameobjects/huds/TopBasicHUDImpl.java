@@ -60,7 +60,6 @@ import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -74,6 +73,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
+import ead.tools.StringHandler;
 
 /**
  * <p>

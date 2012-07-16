@@ -41,8 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
-import ead.common.util.AbstractFactory;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.TrajectoryFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -50,6 +48,8 @@ import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.trajectories.Path;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryGenerator;
+import ead.tools.AbstractFactory;
+import ead.tools.ReflectionProvider;
 
 public class TrajectoryFactoryImpl extends
 		AbstractFactory<TrajectoryGenerator<?>> implements TrajectoryFactory {
