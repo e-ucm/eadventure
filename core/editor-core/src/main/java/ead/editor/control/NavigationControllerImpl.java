@@ -37,9 +37,9 @@
 
 package ead.editor.control;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.editor.control.NavigationController;
 import ead.editor.control.change.ChangeNotifierImpl;
 
 /**
@@ -48,6 +48,13 @@ import ead.editor.control.change.ChangeNotifierImpl;
 @Singleton
 public class NavigationControllerImpl extends ChangeNotifierImpl implements NavigationController {
 
+	private Controller controller;
+	
+	@Inject
+	NavigationControllerImpl(Controller controller) {
+		this.controller = controller;
+	}
+	
 	@Override
 	public void goForward() {
 		processChange();
@@ -78,5 +85,4 @@ public class NavigationControllerImpl extends ChangeNotifierImpl implements Navi
 
 		processChange();
 	}
-
 }

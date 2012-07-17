@@ -46,10 +46,10 @@ import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.writer.EAdAdventureModelWriter;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
+import ead.editor.view.dock.ModelAccessor;
 import ead.utils.FileUtils;
 import java.io.*;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jgrapht.graph.ListenableDirectedGraph;
@@ -64,7 +64,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author mfreire
  */
-public class EditorModel implements ModelVisitor {
+public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	private static final Logger logger = LoggerFactory.getLogger("EditorModel");
 	/**
@@ -116,7 +116,11 @@ public class EditorModel implements ModelVisitor {
 	 * Temporary directory; used to save & load
 	 */
 	private File saveDir;
-
+	/**
+	 * Engine model
+	 */
+	private EAdAdventureModel engineModel;
+	
 	/**
 	 * Constructor. Does not do much beyond initializing fields.
 	 *
@@ -177,7 +181,7 @@ public class EditorModel implements ModelVisitor {
 	 * @param targetContent to wrap
 	 * @return a new or old editorNode to wrap that content
 	 */
-	@SuppressWarnings("unchecked")	
+	@SuppressWarnings("unchecked")
 	private DependencyNode createOrUnfreezeNode(Object targetContent) {
 
 		DependencyNode node;
@@ -206,8 +210,8 @@ public class EditorModel implements ModelVisitor {
 //								.append(" (").append(o.hashCode()).append(")\n");
 //						}
 //						logger.debug("Entries: \n{}", allEntries.toString());
-//					}						
-//				    therefore, they have to be created				
+//					}
+//				    therefore, they have to be created
 					e.setId(decorateIdWithEid(e.getId(), eid));
 					node = new EngineNode(eid, e);
 					nodesById.put(eid, node);
@@ -232,7 +236,7 @@ public class EditorModel implements ModelVisitor {
 		return node;
 	}
 
-	/** 
+	/**
 	 * Adds a new EditorNode
 	 */
 	public void registerEditorNode(EditorNode e, Collection<DependencyNode> nodes) {
@@ -243,7 +247,7 @@ public class EditorModel implements ModelVisitor {
 			g.addEdge(e, n, new DependencyEdge(e.getClass().getName()));
 		}
 	}
-	
+
 	/**
 	 * Attempts to add a new node-and-edge to the graph; use only during initial
 	 * model-building. The edge may be null (for the root).
@@ -291,11 +295,11 @@ public class EditorModel implements ModelVisitor {
 			addNode(null, null, target);
 			return true;
 		}
-		
+
 		DependencyNode sourceNode = (source != null)
 				? nodesByContent.get(source) : null;
-		DependencyNode e = addNode(sourceNode, sourceName, target);			
-		
+		DependencyNode e = addNode(sourceNode, sourceName, target);
+
 		if (e != null) {
 			nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
 					"" + e.getId(), false);
@@ -323,7 +327,7 @@ public class EditorModel implements ModelVisitor {
 	/**
 	 * Saves the editor model. Contains a normal EAdModel, plus resources,
 	 * plus editor-specific model nodes. Does not include anything presentation-
-	 * related; that should be appended via 
+	 * related; that should be appended via
 	 * FileUtils.appendEntryToZip(target, ...)
 	 *
 	 * @param target
@@ -340,7 +344,7 @@ public class EditorModel implements ModelVisitor {
 		}
 		boolean ok = importer.createGameFile(
 			(EAdAdventureModel) root.getContent(),
-			saveDir.getAbsolutePath(), target.getAbsolutePath(), 
+			saveDir.getAbsolutePath(), target.getAbsolutePath(),
 			".eap", "Editor project");
 
 		// write extra xml file to it
@@ -349,11 +353,11 @@ public class EditorModel implements ModelVisitor {
 			StringBuilder sb = new StringBuilder();
 			for (DependencyNode n : nodesById.values()) {
 				if (n instanceof EditorNode) {
-					logger.debug("Writing editorNode of type {} with id {}", 
+					logger.debug("Writing editorNode of type {} with id {}",
 							new Object[] {n.getClass(), n.getId()});
 					((EditorNode)n).write(sb);
-					mappings ++;					
-				}			
+					mappings ++;
+				}
 			}
 			ByteArrayInputStream bis = new ByteArrayInputStream(
 				sb.toString().getBytes("UTF-8"));
@@ -361,8 +365,8 @@ public class EditorModel implements ModelVisitor {
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}
-		
-		logger.info("Wrote editor data from {} to {}: {} total objects, {} editor mappings", 
+
+		logger.info("Wrote editor data from {} to {}: {} total objects, {} editor mappings",
 				new Object[] {saveDir, target, nodesById.size(), mappings});
 	}
 
@@ -384,23 +388,23 @@ public class EditorModel implements ModelVisitor {
 		saveDir.delete();
 		saveDir.mkdirs();
 		FileUtils.expand(source, saveDir);
-		
-		EAdAdventureModel m = reader.read(
+
+		engineModel = reader.read(
 				new File(saveDir, ProjectFiles.DATA_FILE).toURI());
-		
-				
+
+
 		logger.info("Model loaded; building graph...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(m, this);
-		this.root = nodesByContent.get(m);
+		driver.visit(engineModel, this);
+		this.root = nodesByContent.get(engineModel);
 		nodeIndex.firstIndexUpdate(g.vertexSet());
-		
+
 		logger.info("Editor model loaded: {} nodes, {} edges",
 				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
-		
-		logger.info("Using temp dir {} as a working directory", saveDir);		
+
+		logger.info("Using temp dir {} as a working directory", saveDir);
 	}
-	
+
 
 	/**
 	 * Loads data from an EAdventure1.x game file.
@@ -414,22 +418,22 @@ public class EditorModel implements ModelVisitor {
 		nodeIndex = new ModelIndex();
 
 		logger.info("Loading editor model from EAD 1.x import '{}'...", f);
-		File tmpFile = File.createTempFile("ead-editor-tmp", ".ead");		
-		EAdAdventureModel m = importer.importGame(f.getAbsolutePath(),
+		File tmpFile = File.createTempFile("ead-editor-tmp", ".ead");
+		engineModel = importer.importGame(f.getAbsolutePath(),
 				tmpFile.getAbsolutePath());
 
 		logger.info("Model loaded; building graph...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(m, this);
-		this.root = nodesByContent.get(m);
+		driver.visit(engineModel, this);
+		this.root = nodesByContent.get(engineModel);
 		nodeIndex.firstIndexUpdate(g.vertexSet());
-		
+
 		logger.info("Editor model loaded: {} nodes, {} edges",
 				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
-		
+
 		// FIXME: this can be simplified
-		// -- if the importer could hand over control of its temp-dir		
-		try {			
+		// -- if the importer could hand over control of its temp-dir
+		try {
 			// get a temporary directory
 			saveDir = File.createTempFile("ead-editor-tmpdir", null);
 			saveDir.delete();
@@ -439,24 +443,36 @@ public class EditorModel implements ModelVisitor {
 			throw ioe;
 		}
 
-		try {			
+		try {
 			// unzip the imported bare-bones project into this directory
 			FileUtils.expand(tmpFile, saveDir);
 			tmpFile.delete();
 		} catch (IOException ioe) {
-			logger.error("Could not unzip project file '{}' into working dir", 
+			logger.error("Could not unzip project file '{}' into working dir",
 					tmpFile.getAbsolutePath());
 			throw ioe;
 		}
-		
+
 		logger.info("Using temp dir {} as a working directory", saveDir);
-	}	
-	
+	}
+
 	// ---- basic access
 	public DependencyNode getNode(int id) {
 		return nodesById.get(id);
 	}
-	
+
+	public int getIdFor(Object o) {
+		DependencyNode n = nodesByContent.get(o);
+		if (n != null) {
+			return n.getId();
+		} else {
+			return -1;
+		}
+	}
+
+	public EAdAdventureModel getEngineModel() {
+		return engineModel;
+	}	
 
 	// ---- search-related functions API ----
 	/**
@@ -484,5 +500,38 @@ public class EditorModel implements ModelVisitor {
 	 */
 	public List<String> getAllSearchableFields() {
 		return nodeIndex.getIndexedFieldNames();
+	}
+
+	@Override
+	public DependencyNode getElement(String id) {
+		if (id == null || id.isEmpty()) return null;
+
+		char c = id.charAt(0);
+		if (Character.isLetter(c)) {
+			switch (c) {
+			case 'q':
+				return new QueryNode(this, id.substring(1));
+			case 't': // type query
+			case 'f': // field query
+				throw new IllegalArgumentException("Not yet implemented");
+			default:
+				throw new IllegalArgumentException("Expected number or q*,t*,f* queries");
+			}
+		} else if (Character.isDigit(c)) {
+			int eid = Integer.parseInt(id);
+			return getNode(eid);
+		} else {
+			throw new IllegalArgumentException("Expected number or q*,t*,f* queries");
+		}
+	}
+
+	@Override
+	public DependencyNode createElement(Class<? extends DependencyNode> type) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public DependencyNode copyElement(DependencyNode e) {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

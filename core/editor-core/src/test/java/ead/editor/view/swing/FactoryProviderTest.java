@@ -37,11 +37,6 @@
 
 package ead.editor.view.swing;
 
-import java.awt.FlowLayout;
-
-import javax.swing.JComponent;
-import javax.swing.WindowConstants;
-
 import static org.mockito.Mockito.*;
 
 import ead.common.util.StringHandler;
@@ -54,12 +49,14 @@ import ead.editor.view.generics.Panel;
 import ead.editor.view.generics.impl.FieldDescriptorImpl;
 import ead.editor.view.generics.impl.PanelImpl;
 import ead.editor.view.generics.impl.TextOption;
-import ead.editor.view.swing.SwingProviderFactory;
-import ead.gui.EAdFrame;
+import java.awt.FlowLayout;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 
 
-public class FactoryProviderTest extends EAdFrame {
+public class FactoryProviderTest extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 

@@ -49,13 +49,28 @@ import ead.editor.model.EditorModel;
 @Singleton
 public class ControllerImpl implements Controller {
 
+	private EditorModel editorModel = null;
+
 	@Override
 	public void setModel(EditorModel model) {		
-
+		this.editorModel = model;
 	}
 
 	@Override
+	public EditorModel getModel() {
+		return editorModel;
+	}
+	
+	/** 
+	 * Changes current locale. But this will not alter already-loaded strings...
+	 * @param locale 
+	 */
+	@Override
 	public void setLocale(Locale locale) {		
-
+		Locale.setDefault(locale);
+		
+		// FIXME: should redo static initialization of all Messages classes
+		
+		// FIXME: should reload all the UI right around here, via massiv repaints
 	}
 }

@@ -48,13 +48,18 @@ import javax.swing.SwingConstants;
 import com.google.inject.Inject;
 
 import ead.editor.control.CommandManager;
+import ead.editor.control.Controller;
 import ead.editor.control.NavigationController;
 import ead.editor.control.change.ChangeListener;
+import ead.editor.model.DependencyNode;
+import ead.editor.model.QueryNode;
+import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;
-import ead.gui.EAdBorderedPanel;
 import ead.gui.EAdSimpleButton;
 import ead.gui.EAdTextField;
 import ead.utils.swing.SwingUtilities;
+import java.awt.FlowLayout;
+import javax.swing.*;
 
 /**
  * Default implementation of the tool panel
@@ -65,57 +70,76 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 * The pane where the tools are drawn
 	 */
 	private JPanel toolPanel;
-	
+
 	/**
 	 * Redo button
 	 */
-	private EAdSimpleButton redoButton;
-	
+	private JButton redoButton;
+
 	/**
 	 * Undo button
 	 */
-	private EAdSimpleButton undoButton;
-	
+	private JButton undoButton;
+
 	/**
 	 * Search button
 	 */
-	private EAdSimpleButton searchButton;
-	
+	private JButton searchButton;
+
 	/**
 	 * Navigate forward button
 	 */
-	private EAdSimpleButton forwardButton;
-	
+	private JButton forwardButton;
+
 	/**
 	 * Navigate backward button
 	 */
-	private EAdSimpleButton backwardButton;
-	
+	private JButton backwardButton;
+
 	/**
 	 * Search text field
 	 */
-	private EAdTextField searchField;
-	
+	private JTextField searchField;
+
 	/**
 	 * The action manager
 	 */
 	private CommandManager actionManager;
-	
+
 	/**
 	 * The navigation controller
 	 */
 	private NavigationController navigationController;
-	
+
+    /**
+     * The UI controller for the editor
+     */
+    private Controller controller;
+
+    /**
+     * The EditorWindow that is being used
+     */
+    private EditorWindow editorWindow;
+
+    /**
+     *
+     * @param actionManager
+     * @param navigationController
+     */
 	@Inject
 	public ToolPanelImpl(CommandManager actionManager,
-			NavigationController navigationController) {
+			NavigationController navigationController,
+            Controller controller, EditorWindow ew) {
 		this.actionManager = actionManager;
 		this.actionManager.addChangeListener(this);
 		this.navigationController = navigationController;
 		this.navigationController.addChangeListener(this);
+        this.controller = controller;
+        this.editorWindow = ew;
 
-		toolPanel = new EAdBorderedPanel(null);
+		toolPanel = new JPanel(new FlowLayout());
 		SwingUtilities.doInEDTNow(new Runnable() {
+			@Override
 			public void run() {
 				addRedoButton();
 				addUndoButton();
@@ -126,7 +150,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 				addSearchFieldAndButton();
 			}
 		});
-		
+
 		processChange();
 	}
 
@@ -134,10 +158,11 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	public JPanel getPanel() {
 		return toolPanel;
 	}
-	
+
 	@Override
-	public void processChange() {
+	public final void processChange() {
 		SwingUtilities.doInEDT(new Runnable() {
+			@Override
 			public void run() {
 				redoButton.setEnabled(actionManager.canRedo());
 				undoButton.setEnabled(actionManager.canUndo());
@@ -156,7 +181,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
         separator.setPreferredSize( new Dimension( 2, 24 ) );
         toolPanel.add(separator);
 	}
-	
+
 	/**
 	 * Add the redo action button
 	 */
@@ -169,7 +194,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 			public void actionPerformed(ActionEvent arg0) {
 				actionManager.redoCommand();
 			}
-			
+
 		});
 	}
 
@@ -185,7 +210,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 			public void actionPerformed(ActionEvent arg0) {
 				actionManager.undoCommand();
 			}
-			
+
 		});
 	}
 
@@ -199,12 +224,11 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		toolPanel.add(searchField);
 		toolPanel.add(searchButton);
 		searchButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO search interface
+				String query = searchField.getText();
+                editorWindow.addView("query", "q"+query, null, false);
 			}
-			
 		});
 	}
 
@@ -220,7 +244,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 			public void actionPerformed(ActionEvent arg0) {
 				navigationController.goForward();
 			}
-			
+
 		});
 	}
 
@@ -236,8 +260,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 			public void actionPerformed(ActionEvent arg0) {
 				navigationController.goBackward();
 			}
-			
+
 		});
 	}
-
 }

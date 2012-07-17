@@ -37,6 +37,7 @@
 
 package ead.editor.view;
 
+import ead.editor.control.Controller;
 import javax.swing.JPanel;
 
 import ead.editor.view.menu.EditorMenuBar;
@@ -77,6 +78,12 @@ public interface EditorWindow {
 	 * Remove the top modal panel
 	 */
 	void removeModalPanel();
+	
+	/**
+	 * Return the controller used for this window.
+	 * @return 
+	 */
+	public Controller getController();
 	
 	public JPanel getLeftPanel();
 

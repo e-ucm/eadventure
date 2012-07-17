@@ -49,8 +49,8 @@ import ead.editor.control.FieldValueReader;
 import ead.editor.control.commands.ChangeEAdStringValueCommand;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.impl.EAdStringOption;
-import ead.gui.EAdTextArea;
-import ead.gui.EAdTextField;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * Swing {@link ComponentProvider} for fields with {@link EAdString} elements.
@@ -108,18 +108,17 @@ public class EAdStringComponentProvider implements
 		JComponent component = null;
 		JTextComponent textField;
 		switch (element.getExpectedLength()) {
-		case LONG:
-			component = new EAdTextArea(element.getTitle());
-			textField = ((EAdTextArea) component).getTextArea();
-			break;
-		case SHORT:
-			textField = new EAdTextField(element.getTitle());
-			component = textField;
-			break;
-		case NORMAL:
-		default:
-			textField = new EAdTextField(element.getTitle());
-			component = textField;
+			case LONG:
+				textField = new JTextArea(element.getTitle());
+				component = textField;
+				break;
+			case SHORT:
+			case NORMAL:
+				textField = new JTextField(element.getTitle());
+				component = textField;
+				break;
+			default:
+				throw new IllegalArgumentException("Bad expected length");
 		}
 		textField.setToolTipText(element.getToolTipText());
 

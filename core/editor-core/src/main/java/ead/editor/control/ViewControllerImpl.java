@@ -44,6 +44,7 @@ import com.google.inject.Singleton;
 
 import ead.editor.control.CommandManager;
 import ead.editor.control.ViewController;
+import ead.editor.model.EditorModel;
 import ead.editor.view.EditorWindow;
 
 /**

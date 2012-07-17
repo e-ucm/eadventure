@@ -50,8 +50,7 @@ import ead.editor.view.ComponentProvider;
 import ead.editor.view.ProviderFactory;
 import ead.editor.view.generics.InterfaceElement;
 import ead.editor.view.generics.Panel;
-import ead.gui.EAdBorderedPanel;
-import ead.gui.EAdScrollPane;
+import javax.swing.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,14 +67,14 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 	//TODO Should support different element positioning policies
 	@Override
 	public JPanel getComponent(Panel element) {
-		JPanel mainPanel;
-		if (element.getTitle() != null)
-			mainPanel = new EAdBorderedPanel(element.getTitle());
-		else
-			mainPanel = new JPanel();
-
+		JPanel mainPanel = new JPanel();	
+		if (element.getTitle() != null) {
+			mainPanel.setBorder(
+					BorderFactory.createTitledBorder(element.getTitle()));
+		}
+		
 		JPanel panel = new ScrollablePanel();
-		EAdScrollPane scrollPane = new EAdScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPane = new JScrollPane(panel);
 
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(scrollPane, BorderLayout.CENTER);

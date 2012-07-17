@@ -53,19 +53,13 @@ import ead.editor.view.generics.scene.PreviewPanel;
 import ead.editor.view.generics.scene.impl.PreviewPanelImpl;
 import ead.editor.view.swing.scene.PreviewPanelComponentProvider;
 import ead.elementfactories.demos.scenes.EmptyScene;
-import ead.gui.EAdFrame;
-import ead.gui.EAdGUILookAndFeel;
+import javax.swing.*;
 
-public class PreviewPanelComponentProviderTest extends EAdFrame {
+public class PreviewPanelComponentProviderTest extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
 		new PreviewPanelComponentProviderTest();
 	}
 	

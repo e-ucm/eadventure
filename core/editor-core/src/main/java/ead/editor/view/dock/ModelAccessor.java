@@ -37,7 +37,7 @@
 
 package ead.editor.view.dock;
 
-import ead.common.model.EAdElement;
+import ead.editor.model.DependencyNode;
 import java.util.NoSuchElementException;
 
 /**
@@ -54,7 +54,7 @@ public interface ModelAccessor {
      * @param id of element (assigned by editor when project is imported)
      * @return element with id as its editor-id
      */
-    EAdElement getElement(String id);
+    DependencyNode getElement(String id);
 
     /**
      * Creates a new empty model element of type class).
@@ -62,7 +62,7 @@ public interface ModelAccessor {
      * @return brand new, unattached element of correct type, with a unique
      * editor-id
      */
-    EAdElement createElement(Class<? extends EAdElement> type);
+    DependencyNode createElement(Class<? extends DependencyNode> type);
 
     /**
      * Creates a new shallow copy of an element. The copy will be unattached,
@@ -71,5 +71,5 @@ public interface ModelAccessor {
      * @param e element to copy
      * @return unattached shallow copy of element, with a unique id
      */
-    EAdElement copyElement(EAdElement e);
+    DependencyNode copyElement(DependencyNode e);
 }

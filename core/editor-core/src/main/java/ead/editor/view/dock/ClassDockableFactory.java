@@ -39,16 +39,17 @@ package ead.editor.view.dock;
 
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
-import ead.common.model.EAdElement;
+import ead.editor.model.DependencyNode;
+import ead.editor.view.EditorWindow;
 import java.awt.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A multi-dockable factory that wraps an EAdElement within an EAdElement.
- * This factory is used by the main dockable-controller to wrap elements, and 
+ * A multi-dockable factory that wraps a DependencyNode within a panel.
+ * This factory is used by the main dockable-controller to wrap elements, and
  * to save/restore views when required.
- * 
+ *
  * @author mfreire
  */
 public class ClassDockableFactory implements
@@ -56,20 +57,27 @@ public class ClassDockableFactory implements
     Logger logger = LoggerFactory.getLogger("cdf");
 
     private Class<? extends ElementPanel> controlClass;
-    private Class<? extends EAdElement> modelClass;
+    private Class<? extends DependencyNode> modelClass;
     private ModelAccessor model;
+	private EditorWindow ew;
 
     public ClassDockableFactory(
             Class<? extends ElementPanel> controlClass,
-            Class<? extends EAdElement> modelClass, ModelAccessor model) {
+            Class<? extends DependencyNode> modelClass, ModelAccessor model, EditorWindow ew) {
         this.controlClass = controlClass;
         this.modelClass = modelClass;
         this.model = model;
+		this.ew = ew;
     }
 
+	/**
+	 * Gets an ElementPanel for a given DependencyNode ID
+	 * @param id
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
     public ElementPanel getPanelFor(String id) {
-        EAdElement e = (id != null) ?
+        DependencyNode e = (id != null) ?
                 model.getElement(id) :
                 model.createElement(modelClass);
         ElementPanel ep;
@@ -79,24 +87,39 @@ public class ClassDockableFactory implements
             logger.error("could not instantiate", ex);
             return null;
         }
+		ep.setEditor(ew);
         ep.setTarget(e);
         return ep;
     }
 
+	/**
+	 * Creates a Dockable for a given DependencyNode ID. Calls getPanelFor
+	 * internally
+	 * @param id
+	 * @return
+	 */
     public DefaultMultipleCDockable createDockable(String id ) {
         ElementPanel ep = getPanelFor(id);
         DefaultMultipleCDockable d = new DefaultMultipleCDockable(this);
         d.setCloseable(true);
-        d.setTitleText(modelClass.getSimpleName() + ep.getTarget().getId());
+		d.setExternalizable(false);
+        d.setTitleText(ep.getTarget().getClass().getSimpleName()+" "+ep.getTarget().getId());
         d.setRemoveOnClose(true);
         d.add((Component)ep);
         return d;
     }
 
+	/**
+	 * Returns the id being displayed in a given dockable.
+	 * @param d the dockable, created with this factory
+	 * @return the corresponding DependencyNode's ID
+	 */
     public String getDockableId(DefaultMultipleCDockable d) {
-        return ((ElementPanel)d.getContentPane().getComponent(0))
+        return ""+((ElementPanel)d.getContentPane().getComponent(0))
                 .getTarget().getId();
     }
+
+	// ElementLayout-related
 
     @Override
     public DefaultMultipleCDockable read( ElementLayout layout ) {

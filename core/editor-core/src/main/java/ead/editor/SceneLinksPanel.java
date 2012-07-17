@@ -60,15 +60,14 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.gui.eadcanvaspanel.EAdCanvasPanel;
-import ead.gui.eadcanvaspanel.listeners.DragListener;
-import ead.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
+import java.awt.dnd.MouseDragGestureRecognizer;
+import javax.swing.JPanel;
 
 /**
  * Class that implements the panel that shows a preview of the scenes with their
  * links to each other
  */
-public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
+public class SceneLinksPanel extends JPanel {
 
 	/**
 	 * 
@@ -94,13 +93,9 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 */
 	private List<SceneElement> elements;
 	/**
-	 * The panel in which is possible to drag its content
-	 */
-	private EAdCanvasPanel dragPanel;
-	/**
 	 * The listener used for dragging the contents of the drag panel
 	 */
-	private DragListener listener;
+	private MouseDragGestureRecognizer listener;
 
 	/**
 	 * Constructor for the SceneLinksPanel class. Creates a new panel with a
@@ -115,8 +110,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 		this.scenes = scns;
 		drawingScale = (double) (0.35f * (1 - Math.log(this.scenes.size())
 				/ Math.log(100)));
-		dragPanel = this.getCanvas();
-		listener = new DragListener(dragPanel);
+		listener = null;
 		paintScenes();
 
 	}
@@ -179,12 +173,12 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 			sc.setPosY((new Random()).nextInt(400));
 			sc.setBounds((int) sc.getPosX(), (int) sc.getPosY(), sc.getWidth(),
 					sc.getHeight());
-			sc.addKeyListener(listener);
-			sc.addMouseListener(listener);
-			sc.addMouseMotionListener(listener);
-
-			dragPanel.add(sc);
-			elements.add(sc);
+//			sc.addKeyListener(listener);
+//			sc.addMouseListener(listener);
+//			sc.addMouseMotionListener(listener);
+//
+//			dragPanel.add(sc);
+//			elements.add(sc);
 		}
 
 		image.flush();
@@ -196,7 +190,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 */
 	public void repaintScenes() {
 
-		dragPanel.removeAll();
+//		dragPanel.removeAll();
 		this.paintScenes();
 	}
 

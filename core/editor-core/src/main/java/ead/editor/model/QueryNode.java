@@ -35,24 +35,67 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generics;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.model;
 
-import ead.common.model.elements.extra.EAdList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
 /**
- * A general interface to edit element properties
- * @param <S> 
+ *
+ * @author mfreire
  */
-public interface EAdListFieldDescriptor<S> extends FieldDescriptor<EAdList<S>> {
+public class QueryNode extends EditorNode {
 
-	int getCount();
-	
-	S getElementAt(int pos);
-	
-	Panel getPanel(int pos, boolean selected);
+	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
 
-	EAdList<S> getList();
-	
-	//TODO add, remove, etc.?
-	
+	private String queryString;
+
+	public QueryNode(EditorModel m, String queryString) {
+		super(m.generateId());
+		this.queryString = queryString;
+		logger.debug("Query node for '{}'", queryString);
+
+		for (DependencyNode d : m.searchAll(queryString)) {
+			logger.debug("\tadding query match: {}", d.getId());
+			this.addChild(d);
+		}
+	}
+
+	/**
+	 * Writes inner contents to an XML snippet.
+	 * @param sb
+	 */
+	@Override
+	public void writeInner(StringBuilder sb) {
+		sb.append("<queryString>")
+				.append(queryString).append("</queryString>");
+	}
+
+	/**
+	 * Reads inner contents from an XML snippet.
+	 * @param e
+	 */
+	@Override
+	public void restoreInner(Element e) {
+		this.queryString = e.getChildNodes().item(0).getTextContent();
+	}
+
+	/**
+	 * Generates a one-line description with as much information as possible.
+	 * @return a human-readable description of this node
+	 */
+	@Override
+	public String getTextualDescription(EditorModel m) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Query: '").append(queryString).append("'");
+		for (DependencyNode n : getContents()) {
+			sb.append("\n").append(n.getTextualDescription(m));
+		}
+		return sb.toString();
+	}
 }

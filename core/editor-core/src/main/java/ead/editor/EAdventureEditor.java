@@ -37,6 +37,7 @@
 
 package ead.editor;
 
+import ead.utils.Log4jConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,10 +45,10 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.ImporterConfigurationModule;
-import ead.common.model.elements.EAdAdventureModel;
+import ead.editor.control.Controller;
 import ead.editor.control.ViewController;
+import ead.editor.model.EditorModel;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.impl.SplashScreenImpl;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
@@ -56,10 +57,10 @@ import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 
 /**
  * eAdventure editor launcher. This class has a main method.
- * 
+ *
  * IMPORTANT: to re-generate resources, use
- * java -cp core/utils/target/utils-2.0.1-SNAPSHOT.jar 
- *      ead.utils.i18n.ResourceCreator core/editor-core ead.editor 
+ * java -cp core/utils/target/utils-2.0.1-SNAPSHOT.jar
+ *      ead.utils.i18n.ResourceCreator core/editor-core ead.editor
  *      etc/LICENSE.txt core/editor-core/src/main/java/ead/editor/R.java
  */
 public class EAdventureEditor implements Launcher {
@@ -73,46 +74,51 @@ public class EAdventureEditor implements Launcher {
      */
     private ViewController viewController;
 
-    public static void main(String[] args) {
+
+	/**
+	 * Main entry point into the editor.
+	 * @param args the first argument, if set, is understood to be a game file
+	 */
+	public static void main(String[] args) {
+
         // The following line is used by MacOS X to set the application name correctly
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+				"eAdventure");
 
         // Initialize logging
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
             "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+            "EditorModel", Log4jConfig.Slf4jLevel.Info,
             "NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
-        });        
-        
+            "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
+            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+        });
+
+		// show splash
         SplashScreen splashScreen = new SplashScreenImpl();
         splashScreen.show();
 
+		// initialize launcher
         Injector injector = Guice.createInjector(
                 new EditorGuiceModule(),
                 new ImporterConfigurationModule(),
                 new JavaBasicGameModule(),
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
-
         Launcher launcher = injector.getInstance(Launcher.class);
+		EditorModel model = injector.getInstance(EditorModel.class);
+		Controller controller = injector.getInstance(Controller.class);
+		controller.setModel(model);
 
         launcher.configure();
-
-        EAdAdventureModel model = doImport(injector);
-        model.getChapters();
-
         launcher.initialize();
-        splashScreen.hide();
 
+		// hide splash & launch app
+		splashScreen.hide();
         launcher.start();
-    }
-
-    public static EAdAdventureModel doImport(Injector injector) {
-        String fileName = "/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead";
-        EAdventure1XImporter importer = injector.getInstance(EAdventure1XImporter.class);
-        return importer.importGame(fileName, "/tmp/imported");
     }
 
     @Inject

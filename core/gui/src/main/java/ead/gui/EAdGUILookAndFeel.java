@@ -112,20 +112,25 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
                 .loadFont("roboto/Roboto-Bold.ttf")
                 .deriveFont(12.0f);
 
-        UIManager.put("javax.swing.plaf.FontUIResource",
-                new FontUIResource(instance.font));
-
         System.setProperty("awt.useSystemAAFontSettings", "on");  
         System.setProperty("swing.aatext", "true");
+	}
+
+	/**
+	 * Switches current l&f to EAd's internal l&f
+	 */
+	public static void useEAdLookAndFeel() {
+		UIManager.put("javax.swing.plaf.FontUIResource",
+                new FontUIResource(instance.font));
 
         try {
             UIManager.setLookAndFeel(instance);
             instance.setConstants();
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
-		}
+		}		
 	}
-
+	
 	@Override
 	public UIDefaults getDefaults() {
 		UIDefaults table = super.getDefaults();

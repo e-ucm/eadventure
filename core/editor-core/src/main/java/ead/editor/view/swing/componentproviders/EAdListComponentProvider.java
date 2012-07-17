@@ -150,7 +150,5 @@ public class EAdListComponentProvider<T> implements
 		public int getCount() {
 			return eAdListFieldDescriptor.getCount();
 		}
-
 	}
-
 }

@@ -52,6 +52,14 @@ public interface Controller {
 	 * @param model The eAdventure model
 	 */
 	void setModel(EditorModel model);
+
+	/**
+	 * Access the current game model. This should be used with all due care,
+	 * as it is bypassing any undoable actions.
+	 * 
+	 * @param model The eAdventure model
+	 */
+	EditorModel getModel();
 	
 	/**
 	 * Set the locale (which determines the language) of the editor
@@ -59,5 +67,4 @@ public interface Controller {
 	 * @param locale
 	 */
 	void setLocale(Locale locale);
-
 }

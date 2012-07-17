@@ -46,9 +46,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.editor.control.FieldValueReader;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.impl.EAdConditionOption;
-import ead.gui.EAdBorderedPanel;
-import ead.gui.EAdButton;
-import ead.gui.EAdTextField;
+import javax.swing.*;
 
 public class EAdConditionComponentProvider implements ComponentProvider<EAdConditionOption, JComponent> {
 
@@ -61,24 +59,25 @@ public class EAdConditionComponentProvider implements ComponentProvider<EAdCondi
 	@Override
 	public JComponent getComponent(EAdConditionOption element) {
 		if (element.getView() == EAdConditionOption.View.DETAILED) {
-			JPanel panel = new EAdBorderedPanel(element.getTitle());
+			JPanel panel = new JPanel();
+			panel.setBorder(BorderFactory.createTitledBorder(element.getTitle()));
 			panel.setLayout(new BorderLayout());
 	
-			EAdTextField textField = new EAdTextField();
+			JTextField textField = new JTextField();
 			panel.add(textField, BorderLayout.CENTER);
 			EAdCondition condition = fieldValueReader.readValue(element.getFieldDescriptor());
 			textField.setText(condition.toString());
 			textField.setEnabled(false);
 			//TODO should update field after condition edition
 			
-			EAdButton button = new EAdButton("Edit");
+			JButton button = new JButton("Edit");
 			button.setToolTipText(element.getToolTipText());
 			panel.add(button, BorderLayout.EAST);
 			//TODO should allow for the edition of conditions
 			
 			return panel;
 		} else {
-			EAdButton button = new EAdButton(element.getTitle());
+			JButton button = new JButton(element.getTitle());
 			//TODO should allow for the edition of conditions
 			//TODO should show the icons
 			

@@ -37,14 +37,18 @@
 
 package ead.editor.view.dock;
 
-import ead.common.model.EAdElement;
+import ead.editor.model.DependencyNode;
+import ead.editor.view.EditorWindow;
+
 
 /**
  *
  * @author mfreire
  */
-public interface ElementPanel<E extends EAdElement> {
+public interface ElementPanel<E extends DependencyNode> {
 
+	void setEditor(EditorWindow ew);
+	
     void setTarget(E target);
 
     E getTarget();

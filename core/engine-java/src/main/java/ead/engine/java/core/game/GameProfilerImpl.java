@@ -62,7 +62,7 @@ public class GameProfilerImpl implements GameProfiler {
 	  /**
 	   * Game loop logger.
 	   */
-	  private static final Logger logger = LoggerFactory.getLogger("Game Profiler");
+	  private static final Logger logger = LoggerFactory.getLogger("GameProfiler");
 
 	  /**
 	   * Time since last statistics gathering (in ns).
@@ -133,8 +133,8 @@ public class GameProfilerImpl implements GameProfiler {
 			prevStatsTime = statsTime;
 			frame = 0;
 			tick = 0;
-			if ( LOG_FPS ){
-				logger.info("FPS: " + averageFPS + "; UPS: " + averageUPS);
+			if ( logger.isDebugEnabled() ){
+				logger.debug("FPS: " + averageFPS + "; UPS: " + averageUPS);
 			}
 		}
 	}

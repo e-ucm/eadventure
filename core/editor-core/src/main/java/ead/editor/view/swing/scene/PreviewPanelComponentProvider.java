@@ -67,7 +67,7 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
-import ead.gui.EAdScrollPane;
+import javax.swing.JScrollPane;
 
 public class PreviewPanelComponentProvider implements ComponentProvider<PreviewPanel, JComponent> {
 
@@ -134,7 +134,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		changeScene.setNextScene(new EditionScene(element.getScene()));
 		gameState.addEffect(changeScene);
 
-		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		JScrollPane pane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//pane.setMinimumSize(new Dimension(200, 150));
 
 		JPanel mainPanel = new JPanel();
@@ -163,11 +163,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 		private EngineConfiguration conf;
 
-		private EAdScrollPane pane;
+		private JScrollPane pane;
 
 		private Game game;
 
-		public ZoomAction(JPanel panel2, int sign, EAdScrollPane pane, EngineConfiguration conf, Game game ) {
+		public ZoomAction(JPanel panel2, int sign, JScrollPane pane, EngineConfiguration conf, Game game ) {
 			panel = panel2;
 			this.pane = pane;
 			this.sign = sign;
