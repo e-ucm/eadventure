@@ -40,7 +40,6 @@ package ead.editor.view.menu;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import ead.editor.view.menu.Menu;
 import ead.gui.EAdMenu;
 
 /**

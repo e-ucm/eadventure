@@ -50,7 +50,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Misc file utilities for use in EAdventure
+ * 
  * @author mfreire
  */
 public class FileUtils {
@@ -67,6 +68,39 @@ public class FileUtils {
 		return zip.getInputStream(zip.getEntry(entryName));
 	}
 
+	/**
+	 * Checks if a zipfile contains a given entry. Matches with regexp, so you have
+	 * to escape any special chars.
+	 */
+	public static boolean zipContainsEntry(File zipFile, String entryNameRegexp) throws IOException {
+	    if ( ! FileUtils.startMatches(zipFile, zipMagic)) {
+            throw new IOException("File is not a zip archive");
+        }        
+
+        ZipFile zf = new ZipFile(zipFile);
+        boolean matched = false;
+        try {
+            Enumeration entries = zf.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry e = (ZipEntry)entries.nextElement();
+				String name = FileUtils.toCanonicalPath(e.getName());
+                if (name.matches(entryNameRegexp)) {
+					logger.debug("{} MATCHES {}", 
+							new Object[]{name, entryNameRegexp});
+					matched = true;
+					break;
+				} else {
+					logger.debug("{} does not match {}", 
+							new Object[]{name, entryNameRegexp});
+				}				
+			}
+			return matched;
+		} finally {
+            zf.close();
+        }
+    }
+	
+	
 	/**
 	 * Writes an entry into a ZipFile. Can be called with any type of
 	 * InputStream or entry name. Will overwrite entry if it already exists.
@@ -275,4 +309,17 @@ public class FileUtils {
         }
         return true;
     }	
+	
+	/**
+	 * Deletes a directory recursively. Use wisely
+	 */
+	public static void deleteRecursive(File f) throws IOException {	
+		if (f.isDirectory()) {
+			for (File file : f.listFiles()) {
+				deleteRecursive(file);
+			}	
+		} else {
+			f.delete();
+		}
+	}
 }

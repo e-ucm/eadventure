@@ -41,8 +41,6 @@ import java.util.Stack;
 
 import com.google.inject.Singleton;
 
-import ead.editor.control.Command;
-import ead.editor.control.CommandManager;
 import ead.editor.control.change.ChangeNotifierImpl;
 
 /**
@@ -55,7 +53,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	 * Action stacks
 	 */
 	private Stack<CommandStack> stacks;
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -67,7 +65,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	@Override
 	public void addStack() {
 		stacks.push(new CommandStack());
-		processChange();
+		notifyListeners(null);
 	}
 	
 	@Override
@@ -86,7 +84,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 					clearCommands();
 			}
 		}	
-		processChange();
+		notifyListeners(null);
 	}
 	
 	@Override
@@ -100,7 +98,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 		}
 		currentStack.increaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
-		processChange();
+		notifyListeners(null);
 	}
 
 	@Override
@@ -110,14 +108,15 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 		CommandStack currentStack = stacks.peek();
 		if (currentStack.getPerformed().peek().undoCommand()) {
 			Command action = currentStack.getPerformed().pop();
-			if (action.canRedo())
+			if (action.canRedo()) {
 				currentStack.getUndone().push(action);
-			else
+			} else {
 				currentStack.getUndone().clear();
+			}
 		}
 		currentStack.decreaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
-		processChange();
+		notifyListeners(null);
 	}
 
 	@Override
@@ -127,42 +126,58 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 		CommandStack currentStack = stacks.peek();
 		if (currentStack.getUndone().peek().redoCommand()) {
 			Command action = currentStack.getUndone().pop();
-			if (action.canUndo())
+			if (action.canUndo()) {
 				currentStack.getPerformed().push(action);
-			else
+			} else {
 				clearCommands();
+			}
 		}		
 		currentStack.increaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
-		processChange();
+		notifyListeners(null);
 	}
 
 	@Override
 	public boolean canRedo() {
-		if (!stacks.peek().getUndone().empty())
+		if (!stacks.peek().getUndone().empty()) {
 			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean canUndo() {
-		if (!stacks.peek().getPerformed().empty())
+		if (!stacks.peek().getPerformed().empty()) {
 			return true;
+		}				
 		return false;
 	}
 
+	private boolean checkChanged() {
+		// FIXME - this should take into account setChanged()
+		for (CommandStack as : stacks) {
+			if (as.getActionHistory() != 0) {
+				return true;
+			} 
+		}				
+		return false;		
+	}
+	
 	@Override
 	public boolean isChanged() {
-		for (CommandStack as : stacks)
-			if (as.getActionHistory() != 0)
-				return true;
-		return false;
+		return checkChanged();
 	}
 
 	@Override
 	public void clearCommands() {
-		for (CommandStack as : stacks)
+		for (CommandStack as : stacks) {
 			as.clear();
+		}
 	}
 
+	@Override
+	public void setChanged() {
+		// FIXME - does nothing
+		throw new IllegalArgumentException("Not yet implemented");		
+	}		
 }

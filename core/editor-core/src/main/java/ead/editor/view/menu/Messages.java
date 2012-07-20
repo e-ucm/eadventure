@@ -46,13 +46,45 @@ public class Messages {
 
     // File menu
     public static String file_menu;
-    public static String file_menu_open;
-    public static String file_menu_import;
-    public static String file_menu_new;
+    
+	public static String file_menu_open;
+    
+	public static String file_menu_open_title;
+    public static String file_menu_open_message;
+	public static String file_menu_open_title_error;
+    public static String file_menu_open_message_error;
+    
+	public static String file_menu_import;
+
+	public static String file_menu_import_title;
+    public static String file_menu_import_message;
+	public static String file_menu_import_save_title;
+    public static String file_menu_import_save_message;
+	public static String file_menu_import_title_error;
+    public static String file_menu_import_message_error;
+
+	public static String file_menu_new;
+	    	
+	public static String file_menu_new_title;
+    public static String file_menu_new_message;
+	public static String file_menu_new_title_error;
+    public static String file_menu_new_message_error;
+	
     public static String file_menu_save;
-    public static String file_menu_save_as;
-    public static String file_menu_exit;
-    // Edit menu
+
+	public static String file_menu_save_as;
+
+	public static String file_menu_save_as_title;
+    public static String file_menu_save_as_message;
+	public static String file_menu_save_as_title_error;
+    public static String file_menu_save_as_message_error;
+	
+	public static String file_menu_exit;
+
+	public static String file_menu_confirm_exit_before_close_title;
+	public static String file_menu_confirm_exit_before_close_message;
+	
+	// Edit menu
     public static String edit_menu;
     public static String edit_menu_undo;
     public static String edit_menu_redo;

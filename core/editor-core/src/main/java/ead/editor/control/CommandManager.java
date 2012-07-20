@@ -73,7 +73,13 @@ public interface CommandManager extends ChangeNotifier {
 	 * @return true if the game model was modified
 	 */
 	public boolean isChanged();
-
+	
+	/**
+	 * Should be called to indicate that the model has been saved.
+	 * @param changed
+	 */
+	public void setChanged();
+	
 	/**
 	 * Clear the list of commands performed
 	 */
@@ -90,6 +96,5 @@ public interface CommandManager extends ChangeNotifier {
 	 * 
 	 * @param cancelChanges Cancel changes performed on the command stack
 	 */
-	void removeCommandStacks(boolean cancelChanges);
-	
+	void removeCommandStacks(boolean cancelChanges);	
 }

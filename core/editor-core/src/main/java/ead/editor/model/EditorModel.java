@@ -325,12 +325,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	}
 
 	/**
-	 * Saves the editor model. Contains a normal EAdModel, plus resources,
+	 * Saves the editor model. Save will contain a normal EAdModel, plus resources,
 	 * plus editor-specific model nodes. Does not include anything presentation-
 	 * related; that should be appended via
 	 * FileUtils.appendEntryToZip(target, ...)
 	 *
-	 * @param target
+	 * @param target; if null, previous target is assumed
 	 * @throws IOException
 	 */
 	public void save(File target) throws IOException {
@@ -379,15 +379,22 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 * @throws IOException
 	 */
 	public void load(File source) throws IOException {
+		logger.info("Loading editor model from project file '{}'...", source);
+		
+		if ( ! FileUtils.zipContainsEntry(source, ProjectFiles.DATA_FILE)) {
+			logger.info("Project does not contain data-file; will try to import instead");
+			loadFromImportFile(source);
+			return;
+		}
+
 		nodesByContent.clear();
 		nodesById.clear();
 		nodeIndex = new ModelIndex();
 
-		logger.info("Loading editor model from project file '{}'...", source);
 		saveDir = File.createTempFile("ead-editor-tmpdir", null);
 		saveDir.delete();
 		saveDir.mkdirs();
-		FileUtils.expand(source, saveDir);
+		FileUtils.expand(source, saveDir);	
 
 		engineModel = reader.read(
 				new File(saveDir, ProjectFiles.DATA_FILE).toURI());
@@ -405,7 +412,18 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		logger.info("Using temp dir {} as a working directory", saveDir);
 	}
 
-
+	/**
+	 * Returns a file that is relative to this save-file
+	 * @param name of file to return, relative to save-file
+	 */
+	public File relativeFile(String name) {
+		if (saveDir.exists() && saveDir.isDirectory()) {
+			return new File(saveDir, name);
+		} else {
+			throw new IllegalArgumentException("Nothing loaded, loadRelative not available");
+		}
+	}				
+	
 	/**
 	 * Loads data from an EAdventure1.x game file.
 	 *
@@ -413,11 +431,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 * @param target target file to build into
 	 */
 	public void loadFromImportFile(File f) throws IOException {
+		logger.info("Loading editor model from EAD 1.x import '{}'...", f);
+
 		nodesByContent.clear();
 		nodesById.clear();
 		nodeIndex = new ModelIndex();
 
-		logger.info("Loading editor model from EAD 1.x import '{}'...", f);
 		File tmpFile = File.createTempFile("ead-editor-tmp", ".ead");
 		engineModel = importer.importGame(f.getAbsolutePath(),
 				tmpFile.getAbsolutePath());

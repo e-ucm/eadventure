@@ -49,7 +49,6 @@ import ead.editor.control.NavigationControllerImpl;
 import ead.editor.control.ProjectController;
 import ead.editor.control.ProjectControllerImpl;
 import ead.editor.control.ViewController;
-import ead.editor.control.ViewControllerImpl;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;
 import ead.editor.view.impl.EditorWindowImpl;
@@ -96,7 +95,7 @@ public class EditorGuiceModule extends AbstractModule {
 		bind(CommandManager.class).to(CommandManagerImpl.class);
 		bind(ProjectController.class).to(ProjectControllerImpl.class);
 		bind(NavigationController.class).to(NavigationControllerImpl.class);
-		bind(ViewController.class).to(ViewControllerImpl.class);
+		bind(ViewController.class).to(EditorWindow.class);
 	}
 
 	/**

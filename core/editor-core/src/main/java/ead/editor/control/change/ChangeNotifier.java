@@ -58,8 +58,8 @@ public interface ChangeNotifier {
 	void removeChangeListener(ChangeListener changeListener);
 	
 	/**
-	 * Call listener to process changes
+	 * Call listeners to process changes described by event
 	 */
-	void processChange();
+	void notifyListeners(Object event);
 	
 }

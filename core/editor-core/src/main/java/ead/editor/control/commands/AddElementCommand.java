@@ -134,5 +134,4 @@ public class AddElementCommand<P> extends Command {
 	public boolean combine(Command other) {
 		return false;
 	}
-
 }

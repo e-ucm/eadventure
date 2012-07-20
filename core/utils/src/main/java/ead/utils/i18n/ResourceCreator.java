@@ -40,6 +40,7 @@ package ead.utils.i18n;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -166,46 +167,69 @@ public class ResourceCreator {
 
 	/**
 	 * Create a sub-class, which contains the actual resources (e.g. "Drawable").
+	 * Notice that "qualifiers" (-something extensions in the leading directories) 
+	 * are ignored, to allow for internationalization.
 	 *
 	 * @param location the location of the resources
 	 * @param className the name of the new class
 	 * @return A string with the full definition of the sub-class
 	 */
-	private static String createClass(File location, String className) {
+	private static String createClass(File location, final String className) {
 		StringBuilder classContent = new StringBuilder(
                 "\tpublic static class " + className + " {" + eol);
 
-		File resources =
-			new File(location.getAbsolutePath() + File.separator + className.toLowerCase());
-
-
-		Set<String> res = new TreeSet<String>();
-		Set<String> files = new TreeSet<String>();
-
-		for (File file : resources.listFiles()) {
-			if (file.getName().startsWith(".")) {
-			} else if (file.isDirectory())
-				recursive(files, file.getName() + File.separator, file);
-			else {
-				res.add(file.getName());
-				files.add(file.getName());
+		FileFilter ff = new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return file.getName().startsWith(className.toLowerCase());
+			}
+		};
+		
+		Set<String> files = new TreeSet<String>();	
+		for (File resources : location.getAbsoluteFile().listFiles(ff)) {
+			String localeString = resources.getName().contains("-") ? 
+					resources.getName().replaceAll(".*[-]", "") + "//" : "";
+			for (File file : resources.listFiles()) {
+				if (file.getName().startsWith(".")) {
+					// ignore . and ..
+				} else if (file.isDirectory())
+					recursive(files, file.getName()
+							+ File.separator, file);
+				else {
+					files.add(localeString + file.getName());
+				}
 			}
 		}
+		
+		Set<String> res = new TreeSet<String>();
+		for (String resource : files) {			
+			// removes locales
+			resource = resource.replaceAll(".*[/][/]", "");
 
-		for (String resource : res) {
-			String constant = resource.replace('.', '_');
-            classContent.append("\t\tpublic static String ")
-                    .append(constant).append(";")
-                    .append(eol);
+			if ( ! resource.matches("^[a-zA-Z0-9_/]+[.][a-zA-Z0-9_]+$")) {
+				System.err.println("Sorry, '" + resource + "' has an invalid name. \n"
+						+ "\tPlease avoid spaces and any non-alphanumeric characters, such as '-+' or ':'; '_' is ok, though");
+			} else if (resource.matches(".*[_][_].*")) {
+				System.err.println("Sorry, '" + resource + "' has an invalid name. \n"
+						+ "\tPlease avoid two '__' in a row; we use it for '/'-substitution...");				
+			} else {
+				resource = resource.replaceAll("/", "__").replace(".", "_");
+				if ( ! res.contains(resource)) {
+					classContent.append("\t\tpublic static String ")
+							.append(resource).append(";")
+							.append(eol);					
+					res.add(resource);
+				}
+			}
 		}
-
+	
         classContent.append(eol)
                 .append("\t\tstatic {").append(eol)
                 .append("\t\t\tSet<String> files = new TreeSet<String>();").append(eol)
                 .append(eol);
 
 		for (String file : files) {
-			classContent.append("\t\t\tfiles.add(\"").append(file).append("\");")
+			classContent.append("\t\t\tfiles.add(\"").append(file.replaceAll("[/][/]", "/")).append("\");")
                     .append(eol);
         }
 
@@ -219,7 +243,7 @@ public class ResourceCreator {
 	}
 
 	/**
-	 * Recursive method to visit all the sub-folders in the resource structure
+	 * Recursive method to visit all the sub-folders in the resource structure.
 	 *
 	 * @param files
 	 * @param currentPath
@@ -228,7 +252,8 @@ public class ResourceCreator {
 	private static void recursive(Set<String> files, String currentPath, File currentDir) {
 		for (File file : currentDir.listFiles()) {
 			if (file.isDirectory())
-				recursive(files, currentPath + file.getName() + File.separator, file);
+				recursive(files, currentPath 
+						+ File.separator, file);
 			else {
 				files.add(currentPath + file.getName());
 			}

@@ -42,29 +42,45 @@ import java.util.Locale;
 
 
 /**
- * Game editor controller.
+ * Game editor controller. The main controller provides access to delegate
+ * controllers in charge of project-wide operations, view and command management
  */
 public interface Controller {
 
 	/**
-	 * Set the current game model.
-	 * 
-	 * @param model The eAdventure model
-	 */
-	void setModel(EditorModel model);
-
-	/**
-	 * Access the current game model. This should be used with all due care,
-	 * as it is bypassing any undoable actions.
-	 * 
-	 * @param model The eAdventure model
-	 */
-	EditorModel getModel();
-	
-	/**
 	 * Set the locale (which determines the language) of the editor
-	 * 
+	 *
 	 * @param locale
 	 */
 	void setLocale(Locale locale);
+
+	/**
+	 * Retrieve the model for read-only purposes.
+	 * ALERT: do not keep copies of the model, or 
+	 */
+	EditorModel getModel();
+	
+    /**
+     * Returns the project controller. In charge of project loading / saving
+     */
+    ProjectController getProjectController();
+
+    /**
+     * Returns the navigation controller. In charge of forward / backward
+     * navigation in views.
+     */
+    NavigationController getNavigationController();
+
+    /**
+     * Returns the view controller. In charge of creating, hiding and
+     * displaying views.
+     */
+    ViewController getViewController();
+
+    /**
+     * Returns the command controller. In charge of model-changing command
+     * execution, including undo / redo. All commands should be executed
+     * through the manager.
+     */
+    CommandManager getCommandManager();
 }

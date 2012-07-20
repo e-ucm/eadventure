@@ -112,11 +112,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	private NavigationController navigationController;
 
     /**
-     * The UI controller for the editor
-     */
-    private Controller controller;
-
-    /**
      * The EditorWindow that is being used
      */
     private EditorWindow editorWindow;
@@ -129,12 +124,11 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	@Inject
 	public ToolPanelImpl(CommandManager actionManager,
 			NavigationController navigationController,
-            Controller controller, EditorWindow ew) {
+            EditorWindow ew) {
 		this.actionManager = actionManager;
 		this.actionManager.addChangeListener(this);
 		this.navigationController = navigationController;
 		this.navigationController.addChangeListener(this);
-        this.controller = controller;
         this.editorWindow = ew;
 
 		toolPanel = new JPanel(new FlowLayout());
@@ -151,7 +145,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 			}
 		});
 
-		processChange();
+		processChange(null);
 	}
 
 	@Override
@@ -160,7 +154,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	}
 
 	@Override
-	public final void processChange() {
+	public final void processChange(Object o) {
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {
@@ -189,7 +183,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		redoButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.REDO);
 		toolPanel.add(redoButton);
 		redoButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				actionManager.redoCommand();
@@ -205,7 +198,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		undoButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.UNDO);
 		toolPanel.add(undoButton);
 		redoButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				actionManager.undoCommand();
@@ -239,12 +231,10 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		forwardButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.FORWARD);
 		toolPanel.add(forwardButton);
 		forwardButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				navigationController.goForward();
 			}
-
 		});
 	}
 
@@ -255,12 +245,10 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		backwardButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.BACKWARD);
 		toolPanel.add(backwardButton);
 		backwardButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				navigationController.goBackward();
 			}
-
 		});
 	}
 }

@@ -41,14 +41,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Default change notifier implementation
+ * Default change notifier implementation. Notice that this is in no way
+ * thread-safe.
  */
 public class ChangeNotifierImpl implements ChangeNotifier {
 
 	/**
 	 * List of change listeners
 	 */
-	private List<ChangeListener> changeListenerList;
+	private ArrayList<ChangeListener> changeListenerList;
 	
 	/**
 	 * Default constructor
@@ -63,9 +64,10 @@ public class ChangeNotifierImpl implements ChangeNotifier {
 	}
 
 	@Override
-	public void processChange() {
-		for (ChangeListener cl : changeListenerList)
-			cl.processChange();
+	public void notifyListeners(Object event) {
+		for (ChangeListener cl : changeListenerList) {
+			cl.processChange(event);
+		}
 	}
 
 	@Override

@@ -68,4 +68,21 @@ public interface ViewController {
 	 * the modal pane
 	 */
 	void removeModalPanel(boolean cancelChanges);	
+	
+	/**
+	 * Restores windows to a previously saved state
+	 */
+	void restoreViews();
+	
+	/**
+	 * Saves view state 
+	 */
+	void saveViews();
+	
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
+	public void setController(Controller controller);
 }

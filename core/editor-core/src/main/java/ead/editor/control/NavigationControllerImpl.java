@@ -41,6 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.editor.control.change.ChangeNotifierImpl;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * Default implementation for the {@link NavigationController}.
@@ -48,41 +50,52 @@ import ead.editor.control.change.ChangeNotifierImpl;
 @Singleton
 public class NavigationControllerImpl extends ChangeNotifierImpl implements NavigationController {
 
-	private Controller controller;
+	private Controller controller;			
+	private LinkedList<String> viewStack = new LinkedList<String>();
+	private ListIterator<String> current;
 	
 	@Inject
-	NavigationControllerImpl(Controller controller) {
-		this.controller = controller;
+	NavigationControllerImpl() {
+		current = viewStack.listIterator();
 	}
 	
 	@Override
 	public void goForward() {
-		processChange();
+		if (canGoForward()) {
+			notifyListeners(current.next());
+		}
 	}
 
 	@Override
 	public void goBackward() {
-		processChange();
+		if (canGoBackward()) {
+			notifyListeners(current.previous());
+		}
 	}
 
 	@Override
 	public boolean canGoForward() {
-		return false;
+		return current.hasNext();
 	}
 
 	@Override
 	public boolean canGoBackward() {
-		return false;
+		return current.hasPrevious();
 	}
 
 	@Override
 	public void clearHistory() {
-
+		viewStack = null;
+		current = viewStack.listIterator();
 	}
-
+	
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
 	@Override
-	public void setNavigation(Object object) {
-
-		processChange();
-	}
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}	
 }

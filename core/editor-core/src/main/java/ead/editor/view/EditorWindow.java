@@ -38,6 +38,7 @@
 package ead.editor.view;
 
 import ead.editor.control.Controller;
+import ead.editor.control.ViewController;
 import javax.swing.JPanel;
 
 import ead.editor.view.menu.EditorMenuBar;
@@ -45,24 +46,8 @@ import ead.editor.view.menu.EditorMenuBar;
 /**
  * Interface for the eAdventure editor window.
  */
-public interface EditorWindow {
+public interface EditorWindow extends ViewController {
 	
-	/**
-	 * Initialize the editor window
-	 */
-	void initialize();
-
-	/**
-	 * Show the editor window
-	 */
-	void showWindow();
-
-	/**
-	 * Creates a new modal pane.
-	 * @param modalPanel Add a new modal panel
-	 */
-	void addModalPanel(JPanel modalPanel);
-
 	/**
 	 * Creates a new view.
 	 * @param type used for grouping purposes; views with the same type
@@ -73,12 +58,7 @@ public interface EditorWindow {
 	 *    of the same element.
 	 */
 	void addView(String type, String elementId, JPanel view, boolean reuseExisting);
-	
-	/**
-	 * Remove the top modal panel
-	 */
-	void removeModalPanel();
-	
+		
 	/**
 	 * Return the controller used for this window.
 	 * @return 

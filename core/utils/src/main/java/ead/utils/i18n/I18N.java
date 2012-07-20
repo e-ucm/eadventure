@@ -468,19 +468,20 @@ public abstract class I18N {
             }
 
             String[] temp = baseName.split("[\\.$]");
-            String baseFolder = temp[temp.length - 1].toLowerCase() + File.separator;
+            String baseFolder = temp[temp.length - 1].toLowerCase();
 
             for (int i = 0; i < fieldNames.size(); i++) {
                 String fieldName = fieldNames.get(i);
 
-                String[] fileNames = buildResourceFileNames(fieldName, locale);
-
-                for (int j = 0; j < fileNames.length; j++) {
-                    if (files.contains(fileNames[j])) {
-                        assignField(fields.get(fieldName), baseFolder + fileNames[j]);
+                for (String name : buildResourceFileNames(fieldName, locale)) {
+                    if (files.contains(name)) {
+						String toAssign = (name.matches("[a-z][a-z](_[A-Z][A-Z])?/.*")) ?
+							 baseFolder + "-" + name : baseFolder + "/" + name;
+                        assignField(fields.get(fieldName), toAssign);
                         fields.remove(fieldName);
                         String value = "Bundle '" + baseName + "' resource " + fieldName + " OK";
                         logger.debug(value);
+						break;
                     }
                 }
             }
@@ -498,23 +499,21 @@ public abstract class I18N {
 
     /**
      * Build all the possible names for the file corresponding to fieldName
-     *
+	 * 
      * @param fieldName The name of the field
      * @param locale The current locale
      * @return The list of possible file names
      */
-    private static String[] buildResourceFileNames(String fieldName, Locale locale) {
-        ArrayList<String> result = new ArrayList<String>(4);
-        String localeString = locale.toString();
+    private static ArrayList<String> buildResourceFileNames(String fieldName, Locale locale) {
+        ArrayList<String> result = new ArrayList<String>();
+		String localeString = locale.toString();
         int lastSeparator;
 
-        String fileName = "" + fieldName;
-        for (int i = fieldName.length() - 1; i >= 0; i--) {
-            if (fieldName.charAt(i) == '_') {
-                fileName = fieldName.substring(0, i) + "." + fieldName.substring(i + 1, fieldName.length());
-                break;
-            }
-        }
+		// from hi_my_name_is_bob to hi/my/name/is.bob
+		int lastUnderscore = fieldName.lastIndexOf('_');
+		String fileName = fieldName.substring(0, lastUnderscore) 
+				+ "." + fieldName.substring(lastUnderscore+1);
+		fileName = fileName.replaceAll("__", "/");
 
         // 1. Build the list of suffixes using the provided locale
         do {
@@ -526,7 +525,7 @@ public abstract class I18N {
         } while (lastSeparator != -1);
 
         // 2. Build the list of suffixes using the default locale if needed
-        if (!locale.equals(Locale.getDefault())) {
+        if ( ! locale.equals(Locale.getDefault())) {
             do {
                 result.add(localeString + File.separator + fileName);
                 lastSeparator = localeString.lastIndexOf('_');
@@ -539,6 +538,14 @@ public abstract class I18N {
         // 3. Add the default extension
         result.add(fileName);
 
-        return result.toArray(new String[0]);
+		if (logger.isDebugEnabled()) {
+			logger.debug("Generated {} alternatives for {}:", 
+					new Object[] {result.size(), fieldName});
+			for (String s : result) {
+				logger.debug("\t{}", s);
+			}
+		}
+		
+        return result;
     }
 }

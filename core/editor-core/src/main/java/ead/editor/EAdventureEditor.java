@@ -54,6 +54,8 @@ import ead.editor.view.impl.SplashScreenImpl;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.utils.i18n.I18N;
+import java.util.Locale;
 
 /**
  * eAdventure editor launcher. This class has a main method.
@@ -70,9 +72,9 @@ public class EAdventureEditor implements Launcher {
      */
     private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
     /**
-     * Controller for the view
+     * UI Controller
      */
-    private ViewController viewController;
+    private Controller controller;
 
 
 	/**
@@ -85,16 +87,18 @@ public class EAdventureEditor implements Launcher {
         System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
 
+		// Locale.setDefault(new Locale("es", "ES"));
+		
         // Initialize logging
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
             "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
             "EditorModel", Log4jConfig.Slf4jLevel.Info,
             "NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
-            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
-            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+//			Internacionalizacion (i18n)
+//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,			
         });
 
 		// show splash
@@ -109,10 +113,7 @@ public class EAdventureEditor implements Launcher {
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
         Launcher launcher = injector.getInstance(Launcher.class);
-		EditorModel model = injector.getInstance(EditorModel.class);
-		Controller controller = injector.getInstance(Controller.class);
-		controller.setModel(model);
-
+		
         launcher.configure();
         launcher.initialize();
 
@@ -122,8 +123,9 @@ public class EAdventureEditor implements Launcher {
     }
 
     @Inject
-    public EAdventureEditor(ViewController viewController) {
-        this.viewController = viewController;
+    public EAdventureEditor(Controller controller) {
+		logger.info("Controller set to {}", controller);
+        this.controller = controller;
     }
 
     @Override
@@ -134,12 +136,12 @@ public class EAdventureEditor implements Launcher {
     @Override
     public void initialize() {
         logger.info("Initializing...");
-        viewController.initialize();
+        controller.getViewController().initialize();
     }
 
     @Override
     public void start() {
         logger.info("Starting...");
-        viewController.showWindow();
+        controller.getViewController().showWindow();
     }
 }

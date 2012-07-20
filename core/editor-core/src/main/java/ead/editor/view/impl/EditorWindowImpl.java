@@ -37,15 +37,12 @@
 
 package ead.editor.view.impl;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -69,17 +66,15 @@ import ead.editor.model.DependencyNode;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;
 import ead.editor.view.dock.ClassDockableFactory;
-import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.menu.EditorMenuBar;
+import ead.editor.view.panel.RawElementPanel;
+import ead.gui.structurepanel.StructureElement;
+import ead.gui.structurepanel.StructureElementProvider;
+import ead.gui.structurepanel.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.*;
 
 /**
@@ -95,7 +90,7 @@ public class EditorWindowImpl implements EditorWindow {
     /**
      * Main left panel in the editor; contains list-of-tools
      */
-    private JPanel leftPanel;
+    private StructurePanel leftPanel;
     /**
      * The main panel where elements are edited; split into right&left
      */
@@ -125,7 +120,7 @@ public class EditorWindowImpl implements EditorWindow {
      * Model controller
      */
     protected Controller controller;
-
+	
     /**
      * default EditorWindow implementation.
      *
@@ -134,10 +129,11 @@ public class EditorWindowImpl implements EditorWindow {
      */
     @Inject
     public EditorWindowImpl(ToolPanel toolPanel,
-            EditorMenuBar editorMenuBar, Controller controller) {
+            EditorMenuBar editorMenuBar,
+			StructurePanel structurePanel) {
         this.toolPanel = toolPanel;
         this.editorMenuBar = editorMenuBar;
-        this.controller = controller;
+		this.leftPanel = structurePanel;
     }
 
     @Override
@@ -147,12 +143,30 @@ public class EditorWindowImpl implements EditorWindow {
         editorMenuBar.getMenuBar().add(new JSeparator());
         editorMenuBar.getMenuBar().add(toolPanel.getPanel());
 
-        leftPanel = new JPanel();
-        leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        leftPanel.setLayout(new BorderLayout());
-        leftPanel.setOpaque(true);
-        leftPanel.setBackground(leftPanel.getBackground().darker());
-
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Scenes", R.Drawable.sidePanel__scenes_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Player", R.Drawable.sidePanel__player_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("NPCs", R.Drawable.sidePanel__npcs_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Conversations", R.Drawable.sidePanel__conversations_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Items", R.Drawable.sidePanel__items_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Atrezzo", R.Drawable.sidePanel__atrezzo_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Books", R.Drawable.sidePanel__books_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Advanced", R.Drawable.sidePanel__advanced_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Cutscenes", R.Drawable.sidePanel__cutscenes_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Adaptation Profiles", R.Drawable.sidePanel__adaptationProfiles_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Assessment Profiles", R.Drawable.sidePanel__assessmentProfiles_png)));
+		leftPanel.createElements();
+		
         dockController = new CControl();
 
         // requires left and right panel; builds an animated splitPane
@@ -164,195 +178,34 @@ public class EditorWindowImpl implements EditorWindow {
                 new ClassDockableFactory(
                 RawElementPanel.class,
                 DependencyNode.class, controller.getModel(), this));
-
-        SwingUtilities.doInEDTNow(new Runnable() {
-
-            @Override
-            public void run() {
-                File f1 = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-                File f2 = new File("/tmp/cached.zip.eap");
-                try {
-                    if (!f2.exists()) {
-                        controller.getModel().loadFromImportFile(f1);
-                        controller.getModel().save(f2);
-                    } else {
-                        controller.getModel().load(f2);
-                    }
-                } catch (IOException ex) {
-                    logger.error("could not load", ex);
-                }
-                createNewView("1");
-                createNewView("2");
-                createNewView("3");
-                createNewView("qparam-x");
-            }
-        });
     }
 
+	@Override
     public Controller getController() {
         return controller;
     }
 
-    public static class RawElementPanel extends JPanel implements ElementPanel<DependencyNode> {
+	@Override
+	public void restoreViews() {
+		File f = controller.getModel().relativeFile("views.xml");
+		if (f.exists() && f.canRead()) {
+			try {
+				dockController.read(f);
+			} catch (IOException ex) {
+				logger.error("Could not restore views from {}", f, ex);
+			}
+		}
+	}
 
-        private DependencyNode target;
-        private EditorWindow ew;
-        private JPanel inner = new JPanel();
-
-        @Override
-        public void setTarget(DependencyNode target) {
-            this.target = target;
-            rebuild();
-        }
-
-        @Override
-        public DependencyNode getTarget() {
-            return target;
-        }
-
-        private JPanel startRow(JPanel container) {
-            logger.debug("   -- new row --");
-            JPanel jp = new JPanel();
-//			jp.setBackground(container.getComponentCount()%2 == 0? Color.lightGray : Color.lightGray.brighter());
-            FlowLayout fl = new FlowLayout(FlowLayout.LEFT, 0, 0);
-			fl.setAlignOnBaseline(true);
-			jp.setLayout(fl);			
-            container.add(jp);
-            return jp;
-        }
-
-        private void addLabelToRow(JPanel row, String text) {
-            logger.debug("   appending label: " + text);
-			JLabel jl = new JLabel(text);
-//			jl.setBackground(Math.random() > 0.5?new Color(0xbbffbbff):new Color(0xffbbbbff));
-//			jl.setOpaque(true);
-			Dimension d = new Dimension(jl.getPreferredSize());
-			FontMetrics fm = jl.getFontMetrics(jl.getFont());
-			d.setSize(d.width, fm.getMaxAscent() + fm.getMaxDescent() + fm.getLeading());
-			jl.setPreferredSize(d);
-			jl.setMinimumSize(d);
-			jl.setMaximumSize(d);
-			row.add(jl);
-        }
-
-        private void addButtonToRow(JPanel row, String text, String id) {
-            logger.debug("   appending button for id: " + id);
-            JButton jb = new JButton(htmlize(id));
-            jb.setForeground(Color.blue);
-            jb.setBorderPainted(false);
-            jb.setMargin(new Insets(0, 0, 0, 0));
-            jb.setContentAreaFilled(false);
-            jb.addActionListener(new OpenLinkAction(id));
-
-            jb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            row.add(jb);
-        }
-
-        private static class CheapVerticalLayout implements LayoutManager {
-
-            private Dimension min = new Dimension(10, 10);
-            private Dimension pref = new Dimension(10, 10);
-			private int maxRowHeight = 0;
-			
-            @Override
-            public void addLayoutComponent(String name, Component comp) {
-            }
-
-            @Override
-            public void removeLayoutComponent(Component comp) {
-            }
-
-            @Override
-            public Dimension preferredLayoutSize(Container parent) {
-                int maxX = 0;
-                int maxY = 0;
-                for (int i = 0; i < parent.getComponentCount(); i++) {
-                    Component c = parent.getComponent(i);
-                    Dimension d = c.getPreferredSize();
-                    maxY = Math.max(d.height, maxY);
-                    maxX = Math.max(d.width, maxX);
-					
-                }
-				maxRowHeight = maxY;
-                pref.setSize(maxX, maxRowHeight * parent.getComponentCount());
-                return pref;
-            }
-
-            @Override
-            public Dimension minimumLayoutSize(Container parent) {
-                return min;
-            }
-
-            @Override
-            public void layoutContainer(Container parent) {
-                // recalculates row-height
-				preferredLayoutSize(parent);
-				int x = 0;
-                int y = 0;
-                for (int i = 0; i < parent.getComponentCount(); i++) {
-                    Component c = parent.getComponent(i);
-                    Dimension d = c.getPreferredSize();
-                    c.setLocation(x, y + (maxRowHeight-d.height)/2);
-                    c.setSize(d.width, d.height);
-                    y += maxRowHeight;
-                }
-            }
-        }
-
-        private void rebuild() {
-            removeAll();
-            setLayout(new BorderLayout());
-            inner = new JPanel();
-            inner.setLayout(new CheapVerticalLayout());
-            add(new JScrollPane(inner,
-                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
-            String st = target.getTextualDescription(ew.getController().getModel());
-            logger.debug("preparing to render\n" + st);
-
-            Pattern p = Pattern.compile("[(]([0-9]+)[)]|([\n]+)");
-            Matcher m = p.matcher(st);
-            int offset = 0;
-            JPanel row = startRow(inner);
-            while (m.find()) {
-                if (m.group(1) == null) {
-                    addLabelToRow(row, st.substring(offset, m.start()));
-                    row = startRow(inner);
-                } else {
-                    addLabelToRow(row, st.substring(offset, m.start()));
-                    String id = st.substring(m.start(1), m.end(1));
-                    addButtonToRow(row, id, id);
-                }
-                offset = m.end();
-            }
-            addLabelToRow(row, st.substring(offset));
-
-            revalidate();
-        }
-
-        private String htmlize(String s) {
-            return "<html>" + s + "</html>";
-        }
-
-        @Override
-        public void setEditor(EditorWindow ew) {
-            this.ew = ew;
-        }
-
-        class OpenLinkAction implements ActionListener {
-
-            String id;
-
-            private OpenLinkAction(String id) {
-                this.id = id;
-            }
-
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                ew.addView("", id, null, true);
-            }
-        }
-    }
+	@Override
+	public void saveViews() {
+		File f = controller.getModel().relativeFile("views.xml");
+		try {
+			dockController.write(f);
+		} catch (IOException ex) {
+			logger.error("Could not save views into {}", f, ex);
+		}
+	}
 
     /**
      * Creates a new view of a given category.
@@ -394,7 +247,7 @@ public class EditorWindowImpl implements EditorWindow {
     @Override
     public void addModalPanel(JPanel modalPanel) {
         if (currentModalDialog != null) {
-            removeModalPanel();
+            removeModalPanel(true);
         }
         currentModalDialog = new JDialog(editorWindow, true);
         currentModalDialog.add(modalPanel);
@@ -402,7 +255,7 @@ public class EditorWindowImpl implements EditorWindow {
     }
 
     @Override
-    public void removeModalPanel() {
+    public void removeModalPanel(boolean cancelChanges) {
         currentModalDialog.setVisible(false);
         currentModalDialog.dispose();
         currentModalDialog = null;
@@ -512,4 +365,48 @@ public class EditorWindowImpl implements EditorWindow {
     public EditorMenuBar getEditorMenuBar() {
         return editorMenuBar;
     }
+	
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
+	@Override
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}	
+	
+	/**
+	 * Simplistic structure provider
+	 */
+	public static class SimpleStructureElement implements StructureElementProvider {
+		private String label;
+		private Icon icon;
+		public SimpleStructureElement(String label, String iconUrl) {
+			this.label = label;
+			this.icon = new ImageIcon(ClassLoader
+					.getSystemClassLoader().getResource(iconUrl));
+		}
+		
+		@Override
+		public String getLabel() {
+			return label;
+		}
+
+		@Override
+		public Icon getIcon() {
+			return icon;
+		}
+
+		@Override
+		public boolean canHaveChildren() {
+			return false;
+		}
+
+		@Override
+		public int getChildCount() {
+			return 0;
+		}
+		
+	}
 }
