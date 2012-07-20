@@ -64,6 +64,8 @@ public class ProjectControllerImpl implements ProjectController {
 		controller.getCommandManager().clearCommands();		
 		try {
 			controller.getModel().load(new File(projectURL));
+			controller.getViewController().clearViews();
+			controller.getViewController().restoreViews();
 		} catch (IOException ex) {
 			logger.warn("Error loading {}", projectURL, ex);
 		    SwingUtilities.showExceptionDialog(ex);
@@ -73,6 +75,7 @@ public class ProjectControllerImpl implements ProjectController {
 	@Override
 	public void save() {
 		try {
+			controller.getViewController().saveViews();
 			controller.getModel().save(null);
 		} catch (IOException ex) {
 			logger.warn("Error saving to previous dir.", ex);
@@ -83,6 +86,7 @@ public class ProjectControllerImpl implements ProjectController {
 	@Override
 	public void saveAs(String projectURL) {
 		try {
+			controller.getViewController().saveViews();
 			controller.getModel().save(new File(projectURL));
 		} catch (IOException ex) {
 			logger.warn("Error saving {}", projectURL, ex);
@@ -93,6 +97,7 @@ public class ProjectControllerImpl implements ProjectController {
 	@Override
 	public void newProject() {
 		// FIXME - Not yet implemented
+		controller.getViewController().clearViews();
 		throw new IllegalArgumentException("Not yet implemented!");
 	}
 }

@@ -190,18 +190,26 @@ public class EditorWindowImpl implements EditorWindow {
 		File f = controller.getModel().relativeFile("views.xml");
 		if (f.exists() && f.canRead()) {
 			try {
-				dockController.read(f);
+				dockController.readXML(f);
 			} catch (IOException ex) {
 				logger.error("Could not restore views from {}", f, ex);
 			}
 		}
 	}
-
+	
+	@Override
+	public void clearViews() {
+		for (int i=0; i<dockController.getCDockableCount(); i++) {
+			CDockable c = dockController.getCDockable(i);
+			dockController.remove((MultipleCDockable)c);
+		}
+	}
+	
 	@Override
 	public void saveViews() {
 		File f = controller.getModel().relativeFile("views.xml");
 		try {
-			dockController.write(f);
+			dockController.writeXML(f);
 		} catch (IOException ex) {
 			logger.error("Could not save views into {}", f, ex);
 		}

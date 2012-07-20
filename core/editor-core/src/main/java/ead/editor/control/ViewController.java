@@ -80,6 +80,11 @@ public interface ViewController {
 	void saveViews();
 	
 	/**
+	 * Saves view state 
+	 */
+	void clearViews();
+	
+	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,
 	 * and more

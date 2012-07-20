@@ -117,6 +117,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	private File saveDir;
 	/**
+	 * Last-loaded file; will use to save(null) unless another name specified
+	 */
+	private File saveFile;	
+	/**
 	 * Engine model
 	 */
 	private EAdAdventureModel engineModel;
@@ -338,9 +342,16 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		 * similar to import-write, but also adds one or more editor.xml files
 		 */
 
+		// accept null target only if there was a prior saveFile
+		if (target == null && saveFile != null) {
+			target = saveFile;
+		} else {
+			throw new IllegalArgumentException("Cannot save() without specifying a name");
+		}
+		
 		// save the model data
 		if (!target.getName().endsWith(".eap")) {
-			target = new File(target.getParent(), target.getName() + ".eap");
+			target = new File(target.getParent(), target.getName() + ".eap");			
 		}
 		boolean ok = importer.createGameFile(
 			(EAdAdventureModel) root.getContent(),
@@ -365,6 +376,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}
+		saveFile = target;
 
 		logger.info("Wrote editor data from {} to {}: {} total objects, {} editor mappings",
 				new Object[] {saveDir, target, nodesById.size(), mappings});
@@ -405,6 +417,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		driver.visit(engineModel, this);
 		this.root = nodesByContent.get(engineModel);
 		nodeIndex.firstIndexUpdate(g.vertexSet());
+		saveFile = source;
 
 		logger.info("Editor model loaded: {} nodes, {} edges",
 				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
@@ -471,6 +484,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 					tmpFile.getAbsolutePath());
 			throw ioe;
 		}
+		saveFile = null;	
 
 		logger.info("Using temp dir {} as a working directory", saveDir);
 	}
