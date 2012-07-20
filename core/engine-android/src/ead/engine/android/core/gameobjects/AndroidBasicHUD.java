@@ -54,7 +54,6 @@ import com.google.inject.Singleton;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.text.EAdString;
-import ead.common.util.StringHandler;
 import ead.engine.android.core.platform.AndroidAssetHandler;
 import ead.engine.android.core.platform.extra.BitmapCanvas;
 import ead.engine.core.game.GameState;
@@ -69,6 +68,7 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.tools.StringHandler;
 
 @Singleton
 public class AndroidBasicHUD extends TopBasicHUDImpl {

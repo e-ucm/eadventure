@@ -97,20 +97,25 @@
 			</activation>
 			<modules>
 				<module>build-tools</module>
-				<module>core/utils</module>
-				<module>core/common</module>
+				<module>core/utils</module>				
 				<module>core/gui</module>
-				<module>core/editor-core</module>
-				<module>core/editor-plugins</module>
+				<module>core/editor-core</module>				
 				<module>core/engine-core</module>
 				<module>core/engine-java</module>
-				<module>core/engine-playn</module>
-				<module>core/engine-plugins</module>
-				<module>core/engine-desktop</module>
-				<module>core/engine-applet</module>
+				<module>core/engine-playn</module>				
+				<module>core/engine-desktop</module>				
 				<!-- <module>core/engine-android</module> -->
 				<module>core/model</module>
 				<module>core/test-suite</module>
+				<!-- Tools -->
+				<module>core/tools</module>
+				<module>core/tools-java</module>
+				<!-- XML -->
+				<!-- Reader -->
+				<module>core/reader</module>
+				<module>core/reader-java</module>
+				<!-- Importer -->
+				<module>core/importer</module>
 				<!-- Demos modules -->
 				<module>demos/firstaidgame</module>
 			</modules>

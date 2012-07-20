@@ -17,5 +17,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ead.model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ead.engine-java"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-android/1.6.1-RC1/slf4j-android-1.6.1-RC1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ead.tools"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ead.tools-java"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -37,18 +37,17 @@
 
 package ead.engine.playn.reader;
 
-import com.gwtent.reflection.client.ClassType;
-import com.gwtent.reflection.client.Field;
-import com.gwtent.reflection.client.TypeOracle;
-
 import java.util.Map;
 
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.gwtent.reflection.client.ClassType;
+import com.gwtent.reflection.client.Field;
+import com.gwtent.reflection.client.TypeOracle;
 
-import ead.common.DOMTags;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
+import ead.reader.DOMTags;
 
 public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 

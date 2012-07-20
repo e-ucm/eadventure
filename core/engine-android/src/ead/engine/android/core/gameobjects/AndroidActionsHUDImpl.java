@@ -267,7 +267,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	}
 
-	@Override
+	
 	public EAdList<EAdAction> getActions() {
 		return actions;
 	}

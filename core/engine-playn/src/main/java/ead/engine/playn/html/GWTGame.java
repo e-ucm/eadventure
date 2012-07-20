@@ -37,7 +37,6 @@
 
 package ead.engine.playn.html;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

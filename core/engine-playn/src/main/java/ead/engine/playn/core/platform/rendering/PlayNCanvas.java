@@ -56,12 +56,12 @@ import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.AbstractCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.playn.core.platform.assets.drawable.basics.PlayNBezierShape;
+import ead.tools.ReflectionProvider;
 
 public class PlayNCanvas extends AbstractCanvas<Canvas> {
 

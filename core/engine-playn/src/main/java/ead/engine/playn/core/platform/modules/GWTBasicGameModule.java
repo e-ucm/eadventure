@@ -79,7 +79,6 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.GenericInjector;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
@@ -95,6 +94,7 @@ import ead.engine.playn.core.platform.PlayNInjector;
 import ead.engine.playn.core.platform.PlayNPluginHandler;
 import ead.engine.playn.core.platform.assets.specialassetrenderers.PlayNVideoRenderer;
 import ead.engine.playn.core.platform.rendering.PlayNFilterFactory;
+import ead.tools.GenericInjector;
 
 public class GWTBasicGameModule extends AbstractGinModule {
 

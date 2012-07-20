@@ -37,21 +37,20 @@
 
 package ead.engine.playn.reader;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
 import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
-
-
-import ead.common.DOMTags;
 import ead.common.interfaces.Param;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.reader.DOMTags;
 
 public abstract class NodeVisitor<T> {
 

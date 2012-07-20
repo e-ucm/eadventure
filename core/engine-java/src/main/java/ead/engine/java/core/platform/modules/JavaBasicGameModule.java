@@ -93,9 +93,7 @@ import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
 import ead.engine.java.core.game.GameLoopImpl;
 import ead.engine.java.core.game.GameProfilerImpl;
-import ead.engine.java.core.platform.JavaInjector;
 import ead.engine.java.core.platform.JavaPluginHandler;
-import ead.tools.GenericInjector;
 import es.eucm.glas.tracker.GLASTracker;
 import es.eucm.glas.tracker.JerseyTracker;
 
@@ -119,8 +117,7 @@ public class JavaBasicGameModule extends AbstractModule {
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
 		bind(DebuggerHandler.class).to(DebuggerHandlerImpl.class);
-		bind(PluginHandler.class).to(JavaPluginHandler.class);
-		bind(GenericInjector.class).to(JavaInjector.class);
+		bind(PluginHandler.class).to(JavaPluginHandler.class);		
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class);
 

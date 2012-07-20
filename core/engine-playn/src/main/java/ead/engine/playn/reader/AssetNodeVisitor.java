@@ -37,15 +37,16 @@
 
 package ead.engine.playn.reader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gwt.xml.client.Node;
 import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
-import ead.common.DOMTags;
 import ead.common.resources.assets.AssetDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.reader.DOMTags;
 
 /**
  * <p>

@@ -50,8 +50,8 @@ import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 import ead.common.params.text.EAdString;
-import ead.common.util.StringHandler;
 import ead.engine.playn.core.platform.EngineCallback;
+import ead.tools.StringHandler;
 
 public class GWTStringReader {
 

@@ -2,13 +2,13 @@ package ead.firstaidgame.desktop;
 
 import java.util.Map;
 
-import ead.common.PropertiesReader;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.common.reader.EAdAdventureDOMModelReader;
-import ead.common.reader.PropertiesReaderImpl;
-import ead.common.strings.DefaultStringFileHandler;
 import ead.engine.desktop.DesktopGame;
+import ead.reader.PropertiesReader;
+import ead.reader.java.DefaultStringFileHandler;
+import ead.reader.java.EAdAdventureDOMModelReader;
+import ead.reader.java.PropertiesReaderImpl;
 
 public class FirstAid {
 
@@ -26,7 +26,7 @@ public class FirstAid {
 				.read("src/main/resources/ead/engine/resources/strings.xml");
 		
 		PropertiesReader propertiesReader = new PropertiesReaderImpl( );
-		propertiesReader.setProperties(model, ClassLoader.getSystemResourceAsStream("ead/engine/resources/ead.properties"));
+		propertiesReader.setProperties(model, "ead/engine/resources/ead.properties");
 		
 		game.setGame(model, strings, null);
 

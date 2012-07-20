@@ -82,14 +82,8 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.ProjectFiles;
-import ead.common.StringFileHandler;
-import ead.common.importer.EAdventure1XImporter;
-import ead.common.importer.ImporterConfigurationModule;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.common.reader.EAdAdventureDOMModelReader;
-import ead.common.strings.DefaultStringFileHandler;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.core.debuggers.ChangeSceneDebugger;
 import ead.engine.core.debuggers.Debugger;
@@ -99,6 +93,13 @@ import ead.engine.desktop.DesktopGame;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.importer.EAdventure1XImporter;
+import ead.importer.ImporterModule;
+import ead.reader.StringFileHandler;
+import ead.reader.java.DefaultStringFileHandler;
+import ead.reader.java.EAdAdventureDOMModelReader;
+import ead.reader.java.ProjectFiles;
+import ead.tools.java.JavaToolsModule;
 
 /**
  * Initial frame, showing all the possible options for the engine: run a game,
@@ -146,14 +147,15 @@ public class StartFrame extends JFrame {
 	private JTextArea propertiesField;
 
 	// Debuggers
-	private static final String[] DEBUGGERS_PROPERTY = new String[] { "fields_debugger",
-			"trajectories_debugger", "changeScene_debugger" };
+	private static final String[] DEBUGGERS_PROPERTY = new String[] {
+			"fields_debugger", "trajectories_debugger", "changeScene_debugger" };
 
-	private static final Class<?>[] DEBUGGERS_CLASS = new Class<?>[] { FieldsDebugger.class,
-			TrajectoryDebugger.class, ChangeSceneDebugger.class };
+	private static final Class<?>[] DEBUGGERS_CLASS = new Class<?>[] {
+			FieldsDebugger.class, TrajectoryDebugger.class,
+			ChangeSceneDebugger.class };
 
-	private static final String[] DEBUGGERS_NAME = new String[] { "Fields debugger",
-			"Trajectory debugger", "Change Scene debugger" };
+	private static final String[] DEBUGGERS_NAME = new String[] {
+			"Fields debugger", "Trajectory debugger", "Change Scene debugger" };
 
 	private ArrayList<Class<? extends Debugger>> debuggersClass;
 
@@ -196,7 +198,8 @@ public class StartFrame extends JFrame {
 				}
 			}
 		} else {
-			logger.info("First execution. " + PROPERTIES_FILE + " will be created.");
+			logger.info("First execution. " + PROPERTIES_FILE
+					+ " will be created.");
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
@@ -208,8 +211,9 @@ public class StartFrame extends JFrame {
 
 	private void initModelHandlers() {
 		// Importer
-		Injector injector = Guice.createInjector(new ImporterConfigurationModule(),
-				new DesktopAssetHandlerModule(), new DesktopModule(), new JavaBasicGameModule());
+		Injector injector = Guice.createInjector(new JavaToolsModule(), new ImporterModule(),
+				new DesktopAssetHandlerModule(), new DesktopModule(),
+				new JavaBasicGameModule());
 		importer = injector.getInstance(EAdventure1XImporter.class);
 
 		// Reader
@@ -223,8 +227,9 @@ public class StartFrame extends JFrame {
 
 	private void setFrameProperties() {
 		try {
-			Image i = ImageIO.read(ClassLoader
-					.getSystemResourceAsStream("ead/engine/resources/drawable/eadventure_mini_logo.png"));
+			Image i = ImageIO
+					.read(ClassLoader
+							.getSystemResourceAsStream("ead/engine/resources/drawable/eadventure_mini_logo.png"));
 			setIconImage(i);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -265,7 +270,8 @@ public class StartFrame extends JFrame {
 
 	private void initFileChooser() {
 		fileChooser = new JFileChooser();
-		String currentDirectory = properties.getProperty(FILE_CHOOSER_DIRECTORY, null);
+		String currentDirectory = properties.getProperty(
+				FILE_CHOOSER_DIRECTORY, null);
 		if (currentDirectory != null) {
 			fileChooser.setCurrentDirectory(new File(currentDirectory));
 		}
@@ -289,9 +295,11 @@ public class StartFrame extends JFrame {
 
 	private void addTicksPerSecond() {
 		try {
-			ticksPerSecond = Integer.parseInt(properties.getProperty(HZ_PROPERTY, 30 + ""));
+			ticksPerSecond = Integer.parseInt(properties.getProperty(
+					HZ_PROPERTY, 30 + ""));
 		} catch (NumberFormatException e) {
-			logger.warn("{} wasn't set OK in {}. Ticks per second are set to the default value.",
+			logger.warn(
+					"{} wasn't set OK in {}. Ticks per second are set to the default value.",
 					HZ_PROPERTY, PROPERTIES_FILE);
 			ticksPerSecond = 30;
 		}
@@ -349,10 +357,11 @@ public class StartFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				DesktopGame game = new DesktopGame(new InitScene(), debuggersClass);
+				DesktopGame game = new DesktopGame(new InitScene(),
+						debuggersClass);
 				setEAdProperties(propertiesField.getText(), game.getModel());
-				game.launch(ticksPerSecond,
-						Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+				game.launch(ticksPerSecond, Boolean.parseBoolean(properties
+						.getProperty(FULL_SCREEN)));
 
 			}
 
@@ -367,7 +376,8 @@ public class StartFrame extends JFrame {
 					.showConfirmDialog(
 							StartFrame.this,
 							"Selected file is from an old version of eAdventure. Do you want to save the imported game in a new file?",
-							"eAdventure importation", JOptionPane.INFORMATION_MESSAGE);
+							"eAdventure importation",
+							JOptionPane.INFORMATION_MESSAGE);
 
 			if (result == JOptionPane.CANCEL_OPTION)
 				return;
@@ -382,23 +392,28 @@ public class StartFrame extends JFrame {
 					String destiny = null;
 
 					if (result == JOptionPane.YES_OPTION) {
-						int fileResult = fileChooser.showSaveDialog(StartFrame.this);
+						int fileResult = fileChooser
+								.showSaveDialog(StartFrame.this);
 						if (fileResult == JFileChooser.CANCEL_OPTION)
 							return;
 						if (fileResult == JFileChooser.APPROVE_OPTION)
-							destiny = fileChooser.getSelectedFile().getAbsolutePath();
+							destiny = fileChooser.getSelectedFile()
+									.getAbsolutePath();
 					}
 
-					model = importer.importGame(f.getAbsolutePath(), destiny);
+					model = importer.importGame(f.getAbsolutePath(), destiny,
+							"none");
 					destinyFile = importer.getDestinyFile();
 					strings = importer.getStrings();
 
 					if (model != null) {
-						DesktopGame game = new DesktopGame(model, destinyFile, strings,
-								debuggersClass);
-						setEAdProperties(propertiesField.getText(), game.getModel());
-						game.launch(ticksPerSecond,
-								Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+						DesktopGame game = new DesktopGame(model, destinyFile,
+								strings, debuggersClass);
+						setEAdProperties(propertiesField.getText(),
+								game.getModel());
+						game.launch(ticksPerSecond, Boolean
+								.parseBoolean(properties
+										.getProperty(FULL_SCREEN)));
 					}
 				}
 			}.start();
@@ -418,9 +433,8 @@ public class StartFrame extends JFrame {
 
 				destinyFile = f.getAbsolutePath();
 
-				FileInputStream inStrings = new FileInputStream(stringsFile);
-				strings = stringFileHandler.read(inStrings);
-				inStrings.close();
+				strings = stringFileHandler.read(stringsFile.getAbsolutePath());
+
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -428,10 +442,11 @@ public class StartFrame extends JFrame {
 			}
 
 			if (model != null) {
-				DesktopGame game = new DesktopGame(model, destinyFile, strings, debuggersClass);
+				DesktopGame game = new DesktopGame(model, destinyFile, strings,
+						debuggersClass);
 				setEAdProperties(propertiesField.getText(), game.getModel());
-				game.launch(ticksPerSecond,
-						Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+				game.launch(ticksPerSecond, Boolean.parseBoolean(properties
+						.getProperty(FULL_SCREEN)));
 			}
 
 		}
@@ -451,10 +466,13 @@ public class StartFrame extends JFrame {
 				if (zipEntry.getName().endsWith(ProjectFiles.PROPERTIES_FILE)) {
 					isOldProject = false;
 				} else if (zipEntry.getName().endsWith(ProjectFiles.DATA_FILE)) {
-					dataFile = File.createTempFile("eaddata", Math.random() + "data.xml");
+					dataFile = File.createTempFile("eaddata", Math.random()
+							+ "data.xml");
 					readZipEntry(zipIn, dataFile);
-				} else if (zipEntry.getName().endsWith(ProjectFiles.STRINGS_FILE)) {
-					stringsFile = File.createTempFile("eaddata", Math.random() + "strings.xml");
+				} else if (zipEntry.getName().endsWith(
+						ProjectFiles.STRINGS_FILE)) {
+					stringsFile = File.createTempFile("eaddata", Math.random()
+							+ "strings.xml");
 					readZipEntry(zipIn, stringsFile);
 				}
 			}
@@ -514,12 +532,14 @@ public class StartFrame extends JFrame {
 		debuggersClass = new ArrayList<Class<? extends Debugger>>();
 		int i = 0;
 		for (String property : DEBUGGERS_PROPERTY) {
-			boolean b = Boolean.parseBoolean(properties.getProperty(property, "false"));
+			boolean b = Boolean.parseBoolean(properties.getProperty(property,
+					"false"));
 			JCheckBox checkBox = new JCheckBox(DEBUGGERS_NAME[i], b);
 			checkBox.addChangeListener(new DebuggerChangeListener(i, checkBox));
 			p.add(checkBox);
 			if (b) {
-				debuggersClass.add((Class<? extends Debugger>) DEBUGGERS_CLASS[i]);
+				debuggersClass
+						.add((Class<? extends Debugger>) DEBUGGERS_CLASS[i]);
 			}
 			i++;
 		}
@@ -540,7 +560,8 @@ public class StartFrame extends JFrame {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			properties.setProperty(DEBUGGERS_PROPERTY[index], checkBox.isSelected() + "");
+			properties.setProperty(DEBUGGERS_PROPERTY[index],
+					checkBox.isSelected() + "");
 			Class<? extends Debugger> clazz = (Class<? extends Debugger>) DEBUGGERS_CLASS[index];
 			if (checkBox.isSelected()) {
 				if (!debuggersClass.contains(clazz))
@@ -555,7 +576,8 @@ public class StartFrame extends JFrame {
 
 	private void addFullScreen() {
 		JPanel p = new JPanel();
-		boolean b = Boolean.parseBoolean(properties.getProperty(FULL_SCREEN, "false"));
+		boolean b = Boolean.parseBoolean(properties.getProperty(FULL_SCREEN,
+				"false"));
 		final JCheckBox checkBox = new JCheckBox("Full screen", b);
 		checkBox.addChangeListener(new ChangeListener() {
 
@@ -580,24 +602,28 @@ public class StartFrame extends JFrame {
 		String value = properties.getProperty(EAD_PROPERTIES, "");
 		propertiesField.setText(value);
 
-		propertiesField.getDocument().addDocumentListener(new DocumentListener() {
+		propertiesField.getDocument().addDocumentListener(
+				new DocumentListener() {
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				properties.setProperty(EAD_PROPERTIES, propertiesField.getText());
-			}
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						properties.setProperty(EAD_PROPERTIES,
+								propertiesField.getText());
+					}
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				properties.setProperty(EAD_PROPERTIES, propertiesField.getText());
-			}
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						properties.setProperty(EAD_PROPERTIES,
+								propertiesField.getText());
+					}
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				properties.setProperty(EAD_PROPERTIES, propertiesField.getText());
-			}
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						properties.setProperty(EAD_PROPERTIES,
+								propertiesField.getText());
+					}
 
-		});
+				});
 		contentPane.add(propertiesField);
 	}
 

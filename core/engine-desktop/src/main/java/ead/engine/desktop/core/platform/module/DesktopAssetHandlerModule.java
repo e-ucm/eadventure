@@ -43,7 +43,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import ead.common.StringFileHandler;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
@@ -52,7 +51,6 @@ import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
-import ead.common.strings.DefaultStringFileHandler;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
@@ -64,6 +62,8 @@ import ead.engine.desktop.core.platform.assets.multimedia.DesktopSound;
 import ead.engine.desktop.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
 import ead.engine.desktop.core.platform.assets.specialassetrenderers.VLCDesktopVideoRenderer;
 import ead.engine.java.core.platform.modules.AssetHandlerModule;
+import ead.reader.StringFileHandler;
+import ead.reader.java.DefaultStringFileHandler;
 
 public class DesktopAssetHandlerModule extends AssetHandlerModule {
 
