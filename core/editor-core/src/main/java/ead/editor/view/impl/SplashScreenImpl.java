@@ -77,7 +77,7 @@ public class SplashScreenImpl implements SplashScreen {
     /**
      * The minimum time to display the splash screen
      */
-    private static final long MIN_TIME = 4000;
+    private static final long MIN_TIME = 1000;
 
     @Override
     public void show() {
@@ -175,7 +175,7 @@ public class SplashScreenImpl implements SplashScreen {
             };
             add(splashPanel);
 
-            timer = new javax.swing.Timer(400, new ActionListener() {
+            timer = new javax.swing.Timer(100, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     splashPanel.repaint();

@@ -62,7 +62,7 @@ import ead.common.resources.assets.AssetDescriptor;
 
 public class ModelVisitorDriver {
 
-    private final Logger logger = LoggerFactory.getLogger("ModelVisitorDriver");
+    private static final Logger logger = LoggerFactory.getLogger("ModelVisitorDriver");
     
     // drivers are reusable; they keep no internal information
     private ElementDriver elementDriver = new ElementDriver();
@@ -300,7 +300,7 @@ public class ModelVisitorDriver {
      * @param fieldName
      * @return
      */
-    private PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
+    public static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
         try {
             for (PropertyDescriptor pd :
                     Introspector.getBeanInfo(c).getPropertyDescriptors()) {
@@ -323,7 +323,7 @@ public class ModelVisitorDriver {
      * @param o the object to check
      * @return
      */
-    private boolean isEmpty(Object o) {
+    public static boolean isEmpty(Object o) {
         return ((o == null)
                 || (o instanceof EAdList && ((EAdList<?>) o).size() == 0)
                 || (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty())

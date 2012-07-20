@@ -105,11 +105,11 @@ public class EditMenuImpl extends MenuImpl implements EditMenu, ChangeListener {
 	
 		actionManager.addChangeListener(this);
 		
-		processChange();
+		processChange(null);
 	}
 
 	@Override
-	public void processChange() {
+	public void processChange(Object o) {
 		SwingUtilities.doInEDT(new Runnable() {
 
 			@Override

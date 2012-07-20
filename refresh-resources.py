@@ -15,8 +15,9 @@ def find_and_do(src_dir_name, pattern, callback):
             source = os.path.join(dir_name, name)
             if (os.path.isdir(source)):
                 look(source, os.listdir(source), callback)                     
-            elif (re.search(pattern, source) != None):
+            elif (re.search(pattern, source) is not None):
                 callback(source)
+
     look(src_dir_name, os.listdir(src_dir_name), callback)
     return
 
@@ -24,6 +25,9 @@ def main():
     def regen(source):
         f = open(source, 'r')
         d = f.read();
+        if (re.search('(.*)/src/.*', source) is None):
+            print "[ignoring bad match " + source + "]" 
+            return;
         project = re.search('(.*)/src/.*', source).group(1);
         package = re.search('package (.*);', d).group(1);
         f.close()

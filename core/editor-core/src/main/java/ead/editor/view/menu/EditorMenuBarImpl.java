@@ -44,11 +44,6 @@ import javax.swing.JMenuBar;
 
 import com.google.inject.Inject;
 
-import ead.editor.view.menu.EditMenu;
-import ead.editor.view.menu.EditorMenuBar;
-import ead.editor.view.menu.FileMenu;
-import ead.editor.view.menu.Menu;
-import ead.gui.EAdMenuBar;
 
 /**
  * Default editor menu bar implementation
@@ -74,7 +69,7 @@ public class EditorMenuBarImpl implements EditorMenuBar {
 	}
 	
 	private void initialize() {
-		menuBar = new EAdMenuBar();
+		menuBar = new JMenuBar();
 		menus = new ArrayList<Menu>();
 	}
 	
@@ -84,7 +79,7 @@ public class EditorMenuBarImpl implements EditorMenuBar {
 	}
 	
 	@Override
-	public void addMenu(Menu menu) {
+	public final void addMenu(Menu menu) {
 		menus.add(menu);
 		menuBar.add(menu.getMenu());
 	}

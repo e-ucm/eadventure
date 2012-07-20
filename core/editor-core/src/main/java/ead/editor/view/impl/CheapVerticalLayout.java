@@ -35,63 +35,65 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
+package ead.editor.view.impl;
 
-import javax.swing.JPanel;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import ead.editor.control.CommandManager;
-import ead.editor.control.ViewController;
-import ead.editor.view.EditorWindow;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
 /**
- * Default implementation of the {@link ViewController}.
- *
- * The editor's view controller is in charge of showing the main editor window,
- * instantiating the command manager, and launching all further windows
- * and dialogs.
+ * An alternative to a vertical BoxLayout that stacks things vertically 
+ * (assigning all equal spaces) without stretching them.
+ * @author mfreire
  */
-@Singleton
-public class ViewControllerImpl implements ViewController {
+public class CheapVerticalLayout implements LayoutManager {
 
-	/**
-	 * Editor window
-	 */
-	private EditorWindow editorWindow;
+	private Dimension min = new Dimension(10, 10);
+	private Dimension pref = new Dimension(10, 10);
+	private int maxRowHeight = 0;
 
-	/**
-	 * Action manager
-	 */
-	private CommandManager actionManager;
-
-	@Inject
-	public ViewControllerImpl(EditorWindow editorWindow,
-			CommandManager actionManager) {
-		this.editorWindow = editorWindow;
-		this.actionManager = actionManager;
+	@Override
+	public void addLayoutComponent(String name, Component comp) {
 	}
 
 	@Override
-	public void initialize() {
-		editorWindow.initialize();
+	public void removeLayoutComponent(Component comp) {
 	}
 
 	@Override
-	public void showWindow() {
-		editorWindow.showWindow();
+	public Dimension preferredLayoutSize(Container parent) {
+		int maxX = 0;
+		int maxY = 0;
+		for (int i = 0; i < parent.getComponentCount(); i++) {
+			Component c = parent.getComponent(i);
+			Dimension d = c.getPreferredSize();
+			maxY = Math.max(d.height, maxY);
+			maxX = Math.max(d.width, maxX);
+
+		}
+		maxRowHeight = maxY;
+		pref.setSize(maxX, maxRowHeight * parent.getComponentCount());
+		return pref;
 	}
 
 	@Override
-	public void addModalPanel(JPanel modalPanel) {
-		editorWindow.addModalPanel(modalPanel);
-		actionManager.addStack();
+	public Dimension minimumLayoutSize(Container parent) {
+		return min;
 	}
 
 	@Override
-	public void removeModalPanel(boolean cancelChanges) {
-		editorWindow.removeModalPanel();
-		actionManager.removeCommandStacks(cancelChanges);
+	public void layoutContainer(Container parent) {
+		// recalculates row-height
+		preferredLayoutSize(parent);
+		int x = 0;
+		int y = 0;
+		for (int i = 0; i < parent.getComponentCount(); i++) {
+			Component c = parent.getComponent(i);
+			Dimension d = c.getPreferredSize();
+			c.setLocation(x, y + (maxRowHeight - d.height) / 2);
+			c.setSize(d.width, d.height);
+			y += maxRowHeight;
+		}
 	}
 }

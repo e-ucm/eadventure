@@ -49,9 +49,9 @@ import ead.editor.view.generics.FieldDescriptor;
 import ead.editor.view.generics.impl.FieldDescriptorImpl;
 import ead.editor.view.generics.impl.TextOption;
 import ead.editor.view.swing.componentproviders.TextComponentProvider;
-import ead.gui.EAdFrame;
+import javax.swing.JFrame;
 
-public class TextComponentProviderTest extends EAdFrame {
+public class TextComponentProviderTest extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -47,9 +47,9 @@ import ead.editor.control.commands.ChangeEAdStringValueCommand;
 import ead.editor.control.commands.ChangeFieldValueCommand;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.impl.TextOption;
-import ead.gui.EAdTextField;
+import javax.swing.JTextField;
 
-public class TextComponentProvider implements ComponentProvider<TextOption, EAdTextField> {
+public class TextComponentProvider implements ComponentProvider<TextOption, JTextField> {
 
 	private FieldValueReader fieldValueReader;
 	
@@ -60,8 +60,8 @@ public class TextComponentProvider implements ComponentProvider<TextOption, EAdT
 	}
 	
 	@Override
-	public EAdTextField getComponent(TextOption element) {
-		EAdTextField textField = new EAdTextField(element.getTitle(), 20);
+	public JTextField getComponent(TextOption element) {
+		JTextField textField = new JTextField(element.getTitle(), 20);
 		textField.setToolTipText(element.getToolTipText());
 		textField.setText(fieldValueReader.readValue(element.getFieldDescriptor()));
 		

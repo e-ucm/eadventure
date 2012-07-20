@@ -37,8 +37,12 @@
 
 package ead.editor.control;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import ead.utils.swing.SwingUtilities;
+import java.io.File;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation for the {@link ProjectController}.
@@ -46,39 +50,54 @@ import com.google.inject.Singleton;
 @Singleton
 public class ProjectControllerImpl implements ProjectController {
 
-	protected String projectURL;
+    private static final Logger logger = LoggerFactory.getLogger("FileMenu");
 	
-	/**
-	 * Action manager
-	 */
-	private CommandManager actionManager;
+	private Controller controller;
 	
-	@Inject
-	public ProjectControllerImpl(CommandManager actionManager) {
-		this.actionManager = actionManager;
+	@Override
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 	
 	@Override
 	public void load(String projectURL) {
-		actionManager.clearCommands();
+		controller.getCommandManager().clearCommands();		
+		try {
+			controller.getModel().load(new File(projectURL));
+			controller.getViewController().clearViews();
+			controller.getViewController().restoreViews();
+		} catch (IOException ex) {
+			logger.warn("Error loading {}", projectURL, ex);
+		    SwingUtilities.showExceptionDialog(ex);
+		}
 	}
 
 	@Override
 	public void save() {
-
+		try {
+			controller.getViewController().saveViews();
+			controller.getModel().save(null);
+		} catch (IOException ex) {
+			logger.warn("Error saving to previous dir.", ex);
+		    SwingUtilities.showExceptionDialog(ex);
+		}
 	}
 
 	@Override
 	public void saveAs(String projectURL) {
-
-		this.projectURL = projectURL;
-
-		save();
+		try {
+			controller.getViewController().saveViews();
+			controller.getModel().save(new File(projectURL));
+		} catch (IOException ex) {
+			logger.warn("Error saving {}", projectURL, ex);
+		    SwingUtilities.showExceptionDialog(ex);
+		}	
 	}
 
 	@Override
 	public void newProject() {
-		
+		// FIXME - Not yet implemented
+		controller.getViewController().clearViews();
+		throw new IllegalArgumentException("Not yet implemented!");
 	}
-
 }

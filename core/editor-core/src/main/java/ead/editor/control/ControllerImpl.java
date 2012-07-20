@@ -37,11 +37,10 @@
 
 package ead.editor.control;
 
-import java.util.Locale;
-
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.editor.model.EditorModel;
+import java.util.Locale;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -49,13 +48,71 @@ import ead.editor.model.EditorModel;
 @Singleton
 public class ControllerImpl implements Controller {
 
-	@Override
-	public void setModel(EditorModel model) {		
+	private EditorModel editorModel = null;
+    private ProjectController projectController;
+    private NavigationController navigationController;
+    private ViewController viewController;
+    private CommandManager commandManager;
 
+	@Inject
+	public ControllerImpl(EditorModel editorModel, 
+		ProjectController projectController, 
+		NavigationController navigationController,
+		ViewController viewControler,
+		CommandManager commandManager)	{
+		this.editorModel = editorModel;
+		this.projectController = projectController;
+		this.navigationController = navigationController;
+		this.viewController = viewControler;
+		this.commandManager = commandManager;
+
+		this.projectController.setController(this);
+		this.navigationController.setController(this);
+		this.viewController.setController(this);
+	}
+	
+	
+	/**
+	 * Access to the editor model. IMPORTANT: all non-control classes should
+	 * consider the returned model to be read-only and transient. Violators
+	 * WILL be punished.
+	 * @return 
+	 */
+	@Override
+	public EditorModel getModel() {
+		return editorModel;
 	}
 
+	/**
+	 * Changes current locale. But this will not alter already-loaded strings...
+	 * @param locale
+	 */
 	@Override
-	public void setLocale(Locale locale) {		
+	public void setLocale(Locale locale) {
+		Locale.setDefault(locale);
 
+		// FIXME: should redo static initialization of all Messages classes
+
+		// FIXME: should reload all the UI right around here, via massive repaints
 	}
+
+    @Override
+    public ProjectController getProjectController() {
+        return projectController;
+    }
+
+    @Override
+    public NavigationController getNavigationController() {
+        return navigationController;
+    }
+
+    @Override
+    public ViewController getViewController() {
+        return viewController;
+    }
+
+    @Override
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
 }

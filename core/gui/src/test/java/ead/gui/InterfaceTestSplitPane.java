@@ -77,11 +77,11 @@ import ead.gui.EAdFrame;
 import ead.gui.EAdSplitPane;
 import ead.gui.extra.EAdBorderLayout;
 
-public class InterfaceTestSliptPane extends EAdFrame {
+public class InterfaceTestSplitPane extends EAdFrame {
 
     private static final long serialVersionUID = -3910078870065897286L;
 
-    public InterfaceTestSliptPane() {
+    public InterfaceTestSplitPane() {
         this.setSize( new Dimension(800,400) );
 
        JPanel left = new JPanel();
@@ -99,7 +99,7 @@ public class InterfaceTestSliptPane extends EAdFrame {
      * @param args
      */
     public static void main( String[] args ) {
-        new InterfaceTestSliptPane();
+        new InterfaceTestSplitPane();
     }
 
 }

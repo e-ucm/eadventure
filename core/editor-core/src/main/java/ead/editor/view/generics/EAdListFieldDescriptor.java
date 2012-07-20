@@ -39,6 +39,10 @@ package ead.editor.view.generics;
 
 import ead.common.model.elements.extra.EAdList;
 
+/**
+ * A general interface to edit element properties
+ * @param <S> 
+ */
 public interface EAdListFieldDescriptor<S> extends FieldDescriptor<EAdList<S>> {
 
 	int getCount();

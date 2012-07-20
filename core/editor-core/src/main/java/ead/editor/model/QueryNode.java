@@ -35,41 +35,67 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.model;
 
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
-import ead.gui.EAdButton;
-import ead.gui.EAdFrame;
-import ead.gui.EAdHideingSplitPane;
+/**
+ *
+ * @author mfreire
+ */
+public class QueryNode extends EditorNode {
 
-public class InterfaceTestHideingSplitPanel extends EAdFrame {
+	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
 
-	private static final long serialVersionUID = -2461051282795540526L;
+	private String queryString;
+
+	public QueryNode(EditorModel m, String queryString) {
+		super(m.generateId());
+		this.queryString = queryString;
+		logger.debug("Query node for '{}'", queryString);
+
+		for (DependencyNode d : m.searchAll(queryString)) {
+			logger.debug("\tadding query match: {}", d.getId());
+			this.addChild(d);
+		}
+	}
 
 	/**
-	 * @param args
+	 * Writes inner contents to an XML snippet.
+	 * @param sb
 	 */
-	public static void main(String[] args) {
-		new InterfaceTestHideingSplitPanel();
-	}
-	
-	public InterfaceTestHideingSplitPanel() {
-        setSize( 400,400 );
-
-        JPanel left1 = new JPanel();
-        left1.add(new EAdButton("left1"));
-        
-        JPanel right = new JPanel();
-        right.add(new EAdButton("right"));
-        
-        EAdHideingSplitPane pane = new EAdHideingSplitPane(left1, right);
-        this.add(pane);
-       
-        setVisible( true );
-        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+	@Override
+	public void writeInner(StringBuilder sb) {
+		sb.append("<queryString>")
+				.append(queryString).append("</queryString>");
 	}
 
+	/**
+	 * Reads inner contents from an XML snippet.
+	 * @param e
+	 */
+	@Override
+	public void restoreInner(Element e) {
+		this.queryString = e.getChildNodes().item(0).getTextContent();
+	}
 
+	/**
+	 * Generates a one-line description with as much information as possible.
+	 * @return a human-readable description of this node
+	 */
+	@Override
+	public String getTextualDescription(EditorModel m) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Query: '").append(queryString).append("'");
+		for (DependencyNode n : getContents()) {
+			sb.append("\n").append(n.getTextualDescription(m));
+		}
+		return sb.toString();
+	}
 }

@@ -37,14 +37,16 @@
 
 package ead.editor.control.change;
 
+import java.util.EventListener;
+
 /**
- * Change listener
+ * Change listener - our specific type of event listener
  */
-public interface ChangeListener {
+public interface ChangeListener extends EventListener {
 	
 	/**
-	 * Process the changes
+	 * Process the changes described by 'event'
 	 */
-	void processChange();
+	void processChange(Object event);
 
 }

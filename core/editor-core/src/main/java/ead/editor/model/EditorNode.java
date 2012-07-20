@@ -88,7 +88,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	}
 
 	/**
-	 * Writes inner contents to an XML snippet. If nothing to write, returns 'null'
+	 * Writes inner contents to an XML snippet.
 	 * @param sb
 	 */
 	public void writeInner(StringBuilder sb) {
@@ -116,5 +116,19 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
 	public void restoreInner(Element element) {
 		// by default, nothing to restore
+	}
+	
+	/**
+	 * Generates a one-line description with as much information as possible.
+	 * @return a human-readable description of this node
+	 */
+	@Override
+	public String getTextualDescription(EditorModel m) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("GenericEditorNode ").append(getId());
+		for (DependencyNode n : getContents()) {
+			sb.append("\n").append(n.getTextualDescription(m));
+		}
+		return sb.toString();
 	}
 }

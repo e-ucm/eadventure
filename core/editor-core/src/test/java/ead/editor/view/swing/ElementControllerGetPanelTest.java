@@ -67,8 +67,6 @@ import ead.editor.view.generics.Panel;
 import ead.editor.view.swing.SwingProviderFactory;
 import ead.elementfactories.demos.scenes.ComplexElementScene;
 import ead.elementfactories.demos.scenes.InitScene;
-import ead.gui.EAdBorderedPanel;
-import ead.gui.EAdGUILookAndFeel;
 
 public class ElementControllerGetPanelTest extends JFrame {
 //

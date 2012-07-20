@@ -53,7 +53,7 @@ import com.google.inject.Injector;
 
 import ead.common.importer.ImporterConfigurationModule;
 import ead.common.model.EAdElement;
-import ead.editor.Log4jConfig;
+import ead.utils.Log4jConfig;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
@@ -64,81 +64,79 @@ import ead.engine.java.core.platform.modules.JavaBasicGameModule;
  */
 public class EditorModelTest {
 
-    private static final Logger logger = LoggerFactory.getLogger("EditorModelTest");
+	private static final Logger logger = LoggerFactory.getLogger("EditorModelTest");
+	private EditorModel model;
 
-    private EditorModel model;
+	public EditorModelTest() {
+	}
 
-    public EditorModelTest() {
-    }
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+	}
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+	}
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+	@Before
+	public void setUp() {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
+					"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+					"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+					"NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
+					"EAdventureImporter", Log4jConfig.Slf4jLevel.Debug
+				});
 
-    @Before
-    public void setUp() {
-        Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
-			"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-			"EditorModel", Log4jConfig.Slf4jLevel.Debug,
-			"NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
-		    "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug
-		});
+		Injector injector = Guice.createInjector(
+				new ImporterConfigurationModule(),
+				new JavaBasicGameModule(),
+				new DesktopModule(),
+				new DesktopAssetHandlerModule());
+		model = injector.getInstance(EditorModel.class);
+	}
 
-        Injector injector = Guice.createInjector(
-                new ImporterConfigurationModule(),
-                new JavaBasicGameModule(),
-                new DesktopModule(),
-                new DesktopAssetHandlerModule());
-        model = injector.getInstance(EditorModel.class);
-    }
+	@After
+	public void tearDown() {
+	}
 
-    @After
-    public void tearDown() {
-    }
+	/**
+	 * Test of loadFromImportFile method, of class EditorModel.
+	 */
+	@Test
+	public void testLoadFromImportFile() {
+		System.out.println("loadFromImportFile");
+	}
 
-    /**
-     * Test of loadFromImportFile method, of class EditorModel.
-     */
-    @Test
-    public void testLoadFromImportFile() {
-        System.out.println("loadFromImportFile");
-    }
+	/**
+	 * Test of save method, of class EditorModel.
+	 */
+	@Test
+	public void testSave() throws Exception {
+		System.out.println("save");
+	}
 
-    /**
-     * Test of save method, of class EditorModel.
-     */
-    @Test
-    public void testSave() throws Exception {
-        System.out.println("save");
-    }
-
-    /**
-     * Test of load method, of class EditorModel.
-     */
-    @Test
-    public void testLoad() throws Exception {
-        System.out.println("load");
-    }
+	/**
+	 * Test of load method, of class EditorModel.
+	 */
+	@Test
+	public void testLoad() throws Exception {
+		System.out.println("load");
+	}
 
 	// --- non-automated tests ---
-
-    /**
+	/**
 	 * Tests indexing and searching
 	 */
-    private void testSimpleSearch() {
+	private void testSimpleSearch() {
 		String s = "disp_x";
-        logger.info("Now searching for '"+s+"' in all fields, all nodes...");
+		logger.info("Now searching for '" + s + "' in all fields, all nodes...");
 		for (DependencyNode e : model.searchAll(s)) {
-            logger.info("found: " + e.getId() + " "
-                    + e.getContent().getClass().getSimpleName() + " "
-                    + e.getContent() + " :: "
-                    + (e.getContent() instanceof EAdElement ? ((EAdElement) e.getContent()).getId() : "??"));
-        }
-    }
+			logger.info("found: " + e.getId() + " "
+					+ e.getContent().getClass().getSimpleName() + " "
+					+ e.getContent() + " :: "
+					+ (e.getContent() instanceof EAdElement ? ((EAdElement) e.getContent()).getId() : "??"));
+		}
+	}
 
 	/**
 	 * Test import-loading of an old ead 1.x file
@@ -148,7 +146,8 @@ public class EditorModelTest {
 	}
 
 	/**
-	 * Test saving editor-model to new format (must have something already loaded)
+	 * Test saving editor-model to new format (must have something already
+	 * loaded)
 	 */
 	private void testSave(File saveFile) throws IOException {
 		model.save(saveFile);
@@ -161,7 +160,7 @@ public class EditorModelTest {
 		model.load(saveFile);
 	}
 
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		EditorModelTest emt = new EditorModelTest();
 		emt.setUp();
 
@@ -203,5 +202,5 @@ public class EditorModelTest {
 
 //      // Test loading from previous save-file
 //		emt.testLoad(saveFile);
-    }
+	}
 }

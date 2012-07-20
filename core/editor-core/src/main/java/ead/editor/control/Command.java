@@ -37,6 +37,8 @@
 
 package ead.editor.control;
 
+import ead.editor.model.EditorModel;
+
 /**
  * Actions define tasks that can be performed over the game model.
  * This is part of the "Action" pattern, used to allow the easy implementation
@@ -64,7 +66,7 @@ public abstract class Command {
      * 
      * @return True if the action was performed correctly
      */
-    public abstract boolean performCommand( );
+    public abstract boolean performCommand();
 
     /**
      * Returns true if the action can be undone

@@ -85,4 +85,10 @@ public abstract class DependencyNode<T> {
     public int hashCode() {
         return 23 * this.id + 5;
     }
+	
+	/**
+	 * Generates a one-line description with as much information as possible.
+	 * @return a human-readable description of this node
+	 */
+	public abstract String getTextualDescription(EditorModel m);
 }

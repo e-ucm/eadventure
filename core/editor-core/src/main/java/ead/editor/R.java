@@ -46,7 +46,7 @@ import java.util.TreeSet;
  *
  * This is an AUTOMATICALLY-GENERATED file - 
  * Run class ead.utils.i18n.ResourceCreator with parameters: 
- *    "core/editor-core" "ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/ead/editor/R.java"
+ *    "./core/editor-core" "ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/ead/editor/R.java"
  * to re-create or update this class
  */
 public class R {
@@ -58,11 +58,29 @@ public class R {
 		public static String EditorIcon64x64_png;
 		public static String SplashScreenLogo_png;
 		public static String addNode_png;
+		public static String conditions__flag16_png;
+		public static String conditions__flags_png;
+		public static String conditions__group2_png;
+		public static String conditions__notOff_png;
+		public static String conditions__notOn_png;
+		public static String conditions__var16_png;
+		public static String conditions__vars_png;
 		public static String deleteNode_png;
 		public static String duplicateNode_png;
 		public static String edit_png;
 		public static String information_png;
 		public static String loading_png;
+		public static String sidePanel__adaptationProfiles_png;
+		public static String sidePanel__advanced_png;
+		public static String sidePanel__assessmentProfiles_png;
+		public static String sidePanel__atrezzo_png;
+		public static String sidePanel__books_png;
+		public static String sidePanel__conversations_png;
+		public static String sidePanel__cutscenes_png;
+		public static String sidePanel__items_png;
+		public static String sidePanel__npcs_png;
+		public static String sidePanel__player_png;
+		public static String sidePanel__scenes_png;
 
 		static {
 			Set<String> files = new TreeSet<String>();
@@ -75,7 +93,7 @@ public class R {
 			files.add("addNode.png");
 			files.add("conditions/flag16.png");
 			files.add("conditions/flags.png");
-			files.add("conditions/group-2.png");
+			files.add("conditions/group2.png");
 			files.add("conditions/notOff.png");
 			files.add("conditions/notOn.png");
 			files.add("conditions/var16.png");
@@ -83,8 +101,20 @@ public class R {
 			files.add("deleteNode.png");
 			files.add("duplicateNode.png");
 			files.add("edit.png");
+			files.add("es_ES/SplashScreenLogo.png");
 			files.add("information.png");
 			files.add("loading.png");
+			files.add("sidePanel/adaptationProfiles.png");
+			files.add("sidePanel/advanced.png");
+			files.add("sidePanel/assessmentProfiles.png");
+			files.add("sidePanel/atrezzo.png");
+			files.add("sidePanel/books.png");
+			files.add("sidePanel/conversations.png");
+			files.add("sidePanel/cutscenes.png");
+			files.add("sidePanel/items.png");
+			files.add("sidePanel/npcs.png");
+			files.add("sidePanel/player.png");
+			files.add("sidePanel/scenes.png");
 
 			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
 		}

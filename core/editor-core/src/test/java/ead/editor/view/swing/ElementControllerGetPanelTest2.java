@@ -55,48 +55,41 @@ import ead.editor.control.ElementController;
 import ead.editor.control.elements.EAdSceneElementDefController;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.Panel;
-import ead.editor.view.swing.SwingProviderFactory;
-import ead.gui.EAdFrame;
-import ead.gui.EAdGUILookAndFeel;
+import javax.swing.*;
 
-public class ElementControllerGetPanelTest2 extends EAdFrame {
-//
-//	private static final long serialVersionUID = 1L;
-//
-//	public static void main(String[] args) {
-//		try {
-//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-//		} catch (UnsupportedLookAndFeelException e) {
-//			e.printStackTrace();
-//		}
-//		new ElementControllerGetPanelTest2();
-//	}
-//
-//    public ElementControllerGetPanelTest2() {
-//        this.setSize( 600,400 );
-//
-//        //this.setLayout(new BorderLayout());
-//
-//        EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
-//        when(sceneElementDef.getName()).thenReturn(EAdString.newRandomEAdString("testName"));
-//        when(sceneElementDef.getDoc()).thenReturn(EAdString.newRandomEAdString("testDocumentation"));
-//        when(sceneElementDef.getDesc()).thenReturn(EAdString.newRandomEAdString("testDescription"));
-//        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newRandomEAdString("testDetailedDescription"));
-//
-//        CommandManager commandManager = mock(CommandManager.class);
-//
-//        EAdSceneElementDefController sceneController = new EAdSceneElementDefController();
-//        sceneController.setElement(sceneElementDef);
-//        Panel panel = sceneController.getPanel(ElementController.View.EXPERT);
-//
-//        StringHandler stringHandler = new EditorStringHandler();
-//
-//        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
-//        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
-//        this.add(componentProvider.getComponent(panel), BorderLayout.CENTER);
-//
-//        this.setVisible( true );
-//        this.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-//    }
+public class ElementControllerGetPanelTest2 extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
+	public static void main(String[] args) {
+		new ElementControllerGetPanelTest2();
+	}
+
+    public ElementControllerGetPanelTest2() {
+        this.setSize( 600,400 );
+
+        //this.setLayout(new BorderLayout());
+
+        EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
+        when(sceneElementDef.getName()).thenReturn(EAdString.newRandomEAdString("testName"));
+        when(sceneElementDef.getDoc()).thenReturn(EAdString.newRandomEAdString("testDocumentation"));
+        when(sceneElementDef.getDesc()).thenReturn(EAdString.newRandomEAdString("testDescription"));
+        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newRandomEAdString("testDetailedDescription"));
+
+        CommandManager commandManager = mock(CommandManager.class);
+
+        EAdSceneElementDefController sceneController = new EAdSceneElementDefController();
+        sceneController.setElement(sceneElementDef);
+        Panel panel = sceneController.getPanel(ElementController.LevelOfDetail.EXPERT);
+
+        StringHandler stringHandler = new EditorStringHandler();
+
+        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
+        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
+        this.add(componentProvider.getComponent(panel), BorderLayout.CENTER);
+
+        this.setVisible( true );
+        this.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+    }
 
 }

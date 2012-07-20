@@ -37,9 +37,9 @@
 
 package ead.editor.control;
 
+import ead.editor.model.EditorModel;
 import java.util.Stack;
 
-import ead.editor.control.Command;
 
 /**
  * Stacks of performed and undone actions

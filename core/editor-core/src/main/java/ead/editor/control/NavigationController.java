@@ -40,7 +40,9 @@ package ead.editor.control;
 import ead.editor.control.change.ChangeNotifier;
 
 /**
- * Interface for the navigation (going to previously visited screens)
+ * Interface for view navigation (going to previously visited screens).
+ * The implementation should register itself with whatever actually creates the
+ * screens, so that it will be notified when views are opened or visited.
  */
 public interface NavigationController extends ChangeNotifier {
 
@@ -68,8 +70,11 @@ public interface NavigationController extends ChangeNotifier {
 	 * Clear screen history
 	 */
 	void clearHistory();
-	
-	//TODO establish what is registered to navigate
-	void setNavigation(Object object);
 
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
+	void setController(Controller controller);
 }

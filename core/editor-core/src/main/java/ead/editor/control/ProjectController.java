@@ -38,7 +38,8 @@
 package ead.editor.control;
 
 /**
- * Interface for the controller of the system.
+ * Interface for the controller of the system. This controller is in charge of
+ * keeping the project in scope.
  */
 public interface ProjectController {
 
@@ -64,6 +65,12 @@ public interface ProjectController {
 	/**
 	 * Create a new project
 	 */
-	void newProject();
+	void newProject();	
 	
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
+	void setController(Controller controller);	
 }

@@ -37,18 +37,13 @@
 
 package ead.editor.view.impl;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -56,24 +51,31 @@ import javax.swing.JSeparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bibliothek.gui.DockController;
-import bibliothek.gui.DockStation;
-import bibliothek.gui.Dockable;
-import bibliothek.gui.dock.DefaultDockable;
-import bibliothek.gui.dock.SplitDockStation;
-import bibliothek.gui.dock.StackDockStation;
+import bibliothek.gui.dock.common.CControl;
+import bibliothek.gui.dock.common.DefaultMultipleCDockable;
+import bibliothek.gui.dock.common.MultipleCDockable;
+import bibliothek.gui.dock.common.MultipleCDockableFactory;
+import bibliothek.gui.dock.common.intern.CDockable;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.editor.R;
+import ead.editor.control.Controller;
+import ead.editor.model.DependencyNode;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;
+import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.menu.EditorMenuBar;
-import ead.gui.EAdFrame;
-import ead.gui.EAdHidingSplitPane;
+import ead.editor.view.panel.RawElementPanel;
+import ead.gui.structurepanel.StructureElement;
+import ead.gui.structurepanel.StructureElementProvider;
+import ead.gui.structurepanel.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.*;
 
 /**
  * Default implementation of the main editor window
@@ -81,247 +83,338 @@ import ead.utils.swing.SwingUtilities;
 @Singleton
 public class EditorWindowImpl implements EditorWindow {
 
-	/**
-	 * Logger
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger("EditorWindowImpl");
-
-	/**
-	 * Main right panel in the editor; contains main editing area.
-	 */
-	private SplitDockStation rightPanel;
-
-	/**
-	 * Main left panel in the editor; contains list-of-tools
-	 */
-	private JPanel leftPanel;
-
-	/**
-	 * The main panel where elements are edited; split into right&left
-	 */
-	private JPanel mainPanel;
-
-	/**
-	 * The top right panel, where the title of the element being edited and the
-	 * tools are displayed
-	 */
-	private JPanel titlePanel;
-
-	/**
-	 * Tool panel of the editor
-	 */
-	private ToolPanel toolPanel;
-
-	/**
-	 * Root views
-	 */
-	private TreeMap<String, DockStation> rootViews
-		= new TreeMap<String, DockStation>();
-	
-	/**
-	 * The menu bar for the editor
-	 */
-	private EditorMenuBar editorMenuBar;
-
-	/**
-	 * Editor window where everything will be placed; has support for blurryness
-	 * effect to denote dialog-modality.
-	 */
-	protected EAdFrame editorWindow;
-
     /**
-     * Dock controller
+     * Logger
      */
-    protected DockController controller;
-
-	@Inject
-	public EditorWindowImpl(ToolPanel toolPanel, EditorMenuBar editorMenuBar) {
-		this.toolPanel = toolPanel;
-		this.editorMenuBar = editorMenuBar;
-	}
-
-	@Override
-	public void initialize() {
-
-		rightPanel = new SplitDockStation();
-		titlePanel = new JPanel();
-		editorMenuBar.getMenuBar().add(new JSeparator());
-		editorMenuBar.getMenuBar().add(toolPanel.getPanel());
-
-        leftPanel = new JPanel();
-		leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		leftPanel.setLayout(new BorderLayout());
-		leftPanel.setOpaque(true);
-		leftPanel.setBackground(leftPanel.getBackground().darker());
-
-        // requires left and right panel; builds an animated splitPane
-		createMainWindow();
-        // requires main window
-		setIcons();
-
-        controller = new DockController();
-        controller.setRootWindow(editorWindow);
-        controller.add(rightPanel);
-        // FIXME: may want to call setup auto-calling of controller.kill() on close
-        
-        addView("red", "1", coloredPanel(Color.red), true);
-        addView("red", "2", coloredPanel(Color.orange), true);
-        addView("blue", "3", coloredPanel(Color.blue), true);
-        addView("blue", "4", coloredPanel(Color.cyan), true);
+    private static final Logger logger = LoggerFactory.getLogger("EWindowImpl");
+    /**
+     * Main left panel in the editor; contains list-of-tools
+     */
+    private StructurePanel leftPanel;
+    /**
+     * The main panel where elements are edited; split into right&left
+     */
+    private JPanel mainPanel;
+    /**
+     * The top right panel, where the title of the element being edited and the
+     * tools are displayed
+     */
+    private JPanel titlePanel;
+    /**
+     * Tool panel of the editor
+     */
+    private ToolPanel toolPanel;
+    /**
+     * The menu bar for the editor
+     */
+    private EditorMenuBar editorMenuBar;
+    /**
+     * Editor window where everything will be placed
+     */
+    protected JFrame editorWindow;
+    /**
+     * Dock controller for content views; takes up rightPanel
+     */
+    protected CControl dockController;
+    /**
+     * Model controller
+     */
+    protected Controller controller;
+	
+    /**
+     * default EditorWindow implementation.
+     *
+     * @param toolPanel
+     * @param editorMenuBar
+     */
+    @Inject
+    public EditorWindowImpl(ToolPanel toolPanel,
+            EditorMenuBar editorMenuBar,
+			StructurePanel structurePanel) {
+        this.toolPanel = toolPanel;
+        this.editorMenuBar = editorMenuBar;
+		this.leftPanel = structurePanel;
     }
 
-	private static JPanel coloredPanel(Color color){
-		JPanel panel = new JPanel();
-		panel.setOpaque( true );
-		panel.setBackground( color );
-		return panel;
+    @Override
+    public void initialize() {
+
+        titlePanel = new JPanel();
+        editorMenuBar.getMenuBar().add(new JSeparator());
+        editorMenuBar.getMenuBar().add(toolPanel.getPanel());
+
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Scenes", R.Drawable.sidePanel__scenes_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Player", R.Drawable.sidePanel__player_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("NPCs", R.Drawable.sidePanel__npcs_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Conversations", R.Drawable.sidePanel__conversations_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Items", R.Drawable.sidePanel__items_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Atrezzo", R.Drawable.sidePanel__atrezzo_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Books", R.Drawable.sidePanel__books_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Advanced", R.Drawable.sidePanel__advanced_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Cutscenes", R.Drawable.sidePanel__cutscenes_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Adaptation Profiles", R.Drawable.sidePanel__adaptationProfiles_png)));
+		leftPanel.addElement(new StructureElement(
+				new SimpleStructureElement("Assessment Profiles", R.Drawable.sidePanel__assessmentProfiles_png)));
+		leftPanel.createElements();
+		
+        dockController = new CControl();
+
+        // requires left and right panel; builds an animated splitPane
+        createMainWindow();
+        // requires main window
+        setIcons();
+
+        dockController.addMultipleDockableFactory("test",
+                new ClassDockableFactory(
+                RawElementPanel.class,
+                DependencyNode.class, controller.getModel(), this));
+    }
+
+	@Override
+    public Controller getController() {
+        return controller;
+    }
+
+	@Override
+	public void restoreViews() {
+		File f = controller.getModel().relativeFile("views.xml");
+		if (f.exists() && f.canRead()) {
+			try {
+				dockController.readXML(f);
+			} catch (IOException ex) {
+				logger.error("Could not restore views from {}", f, ex);
+			}
+		}
 	}
 	
-	/**
-	 * Creates a new view of a given category.
-	 */
-	private Dockable createNewView(String type) {
-        logger.info("Creating new stack for type {}", type);
-        StackDockStation dockStation = new StackDockStation();
-		JPanel panel = new JPanel();
-		panel.setOpaque( true );
-		panel.setBackground(Color.white);
-		panel.add(new JLabel("This would be a list of " + type), BorderLayout.NORTH);
-		//panel.add(dockStation, BorderLayout.CENTER);
-		DefaultDockable dockable = new DefaultDockable(panel);
-		dockable.setTitleText(type);
-		rightPanel.drop(dockable);
-		// TODO: i18n, & also use an icon
-		return dockStation;
-	}
-
 	@Override
-	public void addView(String type, String elementId, JPanel view, boolean reuseExisting) {
-		Dockable destination = null;		
-//		if ( ! rootViews.containsKey(type)) {
-//			rootViews.put(type, createNewView(type));
-//		} else {
-//			destination = rootViews.get(type);
-//			// FIXME: need to check for existence in a more robust way
-//			if (! destination.isDockableVisible()) {
-//				rootViews.put(type, createNewView(type));
-//			}
-//		}
-		//destination = rootViews.get(type);
-		DefaultDockable dockable = new DefaultDockable(view);
-		dockable.setTitleText(elementId);
-//
-	}	
+	public void clearViews() {
+		for (int i=0; i<dockController.getCDockableCount(); i++) {
+			CDockable c = dockController.getCDockable(i);
+			dockController.remove((MultipleCDockable)c);
+		}
+	}
 	
 	@Override
-	public void showWindow() {
-		setSizeAndPosition();
-		SwingUtilities.doInEDT(new Runnable() {
-			@Override
-			public void run() {
-				editorWindow.setVisible(true);
-			}
-		});
+	public void saveViews() {
+		File f = controller.getModel().relativeFile("views.xml");
+		try {
+			dockController.writeXML(f);
+		} catch (IOException ex) {
+			logger.error("Could not save views into {}", f, ex);
+		}
 	}
 
-	@Override
-	public void addModalPanel(JPanel modalPanel) {
-		editorWindow.addModalPanel(modalPanel);
-	}
+    /**
+     * Creates a new view of a given category.
+     */
+    private void createNewView(String id) {
+        logger.info("opening view for #{}...", id);
+        if (dockController.getMultipleDockable(id) != null) {
+            logger.info("Learn how to make visible here!");
+        } else {
+            ClassDockableFactory f = (ClassDockableFactory) dockController.getMultipleDockableFactory("test");
+            DefaultMultipleCDockable d = f.createDockable(id);
+            dockController.addDockable(id, d);
+            setLocationToRelativesIfPossible(d);
+            d.setVisible(true);
+        }
+    }
 
-	@Override
-	public void removeModalPanel() {
-		editorWindow.removeModalPanel();
-	}
+    @Override
+    public void addView(String type, String elementId, JPanel view, boolean reuseExisting) {
+        createNewView(elementId);
+    }
 
-	/**
-	 * Create the main window of the editor
-	 */
-	private void createMainWindow() {
-		editorWindow = new EAdFrame();
-		editorWindow.setTitle("eAdventure Editor");
+    @Override
+    public void showWindow() {
+        setSizeAndPosition();
+        SwingUtilities.doInEDT(new Runnable() {
 
-		EAdHidingSplitPane splitPane =
-                new EAdHidingSplitPane(leftPanel, rightPanel);
-		editorWindow.add(splitPane);
+            @Override
+            public void run() {
+                editorWindow.setVisible(true);
+            }
+        });
+    }
+    /**
+     * Current modal dialog, if any
+     */
+    private JDialog currentModalDialog = null;
 
-		JMenuBar menuBar = editorMenuBar.getMenuBar();
-		editorWindow.setJMenuBar(menuBar);
+    @Override
+    public void addModalPanel(JPanel modalPanel) {
+        if (currentModalDialog != null) {
+            removeModalPanel(true);
+        }
+        currentModalDialog = new JDialog(editorWindow, true);
+        currentModalDialog.add(modalPanel);
+        currentModalDialog.setVisible(true);
+    }
 
-		SwingUtilities.doInEDTNow(new Runnable() {
-			@Override
-			public void run() {
-				editorWindow.setVisible(false);
-			}
-		});
-	}
+    @Override
+    public void removeModalPanel(boolean cancelChanges) {
+        currentModalDialog.setVisible(false);
+        currentModalDialog.dispose();
+        currentModalDialog = null;
+    }
 
-	/**
-	 * Set the icons of the applications.
-	 *
-	 * NOTE: This method does not work in Mac, where applications can no change
-	 * the icon programmatically. An application bundle must be used, see:
-	 * http://developer.apple.com/library/mac/#documentation/Java/Conceptual/
-	 * Java14Development/03-JavaDeployment/JavaDeployment.html
-	 */
-	private void setIcons() {
-		SwingUtilities.doInEDTNow(new Runnable() {
-			@Override
-			public void run() {
-				List<Image> icons = new ArrayList<Image>();
+    /**
+     * Create the main window of the editor
+     */
+    private void createMainWindow() {
+        editorWindow = new JFrame();
+        editorWindow.setTitle("eAdventure Editor");
+        editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                leftPanel, dockController.getContentArea());
+        editorWindow.add(splitPane);
+
+        JMenuBar menuBar = editorMenuBar.getMenuBar();
+        editorWindow.setJMenuBar(menuBar);
+
+        SwingUtilities.doInEDTNow(new Runnable() {
+
+            @Override
+            public void run() {
+                editorWindow.setVisible(false);
+            }
+        });
+    }
+
+    private void setLocationToRelativesIfPossible(MultipleCDockable d) {
+        MultipleCDockableFactory<?, ?> f = d.getFactory();
+        for (int i = 0; i < dockController.getCDockableCount(); i++) {
+            CDockable c = dockController.getCDockable(i);
+            if ((c instanceof MultipleCDockable)
+                    && ((MultipleCDockable) c).getFactory() == f) {
+                d.setLocation(c.getBaseLocation());
+                break;
+            }
+        }
+    }
+
+    /**
+     * Set the icons of the applications.
+     *
+     * NOTE: This method does not work in Mac, where applications can no change
+     * the icon programmatically. An application bundle must be used, see:
+     * http://developer.apple.com/library/mac/#documentation/Java/Conceptual/
+     * Java14Development/03-JavaDeployment/JavaDeployment.html
+     */
+    private void setIcons() {
+        SwingUtilities.doInEDTNow(new Runnable() {
+
+            @Override
+            public void run() {
+                List<Image> icons = new ArrayList<Image>();
                 icons.add(Resource.loadImage(R.Drawable.EditorIcon16x16_png));
                 icons.add(Resource.loadImage(R.Drawable.EditorIcon32x32_png));
                 icons.add(Resource.loadImage(R.Drawable.EditorIcon64x64_png));
                 icons.add(Resource.loadImage(R.Drawable.EditorIcon128x128_png));
                 editorWindow.setIconImages(icons);
-			}
-		});
-	}
+            }
+        });
+    }
 
-	/**
-	 * Set the size and position of the editor window
-	 */
-	private void setSizeAndPosition() {
-		SwingUtilities.doInEDTNow(new Runnable() {
-			@Override
-			public void run() {
-				editorWindow.setMinimumSize(new Dimension(640, 400));
-				Dimension screenSize = Toolkit.getDefaultToolkit()
-						.getScreenSize();
-				int width = (int) (screenSize.getWidth() * .8f);
-				int height = (int) (screenSize.getHeight() * .8f);
+    /**
+     * Set the size and position of the editor window
+     */
+    private void setSizeAndPosition() {
+        SwingUtilities.doInEDTNow(new Runnable() {
+
+            @Override
+            public void run() {
+                editorWindow.setMinimumSize(new Dimension(640, 400));
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                int width = (int) (screenSize.getWidth() * .8f);
+                int height = (int) (screenSize.getHeight() * .8f);
                 logger.info("Setting size to {}x{}", new Object[]{width, height});
-				editorWindow.setSize(width, height);
-				editorWindow.setLocation((screenSize.width - width) / 2,
-						(screenSize.height - height) / 2);
+                editorWindow.setSize(width, height);
+                editorWindow.setLocation((screenSize.width - width) / 2,
+                        (screenSize.height - height) / 2);
                 editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			}
-		});
-	}
+            }
+        });
+    }
 
-	@Override
-	public JPanel getLeftPanel() {
-		return leftPanel;
-	}
+    @Override
+    public JPanel getLeftPanel() {
+        return leftPanel;
+    }
 
-	@Override
-	public JPanel getMainPanel() {
-		return mainPanel;
-	}
+    @Override
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 
-	@Override
-	public JPanel getTitlePanel() {
-		return titlePanel;
-	}
+    @Override
+    public JPanel getTitlePanel() {
+        return titlePanel;
+    }
 
-	@Override
-	public ToolPanel getToolPanel() {
-		return toolPanel;
-	}
+    @Override
+    public ToolPanel getToolPanel() {
+        return toolPanel;
+    }
 
+    @Override
+    public EditorMenuBar getEditorMenuBar() {
+        return editorMenuBar;
+    }
+	
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
 	@Override
-	public EditorMenuBar getEditorMenuBar() {
-		return editorMenuBar;
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}	
+	
+	/**
+	 * Simplistic structure provider
+	 */
+	public static class SimpleStructureElement implements StructureElementProvider {
+		private String label;
+		private Icon icon;
+		public SimpleStructureElement(String label, String iconUrl) {
+			this.label = label;
+			this.icon = new ImageIcon(ClassLoader
+					.getSystemClassLoader().getResource(iconUrl));
+		}
+		
+		@Override
+		public String getLabel() {
+			return label;
+		}
+
+		@Override
+		public Icon getIcon() {
+			return icon;
+		}
+
+		@Override
+		public boolean canHaveChildren() {
+			return false;
+		}
+
+		@Override
+		public int getChildCount() {
+			return 0;
+		}
+		
 	}
 }
