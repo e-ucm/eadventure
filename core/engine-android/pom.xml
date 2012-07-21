@@ -13,7 +13,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-android</artifactId>
 	<packaging>apk</packaging>
-	<name>e-Adventure Android Engine</name>
+	<name>eAdventure Android Engine</name>
 	<description>
 		Android engine; requires ADK to build, generates android .apk
 	</description>

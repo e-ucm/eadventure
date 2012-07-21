@@ -9,57 +9,44 @@
 		<artifactId>base</artifactId>
 		<relativePath>../../</relativePath>
 	</parent>
+
 	<groupId>ead</groupId>
 	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>engine-java</artifactId>
+	<artifactId>tools-gwt</artifactId>
 	<packaging>jar</packaging>
-	<name>eAdventure Engine Java</name>
+	<name>eAdventure GWT Tools</name>
 	<description>
-    Shared code for use in java-based (applet or desktop) engines
+    GWT implementations for the eAdventure tools.
   </description>
 	<dependencies>
-
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-core</artifactId>
+			<artifactId>model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>reader</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>reader-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools-java</artifactId>
+			<artifactId>tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<!-- external -->
 		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<classifier>no_aop</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtent</groupId>
+			<artifactId>GwtEnt</artifactId>
+			<version>2.0RC1</version>
+		</dependency>
+
+		<!-- tests -->
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax.media</groupId>
-			<artifactId>jmf</artifactId>
-			<version>2.1.1e</version>
-		</dependency>
-
-		<!-- Currently unused <dependency> <groupId>com.kitfox.svg</groupId> <artifactId>svg-salamander-tiny</artifactId> 
-			<version>1.0.0</version> </dependency> -->
-
-		<!-- tests -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -71,16 +58,6 @@
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
-		</dependency>
-
-		<!-- GLAS -->
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-model</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-tracker-java</artifactId>
 		</dependency>
 
 	</dependencies>

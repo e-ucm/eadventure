@@ -13,7 +13,7 @@
 	<!-- ===================================================================== -->
 	<!-- PROJECT INFO -->
 	<!-- ===================================================================== -->
-	<name>e-Adventure Platform</name>
+	<name>eAdventure Platform</name>
 	<description>
 		e-Adventure is an authoring tool for the creation of point-and-click games,
 		especially designed for educational purposes.
@@ -97,19 +97,23 @@
 			</activation>
 			<modules>
 				<module>build-tools</module>
-				<module>core/utils</module>				
-				<module>core/gui</module>
-				<module>core/editor-core</module>				
-				<module>core/engine-core</module>
-				<module>core/engine-java</module>
-				<module>core/engine-playn</module>				
-				<module>core/engine-desktop</module>				
-				<!-- <module>core/engine-android</module> -->
+				<!-- Model: base for all the other projects -->
 				<module>core/model</module>
-				<module>core/test-suite</module>
-				<!-- Tools -->
+				<!-- Tools & Utils -->
 				<module>core/tools</module>
 				<module>core/tools-java</module>
+				<module>core/tools-gwt</module>
+				<module>core/utils</module>
+				<module>core/gui</module>
+				<!-- Engine -->
+				<module>core/engine-core</module>
+				<module>core/engine-java</module>
+				<module>core/engine-playn</module>
+				<module>core/engine-desktop</module>
+				<!-- <module>core/engine-android</module> -->
+				<!-- Editor -->
+				<module>core/editor-core</module>
+
 				<!-- XML -->
 				<!-- Reader -->
 				<module>core/reader</module>
@@ -117,6 +121,7 @@
 				<!-- Importer -->
 				<module>core/importer</module>
 				<!-- Demos modules -->
+				<module>core/test-suite</module>
 				<module>demos/firstaidgame</module>
 			</modules>
 		</profile>

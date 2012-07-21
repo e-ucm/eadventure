@@ -13,7 +13,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-desktop</artifactId>
 	<packaging>jar</packaging>
-	<name>e-Adventure Desktop Engine</name>
+	<name>eAdventure Desktop Engine</name>
 	<description>
 		Java desktop application engine
 	</description>
@@ -36,6 +36,21 @@
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>tools-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>importer</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

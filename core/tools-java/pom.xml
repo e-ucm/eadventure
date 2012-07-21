@@ -16,7 +16,7 @@
 	<packaging>jar</packaging>
 	<name>eAdventure Java Tools</name>
 	<description>
-    Java tools for the eAdventure platform
+    Java implementations for the eAdventure tools.
   </description>
 	<dependencies>
 		<dependency>

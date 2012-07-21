@@ -47,3 +47,5 @@ demos/firstaidgame/gwt-unitCache*
 demos/firstaidgame/war/firstaid*
 **/bin/**
 demos/firstaidgame/.gwt/
+
+core/engine-gdx*

@@ -16,7 +16,7 @@
 	<packaging>jar</packaging>
 	<name>eAdventure Tools</name>
 	<description>
-    Generic tools for the eAdventure platform
+    Contains multi-platform implementations and interfaces for different tools used across several projects  
   </description>
 	<dependencies>
 		<dependency>
