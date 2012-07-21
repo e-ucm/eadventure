@@ -41,10 +41,10 @@ import javax.swing.JComponent;
 
 import com.google.inject.Inject;
 
-import ead.common.util.StringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.FieldValueReader;
 import ead.editor.view.ComponentProvider;
+import ead.editor.view.ProviderFactory;
 import ead.editor.view.generics.impl.BooleanOption;
 import ead.editor.view.generics.impl.EAdConditionOption;
 import ead.editor.view.generics.impl.EAdListOption;
@@ -62,6 +62,7 @@ import ead.editor.view.swing.componentproviders.ElementComponentProvider;
 import ead.editor.view.swing.componentproviders.PanelComponentProvider;
 import ead.editor.view.swing.componentproviders.TextComponentProvider;
 import ead.editor.view.swing.scene.PreviewPanelComponentProvider;
+import ead.tools.StringHandler;
 
 /**
  * Java Swing {@link ProviderFactory}

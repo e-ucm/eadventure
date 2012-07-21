@@ -54,7 +54,6 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.params.text.EAdString;
 import ead.common.util.EAdURI;
-import ead.common.writer.EAdAdventureModelWriter;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.DebuggerHandler;
@@ -70,6 +69,7 @@ import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.tools.StringHandler;
 import ead.tools.java.JavaToolsModule;
+import ead.writer.EAdAdventureModelWriter;
 
 public class DesktopGame {
 

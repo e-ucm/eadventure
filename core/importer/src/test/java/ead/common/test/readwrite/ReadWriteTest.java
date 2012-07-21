@@ -49,11 +49,11 @@ import java.io.IOException;
 import org.junit.Before;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.writer.DOMWriter;
-import ead.common.writer.EAdAdventureModelWriter;
 import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.reader.java.extra.ObjectFactory;
 import ead.reader.java.visitors.NodeVisitor;
+import ead.writer.DOMWriter;
+import ead.writer.EAdAdventureModelWriter;
 
 public class ReadWriteTest {
 	protected File resultFile;

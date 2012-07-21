@@ -37,12 +37,15 @@
 
 package ead.editor.model;
 
-import ead.common.importer.annotation.ImportAnnotator;
-import ead.common.model.EAdElement;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.common.model.EAdElement;
+import ead.importer.annotation.ImportAnnotator;
+import ead.importer.annotation.ImportAnnotator.Type;
 
 /**
  * An annotator that can be used to build EditorNodes.
@@ -68,7 +71,7 @@ public class EditorAnnotator implements ImportAnnotator {
             return context;
         }
 
-        public Type getType() {
+        public ImportAnnotator.Type getType() {
             return type;
         }
 

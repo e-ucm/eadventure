@@ -37,36 +37,7 @@
 
 package ead.editor.view.swing;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.params.text.EAdString;
-import ead.common.util.StringHandler;
-import ead.editor.EditorStringHandler;
-import ead.editor.control.CommandManager;
-import ead.editor.control.ElementController;
-import ead.editor.control.elements.EAdSceneController;
-import ead.editor.control.elements.EAdSceneElementDefController;
-import ead.editor.view.ComponentProvider;
-import ead.editor.view.generics.Panel;
-import ead.editor.view.swing.SwingProviderFactory;
-import ead.elementfactories.demos.scenes.ComplexElementScene;
-import ead.elementfactories.demos.scenes.InitScene;
 
 public class ElementControllerGetPanelTest extends JFrame {
 //

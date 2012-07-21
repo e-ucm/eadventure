@@ -37,31 +37,40 @@
 
 package ead.editor.model;
 
-import com.google.inject.Inject;
-import ead.common.ProjectFiles;
-import ead.common.importer.EAdventure1XImporter;
-import ead.common.model.EAdElement;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.reader.EAdAdventureDOMModelReader;
-import ead.common.writer.EAdAdventureModelWriter;
-import ead.editor.model.visitor.ModelVisitor;
-import ead.editor.model.visitor.ModelVisitorDriver;
-import ead.editor.view.dock.ModelAccessor;
-import ead.utils.FileUtils;
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+
+import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.editor.model.visitor.ModelVisitor;
+import ead.editor.model.visitor.ModelVisitorDriver;
+import ead.editor.view.dock.ModelAccessor;
+import ead.importer.EAdventure1XImporter;
+import ead.reader.java.EAdAdventureDOMModelReader;
+import ead.reader.java.ProjectFiles;
+import ead.utils.FileUtils;
+import ead.writer.EAdAdventureModelWriter;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
  * EAdAdventureModel, encompassing both engine-related model objects and
  * resources, assets, and strings. Everything is searchable, and dependencies
  * are tracked as objects are changed.
- *
+ * 
  * @author mfreire
  */
 public class EditorModel implements ModelVisitor, ModelAccessor {
@@ -96,8 +105,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	private HashMap<Object, DependencyNode> nodesByContent;
 	/**
-	 * high-level representations suitable for editing,
-	 * persisted in editor.xml
+	 * high-level representations suitable for editing, persisted in editor.xml
 	 */
 	private HashMap<DependencyNode, ArrayList<DependencyNode>> editorNodes;
 	/**
@@ -119,25 +127,24 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	/**
 	 * Last-loaded file; will use to save(null) unless another name specified
 	 */
-	private File saveFile;	
+	private File saveFile;
 	/**
 	 * Engine model
 	 */
 	private EAdAdventureModel engineModel;
-	
+
 	/**
 	 * Constructor. Does not do much beyond initializing fields.
-	 *
+	 * 
 	 * @param reader
 	 * @param importer
 	 * @param writer
 	 */
 	@Inject
-	public EditorModel(
-			EAdAdventureDOMModelReader reader,
-			EAdventure1XImporter importer,
-			EAdAdventureModelWriter writer) {
-		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(DependencyEdge.class);
+	public EditorModel(EAdAdventureDOMModelReader reader,
+			EAdventure1XImporter importer, EAdAdventureModelWriter writer) {
+		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
+				DependencyEdge.class);
 		this.reader = reader;
 		this.importer = importer;
 		this.writer = writer;
@@ -149,10 +156,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	}
 
 	/**
-	 * Gets a unique ID. All new DependencyNodes should get their IDs this way. Uses
-	 * a static field to store the last assigned ID; standard disclaimers on
-	 * thread-safety and class-loaders apply.
-	 *
+	 * Gets a unique ID. All new DependencyNodes should get their IDs this way.
+	 * Uses a static field to store the last assigned ID; standard disclaimers
+	 * on thread-safety and class-loaders apply.
+	 * 
 	 * @return
 	 */
 	public int generateId() {
@@ -161,10 +168,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	/**
 	 * Makes sure that the returned id contains an eid-prefix.
-	 *
+	 * 
 	 * @see createOrUnfreeze for details
-	 * @param id to alter
-	 * @param eid to insert (not inserted if already present)
+	 * @param id
+	 *            to alter
+	 * @param eid
+	 *            to insert (not inserted if already present)
 	 * @return the (possibly-altered) eid
 	 */
 	private String decorateIdWithEid(String id, int eid) {
@@ -177,12 +186,13 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	}
 
 	/**
-	 * Wraps a targetContent in an DependencyNode. If the content is of a type that
-	 * has extra editor data associated (a subclass of EAdElement), and this
-	 * editor data is available, it is used; otherwise, a new DependencyNode is
-	 * created.
-	 *
-	 * @param targetContent to wrap
+	 * Wraps a targetContent in an DependencyNode. If the content is of a type
+	 * that has extra editor data associated (a subclass of EAdElement), and
+	 * this editor data is available, it is used; otherwise, a new
+	 * DependencyNode is created.
+	 * 
+	 * @param targetContent
+	 *            to wrap
 	 * @return a new or old editorNode to wrap that content
 	 */
 	@SuppressWarnings("unchecked")
@@ -203,19 +213,21 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 				eid = Integer.parseInt(m.group(1));
 				node = nodesById.get(eid);
 				if (node == null) {
-//					when loading, nodes not mentioned in the editor.xml file will not be found
-//					logger.warn("could not unfreeze id {}", eid);
-//					if (logger.isDebugEnabled()) {
-//						StringBuilder allEntries = new StringBuilder();
-//						for (Entry<Integer, DependencyNode> en : nodesById.entrySet()) {
-//							Object o = en.getValue().getContent();
-//							allEntries.append(en.getKey()).append(" -> ")
-//								.append(o.getClass().getSimpleName())
-//								.append(" (").append(o.hashCode()).append(")\n");
-//						}
-//						logger.debug("Entries: \n{}", allEntries.toString());
-//					}
-//				    therefore, they have to be created
+					// when loading, nodes not mentioned in the editor.xml file
+					// will not be found
+					// logger.warn("could not unfreeze id {}", eid);
+					// if (logger.isDebugEnabled()) {
+					// StringBuilder allEntries = new StringBuilder();
+					// for (Entry<Integer, DependencyNode> en :
+					// nodesById.entrySet()) {
+					// Object o = en.getValue().getContent();
+					// allEntries.append(en.getKey()).append(" -> ")
+					// .append(o.getClass().getSimpleName())
+					// .append(" (").append(o.hashCode()).append(")\n");
+					// }
+					// logger.debug("Entries: \n{}", allEntries.toString());
+					// }
+					// therefore, they have to be created
 					e.setId(decorateIdWithEid(e.getId(), eid));
 					node = new EngineNode(eid, e);
 					nodesById.put(eid, node);
@@ -243,7 +255,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	/**
 	 * Adds a new EditorNode
 	 */
-	public void registerEditorNode(EditorNode e, Collection<DependencyNode> nodes) {
+	public void registerEditorNode(EditorNode e,
+			Collection<DependencyNode> nodes) {
 		g.addVertex(e);
 		nodesById.put(e.getId(), e);
 		for (DependencyNode n : nodes) {
@@ -255,16 +268,16 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	/**
 	 * Attempts to add a new node-and-edge to the graph; use only during initial
 	 * model-building. The edge may be null (for the root).
-	 *
+	 * 
 	 * @return the new node if added, or null if already existing (and
-	 * therefore, it makes no sense to continue adding recursively from there
-	 * on).
+	 *         therefore, it makes no sense to continue adding recursively from
+	 *         there on).
 	 */
-	private DependencyNode addNode(DependencyNode source, String type, Object targetContent) {
+	private DependencyNode addNode(DependencyNode source, String type,
+			Object targetContent) {
 		boolean alreadyKnown = (nodesByContent.containsKey(targetContent));
-		DependencyNode target = alreadyKnown
-				? nodesByContent.get(targetContent)
-				: createOrUnfreezeNode(targetContent);
+		DependencyNode target = alreadyKnown ? nodesByContent
+				.get(targetContent) : createOrUnfreezeNode(targetContent);
 
 		if (!alreadyKnown) {
 			g.addVertex(target);
@@ -285,13 +298,13 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	/**
 	 * Visits a node
-	 *
+	 * 
 	 * @see ModelVisitor#visitObject
 	 */
 	@Override
 	public boolean visitObject(Object target, Object source, String sourceName) {
-		logger.debug("Visiting object: '{}'--['{}']-->'{}'",
-				new Object[]{source, sourceName, target});
+		logger.debug("Visiting object: '{}'--['{}']-->'{}'", new Object[] {
+				source, sourceName, target });
 
 		// source is only null for root node
 		if (source == null) {
@@ -300,8 +313,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 			return true;
 		}
 
-		DependencyNode sourceNode = (source != null)
-				? nodesByContent.get(source) : null;
+		DependencyNode sourceNode = (source != null) ? nodesByContent
+				.get(source) : null;
 		DependencyNode e = addNode(sourceNode, sourceName, target);
 
 		if (e != null) {
@@ -317,24 +330,26 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	/**
 	 * Visits a node property. Mostly used for indexing
-	 *
+	 * 
 	 * @see ModelVisitor#visitProperty
 	 */
 	@Override
-	public void visitProperty(Object target, String propertyName, String textValue) {
-		logger.debug("Visiting property: '{}' :: '{}' = '{}'",
-				new Object[]{target, propertyName, textValue});
+	public void visitProperty(Object target, String propertyName,
+			String textValue) {
+		logger.debug("Visiting property: '{}' :: '{}' = '{}'", new Object[] {
+				target, propertyName, textValue });
 		DependencyNode e = nodesByContent.get(target);
 		nodeIndex.addProperty(e, propertyName, textValue, true);
 	}
 
 	/**
-	 * Saves the editor model. Save will contain a normal EAdModel, plus resources,
-	 * plus editor-specific model nodes. Does not include anything presentation-
-	 * related; that should be appended via
+	 * Saves the editor model. Save will contain a normal EAdModel, plus
+	 * resources, plus editor-specific model nodes. Does not include anything
+	 * presentation- related; that should be appended via
 	 * FileUtils.appendEntryToZip(target, ...)
-	 *
-	 * @param target; if null, previous target is assumed
+	 * 
+	 * @param target
+	 *            ; if null, previous target is assumed
 	 * @throws IOException
 	 */
 	public void save(File target) throws IOException {
@@ -346,54 +361,59 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		if (target == null && saveFile != null) {
 			target = saveFile;
 		} else {
-			throw new IllegalArgumentException("Cannot save() without specifying a name");
+			throw new IllegalArgumentException(
+					"Cannot save() without specifying a name");
 		}
-		
+
 		// save the model data
 		if (!target.getName().endsWith(".eap")) {
-			target = new File(target.getParent(), target.getName() + ".eap");			
+			target = new File(target.getParent(), target.getName() + ".eap");
 		}
 		boolean ok = importer.createGameFile(
-			(EAdAdventureModel) root.getContent(),
-			saveDir.getAbsolutePath(), target.getAbsolutePath(),
-			".eap", "Editor project");
+				(EAdAdventureModel) root.getContent(),
+				saveDir.getAbsolutePath(), target.getAbsolutePath(), ".eap",
+				"Editor project", false);
 
 		// write extra xml file to it
 		int mappings = 0;
-		if (ok) try {
-			StringBuilder sb = new StringBuilder();
-			for (DependencyNode n : nodesById.values()) {
-				if (n instanceof EditorNode) {
-					logger.debug("Writing editorNode of type {} with id {}",
-							new Object[] {n.getClass(), n.getId()});
-					((EditorNode)n).write(sb);
-					mappings ++;
+		if (ok)
+			try {
+				StringBuilder sb = new StringBuilder();
+				for (DependencyNode n : nodesById.values()) {
+					if (n instanceof EditorNode) {
+						logger.debug(
+								"Writing editorNode of type {} with id {}",
+								new Object[] { n.getClass(), n.getId() });
+						((EditorNode) n).write(sb);
+						mappings++;
+					}
 				}
+				ByteArrayInputStream bis = new ByteArrayInputStream(sb
+						.toString().getBytes("UTF-8"));
+				FileUtils.appendEntryToZip(target, "editor.xml", bis);
+			} catch (IOException ioe) {
+				logger.error("Could not write editor.xml file to {}", target,
+						ioe);
 			}
-			ByteArrayInputStream bis = new ByteArrayInputStream(
-				sb.toString().getBytes("UTF-8"));
-			FileUtils.appendEntryToZip(target, "editor.xml", bis);
-		} catch (IOException ioe) {
-			logger.error("Could not write editor.xml file to {}", target, ioe);
-		}
 		saveFile = target;
 
-		logger.info("Wrote editor data from {} to {}: {} total objects, {} editor mappings",
-				new Object[] {saveDir, target, nodesById.size(), mappings});
+		logger.info(
+				"Wrote editor data from {} to {}: {} total objects, {} editor mappings",
+				new Object[] { saveDir, target, nodesById.size(), mappings });
 	}
 
 	/**
 	 * Loads the editor model. Discards the current editing session. The file
 	 * must have been built with save(). Any presentation-related data should be
 	 * added after this is called, using FileUtils.readEntryFromZip(source, ...)
-	 *
+	 * 
 	 * @param source
 	 * @throws IOException
 	 */
 	public void load(File source) throws IOException {
 		logger.info("Loading editor model from project file '{}'...", source);
-		
-		if ( ! FileUtils.zipContainsEntry(source, ProjectFiles.DATA_FILE)) {
+
+		if (!FileUtils.zipContainsEntry(source, ProjectFiles.DATA_FILE)) {
 			logger.info("Project does not contain data-file; will try to import instead");
 			loadFromImportFile(source);
 			return;
@@ -406,11 +426,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		saveDir = File.createTempFile("ead-editor-tmpdir", null);
 		saveDir.delete();
 		saveDir.mkdirs();
-		FileUtils.expand(source, saveDir);	
+		FileUtils.expand(source, saveDir);
 
-		engineModel = reader.read(
-				new File(saveDir, ProjectFiles.DATA_FILE).toURI());
-
+		engineModel = reader.read(new File(saveDir, ProjectFiles.DATA_FILE)
+				.toURI());
 
 		logger.info("Model loaded; building graph...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
@@ -419,29 +438,34 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		nodeIndex.firstIndexUpdate(g.vertexSet());
 		saveFile = source;
 
-		logger.info("Editor model loaded: {} nodes, {} edges",
-				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
+		logger.info("Editor model loaded: {} nodes, {} edges", new Object[] {
+				g.vertexSet().size(), g.edgeSet().size() });
 
 		logger.info("Using temp dir {} as a working directory", saveDir);
 	}
 
 	/**
 	 * Returns a file that is relative to this save-file
-	 * @param name of file to return, relative to save-file
+	 * 
+	 * @param name
+	 *            of file to return, relative to save-file
 	 */
 	public File relativeFile(String name) {
 		if (saveDir.exists() && saveDir.isDirectory()) {
 			return new File(saveDir, name);
 		} else {
-			throw new IllegalArgumentException("Nothing loaded, loadRelative not available");
+			throw new IllegalArgumentException(
+					"Nothing loaded, loadRelative not available");
 		}
-	}				
-	
+	}
+
 	/**
 	 * Loads data from an EAdventure1.x game file.
-	 *
-	 * @param f old-version file to import from
-	 * @param target target file to build into
+	 * 
+	 * @param f
+	 *            old-version file to import from
+	 * @param target
+	 *            target file to build into
 	 */
 	public void loadFromImportFile(File f) throws IOException {
 		logger.info("Loading editor model from EAD 1.x import '{}'...", f);
@@ -460,8 +484,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		this.root = nodesByContent.get(engineModel);
 		nodeIndex.firstIndexUpdate(g.vertexSet());
 
-		logger.info("Editor model loaded: {} nodes, {} edges",
-				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
+		logger.info("Editor model loaded: {} nodes, {} edges", new Object[] {
+				g.vertexSet().size(), g.edgeSet().size() });
 
 		// FIXME: this can be simplified
 		// -- if the importer could hand over control of its temp-dir
@@ -471,7 +495,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 			saveDir.delete();
 			saveDir.mkdirs();
 		} catch (IOException ioe) {
-			logger.error("Could not create temporary extraction dir {}", saveDir);
+			logger.error("Could not create temporary extraction dir {}",
+					saveDir);
 			throw ioe;
 		}
 
@@ -484,7 +509,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 					tmpFile.getAbsolutePath());
 			throw ioe;
 		}
-		saveFile = null;	
+		saveFile = null;
 
 		logger.info("Using temp dir {} as a working directory", saveDir);
 	}
@@ -505,12 +530,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	public EAdAdventureModel getEngineModel() {
 		return engineModel;
-	}	
+	}
 
 	// ---- search-related functions API ----
 	/**
 	 * Queries all fields in all nodes for the provided text.
-	 *
+	 * 
 	 * @param queryText
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
@@ -520,7 +545,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	/**
 	 * Queries a given field in all nodes for the provided text.
-	 *
+	 * 
 	 * @param queryText
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
@@ -537,7 +562,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	@Override
 	public DependencyNode getElement(String id) {
-		if (id == null || id.isEmpty()) return null;
+		if (id == null || id.isEmpty())
+			return null;
 
 		char c = id.charAt(0);
 		if (Character.isLetter(c)) {
@@ -548,13 +574,15 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 			case 'f': // field query
 				throw new IllegalArgumentException("Not yet implemented");
 			default:
-				throw new IllegalArgumentException("Expected number or q*,t*,f* queries");
+				throw new IllegalArgumentException(
+						"Expected number or q*,t*,f* queries");
 			}
 		} else if (Character.isDigit(c)) {
 			int eid = Integer.parseInt(id);
 			return getNode(eid);
 		} else {
-			throw new IllegalArgumentException("Expected number or q*,t*,f* queries");
+			throw new IllegalArgumentException(
+					"Expected number or q*,t*,f* queries");
 		}
 	}
 

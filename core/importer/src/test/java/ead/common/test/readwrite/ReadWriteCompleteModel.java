@@ -48,9 +48,9 @@ import java.io.IOException;
 import org.junit.Test;
 
 import ead.common.test.CompleteModel;
-import ead.common.writer.DOMWriter;
 import ead.reader.java.extra.ObjectFactory;
 import ead.reader.java.visitors.NodeVisitor;
+import ead.writer.DOMWriter;
 
 /**
  * Test for general writing/reading on a complete model (with all possibles

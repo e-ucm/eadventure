@@ -59,7 +59,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.common.writer.EAdAdventureModelWriter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -67,6 +66,7 @@ import ead.importer.interfaces.ResourceImporter;
 import ead.reader.StringFileHandler;
 import ead.reader.java.ProjectFiles;
 import ead.tools.StringHandler;
+import ead.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
@@ -183,8 +183,8 @@ public class EAdventure1XImporter {
 
 		if (destiny != null) {
 			updateProgress(90, "Creating " + destiny);
-			createGameFile(model, destinyFolder.getAbsolutePath(), destiny,
-					"." + format, "Imported version", zipped);
+			createGameFile(model, destinyFolder.getAbsolutePath(), destiny, "."
+					+ format, "Imported version", zipped);
 		}
 
 		updateProgress(100, "Done.");
@@ -192,7 +192,6 @@ public class EAdventure1XImporter {
 		return model;
 
 	}
-
 
 	/**
 	 * Creates a game file.
@@ -394,5 +393,10 @@ public class EAdventure1XImporter {
 		// two and give the appearance of work most of the time
 		public void update(int progress, String text);
 
+	}
+
+	public EAdAdventureModel importGame(String absolutePath, String destiny) {
+
+		return importGame(absolutePath, destiny, "none");
 	}
 }

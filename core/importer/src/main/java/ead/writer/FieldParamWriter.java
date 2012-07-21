@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.writer;
+package ead.writer;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.writer;
+package ead.writer;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -59,7 +59,6 @@ import org.w3c.dom.Node;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.reader.DOMTags;
-import ead.writer.Writer;
 
 public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 
