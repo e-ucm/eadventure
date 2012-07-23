@@ -119,12 +119,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	/**
 	 * Last-loaded file; will use to save(null) unless another name specified
 	 */
-	private File saveFile;	
+	private File saveFile;
 	/**
 	 * Engine model
 	 */
 	private EAdAdventureModel engineModel;
-	
+
 	/**
 	 * Constructor. Does not do much beyond initializing fields.
 	 *
@@ -348,10 +348,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		} else {
 			throw new IllegalArgumentException("Cannot save() without specifying a name");
 		}
-		
+
 		// save the model data
 		if (!target.getName().endsWith(".eap")) {
-			target = new File(target.getParent(), target.getName() + ".eap");			
+			target = new File(target.getParent(), target.getName() + ".eap");
 		}
 		boolean ok = importer.createGameFile(
 			(EAdAdventureModel) root.getContent(),
@@ -392,7 +392,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	public void load(File source) throws IOException {
 		logger.info("Loading editor model from project file '{}'...", source);
-		
+
 		if ( ! FileUtils.zipContainsEntry(source, ProjectFiles.DATA_FILE)) {
 			logger.info("Project does not contain data-file; will try to import instead");
 			loadFromImportFile(source);
@@ -406,7 +406,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		saveDir = File.createTempFile("ead-editor-tmpdir", null);
 		saveDir.delete();
 		saveDir.mkdirs();
-		FileUtils.expand(source, saveDir);	
+		FileUtils.expand(source, saveDir);
 
 		engineModel = reader.read(
 				new File(saveDir, ProjectFiles.DATA_FILE).toURI());
@@ -435,8 +435,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		} else {
 			throw new IllegalArgumentException("Nothing loaded, loadRelative not available");
 		}
-	}				
-	
+	}
+
 	/**
 	 * Loads data from an EAdventure1.x game file.
 	 *
@@ -484,7 +484,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 					tmpFile.getAbsolutePath());
 			throw ioe;
 		}
-		saveFile = null;	
+		saveFile = null;
 
 		logger.info("Using temp dir {} as a working directory", saveDir);
 	}
@@ -505,7 +505,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 	public EAdAdventureModel getEngineModel() {
 		return engineModel;
-	}	
+	}
 
 	// ---- search-related functions API ----
 	/**

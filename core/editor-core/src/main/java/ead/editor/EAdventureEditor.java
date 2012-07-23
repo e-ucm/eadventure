@@ -88,7 +88,7 @@ public class EAdventureEditor implements Launcher {
 				"eAdventure");
 
 		// Locale.setDefault(new Locale("es", "ES"));
-		
+
         // Initialize logging
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
             "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
@@ -98,7 +98,7 @@ public class EAdventureEditor implements Launcher {
             "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
 //			Internacionalizacion (i18n)
-//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,			
+//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
         });
 
 		// show splash
@@ -113,7 +113,7 @@ public class EAdventureEditor implements Launcher {
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
         Launcher launcher = injector.getInstance(Launcher.class);
-		
+
         launcher.configure();
         launcher.initialize();
 

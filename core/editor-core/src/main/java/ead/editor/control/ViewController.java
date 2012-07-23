@@ -52,38 +52,48 @@ public interface ViewController {
 	/**
 	 * Show the eAdventure editor window
 	 */
-	void showWindow();	
+	void showWindow();
 
 	/**
 	 * Add a modal pane to the main editor window
-	 * 
+	 *
 	 * @param modelPanel The modal pane
 	 */
 	void addModalPanel(JPanel modalPane);
-	
+
 	/**
 	 * Remove a modal panel, possibly canceling any changes.
-	 * 
+	 *
 	 * @param cancelChanges Cancel the changes of the actions in
 	 * the modal pane
 	 */
-	void removeModalPanel(boolean cancelChanges);	
-	
+	void removeModalPanel(boolean cancelChanges);
+
+    /**
+	 * Creates a new view.
+	 * @param type used for grouping purposes; views with the same type
+	 *    can be grouped together.
+	 * @param elementId of element being edited; null indicates no particular element
+	 * @param reuseExisting - if specified, will try to reuse existing views
+	 *    of the same element.
+	 */
+	void addView(String type, String elementId, boolean reuseExisting);
+
 	/**
 	 * Restores windows to a previously saved state
 	 */
 	void restoreViews();
-	
+
 	/**
-	 * Saves view state 
+	 * Saves view state
 	 */
 	void saveViews();
-	
+
 	/**
-	 * Saves view state 
+	 * Saves view state
 	 */
 	void clearViews();
-	
+
 	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,

@@ -219,7 +219,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String query = searchField.getText();
-                editorWindow.addView("query", "q"+query, null, false);
+                editorWindow.addView("query", "q"+query, false);
 			}
 		});
 	}

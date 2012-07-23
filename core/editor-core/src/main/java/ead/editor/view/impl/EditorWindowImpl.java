@@ -120,7 +120,7 @@ public class EditorWindowImpl implements EditorWindow {
      * Model controller
      */
     protected Controller controller;
-	
+
     /**
      * default EditorWindow implementation.
      *
@@ -166,7 +166,7 @@ public class EditorWindowImpl implements EditorWindow {
 		leftPanel.addElement(new StructureElement(
 				new SimpleStructureElement("Assessment Profiles", R.Drawable.sidePanel__assessmentProfiles_png)));
 		leftPanel.createElements();
-		
+
         dockController = new CControl();
 
         // requires left and right panel; builds an animated splitPane
@@ -196,7 +196,7 @@ public class EditorWindowImpl implements EditorWindow {
 			}
 		}
 	}
-	
+
 	@Override
 	public void clearViews() {
 		for (int i=0; i<dockController.getCDockableCount(); i++) {
@@ -204,7 +204,7 @@ public class EditorWindowImpl implements EditorWindow {
 			dockController.remove((MultipleCDockable)c);
 		}
 	}
-	
+
 	@Override
 	public void saveViews() {
 		File f = controller.getModel().relativeFile("views.xml");
@@ -232,7 +232,7 @@ public class EditorWindowImpl implements EditorWindow {
     }
 
     @Override
-    public void addView(String type, String elementId, JPanel view, boolean reuseExisting) {
+    public void addView(String type, String elementId, boolean reuseExisting) {
         createNewView(elementId);
     }
 
@@ -373,7 +373,7 @@ public class EditorWindowImpl implements EditorWindow {
     public EditorMenuBar getEditorMenuBar() {
         return editorMenuBar;
     }
-	
+
 	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,
@@ -382,8 +382,8 @@ public class EditorWindowImpl implements EditorWindow {
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
-	}	
-	
+	}
+
 	/**
 	 * Simplistic structure provider
 	 */
@@ -395,7 +395,7 @@ public class EditorWindowImpl implements EditorWindow {
 			this.icon = new ImageIcon(ClassLoader
 					.getSystemClassLoader().getResource(iconUrl));
 		}
-		
+
 		@Override
 		public String getLabel() {
 			return label;
@@ -415,6 +415,6 @@ public class EditorWindowImpl implements EditorWindow {
 		public int getChildCount() {
 			return 0;
 		}
-		
+
 	}
 }

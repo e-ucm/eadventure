@@ -47,24 +47,13 @@ import ead.editor.view.menu.EditorMenuBar;
  * Interface for the eAdventure editor window.
  */
 public interface EditorWindow extends ViewController {
-	
-	/**
-	 * Creates a new view.
-	 * @param type used for grouping purposes; views with the same type
-	 *    can be grouped together. 
-	 * @param view actual view to place in editor
-	 * @param elementId of element being edited; null indicates no particular element
-	 * @param reuseExisting - if specified, will try to reuse existing views
-	 *    of the same element.
-	 */
-	void addView(String type, String elementId, JPanel view, boolean reuseExisting);
-		
+
 	/**
 	 * Return the controller used for this window.
-	 * @return 
+	 * @return
 	 */
 	public Controller getController();
-	
+
 	public JPanel getLeftPanel();
 
 	public JPanel getMainPanel();
@@ -74,5 +63,5 @@ public interface EditorWindow extends ViewController {
 	public ToolPanel getToolPanel();
 
 	public EditorMenuBar getEditorMenuBar();
-	
+
 }

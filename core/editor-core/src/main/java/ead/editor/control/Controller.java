@@ -56,10 +56,10 @@ public interface Controller {
 
 	/**
 	 * Retrieve the model for read-only purposes.
-	 * ALERT: do not keep copies of the model, or 
+	 * ALERT: do not keep copies of the model, or do anything except READING it
 	 */
 	EditorModel getModel();
-	
+
     /**
      * Returns the project controller. In charge of project loading / saving
      */
