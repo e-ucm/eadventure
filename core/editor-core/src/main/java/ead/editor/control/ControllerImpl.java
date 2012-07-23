@@ -40,6 +40,7 @@ package ead.editor.control;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ead.editor.model.EditorModel;
+import java.io.File;
 import java.util.Locale;
 
 /**
@@ -48,18 +49,24 @@ import java.util.Locale;
 @Singleton
 public class ControllerImpl implements Controller {
 
-	private EditorModel editorModel = null;
+    private boolean configLoaded = false;
+
+    private EditorConfig editorConfig;
+	private EditorModel editorModel;
     private ProjectController projectController;
     private NavigationController navigationController;
     private ViewController viewController;
     private CommandManager commandManager;
 
 	@Inject
-	public ControllerImpl(EditorModel editorModel, 
-		ProjectController projectController, 
+	public ControllerImpl(EditorConfig editorConfig,
+        EditorModel editorModel,
+		ProjectController projectController,
 		NavigationController navigationController,
 		ViewController viewControler,
 		CommandManager commandManager)	{
+
+        this.editorConfig = editorConfig;
 		this.editorModel = editorModel;
 		this.projectController = projectController;
 		this.navigationController = navigationController;
@@ -70,30 +77,29 @@ public class ControllerImpl implements Controller {
 		this.navigationController.setController(this);
 		this.viewController.setController(this);
 	}
-	
-	
+
+    @Override
+    public EditorConfig getConfig() {
+        if ( ! configLoaded) {
+            File f = new File("ead-editor-config.xml");
+            if (editorConfig.load(f.getAbsolutePath())) {
+                configLoaded = true;
+            } else if (editorConfig.save(f.getAbsolutePath())) {
+                configLoaded = true;
+            }
+        }
+        return editorConfig;
+    }
+
 	/**
 	 * Access to the editor model. IMPORTANT: all non-control classes should
 	 * consider the returned model to be read-only and transient. Violators
 	 * WILL be punished.
-	 * @return 
+	 * @return
 	 */
 	@Override
 	public EditorModel getModel() {
 		return editorModel;
-	}
-
-	/**
-	 * Changes current locale. But this will not alter already-loaded strings...
-	 * @param locale
-	 */
-	@Override
-	public void setLocale(Locale locale) {
-		Locale.setDefault(locale);
-
-		// FIXME: should redo static initialization of all Messages classes
-
-		// FIXME: should reload all the UI right around here, via massive repaints
 	}
 
     @Override

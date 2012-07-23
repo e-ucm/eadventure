@@ -74,7 +74,7 @@ import es.eucm.eadventure.common.loader.incidences.Incidence;
 
 /**
  * An importer for old games from 1.x version
- * 
+ *
  */
 public class EAdventure1XImporter {
 
@@ -125,7 +125,7 @@ public class EAdventure1XImporter {
 
 	/**
 	 * Imports and old game form 1.x version
-	 * 
+	 *
 	 * @param eadFile
 	 *            original ead file
 	 * @param destiny
@@ -195,7 +195,7 @@ public class EAdventure1XImporter {
 
 	/**
 	 * Creates a game file.
-	 * 
+	 *
 	 * @param model
 	 *            to save
 	 * @param path
@@ -295,7 +295,7 @@ public class EAdventure1XImporter {
 	/**
 	 * Adds all files in folder to the supplied zipOutputStream. Optionally
 	 * includes their full paths too.
-	 * 
+	 *
 	 * @param zip
 	 *            destination stream
 	 * @param folder
@@ -344,7 +344,7 @@ public class EAdventure1XImporter {
 
 	/**
 	 * Loads an old model AdventureData
-	 * 
+	 *
 	 */
 	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
@@ -381,6 +381,7 @@ public class EAdventure1XImporter {
 	}
 
 	public void updateProgress(int progress, String text) {
+        logger.debug("Importer progress update: {}", text);
 		for (ImporterProgressListener l : listeners) {
 			l.update(progress, text);
 		}

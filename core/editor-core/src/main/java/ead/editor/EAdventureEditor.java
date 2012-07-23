@@ -45,7 +45,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import ead.common.importer.ImporterConfigurationModule;
 import ead.editor.control.Controller;
 import ead.editor.control.ViewController;
 import ead.editor.model.EditorModel;
@@ -54,6 +53,8 @@ import ead.editor.view.impl.SplashScreenImpl;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.importer.ImporterModule;
+import ead.tools.java.JavaToolsModule;
 import ead.utils.i18n.I18N;
 import java.util.Locale;
 
@@ -108,7 +109,8 @@ public class EAdventureEditor implements Launcher {
 		// initialize launcher
         Injector injector = Guice.createInjector(
                 new EditorGuiceModule(),
-                new ImporterConfigurationModule(),
+                new ImporterModule(),
+                new JavaToolsModule(),
                 new JavaBasicGameModule(),
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());

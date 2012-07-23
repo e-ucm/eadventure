@@ -37,48 +37,19 @@
 
 package ead.editor.control;
 
+import ead.tools.ConfigBackend;
+
 /**
- * Interface for the controller of the system. This controller is in charge of
- * keeping the project in scope.
+ * Access to editor-wide options. May (in the future) be overriden by
+ * individual projects.
+ *
+ * @author mfreire
  */
-public interface ProjectController {
+public abstract class EditorConfig extends ConfigBackend {
+    public enum EditorConf {
+        EditorLanguage,
+        LastDirectory,
+    };
 
-	/**
-	 * Load a project from an URL
-	 *
-	 * @param projectURL The URL for the project
-	 */
-	void load(String projectURL);
-
-	/**
-	 * Load a project from an URL
-	 *
-	 * @param sourceURL The URL for the old project
-	 * @param projectURL The URL for the new project
-	 */
-	void doImport(String sourceURL, String projectURL);
-
-    /**
-	 * Save the project
-	 */
-	void save();
-
-	/**
-	 * Save the project in a new location
-	 *
-	 * @param projectURL The new URL location for the project
-	 */
-	void saveAs(String projectURL);
-
-	/**
-	 * Create a new project
-	 */
-	void newProject();
-
-	/**
-	 * Set the actual super-controller.
-	 * @param controller the main controller, providing access to model, views,
-	 * and more
-	 */
-	void setController(Controller controller);
+    public final static String fileArraySeparator = ":";
 }

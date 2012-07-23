@@ -51,17 +51,17 @@ import org.slf4j.LoggerFactory;
 public class ProjectControllerImpl implements ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger("FileMenu");
-	
+
 	private Controller controller;
-	
+
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
-	
+
 	@Override
 	public void load(String projectURL) {
-		controller.getCommandManager().clearCommands();		
+		controller.getCommandManager().clearCommands();
 		try {
 			controller.getModel().load(new File(projectURL));
 			controller.getViewController().clearViews();
@@ -73,6 +73,21 @@ public class ProjectControllerImpl implements ProjectController {
 	}
 
 	@Override
+	public void doImport(String sourceURL, String projectURL) {
+		controller.getCommandManager().clearCommands();
+		try {
+			controller.getModel().loadFromImportFile(
+                    new File(sourceURL), new File(projectURL));
+			controller.getViewController().clearViews();
+			controller.getViewController().restoreViews();
+		} catch (IOException ex) {
+			logger.warn("Error importing from {} to {}",
+                    new Object[]{sourceURL, projectURL}, ex);
+		    SwingUtilities.showExceptionDialog(ex);
+		}
+	}
+
+    @Override
 	public void save() {
 		try {
 			controller.getViewController().saveViews();
@@ -91,7 +106,7 @@ public class ProjectControllerImpl implements ProjectController {
 		} catch (IOException ex) {
 			logger.warn("Error saving {}", projectURL, ex);
 		    SwingUtilities.showExceptionDialog(ex);
-		}	
+		}
 	}
 
 	@Override

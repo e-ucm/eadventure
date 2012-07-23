@@ -47,12 +47,10 @@ import java.util.Locale;
  */
 public interface Controller {
 
-	/**
-	 * Set the locale (which determines the language) of the editor
-	 *
-	 * @param locale
-	 */
-	void setLocale(Locale locale);
+    /**
+     * Retrieves the editor-wide configuration
+     */
+    EditorConfig getConfig();
 
 	/**
 	 * Retrieve the model for read-only purposes.

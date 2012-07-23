@@ -43,6 +43,7 @@ package ead.utils;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -51,145 +52,164 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Misc file utilities for use in EAdventure
- * 
+ *
  * @author mfreire
  */
 public class FileUtils {
-	private static final Logger logger = LoggerFactory.getLogger("FileUtils");
 
-	/** All zip files start with these bytes */
-	private static int[] zipMagic = new int[] {0x50, 0x4b};
-	
-	/** Size of buffer for stream operations */
-	private static final int BUFFER_SIZE = 1024;
-	
-	private static InputStream readEntryFromZip(File zipFile, String entryName) throws IOException {
-		ZipFile zip = new ZipFile(zipFile);
-		return zip.getInputStream(zip.getEntry(entryName));
-	}
+    private static final Logger logger = LoggerFactory.getLogger("FileUtils");
+    /** All zip files start with these bytes */
+    private static int[] zipMagic = new int[]{0x50, 0x4b};
+    /** Size of buffer for stream operations */
+    private static final int BUFFER_SIZE = 1024;
 
-	/**
-	 * Checks if a zipfile contains a given entry. Matches with regexp, so you have
-	 * to escape any special chars.
-	 */
-	public static boolean zipContainsEntry(File zipFile, String entryNameRegexp) throws IOException {
-	    if ( ! FileUtils.startMatches(zipFile, zipMagic)) {
+    private static InputStream readEntryFromZip(File zipFile, String entryName) throws IOException {
+        ZipFile zip = new ZipFile(zipFile);
+        return zip.getInputStream(zip.getEntry(entryName));
+    }
+
+    /**
+     * Checks if a zipfile contains a given entry. Matches with regexp, so you have
+     * to escape any special chars.
+     */
+    public static boolean zipContainsEntry(File zipFile, String entryNameRegexp) throws IOException {
+        if (!FileUtils.startMatches(zipFile, zipMagic)) {
             throw new IOException("File is not a zip archive");
-        }        
+        }
 
         ZipFile zf = new ZipFile(zipFile);
         boolean matched = false;
         try {
             Enumeration entries = zf.entries();
             while (entries.hasMoreElements()) {
-                ZipEntry e = (ZipEntry)entries.nextElement();
-				String name = FileUtils.toCanonicalPath(e.getName());
+                ZipEntry e = (ZipEntry) entries.nextElement();
+                String name = FileUtils.toCanonicalPath(e.getName());
                 if (name.matches(entryNameRegexp)) {
-					logger.debug("{} MATCHES {}", 
-							new Object[]{name, entryNameRegexp});
-					matched = true;
-					break;
-				} else {
-					logger.debug("{} does not match {}", 
-							new Object[]{name, entryNameRegexp});
-				}				
-			}
-			return matched;
-		} finally {
+                    logger.debug("{} MATCHES {}",
+                            new Object[]{name, entryNameRegexp});
+                    matched = true;
+                    break;
+                } else {
+                    logger.debug("{} does not match {}",
+                            new Object[]{name, entryNameRegexp});
+                }
+            }
+            return matched;
+        } finally {
             zf.close();
         }
     }
-	
-	
-	/**
-	 * Writes an entry into a ZipFile. Can be called with any type of
-	 * InputStream or entry name. Will overwrite entry if it already exists.
-	 *
-	 * @param zipFile
-	 * @param entryName
-	 * @param is
-	 * @throws IOException
-	 */
-	public static void appendEntryToZip(File zipFile, String entryName, InputStream is) throws IOException {
-		boolean errors = false;
-		byte[] data = new byte[BUFFER_SIZE];
-		ZipOutputStream out = null;
-		File tempFile = File.createTempFile("ead-copy-zip", null);
-		try {
-			ZipFile source = new ZipFile(zipFile);
-			out = new ZipOutputStream(new BufferedOutputStream(
-					new FileOutputStream(tempFile)));
-			
-			// copy all old stuff
-			Enumeration<? extends ZipEntry> entries = source.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry ze = entries.nextElement();
-				if (ze.getName().equals(entryName)) {
-					// avoid duplicating - will be written later
-					continue;
-				}
-				out.putNextEntry(ze);
-				if ( ! ze.isDirectory()) {
-					copy(source.getInputStream(ze), out);
-				}
-				out.closeEntry();
-			}			
-			
-			// now, append the file
-			ZipEntry ze = new ZipEntry(entryName);			
-			out.putNextEntry(ze);
-			copy(is, out);
-			out.closeEntry();
-		} catch (Exception e) {
-			logger.error("Error outputting zip to {}", zipFile, e);
-			errors = true;
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException ioe) {
-					logger.error("Could not close zip file writing to '{}'",
-							zipFile, ioe);
-					errors = true;
-				}
-			}
-			if (is != null) {
-				try {
-					is.close();
-				} catch (IOException ioe) {
-					logger.error("Could not close input stream for '{}'",
-							entryName, ioe);
-					errors = true;
-				}
-			}
-		}
-		if ( ! errors) {
-			// try to switch original source with temp target
-			zipFile.delete();
-			if (! tempFile.renameTo(zipFile)) {
-				logger.error("Could not replace input stream");
-				errors = true;
-			}
-		}	
-		
-		if (errors) {
-			throw new IOException("Could not write '"
-					+ entryName + "' into '"
-					+ zipFile + "'; see log for details");
-		}
-	}	
 
     /**
-	 * Pump from input to output.
-	 * @param input
-	 * @param output
-	 * @throws IOException 
-	 */
+     * Checks if folder contains a given entry (as a top-level file-or-folder).
+     * Matches name with regexp, so you have to escape any special chars.
+     */
+    public static boolean folderContainsEntry(File folder, String nameRegexp) throws IOException {
+        if (!folder.isDirectory() || !folder.canRead()) {
+            throw new IOException("Folder cannot be read");
+        }
+        for (File f : folder.listFiles()) {
+            if (f.getName().matches(nameRegexp)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Writes an entry into a ZipFile. Can be called with any type of
+     * InputStream or entry name. Will overwrite entry if it already exists.
+     *
+     * @param zipFile
+     * @param entryName
+     * @param is
+     * @throws IOException
+     */
+    public static void appendEntryToZip(File zipFile, String entryName, InputStream is) throws IOException {
+        boolean errors = false;
+        byte[] data = new byte[BUFFER_SIZE];
+        ZipOutputStream out = null;
+        File tempFile = File.createTempFile("ead-copy-zip", null);
+        try {
+            ZipFile source = new ZipFile(zipFile);
+            out = new ZipOutputStream(new BufferedOutputStream(
+                    new FileOutputStream(tempFile)));
+
+            // copy all old stuff
+            Enumeration<? extends ZipEntry> entries = source.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry ze = entries.nextElement();
+                if (ze.getName().equals(entryName)) {
+                    // avoid duplicating - will be written later
+                    continue;
+                }
+                out.putNextEntry(ze);
+                if (!ze.isDirectory()) {
+                    copy(source.getInputStream(ze), out);
+                }
+                out.closeEntry();
+            }
+
+            // now, append the file
+            ZipEntry ze = new ZipEntry(entryName);
+            out.putNextEntry(ze);
+            copy(is, out);
+            out.closeEntry();
+        } catch (Exception e) {
+            logger.error("Error outputting zip to {}", zipFile, e);
+            errors = true;
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ioe) {
+                    logger.error("Could not close zip file writing to '{}'",
+                            zipFile, ioe);
+                    errors = true;
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException ioe) {
+                    logger.error("Could not close input stream for '{}'",
+                            entryName, ioe);
+                    errors = true;
+                }
+            }
+        }
+        if (!errors) {
+            // try to switch original source with temp target
+            zipFile.delete();
+            if (!tempFile.renameTo(zipFile)) {
+                logger.error("Could not replace input stream");
+                errors = true;
+            }
+        }
+
+        if (errors) {
+            throw new IOException("Could not write '"
+                    + entryName + "' into '"
+                    + zipFile + "'; see log for details");
+        }
+    }
+
+    /**
+     * Pump from input to output. Closes both when finished
+     * @param input
+     * @param output
+     * @throws IOException
+     */
     public static void copy(InputStream input, OutputStream output) throws IOException {
         int len;
-        byte [] b = new byte[BUFFER_SIZE];
-        while ((len = input.read(b)) != -1) {
-            output.write(b, 0, len);
+        byte[] b = new byte[BUFFER_SIZE];
+        try {
+            while ((len = input.read(b)) != -1) {
+                output.write(b, 0, len);
+            }
+        } finally {
+            input.close();
+            output.close();
         }
     }
 
@@ -220,25 +240,25 @@ public class FileUtils {
         // close
         war.close();
         append.close();
-    }	
-	
-	/**
-	 * Uncompresses a zip file into a directory
-	 */
+    }
+
+    /**
+     * Uncompresses a zip file into a directory
+     */
     public static void expand(File source, File destDir) throws IOException {
 
-        if ( ! FileUtils.startMatches(source, zipMagic)) {
+        if (!FileUtils.startMatches(source, zipMagic)) {
             throw new IOException("File is not a zip archive");
-        }        
+        }
 
         ZipFile zf = new ZipFile(source);
-        byte [] b = new byte[BUFFER_SIZE];
-        
+        byte[] b = new byte[BUFFER_SIZE];
+
         try {
-            logger.debug("Extracting zip: "+source.getName());
+            logger.debug("Extracting zip: " + source.getName());
             Enumeration entries = zf.entries();
             while (entries.hasMoreElements()) {
-                ZipEntry e = (ZipEntry)entries.nextElement();
+                ZipEntry e = (ZipEntry) entries.nextElement();
 
                 // backslash-protection: zip format expects only 'fw' slashes
                 String name = FileUtils.toCanonicalPath(e.getName());
@@ -252,34 +272,32 @@ public class FileUtils {
 
                 logger.debug("\tExtracting file '{}'", name);
                 File outFile = new File(destDir, name);
-                if ( ! outFile.getParentFile().exists()) {
+                if (!outFile.getParentFile().exists()) {
                     outFile.getParentFile().mkdirs();
                 }
                 FileOutputStream fos = new FileOutputStream(outFile);
 
                 InputStream zis = zf.getInputStream(e);
                 int len = 0;
-                while ((len=zis.read(b))!= -1) fos.write(b,0,len);
+                while ((len = zis.read(b)) != -1) {
+                    fos.write(b, 0, len);
+                }
                 fos.close();
                 zis.close();
-            }                        
-        }
-        finally {
+            }
+        } finally {
             zf.close();
         }
     }
-	
+
     /**
-     * Canonicalizes a path, transforming windows '\' to unix '/', 
-     * stripping off any './' or '../' occurrences, and trimming 
+     * Canonicalizes a path, transforming windows '\' to unix '/',
+     * stripping off any './' or '../' occurrences, and trimming
      * start and end whitespace
      */
     public static String toCanonicalPath(String name) {
-        return name
-			.replaceAll("\\\\", "/")
-			.replaceAll("(\\.)+/", "")
-		    .trim();
-    }	
+        return name.replaceAll("\\\\", "/").replaceAll("(\\.)+/", "").trim();
+    }
 
     /**
      * Check the magic in a file
@@ -287,39 +305,86 @@ public class FileUtils {
     public static boolean startMatches(File f, int[] magic) throws IOException {
         FileInputStream in = null;
         try {
-            in =  new FileInputStream(f);
+            in = new FileInputStream(f);
             return startMatches(in, magic);
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e) {
+            };
         }
-        finally {        
-            try { if (in != null) in.close(); } catch(Exception e) {};
-        }
-    }       
-	
-	/**
-	 * Check the first few bytes in a stream against a pattern.
-	 * @param is source to check
-	 * @param magic to check it against
-	 * @return true if first bytes match magic
-	 * @throws IOException 
-	 */
+    }
+
+    /**
+     * Check the first few bytes in a stream against a pattern.
+     * @param is source to check
+     * @param magic to check it against
+     * @return true if first bytes match magic
+     * @throws IOException
+     */
     public static boolean startMatches(InputStream is, int[] magic) throws IOException {
-        for (int i=0; i<magic.length; i++) {
+        for (int i = 0; i < magic.length; i++) {
             int r = is.read();
-            if (r == -1 || r != magic[i]) return false;                
+            if (r == -1 || r != magic[i]) {
+                return false;
+            }
         }
         return true;
-    }	
-	
-	/**
-	 * Deletes a directory recursively. Use wisely
-	 */
-	public static void deleteRecursive(File f) throws IOException {	
-		if (f.isDirectory()) {
-			for (File file : f.listFiles()) {
-				deleteRecursive(file);
-			}	
-		} else {
-			f.delete();
-		}
-	}
+    }
+
+    /**
+     * Deletes a directory recursively. Use wisely
+     */
+    public static void deleteRecursive(File f) throws IOException {
+        if (f.isDirectory()) {
+            for (File file : f.listFiles()) {
+                deleteRecursive(file);
+            }
+        } else {
+            f.delete();
+        }
+    }
+
+    /**
+     * Copies a directory recursively. Use wisely
+     * @param src source file or directory to copy
+     * @param dstDir target directory to place it into. If dstName is null,
+     * must exist, and dstDir/src must NOT exist.
+     * @param dstName if not null, then src will be copied into dstName
+     * (and dstDir/src may exist without conflict). May be a file (if src is a file)
+     * or a folder (if src is a folder).
+     */
+    public static void copyRecursive(File src, File dstDir, File dstName) throws IOException {
+        File dstPath = dstName == null ?
+                new File(dstDir, src.getName()) : dstName;
+        if (src.isDirectory()) {
+            // recurse
+            if ( ! dstPath.exists()) {
+                dstPath.mkdir();
+            }
+            for (File file : src.listFiles()) {
+                copyRecursive(file, dstPath, null);
+            }
+        } else {
+            // copy a file
+            FileInputStream fis = new FileInputStream(src);
+            FileOutputStream fos = new FileOutputStream(dstPath);
+            copy(fis, fos);
+        }
+    }
+
+    public static File createTempDir(String prefix, String suffix) throws IOException {
+        try {
+            File tempFile = File.createTempFile(prefix, suffix);
+            tempFile.delete();
+            tempFile.mkdirs();
+            return tempFile;
+        } catch (IOException ex) {
+            logger.error("Could not create temp dir with prefix {} and suffix {}",
+                    new Object[]{prefix, suffix});
+            throw ex;
+        }
+    }
 }

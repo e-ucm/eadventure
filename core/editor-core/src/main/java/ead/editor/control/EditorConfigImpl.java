@@ -37,48 +37,33 @@
 
 package ead.editor.control;
 
+import ead.tools.ConfigBackendXMLFile;
+
 /**
- * Interface for the controller of the system. This controller is in charge of
- * keeping the project in scope.
+ * Access to editor-wide options. Private implementation, delegates everything
+ * @author mfreire
  */
-public interface ProjectController {
+public class EditorConfigImpl extends EditorConfig {
 
-	/**
-	 * Load a project from an URL
-	 *
-	 * @param projectURL The URL for the project
-	 */
-	void load(String projectURL);
+    private ConfigBackendXMLFile backend = new ConfigBackendXMLFile();
 
-	/**
-	 * Load a project from an URL
-	 *
-	 * @param sourceURL The URL for the old project
-	 * @param projectURL The URL for the new project
-	 */
-	void doImport(String sourceURL, String projectURL);
+    @Override
+    public boolean load(String sourceURL) {
+        return backend.load(sourceURL);
+    }
 
-    /**
-	 * Save the project
-	 */
-	void save();
+    @Override
+    public boolean save(String targetURL) {
+        return backend.save(targetURL);
+    }
 
-	/**
-	 * Save the project in a new location
-	 *
-	 * @param projectURL The new URL location for the project
-	 */
-	void saveAs(String projectURL);
+    @Override
+    public String getValue(Object key) {
+        return backend.getValue(key);
+    }
 
-	/**
-	 * Create a new project
-	 */
-	void newProject();
-
-	/**
-	 * Set the actual super-controller.
-	 * @param controller the main controller, providing access to model, views,
-	 * and more
-	 */
-	void setController(Controller controller);
+    @Override
+    public void put(Object key, String value) {
+        backend.put(key, value);
+    }
 }
