@@ -41,10 +41,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.ElementGameObjectFactoryConfigurator;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.platform.GenericInjector;
+import ead.tools.GenericInjector;
+import ead.tools.ReflectionProvider;
 
 /**
  * <p>

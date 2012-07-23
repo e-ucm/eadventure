@@ -154,6 +154,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		definition = new SceneElementDef();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
+		this.setPosition(Corner.TOP_LEFT, 0, 0);
 	}
 
 	/**

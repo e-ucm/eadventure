@@ -43,6 +43,7 @@ import com.google.inject.Injector;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.tools.java.JavaToolsModule;
 
 public class TestUtil {
 
@@ -50,8 +51,8 @@ public class TestUtil {
 
 	public static Injector getInjector() {
 		if (injector == null) {
-			injector = Guice.createInjector(new DesktopAssetHandlerModule(),
-					new DesktopModule(),
+			injector = Guice.createInjector(new JavaToolsModule(),
+					new DesktopAssetHandlerModule(), new DesktopModule(),
 					new JavaBasicGameModule());
 		}
 		return injector;

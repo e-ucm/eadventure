@@ -50,7 +50,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
@@ -66,6 +65,7 @@ import ead.engine.playn.core.platform.assets.PlayNFont;
 import ead.engine.playn.core.platform.assets.drawable.basics.PlayNBezierShape;
 import ead.engine.playn.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.playn.core.platform.assets.multimedia.PlayNSound;
+import ead.tools.StringHandler;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {

@@ -13,7 +13,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>utils</artifactId>
 	<packaging>jar</packaging>
-	<name>e-Adventure Utils</name>
+	<name>eAdventure Utils</name>
 	<description>
 		Utility classes included by most modules
 	</description>

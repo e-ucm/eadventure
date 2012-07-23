@@ -47,7 +47,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import ead.common.importer.EAdventure1XImporter;
+import ead.importer.EAdventure1XImporter;
 
 public class ProgressDialog extends JDialog implements
 		EAdventure1XImporter.ImporterProgressListener {

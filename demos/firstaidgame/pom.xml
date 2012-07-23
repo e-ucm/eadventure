@@ -141,6 +141,21 @@
 			<artifactId>engine-playn</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools-gwt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		
 		<!-- Desktop dependencies. Not used in GWT compilation -->
 		<dependency>

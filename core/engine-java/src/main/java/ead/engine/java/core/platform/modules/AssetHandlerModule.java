@@ -52,8 +52,6 @@ import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.util.StringHandler;
-import ead.engine.core.platform.StringHandlerImpl;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
@@ -65,7 +63,7 @@ public abstract class AssetHandlerModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(StringHandler.class).to(StringHandlerImpl.class);
+//		bind(StringHandler.class).to(StringHandlerImpl.class);
 	}
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})

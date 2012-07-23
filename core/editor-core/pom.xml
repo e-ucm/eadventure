@@ -13,17 +13,11 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>editor-core</artifactId>
 	<packaging>jar</packaging>
-	<name>e-Adventure Editor</name>
+	<name>eAdventure Editor</name>
 	<description>
 		Java desktop application e-Adventure editor
 	</description>  
 	<dependencies>
-
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-desktop</artifactId>
@@ -37,6 +31,31 @@
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+				<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>importer</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

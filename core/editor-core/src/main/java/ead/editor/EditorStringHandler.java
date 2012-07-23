@@ -37,12 +37,14 @@
 
 package ead.editor;
 
-import com.google.inject.Singleton;
-import ead.common.params.text.EAdString;
-import ead.common.util.StringHandler;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
+import com.google.inject.Singleton;
+
+import ead.common.params.text.EAdString;
+import ead.tools.StringHandler;
 
 /**
  * A simple StringHandler, capable of managing language resolution.

@@ -55,36 +55,38 @@ import ead.common.params.text.EAdString;
  * Model of the eAdventure chapter.
  */
 @Element(runtime = BasicChapter.class, detailed = BasicChapter.class)
-public class BasicChapter extends ResourcedElement implements EAdChapter, Evented {
+public class BasicChapter extends ResourcedElement implements EAdChapter,
+		Evented {
 
 	/**
 	 * Scenes of the game
 	 */
 	@Param("scenes")
 	private EAdList<EAdScene> scenes;
-	
+
 	/**
 	 * Actors of the game
 	 */
 	@Param("actors")
 	private EAdList<EAdSceneElementDef> actors;
-	
+
 	@Param("title")
 	private EAdString title;
-	
+
 	@Param("description")
 	private EAdString description;
-	
+
 	@Param("initialScene")
 	private EAdScene initialScene;
-	
+
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
-	
+
 	/**
 	 * Default constructor.
 	 * 
-	 * @param adventureModel The parent adventure model
+	 * @param adventureModel
+	 *            The parent adventure model
 	 */
 	public BasicChapter() {
 		super();
@@ -98,16 +100,20 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 				Object.class);
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getScenes()
 	 */
 	@Override
 	public EAdList<EAdScene> getScenes() {
 		return scenes;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getActors()
 	 */
 	@Override
@@ -115,7 +121,9 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 		return actors;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getTitle()
 	 */
 	@Override
@@ -123,7 +131,9 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 		return title;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getDescription()
 	 */
 	@Override
@@ -131,7 +141,9 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 		return description;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getInitialScreen()
 	 */
 	@Override
@@ -142,10 +154,14 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 	/**
 	 * Set the initial screen of the game
 	 * 
-	 * @param screen
+	 * @param scene
 	 */
-	public void setInitialScene(EAdScene screen) {
-		this.initialScene = screen;
+	public void setInitialScene(EAdScene scene) {
+		this.initialScene = scene;
+		if (!getScenes().contains(scene)) {
+			getScenes().add(scene);
+		}
+
 	}
 
 	@Override
@@ -165,7 +181,5 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 	public void setDescription(EAdString description) {
 		this.description = description;
 	}
-	
-	
 
 }

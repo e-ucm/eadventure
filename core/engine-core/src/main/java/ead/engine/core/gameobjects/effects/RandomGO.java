@@ -43,37 +43,37 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.RandomEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class RandomGO extends AbstractEffectGO<RandomEf>{
+public class RandomGO extends AbstractEffectGO<RandomEf> {
 
 	@Inject
-	public RandomGO(AssetHandler assetHandler, StringHandler stringsReader,
+	public RandomGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
-	
-	public void initialize( ){
+
+	public void initialize() {
 		super.initialize();
-		
+
 		float totalProbability = 0.0f;
-		for ( Float f: element.getEffects().values()){
+		for (Float f : element.getEffects().values()) {
 			totalProbability += f;
 		}
-		
+
 		float random = (float) (Math.random() * totalProbability);
 		totalProbability = 0.0f;
-		for ( Entry<EAdEffect, Float> entry: element.getEffects().entrySet()){
-			if ( totalProbability < random && random < totalProbability + entry.getValue() ){
+		for (Entry<EAdEffect, Float> entry : element.getEffects().entrySet()) {
+			if (totalProbability < random
+					&& random < totalProbability + entry.getValue()) {
 				gameState.addEffect(entry.getKey());
 				return;
 			}
-			totalProbability+= entry.getValue();
+			totalProbability += entry.getValue();
 		}
 	}
 

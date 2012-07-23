@@ -51,9 +51,9 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.operators.OperatorFactory;
+import ead.tools.ReflectionProvider;
 
 @Singleton
 public class ValueMapImpl implements ValueMap {
@@ -80,8 +80,13 @@ public class ValueMapImpl implements ValueMap {
 		logger.info("New instance");
 		this.reflectionProvider = reflectionProvider;
 		setOperatorFactory(operatorFactory);
-		operatorFactory.install(this, evaluatorFactory);
-		evaluatorFactory.install(this, operatorFactory);
+		if ( operatorFactory != null ){
+			operatorFactory.install(this, evaluatorFactory);
+		}
+		
+		if ( evaluatorFactory != null ){
+			evaluatorFactory.install(this, operatorFactory);
+		}
 		updateList = new ArrayList<EAdElement>();
 		updateEnable = true;
 	}

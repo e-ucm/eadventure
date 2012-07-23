@@ -47,7 +47,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
+import ead.tools.StringHandler;
 
 public class EffectOpaqueBlockTestScreen extends BasicScene implements
 		EAdScene {

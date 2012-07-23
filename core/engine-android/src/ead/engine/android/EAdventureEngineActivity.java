@@ -52,7 +52,6 @@ import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.android.core.platform.AndroidAssetHandler;
 import ead.engine.android.core.platform.assets.specialassetrenderers.AndroidVideoRenderer;
@@ -67,6 +66,7 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.tools.StringHandler;
 
 public class EAdventureEngineActivity extends Activity {
 

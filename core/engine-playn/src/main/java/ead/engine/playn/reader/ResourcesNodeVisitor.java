@@ -37,18 +37,17 @@
 
 package ead.engine.playn.reader;
 
-import com.gwtent.reflection.client.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.gwtent.reflection.client.Field;
 
-
-import ead.common.DOMTags;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.reader.DOMTags;
 
 /**
  * <p>

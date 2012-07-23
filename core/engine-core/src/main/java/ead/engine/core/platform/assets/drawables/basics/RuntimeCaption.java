@@ -49,7 +49,6 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdRectangle;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.GUI;
@@ -58,6 +57,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.assets.RuntimeFont;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.tools.StringHandler;
 
 public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<EAdCaption> implements

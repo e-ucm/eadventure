@@ -42,7 +42,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -66,6 +65,7 @@ import ead.engine.playn.core.game.PlayNGameLoop;
 import ead.engine.playn.core.platform.PlayNGUI;
 import ead.engine.playn.core.platform.PlayNGameProfiler;
 import ead.engine.playn.core.platform.PlayNReflectionProvider;
+import ead.tools.ReflectionProvider;
 
 public class PlayNModule extends AbstractGinModule {
 

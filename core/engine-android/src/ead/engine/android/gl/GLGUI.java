@@ -44,7 +44,6 @@ import android.opengl.GLSurfaceView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -61,9 +60,9 @@ public class GLGUI extends AbstractGUI<GL10> {
 	public GLGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GLCanvas canvas, GameLoop gameLoop) {
+			GLCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas, gameLoop);
+				gameState, gameObjectFactory, canvas);
 	}
 
 	@Override
@@ -94,6 +93,18 @@ public class GLGUI extends AbstractGUI<GL10> {
 	
 	public GLSurfaceView getGLSurfaceView( ){
 		return glSurfaceView;
+	}
+
+	@Override
+	public int getSkippedMilliseconds() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getTicksPerSecond() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

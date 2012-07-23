@@ -13,7 +13,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-java</artifactId>
 	<packaging>jar</packaging>
-	<name>e-Adventure Engine Java</name>
+	<name>eAdventure Engine Java</name>
 	<description>
     Shared code for use in java-based (applet or desktop) engines
   </description>
@@ -22,6 +22,21 @@
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

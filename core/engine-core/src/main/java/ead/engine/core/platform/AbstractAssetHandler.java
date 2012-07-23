@@ -110,7 +110,9 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 		this.fontHandler = fontHandler;
-		fontHandler.setAssetHandler(this);
+		if ( fontHandler != null ){
+			fontHandler.setAssetHandler(this);
+		}
 	}
 
 	/*

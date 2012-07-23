@@ -42,10 +42,10 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
+import ead.tools.ReflectionProvider;
 
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {

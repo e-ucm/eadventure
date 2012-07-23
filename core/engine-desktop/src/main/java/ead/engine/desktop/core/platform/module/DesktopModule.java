@@ -44,9 +44,6 @@ import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import ead.common.Reader;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.ActionsHUDImpl;
 import ead.engine.core.gameobjects.huds.BottomBasicHUD;
@@ -66,8 +63,6 @@ public class DesktopModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {})
-                .to(EAdAdventureDOMModelReader.class);
 		
 		configureGUI();
 

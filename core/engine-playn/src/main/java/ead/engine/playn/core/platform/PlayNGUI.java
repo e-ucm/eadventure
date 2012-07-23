@@ -56,7 +56,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -83,11 +82,12 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	private Object currentComponent;
 
 	@Inject
-	public PlayNGUI(EngineConfiguration platformConfiguration, GameObjectManager gameObjectManager,
-			InputHandler inputHandler, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas, GameLoop gameLoop) {
-		super(platformConfiguration, gameObjectManager, inputHandler, gameState, gameObjectFactory,
-				canvas, gameLoop);
+	public PlayNGUI(EngineConfiguration platformConfiguration,
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
+			GameState gameState, SceneElementGOFactory gameObjectFactory,
+			PlayNCanvas canvas) {
+		super(platformConfiguration, gameObjectManager, inputHandler,
+				gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
 	}
 
@@ -99,7 +99,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * lang.Object, int, int, boolean)
 	 */
 	@Override
-	public void showSpecialResource(final Object resource, int x, int y, boolean fullscreen) {
+	public void showSpecialResource(final Object resource, int x, int y,
+			boolean fullscreen) {
 		if (resource != null) {
 			if (currentComponent != resource) {
 				Widget widget = (Widget) resource;
@@ -122,7 +123,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 			if (currentComponent != null) {
 				// graphics().rootLayer().add(canvasLayer);
 				Element root = DOM.getElementById("playn-root");
-				root.getParentElement().removeChild(((Widget) currentComponent).getElement());
+				root.getParentElement().removeChild(
+						((Widget) currentComponent).getElement());
 				graphics().rootLayer().setVisible(true);
 			}
 			currentComponent = null;
@@ -166,6 +168,16 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	@Override
 	public void finish() {
 
+	}
+
+	@Override
+	public int getSkippedMilliseconds() {
+		return 60;
+	}
+
+	@Override
+	public int getTicksPerSecond() {
+		return 15;
 	}
 
 }

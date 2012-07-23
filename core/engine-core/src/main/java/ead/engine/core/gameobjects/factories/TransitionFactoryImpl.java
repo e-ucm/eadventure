@@ -48,8 +48,8 @@ import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
 import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
-import ead.engine.core.platform.GenericInjector;
 import ead.engine.core.platform.TransitionFactory;
+import ead.tools.GenericInjector;
 
 @Singleton
 public class TransitionFactoryImpl implements TransitionFactory {

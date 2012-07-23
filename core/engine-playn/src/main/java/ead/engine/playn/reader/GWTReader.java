@@ -50,10 +50,10 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
-import ead.common.DOMTags;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.engine.playn.core.platform.EngineCallback;
 import ead.engine.playn.html.GWTGame.EAdAventureModelProxy;
+import ead.reader.DOMTags;
 
 public class GWTReader {
 
@@ -151,4 +151,5 @@ public class GWTReader {
 		}
 
 	}
+	
 }

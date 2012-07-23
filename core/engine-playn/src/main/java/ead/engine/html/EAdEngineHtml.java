@@ -49,13 +49,13 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.core.game.Game;
 import ead.engine.playn.core.EAdEngine;
 import ead.engine.playn.core.platform.PlayNGUI;
 import ead.engine.playn.core.platform.PlayNGinInjector;
+import ead.tools.StringHandler;
 
 public class EAdEngineHtml extends HtmlGame {
 

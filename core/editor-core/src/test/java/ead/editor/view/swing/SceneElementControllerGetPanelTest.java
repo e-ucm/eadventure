@@ -39,8 +39,13 @@ package ead.editor.view.swing;
 
 import static org.mockito.Mockito.mock;
 
+import java.awt.FlowLayout;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.util.StringHandler;
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.ElementController;
@@ -48,10 +53,7 @@ import ead.editor.control.elements.EAdSceneController;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.Panel;
 import ead.elementfactories.demos.scenes.EmptyScene;
-import java.awt.FlowLayout;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import ead.tools.StringHandler;
 
 public class SceneElementControllerGetPanelTest extends JFrame {
 

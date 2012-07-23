@@ -38,9 +38,9 @@
 package ead.engine.core.evaluators;
 
 import ead.common.model.elements.EAdCondition;
-import ead.common.util.Factory;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
+import ead.tools.Factory;
 
 /**
  * Factory to provide the evaluator and evaluate the different {@link EAdCondition} elements.

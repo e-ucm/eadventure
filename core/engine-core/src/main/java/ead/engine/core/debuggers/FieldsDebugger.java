@@ -57,13 +57,13 @@ import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.input.InputHandler;
+import ead.tools.StringHandler;
 
 /**
  * A debugger showing all the fields and their values of the element under the

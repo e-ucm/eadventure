@@ -37,9 +37,15 @@
 
 package ead.editor.view.swing;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import ead.common.util.StringHandler;
+import java.awt.FlowLayout;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.FieldValueReader;
@@ -49,10 +55,7 @@ import ead.editor.view.generics.Panel;
 import ead.editor.view.generics.impl.FieldDescriptorImpl;
 import ead.editor.view.generics.impl.PanelImpl;
 import ead.editor.view.generics.impl.TextOption;
-import java.awt.FlowLayout;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import ead.tools.StringHandler;
 
 
 

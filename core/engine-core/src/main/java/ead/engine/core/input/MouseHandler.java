@@ -37,8 +37,8 @@
 
 package ead.engine.core.input;
 
+import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.google.inject.Singleton;
 
@@ -132,7 +132,7 @@ public class MouseHandler {
 	private int initZ;
 
 	public MouseHandler(GameState gameState) {
-		mouseEvents = new ConcurrentLinkedQueue<MouseInputAction>();
+		mouseEvents = new LinkedList<MouseInputAction>();
 		this.gameState = gameState;
 	}
 

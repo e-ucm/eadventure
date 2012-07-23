@@ -38,19 +38,19 @@
 package ead.editor.view.swing.componentproviders;
 
 import javax.swing.JComponent;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
 import ead.common.params.text.EAdString;
-import ead.common.util.StringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.FieldValueReader;
 import ead.editor.control.commands.ChangeEAdStringValueCommand;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.impl.EAdStringOption;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import ead.tools.StringHandler;
 
 /**
  * Swing {@link ComponentProvider} for fields with {@link EAdString} elements.

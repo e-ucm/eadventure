@@ -79,13 +79,12 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.GenericInjector;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.plugins.PluginHandler;
-import ead.engine.core.tracking.GLASGameTracker;
+import ead.engine.core.tracking.DefaultGameTracker;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.tracking.selection.DefaultTrackerSelector;
 import ead.engine.core.tracking.selection.TrackerSelector;
@@ -95,8 +94,7 @@ import ead.engine.playn.core.platform.PlayNInjector;
 import ead.engine.playn.core.platform.PlayNPluginHandler;
 import ead.engine.playn.core.platform.assets.specialassetrenderers.PlayNVideoRenderer;
 import ead.engine.playn.core.platform.rendering.PlayNFilterFactory;
-import es.eucm.glas.tracker.GLASTracker;
-import es.eucm.glas.tracker.gwttracker.GLASGwtTracker;
+import ead.tools.GenericInjector;
 
 public class GWTBasicGameModule extends AbstractGinModule {
 
@@ -131,10 +129,10 @@ public class GWTBasicGameModule extends AbstractGinModule {
 		}).to(PlayNFilterFactory.class);
 		
 		// Tracking
-//		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
+		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
 		bind(TrackerSelector.class).to(DefaultTrackerSelector.class).in(Singleton.class);
-		bind(GLASTracker.class).to(GLASGwtTracker.class).in(Singleton.class);
-		bind(GameTracker.class).to(GLASGameTracker.class).in(Singleton.class);		
+//		bind(GLASTracker.class).to(GLASGwtTracker.class).in(Singleton.class);
+//		bind(GameTracker.class).to(GLASGameTracker.class).in(Singleton.class);		
 		
 		
 

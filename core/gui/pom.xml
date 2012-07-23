@@ -13,7 +13,7 @@
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>gui</artifactId>
   <packaging>jar</packaging>
-  <name>e-Adventure GUI</name>
+  <name>eAdventure GUI</name>
   <description>
     Graphical User Interface components, used for the editor and other elements
   </description>

@@ -13,7 +13,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-playn</artifactId>
 	<packaging>jar</packaging>
-	<name>e-Adventure Play'N Engine</name>
+	<name>eAdventure Play'N Engine</name>
 	<description>
     Play'N / GWT e-Adventure engine; requires GWT SDK to build, generates web app
   </description>
@@ -140,6 +140,11 @@
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>test-suite</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

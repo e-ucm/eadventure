@@ -92,9 +92,9 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	EAdPosition getPosition();
 
 	RuntimeDrawable<?, ?> getRuntimeDrawable();
-	
-int getWidth();
-	
+
+	int getWidth();
+
 	int getHeight();
 
 }

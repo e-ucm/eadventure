@@ -53,10 +53,7 @@ import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.params.text.EAdString;
-import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.util.EAdURI;
-import ead.common.util.StringHandler;
-import ead.common.writer.EAdAdventureModelWriter;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.DebuggerHandler;
@@ -69,6 +66,10 @@ import ead.engine.core.tracking.selection.TrackerSelector;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.reader.java.EAdAdventureDOMModelReader;
+import ead.tools.StringHandler;
+import ead.tools.java.JavaToolsModule;
+import ead.writer.EAdAdventureModelWriter;
 
 public class DesktopGame {
 
@@ -81,7 +82,7 @@ public class DesktopGame {
 	private boolean writeAndRead = false;
 
 	public DesktopGame() {
-		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
+		injector = Guice.createInjector(new JavaToolsModule(), new DesktopAssetHandlerModule(),
 				new DesktopModule(), new JavaBasicGameModule());
 		game = injector.getInstance(Game.class);
 	}

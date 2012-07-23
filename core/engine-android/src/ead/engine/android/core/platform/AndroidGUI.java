@@ -63,7 +63,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			ValueMap valueMap, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, AndroidCanvas canvas, GameLoop gameLoop) {
 		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas, gameLoop);
+				gameObjectFactory, canvas);
 	}
 
 	@Override
@@ -97,6 +97,18 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	@Override
 	public void finish() {
 
+	}
+
+	@Override
+	public int getSkippedMilliseconds() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getTicksPerSecond() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

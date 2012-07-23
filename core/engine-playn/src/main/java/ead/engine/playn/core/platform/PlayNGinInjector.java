@@ -40,7 +40,6 @@ package ead.engine.playn.core.platform;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-import ead.common.util.StringHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
 import ead.engine.core.gameobjects.SceneGOImpl;
@@ -81,6 +80,7 @@ import ead.engine.playn.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.playn.core.platform.extra.PlayNAssetHandlerModule;
 import ead.engine.playn.core.platform.extra.PlayNModule;
 import ead.engine.playn.core.platform.modules.GWTBasicGameModule;
+import ead.tools.StringHandler;
 
 @GinModules({ PlayNAssetHandlerModule.class, PlayNModule.class, GWTBasicGameModule.class })
 public interface PlayNGinInjector extends Ginjector {

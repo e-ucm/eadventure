@@ -44,11 +44,12 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.util.AbstractFactory;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.factorymapproviders.OperatorFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
+import ead.tools.AbstractFactory;
+import ead.tools.ReflectionProvider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

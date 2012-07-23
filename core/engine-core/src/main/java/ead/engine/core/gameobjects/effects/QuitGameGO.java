@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.QuitGameEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -60,11 +59,10 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	private GameController gameController;
 	
 	@Inject
-	public QuitGameGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
+	public QuitGameGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
 			GameController gameController) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.gameController = gameController;
 	}
 

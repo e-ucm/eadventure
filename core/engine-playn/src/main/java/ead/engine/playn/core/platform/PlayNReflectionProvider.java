@@ -39,15 +39,16 @@ package ead.engine.playn.core.platform;
 
 import java.util.Stack;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 import com.gwtent.reflection.client.ReflectionRequiredException;
 
 import ead.common.interfaces.Element;
 import ead.common.model.EAdElement;
-import ead.common.util.ReflectionProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.tools.ReflectionProvider;
 
 @Singleton
 public class PlayNReflectionProvider implements ReflectionProvider {

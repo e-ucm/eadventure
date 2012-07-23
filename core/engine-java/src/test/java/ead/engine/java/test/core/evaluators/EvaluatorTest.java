@@ -53,7 +53,7 @@ import ead.engine.core.game.ValueMap;
 import ead.engine.core.game.ValueMapImpl;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
-import ead.engine.java.core.platform.JavaReflectionProvider;
+import ead.tools.java.JavaReflectionProvider;
 
 public class EvaluatorTest {
 	

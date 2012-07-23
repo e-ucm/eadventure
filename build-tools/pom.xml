@@ -5,6 +5,6 @@
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>build-tools</artifactId>
   <packaging>jar</packaging>
-  <name>e-Adventure Build Utilities</name>
-  <description>e-Adventure Maven 2 build utilities.</description>
+  <name>eAdventure Build Utilities</name>
+  <description>eAdventure Maven 2 build utilities.</description>
 </project>

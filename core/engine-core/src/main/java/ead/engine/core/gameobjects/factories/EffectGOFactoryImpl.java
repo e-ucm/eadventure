@@ -41,11 +41,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.EffectGameObjectFactoryConfigurator;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.platform.GenericInjector;
+import ead.tools.GenericInjector;
+import ead.tools.ReflectionProvider;
 
 @Singleton
 public class EffectGOFactoryImpl extends

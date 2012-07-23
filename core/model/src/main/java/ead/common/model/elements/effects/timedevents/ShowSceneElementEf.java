@@ -82,18 +82,16 @@ public class ShowSceneElementEf extends AbstractEffect {
 		switch (animation) {
 		case FADE_IN:
 			text.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
-			InterpolationEf effect = new InterpolationEf(
-					new BasicField<Float>(text,
-							SceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
+			InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
+					text, SceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
 					InterpolationLoopType.NO_LOOP);
 
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(
-					SceneElementEvType.FIRST_UPDATE,
-					effect);
+			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 			text.getEvents().add(event);
 			break;
+		default:
 		}
 	}
 

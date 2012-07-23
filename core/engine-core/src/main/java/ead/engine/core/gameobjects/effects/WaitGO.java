@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
@@ -51,9 +50,9 @@ public class WaitGO extends AbstractEffectGO<WaitEf>{
 	private int time;
 	
 	@Inject
-	public WaitGO(AssetHandler assetHandler, StringHandler stringHandler,
+	public WaitGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		super(assetHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

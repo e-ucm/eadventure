@@ -56,7 +56,6 @@ import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
-import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -68,6 +67,7 @@ import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryItem;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
+import ead.tools.StringHandler;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {

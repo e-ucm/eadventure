@@ -37,13 +37,13 @@
 
 package ead.engine.playn.reader;
 
-import com.gwtent.reflection.client.Field;
-
-import com.google.gwt.xml.client.Node;
-
-import ead.common.DOMTags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gwt.xml.client.Node;
+import com.gwtent.reflection.client.Field;
+
+import ead.reader.DOMTags;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 

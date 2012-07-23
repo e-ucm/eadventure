@@ -61,8 +61,6 @@ import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.StringHandler;
-import ead.engine.core.platform.StringHandlerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
@@ -75,6 +73,8 @@ import ead.engine.playn.core.platform.assets.PlayNFont;
 import ead.engine.playn.core.platform.assets.drawable.basics.PlayNBezierShape;
 import ead.engine.playn.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.playn.core.platform.assets.multimedia.PlayNSound;
+import ead.tools.StringHandler;
+import ead.tools.StringHandlerImpl;
 
 public class PlayNAssetHandlerModule extends AbstractGinModule {
 
