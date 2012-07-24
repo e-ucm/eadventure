@@ -380,6 +380,10 @@ public class EAdventure1XImporter {
 		listeners.add(progressListener);
 	}
 
+    public void removeProgressListener(ImporterProgressListener progressListener) {
+		listeners.remove(progressListener);
+	}
+    
 	public void updateProgress(int progress, String text) {
         logger.debug("Importer progress update: {}", text);
 		for (ImporterProgressListener l : listeners) {

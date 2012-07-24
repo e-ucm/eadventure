@@ -47,8 +47,17 @@ import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.reader.java.ProjectFiles;
 import ead.utils.FileUtils;
 import ead.writer.EAdAdventureModelWriter;
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jgrapht.graph.ListenableDirectedGraph;
@@ -119,6 +128,11 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      * Engine model
      */
     private EAdAdventureModel engineModel;
+    /**
+     * Listeners for long operations
+     */
+    private ArrayList<ModelProgressListener> progressListeners = new ArrayList<ModelProgressListener>();
+
 
     /**
      * Constructor. Does not do much beyond initializing fields.
@@ -346,8 +360,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      */
     public void save(File target) throws IOException {
 
+        updateProgress(5, "Commencing save ...");
         if (target != null && saveDir != target) {
             // copy over all resource-files first
+            updateProgress(10, "Copying resources to new destination ...");
             FileUtils.copyRecursive(saveDir, null, target);
         } if (target == null && saveDir != null) {
             target = saveDir;
@@ -356,10 +372,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         }
 
         // write main xml
+        updateProgress(50, "Writing engine model ...");
         boolean ok = writer.write((EAdAdventureModel) root.getContent(),
                 new File(target, ProjectFiles.DATA_FILE).toURI());
 
         // write extra xml file to it
+        updateProgress(80, "Writing editor model ...");
         int mappings = 0;
         if (ok) {
             try {
@@ -369,6 +387,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
             }
         }
         saveDir = target;
+        updateProgress(100, "... save complete.");
 
         logger.info("Wrote editor data from {} to {}: {} total objects, {} editor mappings",
                 new Object[]{saveDir, target, nodesById.size(), mappings});
@@ -404,8 +423,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         nodesByContent.clear();
         nodesById.clear();
         nodeIndex = new ModelIndex();
-        g.removeAllEdges(g.edgeSet());
-        g.removeAllVertices(g.vertexSet());
+        g.removeAllEdges(new HashSet<DependencyEdge>(g.edgeSet()));
+        g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));
     }
 
     /**
@@ -423,20 +442,23 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         clear();
 
         saveDir = sourceDir;
+        updateProgress(10, "Reading engine model ...");
         engineModel = reader.read(
                 new File(saveDir, ProjectFiles.DATA_FILE).toURI());
 
-
+        updateProgress(50, "Reading editor model ...");
         logger.info("Model loaded; building graph...");
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(engineModel, this);
         this.root = nodesByContent.get(engineModel);
+
+        updateProgress(90, "Indexing model ...");
         nodeIndex.firstIndexUpdate(g.vertexSet());
 
         logger.info("Editor model loaded: {} nodes, {} edges",
                 new Object[]{g.vertexSet().size(), g.edgeSet().size()});
 
-        logger.info("Using temp dir {} as a working directory", saveDir);
+        updateProgress(100, "... load complete.");
     }
 
     /**
@@ -465,21 +487,29 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         // clear caches
         clear();
 
+        ProgressProxy pp = new ProgressProxy();
+        importer.addProgressListener(pp);
         engineModel = importer.importGame(fin.getAbsolutePath(),
                 fout.getAbsolutePath());
+        importer.removeProgressListener(pp);
 
+        updateProgress(50, "Reading editor model ...");
         logger.info("Model loaded; building graph...");
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(engineModel, this);
         this.root = nodesByContent.get(engineModel);
+
+        updateProgress(90, "Indexing model ...");
         nodeIndex.firstIndexUpdate(g.vertexSet());
 
         logger.info("Editor model loaded: {} nodes, {} edges",
                 new Object[]{g.vertexSet().size(), g.edgeSet().size()});
         saveDir = fout;
 
-        logger.info("Using temp dir {} as a working directory", saveDir);
+        updateProgress(100, "... load complete.");
     }
+
+
 
     // ---- basic access
     public DependencyNode getNode(int id) {
@@ -561,4 +591,34 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
     public DependencyNode copyElement(DependencyNode e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+	public void addProgressListener(ModelProgressListener progressListener) {
+		progressListeners.add(progressListener);
+	}
+
+	public void removeProgressListener(ModelProgressListener progressListener) {
+		progressListeners.remove(progressListener);
+	}
+
+    public void updateProgress(int progress, String text) {
+        logger.debug("Model progress update: {}", text);
+		for (ModelProgressListener l : progressListeners) {
+			l.update(progress, text);
+		}
+	}
+
+    /**
+     * Re-issues importer progress updates as own updates
+     */
+    public class ProgressProxy implements EAdventure1XImporter.ImporterProgressListener {
+
+        @Override
+        public void update(int progress, String text) {
+            updateProgress(progress, text);
+        }
+    }
+
+	public static interface ModelProgressListener {
+		public void update(int progress, String text);
+	}
 }

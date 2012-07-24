@@ -73,6 +73,7 @@ import ead.gui.structurepanel.StructureElementProvider;
 import ead.gui.structurepanel.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
@@ -250,23 +251,31 @@ public class EditorWindowImpl implements EditorWindow {
     /**
      * Current modal dialog, if any
      */
-    private JDialog currentModalDialog = null;
+    private JFrame currentModal = null;
 
     @Override
     public void addModalPanel(JPanel modalPanel) {
-        if (currentModalDialog != null) {
+        if (currentModal != null) {
             removeModalPanel(true);
         }
-        currentModalDialog = new JDialog(editorWindow, true);
-        currentModalDialog.add(modalPanel);
-        currentModalDialog.setVisible(true);
+        logger.info("addModal: received a panel with {} components, and size {}x{}; isEDT = {}",
+                new Object[]{modalPanel.getComponentCount(),
+                    modalPanel.getPreferredSize().width, modalPanel.getPreferredSize().height,
+                    javax.swing.SwingUtilities.isEventDispatchThread()});
+        currentModal = new JFrame();
+        currentModal.setUndecorated(true);
+        currentModal.add(modalPanel);
+        currentModal.setLocationRelativeTo(editorWindow);
+        currentModal.setAlwaysOnTop(true);
+        currentModal.pack();
+        currentModal.setVisible(true);
     }
 
     @Override
     public void removeModalPanel(boolean cancelChanges) {
-        currentModalDialog.setVisible(false);
-        currentModalDialog.dispose();
-        currentModalDialog = null;
+        currentModal.setVisible(false);
+        currentModal.dispose();
+        currentModal = null;
     }
 
     /**

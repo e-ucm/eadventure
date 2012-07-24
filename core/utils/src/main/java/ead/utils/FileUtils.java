@@ -105,7 +105,7 @@ public class FileUtils {
      * Matches name with regexp, so you have to escape any special chars.
      */
     public static boolean folderContainsEntry(File folder, String nameRegexp) throws IOException {
-        if (!folder.isDirectory() || !folder.canRead()) {
+        if (!folder.isDirectory()) {
             throw new IOException("Folder cannot be read");
         }
         for (File f : folder.listFiles()) {
