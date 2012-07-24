@@ -75,7 +75,7 @@ public abstract class ActorImporter<P extends Element> implements
 	protected EAdElementFactory factory;
 
 	protected ImportAnnotator annotator;
-	
+
 	@Inject
 	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
@@ -101,6 +101,9 @@ public abstract class ActorImporter<P extends Element> implements
 	public EAdSceneElementDef convert(P oldObject, Object object) {
 		SceneElementDef actor = (SceneElementDef) object;
 		actor.setId(oldObject.getId());
+
+        annotator.annotate(actor, ImportAnnotator.Type.Open, null);
+
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
 		// Add strings
@@ -127,6 +130,8 @@ public abstract class ActorImporter<P extends Element> implements
 		// Add drag
 		// oldObject.isReturnsWhenDragged()
 
+        annotator.annotate(actor, ImportAnnotator.Type.Close, null);
+
 		return actor;
 	}
 
@@ -136,7 +141,7 @@ public abstract class ActorImporter<P extends Element> implements
 		// add actions
 		ActorActionsEf showActions = new ActorActionsEf(actor);
 		actor.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
-		
+
 		// add other actions
 		actionImporter.addAllActions(oldObject.getActions(), actor, false);
 	}

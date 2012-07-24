@@ -55,7 +55,7 @@ import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 
 
 public class AtrezzoImporter extends ActorImporter<Atrezzo>{
-	
+
 	@Inject
 	public AtrezzoImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
@@ -67,17 +67,19 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo>{
 
 	protected void addActionsEffect(Atrezzo oldObject, EAdSceneElementDef actor){
 		// Atrezzo doesn't need to add any action
+        annotator.annotate(actor, ImportAnnotator.Type.Entry, "type:attrezzo");
+
 	}
 
 	@Override
 	public void initResourcesCorrespondencies( ) {
-		
+
 		properties = new HashMap<String, String>();
 		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);
-		
+
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(Atrezzo.RESOURCE_TYPE_IMAGE, Image.class);
-		
+
 	}
 
 

@@ -37,20 +37,20 @@
 
 package ead.editor.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.google.inject.Singleton;
 import ead.common.model.EAdElement;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.annotation.ImportAnnotator.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An annotator that can be used to build EditorNodes.
  * @author mfreire
  */
+@Singleton
 public class EditorAnnotator implements ImportAnnotator {
     private static final Logger logger = LoggerFactory.getLogger("EditorAnnotator");
 
@@ -58,11 +58,18 @@ public class EditorAnnotator implements ImportAnnotator {
     private static HashMap<EAdElement, ArrayList<Annotation>> annotations =
             new HashMap<EAdElement, ArrayList<Annotation>>();
 
-    private static class Annotation {
+    private static HashMap<DependencyNode, ArrayList<DependencyNode>> editorNodes =
+            new HashMap<DependencyNode, ArrayList<DependencyNode>>();
+
+    HashMap<DependencyNode, ArrayList<DependencyNode>> getEditorNodes() {
+        return editorNodes;
+    }
+
+    public static class Annotation {
         private ArrayList<EAdElement> context = new ArrayList<EAdElement>();
         private ImportAnnotator.Type type;
         private String value;
-        public Annotation(ImportAnnotator.Type type, String value) {
+        private Annotation(ImportAnnotator.Type type, String value) {
             context.addAll(stack);
             this.type = type;
             this.value = value;
@@ -80,9 +87,9 @@ public class EditorAnnotator implements ImportAnnotator {
         }
     }
 
-    private static class PlaceHolder implements EAdElement {
+    public static class PlaceHolder implements EAdElement {
         private String id;
-        public PlaceHolder(String id) {
+        private PlaceHolder(String id) {
             this.id = id;
         }
         @Override

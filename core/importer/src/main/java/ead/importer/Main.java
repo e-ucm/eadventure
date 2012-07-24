@@ -39,8 +39,11 @@ package ead.importer;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 
 import ead.importer.EAdventure1XImporter.ImporterProgressListener;
+import ead.importer.annotation.ImportAnnotator;
+import ead.importer.annotation.NullAnnotator;
 import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaToolsModule;
 
@@ -62,19 +65,24 @@ public class Main {
 				System.out.println("Unknown option " + args[2]);
 			}
 		}
-		
-		Injector injector = Guice.createInjector(new ImporterModule( ), new JavaToolsModule(), new ReaderModule());
+
+		Injector injector = Guice.createInjector(
+                new ImporterModule(),
+                new JavaToolsModule(),
+                new ReaderModule()
+        );
+
 		EAdventure1XImporter importer = injector.getInstance(EAdventure1XImporter.class);
-	
+
 		importer.addProgressListener(new ImporterProgressListener( ){
 
 			@Override
 			public void update(int progress, String text) {
 				System.out.println(progress + "% " + text);
 			}
-			
+
 		});
-		
+
 		importer.importGame(source, destiny, format);
 	}
 

@@ -43,6 +43,7 @@ import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.editor.view.dock.ModelAccessor;
 import ead.importer.EAdventure1XImporter;
+import ead.importer.annotation.ImportAnnotator;
 import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.reader.java.ProjectFiles;
 import ead.utils.FileUtils;
@@ -109,7 +110,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      */
     private HashMap<DependencyNode, ArrayList<DependencyNode>> editorNodes;
     /**
-     * The root of the graph
+     * The root of the graph; contains the engineModel
      */
     private DependencyNode root;
     /**
@@ -132,7 +133,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      * Listeners for long operations
      */
     private ArrayList<ModelProgressListener> progressListeners = new ArrayList<ModelProgressListener>();
-
+    /**
+     * An import annotator that can reconstitute a bit of an existing import
+     */
+    private EditorAnnotator importAnnotator;
 
     /**
      * Constructor. Does not do much beyond initializing fields.
@@ -145,12 +149,13 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
     public EditorModel(
             EAdAdventureDOMModelReader reader,
             EAdventure1XImporter importer,
-            EAdAdventureModelWriter writer) {
+            EAdAdventureModelWriter writer,
+            ImportAnnotator annotator) {
         g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(DependencyEdge.class);
         this.reader = reader;
         this.importer = importer;
         this.writer = writer;
-
+        this.importAnnotator = (EditorAnnotator)annotator;
         this.nodesById = new TreeMap<Integer, DependencyNode>();
         this.nodesByContent = new HashMap<Object, DependencyNode>();
         this.nodeIndex = new ModelIndex();
@@ -498,6 +503,15 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(engineModel, this);
         this.root = nodesByContent.get(engineModel);
+
+        // write extra xml file to it
+        updateProgress(80, "Writing editor model ...");
+        editorNodes = importAnnotator.getEditorNodes();
+        try {
+            writeMappingsToFile(new File(fout, "editor.xml"));
+        } catch (IOException ioe) {
+            logger.error("Could not write editor.xml file to {}", fout, ioe);
+        }
 
         updateProgress(90, "Indexing model ...");
         nodeIndex.firstIndexUpdate(g.vertexSet());
