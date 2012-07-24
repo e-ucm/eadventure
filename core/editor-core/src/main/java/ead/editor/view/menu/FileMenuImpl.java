@@ -44,6 +44,8 @@ import ead.editor.control.EditorConfig.EditorConf;
 
 import ead.gui.EAdMenuItem;
 import ead.editor.R;
+import ead.editor.control.ProjectController;
+import ead.editor.control.change.ChangeListener;
 import ead.editor.model.EditorModel.ModelProgressListener;
 import ead.utils.FileUtils;
 import ead.utils.swing.SwingUtilities;
@@ -53,8 +55,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -65,6 +70,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileView;
 import org.slf4j.Logger;
@@ -76,19 +82,13 @@ import org.slf4j.LoggerFactory;
 public class FileMenuImpl extends MenuImpl implements FileMenu {
 
     private static final Logger logger = LoggerFactory.getLogger("FileMenu");
-    private EAdMenuItem mOpen;
-    private EAdMenuItem mImport;
-    private EAdMenuItem mNew;
-    private EAdMenuItem mSave;
-    private EAdMenuItem mSaveAs;
-    private EAdMenuItem mExit;
     private Controller controller;
 
     @Inject
-    public FileMenuImpl(Controller controller) {
+    public FileMenuImpl(Controller controller, ProjectController projectController) {
         super(Messages.file_menu);
         this.controller = controller;
-        initialize();
+        initialize(projectController);
     }
     private static FileFilter ead2LoadFolderFilter = new EAdFileFilter(
             ".eap", "data[.]xml", "EAdventure 2 project folders", false);
@@ -99,147 +99,257 @@ public class FileMenuImpl extends MenuImpl implements FileMenu {
     /**
      * Initialize the file menu
      */
-    public void initialize() {
-        mOpen = new EAdMenuItem(Messages.file_menu_open);
-        addMenuItem(mOpen);
-        mOpen.addActionListener(new ActionListener() {
+    public void initialize(ProjectController projectController) {
+        Action[] as = new Action[]{
+            new OpenAction(Messages.file_menu_open,
+                KeyEvent.VK_O),
+            new ImportAction(Messages.file_menu_import,
+                KeyEvent.VK_I | KeyEvent.ALT_DOWN_MASK),
+            new NewAction(Messages.file_menu_new,
+                KeyEvent.VK_N),
+            new SaveAction(Messages.file_menu_save,
+                KeyEvent.VK_S),
+            new SaveAsAction(Messages.file_menu_save_as,
+                KeyEvent.VK_S | KeyEvent.ALT_DOWN_MASK),
+            new ExitAction(Messages.file_menu_exit,
+                KeyEvent.VK_Q)
+        };
 
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                final File f = chooseFile(null, Messages.file_menu_open_title,
-                        Messages.file_menu_open_message,
-                        Messages.file_menu_open_title_error,
-                        Messages.file_menu_open_message_error,
-                        true, JFileChooser.FILES_AND_DIRECTORIES, ead2LoadFolderFilter);
-                if (f != null) {
+        for (Action a : as) {
+            String name = "" + a.getValue(AbstractAction.NAME);
+            String desc = "" + a.getValue(AbstractAction.SHORT_DESCRIPTION);
+
+            // build menu item
+            EAdMenuItem item = new EAdMenuItem(desc);
+            item.setAction(a);
+            addMenuItem(item);
+
+            // register upstream
+            // FIXME: circular reference
+            // controller.putAction(name, a);
+
+            // register listeners for project changes
+            projectController.addChangeListener((FileMenuAction)a);
+        }
+    }
+
+    /**
+     * File menu actions have access to the containing class, and are subscribed
+     * to change events from the ProjectController
+     */
+    public abstract class FileMenuAction extends AbstractAction implements ChangeListener {
+
+        public FileMenuAction(String name, int key) {
+            // set action values (except handler)
+            putValue(NAME, name);
+            int keyCode = key & (~KeyEvent.ALT_DOWN_MASK);
+            int keyModifiers = (key & KeyEvent.ALT_DOWN_MASK) != 0 ?
+                    (KeyEvent.ALT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK) : KeyEvent.CTRL_DOWN_MASK;
+            putValue(MNEMONIC_KEY, keyCode);
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(keyCode, keyModifiers));
+        }
+
+        /**
+         * Ask for confirmation before losing current edits (if any).
+         * @param message to show in confirmation dialogue
+         * @return
+         */
+        public boolean allowChanceToSave(String message) {
+            if (controller.getModel().initialized()
+                    && controller.getCommandManager().isChanged()) {
+                int rc = JOptionPane.showConfirmDialog(null, message,
+                        Messages.file_menu_confirm_destructive_op,
+                        JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
+                if (rc == JOptionPane.CANCEL_OPTION) {
+                    return false;
+                } else if (rc == JOptionPane.OK_OPTION) {
                     new ProgressListener(controller, new Runnable() {
-
                         @Override
                         public void run() {
-                            controller.getProjectController().load(f.getAbsolutePath());
+                            controller.getProjectController().save();
                         }
                     }).runInEDT();
+                    return true;
                 }
             }
-        });
+            return true;
+        }
 
-        mImport = new EAdMenuItem(Messages.file_menu_import);
-        addMenuItem(mImport);
-        mImport.addActionListener(new ActionListener() {
+        @Override
+        public void processChange(Object event) {
+            // default is to do nothing
+        }
+    }
 
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                final File f = chooseFile(null, Messages.file_menu_import_title,
-                        Messages.file_menu_import_message,
-                        Messages.file_menu_import_title_error,
-                        Messages.file_menu_import_message_error,
-                        true, JFileChooser.FILES_AND_DIRECTORIES, ead1LoadFileFilter);
-                if (f == null) {
-                    // user cancelled request
-                    return;
-                }
-                final File d = chooseFile(null, Messages.file_menu_import_save_title,
-                        Messages.file_menu_import_save_message,
-                        Messages.file_menu_import_title_error,
-                        Messages.file_menu_import_message_error,
-                        false, JFileChooser.DIRECTORIES_ONLY, null);
-                if (f != null && d != null) {
-                    new ProgressListener(controller, new Runnable() {
+    public class OpenAction extends FileMenuAction {
 
-                        @Override
-                        public void run() {
-                            controller.getProjectController().doImport(
-                                    f.getAbsolutePath(), d.getAbsolutePath());
-                        }
-                    }).runInEDT();
-                }
+        public OpenAction(String name, int key) {
+            super(name, key);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if ( ! allowChanceToSave(Messages.file_menu_open_confirm_destructive)) {
+                return;
             }
-        });
 
-        mNew = new EAdMenuItem(Messages.file_menu_new);
-        addMenuItem(mNew);
-        mNew.addActionListener(new ActionListener() {
+            final File f = chooseFile(null, Messages.file_menu_open_title,
+                    Messages.file_menu_open_message,
+                    Messages.file_menu_open_title_error,
+                    Messages.file_menu_open_message_error,
+                    true, JFileChooser.FILES_AND_DIRECTORIES, ead2LoadFolderFilter);
+            if (f != null) {
+                new ProgressListener(controller, new Runnable() {
 
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                final File d = chooseFile(null, Messages.file_menu_new_title,
-                        Messages.file_menu_new_message,
-                        Messages.file_menu_new_title_error,
-                        Messages.file_menu_new_message_error,
-                        false, JFileChooser.DIRECTORIES_ONLY, null);
-                if (d != null) {
-                    new ProgressListener(controller, new Runnable() {
-
-                        @Override
-                        public void run() {
-                            controller.getProjectController().newProject();
-                            controller.getProjectController().saveAs(d.getAbsolutePath());
-                        }
-                    }).runInEDT();
-                }
-            }
-        });
-
-        mSave = new EAdMenuItem(Messages.file_menu_save);
-        addMenuItem(mSave);
-        mSave.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                controller.getProjectController().save();
-            }
-        });
-
-        mSaveAs = new EAdMenuItem(Messages.file_menu_save_as);
-        addMenuItem(mSaveAs);
-        mSaveAs.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                final File d = chooseFile(null, Messages.file_menu_new_title,
-                        Messages.file_menu_new_message,
-                        Messages.file_menu_new_title_error,
-                        Messages.file_menu_new_message_error,
-                        false, JFileChooser.DIRECTORIES_ONLY, null);
-                if (d != null) {
-                    new ProgressListener(controller, new Runnable() {
-
-                        @Override
-                        public void run() {
-                            controller.getProjectController().saveAs(d.getAbsolutePath());
-                        }
-                    }).runInEDT();
-                }
-            }
-        });
-
-        mExit = new EAdMenuItem(Messages.file_menu_exit);
-        addMenuItem(mExit);
-        mExit.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (controller.getCommandManager().isChanged()) {
-                    int rc = JOptionPane.showConfirmDialog(null,
-                            Messages.file_menu_confirm_exit_before_close_message,
-                            Messages.file_menu_confirm_exit_before_close_title,
-                            JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (rc == JOptionPane.CANCEL_OPTION) {
-                        return;
-                    } else if (rc == JOptionPane.OK_OPTION) {
-                        new ProgressListener(controller, new Runnable() {
-
-                            @Override
-                            public void run() {
-                                controller.getProjectController().save();
-                            }
-                        }).runInEDT();
+                    @Override
+                    public void run() {
+                        controller.getProjectController().load(f.getAbsolutePath());
                     }
+                }).runInEDT();
+            }
+        }
+    }
+
+    public class ImportAction extends FileMenuAction {
+
+        public ImportAction(String name, int key) {
+            super(name, key);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if ( ! allowChanceToSave(Messages.file_menu_import_confirm_destructive)) {
+                return;
+            }
+
+            final File f = chooseFile(null, Messages.file_menu_import_title,
+                    Messages.file_menu_import_message,
+                    Messages.file_menu_import_title_error,
+                    Messages.file_menu_import_message_error,
+                    true, JFileChooser.FILES_AND_DIRECTORIES, ead1LoadFileFilter);
+            if (f == null) {
+                // user cancelled request
+                return;
+            }
+            final File d = chooseFile(null, Messages.file_menu_import_save_title,
+                    Messages.file_menu_import_save_message,
+                    Messages.file_menu_import_title_error,
+                    Messages.file_menu_import_message_error,
+                    false, JFileChooser.DIRECTORIES_ONLY, null);
+            if (f != null && d != null) {
+                new ProgressListener(controller, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        controller.getProjectController().doImport(
+                                f.getAbsolutePath(), d.getAbsolutePath());
+                    }
+                }).runInEDT();
+            }
+        }
+    }
+
+    public class NewAction extends FileMenuAction {
+
+        public NewAction(String name, int key) {
+            super(name, key);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if ( ! allowChanceToSave(Messages.file_menu_new_confirm_destructive)) {
+                return;
+            }
+
+            final File d = chooseFile(null, Messages.file_menu_new_title,
+                    Messages.file_menu_new_message,
+                    Messages.file_menu_new_title_error,
+                    Messages.file_menu_new_message_error,
+                    false, JFileChooser.DIRECTORIES_ONLY, null);
+            if (d != null) {
+                new ProgressListener(controller, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        controller.getProjectController().newProject();
+                        controller.getProjectController().saveAs(d.getAbsolutePath());
+                    }
+                }).runInEDT();
+            }
+        }
+    }
+
+    public class SaveAction extends FileMenuAction {
+
+        public SaveAction(String name, int key) {
+            super(name, key);
+            // not enabled until something is loaded
+            setEnabled(false);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            new ProgressListener(controller, new Runnable() {
+
+                @Override
+                public void run() {
+                    controller.getProjectController().save();
                 }
+            }).runInEDT();
+        }
+
+        @Override
+        public void processChange(Object event) {
+            setEnabled(controller.getModel().initialized());
+        }
+    }
+
+    public class SaveAsAction extends FileMenuAction {
+
+        public SaveAsAction(String name, int key) {
+            super(name, key);
+            // not enabled until something is loaded
+            setEnabled(false);        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+
+            final File d = chooseFile(null, Messages.file_menu_new_title,
+                    Messages.file_menu_new_message,
+                    Messages.file_menu_new_title_error,
+                    Messages.file_menu_new_message_error,
+                    false, JFileChooser.DIRECTORIES_ONLY, null);
+            if (d != null) {
+                new ProgressListener(controller, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        controller.getProjectController().saveAs(d.getAbsolutePath());
+                    }
+                }).runInEDT();
+            }
+        }
+
+        @Override
+        public void processChange(Object event) {
+            setEnabled(controller.getModel().initialized());
+        }
+    }
+
+    public class ExitAction extends FileMenuAction {
+
+        public ExitAction(String name, int key) {
+            super(name, key);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+
+            if (allowChanceToSave(Messages.file_menu_exit_confirm_destructive)) {
                 logger.info("Exiting aplication at user request");
                 System.exit(0);
             }
-        });
+        }
     }
 
     /**
@@ -439,6 +549,7 @@ public class FileMenuImpl extends MenuImpl implements FileMenu {
             controller.getModel().addProgressListener(this);
 
             new Thread(new Runnable() {
+
                 @Override
                 public void run() {
                     // business
@@ -449,6 +560,7 @@ public class FileMenuImpl extends MenuImpl implements FileMenu {
                     }
                     // cleanup
                     SwingUtilities.doInEDT(new Runnable() {
+
                         @Override
                         public void run() {
                             controller.getModel().removeProgressListener(ProgressListener.this);

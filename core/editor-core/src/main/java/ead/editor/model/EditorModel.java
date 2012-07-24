@@ -621,4 +621,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	public static interface ModelProgressListener {
 		public void update(int progress, String text);
 	}
+
+    public boolean initialized() {
+        return saveDir != null;
+    }
 }

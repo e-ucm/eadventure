@@ -39,6 +39,7 @@ package ead.editor.control;
 
 import ead.editor.model.EditorModel;
 import java.util.Locale;
+import javax.swing.Action;
 
 
 /**
@@ -46,6 +47,18 @@ import java.util.Locale;
  * controllers in charge of project-wide operations, view and command management
  */
 public interface Controller {
+
+    /**
+     * Retrieves actions by name. Action names should be declared in the
+     * interfaces, NOT in the implementation classes.
+     */
+    Action getAction(String name);
+
+    /**
+     * Adds a new action for general use. Action names should be declared in the
+     * interfaces, NOT in the implementation classes.
+     */
+    void putAction(String name, Action action);
 
     /**
      * Retrieves the editor-wide configuration
