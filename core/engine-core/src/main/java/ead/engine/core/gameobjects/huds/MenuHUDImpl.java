@@ -66,7 +66,7 @@ import ead.tools.StringHandler;
  * <p>
  * Abstract implementation of the Menu HUD
  * </p>
- *
+ * 
  */
 @Singleton
 public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
@@ -83,6 +83,10 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 
 	private GameObjectManager gameObjectManager;
 
+	private StringHandler stringHandler;
+
+	private SceneElementGOFactory sceneElementFactory;
+
 	@Inject
 	public MenuHUDImpl(GUI gui, GameState gameState,
 			GameObjectManager gameObjectManager, StringHandler stringHandler,
@@ -91,6 +95,12 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 		logger.info("New instance of MenuHUD");
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
+		this.stringHandler = stringHandler;
+		this.sceneElementFactory = sceneElementFactory;
+
+	}
+
+	public void init() {
 		addExitButton(stringHandler, sceneElementFactory);
 	}
 
@@ -101,7 +111,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
@@ -124,7 +134,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 		return true;
 	}
 
-    @Override
+	@Override
 	public boolean contains(int x, int y) {
 		return true;
 	}
@@ -133,16 +143,15 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 			SceneElementGOFactory sceneElementFactory) {
 		Caption c = new Caption();
 		stringHandler.setString(c.getText(), "Exit");
-		SceneElement button = new SceneElement( c);
+		SceneElement button = new SceneElement(c);
 		button.setId("exit_button");
-		c.setBubblePaint(new Paint(new LinearGradientFill(
-				ColorFill.ORANGE, new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
+		c.setBubblePaint(new Paint(new LinearGradientFill(ColorFill.ORANGE,
+				new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
 		c.setPadding(10);
 		c.setFont(new BasicFont(18));
 		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				new QuitGameEf());
-		button.setPosition(new EAdPosition(EAdPosition.Corner.CENTER,
-				400, 300));
+		button.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 400, 300));
 		addElement(sceneElementFactory.get(button));
 	}
 

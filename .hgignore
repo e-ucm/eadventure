@@ -48,4 +48,5 @@ demos/firstaidgame/war/firstaid*
 **/bin/**
 demos/firstaidgame/.gwt/
 
-core/engine-gdx*
+core/engine-gdx-android/*
+core/engine-gdx-html/*

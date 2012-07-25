@@ -1,0 +1,82 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package ead.engine.core.assets;
+
+import java.util.HashMap;
+
+import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
+import ead.common.resources.assets.drawable.compounds.StateDrawable;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
+import ead.common.resources.assets.drawable.filters.FilteredDrawable;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
+import ead.engine.core.assets.drawables.GdxImage;
+import ead.engine.core.assets.drawables.GdxShape;
+import ead.engine.core.platform.assets.RuntimeAsset;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
+
+public class GdxAssetHandlerMap extends HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>{
+	private static final long serialVersionUID = 5284553649611577802L;
+	
+	@SuppressWarnings("unchecked")
+	public GdxAssetHandlerMap( ){
+		put(Image.class, GdxImage.class);
+		put(BezierShape.class, GdxShape.class);
+		put(Caption.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeCaption.class);
+		put(ComposedDrawable.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeComposedDrawable.class);
+		put(BasicFont.class, GdxFont.class);
+		put(EAdFont.class, GdxFont.class);
+		put(StateDrawable.class, RuntimeStateDrawable.class);
+		put(EAdStateDrawable.class, RuntimeStateDrawable.class);
+		put(FramesAnimation.class, RuntimeFramesAnimation.class);
+		put(EAdFilteredDrawable.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeFilteredDrawable.class);
+		put(FilteredDrawable.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeFilteredDrawable.class);
+	}
+	
+
+}

@@ -119,8 +119,6 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		this.sceneElementFactory = factory;
 		this.inputHandler = inputHandler;
 		this.inventoryHandler = inventoryHandler;
-		initInventory();
-		updateItems();
 		isShowing = true;
 		height = valueMap.getValue(SystemFields.GAME_HEIGHT);
 	}
@@ -187,6 +185,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 			case GOING_DOWN:
 				inventoryDispY = Math.max(inventoryDispY - disp, 0.0f);
 				change = true;
+				break;
+			default:
 				break;
 			}
 
@@ -289,6 +289,12 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 			}
 		}
 		return super.processAction(action);
+	}
+
+	@Override
+	public void init() {
+		initInventory();
+		updateItems();
 	}
 
 }

@@ -199,11 +199,11 @@ public class DesktopEditorGUI extends DesktopGUI {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
-					panel = new GamePanel(platformConfiguration);
-					panel.setSize(platformConfiguration.getWidth(),
-							platformConfiguration.getHeight());
-					panel.setPreferredSize(new Dimension(platformConfiguration
-							.getWidth(), platformConfiguration.getHeight()));
+					panel = new GamePanel(engineConfiguration);
+					panel.setSize(engineConfiguration.getWidth(),
+							engineConfiguration.getHeight());
+					panel.setPreferredSize(new Dimension(engineConfiguration
+							.getWidth(), engineConfiguration.getHeight()));
 					panel.setIgnoreRepaint(true);
 					panel.setLayout(new BorderLayout());
 					panel.setMinimumSize(new Dimension(200, 150));

@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -73,7 +72,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Platform configuration parameters
 	 */
-	protected EngineConfiguration platformConfiguration;
+	protected EngineConfiguration engineConfiguration;
 
 	/**
 	 * Game object manager
@@ -91,13 +90,13 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GenericCanvas eAdCanvas;
 
-	private Game game;
+	protected Game game;
 
 	public AbstractGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			GenericCanvas<T> canvas) {
-		this.platformConfiguration = platformConfiguration;
+		this.engineConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.inputHandler = inputHandler;
 		this.gameState = gameState;
@@ -174,8 +173,7 @@ public abstract class AbstractGUI<T> implements GUI {
 					RuntimeDrawable<?, ?> r = go.getRuntimeDrawable();
 					if (r != null) {
 						go.getRuntimeDrawable().render(eAdCanvas);
-					}
-					else {
+					} else {
 						eAdCanvas.setPaint(ColorFill.MAGENTA);
 						eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
 					}
@@ -204,7 +202,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	@Override
 	public int getWidth() {
-		return platformConfiguration.getWidth();
+		return engineConfiguration.getWidth();
 	}
 
 	/*
@@ -214,7 +212,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	@Override
 	public int getHeight() {
-		return platformConfiguration.getHeight();
+		return engineConfiguration.getHeight();
 	}
 
 	@Override
@@ -251,6 +249,5 @@ public abstract class AbstractGUI<T> implements GUI {
 	public void setInitialTransformation(EAdTransformation initialTransformation) {
 		inputHandler.setInitialTransformation(initialTransformation);
 	}
-
 
 }

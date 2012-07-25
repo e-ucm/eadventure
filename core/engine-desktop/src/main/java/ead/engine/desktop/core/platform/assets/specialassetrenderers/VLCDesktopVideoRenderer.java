@@ -70,7 +70,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, C
 	/**
 	 * Logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger("VLCDesktopVideoRenderer");
+	private static final Logger logger = LoggerFactory.getLogger("VLCDesktopVideoRenderer");
 
 	/**
 	 * The vlcj media player (controls, etc.)

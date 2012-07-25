@@ -73,11 +73,11 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState,
-//			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
+			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
 			EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		logger.info("New instance");
-		this.specialAssetRenderer = null;
+		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
 		this.error = false;
 	}
