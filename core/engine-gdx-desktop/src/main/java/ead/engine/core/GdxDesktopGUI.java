@@ -132,15 +132,6 @@ public class GdxDesktopGUI extends GdxGUI {
 				}
 			});
 
-			SwingUtilities.doInEDTNow(new Runnable() {
-				@Override
-				public void run() {
-					if (component != null) {
-						component.requestFocus();
-
-					}
-				}
-			});
 		}
 	}
 
