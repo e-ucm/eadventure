@@ -47,7 +47,7 @@ public class VideoSceneDemo extends VideoScene implements SceneDemo {
 	public VideoSceneDemo() {
 		super();
 		setId("videoScene");
-		EAdVideo video = new Video("@binary/flame.mpg");
+		EAdVideo video = new Video("@binary/eAdventure.webm");
 		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
 

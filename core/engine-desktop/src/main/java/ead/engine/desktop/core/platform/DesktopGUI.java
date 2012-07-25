@@ -174,7 +174,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					@Override
 					public void run() {
 						frame.remove(canvas);
-						if (platformConfiguration.isFullscreen()) {
+						if (engineConfiguration.isFullscreen()) {
 							// Fullscreen exclusive mode does not support
 							//  painting of video on the canvas.
 							int width = frame.getWidth();
@@ -217,15 +217,15 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 						BufferStrategy bs = canvas.getBufferStrategy();
 						Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 						eAdCanvas.setGraphicContext(g);
-						g.setClip(0, 0, platformConfiguration.getWidth(),
-								platformConfiguration.getHeight());
+						g.setClip(0, 0, engineConfiguration.getWidth(),
+								engineConfiguration.getHeight());
 
 						setRenderingHints(g);
 
 						g.setFont(g.getFont().deriveFont(20.0f));
 						g.setColor(Color.BLACK);
-						g.fillRect(0, 0, platformConfiguration.getWidth(),
-								platformConfiguration.getHeight());
+						g.fillRect(0, 0, engineConfiguration.getWidth(),
+								engineConfiguration.getHeight());
 						render(interpolation);
 
 						g.dispose();
@@ -260,8 +260,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	public RuntimeAsset<? extends EAdBasicDrawable> commitToImage() {
 
-		DesktopImage image = new DesktopImage(platformConfiguration.getWidth(),
-				platformConfiguration.getHeight());
+		DesktopImage image = new DesktopImage(engineConfiguration.getWidth(),
+				engineConfiguration.getHeight());
 
 		Graphics2D g = (Graphics2D) image.getImage().getGraphics();
 		g.setClip(0, 0, image.getWidth(), image.getHeight());
@@ -321,8 +321,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 					frame = new JFrame();
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					frame.setSize(platformConfiguration.getWidth(),
-							platformConfiguration.getHeight());
+					frame.setSize(engineConfiguration.getWidth(),
+							engineConfiguration.getHeight());
 					frame.setUndecorated(false);
 					frame.setIgnoreRepaint(true);
 
@@ -342,13 +342,13 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	}
 
 	private void setFullscreenIfNeeded() {
-		if (platformConfiguration.isFullscreen()) {
+		if (engineConfiguration.isFullscreen()) {
 			// TODO this might not work in windows
 			if (!frame.isDisplayable()) {
 				frame.setUndecorated(true);
 			}
 			getGraphicsDevice().setFullScreenWindow(frame);
-			platformConfiguration.setSize(frame.getWidth(),
+			engineConfiguration.setSize(frame.getWidth(),
 					frame.getHeight());
 			logger.info("Frame size: " + frame.getWidth() + " x "
 					+ frame.getHeight());
@@ -385,7 +385,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
-				platformConfiguration.setSize(
+				engineConfiguration.setSize(
 						frame.getContentPane().getWidth(), frame
 								.getContentPane().getHeight());
 
@@ -465,7 +465,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	@Override
 	public void finish() {
-		if (this.platformConfiguration.isFullscreen()) {
+		if (this.engineConfiguration.isFullscreen()) {
 			GraphicsDevice gd = GraphicsEnvironment
 					.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			gd.setFullScreenWindow(null);

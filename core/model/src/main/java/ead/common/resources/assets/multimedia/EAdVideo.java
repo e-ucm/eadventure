@@ -44,5 +44,7 @@ import ead.common.resources.assets.AssetDescriptor;
  * General video asset interface.
  */
 public interface EAdVideo extends AssetDescriptor, HasURI {
+	
+	boolean isStream();
 
 }

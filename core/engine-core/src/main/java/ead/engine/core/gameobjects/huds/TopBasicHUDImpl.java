@@ -139,8 +139,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
 		this.engineConfiguration = engineConfiguration;
-		initContextual();
-		initMouse();
 	}
 
 	public void setGameObjectManager(GameObjectManager gameObjectManager) {
@@ -169,9 +167,9 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	@Override
 	public void update() {
+		super.update();
 		updateContextual();
 		updateMouse();
-		super.update();
 	}
 
 	@Override
@@ -268,6 +266,11 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		mouseGO.update();
 		mouseGO.getTransformation().setClip(0, 0, engineConfiguration.getWidth(),
 				engineConfiguration.getHeight());
+	}
+	
+	public void init( ){
+		initContextual();
+		initMouse();
 	}
 
 }

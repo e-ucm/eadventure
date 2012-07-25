@@ -47,9 +47,15 @@ import ead.engine.core.gameobjects.go.Renderable;
  * eAdventure game.
  */
 public interface HudGO extends DrawableGO<Void>, Renderable {
-	
-	void addElement( DrawableGO<?> drawable );
-	
-	List<DrawableGO<?>> getContaintedGOs( );
+
+	void addElement(DrawableGO<?> drawable);
+
+	List<DrawableGO<?>> getContaintedGOs();
+
+	/**
+	 * It is called when the graphic context has been created. HUDs graphics
+	 * components (buttons, labels...) should be created here
+	 */
+	void init();
 
 }

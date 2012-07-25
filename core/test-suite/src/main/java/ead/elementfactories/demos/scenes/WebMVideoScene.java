@@ -37,44 +37,26 @@
 
 package ead.elementfactories.demos.scenes;
 
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.VideoScene;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.SceneDemo;
 
 public class WebMVideoScene extends VideoScene implements SceneDemo {
 
 	public WebMVideoScene() {
-		setId("videoScene");
-		EAdVideo video = new Video("@binary/eAdventure.webm");
-		getDefinition().getResources().addAsset(VideoScene.video, video);
-		
-		ChangeSceneEf changeScene = new ChangeSceneEf();
-		changeScene.setId("changeScene");
-
-		SceneElement goRightArrow = EAdElementsFactory
-				.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(new Image("@drawable/arrow_right.png"),
-						200, 60, changeScene);
-		this.getSceneElements().add(goRightArrow);
-		
-		goRightArrow.addBehavior(KeyGEv.KEY_ARROW_RIGHT, changeScene);
-
+		setId("youtubeVideoScene");
+		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
+		video.setStream(true);
+		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
 	
 	@Override
 	public String getSceneDescription() {
-		return "A scene with a button to launch a video";
+		return "A scene playing a YouTube video.";
 	}
 	
 	public String getDemoName(){
-		return "WebM video Scene";
+		return "YouTube video Scene";
 	}
 
 }

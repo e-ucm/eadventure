@@ -61,20 +61,21 @@ public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 	protected FilterFactory<T> filterFactory;
 
 	@Inject
-	public AbstractCanvas( FontHandler fontHandler, FilterFactory<T> filterFactory ){
+	public AbstractCanvas(FontHandler fontHandler,
+			FilterFactory<T> filterFactory) {
 		this.fontHandler = fontHandler;
 		this.filterFactory = filterFactory;
 	}
 
-	public void setGraphicContext( T g ){
+	public void setGraphicContext(T g) {
 		this.g = g;
 	}
 
-	public void drawText( String text ){
-		drawText( text, 0, 0 );
+	public void drawText(String text) {
+		drawText(text, 0, 0);
 	}
 
-	public void setPaint( EAdPaint paint ){
+	public void setPaint(EAdPaint paint) {
 		this.paint = paint;
 	}
 
@@ -83,8 +84,11 @@ public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 		return g;
 	}
 
-	public void setFilter(RuntimeDrawable<?, T> drawable, EAdDrawableFilter filter){
-		filterFactory.applyFilter(drawable, filter, this);
+	public void setFilter(RuntimeDrawable<?, T> drawable,
+			EAdDrawableFilter filter) {
+		if (filterFactory != null) {
+			filterFactory.applyFilter(drawable, filter, this);
+		}
 	}
 
 }
