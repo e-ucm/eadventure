@@ -71,7 +71,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>
-			<artifactId>gdx-backend-lwjgl-sources</artifactId>
+			<artifactId>gdx-backend-lwjgl-sources</artifactId>		
 		</dependency>
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>

@@ -847,8 +847,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-backend-lwjgl-sources</artifactId>
-				<classifier>sources</classifier>
+				<artifactId>gdx-backend-lwjgl-sources</artifactId>				
 				<version>1.0</version>
 			</dependency>
 			<dependency>
@@ -859,7 +858,6 @@
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-sources</artifactId>
-				<classifier>sources</classifier>
 				<version>1.0</version>
 			</dependency>
 		</dependencies>

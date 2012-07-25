@@ -41,8 +41,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>
-			<artifactId>gdx-sources</artifactId>
-			<classifier>sources</classifier>
+			<artifactId>gdx-sources</artifactId>			
 			<version>1.0</version>
 		</dependency>
 
