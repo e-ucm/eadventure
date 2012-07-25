@@ -73,6 +73,7 @@ import ead.gui.structurepanel.StructureElementProvider;
 import ead.gui.structurepanel.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
@@ -120,7 +121,7 @@ public class EditorWindowImpl implements EditorWindow {
      * Model controller
      */
     protected Controller controller;
-	
+
     /**
      * default EditorWindow implementation.
      *
@@ -166,7 +167,7 @@ public class EditorWindowImpl implements EditorWindow {
 		leftPanel.addElement(new StructureElement(
 				new SimpleStructureElement("Assessment Profiles", R.Drawable.sidePanel__assessmentProfiles_png)));
 		leftPanel.createElements();
-		
+
         dockController = new CControl();
 
         // requires left and right panel; builds an animated splitPane
@@ -196,7 +197,7 @@ public class EditorWindowImpl implements EditorWindow {
 			}
 		}
 	}
-	
+
 	@Override
 	public void clearViews() {
 		for (int i=0; i<dockController.getCDockableCount(); i++) {
@@ -204,7 +205,7 @@ public class EditorWindowImpl implements EditorWindow {
 			dockController.remove((MultipleCDockable)c);
 		}
 	}
-	
+
 	@Override
 	public void saveViews() {
 		File f = controller.getModel().relativeFile("views.xml");
@@ -232,7 +233,7 @@ public class EditorWindowImpl implements EditorWindow {
     }
 
     @Override
-    public void addView(String type, String elementId, JPanel view, boolean reuseExisting) {
+    public void addView(String type, String elementId, boolean reuseExisting) {
         createNewView(elementId);
     }
 
@@ -250,23 +251,31 @@ public class EditorWindowImpl implements EditorWindow {
     /**
      * Current modal dialog, if any
      */
-    private JDialog currentModalDialog = null;
+    private JFrame currentModal = null;
 
     @Override
     public void addModalPanel(JPanel modalPanel) {
-        if (currentModalDialog != null) {
+        if (currentModal != null) {
             removeModalPanel(true);
         }
-        currentModalDialog = new JDialog(editorWindow, true);
-        currentModalDialog.add(modalPanel);
-        currentModalDialog.setVisible(true);
+        logger.info("addModal: received a panel with {} components, and size {}x{}; isEDT = {}",
+                new Object[]{modalPanel.getComponentCount(),
+                    modalPanel.getPreferredSize().width, modalPanel.getPreferredSize().height,
+                    javax.swing.SwingUtilities.isEventDispatchThread()});
+        currentModal = new JFrame();
+        currentModal.setUndecorated(true);
+        currentModal.add(modalPanel);
+        currentModal.setLocationRelativeTo(editorWindow);
+        currentModal.setAlwaysOnTop(true);
+        currentModal.pack();
+        currentModal.setVisible(true);
     }
 
     @Override
     public void removeModalPanel(boolean cancelChanges) {
-        currentModalDialog.setVisible(false);
-        currentModalDialog.dispose();
-        currentModalDialog = null;
+        currentModal.setVisible(false);
+        currentModal.dispose();
+        currentModal = null;
     }
 
     /**
@@ -373,7 +382,7 @@ public class EditorWindowImpl implements EditorWindow {
     public EditorMenuBar getEditorMenuBar() {
         return editorMenuBar;
     }
-	
+
 	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,
@@ -382,8 +391,8 @@ public class EditorWindowImpl implements EditorWindow {
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
-	}	
-	
+	}
+
 	/**
 	 * Simplistic structure provider
 	 */
@@ -395,7 +404,7 @@ public class EditorWindowImpl implements EditorWindow {
 			this.icon = new ImageIcon(ClassLoader
 					.getSystemClassLoader().getResource(iconUrl));
 		}
-		
+
 		@Override
 		public String getLabel() {
 			return label;
@@ -415,6 +424,6 @@ public class EditorWindowImpl implements EditorWindow {
 		public int getChildCount() {
 			return 0;
 		}
-		
+
 	}
 }

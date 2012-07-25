@@ -39,6 +39,7 @@ package ead.editor.control;
 
 import ead.editor.model.EditorModel;
 import java.util.Locale;
+import javax.swing.Action;
 
 
 /**
@@ -47,19 +48,29 @@ import java.util.Locale;
  */
 public interface Controller {
 
-	/**
-	 * Set the locale (which determines the language) of the editor
-	 *
-	 * @param locale
-	 */
-	void setLocale(Locale locale);
+    /**
+     * Retrieves actions by name. Action names should be declared in the
+     * interfaces, NOT in the implementation classes.
+     */
+    Action getAction(String name);
+
+    /**
+     * Adds a new action for general use. Action names should be declared in the
+     * interfaces, NOT in the implementation classes.
+     */
+    void putAction(String name, Action action);
+
+    /**
+     * Retrieves the editor-wide configuration
+     */
+    EditorConfig getConfig();
 
 	/**
 	 * Retrieve the model for read-only purposes.
-	 * ALERT: do not keep copies of the model, or 
+	 * ALERT: do not keep copies of the model, or do anything except READING it
 	 */
 	EditorModel getModel();
-	
+
     /**
      * Returns the project controller. In charge of project loading / saving
      */

@@ -44,6 +44,8 @@ import ead.editor.control.CommandManager;
 import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.Controller;
 import ead.editor.control.ControllerImpl;
+import ead.editor.control.EditorConfig;
+import ead.editor.control.EditorConfigImpl;
 import ead.editor.control.NavigationController;
 import ead.editor.control.NavigationControllerImpl;
 import ead.editor.control.ProjectController;
@@ -59,6 +61,8 @@ import ead.editor.view.menu.EditorMenuBar;
 import ead.editor.view.menu.EditorMenuBarImpl;
 import ead.editor.view.menu.FileMenu;
 import ead.editor.view.menu.FileMenuImpl;
+import ead.tools.ConfigBackend;
+import ead.tools.ConfigBackendXMLFile;
 
 /**
  * Google Guice ({@link http://code.google.com/p/google-guice/}) module to
@@ -76,7 +80,6 @@ public class EditorGuiceModule extends AbstractModule {
 		configureMenu();
 
 		bind(Launcher.class).to(EAdventureEditor.class);
-
 	}
 
 	/**
@@ -91,6 +94,7 @@ public class EditorGuiceModule extends AbstractModule {
 	 * Configure controller for the application, the project and the navigation
 	 */
 	private void configureController() {
+		bind(EditorConfig.class).to(EditorConfigImpl.class);
 		bind(Controller.class).to(ControllerImpl.class);
 		bind(CommandManager.class).to(CommandManagerImpl.class);
 		bind(ProjectController.class).to(ProjectControllerImpl.class);

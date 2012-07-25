@@ -83,8 +83,8 @@ import es.eucm.eadventure.common.loader.Loader;
 
 /**
  * Resource Importer
- * 
- * 
+ *
+ *
  */
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
@@ -347,18 +347,9 @@ public class ResourceImporterImpl implements ResourceImporter {
 				asset = (AssetDescriptor) clazz.getConstructor(String.class)
 						.newInstance(newAssetPath);
 
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+                logger.warn("Error while playing with AssetDescriptor {}",
+                        newAssetPath, e);
 			}
 		}
 
@@ -371,7 +362,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	/**
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
-	 * 
+	 *
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset
@@ -489,7 +480,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		}
 		return image;
 	}
-	
+
 	public InputStreamCreator getInputStreamCreator( ){
 		return this.inputStreamCreator;
 	}

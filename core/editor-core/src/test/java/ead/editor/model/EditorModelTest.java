@@ -57,6 +57,7 @@ import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.importer.ImporterModule;
 import ead.tools.java.JavaToolsModule;
+import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
 /**
@@ -143,8 +144,8 @@ public class EditorModelTest {
 	/**
 	 * Test import-loading of an old ead 1.x file
 	 */
-	private void testImportLoad(File oldEadFile) throws IOException {
-		model.loadFromImportFile(oldEadFile);
+	private void testImportLoad(File oldEadFile, File newProjectFolder) throws IOException {
+		model.loadFromImportFile(oldEadFile, newProjectFolder);
 	}
 
 	/**
@@ -170,23 +171,24 @@ public class EditorModelTest {
 
 		// Import-load
 		File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-		emt.testImportLoad(f);
-        
+        File dst = FileUtils.createTempDir("zeroth", null);
+		emt.testImportLoad(f, dst);
+
 		// Test first save
         File firstFile = File.createTempFile("first", ".eap");
         emt.testSave(firstFile);
 
 		// Test loading from ead2 save-file
 		emt.testLoad(firstFile);
-		
+
 		// Save loaded to another name
 		File secondFile = File.createTempFile("second", ".eap");
 		emt.testSave(secondFile);
-		
+
 		logger.info("Finished; now compare {} and {}", new Object[] {
 			firstFile.getCanonicalPath(), secondFile.getCanonicalPath()});
 
-		// Copy 
+		// Copy
 
 		// Simple search
 //		emt.testSimpleSearch();

@@ -34,13 +34,15 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.editor.control;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ead.editor.model.EditorModel;
+import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
+import javax.swing.Action;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -48,53 +50,58 @@ import java.util.Locale;
 @Singleton
 public class ControllerImpl implements Controller {
 
-	private EditorModel editorModel = null;
+    private boolean configLoaded = false;
+    private EditorConfig editorConfig;
+    private EditorModel editorModel;
     private ProjectController projectController;
     private NavigationController navigationController;
     private ViewController viewController;
     private CommandManager commandManager;
+    private HashMap<String, Action> actionMap = new HashMap<String, Action>();
 
-	@Inject
-	public ControllerImpl(EditorModel editorModel, 
-		ProjectController projectController, 
-		NavigationController navigationController,
-		ViewController viewControler,
-		CommandManager commandManager)	{
-		this.editorModel = editorModel;
-		this.projectController = projectController;
-		this.navigationController = navigationController;
-		this.viewController = viewControler;
-		this.commandManager = commandManager;
+    @Inject
+    public ControllerImpl(EditorConfig editorConfig,
+            EditorModel editorModel,
+            ProjectController projectController,
+            NavigationController navigationController,
+            ViewController viewControler,
+            CommandManager commandManager) {
 
-		this.projectController.setController(this);
-		this.navigationController.setController(this);
-		this.viewController.setController(this);
-	}
-	
-	
-	/**
-	 * Access to the editor model. IMPORTANT: all non-control classes should
-	 * consider the returned model to be read-only and transient. Violators
-	 * WILL be punished.
-	 * @return 
-	 */
-	@Override
-	public EditorModel getModel() {
-		return editorModel;
-	}
+        this.editorConfig = editorConfig;
+        this.editorModel = editorModel;
+        this.projectController = projectController;
+        this.navigationController = navigationController;
+        this.viewController = viewControler;
+        this.commandManager = commandManager;
 
-	/**
-	 * Changes current locale. But this will not alter already-loaded strings...
-	 * @param locale
-	 */
-	@Override
-	public void setLocale(Locale locale) {
-		Locale.setDefault(locale);
+        this.projectController.setController(this);
+        this.navigationController.setController(this);
+        this.viewController.setController(this);
+    }
 
-		// FIXME: should redo static initialization of all Messages classes
+    @Override
+    public EditorConfig getConfig() {
+        if (!configLoaded) {
+            File f = new File("ead-editor-config.xml");
+            if (editorConfig.load(f.getAbsolutePath())) {
+                configLoaded = true;
+            } else if (editorConfig.save(f.getAbsolutePath())) {
+                configLoaded = true;
+            }
+        }
+        return editorConfig;
+    }
 
-		// FIXME: should reload all the UI right around here, via massive repaints
-	}
+    /**
+     * Access to the editor model. IMPORTANT: all non-control classes should
+     * consider the returned model to be read-only and transient. Violators
+     * WILL be punished.
+     * @return
+     */
+    @Override
+    public EditorModel getModel() {
+        return editorModel;
+    }
 
     @Override
     public ProjectController getProjectController() {
@@ -114,5 +121,15 @@ public class ControllerImpl implements Controller {
     @Override
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    @Override
+    public Action getAction(String name) {
+        return actionMap.get(name);
+    }
+
+    @Override
+    public void putAction(String name, Action action) {
+        actionMap.put(name, action);
     }
 }

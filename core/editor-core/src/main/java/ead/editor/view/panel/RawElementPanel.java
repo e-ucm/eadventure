@@ -55,13 +55,13 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An elementPanel that can display anything, in a non-editable fashion.
- * 
+ *
  * @author mfreire
  */
 public class RawElementPanel extends JPanel implements ElementPanel<DependencyNode> {
 
-	private static final Logger logger = LoggerFactory.getLogger("RawElementPanel");	
-	
+	private static final Logger logger = LoggerFactory.getLogger("RawElementPanel");
+
 	private DependencyNode target;
 	private EditorWindow ew;
 	private JPanel inner = new JPanel();
@@ -165,7 +165,7 @@ public class RawElementPanel extends JPanel implements ElementPanel<DependencyNo
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			ew.addView("", id, null, true);
+			ew.addView("", id, true);
 		}
 	}
 }

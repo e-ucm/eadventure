@@ -37,6 +37,7 @@
 
 package ead.editor;
 
+import ead.utils.Log4jConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import ead.editor.control.Controller;
+import ead.editor.control.ViewController;
+import ead.editor.model.EditorModel;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.impl.SplashScreenImpl;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
@@ -52,94 +55,95 @@ import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.importer.ImporterModule;
 import ead.tools.java.JavaToolsModule;
-import ead.utils.Log4jConfig;
+import ead.utils.i18n.I18N;
+import java.util.Locale;
 
 /**
  * eAdventure editor launcher. This class has a main method.
- * 
- * IMPORTANT: to re-generate resources, use java -cp
- * core/utils/target/utils-2.0.1-SNAPSHOT.jar ead.utils.i18n.ResourceCreator
- * core/editor-core ead.editor etc/LICENSE.txt
- * core/editor-core/src/main/java/ead/editor/R.java
+ *
+ * IMPORTANT: to re-generate resources, use
+ * java -cp core/utils/target/utils-2.0.1-SNAPSHOT.jar
+ *      ead.utils.i18n.ResourceCreator core/editor-core ead.editor
+ *      etc/LICENSE.txt core/editor-core/src/main/java/ead/editor/R.java
  */
 public class EAdventureEditor implements Launcher {
 
-	/**
-	 * Logger
-	 */
-	private static Logger logger = LoggerFactory
-			.getLogger(EAdventureEditor.class);
-	/**
-	 * UI Controller
-	 */
-	private Controller controller;
+    /**
+     * Logger
+     */
+    private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
+    /**
+     * UI Controller
+     */
+    private Controller controller;
+
 
 	/**
 	 * Main entry point into the editor.
-	 * 
-	 * @param args
-	 *            the first argument, if set, is understood to be a game file
+	 * @param args the first argument, if set, is understood to be a game file
 	 */
 	public static void main(String[] args) {
 
-		// The following line is used by MacOS X to set the application name
-		// correctly
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+        // The following line is used by MacOS X to set the application name correctly
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
 
 		// Locale.setDefault(new Locale("es", "ES"));
 
-		// Initialize logging
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
-				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-				"EditorModel", Log4jConfig.Slf4jLevel.Info, "NullAnnotator",
-				Log4jConfig.Slf4jLevel.Debug, "EAdventureImporter",
-				Log4jConfig.Slf4jLevel.Debug, "EWindowImpl",
-				Log4jConfig.Slf4jLevel.Debug, "QueryNode",
-				Log4jConfig.Slf4jLevel.Debug,
-		// Internacionalizacion (i18n)
-		// "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
-				});
+        // Initialize logging
+        Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
+            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+            "EditorModel", Log4jConfig.Slf4jLevel.Info,
+            "NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
+            "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
+            "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
+            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+//			Internacionalizacion (i18n)
+//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
+        });
 
 		// show splash
-		SplashScreen splashScreen = new SplashScreenImpl();
-		splashScreen.show();
+        SplashScreen splashScreen = new SplashScreenImpl();
+        splashScreen.show();
 
 		// initialize launcher
-		Injector injector = Guice.createInjector(new EditorGuiceModule(),
-				new ImporterModule(),
-				new JavaToolsModule(),
-				new JavaBasicGameModule(), new DesktopModule(),
-				new DesktopAssetHandlerModule());
-		Launcher launcher = injector.getInstance(Launcher.class);
-		launcher.configure();
-		launcher.initialize();
+        Injector injector = Guice.createInjector(
+                new EditorGuiceModule(),
+                new ImporterModule(),
+                new JavaToolsModule(),
+                new JavaBasicGameModule(),
+                new DesktopModule(),
+                new DesktopAssetHandlerModule());
+        Launcher launcher = injector.getInstance(Launcher.class);
+
+        launcher.configure();
+        launcher.initialize();
 
 		// hide splash & launch app
 		splashScreen.hide();
-		launcher.start();
-	}
+        launcher.start();
+    }
 
-	@Inject
-	public EAdventureEditor(Controller controller) {
+    @Inject
+    public EAdventureEditor(Controller controller) {
 		logger.info("Controller set to {}", controller);
-		this.controller = controller;
-	}
+        this.controller = controller;
+    }
 
-	@Override
-	public void configure() {
-		logger.info("Configuring...");
-	}
+    @Override
+    public void configure() {
+        logger.info("Configuring...");
+    }
 
-	@Override
-	public void initialize() {
-		logger.info("Initializing...");
-		controller.getViewController().initialize();
-	}
+    @Override
+    public void initialize() {
+        logger.info("Initializing...");
+        controller.getViewController().initialize();
+    }
 
-	@Override
-	public void start() {
-		logger.info("Starting...");
-		controller.getViewController().showWindow();
-	}
+    @Override
+    public void start() {
+        logger.info("Starting...");
+        controller.getViewController().showWindow();
+    }
 }

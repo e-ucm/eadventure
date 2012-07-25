@@ -50,6 +50,8 @@ import com.google.inject.Inject;
 import ead.editor.control.CommandManager;
 import ead.editor.control.Controller;
 import ead.editor.control.NavigationController;
+import ead.editor.control.ProjectController;
+import ead.editor.control.ViewController;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.DependencyNode;
 import ead.editor.model.QueryNode;
@@ -101,20 +103,10 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private JTextField searchField;
 
-	/**
-	 * The action manager
-	 */
-	private CommandManager actionManager;
-
-	/**
-	 * The navigation controller
-	 */
-	private NavigationController navigationController;
-
     /**
-     * The EditorWindow that is being used
+     * Current controller
      */
-    private EditorWindow editorWindow;
+    private Controller controller;
 
     /**
      *
@@ -122,16 +114,15 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
      * @param navigationController
      */
 	@Inject
-	public ToolPanelImpl(CommandManager actionManager,
-			NavigationController navigationController,
-            EditorWindow ew) {
-		this.actionManager = actionManager;
-		this.actionManager.addChangeListener(this);
-		this.navigationController = navigationController;
-		this.navigationController.addChangeListener(this);
-        this.editorWindow = ew;
+	public ToolPanelImpl(Controller controller,
+        CommandManager commandManager, NavigationController navigationController,
+        ProjectController projectController) {
+		this.controller = controller;
+		commandManager.addChangeListener(this);
+		navigationController.addChangeListener(this);
+        projectController.addChangeListener(this);
 
-		toolPanel = new JPanel(new FlowLayout());
+        toolPanel = new JPanel(new FlowLayout());
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
@@ -144,8 +135,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 				addSearchFieldAndButton();
 			}
 		});
-
-		processChange(null);
 	}
 
 	@Override
@@ -158,10 +147,14 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {
-				redoButton.setEnabled(actionManager.canRedo());
-				undoButton.setEnabled(actionManager.canUndo());
-				forwardButton.setEnabled(navigationController.canGoForward());
-				backwardButton.setEnabled(navigationController.canGoBackward());
+                CommandManager cm = controller.getCommandManager();
+				redoButton.setEnabled(cm.canRedo());
+				undoButton.setEnabled(cm.canUndo());
+                NavigationController nm = controller.getNavigationController();
+				forwardButton.setEnabled(nm.canGoForward());
+				backwardButton.setEnabled(nm.canGoBackward());
+                searchField.setEnabled(controller.getModel().initialized());
+                searchButton.setEnabled(controller.getModel().initialized());
 				toolPanel.repaint();
 			}
 		});
@@ -181,11 +174,12 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addRedoButton() {
 		redoButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.REDO);
+        redoButton.setEnabled(false);
 		toolPanel.add(redoButton);
 		redoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionManager.redoCommand();
+				controller.getCommandManager().redoCommand();
 			}
 
 		});
@@ -196,11 +190,12 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addUndoButton() {
 		undoButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.UNDO);
+        undoButton.setEnabled(false);
 		toolPanel.add(undoButton);
 		redoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionManager.undoCommand();
+				controller.getCommandManager().undoCommand();
 			}
 
 		});
@@ -211,29 +206,36 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addSearchFieldAndButton() {
 		searchButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.SEARCH);
-		searchField = new EAdTextField(20);
+		searchButton.setEnabled(false);
+        searchField = new JTextField(20);
+        searchField.setEnabled(false);
 		searchField.setToolTipText("Search...");
 		toolPanel.add(searchField);
 		toolPanel.add(searchButton);
-		searchButton.addActionListener(new ActionListener() {
+
+        ActionListener queryListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String query = searchField.getText();
-                editorWindow.addView("query", "q"+query, null, false);
+                controller.getViewController().addView("query", "q"+query, false);
 			}
-		});
-	}
+		};
+
+        searchField.addActionListener(queryListener);
+		searchButton.addActionListener(queryListener);
+    }
 
 	/**
 	 * Add the forward button to the tool panel
 	 */
 	private void addForwardButton() {
 		forwardButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.FORWARD);
-		toolPanel.add(forwardButton);
+		forwardButton.setEnabled(false);
+        toolPanel.add(forwardButton);
 		forwardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				navigationController.goForward();
+				controller.getNavigationController().goForward();
 			}
 		});
 	}
@@ -243,11 +245,12 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addBackwardButton() {
 		backwardButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.BACKWARD);
-		toolPanel.add(backwardButton);
+		backwardButton.setEnabled(false);
+        toolPanel.add(backwardButton);
 		backwardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				navigationController.goBackward();
+				controller.getNavigationController().goBackward();
 			}
 		});
 	}

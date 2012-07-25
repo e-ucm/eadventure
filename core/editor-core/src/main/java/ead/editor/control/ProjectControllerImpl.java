@@ -38,9 +38,11 @@
 package ead.editor.control;
 
 import com.google.inject.Singleton;
+import ead.editor.control.change.ChangeListener;
 import ead.utils.swing.SwingUtilities;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,19 +53,21 @@ import org.slf4j.LoggerFactory;
 public class ProjectControllerImpl implements ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger("FileMenu");
-	
+
 	private Controller controller;
-	
+    private ArrayList<ChangeListener> listeners = new ArrayList<ChangeListener>();
+
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
-	
+
 	@Override
 	public void load(String projectURL) {
-		controller.getCommandManager().clearCommands();		
+		controller.getCommandManager().clearCommands();
 		try {
 			controller.getModel().load(new File(projectURL));
+            notifyListeners("Loaded ok");
 			controller.getViewController().clearViews();
 			controller.getViewController().restoreViews();
 		} catch (IOException ex) {
@@ -73,6 +77,22 @@ public class ProjectControllerImpl implements ProjectController {
 	}
 
 	@Override
+	public void doImport(String sourceURL, String projectURL) {
+		controller.getCommandManager().clearCommands();
+		try {
+			controller.getModel().loadFromImportFile(
+                    new File(sourceURL), new File(projectURL));
+            notifyListeners("Imported ok");
+			controller.getViewController().clearViews();
+			controller.getViewController().restoreViews();
+		} catch (IOException ex) {
+			logger.warn("Error importing from {} to {}",
+                    new Object[]{sourceURL, projectURL}, ex);
+		    SwingUtilities.showExceptionDialog(ex);
+		}
+	}
+
+    @Override
 	public void save() {
 		try {
 			controller.getViewController().saveViews();
@@ -91,13 +111,33 @@ public class ProjectControllerImpl implements ProjectController {
 		} catch (IOException ex) {
 			logger.warn("Error saving {}", projectURL, ex);
 		    SwingUtilities.showExceptionDialog(ex);
-		}	
+		}
 	}
 
 	@Override
 	public void newProject() {
 		// FIXME - Not yet implemented
+		if (true) {
+            throw new IllegalArgumentException("Not yet implemented!");
+        }
+        notifyListeners("Created ok");
 		controller.getViewController().clearViews();
-		throw new IllegalArgumentException("Not yet implemented!");
 	}
+
+    @Override
+    public void addChangeListener(ChangeListener changeListener) {
+        listeners.add(changeListener);
+    }
+
+    @Override
+    public void removeChangeListener(ChangeListener changeListener) {
+        listeners.remove(changeListener);
+    }
+
+    @Override
+    public void notifyListeners(Object event) {
+        for (ChangeListener l : listeners) {
+            l.processChange(event);
+        }
+    }
 }

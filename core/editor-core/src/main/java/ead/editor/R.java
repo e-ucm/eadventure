@@ -54,6 +54,7 @@ public class R {
 	public static class Drawable {
 		public static String EditorIcon128x128_png;
 		public static String EditorIcon16x16_png;
+		public static String EditorIcon16x16_bw_png;
 		public static String EditorIcon32x32_png;
 		public static String EditorIcon64x64_png;
 		public static String SplashScreenLogo_png;
@@ -87,6 +88,7 @@ public class R {
 
 			files.add("EditorIcon128x128.png");
 			files.add("EditorIcon16x16.png");
+			files.add("EditorIcon16x16_bw.png");
 			files.add("EditorIcon32x32.png");
 			files.add("EditorIcon64x64.png");
 			files.add("SplashScreenLogo.png");
