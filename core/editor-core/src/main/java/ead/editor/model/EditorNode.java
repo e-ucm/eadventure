@@ -84,7 +84,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		sb.setCharAt(sb.length()-1, '\'');
 		sb.append(">\n\t");
 		writeInner(sb);
-		sb.append("\n</node>\n");		
+		sb.append("\n</node>\n");
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	public void restoreInner(Element element) {
 		// by default, nothing to restore
 	}
-	
+
 	/**
 	 * Generates a one-line description with as much information as possible.
 	 * @return a human-readable description of this node
@@ -125,7 +125,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	@Override
 	public String getTextualDescription(EditorModel m) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("GenericEditorNode ").append(getId());
+		sb.append(getClass().getSimpleName()).append(" (").append(getId()).append(")");
 		for (DependencyNode n : getContents()) {
 			sb.append("\n").append(n.getTextualDescription(m));
 		}

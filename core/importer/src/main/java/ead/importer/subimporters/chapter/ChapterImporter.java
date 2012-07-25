@@ -100,11 +100,11 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	public EAdChapter convert(Chapter oldChapter, Object object) {
 		BasicChapter newChapter = (BasicChapter) object;
 
-        annotator.annotate(newChapter, ImportAnnotator.Type.Open, null);
-        annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
-                "title:" + oldChapter.getTitle());
-        annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
-                "description:" + oldChapter.getDescription());
+        annotator.annotate(newChapter, ImportAnnotator.Type.Open);
+        annotator.annotate(newChapter, ImportAnnotator.Type.Entry, "title",
+                oldChapter.getTitle());
+        annotator.annotate(newChapter, ImportAnnotator.Type.Entry, "description",
+                oldChapter.getDescription());
         elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
 		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
@@ -160,7 +160,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		newChapter.setInitialScene((EAdScene) elementFactory
 				.getElementById(oldChapter.getInitialGeneralScene().getId()));
 
-        annotator.annotate(newChapter, ImportAnnotator.Type.Close, null);
+        annotator.annotate(newChapter, ImportAnnotator.Type.Close);
 		return newChapter;
 	}
 

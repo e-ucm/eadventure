@@ -54,24 +54,19 @@ import org.slf4j.LoggerFactory;
 public class EditorAnnotator implements ImportAnnotator {
     private static final Logger logger = LoggerFactory.getLogger("EditorAnnotator");
 
-    private static ArrayList<EAdElement> stack = new ArrayList<EAdElement>();
-    private static HashMap<EAdElement, ArrayList<Annotation>> annotations =
+    private ArrayList<EAdElement> stack = new ArrayList<EAdElement>();
+    private HashMap<EAdElement, ArrayList<Annotation>> annotations =
             new HashMap<EAdElement, ArrayList<Annotation>>();
 
-    private static HashMap<DependencyNode, ArrayList<DependencyNode>> editorNodes =
-            new HashMap<DependencyNode, ArrayList<DependencyNode>>();
-
-    HashMap<DependencyNode, ArrayList<DependencyNode>> getEditorNodes() {
-        return editorNodes;
-    }
-
-    public static class Annotation {
+    public class Annotation {
         private ArrayList<EAdElement> context = new ArrayList<EAdElement>();
         private ImportAnnotator.Type type;
+        private String key;
         private String value;
-        private Annotation(ImportAnnotator.Type type, String value) {
+        private Annotation(ImportAnnotator.Type type, String key, String value) {
             context.addAll(stack);
             this.type = type;
+            this.key = key;
             this.value = value;
         }
         public ArrayList<EAdElement> getContext() {
@@ -80,6 +75,10 @@ public class EditorAnnotator implements ImportAnnotator {
 
         public ImportAnnotator.Type getType() {
             return type;
+        }
+
+        public String getKey() {
+            return key;
         }
 
         public String getValue() {
@@ -114,20 +113,20 @@ public class EditorAnnotator implements ImportAnnotator {
         }
     }
 
-    public static void reset() {
+    public void reset() {
         stack.clear();
         annotations.clear();
     }
 
-    public static ArrayList<Annotation> get(EAdElement element) {
+    public ArrayList<Annotation> get(EAdElement element) {
         ArrayList<Annotation> al = annotations.get(element);
         return (al != null) ? al : new ArrayList<Annotation>();
     }
 
     @Override
-    public void annotate(EAdElement element, Type key, String value) {
+    public void annotate(EAdElement element, Type key, String ... values) {
 		if (logger.isDebugEnabled()) {
-            if (element == null) element = new PlaceHolder(value);
+            if (element == null) element = new PlaceHolder(values[0]);
             switch (key) {
                 case Open: {
                     logger.debug("Entering {}", element);
@@ -149,13 +148,25 @@ public class EditorAnnotator implements ImportAnnotator {
                     }
                     break;
                 }
+                case Comment: {
+                    if ( ! annotations.containsKey(element)) {
+                        annotations.put(element, new ArrayList<Annotation>());
+                    }
+                    for (String s : values) {
+                        annotations.get(element).add(new Annotation(key,
+                                Type.Comment.name(), values[0]));
+                    }
+                    logger.debug("Commenting {}({}) with {}: {} --> {}",
+                            new Object[] {element, stack, key, Type.Comment.name(), values[0]});
+                    break;
+                }
                 default: {
                     if ( ! annotations.containsKey(element)) {
                         annotations.put(element, new ArrayList<Annotation>());
                     }
-                    annotations.get(element).add(new Annotation(key, value));
-                    logger.debug("Annotating {}({}) with {} --> {}",
-                            new Object[] {element, stack, key, value});
+                    annotations.get(element).add(new Annotation(key, values[0], values[1]));
+                    logger.debug("Annotating {}({}) with {}: {} --> {}",
+                            new Object[] {element, stack, key, values[0], values[1]});
                 }
             }
         }

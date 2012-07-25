@@ -50,13 +50,15 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
+    protected String id;
+
 	public BasicField() {
 
 	}
 
 	/**
 	 * Constructs a field
-	 * 
+	 *
 	 * @param element
 	 *            field owner. It can be {@code null}, if there's no owner
 	 * @param name
@@ -73,7 +75,7 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	/**
 	 * Constructs a field
-	 * 
+	 *
 	 * @param element
 	 *            field owner
 	 * @param varDef
@@ -96,12 +98,16 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	@Override
 	public String getId() {
-		return (element != null ? element.getId() : "") + "_" + varDef.getId()
+		if (id == null) {
+            id = (element != null ? element.getId() : "") + "_" + varDef.getId()
 				+ "_field";
+        }
+        return id;
 	}
 
 	@Override
 	public void setId(String id) {
+        this.id = id;
 	}
 
 	public boolean equals(Object o) {

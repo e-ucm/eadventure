@@ -42,6 +42,7 @@
 package ead.editor.model;
 
 // FIXME: fully aware that this is ugly
+import ead.editor.model.*;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import java.io.*;

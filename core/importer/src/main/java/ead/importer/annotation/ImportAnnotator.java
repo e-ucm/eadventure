@@ -55,15 +55,15 @@ public interface ImportAnnotator {
 
     public enum Type {
         /**
-		 * Entry. A generic key-value entry. The first ':' character
-         * is interpreted as the divider between key and entry fields.
+		 * Entry. A generic key-value entry. The first value is interpreted as
+         * the key, and the second as the actual value
          * Key capitalization and whitespace is important.
 		 */
         Entry,
 
         /**
 		 * Comment. Ignored, but may be useful for human-readable debugging.
-         * Value should be the corresponding comment.
+         * Values should be the corresponding comments.
 		 */
         Comment,
 
@@ -90,5 +90,5 @@ public interface ImportAnnotator {
      * @param key key to annotate it with
      * @param value value to set this key to (optional for some key types)
      */
-    public void annotate(EAdElement element, Type key, String value);
+    public void annotate(EAdElement element, Type key, String ... values);
 }

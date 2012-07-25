@@ -102,7 +102,9 @@ public abstract class ActorImporter<P extends Element> implements
 		SceneElementDef actor = (SceneElementDef) object;
 		actor.setId(oldObject.getId());
 
-        annotator.annotate(actor, ImportAnnotator.Type.Open, null);
+        annotator.annotate(actor, ImportAnnotator.Type.Open);
+
+        annotator.annotate(actor, ImportAnnotator.Type.Entry, "type", "actor");
 
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
@@ -130,7 +132,7 @@ public abstract class ActorImporter<P extends Element> implements
 		// Add drag
 		// oldObject.isReturnsWhenDragged()
 
-        annotator.annotate(actor, ImportAnnotator.Type.Close, null);
+        annotator.annotate(actor, ImportAnnotator.Type.Close);
 
 		return actor;
 	}
