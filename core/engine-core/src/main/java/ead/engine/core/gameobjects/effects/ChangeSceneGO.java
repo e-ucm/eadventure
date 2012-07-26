@@ -71,7 +71,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	public ChangeSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, TransitionFactory transitionFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.transitionFactory = transitionFactory;
 	}
 

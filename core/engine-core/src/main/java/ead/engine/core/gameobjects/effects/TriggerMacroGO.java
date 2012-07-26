@@ -60,7 +60,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 	public TriggerMacroGO(AssetHandler assetHandler,
 			EvaluatorFactory evaluator, SceneElementGOFactory factory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, factory, gui, gameState);
+		super(factory, gui, gameState);
 		this.evaluator = evaluator;
 	}
 

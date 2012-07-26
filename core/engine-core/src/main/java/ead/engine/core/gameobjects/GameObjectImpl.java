@@ -37,23 +37,20 @@
 
 package ead.engine.core.gameobjects;
 
-import com.google.inject.Inject;
-
 import ead.common.model.EAdElement;
-import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.GameObject;
 
+/**
+ * Basic game object implementation for eAdventure elements
+ * 
+ * 
+ * @param <T>
+ *            the class of the eAdventure element contained by this game object
+ */
 public abstract class GameObjectImpl<T extends EAdElement> implements
 		GameObject<T> {
 
-	protected GameState gameState;
-
 	protected T element;
-
-	@Inject
-	public GameObjectImpl(GameState gameState) {
-		this.gameState = gameState;
-	}
 
 	@Override
 	public void setElement(T element) {
@@ -64,7 +61,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	public T getElement() {
 		return element;
 	}
-	
+
 	@Override
 	public String toString() {
 		return element + "";

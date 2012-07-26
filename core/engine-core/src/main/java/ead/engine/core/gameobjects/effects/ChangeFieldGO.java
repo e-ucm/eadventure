@@ -55,7 +55,7 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 	public ChangeFieldGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState);
+		super(sceneElementFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

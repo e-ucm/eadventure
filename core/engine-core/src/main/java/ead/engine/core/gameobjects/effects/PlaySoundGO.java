@@ -47,11 +47,14 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
+	
+	private AssetHandler assetHandler;
 
 	@Inject
 	public PlaySoundGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
+		this.assetHandler = assetHandler;
 	}
 
 	@Override

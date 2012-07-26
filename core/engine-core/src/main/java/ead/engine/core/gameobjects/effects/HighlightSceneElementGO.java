@@ -58,7 +58,7 @@ public class HighlightSceneElementGO extends
 	@Inject
 	public HighlightSceneElementGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override

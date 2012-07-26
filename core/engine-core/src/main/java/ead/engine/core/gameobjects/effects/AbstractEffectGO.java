@@ -51,7 +51,6 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
 
@@ -71,11 +70,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	 */
 	protected EAdSceneElement parent;
 
+	protected GameState gameState;
+
 	@Inject
-	public AbstractEffectGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
+		super(gameObjectFactory, gui);
+		this.gameState = gameState;
 	}
 
 	@Override

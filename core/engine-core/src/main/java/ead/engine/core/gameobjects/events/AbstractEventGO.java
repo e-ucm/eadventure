@@ -59,8 +59,10 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends
 	 */
 	protected EAdSceneElement parent;
 
+	protected GameState gameState;
+
 	public AbstractEventGO(GameState gameState) {
-		super(gameState);
+		this.gameState = gameState;
 	}
 
 	/**

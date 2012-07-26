@@ -49,6 +49,7 @@ import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
+import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.engine.core.assets.drawables.GdxImage;
@@ -77,6 +78,7 @@ public class GdxAssetHandlerMap extends HashMap<Class<? extends AssetDescriptor>
 		inner.put(FramesAnimation.class, RuntimeFramesAnimation.class);
 		inner.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		inner.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
+		inner.put(Sound.class, GdxSound.class);
 
         putAll((HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)inner);
 	}

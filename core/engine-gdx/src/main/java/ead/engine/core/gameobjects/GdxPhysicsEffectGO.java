@@ -88,7 +88,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	public GdxPhysicsEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override

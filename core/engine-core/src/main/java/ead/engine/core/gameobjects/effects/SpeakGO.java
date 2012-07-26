@@ -85,12 +85,15 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	private String previousState;
 
+	private AssetHandler assetHandler;
+
 	@Inject
 	public SpeakGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
+		this.assetHandler = assetHandler;
 	}
 
 	@Override
@@ -139,7 +142,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 		BezierShape rectangle = null;
 
-		if ( element.getX() != null && element.getY() != null) {
+		if (element.getX() != null && element.getY() != null) {
 			EAdPosition p = gameState.getScene().getPosition();
 
 			Integer xOrigin = operatorFactory.operate(Integer.class,

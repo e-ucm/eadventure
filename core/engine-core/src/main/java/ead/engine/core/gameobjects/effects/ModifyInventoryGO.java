@@ -68,7 +68,7 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 	public ModifyInventoryGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, InventoryHandler inventoryHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.inventoryHandler = inventoryHandler;
 	}
 

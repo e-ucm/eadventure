@@ -63,7 +63,7 @@ public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 	public GdxApplyForceGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

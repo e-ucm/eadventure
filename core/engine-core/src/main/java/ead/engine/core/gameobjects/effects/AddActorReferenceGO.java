@@ -58,7 +58,7 @@ public class AddActorReferenceGO extends
 	public AddActorReferenceGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override

@@ -60,7 +60,7 @@ public class ComplexBlockingEffectGO extends
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.evaluatorFactory = evaluatorFactory;
 	}
 

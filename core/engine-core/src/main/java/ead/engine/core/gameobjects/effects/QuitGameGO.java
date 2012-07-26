@@ -62,7 +62,7 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	public QuitGameGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
 			GameController gameController) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.gameController = gameController;
 	}
 

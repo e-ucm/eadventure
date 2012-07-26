@@ -54,7 +54,7 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 	public RandomGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	public void initialize() {

@@ -68,7 +68,7 @@ public class ActorActionsGO extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, ActionsHUD actionsHUD,
 			GameObjectManager gameObjectManager) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.actionsHUD = actionsHUD;
 		this.gameObjectManager = gameObjectManager;
 	}

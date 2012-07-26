@@ -64,7 +64,7 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 	public PhApplyForceGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

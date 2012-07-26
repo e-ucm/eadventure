@@ -55,7 +55,7 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 	public SceneElementEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class WaitGO extends AbstractEffectGO<WaitEf>{
 	@Inject
 	public WaitGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override

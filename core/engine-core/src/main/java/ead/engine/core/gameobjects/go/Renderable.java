@@ -50,6 +50,9 @@ public interface Renderable {
 	 */
 	void doLayout(EAdTransformation transformation);
 
+	/**
+	 * Updates the element
+	 */
 	void update();
 
 	boolean contains(int x, int y);

@@ -38,7 +38,6 @@
 package ead.engine.core.gameobjects;
 
 import ead.common.model.EAdElement;
-import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -55,7 +54,6 @@ public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 	/**
 	 * The game's asset handler
 	 */
-	protected AssetHandler assetHandler;
 
 	protected GUI gui;
 
@@ -63,11 +61,9 @@ public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 
 	protected boolean enable;
 
-	public DrawableGameObjectImpl(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState) {
-		super(gameState);
-		this.assetHandler = assetHandler;
+	public DrawableGameObjectImpl(SceneElementGOFactory sceneElementFactory,
+			GUI gui) {
+		super();
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
 	}

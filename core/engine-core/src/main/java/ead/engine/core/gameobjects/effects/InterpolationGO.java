@@ -84,7 +84,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 	public InterpolationGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

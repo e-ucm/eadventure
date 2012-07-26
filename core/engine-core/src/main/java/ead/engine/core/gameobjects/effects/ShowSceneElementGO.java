@@ -56,7 +56,7 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	@Inject
 	public ShowSceneElementGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
-		super(assetHandler, gameObjectFactory, gui, gameState);
+		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override
