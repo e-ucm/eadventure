@@ -108,4 +108,12 @@ public class GdxFont extends BasicRuntimeFont {
 		return bitmapFont;
 	}
 
+	@Override
+	public void freeMemory() {
+		super.freeMemory();
+		bitmapFont.dispose();
+	}
+	
+	
+
 }

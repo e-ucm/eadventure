@@ -41,16 +41,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.engine.core.assets.GdxAssetHandler;
-import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
 
 @Singleton
 public class GdxDesktopAssetHandler extends GdxAssetHandler {
 
 	@Inject
-	public GdxDesktopAssetHandler(GenericInjector injector,
-			FontHandler fontHandler) {
-		super(injector, fontHandler);
+	public GdxDesktopAssetHandler(GenericInjector injector) {
+		super(injector);
 	}
 
 	@Override

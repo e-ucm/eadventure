@@ -41,25 +41,25 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonStroke;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 
-public class BallonShape extends BezierShape {
+public class BalloonShape extends BezierShape {
 
 	private static int CORNER_RADIUS = 10;
 	
-	public BallonShape( ){
+	public BalloonShape( ){
 		
 	}
 
-	public BallonShape(int left, int top, int right, int bottom,
+	public BalloonShape(int left, int top, int right, int bottom,
 			BalloonType ballonType) {
 		this(left, top, right, bottom, ballonType, false, -1, -1);
 	}
 
-	public BallonShape(int left, int top, int right, int bottom,
+	public BalloonShape(int left, int top, int right, int bottom,
 			BalloonType ballonType, int xOrigin, int yOrigin) {
 		this(left, top, right, bottom, ballonType, true, xOrigin, yOrigin);
 	}
 
-	private BallonShape(int left, int top, int right, int bottom,
+	private BalloonShape(int left, int top, int right, int bottom,
 			BalloonType ballonType, boolean hasOrigin, int xOrigin, int yOrigin) {
 
 		Orientation originSide = null;

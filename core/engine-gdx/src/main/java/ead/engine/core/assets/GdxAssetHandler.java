@@ -51,8 +51,8 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 	private GenericInjector injector;
 
 	@Inject
-	public GdxAssetHandler( GenericInjector injector, FontHandler fontHandler ) {
-		super(new GdxAssetHandlerMap( ), fontHandler );
+	public GdxAssetHandler( GenericInjector injector ) {
+		super(new GdxAssetHandlerMap( ), injector.getInstance(FontHandler.class) );
 		this.injector = injector;
 	}
 

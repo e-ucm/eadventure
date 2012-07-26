@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets.drawables.compunds;
+package ead.engine.core.platform.assets.drawables.compounds;
 
 import java.util.List;
 

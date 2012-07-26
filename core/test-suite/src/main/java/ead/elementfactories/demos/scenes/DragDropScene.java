@@ -50,7 +50,7 @@ import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
+import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.util.EAdPosition;
@@ -61,7 +61,7 @@ public class DragDropScene extends EmptyScene {
 	public DragDropScene() {
 		setBackgroundFill(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				new ColorFill(245, 255, 245), 800, 600));
-		BezierShape shape = new BallonShape(0, 0, 100, 100,
+		BezierShape shape = new BalloonShape(0, 0, 100, 100,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape.setPaint(new LinearGradientFill(ColorFill.RED, new ColorFill(200, 0,
 				0), 100, 100));
@@ -88,7 +88,7 @@ public class DragDropScene extends EmptyScene {
 		
 //		addComplexElement( );
 
-		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
+		BezierShape shape2 = new BalloonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape2.setPaint(Paint.BLACK_ON_WHITE);
 		SceneElement e2 = new SceneElement(shape2);

@@ -214,7 +214,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 	}
 
-	private GraphicsDevice getGraphicsDevice() {
+	protected GraphicsDevice getGraphicsDevice() {
 		return GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
 	}

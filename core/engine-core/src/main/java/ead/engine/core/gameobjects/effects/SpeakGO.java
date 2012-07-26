@@ -47,7 +47,7 @@ import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
+import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
@@ -158,13 +158,13 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 				yOrigin = bottom + MARGIN * 2;
 			}
 
-			rectangle = new BallonShape(left, top, right, bottom,
+			rectangle = new BalloonShape(left, top, right, bottom,
 					element.getBallonType(), xOrigin, yOrigin);
 		} else {
 			int offsetY = height / 2 - (bottom - top) / 2;
 			top += offsetY;
 			bottom += offsetY;
-			rectangle = new BallonShape(left, top, right, bottom,
+			rectangle = new BalloonShape(left, top, right, bottom,
 					element.getBallonType());
 		}
 

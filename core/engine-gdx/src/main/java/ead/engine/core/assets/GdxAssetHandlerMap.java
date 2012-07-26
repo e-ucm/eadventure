@@ -56,17 +56,16 @@ import ead.engine.core.assets.drawables.GdxShape;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
+import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
+import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
+import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
 
 public class GdxAssetHandlerMap extends HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>{
 	private static final long serialVersionUID = 5284553649611577802L;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public GdxAssetHandlerMap( ){
         HashMap inner = new HashMap();
-
 		inner.put(Image.class, GdxImage.class);
 		inner.put(BezierShape.class, GdxShape.class);
 		inner.put(Caption.class, RuntimeCaption.class);

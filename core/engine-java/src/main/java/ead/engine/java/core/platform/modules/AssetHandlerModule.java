@@ -55,9 +55,9 @@ import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
+import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
+import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
+import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
 
 public abstract class AssetHandlerModule extends AbstractModule {
 

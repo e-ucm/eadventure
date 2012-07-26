@@ -223,7 +223,7 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 
 	@Override
 	public void freeMemory() {
-
+		this.pixmap.dispose();
 	}
 
 	private void lineTo(float x1, float y1, List<Float> points) {

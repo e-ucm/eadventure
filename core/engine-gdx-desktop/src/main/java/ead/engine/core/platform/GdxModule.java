@@ -113,23 +113,15 @@ public class GdxModule extends AbstractModule {
 
 		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
-
 		bind(GenericCanvas.class).to(GdxCanvas.class);
-
 		bind(ValueMap.class).to(VariableMap.class);
-
 		bind(EngineConfiguration.class).to(AbstractEngineConfiguration.class);
-
 		bind(DebuggerHandler.class).to(DebuggerHandlerImpl.class);
-
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class);
-
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
-
 		bind(GUI.class).to(GdxDesktopGUI.class);
 		bind(InputHandler.class).to(InputHandlerImpl.class);
-
 		bind(PluginHandler.class).to(GdxPluginHandler.class);
 
 		// Game

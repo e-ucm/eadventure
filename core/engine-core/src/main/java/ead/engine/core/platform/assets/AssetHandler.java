@@ -170,4 +170,12 @@ public interface AssetHandler {
 	 */
 	List<String> getTextFile(String path);
 
+	/**
+	 * Sets if the cache is enable for this asset handler. Cache is enabled by
+	 * default.
+	 * 
+	 * @param enable
+	 */
+	void setCacheEnabled(boolean enable);
+
 }

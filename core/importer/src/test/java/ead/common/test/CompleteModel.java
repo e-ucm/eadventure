@@ -50,7 +50,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
-import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
+import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
@@ -82,7 +82,7 @@ public class CompleteModel extends BasicAdventureModel {
 	public EAdDrawable getDrawableWithAllBasicDrawables( ){
 		ComposedDrawable composed = new ComposedDrawable( );
 		LinearGradientFill gradient = new LinearGradientFill( ColorFill.BROWN, new ColorFill(500, 10, 1 ), -1, 2, 400.2f, 2.0f );
-		BallonShape ballonShape = new BallonShape( 0, 10, 900, 12, BalloonType.ELECTRIC );
+		BalloonShape ballonShape = new BalloonShape( 0, 10, 900, 12, BalloonType.ELECTRIC );
 		ballonShape.setPaintAsVector(true);
 		ballonShape.setPaint(gradient);
 		

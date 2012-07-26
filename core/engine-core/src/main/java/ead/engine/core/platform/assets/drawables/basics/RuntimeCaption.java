@@ -130,16 +130,16 @@ public class RuntimeCaption<GraphicContext> extends
 
 	private VariableMap valueMap;
 
-	private StringHandler stringsReader;
+	private StringHandler stringsHandler;
 
 	private GUI gui;
 
 	@Inject
 	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
-			StringHandler stringsReader, AssetHandler assetHandler) {
+			StringHandler stringsHandler, AssetHandler assetHandler) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
-		this.stringsReader = stringsReader;
+		this.stringsHandler = stringsHandler;
 		this.assetHandler = assetHandler;
 		this.gui = gui;
 	}
@@ -154,10 +154,10 @@ public class RuntimeCaption<GraphicContext> extends
 		font = fontCache.get(descriptor.getFont());
 		if (descriptor.getFields().size() > 0) {
 			text = valueMap.processTextVars(
-					stringsReader.getString(descriptor.getText()),
+					stringsHandler.getString(descriptor.getText()),
 					descriptor.getFields());
 		} else {
-			text = stringsReader.getString(descriptor.getText());
+			text = stringsHandler.getString(descriptor.getText());
 		}
 
 		lines = new ArrayList<String>();
@@ -206,10 +206,10 @@ public class RuntimeCaption<GraphicContext> extends
 
 		if (descriptor.getFields().size() > 0) {
 			text = valueMap.processTextVars(
-					stringsReader.getString(descriptor.getText()),
+					stringsHandler.getString(descriptor.getText()),
 					descriptor.getFields());
 		} else {
-			text = stringsReader.getString(descriptor.getText());
+			text = stringsHandler.getString(descriptor.getText());
 		}
 
 		// If text has changed

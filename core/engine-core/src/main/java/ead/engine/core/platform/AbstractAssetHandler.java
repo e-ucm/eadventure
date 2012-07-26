@@ -89,12 +89,14 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private boolean loaded = false;
 
 	protected FontHandler fontHandler;
-	
+
 	protected EAdURI resourcesUri;
+
+	private boolean cacheEnabled;
 
 	/**
 	 * Default constructor, values are supplied by injection
-	 *
+	 * 
 	 * @param injector
 	 *            The guice injector
 	 * @param classMap
@@ -109,15 +111,16 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			FontHandler fontHandler) {
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
+		cacheEnabled = true;
 		this.fontHandler = fontHandler;
-		if ( fontHandler != null ){
+		if (fontHandler != null) {
 			fontHandler.setAssetHandler(this);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.resources.assets.AssetDescriptor)
@@ -131,8 +134,12 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		}
 
 		RuntimeAsset<T> temp = null;
-		synchronized (cache) {
-			temp = (RuntimeAsset<T>) cache.get(descriptor);
+		if (cacheEnabled) {
+
+			synchronized (cache) {
+				temp = (RuntimeAsset<T>) cache.get(descriptor);
+			}
+
 		}
 
 		if (temp == null) {
@@ -144,19 +151,21 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			}
 			temp = (RuntimeAsset<T>) getInstance(tempClass);
 			temp.setDescriptor(descriptor);
-			synchronized (cache) {
-				cache.put(descriptor, temp);
+			if (cacheEnabled) {
+				synchronized (cache) {
+					cache.put(descriptor, temp);
+				}
 			}
 		}
 		return temp;
 
 	}
 
-    @Override
+	@Override
 	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
 			T descriptor, boolean load) {
 		RuntimeAsset<T> runtimeAsset = getRuntimeAsset(descriptor);
-		if ( runtimeAsset == null ){
+		if (runtimeAsset == null) {
 			logger.warn("No runtime asset for {}", descriptor);
 		}
 		if (load && !runtimeAsset.isLoaded()) {
@@ -177,7 +186,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.model.EAdElement,
@@ -192,27 +201,16 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 		if (descriptor == null) {
 			logger.error("No such asset. element: " + element.getClass()
-							+ "; bundleId: "
-							+ (bundleId != null ? bundleId : "null") + "; id: "
-							+ id);
+					+ "; bundleId: " + (bundleId != null ? bundleId : "null")
+					+ "; id: " + id);
 			return null;
 		}
-
-		synchronized (cache) {
-			RuntimeAsset<?> finalAsset = cache.get(descriptor);
-			if (finalAsset != null) {
-				return finalAsset;
-			}
-
-			finalAsset = getRuntimeAsset(descriptor);
-			cache.put(descriptor, finalAsset);
-			return finalAsset;
-		}
+		return getRuntimeAsset(descriptor);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.model.EAdElement, java.lang.String)
@@ -224,7 +222,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.AssetHandler#isLoaded()
 	 */
 	@Override
@@ -234,7 +232,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	private ArrayList<AssetDescriptor> descriptorsToRemove = new ArrayList<AssetDescriptor>();
 
-    @Override
+	@Override
 	public void clean(List<AssetDescriptor> exceptions) {
 		descriptorsToRemove.clear();
 		synchronized (cache) {
@@ -257,8 +255,12 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	protected void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 	}
-	
-	public void setResourcesLocation(EAdURI uri){
+
+	public void setResourcesLocation(EAdURI uri) {
 		this.resourcesUri = uri;
+	}
+
+	public void setCacheEnabled(boolean enable) {
+		this.cacheEnabled = enable;
 	}
 }
