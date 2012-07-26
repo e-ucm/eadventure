@@ -35,75 +35,70 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ead.editor.model;
+package ead.editor.view.panel;
 
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.editor.model.nodes.ActorNode;
+import ead.editor.model.DependencyNode;
+import ead.editor.view.EditorWindow;
+import ead.editor.view.dock.ElementPanel;
+import ead.editor.view.impl.CheapVerticalLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
 /**
+ * An elementPanel that can display anything, in a non-editable fashion.
  *
  * @author mfreire
  */
-public class QueryNode extends EditorNode {
+public class ActorPanel extends JPanel implements ElementPanel<ActorNode> {
 
-	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
+	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
 
-	private String queryString;
+	private ActorNode target;
+	private EditorWindow ew;
+    private SceneElementDef actor;
 
-	public QueryNode(EditorModel m, String queryString) {
-		super(m.generateId());
-		this.queryString = queryString;
-		logger.debug("Query node for '{}'", queryString);
-
-		for (DependencyNode d : m.searchAll(queryString)) {
-			logger.debug("\tadding query match: {}", d.getId());
-			this.addChild(d);
-		}
-
-        try {
-            DependencyNode d = m.getNode(Integer.valueOf(queryString));
-			logger.debug("\tadding direct-id match: {}", d.getId());
-			this.addChild(d);
-		} catch (Exception e) {
-            logger.debug("No direct match found for {}", queryString);
-        }
+	@Override
+	public void setTarget(ActorNode target) {
+		this.target = target;
+        this.actor = (SceneElementDef)target.getContents().iterator().next().getContent();
+		rebuild();
 	}
 
-	/**
-	 * Writes inner contents to an XML snippet.
-	 * @param sb
-	 */
 	@Override
-	public void writeInner(StringBuilder sb) {
-		sb.append("<queryString>")
-				.append(queryString).append("</queryString>");
+	public ActorNode getTarget() {
+		return target;
 	}
 
-	/**
-	 * Reads inner contents from an XML snippet.
-	 * @param e
-	 */
-	@Override
-	public void restoreInner(Element e) {
-		this.queryString = e.getChildNodes().item(0).getTextContent();
+	private void rebuild() {
+		removeAll();
+		setLayout(new FlowLayout());
+        add(new JLabel("This is an actor panel for ID " + actor.getId()));
+        add(new JLabel("This actor has desc= " + actor.getDesc()));
+        add(new JLabel("This actor has detailDesc= " + actor.getDetailDesc()));
+        add(new JLabel("This actor has " + actor.getActions().size() + " actions"));
+
+        actor.getAppearance(null);
+
+		revalidate();
 	}
 
-	/**
-	 * Generates a one-line description with as much information as possible.
-	 * @return a human-readable description of this node
-	 */
+	private String htmlize(String s) {
+		return "<html>" + s + "</html>";
+	}
+
 	@Override
-	public String getTextualDescription(EditorModel m) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Query: '").append(queryString).append("'");
-		for (DependencyNode n : getContents()) {
-			sb.append("\n").append(n.getTextualDescription(m));
-		}
-		return sb.toString();
+	public void setEditor(EditorWindow ew) {
+		this.ew = ew;
 	}
 }

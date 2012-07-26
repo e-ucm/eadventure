@@ -35,56 +35,17 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scene;
+package ead.editor.model.nodes;
 
-import ead.common.interfaces.WithActions;
-import ead.common.interfaces.WithBehavior;
-import ead.common.interfaces.features.Documented;
-import ead.common.interfaces.features.Evented;
-import ead.common.interfaces.features.Named;
-import ead.common.interfaces.features.Resourced;
-import ead.common.model.EAdElement;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.editor.model.EditorNode;
 
 /**
- * Scene element definition in the eAdventure model. Definition for scene
- * elements, placed in eAdventure scene.
+ *
+ * @author mfreire
  */
-public interface EAdSceneElementDef extends EAdElement, Resourced,
-		WithBehavior, Documented, Named, Evented, WithActions {
+public class ActorNode extends EditorNode {
 
-	/**
-	 * Sets the appearance in the given bundle
-	 *
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
-
-	/**
-	 * Sets the initial appearance for the scene element
-	 *
-	 * @param appearance
-	 *            the initial appearance
-	 */
-	public void setAppearance(EAdDrawable appearance);
-
-	/**
-	 * Returns the default appearance for this definition
-	 *
-	 * @return
-	 */
-	EAdDrawable getAppearance();
-
-	/**
-	 * Returns the appearance for the given bundle
-	 *
-	 * @param bundle
-	 * @return
-	 */
-	EAdDrawable getAppearance(EAdBundleId bundle);
-
+    public ActorNode(int id) {
+        super(id);
+    }
 }

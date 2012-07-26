@@ -48,6 +48,7 @@ import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.impl.SplashScreenImpl;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.importer.BaseImporterModule;
 import ead.importer.ImporterModule;
 import ead.tools.java.JavaToolsModule;
 import ead.utils.Log4jConfig;
@@ -87,8 +88,8 @@ public class EAdventureEditor implements Launcher {
         // Initialize logging
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
             "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-            "EditorModel", Log4jConfig.Slf4jLevel.Info,
-            "NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
+            "EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
+            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
@@ -102,8 +103,8 @@ public class EAdventureEditor implements Launcher {
 
 		// initialize launcher
         Injector injector = Guice.createInjector(
+                new BaseImporterModule(),
                 new EditorGuiceModule(),
-                new ImporterModule(),
                 new JavaToolsModule(),
                 new JavaBasicGameModule());
         Launcher launcher = injector.getInstance(Launcher.class);

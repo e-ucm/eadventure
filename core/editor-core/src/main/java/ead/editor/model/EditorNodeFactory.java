@@ -35,56 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scene;
+package ead.editor.model;
 
-import ead.common.interfaces.WithActions;
-import ead.common.interfaces.WithBehavior;
-import ead.common.interfaces.features.Documented;
-import ead.common.interfaces.features.Evented;
-import ead.common.interfaces.features.Named;
-import ead.common.interfaces.features.Resourced;
-import ead.common.model.EAdElement;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.assets.drawable.EAdDrawable;
+import java.util.TreeMap;
+import org.jgrapht.graph.ListenableDirectedGraph;
 
 /**
- * Scene element definition in the eAdventure model. Definition for scene
- * elements, placed in eAdventure scene.
+ * Recognizes a given pattern in an imported course, and builds all
+ * necessary EditorNodes to represent it.
+ * @author mfreire
  */
-public interface EAdSceneElementDef extends EAdElement, Resourced,
-		WithBehavior, Documented, Named, Evented, WithActions {
+public interface EditorNodeFactory {
 
-	/**
-	 * Sets the appearance in the given bundle
-	 *
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
-
-	/**
-	 * Sets the initial appearance for the scene element
-	 *
-	 * @param appearance
-	 *            the initial appearance
-	 */
-	public void setAppearance(EAdDrawable appearance);
-
-	/**
-	 * Returns the default appearance for this definition
-	 *
-	 * @return
-	 */
-	EAdDrawable getAppearance();
-
-	/**
-	 * Returns the appearance for the given bundle
-	 *
-	 * @param bundle
-	 * @return
-	 */
-	EAdDrawable getAppearance(EAdBundleId bundle);
-
+    /**
+     * Create & register editorNodes with the model
+     * @param g node graph; may contain no EditorNodes
+     * @param annotator annotations for nodes (by ID)
+     * @param nodesById nodes in graph, by ID
+     * @param model where the nodes should be inserted, via registerEditorNode
+     */
+    public void createNodes(
+            ListenableDirectedGraph<DependencyNode, DependencyEdge> g,
+            EditorAnnotator importAnnotatorE,
+            TreeMap<Integer, DependencyNode> nodesById,
+            EditorModel model);
 }

@@ -52,7 +52,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.EAdElement;
+import ead.editor.EditorGuiceModule;
+import ead.editor.Launcher;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.importer.BaseImporterModule;
 import ead.importer.ImporterModule;
 import ead.tools.java.JavaToolsModule;
 import ead.utils.FileUtils;
@@ -82,13 +85,17 @@ public class EditorModelTest {
 	@Before
 	public void setUp() {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
-				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-				"EditorModel", Log4jConfig.Slf4jLevel.Debug, "NullAnnotator",
-				Log4jConfig.Slf4jLevel.Debug, "EAdventureImporter",
-				Log4jConfig.Slf4jLevel.Debug });
+            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+            "EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
+            "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
+            "ActorFactory", Log4jConfig.Slf4jLevel.Debug,
+        });
 
 		Injector injector = Guice.createInjector(new ImporterModule(),
 				new JavaToolsModule(), new JavaBasicGameModule());
+            new EditorGuiceModule(),
+        );
 		model = injector.getInstance(EditorModel.class);
 	}
 
@@ -173,23 +180,30 @@ public class EditorModelTest {
 		File f = new File(
 				"/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
 		File dst = FileUtils.createTempDir("zeroth", null);
-		emt.testImportLoad(f, dst);
+        File firstFile = FileUtils.createTempDir("first", null);
+		try {
+            emt.testImportLoad(f, dst);
 
-		// Test first save
-		File firstFile = File.createTempFile("first", ".eap");
-		emt.testSave(firstFile);
+            assert(emt.model.getEngineModel().getId().contains("__"));
 
-		// Test loading from ead2 save-file
-		emt.testLoad(firstFile);
-
-		// Save loaded to another name
-		File secondFile = File.createTempFile("second", ".eap");
-		emt.testSave(secondFile);
-
-		logger.info(
-				"Finished; now compare {} and {}",
-				new Object[] { firstFile.getCanonicalPath(),
-						secondFile.getCanonicalPath() });
+            // Test save to different file
+            emt.testSave(firstFile);
+            // Test loading from ead2 save-file
+            emt.testLoad(firstFile);
+        } catch (Exception e) {
+            logger.error("Error running test", e);
+        }
+        logger.info("Have a look at \nmeld {} {}",
+                new Object[] {dst, firstFile});
+//
+//
+//
+//		// Save loaded to another name
+//		File secondFile = File.createTempFile("second", ".eap");
+//		emt.testSave(secondFile);
+//
+//		logger.info("Finished; now compare {} and {}", new Object[] {
+//			firstFile.getCanonicalPath(), secondFile.getCanonicalPath()});
 
 		// Copy
 
@@ -209,5 +223,7 @@ public class EditorModelTest {
 
 		// // Test loading from previous save-file
 		// emt.testLoad(saveFile);
+
+        logger.info("... test was a SUCCESS!");
 	}
 }

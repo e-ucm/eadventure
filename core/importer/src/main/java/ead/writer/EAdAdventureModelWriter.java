@@ -65,10 +65,6 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	private static final Logger logger = LoggerFactory
 			.getLogger("EAdAdventureModelWriter");
 
-	public boolean write(EAdAdventureModel data, URI fileURI) {
-		return false;
-	}
-
 	public boolean write(EAdAdventureModel data, OutputStream outputStream) {
 
 		try {

@@ -80,6 +80,8 @@ public class BasicAdventureModel implements EAdAdventureModel {
 	@Param("depthControlList")
 	private EAdList<EAdElement> depthControlList;
 
+    private String id = "adventure";
+
 	// This map is fulfilled with the values in ead.properties. That's why it
 	// hasn't got a @Param annotation
 	private Map<String, String> properties;
@@ -104,11 +106,12 @@ public class BasicAdventureModel implements EAdAdventureModel {
 	}
 
 	public String getId() {
-		return "adventure";
+		return id;
 	}
 
 	@Override
 	public void setId(String id) {
+        this.id = id;
 	}
 
 	/**

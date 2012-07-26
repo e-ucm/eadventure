@@ -56,6 +56,8 @@ public class Side implements EAdElement {
 	@Param("realLength")
 	private float realLength = 1;
 
+    private String id;
+
 	public Side() {
 
 	}
@@ -127,14 +129,18 @@ public class Side implements EAdElement {
 
 	@Override
 	public String getId() {
-		return idStart + "_" + idEnd;
+		if (id == null) {
+            id = idStart + "_" + idEnd;
+        }
+        return id;
 	}
-	
+
 	public int hashCode(){
 		return getId().hashCode();
 	}
 
 	@Override
 	public void setId(String id) {
+        this.id = id;
 	}
 }

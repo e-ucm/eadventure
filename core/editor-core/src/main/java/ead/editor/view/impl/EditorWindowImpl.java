@@ -62,11 +62,13 @@ import com.google.inject.Singleton;
 
 import ead.editor.R;
 import ead.editor.control.Controller;
+import ead.editor.model.nodes.ActorNode;
 import ead.editor.model.DependencyNode;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;
 import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.menu.EditorMenuBar;
+import ead.editor.view.panel.ActorPanel;
 import ead.editor.view.panel.RawElementPanel;
 import ead.gui.structurepanel.StructureElement;
 import ead.gui.structurepanel.StructureElementProvider;
@@ -175,7 +177,12 @@ public class EditorWindowImpl implements EditorWindow {
         // requires main window
         setIcons();
 
-        dockController.addMultipleDockableFactory("test",
+        // Add your panel factories here
+        dockController.addMultipleDockableFactory(ActorNode.class.getName(),
+                new ClassDockableFactory(
+                ActorPanel.class,
+                ActorNode.class, controller.getModel(), this));
+        dockController.addMultipleDockableFactory(DependencyNode.class.getName(),
                 new ClassDockableFactory(
                 RawElementPanel.class,
                 DependencyNode.class, controller.getModel(), this));
@@ -224,7 +231,15 @@ public class EditorWindowImpl implements EditorWindow {
         if (dockController.getMultipleDockable(id) != null) {
             logger.info("Learn how to make visible here!");
         } else {
-            ClassDockableFactory f = (ClassDockableFactory) dockController.getMultipleDockableFactory("test");
+            DependencyNode node = controller.getModel().getElement(id);
+
+            ClassDockableFactory f = null;
+            Class parentClass = node.getClass();
+            while (f == null) {
+                f = (ClassDockableFactory)
+                    dockController.getMultipleDockableFactory(parentClass.getName());
+                parentClass = parentClass.getSuperclass();
+            }
             DefaultMultipleCDockable d = f.createDockable(id);
             dockController.addDockable(id, d);
             setLocationToRelativesIfPossible(d);

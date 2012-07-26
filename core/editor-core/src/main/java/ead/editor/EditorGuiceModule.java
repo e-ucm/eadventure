@@ -51,6 +51,7 @@ import ead.editor.control.NavigationControllerImpl;
 import ead.editor.control.ProjectController;
 import ead.editor.control.ProjectControllerImpl;
 import ead.editor.control.ViewController;
+import ead.editor.model.EditorAnnotator;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;
 import ead.editor.view.impl.EditorWindowImpl;
@@ -61,6 +62,8 @@ import ead.editor.view.menu.EditorMenuBar;
 import ead.editor.view.menu.EditorMenuBarImpl;
 import ead.editor.view.menu.FileMenu;
 import ead.editor.view.menu.FileMenuImpl;
+import ead.importer.annotation.ImportAnnotator;
+import ead.importer.annotation.NullAnnotator;
 import ead.tools.ConfigBackend;
 import ead.tools.java.ConfigBackendXMLFile;
 
@@ -80,6 +83,7 @@ public class EditorGuiceModule extends AbstractModule {
 		configureMenu();
 
 		bind(Launcher.class).to(EAdventureEditor.class);
+        bind(ImportAnnotator.class).to(EditorAnnotator.class);
 	}
 
 	/**

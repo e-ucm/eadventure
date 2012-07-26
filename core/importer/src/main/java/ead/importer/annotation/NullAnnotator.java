@@ -80,9 +80,9 @@ public class NullAnnotator implements ImportAnnotator {
     }
 
     @Override
-    public void annotate(EAdElement element, Type key, String value) {
+    public void annotate(EAdElement element, Type key, String ... values) {
 		if (logger.isDebugEnabled()) {
-            if (element == null) element = new PlaceHolder(value);
+            if (element == null) element = new PlaceHolder(values[0]);
             switch (key) {
                 case Open: {
                     logger.debug("Entering {}", element);
@@ -104,9 +104,14 @@ public class NullAnnotator implements ImportAnnotator {
                     }
                     break;
                 }
+                case Comment: {
+                    logger.debug("Annotating {}({}) with {}: Comment --> {}",
+                            new Object[] {element, stack, key, values[0]});
+                    break;
+                }
                 default: {
-                    logger.debug("Annotating {}({}) with {} --> {}",
-                            new Object[] {element, stack, key, value});
+                    logger.debug("Annotating {}({}) with {}: {} --> {}",
+                            new Object[] {element, stack, key, values[0], values[1]});
                 }
             }
         }
