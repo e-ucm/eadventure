@@ -37,8 +37,8 @@
 
 package ead.editor.view.dock;
 
-import ead.editor.model.DependencyNode;
-import ead.editor.view.EditorWindow;
+import ead.editor.control.Controller;
+import ead.editor.model.nodes.DependencyNode;
 
 
 /**
@@ -47,8 +47,8 @@ import ead.editor.view.EditorWindow;
  */
 public interface ElementPanel<E extends DependencyNode> {
 
-	void setEditor(EditorWindow ew);
-	
+    void setController(Controller controller);
+
     void setTarget(E target);
 
     E getTarget();

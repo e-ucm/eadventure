@@ -37,7 +37,7 @@
 
 package ead.editor.control;
 
-import ead.editor.view.generics.FieldDescriptor;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Reader for the value of a field in an element.

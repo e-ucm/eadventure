@@ -35,49 +35,65 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view;
 
-import org.junit.Test;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * An alternative to a vertical BoxLayout that stacks things vertically
+ * (assigning all equal spaces) without stretching them.
+ * @author mfreire
+ */
+public class CheapVerticalLayout implements LayoutManager {
 
-import junit.framework.TestCase;
-
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
+	private Dimension min = new Dimension(10, 10);
+	private Dimension pref = new Dimension(10, 10);
+	private int maxRowHeight = 0;
 
 	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+	public void addLayoutComponent(String name, Component comp) {
 	}
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
+	@Override
+	public void removeLayoutComponent(Component comp) {
 	}
 
-	public static class TestClass {
+	@Override
+	public Dimension preferredLayoutSize(Container parent) {
+		int maxX = 0;
+		int maxY = 0;
+		for (int i = 0; i < parent.getComponentCount(); i++) {
+			Component c = parent.getComponent(i);
+			Dimension d = c.getPreferredSize();
+			maxY = Math.max(d.height, maxY);
+			maxX = Math.max(d.width, maxX);
 
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
 		}
+		maxRowHeight = maxY;
+		pref.setSize(maxX, maxRowHeight * parent.getComponentCount());
+		return pref;
+	}
 
-		public Boolean getValue() {
-			return value;
+	@Override
+	public Dimension minimumLayoutSize(Container parent) {
+		return min;
+	}
+
+	@Override
+	public void layoutContainer(Container parent) {
+		// recalculates row-height
+		preferredLayoutSize(parent);
+		int x = 0;
+		int y = 0;
+		for (int i = 0; i < parent.getComponentCount(); i++) {
+			Component c = parent.getComponent(i);
+			Dimension d = c.getPreferredSize();
+			c.setLocation(x, y + (maxRowHeight - d.height) / 2);
+			c.setSize(d.width, d.height);
+			y += maxRowHeight;
 		}
 	}
 }

@@ -37,6 +37,12 @@
 
 package ead.editor.model;
 
+import ead.editor.model.nodes.QueryNode;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.DependencyEdge;
+import ead.editor.model.nodes.EngineNode;
+import ead.editor.model.nodes.EditorNodeFactory;
 import ead.editor.model.nodes.ActorFactory;
 import com.google.inject.Inject;
 import ead.common.model.EAdElement;

@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 
 
 import ead.editor.control.Command;
-import ead.editor.view.generics.FieldDescriptor;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Class that represents the generic command that uses introspection to change T values.
@@ -58,43 +58,43 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 * The old value (T) to be changed.
 	 */
     protected T oldValue;
-    
+
     /**
 	 * The new value (T) to change.
 	 */
     protected T newValue;
 
     protected FieldDescriptor<T> fieldDescriptor;
-    
+
     /**
      * The logger
      */
     private static final Logger logger = LoggerFactory.getLogger(ChangeFieldValueCommand.class);
-    
+
     /**
      * Constructor for the ChangeValueCommand class.
-     * 
+     *
      * @param newValue
      *            The new value (T)
      * @param fieldDescriptor
-     * 
+     *
      */
     public ChangeFieldValueCommand(T newValue, FieldDescriptor<T> fieldDescriptor) {
         this.newValue = newValue;
         this.fieldDescriptor = fieldDescriptor;
-    }   
+    }
 
     /**
-	 * Method to perform a changing values command 
+	 * Method to perform a changing values command
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean performCommand() {
 		boolean done = false;
-		
+
 		try {
 			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
 			Method method = pd.getReadMethod();
-			oldValue = (T) method.invoke(fieldDescriptor.getElement());				
+			oldValue = (T) method.invoke(fieldDescriptor.getElement());
 		} catch (Exception e) {
 			throw new RuntimeException("Error reading field \"" + fieldDescriptor.getFieldName() + "\"", e);
 		}
@@ -105,7 +105,7 @@ public class ChangeFieldValueCommand<T> extends Command {
 
         return done;
 	}
-	
+
 	private boolean setValue(T value) {
 		try {
 			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
@@ -115,7 +115,7 @@ public class ChangeFieldValueCommand<T> extends Command {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return true;
@@ -133,7 +133,7 @@ public class ChangeFieldValueCommand<T> extends Command {
 	public boolean redoCommand() {
 		return setValue(newValue);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
 	 */
@@ -151,7 +151,7 @@ public class ChangeFieldValueCommand<T> extends Command {
         }
         return false;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
@@ -159,38 +159,38 @@ public class ChangeFieldValueCommand<T> extends Command {
 	public boolean undoCommand() {
 		return setValue(oldValue);
 	}
-	
+
 	/**
 	 * Returns the old value
 	 */
 	public T getOldValue(){
 		return oldValue;
 	}
-	
+
 	/**
 	 * Returns the new value
 	 */
 	public T getNewValue(){
 		return newValue;
 	}
-	
+
 	/**
 	 * Utility method to find a property descriptor for a single property
-	 * 
+	 *
 	 * @param c
 	 * @param fieldName
 	 * @return
 	 */
 	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
 		try {
-			for (PropertyDescriptor pd : 
+			for (PropertyDescriptor pd :
 				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
 				if (pd.getName().equals(fieldName)) {
 					return pd;
 				}
 			}
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("Could not find getters or setters for field " 
+			throw new IllegalArgumentException("Could not find getters or setters for field "
 					+ fieldName + " in class " + c.getCanonicalName());
 		}
 		return null;

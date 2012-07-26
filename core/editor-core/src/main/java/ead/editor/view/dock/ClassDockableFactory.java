@@ -39,8 +39,8 @@ package ead.editor.view.dock;
 
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
-import ead.editor.model.DependencyNode;
-import ead.editor.view.EditorWindow;
+import ead.editor.control.Controller;
+import ead.editor.model.nodes.DependencyNode;
 import java.awt.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,16 +58,14 @@ public class ClassDockableFactory implements
 
     private Class<? extends ElementPanel> controlClass;
     private Class<? extends DependencyNode> modelClass;
-    private ModelAccessor model;
-	private EditorWindow ew;
+	private Controller controller;
 
     public ClassDockableFactory(
             Class<? extends ElementPanel> controlClass,
-            Class<? extends DependencyNode> modelClass, ModelAccessor model, EditorWindow ew) {
+            Class<? extends DependencyNode> modelClass, Controller controller) {
         this.controlClass = controlClass;
         this.modelClass = modelClass;
-        this.model = model;
-		this.ew = ew;
+		this.controller = controller;
     }
 
 	/**
@@ -78,8 +76,8 @@ public class ClassDockableFactory implements
 	@SuppressWarnings("unchecked")
     public ElementPanel getPanelFor(String id) {
         DependencyNode e = (id != null) ?
-                model.getElement(id) :
-                model.createElement(modelClass);
+                controller.getModel().getElement(id) :
+                controller.getModel().createElement(modelClass);
         ElementPanel ep;
         try {
             ep = (ElementPanel)controlClass.newInstance();
@@ -87,7 +85,7 @@ public class ClassDockableFactory implements
             logger.error("could not instantiate", ex);
             return null;
         }
-		ep.setEditor(ew);
+		ep.setController(controller);
         ep.setTarget(e);
         return ep;
     }

@@ -35,49 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
+import ead.editor.control.CommandManager;
+import javax.swing.JComponent;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * An option in the user interface.
+ * <p>
+ * This type of interface element allows for the display and modification of the
+ * value of a field though the use of a {@link FieldDescriptor}. Optionally a
+ * title and tooltiptext can be defined for the element.
+ *
+ * @param <S>
+ */
+public interface Option<S> extends InterfaceElement {
 
-import junit.framework.TestCase;
+	/**
+	 * @return the title to be used in the interface (can be null)
+	 */
+	String getTitle();
 
-public class ChangeFieldValueTest extends TestCase {
+	/**
+	 * @return the tooltiptext for the interface, to help users (should not be
+	 *         left null)
+	 */
+	String getToolTipText();
 
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
-
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
+	/**
+	 * @return the {@link FieldDescriptor} for the field that is displayed and
+	 *         modified by this option element
+	 */
+	FieldDescriptor<S> getFieldDescriptor();
 }

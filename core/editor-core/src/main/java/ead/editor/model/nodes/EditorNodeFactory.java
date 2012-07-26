@@ -35,49 +35,30 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.model.nodes;
 
-import org.junit.Test;
+import ead.editor.model.EditorAnnotator;
+import ead.editor.model.EditorModel;
+import java.util.TreeMap;
+import org.jgrapht.graph.ListenableDirectedGraph;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * Recognizes a given pattern in an imported course, and builds all
+ * necessary EditorNodes to represent it.
+ * @author mfreire
+ */
+public interface EditorNodeFactory {
 
-import junit.framework.TestCase;
-
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
-
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
+    /**
+     * Create & register editorNodes with the model
+     * @param g node graph; may contain no EditorNodes
+     * @param annotator annotations for nodes (by ID)
+     * @param nodesById nodes in graph, by ID
+     * @param model where the nodes should be inserted, via registerEditorNode
+     */
+    public void createNodes(
+            ListenableDirectedGraph<DependencyNode, DependencyEdge> g,
+            EditorAnnotator importAnnotatorE,
+            TreeMap<Integer, DependencyNode> nodesById,
+            EditorModel model);
 }

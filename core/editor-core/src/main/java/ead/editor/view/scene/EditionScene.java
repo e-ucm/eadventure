@@ -35,49 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.scene;
 
-import org.junit.Test;
-
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
-
-import junit.framework.TestCase;
-
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
+import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.resources.EAdResources;
+import ead.elementfactories.demos.scenes.EmptyScene;
 
 
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+public class EditionScene extends EmptyScene {
+
+	public EditionScene(EAdScene scene) {
+
+		EAdSceneElementDef elementDef = new SceneElementDef();
+		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
+		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
+
+		SceneElement element = new SceneElement();
+		element.setDefinition(elementDef);
+		element.setInitialScale(1.0f);
+		this.getSceneElements().add(element);
+
+		for (EAdSceneElement sceneElement : scene.getSceneElements())
+			this.getSceneElements().add(new EditionSceneElement(sceneElement, 1.0f));
 	}
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
 }

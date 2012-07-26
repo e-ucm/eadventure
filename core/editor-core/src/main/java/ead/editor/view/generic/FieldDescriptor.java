@@ -35,49 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
+/**
+ * Descriptor for the field of an element.
+ * <p>
+ * The field is identified by a name (used to infer the value though
+ * introspection). The descriptor has a method to get the element for which the
+ * field is defined.
+ *
+ * @param <S>
+ *            The type of the field (e.g. String, Boolean, etc)
+ */
+public interface FieldDescriptor<S> {
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+	/**
+	 * @return the element for which the field is defined
+	 */
+	Object getElement();
 
-import junit.framework.TestCase;
+	/**
+	 * @return the name of the field in the element (should be of type S)
+	 */
+	String getFieldName();
 
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
-
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
 }

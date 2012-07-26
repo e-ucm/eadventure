@@ -37,8 +37,6 @@
 
 package ead.editor.model.nodes;
 
-import ead.editor.model.EditorNode;
-
 /**
  *
  * @author mfreire

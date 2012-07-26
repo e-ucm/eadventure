@@ -49,7 +49,7 @@ import ead.editor.control.Controller;
 import ead.editor.control.ViewController;
 import ead.editor.model.EditorModel;
 import ead.editor.view.SplashScreen;
-import ead.editor.view.impl.SplashScreenImpl;
+import ead.editor.view.SplashScreenImpl;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;

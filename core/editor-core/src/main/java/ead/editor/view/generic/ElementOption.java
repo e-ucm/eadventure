@@ -35,49 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
-
-import ead.editor.control.commands.ChangeFieldValueCommand;
+import ead.common.model.EAdElement;
+import ead.editor.control.CommandManager;
 import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 
-import junit.framework.TestCase;
+public class ElementOption<E extends EAdElement> extends AbstractOption<E> {
 
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
+	public ElementOption(String title, String toolTipText, FieldDescriptor<E> fieldDescriptor) {
+		super(title, toolTipText, fieldDescriptor);
+	}
 
 	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
+	public JButton getComponent(CommandManager manager) {
+		JButton button = new JButton(getTitle());
+		button.setToolTipText(getToolTipText());
+		button.addActionListener(new ActionListener() {
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO change element in window
+			}
 
-	public static class TestClass {
+		});
 
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
+		return button;
 	}
 }

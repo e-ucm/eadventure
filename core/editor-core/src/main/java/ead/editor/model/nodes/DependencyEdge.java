@@ -35,49 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.model.nodes;
 
-import org.junit.Test;
+/**
+ * Any type of connection between two EditorNodes.
+ * The type of the connection is assigned during building; typically, it
+ * corresponds to the field that generated the connection. For instance,
+ * if object A contains an object B in its "peer" property, then the type
+ * would be the string "peer".
+ * @author mfreire
+ */
+public class DependencyEdge {
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+    private String type;
 
-import junit.framework.TestCase;
+    public DependencyEdge(String type) {
+        this.type = type;
+    }
 
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
-
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
+    public String getType() {
+        return type;
+    }
 }

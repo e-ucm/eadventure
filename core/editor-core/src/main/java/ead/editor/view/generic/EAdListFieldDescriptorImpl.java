@@ -35,49 +35,72 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
+import ead.common.model.elements.extra.EAdList;
+import ead.editor.view.generic.EAdListFieldDescriptor;
+import ead.editor.view.generic.Panel;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * Generic implementation of {@link EAdListFieldDescriptor}
+ *
+ * @param <S>
+ */
+public class EAdListFieldDescriptorImpl<S> extends FieldDescriptorImpl<EAdList<S>> implements EAdListFieldDescriptor<S> {
 
-import junit.framework.TestCase;
+	private EAdList<S> list;
 
-public class ChangeFieldValueTest extends TestCase {
+	/**
+	 * @param element
+	 *            The element where the value is stored
+	 * @param fieldName
+	 *            The name of the field
+	 * @param list
+	 */
+	public EAdListFieldDescriptorImpl(Object element, String fieldName, EAdList<S> list) {
+		super(element, fieldName);
+		this.list = list;
+	}
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
+	 */
+	@Override
+	public Object getElement() {
+		return element;
+	}
 
-	TestClass testElement;
-
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
+	 */
+	@Override
+	public String getFieldName() {
+		return fieldName;
+	}
 
 	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+	public int getCount() {
+		return list.size();
 	}
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
+	@Override
+	public S getElementAt(int pos) {
+		return list.get(pos);
 	}
 
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
+	@Override
+	public Panel getPanel(int pos, boolean selected) {
+		return null;
 	}
+
+	@Override
+	public EAdList<S> getList() {
+		return list;
+	}
+
 }

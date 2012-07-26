@@ -35,49 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generics;
 
-import org.junit.Test;
-
-import ead.editor.control.commands.ChangeFieldValueCommand;
 import ead.editor.view.generic.FieldDescriptor;
+import ead.editor.view.generic.TextOption;
 import ead.editor.view.generic.FieldDescriptorImpl;
+import java.awt.FlowLayout;
 
-import junit.framework.TestCase;
+import javax.swing.WindowConstants;
 
-public class ChangeFieldValueTest extends TestCase {
+import static org.mockito.Mockito.*;
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+import ead.editor.control.CommandManager;
+import ead.editor.control.FieldValueReader;
+import javax.swing.JFrame;
 
-	TestClass testElement;
+public class TextComponentProviderTest extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+	public static void main(String[] args) {
+		new TextComponentProviderTest();
 	}
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
+    public TextComponentProviderTest() {
+        setSize( 400,400 );
 
-	public static class TestClass {
+        FieldDescriptor<String> fieldDescriptor = new FieldDescriptorImpl<String>(null, "name");
+        FieldValueReader fieldValueReader = mock(FieldValueReader.class);
+        when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
 
-		private Boolean value;
+        CommandManager commandManager = mock(CommandManager.class);
 
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
+        setLayout(new FlowLayout());
+        TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
+        add(option.getComponent(commandManager));
 
-		public Boolean getValue() {
-			return value;
-		}
-	}
+        setVisible( true );
+        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+    }
+
 }

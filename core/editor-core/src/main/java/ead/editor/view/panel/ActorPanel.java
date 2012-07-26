@@ -39,19 +39,8 @@ package ead.editor.view.panel;
 
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.editor.model.nodes.ActorNode;
-import ead.editor.model.DependencyNode;
-import ead.editor.view.EditorWindow;
-import ead.editor.view.dock.ElementPanel;
-import ead.editor.view.impl.CheapVerticalLayout;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,27 +49,15 @@ import org.slf4j.LoggerFactory;
  *
  * @author mfreire
  */
-public class ActorPanel extends JPanel implements ElementPanel<ActorNode> {
+public class ActorPanel extends AbstractElementPanel<ActorNode> {
 
 	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
 
-	private ActorNode target;
-	private EditorWindow ew;
     private SceneElementDef actor;
 
-	@Override
-	public void setTarget(ActorNode target) {
-		this.target = target;
+    @Override
+	protected void rebuild() {
         this.actor = (SceneElementDef)target.getContents().iterator().next().getContent();
-		rebuild();
-	}
-
-	@Override
-	public ActorNode getTarget() {
-		return target;
-	}
-
-	private void rebuild() {
 		removeAll();
 		setLayout(new FlowLayout());
         add(new JLabel("This is an actor panel for ID " + actor.getId()));
@@ -88,17 +65,12 @@ public class ActorPanel extends JPanel implements ElementPanel<ActorNode> {
         add(new JLabel("This actor has detailDesc= " + actor.getDetailDesc()));
         add(new JLabel("This actor has " + actor.getActions().size() + " actions"));
 
-        actor.getAppearance(null);
+        actor.getAppearance();
 
 		revalidate();
 	}
 
 	private String htmlize(String s) {
 		return "<html>" + s + "</html>";
-	}
-
-	@Override
-	public void setEditor(EditorWindow ew) {
-		this.ew = ew;
 	}
 }

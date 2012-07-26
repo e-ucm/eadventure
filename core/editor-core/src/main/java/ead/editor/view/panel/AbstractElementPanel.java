@@ -35,49 +35,41 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.panel;
 
-import org.junit.Test;
+import ead.editor.control.Controller;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.dock.ElementPanel;
+import javax.swing.JPanel;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * An elementPanel that can display anything, in a non-editable fashion.
+ *
+ * @author mfreire
+ */
+public abstract class AbstractElementPanel<T extends DependencyNode> extends JPanel implements ElementPanel<T> {
 
-import junit.framework.TestCase;
-
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
+    protected T target;
+	protected Controller controller;
 
 	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+	public void setTarget(T target) {
+		this.target = target;
+		rebuild();
 	}
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
+    @Override
+    public void setController(Controller controller) {
+        this.controller = controller;
 	}
 
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
+	@Override
+	public T getTarget() {
+		return target;
 	}
+
+    /**
+     * Rebuild the panels' contents after a change to the target
+     */
+	protected abstract void rebuild();
 }

@@ -38,8 +38,6 @@
 package ead.editor;
 
 import com.google.inject.AbstractModule;
-
-import ead.editor.Launcher;
 import ead.editor.control.CommandManager;
 import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.Controller;
@@ -53,19 +51,7 @@ import ead.editor.control.ProjectControllerImpl;
 import ead.editor.control.ViewController;
 import ead.editor.model.EditorAnnotator;
 import ead.editor.view.EditorWindow;
-import ead.editor.view.ToolPanel;
-import ead.editor.view.impl.EditorWindowImpl;
-import ead.editor.view.impl.ToolPanelImpl;
-import ead.editor.view.menu.EditMenu;
-import ead.editor.view.menu.EditMenuImpl;
-import ead.editor.view.menu.EditorMenuBar;
-import ead.editor.view.menu.EditorMenuBarImpl;
-import ead.editor.view.menu.FileMenu;
-import ead.editor.view.menu.FileMenuImpl;
 import ead.importer.annotation.ImportAnnotator;
-import ead.importer.annotation.NullAnnotator;
-import ead.tools.ConfigBackend;
-import ead.tools.ConfigBackendXMLFile;
 
 /**
  * Google Guice ({@link http://code.google.com/p/google-guice/}) module to
@@ -76,43 +62,14 @@ public class EditorGuiceModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
-		configureMainViewElements();
-
-		configureController();
-
-		configureMenu();
-
-		bind(Launcher.class).to(EAdventureEditor.class);
-        bind(ImportAnnotator.class).to(EditorAnnotator.class);
-	}
-
-	/**
-	 * Configure the main elements of the editor view
-	 */
-	private void configureMainViewElements() {
-		bind(EditorWindow.class).to(EditorWindowImpl.class);
-        bind(ToolPanel.class).to(ToolPanelImpl.class);
-	}
-
-	/**
-	 * Configure controller for the application, the project and the navigation
-	 */
-	private void configureController() {
 		bind(EditorConfig.class).to(EditorConfigImpl.class);
 		bind(Controller.class).to(ControllerImpl.class);
 		bind(CommandManager.class).to(CommandManagerImpl.class);
 		bind(ProjectController.class).to(ProjectControllerImpl.class);
 		bind(NavigationController.class).to(NavigationControllerImpl.class);
 		bind(ViewController.class).to(EditorWindow.class);
-	}
 
-	/**
-	 * Configure the menu of the application
-	 */
-	private void configureMenu() {
-		bind(EditorMenuBar.class).to(EditorMenuBarImpl.class);
-		bind(FileMenu.class).to(FileMenuImpl.class);
-		bind(EditMenu.class).to(EditMenuImpl.class);
+		bind(Launcher.class).to(EAdventureEditor.class);
+        bind(ImportAnnotator.class).to(EditorAnnotator.class);
 	}
-
 }

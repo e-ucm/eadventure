@@ -35,49 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
-
-import ead.editor.control.commands.ChangeFieldValueCommand;
+import ead.common.model.elements.EAdCondition;
+import ead.editor.control.CommandManager;
 import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+import java.awt.BorderLayout;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import junit.framework.TestCase;
+public class EAdConditionOption extends AbstractOption<EAdCondition> {
 
-public class ChangeFieldValueTest extends TestCase {
+	public static enum View { DETAILED, BASIC }
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	private View view;
 
-	TestClass testElement;
+	public EAdConditionOption(String title, String toolTipText, FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
+		super(title, toolTipText, fieldDescriptor);
+		this.view = view;
+	}
 
+	public View getView() {
+		return view;
+	}
 
 	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
+	public JComponent getComponent(CommandManager manager) {
+		if (getView() == EAdConditionOption.View.DETAILED) {
+			JPanel panel = new JPanel();
+			panel.setBorder(BorderFactory.createTitledBorder(getTitle()));
+			panel.setLayout(new BorderLayout());
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
+			JTextField textField = new JTextField();
+			panel.add(textField, BorderLayout.CENTER);
+			EAdCondition condition = read(getFieldDescriptor());
+			textField.setText(condition.toString());
+			textField.setEnabled(false);
+			//TODO should update field after condition edition
 
-	public static class TestClass {
+			JButton button = new JButton("Edit");
+			button.setToolTipText(getToolTipText());
+			panel.add(button, BorderLayout.EAST);
+			//TODO should allow for the edition of conditions
 
-		private Boolean value;
+			return panel;
+		} else {
+			JButton button = new JButton(getTitle());
+			//TODO should allow for the edition of conditions
+			//TODO should show the icons
 
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
+			return button;
 		}
 	}
 }

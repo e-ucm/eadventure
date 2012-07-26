@@ -37,7 +37,7 @@
 
 package ead.editor.view.dock;
 
-import ead.editor.model.DependencyNode;
+import ead.editor.model.nodes.DependencyNode;
 import java.util.NoSuchElementException;
 
 /**

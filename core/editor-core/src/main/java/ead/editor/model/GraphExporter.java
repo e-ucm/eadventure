@@ -37,6 +37,8 @@
 
 package ead.editor.model;
 
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.DependencyEdge;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;

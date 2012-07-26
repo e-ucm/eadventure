@@ -35,49 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.model.nodes;
 
-import org.junit.Test;
+import ead.editor.model.EditorModel;
+import org.apache.lucene.document.Document;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * The editor uses these nodes to encapsulate actual model objects, be they
+ * Resources or EAdElements. The nodes are expected to be collected into
+ * a large model graph, and must have a model-wide unique id.
+ *
+ * @author mfreire
+ */
+public abstract class DependencyNode<T> {
+    private int id;
+    protected T content;
+    private Document doc;
 
-import junit.framework.TestCase;
+    public DependencyNode(int id, T content) {
+        this.id = id;
+        this.content = content;
+		this.doc = new Document();
+    }
 
-public class ChangeFieldValueTest extends TestCase {
+    public T getContent() {
+        return content;
+    }
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	public Document getDoc() {
+        return doc;
+    }
 
-	TestClass testElement;
+    public void setContent(T content) {
+        this.content = content;
+    }
 
+    public int getId() {
+        return id;
+    }
 
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || (getClass() != other.getClass())) {
+            return false;
+        }
+        return ((DependencyNode) other).id == id;
+    }
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
+    @Override
+    public int hashCode() {
+        return 23 * this.id + 5;
+    }
 
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
+	/**
+	 * Generates a one-line description with as much information as possible.
+	 * @return a human-readable description of this node
+	 */
+	public abstract String getTextualDescription(EditorModel m);
 }

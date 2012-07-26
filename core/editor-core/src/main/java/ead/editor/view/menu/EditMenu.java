@@ -37,9 +37,89 @@
 
 package ead.editor.view.menu;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import com.google.inject.Inject;
+
+import ead.editor.control.CommandManager;
+import ead.editor.control.change.ChangeListener;
+import ead.editor.view.menu.EditMenu;
+import ead.gui.EAdMenuItem;
+import ead.utils.swing.SwingUtilities;
+import javax.swing.JMenu;
+
 /**
- * Edit menu
+ * Default implementation of the editor menu.
  */
-public interface EditMenu extends Menu {
+public class EditMenu extends JMenu implements ChangeListener {
+
+	/**
+	 * Undo menu item
+	 */
+	private EAdMenuItem undo;
+
+	/**
+	 * Undo menu item
+	 */
+	private EAdMenuItem redo;
+
+	/**
+	 * Instance of the action manager
+	 */
+	private CommandManager actionManager;
+
+	@Inject
+	public EditMenu(CommandManager actionManager) {
+		super(Messages.edit_menu);
+
+		this.actionManager = actionManager;
+
+		initialize();
+	}
+
+	/**
+	 * Initialize the editor menu
+	 */
+	private void initialize() {
+		undo = new EAdMenuItem(Messages.edit_menu_undo);
+		undo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				actionManager.undoCommand();
+			}
+
+		});
+		add(undo);
+
+		redo = new EAdMenuItem(Messages.edit_menu_redo);
+		redo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actionManager.redoCommand();
+			}
+
+		});
+		add(redo);
+
+		actionManager.addChangeListener(this);
+
+		processChange(null);
+	}
+
+	@Override
+	public void processChange(Object o) {
+		SwingUtilities.doInEDT(new Runnable() {
+
+			@Override
+			public void run() {
+				undo.setEnabled(actionManager.canUndo());
+				redo.setEnabled(actionManager.canRedo());
+			}
+
+		});
+	}
 
 }

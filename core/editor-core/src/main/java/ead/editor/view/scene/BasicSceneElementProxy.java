@@ -35,49 +35,20 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.scene;
 
-import org.junit.Test;
+import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.variables.EAdVarDef;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+public class BasicSceneElementProxy extends SceneElement {
 
-import junit.framework.TestCase;
-
-public class ChangeFieldValueTest extends TestCase {
-
-	FieldDescriptor<Boolean> fieldDescriptor;
-
-	TestClass testElement;
-
-
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
+	public BasicSceneElementProxy(EAdSceneElement element) {
+		setId(element.getId() + "_proxy");
+		for (EAdVarDef<?> var : element.getVars().keySet()) {
+			this.getVars().put(var, element.getVars().get(var));
 		}
-
-		public Boolean getValue() {
-			return value;
-		}
+		this.setDefinition(new SceneElementDefProxy(element.getDefinition()));
 	}
+
 }

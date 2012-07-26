@@ -35,49 +35,24 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
+import ead.common.model.elements.extra.EAdList;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * A general interface to edit element properties
+ * @param <S>
+ */
+public interface EAdListFieldDescriptor<S> extends FieldDescriptor<EAdList<S>> {
 
-import junit.framework.TestCase;
+	int getCount();
 
-public class ChangeFieldValueTest extends TestCase {
+	S getElementAt(int pos);
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	Panel getPanel(int pos, boolean selected);
 
-	TestClass testElement;
+	EAdList<S> getList();
 
+	//TODO add, remove, etc.?
 
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
 }

@@ -35,49 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
+import java.util.List;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+/**
+ * A panel interface element.
+ * <p>
+ * This element type allows for the display of several elements grouped in the
+ * interface
+ */
+public interface Panel extends InterfaceElement {
 
-import junit.framework.TestCase;
+	/**
+	 * Available layout policies for the panel
+	 */
+	static enum LayoutPolicy {
+		/**
+		 * A policy where each element is placed following the next, minimizing the size of the panel
+		 */
+		FLOW,
+		/**
+		 * A policy where elements are placed next to each other, even if of different sizes
+		 */
+		HORIZONTAL,
+		/**
+		 * A policy where elements are placed on top of each other, even if of different sizes
+		 */
+		VERTICAL,
+		/**
+		 * A policy where elements are stacked on top of each other, each with the same height
+		 */
+		STRICT_VERTICAL }
 
-public class ChangeFieldValueTest extends TestCase {
+	/**
+	 * @return The list of interface elements in the panel
+	 */
+	List<InterfaceElement> getElements();
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	/**
+	 * @return The title of the panel (can be null)
+	 */
+	String getTitle();
 
-	TestClass testElement;
+	/**
+	 * @param element The element to be added to the panel
+	 */
+	void addElement(InterfaceElement element);
 
+	/**
+	 * @return the layout policy for this panel
+	 */
+	LayoutPolicy getLayoutPolicy();
 
-	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
-	}
-
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
-	}
-
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
 }

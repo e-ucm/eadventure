@@ -35,49 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.view.generic;
 
-import org.junit.Test;
-
-import ead.editor.control.commands.ChangeFieldValueCommand;
 import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
 
-import junit.framework.TestCase;
+/**
+ * Generic implementation of {@link FieldDescriptor}
+ *
+ * @param <S>
+ */
+public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
 
-public class ChangeFieldValueTest extends TestCase {
+	/**
+	 * Used for introspection
+	 */
+	protected String fieldName;
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	/**
+	 * The element where the value is stored
+	 */
+	protected Object element;
 
-	TestClass testElement;
+	/**
+	 * @param element
+	 *            The element where the value is stored
+	 * @param fieldName
+	 *            The name of the field
+	 */
+	public FieldDescriptorImpl(Object element, String fieldName) {
+		this.element = element;
+		this.fieldName = fieldName;
+	}
 
-
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
+	 */
 	@Override
-	public void setUp() {
-		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+	public Object getElement() {
+		return element;
 	}
 
-	@Test
-	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
+	 */
+	@Override
+	public String getFieldName() {
+		return fieldName;
 	}
 
-	public static class TestClass {
-
-		private Boolean value;
-
-		public void setValue(Boolean value) {
-			this.value = value;
-		}
-
-		public Boolean getValue() {
-			return value;
-		}
-	}
 }
