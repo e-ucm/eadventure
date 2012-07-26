@@ -35,38 +35,27 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core;
+package ead.engine.core.platform;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
-import ead.engine.core.gameobjects.GdxApplyForceGO;
-import ead.engine.core.gameobjects.GdxPhysicsEffectGO;
-import ead.engine.core.gameobjects.factories.EffectGOFactory;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.plugins.PluginHandler;
+import ead.engine.core.assets.GdxAssetHandler;
+import ead.engine.core.platform.FontHandler;
+import ead.tools.GenericInjector;
 
 @Singleton
-public class JavaPluginHandler implements PluginHandler {
+public class GdxDesktopAssetHandler extends GdxAssetHandler {
 
-	@Override
-	public void install(EffectGOFactory effectFactory) {
-		effectFactory.put(PhysicsEffect.class, GdxPhysicsEffectGO.class);
-		effectFactory.put(PhApplyImpluseEf.class, GdxApplyForceGO.class);
+	@Inject
+	public GdxDesktopAssetHandler(GenericInjector injector,
+			FontHandler fontHandler) {
+		super(injector, fontHandler);
 	}
 
 	@Override
-	public void install(SceneElementGOFactory sceneElementFactory) {
-		
-		
-	}
-
-	@Override
-	public void install(EventGOFactory eventGOFactory) {
-		
-		
+	public String getAbsolutePath(String uri) {
+		return uri.substring(1);
 	}
 
 }

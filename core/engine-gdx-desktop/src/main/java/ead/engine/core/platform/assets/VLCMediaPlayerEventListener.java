@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core;
+package ead.engine.core.platform.assets;
 
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -44,7 +44,7 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 
 	private VLCDesktopVideoRenderer vlcDesktopVideoRenderer;
-	
+
 	private int count;
 
 	public VLCMediaPlayerEventListener(
@@ -69,13 +69,16 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 	}
 
 	@Override
-	public void error(MediaPlayer arg0) {
+	public void error(MediaPlayer player) {
+		
+//		vlcDesktopVideoRenderer.setFinished(true);
+//		vlcDesktopVideoRenderer.setStarted(false);
 	}
 
 	@Override
 	public void finished(MediaPlayer arg0) {
 		count--;
-		if ( count == 0 ){
+		if (count == 0) {
 			vlcDesktopVideoRenderer.setFinished(true);
 			vlcDesktopVideoRenderer.setStarted(false);
 		}

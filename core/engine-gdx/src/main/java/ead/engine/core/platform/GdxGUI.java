@@ -42,20 +42,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
+import ead.engine.core.EAdEngine;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputHandler;
 
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
+	
+	protected EAdEngine engine;
 
 	@Inject
 	public GdxGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GdxCanvas canvas) {
+			GdxCanvas canvas, EAdEngine engine) {
 		super(platformConfiguration, gameObjectManager, inputHandler,
 				gameState, gameObjectFactory, canvas);
+		this.engine = engine;
 	}
 
 	@Override

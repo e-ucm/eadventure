@@ -61,21 +61,22 @@ import ead.common.util.EAdMatrix;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.common.util.EAdURI;
-import ead.tools.gwt.PlayNReflectionProvider;
+import ead.tools.gwt.GdxReflectionProvider;
 
 /**
  * Includes methods to generate an object of a given type from a string value
  */
 public class ObjectFactory {
 
-	private static final Logger logger = LoggerFactory.getLogger("ObjectFactory");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ObjectFactory");
 
 	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
 	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
 
-	private static PlayNReflectionProvider reflectionProvider = new PlayNReflectionProvider();
+	private static GdxReflectionProvider reflectionProvider = new GdxReflectionProvider();
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
@@ -91,8 +92,7 @@ public class ObjectFactory {
 			return new Character(value.charAt(0));
 		} else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
-		else if (fieldType == EAdMatrix.class
-				|| fieldType == BasicMatrix.class)
+		else if (fieldType == EAdMatrix.class || fieldType == BasicMatrix.class)
 			return BasicMatrix.parse(value);
 		else if (fieldType == Class.class)
 			return getClassFromName(value);
@@ -178,7 +178,8 @@ public class ObjectFactory {
 			return new EAdURI(value);
 
 		logger.error("Param class {} needs an explicitly defined constructor",
-                clazz);;
+				clazz);
+		;
 		return null;
 	}
 

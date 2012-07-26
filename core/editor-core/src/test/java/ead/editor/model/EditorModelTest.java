@@ -52,8 +52,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.EAdElement;
-import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
-import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.importer.ImporterModule;
 import ead.tools.java.JavaToolsModule;
@@ -61,12 +59,13 @@ import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
 /**
- *
+ * 
  * @author mfreire
  */
 public class EditorModelTest {
 
-	private static final Logger logger = LoggerFactory.getLogger("EditorModelTest");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EditorModelTest");
 	private EditorModel model;
 
 	public EditorModelTest() {
@@ -82,19 +81,14 @@ public class EditorModelTest {
 
 	@Before
 	public void setUp() {
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
-					"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-					"EditorModel", Log4jConfig.Slf4jLevel.Debug,
-					"NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
-					"EAdventureImporter", Log4jConfig.Slf4jLevel.Debug
-				});
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
+				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+				"EditorModel", Log4jConfig.Slf4jLevel.Debug, "NullAnnotator",
+				Log4jConfig.Slf4jLevel.Debug, "EAdventureImporter",
+				Log4jConfig.Slf4jLevel.Debug });
 
-		Injector injector = Guice.createInjector(
-				new ImporterModule(),
-				new JavaToolsModule(),
-				new JavaBasicGameModule(),
-				new DesktopModule(),
-				new DesktopAssetHandlerModule());
+		Injector injector = Guice.createInjector(new ImporterModule(),
+				new JavaToolsModule(), new JavaBasicGameModule());
 		model = injector.getInstance(EditorModel.class);
 	}
 
@@ -134,17 +128,23 @@ public class EditorModelTest {
 		String s = "disp_x";
 		logger.info("Now searching for '" + s + "' in all fields, all nodes...");
 		for (DependencyNode e : model.searchAll(s)) {
-			logger.info("found: " + e.getId() + " "
-					+ e.getContent().getClass().getSimpleName() + " "
-					+ e.getContent() + " :: "
-					+ (e.getContent() instanceof EAdElement ? ((EAdElement) e.getContent()).getId() : "??"));
+			logger.info("found: "
+					+ e.getId()
+					+ " "
+					+ e.getContent().getClass().getSimpleName()
+					+ " "
+					+ e.getContent()
+					+ " :: "
+					+ (e.getContent() instanceof EAdElement ? ((EAdElement) e
+							.getContent()).getId() : "??"));
 		}
 	}
 
 	/**
 	 * Test import-loading of an old ead 1.x file
 	 */
-	private void testImportLoad(File oldEadFile, File newProjectFolder) throws IOException {
+	private void testImportLoad(File oldEadFile, File newProjectFolder)
+			throws IOException {
 		model.loadFromImportFile(oldEadFile, newProjectFolder);
 	}
 
@@ -170,13 +170,14 @@ public class EditorModelTest {
 		logger.info("Starting test run...");
 
 		// Import-load
-		File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-        File dst = FileUtils.createTempDir("zeroth", null);
+		File f = new File(
+				"/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
+		File dst = FileUtils.createTempDir("zeroth", null);
 		emt.testImportLoad(f, dst);
 
 		// Test first save
-        File firstFile = File.createTempFile("first", ".eap");
-        emt.testSave(firstFile);
+		File firstFile = File.createTempFile("first", ".eap");
+		emt.testSave(firstFile);
 
 		// Test loading from ead2 save-file
 		emt.testLoad(firstFile);
@@ -185,26 +186,28 @@ public class EditorModelTest {
 		File secondFile = File.createTempFile("second", ".eap");
 		emt.testSave(secondFile);
 
-		logger.info("Finished; now compare {} and {}", new Object[] {
-			firstFile.getCanonicalPath(), secondFile.getCanonicalPath()});
+		logger.info(
+				"Finished; now compare {} and {}",
+				new Object[] { firstFile.getCanonicalPath(),
+						secondFile.getCanonicalPath() });
 
 		// Copy
 
 		// Simple search
-//		emt.testSimpleSearch();
+		// emt.testSimpleSearch();
 
-//		// Create gephi-compatible graph
-//      emt.model.exportGraph(new File("/tmp/exported.graphml"));
+		// // Create gephi-compatible graph
+		// emt.model.exportGraph(new File("/tmp/exported.graphml"));
 
-//      // Test saving with a big random EditorNode
-//		ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
-//		for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
-//		EditorNode en = new EditorNode(emt.model.generateId());
-//		emt.model.registerEditorNode(en, test);
-//		File saveFile = new File("/tmp/saved.eap");
-//		emt.testSave(saveFile);
+		// // Test saving with a big random EditorNode
+		// ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
+		// for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
+		// EditorNode en = new EditorNode(emt.model.generateId());
+		// emt.model.registerEditorNode(en, test);
+		// File saveFile = new File("/tmp/saved.eap");
+		// emt.testSave(saveFile);
 
-//      // Test loading from previous save-file
-//		emt.testLoad(saveFile);
+		// // Test loading from previous save-file
+		// emt.testLoad(saveFile);
 	}
 }

@@ -1,4 +1,3 @@
-package ead.tools.gwt;
 /**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
  *    <e-UCM> research group.
@@ -36,12 +35,14 @@ package ead.tools.gwt;
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package ead.tools.gwt;
 
 import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 import com.gwtent.reflection.client.ReflectionRequiredException;
 
@@ -49,7 +50,8 @@ import ead.common.interfaces.Element;
 import ead.common.model.EAdElement;
 import ead.tools.ReflectionProvider;
 
-public class PlayNReflectionProvider implements ReflectionProvider {
+@Singleton
+public class GdxReflectionProvider implements ReflectionProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger("ReflectionProvider");
 

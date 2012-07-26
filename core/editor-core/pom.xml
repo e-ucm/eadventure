@@ -17,12 +17,7 @@
 	<description>
 		Java desktop application e-Adventure editor
 	</description>  
-	<dependencies>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-desktop</artifactId>
-			<version>${project.version}</version>
-		</dependency>		
+	<dependencies>	
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>gui</artifactId>

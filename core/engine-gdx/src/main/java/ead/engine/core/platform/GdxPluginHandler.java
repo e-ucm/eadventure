@@ -35,47 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core;
+package ead.engine.core.platform;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.elementfactories.EAdElementsFactory;
-import ead.elementfactories.demos.scenes.InitScene;
-import ead.engine.core.game.Game;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.GdxModule;
-import ead.tools.StringHandler;
-import ead.tools.java.JavaInjector;
-import ead.tools.java.JavaToolsModule;
+import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
+import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.engine.core.gameobjects.GdxApplyForceGO;
+import ead.engine.core.gameobjects.GdxPhysicsEffectGO;
+import ead.engine.core.gameobjects.factories.EffectGOFactory;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.plugins.PluginHandler;
 
-public class Main {
-	public static void main(String[] args) {
+@Singleton
+public class GdxPluginHandler implements PluginHandler {
 
-		Injector i = Guice.createInjector(new GdxModule(),
-				new JavaToolsModule());
-		JavaInjector injector = new JavaInjector(i);
-		GUI gui = injector.getInstance(GUI.class);		
-		gui.initialize();
-		
-		InitScene initScene = new InitScene();
-		EAdAdventureModel model = new BasicAdventureModel();
-		BasicChapter chapter = new BasicChapter();
-		chapter.setInitialScene(initScene);
-		model.getChapters().add(chapter);
-		
-		injector.getInstance(StringHandler.class).addStrings(
-				EAdElementsFactory.getInstance().getStringFactory()
-						.getStrings());
-		
-		Game game = injector.getInstance(Game.class);
-		game.setGame(model, model.getChapters().get(0));
-
+	@Override
+	public void install(EffectGOFactory effectFactory) {
+		effectFactory.put(PhysicsEffect.class, GdxPhysicsEffectGO.class);
+		effectFactory.put(PhApplyImpluseEf.class, GdxApplyForceGO.class);
 	}
 
+	@Override
+	public void install(SceneElementGOFactory sceneElementFactory) {
+		
+		
+	}
 
+	@Override
+	public void install(EventGOFactory eventGOFactory) {
+		
+		
+	}
 
 }

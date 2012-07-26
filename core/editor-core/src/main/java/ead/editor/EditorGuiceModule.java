@@ -62,7 +62,7 @@ import ead.editor.view.menu.EditorMenuBarImpl;
 import ead.editor.view.menu.FileMenu;
 import ead.editor.view.menu.FileMenuImpl;
 import ead.tools.ConfigBackend;
-import ead.tools.ConfigBackendXMLFile;
+import ead.tools.java.ConfigBackendXMLFile;
 
 /**
  * Google Guice ({@link http://code.google.com/p/google-guice/}) module to

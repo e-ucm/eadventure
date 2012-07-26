@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core;
+package ead.engine.core.platform;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
@@ -94,6 +94,7 @@ import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
+import ead.engine.core.platform.assets.VLCDesktopVideoRenderer;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.DefaultGameTracker;
@@ -129,7 +130,7 @@ public class GdxModule extends AbstractModule {
 		bind(GUI.class).to(GdxDesktopGUI.class);
 		bind(InputHandler.class).to(InputHandlerImpl.class);
 
-		bind(PluginHandler.class).to(JavaPluginHandler.class);
+		bind(PluginHandler.class).to(GdxPluginHandler.class);
 
 		// Game
 		bind(GameState.class).to(GameStateImpl.class);
