@@ -62,7 +62,7 @@ import com.google.inject.Singleton;
 
 import ead.editor.R;
 import ead.editor.control.Controller;
-import ead.editor.model.ActorNode;
+import ead.editor.model.nodes.ActorNode;
 import ead.editor.model.DependencyNode;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.ToolPanel;

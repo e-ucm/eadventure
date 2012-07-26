@@ -56,7 +56,7 @@ public interface EAdSceneElementDef extends EAdElement, Resourced,
 
 	/**
 	 * Sets the appearance in the given bundle
-	 * 
+	 *
 	 * @param bundle
 	 *            the bundle id
 	 * @param appearance
@@ -66,7 +66,7 @@ public interface EAdSceneElementDef extends EAdElement, Resourced,
 
 	/**
 	 * Sets the initial appearance for the scene element
-	 * 
+	 *
 	 * @param appearance
 	 *            the initial appearance
 	 */
@@ -74,17 +74,17 @@ public interface EAdSceneElementDef extends EAdElement, Resourced,
 
 	/**
 	 * Returns the default appearance for this definition
-	 * 
+	 *
 	 * @return
 	 */
 	EAdDrawable getAppearance();
 
 	/**
 	 * Returns the appearance for the given bundle
-	 * 
+	 *
 	 * @param bundle
 	 * @return
 	 */
-	EAdDrawable getAppaerance(EAdBundleId bundle);
+	EAdDrawable getAppearance(EAdBundleId bundle);
 
 }

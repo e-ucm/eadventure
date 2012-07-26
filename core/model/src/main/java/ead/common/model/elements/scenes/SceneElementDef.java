@@ -96,7 +96,7 @@ public class SceneElementDef extends ResourcedElement implements
 		getResources().addAsset(getInitialBundle(),
 				SceneElementDef.appearance, appearance);
 	}
-	
+
 	public void setActions(EAdList<EAdAction> actions) {
 		this.actions = actions;
 	}
@@ -155,7 +155,7 @@ public class SceneElementDef extends ResourcedElement implements
 
 	/**
 	 * Sets the initial appearance for the scene element
-	 * 
+	 *
 	 * @param appearance
 	 *            the initial appearance
 	 */
@@ -165,7 +165,7 @@ public class SceneElementDef extends ResourcedElement implements
 
 	/**
 	 * Sets the appearance in the given bundle
-	 * 
+	 *
 	 * @param bundle
 	 *            the bundle id
 	 * @param appearance
@@ -185,7 +185,7 @@ public class SceneElementDef extends ResourcedElement implements
 	}
 
 	@Override
-	public EAdDrawable getAppaerance(EAdBundleId bundle) {
+	public EAdDrawable getAppearance(EAdBundleId bundle) {
 		return (EAdDrawable) getResources().getAsset(bundle, SceneElementDef.appearance);
 	}
 }

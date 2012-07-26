@@ -1,6 +1,5 @@
 /**
- * eAdventure (formerly <e-Adventure> and <e´
- * -Game>) is a research project of the
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
  *    <e-UCM> research group.
  *
  *    Copyright 2005-2010 <e-UCM> research group.

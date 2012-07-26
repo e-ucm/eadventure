@@ -62,21 +62,25 @@ import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
 
 public class GdxAssetHandlerMap extends HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>{
 	private static final long serialVersionUID = 5284553649611577802L;
-	
+
 	@SuppressWarnings("unchecked")
 	public GdxAssetHandlerMap( ){
-		put(Image.class, GdxImage.class);
-		put(BezierShape.class, GdxShape.class);
-		put(Caption.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeCaption.class);
-		put(ComposedDrawable.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeComposedDrawable.class);
-		put(BasicFont.class, GdxFont.class);
-		put(EAdFont.class, GdxFont.class);
-		put(StateDrawable.class, RuntimeStateDrawable.class);
-		put(EAdStateDrawable.class, RuntimeStateDrawable.class);
-		put(FramesAnimation.class, RuntimeFramesAnimation.class);
-		put(EAdFilteredDrawable.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeFilteredDrawable.class);
-		put(FilteredDrawable.class, (Class<? extends RuntimeAsset<? extends AssetDescriptor>>) RuntimeFilteredDrawable.class);
+        HashMap inner = new HashMap();
+
+		inner.put(Image.class, GdxImage.class);
+		inner.put(BezierShape.class, GdxShape.class);
+		inner.put(Caption.class, RuntimeCaption.class);
+		inner.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
+		inner.put(BasicFont.class, GdxFont.class);
+		inner.put(EAdFont.class, GdxFont.class);
+		inner.put(StateDrawable.class, RuntimeStateDrawable.class);
+		inner.put(EAdStateDrawable.class, RuntimeStateDrawable.class);
+		inner.put(FramesAnimation.class, RuntimeFramesAnimation.class);
+		inner.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
+		inner.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
+
+        putAll((HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)inner);
 	}
-	
+
 
 }

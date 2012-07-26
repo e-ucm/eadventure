@@ -34,10 +34,19 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ead.editor.model;
 
+package ead.editor.model.nodes;
+
+import ead.editor.model.nodes.ActorNode;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.editor.model.DependencyEdge;
+import ead.editor.model.DependencyNode;
+import ead.editor.model.EditorAnnotator;
+import ead.editor.model.EditorModel;
+import ead.editor.model.EditorNode;
+import ead.editor.model.EditorNodeFactory;
+import ead.editor.model.EngineNode;
 import ead.importer.annotation.ImportAnnotator;
 import java.util.ArrayList;
 import java.util.TreeMap;

@@ -35,7 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model;
+package ead.editor.model.nodes;
+
+import ead.editor.model.EditorNode;
 
 /**
  *
