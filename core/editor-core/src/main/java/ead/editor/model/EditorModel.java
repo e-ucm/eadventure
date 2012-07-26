@@ -196,7 +196,13 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      * @return
      */
     public int generateId() {
-        return lastNodeId++;
+        int rc = lastNodeId++;
+        if  (nodesById.containsKey(rc)) {
+            logger.warn("Duplicate ID narrowly avoided - be on your toes!");
+            rc = Math.max(lastNodeId + 1, nodesById.lastKey() + 1);
+            lastNodeId = rc+1;
+        }
+        return rc;
     }
 
     /**
@@ -243,6 +249,11 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
                     e.setId(decorateIdWithEid(e.getId(), eid));
                     node = new EngineNode(eid, e);
                     nodesById.put(eid, node);
+                } else {
+                    if ( ! node.getContent().equals(targetContent)) {
+                        logger.error("Corrupted save-file: eid {} assigned to {} AND {}",
+                                new Object[] {eid, targetContent.toString(), node.getContent().toString()});
+                    }
                 }
             } else {
                 // content is eadElement, but has no editor-annotation: add it

@@ -131,7 +131,6 @@ public class VarDef<T> implements EAdVarDef<T> {
 	}
 
 	public void setName(String name) {
-		this.id = "var_" + name + "_" + Math.round(Math.random() * 10000);
 		this.name = name;
 	}
 

@@ -62,6 +62,8 @@ import com.google.inject.Singleton;
 
 import ead.editor.R;
 import ead.editor.control.Controller;
+import ead.editor.control.EditorConfig;
+import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.ViewController;
 import ead.editor.model.nodes.ActorNode;
 import ead.editor.model.nodes.DependencyNode;
@@ -78,6 +80,10 @@ import ead.gui.structurepanel.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
@@ -135,6 +141,8 @@ public class EditorWindow implements ViewController {
     }
 
     private void initializeStructurePanel() {
+        leftPanel = new StructurePanel();
+
         leftPanel.addElement(new StructureElement(
 				new SimpleStructureElement("Scenes",
                 R.Drawable.sidePanel__scenes_png)));
@@ -350,21 +358,63 @@ public class EditorWindow implements ViewController {
      * Set the size and position of the editor window
      */
     private void setSizeAndPosition() {
+        EditorConfig ec = controller.getConfig();
+        final int width = ec.containsKey(EditorConf.EditorWidth) ?
+                ec.getInt(EditorConf.EditorWidth) : -1;
+        final int height = ec.containsKey(EditorConf.EditorHeight) ?
+                ec.getInt(EditorConf.EditorHeight) : -1;
+        final int xPos = ec.containsKey(EditorConf.EditorX) ?
+                ec.getInt(EditorConf.EditorX) : -1;
+        final int yPos = ec.containsKey(EditorConf.EditorY) ?
+                ec.getInt(EditorConf.EditorY) : -1;
+
         SwingUtilities.doInEDTNow(new Runnable() {
 
             @Override
             public void run() {
                 editorWindow.setMinimumSize(new Dimension(640, 400));
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                int width = (int) (screenSize.getWidth() * .8f);
-                int height = (int) (screenSize.getHeight() * .8f);
-                logger.info("Setting size to {}x{}", new Object[]{width, height});
-                editorWindow.setSize(width, height);
-                editorWindow.setLocation((screenSize.width - width) / 2,
-                        (screenSize.height - height) / 2);
+                int w = width<0 ? (int) (screenSize.width * .8f) : width;
+                int h = height<0 ? (int) (screenSize.height * .8f) : height;
+                int x = xPos<0 ? (screenSize.width - w) / 2 : xPos;
+                int y = yPos<0 ? (screenSize.height - h) / 2 : yPos;
+
+                editorWindow.setSize(w, h);
+                editorWindow.setLocation(x, y);
+
+                logger.info("Saved window settings {},{} {}x{}", new Object[] {
+                    x, y, w, h
+                });
+
                 editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                editorWindow.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        saveWindowPreferences();
+                    }
+
+                    @Override
+                    public void componentMoved(ComponentEvent e) {
+                        saveWindowPreferences();
+                    }
+                });
             }
         });
+    }
+
+    private void saveWindowPreferences() {
+        EditorConfig ec = controller.getConfig();
+        ec.put(EditorConf.EditorWidth, ""+editorWindow.getWidth());
+        ec.put(EditorConf.EditorHeight, ""+editorWindow.getHeight());
+        ec.put(EditorConf.EditorX, ""+editorWindow.getLocationOnScreen().x);
+        ec.put(EditorConf.EditorY, ""+editorWindow.getLocationOnScreen().y);
+        logger.info("Saved window settings {},{} {}x{}", new Object[] {
+            ec.getInt(EditorConf.EditorWidth),
+            ec.getInt(EditorConf.EditorHeight),
+            ec.getInt(EditorConf.EditorX),
+            ec.getInt(EditorConf.EditorY)
+        });
+        ec.save(null);
     }
 
 	/**

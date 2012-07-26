@@ -199,12 +199,20 @@ public class FileMenu extends JMenu {
                     Messages.file_menu_open_message,
                     Messages.file_menu_open_title_error,
                     Messages.file_menu_open_message_error,
-                    true, JFileChooser.FILES_AND_DIRECTORIES, ead2LoadFolderFilter);
+                    true, JFileChooser.FILES_AND_DIRECTORIES,
+                    ead2LoadFolderFilter,
+                    EditorConf.LastLoadDirectory, EditorConf.LastLoadFile);
             if (f != null) {
                 new ProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
+                        EditorConfig ec = controller.getConfig();
+                        ec.put(EditorConf.LastLoadDirectory,
+                                f.getParentFile().getAbsolutePath());
+                        ec.put(EditorConf.LastLoadFile,
+                                f.getAbsolutePath());
+                        ec.save(null);
                         controller.getProjectController().load(f.getAbsolutePath());
                     }
                 }).runInEDT();
@@ -228,7 +236,8 @@ public class FileMenu extends JMenu {
                     Messages.file_menu_import_message,
                     Messages.file_menu_import_title_error,
                     Messages.file_menu_import_message_error,
-                    true, JFileChooser.FILES_AND_DIRECTORIES, ead1LoadFileFilter);
+                    true, JFileChooser.FILES_AND_DIRECTORIES, ead1LoadFileFilter,
+                    EditorConf.LastImportDirectory, EditorConf.LastImportFile);
             if (f == null) {
                 // user cancelled request
                 return;
@@ -237,12 +246,24 @@ public class FileMenu extends JMenu {
                     Messages.file_menu_import_save_message,
                     Messages.file_menu_import_title_error,
                     Messages.file_menu_import_message_error,
-                    false, JFileChooser.DIRECTORIES_ONLY, null);
+                    false, JFileChooser.DIRECTORIES_ONLY, null,
+                    EditorConf.LastSaveDirectory, EditorConf.LastSaveFile);
             if (f != null && d != null) {
                 new ProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
+                        EditorConfig ec = controller.getConfig();
+                        ec.put(EditorConf.LastImportDirectory,
+                                f.getParentFile().getAbsolutePath());
+                        ec.put(EditorConf.LastImportFile,
+                                f.getAbsolutePath());
+                        ec.put(EditorConf.LastSaveDirectory,
+                                d.getParentFile().getAbsolutePath());
+                        ec.put(EditorConf.LastSaveFile,
+                                d.getAbsolutePath());
+                        ec.save(null);
+
                         controller.getProjectController().doImport(
                                 f.getAbsolutePath(), d.getAbsolutePath());
                     }
@@ -267,12 +288,19 @@ public class FileMenu extends JMenu {
                     Messages.file_menu_new_message,
                     Messages.file_menu_new_title_error,
                     Messages.file_menu_new_message_error,
-                    false, JFileChooser.DIRECTORIES_ONLY, null);
+                    false, JFileChooser.DIRECTORIES_ONLY, null,
+                    EditorConf.LastSaveDirectory, null);
             if (d != null) {
                 new ProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
+                        EditorConfig ec = controller.getConfig();
+                        ec.put(EditorConf.LastSaveDirectory,
+                                d.getParentFile().getAbsolutePath());
+                        ec.put(EditorConf.LastSaveFile,
+                                d.getAbsolutePath());
+                        ec.save(null);
                         controller.getProjectController().newProject();
                         controller.getProjectController().saveAs(d.getAbsolutePath());
                     }
@@ -320,12 +348,17 @@ public class FileMenu extends JMenu {
                     Messages.file_menu_new_message,
                     Messages.file_menu_new_title_error,
                     Messages.file_menu_new_message_error,
-                    false, JFileChooser.DIRECTORIES_ONLY, null);
+                    false, JFileChooser.DIRECTORIES_ONLY, null,
+                    EditorConf.LastSaveDirectory, null);
             if (d != null) {
                 new ProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
+                        controller.getConfig().put(EditorConf.LastSaveDirectory,
+                                d.getParentFile().getAbsolutePath());
+                        controller.getConfig().put(EditorConf.LastSaveFile,
+                                d.getAbsolutePath());
                         controller.getProjectController().saveAs(d.getAbsolutePath());
                     }
                 }).runInEDT();
@@ -366,20 +399,34 @@ public class FileMenu extends JMenu {
     public File chooseFile(Component p,
             String title, String description,
             String errorTitle, String errorDescription,
-            boolean toOpen, int fileType, FileFilter ff) {
+            boolean toOpen, int fileType, FileFilter ff,
+            EditorConf initialDirKey, EditorConf initialFileKey) {
         JFileChooser jfc = new JFileChooser();
         if (ff != null) {
             jfc.setFileFilter(ff);
         }
         jfc.setFileView(eadFileView);
 
-        File currentDirectory = new File(".");
         EditorConfig ec = controller.getConfig();
-        if (ec.containsKey(EditorConf.LastDirectory)) {
+
+        File currentDirectory = new File(".");
+        if (initialDirKey != null && ec.containsKey(initialDirKey)) {
+            currentDirectory = new File(ec.getValue(initialDirKey));
+        } else if (ec.containsKey(EditorConf.LastDirectory)) {
             currentDirectory = new File(ec.getValue(EditorConf.LastDirectory));
         }
+        if (currentDirectory.isDirectory()) {
+            jfc.setCurrentDirectory(currentDirectory);
+        }
 
-        jfc.setCurrentDirectory(currentDirectory);
+        File currentFile = null;
+        if (initialFileKey != null && ec.containsKey(initialFileKey)) {
+            currentFile = new File(ec.getValue(initialFileKey));
+        }
+        if (currentFile != null && currentFile.exists()) {
+            jfc.setSelectedFile(currentFile);
+        }
+
         jfc.setDialogTitle(title);
         jfc.add(new JLabel(description), BorderLayout.NORTH);
         jfc.setFileSelectionMode(fileType);
