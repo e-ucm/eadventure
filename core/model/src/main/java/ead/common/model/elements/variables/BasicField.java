@@ -50,8 +50,6 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
-    protected String id;
-
 	public BasicField() {
 
 	}
@@ -96,20 +94,7 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 		return varDef;
 	}
 
-	@Override
-	public String getId() {
-		if (id == null) {
-            id = (element != null ? element.getId() : "") + "_" + varDef.getId()
-				+ "_field";
-        }
-        return id;
-	}
-
-	@Override
-	public void setId(String id) {
-        this.id = id;
-	}
-
+    @Override
 	public boolean equals(Object o) {
 		if (o != null && o instanceof EAdField) {
 			EAdField<?> f = ((EAdField<?>) o);
@@ -122,11 +107,13 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 		return false;
 	}
 
+    @Override
 	public int hashCode() {
 		return ("" + (element != null ? element.hashCode() : "") + "_" + varDef
 				.hashCode()).hashCode();
 	}
 
+    @Override
 	public String toString() {
 		return (element != null ? element : "NULL") + "." + varDef.getName();
 	}

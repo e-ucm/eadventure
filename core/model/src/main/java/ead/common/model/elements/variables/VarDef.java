@@ -39,10 +39,11 @@ package ead.common.model.elements.variables;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.variables.EAdVarDef;
 
 @Element(detailed = VarDef.class, runtime = VarDef.class)
-public class VarDef<T> implements EAdVarDef<T> {
+public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 
 	@Param("id")
 	private String id;
@@ -96,11 +97,6 @@ public class VarDef<T> implements EAdVarDef<T> {
 		return initialValue;
 	}
 
-	@Override
-	public String getId() {
-		return id;
-	}
-
 	public boolean equals( Object o ){
 		if ( o != null && o instanceof VarDef ){
 			VarDef<?> var = (VarDef<?>) o;
@@ -123,11 +119,6 @@ public class VarDef<T> implements EAdVarDef<T> {
 
 	public String toString(){
 		return name + "";
-	}
-
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public void setName(String name) {

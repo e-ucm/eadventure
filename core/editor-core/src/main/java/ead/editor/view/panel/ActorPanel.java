@@ -69,8 +69,4 @@ public class ActorPanel extends AbstractElementPanel<ActorNode> {
 
 		revalidate();
 	}
-
-	private String htmlize(String s) {
-		return "<html>" + s + "</html>";
-	}
 }
