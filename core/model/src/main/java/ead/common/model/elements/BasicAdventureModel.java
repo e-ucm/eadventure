@@ -54,7 +54,7 @@ import ead.common.params.text.EAdString;
  * The eAdventure game model.
  */
 @Element(detailed = BasicAdventureModel.class, runtime = BasicAdventureModel.class)
-public class BasicAdventureModel implements EAdAdventureModel {
+public class BasicAdventureModel extends BasicElement implements EAdAdventureModel {
 
 	@Param("description")
 	public EAdString description;
@@ -80,8 +80,6 @@ public class BasicAdventureModel implements EAdAdventureModel {
 	@Param("depthControlList")
 	private EAdList<EAdElement> depthControlList;
 
-    private String id = "adventure";
-
 	// This map is fulfilled with the values in ead.properties. That's why it
 	// hasn't got a @Param annotation
 	private Map<String, String> properties;
@@ -103,15 +101,6 @@ public class BasicAdventureModel implements EAdAdventureModel {
 
 	public EAdList<EAdChapter> getChapters() {
 		return chapters;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(String id) {
-        this.id = id;
 	}
 
 	/**

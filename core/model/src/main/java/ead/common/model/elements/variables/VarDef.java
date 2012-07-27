@@ -45,9 +45,6 @@ import ead.common.model.elements.variables.EAdVarDef;
 @Element(detailed = VarDef.class, runtime = VarDef.class)
 public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 
-	@Param("id")
-	private String id;
-
 	@Param("name")
 	private String name;
 
@@ -97,26 +94,39 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 		return initialValue;
 	}
 
-	public boolean equals( Object o ){
-		if ( o != null && o instanceof VarDef ){
-			VarDef<?> var = (VarDef<?>) o;
-			if (name == null ^ var.name == null)
-				return false;
-			if (type == null ^ var.type == null)
-				return false;
-			if (initialValue == null ^ var.initialValue == null)
-				return false;
-			return (name == null || var.name.equals(name))
-					&& (type == null || var.type.equals(type))
-					&& (initialValue == null || var.initialValue.equals(initialValue));
-		}
-		return false;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VarDef<T> other = (VarDef<T>) obj;
+        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+            return false;
+        }
+        if (this.type != other.type &&
+                (this.type == null || !this.type.equals(other.type))) {
+            return false;
+        }
+        if (this.initialValue != other.initialValue &&
+                (this.initialValue == null || !this.initialValue.equals(other.initialValue))) {
+            return false;
+        }
+        return true;
+    }
 
-	public int hashCode(){
-		return (name + type + initialValue + "").hashCode();
-	}
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 97 * hash + (this.type != null ? this.type.hashCode() : 0);
+        hash = 97 * hash + (this.initialValue != null ? this.initialValue.hashCode() : 0);
+        return hash;
+    }
 
+    @Override
 	public String toString(){
 		return name + "";
 	}

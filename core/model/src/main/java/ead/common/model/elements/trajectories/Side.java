@@ -40,9 +40,10 @@ package ead.common.model.elements.trajectories;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
+import ead.common.model.elements.BasicElement;
 
 @Element(detailed = Side.class, runtime = Side.class)
-public class Side implements EAdElement {
+public class Side extends BasicElement {
 
 	@Param("idStart")
 	private String idStart;
@@ -55,8 +56,6 @@ public class Side implements EAdElement {
 
 	@Param("realLength")
 	private float realLength = 1;
-
-    private String id;
 
 	public Side() {
 
@@ -109,6 +108,14 @@ public class Side implements EAdElement {
 		return false;
 	}
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + (this.idStart != null ? this.idStart.hashCode() : 0);
+        hash = 41 * hash + (this.idEnd != null ? this.idEnd.hashCode() : 0);
+        return hash;
+    }
+
 	public float getLength() {
 
 		return length;
@@ -125,22 +132,5 @@ public class Side implements EAdElement {
 
 	public float getRealLength() {
 		return realLength;
-	}
-
-	@Override
-	public String getId() {
-		if (id == null) {
-            id = idStart + "_" + idEnd;
-        }
-        return id;
-	}
-
-	public int hashCode(){
-		return getId().hashCode();
-	}
-
-	@Override
-	public void setId(String id) {
-        this.id = id;
 	}
 }

@@ -37,6 +37,7 @@
 
 package ead.editor.model;
 
+import bibliothek.gui.dock.station.stack.tab.DefaultTabContentFilter;
 import ead.editor.model.nodes.QueryNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
@@ -47,6 +48,8 @@ import ead.editor.model.nodes.ActorFactory;
 import com.google.inject.Inject;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.behaviors.Behavior;
+import ead.common.model.elements.variables.VarDef;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.editor.view.dock.ModelAccessor;
@@ -97,10 +100,31 @@ import org.xml.sax.helpers.DefaultHandler;
 public class EditorModel implements ModelVisitor, ModelAccessor {
 
     private static final Logger logger = LoggerFactory.getLogger("EditorModel");
+
+    /**
+     * Must be high enough to avoid ID collisions, counting from 0, downward from
+     * here, and upward fro here.
+     */
+    private static final int intermediateIDPoint = 1<<24;
     /**
      * Node id generation
      */
-    private int lastNodeId = 0;
+    private int lastElementNodeId = 0;
+    /**
+     * Node id generation: transients are not serialized
+     */
+    private int lastTransientNodeId = intermediateIDPoint;
+    /**
+     * Node id generation: empties are not serialized unless fleshed out
+     * counts downwards
+     */
+    private int lastEmptyElementNodeId = intermediateIDPoint-1;
+
+    /**
+     * True only during a loading operation
+     */
+    private boolean isLoading  = false;
+
     /**
      * Importer for old models
      */
@@ -193,16 +217,31 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      * a static field to store the last assigned ID; standard disclaimers on
      * thread-safety and class-loaders apply.
      *
+     * @param targetObject an engine object, or null for synthetic elements
      * @return
      */
-    public int generateId() {
-        int rc = lastNodeId++;
-        if  (nodesById.containsKey(rc)) {
-            logger.warn("Duplicate ID narrowly avoided - be on your toes!");
-            rc = Math.max(lastNodeId + 1, nodesById.lastKey() + 1);
-            lastNodeId = rc+1;
+    public int generateId(Object targetObject) {
+
+        int assigned;
+        if (targetObject == null) {
+            assigned = lastElementNodeId++;
+        } else if (targetObject instanceof EAdElement) {
+            EAdElement e = (EAdElement)targetObject;
+            if (isLoading) {
+                assigned = lastEmptyElementNodeId ++;
+            } else {
+                assigned = lastElementNodeId ++;
+            }
+        } else {
+            assigned = lastTransientNodeId++;
         }
-        return rc;
+
+        if (nodesById.containsKey(assigned)) {
+            logger.error("Duplicate ID {} for object {}",
+                    new Object[] { assigned, targetObject });
+            return generateId(targetObject);
+        }
+        return assigned;
     }
 
     /**
@@ -242,7 +281,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
             Matcher m = editorIdPattern.matcher(e.getId());
             if (m.find()) {
                 // content is eadElement, and has editor-anotation: unfreeze
-                logger.debug("Found existing eID marker in {}", e.getId());
+                logger.debug("Found existing eID marker in {}: {}",
+                        targetContent.getClass().getSimpleName(), e.getId());
                 eid = Integer.parseInt(m.group(1));
                 node = nodesById.get(eid);
                 if (node == null) {
@@ -257,17 +297,24 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
                 }
             } else {
                 // content is eadElement, but has no editor-annotation: add it
-                eid = generateId();
+                eid = generateId(targetContent);
                 String decorated = decorateIdWithEid(e.getId(), eid);
-                logger.debug("Created eID marker for {}",
+                logger.debug("Created eID marker for {}: {} ({})",
                         new Object[]{e.getId(), eid, decorated});
+                if (isLoading) {
+                    logger.error("Error: loaded elements should have their ID already set!");
+                    logger.error("\tCreated eID marker for {}: {} ({})",
+                        new Object[]{e.getId(), eid, decorated});
+                }
                 e.setId(decorated);
                 node = new EngineNode(eid, e);
                 nodesById.put(eid, node);
             }
         } else {
             // content cannot have editor-annotations at all
-            eid = generateId();
+            eid = generateId(targetContent);
+            logger.debug("Created eID for non-persited {}: {}",
+                    new Object[]{targetContent.getClass().getSimpleName(), eid});
             node = new EngineNode(eid, targetContent);
             nodesById.put(eid, node);
         }
@@ -527,8 +574,10 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         // build editor model
         updateProgress(50, "Reading editor model ...");
         logger.info("Model loaded; building graph...");
+        isLoading = true;
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(engineModel, this);
+        isLoading = false;
         this.root = nodesByContent.get(engineModel);
         readMappingsFromFile(new File(sourceDir, editorNodeFile));
 
@@ -589,9 +638,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
      * Flushes the model.
      */
     private void clear() {
-        lastNodeId = 0;
+        lastElementNodeId = 0;
+        lastTransientNodeId = intermediateIDPoint;
+        lastEmptyElementNodeId = intermediateIDPoint-1;
         nodesByContent.clear();
         nodesById.clear();
+        isLoading = false;
         nodeIndex = new ModelIndex();
         g.removeAllEdges(new HashSet<DependencyEdge>(g.edgeSet()));
         g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));

@@ -37,17 +37,13 @@
 
 package ead.common.model.elements.trajectories;
 
-import java.util.Random;
-
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.elements.BasicElement;
+import java.util.Random;
 
 @Element(detailed = Node.class, runtime = Node.class)
-public class Node implements EAdElement {
-
-	@Param("id")
-	private String id;
+public class Node extends BasicElement {
 
 	@Param("x")
 	private int x;
@@ -57,9 +53,9 @@ public class Node implements EAdElement {
 
 	@Param("scale")
 	private float scale;
-	
+
 	public Node(){
-		
+
 	}
 
 	public Node(String id, int x, int y, float scale) {
@@ -70,21 +66,10 @@ public class Node implements EAdElement {
 		this.scale = scale;
 	}
 
-	@Override
-	public String getId() {
-
-		return id;
-	}
-	
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
-	
 	public void setX(int x){
 		this.x = x;
 	}
-	
+
 	public void setY(int y){
 		this.y = y;
 	}
@@ -130,7 +115,7 @@ public class Node implements EAdElement {
 		this.y = y;
 		this.scale = scale;
 	}
-	
+
 	public int hashCode( ){
 		return id.hashCode();
 	}

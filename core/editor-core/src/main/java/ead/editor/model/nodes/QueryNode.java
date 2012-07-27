@@ -42,8 +42,6 @@
 package ead.editor.model.nodes;
 
 import ead.editor.model.EditorModel;
-import ead.editor.model.nodes.EditorNode;
-import ead.editor.model.nodes.DependencyNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -59,7 +57,7 @@ public class QueryNode extends EditorNode {
 	private String queryString;
 
 	public QueryNode(EditorModel m, String queryString) {
-		super(m.generateId());
+		super(m.generateId(null));
 		this.queryString = queryString;
 		logger.debug("Query node for '{}'", queryString);
 

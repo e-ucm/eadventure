@@ -80,7 +80,7 @@ public class ActorFactory implements EditorNodeFactory {
             EAdElement e = (EAdElement)n.getContent();
             for (EditorAnnotator.Annotation a : annotator.get(e)) {
                 if (a.getKey().equals("type") && a.getValue().equals("actor")) {
-                    ActorNode an = new ActorNode(model.generateId());
+                    ActorNode an = new ActorNode(model.generateId(null));
                     an.addChild(n);
                     logger.debug("A star is born! actor {} {}", new Object[] {an.getId(), an.getTextualDescription(model)});
 //                    for (DependencyEdge de : g.outgoingEdgesOf(n)) {

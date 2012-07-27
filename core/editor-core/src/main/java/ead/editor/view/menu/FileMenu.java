@@ -424,7 +424,7 @@ public class FileMenu extends JMenu {
             currentFile = new File(ec.getValue(initialFileKey));
         }
         if (currentFile != null && currentFile.exists()) {
-            jfc.setSelectedFile(currentFile);
+// FIXME            jfc.setSelectedFile(currentFile);
         }
 
         jfc.setDialogTitle(title);
@@ -433,6 +433,7 @@ public class FileMenu extends JMenu {
         File f = null;
         while (f == null) {
             int rc = (toOpen ? jfc.showOpenDialog(p) : jfc.showSaveDialog(p));
+            
             if (rc == JFileChooser.CANCEL_OPTION) {
                 f = null;
                 break;

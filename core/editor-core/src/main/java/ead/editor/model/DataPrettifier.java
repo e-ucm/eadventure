@@ -46,6 +46,7 @@ import ead.editor.model.*;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import java.io.*;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import javax.xml.stream.*;
@@ -58,9 +59,17 @@ import javax.xml.stream.*;
  */
 public class DataPrettifier {
 
-    static final public String translatedAttribute = "c";
+    static final public HashSet<String> translatedAttributes = new HashSet<String>();
     static final public String keymapElement = "keyMap";
     static final public String keymapEntry = "entry";
+
+    static {
+        translatedAttributes.add("c");
+        translatedAttributes.add("kC");
+        translatedAttributes.add("vC");
+        translatedAttributes.add("vC");
+    }
+
 
     /**
      * Prettifies an input into an output.
@@ -144,7 +153,7 @@ public class DataPrettifier {
                     for (int i = reader.getAttributeCount() - 1; i >= 0; i--) {
                         String name = reader.getAttributeLocalName(i);
                         String value = reader.getAttributeValue(i);
-                        if (name.equals(translatedAttribute) && mappings.containsKey(value)) {
+                        if (translatedAttributes.contains(name) && mappings.containsKey(value)) {
 //							System.err.println("\t(switch " + value + " ::= " + mappings.get(value));
                             value = mappings.get(value);
                         }
