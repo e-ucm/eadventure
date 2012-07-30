@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.desktop.core.platform.assets;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

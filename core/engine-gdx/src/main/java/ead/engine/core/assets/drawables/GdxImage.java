@@ -37,12 +37,14 @@
 
 package ead.engine.core.assets.drawables;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.google.inject.Inject;
 
+import ead.engine.core.assets.GdxAssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
@@ -50,15 +52,17 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
+	private GdxAssetHandler assetHandler;
 
-	public GdxImage() {
+	@Inject
+	public GdxImage(AssetHandler assetHandler) {
 		super(null);
+		this.assetHandler = (GdxAssetHandler) assetHandler;
 	}
 	
 	@Override
 	public boolean loadAsset() {
-		String url = descriptor.getUri().toString().substring(1);
-		pixmap = new Pixmap(Gdx.files.internal("data/" + url));
+		pixmap = new Pixmap(assetHandler.getFileHandle(descriptor.getUri().getPath()));
 		Texture texture = new Texture(pixmap);
 		textureRegion = new TextureRegion(texture);
 		textureRegion.flip(false, true);

@@ -63,6 +63,7 @@ import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.util.EAdTransformation;
 
 public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		SceneGOImpl implements TransitionGO<T> {
@@ -180,6 +181,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	public void update() {
 		super.update();
 		if (!loaded && !loading) {
+			timeLoading = 0;
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}
@@ -193,7 +195,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		}
 
 		// If time loading is bigger than 1 second, we show the loading symbol
-		if (timeLoading > 1000) {
+		if (timeLoading > 1000 && !loaded) {
 			rotation += 0.5f;
 			if (rotation > 2 * Math.PI) {
 				rotation -= 2 * Math.PI;
@@ -214,6 +216,14 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 				l.transitionEnds();
 			}
 		}
+	}
+	
+	
+
+	@Override
+	public void doLayout(EAdTransformation transformation) {
+		gui.addElement(previousScene, transformation);
+//		super.doLayout(transformation);
 	}
 
 	public List<TransitionListener> getTransitionListeners() {

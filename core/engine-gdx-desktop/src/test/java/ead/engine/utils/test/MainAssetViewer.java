@@ -1,4 +1,4 @@
-package ead.engine.utils;
+package ead.engine.utils.test;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -15,8 +15,7 @@ import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.elementfactories.demos.normalguy.NgCommon;
-import ead.engine.utils.assetviewer.AssetViewer;
+import ead.engine.desktop.utils.assetviewer.AssetViewer;
 
 public class MainAssetViewer {
 
@@ -26,9 +25,6 @@ public class MainAssetViewer {
 		final Image standNorth = new Image("@drawable/man_stand_n.png");
 		final BalloonShape shape = new BalloonShape( 10, 10, 100, 100, BalloonType.CLOUD);
 		shape.setPaint(ColorFill.WHITE);
-		
-		NgCommon.init();
-
 		
 		FramesAnimation frames2 = new FramesAnimation();
 		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 500));

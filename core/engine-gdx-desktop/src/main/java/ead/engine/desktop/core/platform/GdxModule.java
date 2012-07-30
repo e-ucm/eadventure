@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
+package ead.engine.desktop.core.platform;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
@@ -43,6 +43,7 @@ import com.google.inject.name.Names;
 
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.engine.core.assets.GdxAssetHandler;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -90,11 +91,11 @@ import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.GdxCanvas;
 import ead.engine.core.platform.GdxGameController;
+import ead.engine.core.platform.GdxPluginHandler;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
-import ead.engine.core.platform.assets.VLCDesktopVideoRenderer;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.DefaultGameTracker;
@@ -103,6 +104,7 @@ import ead.engine.core.tracking.selection.DefaultTrackerSelector;
 import ead.engine.core.tracking.selection.TrackerSelector;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
+import ead.engine.desktop.core.platform.assets.VLCDesktopVideoRenderer;
 
 public class GdxModule extends AbstractModule {
 
@@ -111,7 +113,7 @@ public class GdxModule extends AbstractModule {
 
 		installFactories();
 
-		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class);
+		bind(AssetHandler.class).to(GdxAssetHandler.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
 		bind(GenericCanvas.class).to(GdxCanvas.class);
 		bind(ValueMap.class).to(VariableMap.class);

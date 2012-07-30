@@ -39,31 +39,35 @@ package ead.engine.core.assets;
 
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.tools.GenericInjector;
 
-public abstract class GdxAssetHandler extends AbstractAssetHandler {
-	
+@Singleton
+public class GdxAssetHandler extends AbstractAssetHandler {
+
 	private GenericInjector injector;
 
 	@Inject
-	public GdxAssetHandler( GenericInjector injector ) {
-		super(new GdxAssetHandlerMap( ), injector.getInstance(FontHandler.class) );
+	public GdxAssetHandler(GenericInjector injector) {
+		super(new GdxAssetHandlerMap(), injector.getInstance(FontHandler.class));
 		this.injector = injector;
 	}
 
 	@Override
 	public void initialize() {
-		
+
 	}
 
 	@Override
 	public void terminate() {
-		
+
 	}
 
 	@Override
@@ -74,6 +78,29 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		return injector.getInstance(clazz);
+	}
+
+	@Override
+	public String getAbsolutePath(String uri) {
+		return this.resourcesUri.getPath() + "/" + uri.substring(1);
+	}
+
+	public FileHandle getFileHandle(String path) {
+		String uri = path.substring(1);
+		if (resourcesUri != null) {
+			FileHandle absolute = Gdx.files.absolute(this.resourcesUri
+					.getPath() + "/" + uri);
+			if (absolute.exists()) {
+				return absolute;
+			}
+		}
+
+		FileHandle internal = Gdx.files.internal("data/" + uri);
+		if (internal.exists()) {
+			return internal;
+		}
+
+		return null;
 	}
 
 }

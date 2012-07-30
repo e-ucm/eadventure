@@ -40,11 +40,15 @@ package ead.common.model.elements.trajectories;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
+import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 
 /**
@@ -171,5 +175,11 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 	public EAdList<EAdSceneElement> getBarriers() {
 		return barriers;
 	}
+	
+	public void addBarrier( EAdPosition p, BezierShape shape, EAdCondition conditionBarrierActive ){
+		SceneElement barrier = new SceneElement( shape );		
+	}
+	
+	
 
 }

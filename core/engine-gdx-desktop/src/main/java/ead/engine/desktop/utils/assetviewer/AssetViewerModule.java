@@ -1,17 +1,17 @@
-package ead.engine.utils.assetviewer;
+package ead.engine.desktop.utils.assetviewer;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdOperation;
+import ead.engine.core.assets.GdxAssetHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.GdxDesktopAssetHandler;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.java.core.platform.JavaInjector;
@@ -24,7 +24,7 @@ public class AssetViewerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
-		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class).in(
+		bind(AssetHandler.class).to(GdxAssetHandler.class).in(
 				Singleton.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);

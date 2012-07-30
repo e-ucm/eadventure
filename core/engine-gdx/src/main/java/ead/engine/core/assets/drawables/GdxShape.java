@@ -40,6 +40,7 @@ package ead.engine.core.assets.drawables;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -57,7 +58,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 
 	private TextureRegion textureRegion;
-	private Pixmap pixmap;
+	private Pixmap pixmapContains;
 
 	public boolean loadAsset() {
 		if (!super.loadAsset()) {
@@ -127,8 +128,12 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 		width = (int) ( rectangle.x + rectangle.width);
 		height = (int) ( rectangle.y + rectangle.height );
 		
-		pixmap = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
+		Pixmap pixmap = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
 				Pixmap.Format.RGBA8888);
+		pixmapContains = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
+				Pixmap.Format.RGBA8888);
+		pixmapContains.setColor(Color.BLACK);
+		
 
 		pixmap.setColor(0, 0, 0, 0);
 		pixmap.fill();
@@ -156,6 +161,7 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 						this.setColor(pixmap, borderWidth + i, borderWidth + j);
 					}
 					pixmap.drawPixel(borderWidth + i, borderWidth + j);
+					pixmapContains.drawPixel(borderWidth + i, borderWidth + j);
 				}
 			}
 		}
@@ -191,6 +197,9 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 						pixmap.drawLine((int) previousX + i,
 								(int) previousY + i, (int) currentX + i,
 								(int) currentY + i);
+						pixmapContains.drawLine((int) previousX + i,
+								(int) previousY + i, (int) currentX + i,
+								(int) currentY + i);
 
 					}
 				}
@@ -208,6 +217,7 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 
 		textureRegion = new TextureRegion(new Texture(pixmap));
 		textureRegion.flip(false, true);
+		pixmap.dispose();
 
 		return true;
 	}
@@ -215,7 +225,7 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 	@Override
 	public boolean contains(int x, int y) {
 		if ( x > 0 && y > 0 && x < getWidth() && y < getHeight() ){
-			int alpha = pixmap.getPixel( x, y ) & 255;
+			int alpha = pixmapContains.getPixel( x, y ) & 255;
 			return alpha > 128;
 		}
 		return false;
@@ -223,7 +233,7 @@ public class GdxShape extends RuntimeBezierShape<SpriteBatch> {
 
 	@Override
 	public void freeMemory() {
-		this.pixmap.dispose();
+		this.pixmapContains.dispose();
 	}
 
 	private void lineTo(float x1, float y1, List<Float> points) {

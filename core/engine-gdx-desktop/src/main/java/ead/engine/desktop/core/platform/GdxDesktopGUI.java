@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
+package ead.engine.desktop.core.platform;
 
 import java.awt.Canvas;
 import java.awt.Component;

@@ -1,4 +1,4 @@
-package ead.engine.utils.assetviewer;
+package ead.engine.desktop.utils.assetviewer;
 
 import java.awt.Canvas;
 import java.util.List;

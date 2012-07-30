@@ -50,8 +50,6 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
-    protected String id;
-
 	public BasicField() {
 
 	}
@@ -103,11 +101,6 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 				+ "_field";
         }
         return id;
-	}
-
-	@Override
-	public void setId(String id) {
-        this.id = id;
 	}
 
 	public boolean equals(Object o) {

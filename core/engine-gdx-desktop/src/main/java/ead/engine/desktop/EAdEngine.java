@@ -35,47 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core;
+package ead.engine.desktop;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.engine.desktop.gui.StartFrame;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.elementfactories.EAdElementsFactory;
-import ead.elementfactories.demos.scenes.InitScene;
-import ead.engine.core.game.Game;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.GdxModule;
-import ead.tools.StringHandler;
-import ead.tools.java.JavaInjector;
-import ead.tools.java.JavaToolsModule;
 
-public class Main {
-	public static void main(String[] args) {
-
-		Injector i = Guice.createInjector(new GdxModule(),
-				new JavaToolsModule());
-		JavaInjector injector = new JavaInjector(i);
-		GUI gui = injector.getInstance(GUI.class);		
-		gui.initialize();
-		
-		InitScene initScene = new InitScene();
-		EAdAdventureModel model = new BasicAdventureModel();
-		BasicChapter chapter = new BasicChapter();
-		chapter.setInitialScene(initScene);
-		model.getChapters().add(chapter);
-		
-		injector.getInstance(StringHandler.class).addStrings(
-				EAdElementsFactory.getInstance().getStringFactory()
-						.getStrings());
-		
-		Game game = injector.getInstance(Game.class);
-		game.setGame(model, model.getChapters().get(0));
-
+/**
+ * Main class for launching the eAdventure game engine
+ *
+ */
+public class EAdEngine {
+	
+	public static void main(String args[]) {
+        try {
+            javax.swing.UIManager.setLookAndFeel( javax.swing.UIManager.getSystemLookAndFeelClassName( ) );
+        }
+        catch( Exception e ) {
+            e.printStackTrace( );
+        }
+        
+		System.setProperty(
+				"com.apple.mrj.application.apple.menu.about.name",
+				"eAdventure");
+        
+//		EAdMainDebugger.addDebugger(FieldsDebugger.class);
+		StartFrame frame = new StartFrame();
+		frame.setVisible(true);
 	}
-
-
-
+	
 }

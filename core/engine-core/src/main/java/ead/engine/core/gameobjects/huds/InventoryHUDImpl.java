@@ -132,14 +132,14 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	@Override
 	public void update() {
+		super.update();
 		disp = (float) gui.getSkippedMilliseconds() / (float) TIME_TO_SHOW;
 		isShowing = valueMap.getValue(SystemFields.SHOW_INVENTORY);
 		if (isShowing) {
 			mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
 			updateState();
 			updateDisp();
-			updateItems();
-			super.update();
+			updateItems();			
 		}
 	}
 
