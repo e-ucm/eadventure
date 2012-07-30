@@ -63,7 +63,7 @@ public abstract class NodeVisitor<T> {
 	public static Map<String, String> aliasMap = new HashMap<String, String>();
 
 	protected static String loaderType;
-	
+
 	protected static boolean error;
 
 	public static void init(String packageN) {
@@ -129,9 +129,13 @@ public abstract class NodeVisitor<T> {
             }
             try {
 				method.invoke(parent, object);
+                if (logger.isDebugEnabled() && field.getName().equals("id")) {
+                    logger.debug("Set value for {} in {} to {}",
+                        new Object[]{field.getName(), parent.getClass(), object!=null?object:"null"});
+                }
 			} catch (Exception e) {
-				logger.error("Error setting value for {} in {}",
-                        new Object[]{field.getName(), parent.getClass()}, e);
+				logger.error("Error setting value for {} in {} to {}",
+                        new Object[]{field.getName(), parent.getClass(), object!=null?object:"null"}, e);
 				error = true;
 			}
 		}

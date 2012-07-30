@@ -38,11 +38,11 @@
 package ead.editor.control;
 
 import ead.common.model.EAdElement;
-import ead.editor.view.generics.Panel;
+import ead.editor.view.generic.Panel;
 
 /**
  * Controller for a specific element in the model
- * 
+ *
  * @param S A type of element in the model, which must inherit from
  *        {@link EAdElement}
  */

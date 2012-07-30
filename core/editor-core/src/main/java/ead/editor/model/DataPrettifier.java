@@ -46,7 +46,9 @@ import ead.editor.model.*;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import java.io.*;
+import java.util.HashSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import javax.xml.stream.*;
 
 /**
@@ -56,6 +58,18 @@ import javax.xml.stream.*;
  * @author mfreire
  */
 public class DataPrettifier {
+
+    static final public HashSet<String> translatedAttributes = new HashSet<String>();
+    static final public String keymapElement = "keyMap";
+    static final public String keymapEntry = "entry";
+
+    static {
+        translatedAttributes.add("c");
+        translatedAttributes.add("kC");
+        translatedAttributes.add("vC");
+        translatedAttributes.add("vC");
+    }
+
 
     /**
      * Prettifies an input into an output.
@@ -81,11 +95,11 @@ public class DataPrettifier {
                     break;
                 }
                 if (event == XMLStreamConstants.START_ELEMENT) {
-                    if (reader.getLocalName().equals("keyMap")) {
+                    if (reader.getLocalName().equals(keymapElement)) {
                         inMappings = true;
                     }
 
-                    if (inMappings && reader.getLocalName().equals("entry")) {
+                    if (inMappings && reader.getLocalName().equals(keymapEntry)) {
                         // in mapping list - now we can build our mappings
                         mappings.put(
                                 reader.getAttributeValue(0),
@@ -96,7 +110,7 @@ public class DataPrettifier {
                 }
 
                 if (event == XMLStreamConstants.END_ELEMENT
-                        && reader.getLocalName().equals("keyMap")) {
+                        && reader.getLocalName().equals(keymapElement)) {
                     inMappings = false;
                 }
             }
@@ -126,7 +140,7 @@ public class DataPrettifier {
                 }
 
                 if ((reader.isStartElement() || reader.isEndElement())
-                        && (reader.getLocalName().equals("keyMap") || reader.getLocalName().equals("entry"))) {
+                        && (reader.getLocalName().equals(keymapElement) || reader.getLocalName().equals(keymapEntry))) {
                     // ignore the keymap and its entries
                     continue;
                 }
@@ -139,7 +153,7 @@ public class DataPrettifier {
                     for (int i = reader.getAttributeCount() - 1; i >= 0; i--) {
                         String name = reader.getAttributeLocalName(i);
                         String value = reader.getAttributeValue(i);
-                        if (mappings.containsKey(value)) {
+                        if (translatedAttributes.contains(name) && mappings.containsKey(value)) {
 //							System.err.println("\t(switch " + value + " ::= " + mappings.get(value));
                             value = mappings.get(value);
                         }

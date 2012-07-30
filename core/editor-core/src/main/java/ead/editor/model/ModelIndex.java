@@ -37,6 +37,7 @@
 
 package ead.editor.model;
 
+import ead.editor.model.nodes.DependencyNode;
 import java.io.IOException;
 import java.util.*;
 import org.apache.lucene.analysis.Analyzer;
@@ -63,7 +64,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Allows easy search operations on the model. Uses Lucene for indexing and
  * retrieval.
- * 
+ *
  * @author mfreire
  */
 public class ModelIndex {
@@ -120,7 +121,7 @@ public class ModelIndex {
      */
     public void addProperty(DependencyNode e, String field, String value,
 			boolean searchable) {
-		
+
         e.getDoc().add(new Field(field, value, Store.YES,
                 searchable ? Index.ANALYZED : Index.NO));
     }
@@ -146,7 +147,7 @@ public class ModelIndex {
             logger.error("Error commiting search information", ex);
         }
     }
-	
+
     /**
      * Lazily create or return the query parser
      */
@@ -188,7 +189,7 @@ public class ModelIndex {
 			throw new IllegalArgumentException(
 				"Error finding names of indexable fields", ioe);
 		}
-	}	
+	}
 
     /**
      * Get a (sorted) list of nodes that match a query

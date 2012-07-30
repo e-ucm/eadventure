@@ -40,13 +40,8 @@ package ead.editor.model.nodes;
 import ead.editor.model.nodes.ActorNode;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.editor.model.DependencyEdge;
-import ead.editor.model.DependencyNode;
 import ead.editor.model.EditorAnnotator;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorNode;
-import ead.editor.model.EditorNodeFactory;
-import ead.editor.model.EngineNode;
 import ead.importer.annotation.ImportAnnotator;
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -85,7 +80,7 @@ public class ActorFactory implements EditorNodeFactory {
             EAdElement e = (EAdElement)n.getContent();
             for (EditorAnnotator.Annotation a : annotator.get(e)) {
                 if (a.getKey().equals("type") && a.getValue().equals("actor")) {
-                    ActorNode an = new ActorNode(model.generateId());
+                    ActorNode an = new ActorNode(model.generateId(null));
                     an.addChild(n);
                     logger.debug("A star is born! actor {} {}", new Object[] {an.getId(), an.getTextualDescription(model)});
 //                    for (DependencyEdge de : g.outgoingEdgesOf(n)) {

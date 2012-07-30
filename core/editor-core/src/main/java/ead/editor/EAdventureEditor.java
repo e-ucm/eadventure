@@ -46,7 +46,7 @@ import com.google.inject.Injector;
 
 import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
-import ead.editor.view.impl.SplashScreenImpl;
+import ead.editor.view.SplashScreenImpl;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.importer.BaseImporterModule;
 import ead.importer.ImporterModule;
@@ -93,6 +93,8 @@ public class EAdventureEditor implements Launcher {
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+            "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+            "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug
 //			Internacionalizacion (i18n)
 //            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
         });

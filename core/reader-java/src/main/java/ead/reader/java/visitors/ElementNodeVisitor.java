@@ -93,6 +93,10 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			try {
 				c = ClassLoader.getSystemClassLoader().loadClass(clazz);
 				element = (EAdElement) c.newInstance();
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Set value for id in {} to {}",
+                        new Object[]{element.getClass(), id});
+                }
 				element.setId(id);
 			} catch (Exception e1) {
 				logger.error(e1.getMessage(), e1);

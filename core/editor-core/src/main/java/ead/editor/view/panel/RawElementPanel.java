@@ -37,10 +37,10 @@
 
 package ead.editor.view.panel;
 
-import ead.editor.model.DependencyNode;
+import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.EditorWindow;
 import ead.editor.view.dock.ElementPanel;
-import ead.editor.view.impl.CheapVerticalLayout;
+import ead.editor.view.CheapVerticalLayout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,24 +58,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author mfreire
  */
-public class RawElementPanel extends JPanel implements ElementPanel<DependencyNode> {
+public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 
 	private static final Logger logger = LoggerFactory.getLogger("RawElementPanel");
 
-	private DependencyNode target;
-	private EditorWindow ew;
-	private JPanel inner = new JPanel();
-
-	@Override
-	public void setTarget(DependencyNode target) {
-		this.target = target;
-		rebuild();
-	}
-
-	@Override
-	public DependencyNode getTarget() {
-		return target;
-	}
+    private JPanel inner = new JPanel();
 
 	private JPanel startRow(JPanel container) {
 		logger.debug("   -- new row --");
@@ -115,7 +102,8 @@ public class RawElementPanel extends JPanel implements ElementPanel<DependencyNo
 		row.add(jb);
 	}
 
-	private void rebuild() {
+    @Override
+	protected void rebuild() {
 		removeAll();
 		setLayout(new BorderLayout());
 		inner = new JPanel();
@@ -123,7 +111,7 @@ public class RawElementPanel extends JPanel implements ElementPanel<DependencyNo
 		add(new JScrollPane(inner,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
-		String st = target.getTextualDescription(ew.getController().getModel());
+		String st = target.getTextualDescription(controller.getModel());
 		logger.debug("preparing to render\n" + st);
 
 		Pattern p = Pattern.compile("[(]([0-9]+)[)]|([\n]+)");
@@ -150,11 +138,6 @@ public class RawElementPanel extends JPanel implements ElementPanel<DependencyNo
 		return "<html>" + s + "</html>";
 	}
 
-	@Override
-	public void setEditor(EditorWindow ew) {
-		this.ew = ew;
-	}
-
 	class OpenLinkAction implements ActionListener {
 
 		String id;
@@ -165,7 +148,7 @@ public class RawElementPanel extends JPanel implements ElementPanel<DependencyNo
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			ew.addView("", id, true);
+			controller.getViewController().addView("", id, true);
 		}
 	}
 }

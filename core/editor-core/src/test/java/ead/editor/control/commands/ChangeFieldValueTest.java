@@ -40,8 +40,8 @@ package ead.editor.control.commands;
 import org.junit.Test;
 
 import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generics.FieldDescriptor;
-import ead.editor.view.generics.impl.FieldDescriptorImpl;
+import ead.editor.view.generic.FieldDescriptor;
+import ead.editor.view.generic.FieldDescriptorImpl;
 
 import junit.framework.TestCase;
 

@@ -37,6 +37,7 @@
 
 package ead.editor.model;
 
+import ead.editor.model.nodes.DependencyNode;
 import java.io.File;
 import java.io.IOException;
 
