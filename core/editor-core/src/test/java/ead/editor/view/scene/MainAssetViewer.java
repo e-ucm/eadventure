@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.utils.test;
+package ead.editor.view.scene;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

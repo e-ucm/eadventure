@@ -47,9 +47,8 @@ import com.google.inject.Injector;
 import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
-import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.importer.BaseImporterModule;
-import ead.importer.ImporterModule;
+import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaToolsModule;
 import ead.utils.Log4jConfig;
 
@@ -108,7 +107,7 @@ public class EAdventureEditor implements Launcher {
                 new BaseImporterModule(),
                 new EditorGuiceModule(),
                 new JavaToolsModule(),
-                new JavaBasicGameModule());
+                new ReaderModule());
         Launcher launcher = injector.getInstance(Launcher.class);
 
         launcher.configure();

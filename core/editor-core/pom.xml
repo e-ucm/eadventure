@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -16,8 +16,8 @@
 	<name>eAdventure Editor</name>
 	<description>
 		Java desktop application e-Adventure editor
-	</description>  
-	<dependencies>	
+	</description>
+	<dependencies>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>gui</artifactId>
@@ -28,7 +28,7 @@
 			<artifactId>utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>tools</artifactId>
 			<version>${project.version}</version>
@@ -96,7 +96,7 @@
 		</dependency>
 
 	</dependencies>
-  
+
 	<build>
 		<plugins>
 			<plugin>
@@ -111,7 +111,7 @@
 						</goals>
 						<configuration>
 							<minimizeJar>true</minimizeJar>
-							<!-- this may cause problems; it saves around 8MB -->							
+							<!-- this may cause problems; it saves around 8MB -->
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>unified</shadedClassifierName>
 							<filters>
@@ -122,18 +122,19 @@
 										<exclude>ead/primerosauxilios/**</exclude>
 										<exclude>**/*.webm</exclude>
 									</excludes>
-								</filter>																								
+								</filter>
 								<filter>
 									<artifact>javax.media:jmf</artifact>
 									<excludes>
 										<exclude>META-INF/*.SF</exclude>
 										<exclude>META-INF/*.RSA</exclude>
-										<exclude>META-INF/*.DSA</exclude>										
+										<exclude>META-INF/*.DSA</exclude>
 									</excludes>
 								</filter>
 							</filters>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
 										<Main-Class>ead.editor.EAdventureEditor</Main-Class>
 									</manifestEntries>
@@ -142,7 +143,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
 				<artifactId>launch4j-plugin</artifactId>
@@ -156,11 +157,11 @@
 						<configuration>
 							<classPath>
 								<mainClass>ead.editor.EAdventureEditor</mainClass>
-							</classPath>							
-						</configuration>						
+							</classPath>
+						</configuration>
 					</execution>
-				</executions>						
-			</plugin>	
-		</plugins>			
-	</build>  
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

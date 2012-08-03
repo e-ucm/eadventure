@@ -125,7 +125,7 @@
 				<module>core/importer</module>
 				<!-- Demos modules -->
 				<module>core/test-suite</module>
-				<module>demos/firstaidgame</module>
+				<!-- <module>demos/firstaidgame</module> -->
 			</modules>
 		</profile>
 		<profile>

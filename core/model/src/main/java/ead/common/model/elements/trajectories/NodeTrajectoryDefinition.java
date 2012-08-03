@@ -176,10 +176,6 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 		return barriers;
 	}
 	
-	public void addBarrier( EAdPosition p, BezierShape shape, EAdCondition conditionBarrierActive ){
-		SceneElement barrier = new SceneElement( shape );		
-	}
-	
 	
 
 }

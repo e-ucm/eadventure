@@ -37,7 +37,6 @@
 
 package ead.editor.model;
 
-import ead.editor.model.nodes.DependencyNode;
 import java.io.File;
 import java.io.IOException;
 
@@ -54,8 +53,9 @@ import com.google.inject.Injector;
 
 import ead.common.model.EAdElement;
 import ead.editor.EditorGuiceModule;
-import ead.engine.java.core.platform.modules.JavaBasicGameModule;
+import ead.editor.model.nodes.DependencyNode;
 import ead.importer.BaseImporterModule;
+import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaToolsModule;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
@@ -92,7 +92,7 @@ public class EditorModelTest {
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
 				new EditorGuiceModule(), new JavaToolsModule(),
-				new JavaBasicGameModule());
+				new ReaderModule());
 		model = injector.getInstance(EditorModel.class);
 	}
 

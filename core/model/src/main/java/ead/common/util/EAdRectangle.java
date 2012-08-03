@@ -39,7 +39,6 @@ package ead.common.util;
 
 import ead.common.params.AbstractParam;
 
-
 /**
  * Represents a 2D rectangle. It has an ( x, y ) coordinate, width and height
  * 
@@ -192,6 +191,13 @@ public class EAdRectangle extends AbstractParam {
 		}
 
 		return !error;
+	}
+
+	public void setBounds(int x, int y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
 }

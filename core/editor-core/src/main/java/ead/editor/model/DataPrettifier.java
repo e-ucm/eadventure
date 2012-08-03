@@ -41,15 +41,21 @@
  */
 package ead.editor.model;
 
-// FIXME: fully aware that this is ugly
-import ead.editor.model.*;
-import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
-import javax.xml.stream.*;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+
+import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 /**
  * Utility class that prettifies data.xml files so that they become easier to
