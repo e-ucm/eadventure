@@ -60,7 +60,7 @@ import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.desktop.core.platform.GdxModule;
+import ead.engine.desktop.core.platform.GdxDesktopModule;
 import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.tools.StringHandler;
 import ead.tools.java.JavaInjector;
@@ -78,7 +78,7 @@ public class GdxDesktopGame {
 	private boolean writeAndRead = false;
 
 	public GdxDesktopGame() {
-		injector = Guice.createInjector(new GdxModule(), new JavaToolsModule());
+		injector = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule());
 		game = injector.getInstance(Game.class);
 	}
 
