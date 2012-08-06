@@ -48,5 +48,8 @@ demos/firstaidgame/war/firstaid*
 **/bin/**
 demos/firstaidgame/.gwt/
 
-core/engine-gdx-android/*
+core/engine-gdx-android/assets*
+core/engine-gdx-android/gen/
+core/engine-gdx-android/bin/
 core/engine-gdx-html/*
+core/engine-gdx-android/proguard.cfg

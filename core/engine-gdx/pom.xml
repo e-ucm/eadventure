@@ -39,12 +39,6 @@
 			<groupId>com.badlogic.gdx</groupId>
 			<artifactId>gdx</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.badlogic.gdx</groupId>
-			<artifactId>gdx-sources</artifactId>			
-			<version>1.0</version>
-		</dependency>
-
 
 		<!-- external -->
 		<dependency>
