@@ -102,7 +102,7 @@ public class GameStateImpl implements GameState {
 	private EventGOFactory eventGOFactory;
 
 	private PluginHandler pluginHandler;
-	
+
 	private GameTracker tracker;
 
 	@Inject
@@ -127,7 +127,7 @@ public class GameStateImpl implements GameState {
 		installPlugins();
 	}
 
-    @Override
+	@Override
 	public SceneGO<?> getScene() {
 		if (scene == null) {
 			logger.debug("null scene, Loading screen: "
@@ -140,7 +140,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameState#setScene(es.eucm.eadventure.
 	 * engine.core.gameobjects.SceneGO)
@@ -150,7 +150,7 @@ public class GameStateImpl implements GameState {
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.FALSE);
-			if (scene.getElement().getReturnable()){
+			if (scene.getElement().getReturnable()) {
 				previousSceneStack.push(scene.getElement());
 			}
 		}
@@ -168,7 +168,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameState#getEffects()
 	 */
 	@Override
@@ -178,7 +178,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameState#getValueMap()
 	 */
 	@Override
@@ -188,7 +188,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameState#addEffect(es.eucm.eadventure
 	 * .common.model.effects.EAdEffect)
@@ -201,7 +201,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameState#addEffect(int,
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
@@ -211,17 +211,20 @@ public class GameStateImpl implements GameState {
 		if (e != null) {
 			if (evaluatorFactory.evaluate(e.getCondition())) {
 				EffectGO<?> effectGO = effectFactory.get(e);
+				if (effectGO == null) {
+					logger.warn("No game object for effect {}", e.getClass());
+					return null;
+				}
 				effectGO.setGUIAction(action);
 				effectGO.setParent(parent);
-				effectGO.initialize();				
-				if (e.isQueueable()){
+				effectGO.initialize();
+				if (e.isQueueable()) {
 					tracker.track(effectGO);
 					synchronized (effectsQueue) {
 						pos = pos == -1 ? effectsQueue.size() : pos;
 						effectsQueue.add(pos, effectGO);
 					}
-				}
-				else {
+				} else {
 					effectGO.update();
 					effectGO.finish();
 					tracker.track(effectGO);
@@ -295,9 +298,9 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public void setInitialScene(EAdScene initialScene) {
-		ChangeSceneEf ef = new ChangeSceneEf( initialScene );
+		ChangeSceneEf ef = new ChangeSceneEf(initialScene);
 		this.addEffect(ef);
-//		((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
+		// ((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
 	}
 
 	private void installPlugins() {

@@ -40,6 +40,7 @@ package ead.engine.desktop.core.platform;
 import java.util.Map.Entry;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
@@ -61,7 +62,7 @@ public class GdxDesktopModule extends AbstractModule {
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();
-			bind(c1).to(c2);
+			bind(c1).to(c2).in(Singleton.class);
 		}
 
 		bind(GUI.class).to(GdxDesktopGUI.class);

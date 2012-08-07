@@ -52,17 +52,15 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
-	private GdxAssetHandler assetHandler;
 
 	@Inject
 	public GdxImage(AssetHandler assetHandler) {
-		super(null);
-		this.assetHandler = (GdxAssetHandler) assetHandler;
+		super(assetHandler);
 	}
 	
 	@Override
 	public boolean loadAsset() {
-		pixmap = new Pixmap(assetHandler.getFileHandle(descriptor.getUri().getPath()));
+		pixmap = new Pixmap(((GdxAssetHandler) assetHandler).getFileHandle(descriptor.getUri().getPath()));
 		Texture texture = new Texture(pixmap);
 		textureRegion = new TextureRegion(texture);
 		textureRegion.flip(false, true);
