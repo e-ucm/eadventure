@@ -51,10 +51,10 @@ import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
-import ead.engine.java.core.platform.JavaInjector;
 import ead.tools.GenericInjector;
 import ead.tools.StringHandler;
 import ead.tools.StringHandlerImpl;
+import ead.tools.java.JavaInjector;
 
 public class AssetViewerModule extends AbstractModule {
 

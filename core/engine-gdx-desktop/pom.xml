@@ -20,11 +20,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
 			<artifactId>utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>

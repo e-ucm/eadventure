@@ -107,7 +107,7 @@
 				<module>core/gui</module>
 				<!-- Engine -->
 				<module>core/engine-core</module>
-				<module>core/engine-java</module>
+				<!--  <module>core/engine-java</module> -->
 				<module>core/engine-playn</module>
 				<!-- <module>core/engine-desktop</module> -->
 				<!-- Gdx -->

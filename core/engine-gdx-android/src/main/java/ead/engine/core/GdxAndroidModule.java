@@ -43,6 +43,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
 import ead.common.model.elements.scene.EAdScene;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.GdxModuleMap;
 import ead.engine.core.platform.LoadingScreen;
 import ead.tools.GenericInjector;
@@ -62,10 +63,8 @@ public class GdxAndroidModule extends AbstractModule {
 			Class c2 = entry.getValue();
 			bind(c1).to(c2);
 		}
-
-		bind(GenericInjector.class).to(JavaInjector.class);
-		// Reflection
-		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
+		
+		bind(GUI.class).to(AndroidGdxGUI.class);
 
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
 				.to(LoadingScreen.class).asEagerSingleton();

@@ -43,6 +43,12 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
+import ead.elementfactories.EAdElementsFactory;
+import ead.elementfactories.demos.scenes.InitScene;
+import ead.engine.core.game.Game;
+import ead.tools.StringHandler;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 
@@ -58,7 +64,21 @@ public class MainActivity extends AndroidApplication {
 				new GdxAndroidModule(), new JavaToolsModule()));
 
 		EAdEngine engine = injector.getInstance(EAdEngine.class);
+		Game g = injector.getInstance(Game.class);
 
+		InitScene scene = new InitScene();
+		BasicChapter chapter = new BasicChapter();
+		chapter.setInitialScene(scene);
+
+		BasicAdventureModel adventure = new BasicAdventureModel();
+		adventure.getChapters().add(chapter);
+
+		g.setGame(adventure, chapter);
+		
+		StringHandler stringHandler = injector.getInstance(StringHandler.class);
+		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
+		
+		engine.setGame(g);
 		initialize(engine, cfg);
 	}
 }
