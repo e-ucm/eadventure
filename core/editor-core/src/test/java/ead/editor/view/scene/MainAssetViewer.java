@@ -52,7 +52,7 @@ import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.engine.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 
 public class MainAssetViewer {
 

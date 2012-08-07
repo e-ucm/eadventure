@@ -50,7 +50,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.GdxCanvas;
+import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.engine.core.platform.assets.RuntimeDrawable;

@@ -59,9 +59,9 @@ import ead.common.util.EAdRectangle;
 import ead.editor.view.scene.go.EditableGameObject;
 import ead.editor.view.scene.listener.LoggerSceneListener;
 import ead.editor.view.scene.listener.SceneViewerInputProcessor;
-import ead.engine.core.gdx.InvOrtographicCamera;
-import ead.engine.core.platform.GdxCanvas;
-import ead.engine.desktop.utils.assetviewer.AssetViewerModule;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
+import ead.engine.core.gdx.platform.GdxCanvas;
+import ead.engine.core.gdx.utils.InvOrtographicCamera;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {

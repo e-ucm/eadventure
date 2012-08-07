@@ -10,7 +10,6 @@ syntax: glob
 # ignore all compilation output
 **.class
 **/target/
-**/war/WEB-INF/
 
 # test output
 **/test/resources/result*
@@ -28,6 +27,14 @@ syntax: glob
 core/engine-playn/.gwt/
 core/engine-playn/gwt-unitCache*
 core/engine-playn/war/eadengine*
+
+core/engine-gdx-html/.gwt/
+core/engine-gdx-html/gwt-unitCache*
+core/engine-gdx-html/war/ead*
+core/engine-gdx-html/war/assets*
+core/engine-gdx-html/war/WEB-INF/deploy*
+core/engine-gdx-html/war/WEB-INF/lib*
+core/engine-gdx-html/war/WEB-INF/classes*
 
 # jvm error files
 **/hs_err*.log
@@ -51,5 +58,4 @@ demos/firstaidgame/.gwt/
 core/engine-gdx-android/assets*
 core/engine-gdx-android/gen/
 core/engine-gdx-android/bin/
-core/engine-gdx-html/*
 core/engine-gdx-android/proguard.cfg
