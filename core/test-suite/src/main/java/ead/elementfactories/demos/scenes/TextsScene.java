@@ -50,6 +50,7 @@ import ead.elementfactories.StringFactory.StringType;
 public class TextsScene extends EmptyScene {
 	
 	public TextsScene( ){
+		setId("TextsScene");
 		this.setBackgroundFill(ColorFill.DARK_GRAY);
 		
 		// Show text caption

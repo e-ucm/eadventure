@@ -81,6 +81,7 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
+import ead.tools.SceneGraph;
 
 public class GdxInjector implements GenericInjector {
 
@@ -100,87 +101,89 @@ public class GdxInjector implements GenericInjector {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
-		Object go = null;
+		Object o = null;
 		if (clazz == EngineConfiguration.class)
-			go = ginjector.getEngineConfiguration();
+			o = ginjector.getEngineConfiguration();
 		else if (clazz == GdxCanvas.class)
-			go = ginjector.getCanvas();
+			o = ginjector.getCanvas();
 		else if (clazz == Game.class)
-			go = ginjector.getGame();
+			o = ginjector.getGame();
 		else if (clazz == InputHandler.class)
-			go = ginjector.getInputHandler();
+			o = ginjector.getInputHandler();
 		// Not game objects
 		else if (clazz == BasicTransitionGO.class)
-			go = ginjector.getSimpleTransitionGO();
+			o = ginjector.getSimpleTransitionGO();
 		else if (clazz == DisplaceTransitionGO.class)
-			go = ginjector.getDisplaceTransitionGO();
+			o = ginjector.getDisplaceTransitionGO();
 		else if (clazz == FadeInTransitionGO.class)
-			go = ginjector.getFadeInTransitionGO();
+			o = ginjector.getFadeInTransitionGO();
 		else if (clazz == ActorActionsGO.class)
-			go = ginjector.getActorActionEffectGO();
+			o = ginjector.getActorActionEffectGO();
 		else if (clazz == CancelEffectGO.class)
-			go = ginjector.getCancelEffectGO();
+			o = ginjector.getCancelEffectGO();
 		else if (clazz == ChangeSceneGO.class)
-			go = ginjector.getChangeSceneGO();
+			o = ginjector.getChangeSceneGO();
 		else if (clazz == ChangeFieldGO.class)
-			go = ginjector.getChangeFieldGO();
+			o = ginjector.getChangeFieldGO();
 		else if (clazz == ComplexBlockingEffectGO.class)
-			go = ginjector.getComplexBlockingEffectGO();
+			o = ginjector.getComplexBlockingEffectGO();
 		else if (clazz == HighlightSceneElementGO.class)
-			go = ginjector.getHighlightEffectGO();
+			o = ginjector.getHighlightEffectGO();
 		else if (clazz == ModifyInventoryGO.class)
-			go = ginjector.getModifyActorStateGO();
+			o = ginjector.getModifyActorStateGO();
 		else if (clazz == MoveSceneElementGO.class)
-			go = ginjector.getMoveSceneElementGO();
+			o = ginjector.getMoveSceneElementGO();
 		else if (clazz == PlaySoundGO.class)
-			go = ginjector.getPlaySoundEffectGO();
+			o = ginjector.getPlaySoundEffectGO();
 		else if (clazz == QuitGameGO.class)
-			go = ginjector.getQuitGameEffectGO();
+			o = ginjector.getQuitGameEffectGO();
 		else if (clazz == RandomGO.class)
-			go = ginjector.getRandomEffectGO();
+			o = ginjector.getRandomEffectGO();
 		else if (clazz == ShowSceneElementGO.class)
-			go = ginjector.getShowSceneElementGO();
+			o = ginjector.getShowSceneElementGO();
 		else if (clazz == SpeakGO.class)
-			go = ginjector.getSpeakEffectGO();
+			o = ginjector.getSpeakEffectGO();
 		else if (clazz == ModifyHudGO.class)
-			go = ginjector.getModifyHUGGO();
+			o = ginjector.getModifyHUGGO();
 		else if (clazz == TriggerMacroGO.class)
-			go = ginjector.getTriggerMacroEffectGO();
+			o = ginjector.getTriggerMacroEffectGO();
 		else if (clazz == InterpolationGO.class)
-			go = ginjector.getVarInterpolationGO();
+			o = ginjector.getVarInterpolationGO();
 		else if (clazz == WaitGO.class)
-			go = ginjector.getWaitEffectGO();
+			o = ginjector.getWaitEffectGO();
 		else if (clazz == GdxPhysicsEffectGO.class )
-			go = ginjector.getPhysicsEffectGO();
+			o = ginjector.getPhysicsEffectGO();
 		else if (clazz == GdxApplyForceGO.class)
-			go = ginjector.getPhApplyForceGO();
+			o = ginjector.getPhApplyForceGO();
 		else if ( clazz == AddActorReferenceGO.class )
-			go = ginjector.getAddActorReferenceGO();
+			o = ginjector.getAddActorReferenceGO();
 		else if (clazz == ConditionEvGO.class)
-			go = ginjector.getConditionEventGO();
+			o = ginjector.getConditionEventGO();
 		else if (clazz == SceneElementEvGO.class)
-			go = ginjector.getSceneElementEventGO();
+			o = ginjector.getSceneElementEventGO();
 		else if (clazz == TimedEvGO.class)
-			go = ginjector.getSceneElementTimedEventGO();
+			o = ginjector.getSceneElementTimedEventGO();
 		else if (clazz == SystemEvGO.class)
-			go = ginjector.getSystemEventGO();
+			o = ginjector.getSystemEventGO();
 		else if (clazz == BasicSceneElementGO.class)
-			go = ginjector.getBasicSceneElementGO();
+			o = ginjector.getBasicSceneElementGO();
 		else if (clazz == ComplexSceneElementGO.class)
-			go = ginjector.getComplexSceneElementGO();
+			o = ginjector.getComplexSceneElementGO();
 		else if (clazz == ComposedSceneGOImpl.class)
-			go = ginjector.getComposedSceneGO();
+			o = ginjector.getComposedSceneGO();
 		else if (clazz == SceneGO.class || clazz == SceneGOImpl.class)
-			go = ginjector.getSceneGO();
+			o = ginjector.getSceneGO();
 		else if (clazz == VideoSceneGO.class)
-			go = ginjector.getVideoSceneGO();
+			o = ginjector.getVideoSceneGO();
 		else if ( clazz == FontHandler.class )
-			go = ginjector.getFontHandler();
-		if (go == null) {
+			o = ginjector.getFontHandler();
+		else if ( clazz == SceneGraph.class )
+			o = ginjector.getSceneGraph();
+		if (o == null) {
 			logger.warn("Instance for class {} not defined in ginjector", clazz);
 		}
 
-		return (T) go;
+		return (T) o;
 	}
 
 }

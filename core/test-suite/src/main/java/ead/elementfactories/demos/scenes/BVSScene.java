@@ -80,6 +80,7 @@ public class BVSScene extends EmptyScene {
 	};
 	
 	public BVSScene() {
+		setId("BVscene");
 		//NgCommon.init();
 		EAdSceneElementDef background = getBackground().getDefinition();
 		

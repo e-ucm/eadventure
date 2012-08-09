@@ -40,7 +40,6 @@ package ead.common.model.elements.effects;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.ConditionedElement;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 
@@ -73,9 +72,6 @@ public abstract class AbstractEffect extends ConditionedElement
 	@Param(value="queueable", defaultValue="false")
 	private boolean queueable;
 
-	@Param("events")
-	private EAdList<EAdEvent> events;
-
 	@Param("nextEffects")
 	private EAdList<EAdEffect> nextEffects;
 	
@@ -98,7 +94,6 @@ public abstract class AbstractEffect extends ConditionedElement
 		opaque = false;
 		queueable = false;
 		nextEffectsAlways = false;
-		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
@@ -151,10 +146,6 @@ public abstract class AbstractEffect extends ConditionedElement
 	@Override
 	public boolean isQueueable() {
 		return queueable;
-	}
-
-	public EAdList<EAdEvent> getEvents() {
-		return events;
 	}
 
 	public EAdList<EAdEffect> getNextEffects() {

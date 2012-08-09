@@ -37,11 +37,13 @@
 
 package ead.common.model.elements.behaviors;
 
+import java.util.List;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
@@ -69,6 +71,12 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	protected EAdMap<EAdGUIEvent, EAdList<EAdEffect>> behavior;
 
 	/**
+	 * Calculated attribute with all effects contained by the behavior. It must
+	 * not be saved in the XML
+	 */
+	private EAdList<EAdEffect> allEffects;
+
+	/**
 	 * Constructs an empty behavior
 	 * 
 	 * @param parent
@@ -78,7 +86,8 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	 */
 	public Behavior() {
 		super();
-		behavior = new EAdMapImpl<EAdGUIEvent, EAdList<EAdEffect>>(String.class, EAdList.class);
+		behavior = new EAdMapImpl<EAdGUIEvent, EAdList<EAdEffect>>(
+				String.class, EAdList.class);
 	}
 
 	/*
@@ -95,7 +104,7 @@ public class Behavior extends BasicElement implements EAdBehavior {
 		if (list == null) {
 			list = new EAdListImpl<EAdEffect>(EAdEffect.class);
 			behavior.put(event, list);
-		} 
+		}
 		list.add(effect);
 	}
 
@@ -116,9 +125,22 @@ public class Behavior extends BasicElement implements EAdBehavior {
 		for (int i = effects.size() - 1; i >= 0; i--)
 			addBehavior(event, effects.get(i));
 	}
-	
+
 	public EAdMap<EAdGUIEvent, EAdList<EAdEffect>> getBehavior() {
 		return behavior;
+	}
+
+	@Override
+	public EAdList<EAdEffect> getAllEffects() {
+		if (allEffects == null) {
+			allEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+		}
+		allEffects.clear();
+		for (EAdList<EAdEffect> l : behavior.values()) {
+			allEffects.addAll(l);
+		}
+
+		return allEffects;
 	}
 
 }

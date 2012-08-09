@@ -59,6 +59,7 @@ import ead.elementfactories.EAdElementsFactory;
 public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
+		setId("ComplexElementScene");
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaintAsVector(true);
 		rectangle.setPaint(Paint.BLACK_ON_WHITE);

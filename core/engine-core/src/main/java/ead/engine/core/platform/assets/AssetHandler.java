@@ -40,6 +40,7 @@ package ead.engine.core.platform.assets;
 import java.util.List;
 
 import ead.common.interfaces.features.Resourced;
+import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
@@ -177,5 +178,26 @@ public interface AssetHandler {
 	 * @param enable
 	 */
 	void setCacheEnabled(boolean enable);
+
+	/**
+	 * Queues the scene to load all its assets. This method DOES NOT load the
+	 * assets. {@link AssetHandler#loadStep()} must be used in order to do that.
+	 * 
+	 * @param scene
+	 *            the scene whose assets must be loaded
+	 */
+	void queueSceneToLoad(EAdScene scene);
+
+	/**
+	 * Loads one asset of the queue.
+	 * 
+	 * @return if there are assets left to be loaded
+	 */
+	boolean loadStep();
+
+	/**
+	 * Clears the assets queue
+	 */
+	void clearAssetQueue();
 
 }

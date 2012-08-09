@@ -61,6 +61,7 @@ import ead.elementfactories.demos.normalguy.NgCommon;
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
+		setId("TrajectoriesScene");
 		NgCommon.init();
 		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
 				ColorFill.LIGHT_GRAY, 800, 600, true));

@@ -86,5 +86,9 @@ public class EmptyScene extends BasicScene implements SceneDemo {
 	public String toString(){
 		return getDemoName() + " - " + getSceneDescription();
 	}
+	
+	public String getId(){
+		return getDemoName();
+	}
 
 }

@@ -48,6 +48,7 @@ import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.tools.GenericInjector;
+import ead.tools.SceneGraph;
 
 @Singleton
 public class GdxAssetHandler extends AbstractAssetHandler {
@@ -56,7 +57,7 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 
 	@Inject
 	public GdxAssetHandler(GenericInjector injector) {
-		super(new GdxAssetHandlerMap(), injector.getInstance(FontHandler.class));
+		super(new GdxAssetHandlerMap(), injector.getInstance(FontHandler.class), injector.getInstance(SceneGraph.class));
 		this.injector = injector;
 	}
 

@@ -59,7 +59,7 @@ import ead.common.util.EAdPosition.Corner;
 public class DepthZScene extends EmptyScene {
 	
 	public DepthZScene(){
-		
+		setId("DepthzScene");
 		int totalTime = 2000;
 		
 		SceneElement e1 = new SceneElement(new RectangleShape( 50, 500, new Paint( ColorFill.RED, ColorFill.BLACK ) ));

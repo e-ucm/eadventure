@@ -61,10 +61,11 @@ public class PhysicsScene2 extends PhysicsScene {
 
 	public PhysicsScene2() {
 		setBackgroundFill(new LinearGradientFill(ColorFill.YELLOW, ColorFill.ORANGE, 800, 600));
+		setId("PhysicsCene2");
 	}
 
 	protected void init() {
-
+		
 		RectangleShape rShape = new RectangleShape(10, 100, ColorFill.BROWN);
 
 		SceneElement e2 = new SceneElement(rShape);

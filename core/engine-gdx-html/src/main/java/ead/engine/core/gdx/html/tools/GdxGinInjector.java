@@ -78,6 +78,7 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
+import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
 
 @GinModules({ GdxModule.class })
@@ -160,6 +161,8 @@ public interface GdxGinInjector extends Ginjector {
 	public InputHandler getInputHandler();
 
 	public FontHandler getFontHandler();
+	
+	public SceneGraph getSceneGraph();
 
 	public AddActorReferenceGO getAddActorReferenceGO();
 

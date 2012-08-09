@@ -87,6 +87,7 @@ public class CharacterScene extends EmptyScene {
 			"@drawable/walking_left_1.png", "@drawable/walking_left_2.png" };
 
 	public CharacterScene() {
+		setId("CharacterScene");
 
 //		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
 //				.getSceneElementFactory()

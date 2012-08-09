@@ -52,15 +52,16 @@ public class EAdListImpl<P> implements EAdList<P> {
 	 * Lists elements.
 	 */
 	private List<P> elements;
-	
+
 	private Class<?> clazz;
-	
+
 	/**
 	 * Constructs a {@link EAdListImpl} with the specified parent element.
 	 * 
-	 * @param parent parent element.
+	 * @param parent
+	 *            parent element.
 	 */
-	public EAdListImpl(Class<?> clazz){
+	public EAdListImpl(Class<?> clazz) {
 		this.clazz = clazz;
 		elements = new ArrayList<P>();
 	}
@@ -114,19 +115,27 @@ public class EAdListImpl<P> implements EAdList<P> {
 	public void clear() {
 		elements.clear();
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String s = "[";
 		boolean empty = true;
-		for ( P e: this ){
+		for (P e : this) {
 			s += e + ", ";
 			empty = false;
 		}
 		if (!empty)
-			s = s.substring(0, s.length() - 2 );
-		
+			s = s.substring(0, s.length() - 2);
+
 		s += "]";
 		return s;
+	}
+
+	@Override
+	public void addAll(EAdList<P> list) {
+		for (P e : list) {
+			this.add(e);
+		}
+
 	}
 
 }

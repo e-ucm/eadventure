@@ -82,6 +82,7 @@ public class MoleGame extends EmptyScene {
 	private EAdField<EAdSceneElement> moleField;
 
 	public MoleGame() {
+		setId("MoleGame");
 		setBackgroundFill(ColorFill.DARK_BROWN);
 		moleField = new BasicField<EAdSceneElement>(this, moleVar);
 

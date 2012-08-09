@@ -42,8 +42,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.guievents.EAdGUIEvent;
 
 /**
- * In eAdventure, we call behavior to effects lists associated with GUI
- * events
+ * In eAdventure, we call behavior to effects lists associated with GUI events
  * 
  * 
  */
@@ -79,5 +78,13 @@ public interface EAdBehavior extends EAdElement {
 	 *            a list of effects
 	 */
 	void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects);
+
+	/**
+	 * Returns all the effects contained for this behavior. This list must NOT
+	 * be modified
+	 * 
+	 * @return
+	 */
+	EAdList<EAdEffect> getAllEffects();
 
 }

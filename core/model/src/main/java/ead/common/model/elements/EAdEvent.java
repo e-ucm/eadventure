@@ -41,8 +41,10 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 
 /**
- * <p>Event element in the eAdventure model, common interface for timers, GPS
- * events and QR-code events</p>
+ * <p>
+ * Event element in the eAdventure model, common interface for timers, GPS
+ * events and QR-code events
+ * </p>
  */
 public interface EAdEvent extends EAdElement {
 
@@ -52,7 +54,15 @@ public interface EAdEvent extends EAdElement {
 	 * @return The list of effects
 	 */
 	EAdList<EAdEffect> getEffectsForEvent(Enum<?> event);
-	
+
 	void addEffect(Enum<?> event, EAdEffect effect);
+
+	/**
+	 * Returns all the effects that can be produced by this element. This list
+	 * must NOT be modified
+	 * 
+	 * @return
+	 */
+	EAdList<EAdEffect> getAllEffects();
 
 }

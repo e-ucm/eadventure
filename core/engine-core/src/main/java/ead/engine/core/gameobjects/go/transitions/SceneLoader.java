@@ -63,5 +63,10 @@ public interface SceneLoader {
 	 *            the current scene
 	 */
 	void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene);
+	
+	/**
+	 * The scene loader gets permission to one more step in its loading process
+	 */
+	void step();
 
 }

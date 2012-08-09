@@ -59,6 +59,7 @@ import ead.common.util.EAdPosition.Corner;
 public class DragDropScene extends EmptyScene {
 
 	public DragDropScene() {
+		setId("DragDropScene");
 		setBackgroundFill(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				new ColorFill(245, 255, 245), 800, 600));
 		BezierShape shape = new BalloonShape(0, 0, 100, 100,

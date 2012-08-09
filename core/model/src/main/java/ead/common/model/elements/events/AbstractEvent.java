@@ -47,7 +47,9 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
 
 /**
- * <p>Abstract implementation of an eAdventure event.</p>
+ * <p>
+ * Abstract implementation of an eAdventure event.
+ * </p>
  * 
  */
 public abstract class AbstractEvent extends BasicElement implements EAdEvent {
@@ -57,22 +59,35 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 	 */
 	@Param("effects")
 	private EAdMap<Enum<?>, EAdList<EAdEffect>> effects;
-	
+
+	/**
+	 * Calculated attribute with all effects contained by the behavior. It must
+	 * not be saved in the XML
+	 */
+	private EAdList<EAdEffect> allEffects;
+
 	public AbstractEvent() {
 		super();
-		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>( Enum.class, EAdList.class);
+		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>(Enum.class,
+				EAdList.class);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.common.model.elements.EAdEvent#getEffects()
 	 */
 	@Override
 	public EAdList<EAdEffect> getEffectsForEvent(Enum<?> event) {
 		return effects.get(event);
 	}
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.model.events.EAdEvent#addEffect(java.lang.Enum, es.eucm.eadventure.common.model.effects.EAdEffect)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.common.model.events.EAdEvent#addEffect(java.lang.Enum,
+	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
 	@Override
 	public void addEffect(Enum<?> event, EAdEffect effect) {
@@ -83,8 +98,18 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 		}
 		effects.add(effect);
 	}
-	
+
 	public EAdMap<Enum<?>, EAdList<EAdEffect>> getEffects() {
 		return effects;
+	}
+
+	public EAdList<EAdEffect> getAllEffects() {
+		if (allEffects == null) {
+			allEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			for (EAdList<EAdEffect> l : effects.values()) {
+				allEffects.addAll(l);
+			}
+		}
+		return allEffects;
 	}
 }

@@ -51,6 +51,7 @@ import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
@@ -59,6 +60,7 @@ import ead.elementfactories.demos.normalguy.NgCommon;
 public class SpeakAndMoveScene extends EmptyScene {
 
 	public SpeakAndMoveScene() {
+		setId("SpeakAndMoveScene");
 		// EAdBasicSceneElement character = EAdElementsFactory
 		// .getInstance()
 		// .getSceneElementFactory()
@@ -72,6 +74,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 				400));
 
 		SpeakEf effect = new SpeakSceneElementEf(character);
+		effect.setFont(new BasicFont( 20.0f ));
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()

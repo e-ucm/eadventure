@@ -37,6 +37,8 @@
 
 package ead.common.resources;
 
+import java.util.Collection;
+
 import ead.common.resources.assets.AssetDescriptor;
 
 /**
@@ -85,5 +87,7 @@ public interface EAdAssetBundle {
 	EAdAssetBundle duplicate();
 	
 	boolean isEmpty();
+	
+	Collection<AssetDescriptor> getAllAssets( );
 	
 }

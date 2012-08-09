@@ -37,23 +37,28 @@
 
 package ead.engine.core.platform;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+
 import ead.common.interfaces.features.Resourced;
+import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdURI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.assets.RuntimeAsset;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.tools.SceneGraph;
 
 /**
  * <p>
@@ -94,6 +99,10 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	private boolean cacheEnabled;
 
+	private ArrayList<AssetDescriptor> assetsQueue;
+
+	private SceneGraph sceneGraph;
+
 	/**
 	 * Default constructor, values are supplied by injection
 	 * 
@@ -108,7 +117,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	@Inject
 	public AbstractAssetHandler(
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap,
-			FontHandler fontHandler) {
+			FontHandler fontHandler, SceneGraph sceneGraph) {
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 		cacheEnabled = true;
@@ -116,6 +125,42 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if (fontHandler != null) {
 			fontHandler.setAssetHandler(this);
 		}
+
+		assetsQueue = new ArrayList<AssetDescriptor>();
+		this.sceneGraph = sceneGraph;
+	}
+
+	public void queueSceneToLoad(EAdScene scene) {
+		List<AssetDescriptor> list = sceneGraph.getSceneAssets().get(scene);
+		if (list == null) {
+			logger.warn("Assets for scene {} were empty in the scene graph",
+					scene.getId());
+
+		}
+		int i = 0;
+		for (AssetDescriptor a : list) {
+			if (!cache.containsKey(a)) {
+				assetsQueue.add(a);
+				i++;
+			}
+		}
+		
+		if (i > 0) {
+			logger.info("{} assets will be loaded", i);
+		}
+
+	}
+
+	public void clearAssetQueue() {
+		assetsQueue.clear();
+	}
+
+	public boolean loadStep() {
+		if (assetsQueue.size() > 0) {
+			AssetDescriptor asset = assetsQueue.remove(0);
+			getRuntimeAsset(asset, true);
+		}
+		return assetsQueue.size() > 0;
 	}
 
 	/*

@@ -46,6 +46,7 @@ import ead.elementfactories.StringFactory;
 public class ShowQuestionScene extends EmptyScene {
 
 	public ShowQuestionScene() {
+		setId("ShowQuestion");
 		SceneElement element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("Launch show question", 10, 10);

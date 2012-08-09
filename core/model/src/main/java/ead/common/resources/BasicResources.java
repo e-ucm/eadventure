@@ -37,6 +37,7 @@
 
 package ead.common.resources;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +46,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ead.common.model.EAdElement;
-import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
 
 public class BasicResources extends BasicAssetBundle implements EAdResources {
@@ -173,6 +171,15 @@ public class BasicResources extends BasicAssetBundle implements EAdResources {
 			assetBundles.remove(bundleId);
 		if (bundleId == initialBundle)
 			setInitialBundle(assetBundles.keySet().toArray(new EAdBundleId[] {})[0]);
+	}
+	
+	public Collection<AssetDescriptor> getAllAssets( ){
+		ArrayList<AssetDescriptor> allAssets = new ArrayList<AssetDescriptor>();
+		for ( EAdAssetBundle bundle: assetBundles.values() ){
+			allAssets.addAll(bundle.getAllAssets());
+		}
+		allAssets.addAll(assets.values());
+		return allAssets;
 	}
 
 }

@@ -70,6 +70,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
+import ead.tools.SceneGraph;
 
 @Singleton
 public class GameImpl implements Game {
@@ -115,13 +116,15 @@ public class GameImpl implements Game {
 	
 	private GameTracker tracker;
 
+	private SceneGraph sceneGraph;
+
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
 			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker) {
+			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker, SceneGraph sceneGraph) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -136,6 +139,7 @@ public class GameImpl implements Game {
 		this.configuration = configuration;
 		this.tracker = tracker;
 		this.adventure = new BasicAdventureModel( );
+		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.setGame(this);
@@ -143,6 +147,10 @@ public class GameImpl implements Game {
 
 	@Override
 	public void update() {
+		
+		// We load one possible asset in the background
+		assetHandler.loadStep();
+		
 		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
@@ -283,6 +291,7 @@ public class GameImpl implements Game {
 		// Set the debuggers
 		setDebuggers(model);
 
+		sceneGraph.generateGraph(eAdChapter.getInitialScene());
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
 		

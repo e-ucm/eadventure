@@ -83,6 +83,13 @@ public interface EAdList<P> extends Iterable<P> {
 	void add(P e, int index);
 
 	/**
+	 * Adds all the elements of the given list in the current list
+	 * 
+	 * @param list
+	 */
+	void addAll(EAdList<P> list);
+
+	/**
 	 * Removes the specified element (if exists) from this list.
 	 * 
 	 * @param e

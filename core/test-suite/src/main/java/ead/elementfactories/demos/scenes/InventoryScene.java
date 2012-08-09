@@ -57,6 +57,7 @@ public class InventoryScene extends EmptyScene {
 	
 	public InventoryScene( ){
 		super();
+		setId("InventoryScene");
 		SceneElementDef item = new SceneElementDef( new Image("@drawable/ng_key.png"));
 		
 		item.getActions().add(EAdElementsFactory.getInstance().getActionsFactory().getBasicAction());

@@ -55,6 +55,7 @@ import ead.elementfactories.demos.normalguy.NgCommon;
 public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
+		setId("ScrollScene");
 		setBounds(1000, 1213);
 		setBackground(new SceneElement(new Image(
 				"@drawable/scrollbg.png")));

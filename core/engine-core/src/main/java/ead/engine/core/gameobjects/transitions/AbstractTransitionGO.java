@@ -180,6 +180,10 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	public void update() {
 		super.update();
+		if (!loaded && loading){
+			sceneLoader.step();
+		}
+		
 		if (!loaded && !loading) {
 			timeLoading = 0;
 			loading = true;

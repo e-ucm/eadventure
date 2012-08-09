@@ -145,4 +145,9 @@ public class DefaultSceneLoader implements SceneLoader {
 		logger.info("{} unused game objects removed", i);
 	}
 
+	@Override
+	public void step() {
+		
+	}
+
 }

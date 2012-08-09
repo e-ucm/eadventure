@@ -81,6 +81,7 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	protected void init() {
+		setId("PhysicsScene");
 		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE,
 				800, 600));
 

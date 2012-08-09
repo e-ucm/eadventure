@@ -43,8 +43,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdAssetDescriptor;
 import ead.common.resources.assets.AssetDescriptor;
 
 public class BasicAssetBundle implements EAdAssetBundle {
@@ -132,5 +130,10 @@ public class BasicAssetBundle implements EAdAssetBundle {
 	@Override
 	public boolean isEmpty() {
 		return assets.isEmpty();
+	}
+
+	@Override
+	public Collection<AssetDescriptor> getAllAssets() {
+		return assets.values();
 	}
 }
