@@ -37,6 +37,7 @@
 
 package ead.engine.core.game;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import ead.common.model.EAdElement;
@@ -179,10 +180,22 @@ public interface ValueMap {
 	 * 
 	 */
 	void setUpdateListEnable(boolean enable);
-	
+
 	/**
 	 * Clears the update list
 	 */
-	void clearUpdateList( );
+	void clearUpdateList();
+
+	Map<EAdVarDef<?>, Object> getSystemVars();
+
+	void setSystemVars(Map<EAdVarDef<?>, Object> systemVars);
+
+	Map<EAdElement, Map<EAdVarDef<?>, Object>> getElementVars();
+
+	void setElementVars(Map<EAdElement, Map<EAdVarDef<?>, Object>> map);
+
+	ArrayList<EAdElement> getUpdateList();
+
+	void setUpdateList(ArrayList<EAdElement> updateList);
 
 }

@@ -48,6 +48,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
@@ -143,6 +144,15 @@ public class InputHandlerImpl implements InputHandler {
 						.size() > MAX_EVENTS_IN_QUEUE)) {
 
 			KeyInputAction action = keyboardHandler.getKeyActions().poll();
+			
+			if ( action.getKeyCode().equals(KeyGEvCode.F5) ){
+				gameState.saveState();
+				continue;
+			}
+			else if ( action.getKeyCode().equals(KeyGEvCode.F6) ){
+				gameState.loadState();
+				continue;
+			}
 
 			DrawableGO<?> go = gameState.getActiveElement();
 

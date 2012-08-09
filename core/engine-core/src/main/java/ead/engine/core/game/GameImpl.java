@@ -277,7 +277,6 @@ public class GameImpl implements Game {
 				inventoryHandler.add(def);
 			gameObjectManager.addHUD(inventoryHUD);
 		}
-		gameState.setCurrentChapter(eAdChapter);
 
 		logger.info("Init game events...");
 		events.clear();

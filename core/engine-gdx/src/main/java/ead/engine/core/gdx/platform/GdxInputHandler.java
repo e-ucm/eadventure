@@ -59,7 +59,7 @@ public class GdxInputHandler implements InputProcessor {
 
 	public GdxInputHandler(InputHandler inputHandler, Camera c) {
 		this.inputHandler = inputHandler;
-		this.c = c;		
+		this.c = c;
 	}
 
 	@Override
@@ -76,20 +76,20 @@ public class GdxInputHandler implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		KeyGEvCode code = getKeyCode(keycode);
 		if (code != null) {
-			inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_RELEASED,
-					code));
+			inputHandler.addAction(new KeyInputAction(
+					KeyEventType.KEY_RELEASED, code));
 		}
 		return true;
 	}
 
 	@Override
-	public boolean keyTyped(char character) {		
-			inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_PRESSED,
-					character));
-			inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_RELEASED,
-					character));
-			inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_TYPED,
-					character));		
+	public boolean keyTyped(char character) {
+		inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_PRESSED,
+				character));
+		inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_RELEASED,
+				character));
+		inputHandler.addAction(new KeyInputAction(KeyEventType.KEY_TYPED,
+				character));
 		return true;
 	}
 
@@ -167,10 +167,13 @@ public class GdxInputHandler implements InputProcessor {
 			return KeyGEvCode.RETURN;
 		case Input.Keys.ESCAPE:
 			return KeyGEvCode.ESC;
+		case Input.Keys.F5:
+			return KeyGEvCode.F5;
+		case Input.Keys.F6:
+			return KeyGEvCode.F6;
 		default:
 			// TODO more keys
 			return null;
 		}
 	}
-
 }

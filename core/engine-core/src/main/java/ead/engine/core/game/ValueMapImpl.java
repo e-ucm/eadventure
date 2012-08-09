@@ -62,13 +62,13 @@ public class ValueMapImpl implements ValueMap {
 
 	protected Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
 
+	private ArrayList<EAdElement> updateList;
+
 	protected OperatorFactory operatorFactory;
 
 	protected static final Logger logger = LoggerFactory.getLogger("Value Map");
 
 	private ReflectionProvider reflectionProvider;
-
-	private ArrayList<EAdElement> updateList;
 
 	private boolean updateEnable;
 
@@ -209,6 +209,30 @@ public class ValueMapImpl implements ValueMap {
 	@Override
 	public void clearUpdateList() {
 		updateList.clear();
+	}
+	
+	public Map<EAdVarDef<?>, Object> getSystemVars() {
+		return systemVars;
+	}
+
+	public void setSystemVars(Map<EAdVarDef<?>, Object> systemVars) {
+		this.systemVars = systemVars;
+	}
+
+	public Map<EAdElement, Map<EAdVarDef<?>, Object>> getElementVars() {
+		return map;
+	}
+
+	public void setElementVars(Map<EAdElement, Map<EAdVarDef<?>, Object>> map) {
+		this.map = map;
+	}
+
+	public ArrayList<EAdElement> getUpdateList() {
+		return updateList;
+	}
+
+	public void setUpdateList(ArrayList<EAdElement> updateList) {
+		this.updateList = updateList;
 	}
 
 }

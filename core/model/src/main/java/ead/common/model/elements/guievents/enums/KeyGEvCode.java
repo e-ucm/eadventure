@@ -46,5 +46,5 @@ import com.gwtent.reflection.client.Reflectable;
  */
 @Reflectable
 public enum KeyGEvCode {
-	LETTER, ARROW_UP, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, RETURN, ESC
+	LETTER, ARROW_UP, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, RETURN, ESC, F5, F6;
 }

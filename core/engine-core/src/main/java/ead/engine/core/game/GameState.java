@@ -155,17 +155,6 @@ public interface GameState {
 	EAdScene getPreviousScene();
 
 	/**
-	 * @return the currently active {@link EAdChapter} of the game
-	 */
-	EAdChapter getCurrentChapter();
-
-	/**
-	 * @param currentChapter
-	 *            the new active {@link EAdChapter} in the game
-	 */
-	void setCurrentChapter(EAdChapter currentChapter);
-
-	/**
 	 * @return true if the game loop is paused
 	 */
 	boolean isPaused();
@@ -182,4 +171,8 @@ public interface GameState {
 	 *            The initial scene in the game
 	 */
 	void setInitialScene(EAdScene initialScene);
+	
+	void saveState();
+	
+	void loadState();
 }
