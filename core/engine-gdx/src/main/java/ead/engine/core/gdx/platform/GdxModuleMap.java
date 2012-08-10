@@ -37,9 +37,6 @@
 
 package ead.engine.core.gdx.platform;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -96,14 +93,14 @@ import ead.engine.core.tracking.selection.TrackerSelector;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
 import ead.tools.BasicSceneGraph;
+import ead.tools.ModuleMap;
 import ead.tools.SceneGraph;
 
-public class GdxModuleMap {
+public class GdxModuleMap extends ModuleMap {
 
-	private Map<Class<?>, Class<?>> binds;
+	
 
 	public GdxModuleMap() {
-		binds = new HashMap<Class<?>, Class<?>>();
 
 		// Factories
 		binds.put(EvaluatorFactory.class, EvaluatorFactoryImpl.class);
@@ -152,15 +149,10 @@ public class GdxModuleMap {
 		binds.put(ActionsHUD.class, ActionsHUDImpl.class);
 		binds.put(MenuHUD.class, MenuHUDImpl.class);
 
-//		binds.put(SceneLoader.class, DefaultSceneLoader.class);
 		binds.put(SceneLoader.class, GraphSceneLoader.class);
 
 		binds.put(SceneGraph.class, BasicSceneGraph.class);
 
-	}
-
-	public Map<Class<?>, Class<?>> getBinds() {
-		return binds;
 	}
 
 }

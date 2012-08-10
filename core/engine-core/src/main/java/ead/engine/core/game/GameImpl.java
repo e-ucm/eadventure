@@ -78,7 +78,7 @@ public class GameImpl implements Game {
 	private AssetHandler assetHandler;
 
 	private EAdAdventureModel adventure;
-	
+
 	private EAdChapter currentChapter;
 
 	private GUI gui;
@@ -113,10 +113,12 @@ public class GameImpl implements Game {
 	private int currentWidth = -1;
 
 	private int currentHeight = -1;
-	
+
 	private GameTracker tracker;
 
 	private SceneGraph sceneGraph;
+
+	private GameLoader gameLoader;
 
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
@@ -124,7 +126,8 @@ public class GameImpl implements Game {
 			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker, SceneGraph sceneGraph) {
+			EngineConfiguration configuration, ActionsHUD actionsHUD,
+			GameTracker tracker, SceneGraph sceneGraph, GameLoader gameLoader) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -138,9 +141,10 @@ public class GameImpl implements Game {
 		this.eventFactory = eventFactory;
 		this.configuration = configuration;
 		this.tracker = tracker;
-		this.adventure = new BasicAdventureModel( );
+		this.adventure = new BasicAdventureModel();
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
+		this.gameLoader = gameLoader;
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.setGame(this);
 	}
@@ -150,6 +154,8 @@ public class GameImpl implements Game {
 		
 		// We load one possible asset in the background
 		assetHandler.loadStep();
+		// We load some possible game
+		gameLoader.step();
 		
 		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
@@ -293,10 +299,11 @@ public class GameImpl implements Game {
 		sceneGraph.generateGraph(eAdChapter.getInitialScene());
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
-		
+
 		// Start tracking
-		Boolean track = Boolean.parseBoolean( model.getProperties().get(GameTracker.TRACKING_ENABLE) );
-		if ( track ){
+		Boolean track = Boolean.parseBoolean(model.getProperties().get(
+				GameTracker.TRACKING_ENABLE));
+		if (track) {
 			tracker.startTracking(model);
 		}
 
@@ -325,8 +332,10 @@ public class GameImpl implements Game {
 					/ (float) adventure.getGameHeight();
 
 			float scale = scaleX < scaleY ? scaleX : scaleY;
-			float dispX = Math.abs(adventure.getGameWidth() * scaleX - adventure.getGameWidth() * scale) / 2;
-			float dispY = Math.abs(adventure.getGameHeight() * scaleY - adventure.getGameHeight() * scale) / 2;
+			float dispX = Math.abs(adventure.getGameWidth() * scaleX
+					- adventure.getGameWidth() * scale) / 2;
+			float dispY = Math.abs(adventure.getGameHeight() * scaleY
+					- adventure.getGameHeight() * scale) / 2;
 
 			initialTransformation = new EAdTransformationImpl();
 			initialTransformation.getMatrix().translate(dispX, dispY, true);
@@ -339,8 +348,8 @@ public class GameImpl implements Game {
 	public EAdTransformation getInitialTransformation() {
 		return initialTransformation;
 	}
-	
-	public EAdChapter getCurrentChapter(){
+
+	public EAdChapter getCurrentChapter() {
 		return currentChapter;
 	}
 

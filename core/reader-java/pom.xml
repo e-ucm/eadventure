@@ -24,6 +24,16 @@
 			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+				<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>

@@ -1,29 +1,32 @@
-package ead.tools.java.reflection;
+package ead.tools.gwt.reflection;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.gwtent.reflection.client.ClassType;
+import com.gwtent.reflection.client.Constructor;
+import com.gwtent.reflection.client.Field;
+import com.gwtent.reflection.client.TypeOracle;
 
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionConstructor;
 import ead.tools.reflection.ReflectionField;
 
-public class JavaReflectionClass<T> implements ReflectionClass<T> {
+public class GwtReflectionClass<T> implements ReflectionClass<T> {
 
-	private Class<T> clazz;
+	private ClassType<T> clazz;
 
 	private ReflectionConstructor<T> constructor;
 
 	private Map<String, ReflectionField> fields;
-	
+
 	private ReflectionClass<?> superClass;
 
 	private boolean allFieldsAdded;
 
-	public JavaReflectionClass(Class<T> clazz) {
-		this.clazz = clazz;
+	public GwtReflectionClass(Class<T> clazz) {
+		this.clazz = TypeOracle.Instance.getClassType(clazz);
 		this.fields = new HashMap<String, ReflectionField>();
 		this.allFieldsAdded = false;
 	}
@@ -31,14 +34,8 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	@Override
 	public ReflectionConstructor<T> getConstructor() {
 		if (constructor == null) {
-			try {
-				Constructor<T> c = clazz.getConstructor();
-				constructor = new JavaReflectionConstructor<T>(c);
-			} catch (SecurityException e) {
-
-			} catch (NoSuchMethodException e) {
-
-			}
+			Constructor<T> c = clazz.findConstructor();
+			constructor = new GwtReflectionConstructor<T>(c);
 		}
 
 		return constructor;
@@ -47,14 +44,7 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	@Override
 	public ReflectionField getField(String name) {
 		if (!fields.containsKey(name)) {
-			try {
-				fields.put(name,
-						new JavaReflectionField(clazz.getDeclaredField(name)));
-			} catch (SecurityException e) {
-
-			} catch (NoSuchFieldException e) {
-
-			}
+			fields.put(name, new GwtReflectionField(clazz.getField(name)));
 		}
 		return fields.get(name);
 	}
@@ -63,7 +53,7 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	public Collection<ReflectionField> getFields() {
 		if (!allFieldsAdded) {
 			allFieldsAdded = true;
-			for (Field f : clazz.getDeclaredFields()) {
+			for (Field f : clazz.getFields()) {
 				if (!fields.containsKey(f.getName())) {
 					getField(f.getName());
 				}
@@ -75,19 +65,19 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public ReflectionClass<?> getSuperclass() {
-		if ( clazz == Object.class ){
+		if (clazz.getDeclaringClass() == Object.class) {
 			return null;
 		}
-		
-		if ( superClass == null ){
-			superClass = new JavaReflectionClass( clazz.getSuperclass() );
+
+		if (superClass == null) {
+			superClass = new GwtReflectionClass(clazz.getSuperclass().getDeclaringClass());
 		}
 		return superClass;
 	}
 
 	@Override
 	public Class<?> getType() {
-		return clazz;
+		return clazz.getDeclaringClass();
 	}
 
 }

@@ -47,7 +47,13 @@ import ead.tools.xml.XMLParser;
 
 public class StringsReader {
 
-	public Map<EAdString, String> readStrings(String xml, XMLParser xmlParser) {
+	private XMLParser xmlParser;
+
+	public StringsReader(XMLParser xmlParser) {
+		this.xmlParser = xmlParser;
+	}
+
+	public Map<EAdString, String> readStrings(String xml) {
 		HashMap<EAdString, String> strings = new HashMap<EAdString, String>();
 		XMLDocument doc = xmlParser.parse(xml);
 		XMLNodeList nl = doc.getFirstChild().getChildNodes();

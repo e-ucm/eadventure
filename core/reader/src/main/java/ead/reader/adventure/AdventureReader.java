@@ -44,6 +44,7 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.reader.adventure.visitors.ElementNodeVisitor;
 import ead.reader.adventure.visitors.NodeVisitor;
+import ead.reader.adventure.visitors.NodeVisitor.NodeVisitorListener;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
@@ -53,11 +54,15 @@ public class AdventureReader {
 
 	private static Logger logger = LoggerFactory.getLogger("GWTReader");
 
-	private EAdAventureModelProxy model;
-
 	private XMLParser xmlParser;
+	
+	private BasicAdventureModel data; 
 
-	public EAdAventureModelProxy readXML(String xml) {
+	public AdventureReader(XMLParser xmlParser) {
+		this.xmlParser = xmlParser;
+	}
+
+	public EAdAdventureModel readXML(String xml) {
 		logger.info("Parsing XML...");
 		XMLDocument doc = xmlParser.parse(xml);
 		logger.info("Parsed.");
@@ -66,8 +71,20 @@ public class AdventureReader {
 		NodeVisitor.init(doc.getFirstChild().getAttributes()
 				.getValue(DOMTags.PACKAGE_AT));
 		getAliasMap(doc);
-		BasicAdventureModel data = (BasicAdventureModel) env.visit(doc
-				.getFirstChild().getFirstChild(), null, null, null);
+		
+
+		env.visit(doc.getFirstChild().getFirstChild(), null, null, null,
+				new NodeVisitorListener() {
+
+					@Override
+					public void elementRead(Object element) {
+						data = (BasicAdventureModel) element;
+
+					}
+
+				}
+
+		);
 
 		logger.info("Built.");
 
@@ -78,8 +95,7 @@ public class AdventureReader {
 			logger.info("Setting the game");
 		}
 
-		model.setModel(data);
-		return model;
+		return data;
 	}
 
 	private void getAliasMap(XMLDocument doc) {

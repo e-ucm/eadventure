@@ -51,8 +51,8 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 			.getLogger("ParamNodeVisitor");
 
 	@Override
-	public Object visit(XMLNode node, ReflectionField field, Object parent,
-			Class<?> listClass) {
+	public void visit(XMLNode node, ReflectionField field, Object parent,
+			Class<?> listClass, NodeVisitorListener listener) {
 		String textContent = node.getNodeText();
 		Object object = null;
 		if (textContent != null && !textContent.equals("")) {
@@ -95,7 +95,7 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 						field.getName(), e.getMessage() }, e);
 			}
 		}
-		return object;
+		listener.elementRead(object);
 	}
 
 	@Override

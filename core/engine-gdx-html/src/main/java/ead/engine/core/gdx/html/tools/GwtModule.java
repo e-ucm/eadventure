@@ -56,12 +56,8 @@ import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.tools.GenericInjector;
-import ead.tools.StringHandler;
-import ead.tools.StringHandlerImpl;
-import ead.tools.gwt.GdxReflectionProvider;
-import ead.tools.reflection.ReflectionProvider;
 
-public class GdxModule extends AbstractGinModule {
+public class GwtModule extends AbstractGinModule {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -76,11 +72,7 @@ public class GdxModule extends AbstractGinModule {
 			bind(c1).to(c2).in(Singleton.class);
 		}
 
-		bind(StringHandler.class).to(StringHandlerImpl.class).in(
-				Singleton.class);
-		bind(ReflectionProvider.class).to(GdxReflectionProvider.class).in(
-				Singleton.class);
-		bind(GenericInjector.class).to(GdxInjector.class).in(Singleton.class);
+		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
 		bind(GUI.class).to(GdxGWTGUI.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
 				.to(LoadingScreen.class).asEagerSingleton();

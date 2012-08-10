@@ -24,11 +24,16 @@
 			<artifactId>model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>tool</artifactId>
+			<artifactId>tools</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- tests -->
 		<dependency>
@@ -46,6 +51,11 @@
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<classifier>no_aop</classifier>
 		</dependency>
 
 	</dependencies>

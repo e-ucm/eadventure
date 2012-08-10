@@ -37,13 +37,16 @@
 
 package ead.reader.java;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URI;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,61 +54,102 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.reader.adventure.DOMTags;
-import ead.reader.java.extra.ObjectFactory;
-import ead.reader.java.visitors.ElementNodeVisitor;
+import ead.reader.adventure.AdventureReader;
+import ead.reader.adventure.ObjectFactory;
 import ead.reader.java.visitors.NodeVisitor;
+import ead.tools.java.reflection.JavaReflectionClassLoader;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.java.xml.JavaXMLParser;
+import ead.tools.reflection.ReflectionClassLoader;
+
 /**
  * The reader for the XML representation of the model
  */
 public class EAdAdventureDOMModelReader {
 
 	private static final Logger logger = LoggerFactory.getLogger("EAdReader");
-	
+
 	public EAdAdventureModel read(URI fileURI) {
 		try {
 			File file = new File(fileURI);
-			FileInputStream fileInputStream = new FileInputStream(file);
-			EAdAdventureModel data = read(fileInputStream);
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			AdventureReader xmlReader = new AdventureReader(new JavaXMLParser());
+			StringBuilder xml = new StringBuilder();
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					xml.append(line);
+				}
+				reader.close();
+			} catch (IOException e) {
+
+			}
+
+			ReflectionClassLoader.init(new JavaReflectionClassLoader());
+			ObjectFactory.init(new JavaReflectionProvider());
+			EAdAdventureModel data = xmlReader.readXML(xml.toString());
 			return data;
 		} catch (FileNotFoundException e) {
 			return null;
 		}
 	}
 
-	public EAdAdventureModel read(InputStream inputStream) {
-		BasicAdventureModel data = null;
+	public EAdAdventureModel read(Reader r) {
+		BufferedReader reader = new BufferedReader(r);
+		AdventureReader xmlReader = new AdventureReader(new JavaXMLParser());
+		StringBuilder xml = new StringBuilder();
+		String line = null;
 		try {
-			ObjectFactory.initialize();
-			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
-			ElementNodeVisitor env = new ElementNodeVisitor();
-			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
-			getAliasMap(doc);
-			data = (BasicAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
-			data.getDepthControlList().clear();
+			while ((line = reader.readLine()) != null) {
+				xml.append(line);
+			}
+			reader.close();
+		} catch (IOException e) {
 
-			return data;
-		} catch(Exception e) {
-			logger.error("Error reading model", e);
-        }
-        return null;
+		}
+
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+		ObjectFactory.init(new JavaReflectionProvider());
+		EAdAdventureModel data = xmlReader.readXML(xml.toString());
+		return data;
+	}
+
+	public EAdAdventureModel read(InputStream inputStream) {
+		return read( new InputStreamReader(inputStream));
+//		BasicAdventureModel data = null;
+//		try {
+//			ObjectFactory.initialize();
+//			Document doc = DocumentBuilderFactory.newInstance()
+//					.newDocumentBuilder().parse(inputStream);
+//			ElementNodeVisitor env = new ElementNodeVisitor();
+//			NodeVisitor.init(doc.getFirstChild().getAttributes()
+//					.getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
+//			getAliasMap(doc);
+//			data = (BasicAdventureModel) env.visit(doc.getFirstChild()
+//					.getFirstChild(), null, null, null);
+//			data.getDepthControlList().clear();
+//
+//			return data;
+//		} catch (Exception e) {
+//			logger.error("Error reading model", e);
+//		}
+//		return null;
 	}
 
 	private void getAliasMap(Document doc) {
 		NodeList nl = doc.getFirstChild().getChildNodes();
 
-		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
-		{
+		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
 			if (nl.item(i).getNodeName().equals("keyMap")) {
 				NodeList nl2 = nl.item(i).getChildNodes();
 
-				for(int j=0, cnt2=nl2.getLength(); j<cnt2; j++)
-				{
+				for (int j = 0, cnt2 = nl2.getLength(); j < cnt2; j++) {
 					Node n = nl2.item(j);
-					NodeVisitor.aliasMap.put(n.getAttributes().getNamedItem("key").getNodeValue(),
-							n.getAttributes().getNamedItem("value").getNodeValue());
+					NodeVisitor.aliasMap.put(
+							n.getAttributes().getNamedItem("key")
+									.getNodeValue(), n.getAttributes()
+									.getNamedItem("value").getNodeValue());
 				}
 
 			}
@@ -113,14 +157,16 @@ public class EAdAdventureDOMModelReader {
 
 	}
 
-	public void visit(Node node, int level)
-	{
+	public void visit(Node node, int level) {
 		NodeList nl = node.getChildNodes();
 
-		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
-		{
-			System.out.println(level + " ["+nl.item(i).getNodeName() + (nl.item(i).getNodeValue() != null ? nl.item(i).getNodeValue() : "") + "]");
-			visit(nl.item(i), level+1);
+		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
+			System.out.println(level
+					+ " ["
+					+ nl.item(i).getNodeName()
+					+ (nl.item(i).getNodeValue() != null ? nl.item(i)
+							.getNodeValue() : "") + "]");
+			visit(nl.item(i), level + 1);
 		}
 	}
 
@@ -134,6 +180,5 @@ public class EAdAdventureDOMModelReader {
 			return null;
 		}
 	}
-
 
 }

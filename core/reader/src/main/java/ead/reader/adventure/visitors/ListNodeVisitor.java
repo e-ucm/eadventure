@@ -59,8 +59,8 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EAdList<Object> visit(XMLNode node, ReflectionField field,
-			Object parent, Class<?> listClass) {
+	public void visit(XMLNode node, ReflectionField field, Object parent,
+			Class<?> listClass, NodeVisitorListener listener) {
 		XMLNodeList nl = node.getChildNodes();
 
 		EAdList<Object> list = null;
@@ -92,15 +92,12 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			String type;
 			for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
 				type = nl.item(i).getNodeName();
-				Object object = VisitorFactory.getVisitor(type).visit(
-						nl.item(i), null, null, list.getValueClass());
-				if (object instanceof ProxyElement) {
-					((ProxyElement) object).setList(list, i);
-				}
-				list.add(object);
+				VisitorFactory.getVisitor(type).visit(nl.item(i), null, null,
+						list.getValueClass(),
+						new ListNodeVisitorListener(list, i));
 			}
 		}
-		return list;
+		listener.elementRead(list);
 
 	}
 
@@ -117,4 +114,24 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		return DOMTags.LIST_TAG;
 	}
 
+	public static class ListNodeVisitorListener implements NodeVisitorListener {
+
+		private EAdList<Object> list;
+
+		private int i;
+
+		public ListNodeVisitorListener(EAdList<Object> list, int i) {
+			this.list = list;
+			this.i = i;
+		}
+
+		@Override
+		public void elementRead(Object object) {
+			if (object instanceof ProxyElement) {
+				((ProxyElement) object).setList(list, i);
+			}
+			list.add(object);
+		}
+
+	}
 }

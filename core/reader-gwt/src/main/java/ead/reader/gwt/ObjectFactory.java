@@ -61,7 +61,7 @@ import ead.common.util.EAdMatrix;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.common.util.EAdURI;
-import ead.tools.gwt.GdxReflectionProvider;
+import ead.tools.gwt.reflection.GwtReflectionProvider;
 
 /**
  * Includes methods to generate an object of a given type from a string value
@@ -76,7 +76,7 @@ public class ObjectFactory {
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
 	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
 
-	private static GdxReflectionProvider reflectionProvider = new GdxReflectionProvider();
+	private static GwtReflectionProvider reflectionProvider = new GwtReflectionProvider();
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {

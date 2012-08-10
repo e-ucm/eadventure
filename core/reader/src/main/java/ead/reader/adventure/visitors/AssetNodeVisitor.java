@@ -64,13 +64,14 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 			.getLogger("AssetNodeVisitor");
 
 	@Override
-	public AssetDescriptor visit(XMLNode node, ReflectionField field,
-			Object parent, Class<?> listClass) {
+	public void visit(XMLNode node, ReflectionField field, Object parent,
+			Class<?> listClass, NodeVisitorListener listener) {
 		AssetDescriptor element = (AssetDescriptor) ObjectFactory.getObject(
 				node.getNodeText(), AssetDescriptor.class);
 		if (element != null) {
 			setValue(field, parent, element);
-			return element;
+			listener.elementRead(element);
+			return;
 		}
 
 		String uniqueId = node.getAttributes().getValue(DOMTags.UNIQUE_ID_AT);
@@ -78,7 +79,8 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 		String clazz = node.getAttributes().getValue(DOMTags.CLASS_AT);
 		clazz = translateClass(clazz);
 
-		ReflectionClass<?> classType = ReflectionClassLoader.getReflectionClass(clazz);
+		ReflectionClass<?> classType = ReflectionClassLoader
+				.getReflectionClass(clazz);
 		element = (AssetDescriptor) classType.getConstructor().newInstance();
 
 		if (element != null)
@@ -87,7 +89,7 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 
 		readFields(element, node);
 
-		return element;
+		listener.elementRead(element);
 	}
 
 	@Override

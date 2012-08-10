@@ -80,9 +80,10 @@ import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
+import ead.tools.gwt.GWTToolsModule;
 
-@GinModules({ GdxModule.class })
-public interface GdxGinInjector extends Ginjector {
+@GinModules({ GwtModule.class, GWTToolsModule.class })
+public interface GwtGinInjector extends Ginjector {
 
 	public BasicTransitionGO getSimpleTransitionGO();
 

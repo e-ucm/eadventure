@@ -52,8 +52,8 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<Object, Object> visit(XMLNode node, ReflectionField field,
-			Object parent, Class<?> listClass) {
+	public void visit(XMLNode node, ReflectionField field, Object parent,
+			Class<?> listClass, NodeVisitorListener listener) {
 		XMLNodeList nl = node.getChildNodes();
 
 		EAdMap<Object, Object> map = null;
@@ -68,18 +68,18 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		for (int i = 0, cnt = nl.getLength(); i < cnt - 1; i += 2) {
 			try {
 				type = nl.item(i).getNodeName();
-				Object key = VisitorFactory.getVisitor(type).visit(nl.item(i),
-						null, null, map.getKeyClass());
+				MapNodeVisitorListener mapListener = new MapNodeVisitorListener(
+						map);
+				VisitorFactory.getVisitor(type).visit(nl.item(i), null, null,
+						map.getKeyClass(), mapListener);
 				type = nl.item(i + 1).getNodeName();
-				Object value = VisitorFactory.getVisitor(type).visit(
-						nl.item(i + 1), null, null, map.getValueClass());
-				map.put(key, value);
+				VisitorFactory.getVisitor(type).visit(nl.item(i + 1), null,
+						null, map.getValueClass(), mapListener);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-
-		return map;
+		listener.elementRead(map);
 	}
 
 	private EAdMap<Object, Object> createNewMap(XMLNode node) {
@@ -103,6 +103,27 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 	@Override
 	public String getNodeType() {
 		return DOMTags.MAP_TAG;
+	}
+
+	public static class MapNodeVisitorListener implements NodeVisitorListener {
+
+		private EAdMap<Object, Object> map;
+
+		private Object key;
+
+		public MapNodeVisitorListener(EAdMap<Object, Object> map) {
+			this.map = map;
+		}
+
+		@Override
+		public void elementRead(Object element) {
+			if (key == null) {
+				key = element;
+			} else {
+				map.put(key, element);
+			}
+		}
+
 	}
 
 }

@@ -70,8 +70,8 @@ public abstract class NodeVisitor<T> {
 		aliasMap.clear();
 	}
 
-	public abstract T visit(XMLNode node, ReflectionField field, Object parent,
-			Class<?> class1);
+	public abstract void visit(XMLNode node, ReflectionField field,
+			Object parent, Class<?> class1, NodeVisitorListener listener);
 
 	public abstract String getNodeType();
 
@@ -93,21 +93,17 @@ public abstract class NodeVisitor<T> {
 			String value = newNode.getAttributes().getValue(DOMTags.PARAM_AT);
 			ReflectionField field = getField(element, value);
 
-			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode,
-					field, element, null) == null) {
-				logger.error(
-						"Failed visiting node {} for element {}"
-								+ " in field {} of type {}",
-						new Object[] { newNode.getNodeName(),
-								element.getClass(), field.getName(),
-								field.getType() });
-			}
+			VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode,
+					field, element, null,
+					new NodeErrorVisitorListener(newNode, element, field));
+
 		}
 	}
 
 	private void initializeDefaultValues(Object element) {
 		Class<?> clazz = element.getClass();
-		ReflectionClass<?> classType = ReflectionClassLoader.getReflectionClass(clazz);
+		ReflectionClass<?> classType = ReflectionClassLoader
+				.getReflectionClass(clazz);
 
 		while (classType != null) {
 			for (ReflectionField f : classType.getFields()) {
@@ -127,7 +123,8 @@ public abstract class NodeVisitor<T> {
 		}
 	}
 
-	public static void setValue(ReflectionField field, Object parent, Object object) {
+	public static void setValue(ReflectionField field, Object parent,
+			Object object) {
 		if (field != null && parent != null) {
 			try {
 				field.setFieldValue(parent, object);
@@ -153,7 +150,8 @@ public abstract class NodeVisitor<T> {
 	 */
 	public ReflectionField getField(Object object, String paramValue) {
 		Class<?> clazz = object.getClass();
-		ReflectionClass<?> classType = ReflectionClassLoader.getReflectionClass(clazz);
+		ReflectionClass<?> classType = ReflectionClassLoader
+				.getReflectionClass(clazz);
 
 		while (classType != null) {
 			for (ReflectionField f : classType.getFields()) {
@@ -170,4 +168,37 @@ public abstract class NodeVisitor<T> {
 		}
 		return null;
 	}
+
+	public static interface NodeVisitorListener {
+
+		void elementRead(Object element);
+	}
+
+	public class NodeErrorVisitorListener implements NodeVisitorListener {
+
+		private XMLNode node;
+
+		private Object element;
+
+		private ReflectionField field;
+
+		public NodeErrorVisitorListener(XMLNode node, Object element,
+				ReflectionField field) {
+			this.node = node;
+			this.element = element;
+			this.field = field;
+		}
+
+		@Override
+		public void elementRead(Object e) {
+			if (e == null) {
+				logger.error("Failed visiting node {} for element {}"
+						+ " in field {} of type {}",
+						new Object[] { node.getNodeName(), element.getClass(),
+								field.getName(), field.getType() });
+			}
+
+		}
+
+	};
 }

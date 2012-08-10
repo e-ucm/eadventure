@@ -64,7 +64,7 @@ import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.EffectHUDImpl;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
-import ead.engine.core.gdx.html.tools.GdxInjector;
+import ead.engine.core.gdx.html.tools.GwtInjector;
 import ead.engine.core.gdx.platform.GdxPluginHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
@@ -100,7 +100,7 @@ public class GWTBasicGameModule extends AbstractGinModule {
 				Singleton.class);
 		bind(PluginHandler.class).to(GdxPluginHandler.class)
 				.in(Singleton.class);
-		bind(GenericInjector.class).to(GdxInjector.class).in(Singleton.class);
+		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(
 				Singleton.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);

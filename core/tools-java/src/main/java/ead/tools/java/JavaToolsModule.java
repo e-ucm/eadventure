@@ -43,8 +43,12 @@ import com.google.inject.Singleton;
 import ead.tools.GenericInjector;
 import ead.tools.StringHandler;
 import ead.tools.StringHandlerImpl;
+import ead.tools.java.reflection.JavaReflectionClassLoader;
 import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.java.xml.JavaXMLParser;
+import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
+import ead.tools.xml.XMLParser;
 
 public class JavaToolsModule extends AbstractModule {
 
@@ -55,6 +59,9 @@ public class JavaToolsModule extends AbstractModule {
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
 				Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
+		bind(XMLParser.class).to(JavaXMLParser.class).in(Singleton.class);
+		bind(ReflectionClassLoader.class).to(JavaReflectionClassLoader.class)
+				.in(Singleton.class);
 	}
 
 }

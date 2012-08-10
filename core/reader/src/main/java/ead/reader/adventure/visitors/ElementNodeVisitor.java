@@ -60,8 +60,8 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			.getLogger("ElementNodeVisitor");
 
 	@Override
-	public EAdElement visit(XMLNode node, ReflectionField field, Object parent,
-			Class<?> listClass) {
+	public void visit(XMLNode node, ReflectionField field, Object parent,
+			Class<?> listClass, NodeVisitorListener listener ) {
 		EAdElement element = null;
 		if (node == null)
 			logger.error("Null node: {} parent: {}", field.getName(),
@@ -74,11 +74,13 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 					EAdElement.class);
 			if (element != null && !(element instanceof ProxyElement)) {
 				setValue(field, parent, element);
-				return element;
+				listener.elementRead(element);
+				return;
 			} else if (element != null) {
 				((ProxyElement) element).setField(field);
 				((ProxyElement) element).setParent(parent);
-				return element;
+				listener.elementRead(element);
+				return;
 			}
 		}
 
@@ -112,14 +114,15 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
 		setValue(field, parent, element);
 
-		try {
+//		try {
 			if (element != null)
 				readFields(element, node);
-		} catch (Exception e) {
-			logger.error("Error reading fields from {}", element.getClass());
-		}
+//		} catch (Exception e) {
+//			logger.error("{}", e);
+//			logger.error("Error reading fields from {}", element.getClass());
+//		}
 
-		return element;
+		listener.elementRead(element);
 	}
 
 	@Override

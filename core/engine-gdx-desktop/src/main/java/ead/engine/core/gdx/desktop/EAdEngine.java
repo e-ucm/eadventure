@@ -61,6 +61,33 @@ public class EAdEngine {
 //		EAdMainDebugger.addDebugger(FieldsDebugger.class);
 		StartFrame frame = new StartFrame();
 		frame.setVisible(true);
+		
+		
+//		final Injector injector = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule() );
+//		GUI gui = injector.getInstance(GUI.class);
+//		final Game game = injector.getInstance(Game.class);
+//		gui.setGame(game);
+//		gui.initialize();
+//		
+//		Gdx.app.postRunnable(new Runnable( ){
+//
+//			@Override
+//			public void run() {
+//				GameLoader gameLoader = injector.getInstance(GameLoader.class);
+//				String file = "C:/Users/anserran/Desktop/eAdventure/juegos/test/imported/PrimerosAuxilios/";
+//				String data = JavaFileUtils.getText(file + "data.xml");
+//				String strings = JavaFileUtils.getText(file + "strings.xml");
+//				String properties = JavaFileUtils.getText(file + "ead.properties");
+//				AssetHandler assetHandler = injector.getInstance(AssetHandler.class);
+//				assetHandler.setResourcesLocation(new EAdURI(file));
+//				gameLoader.loadGame(data, strings, properties);				
+//			}
+//			
+//		});
+
+		
+		
+		
 	}
 	
 }

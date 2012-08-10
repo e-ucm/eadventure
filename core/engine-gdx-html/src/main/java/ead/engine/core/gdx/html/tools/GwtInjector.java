@@ -83,18 +83,18 @@ import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 
-public class GdxInjector implements GenericInjector {
+public class GwtInjector implements GenericInjector {
 
 	private static final Logger logger = LoggerFactory.getLogger("GdxInjector");
 
-	private GdxGinInjector ginjector;
+	private GwtGinInjector ginjector;
 
 	@Inject
-	public GdxInjector(GdxGinInjector injector) {
+	public GwtInjector(GwtGinInjector injector) {
 		this.ginjector = injector;
 	}
 
-	public void setInjector(GdxGinInjector ginjector) {
+	public void setInjector(GwtGinInjector ginjector) {
 		this.ginjector = ginjector;
 	}
 

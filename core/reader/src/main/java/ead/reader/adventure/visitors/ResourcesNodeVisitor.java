@@ -72,30 +72,34 @@ import ead.tools.xml.XMLNodeList;
  * x N<br>
  * &nbsp;&nbsp;&nbsp;{@code	</bundle>}<br>
  * {@code </resources>}<br>
- *
+ * 
  * </p>
  */
 public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
-	protected static final Logger logger = LoggerFactory.getLogger("ElementNodeVisitor");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("ElementNodeVisitor");
 
 	@Override
-	public EAdResources visit(XMLNode node, ReflectionField field, Object parent, Class<?> listClass) {
+	public void visit(XMLNode node, ReflectionField field, Object parent,
+			Class<?> listClass, NodeVisitorListener listener) {
 		EAdResources resources = null;
 		try {
 			resources = (EAdResources) field.getFieldValue(parent);
 
-			String initialBundleId = node.getAttributes().getValue(DOMTags.INITIAL_BUNDLE_TAG);
+			String initialBundleId = node.getAttributes().getValue(
+					DOMTags.INITIAL_BUNDLE_TAG);
 
 			XMLNodeList nl = node.getChildNodes();
 
-			for(int i=0, cnt=nl.getLength(); i<cnt; i++)
-			{
+			for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
 				if (nl.item(i).getNodeName().equals(DOMTags.BUNDLE_TAG)) {
-					String bundleId = nl.item(i).getAttributes().getValue(DOMTags.ID_AT);
+					String bundleId = nl.item(i).getAttributes()
+							.getValue(DOMTags.ID_AT);
 					EAdBundleId id = new EAdBundleId(bundleId);
 					resources.addBundle(id);
-					if (bundleId.equals(initialBundleId) && !id.equals(resources.getInitialBundle())) {
+					if (bundleId.equals(initialBundleId)
+							&& !id.equals(resources.getInitialBundle())) {
 						EAdBundleId temp = resources.getInitialBundle();
 						resources.setInitialBundle(id);
 						resources.removeBundle(temp);
@@ -103,16 +107,30 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
 					XMLNodeList nl2 = nl.item(i).getChildNodes();
 					if (nl2 != null) {
-						for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
+						for (int j = 0, cnt2 = nl2.getLength(); j < cnt2; j++) {
 
-							AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl2.item(j), null, null, null);
-							resources.addAsset(id, nl2.item(j).getAttributes().getValue(DOMTags.ID_AT), asset);
+							VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(
+									nl2.item(j),
+									null,
+									null,
+									null,
+									new ResourceNodeVisitorListener(id,
+											resources, nl2.item(j)
+													.getAttributes()
+													.getValue(DOMTags.ID_AT)));
 
 						}
 					}
 				} else {
-					AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl.item(i), null, null, null);
-					resources.addAsset(nl.item(i).getAttributes().getValue(DOMTags.ID_AT), asset);
+					VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(
+							nl.item(i),
+							null,
+							null,
+							null,
+							new ResourceNodeVisitorListener(null, resources, nl
+									.item(i).getAttributes()
+									.getValue(DOMTags.ID_AT)));
+
 				}
 			}
 
@@ -122,12 +140,40 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
 		}
 
-		return resources;
+		listener.elementRead(resources);
 	}
 
 	@Override
 	public String getNodeType() {
 		return DOMTags.RESOURCES_TAG;
+	}
+
+	public static class ResourceNodeVisitorListener implements
+			NodeVisitorListener {
+
+		private EAdBundleId bundle;
+
+		private EAdResources resources;
+
+		private String id;
+
+		public ResourceNodeVisitorListener(EAdBundleId bundle,
+				EAdResources resources, String id) {
+			this.bundle = bundle;
+			this.resources = resources;
+			this.id = id;
+		}
+
+		@Override
+		public void elementRead(Object element) {
+			AssetDescriptor asset = (AssetDescriptor) element;
+			if (bundle == null) {
+				resources.addAsset(id, asset);
+			} else {
+				resources.addAsset(bundle, id, asset);
+			}
+		}
+
 	}
 
 }

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt;
+package ead.tools.gwt.reflection;
 
 import java.util.Stack;
 
@@ -51,7 +51,7 @@ import ead.common.model.EAdElement;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class GdxReflectionProvider implements ReflectionProvider {
+public class GwtReflectionProvider implements ReflectionProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger("ReflectionProvider");
 

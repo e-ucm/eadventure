@@ -48,7 +48,7 @@ import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.core.game.Game;
 import ead.engine.core.gdx.EAdEngine;
-import ead.engine.core.gdx.html.tools.GdxGinInjector;
+import ead.engine.core.gdx.html.tools.GwtGinInjector;
 import ead.tools.StringHandler;
 
 public class GwtLauncher extends GwtApplication {
@@ -61,7 +61,7 @@ public class GwtLauncher extends GwtApplication {
 
 	@Override
 	public ApplicationListener getApplicationListener() {
-		GdxGinInjector injector = GWT.create(GdxGinInjector.class);
+		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
 
 		EAdEngine engine = new EAdEngine(injector.getEngineConfiguration(),
 				injector.getCanvas(), injector.getInputHandler());
