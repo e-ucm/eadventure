@@ -48,7 +48,7 @@ import com.gwtent.reflection.client.ReflectionRequiredException;
 
 import ead.common.interfaces.Element;
 import ead.common.model.EAdElement;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class GdxReflectionProvider implements ReflectionProvider {

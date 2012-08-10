@@ -41,9 +41,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import ead.tools.GenericInjector;
-import ead.tools.ReflectionProvider;
 import ead.tools.StringHandler;
 import ead.tools.StringHandlerImpl;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class JavaToolsModule extends AbstractModule {
 

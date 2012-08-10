@@ -45,7 +45,7 @@ import org.w3c.dom.NodeList;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.util.EAdPosition;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 import ead.reader.java.ProxyElement;
 import ead.reader.java.extra.ObjectFactory;
 

@@ -51,7 +51,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import ead.common.interfaces.Param;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 import ead.reader.java.extra.ObjectFactory;
 
 public abstract class NodeVisitor<T> {

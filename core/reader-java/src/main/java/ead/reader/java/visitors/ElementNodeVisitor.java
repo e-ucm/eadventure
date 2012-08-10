@@ -42,7 +42,7 @@ import java.lang.reflect.Field;
 import org.w3c.dom.Node;
 
 import ead.common.model.EAdElement;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 import ead.reader.java.ProxyElement;
 import ead.reader.java.extra.ObjectFactory;
 

@@ -47,7 +47,7 @@ import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 

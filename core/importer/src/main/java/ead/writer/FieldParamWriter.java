@@ -50,7 +50,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.resources.EAdResources;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
@@ -67,7 +67,7 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 					if (param != null) {
 						PropertyDescriptor pd = getPropertyDescriptor(data.getClass(), field.getName());
 						if (pd == null) {
-							logger.error("Missing descriptor for {} in {} ",
+							logger.error("Missing descriptor for {} in {}. Probably needs some get or set method on this field. ",
                                     field.getName(), data.getClass());
 							error = true;
                         }

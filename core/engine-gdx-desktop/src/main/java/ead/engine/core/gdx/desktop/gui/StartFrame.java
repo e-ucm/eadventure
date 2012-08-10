@@ -92,11 +92,11 @@ import ead.engine.core.debuggers.TrajectoryDebugger;
 import ead.engine.core.gdx.desktop.GdxDesktopGame;
 import ead.importer.EAdventure1XImporter;
 import ead.importer.ImporterModule;
-import ead.reader.StringFileHandler;
 import ead.reader.java.DefaultStringFileHandler;
 import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.reader.java.ProjectFiles;
 import ead.reader.java.ReaderModule;
+import ead.reader.strings.StringFileHandler;
 import ead.tools.java.JavaToolsModule;
 
 /**

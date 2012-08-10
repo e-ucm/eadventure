@@ -53,15 +53,14 @@ import org.w3c.dom.NodeList;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.reader.DOMTags;
-import ead.reader.EAdModelReader;
+import ead.reader.adventure.DOMTags;
 import ead.reader.java.extra.ObjectFactory;
 import ead.reader.java.visitors.ElementNodeVisitor;
 import ead.reader.java.visitors.NodeVisitor;
 /**
  * The reader for the XML representation of the model
  */
-public class EAdAdventureDOMModelReader implements EAdModelReader {
+public class EAdAdventureDOMModelReader {
 
 	private static final Logger logger = LoggerFactory.getLogger("EAdReader");
 	

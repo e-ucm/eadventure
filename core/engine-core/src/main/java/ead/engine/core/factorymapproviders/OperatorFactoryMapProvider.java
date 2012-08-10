@@ -57,7 +57,7 @@ import ead.engine.core.operators.MathOperator;
 import ead.engine.core.operators.Operator;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.ValueOperator;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Operator<?>> {
 

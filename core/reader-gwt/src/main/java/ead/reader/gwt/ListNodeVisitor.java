@@ -49,7 +49,7 @@ import com.gwtent.reflection.client.TypeOracle;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.util.EAdPosition;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 

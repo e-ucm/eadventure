@@ -46,7 +46,7 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.BasicResources;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 /**
  * <p>

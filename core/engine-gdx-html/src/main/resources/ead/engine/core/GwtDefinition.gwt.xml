@@ -33,5 +33,5 @@
 		/> -->
 	<!-- To be used when compile is done from Eclipse -->
 	<set-configuration-property name="gdx.assetpath"
-		value="../engine-gdx-desktop/src/main/resources/" />
+		value="../engine-gdx/src/main/resources/" />
 </module>

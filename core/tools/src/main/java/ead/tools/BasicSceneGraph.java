@@ -30,6 +30,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.tools.reflection.ReflectionProvider;
 
 public class BasicSceneGraph implements SceneGraph {
 

@@ -44,7 +44,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.operators.OperatorFactory;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class VariableMap extends ValueMapImpl {

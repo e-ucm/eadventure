@@ -53,11 +53,15 @@ import ead.tools.SceneGraph;
 @Singleton
 public class GdxAssetHandler extends AbstractAssetHandler {
 
+	private static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
+
 	private GenericInjector injector;
 
 	@Inject
 	public GdxAssetHandler(GenericInjector injector) {
-		super(new GdxAssetHandlerMap(), injector.getInstance(FontHandler.class), injector.getInstance(SceneGraph.class));
+		super(new GdxAssetHandlerMap(),
+				injector.getInstance(FontHandler.class), injector
+						.getInstance(SceneGraph.class));
 		this.injector = injector;
 	}
 
@@ -89,19 +93,21 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 	public FileHandle getFileHandle(String path) {
 		String uri = path.substring(1);
 		if (resourcesUri != null) {
-			FileHandle absolute = Gdx.files.absolute(this.resourcesUri
-					.getPath() + "/" + uri);
+			FileHandle absolute = getProjectFileHandle(uri);
 			if (absolute.exists()) {
 				return absolute;
 			}
 		}
 
-		FileHandle internal = Gdx.files.internal("data/" + uri);
-		if (internal.exists()) {
-			return internal;
-		}
+		return getEngineFileHandle(uri);
+	}
 
-		return null;
+	public FileHandle getProjectFileHandle(String uri) {
+		return Gdx.files.absolute(this.resourcesUri.getPath() + "/" + uri);
+	}
+
+	public FileHandle getEngineFileHandle(String uri) {
+		return Gdx.files.internal(ENGINE_RESOURCES_PATH + uri);
 	}
 
 }

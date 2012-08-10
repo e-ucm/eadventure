@@ -47,7 +47,7 @@ import ead.importer.EAdElementImporter;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.tools.AbstractFactory;
 import ead.tools.MapProvider;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
 

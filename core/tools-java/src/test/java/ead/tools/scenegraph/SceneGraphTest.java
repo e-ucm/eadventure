@@ -10,7 +10,7 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.tools.BasicSceneGraph;
 import ead.tools.SceneGraph;
-import ead.tools.java.JavaReflectionProvider;
+import ead.tools.java.reflection.JavaReflectionProvider;
 
 public class SceneGraphTest {
 

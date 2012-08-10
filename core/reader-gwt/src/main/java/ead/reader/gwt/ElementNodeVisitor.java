@@ -46,7 +46,7 @@ import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.model.EAdElement;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 /**
  * Visitor for the element. The element should be {@code <element id="ID"

@@ -58,7 +58,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 

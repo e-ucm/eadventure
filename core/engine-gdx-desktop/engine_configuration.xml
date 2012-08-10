@@ -1,5 +1,6 @@
 #-- No comments --
-#Thu Aug 09 11:42:11 CEST 2012
+#Fri Aug 10 15:51:52 CEST 2012
 hz_property=30
+changeScene_debugger=false
 full_screen=false
-file_chooser_directory=C\:\\Users\\myuser\\Documents
+file_chooser_directory=C\:\\Users\\anserran\\Desktop\\eAdventure\\juegos\\test\\imported

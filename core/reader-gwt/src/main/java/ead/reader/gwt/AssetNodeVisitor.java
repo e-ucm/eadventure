@@ -46,7 +46,7 @@ import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 /**
  * <p>

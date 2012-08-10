@@ -46,10 +46,12 @@ import com.google.inject.name.Names;
 
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.gdx.desktop.platform.assets.VLCDesktopVideoRenderer;
 import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
 public class GdxDesktopModule extends AbstractModule {
@@ -59,6 +61,7 @@ public class GdxDesktopModule extends AbstractModule {
 	protected void configure() {
 
 		GdxModuleMap map = new GdxModuleMap();
+		map.getBinds().put(AssetHandler.class, GdxDesktopAssetHandler.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();

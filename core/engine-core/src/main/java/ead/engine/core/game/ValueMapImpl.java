@@ -53,7 +53,7 @@ import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.operators.OperatorFactory;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class ValueMapImpl implements ValueMap {

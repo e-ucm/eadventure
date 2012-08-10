@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gwt.xml.client.Node;
 import com.gwtent.reflection.client.Field;
 
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 

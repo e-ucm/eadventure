@@ -48,7 +48,7 @@ import com.google.inject.Singleton;
 import ead.common.model.EAdElement;
 import ead.engine.core.gameobjects.go.GameObject;
 import ead.tools.GenericInjector;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>>

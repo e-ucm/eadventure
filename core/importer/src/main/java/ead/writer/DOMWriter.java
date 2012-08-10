@@ -55,7 +55,7 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 import java.util.*;
 import org.slf4j.Logger;

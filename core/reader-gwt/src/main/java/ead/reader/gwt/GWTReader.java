@@ -52,7 +52,7 @@ import com.google.gwt.xml.client.XMLParser;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 import ead.tools.Callback;
 
 public class GWTReader {

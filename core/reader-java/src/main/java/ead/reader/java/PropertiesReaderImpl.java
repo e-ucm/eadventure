@@ -42,11 +42,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.reader.PropertiesReader;
 
-public class PropertiesReaderImpl implements PropertiesReader {
+public class PropertiesReaderImpl  {
 
-	@Override
+	
 	public void setProperties(EAdAdventureModel model, String eadPropertiesFile) {
 		FileReader reader = null;
 		BufferedReader br = null;

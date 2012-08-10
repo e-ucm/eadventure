@@ -40,7 +40,7 @@ package ead.writer;
 import org.w3c.dom.Element;
 
 import ead.common.params.EAdParam;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

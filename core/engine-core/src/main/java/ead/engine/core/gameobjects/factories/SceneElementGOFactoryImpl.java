@@ -44,7 +44,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.engine.core.factorymapproviders.ElementGameObjectFactoryConfigurator;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.tools.GenericInjector;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 /**
  * <p>

@@ -49,7 +49,7 @@ import ead.engine.core.trajectories.Path;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryGenerator;
 import ead.tools.AbstractFactory;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class TrajectoryFactoryImpl extends
 		AbstractFactory<TrajectoryGenerator<?>> implements TrajectoryFactory {

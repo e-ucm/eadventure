@@ -39,7 +39,7 @@ package ead.reader.java;
 
 import com.google.inject.AbstractModule;
 
-import ead.reader.StringFileHandler;
+import ead.reader.strings.StringFileHandler;
 
 public class ReaderModule extends AbstractModule {
 

@@ -45,7 +45,7 @@ import org.w3c.dom.NodeList;
 
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

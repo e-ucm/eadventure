@@ -47,9 +47,9 @@ import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;
 import ead.tools.GenericInjector;
-import ead.tools.ReflectionProvider;
 import ead.tools.java.JavaInjector;
-import ead.tools.java.JavaReflectionProvider;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class GdxAndroidModule extends AbstractModule {
 

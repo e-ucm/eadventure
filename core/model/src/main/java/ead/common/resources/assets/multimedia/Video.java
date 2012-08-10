@@ -41,9 +41,9 @@ import ead.common.interfaces.Param;
 import ead.common.util.EAdURI;
 
 public class Video implements EAdVideo {
-	
-	@Param("isStream")
-	private boolean isStream;
+
+	@Param("stream")
+	private boolean stream;
 
 	@Param("uri")
 	private EAdURI uri;
@@ -64,14 +64,13 @@ public class Video implements EAdVideo {
 	public void setUri(EAdURI uri) {
 		this.uri = uri;
 	}
-
-	public void setStream(boolean isStream) {
-		this.isStream = isStream;
+	
+	public boolean isStream() {
+		return stream;
 	}
 
-	@Override
-	public boolean isStream() {
-		return isStream;
+	public void setStream(boolean stream) {
+		this.stream = stream;
 	}
 
 }

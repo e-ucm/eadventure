@@ -44,7 +44,7 @@ import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 import ead.tools.AbstractFactory;
 import ead.tools.MapProvider;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class AbstractFilterFactory<GraphicContext> extends AbstractFactory<RuntimeFilter<?, GraphicContext>> implements FilterFactory<GraphicContext> {
 

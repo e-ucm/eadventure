@@ -56,10 +56,10 @@ import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.tools.GenericInjector;
-import ead.tools.ReflectionProvider;
 import ead.tools.StringHandler;
 import ead.tools.StringHandlerImpl;
 import ead.tools.gwt.GdxReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class GdxModule extends AbstractGinModule {
 

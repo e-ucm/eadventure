@@ -66,7 +66,7 @@ import org.w3c.dom.Node;
 import com.google.inject.Singleton;
 
 import ead.common.params.text.EAdString;
-import ead.reader.StringFileHandler;
+import ead.reader.strings.StringFileHandler;
 
 @Singleton
 public class DefaultStringFileHandler implements StringFileHandler {

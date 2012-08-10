@@ -50,7 +50,7 @@ import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.interfaces.Param;
-import ead.reader.DOMTags;
+import ead.reader.adventure.DOMTags;
 
 public abstract class NodeVisitor<T> {
 

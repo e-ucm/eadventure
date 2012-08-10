@@ -45,7 +45,7 @@ import ead.engine.core.factorymapproviders.EffectGameObjectFactoryConfigurator;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.tools.GenericInjector;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class EffectGOFactoryImpl extends

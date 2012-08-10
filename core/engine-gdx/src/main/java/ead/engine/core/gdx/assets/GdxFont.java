@@ -37,7 +37,6 @@
 
 package ead.engine.core.gdx.assets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.google.inject.Inject;
@@ -50,8 +49,8 @@ public class GdxFont extends BasicRuntimeFont {
 
 	private BitmapFont bitmapFont;
 
-	private static final String defaultFont = "data/font/droid-12.fnt";
-	private static final String defaultFontPng = "data/font/droid-12.png";
+	private static final String defaultFont = "@font/droid-12.fnt";
+	private static final String defaultFontPng = "@font/droid-12.png";
 
 	@Inject
 	public GdxFont(AssetHandler assetHandler) {
@@ -72,19 +71,20 @@ public class GdxFont extends BasicRuntimeFont {
 		default:
 			modifier = "";
 		}
-		String fileName = "data/font/droid-" + size
+		String fileName = "@font/droid-" + size
 				+ (modifier.equals("") ? "" : "-" + modifier);
 
 		String fontData = defaultFont;
 		String fontPng = defaultFontPng;
 
-		if (Gdx.files.internal(fileName + ".fnt").exists()
-				&& Gdx.files.internal(fileName + ".png").exists()) {
+		GdxAssetHandler ah = (GdxAssetHandler) assetHandler;
+		if (ah.getFileHandle(fileName + ".fnt").exists()
+				&& ah.getFileHandle(fileName + ".png").exists()) {
 			fontData = fileName + ".fnt";
 			fontPng = fileName + ".png";
 		}
-		bitmapFont = new BitmapFont(Gdx.files.internal(fontData),
-				Gdx.files.internal(fontPng), true);
+		bitmapFont = new BitmapFont(ah.getFileHandle(fontData),
+				ah.getFileHandle(fontPng), true);
 		return true;
 	}
 
@@ -113,7 +113,5 @@ public class GdxFont extends BasicRuntimeFont {
 		super.freeMemory();
 		bitmapFont.dispose();
 	}
-	
-	
 
 }

@@ -40,7 +40,7 @@ package ead.engine.core.operators;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.tools.ReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class ValueOperator implements Operator<ValueOp> {
 
