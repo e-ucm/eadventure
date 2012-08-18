@@ -37,6 +37,9 @@
 
 package ead.engine.core.gdx.assets.drawables;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,7 +52,9 @@ import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class GdxImage extends RuntimeImage<SpriteBatch> {
-	
+
+	private static final Logger logger = LoggerFactory.getLogger("GdxImage");
+
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
 
@@ -57,20 +62,27 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	public GdxImage(AssetHandler assetHandler) {
 		super(assetHandler);
 	}
-	
+
 	@Override
 	public boolean loadAsset() {
-		pixmap = new Pixmap(((GdxAssetHandler) assetHandler).getFileHandle(descriptor.getUri().getPath()));
+		try {
+			pixmap = new Pixmap(((GdxAssetHandler) assetHandler).getFileHandle(descriptor.getUri()
+					.getPath()));
+		} catch (Exception e) {
+			// TODO Load a default error image.
+			logger.warn("Cound not load image for descriptor: " + descriptor, e);
+			pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
+		}
 		Texture texture = new Texture(pixmap);
 		textureRegion = new TextureRegion(texture);
 		textureRegion.flip(false, true);
 		return false;
 	}
-	
+
 	@Override
 	public boolean contains(int x, int y) {
-		if ( super.contains(x, y)){
-			int alpha = pixmap.getPixel( x, y ) & 255;
+		if (super.contains(x, y)) {
+			int alpha = pixmap.getPixel(x, y) & 255;
 			return alpha > 128;
 		}
 		return false;
@@ -78,15 +90,13 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	@Override
 	public int getWidth() {
-		return Math.abs( textureRegion.getRegionWidth() );
+		return Math.abs(textureRegion.getRegionWidth());
 	}
 
 	@Override
 	public int getHeight() {
-		return Math.abs( textureRegion.getRegionHeight() );
+		return Math.abs(textureRegion.getRegionHeight());
 	}
-
-
 
 	@Override
 	public void freeMemory() {
@@ -97,7 +107,7 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	public boolean isLoaded() {
 		return textureRegion != null;
 	}
-	
+
 	@Override
 	public void render(GenericCanvas<SpriteBatch> c) {
 		render(c.getNativeGraphicContext());
