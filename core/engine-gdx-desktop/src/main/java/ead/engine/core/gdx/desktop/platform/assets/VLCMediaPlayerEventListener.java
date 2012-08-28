@@ -58,11 +58,6 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 	}
 
 	@Override
-	public void buffering(MediaPlayer arg0) {
-
-	}
-
-	@Override
 	public void endOfSubItems(MediaPlayer arg0) {
 		vlcDesktopVideoRenderer.setFinished(true);
 		vlcDesktopVideoRenderer.setStarted(false);
@@ -90,10 +85,6 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 
 	@Override
 	public void lengthChanged(MediaPlayer arg0, long arg1) {
-	}
-
-	@Override
-	public void mediaChanged(MediaPlayer arg0) {
 	}
 
 	@Override
@@ -178,6 +169,16 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 	@Override
 	public void videoOutput(MediaPlayer arg0, int arg1) {
 
+	}
+
+	@Override
+	public void buffering(MediaPlayer arg0, float arg1) {
+		
+	}
+
+	@Override
+	public void mediaChanged(MediaPlayer arg0, libvlc_media_t arg1, String arg2) {
+		
 	}
 
 }

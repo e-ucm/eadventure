@@ -55,8 +55,6 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
-
 /**
  * Utility class that prettifies data.xml files so that they become easier to
  * compare or read.
@@ -132,7 +130,7 @@ public class DataPrettifier {
             OutputStream out = new FileOutputStream(output);
             XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
             XMLStreamWriter writer = outputFactory.createXMLStreamWriter(out);
-            writer = new IndentingXMLStreamWriter(writer);
+//            writer = new IndentingXMLStreamWriter(writer);
             writer.writeStartDocument();
 
             while (true) {

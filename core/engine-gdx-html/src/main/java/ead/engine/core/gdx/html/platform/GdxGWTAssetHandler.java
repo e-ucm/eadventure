@@ -37,9 +37,6 @@
 
 package ead.engine.core.gdx.html.platform;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,11 +87,6 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	}
 
 	@Override
-	public String getAbsolutePath(String uri) {
-		return uri.replaceAll("@", resourcesUri.getPath());
-	}
-
-	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 
 		// FIXME: it is ugly to discard all these generics; find another way to
@@ -126,17 +118,5 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 
 		return (RuntimeAsset<?>) r;
 	}
-
-	@Override
-	public List<String> getTextFile(String path) {
-		String text = readFile(getAbsolutePath(path));
-		return Arrays.asList(text.split("\n"));
-	}
-
-	public final native String readFile(String path) /*-{
-		file = fopen(path, 0);
-		str = fread(file, flength(file));
-		return str;
-	}-*/;
 
 }

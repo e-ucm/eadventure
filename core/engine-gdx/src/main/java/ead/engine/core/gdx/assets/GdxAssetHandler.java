@@ -37,7 +37,9 @@
 
 package ead.engine.core.gdx.assets;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -54,6 +56,8 @@ import ead.tools.SceneGraph;
 public class GdxAssetHandler extends AbstractAssetHandler {
 
 	private static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
+	
+	private static final String PROJECT_INTERNAL_PATH = "";
 
 	private GenericInjector injector;
 
@@ -76,18 +80,38 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 	}
 
 	@Override
-	public List<String> getTextFile(String path) {
-		return null;
+	public void getTextFile(String path, LoadTextFileListener callback) {
+		FileHandle fh = getFileHandle(path);
+
+		if (fh != null) {
+			StringBuilder text = new StringBuilder();
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(fh.reader());
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					text.append(line + "\n");
+				}
+			} catch (FileNotFoundException e) {
+
+			} catch (IOException e) {
+
+			} finally {
+				try {
+					if (reader != null) {
+						reader.close();
+					}
+				} catch (IOException e) {
+
+				}
+			}
+			callback.read(text.toString());
+		}
 	}
 
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		return injector.getInstance(clazz);
-	}
-
-	@Override
-	public String getAbsolutePath(String uri) {
-		return this.resourcesUri.getPath() + "/" + uri.substring(1);
 	}
 
 	public FileHandle getFileHandle(String path) {
@@ -97,6 +121,11 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 			if (absolute.exists()) {
 				return absolute;
 			}
+		} else {
+			FileHandle internal = getProjectInternal(uri);
+			if (internal.exists()){
+				return internal;
+			}
 		}
 
 		return getEngineFileHandle(uri);
@@ -104,6 +133,10 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 
 	public FileHandle getProjectFileHandle(String uri) {
 		return Gdx.files.absolute(this.resourcesUri.getPath() + "/" + uri);
+	}
+	
+	public FileHandle getProjectInternal( String uri ){
+		return Gdx.files.internal(PROJECT_INTERNAL_PATH + uri);
 	}
 
 	public FileHandle getEngineFileHandle(String uri) {

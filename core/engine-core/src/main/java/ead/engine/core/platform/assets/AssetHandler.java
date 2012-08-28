@@ -136,15 +136,6 @@ public interface AssetHandler {
 	boolean isLoaded();
 
 	/**
-	 * Returns the absolute path of an uri in a given system
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @return the absolute path
-	 */
-	String getAbsolutePath(String uri);
-
-	/**
 	 * Frees and removes all the assets contained in the cache, except for the
 	 * ones in the exceptions list
 	 * 
@@ -169,7 +160,7 @@ public interface AssetHandler {
 	 *            textFile path
 	 * @return
 	 */
-	List<String> getTextFile(String path);
+	void getTextFile(String path, LoadTextFileListener callback );
 
 	/**
 	 * Sets if the cache is enable for this asset handler. Cache is enabled by
@@ -199,5 +190,10 @@ public interface AssetHandler {
 	 * Clears the assets queue
 	 */
 	void clearAssetQueue();
+	
+	public interface LoadTextFileListener {
+		
+		void read(String text);
+	}
 
 }

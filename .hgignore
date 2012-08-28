@@ -59,3 +59,5 @@ core/engine-gdx-android/assets*
 core/engine-gdx-android/gen/
 core/engine-gdx-android/bin/
 core/engine-gdx-android/proguard.cfg
+
+**/classes

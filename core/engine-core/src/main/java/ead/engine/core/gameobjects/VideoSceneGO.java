@@ -83,11 +83,23 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	}
 
 	public void doLayout(EAdTransformation transformation) {
+		// Do nothing
+	}
+	
+	boolean toStart = false;
+
+	@Override
+	public void update() {
+		super.update();
 		if (component == null) {
 			try {
 				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
 						currentBundle, VideoScene.video);
 				component = specialAssetRenderer.getComponent(v);
+				if (component != null) {
+					gui.showSpecialResource(component, 0, 0, true);
+					toStart = true;
+				}
 			} catch (Exception e) {
 				logger.warn("Exception creating video component", e);
 				error = true;
@@ -96,30 +108,13 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 				error = true;
 			}
 		}
-
-		if (!error) {
-			if (specialAssetRenderer.isFinished()) {
-				gui.showSpecialResource(null, 0, 0, true);
-				component = null;
-			} else {
-				gui.showSpecialResource(component, 0, 0, true);
-			}
-		}
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		if (error) {
-			logger.info("Video removed due to error");
-			removeVideoComponent();
-		} else if (specialAssetRenderer.isFinished()) {
-			logger.info("Video finished");
-			gui.showSpecialResource(null, 0, 0, true);
-			specialAssetRenderer.reset();
-			removeVideoComponent();
-		} else if (component != null) {
+		else if ( toStart ){
+			toStart = false;
 			specialAssetRenderer.start();
+		}
+		else if (error || specialAssetRenderer.isFinished()) {
+			gui.showSpecialResource(null, 0, 0, true);
+			removeVideoComponent();
 		}
 	}
 

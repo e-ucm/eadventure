@@ -63,7 +63,6 @@ import com.google.inject.Singleton;
 import com.sun.jna.NativeLibrary;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
 /**
@@ -122,10 +121,10 @@ public class VLCDesktopVideoRenderer implements
 	/**
 	 * The eAd asset handler
 	 */
-	private AssetHandler assetHandler;
+	private GdxDesktopAssetHandler assetHandler;
 
 	@Inject
-	public VLCDesktopVideoRenderer(AssetHandler assetHandler) {
+	public VLCDesktopVideoRenderer(GdxDesktopAssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 		initializeVariables();
 	}
@@ -152,7 +151,7 @@ public class VLCDesktopVideoRenderer implements
 
 		path = asset.getUri().getPath();
 		if (assetHandler != null && !asset.isStream()) {
-			path = assetHandler.getAbsolutePath(asset.getUri().getPath());
+			path = assetHandler.getTempFilePath(asset.getUri().getPath());
 		}
 
 		if (asset.isStream()) {

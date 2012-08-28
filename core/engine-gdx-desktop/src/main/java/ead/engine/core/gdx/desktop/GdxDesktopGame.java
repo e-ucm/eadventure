@@ -58,8 +58,8 @@ import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.reader.java.EAdAdventureDOMModelReader;
 import ead.tools.StringHandler;
@@ -78,7 +78,8 @@ public class GdxDesktopGame {
 	private boolean writeAndRead = false;
 
 	public GdxDesktopGame() {
-		injector = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule());
+		injector = Guice.createInjector(new GdxDesktopModule(),
+				new JavaToolsModule());
 		game = injector.getInstance(Game.class);
 	}
 
@@ -187,12 +188,10 @@ public class GdxDesktopGame {
 	}
 
 	public void start() {
-
 		JavaInjector injector = new JavaInjector(this.injector);
-		GUI gui = injector.getInstance(GUI.class);
+		GameLoader g = injector.getInstance(GameLoader.class);
 		injector.getInstance(AssetHandler.class).setResourcesLocation(
 				new EAdURI(file));
-		gui.initialize();
 	}
 
 }

@@ -127,7 +127,7 @@ public class GameImpl implements Game {
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			EngineConfiguration configuration, ActionsHUD actionsHUD,
-			GameTracker tracker, SceneGraph sceneGraph, GameLoader gameLoader) {
+			GameTracker tracker, SceneGraph sceneGraph) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -144,8 +144,8 @@ public class GameImpl implements Game {
 		this.adventure = new BasicAdventureModel();
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
-		this.gameLoader = gameLoader;
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
+		gui.initialize();
 		gui.setGame(this);
 	}
 
@@ -351,6 +351,11 @@ public class GameImpl implements Game {
 
 	public EAdChapter getCurrentChapter() {
 		return currentChapter;
+	}
+
+	@Override
+	public void setGameLoader(GameLoader gameLoader) {
+		this.gameLoader = gameLoader;
 	}
 
 }

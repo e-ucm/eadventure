@@ -45,6 +45,8 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler.LoadTextFileListener;
 import ead.reader.adventure.AdventureReader;
 import ead.reader.adventure.ObjectFactory;
 import ead.reader.properties.PropertiesReader;
@@ -65,14 +67,16 @@ public class GameLoader {
 	private StringsReader stringsReader;
 
 	private PropertiesReader propertiesReader;
+	
+	private Game game;
 
 	private StringHandler stringHandler;
-
-	private Game game;
 
 	private ReflectionProvider reflectionProvider;
 
 	private ReflectionClassLoader reflectionClassLoader;
+	
+	private AssetHandler assetHandler;
 
 	// Data to load
 
@@ -88,6 +92,36 @@ public class GameLoader {
 	private Map<EAdString, String> stringsMap;
 
 	private Map<String, String> propertiesMap;
+	
+	private int listeners;
+	
+	// Aux
+	private LoadTextFileListener dataListener = new LoadTextFileListener(){
+
+		@Override
+		public void read(String text) {
+			data = text;
+			checkListeners( );
+		}
+	};
+	
+	private LoadTextFileListener stringsListener = new LoadTextFileListener(){
+
+		@Override
+		public void read(String text) {
+			strings = text;
+			checkListeners( );
+		}
+	};
+	
+	private LoadTextFileListener propertiesListener = new LoadTextFileListener(){
+
+		@Override
+		public void read(String text) {
+			properties = text;
+			checkListeners( );
+		}
+	};
 
 	@Inject
 	public GameLoader(GenericInjector injector) {
@@ -97,11 +131,27 @@ public class GameLoader {
 		propertiesReader = new PropertiesReader();
 		stringHandler = injector.getInstance(StringHandler.class);
 		game = injector.getInstance(Game.class);
+		game.setGameLoader(this);
 		reflectionProvider = injector.getInstance(ReflectionProvider.class);
 		reflectionClassLoader = injector
 				.getInstance(ReflectionClassLoader.class);
+		assetHandler = injector.getInstance(AssetHandler.class);
 		ObjectFactory.init(reflectionProvider);
 		ReflectionClassLoader.init(reflectionClassLoader);
+	}
+	
+	public void loadGameFromFiles( String dataFile, String stringsFile, String propertiesFile ){
+		listeners = 0;
+		assetHandler.getTextFile(dataFile, dataListener );
+		assetHandler.getTextFile(stringsFile, stringsListener );
+		assetHandler.getTextFile(propertiesFile, propertiesListener );
+	}
+	
+	private void checkListeners( ){
+		listeners++;
+		if ( listeners == 3 ){
+			loadGame( data, strings, properties );
+		}
 	}
 
 	public void loadGame(String data, String strings, String properties) {

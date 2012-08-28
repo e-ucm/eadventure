@@ -40,6 +40,8 @@ package ead.engine.core.gdx.desktop.platform.assets;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -59,10 +61,13 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 
 	private boolean zipped;
 
+	private Map<String, String> tempFiles;
+
 	@Inject
 	public GdxDesktopAssetHandler(GenericInjector injector) {
 		super(injector);
 		zipped = false;
+		tempFiles = new HashMap<String, String>();
 	}
 
 	@Override
@@ -80,6 +85,24 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 		} else {
 			zipped = false;
 		}
+	}
+
+	public String getTempFilePath(String path) {
+		if (!tempFiles.containsKey(path)) {
+			FileHandle file = getFileHandle(path);
+			if (file.exists()) {
+				try {
+					File f = File.createTempFile("video", null);
+					f.deleteOnExit();
+					FileHandle tempFile = new FileHandle(f);
+					file.copyTo(tempFile);
+					tempFiles.put(path, f.getAbsolutePath());
+				} catch (IOException e) {
+
+				}
+			}
+		}
+		return tempFiles.get(path);
 	}
 
 	@Override

@@ -138,7 +138,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-playn</artifactId>
+			<artifactId>engine-gdx-html</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -160,12 +160,7 @@
 		<!-- Desktop dependencies. Not used in GWT compilation -->
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-desktop</artifactId>
+			<artifactId>engine-gdx-desktop</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

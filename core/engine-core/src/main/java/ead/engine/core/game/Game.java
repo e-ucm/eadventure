@@ -84,4 +84,6 @@ public interface Game {
 	
 	EAdChapter getCurrentChapter();
 
+	void setGameLoader(GameLoader gameLoader);
+
 }

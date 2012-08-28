@@ -35,29 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.html;
+package ead.engine.core.gdx.desktop;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.backends.gwt.GwtApplication;
-import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.google.gwt.core.client.GWT;
+import com.google.inject.Guice;
 
 import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.html.tools.GwtGinInjector;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.reader.java.ReaderModule;
+import ead.tools.java.JavaInjector;
+import ead.tools.java.JavaToolsModule;
 
-public class GwtLauncher extends GwtApplication {
-	@Override
-	public GwtApplicationConfiguration getConfig() {
-		GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(800,
-				600);
-		return cfg;
+public class DesktopGame extends JavaInjector {
+
+	public DesktopGame() {
+		super(Guice.createInjector(new GdxDesktopModule(),
+				new JavaToolsModule(), new ReaderModule()));
 	}
 
-	@Override
-	public ApplicationListener getApplicationListener() {
-		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
-		GameLoader g = injector.getGameLoader();
-		g.loadGameFromFiles("@datad.xml", "@strings.xml", "ead.properties");
-		return injector.getEngine();
+	public void load(String dataFile, String stringsFile, String propertiesFile) {
+		GameLoader g = getInstance(GameLoader.class);
+		g.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
 	}
+
 }
