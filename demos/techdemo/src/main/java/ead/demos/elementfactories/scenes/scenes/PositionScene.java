@@ -35,27 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.scenes.scenes;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.util.EAdPosition;
+import ead.common.util.EAdPosition.Corner;
+import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+public class PositionScene extends EmptyScene {
 
-public class EAdEngine {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+	public PositionScene() {
+		setId("PositionsScene");
+		getBackground().getDefinition().getResources().addAsset(
+				getBackground().getDefinition().getInitialBundle(),
+				SceneElementDef.appearance,
+				new Image("@drawable/centerbackground.png"));
+		
+		NgCommon.init();
+		SceneElement e = new SceneElement( NgCommon.getMainCharacter());
+		e.setInitialScale(0.5f);
+		e.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
+		
+		this.getSceneElements().add(e);
 	}
 
+	@Override
+	public String getSceneDescription() {
+		return "A scene to tests coners in EAdPositionImpl";
+	}
+
+	public String getDemoName() {
+		return "Positions Scene";
+	}
 }

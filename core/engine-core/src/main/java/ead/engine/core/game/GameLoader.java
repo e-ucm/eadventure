@@ -67,7 +67,7 @@ public class GameLoader {
 	private StringsReader stringsReader;
 
 	private PropertiesReader propertiesReader;
-	
+
 	private Game game;
 
 	private StringHandler stringHandler;
@@ -75,7 +75,7 @@ public class GameLoader {
 	private ReflectionProvider reflectionProvider;
 
 	private ReflectionClassLoader reflectionClassLoader;
-	
+
 	private AssetHandler assetHandler;
 
 	// Data to load
@@ -92,34 +92,34 @@ public class GameLoader {
 	private Map<EAdString, String> stringsMap;
 
 	private Map<String, String> propertiesMap;
-	
+
 	private int listeners;
-	
+
 	// Aux
-	private LoadTextFileListener dataListener = new LoadTextFileListener(){
+	private LoadTextFileListener dataListener = new LoadTextFileListener() {
 
 		@Override
 		public void read(String text) {
 			data = text;
-			checkListeners( );
+			checkListeners();
 		}
 	};
-	
-	private LoadTextFileListener stringsListener = new LoadTextFileListener(){
+
+	private LoadTextFileListener stringsListener = new LoadTextFileListener() {
 
 		@Override
 		public void read(String text) {
 			strings = text;
-			checkListeners( );
+			checkListeners();
 		}
 	};
-	
-	private LoadTextFileListener propertiesListener = new LoadTextFileListener(){
+
+	private LoadTextFileListener propertiesListener = new LoadTextFileListener() {
 
 		@Override
 		public void read(String text) {
 			properties = text;
-			checkListeners( );
+			checkListeners();
 		}
 	};
 
@@ -139,18 +139,19 @@ public class GameLoader {
 		ObjectFactory.init(reflectionProvider);
 		ReflectionClassLoader.init(reflectionClassLoader);
 	}
-	
-	public void loadGameFromFiles( String dataFile, String stringsFile, String propertiesFile ){
+
+	public void loadGameFromFiles(String dataFile, String stringsFile,
+			String propertiesFile) {
 		listeners = 0;
-		assetHandler.getTextFile(dataFile, dataListener );
-		assetHandler.getTextFile(stringsFile, stringsListener );
-		assetHandler.getTextFile(propertiesFile, propertiesListener );
+		assetHandler.getTextFile(dataFile, dataListener);
+		assetHandler.getTextFile(stringsFile, stringsListener);
+		assetHandler.getTextFile(propertiesFile, propertiesListener);
 	}
-	
-	private void checkListeners( ){
+
+	private void checkListeners() {
 		listeners++;
-		if ( listeners == 3 ){
-			loadGame( data, strings, properties );
+		if (listeners == 3) {
+			loadGame(data, strings, properties);
 		}
 	}
 
@@ -172,17 +173,22 @@ public class GameLoader {
 			} else if (step == 2) {
 				propertiesMap = propertiesReader.readProperties(properties);
 			} else if (step == 3) {
-				stringHandler.setStrings(stringsMap);
-
-				for (Entry<String, String> entry : propertiesMap.entrySet()) {
-					model.setProperty(entry.getKey(), entry.getValue());
-				}
-				game.setGame(model, model.getChapters().get(0));
+				loadGame(model, stringsMap, propertiesMap);
 			}
 			if (step < 4) {
 				step++;
 			}
 		}
+	}
+
+	public void loadGame(EAdAdventureModel model,
+			Map<EAdString, String> stringsMap, Map<String, String> propertiesMap) {
+		stringHandler.setStrings(stringsMap);
+
+		for (Entry<String, String> entry : propertiesMap.entrySet()) {
+			model.setProperty(entry.getKey(), entry.getValue());
+		}
+		game.setGame(model, model.getChapters().get(0));
 	}
 
 }

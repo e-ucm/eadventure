@@ -35,11 +35,6 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>importer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
 			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -108,12 +103,6 @@
 
 		<!-- tests -->
 		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>test-suite</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
@@ -129,7 +118,7 @@
 	</dependencies>
 
 	<properties>
-		<eadmainclass>ead.engine.core.gdx.desktop.Main</eadmainclass>
+		<eadmainclass>ead.engine.core.gdx.desktop.EAdEngine</eadmainclass>
 	</properties>
 	<build>
 		<plugins>

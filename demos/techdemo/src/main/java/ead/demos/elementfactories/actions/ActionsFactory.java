@@ -35,27 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.actions;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.EAdAction;
+import ead.common.model.elements.actions.ElementAction;
+import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.demos.elementfactories.EAdElementsFactory;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+public class ActionsFactory {
+	
+	public EAdAction getBasicAction( ){
+		ElementAction action = new ElementAction();
+		action.getResources().addAsset(action.getInitialBundle(),
+				ElementAction.appearance,
+				new Image("@drawable/examine-normal.png"));
+		action.getResources().addAsset(action.getHighlightBundle(),
+				ElementAction.appearance,
+				new Image("@drawable/examine-pressed.png"));
 
-public class EAdEngine {
+		SpeakEf speak = new SpeakEf();
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+		EAdElementsFactory.getInstance().getStringFactory()
+				.setString(speak.getString(), "The action was triggered!");
+
+		
+		action.getEffects().add(speak);
+		
+		return action;
 	}
 
 }

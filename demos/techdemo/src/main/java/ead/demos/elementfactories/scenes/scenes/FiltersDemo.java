@@ -35,27 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.scenes.scenes;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
+import ead.common.resources.assets.drawable.filters.FilteredDrawable;
+import ead.common.resources.assets.drawable.filters.MatrixFilter;
+import ead.common.util.BasicMatrix;
+import ead.common.util.EAdPosition.Corner;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+public class FiltersDemo extends EmptyScene {
 
-public class EAdEngine {
+	public FiltersDemo() {
+		setId("FiltersDemo");
+		BasicMatrix m = new BasicMatrix();
+		m.scale(-1.0f, 1.0f, true);
+		Image i = new Image("@drawable/ng_key.png");
+		EAdFilteredDrawable d = new FilteredDrawable(i, new MatrixFilter(m, 1.0f, 0.0f));
+		SceneElement e = new SceneElement(d);
+		e.setInitialScale(0.8f);
+		e.setPosition(Corner.CENTER, 400, 300);
+		
+		SceneElement e2 = new SceneElement(i);
+		e2.setPosition(Corner.CENTER, 400, 400);
+		e2.setInitialScale(0.8f);
+		getSceneElements().add(e2);
+		getSceneElements().add(e);
+	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+	@Override
+	public String getSceneDescription() {
+		return "An scene showing filters.";
+	}
+
+	public String getDemoName() {
+		return "Filters Scene";
 	}
 
 }

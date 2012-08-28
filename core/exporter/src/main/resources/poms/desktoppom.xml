@@ -27,7 +27,7 @@
 	</repositories>
 
 	<properties>
-		<eadmainclass>ead.engine.core.gdx.desktop.Main</eadmainclass>
+		<eadmainclass>ead.engine.core.gdx.desktop.EAdEngine</eadmainclass>
 	</properties>
 	<build>
 		<resources>

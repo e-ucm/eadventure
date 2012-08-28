@@ -35,27 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.events;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
-
-public class EAdEngine {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+public class EventsFactory {
+	
+	private static int ID_GENERATOR = 0;
+	
+	public SceneElementEv getEvent( SceneElementEvType type, EAdEffect effect ){
+		SceneElementEv event = new SceneElementEv(  );
+		event.setId("scenElementEvent" + ID_GENERATOR++);
+		event.addEffect(type, effect);
+		return event;
 	}
 
 }

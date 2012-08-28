@@ -35,44 +35,60 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.scene;
+package ead.demos.elementfactories.scenes.scenes;
 
-import javax.swing.JFrame;
-
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.paint.EAdFill;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
+import ead.demos.elementfactories.scenes.SceneDemo;
 
-public class SimpleSceneViewerTest {
-	
-	public static void main( String args[] ){
+/**
+ * An empty scene
+ * 
+ */
+public class EmptyScene extends BasicScene implements SceneDemo {
+
+	private RectangleShape rectangle;
+
+	public EmptyScene() {
+		super();
+		setId("EmptyScene");
+		((SceneElementDef) this.getDefinition()).setName(EAdString.newRandomEAdString("name"));
+		((SceneElementDef) this.getDefinition()).setDesc(EAdString.newRandomEAdString("desc"));
+		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString.newRandomEAdString("detailDesc"));
+		((SceneElementDef) this.getDefinition()).setDoc(EAdString.newRandomEAdString("doc"));
 		
-		JFrame frame = new JFrame("SceneViewer");
-		frame.setSize(800, 600);
 		
-		SimpleSceneViewer viewer = new SimpleSceneViewer( );
-		viewer.setScene(getSimpleScene());
-		
-		viewer.getCanvas().setSize(800, 600);
-		frame.getContentPane().add(viewer.getCanvas());
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		rectangle = new RectangleShape(800, 600);
+		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240), ColorFill.WHITE, 800, 600));
+		getBackground().getDefinition().getResources().addAsset(
+				getBackground().getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, rectangle);
 	}
 	
-	public static EAdScene getSimpleScene( ){
-		BasicScene scene = new BasicScene( new RectangleShape( 800, 600, ColorFill.RED));
-		
-		SceneElement button = new SceneElement( new RectangleShape( 20, 20, ColorFill.BLACK));
-		button.setPosition(Corner.CENTER, 400, 300);
-		
-		scene.getSceneElements().add(button);
-		
-		return scene;
+	public void setBackgroundFill( EAdFill fill ){
+		rectangle.setPaint(fill);
+	}
+
+	@Override
+	public String getSceneDescription() {
+		return "An empty scene. Not much to do here.";
+	}
+
+	public String getDemoName() {
+		return "Empty Scene";
+	}
+	
+	public String toString(){
+		return getDemoName() + " - " + getSceneDescription();
+	}
+	
+	public String getId(){
+		return getDemoName();
 	}
 
 }

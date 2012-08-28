@@ -45,8 +45,8 @@ import com.google.inject.Guice;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
-import ead.elementfactories.EAdElementsFactory;
-import ead.elementfactories.demos.scenes.InitScene;
+import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.engine.core.game.Game;
 import ead.engine.core.gdx.EAdEngine;
 import ead.tools.StringHandler;
@@ -67,7 +67,7 @@ public class MainActivity extends AndroidApplication {
 		EAdEngine engine = injector.getInstance(EAdEngine.class);
 		Game g = injector.getInstance(Game.class);
 
-		InitScene scene = new InitScene();
+		EAdScene scene = new BasicScene();
 		BasicChapter chapter = new BasicChapter();
 		chapter.setInitialScene(scene);
 
@@ -77,7 +77,7 @@ public class MainActivity extends AndroidApplication {
 		g.setGame(adventure, chapter);
 		
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
-		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
+//		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
 		
 		engine.setGame(g);
 		initialize(engine, cfg);

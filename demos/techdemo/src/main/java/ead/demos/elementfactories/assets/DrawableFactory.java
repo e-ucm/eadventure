@@ -35,36 +35,54 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.assets;
 
-import java.util.Map;
+import ead.common.interfaces.features.enums.Orientation;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.animation.Frame;
+import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
+import ead.common.resources.assets.drawable.compounds.StateDrawable;
 
-import com.google.inject.Guice;
-
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.params.text.EAdString;
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.java.JavaInjector;
-import ead.tools.java.JavaToolsModule;
-
-public class DesktopGame extends JavaInjector {
-
-	public DesktopGame() {
-		super(Guice.createInjector(new GdxDesktopModule(),
-				new JavaToolsModule(), new ReaderModule()));
+public class DrawableFactory {
+	
+	public Image getImage( String uri ){
+		Image image = new Image( uri );
+		return image;
 	}
-
-	public void load(String dataFile, String stringsFile, String propertiesFile) {
-		GameLoader g = getInstance(GameLoader.class);
-		g.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
+	
+	public FramesAnimation getFramesAnimation( String[] uris, int timePerFrame ){
+		FramesAnimation frames = new FramesAnimation();
+		for ( String s: uris ){
+			frames.addFrame(new Frame( s, timePerFrame ));
+		}
+		return frames;
+		
 	}
-
-	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
-			Map<String, String> properties) {
-		GameLoader g = getInstance(GameLoader.class);
-		g.loadGame(model, strings, properties);
+	
+	public StateDrawable getOrientedDrawable( String[] uris ){
+		StateDrawable oriented = new StateDrawable( );
+		if ( uris.length == 4 ){
+			int i = 0;
+			oriented.setDrawable(Orientation.N, getImage( uris[i++]));
+			oriented.setDrawable(Orientation.E, getImage( uris[i++]));
+			oriented.setDrawable(Orientation.S, getImage( uris[i++]));
+			oriented.setDrawable(Orientation.W, getImage( uris[i++]));
+		}
+		return oriented;
 	}
+	
+	public EAdStateDrawable getStateDrawable( String[] states, EAdDrawable[] drawables){
+		StateDrawable state = new StateDrawable( );
+		if ( states.length == drawables.length ){
+			int i = 0;
+			for ( String s: states ){
+				state.addDrawable(s, drawables[i++]);
+			}
+		}
+		return state;
+	}
+	
 
 }

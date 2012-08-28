@@ -40,8 +40,6 @@ package ead.common.model.elements;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Evented;
-import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
@@ -99,6 +97,16 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 
+	}
+
+	/**
+	 * Creates a chapter with the initial scene
+	 * 
+	 * @param initScene
+	 */
+	public BasicChapter(EAdScene initScene) {
+		this();
+		setInitialScene(initScene);
 	}
 
 	/*

@@ -35,27 +35,48 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.assets;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.fills.Paint;
+import ead.common.params.paint.EAdFill;
+import ead.common.params.paint.EAdPaint;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
+import ead.common.util.EAdURI;
+import ead.demos.elementfactories.EAdElementsFactory;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+public class CaptionFactory {
 
-public class EAdEngine {
+	private EAdFill fill = new LinearGradientFill(ColorFill.GRAY,
+			ColorFill.LIGHT_GRAY, 20, 20, true);
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+	private EAdFont droidFont = new BasicFont(new EAdURI(
+			"@binary/DroidSans-Bold.ttf"), 20);
+
+	public Caption createCaption(String text, EAdPaint textFill,
+			EAdPaint bubbleFill, EAdFont font) {
+		Caption caption = new Caption();
+		EAdElementsFactory.getInstance().getStringFactory()
+				.setString(caption.getText(), text);
+
+		caption.setTextPaint(textFill);
+		caption.setBubblePaint(bubbleFill);
+		caption.setFont(font);
+		caption.setPadding(20);
+		return caption;
+
+	}
+
+	public Caption createCaption(String text, EAdPaint textFill,
+			EAdFill bubbleFill) {
+		return createCaption(text, textFill, bubbleFill, droidFont);
+	}
+
+	public Caption createCaption(String text) {
+		return createCaption(text, Paint.WHITE_ON_BLACK, fill);
 	}
 
 }

@@ -35,27 +35,31 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.scenes.scenes;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.EAdEffect;
+import ead.common.params.fills.Paint;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.util.EAdURI;
+import ead.demos.elementfactories.EAdElementsFactory;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
-
-public class EAdEngine {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+public class SoundScene extends EmptyScene {
+	
+	public SoundScene( ){
+		setId("SoundScene");
+		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Play", Paint.WHITE_ON_BLACK, Paint.BLACK_ON_WHITE, new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
+		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory().getPlaySound("@binary/sound.mp3" );
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption, 10, 10, effect));
 	}
-
+	
+	
+	@Override
+	public String getSceneDescription() {
+		return "A scene where a sound is played";
+	}
+	
+	public String getDemoName(){
+		return "Sound Scene";
+	}
 }

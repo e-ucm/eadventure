@@ -35,27 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.scenes.scenes;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.common.resources.assets.multimedia.Video;
+import ead.demos.elementfactories.scenes.SceneDemo;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+public class WebMVideoScene extends VideoScene implements SceneDemo {
 
-public class EAdEngine {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+	public WebMVideoScene() {
+		setId("youtubeVideoScene");
+		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
+		video.setStream(true);
+		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
+	}
+	
+	@Override
+	public String getSceneDescription() {
+		return "A scene playing a YouTube video.";
+	}
+	
+	public String getDemoName(){
+		return "YouTube video Scene";
 	}
 
 }

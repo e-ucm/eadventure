@@ -35,27 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop;
+package ead.demos.elementfactories.scenes.scenes;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.common.resources.assets.multimedia.Video;
+import ead.demos.elementfactories.scenes.SceneDemo;
 
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+public class VideoSceneDemo extends VideoScene implements SceneDemo {
 
-public class EAdEngine {
+	public VideoSceneDemo() {
+		super();
+		setId("videoScene");
+		EAdVideo video = new Video("@binary/eAdventure.webm");
+		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
+	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+	@Override
+	public String getSceneDescription() {
+		return "A scene showing a video";
+	}
+
+	public String getDemoName() {
+		return "Video Scene";
 	}
 
 }
