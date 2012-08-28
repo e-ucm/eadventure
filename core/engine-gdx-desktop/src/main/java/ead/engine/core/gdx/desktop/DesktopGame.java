@@ -45,7 +45,6 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 
@@ -53,7 +52,7 @@ public class DesktopGame extends JavaInjector {
 
 	public DesktopGame() {
 		super(Guice.createInjector(new GdxDesktopModule(),
-				new JavaToolsModule(), new ReaderModule()));
+				new JavaToolsModule()));
 	}
 
 	public void load(String dataFile, String stringsFile, String propertiesFile) {

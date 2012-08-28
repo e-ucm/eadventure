@@ -42,7 +42,6 @@ import com.google.inject.Injector;
 
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.reader.java.ReaderModule;
 import ead.tools.GenericInjector;
 import ead.tools.java.JavaToolsModule;
 
@@ -52,7 +51,7 @@ public class EAdEngine {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule(), new ReaderModule());
+		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule());
 		GenericInjector injector = i.getInstance(GenericInjector.class);
 		GameLoader g = injector.getInstance(GameLoader.class);
 		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");

@@ -117,9 +117,7 @@
 
 				<!-- XML -->
 				<!-- Reader -->
-				<module>core/reader</module>
-				<module>core/reader-java</module>
-				<module>core/reader-gwt</module>
+				<module>core/reader</module>				
 				<!-- Importer -->
 				<module>core/importer</module>
 				<!-- Exporter -->

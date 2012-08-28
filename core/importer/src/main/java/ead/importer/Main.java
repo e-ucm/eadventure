@@ -39,12 +39,8 @@ package ead.importer;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
 
 import ead.importer.EAdventure1XImporter.ImporterProgressListener;
-import ead.importer.annotation.ImportAnnotator;
-import ead.importer.annotation.NullAnnotator;
-import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaToolsModule;
 
 public class Main {
@@ -68,8 +64,7 @@ public class Main {
 
 		Injector injector = Guice.createInjector(
                 new ImporterModule(),
-                new JavaToolsModule(),
-                new ReaderModule()
+                new JavaToolsModule()
         );
 
 		EAdventure1XImporter importer = injector.getInstance(EAdventure1XImporter.class);

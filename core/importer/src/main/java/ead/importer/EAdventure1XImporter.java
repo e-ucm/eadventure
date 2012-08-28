@@ -63,10 +63,9 @@ import ead.importer.annotation.ImportAnnotator;
 import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
-import ead.reader.java.ProjectFiles;
-import ead.reader.strings.StringFileHandler;
 import ead.tools.StringHandler;
 import ead.writer.EAdAdventureModelWriter;
+import ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
@@ -94,7 +93,7 @@ public class EAdventure1XImporter {
 
 	private StringHandler stringsHandler;
 
-	private StringFileHandler stringFileHandler;
+	private StringWriter stringFileHandler;
 
 	private EAdElementFactory elementFactory;
 
@@ -112,13 +111,12 @@ public class EAdventure1XImporter {
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
 			InputStreamCreator inputStreamCreator, StringHandler stringsWriter,
-			StringFileHandler stringFileHandler,
 			EAdElementFactory elementFactory, ImportAnnotator importAnnotator) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
 		this.stringsHandler = stringsWriter;
-		this.stringFileHandler = stringFileHandler;
+		this.stringFileHandler = new StringWriter();
 		this.elementFactory = elementFactory;
 		this.listeners = new ArrayList<ImporterProgressListener>();
 	}
@@ -218,7 +216,7 @@ public class EAdventure1XImporter {
 
 		OutputStream os = null;
 		try {
-			os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
+			os = new FileOutputStream(new File(path, "data.xml"));
 			writer.write(model, os);
 		} catch (Exception e) {
 			logger.error("Error writing data.xml while importing to '{}'",
@@ -236,7 +234,7 @@ public class EAdventure1XImporter {
 		}
 
 		// Create strings.xml
-		File f = new File(path, ProjectFiles.STRINGS_FILE);
+		File f = new File(path, "strings.xml");
 		try {
 			stringFileHandler.write(f.getAbsolutePath(),
 					stringsHandler.getStrings());
@@ -247,7 +245,7 @@ public class EAdventure1XImporter {
 		}
 
 		// ead.properties
-		File propertiesFile = new File(path, ProjectFiles.PROPERTIES_FILE);
+		File propertiesFile = new File(path, "ead.properties");
 		Properties properties = new Properties();
 		properties.setProperty("targetEngine", CURRENT_EAD_ENGINE_VERSION);
 

@@ -31,7 +31,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>reader-java</artifactId>
+			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- external -->

@@ -55,7 +55,6 @@ import ead.common.model.EAdElement;
 import ead.editor.EditorGuiceModule;
 import ead.editor.model.nodes.DependencyNode;
 import ead.importer.BaseImporterModule;
-import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaToolsModule;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
@@ -91,8 +90,7 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, });
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new EditorGuiceModule(), new JavaToolsModule(),
-				new ReaderModule());
+				new EditorGuiceModule(), new JavaToolsModule());
 		model = injector.getInstance(EditorModel.class);
 	}
 

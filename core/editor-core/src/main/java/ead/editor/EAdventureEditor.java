@@ -48,7 +48,6 @@ import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
 import ead.importer.BaseImporterModule;
-import ead.reader.java.ReaderModule;
 import ead.tools.java.JavaToolsModule;
 import ead.utils.Log4jConfig;
 
@@ -106,8 +105,7 @@ public class EAdventureEditor implements Launcher {
         Injector injector = Guice.createInjector(
                 new BaseImporterModule(),
                 new EditorGuiceModule(),
-                new JavaToolsModule(),
-                new ReaderModule());
+                new JavaToolsModule());
         Launcher launcher = injector.getInstance(Launcher.class);
 
         launcher.configure();

@@ -50,11 +50,6 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>reader-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
 			<artifactId>engine-gdx-desktop</artifactId>
 			<version>${project.version}</version>
 		</dependency>
