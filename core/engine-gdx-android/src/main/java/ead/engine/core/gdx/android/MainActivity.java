@@ -48,7 +48,7 @@ import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.engine.core.game.Game;
-import ead.engine.core.gdx.EAdEngine;
+import ead.engine.core.gdx.GdxEngine;
 import ead.tools.StringHandler;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
@@ -64,7 +64,7 @@ public class MainActivity extends AndroidApplication {
 		JavaInjector injector = new JavaInjector(Guice.createInjector(
 				new GdxAndroidModule(), new JavaToolsModule()));
 
-		EAdEngine engine = injector.getInstance(EAdEngine.class);
+		GdxEngine engine = injector.getInstance(GdxEngine.class);
 		Game g = injector.getInstance(Game.class);
 
 		EAdScene scene = new BasicScene();

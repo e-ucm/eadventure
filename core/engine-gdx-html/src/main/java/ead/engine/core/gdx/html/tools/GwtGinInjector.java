@@ -37,7 +37,6 @@
 
 package ead.engine.core.gdx.html.tools;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
@@ -73,7 +72,7 @@ import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
 import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
 import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
-import ead.engine.core.gdx.EAdEngine;
+import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.gameobjects.GdxApplyForceGO;
 import ead.engine.core.gdx.gameobjects.GdxPhysicsEffectGO;
 import ead.engine.core.gdx.platform.GdxCanvas;
@@ -170,7 +169,7 @@ public interface GwtGinInjector extends Ginjector {
 
 	public AddActorReferenceGO getAddActorReferenceGO();
 
-	public EAdEngine getEngine();
+	public GdxEngine getEngine();
 
 	public GameLoader getGameLoader();
 

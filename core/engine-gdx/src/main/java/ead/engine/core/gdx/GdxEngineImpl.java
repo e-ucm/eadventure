@@ -43,6 +43,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.gdx.platform.GdxCanvas;
@@ -51,7 +52,8 @@ import ead.engine.core.gdx.utils.InvOrtographicCamera;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
 
-public class EAdEngine implements ApplicationListener {
+@Singleton
+public class GdxEngineImpl implements GdxEngine {
 
 	private SpriteBatch spriteBatch;
 
@@ -66,7 +68,7 @@ public class EAdEngine implements ApplicationListener {
 	private InputHandler inputHandler;
 
 	@Inject
-	public EAdEngine(EngineConfiguration engineConfiguration,
+	public GdxEngineImpl(EngineConfiguration engineConfiguration,
 			GdxCanvas canvas, InputHandler inputHandler) {
 		ShaderProgram.pedantic = false;
 		this.engineConfiguration = engineConfiguration;

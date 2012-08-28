@@ -42,23 +42,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gdx.EAdEngine;
+import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.AbstractGUI;
 import ead.engine.core.platform.EngineConfiguration;
 
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	
-	protected EAdEngine engine;
+	protected GdxEngine engine;
 
 	@Inject
 	public GdxGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GdxCanvas canvas, EAdEngine engine) {
+			GdxCanvas canvas, GdxEngine engine) {
 		super(platformConfiguration, gameObjectManager, inputHandler,
 				gameState, gameObjectFactory, canvas);
 		this.engine = engine;
@@ -72,6 +73,11 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	@Override
 	public int getTicksPerSecond() {
 		return Gdx.graphics.getFramesPerSecond();
+	}
+	
+	public void setGame( Game g ){
+		super.setGame(g);
+		engine.setGame(game);
 	}
 
 	@Override

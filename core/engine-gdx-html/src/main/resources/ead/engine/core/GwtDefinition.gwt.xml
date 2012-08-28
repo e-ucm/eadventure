@@ -3,23 +3,18 @@
 <module>
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='ead.tools.gwttools' />
-	<!-- <inherits name='EAdEngine' /> -->
 	<inherits name='ead.common.model' />
 	<inherits name='ead.engine.enginecore' />
-	<inherits name="ead.elementfactories" />
-	<inherits name="ead.tools.gwttools" />
+	<inherits name='ead.tools.gwttools' />
+	<inherits name='ead.reader.reader' />
 	<inherits name='java.util.lib' />
 	<inherits name='org.slf4j.slf4j' />
 	<inherits name='com.gwtent.GwtEnt' />
 	<inherits name='com.google.gwt.logging.Logging' />
-	<inherits name="com.google.gwt.xml.XML" />
+	<inherits name='com.google.gwt.xml.XML' />
 
 	<!-- GLAS -->
 	<inherits name="es.eucm.glas.tracker.Gwttracker" />
-
-	<!-- <inherits name='fr.hd3d.html5.video.HTML5Video' /> -->
-	<!-- Optionally, enable gwt-log's advanced logging features: <inherits name="playn.logging.Enhanced" 
-		/> -->
 
 	<!-- Inherit the GIN (guice for gwt) module -->
 	<inherits name='com.google.gwt.inject.Inject' />
@@ -29,9 +24,10 @@
 	<source path="gdx/html" />
 	<entry-point class='ead.engine.core.gdx.html.GwtLauncher' />
 
-	<!-- <set-configuration-property name="gdx.assetpath" value="core/engine-gdx-desktop/src/main/resources/" 
-		/> -->
-	<!-- To be used when compile is done from Eclipse -->
 	<set-configuration-property name="gdx.assetpath"
-		value="../engine-gdx/src/main/resources/" />
+		value="core/engine-core/src/main/resources/" />
+	<!-- To be used when compile is done from Eclipse. But you should really 
+		compile with maven. -->
+	<!-- <set-configuration-property name="gdx.assetpath" value="../engine-core/src/main/resources/" 
+		/> -->
 </module>

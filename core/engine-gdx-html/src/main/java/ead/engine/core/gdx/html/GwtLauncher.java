@@ -57,7 +57,7 @@ public class GwtLauncher extends GwtApplication {
 	public ApplicationListener getApplicationListener() {
 		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
 		GameLoader g = injector.getGameLoader();
-		g.loadGameFromFiles("@datad.xml", "@strings.xml", "ead.properties");
+		g.loadGameFromFiles("@data.xml", "@strings.xml", "ead.properties");
 		return injector.getEngine();
 	}
 }

@@ -44,6 +44,8 @@ import ead.engine.core.evaluators.EvaluatorFactoryImpl;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameImpl;
+import ead.engine.core.game.GameLoader;
+import ead.engine.core.game.GameLoaderImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.GameStateImpl;
 import ead.engine.core.game.ValueMap;
@@ -71,6 +73,8 @@ import ead.engine.core.gameobjects.huds.MenuHUDImpl;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.gameobjects.transitions.sceneloaders.GraphSceneLoader;
+import ead.engine.core.gdx.GdxEngine;
+import ead.engine.core.gdx.GdxEngineImpl;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.InputHandlerImpl;
@@ -97,8 +101,6 @@ import ead.tools.ModuleMap;
 import ead.tools.SceneGraph;
 
 public class GdxModuleMap extends ModuleMap {
-
-	
 
 	public GdxModuleMap() {
 
@@ -152,6 +154,9 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(SceneLoader.class, GraphSceneLoader.class);
 
 		binds.put(SceneGraph.class, BasicSceneGraph.class);
+
+		binds.put(GameLoader.class, GameLoaderImpl.class);
+		binds.put(GdxEngine.class, GdxEngineImpl.class);
 
 	}
 

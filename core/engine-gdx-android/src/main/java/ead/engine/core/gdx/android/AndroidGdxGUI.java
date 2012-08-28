@@ -43,7 +43,7 @@ import com.google.inject.Singleton;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gdx.EAdEngine;
+import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
 import ead.engine.core.input.InputHandler;
@@ -55,7 +55,7 @@ public class AndroidGdxGUI extends GdxGUI {
 	public AndroidGdxGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GdxCanvas canvas, EAdEngine engine) {
+			GdxCanvas canvas, GdxEngine engine) {
 		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas, engine);
 	}

@@ -37,6 +37,8 @@
 
 package ead.tools.gwt.reflection;
 
+import com.gwtent.reflection.client.TypeOracle;
+
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 
@@ -51,12 +53,8 @@ public class GwtReflectionClassLoader extends ReflectionClassLoader {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(String clazz) {
-		try {
-			return new GwtReflectionClass(Class.forName(clazz));
-		} catch (ClassNotFoundException e) {
-			logger.error("Class not found {}", clazz);
-		}
-		return null;
+		return new GwtReflectionClass(TypeOracle.Instance.getClassType(clazz)
+				.getDeclaringClass());
 	}
 
 }

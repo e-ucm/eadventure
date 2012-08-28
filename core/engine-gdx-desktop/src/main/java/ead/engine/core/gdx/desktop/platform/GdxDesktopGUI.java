@@ -60,11 +60,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gdx.EAdEngine;
+import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
 import ead.engine.core.input.InputHandler;
@@ -84,7 +83,7 @@ public class GdxDesktopGUI extends GdxGUI {
 	public GdxDesktopGUI(EngineConfiguration engineConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GdxCanvas canvas, EAdEngine engine) {
+			GdxCanvas canvas, GdxEngine engine) {
 		super(engineConfiguration, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas, engine);
 	}
@@ -191,11 +190,6 @@ public class GdxDesktopGUI extends GdxGUI {
 					| data[i + 3] << 24);
 		ib.flip();
 		return ib;
-	}
-
-	public void setGame(Game game) {
-		super.setGame(game);
-		engine.setGame(game);
 	}
 
 	private void setFullscreenIfNeeded() {

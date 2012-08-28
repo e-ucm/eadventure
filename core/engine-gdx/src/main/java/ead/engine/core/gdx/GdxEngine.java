@@ -35,22 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.game;
+package ead.engine.core.gdx;
 
-import java.util.Map;
+import com.badlogic.gdx.ApplicationListener;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.params.text.EAdString;
+import ead.engine.core.game.Game;
 
-public interface GameLoader {
+public interface GdxEngine extends ApplicationListener {
 
-	void loadGameFromFiles(String dataFile, String stringsFile,
-			String propertiesFile);
-
-	void loadGame(String data, String strings, String properties);
-
-	void loadGame(EAdAdventureModel model, Map<EAdString, String> stringsMap,
-			Map<String, String> propertiesMap);
-
-	void step();
+	public void setGame(Game game);
 }
