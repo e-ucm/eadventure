@@ -1,24 +1,44 @@
-#
-# Please add a comment to any new ignore line to explain why
-# it is needed: we should try to keep this file as compact as possible.
-#
-syntax: glob
+#################
+## Eclipse
+#################
 
+*.pydevproject
+.project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
 # ignore editor backups
 **~
 
 # ignore all compilation output
 **.class
-**/target/
+target/
 
 # test output
-**/test/resources/result*
+test/resources/result*
 
 # eclipse settings
-*.{prefs,settings}
-**.{classpath,project}
-*/ProjectImported/
-*/EAdventure1Project/
+*.prefs
 
 # generated resources
 **/R.java
@@ -48,18 +68,21 @@ core/engine-android/libs/
 core/engine-desktop/engine_configuration.xml
 
 # local, unversioned files
-local*
 local/
-demos/firstaidgame/gwt-unitCache*
-demos/firstaidgame/war/firstaid*
-**/bin/**
+demos/firstaidgame/gwt-unitCache
+demos/firstaidgame/war/firstaid
 demos/firstaidgame/.gwt/
 
-core/engine-gdx-android/assets*
+core/engine-gdx-android/assets
 core/engine-gdx-android/gen/
 core/engine-gdx-android/bin/
 core/engine-gdx-android/proguard.cfg
 
-**/classes
-war/assets/**
-src/main/webapp/assets*
+war/WEB-INF/deploy/
+war/WEB-INF/classes/
+
+core/engine-gdx-html/src/main/webapp/assets
+classes/
+
+
+
