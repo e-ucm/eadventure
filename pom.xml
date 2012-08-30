@@ -631,7 +631,8 @@
 		<repository>
 			<id>mercurial maven repo</id>
 			<name>mercurial maven repo</name>
-			<url>http://eadventure.googlecode.com/hg/etc/repository/</url>
+			<!--  <url>http://eadventure.googlecode.com/hg/etc/repository/</url> -->
+			<url>file://C:/Users/myuser/Desktop/eAdventure/workspace/eadventure/etc/repository/</url>			
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -838,52 +839,52 @@
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl-natives</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl-sources</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-natives</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-sources</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-android</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-android-sources</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-gwt</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-gwt-sources</artifactId>
-				<version>1.0</version>
+				<version>1.5</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

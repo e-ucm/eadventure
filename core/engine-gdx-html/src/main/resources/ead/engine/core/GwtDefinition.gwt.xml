@@ -26,6 +26,8 @@
 
 	<set-configuration-property name="gdx.assetpath"
 		value="core/engine-core/src/main/resources/" />
+	<set-configuration-property name="gdx.assetoutputpath"
+		value="core/engine-gdx-html/src/main/webapp/" />
 	<!-- To be used when compile is done from Eclipse. But you should really 
 		compile with maven. -->
 	<!-- <set-configuration-property name="gdx.assetpath" value="../engine-core/src/main/resources/" 

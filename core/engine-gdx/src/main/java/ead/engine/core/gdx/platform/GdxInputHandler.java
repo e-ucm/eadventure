@@ -111,14 +111,14 @@ public class GdxInputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int x, int y, int pointer) {
-		touchMoved(x, y);
+		mouseMoved(x, y);
 		return true;
 	}
 
 	private Vector3 vector = new Vector3(0, 0, 0);
 
 	@Override
-	public boolean touchMoved(int x, int y) {
+	public boolean mouseMoved(int x, int y) {
 		inputHandler.addAction(getMouseAction(-1, MouseGEvType.MOVED, x, y));
 		return true;
 	}

@@ -135,18 +135,18 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if (list == null) {
 			logger.warn("Assets for scene {} were empty in the scene graph",
 					scene.getId());
-
-		}
-		int i = 0;
-		for (AssetDescriptor a : list) {
-			if (!cache.containsKey(a)) {
-				assetsQueue.add(a);
-				i++;
+		} else {
+			int i = 0;
+			for (AssetDescriptor a : list) {
+				if (!cache.containsKey(a)) {
+					assetsQueue.add(a);
+					i++;
+				}
 			}
-		}
-		
-		if (i > 0) {
-			logger.info("{} assets will be loaded", i);
+
+			if (i > 0) {
+				logger.info("{} assets will be loaded", i);
+			}
 		}
 
 	}

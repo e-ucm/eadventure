@@ -40,6 +40,9 @@ package ead.engine.core.gameobjects.transitions.sceneloaders;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -53,6 +56,8 @@ import ead.tools.SceneGraph;
 
 @Singleton
 public class GraphSceneLoader implements SceneLoader {
+	
+	private static final Logger logger = LoggerFactory.getLogger("GraphSceneLoader");
 
 	private AssetHandler assetHandler;
 
@@ -63,7 +68,7 @@ public class GraphSceneLoader implements SceneLoader {
 	private EAdScene scene;
 
 	private SceneGraph sceneGraph;
-	
+
 	private List<EAdScene> sceneRemainingToBeLoad;
 
 	@Inject
@@ -84,19 +89,24 @@ public class GraphSceneLoader implements SceneLoader {
 		assetHandler.clearAssetQueue();
 		assetHandler.queueSceneToLoad(scene);
 		// If there is a lot of scenes connected to this scene, we should load
-		// some of them, because probably they'll be required soon. We used a random decision
-		List<EAdScene> connections = sceneGraph.getGraph().get(scene); 
-		for ( int i = 0; i < connections.size(); i++){
-			// These scenes will be loaded BEFORE the scene changes
-			if ( Math.random() > 0.5f ){
-				assetHandler.queueSceneToLoad(connections.get(i));
-			}
-			// These scenes will be loaded AFTER the scene changes
-			else {
-				sceneRemainingToBeLoad.add(connections.get(i));
+		// some of them, because probably they'll be required soon. We used a
+		// random decision
+		List<EAdScene> connections = sceneGraph.getGraph().get(scene);
+		if (connections == null) {
+			logger.warn("Scene {} has no connections. That's weird.");
+		} else {
+			for (int i = 0; i < connections.size(); i++) {
+				// These scenes will be loaded BEFORE the scene changes
+				if (Math.random() > 0.5f) {
+					assetHandler.queueSceneToLoad(connections.get(i));
+				}
+				// These scenes will be loaded AFTER the scene changes
+				else {
+					sceneRemainingToBeLoad.add(connections.get(i));
+				}
 			}
 		}
-		
+
 	}
 
 	@Override

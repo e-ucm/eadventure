@@ -3,10 +3,10 @@
   <groupId>com.badlogic.gdx</groupId>
   <artifactId>gdx-backend-android-sources</artifactId>
   <versioning>
-    <release>1.0</release>
+    <release>1.5</release>
     <versions>
-      <version>1.0</version>
+      <version>1.5</version>
     </versions>
-    <lastUpdated>20120806094925</lastUpdated>
+    <lastUpdated>20120829155349</lastUpdated>
   </versioning>
 </metadata>

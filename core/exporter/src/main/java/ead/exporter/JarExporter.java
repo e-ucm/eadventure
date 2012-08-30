@@ -52,7 +52,7 @@ import org.apache.maven.execution.MavenExecutionResult;
  * Maven wrapper able to export projects to jar/exe
  * 
  */
-public class JarExporter {
+public class JarExporter implements Exporter {
 
 	private Maven maven;
 

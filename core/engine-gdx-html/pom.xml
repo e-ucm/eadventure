@@ -12,7 +12,7 @@
 	<groupId>ead</groupId>
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-gdx-html</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>eAdventure GDX HTML</name>
 	<description>
     GDX / GWT e-Adventure engine; requires GWT SDK to build, generates web app
@@ -109,9 +109,9 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
-					<buildOutputDirectory>${project.basedir}/war/WEB-INF/classes</buildOutputDirectory>
+					<!--  <buildOutputDirectory>${project.basedir}/war/WEB-INF/classes</buildOutputDirectory>
 					<warSourceDirectory>${project.basedir}/war</warSourceDirectory>
-					<webXml>${project.basedir}/war/WEB-INF/web.xml</webXml>
+					<webXml>${project.basedir}/war/WEB-INF/web.xml</webXml>-->
 				</configuration>
 			</plugin>
 

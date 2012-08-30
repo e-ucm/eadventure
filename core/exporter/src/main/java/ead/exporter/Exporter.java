@@ -37,35 +37,8 @@
 
 package ead.exporter;
 
-import org.apache.maven.Maven;
-import org.codehaus.plexus.DefaultPlexusContainer;
-import org.codehaus.plexus.PlexusContainer;
-import org.codehaus.plexus.PlexusContainerException;
-import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
-
-public class Exporter {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		PlexusContainer plexusContainer = null;
-		try {
-			plexusContainer = new DefaultPlexusContainer();
-			Maven maven = plexusContainer.lookup(Maven.class);
-			JarExporter jarExporter = new JarExporter(maven);
-
-			jarExporter
-					.export("C:/Users/myuser/Desktop/eAdventure/juegos importados/data",
-							"C:/Users/myuser/Desktop/");
-
-		} catch (PlexusContainerException e) {
-
-		} catch (ComponentLookupException e) {
-
-			e.printStackTrace();
-		}
-
-	}
-
+public interface Exporter {
+	
+	void export(String gameBaseDir, String outputfolder);
+	
 }

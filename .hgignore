@@ -62,3 +62,4 @@ core/engine-gdx-android/proguard.cfg
 
 **/classes
 war/assets/**
+src/main/webapp/assets*

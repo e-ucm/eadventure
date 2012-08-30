@@ -47,9 +47,11 @@ import com.google.inject.name.Names;
 
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.html.platform.GdxGWTAssetHandler;
 import ead.engine.core.gdx.html.platform.GdxGWTGUI;
 import ead.engine.core.gdx.html.platform.GdxGWTVideoRenderer;
+import ead.engine.core.gdx.html.platform.GwtGdxEngine;
 import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;
@@ -64,8 +66,9 @@ public class GwtModule extends AbstractGinModule {
 	protected void configure() {
 
 		GdxModuleMap map = new GdxModuleMap();
-		
-		map.getBinds().put(AssetHandler.class,GdxGWTAssetHandler.class);
+
+		map.getBinds().put(AssetHandler.class, GdxGWTAssetHandler.class);
+		map.getBinds().put(GdxEngine.class, GwtGdxEngine.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();

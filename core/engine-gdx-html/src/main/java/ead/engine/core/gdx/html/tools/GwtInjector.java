@@ -80,12 +80,17 @@ import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
+import ead.tools.StringHandler;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
+import ead.tools.xml.XMLParser;
 
 public class GwtInjector implements GenericInjector {
 
-	private static final Logger logger = LoggerFactory.getLogger("GdxInjector");
+	private static final Logger logger = LoggerFactory.getLogger("GwtInjector");
 
 	private GwtGinInjector ginjector;
 
@@ -151,11 +156,11 @@ public class GwtInjector implements GenericInjector {
 			o = ginjector.getVarInterpolationGO();
 		else if (clazz == WaitGO.class)
 			o = ginjector.getWaitEffectGO();
-		else if (clazz == GdxPhysicsEffectGO.class )
+		else if (clazz == GdxPhysicsEffectGO.class)
 			o = ginjector.getPhysicsEffectGO();
 		else if (clazz == GdxApplyForceGO.class)
 			o = ginjector.getPhApplyForceGO();
-		else if ( clazz == AddActorReferenceGO.class )
+		else if (clazz == AddActorReferenceGO.class)
 			o = ginjector.getAddActorReferenceGO();
 		else if (clazz == ConditionEvGO.class)
 			o = ginjector.getConditionEventGO();
@@ -175,10 +180,20 @@ public class GwtInjector implements GenericInjector {
 			o = ginjector.getSceneGO();
 		else if (clazz == VideoSceneGO.class)
 			o = ginjector.getVideoSceneGO();
-		else if ( clazz == FontHandler.class )
+		else if (clazz == FontHandler.class)
 			o = ginjector.getFontHandler();
-		else if ( clazz == SceneGraph.class )
+		else if (clazz == SceneGraph.class)
 			o = ginjector.getSceneGraph();
+		else if (clazz == XMLParser.class)
+			o = ginjector.getXMLParser();
+		else if (clazz == StringHandler.class)
+			o = ginjector.getStringHandler();
+		else if ( clazz == ReflectionProvider.class )
+			o = ginjector.getReflectionProvider();
+		else if ( clazz == ReflectionClassLoader.class )
+			o = ginjector.getReflectionClassLoader();
+		else if ( clazz == AssetHandler.class )
+			o = ginjector.getAssetHandler();
 		if (o == null) {
 			logger.warn("Instance for class {} not defined in ginjector", clazz);
 		}

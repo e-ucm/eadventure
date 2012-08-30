@@ -43,6 +43,8 @@ import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.google.gwt.core.client.GWT;
 
 import ead.engine.core.game.GameLoader;
+import ead.engine.core.gdx.GdxEngine;
+import ead.engine.core.gdx.html.platform.GwtGdxEngine;
 import ead.engine.core.gdx.html.tools.GwtGinInjector;
 
 public class GwtLauncher extends GwtApplication {
@@ -56,8 +58,9 @@ public class GwtLauncher extends GwtApplication {
 	@Override
 	public ApplicationListener getApplicationListener() {
 		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
+		GdxEngine engine = injector.getEngine();
 		GameLoader g = injector.getGameLoader();
-		g.loadGameFromFiles("@data.xml", "@strings.xml", "ead.properties");
-		return injector.getEngine();
+		((GwtGdxEngine) engine).setGameLoader(g);
+		return engine;
 	}
 }

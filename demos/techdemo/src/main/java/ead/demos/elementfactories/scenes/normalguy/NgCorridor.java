@@ -38,32 +38,18 @@
 package ead.demos.elementfactories.scenes.normalguy;
 
 
-import java.util.ArrayList;
-
-import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.text.EAdString;

@@ -38,6 +38,12 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 		</dependency>
+		<!-- TrueZip: to add files and modify wars -->
+		<dependency>
+			<groupId>de.schlichtherle.truezip</groupId>
+			<artifactId>truezip-file</artifactId>
+			<version>7.6</version>
+		</dependency>
 	</dependencies>
 
 </project>

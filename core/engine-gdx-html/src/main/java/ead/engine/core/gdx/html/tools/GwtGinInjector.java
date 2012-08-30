@@ -79,10 +79,14 @@ import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
 import ead.tools.gwt.GWTToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
+import ead.tools.xml.XMLParser;
 
 @GinModules({ GwtModule.class, GWTToolsModule.class })
 public interface GwtGinInjector extends Ginjector {
@@ -172,5 +176,13 @@ public interface GwtGinInjector extends Ginjector {
 	public GdxEngine getEngine();
 
 	public GameLoader getGameLoader();
+
+	public XMLParser getXMLParser();
+
+	public ReflectionProvider getReflectionProvider();
+
+	public ReflectionClassLoader getReflectionClassLoader();
+
+	public AssetHandler getAssetHandler();
 
 }
