@@ -46,9 +46,7 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>${game.outputfolder}</outputDirectory>
-							<finalName>${game.name}</finalName>
+						<configuration>						    							
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>unified</shadedClassifierName>
 							<filters>

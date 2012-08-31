@@ -59,6 +59,18 @@ public class WarExporter implements Exporter {
 	private static final String WAR_PATH = "engine.war";
 	private static final byte[] BUFFER = new byte[4096 * 1024];
 	private ArrayList<String> assets = new ArrayList<String>();
+	
+	private String name = "game";
+	
+	@Override
+	public void setName(String name) {		
+		this.name = name;
+	}
+
+	@Override
+	public void setIcon(File icon) {
+		// WAR hasn't got icon :(
+	}
 
 	public static void copy(InputStream input, OutputStream output) throws IOException {
 		int bytesRead;
@@ -84,7 +96,7 @@ public class WarExporter implements Exporter {
 		File parent = new File(gameBaseDir);
 		// Copy the war into destination
 		File output = new File(outputfolder);
-		File gameWar = new File(output, "game.war");
+		File gameWar = new File(output, name + ".war");
 
 		ZipOutputStream os = null;
 		try {

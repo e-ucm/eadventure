@@ -82,7 +82,7 @@ public class ApkExporter implements Exporter {
 		this.runInDevice = false;
 	}
 
-	public void setAppName(String appName) {
+	public void setName(String appName) {
 		this.appName = appName;
 		this.packageName = cleanAppName(appName);
 	}
