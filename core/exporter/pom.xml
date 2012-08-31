@@ -17,8 +17,17 @@
 	<name>eAdventure Exporter</name>
 	<description>eAdventure game exporter.</description>
 	<dependencies>
-		<!-- <dependency> <groupId>ead</groupId> <artifactId>importer</artifactId> 
-			<version>${project.version}</version> </dependency> -->
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>tools-java</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -37,12 +46,6 @@
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
-		</dependency>
-		<!-- TrueZip: to add files and modify wars -->
-		<dependency>
-			<groupId>de.schlichtherle.truezip</groupId>
-			<artifactId>truezip-file</artifactId>
-			<version>7.6</version>
 		</dependency>
 	</dependencies>
 

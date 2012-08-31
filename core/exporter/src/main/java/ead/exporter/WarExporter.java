@@ -60,7 +60,7 @@ public class WarExporter implements Exporter {
 	private static final byte[] BUFFER = new byte[4096 * 1024];
 	private ArrayList<String> assets = new ArrayList<String>();
 
-	public void copy(InputStream input, OutputStream output) throws IOException {
+	public static void copy(InputStream input, OutputStream output) throws IOException {
 		int bytesRead;
 		while ((bytesRead = input.read(BUFFER)) != -1) {
 			output.write(BUFFER, 0, bytesRead);

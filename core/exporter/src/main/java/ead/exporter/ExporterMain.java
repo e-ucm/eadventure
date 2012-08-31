@@ -45,8 +45,6 @@ import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
-import de.schlichtherle.truezip.file.TFile;
-
 public class ExporterMain {
 
 	/**
@@ -66,6 +64,8 @@ public class ExporterMain {
 			// .export("C:/Users/myuser/Desktop/eAdventure/juegos importados/data",
 			// "C:/Users/myuser/Desktop/");
 
+			apkExporter.setAppName("My super game");
+			apkExporter.setRunInDevice(true);
 			apkExporter
 					.export("C:/Users/myuser/Desktop/eAdventure/juegos importados/data",
 							"C:/Users/myuser/Desktop/");

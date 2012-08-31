@@ -39,18 +39,29 @@ package ead.tools.java;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JavaFileUtils {
-	
-	public static String getText( String fileName ){
-		StringBuilder text = new StringBuilder( );
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("JavaFileUtils");
+
+	public static String getText(String fileName) {
+		StringBuilder text = new StringBuilder();
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
+			BufferedReader reader = new BufferedReader(new FileReader(new File(
+					fileName)));
 			String line = null;
-			while ( ( line = reader.readLine())!= null){
+			while ((line = reader.readLine()) != null) {
 				text.append(line + "\n");
 			}
 			reader.close();
@@ -59,8 +70,43 @@ public class JavaFileUtils {
 		} catch (IOException e) {
 
 		}
-		
+
 		return text.toString();
+	}
+
+	public static void copy(File src, File dest) throws IOException {
+		if (src.isDirectory()) {
+
+			if (!dest.exists()) {
+				dest.mkdir();
+				logger.debug("Directory copied from {} to {}", new Object[] {
+						src, dest });
+			}
+
+			String files[] = src.list();
+			for (String file : files) {
+				File srcFile = new File(src, file);
+				File destFile = new File(dest, file);
+				copy(srcFile, destFile);
+			}
+
+		} else {
+
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dest);
+
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.close();
+			logger.debug("File copied from {} to {} ",
+					new Object[] { src, dest });
+		}
+
 	}
 
 }
