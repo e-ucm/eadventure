@@ -122,7 +122,7 @@ public class ApkExporter implements Exporter {
 		
 		// Copy native libs folder
 		try {
-			FileUtils.copyDirectoryStructure(new File("nativelibs"), apkTemp);
+			FileUtils.copyDirectoryStructure(new File("../../resources/nativelibs"), apkTemp);
 		} catch (IOException e) {
 			
 		}
@@ -280,7 +280,7 @@ public class ApkExporter implements Exporter {
 	}
 
 	private File createAssetsFolder(File apkTemp, File gameFolder) {
-		File apkAssets = new File(apkTemp, "assets/");
+		File apkAssets = new File(apkTemp, "../../resources/assets/");
 		apkAssets.mkdir();
 
 		// FIXME Assets must be somewhere accessible for all projects

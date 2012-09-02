@@ -116,7 +116,28 @@
 		<eadmainclass>ead.engine.core.gdx.desktop.EAdEngine</eadmainclass>
 	</properties>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<!--  <resource>
+				<directory>..\..\resources\engineassets\src\main\resources</directory>
+			</resource>-->
+		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<!--  <linkedResources>
+						<linkedResource>
+							<name>resources</name>
+							<type>2</type>
+							<location>${project.basedir}\..\..\resources\engineassets\src\main\resources</location>
+						</linkedResource>
+					</linkedResources>-->
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -157,12 +178,6 @@
 									<manifestEntries>
 										<Main-Class>${eadmainclass}</Main-Class>
 									</manifestEntries>
-								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-									<resource>data/data.xml</resource>
-									<file>C:/Users/myuser/Desktop/eAdventure/juegos
-										importados/data/data.xml</file>
 								</transformer>
 							</transformers>
 						</configuration>

@@ -125,6 +125,8 @@
 				<!-- Demos modules -->				
 				<module>demos/firstaidgame</module>
 				<module>demos/techdemo</module>
+				<!-- GUI tools -->
+				<module>guitools/exportergui</module>
 			</modules>
 		</profile>
 		<profile>

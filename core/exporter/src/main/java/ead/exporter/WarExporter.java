@@ -56,7 +56,7 @@ import java.util.zip.ZipOutputStream;
 
 public class WarExporter implements Exporter {
 
-	private static final String WAR_PATH = "engine.war";
+	private static final String WAR_PATH = "../../resoruces/engine.war";
 	private static final byte[] BUFFER = new byte[4096 * 1024];
 	private ArrayList<String> assets = new ArrayList<String>();
 	

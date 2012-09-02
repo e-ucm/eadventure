@@ -9,19 +9,29 @@
 		<artifactId>base</artifactId>
 		<relativePath>../../</relativePath>
 	</parent>
-	<groupId>ead</groupId>
+	<groupId>ead.guitools</groupId>
 	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>firstaidgame</artifactId>
+	<artifactId>exportergui</artifactId>
 	<packaging>jar</packaging>
-	<name>First Aid Game - Demo</name>
-	<description>First Aid Game</description>
+	<name>Exporter GUI</name>
+	<description>This utility can import and export all types of eAdventure games</description>
 	<dependencies>
-		<!-- Desktop dependencies. -->
+		<!-- Desktop dependencies. Not used in GWT compilation -->
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-gdx-desktop</artifactId>
+			<artifactId>exporter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>importer</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 </project>
