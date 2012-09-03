@@ -59,7 +59,7 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdRectangle;
 import ead.importer.EAdElementImporter;
-import ead.importer.EAdventure1XImporter;
+import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -139,7 +139,7 @@ public abstract class ElementImporter<T> implements
 	protected void setShape(SceneElement sceneElement, Rectangle exit) {
 		EAdShape shape = ShapedElementImporter.importShape(exit);
 		sceneElement.setPosition(exit.getX(), exit.getY());
-		if (EAdventure1XImporter.IMPORTER_DEBUG) {
+		if (EAdventureImporter.IMPORTER_DEBUG) {
 			ColorFill c = new ColorFill(ColorFill.RED.toString());
 			c.setAlpha(100);
 			shape.setPaint(c);

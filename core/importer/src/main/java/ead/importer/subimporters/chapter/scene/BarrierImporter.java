@@ -57,7 +57,7 @@ import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.importer.EAdElementImporter;
-import ead.importer.EAdventure1XImporter;
+import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Barrier;
@@ -110,7 +110,7 @@ public class BarrierImporter implements
 		}
 
 		RectangleShape rectangle = new RectangleShape( oldObject.getWidth(), oldObject.getHeight() );
-		if ( EAdventure1XImporter.IMPORTER_DEBUG ){
+		if ( EAdventureImporter.IMPORTER_DEBUG ){
 			ColorFill c = new ColorFill( ColorFill.YELLOW.toString() );
 			c.setAlpha(100);
 			rectangle.setPaint(c);

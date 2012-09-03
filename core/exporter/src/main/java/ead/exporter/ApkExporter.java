@@ -155,6 +155,7 @@ public class ApkExporter implements Exporter {
 		userProperties.setProperty("ead.assets", apkAssets.getAbsolutePath());
 		userProperties.setProperty("ead.resources",
 				apkResources.getAbsolutePath());
+		
 		request.setUserProperties(userProperties);
 
 		// Set files
@@ -280,11 +281,11 @@ public class ApkExporter implements Exporter {
 	}
 
 	private File createAssetsFolder(File apkTemp, File gameFolder) {
-		File apkAssets = new File(apkTemp, "../../resources/assets/");
+		File apkAssets = new File(apkTemp, "assets/");
 		apkAssets.mkdir();
 
 		// FIXME Assets must be somewhere accessible for all projects
-		File engineAssets = new File("engineassets");
+		File engineAssets = new File("../../resources/engineassets/");
 
 		try {
 			FileUtils.copyDirectoryStructure(gameFolder, apkAssets);

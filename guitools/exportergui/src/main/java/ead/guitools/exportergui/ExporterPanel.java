@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.zip.ZipFile;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ead.exporter.GeneralExporter;
+import ead.importer.EAdventureImporter;
 
 public class ExporterPanel extends JPanel {
 
@@ -37,10 +40,10 @@ public class ExporterPanel extends JPanel {
 
 	private JLabel status;
 
-	private GeneralExporter exporter;
+	private ExporterController exporter;
 
 	public ExporterPanel() {
-		exporter = new GeneralExporter();
+		this.exporter = new ExporterController();
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
@@ -169,17 +172,19 @@ public class ExporterPanel extends JPanel {
 
 	public void export() {
 		status.setText("Exporting...");
+
 		new Thread() {
 			public void run() {
-				exporter.setName(nameField.getText());
 				String gameBase = inputField.getText();
-				String outputFolder = outputField.getText();
-				exporter.setInstallApk(install.isSelected());
-				exporter.export(gameBase, outputFolder, jar.isSelected(),
-						war.isSelected(), apk.isSelected());
+				String outputFolder = outputField.getText();			
+				exporter.export(nameField.getText(), gameBase,
+						outputFolder, jar.isSelected(), war.isSelected(),
+						apk.isSelected(), install.isSelected());
 				status.setText("Done.");
 			}
+
 		}.start();
 
 	}
+
 }

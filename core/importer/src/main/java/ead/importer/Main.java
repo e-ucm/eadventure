@@ -40,7 +40,7 @@ package ead.importer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.importer.EAdventure1XImporter.ImporterProgressListener;
+import ead.importer.EAdventureImporter.ImporterProgressListener;
 import ead.tools.java.JavaToolsModule;
 
 public class Main {
@@ -67,7 +67,7 @@ public class Main {
                 new JavaToolsModule()
         );
 
-		EAdventure1XImporter importer = injector.getInstance(EAdventure1XImporter.class);
+		EAdventureImporter importer = injector.getInstance(EAdventureImporter.class);
 
 		importer.addProgressListener(new ImporterProgressListener( ){
 

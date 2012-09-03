@@ -579,11 +579,11 @@
 	<!-- ====================================================================== -->
 	<!-- SOURCE CODE MANAGEMENT -->
 	<!-- ====================================================================== -->
-	<scm>
+	<!--  <scm>
 		<connection>scm:hg:https://eadventure.googlecode.com/hg/</connection>
 		<developerConnection>scm:hg:https://eadventure.googlecode.com/hg/</developerConnection>
 		<url>https://eadventure.googlecode.com/hg/</url>
-	</scm>
+	</scm>-->
 
 	<!-- ====================================================================== -->
 	<!-- DISTRIBUTION MANAGEMENT -->

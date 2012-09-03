@@ -75,7 +75,7 @@ import ead.editor.model.nodes.QueryNode;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.editor.view.dock.ModelAccessor;
-import ead.importer.EAdventure1XImporter;
+import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.reader.adventure.AdventureReader;
 import ead.tools.xml.XMLParser;
@@ -121,7 +121,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	/**
 	 * Importer for old models
 	 */
-	private EAdventure1XImporter importer;
+	private EAdventureImporter importer;
 	/**
 	 * Reader for DOM models
 	 */
@@ -187,7 +187,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 * @param writer
 	 */
 	@Inject
-	public EditorModel(XMLParser parser, EAdventure1XImporter importer,
+	public EditorModel(XMLParser parser, EAdventureImporter importer,
 			EAdAdventureModelWriter writer, ImportAnnotator annotator) {
 		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
 				DependencyEdge.class);
@@ -809,7 +809,7 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 * Re-issues importer progress updates as own updates
 	 */
 	public class ProgressProxy implements
-			EAdventure1XImporter.ImporterProgressListener {
+			EAdventureImporter.ImporterProgressListener {
 
 		@Override
 		public void update(int progress, String text) {

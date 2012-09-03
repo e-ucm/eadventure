@@ -56,14 +56,14 @@ import java.util.zip.ZipOutputStream;
 
 public class WarExporter implements Exporter {
 
-	private static final String WAR_PATH = "../../resoruces/engine.war";
+	private static final String WAR_PATH = "resources/engine.war";
 	private static final byte[] BUFFER = new byte[4096 * 1024];
 	private ArrayList<String> assets = new ArrayList<String>();
-	
+
 	private String name = "game";
-	
+
 	@Override
-	public void setName(String name) {		
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -72,7 +72,8 @@ public class WarExporter implements Exporter {
 		// WAR hasn't got icon :(
 	}
 
-	public static void copy(InputStream input, OutputStream output) throws IOException {
+	public static void copy(InputStream input, OutputStream output)
+			throws IOException {
 		int bytesRead;
 		while ((bytesRead = input.read(BUFFER)) != -1) {
 			output.write(BUFFER, 0, bytesRead);
@@ -104,8 +105,9 @@ public class WarExporter implements Exporter {
 			copyWar(os);
 			addFolder(parent, parent, gameWar.getAbsolutePath(), os);
 			os.putNextEntry(new ZipEntry("assets/assets.txt"));
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-			for ( String a: assets ){
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+					os));
+			for (String a : assets) {
 				writer.write(a);
 				writer.newLine();
 			}
@@ -131,7 +133,9 @@ public class WarExporter implements Exporter {
 
 		try {
 
-			ZipFile is = new ZipFile(WAR_PATH);
+			File current = new File(System.getProperty("user.dir"));
+			File f = new File(current.getParentFile().getParent(), WAR_PATH);
+			ZipFile is = new ZipFile(f);
 			Enumeration<? extends ZipEntry> entries = is.entries();
 			while (entries.hasMoreElements()) {
 				ZipEntry e = entries.nextElement();

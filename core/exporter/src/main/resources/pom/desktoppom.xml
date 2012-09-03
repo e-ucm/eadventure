@@ -28,6 +28,7 @@
 
 	<properties>
 		<eadmainclass>ead.engine.core.gdx.desktop.EAdEngine</eadmainclass>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
 		<resources>

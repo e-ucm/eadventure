@@ -74,6 +74,13 @@ public class JavaFileUtils {
 		return text.toString();
 	}
 
+	public static File getTempFolder(String preffix) {
+		String tempFolder = System.getProperty("java.io.tmpdir");
+		File tmpDir = new File(tempFolder + File.separator + preffix
+				+ Math.round(Math.random() * 100));
+		return tmpDir;
+	}
+
 	public static void copy(File src, File dest) throws IOException {
 		if (src.isDirectory()) {
 
