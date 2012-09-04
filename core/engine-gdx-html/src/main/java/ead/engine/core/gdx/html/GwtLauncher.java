@@ -57,7 +57,7 @@ public class GwtLauncher extends GwtApplication {
 
 	@Override
 	public ApplicationListener getApplicationListener() {
-		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
+		GwtGinInjector injector = GWT.create(GwtGinInjector.class);		
 		GdxEngine engine = injector.getEngine();
 		GameLoader g = injector.getGameLoader();
 		((GwtGdxEngine) engine).setGameLoader(g);

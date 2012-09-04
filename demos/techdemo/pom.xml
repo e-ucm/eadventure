@@ -22,5 +22,60 @@
 			<artifactId>engine-gdx-desktop</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-gdx-html</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
+	<properties>
+		<gwt.version>2.4.0</gwt.version>
+		<gwt.module>ead.demos.techdemo</gwt.module>
+		<gwt.logLevel>INFO</gwt.logLevel>
+		<gwt.style>PRETTY</gwt.style>
+	</properties>
+	<!--  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>${gwt.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>generateAsync</goal>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<compileSourcesArtifacts>
+						<artifact>ead:model</artifact>
+						<artifact>ead:engine-core</artifact>
+						<artifact>ead:engine-gdx</artifact>
+						<artifact>ead:tools</artifact>
+						<artifact>ead:tools-gwt</artifact>
+						<artifact>ead:reader</artifact>
+						<artifact>ead:engine-gdx-html</artifact>
+					</compileSourcesArtifacts>
+					<configuration>
+						<buildOutputDirectory>${project.basedir}/src/main/webapp</buildOutputDirectory>
+						<webappDirectory>${project.basedir}/src/main/webapp</webappDirectory>
+						<module>${gwt.module}</module>
+					</configuration>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<buildOutputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes</buildOutputDirectory>
+					<warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
+					<webXml>${project.basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>-->
 </project>

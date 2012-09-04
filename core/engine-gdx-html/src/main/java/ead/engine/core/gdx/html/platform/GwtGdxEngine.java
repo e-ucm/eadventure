@@ -37,8 +37,12 @@
 
 package ead.engine.core.gdx.html.platform;
 
+import java.util.Map;
+
 import com.google.inject.Inject;
 
+import ead.common.model.elements.EAdAdventureModel;
+import ead.common.params.text.EAdString;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.GdxEngineImpl;
 import ead.engine.core.gdx.platform.GdxCanvas;
@@ -46,22 +50,40 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
 
 public class GwtGdxEngine extends GdxEngineImpl {
-	
+
 	private GameLoader gameLoader;
+
+	private EAdAdventureModel model;
+
+	private Map<EAdString, String> strings;
+
+	private Map<String, String> properties;
 
 	@Inject
 	public GwtGdxEngine(EngineConfiguration engineConfiguration,
 			GdxCanvas canvas, InputHandler inputHandler) {
 		super(engineConfiguration, canvas, inputHandler);
 	}
-	
-	public void create(){
-		super.create();		
-		gameLoader.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+
+	public void create() {
+		super.create();
+		if (model == null) {
+			gameLoader.loadGameFromFiles("@data.xml", "@strings.xml",
+					"@ead.properties");
+		} else {
+			gameLoader.loadGame(model, strings, properties);
+		}
 	}
-	
-	public void setGameLoader(GameLoader gameLoader){
+
+	public void setGameLoader(GameLoader gameLoader) {
 		this.gameLoader = gameLoader;
+	}
+
+	public void setGame(EAdAdventureModel model,
+			Map<EAdString, String> strings, Map<String, String> properties) {
+		this.model = model;
+		this.strings = strings;
+		this.properties = properties;
 	}
 
 }

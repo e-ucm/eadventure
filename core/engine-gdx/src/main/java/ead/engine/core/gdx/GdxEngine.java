@@ -44,4 +44,5 @@ import ead.engine.core.game.Game;
 public interface GdxEngine extends ApplicationListener {
 
 	public void setGame(Game game);
+
 }

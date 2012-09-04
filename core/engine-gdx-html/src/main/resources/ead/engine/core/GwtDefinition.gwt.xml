@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
-<module>
+<module rename-to="eadengine">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='ead.tools.gwttools' />
 	<inherits name='ead.common.model' />
@@ -28,8 +28,4 @@
 		value="core/engine-core/src/main/resources/" />
 	<set-configuration-property name="gdx.assetoutputpath"
 		value="core/engine-gdx-html/src/main/webapp/" />
-	<!-- To be used when compile is done from Eclipse. But you should really 
-		compile with maven. -->
-	<!-- <set-configuration-property name="gdx.assetpath" value="../engine-core/src/main/resources/" 
-		/> -->
 </module>

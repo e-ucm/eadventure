@@ -633,7 +633,8 @@
 		<repository>
 			<id>mercurial maven repo</id>
 			<name>mercurial maven repo</name>
-			<url>https://github.com/e-ucm/eadventure/raw/master/etc/repository/</url>				
+			<!-- <url>https://github.com/e-ucm/eadventure/raw/master/etc/repository/</url> -->
+			<url>file://C:/Users/myuser/Documents/GitHub/eadventure/etc/repository</url>				
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>

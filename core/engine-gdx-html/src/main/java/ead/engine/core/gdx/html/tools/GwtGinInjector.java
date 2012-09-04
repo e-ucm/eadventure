@@ -75,6 +75,7 @@ import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.gameobjects.GdxApplyForceGO;
 import ead.engine.core.gdx.gameobjects.GdxPhysicsEffectGO;
+import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
@@ -184,5 +185,7 @@ public interface GwtGinInjector extends Ginjector {
 	public ReflectionClassLoader getReflectionClassLoader();
 
 	public AssetHandler getAssetHandler();
+	
+	public GWTVideoRenderer getGWTVideoRenderer();
 
 }

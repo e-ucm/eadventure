@@ -37,8 +37,8 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;

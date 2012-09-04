@@ -44,6 +44,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
+import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
 import ead.engine.core.input.InputHandler;
@@ -51,6 +52,8 @@ import ead.engine.core.platform.EngineConfiguration;
 
 @Singleton
 public class GdxGWTGUI extends GdxGUI {
+
+	GWTVideoRenderer renderer;
 
 	@Inject
 	public GdxGWTGUI(EngineConfiguration platformConfiguration,
@@ -64,19 +67,22 @@ public class GdxGWTGUI extends GdxGUI {
 	@Override
 	public void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen) {
-		
+		if (object != null) {
+			renderer = (GWTVideoRenderer) object;
+		} else if (renderer != null && renderer.isFinished()) {
+			renderer.hide();
+			renderer = null;
+		}
 
 	}
 
 	@Override
 	public void initialize() {
-		
 
 	}
 
 	@Override
 	public void finish() {
-		
 
 	}
 

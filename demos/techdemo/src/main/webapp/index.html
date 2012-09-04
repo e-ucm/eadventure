@@ -1,0 +1,78 @@
+<!--
+
+    eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+       <e-UCM> research group.
+
+       Copyright 2005-2010 <e-UCM> research group.
+
+       You can access a list of all the contributors to eAdventure at:
+             http://e-adventure.e-ucm.es/contributors
+
+       <e-UCM> is a research group of the Department of Software Engineering
+             and Artificial Intelligence at the Complutense University of Madrid
+             (School of Computer Science).
+
+             C Profesor Jose Garcia Santesmases sn,
+             28040 Madrid (Madrid), Spain.
+
+             For more info please visit:  <http://e-adventure.e-ucm.es> or
+             <http://www.e-ucm.es>
+
+    ****************************************************************************
+
+     This file is part of eAdventure, version 2.0
+
+         eAdventure is free software: you can redistribute it and/or modify
+         it under the terms of the GNU Lesser General Public License as published by
+         the Free Software Foundation, either version 3 of the License, or
+         (at your option) any later version.
+
+         eAdventure is distributed in the hope that it will be useful,
+         but WITHOUT ANY WARRANTY; without even the implied warranty of
+         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+         GNU Lesser General Public License for more details.
+
+         You should have received a copy of the GNU Lesser General Public License
+         along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!doctype html>
+<html>
+	<head>
+		<title>EAdventure</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>		
+		<link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+		<script src="http://vjs.zencdn.net/c/video.js"></script>
+		<script src="http://www.youtube.com/iframe_api"></script>	
+	</head>	
+	<body>
+		<div align="center" style="position:relative;">	
+			<!-- <div align="center" style="position: absolute; top: 0px; left: 0px;" id="embed-techdemo"></div> -->
+			<script type="text/javascript" src="techdemo/techdemo.nocache.js"></script>
+			<div id="nVideoContainer" style="position: absolute; top: 0px; left: 0px; visibility:hidden;">		
+				<video id="nVideo" class="video-js vjs-default-skin" preload="auto" width="800" height="600" poster="assets/ead/engine/resources/drawable/loading.png"  data-setup="{}" />
+			</div>											
+			<div id="ytplayer" align="center" style="position: absolute; top: 0px; left: 0px; visibility:hidden"></div>
+		</div>
+		<script type="text/javascript">
+			player = _V_("nVideo");
+		
+			var videoEnd = function(){
+				window.eadVideoEnded();
+			}
+		
+		/*	var ytVideoEnd = function(){
+				if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED ){
+					videoEnd();
+				}
+			}*/
+					
+		player.addEvent("pause", videoEnd);
+		player.addEvent("ended", videoEnd);
+							
+		//ytplayer.addEventListener("onStateChanged", ytVideoEnd);
+		</script>
+	</body>
+</html>
