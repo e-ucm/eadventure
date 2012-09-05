@@ -22,11 +22,11 @@
 			<artifactId>engine-gdx-desktop</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-gdx-html</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 	<properties>
 		<gwt.version>2.4.0</gwt.version>
