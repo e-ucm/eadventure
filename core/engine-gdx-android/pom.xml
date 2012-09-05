@@ -14,7 +14,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-gdx-android</artifactId>
 	<packaging>apk</packaging>
-	<name>eAdventure GDX Android Engine</name>
+	<name>eAdventure Gdx Android Engine</name>
 	<description>
 		Android engine; requires ADK to build, generates android .apk
 	</description>
