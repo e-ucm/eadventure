@@ -41,6 +41,7 @@
  */
 package ead.editor.model;
 
+import ead.reader.adventure.DOMTags;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -77,10 +78,9 @@ public class DataPrettifier {
     static final public String keymapEntry = "entry";
 
     static {
-        translatedAttributes.add("c");
-        translatedAttributes.add("kC");
-        translatedAttributes.add("vC");
-        translatedAttributes.add("vC");
+        translatedAttributes.add(DOMTags.CLASS_AT);
+        translatedAttributes.add(DOMTags.KEY_CLASS_AT); // "kC"
+        translatedAttributes.add(DOMTags.VALUE_CLASS_AT); // "vC"
     }
 
 
