@@ -37,8 +37,6 @@
 
 package ead.common.model.elements.behaviors;
 
-import java.util.List;
-
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;

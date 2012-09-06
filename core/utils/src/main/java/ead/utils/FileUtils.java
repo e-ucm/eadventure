@@ -41,12 +41,18 @@
  */
 package ead.utils;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +69,7 @@ public class FileUtils {
     /** Size of buffer for stream operations */
     private static final int BUFFER_SIZE = 1024;
 
-    private static InputStream readEntryFromZip(File zipFile, String entryName) throws IOException {
+    public static InputStream readEntryFromZip(File zipFile, String entryName) throws IOException {
         ZipFile zip = new ZipFile(zipFile);
         return zip.getInputStream(zip.getEntry(entryName));
     }
@@ -80,7 +86,7 @@ public class FileUtils {
         ZipFile zf = new ZipFile(zipFile);
         boolean matched = false;
         try {
-            Enumeration entries = zf.entries();
+            Enumeration<?> entries = zf.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry e = (ZipEntry) entries.nextElement();
                 String name = FileUtils.toCanonicalPath(e.getName());
@@ -126,8 +132,7 @@ public class FileUtils {
      * @throws IOException
      */
     public static void appendEntryToZip(File zipFile, String entryName, InputStream is) throws IOException {
-        boolean errors = false;
-        byte[] data = new byte[BUFFER_SIZE];
+        boolean errors = false;        
         ZipOutputStream out = null;
         File tempFile = File.createTempFile("ead-copy-zip", null);
         try {
@@ -256,7 +261,7 @@ public class FileUtils {
 
         try {
             logger.debug("Extracting zip: " + source.getName());
-            Enumeration entries = zf.entries();
+            Enumeration<?> entries = zf.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry e = (ZipEntry) entries.nextElement();
 

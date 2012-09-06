@@ -47,11 +47,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -61,9 +63,6 @@ import org.slf4j.LoggerFactory;
 
 import ead.utils.Pointer;
 import ead.utils.i18n.I18N;
-import java.util.ArrayList;
-import java.util.Locale;
-import javax.swing.*;
 
 abstract public class SwingUtilities {
 

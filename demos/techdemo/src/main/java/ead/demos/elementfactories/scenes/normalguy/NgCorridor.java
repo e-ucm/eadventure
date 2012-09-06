@@ -38,7 +38,6 @@
 package ead.demos.elementfactories.scenes.normalguy;
 
 
-import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -69,8 +68,6 @@ public class NgCorridor extends EmptyScene{
 	
 	private SceneElement doorClosed;
 	
-	private EmptyCond allRoomsVisited;  // Enables room4's door
-	
 	
 	public NgCorridor() {
 		// Set up room's variables
@@ -98,7 +95,7 @@ public class NgCorridor extends EmptyScene{
 	}
 	
 	private void initVariables() {
-		allRoomsVisited = EmptyCond.FALSE_EMPTY_CONDITION;
+		
 	}
 	
 	/**

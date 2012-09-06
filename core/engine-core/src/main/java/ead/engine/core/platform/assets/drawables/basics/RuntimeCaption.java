@@ -40,9 +40,6 @@ package ead.engine.core.platform.assets.drawables.basics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.SystemFields;
@@ -62,9 +59,6 @@ import ead.tools.StringHandler;
 public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<EAdCaption> implements
 		RuntimeDrawable<EAdCaption, GraphicContext> {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("RuntimeCaption");
 
 	private AssetHandler assetHandler;
 

@@ -39,7 +39,6 @@ package ead.engine.core.game;
 
 import java.util.List;
 
-import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
