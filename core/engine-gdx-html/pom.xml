@@ -13,7 +13,7 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-gdx-html</artifactId>
 	<packaging>war</packaging>
-	<name>eAdventure GDX HTML</name>
+	<name>eAdventure Gdx HTML</name>
 	<description>
     GDX / GWT e-Adventure engine; requires GWT SDK to build, generates web app
   </description>
