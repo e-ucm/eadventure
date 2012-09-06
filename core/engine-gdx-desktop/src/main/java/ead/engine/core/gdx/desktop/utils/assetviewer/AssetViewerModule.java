@@ -51,10 +51,14 @@ import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
+import ead.tools.BasicSceneGraph;
 import ead.tools.GenericInjector;
+import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
 import ead.tools.StringHandlerImpl;
 import ead.tools.java.JavaInjector;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.reflection.ReflectionProvider;
 
 public class AssetViewerModule extends AbstractModule {
 
@@ -68,8 +72,9 @@ public class AssetViewerModule extends AbstractModule {
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);
 		bind(VariableMap.class).to(AssetVariableMap.class).in(Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
-
-	}
+		bind(SceneGraph.class).to(BasicSceneGraph.class).in(Singleton.class);
+        bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(Singleton.class);
+    }
 
 	public static class AssetViewerGUI implements GUI {
 

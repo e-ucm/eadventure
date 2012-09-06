@@ -37,10 +37,6 @@
 
 package ead.editor.view.scene;
 
-import java.awt.Canvas;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.badlogic.gdx.graphics.Color;
@@ -52,7 +48,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.util.EAdRectangle;
@@ -62,6 +57,9 @@ import ead.editor.view.scene.listener.SceneViewerInputProcessor;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
+import java.awt.Canvas;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {
@@ -89,6 +87,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		selection = new ArrayList<EditableGameObject>();
 	}
 
+    @Override
 	public void setScene(EAdScene scene) {
 		super.setScene(scene);
 		addGameObject(scene.getBackground());
@@ -164,7 +163,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 
 		batch.setTransformMatrix(selectionMatrix);
 		// Draw selection
-		if (selection.size() > 0) {			
+		if (selection.size() > 0) {
 			batch.draw(circle, selectionRectangle.x, selectionRectangle.y);
 			batch.draw(circle, selectionRectangle.x + selectionRectangle.width,
 					selectionRectangle.y);
@@ -215,11 +214,11 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		circle = new Texture(p);
 		p.dispose();
 		selectionMatrix.translate(-5f, -5.0f, 0f);
-		
+
 		p = new Pixmap(1, 5, Pixmap.Format.RGB888);
 		vLine = new Texture(p);
 		p.dispose();
-		
+
 		p = new Pixmap(5, 1, Pixmap.Format.RGB888);
 		hLine = new Texture(p);
 		p.dispose();
@@ -245,7 +244,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 	public List<EditableGameObject> getSelection() {
 		return this.selection;
 	}
-	
+
 	public void setDelta( int deltaX, int deltaY ){
 		selectionMatrix.idt();
 		selectionMatrix.translate(deltaX - 5.0f, deltaY - 5.0f, 0);
