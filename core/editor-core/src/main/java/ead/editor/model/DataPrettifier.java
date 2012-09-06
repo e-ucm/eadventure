@@ -41,6 +41,8 @@
  */
 package ead.editor.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -54,6 +56,13 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import org.xml.sax.InputSource;
 
 /**
  * Utility class that prettifies data.xml files so that they become easier to
@@ -124,14 +133,15 @@ public class DataPrettifier {
 
         // second pass: read while translating with map
         try {
+			ByteArrayOutputStream cache = new ByteArrayOutputStream();
+
             FileInputStream in = new FileInputStream(input);
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
-            OutputStream out = new FileOutputStream(output);
-            XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-            XMLStreamWriter writer = outputFactory.createXMLStreamWriter(out);
-//            writer = new IndentingXMLStreamWriter(writer);
-            writer.writeStartDocument();
+            XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
+			System.err.println(outputFactory.getClass().getName());
+            XMLStreamWriter writer = outputFactory.createXMLStreamWriter(cache);
+			writer.writeStartDocument();
 
             while (true) {
                 int event = reader.next();
@@ -183,6 +193,18 @@ public class DataPrettifier {
                         break;
                 }
             }
+
+			// now, prettify it (using mojo from http://stackoverflow.com/a/4472580/15472)
+			Transformer serializer= SAXTransformerFactory.newInstance().newTransformer();
+            serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+            //serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            //serializer.setOutputProperty("{http://xml.customer.org/xslt}indent-amount", "2");
+            Source xmlSource=new SAXSource(new InputSource(
+					new ByteArrayInputStream(cache.toByteArray())));
+            StreamResult res =  new StreamResult(new FileOutputStream(output));
+            serializer.transform(xmlSource, res);
+
         } catch (Exception e) {
             throw new IOException("Unable to prettify (step 2)", e);
         }
@@ -192,8 +214,8 @@ public class DataPrettifier {
         File f1 = new File("/tmp/y1/data.xml");
         File f11 = new File("/tmp/y1/d1.xml");
         DataPrettifier.prettify(f1, f11);
-        File f2 = new File("/tmp/y2/data.xml");
-        File f21 = new File("/tmp/y2/d1.xml");
-        DataPrettifier.prettify(f2, f21);
+        //File f2 = new File("/tmp/y2/data.xml");
+        //File f21 = new File("/tmp/y2/d1.xml");
+        //DataPrettifier.prettify(f2, f21);
     }
 }
