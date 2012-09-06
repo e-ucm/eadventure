@@ -67,10 +67,10 @@ public abstract class EditorConfig extends ConfigBackend {
         LastImportFile,
 
         // Editor window
-        EditorWidth,
-        EditorHeight,
-        EditorX,
-        EditorY
+        WindowSizeHeight,
+        WindowSizeWidth,
+        WindowPosX,
+        WindowPosY
     };
 
     public final static String fileArraySeparator = ":";

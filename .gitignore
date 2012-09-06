@@ -67,6 +67,9 @@ core/engine-android/libs/
 # engine configuration (if launched locally)
 core/engine-desktop/engine_configuration.xml
 
+# editor-generated preferences file
+core/editor-core/ead-editor-config.xml
+
 # local, unversioned files
 local/
 demos/firstaidgame/gwt-unitCache
