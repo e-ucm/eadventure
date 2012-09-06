@@ -17,6 +17,8 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
+import ead.engine.core.debuggers.DebuggerHandler;
+import ead.engine.core.debuggers.FieldsDebugger;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.guitools.enginegui.effects.LoadGameEffect;
@@ -45,6 +47,9 @@ public class EngineGUI {
 		DesktopGame engine = new DesktopGame();
 		engine.getInstance(EffectGOFactory.class).put(LoadGameEffect.class,
 				LoadGameGO.class);
+		DebuggerHandler debuggerHandler = engine.getInstance(DebuggerHandler.class);
+		debuggerHandler.add(FieldsDebugger.class);
+		
 		SceneElement element = new SceneElement(new RectangleShape(100, 100,
 				ColorFill.BLACK));
 		BasicScene scene = new BasicScene(new RectangleShape(800, 600,
