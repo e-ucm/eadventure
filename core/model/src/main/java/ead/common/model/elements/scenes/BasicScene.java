@@ -116,13 +116,13 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 	}
 
 	/**
-	 * Adds an element to the scene
+	 * Adds an scene element to the scene
 	 * 
 	 * @param element
 	 *            the element to be added
 	 */
-	public void addSceneElement(SceneElement element) {
-		getSceneElements().add(element);
+	public void add(SceneElement element) {
+		this.getSceneElements().add(element);
 	}
 
 }

@@ -37,14 +37,17 @@
 
 package ead.engine.core.gdx.desktop;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Guice;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
+import ead.common.util.EAdURI;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 
@@ -60,10 +63,31 @@ public class DesktopGame extends JavaInjector {
 		g.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
 	}
 
+	/**
+	 * Loads a game from its model, with strings and properties.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param strings
+	 *            the game strings. It can be {@code null}
+	 * @param properties
+	 *            the game properties. It can be {@code null}
+	 */
 	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
 			Map<String, String> properties) {
 		GameLoader g = getInstance(GameLoader.class);
+		if (strings == null) {
+			strings = new HashMap<EAdString, String>();
+		}
+
+		if (properties == null) {
+			properties = new HashMap<String, String>();
+		}
 		g.loadGame(model, strings, properties);
+	}
+	
+	public void setResourcesLocation(String path){
+		this.getInstance(AssetHandler.class).setResourcesLocation(new EAdURI(path));
 	}
 
 }

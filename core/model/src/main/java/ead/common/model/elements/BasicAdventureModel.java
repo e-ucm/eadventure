@@ -47,6 +47,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.params.text.EAdString;
 
@@ -54,7 +55,8 @@ import ead.common.params.text.EAdString;
  * The eAdventure game model.
  */
 @Element(detailed = BasicAdventureModel.class, runtime = BasicAdventureModel.class)
-public class BasicAdventureModel extends BasicElement implements EAdAdventureModel {
+public class BasicAdventureModel extends BasicElement implements
+		EAdAdventureModel {
 
 	@Param("description")
 	public EAdString description;
@@ -97,6 +99,19 @@ public class BasicAdventureModel extends BasicElement implements EAdAdventureMod
 		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
 		properties = new HashMap<String, String>();
+	}
+
+	/**
+	 * Creates an adventure model with the initial scene
+	 * 
+	 * @param scene
+	 *            the initial scene of the game
+	 */
+	public BasicAdventureModel(BasicScene scene) {
+		this();
+		BasicChapter chapter = new BasicChapter();
+		chapter.setInitialScene(scene);
+		getChapters().add(chapter);
 	}
 
 	public EAdList<EAdChapter> getChapters() {
