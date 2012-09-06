@@ -359,14 +359,14 @@ public class EditorWindow implements ViewController {
      */
     private void setSizeAndPosition() {
         EditorConfig ec = controller.getConfig();
-        final int width = ec.containsKey(EditorConf.EditorWidth) ?
-                ec.getInt(EditorConf.EditorWidth) : -1;
-        final int height = ec.containsKey(EditorConf.EditorHeight) ?
-                ec.getInt(EditorConf.EditorHeight) : -1;
-        final int xPos = ec.containsKey(EditorConf.EditorX) ?
-                ec.getInt(EditorConf.EditorX) : -1;
-        final int yPos = ec.containsKey(EditorConf.EditorY) ?
-                ec.getInt(EditorConf.EditorY) : -1;
+        final int width = ec.containsKey(EditorConf.WindowSizeWidth) ?
+                ec.getInt(EditorConf.WindowSizeWidth) : -1;
+        final int height = ec.containsKey(EditorConf.WindowSizeHeight) ?
+                ec.getInt(EditorConf.WindowSizeHeight) : -1;
+        final int xPos = ec.containsKey(EditorConf.WindowPosX) ?
+                ec.getInt(EditorConf.WindowPosX) : -1;
+        final int yPos = ec.containsKey(EditorConf.WindowPosY) ?
+                ec.getInt(EditorConf.WindowPosY) : -1;
 
         SwingUtilities.doInEDTNow(new Runnable() {
 
@@ -404,15 +404,15 @@ public class EditorWindow implements ViewController {
 
     private void saveWindowPreferences() {
         EditorConfig ec = controller.getConfig();
-        ec.put(EditorConf.EditorWidth, ""+editorWindow.getWidth());
-        ec.put(EditorConf.EditorHeight, ""+editorWindow.getHeight());
-        ec.put(EditorConf.EditorX, ""+editorWindow.getLocationOnScreen().x);
-        ec.put(EditorConf.EditorY, ""+editorWindow.getLocationOnScreen().y);
-        logger.info("Saved window settings {},{} {}x{}", new Object[] {
-            ec.getInt(EditorConf.EditorWidth),
-            ec.getInt(EditorConf.EditorHeight),
-            ec.getInt(EditorConf.EditorX),
-            ec.getInt(EditorConf.EditorY)
+        ec.put(EditorConf.WindowSizeWidth, ""+editorWindow.getWidth());
+        ec.put(EditorConf.WindowSizeHeight, ""+editorWindow.getHeight());
+        ec.put(EditorConf.WindowPosX, ""+editorWindow.getLocationOnScreen().x);
+        ec.put(EditorConf.WindowPosY, ""+editorWindow.getLocationOnScreen().y);
+        logger.debug("Saved window settings {},{} {}x{}", new Object[] {
+            ec.getInt(EditorConf.WindowSizeWidth),
+            ec.getInt(EditorConf.WindowSizeHeight),
+            ec.getInt(EditorConf.WindowPosX),
+            ec.getInt(EditorConf.WindowPosY)
         });
         ec.save(null);
     }
