@@ -86,6 +86,7 @@ war/WEB-INF/classes/
 enguinegui.properties
 
 core/engine-gdx-html/src/main/webapp/assets
+core/engine-gdx-html/src/main/resources/ead/engine/resources
 classes/
 
 
