@@ -75,13 +75,13 @@ public class BasicFont implements EAdFont {
 	/**
 	 * Regular EAdFont
 	 */
-	public static final BasicFont REGULAR = new BasicFont(25.0f);
+	public static final BasicFont REGULAR = new BasicFont(13.0f);
 
 	/**
 	 * Regular bold font
 	 */
 
-	public static final BasicFont REGULAR_BOLD = new BasicFont(null, 25.0f,
+	public static final BasicFont REGULAR_BOLD = new BasicFont(null, 13.0f,
 			FontStyle.BOLD);
 
 	/**
@@ -144,10 +144,6 @@ public class BasicFont implements EAdFont {
 		return size;
 	}
 
-	/**
-	 * @param size
-	 *            the size to set
-	 */
 	public void setSize(float size) {
 		this.size = size;
 	}
@@ -158,11 +154,7 @@ public class BasicFont implements EAdFont {
 	public FontStyle getStyle() {
 		return style;
 	}
-
-	/**
-	 * @param style
-	 *            the style to set
-	 */
+	
 	public void setStyle(FontStyle style) {
 		this.style = style;
 	}
