@@ -88,7 +88,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		drawables.clear();
 		for (EAdBasicDrawable d : e.getAssetList()) {
 			drawables.add((RuntimeDrawable<?, GraphicContext>) assetHandler
-					.getDrawableAsset(d, null));
+					.getDrawableAsset(d));
 		}
 	}
 
@@ -99,7 +99,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	public int getWidth() {
 		int width = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			width = Math.max(assetHandler.getDrawableAsset(asset, null)
+			width = Math.max(assetHandler.getDrawableAsset(asset)
 					.getWidth(), width);
 		return width;
 	}
@@ -107,7 +107,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	public int getHeight() {
 		int height = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			height = Math.max(assetHandler.getDrawableAsset(asset, null)
+			height = Math.max(assetHandler.getDrawableAsset(asset)
 					.getHeight(), height);
 		return height;
 	}

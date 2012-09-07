@@ -82,6 +82,9 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void initialize() {
 		initialized = true;
 		stopped = false;
+		for (EAdEffect e : element.getPreviousEffects()) {
+			gameState.addEffect(e, action, parent);
+		}
 	}
 
 	public void update() {

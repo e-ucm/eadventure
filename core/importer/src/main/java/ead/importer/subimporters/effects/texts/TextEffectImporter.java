@@ -43,6 +43,7 @@ import java.util.List;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
+import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
@@ -51,11 +52,13 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
+import ead.importer.interfaces.ResourceImporter;
 import ead.importer.subimporters.effects.EffectImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
@@ -69,7 +72,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	public static final String WHISPER = "#:*";
 	public static final String THOUGHT = "#O";
 	public static final String YELL = "#!";
-	
+
 	protected static final EAdFont DEFAULT_FONT = new BasicFont(20.0f);
 
 	protected static int ID_GENERATOR = 0;
@@ -78,12 +81,16 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	protected EAdElementFactory factory;
 
+	private ResourceImporter resourceImporter;
+
 	public TextEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory, ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator,
+			ResourceImporter resourceImporter) {
 		super(conditionImporter, annotator);
 		this.stringHandler = stringHandler;
 		this.factory = factory;
+		this.resourceImporter = resourceImporter;
 	}
 
 	@Override
@@ -97,6 +104,17 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		showText.setOpaque(true);
 		showText.setFont(DEFAULT_FONT);
 		return showText;
+	}
+
+	protected void addSound(String audioPath, SpeakEf effect) {
+		if (audioPath != null && !audioPath.equals("")) {
+			Sound s = (Sound) resourceImporter.getAssetDescritptor(audioPath,
+					Sound.class);
+			if (s != null) {
+				PlaySoundEf playSound = new PlaySoundEf(s);
+				effect.getPreviousEffects().add(playSound);
+			}
+		}
 	}
 
 	public static List<EAdOperation> getOperations(String text,
@@ -189,7 +207,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	/**
 	 * Sets the ballon type for the effect and deletes the balloon type tag form
 	 * the line and returns it
-	 *
+	 * 
 	 * @param effect
 	 * @param line
 	 * @return
@@ -231,8 +249,8 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		ColorFill bubbleBorder = new ColorFill("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new Paint(center, border), new Paint(
-				bubbleCenter, bubbleBorder));
+		effect.setColor(new Paint(center, border), new Paint(bubbleCenter,
+				bubbleBorder));
 	}
 
 	public static void translateText(StringHandler stringHandler,

@@ -83,6 +83,7 @@ core/engine-gdx-android/proguard.cfg
 
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
+enguinegui.properties
 
 core/engine-gdx-html/src/main/webapp/assets
 classes/

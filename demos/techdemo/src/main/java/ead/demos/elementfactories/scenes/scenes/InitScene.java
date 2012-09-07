@@ -133,7 +133,7 @@ public class InitScene extends EmptyScene {
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
-		// sceneDemos.add(new TextsScene());
+		sceneDemos.add(new TextsScene());
 		sceneDemos.add(new CharacterScene());
 		sceneDemos.add(new SpeakAndMoveScene());
 		sceneDemos.add(new ComplexElementScene());

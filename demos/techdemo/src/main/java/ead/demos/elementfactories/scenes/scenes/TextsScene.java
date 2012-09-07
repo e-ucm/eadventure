@@ -37,73 +37,70 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.enums.ShowTextAnimation;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
 import ead.common.resources.assets.text.BasicFont;
-import ead.common.util.EAdURI;
-import ead.demos.elementfactories.EAdElementsFactory;
-import ead.demos.elementfactories.StringFactory.StringType;
+import ead.common.resources.assets.text.EAdFont;
+import ead.common.resources.assets.text.enums.FontStyle;
 
 public class TextsScene extends EmptyScene {
-	
-	public TextsScene( ){
+
+	public TextsScene() {
 		setId("TextsScene");
 		this.setBackgroundFill(ColorFill.DARK_GRAY);
-		
-		// Show text caption
-		Caption caption = EAdElementsFactory.getInstance()
-			.getCaptionFactory().createCaption(
-				"Show text \u00c1 \u00d1\u00d1\u00d1 !!!! *\u00c1", 
-				Paint.WHITE_ON_BLACK, 
-				Paint.BLACK_ON_WHITE, 
-				new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"),
-				20));
-		EAdEffect effect = EAdElementsFactory.getInstance()
-			.getEffectFactory().getShowText(
-				"This text is showing through an EAdShowText effect", 
-				400, 200, ShowTextAnimation.FADE_IN );
-		getSceneElements().add(EAdElementsFactory.getInstance()
-			.getSceneElementFactory().createSceneElement(
-				caption, 10, 10, effect));
-		
-		// Show question caption
-		Caption caption2 = EAdElementsFactory.getInstance()
-				.getCaptionFactory().createCaption(
-						"Launch a question", 
-						Paint.WHITE_ON_BLACK, 
-						Paint.BLACK_ON_WHITE, 
-						new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
-		EAdEffect question = EAdElementsFactory.getInstance()
-				.getEffectFactory().getShowQuestion(
-						"I have a question and you have to answer, I'm afraid", 5 );
-		getSceneElements().add(EAdElementsFactory.getInstance()
-				.getSceneElementFactory().createSceneElement(
-						caption2, 10, 100, question));
-		
-		// Show text caption
-		Caption caption3 = EAdElementsFactory.getInstance()
-				.getCaptionFactory().createCaption(
-						"Show very long text", Paint.WHITE_ON_BLACK, 
-						Paint.BLACK_ON_WHITE, 
-						new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
-		EAdEffect effect2 = EAdElementsFactory.getInstance()
-				.getEffectFactory().getShowText(
-						StringType.VERY_LONG_STRING.getString(), 
-						400, 200, ShowTextAnimation.FADE_IN, 100 );
-		getSceneElements().add(EAdElementsFactory.getInstance()
-				.getSceneElementFactory().createSceneElement(
-						caption3, 10, 200, effect2));
+
+		ComposedDrawable drawable = new ComposedDrawable();
+		int y = 0;
+		int multiplier = 2;
+		// Regular
+		for (float size = 10.0f; size <= 20.0f; size += 1.0f) {
+			drawable.addDrawable(createTestCaption(new BasicFont(size)), 0, y);
+			y += size * multiplier;
+		}
+		drawable.addDrawable(createTestCaption(new BasicFont(32.0f)), 0, y);
+
+		y = 0;
+		// Bold
+		for (float size = 10.0f; size <= 20.0f; size += 1.0f) {
+			drawable.addDrawable(createTestCaption(new BasicFont(size,
+					FontStyle.BOLD)), 200, y);
+			y += size * multiplier;
+		}
+		drawable.addDrawable(createTestCaption(new BasicFont(32.0f,
+				FontStyle.BOLD)), 200, y);
+
+		y = 0;
+		// Italic
+		for (float size = 10.0f; size <= 20.0f; size += 1.0f) {
+			drawable.addDrawable(createTestCaption(new BasicFont(size,
+					FontStyle.ITALIC)), 400, y);
+			y += size * multiplier;
+		}
+		drawable.addDrawable(createTestCaption(new BasicFont(32.0f,
+				FontStyle.ITALIC)), 400, y);
+
+		this.add(new SceneElement(drawable));
+
 	}
-	
+
+	private Caption createTestCaption(EAdFont font) {
+		Caption c = new Caption(EAdString.newEAdString("#txt#Test text"));
+		c.setTextPaint(ColorFill.WHITE);
+		c.setBubblePaint(ColorFill.RED);
+		c.setPadding(0);
+		c.setFont(font);
+		return c;
+	}
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene for test texts";
 	}
-	
-	public String getDemoName(){
+
+	public String getDemoName() {
 		return "Texts Scene";
 	}
 

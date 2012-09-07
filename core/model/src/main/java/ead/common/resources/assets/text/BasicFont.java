@@ -88,9 +88,9 @@ public class BasicFont implements EAdFont {
 	 * Big EAdFont
 	 */
 	public static final BasicFont BIG = new BasicFont(35.0f);
-	
-	public BasicFont( ){
-		
+
+	public BasicFont() {
+
 	}
 
 	public BasicFont(float size) {
@@ -110,6 +110,10 @@ public class BasicFont implements EAdFont {
 	@Override
 	public EAdURI getUri() {
 		return uri;
+	}
+
+	public BasicFont(float size, FontStyle style) {
+		this(null, size, style);
 	}
 
 	public BasicFont(String name, float size) {

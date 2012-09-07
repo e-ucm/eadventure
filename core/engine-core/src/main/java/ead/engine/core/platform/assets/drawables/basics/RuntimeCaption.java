@@ -128,6 +128,9 @@ public class RuntimeCaption<GraphicContext> extends
 
 	private GUI gui;
 
+	@SuppressWarnings("rawtypes")
+	private RuntimeDrawable shape;
+
 	@Inject
 	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
 			StringHandler stringsHandler, AssetHandler assetHandler) {
@@ -157,6 +160,13 @@ public class RuntimeCaption<GraphicContext> extends
 		lines = new ArrayList<String>();
 		widths = new ArrayList<Integer>();
 		wrapText();
+
+		// Draw bubble
+		if (getAssetDescriptor().hasBubble()) {
+			RectangleShape rect = new RectangleShape(getWidth(), getHeight());
+			rect.setPaint(getAssetDescriptor().getBubblePaint());
+			shape = assetHandler.getDrawableAsset(rect);
+		}
 		return true;
 	}
 
@@ -454,12 +464,10 @@ public class RuntimeCaption<GraphicContext> extends
 		return font;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void render(GenericCanvas<GraphicContext> c) {
-		// Draw bubble
-		if (getAssetDescriptor().hasBubble()) {
-			RectangleShape shape = new RectangleShape(getWidth(), getHeight());
-			shape.setPaint(getAssetDescriptor().getBubblePaint());
-			assetHandler.getDrawableAsset(shape, c).render(c);
+		if (shape != null) {
+			shape.render(c);
 		}
 
 		c.setFont(descriptor.getFont());
@@ -487,7 +495,7 @@ public class RuntimeCaption<GraphicContext> extends
 				default:
 					xOffset = descriptor.getPadding();
 				}
-				c.setPaint(descriptor.getTextPaint());				
+				c.setPaint(descriptor.getTextPaint());
 				c.drawText(s, xOffset, yOffset);
 				yOffset += getLineHeight();
 				i++;
