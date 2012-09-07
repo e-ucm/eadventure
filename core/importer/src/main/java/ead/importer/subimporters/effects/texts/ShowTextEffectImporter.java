@@ -66,7 +66,8 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 
 		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getText(), factory)){
 			showText.getCaption().getFields().add(op);
-		}
+		}		
+		
 		String line = TextEffectImporter.translateLine(oldObject.getText());
 		stringHandler.setString(showText.getString(), line);
 
@@ -74,7 +75,7 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 				.getRgbFrontColor()) + "ff");
 		ColorFill border = new ColorFill(Integer.toHexString(oldObject
 				.getRgbBorderColor()) + "ff");
-		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);
+		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);				
 
 		return showText;
 	}

@@ -487,7 +487,7 @@ public class RuntimeCaption<GraphicContext> extends
 				default:
 					xOffset = descriptor.getPadding();
 				}
-				c.setPaint(descriptor.getTextPaint());
+				c.setPaint(descriptor.getTextPaint());				
 				c.drawText(s, xOffset, yOffset);
 				yOffset += getLineHeight();
 				i++;

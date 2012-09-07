@@ -352,8 +352,7 @@ public class EAdventureImporter {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
 		AdventureData data = null;
 		try {
-			data = Loader.loadAdventureData(inputStreamCreator, incidences,
-					true);
+			data = Loader.loadAdventureData(inputStreamCreator, incidences);
 		} catch (Exception e) {
 			logger.error("Exception while reading old <e-Adventure> game", e);
 		}

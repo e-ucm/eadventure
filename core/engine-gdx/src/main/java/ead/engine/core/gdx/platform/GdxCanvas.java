@@ -108,11 +108,23 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 
 	@Override
 	public void drawText(String text, int x, int y) {
+		
+		// Border
+		if ( paint.getBorder() instanceof ColorFill ){
+			ColorFill c = (ColorFill) paint.getBorder();
+			font.getBitmapFont().setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c.getBlue() / 255.0f, g.getColor().a);
+			font.getBitmapFont().draw(g, text, x, y);
+			font.getBitmapFont().draw(g, text, x + 1, y + 1);
+			font.getBitmapFont().draw(g, text, x - 1, y + 1);
+			font.getBitmapFont().draw(g, text, x + 1, y - 1);
+			font.getBitmapFont().draw(g, text, x - 1, y - 1);
+		}
+		
 		if ( paint.getFill() instanceof ColorFill ){
 			ColorFill c = (ColorFill) paint.getFill();
 			font.getBitmapFont().setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c.getBlue() / 255.0f, g.getColor().a);
-		}
-		font.getBitmapFont().draw(g, text, x, y);
+			font.getBitmapFont().draw(g, text, x, y);
+		}		
 	}
 
 	@Override

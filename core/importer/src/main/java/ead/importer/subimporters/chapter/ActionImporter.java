@@ -351,38 +351,40 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	 *            the old element
 	 */
 	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList) {
-		boolean add = true;
+
+		String detailedDesc = stringHandler.getString(actor.getDetailDesc());
+		if (detailedDesc == null || detailedDesc.equals("")) {
+			return;
+		}
+
 		for (Action a : actionsList) {
 			if (a.getType() == Action.EXAMINE) {
-				add = false;
+				return;
 			}
 		}
 
-		if (add) {
-			if (examineString == null)
-				initExamineAction(stringHandler);
+		if (examineString == null)
+			initExamineAction(stringHandler);
 
-			ElementAction examineAction = new ElementAction(examineString);
-			examineAction.setId(actor.getId() + "_examinate");
+		ElementAction examineAction = new ElementAction(examineString);
+		examineAction.setId(actor.getId() + "_examinate");
 
-			// Effect
-			SpeakEf effect = new SpeakEf(actor.getDetailDesc());
-			effect.setId("examinate");
-			effect.setAlignment(Alignment.CENTER);
+		// Effect
+		SpeakEf effect = new SpeakEf(actor.getDetailDesc());
+		effect.setId("examinate");
+		effect.setAlignment(Alignment.CENTER);
 
-			stringHandler.setString(examineAction.getName(), "Examine");
-			examineAction.getEffects().add(effect);
+		stringHandler.setString(examineAction.getName(), "Examine");
+		examineAction.getEffects().add(effect);
 
-			// Appearance
-			examineAction.getResources().addAsset(
-					examineAction.getNormalBundle(), ElementAction.appearance,
-					examineImage);
-			examineAction.getResources().addAsset(
-					examineAction.getHighlightBundle(),
-					ElementAction.appearance, examineOverImage);
+		// Appearance
+		examineAction.getResources().addAsset(examineAction.getNormalBundle(),
+				ElementAction.appearance, examineImage);
+		examineAction.getResources().addAsset(
+				examineAction.getHighlightBundle(), ElementAction.appearance,
+				examineOverImage);
 
-			actor.getActions().add(examineAction);
-		}
+		actor.getActions().add(examineAction);
 	}
 
 	public static String getHighlightDrawablePath(int actionType) {

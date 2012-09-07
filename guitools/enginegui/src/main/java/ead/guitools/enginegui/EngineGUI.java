@@ -48,7 +48,7 @@ public class EngineGUI {
 		engine.getInstance(EffectGOFactory.class).put(LoadGameEffect.class,
 				LoadGameGO.class);
 		DebuggerHandler debuggerHandler = engine.getInstance(DebuggerHandler.class);
-		debuggerHandler.add(FieldsDebugger.class);
+//		debuggerHandler.add(FieldsDebugger.class);
 		
 		SceneElement element = new SceneElement(new RectangleShape(100, 100,
 				ColorFill.BLACK));

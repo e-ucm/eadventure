@@ -51,6 +51,8 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -67,6 +69,8 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	public static final String WHISPER = "#:*";
 	public static final String THOUGHT = "#O";
 	public static final String YELL = "#!";
+	
+	protected static final EAdFont DEFAULT_FONT = new BasicFont(20.0f);
 
 	protected static int ID_GENERATOR = 0;
 
@@ -89,10 +93,9 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	public SpeakEf convert(T oldObject, Object object) {
 		SpeakEf showText = super.convert(oldObject, object);
-
 		showText.setBlocking(true);
 		showText.setOpaque(true);
-
+		showText.setFont(DEFAULT_FONT);
 		return showText;
 	}
 

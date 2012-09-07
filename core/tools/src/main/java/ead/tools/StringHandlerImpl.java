@@ -62,20 +62,25 @@ public class StringHandlerImpl implements StringHandler {
 			return string.toString().substring(
 					StringHandler.TEXTUAL_STRING_PREFIX.length());
 		}
+
 		String value = strings.get(string);
-		return value == null ? string.toString() : value;
+		return value == null ? "" : strings.get(string);
 	}
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
 		logger.debug("Add string '{}': '{}'", eAdString.toString(), string);
+		if (string == null) {
+			logger.warn(
+					"A null string has been set for {}. It's unnecessary to do that.",
+					eAdString);
+		}
 		strings.put(eAdString, string);
 	}
 
 	@Override
 	public void setStrings(Map<EAdString, String> strings) {
 		this.strings = strings;
-
 	}
 
 	@Override
