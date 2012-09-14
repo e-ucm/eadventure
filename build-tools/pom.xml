@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>ead</groupId>
-  <version>2.0.1-SNAPSHOT</version>
-  <artifactId>build-tools</artifactId>
-  <packaging>jar</packaging>
-  <name>eAdventure Build Utilities</name>
-  <description>eAdventure Maven 2 build utilities.</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ead</groupId>
+	<version>2.0.1-SNAPSHOT</version>
+	<artifactId>build-tools</artifactId>
+	<packaging>jar</packaging>
+	<name>eAdventure Build Utilities</name>
+	<description>eAdventure Maven 2 build utilities.</description>
+	<!-- Ant plugin, to copy resources folder where needed -->
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<configuration>
+							<target>
+								<copy todir="../core/engine-gdx-desktop/src/main/resources">
+									<fileset dir="../resources/engineassets" />
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

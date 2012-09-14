@@ -212,5 +212,9 @@ public class GdxDesktopGUI extends GdxGUI {
 		return GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
 	}
+	
+	public JFrame getFrame( ){
+		return frame;
+	}
 
 }

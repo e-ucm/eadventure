@@ -40,9 +40,6 @@ package ead.engine.core.platform.assets.drawables.basics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.SystemFields;
@@ -62,9 +59,6 @@ import ead.tools.StringHandler;
 public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<EAdCaption> implements
 		RuntimeDrawable<EAdCaption, GraphicContext> {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("RuntimeCaption");
 
 	private AssetHandler assetHandler;
 
@@ -134,6 +128,9 @@ public class RuntimeCaption<GraphicContext> extends
 
 	private GUI gui;
 
+	@SuppressWarnings("rawtypes")
+	private RuntimeDrawable shape;
+
 	@Inject
 	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
 			StringHandler stringsHandler, AssetHandler assetHandler) {
@@ -163,6 +160,13 @@ public class RuntimeCaption<GraphicContext> extends
 		lines = new ArrayList<String>();
 		widths = new ArrayList<Integer>();
 		wrapText();
+
+		// Draw bubble
+		if (getAssetDescriptor().hasBubble()) {
+			RectangleShape rect = new RectangleShape(getWidth(), getHeight());
+			rect.setPaint(getAssetDescriptor().getBubblePaint());
+			shape = assetHandler.getDrawableAsset(rect);
+		}
 		return true;
 	}
 
@@ -460,12 +464,10 @@ public class RuntimeCaption<GraphicContext> extends
 		return font;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void render(GenericCanvas<GraphicContext> c) {
-		// Draw bubble
-		if (getAssetDescriptor().hasBubble()) {
-			RectangleShape shape = new RectangleShape(getWidth(), getHeight());
-			shape.setPaint(getAssetDescriptor().getBubblePaint());
-			assetHandler.getDrawableAsset(shape, c).render(c);
+		if (shape != null) {
+			shape.render(c);
 		}
 
 		c.setFont(descriptor.getFont());

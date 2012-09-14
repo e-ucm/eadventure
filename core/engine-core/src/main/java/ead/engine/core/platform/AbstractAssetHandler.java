@@ -57,7 +57,6 @@ import ead.common.util.EAdURI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.tools.SceneGraph;
 
 /**
@@ -222,7 +221,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EAdDrawable, GraphicContext> RuntimeDrawable<T, GraphicContext> getDrawableAsset(
-			T descriptor, GenericCanvas<GraphicContext> c) {
+			T descriptor) {
 		return (RuntimeDrawable<T, GraphicContext>) getRuntimeAsset(descriptor);
 	}
 

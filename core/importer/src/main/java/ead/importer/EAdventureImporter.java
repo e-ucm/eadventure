@@ -56,14 +56,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.importer.annotation.ImportAnnotator;
 import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
@@ -354,8 +352,7 @@ public class EAdventureImporter {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
 		AdventureData data = null;
 		try {
-			data = Loader.loadAdventureData(inputStreamCreator, incidences,
-					true);
+			data = Loader.loadAdventureData(inputStreamCreator, incidences);
 		} catch (Exception e) {
 			logger.error("Exception while reading old <e-Adventure> game", e);
 		}

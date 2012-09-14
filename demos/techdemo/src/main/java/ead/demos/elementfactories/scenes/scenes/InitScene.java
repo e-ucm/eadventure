@@ -133,7 +133,7 @@ public class InitScene extends EmptyScene {
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
-		// sceneDemos.add(new TextsScene());
+		sceneDemos.add(new TextsScene());
 		sceneDemos.add(new CharacterScene());
 		sceneDemos.add(new SpeakAndMoveScene());
 		sceneDemos.add(new ComplexElementScene());
@@ -153,6 +153,7 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new FiltersDemo());
 		sceneDemos.add(new VideoSceneDemo());
 		sceneDemos.add(new WebMVideoScene());
+		sceneDemos.add(new WidgetsScene());
 		sceneDemos.add(new NgMainScreen(this));
 		// sceneDemos.add(new NgRoom1());
 

@@ -90,18 +90,18 @@ public class GdxFont extends BasicRuntimeFont {
 
 	@Override
 	public int stringWidth(String string) {
-		return (int) bitmapFont.getBounds(string).width;
+		return Math.round(bitmapFont.getBounds(string).width);
 	}
 
 	@Override
 	public int lineHeight() {
-		return (int) bitmapFont.getLineHeight();
+		return Math.round(bitmapFont.getLineHeight());
 	}
 
 	@Override
 	public EAdRectangle stringBounds(String string) {
 		TextBounds b = bitmapFont.getBounds(string);
-		return new EAdRectangle(0, 0, (int) b.width, (int) b.height);
+		return new EAdRectangle(0, 0, Math.round(b.width), Math.round(b.height));
 	}
 
 	public BitmapFont getBitmapFont() {

@@ -45,7 +45,6 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdURI;
-import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * <p>
@@ -126,7 +125,7 @@ public interface AssetHandler {
 			boolean load);
 
 	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T, GraphicContext> getDrawableAsset(
-			T descriptor, GenericCanvas<GraphicContext> clazz);
+			T descriptor);
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded

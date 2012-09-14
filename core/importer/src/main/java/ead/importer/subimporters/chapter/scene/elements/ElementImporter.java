@@ -196,6 +196,7 @@ public abstract class ElementImporter<T> implements
 			TextEffectImporter.setSpeakEffect(showDescription, null, factory
 					.getCurrentOldChapterModel().getPlayer(), factory,
 					stringHandler);
+			showDescription.setBubbleColor(ColorFill.TRANSPARENT);
 			sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					showDescription);
 		}

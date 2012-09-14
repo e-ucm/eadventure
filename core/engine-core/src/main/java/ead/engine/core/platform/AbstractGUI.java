@@ -88,6 +88,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected SceneElementGOFactory gameObjectFactory;
 
+	@SuppressWarnings("rawtypes")
 	protected GenericCanvas eAdCanvas;
 
 	protected Game game;
@@ -162,6 +163,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * @param interpolation
 	 *            The current interpolation between ideal game frames
 	 */
+	@SuppressWarnings("unchecked")
 	protected void render(float interpolation) {
 		synchronized (GameObjectManager.lock) {
 

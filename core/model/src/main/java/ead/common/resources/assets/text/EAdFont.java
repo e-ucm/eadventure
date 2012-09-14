@@ -73,4 +73,16 @@ public interface EAdFont extends AssetDescriptor, HasURI {
 	 */
 	boolean isTTF();
 
+	/**
+	 * @param size
+	 *            the size to set
+	 */
+	void setSize(float size);
+
+	/**
+	 * @param style
+	 *            the style to set
+	 */
+	void setStyle(FontStyle fontStyle);
+
 }

@@ -284,6 +284,8 @@ public class ResizeListener extends DragListener {
 			changeHeightBottom(component, deltaY);
 			changeWidthRight(component, deltaX);
 			break;
+		default:
+			break;
 		}
 
 		if (resizePosition != ResizePoint.NO_PLACE) {

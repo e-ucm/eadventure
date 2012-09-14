@@ -211,6 +211,8 @@ public class InputHandlerImpl implements InputHandler {
 			case RELEASED:
 				mouseHandler.setMousePressed(false, mouseAction.getButton());
 				break;
+			default:
+				break;
 			}
 
 			if (processInput) {

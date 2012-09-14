@@ -47,6 +47,7 @@ import ead.common.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
+import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
@@ -56,17 +57,20 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 	@Inject
 	public ShowTextEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            EAdElementFactory factory, ImportAnnotator annotator) {
-		super(stringHandler, conditionImporter, factory, annotator);
+            EAdElementFactory factory, ImportAnnotator annotator, ResourceImporter resourceImporter) {
+		super(stringHandler, conditionImporter, factory, annotator, resourceImporter);
 	}
 
 	@Override
 	public SpeakEf convert(ShowTextEffect oldObject, Object object) {
 		SpeakEf showText = super.convert(oldObject, object);
+		addSound(oldObject.getAudioPath(), showText);
 
 		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getText(), factory)){
 			showText.getCaption().getFields().add(op);
-		}
+		}		
+		
+		
 		String line = TextEffectImporter.translateLine(oldObject.getText());
 		stringHandler.setString(showText.getString(), line);
 
@@ -74,7 +78,7 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 				.getRgbFrontColor()) + "ff");
 		ColorFill border = new ColorFill(Integer.toHexString(oldObject
 				.getRgbBorderColor()) + "ff");
-		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);
+		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);				
 
 		return showText;
 	}

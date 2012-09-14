@@ -94,7 +94,8 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 		return initialValue;
 	}
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

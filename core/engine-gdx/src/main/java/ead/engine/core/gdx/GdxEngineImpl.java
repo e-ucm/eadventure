@@ -37,9 +37,6 @@
 
 package ead.engine.core.gdx;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -47,8 +44,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.params.text.EAdString;
 import ead.engine.core.game.Game;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxInputHandler;
@@ -87,6 +82,7 @@ public class GdxEngineImpl implements GdxEngine {
 		spriteBatch.enableBlending();
 		spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA,
 				GL20.GL_ONE_MINUS_SRC_ALPHA);
+		
 
 		int width = engineConfiguration.getWidth();
 		int height = engineConfiguration.getHeight();
@@ -107,7 +103,7 @@ public class GdxEngineImpl implements GdxEngine {
 
 	@Override
 	public void dispose() {
-
+		
 	}
 	
 	public void setGame( Game game ){

@@ -45,6 +45,7 @@ import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
+import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
@@ -58,17 +59,18 @@ public class SpeakPlayerEffectImporter extends
 	@Inject
 	public SpeakPlayerEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory, ImportAnnotator annotator) {
-		super(stringHandler, conditionImporter, factory, annotator);
+			EAdElementFactory factory, ImportAnnotator annotator,
+			ResourceImporter resourceImporter) {
+		super(stringHandler, conditionImporter, factory, annotator,
+				resourceImporter);
 	}
 
 	@Override
 	public SpeakEf init(SpeakPlayerEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getPlayer();
-		if ( factory.isFirstPerson() ){
+		if (factory.isFirstPerson()) {
 			return new SpeakEf();
-		}
-		else{
+		} else {
 			SpeakSceneElementEf effect = new SpeakSceneElementEf();
 			effect.setElement(factory.getElementById(npc.getId()));
 			return effect;
@@ -76,11 +78,11 @@ public class SpeakPlayerEffectImporter extends
 	}
 
 	@Override
-	public SpeakEf convert(SpeakPlayerEffect oldObject,
-			Object object) {
+	public SpeakEf convert(SpeakPlayerEffect oldObject, Object object) {
 		SpeakEf effect = super.convert(oldObject, object);
-
-		TextEffectImporter.setSpeakEffect(effect, oldObject.getLine(), npc, factory, stringHandler);
+		addSound(oldObject.getAudioPath(), effect);
+		TextEffectImporter.setSpeakEffect(effect, oldObject.getLine(), npc,
+				factory, stringHandler);
 
 		return effect;
 	}

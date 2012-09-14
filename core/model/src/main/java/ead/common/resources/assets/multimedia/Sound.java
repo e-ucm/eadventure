@@ -66,9 +66,20 @@ public class Sound implements EAdSound {
 	public EAdURI getUri() {
 		return uri;
 	}
-	
+
 	public void setUri(EAdURI uri) {
 		this.uri = uri;
+	}
+
+	public int hashCode() {
+		return uri.hashCode();
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof Sound) {
+			return ((Sound) o).uri != null && ((Sound) o).uri.equals(uri);
+		}
+		return false;
 	}
 
 }

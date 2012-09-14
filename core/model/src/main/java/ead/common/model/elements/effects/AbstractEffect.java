@@ -75,6 +75,9 @@ public abstract class AbstractEffect extends ConditionedElement
 	@Param("nextEffects")
 	private EAdList<EAdEffect> nextEffects;
 	
+	@Param("previousEffects")
+	private EAdList<EAdEffect> previousEffects;
+	
 	@Param(value="nextEffectsAlways", defaultValue="false")
 	private boolean nextEffectsAlways;
 
@@ -95,6 +98,7 @@ public abstract class AbstractEffect extends ConditionedElement
 		queueable = false;
 		nextEffectsAlways = false;
 		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+		previousEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	/**
@@ -149,6 +153,10 @@ public abstract class AbstractEffect extends ConditionedElement
 	}
 
 	public EAdList<EAdEffect> getNextEffects() {
+		return nextEffects;
+	}
+	
+	public EAdList<EAdEffect> getPreviousEffects() {
 		return nextEffects;
 	}
 	

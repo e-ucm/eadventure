@@ -41,16 +41,16 @@ import java.util.Map;
 
 import ead.common.params.text.EAdString;
 
-
 /**
  * A handler to translate {@link EAdString} to readable text in a given language
  * 
  * 
  */
 public interface StringHandler {
-	
+
 	/**
-	 * Strings id starting with this prefix, will return the id without the prefix
+	 * Strings id starting with this prefix, will return the id without the
+	 * prefix
 	 */
 	public static String TEXTUAL_STRING_PREFIX = "#txt#";
 
@@ -60,7 +60,8 @@ public interface StringHandler {
 	 * 
 	 * @param string
 	 *            the {@link EAdString}
-	 * @return the readable text
+	 * @return the readable text. If the string is not found, {@code ""} is
+	 *         returned
 	 */
 	String getString(EAdString string);
 

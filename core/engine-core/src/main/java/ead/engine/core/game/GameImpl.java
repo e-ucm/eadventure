@@ -55,7 +55,6 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
@@ -151,12 +150,12 @@ public class GameImpl implements Game {
 
 	@Override
 	public void update() {
-		
+
 		// We load one possible asset in the background
 		assetHandler.loadStep();
 		// We load some possible game
 		gameLoader.step();
-		
+
 		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
@@ -179,11 +178,8 @@ public class GameImpl implements Game {
 	}
 
 	private void updateDebuggers() {
-		if (debuggerHandler != null && debuggerHandler.getGameObjects() != null) {
-			for (DrawableGO<?> go : debuggerHandler.getGameObjects()) {
-				go.update();
-				gui.addElement(go, initialTransformation);
-			}
+		if (debuggerHandler != null) {
+			debuggerHandler.doLayout(gui, initialTransformation);
 		}
 	}
 

@@ -47,7 +47,7 @@ import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 public class GdxSound extends RuntimeSound {
 
 	private Sound sound;
-	
+
 	private long id;
 
 	@Inject
@@ -57,8 +57,8 @@ public class GdxSound extends RuntimeSound {
 
 	@Override
 	public boolean loadAsset() {
-		sound = Gdx.audio.newSound(Gdx.files.internal("data/"
-				+ this.descriptor.getUri().toString().substring(1)));
+		sound = Gdx.audio.newSound(((GdxAssetHandler) assetHandler)
+				.getFileHandle(descriptor.getUri().getPath()));
 		return true;
 	}
 

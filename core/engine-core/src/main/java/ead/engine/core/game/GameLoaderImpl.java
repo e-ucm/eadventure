@@ -37,6 +37,7 @@
 
 package ead.engine.core.game;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -183,8 +184,14 @@ public class GameLoaderImpl implements GameLoader {
 
 	public void loadGame(EAdAdventureModel model,
 			Map<EAdString, String> stringsMap, Map<String, String> propertiesMap) {
+		if (stringsMap == null) {
+			stringsMap = new HashMap<EAdString, String>();
+		}
 		stringHandler.setStrings(stringsMap);
 
+		if (propertiesMap == null) {
+			propertiesMap = new HashMap<String, String>();
+		}
 		for (Entry<String, String> entry : propertiesMap.entrySet()) {
 			model.setProperty(entry.getKey(), entry.getValue());
 		}

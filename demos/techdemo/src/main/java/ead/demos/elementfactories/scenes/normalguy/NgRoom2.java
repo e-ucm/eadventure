@@ -191,10 +191,6 @@ public class NgRoom2 extends EmptyScene{
 	
 	
 	
-	private void setWallPaper() {
-		// puzzle to do
-	}
-	
 	/**
 	 * Adds the SceneElements in the correct order
 	 */

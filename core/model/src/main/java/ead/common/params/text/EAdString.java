@@ -51,14 +51,16 @@ public class EAdString implements EAdParam {
 	 */
 	private String id;
 
-    /*
-     * A reusable Random; not exposed
-     */
-    private transient static Random random;
+	public static final String LITERAL_PREFIX = "#txt#";
+
+	/*
+	 * A reusable Random; not exposed
+	 */
+	private transient static Random random;
 
 	/**
 	 * Construct a new string with the given id
-	 *
+	 * 
 	 * @param id
 	 *            The id of the EAdString
 	 */
@@ -96,14 +98,25 @@ public class EAdString implements EAdParam {
 	}
 
 	public static EAdString newRandomEAdString(String string) {
-        if (random == null) {
-            random = new Random();
-        }
+		if (random == null) {
+			random = new Random();
+		}
 		return new EAdString(string + random.nextInt(100000000));
 	}
 
 	public static EAdString newEAdString(String string) {
 		return new EAdString(string);
+	}
+
+	/**
+	 * Returns a string that won't be internationalized
+	 * 
+	 * @param text
+	 *            the text to be shown
+	 * @return
+	 */
+	public static EAdString newLiteralString(String text) {
+		return new EAdString(LITERAL_PREFIX + text);
 	}
 
 }

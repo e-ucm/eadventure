@@ -37,16 +37,17 @@
 
 package ead.engine.core.debuggers;
 
-import java.util.List;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.util.EAdTransformation;
 
-public interface DebuggerHandler extends Debugger {
 
-	/**
-	 * Init the debugger handler with all the classes for the used debugger
-	 * 
-	 * @param classes
-	 *            debuggers classes
-	 */
-	public void init(List<Class<? extends Debugger>> debuggers);
+public interface DebuggerHandler {
+
+	public void add(Class<? extends Debugger> debugger);
+	
+	public void doLayout(GUI gui, EAdTransformation initialTransformation );
+
+	void setUp(EAdAdventureModel model);
 
 }

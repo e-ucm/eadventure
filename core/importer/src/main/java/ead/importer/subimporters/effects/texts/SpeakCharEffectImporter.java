@@ -48,6 +48,7 @@ import ead.common.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
+import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
@@ -61,8 +62,8 @@ public class SpeakCharEffectImporter extends
 	@Inject
 	public SpeakCharEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory, ImportAnnotator annotator) {
-		super(stringHandler, conditionImporter, factory, annotator);
+			EAdElementFactory factory, ImportAnnotator annotator, ResourceImporter resourceImporter) {
+		super(stringHandler, conditionImporter, factory, annotator, resourceImporter);
 	}
 
 	@Override
@@ -77,6 +78,7 @@ public class SpeakCharEffectImporter extends
 	@Override
 	public SpeakEf convert(SpeakCharEffect oldObject, Object object) {
 		SpeakEf effect = super.convert(oldObject, object);
+		addSound(oldObject.getAudioPath(), effect);
 
 		for (EAdOperation op : TextEffectImporter.getOperations(
 				oldObject.getLine(), factory)) {

@@ -64,13 +64,26 @@ public class Video implements EAdVideo {
 	public void setUri(EAdURI uri) {
 		this.uri = uri;
 	}
-	
+
 	public boolean isStream() {
 		return stream;
 	}
 
 	public void setStream(boolean stream) {
 		this.stream = stream;
+	}
+
+	public int hashCode() {
+		return uri.hashCode() + (stream ? 1 : 0);
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof Video) {
+			Video v = (Video) o;
+			if (v.uri == uri || uri != null && uri.equals(v.uri))
+				return v.stream == stream;
+		}
+		return false;
 	}
 
 }
