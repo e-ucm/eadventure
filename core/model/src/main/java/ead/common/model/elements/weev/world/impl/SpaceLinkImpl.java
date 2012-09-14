@@ -47,7 +47,7 @@ import ead.common.params.text.EAdString;
 /**
  * Default {@link SpaceLink} implementation
  */
-@Element(detailed = SpaceLinkImpl.class, runtime = SpaceLinkImpl.class)
+@Element
 public class SpaceLinkImpl extends AbstractTransition<Space> implements SpaceLink {
 
 	@Param(value = "name")

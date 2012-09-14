@@ -55,7 +55,7 @@ import ead.common.util.EAdPosition.Corner;
  * </p>
  * 
  */
-@Element(runtime = BasicScene.class, detailed = BasicScene.class)
+@Element
 public class BasicScene extends ComplexSceneElement implements EAdScene {
 
 	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new VarDef<Boolean>(

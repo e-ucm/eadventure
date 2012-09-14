@@ -41,7 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 
-@Element(detailed = BasicField.class, runtime = BasicField.class)
+@Element
 public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	@Param("element")

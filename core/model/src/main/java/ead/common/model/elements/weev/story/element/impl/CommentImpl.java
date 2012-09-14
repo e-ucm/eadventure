@@ -47,7 +47,7 @@ import ead.common.params.text.EAdString;
 /**
  * Default {@link Comment} implementation
  */
-@Element(detailed = CommentImpl.class, runtime = CommentImpl.class)
+@Element
 public class CommentImpl extends AbstractStoryElement implements Comment {
 
 	@Param(value = "storyElement")

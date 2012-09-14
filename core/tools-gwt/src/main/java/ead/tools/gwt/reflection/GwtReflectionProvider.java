@@ -80,7 +80,8 @@ public class GwtReflectionProvider implements ReflectionProvider {
 					for (Class<?> newClass : ClassHelper.AsClass(temp).getInterfaces())
 						stack.push(newClass);
 				} catch (ReflectionRequiredException e)  {
-					e.printStackTrace();
+					logger.error("Reflection required for {} assignable-from {}",
+							new Object[]{class1, class2}, e);
 				}
 			}
 
@@ -95,22 +96,17 @@ public class GwtReflectionProvider implements ReflectionProvider {
 		return ClassHelper.AsClass(c).getSuperclass();
 	}
 
+
 	@Override
 	public Class<?> getRuntimeClass(EAdElement element) {
 		Class<?> clazz = element.getClass();
-
-		Element annotation = null;
-		while (annotation == null && clazz != null ) {
-			annotation = ClassHelper.AsClass(clazz).getAnnotation(Element.class);
+		while (clazz != null ) {
+			if (ClassHelper.AsClass(clazz).getAnnotation(Element.class) != null) {
+				return clazz;
+			}
 			clazz = clazz.getSuperclass();
 		}
-
-		if ( annotation == null ){
-			logger.error("No element annotation for class {}", element.getClass());
-			return null;
-		}
-		return annotation.runtime();
-
+		logger.error("No element annotation for class {}", element.getClass());
+		return null;
 	}
-
 }

@@ -61,7 +61,7 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
  * </p>
  * 
  */
-@Element(runtime = Behavior.class, detailed = Behavior.class)
+@Element
 public class Behavior extends BasicElement implements EAdBehavior {
 
 	/**

@@ -47,7 +47,7 @@ import ead.common.model.elements.effects.AbstractEffect;
  * disappear
  * 
  */
-@Element( runtime = WaitEf.class, detailed = WaitEf.class)
+@Element
 public class WaitEf extends AbstractEffect {
 
 	/**

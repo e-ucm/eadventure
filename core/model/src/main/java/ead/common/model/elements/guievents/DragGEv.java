@@ -44,7 +44,7 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 
-@Element(detailed = DragGEv.class, runtime = DragGEv.class)
+@Element
 public class DragGEv extends BasicElement implements EAdGUIEvent {
 
 	@Param("carryElement")

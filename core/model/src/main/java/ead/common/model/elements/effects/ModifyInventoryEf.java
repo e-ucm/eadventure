@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.enums.InventoryEffectAction;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 
-@Element(detailed = ModifyInventoryEf.class, runtime = ModifyInventoryEf.class)
+@Element
 public class ModifyInventoryEf extends AbstractEffect {
 
 	@Param("modification")

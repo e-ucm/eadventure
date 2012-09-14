@@ -51,7 +51,7 @@ import ead.common.model.elements.transitions.EmptyTransition;
  * </p>
  * 
  */
-@Element(runtime = ChangeSceneEf.class, detailed = ChangeSceneEf.class)
+@Element
 public class ChangeSceneEf extends AbstractEffect {
 
 	@Param("nextScene")

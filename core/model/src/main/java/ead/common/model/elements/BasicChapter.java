@@ -52,7 +52,7 @@ import ead.common.params.text.EAdString;
 /**
  * Model of the eAdventure chapter.
  */
-@Element(runtime = BasicChapter.class, detailed = BasicChapter.class)
+@Element
 public class BasicChapter extends ResourcedElement implements EAdChapter,
 		Evented {
 

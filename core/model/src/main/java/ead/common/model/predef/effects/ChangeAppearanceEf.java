@@ -45,7 +45,7 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.resources.EAdBundleId;
 
-@Element(runtime = ChangeFieldEf.class, detailed = ChangeAppearanceEf.class)
+@Element
 public class ChangeAppearanceEf extends ChangeFieldEf {
 	
 	public ChangeAppearanceEf(EAdElement element, EAdBundleId bundleId) {

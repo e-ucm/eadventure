@@ -48,7 +48,7 @@ import ead.common.model.elements.variables.AbstractOperation;
  * 
  * 
  */
-@Element(runtime = BooleanOp.class, detailed = BooleanOp.class)
+@Element
 public class BooleanOp extends AbstractOperation {
 
 	/**

@@ -41,7 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 
-@Element(detailed = DisplaceTransition.class, runtime = DisplaceTransition.class)
+@Element
 public class DisplaceTransition extends EmptyTransition {
 	
 	@Param("type")

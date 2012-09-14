@@ -56,7 +56,7 @@ import ead.common.util.EAdRectangle;
  * Trajectory based on nodes and sides, originally developed in e-Adventure 1.X
  * 
  */
-@Element(detailed = NodeTrajectoryDefinition.class, runtime = NodeTrajectoryDefinition.class)
+@Element
 public class NodeTrajectoryDefinition extends BasicElement implements
 		EAdTrajectoryDefinition {
 

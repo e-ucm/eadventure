@@ -45,7 +45,7 @@ import ead.common.model.elements.weev.story.element.impl.AbstractNamedNode;
  * <p>
  * Timers can be used to trigger behavior after a set amount of time.
  */
-@Element(detailed = Timer.class, runtime = Timer.class)
+@Element
 public class Timer extends AbstractNamedNode {
 
 }

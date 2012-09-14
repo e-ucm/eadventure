@@ -46,7 +46,7 @@ import ead.common.resources.EAdBundleId;
 /**
  * Change an element (e.g. actor, scene, etc.) appearance effect
  */
-@Element(detailed = ChangeAppearanceEffect.class, runtime = ChangeAppearanceEffect.class)
+@Element
 public class ChangeAppearanceEffect extends AbstractEffect {
 
 	/**

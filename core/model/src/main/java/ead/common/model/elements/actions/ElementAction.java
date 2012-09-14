@@ -50,7 +50,7 @@ import ead.common.resources.annotation.Asset;
 import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
-@Element(runtime = ElementAction.class, detailed = ElementAction.class)
+@Element
 public class ElementAction extends ResourcedElement implements EAdAction {
 
 	@Bundled

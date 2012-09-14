@@ -49,7 +49,7 @@ import ead.common.params.text.EAdString;
 /**
  * Default implementation of {@link StorySection}
  */
-@Element(detailed = StorySectionImpl.class, runtime = StorySectionImpl.class)
+@Element
 public class StorySectionImpl extends AbstractStoryElement implements
 		StorySection {
 	

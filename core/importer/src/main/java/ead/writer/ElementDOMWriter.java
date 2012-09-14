@@ -83,10 +83,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			}
 
 			if (annotation != null) {
-				node.setAttribute(DOMTags.TYPE_AT, shortClass(annotation.detailed()
-						.getName()));
-				node.setAttribute(DOMTags.CLASS_AT, shortClass(annotation.runtime()
-						.getName()));
+				node.setAttribute(DOMTags.CLASS_AT, shortClass(clazz.getName()));
 
                 // Add Param fields
                 super.processParams(node, element);

@@ -47,7 +47,7 @@ import ead.common.model.elements.extra.EAdListImpl;
 /**
  * Effect to trigger the effects contained in a macro
  */
-@Element(detailed = TriggerMacroEf.class, runtime = TriggerMacroEf.class)
+@Element
 public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 
 	@Param("macros")

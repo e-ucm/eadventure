@@ -52,7 +52,7 @@ import ead.common.model.elements.variables.operations.ValueOp;
  * position to another
  * 
  */
-@Element(runtime = MoveSceneElementEf.class, detailed = MoveSceneElementEf.class)
+@Element
 public class MoveSceneElementEf extends AbstractSceneElementEffect {
 
 	/**

@@ -49,7 +49,7 @@ import ead.common.resources.annotation.Asset;
 import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.multimedia.EAdVideo;
 
-@Element(detailed = VideoScene.class, runtime = VideoScene.class)
+@Element
 public class VideoScene extends BasicScene implements EAdScene {
 
 	/**

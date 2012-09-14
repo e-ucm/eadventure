@@ -51,7 +51,7 @@ import ead.common.model.weev.story.elements.Node;
  * {@link Node}s within a particular {@link MultiEndNode} are reached, the
  * transitions from this {@link MultiEndNode} become available.
  */
-@Element(detailed = MultiInteractionNode.class, runtime = MultiInteractionNode.class)
+@Element
 public class MultiInteractionNode extends AbstractAreaNode implements Node {
 
 	/**

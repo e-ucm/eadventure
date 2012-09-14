@@ -39,7 +39,7 @@ package ead.common.model.elements.events;
 
 import ead.common.interfaces.Element;
 
-@Element(runtime=SystemEv.class, detailed=SystemEv.class)
+@Element
 public class SystemEv extends AbstractEvent {
 
 	public SystemEv() {

@@ -45,7 +45,7 @@ import ead.common.model.weev.world.Space;
 /**
  * Default {@link Space} implementation
  */
-@Element(detailed = SpaceImpl.class, runtime = SpaceImpl.class)
+@Element
 public class SpaceImpl extends BasicScene implements Space {
 
 	@Param(value = "x")

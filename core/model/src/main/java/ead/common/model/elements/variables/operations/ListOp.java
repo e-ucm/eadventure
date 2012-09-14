@@ -44,7 +44,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.AbstractOperation;
 import ead.common.model.elements.variables.operations.enums.ListOpType;
 
-@Element(runtime = ListOp.class, detailed = ListOp.class)
+@Element
 @SuppressWarnings("rawtypes")
 public class ListOp extends AbstractOperation {
 	

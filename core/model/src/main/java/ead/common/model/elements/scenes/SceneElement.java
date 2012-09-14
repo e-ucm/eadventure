@@ -56,7 +56,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 
-@Element(detailed = SceneElement.class, runtime = SceneElement.class)
+@Element
 public class SceneElement extends AbstractElementWithBehavior implements
 		EAdSceneElement {
 

@@ -43,7 +43,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.AbstractOperation;
 
-@Element(detailed = ConditionedOp.class, runtime = ConditionedOp.class)
+@Element
 public class ConditionedOp extends AbstractOperation {
 
 	@Param("condition")

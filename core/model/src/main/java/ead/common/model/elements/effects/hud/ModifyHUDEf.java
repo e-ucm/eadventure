@@ -47,7 +47,7 @@ import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffec
  * Modifies the elements contained by the basic HUD during the game
  * 
  */
-@Element(detailed = ModifyHUDEf.class, runtime = ModifyHUDEf.class)
+@Element
 public class ModifyHUDEf extends AbstractSceneElementEffect {
 
 	@Param("add")

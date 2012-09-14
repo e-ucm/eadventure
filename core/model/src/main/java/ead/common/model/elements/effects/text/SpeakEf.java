@@ -57,7 +57,7 @@ import ead.common.resources.assets.text.EAdFont;
  * at a given position
  * 
  */
-@Element(runtime = SpeakEf.class, detailed = SpeakEf.class)
+@Element
 public class SpeakEf extends AbstractEffect {
 
 	private static final Paint BUBBLE_PAINT = new Paint(

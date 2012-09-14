@@ -45,7 +45,7 @@ import ead.common.params.text.EAdString;
 /**
  * Assessment of player effect.
  */
-@Element(detailed = AssessmentEffect.class, runtime = AssessmentEffect.class)
+@Element
 public class AssessmentEffect extends AbstractEffect {
 
 	/**
