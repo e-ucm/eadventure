@@ -51,14 +51,14 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			// Check if the element is new
 			if (!elementMap.containsKey(element)) {
 				elementMap.put(element, DOMTags.ELEMENT_AT
-                        + DOMWriter.convertToCode(mappedElement.size()));
+						+ DOMWriter.convertToCode("e", mappedElement.size()));
 				mappedElement.add(element);
 
-                if (depthManager.isStored(element)) {
+				if (depthManager.isStored(element)) {
 					EAdElement conflicting = depthManager.getInstanceOfElement(element);
 					logger.error("Type {} has differing equals and hashcodes ({}_{} != {})",
-                            new Object[]{element.getClass(), element.equals(conflicting),
-                                conflicting.hashCode(), element.hashCode()});
+							new Object[]{element.getClass(), element.equals(conflicting),
+								conflicting.hashCode(), element.hashCode()});
 				}
 			}
 
@@ -75,21 +75,22 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			// Look for Element annotation
 			Class<?> clazz = element.getClass();
 			ead.common.interfaces.Element annotation = null;
-
-			while (annotation == null && clazz != null) {
-				annotation = clazz
-						.getAnnotation(ead.common.interfaces.Element.class);
+			while (clazz != null) {
+				annotation = clazz.getAnnotation(ead.common.interfaces.Element.class);
+				if (annotation != null) {
+					break;
+				}
 				clazz = clazz.getSuperclass();
 			}
 
 			if (annotation != null) {
 				node.setAttribute(DOMTags.CLASS_AT, shortClass(clazz.getName()));
 
-                // Add Param fields
-                super.processParams(node, element);
+				// Add Param fields
+				super.processParams(node, element);
 			} else {
-            	logger.error("No Element annotation in class {}",
-                        element.getClass());
+				logger.error("No Element annotation in class {}",
+						element.getClass());
 			}
 
 		} catch (Exception e) {
@@ -99,5 +100,4 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 
 		return node;
 	}
-
 }
