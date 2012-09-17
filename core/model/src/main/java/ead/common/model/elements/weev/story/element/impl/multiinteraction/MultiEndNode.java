@@ -48,7 +48,7 @@ import ead.common.model.weev.story.elements.Node;
  * A group of {@link EndNode}s that represents a set or combination of possible
  * end states in a {@link MultiInteractionNode}.
  */
-@Element(detailed = MultiEndNode.class, runtime = MultiEndNode.class)
+@Element
 public class MultiEndNode extends AbstractNode {
 
 	/**

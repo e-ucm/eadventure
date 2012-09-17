@@ -45,7 +45,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdSceneElement;
 
-@Element(detailed = ComplexBlockingEffect.class, runtime = ComplexBlockingEffect.class)
+@Element
 public class ComplexBlockingEffect extends AbstractEffect implements
 		EAdEffect {
 

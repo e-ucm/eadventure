@@ -42,7 +42,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
 import ead.common.model.elements.conditions.enums.EmptyCondValue;
 
-@Element(runtime = ORCond.class, detailed = ORCond.class)
+@Element
 public class ORCond extends ListedCond {
 
 	public ORCond( ){

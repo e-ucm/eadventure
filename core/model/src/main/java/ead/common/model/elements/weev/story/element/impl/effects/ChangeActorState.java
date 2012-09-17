@@ -51,7 +51,7 @@ import ead.common.model.weev.Actor;
  * eAdventure. This effect allows to change or modify the actor state using the
  * values in {@link ModifyInventoryEf.InventoryEffectAction}.
  */
-@Element(detailed = ChangeActorState.class, runtime = ChangeActorState.class)
+@Element
 public class ChangeActorState extends AbstractEffect {
 
 	/**

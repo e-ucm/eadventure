@@ -45,7 +45,7 @@ import ead.common.model.elements.weev.story.element.impl.nodes.Timer;
 /**
  * Effect to change the status of a {@link Timer}
  */
-@Element(detailed = TimerEffect.class, runtime = TimerEffect.class)
+@Element
 public class TimerEffect extends AbstractEffect {
 
 	public static enum Status {

@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import java.util.Random;
 
-@Element(detailed = Node.class, runtime = Node.class)
+@Element
 public class Node extends BasicElement {
 
 	@Param("x")

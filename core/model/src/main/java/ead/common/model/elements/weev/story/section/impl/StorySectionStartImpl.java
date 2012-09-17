@@ -47,7 +47,7 @@ import ead.common.model.weev.story.section.StorySectionStart;
 /**
  * Default implementation of {@link StorySectionEnd}
  */
-@Element(detailed = StorySectionStartImpl.class, runtime = StorySectionStartImpl.class)
+@Element
 public class StorySectionStartImpl extends AbstractNode implements
 		StorySectionStart {
 

@@ -42,7 +42,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
 import ead.common.model.elements.conditions.enums.EmptyCondValue;
 
-@Element(runtime = ANDCond.class, detailed = ANDCond.class)
+@Element
 public class ANDCond extends ListedCond {
 
 	public ANDCond(EAdCondition... condition) {

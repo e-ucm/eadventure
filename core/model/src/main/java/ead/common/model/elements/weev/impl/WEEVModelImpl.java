@@ -48,7 +48,7 @@ import ead.common.model.weev.adaptation.AdaptationStructure;
 /**
  * Default implementation of {@link WEEVModel}
  */
-@Element(detailed = WEEVModelImpl.class, runtime = WEEVModelImpl.class)
+@Element
 public class WEEVModelImpl extends BasicElement implements WEEVModel {
 
 	private EAdList<Actor> actors;

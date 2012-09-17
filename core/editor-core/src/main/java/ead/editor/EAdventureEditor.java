@@ -48,7 +48,11 @@ import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
 import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
+import ead.tools.java.reflection.JavaReflectionClassLoader;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
 
 /**
@@ -89,7 +93,7 @@ public class EAdventureEditor implements Launcher {
             "EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EditorModel", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
-            "EWindowImpl", Log4jConfig.Slf4jLevel.Debug,
+            "EWindowImpl", Log4jConfig.Slf4jLevel.Info,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
             "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
             "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug
@@ -106,6 +110,11 @@ public class EAdventureEditor implements Launcher {
                 new BaseImporterModule(),
                 new EditorGuiceModule(),
                 new JavaToolsModule());
+
+		// init reflection
+		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+
         Launcher launcher = injector.getInstance(Launcher.class);
 
         launcher.configure();

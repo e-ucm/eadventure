@@ -49,7 +49,7 @@ import ead.common.model.elements.variables.operations.ValueOp;
  * Condition comparing the values of two variables
  * 
  */
-@Element(runtime = OperationCond.class, detailed = OperationCond.class)
+@Element
 public class OperationCond extends AbstractCondition implements
 		EAdCondition {
 

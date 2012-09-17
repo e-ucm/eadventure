@@ -52,7 +52,7 @@ import ead.common.model.elements.variables.AbstractOperation;
  * asin, atan, sqrt, sqr, log, min, max, ceil, floor, abs, neg, rndr
  * </p>
  */
-@Element(runtime = MathOp.class, detailed = MathOp.class)
+@Element
 public class MathOp extends AbstractOperation {
 
 	/**

@@ -55,7 +55,7 @@ import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
-@Element(runtime = SceneElementDef.class, detailed = SceneElementDef.class)
+@Element
 public class SceneElementDef extends ResourcedElement implements
 		EAdSceneElementDef {
 

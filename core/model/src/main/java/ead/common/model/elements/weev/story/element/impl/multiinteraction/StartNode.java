@@ -43,7 +43,7 @@ import ead.common.model.elements.weev.story.element.impl.AbstractNode;
 /**
  * Start node of a set of transitions in a {@link MultiInteractionNode}
  */
-@Element(detailed = StartNode.class, runtime = StartNode.class)
+@Element
 public class StartNode extends AbstractNode {
 
 	/**

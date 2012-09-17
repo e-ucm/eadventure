@@ -50,7 +50,7 @@ import ead.common.model.weev.world.World;
 /**
  * Default implementation of the @{link World} interface
  */
-@Element(detailed = WorldImpl.class, runtime = WorldImpl.class)
+@Element
 public class WorldImpl extends AbstractWEEVElement implements World {
 
 	private EAdList<Space> spaces;

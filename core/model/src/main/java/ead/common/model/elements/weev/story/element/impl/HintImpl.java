@@ -46,7 +46,7 @@ import ead.common.params.text.EAdString;
 /**
  * Default {@link Hint} implementation
  */
-@Element(detailed = HintImpl.class, runtime = HintImpl.class)
+@Element
 public class HintImpl extends AbstractWEEVElement implements Hint {
 
 	@Param(value = "hint")

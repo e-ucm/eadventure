@@ -48,7 +48,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.assets.AssetDescriptor;
 
-@Element(detailed = SceneElement.class, runtime = SceneElement.class)
+@Element
 public class ActionSceneElement extends SceneElement {
 
 	public ActionSceneElement(EAdAction eAdAction) {
@@ -88,10 +88,10 @@ public class ActionSceneElement extends SceneElement {
 				MouseGEv.MOUSE_EXITED,
 				new ChangeAppearanceEf(this, definition
 						.getInitialBundle()));
-		
+
 		setVarInitialValue(SceneElement.VAR_NAME, eAdAction.getName());
-		
-		
+
+
 	}
 
 }

@@ -45,7 +45,7 @@ import ead.common.model.weev.story.elements.Node;
 /**
  * A state is the most generic kind of {@link Node} available
  */
-@Element(detailed = State.class, runtime = State.class)
+@Element
 public class State extends AbstractNode implements Node {
 
 }

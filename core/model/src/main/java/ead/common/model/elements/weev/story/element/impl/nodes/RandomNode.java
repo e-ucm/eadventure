@@ -51,7 +51,7 @@ import ead.common.model.weev.story.elements.Node;
  * This node has a list of other nodes, each associated with a probability,
  * whose transitions are used accordingly.
  */
-@Element(detailed = RandomNode.class, runtime = RandomNode.class)
+@Element
 public class RandomNode extends AbstractNode implements Node {
 
 	/**
@@ -73,7 +73,7 @@ public class RandomNode extends AbstractNode implements Node {
 	/**
 	 * A node, to be used in {@link RandomNode}s, with an associated probability
 	 */
-	@Element(detailed = ChanceNode.class, runtime = ChanceNode.class)
+	@Element
 	public static class ChanceNode extends AbstractNode {
 
 		@Param(value = "chance")

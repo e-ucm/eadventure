@@ -48,7 +48,7 @@ import ead.common.util.EAdPosition;
  * 
  * 
  */
-@Element(detailed = AddActorReferenceEf.class, runtime = AddActorReferenceEf.class)
+@Element
 public class AddActorReferenceEf extends AbstractEffect {
 
 	@Param("actor")

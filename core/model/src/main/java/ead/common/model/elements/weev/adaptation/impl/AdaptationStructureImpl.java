@@ -49,7 +49,7 @@ import ead.common.params.text.EAdString;
 /**
  * Default {@link AdaptationStructure} implementation
  */
-@Element(detailed = AdaptationStructureImpl.class, runtime = AdaptationStructureImpl.class)
+@Element
 public class AdaptationStructureImpl extends AbstractWEEVElement implements
 		AdaptationStructure {
 	

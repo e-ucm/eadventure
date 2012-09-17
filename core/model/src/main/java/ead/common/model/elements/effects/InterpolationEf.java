@@ -52,7 +52,7 @@ import ead.common.model.elements.variables.operations.MathOp;
  * 
  * 
  */
-@Element(detailed = InterpolationEf.class, runtime = InterpolationEf.class)
+@Element
 public class InterpolationEf extends AbstractEffect {
 
 	@Param("element")

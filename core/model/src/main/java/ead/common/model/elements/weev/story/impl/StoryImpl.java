@@ -51,7 +51,7 @@ import ead.common.model.weev.story.section.StorySection;
 /**
  * Default {@link Story} implementation
  */
-@Element(detailed = StoryImpl.class, runtime = StoryImpl.class)
+@Element
 public class StoryImpl extends AbstractWEEVElement implements Story {
 
 	EAdList<Node> nodes;

@@ -40,7 +40,7 @@ package ead.common.model.elements.effects;
 import ead.common.interfaces.Element;
 import ead.common.model.elements.EAdEffect;
 
-@Element(runtime = QuitGameEf.class, detailed = QuitGameEf.class)
+@Element
 public class QuitGameEf extends AbstractEffect implements EAdEffect {
 
 	public QuitGameEf() {

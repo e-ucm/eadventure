@@ -47,7 +47,7 @@ import ead.common.model.elements.extra.EAdListImpl;
  * This effects cancels other effects
  * 
  */
-@Element(runtime = CancelEffectEf.class, detailed = CancelEffectEf.class)
+@Element
 public class CancelEffectEf extends AbstractEffect {
 
 	/**

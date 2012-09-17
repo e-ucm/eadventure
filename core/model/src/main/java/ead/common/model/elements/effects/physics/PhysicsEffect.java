@@ -48,7 +48,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 
-@Element(detailed = PhysicsEffect.class, runtime = PhysicsEffect.class)
+@Element
 public class PhysicsEffect extends AbstractEffect {
 
 

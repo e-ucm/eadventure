@@ -39,7 +39,7 @@ package ead.common.model.elements.events;
 
 import ead.common.interfaces.Element;
 
-@Element(runtime=SceneElementEv.class,  detailed=SceneElementEv.class)
+@Element
 public class SceneElementEv extends AbstractEvent {
 
 	public SceneElementEv() {
