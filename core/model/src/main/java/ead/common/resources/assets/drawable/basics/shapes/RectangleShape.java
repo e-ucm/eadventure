@@ -37,31 +37,65 @@
 
 package ead.common.resources.assets.drawable.basics.shapes;
 
+import ead.common.interfaces.Param;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 
-
 /**
- * <p>Rectangular shape asset</p>
+ * <p>
+ * Rectangular shape asset
+ * </p>
  * 
  */
-public class RectangleShape extends BezierShape {		
-	
-	public RectangleShape( ){
-		
+public class RectangleShape extends AbstractShape {
+
+	@Param("width")
+	private int width;
+
+	@Param("height")
+	private int height;
+
+	public RectangleShape() {
+
 	}
-	
-	public RectangleShape(int width, int height ){
-		this( width, height, Paint.TRANSPARENT );
+
+	public RectangleShape(int width, int height) {
+		this(width, height, Paint.TRANSPARENT);
 	}
-	
-	public RectangleShape(int width, int height, EAdPaint fill ) {
-		super( 0, 0 );
-		lineTo( width, 0 );
-		lineTo( width, height );
-		lineTo( 0, height );
-		setClosed(true);
-		setPaint(fill);
+
+	public RectangleShape(int width, int height, EAdPaint paint) {
+		super(paint);
+		this.width = width;
+		this.height = height;
 	}
-	
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int hashCode() {
+		return (width + "" + height + getPaint() + "").hashCode();
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof RectangleShape) {
+			RectangleShape r = (RectangleShape) o;
+			return r.width == width && r.height == height && getPaint() != null
+					&& getPaint().equals(r.getPaint());
+		}
+		return false;
+	}
+
 }

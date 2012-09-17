@@ -181,7 +181,7 @@ public class TrajectoryDebugger implements Debugger {
 		}
 
 		for (Node n : trajectory.getNodes()) {
-			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20, 20);
+			CircleShape circle = new CircleShape(20);
 			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED : ColorFill.BLUE;
 
 			circle.setPaint(new Paint(color, ColorFill.BLACK, 2));

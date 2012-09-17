@@ -49,7 +49,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.importer.EAdElementImporter;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
@@ -118,7 +118,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	}
 
 	private void setShape(EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
-		BezierShape shape = ShapedElementImporter.importShape(oldObject);
+		EAdShape shape = ShapedElementImporter.importShape(oldObject);
 		if ( EAdventureImporter.IMPORTER_DEBUG ){
 			ColorFill c = new ColorFill( ColorFill.GREEN.toString() );
 			c.setAlpha(100);

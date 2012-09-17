@@ -47,8 +47,10 @@ import ead.engine.core.game.VariableMap;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.gdx.assets.GdxFont;
 import ead.engine.core.gdx.assets.GdxSound;
+import ead.engine.core.gdx.assets.drawables.GdxBezierShape;
+import ead.engine.core.gdx.assets.drawables.GdxCircleShape;
 import ead.engine.core.gdx.assets.drawables.GdxImage;
-import ead.engine.core.gdx.assets.drawables.GdxShape;
+import ead.engine.core.gdx.assets.drawables.GdxRectangleShape;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.RuntimeAsset;
@@ -95,8 +97,12 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 		RuntimeAsset r = null;
 		if (clazz == GdxImage.class)
 			r = new GdxImage(this);
-		else if (clazz == GdxShape.class)
-			r = new GdxShape();
+		else if (clazz == GdxBezierShape.class)
+			r = new GdxBezierShape();
+		else if (clazz == GdxRectangleShape.class)
+			r = new GdxRectangleShape();
+		else if (clazz == GdxCircleShape.class)
+			r = new GdxCircleShape();
 		else if (clazz == (Object) RuntimeCaption.class)
 			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler, valueMap,
 					stringHandler, this);

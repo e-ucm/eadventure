@@ -39,6 +39,7 @@ package ead.importer.subimporters.chapter.scene;
 
 import java.awt.Point;
 
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdRectangle;
@@ -46,8 +47,8 @@ import es.eucm.eadventure.common.data.chapter.Rectangle;
 
 public class ShapedElementImporter {
 
-	public static BezierShape importShape(Rectangle oldObject) {
-		BezierShape shape = null;
+	public static EAdShape importShape(Rectangle oldObject) {
+		EAdShape shape = null;
 		int x = oldObject.getX();
 		int y = oldObject.getY();
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {

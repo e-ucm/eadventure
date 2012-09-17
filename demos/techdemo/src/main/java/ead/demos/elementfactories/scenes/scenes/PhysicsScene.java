@@ -65,6 +65,7 @@ import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
@@ -209,7 +210,7 @@ public class PhysicsScene extends EmptyScene {
 
 		// Bullet generation
 
-		BezierShape circle = new CircleShape(10, 10, 10, 25);
+		EAdShape circle = new CircleShape(10);
 		circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				ColorFill.DARK_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);

@@ -66,7 +66,7 @@ public class DepthZScene extends EmptyScene {
 		e1.setPosition(new EAdPosition( Corner.CENTER, 400, 300 ));
 		getSceneElements().add(e1);
 		
-		SceneElement e2 = new SceneElement( new CircleShape( 20, 20, 20, 20, new Paint( ColorFill.GREEN, ColorFill.BLACK ) ));
+		SceneElement e2 = new SceneElement( new CircleShape( 20, new Paint( ColorFill.GREEN, ColorFill.BLACK ) ));
 		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
 		getSceneElements().add(e2);
 		

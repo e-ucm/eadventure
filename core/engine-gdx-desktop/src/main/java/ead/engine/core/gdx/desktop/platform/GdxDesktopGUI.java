@@ -116,7 +116,7 @@ public class GdxDesktopGUI extends GdxGUI {
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = engineConfiguration.isFullscreen();
+		cfg.fullscreen = engineConfiguration.isFullscreen();		
 
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);

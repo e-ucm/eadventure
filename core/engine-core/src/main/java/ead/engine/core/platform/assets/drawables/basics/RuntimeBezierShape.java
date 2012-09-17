@@ -42,14 +42,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.shapes.AbstractShape;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public abstract class RuntimeBezierShape<GraphicContext> extends
-		AbstractRuntimeAsset<BezierShape> implements
-		RuntimeDrawable<BezierShape, GraphicContext> {
+public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext>
+		extends AbstractRuntimeAsset<T> implements
+		RuntimeDrawable<T, GraphicContext> {
 
 	protected final static Logger logger = LoggerFactory
 			.getLogger("RuntimeBezierShape");
@@ -59,50 +59,6 @@ public abstract class RuntimeBezierShape<GraphicContext> extends
 	protected int width = 0;
 
 	protected int height = 0;
-
-	@Override
-	public boolean loadAsset() {
-
-		if (descriptor.getPoints().size() < 0) {
-			logger.warn(
-					"Bezier shape descriptor hasn't got enough points. ({})",
-					descriptor.toString());
-			return false;
-		}
-
-		Integer points = 1;
-		int xMax = Integer.MIN_VALUE;
-		int xMin = Integer.MAX_VALUE;
-		int yMax = Integer.MIN_VALUE;
-		int yMin = Integer.MAX_VALUE;
-
-		int index = 0;
-		int index2 = 0;
-
-		while (index < descriptor.getPoints().size()) {
-			index2 = 0;
-			while (index2 < points) {
-				int x = descriptor.getPoints().get(index);
-				int y = descriptor.getPoints().get(index + 1);
-				xMax = xMax < x ? x : xMax;
-				xMin = xMin > x ? x : xMin;
-				yMax = yMax < y ? y : yMax;
-				yMin = yMin > y ? y : yMin;
-
-				index += 2;
-				index2++;
-			}
-			if (index < descriptor.getPoints().size()) {
-				points = descriptor.getPoints().get(index);
-			}
-			index++;
-		}
-
-		width = xMax - xMin;
-		height = yMax - yMin;
-		loaded = true;
-		return true;
-	}
 
 	@Override
 	public int getWidth() {

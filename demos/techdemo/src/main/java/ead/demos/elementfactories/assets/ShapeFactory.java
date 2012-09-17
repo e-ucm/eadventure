@@ -38,7 +38,9 @@
 package ead.demos.elementfactories.assets;
 
 import ead.common.params.fills.Paint;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 
@@ -48,9 +50,9 @@ public class ShapeFactory {
 		RECTANGULAR_SHAPE, CIRCLE_SHAPE, TRIANGLE_SHAPE, IRREGULAR_RANDOM_SHAPE, IRREGULAR_SHAPE_1, DROP_SHAPE;
 	}
 
-	public BezierShape getElement(Enum<?> type, int width, int height,
+	public EAdShape getElement(Enum<?> type, int width, int height,
 			Paint color) {
-		BezierShape s = null;
+		EAdShape s = null;
 		if (type instanceof ShapeType) {
 			switch ((ShapeType) type) {
 			case CIRCLE_SHAPE:
@@ -74,29 +76,12 @@ public class ShapeFactory {
 		} else {
 			s = new RectangleShape(width, height);
 		}
-		((BezierShape) s).setPaint(color);
+		((EAdShape) s).setPaint(color);
 		return s;
 	}
 
-	public BezierShape createCircle(int width) {
-		
-		int points = width;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
-		// Radius
-		width = width / 2;
-
-		BezierShape circle = new BezierShape(width * 2, width);
-		for (int i = 1; i < points; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * width);
-			int y = (int) (Math.sin(acc) * width);
-			x += width;
-			y += width;
-			circle.lineTo(x, y);
-		}
-		circle.setClosed(true);
-		return circle;
+	public EAdShape createCircle(int width) {					
+		return new CircleShape( width / 2 );
 	}
 
 	public BezierShape createTriangle(int width, int height) {

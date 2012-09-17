@@ -50,7 +50,6 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.assets.ShapeFactory;
@@ -79,9 +78,8 @@ public class ShapeScene extends EmptyScene {
 		x+= margin + size;
 		
 		// Circle
-		EAdDrawable asset1 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new Paint( ColorFill.YELLOW, ColorFill.BROWN ));
-		asset1 = new CircleShape( 0, 0, size, 4 );
-		EAdDrawable asset2 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new Paint( ColorFill.ORANGE, ColorFill.BROWN ));
+		EAdDrawable asset1 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new Paint( ColorFill.YELLOW, ColorFill.BROWN, 4 ));
+		EAdDrawable asset2 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new Paint( ColorFill.ORANGE, ColorFill.BROWN, 2 ));
 		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset1, asset2, x, margin));
 		x+= margin + size;
 		
@@ -110,8 +108,8 @@ public class ShapeScene extends EmptyScene {
 		x+= margin + size;
 		
 		// Rectangle rotating
-		EAdDrawable asset21 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new Paint( ColorFill.RED, ColorFill.BROWN ));
-		EAdDrawable asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new Paint( ColorFill.LIGHT_BROWN, ColorFill.DARK_BROWN));
+		EAdDrawable asset21 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new Paint( ColorFill.RED, ColorFill.BROWN, 2 ));
+		EAdDrawable asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new Paint( ColorFill.LIGHT_BROWN, ColorFill.DARK_BROWN, 10));
 		SceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(rotatingRectangle);

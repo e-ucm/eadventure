@@ -82,12 +82,11 @@ public class CompleteModel extends BasicAdventureModel {
 	public EAdDrawable getDrawableWithAllBasicDrawables( ){
 		ComposedDrawable composed = new ComposedDrawable( );
 		LinearGradientFill gradient = new LinearGradientFill( ColorFill.BROWN, new ColorFill(500, 10, 1 ), -1, 2, 400.2f, 2.0f );
-		BalloonShape ballonShape = new BalloonShape( 0, 10, 900, 12, BalloonType.ELECTRIC );
-		ballonShape.setPaintAsVector(true);
+		BalloonShape ballonShape = new BalloonShape( 0, 10, 900, 12, BalloonType.ELECTRIC );		
 		ballonShape.setPaint(gradient);
 		
 		EAdPaint p = new Paint( gradient, ColorFill.BROWN );
-		CircleShape circleShape = new CircleShape( 0, 10, 900, 35, p );
+		CircleShape circleShape = new CircleShape( 900, p );
 		
 		Image i = new Image("@drawable/someimage.png");
 		

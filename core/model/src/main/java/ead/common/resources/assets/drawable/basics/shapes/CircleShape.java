@@ -37,33 +37,47 @@
 
 package ead.common.resources.assets.drawable.basics.shapes;
 
+import ead.common.interfaces.Param;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 
-public class CircleShape extends BezierShape {
-	
-	public CircleShape( ){
-		
+public class CircleShape extends AbstractShape {
+
+	@Param("radius")
+	private int radius;
+
+	public CircleShape() {
+
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
+	public CircleShape(int radius, EAdPaint paint) {
 		super(paint);
-		int points = segments;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
-
-		moveTo(cx + radius, cy);
-		for (int i = 0; i < points - 1; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * radius);
-			int y = (int) (Math.sin(acc) * radius);
-			lineTo(x + cx, y + cy);
-		}
-		setClosed(true);
+		this.radius = radius;
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments) {
-		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
+	public CircleShape(int radius) {
+		this(radius, Paint.WHITE_ON_BLACK);
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
+	public int hashCode() {
+		return (radius + "" + getPaint() + "").hashCode();
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof CircleShape) {
+			CircleShape c = (CircleShape) o;
+			return c.radius == radius && getPaint() != null
+					&& getPaint().equals(c.getPaint());
+		}
+		return false;
 	}
 
 }

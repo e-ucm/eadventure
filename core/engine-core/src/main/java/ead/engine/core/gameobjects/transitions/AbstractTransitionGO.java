@@ -69,7 +69,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		SceneGOImpl implements TransitionGO<T> {
 
 	protected InputHandler inputHandler;
-	
+
 	protected T transition;
 
 	protected SceneGO<?> previousScene;
@@ -93,15 +93,14 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	private ArrayList<TransitionListener> listeners;
 
 	private int timeLoading;
-	
+
 	private boolean firstUpdate;
 
 	public AbstractTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler ) {
-		super(assetHandler, sceneElementFactory, gui, gameState,
-				eventFactory);
+			SceneLoader sceneLoader, InputHandler inputHandler) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.sceneLoader = sceneLoader;
 		EAdScene scene = this.createLoadingScene();
 		scene.setReturnable(false);
@@ -148,13 +147,12 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		RectangleShape rs = new RectangleShape(gameState.getValueMap()
 				.getValue(SystemFields.GAME_WIDTH), gameState.getValueMap()
 				.getValue(SystemFields.GAME_HEIGHT));
-		rs.setPaint(new Paint(new ColorFill(100, 100, 100, 0),
-				ColorFill.BLACK));
+		rs.setPaint(new Paint(new ColorFill(100, 100, 100, 0), ColorFill.BLACK));
 
 		int circleRadius = 15;
-		CircleShape circle = new CircleShape(circleRadius, circleRadius,
-				circleRadius, 40, new LinearGradientFill(ColorFill.ORANGE,
-						ColorFill.YELLOW, circleRadius * 2, circleRadius * 2));
+		CircleShape circle = new CircleShape(circleRadius,
+				new LinearGradientFill(ColorFill.ORANGE, ColorFill.YELLOW,
+						circleRadius * 2, circleRadius * 2));
 		SceneElement loadingLogo = new SceneElement(circle);
 		loadingLogo.setInitialAlpha(0.8f);
 		loadingLogo.setId("loadingText");
@@ -180,10 +178,10 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	public void update() {
 		super.update();
-		if (!loaded && loading){
+		if (!loaded && loading) {
 			sceneLoader.step();
 		}
-		
+
 		if (!loaded && !loading) {
 			timeLoading = 0;
 			loading = true;
@@ -221,13 +219,11 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			}
 		}
 	}
-	
-	
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
 		gui.addElement(previousScene, transformation);
-//		super.doLayout(transformation);
+		// super.doLayout(transformation);
 	}
 
 	public List<TransitionListener> getTransitionListeners() {
@@ -237,5 +233,5 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	public SceneGO<?> getNextSceneGO() {
 		return nextSceneGO;
 	}
-	
+
 }

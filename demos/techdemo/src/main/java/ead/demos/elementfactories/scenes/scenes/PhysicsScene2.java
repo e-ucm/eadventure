@@ -51,7 +51,7 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
@@ -88,7 +88,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		effect.addSceneElement(e3);
 
-		BezierShape circle = new CircleShape(20, 20, 20, 60);
+		EAdShape circle = new CircleShape(20);
 		circle.setPaint(new LinearGradientFill(ColorFill.GREEN,
 				new ColorFill(0, 100, 0), 40, 40));
 

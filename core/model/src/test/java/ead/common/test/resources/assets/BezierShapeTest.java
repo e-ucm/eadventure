@@ -3,15 +3,16 @@ package ead.common.test.resources.assets;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.test.EqualsHashCodeTest;
 
-public class BezierShapeTest extends EqualsHashCodeTest<BezierShape> {
+public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 
 	@Override
-	public BezierShape[] getObjects() {
-		BezierShape[] shapes = new BezierShape[10];
+	public EAdShape[] getObjects() {
+		EAdShape[] shapes = new BezierShape[10];
 		EAdPaint p1 = ColorFill.BLUE;
 		EAdPaint p2 = Paint.BLACK_ON_WHITE;
 		int i = 0;
@@ -55,8 +56,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<BezierShape> {
 		shape.lineTo(50, 60);
 		shape.quadTo(50, 90, 12, 222000);
 		shape.setClosed(true);
-		shape.setPaint(p1);
-		shape.setPaintAsVector(true);
+		shape.setPaint(p1);		
 		shapes[i++] = shape;
 		shapes[i++] = shape;
 		

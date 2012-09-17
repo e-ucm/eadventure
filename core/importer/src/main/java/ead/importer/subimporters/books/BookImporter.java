@@ -297,25 +297,25 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			if (p.getContent() != null && !p.getContent().equals(""))
 				switch (p.getType()) {
 				case BookParagraph.TITLE:
-					addTextDrawable(image, p.getContent(), titleFont, titleEAdFont, 0,
-							TITLE_HEIGHT, TEXT_WIDTH);
+					addTextDrawable(image, p.getContent(), titleFont,
+							titleEAdFont, 0, TITLE_HEIGHT, TEXT_WIDTH);
 					break;
 				case BookParagraph.TEXT:
-					addTextDrawable(image, p.getContent(), textFont, textEAdFont, 0,
-							LINE_HEIGHT, TEXT_WIDTH);
+					addTextDrawable(image, p.getContent(), textFont,
+							textEAdFont, 0, LINE_HEIGHT, TEXT_WIDTH);
 					break;
 				case BookParagraph.BULLET:
 					if (paragraphDispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
 						paragraphColumn++;
 						paragraphDispY = TEXT_Y;
 					}
-					CircleShape bullet = new CircleShape(0, 0,
-							BULLET_WIDTH / 3, 20);
+					CircleShape bullet = new CircleShape(BULLET_WIDTH / 3);
 					bullet.setPaint(ColorFill.BLACK);
 					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
 							paragraphDispY + LINE_HEIGHT / 2);
-					addTextDrawable(image, p.getContent(), textFont, textEAdFont,
-							BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
+					addTextDrawable(image, p.getContent(), textFont,
+							textEAdFont, BULLET_WIDTH, LINE_HEIGHT,
+							TEXT_WIDTH_BULLET);
 					break;
 				case BookParagraph.IMAGE:
 					Image i = (Image) resourceImporter.getAssetDescritptor(
@@ -428,8 +428,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		return arrow;
 	}
 
-	private void addTextDrawable(ComposedDrawable image, String text, Font font, EAdFont eadFont,
-			int xOffset, int lineHeight, int textWidth) {
+	private void addTextDrawable(ComposedDrawable image, String text,
+			Font font, EAdFont eadFont, int xOffset, int lineHeight,
+			int textWidth) {
 		List<String> lines = getLines(text, font, textWidth);
 		for (String l : lines) {
 			Caption caption = new Caption();

@@ -60,18 +60,15 @@ public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
 		setId("ComplexElementScene");
-		RectangleShape rectangle = new RectangleShape(400, 400);
-		rectangle.setPaintAsVector(true);
+		RectangleShape rectangle = new RectangleShape(400, 400);		
 		rectangle.setPaint(Paint.BLACK_ON_WHITE);
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 
-		RectangleShape r1 = new RectangleShape(400, 400, ColorFill.BLUE);
-		r1.setPaintAsVector(true);
-		RectangleShape r2 = new RectangleShape(400, 400, ColorFill.RED);
-		r2.setPaintAsVector(true);
+		RectangleShape r1 = new RectangleShape(400, 400, ColorFill.BLUE);		
+		RectangleShape r2 = new RectangleShape(400, 400, ColorFill.RED);		
 		SceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(r1, r2, 40, 40);
 

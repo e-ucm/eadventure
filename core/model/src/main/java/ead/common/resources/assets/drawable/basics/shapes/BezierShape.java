@@ -42,13 +42,9 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdPosition;
 
-public class BezierShape implements EAdShape, Cloneable {
-
-	@Param("paint")
-	private EAdPaint paint;
+public class BezierShape extends AbstractShape implements Cloneable {
 
 	@Param("closed")
 	private boolean closed;
@@ -56,45 +52,15 @@ public class BezierShape implements EAdShape, Cloneable {
 	@Param("points")
 	private EAdList<Integer> points;
 
-	@Param("paintAsVector")
-	private boolean paintAsVector;
-
 	public BezierShape() {
 		points = new EAdListImpl<Integer>(Integer.class);
-		paint = Paint.TRANSPARENT;
-		paintAsVector = false;
+		this.setPaint(Paint.TRANSPARENT);
 		closed = false;
 	}
 
 	public BezierShape(EAdPaint paint) {
 		this();
-		this.paint = paint;
-	}
-
-	/**
-	 * @return Returns true if the bezier shape must be painted as a vector
-	 *         image instead of a bitmap image. A bitmap image is faster, and it
-	 *         is the best option if the shape is not going to be scaled. The
-	 *         vector image is slower, and should be used when the shape is
-	 *         going to be scaled during game time. The default value is false;
-	 * 
-	 */
-	public boolean isPaintAsVector() {
-		return paintAsVector;
-	}
-
-	/**
-	 * Sets if the bezier shape must be rendered as a vector image
-	 * (paintAsVector is true) or as a bitmap image (paintAsVector is false). A
-	 * bitmap image is faster, and it is the best option if the shape is not
-	 * going to be scaled. The vector image is slower, and should be used when
-	 * the shape is going to be scaled during game time. The default value is
-	 * false.
-	 * 
-	 * @param paintAsVector
-	 */
-	public void setPaintAsVector(boolean paintAsVector) {
-		this.paintAsVector = paintAsVector;
+		this.setPaint(paint);
 	}
 
 	public BezierShape(int x, int y) {
@@ -114,32 +80,6 @@ public class BezierShape implements EAdShape, Cloneable {
 		points.add(x);
 		points.add(y);
 		closed = false;
-	}
-
-	/**
-	 * <p>
-	 * Return the color with which to draw the shape.
-	 * </p>
-	 * <p>
-	 * The color can have alpha = 0 if the shape is expected to be invisible. As
-	 * it uses {@link EAdBorderedColor} it can be used to paint just the outline
-	 * of the shape.
-	 * </p>
-	 * 
-	 * @return The color of the shape
-	 */
-	public EAdPaint getPaint() {
-		return paint;
-	}
-
-	/**
-	 * Sets the paint for the shape
-	 * 
-	 * @param paint
-	 *            the paint
-	 */
-	public void setPaint(EAdPaint paint) {
-		this.paint = paint;
 	}
 
 	public void lineTo(EAdPosition p) {
@@ -209,7 +149,7 @@ public class BezierShape implements EAdShape, Cloneable {
 		for (Integer p : points) {
 			s.points.add(p);
 		}
-		s.paint = paint;
+		s.setPaint(getPaint());
 		return s;
 	}
 
@@ -222,8 +162,8 @@ public class BezierShape implements EAdShape, Cloneable {
 		for (Integer i : points) {
 			pointsText += i + ";";
 		}
-		return this.paintAsVector + ";" + closed + ";"
-				+ (paint != null ? paint.toStringData() : "") + ";"
+		return closed + ";"
+				+ (getPaint() != null ? getPaint().toStringData() : "") + ";"
 				+ pointsText;
 	}
 

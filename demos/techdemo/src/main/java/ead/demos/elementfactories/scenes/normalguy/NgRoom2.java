@@ -68,6 +68,7 @@ import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
@@ -174,7 +175,7 @@ public class NgRoom2 extends EmptyScene{
 		EAdField<Integer> canyonY = new BasicField<Integer>(topFan, SceneElement.VAR_Y);
 
 		// Bullet generation
-		BezierShape circle = new CircleShape(30, 30, 30, 25);
+		EAdShape circle = new CircleShape(30);
 		circle.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT, 20, 20));
 		//circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY, ColorFill.LIGHT_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);
@@ -243,7 +244,7 @@ public class NgRoom2 extends EmptyScene{
 		int desp = 0;
 		PhysicsEffect effect = new PhysicsEffect();
 		
-		BezierShape circle = new CircleShape(20, 20, 20, 60);
+		EAdShape circle = new CircleShape(20);
 		circle.setPaint(new LinearGradientFill(ColorFill.BLACK, new ColorFill(5, 5, 5), 40, 40));
 
 		for (int i = 0; i < 8; i++) {
