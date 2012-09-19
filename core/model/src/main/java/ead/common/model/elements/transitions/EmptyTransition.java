@@ -45,7 +45,7 @@ import ead.common.model.elements.BasicElement;
  * Basic empty transition
  *
  */
-@Element(detailed = EmptyTransition.class, runtime = EmptyTransition.class)
+@Element
 public class EmptyTransition extends BasicElement implements EAdTransition {
 	
 	private static final EmptyTransition transition = new EmptyTransition( 0 );

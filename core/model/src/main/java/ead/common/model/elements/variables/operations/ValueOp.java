@@ -46,7 +46,7 @@ import ead.common.model.elements.variables.AbstractOperation;
  * An assign operation. Assigns a given value to the variable
  * 
  */
-@Element(runtime = ValueOp.class, detailed = ValueOp.class)
+@Element
 public class ValueOp extends AbstractOperation {
 
 	@Param("value")

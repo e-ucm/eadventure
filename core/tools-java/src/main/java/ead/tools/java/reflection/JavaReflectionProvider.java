@@ -69,17 +69,13 @@ public class JavaReflectionProvider implements ReflectionProvider {
 	@Override
 	public Class<?> getRuntimeClass(EAdElement element) {
 		Class<?> clazz = element.getClass();
-		Element annotation = null;
-		while (annotation == null && clazz != null ) {
-			annotation = clazz.getAnnotation(Element.class);
+		while (clazz != null ) {
+			if (clazz.getAnnotation(Element.class) != null) {
+				return clazz;
+			}
 			clazz = clazz.getSuperclass();
 		}
-
-		if ( annotation == null ){
-			logger.error("No element annotation for class {}", element.getClass());
-			return null;
-		}
-		return annotation.runtime();
+		logger.error("No element annotation for class {}", element.getClass());
+		return null;
 	}
-
 }

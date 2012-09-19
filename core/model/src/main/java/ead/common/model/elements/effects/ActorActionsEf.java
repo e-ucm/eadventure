@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 
-@Element(runtime = ActorActionsEf.class, detailed = ActorActionsEf.class)
+@Element
 public class ActorActionsEf extends AbstractEffect {
 
 	@Param("actionElement")

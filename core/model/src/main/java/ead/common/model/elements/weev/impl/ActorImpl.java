@@ -44,7 +44,7 @@ import ead.common.model.weev.Actor;
 /**
  * Default {@link Actor} implementation
  */
-@Element(detailed = ActorImpl.class, runtime = SceneElementDef.class)
+@Element
 public class ActorImpl extends SceneElementDef implements Actor {
 
 	public ActorImpl() {

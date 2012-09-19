@@ -46,7 +46,7 @@ import ead.common.resources.assets.multimedia.EAdSound;
  * 
  * 
  */
-@Element(detailed = PlaySoundEf.class, runtime = PlaySoundEf.class)
+@Element
 public class PlaySoundEf extends AbstractEffect {
 
 	@Param("sound")

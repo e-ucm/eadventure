@@ -46,7 +46,7 @@ import ead.common.model.elements.BasicElement;
  * straight line.
  * 
  */
-@Element(runtime = SimpleTrajectoryDefinition.class, detailed = SimpleTrajectoryDefinition.class)
+@Element
 public class SimpleTrajectoryDefinition extends BasicElement implements EAdTrajectoryDefinition {
 
 	@Param("onlyHorizontal")

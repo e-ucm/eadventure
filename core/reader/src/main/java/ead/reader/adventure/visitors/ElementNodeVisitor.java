@@ -102,7 +102,8 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		if (clazz != null) {
 			ReflectionClass<?> classType = ReflectionClassLoader
 					.getReflectionClass(clazz);
-			logger.debug("Reading element '{}' of type {}", uniqueId, clazz);
+			logger.debug("Reading element '{}' of type {} - classType: {}",
+					new Object[] {uniqueId, clazz, classType});
 			if (classType.getConstructor() != null) {
 				element = (EAdElement) classType.getConstructor().newInstance();
 				element.setId(id);

@@ -46,7 +46,7 @@ import ead.common.model.weev.world.Space;
 /**
  * Default {@link ActorPlacement} implementation
  */
-@Element(detailed = ActorPlacementImpl.class, runtime = ActorPlacementImpl.class)
+@Element
 public class ActorPlacementImpl extends AbstractWorldElement implements ActorPlacement {
 
 	@Param(value = "space")

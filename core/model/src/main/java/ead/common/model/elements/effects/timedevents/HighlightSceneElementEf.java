@@ -46,7 +46,7 @@ import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffec
  * 
  * 
  */
-@Element(runtime = HighlightSceneElementEf.class, detailed = HighlightSceneElementEf.class)
+@Element
 public class HighlightSceneElementEf extends AbstractSceneElementEffect {
 
 	@Param("time")

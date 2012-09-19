@@ -40,7 +40,7 @@ package ead.common.model.elements.events;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 
-@Element(detailed = TimedEv.class, runtime = TimedEv.class)
+@Element
 public class TimedEv extends AbstractEvent {
 
 	@Param("time")

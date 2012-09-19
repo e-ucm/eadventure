@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffec
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.variables.operations.MathOp;
 
-@Element(detailed = PhApplyImpluseEf.class, runtime = PhApplyImpluseEf.class)
+@Element
 public class PhApplyImpluseEf extends AbstractSceneElementEffect {
 
 	@Param("xForce")

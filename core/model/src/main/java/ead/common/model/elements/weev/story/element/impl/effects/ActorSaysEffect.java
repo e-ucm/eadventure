@@ -46,7 +46,7 @@ import ead.common.params.text.EAdString;
 /**
  * Actor (i.e. character, NPC, etc) says something effect.
  */
-@Element(detailed = ActorSaysEffect.class, runtime = ActorSaysEffect.class)
+@Element
 public class ActorSaysEffect extends AbstractEffect {
 
 	/**

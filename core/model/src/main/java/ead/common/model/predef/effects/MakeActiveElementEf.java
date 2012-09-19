@@ -46,7 +46,7 @@ import ead.common.model.elements.variables.operations.ValueOp;
 /**
  * Makes an element the active element in the game.
  */
-@Element(runtime = ChangeFieldEf.class, detailed = MakeActiveElementEf.class)
+@Element
 public class MakeActiveElementEf extends ChangeFieldEf {
 	
 	public MakeActiveElementEf() {

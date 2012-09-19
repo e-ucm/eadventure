@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.variables.EAdVarDef;
 
-@Element(detailed = VarDef.class, runtime = VarDef.class)
+@Element
 public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 
 	@Param("name")

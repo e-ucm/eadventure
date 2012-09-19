@@ -46,7 +46,7 @@ import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 
-@Element(detailed = BasicInventory.class, runtime = BasicInventory.class)
+@Element
 public class BasicInventory extends BasicElement implements EAdInventory {
 
 	public static final EAdVarDef<Boolean> VAR_IN_INVENTORY = new VarDef<Boolean>(

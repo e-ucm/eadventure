@@ -44,7 +44,7 @@ import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 
-@Element(detailed = EffectsMacro.class, runtime = EffectsMacro.class)
+@Element
 public class EffectsMacro extends BasicElement {
 
 	@Param("effects")

@@ -43,7 +43,7 @@ import ead.common.interfaces.features.Conditioned;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
 
-@Element(runtime = ConditionedEv.class, detailed = ConditionedEv.class)
+@Element
 public class ConditionedEv extends AbstractEvent implements
 		Conditioned {
 

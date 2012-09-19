@@ -44,7 +44,7 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 
-@Element(runtime = MouseGEv.class, detailed = MouseGEv.class)
+@Element
 public class MouseGEv extends BasicElement implements EAdGUIEvent {
 
 	public static final MouseGEv MOUSE_RIGHT_CLICK = new MouseGEv(

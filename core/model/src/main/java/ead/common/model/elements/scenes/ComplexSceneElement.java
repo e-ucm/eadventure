@@ -55,7 +55,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  * 
  * 
  */
-@Element(detailed = ComplexSceneElement.class, runtime = ComplexSceneElement.class)
+@Element
 public class ComplexSceneElement extends SceneElement implements
 		EAdComplexSceneElement {
 

@@ -72,7 +72,7 @@ import ead.common.resources.assets.text.EAdFont;
  * </p>
  * 
  */
-@Element(runtime = ShowQuestionEf.class, detailed = ShowQuestionEf.class)
+@Element
 public class ShowQuestionEf extends ComplexBlockingEffect {
 
 	/**

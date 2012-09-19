@@ -48,7 +48,7 @@ import ead.common.model.elements.extra.EAdMapImpl;
  * 
  * 
  */
-@Element(runtime = RandomEf.class, detailed = RandomEf.class)
+@Element
 public class RandomEf extends AbstractEffect {
 
 	/**

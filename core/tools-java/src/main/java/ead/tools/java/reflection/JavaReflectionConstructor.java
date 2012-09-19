@@ -41,11 +41,15 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import ead.tools.reflection.ReflectionConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JavaReflectionConstructor<T> implements ReflectionConstructor<T>{
-	
+
+    private static Logger logger = LoggerFactory.getLogger(JavaReflectionConstructor.class);
+
 	private Constructor<T> constructor;
-	
+
 	public JavaReflectionConstructor( Constructor<T> constructor ){
 		this.constructor = constructor;
 	}
@@ -54,14 +58,8 @@ public class JavaReflectionConstructor<T> implements ReflectionConstructor<T>{
 	public T newInstance() {
 		try {
 			return constructor.newInstance();
-		} catch (IllegalArgumentException e) {
-			
-		} catch (InstantiationException e) {
-			
-		} catch (IllegalAccessException e) {
-			
-		} catch (InvocationTargetException e) {
-
+		} catch (Exception e) {
+			logger.error("Cannot construct new {}", constructor, e);
 		}
 		return null;
 	}

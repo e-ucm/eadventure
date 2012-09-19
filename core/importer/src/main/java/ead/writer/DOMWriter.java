@@ -98,14 +98,11 @@ public abstract class DOMWriter<T> {
 	 * A map to store repeated assets and save some space in XML
 	 */
 	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
-	
+
 	protected static boolean error;
 
 	public static void initMaps(EAdAdventureModel data) {
-		elementMap.clear();
-		mappedElement.clear();
-		paramsMap.clear();
-		mappedAsset.clear();
+		clearMaps();
 		depthManager = new DepthManager(((BasicAdventureModel) data).getDepthControlList());
 		error = false;
 
@@ -117,7 +114,7 @@ public abstract class DOMWriter<T> {
 			error = true;
 		}
 	}
-	
+
 	public static Collection<Object> reorderKeys(Set<? extends Object> keys) {
 		ArrayList<Object> reordered = new ArrayList<Object>(keys);
 		Collections.sort(reordered, new Comparator<Object>() {
@@ -126,13 +123,13 @@ public abstract class DOMWriter<T> {
 				String ka = (a instanceof EAdElement) ? ((EAdElement)a).getId() :
 						a.toString();
 				String kb = (b instanceof EAdElement) ? ((EAdElement)b).getId() :
-						b.toString();				
+						b.toString();
 				return ka.compareTo(kb);
 			}
-		});		
+		});
 		return reordered;
 	}
-	
+
 	/**
 	 * <p>
 	 * Build the actual node created by this DOMWriter
@@ -175,31 +172,16 @@ public abstract class DOMWriter<T> {
 				: clazz;
 		String alias = depthManager.getClassAliases().get(shortClass);
 		if (alias == null) {
-			alias = "" + convertToCode(depthManager.getClassAliases().keySet().size());
+			alias = convertToCode("c",
+					depthManager.getClassAliases().keySet().size());
 			depthManager.getAliasMap().put(alias, shortClass);
 			depthManager.getClassAliases().put(shortClass, alias);
 		}
 		return alias;
 	}
 
-	public static String convertToCode(int val) {
-		String code = "";
-		if (val == 0)
-			return "0";
-		while (val > 0) {
-			int t = val % 62;
-			if (t < 10)
-				code += t;
-			else if (t < 36) {
-				char c = (char) ('a' + t - 10);
-				code += c;
-			} else {
-				char c = (char) ('A' + t - 36);
-				code += c;
-			}
-			val = val / 62;
-		}
-		return code;
+	public static String convertToCode(String prefix, int val) {
+		return prefix+Integer.toHexString(val);
 	}
 
 	public static void clearMaps() {
@@ -207,7 +189,7 @@ public abstract class DOMWriter<T> {
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
-		depthManager.clear();
+		if (depthManager != null) depthManager.clear();
 	}
 
 	public static boolean getError() {

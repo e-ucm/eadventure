@@ -46,15 +46,20 @@ import java.util.Map;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionConstructor;
 import ead.tools.reflection.ReflectionField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JavaReflectionClass<T> implements ReflectionClass<T> {
+
+    private static Logger logger = LoggerFactory.getLogger(JavaReflectionClass.class);
+
 
 	private Class<T> clazz;
 
 	private ReflectionConstructor<T> constructor;
 
 	private Map<String, ReflectionField> fields;
-	
+
 	private ReflectionClass<?> superClass;
 
 	private boolean allFieldsAdded;
@@ -67,16 +72,18 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 
 	@Override
 	public ReflectionConstructor<T> getConstructor() {
+		logger.info("Finding constructor for {}", clazz);
 		if (constructor == null) {
 			try {
 				Constructor<T> c = clazz.getConstructor();
 				constructor = new JavaReflectionConstructor<T>(c);
 			} catch (SecurityException e) {
-
+				logger.error("error building constructor for {}", clazz, e);
 			} catch (NoSuchMethodException e) {
-
+				logger.error("no constructor for {}", clazz, e);
 			}
 		}
+		logger.info("... using {}", constructor);
 
 		return constructor;
 	}
@@ -88,9 +95,11 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 				fields.put(name,
 						new JavaReflectionField(clazz.getDeclaredField(name)));
 			} catch (SecurityException e) {
-
+				logger.error("error accessing field {} for {}",
+						new Object[] {clazz, name}, e);
 			} catch (NoSuchFieldException e) {
-
+				logger.error("no such field for {} for {}",
+						new Object[] {clazz, name}, e);
 			}
 		}
 		return fields.get(name);
@@ -115,7 +124,7 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 		if ( clazz == Object.class ){
 			return null;
 		}
-		
+
 		if ( superClass == null ){
 			superClass = new JavaReflectionClass( clazz.getSuperclass() );
 		}

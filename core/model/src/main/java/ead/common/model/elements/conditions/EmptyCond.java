@@ -41,7 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.conditions.enums.EmptyCondValue;
 
-@Element(runtime = EmptyCond.class, detailed = EmptyCond.class)
+@Element
 public class EmptyCond extends AbstractCondition {
 
 	public static EmptyCond TRUE_EMPTY_CONDITION = new EmptyCond(

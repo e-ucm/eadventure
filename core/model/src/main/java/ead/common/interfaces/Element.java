@@ -53,24 +53,9 @@ import java.lang.annotation.Target;
  * Type represents the class with which to cast the element in the editor and
  * class represents the class with which to cast the element in the engine
  * </p>
- * 
+ *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Element {
-
-	/**
-	 * Class to cast the element in the editor
-	 * 
-	 * @return The class with which to cast the element in the editor
-	 */
-	Class<?> detailed();
-
-	/**
-	 * Class to cast the element in the engine
-	 * 
-	 * @return The class with which to cast the element in the engine
-	 */
-	Class<?> runtime();
-
 }

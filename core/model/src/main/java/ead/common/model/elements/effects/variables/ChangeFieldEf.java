@@ -50,7 +50,7 @@ import ead.common.model.elements.variables.EAdVarDef;
  * Effect for changing a field value
  * 
  */
-@Element(runtime = ChangeFieldEf.class, detailed = ChangeFieldEf.class)
+@Element
 public class ChangeFieldEf extends AbstractEffect {
 
 	/**

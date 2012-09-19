@@ -46,7 +46,7 @@ import ead.common.params.text.EAdString;
 /**
  * Default {@link AdaptationProfile} implementation
  */
-@Element(detailed = AdaptationProfileImpl.class, runtime = AdaptationProfileImpl.class)
+@Element
 public class AdaptationProfileImpl extends AbstractWEEVElement implements
 		AdaptationProfile {
 

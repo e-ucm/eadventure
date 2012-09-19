@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 /**
  * General abstract class to transform string representing classes into
  * {@link ReflectionClass}
- * 
+ *
  */
 public abstract class ReflectionClassLoader {
 
@@ -68,7 +68,8 @@ public abstract class ReflectionClassLoader {
 	public static ReflectionClass<?> getReflectionClass(Class<?> className) {
 		if (!classes.containsKey(className.getName())) {
 			if (reflectionClassLoader == null) {
-				logger.error("Reflection class loader not initialized. init() method should be called before use getReflectionClass() method");
+				logger.error("Reflection class loader not initialized: "
+						+ "init() method should be called before use getReflectionClass() method");
 				return null;
 			} else {
 				classes.put(className.getName(),
@@ -81,7 +82,8 @@ public abstract class ReflectionClassLoader {
 	public static ReflectionClass<?> getReflectionClass(String clazz) {
 		if (!classes.containsKey(clazz)) {
 			if (reflectionClassLoader == null) {
-				logger.error("Reflection class loader not initialized. init() method should be called before use getReflectionClass() method");
+				logger.error("Reflection class loader not initialized: "
+						+ "init() method should be called before use getReflectionClass() method");
 				return null;
 			} else {
 				classes.put(clazz,

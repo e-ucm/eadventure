@@ -45,7 +45,7 @@ import ead.common.model.weev.Actor;
 /**
  * Effect to change the {@link Actor} visibility (i.e. hide or show)
  */
-@Element(detailed = ChangeActorVisibilityEffect.class, runtime = ChangeActorVisibilityEffect.class)
+@Element
 public class ChangeActorVisibilityEffect extends AbstractEffect {
 
 	/**

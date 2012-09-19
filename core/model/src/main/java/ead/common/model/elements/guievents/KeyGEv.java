@@ -44,7 +44,7 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 
-@Element(runtime = KeyGEv.class, detailed = KeyGEv.class)
+@Element
 public class KeyGEv extends BasicElement implements EAdGUIEvent {
 
 	public static final KeyGEv KEY_ARROW_DOWN = new KeyGEv(

@@ -58,7 +58,7 @@ import ead.common.util.EAdPosition;
  * </p>
  * 
  */
-@Element(runtime = ShowSceneElementEf.class, detailed = ShowSceneElementEf.class)
+@Element
 public class ShowSceneElementEf extends AbstractEffect {
 
 	@Param("time")

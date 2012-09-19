@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.BasicElement;
 
-@Element(detailed = Side.class, runtime = Side.class)
+@Element
 public class Side extends BasicElement {
 
 	@Param("idStart")
