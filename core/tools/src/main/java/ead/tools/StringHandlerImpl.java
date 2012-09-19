@@ -96,4 +96,12 @@ public class StringHandlerImpl implements StringHandler {
 	public Map<EAdString, String> getStrings() {
 		return strings;
 	}
+
+	public EAdString generateNewString() {
+		EAdString s = EAdString.newRandomEAdString("generatedString");
+		while (strings.containsKey(s)) {
+			s = EAdString.newRandomEAdString("generatedString");
+		}
+		return s;
+	}
 }

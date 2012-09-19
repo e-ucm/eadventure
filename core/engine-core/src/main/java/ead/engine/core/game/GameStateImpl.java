@@ -57,7 +57,6 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -274,9 +273,8 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public SceneElementGO<?> getActiveElement() {
-		EAdSceneElement activeElement = valueMap.getValue(
-				valueMap.getValue(SystemFields.ACTIVE_ELEMENT),
-				SceneElementDef.VAR_SCENE_ELEMENT);
+		EAdSceneElement activeElement = valueMap
+				.getValue(SystemFields.ACTIVE_ELEMENT);
 		if (activeElement != null)
 			return sceneElementFactory.get(activeElement);
 		else
@@ -358,7 +356,7 @@ public class GameStateImpl implements GameState {
 
 		ArrayList<EAdElement> updateList = new ArrayList<EAdElement>();
 		updateList.addAll(state.getUpdateList());
-		
+
 		return new GameStateData(state.getScene(), effectsList, stack,
 				systemVars, elementVars, updateList);
 	}

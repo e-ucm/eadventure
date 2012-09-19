@@ -37,27 +37,18 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("BasicSceneElementGOImpl");
 
 	private EvaluatorFactory evaluatorFactory;
 
@@ -81,40 +72,6 @@ public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
 			return this;
 		}
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
-	 * processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
-	 */
-	@Override
-	public boolean processAction(InputAction<?> action) {
-		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
-		boolean processed = addEffects(list, action);
-
-		list = element.getDefinition().getEffects(action.getGUIEvent());
-		processed |= addEffects(list, action);
-
-		if (!element.isPropagateGUIEvents() && !action.alwaysPropagates()) {
-			action.consume();
-		}
-
-		return processed;
-
-	}
-
-	private boolean addEffects(EAdList<EAdEffect> list, InputAction<?> action) {
-		if (list != null && list.size() > 0) {
-			action.consume();
-			for (EAdEffect e : list) {
-				logger.debug("GUI Action: '{}' effect '{}'", action, e);
-				gameState.addEffect(e, action, getElement());
-			}
-			return true;
-		}
-		return false;
 	}
 
 }

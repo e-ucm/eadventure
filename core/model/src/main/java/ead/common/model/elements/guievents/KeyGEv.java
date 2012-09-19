@@ -48,18 +48,15 @@ import ead.common.model.elements.guievents.enums.KeyEventType;
 public class KeyGEv extends BasicElement implements EAdGUIEvent {
 
 	public static final KeyGEv KEY_ARROW_DOWN = new KeyGEv(
-			KeyEventType.KEY_PRESSED,
-			KeyGEvCode.ARROW_DOWN);
+			KeyEventType.KEY_PRESSED, KeyGEvCode.DOWN);
 	public static final KeyGEv KEY_ARROW_LEFT = new KeyGEv(
-			KeyEventType.KEY_PRESSED,
-			KeyGEvCode.ARROW_LEFT);
+			KeyEventType.KEY_PRESSED, KeyGEvCode.LEFT);
 	public static final KeyGEv KEY_ARROW_RIGHT = new KeyGEv(
-			KeyEventType.KEY_PRESSED,
-			KeyGEvCode.ARROW_RIGHT);
+			KeyEventType.KEY_PRESSED, KeyGEvCode.RIGHT);
 	public static final KeyGEv KEY_ARROW_UP = new KeyGEv(
-			KeyEventType.KEY_PRESSED, KeyGEvCode.ARROW_UP);
-	public static final KeyGEv KEY_ESC = new KeyGEv(
-			KeyEventType.KEY_PRESSED, KeyGEvCode.ESC);
+			KeyEventType.KEY_PRESSED, KeyGEvCode.UP);
+	public static final KeyGEv KEY_ESC = new KeyGEv(KeyEventType.KEY_PRESSED,
+			KeyGEvCode.ESCAPE);
 
 	@Param("type")
 	private KeyEventType type;
@@ -67,11 +64,8 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 	@Param("keyCode")
 	private KeyGEvCode keyCode;
 
-	@Param("char")
-	private Character character;
-	
-	public KeyGEv( ){
-		
+	public KeyGEv() {
+
 	}
 
 	public KeyGEv(KeyEventType type, KeyGEvCode keyCode) {
@@ -81,20 +75,10 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 		this.keyCode = keyCode;
 	}
 
-	public KeyGEv(KeyEventType type, char c) {
-		super();
-		setId("KeyEvent_" + type + "_" + c);
-		this.type = type;
-		this.keyCode = KeyGEvCode.LETTER;
-		this.character = c;
-
-	}
-
-
 	public KeyEventType getType() {
 		return type;
 	}
-	
+
 	public void setType(KeyEventType type) {
 		this.type = type;
 	}
@@ -102,47 +86,26 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 	public KeyGEvCode getKeyCode() {
 		return keyCode;
 	}
-	
+
 	public void setKeyCode(KeyGEvCode keyCode) {
 		this.keyCode = keyCode;
 	}
 
-
-	public Character getCharacter() {
-		return character;
-	}
-
-	/**
-	 * Sets char for this event
-	 * 
-	 * @param letter
-	 *            the letter
-	 */
-	public void setCharacter(Character letter) {
-		this.character = letter;
-	}
-
 	public String toString() {
-		return type.toString() + "_" + keyCode.toString() + "_" + character;
+		return type.toString() + "_" + keyCode.toString();
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof KeyGEv) {
 			KeyGEv e = (KeyGEv) o;
-			if (this.type == e.getType() && this.keyCode == e.getKeyCode()) {
-				if (keyCode == KeyGEvCode.LETTER) {
-					return this.character == e.getCharacter();
-				}
-				return true;
-			}
-			return false;
+			return (this.type == e.getType() && this.keyCode == e.getKeyCode());
 		}
 		return false;
 	}
-	
-	public int hashCode(){
-		return (type.toString() + keyCode.toString() + character + "").hashCode();
+
+	public int hashCode() {
+		return toString().hashCode();
 	}
 
 }

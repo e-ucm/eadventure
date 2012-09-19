@@ -120,7 +120,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 	public boolean processAction(InputAction<?> action) {
 		if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
-			if (keyAction.getKeyCode() == KeyGEvCode.ESC
+			if (keyAction.getKeyCode() == KeyGEvCode.ESCAPE
 					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
 				gameObjectManager.removeHUD(this);
 				gameState.setPaused(false);

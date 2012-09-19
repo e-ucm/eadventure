@@ -1,6 +1,7 @@
 package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.widgets.Label;
+import ead.common.widgets.TextArea;
 import ead.common.widgets.containers.ColumnContainer;
 
 public class WidgetsScene extends EmptyScene {
@@ -10,6 +11,7 @@ public class WidgetsScene extends EmptyScene {
 		for ( int i = 0; i < 10; i++ ){
 			container.add(new Label("Label " + i));
 		}
+		container.add(new TextArea( 200, 200 ));
 		this.getSceneElements().add(container);
 	}
 

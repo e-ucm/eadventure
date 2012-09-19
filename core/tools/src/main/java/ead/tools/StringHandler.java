@@ -98,4 +98,12 @@ public interface StringHandler {
 	 */
 	Map<EAdString, String> getStrings();
 
+	/**
+	 * Generates an {@link EAdString} whose id is not contained by this
+	 * {@link StringHandler}. This string is not added to the cache
+	 * 
+	 * @return
+	 */
+	EAdString generateNewString();
+
 }

@@ -52,6 +52,7 @@ public class ColumnContainer extends ComplexSceneElement {
 	private EAdSceneElement lastAdded;
 	
 	public ColumnContainer( ){
+		this.setId("columnContainer");
 		this.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 	}
 

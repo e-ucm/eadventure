@@ -48,6 +48,7 @@ import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdAction;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
@@ -123,9 +124,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(gameObjectFactory, gui);
+		super(sceneElementFactory, gui);
 		eventGOList = new ArrayList<EventGO<?>>();
 		this.eventFactory = eventFactory;
 		this.statesList = new ArrayList<String>();
@@ -134,8 +135,32 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		this.assetHandler = assetHandler;
 	}
 
-	@Override
-	public abstract boolean processAction(InputAction<?> action);
+	public boolean processAction(InputAction<?> action) {
+		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
+		boolean processed = addEffects(list, action);
+
+		list = element.getDefinition().getEffects(action.getGUIEvent());
+		processed |= addEffects(list, action);
+
+		if (!element.isPropagateGUIEvents() && !action.alwaysPropagates()) {
+			action.consume();
+		}
+
+		return processed;
+
+	}
+
+	private boolean addEffects(EAdList<EAdEffect> list, InputAction<?> action) {
+		if (list != null && list.size() > 0) {
+			action.consume();
+			for (EAdEffect e : list) {
+				logger.debug("GUI Action: '{}' effect '{}'", action, e);
+				gameState.addEffect(e, action, getElement());
+			}
+			return true;
+		}
+		return false;
+	}
 
 	/*
 	 * (non-Javadoc)

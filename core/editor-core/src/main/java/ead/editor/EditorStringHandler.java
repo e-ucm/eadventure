@@ -44,13 +44,13 @@ import java.util.TreeMap;
 import com.google.inject.Singleton;
 
 import ead.common.params.text.EAdString;
-import ead.tools.StringHandler;
+import ead.tools.StringHandlerImpl;
 
 /**
  * A simple StringHandler, capable of managing language resolution.
  */
 @Singleton
-public class EditorStringHandler implements StringHandler {
+public class EditorStringHandler extends StringHandlerImpl {
 	
 	/**
 	 * Map with all strings.

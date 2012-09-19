@@ -156,24 +156,13 @@ public class InputHandlerImpl implements InputHandler {
 
 			DrawableGO<?> go = gameState.getActiveElement();
 
-			// first, the active element gets a try at consuming it
+			// only the active element gets a try to consume it
 			if (go != null) {
 				go.processAction(action);
 
 				if (action.isConsumed()) {
 					tracker.track(action, go);
 				}
-			}
-
-			// then, all elements get a try
-			int i = gameObjects.getGameObjects().size() - 1;
-			while (propagateEvents && !action.isConsumed() && i >= 0) {
-				go = gameObjects.getGameObjects().get(i);
-				go.processAction(action);
-				if (action.isConsumed()) {
-					tracker.track(action, go);
-				}
-				i--;
 			}
 
 			if (action.isConsumed() && go != null) {

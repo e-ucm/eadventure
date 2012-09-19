@@ -238,7 +238,9 @@ public class GLASGameTracker extends AbstractGameTracker {
 
 			trace.setAction(a.ordinal());
 			trace.setType(keyAction.getKeyCode().ordinal());
-			trace.setValue1(keyAction.getGUIEvent().getCharacter().charValue());
+			if (keyAction.getCharacter() != null) {
+				trace.setValue1(keyAction.getCharacter());
+			}
 		}
 		return trace;
 	}
