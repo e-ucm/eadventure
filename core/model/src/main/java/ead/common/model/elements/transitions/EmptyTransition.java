@@ -39,14 +39,14 @@ package ead.common.model.elements.transitions;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.scenes.BasicScene;
 
 /**
  * Basic empty transition
  *
  */
 @Element
-public class EmptyTransition extends BasicElement implements EAdTransition {
+public class EmptyTransition extends BasicScene implements EAdTransition {
 	
 	private static final EmptyTransition transition = new EmptyTransition( 0 );
 	
@@ -55,11 +55,11 @@ public class EmptyTransition extends BasicElement implements EAdTransition {
 	
 	public EmptyTransition( ){
 		this( 0 );
-	}
-	
+	}	
 	
 	public EmptyTransition( int time ){
 		this.time = time;
+		setReturnable(false);
 	}
 
 	@Override

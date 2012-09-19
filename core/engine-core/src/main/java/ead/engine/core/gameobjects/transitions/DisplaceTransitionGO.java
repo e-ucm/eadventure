@@ -111,7 +111,7 @@ public class DisplaceTransitionGO extends
 				startTime = currentTime;
 			}
 
-			if (currentTime - startTime >= transition.getTime()) {
+			if (currentTime - startTime >= element.getTime()) {
 				finished = true;
 			} else {
 				float dispX = getDisp(true, currentTime - startTime);
@@ -120,7 +120,7 @@ public class DisplaceTransitionGO extends
 				if (dispX != 0.0f) {
 					x1 = ((int) (dispX * -width));
 					x2 = ((int) ((1 - dispX) * width));
-					if (transition.getForward()) {
+					if (element.getForward()) {
 						x1 = -x1;
 						x2 = (int) (dispX * width) - width;
 					}
@@ -130,7 +130,7 @@ public class DisplaceTransitionGO extends
 					y1 = ((int) (dispY * -height));
 					y2 = ((int) ((1 - dispY) * height));
 
-					if (transition.getForward()) {
+					if (element.getForward()) {
 						y1 = -y1;
 						y2 = (int) (dispY * height) - height;
 					}
@@ -146,10 +146,10 @@ public class DisplaceTransitionGO extends
 	}
 
 	private float getDisp(boolean horizontal, int currentTime) {
-		if ((horizontal && transition.getType() == DisplaceTransitionType.HORIZONTAL)
-				|| (!horizontal && transition.getType() == DisplaceTransitionType.VERTICAL)) {
+		if ((horizontal && element.getType() == DisplaceTransitionType.HORIZONTAL)
+				|| (!horizontal && element.getType() == DisplaceTransitionType.VERTICAL)) {
 			float value = EAdInterpolator.LINEAR.interpolate(currentTime,
-					transition.getTime(), 1.0f);
+					element.getTime(), 1.0f);
 			return value;
 
 		} else

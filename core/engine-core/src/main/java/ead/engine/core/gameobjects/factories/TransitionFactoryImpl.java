@@ -40,44 +40,23 @@ package ead.engine.core.gameobjects.factories;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.transitions.FadeInTransition;
+import ead.engine.core.factorymapproviders.TransitionFactoryMapProvider;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
-import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
-import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 import ead.engine.core.platform.TransitionFactory;
 import ead.tools.GenericInjector;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class TransitionFactoryImpl implements TransitionFactory {
-	
-	private GenericInjector injector;
-	
+public class TransitionFactoryImpl extends
+		GOFactoryImpl<EAdTransition, TransitionGO<? extends EAdTransition>>
+		implements TransitionFactory {
+
 	@Inject
-	public TransitionFactoryImpl( GenericInjector injector ){
-		this.injector = injector;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends EAdTransition> TransitionGO<T> getTransition(T transition) {
-		TransitionGO<T> transitionGO = null;
-
-		if ( transition instanceof DisplaceTransition )
-			transitionGO = (TransitionGO<T>) injector.getInstance(DisplaceTransitionGO.class);
-		else if ( transition instanceof FadeInTransition )
-			transitionGO = (TransitionGO<T>) injector.getInstance(FadeInTransitionGO.class);
-		else if ( transition instanceof EmptyTransition )
-			transitionGO = (TransitionGO<T>) injector.getInstance(BasicTransitionGO.class);
-
-
-
-		if (transitionGO != null)
-			transitionGO.setTransition(transition);
-		return transitionGO;
+	public TransitionFactoryImpl(ReflectionProvider reflectionProvider,
+			GenericInjector injector) {
+		super(false, reflectionProvider, injector);
+		this.setClassMap(new TransitionFactoryMapProvider().getMap());
 	}
 
 }

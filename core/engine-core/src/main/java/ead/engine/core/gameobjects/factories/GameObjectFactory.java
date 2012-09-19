@@ -63,7 +63,16 @@ public interface GameObjectFactory<S extends EAdElement, T extends GameObject<? 
 	 * @return The game object of that element
 	 */
 	T get(S element);
-	
-	void put( Class<? extends S> clazz1, Class<? extends T> clazz2 );
+
+	/**
+	 * Adds a new relation between some model class and its engine
+	 * interpretation
+	 * 
+	 * @param clazz1
+	 *            model class
+	 * @param clazz2
+	 *            game object class
+	 */
+	void put(Class<? extends S> clazz1, Class<? extends T> clazz2);
 
 }

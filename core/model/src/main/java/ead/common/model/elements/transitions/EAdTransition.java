@@ -37,13 +37,14 @@
 
 package ead.common.model.elements.transitions;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.scene.EAdScene;
+
 
 /**
  * Implemented by transitions between scenes
  * 
  */
-public interface EAdTransition extends EAdElement {
+public interface EAdTransition extends EAdScene {
 
 	/**
 	 * The time for the transition, in milliseconds

@@ -43,10 +43,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -123,6 +127,11 @@ public class VLCDesktopVideoRenderer implements
 	 */
 	private GdxDesktopAssetHandler assetHandler;
 
+	/**
+	 * Sets if VLC has been successfully loaded
+	 */
+	private boolean vlcLoaded;
+
 	@Inject
 	public VLCDesktopVideoRenderer(GdxDesktopAssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
@@ -131,6 +140,45 @@ public class VLCDesktopVideoRenderer implements
 
 	@Override
 	public Component getComponent(EAdVideo asset) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+
+		JLabel label = new JLabel("   SKIP >>   ");
+		label.setBackground(Color.BLACK);
+		label.setForeground(Color.WHITE);
+		label.setOpaque(true);
+		label.requestFocus();
+		label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+
+		JPanel p = new JPanel(new FlowLayout());
+		p.setBackground(Color.BLACK);
+		p.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		p.add(label);
+		panel.add(p, BorderLayout.AFTER_LAST_LINE);
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (vlcLoaded) {
+					mediaPlayer.stop();
+				} else {
+					setFinished(true);
+					setStarted(false);
+				}
+			}
+
+		});
+
+		Component c = null;
+		if (vlcLoaded) {
+			c = getVLCComponent(asset);
+		} else {
+			c = getErrorComponent();
+		}
+		panel.add(c, BorderLayout.CENTER);
+		return panel;
+	}
+
+	protected Component getVLCComponent(EAdVideo asset) {
 		if (mediaPlayerFactory == null) {
 			String[] options = { vlcOptions };
 
@@ -160,37 +208,45 @@ public class VLCDesktopVideoRenderer implements
 
 		finished = false;
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add(canvas, BorderLayout.CENTER);
+		return canvas;
+	}
 
-		JLabel label = new JLabel("   SKIP >>   ");
-		label.setBackground(Color.BLACK);
-		label.setForeground(Color.WHITE);
-		label.setOpaque(true);
-		label.requestFocus();
-		label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+	protected Component getErrorComponent() {
+		return new VLCErrorPanel();
+	}
 
-		JPanel p = new JPanel(new FlowLayout());
-		p.setBackground(Color.BLACK);
-		p.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		p.add(label);
-		panel.add(p, BorderLayout.AFTER_LAST_LINE);
-		label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				mediaPlayer.stop();
+	private class VLCErrorPanel extends JPanel {
+		private static final long serialVersionUID = -1227824919051690700L;
+		private BufferedImage img;
+
+		public VLCErrorPanel() {
+			try {
+				img = ImageIO
+						.read(ClassLoader
+								.getSystemResourceAsStream("ead/engine/resources/desktop/drawable/vlc.png"));
+			} catch (IOException e) {
+
 			}
+		}
 
-		});
-
-		return panel;
+		@Override
+		protected void paintComponent(Graphics g) {
+			if (img != null) {
+				super.paintComponent(g);
+				int width = this.getWidth();
+				int height = this.getHeight();
+				g.setColor(Color.BLACK);
+				g.clearRect(0, 0, width, height);
+				g.drawImage(img, 0, 0, null);
+			}
+		}
 	}
 
 	/**
 	 * Initialize system and system dependent variables for vlcj.
 	 */
 	private void initializeVariables() {
+		vlcLoaded = false;
 		String os = System.getProperty("os.name").toLowerCase();
 		if (os.contains("win")) {
 			String temp = null;
@@ -211,6 +267,7 @@ public class VLCDesktopVideoRenderer implements
 			if (temp == null) {
 				logger.warn("VLC not installed");
 				// not exists, extract
+				return;
 
 			}
 			String pathLibvlc = temp;
@@ -219,6 +276,7 @@ public class VLCDesktopVideoRenderer implements
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--no-video-title-show";
+			vlcLoaded = true;
 		} else if (os.contains("mac")) {
 			String temp = "/Applications/VLC.app";
 			if (!new File("/Applications/VLC.app/").exists()) {
@@ -234,6 +292,7 @@ public class VLCDesktopVideoRenderer implements
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--vout=macosx";
+			vlcLoaded = true;
 		} else {
 			logger.error("OS '{}' not supported by VLC video plugin", os);
 		}

@@ -38,18 +38,14 @@
 package ead.engine.core.platform;
 
 import ead.common.model.elements.transitions.EAdTransition;
+import ead.engine.core.gameobjects.factories.GameObjectFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 
 /**
  * Factory to provide the actual TransitionGO (which are platform dependent),
- * configured according to the {@link EAdTransition} and the capabilities of the platform.
+ * configured according to the {@link EAdTransition} and the capabilities of the
+ * platform.
  */
-public interface TransitionFactory {
-
-	/**
-	 * @param transition the {@link EAdTransition}
-	 * @return A {@link TransitionGO} for the transition
-	 */
-	<T extends EAdTransition> TransitionGO<T> getTransition(T transition);
-	
+public interface TransitionFactory extends
+		GameObjectFactory<EAdTransition, TransitionGO<? extends EAdTransition>> {
 }

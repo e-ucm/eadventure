@@ -35,71 +35,25 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.engine.core.factorymapproviders;
 
-import java.util.List;
-
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.engine.core.gameobjects.go.SceneGO;
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
+import ead.engine.core.gameobjects.go.transitions.TransitionGO;
+import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 
-/**
- * A transition game object
- * 
- */
-public interface TransitionGO<T extends EAdTransition> extends
-		SceneGO<T>, SceneLoaderListener {
+public class TransitionFactoryMapProvider
+		extends
+		AbstractMapProvider<Class<? extends EAdTransition>, Class<? extends TransitionGO<? extends EAdTransition>>> {
 
-	/**
-	 * Set the previous scene for the transition
-	 * 
-	 * @param scene
-	 *            the previous scene
-	 */
-	void setPrevious(SceneGO<?> scene);
-
-	/**
-	 * Sets the next scene for the transition
-	 * 
-	 * @param scene
-	 *            the next scene for the transition
-	 */
-	void setNext(EAdScene scene);
-
-	/**
-	 * Returns if the next scene is loaded
-	 * 
-	 * @return
-	 */
-	boolean isLoadedNextScene();
-
-	/**
-	 * Returns if the transition is finished
-	 * 
-	 * @return
-	 */
-	boolean isFinished();
-
-	/**
-	 * Returns the list of TransitionListener. You can add or remove your
-	 * transition listeners in this list
-	 */
-	List<TransitionListener> getTransitionListeners();
-
-	public interface TransitionListener {
-
-		/**
-		 * Method called when transition begins
-		 */
-		void transitionBegins();
-
-		/**
-		 * Method called when transition ends
-		 */
-		void transitionEnds();
-
+	public TransitionFactoryMapProvider() {
+		factoryMap.put(EmptyTransition.class, BasicTransitionGO.class);
+		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
+		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
 	}
-
-	SceneGO<?> getNextSceneGO();
 
 }
