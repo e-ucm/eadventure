@@ -71,8 +71,7 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	}
 
 	@Override
-	public ReflectionConstructor<T> getConstructor() {
-		logger.info("Finding constructor for {}", clazz);
+	public ReflectionConstructor<T> getConstructor() {		
 		if (constructor == null) {
 			try {
 				Constructor<T> c = clazz.getConstructor();
@@ -83,8 +82,6 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 				logger.error("no constructor for {}", clazz, e);
 			}
 		}
-		logger.info("... using {}", constructor);
-
 		return constructor;
 	}
 

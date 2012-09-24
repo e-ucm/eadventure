@@ -47,21 +47,23 @@ import ead.common.resources.assets.drawable.basics.shapes.AbstractShape;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public abstract class GdxShape<T extends AbstractShape> extends RuntimeBezierShape<T,SpriteBatch> {
+public abstract class GdxShape<T extends AbstractShape> extends
+		RuntimeBezierShape<T, SpriteBatch> {
 
 	private TextureRegion textureRegion;
-	private Pixmap pixmapContains;
+	protected Pixmap pixmapContains;
 
 	public GdxShape() {
 
 	}
 
 	public boolean loadAsset() {
-		pixmapContains = generatePixmap();		
-		textureRegion = new TextureRegion(new Texture(pixmapContains));
+		Pixmap pixmap = generatePixmap();				
+		textureRegion = new TextureRegion(new Texture(pixmap));
 		textureRegion.flip(false, true);
-		width = pixmapContains.getWidth();
-		height = pixmapContains.getHeight();
+		setWidth(pixmap.getWidth());
+		setHeight(pixmap.getHeight());
+		pixmap.dispose();
 		loaded = true;
 		return true;
 	}
@@ -72,7 +74,7 @@ public abstract class GdxShape<T extends AbstractShape> extends RuntimeBezierSha
 	public boolean contains(int x, int y) {
 		if (x > 0 && y > 0 && x < getWidth() && y < getHeight()) {
 			int alpha = pixmapContains.getPixel(x, y) & 255;
-			return alpha > 128;
+			return alpha > 128;			
 		}
 		return false;
 	}
@@ -83,7 +85,7 @@ public abstract class GdxShape<T extends AbstractShape> extends RuntimeBezierSha
 			this.pixmapContains.dispose();
 		}
 	}
-	
+
 	@Override
 	public void render(GenericCanvas<SpriteBatch> c) {
 		render(c.getNativeGraphicContext());
@@ -92,7 +94,7 @@ public abstract class GdxShape<T extends AbstractShape> extends RuntimeBezierSha
 	public void render(SpriteBatch batch) {
 		batch.draw(textureRegion, 0, 0);
 	}
-	
+
 	protected static float vBx, vBy;
 
 	protected static float vMod2;
@@ -133,6 +135,5 @@ public abstract class GdxShape<T extends AbstractShape> extends RuntimeBezierSha
 					+ vca * proj);
 		}
 	}
-
 
 }

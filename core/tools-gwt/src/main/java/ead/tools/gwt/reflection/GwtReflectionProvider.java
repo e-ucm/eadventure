@@ -46,14 +46,13 @@ import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 import com.gwtent.reflection.client.ReflectionRequiredException;
 
-import ead.common.interfaces.Element;
-import ead.common.model.EAdElement;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class GwtReflectionProvider implements ReflectionProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger("ReflectionProvider");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ReflectionProvider");
 
 	@Override
 	public Class<?>[] getInterfaces(Class<?> object) {
@@ -62,7 +61,7 @@ public class GwtReflectionProvider implements ReflectionProvider {
 
 	@Override
 	public boolean isAssignableFrom(Class<?> class1, Class<?> class2) {
-		if ( class1 == Object.class || class1 == class2 )
+		if (class1 == Object.class || class1 == class2)
 			return true;
 
 		Stack<Class<?>> stack = new Stack<Class<?>>();
@@ -77,17 +76,19 @@ public class GwtReflectionProvider implements ReflectionProvider {
 					Class<?> temp2 = ClassHelper.AsClass(temp).getSuperclass();
 					if (temp2 != null)
 						stack.push(temp2);
-					for (Class<?> newClass : ClassHelper.AsClass(temp).getInterfaces())
+					for (Class<?> newClass : ClassHelper.AsClass(temp)
+							.getInterfaces())
 						stack.push(newClass);
-				} catch (ReflectionRequiredException e)  {
-					logger.error("Reflection required for {} assignable-from {}",
-							new Object[]{class1, class2}, e);
+				} catch (ReflectionRequiredException e) {
+					logger.error(
+							"Reflection required for {} assignable-from {}",
+							new Object[] { class1, class2 }, e);
 				}
 			}
 
 			if (!stack.isEmpty() && stack.peek() == Object.class)
 				stack.pop();
-			}
+		}
 		return false;
 	}
 
@@ -96,17 +97,4 @@ public class GwtReflectionProvider implements ReflectionProvider {
 		return ClassHelper.AsClass(c).getSuperclass();
 	}
 
-
-	@Override
-	public Class<?> getRuntimeClass(EAdElement element) {
-		Class<?> clazz = element.getClass();
-		while (clazz != null ) {
-			if (ClassHelper.AsClass(clazz).getAnnotation(Element.class) != null) {
-				return clazz;
-			}
-			clazz = clazz.getSuperclass();
-		}
-		logger.error("No element annotation for class {}", element.getClass());
-		return null;
-	}
 }

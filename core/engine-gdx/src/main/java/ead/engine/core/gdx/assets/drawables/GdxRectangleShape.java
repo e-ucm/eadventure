@@ -59,6 +59,9 @@ public class GdxRectangleShape extends GdxShape<RectangleShape> {
 		int pheight = descriptor.getHeight() + borderWidth * 2;
 
 		Pixmap pixmap = new Pixmap(pwidth, pheight, Pixmap.Format.RGBA8888);
+		pixmapContains = new Pixmap(pwidth, pheight, Pixmap.Format.RGBA8888);
+		pixmapContains.setColor(0, 0, 0, 1);
+		pixmapContains.fillRectangle(0, 0, pwidth, pheight);
 
 		ColorFill c = ColorFill.TRANSPARENT;
 		if (border != null) {
@@ -71,7 +74,7 @@ public class GdxRectangleShape extends GdxShape<RectangleShape> {
 			}
 			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
 					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
-			pixmap.fillRectangle(0, 0, pwidth, pheight);
+			pixmap.fillRectangle(0, 0, pwidth, pheight);			
 		}
 
 		if (fill instanceof ColorFill) {

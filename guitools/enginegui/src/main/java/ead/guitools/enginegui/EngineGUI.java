@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 import javax.swing.UIManager;
@@ -13,8 +14,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
@@ -22,13 +21,10 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
-import ead.engine.core.debuggers.DebuggerHandler;
-import ead.engine.core.debuggers.FieldsDebugger;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.guitools.enginegui.effects.LoadGameEffect;
 import ead.guitools.enginegui.effects.LoadGameGO;
-import java.util.HashMap;
 
 public class EngineGUI {
 
@@ -53,7 +49,7 @@ public class EngineGUI {
 		DesktopGame engine = new DesktopGame();
 		engine.getInstance(EffectGOFactory.class).put(LoadGameEffect.class,
 				LoadGameGO.class);
-		DebuggerHandler debuggerHandler = engine.getInstance(DebuggerHandler.class);
+//		DebuggerHandler debuggerHandler = engine.getInstance(DebuggerHandler.class);
 //		debuggerHandler.add(FieldsDebugger.class);
 
 		SceneElement element = new SceneElement(new RectangleShape(100, 100,

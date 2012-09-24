@@ -115,11 +115,14 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 		int borderWidth = p.getBorderWidth();
 		int x = (int) rectangle.x;
 		int y = (int) rectangle.y;
-		width = (int) ( rectangle.x + rectangle.width);
-		height = (int) ( rectangle.y + rectangle.height );
+		int width = (int) ( rectangle.x + rectangle.width);
+		int height = (int) ( rectangle.y + rectangle.height );
 		
 		Pixmap pixmap = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
 				Pixmap.Format.RGBA8888);
+		pixmapContains = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
+				Pixmap.Format.RGBA8888);
+		pixmapContains.setColor(0, 0, 0, 1);
 		pixmap.setColor(0, 0, 0, 0);
 		pixmap.fill();
 
@@ -145,7 +148,8 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 					if (usingGradient) {
 						this.setColor(pixmap, borderWidth + i, borderWidth + j);
 					}
-					pixmap.drawPixel(borderWidth + i, borderWidth + j);					
+					pixmap.drawPixel(borderWidth + i, borderWidth + j);
+					pixmapContains.drawPixel(borderWidth + i, borderWidth + j);
 				}
 			}
 		}
@@ -180,7 +184,10 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 						}
 						pixmap.drawLine((int) previousX + i,
 								(int) previousY + i, (int) currentX + i,
-								(int) currentY + i);						
+								(int) currentY + i);
+						pixmapContains.drawLine((int) previousX + i,
+								(int) previousY + i, (int) currentX + i,
+								(int) currentY + i);
 					}
 				}
 				previousX = currentX;
@@ -188,6 +195,9 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 			}
 			for (int i = 1; i <= borderWidth; i++) {
 				pixmap.drawLine((int) previousX + i, (int) previousY + i,
+						(int) shape.get(0).intValue() + i,
+						(int) shape.get(1).intValue() + i);
+				pixmapContains.drawLine((int) previousX + i, (int) previousY + i,
 						(int) shape.get(0).intValue() + i,
 						(int) shape.get(1).intValue() + i);
 			}

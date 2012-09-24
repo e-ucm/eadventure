@@ -56,13 +56,21 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 
 	protected boolean loaded = false;
 
-	protected int width = 0;
+	private int width = 0;
 
-	protected int height = 0;
+	private int height = 0;
 
 	@Override
 	public int getWidth() {
 		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	@Override

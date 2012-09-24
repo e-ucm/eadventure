@@ -87,7 +87,8 @@ public class EffectGameObjectFactoryConfigurator
 				ComplexBlockingEffectGO.class);
 		factoryMap.put(ChangeSceneEf.class, ChangeSceneGO.class);
 		factoryMap.put(MoveSceneElementEf.class, MoveSceneElementGO.class);
-		factoryMap.put(HighlightSceneElementEf.class, HighlightSceneElementGO.class);
+		factoryMap.put(HighlightSceneElementEf.class,
+				HighlightSceneElementGO.class);
 		factoryMap.put(WaitEf.class, WaitGO.class);
 		factoryMap.put(CancelEffectEf.class, CancelEffectGO.class);
 		factoryMap.put(ChangeFieldEf.class, ChangeFieldGO.class);
@@ -98,13 +99,10 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(InterpolationEf.class, InterpolationGO.class);
 		factoryMap.put(SpeakEf.class, SpeakGO.class);
 		factoryMap.put(PlaySoundEf.class, PlaySoundGO.class);
-		factoryMap.put(AddActorReferenceEf.class,
-				AddActorReferenceGO.class);
+		factoryMap.put(AddActorReferenceEf.class, AddActorReferenceGO.class);
 		factoryMap.put(ShowQuestionEf.class, ComplexBlockingEffectGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
-		factoryMap.put(RandomEf.class, RandomGO.class);
+		factoryMap.put(RandomEf.class, RandomGO.class);		
 	}
-	
-	
 
 }

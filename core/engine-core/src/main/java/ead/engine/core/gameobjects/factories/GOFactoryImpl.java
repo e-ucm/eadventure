@@ -95,19 +95,21 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 				return (T) temp;
 		}
 
-		Class<?> tempClass = classMap.get(element.getClass());
-		if (tempClass == null) {
-			Class<?> runtimeClass = reflectionProvider.getRuntimeClass(element);
-			tempClass = classMap.get(runtimeClass);
+		Class<?> elementClass = element.getClass();
+		Class<?> runtimeClass = classMap.get(elementClass);
+		while (elementClass != null && runtimeClass == null) {
+			runtimeClass = classMap.get(elementClass);
+			elementClass = reflectionProvider.getSuperclass(elementClass);
 		}
-		if (tempClass == null) {
+		
+		if (runtimeClass == null) {
 			logger.error("No game element mapped for class {}",
 					element.getClass());
 		} else {
-			temp = (GameObject) injector.getInstance(tempClass);
+			temp = (GameObject) injector.getInstance(runtimeClass);
 			if (temp == null) {
 				logger.error("No instance for game object of class {}",
-						tempClass);
+						element.getClass());
 			} else {
 				temp.setElement(element);
 				if (useCache) {

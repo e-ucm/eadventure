@@ -57,6 +57,10 @@ public class GdxCircleShape extends GdxShape<CircleShape> {
 		int center = size / 2;
 
 		Pixmap pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
+		pixmapContains = new Pixmap(size, size, Pixmap.Format.RGBA8888);
+		pixmapContains.setColor(0, 0, 0, 1);
+		pixmapContains.fillCircle(center, center, descriptor.getRadius()
+				+ borderWidth);
 
 		ColorFill c = ColorFill.TRANSPARENT;
 		if (border != null) {

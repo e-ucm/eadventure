@@ -37,8 +37,6 @@
 
 package ead.tools.reflection;
 
-import ead.common.model.EAdElement;
-
 public interface ReflectionProvider {
 
 	Class<?>[] getInterfaces(Class<?> object);
@@ -46,7 +44,5 @@ public interface ReflectionProvider {
 	boolean isAssignableFrom(Class<?> class1, Class<?> class2);
 	
 	Class<?> getSuperclass(Class<?> c);
-	
-	Class<?> getRuntimeClass(EAdElement element);
 
 }

@@ -37,19 +37,12 @@
 
 package ead.tools.java.reflection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Singleton;
 
-import ead.common.interfaces.Element;
-import ead.common.model.EAdElement;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class JavaReflectionProvider implements ReflectionProvider {
-
-	private static final Logger logger = LoggerFactory.getLogger("ReflectionProvider");
 
 	@Override
 	public Class<?>[] getInterfaces(Class<?> object) {
@@ -64,18 +57,5 @@ public class JavaReflectionProvider implements ReflectionProvider {
 	@Override
 	public Class<?> getSuperclass(Class<?> c) {
 		return c.getSuperclass();
-	}
-
-	@Override
-	public Class<?> getRuntimeClass(EAdElement element) {
-		Class<?> clazz = element.getClass();
-		while (clazz != null ) {
-			if (clazz.getAnnotation(Element.class) != null) {
-				return clazz;
-			}
-			clazz = clazz.getSuperclass();
-		}
-		logger.error("No element annotation for class {}", element.getClass());
-		return null;
 	}
 }
