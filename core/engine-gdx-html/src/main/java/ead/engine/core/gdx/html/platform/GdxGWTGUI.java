@@ -81,9 +81,4 @@ public class GdxGWTGUI extends GdxGUI {
 
 	}
 
-	@Override
-	public void finish() {
-
-	}
-
 }

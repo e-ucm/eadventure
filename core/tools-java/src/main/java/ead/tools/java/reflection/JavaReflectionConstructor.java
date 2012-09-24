@@ -38,11 +38,11 @@
 package ead.tools.java.reflection;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
-import ead.tools.reflection.ReflectionConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.tools.reflection.ReflectionConstructor;
 
 public class JavaReflectionConstructor<T> implements ReflectionConstructor<T>{
 

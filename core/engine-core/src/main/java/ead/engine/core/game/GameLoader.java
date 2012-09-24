@@ -40,6 +40,8 @@ package ead.engine.core.game;
 import java.util.Map;
 
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.params.text.EAdString;
 
 public interface GameLoader {
@@ -53,4 +55,6 @@ public interface GameLoader {
 			Map<String, String> propertiesMap);
 
 	void step();
+
+	EAdList<EAdEffect> getInitialEffects();
 }

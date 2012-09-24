@@ -86,5 +86,10 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		render(interpolation);
 	}
+	
+	@Override
+	public void finish() {
+		Gdx.app.exit();
+	}
 
 }

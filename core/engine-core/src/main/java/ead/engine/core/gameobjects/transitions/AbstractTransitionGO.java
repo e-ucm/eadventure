@@ -132,7 +132,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		}
 
 		if (loaded && firstUpdate) {
-			gameState.getEffects().clear();
+			gameState.clearEffects(false);
 			inputHandler.clearAllInputs();
 
 			firstUpdate = false;

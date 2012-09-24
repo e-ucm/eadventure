@@ -45,6 +45,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.params.text.EAdString;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.AssetHandler.LoadTextFileListener;
@@ -96,6 +99,8 @@ public class GameLoaderImpl implements GameLoader {
 
 	private int listeners;
 
+	private EAdList<EAdEffect> initialEffects;
+
 	// Aux
 	private LoadTextFileListener dataListener = new LoadTextFileListener() {
 
@@ -139,6 +144,7 @@ public class GameLoaderImpl implements GameLoader {
 		assetHandler = injector.getInstance(AssetHandler.class);
 		ObjectFactory.init(reflectionProvider);
 		ReflectionClassLoader.init(reflectionClassLoader);
+		initialEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	public void loadGameFromFiles(String dataFile, String stringsFile,
@@ -195,7 +201,12 @@ public class GameLoaderImpl implements GameLoader {
 		for (Entry<String, String> entry : propertiesMap.entrySet()) {
 			model.setProperty(entry.getKey(), entry.getValue());
 		}
-		game.setGame(model, model.getChapters().get(0));
+		game.setGame(model, model.getChapters().get(0), initialEffects);
+		initialEffects.clear();
+	}
+
+	public EAdList<EAdEffect> getInitialEffects() {
+		return initialEffects;
 	}
 
 }

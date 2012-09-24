@@ -40,6 +40,7 @@ package ead.engine.core.game;
 import java.util.List;
 
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.engine.core.gameobjects.go.EffectGO;
@@ -168,10 +169,21 @@ public interface GameState {
 	/**
 	 * @param initialScene
 	 *            The initial scene in the game
+	 * @param initialEffects
+	 *            TODO
 	 */
-	void setInitialScene(EAdScene initialScene);
-	
+	void setInitialScene(EAdScene initialScene,
+			EAdList<EAdEffect> initialEffects);
+
 	void saveState();
-	
+
 	void loadState();
+
+	/**
+	 * Clear all the current effects
+	 * 
+	 * @param persisten
+	 *            sets if persistent effects should also be deleted
+	 */
+	void clearEffects(boolean persistent);
 }

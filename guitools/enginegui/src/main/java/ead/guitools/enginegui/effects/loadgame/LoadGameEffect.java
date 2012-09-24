@@ -1,4 +1,4 @@
-package ead.guitools.enginegui.effects;
+package ead.guitools.enginegui.effects.loadgame;
 
 import ead.common.model.elements.effects.AbstractEffect;
 

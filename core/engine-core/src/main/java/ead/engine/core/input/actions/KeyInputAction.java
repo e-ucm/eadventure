@@ -45,9 +45,13 @@ public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 
 	private Character character;
 
-	public KeyInputAction(KeyEventType type, KeyGEvCode code, Character letter) {
-		super(new KeyGEv(type, code));
+	public KeyInputAction(KeyGEv event, Character letter) {
+		super(event);
 		character = letter;
+	}
+
+	public KeyInputAction(KeyEventType type, KeyGEvCode code, Character letter) {
+		this(new KeyGEv(type, code), letter);
 	}
 
 	public KeyInputAction(KeyEventType type, KeyGEvCode code) {
@@ -68,8 +72,8 @@ public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 	}
 
 	/**
-	 * Returns the character for the event. Only return a non-null value when the
-	 * event type is {@link KeyEventType#KEY_TYPED}
+	 * Returns the character for the event. Only return a non-null value when
+	 * the event type is {@link KeyEventType#KEY_TYPED}
 	 * 
 	 * @return
 	 */

@@ -54,6 +54,7 @@ import com.google.inject.name.Named;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.BasicScene;
@@ -287,10 +288,13 @@ public class GameStateImpl implements GameState {
 	}
 
 	@Override
-	public void setInitialScene(EAdScene initialScene) {
+	public void setInitialScene(EAdScene initialScene,
+			EAdList<EAdEffect> initialEffects) {
 		ChangeSceneEf ef = new ChangeSceneEf(initialScene);
+		if (initialEffects != null) {
+			ef.getNextEffects().addAll(initialEffects);
+		}
 		this.addEffect(ef);
-		// ((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
 	}
 
 	private void installPlugins() {
@@ -385,6 +389,14 @@ public class GameStateImpl implements GameState {
 					gameStateData.getElementVars().keySet());
 			valueMap.setSystemVars(gameStateData.getSystemVars());
 
+		}
+	}
+
+	public void clearEffects(boolean clearPersistents) {
+		for (EffectGO<?> effect : this.getEffects()) {
+			if (!effect.getElement().isPersistent() || clearPersistents) {
+				effect.stop();
+			}
 		}
 	}
 

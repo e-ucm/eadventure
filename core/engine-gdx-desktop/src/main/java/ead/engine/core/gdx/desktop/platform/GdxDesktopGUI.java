@@ -173,11 +173,6 @@ public class GdxDesktopGUI extends GdxGUI {
 		}
 	}
 
-	@Override
-	public void finish() {
-		System.exit(0);
-	}
-
 	private IntBuffer getCursor() {
 
 		BufferedImage biCursor = new BufferedImage(16, 16,
