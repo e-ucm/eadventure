@@ -49,7 +49,9 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.debuggers.DebuggerHandler;
@@ -260,9 +262,13 @@ public class GameImpl implements Game {
 	public void loadGame() {
 		assetHandler.initialize();
 	}
+	
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter){
+		setGame( model, eAdChapter, null );
+	}
 
 	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter, EAdList<EAdEffect> effects) {
 		logger.info("Setting the game");
 		currentChapter = eAdChapter;
 		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
@@ -293,7 +299,7 @@ public class GameImpl implements Game {
 		setDebuggers(model);
 
 		sceneGraph.generateGraph(eAdChapter.getInitialScene());
-		gameState.setInitialScene(eAdChapter.getInitialScene());
+		gameState.setInitialScene(eAdChapter.getInitialScene(), effects);
 		updateInitialTransformation();
 
 		// Start tracking

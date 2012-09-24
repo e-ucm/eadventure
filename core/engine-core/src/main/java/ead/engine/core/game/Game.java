@@ -37,8 +37,11 @@
 
 package ead.engine.core.game;
 
+
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.extra.EAdList;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -77,11 +80,23 @@ public interface Game {
 	void loadGame();
 
 	void setGame(EAdAdventureModel model, EAdChapter eAdChapter);
-	
+
+	/**
+	 * Loads the given game
+	 * 
+	 * @param model
+	 * @param chpater
+	 * @param initialEffects
+	 *            the effects to be launched after the first scene of the game
+	 *            is launched
+	 */
+	void setGame(EAdAdventureModel model, EAdChapter chpater,
+			EAdList<EAdEffect> initialEffects);
+
 	void updateInitialTransformation();
-	
+
 	EAdTransformation getInitialTransformation();
-	
+
 	EAdChapter getCurrentChapter();
 
 	void setGameLoader(GameLoader gameLoader);

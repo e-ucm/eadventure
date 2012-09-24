@@ -58,9 +58,5 @@ public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
 		super(assetHandler, gameObjectFactory, gui, gameState,
 				eventFactory, sceneLoader, inputHandler );
 	}
-	
-
-
-
 
 }

@@ -41,32 +41,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.SceneGOImpl;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
 public abstract class AbstractTransitionGO<T extends EAdTransition> extends
-		SceneGOImpl implements TransitionGO<T> {
+		SceneElementGOImpl<T> implements TransitionGO<T> {
 
 	protected InputHandler inputHandler;
 
@@ -84,15 +75,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	private boolean loaded;
 
-	private float rotation = 0.0f;
-
-	private EAdField<Float> rotationField;
-
-	private EAdField<Boolean> visibleField;
-
 	private ArrayList<TransitionListener> listeners;
-
-	private int timeLoading;
 
 	private boolean firstUpdate;
 
@@ -101,17 +84,10 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
-		this.sceneLoader = sceneLoader;
-		EAdScene scene = this.createLoadingScene();
-		scene.setReturnable(false);
-		this.setElement(scene);
+		this.sceneLoader = sceneLoader;			
 		this.inputHandler = inputHandler;
 		listeners = new ArrayList<TransitionListener>();
 		firstUpdate = true;
-	}
-
-	public void setTransition(T transition) {
-		this.transition = transition;
 	}
 
 	public void setPrevious(SceneGO<?> scene) {
@@ -121,7 +97,6 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();
 		}
-		timeLoading = 0;
 	}
 
 	@Override
@@ -141,35 +116,6 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		return loaded;
 	}
 
-	protected EAdScene createLoadingScene() {
-		BasicScene scene = new BasicScene();
-
-		RectangleShape rs = new RectangleShape(gameState.getValueMap()
-				.getValue(SystemFields.GAME_WIDTH), gameState.getValueMap()
-				.getValue(SystemFields.GAME_HEIGHT));
-		rs.setPaint(new Paint(new ColorFill(100, 100, 100, 0), ColorFill.BLACK));
-
-		int circleRadius = 15;
-		CircleShape circle = new CircleShape(circleRadius,
-				new LinearGradientFill(ColorFill.ORANGE, ColorFill.YELLOW,
-						circleRadius * 2, circleRadius * 2));
-		SceneElement loadingLogo = new SceneElement(circle);
-		loadingLogo.setInitialAlpha(0.8f);
-		loadingLogo.setId("loadingText");
-		loadingLogo.setPosition(Corner.CENTER, circleRadius * 2,
-				circleRadius * 2);
-		rotationField = new BasicField<Float>(loadingLogo,
-				SceneElement.VAR_ROTATION);
-		visibleField = new BasicField<Boolean>(loadingLogo,
-				SceneElement.VAR_VISIBLE);
-
-		scene.setBackground(new SceneElement(rs));
-		scene.getSceneElements().add(loadingLogo);
-
-		loadingLogo.setInitialAlpha(0.7f);
-		return scene;
-	}
-
 	@Override
 	public void setNext(EAdScene scene) {
 		nextScene = scene;
@@ -182,31 +128,17 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			sceneLoader.step();
 		}
 
-		if (!loaded && !loading) {
-			timeLoading = 0;
+		if (!loaded && !loading) {			
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}
 
 		if (loaded && firstUpdate) {
-			gameState.getEffects().clear();
+			gameState.clearEffects(false);
 			inputHandler.clearAllInputs();
 
 			firstUpdate = false;
 			nextSceneGO.update();
-		}
-
-		// If time loading is bigger than 1 second, we show the loading symbol
-		if (timeLoading > 1000 && !loaded) {
-			rotation += 0.5f;
-			if (rotation > 2 * Math.PI) {
-				rotation -= 2 * Math.PI;
-			}
-			gameState.getValueMap().setValue(rotationField, rotation);
-			gameState.getValueMap().setValue(visibleField, true);
-		} else {
-			timeLoading += gui.getSkippedMilliseconds();
-			gameState.getValueMap().setValue(visibleField, false);
 		}
 
 		if (isFinished()) {
@@ -223,7 +155,6 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	@Override
 	public void doLayout(EAdTransformation transformation) {
 		gui.addElement(previousScene, transformation);
-		// super.doLayout(transformation);
 	}
 
 	public List<TransitionListener> getTransitionListeners() {
@@ -232,6 +163,12 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	public SceneGO<?> getNextSceneGO() {
 		return nextSceneGO;
+	}
+
+	@Override
+	public boolean processAction(InputAction<?> action) {
+		// Do nothing
+		return true;
 	}
 
 }

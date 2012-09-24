@@ -43,13 +43,19 @@ import ead.common.model.elements.guievents.enums.KeyGEvCode;
 
 public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 
-	public KeyInputAction(KeyEventType type, KeyGEvCode code) {
-		super(new KeyGEv(type, code));
+	private Character character;
+
+	public KeyInputAction(KeyGEv event, Character letter) {
+		super(event);
+		character = letter;
 	}
 
-	public KeyInputAction(KeyEventType type, char letter) {
-		this(type, KeyGEvCode.LETTER);
-		this.getGUIEvent().setCharacter(letter);
+	public KeyInputAction(KeyEventType type, KeyGEvCode code, Character letter) {
+		this(new KeyGEv(type, code), letter);
+	}
+
+	public KeyInputAction(KeyEventType type, KeyGEvCode code) {
+		this(type, code, null);
 	}
 
 	public KeyGEvCode getKeyCode() {
@@ -62,7 +68,17 @@ public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 
 	@Override
 	public boolean alwaysPropagates() {
-		return true;
+		return false;
+	}
+
+	/**
+	 * Returns the character for the event. Only return a non-null value when
+	 * the event type is {@link KeyEventType#KEY_TYPED}
+	 * 
+	 * @return
+	 */
+	public Character getCharacter() {
+		return character;
 	}
 
 }

@@ -106,4 +106,16 @@ public interface EAdEffect extends EAdElement, Conditioned {
 	 */
 	boolean isNextEffectsAlways();
 
+	/**
+	 * Indicates if the effect must be conserved when the scene changes and the
+	 * effects is still running
+	 */
+	boolean isPersistent();
+
+	/**
+	 * Sets if the effect must be conserved when the scene changes and the
+	 * effects is still running
+	 */
+	void setPersistent(boolean persistent);
+
 }

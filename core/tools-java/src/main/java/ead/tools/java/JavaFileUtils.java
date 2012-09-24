@@ -56,10 +56,13 @@ public class JavaFileUtils {
 			.getLogger("JavaFileUtils");
 
 	public static String getText(String fileName) {
+		return getText(new File(fileName));
+	}
+
+	public static String getText(File fileName) {
 		StringBuilder text = new StringBuilder();
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(
-					fileName)));
+			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				text.append(line + "\n");

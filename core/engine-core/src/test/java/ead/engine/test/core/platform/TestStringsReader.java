@@ -71,4 +71,9 @@ public class TestStringsReader implements StringHandler {
 		return null;
 	}
 
+	@Override
+	public EAdString generateNewString() {
+		return null;
+	}
+
 }

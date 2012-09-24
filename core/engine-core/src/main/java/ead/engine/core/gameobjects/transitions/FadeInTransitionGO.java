@@ -81,11 +81,11 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
 				sceneAlpha = 0.0f;
 			}
 
-			if (currentTime - startTime >= transition.getTime()) {
+			if (currentTime - startTime >= element.getTime()) {
 				finished = true;
 			} else {
 				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
-						- startTime, transition.getTime(), 1.0f));
+						- startTime, element.getTime(), 1.0f));
 			}
 		}
 	}

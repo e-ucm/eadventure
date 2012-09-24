@@ -54,10 +54,10 @@ import com.google.inject.name.Named;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -274,9 +274,8 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public SceneElementGO<?> getActiveElement() {
-		EAdSceneElement activeElement = valueMap.getValue(
-				valueMap.getValue(SystemFields.ACTIVE_ELEMENT),
-				SceneElementDef.VAR_SCENE_ELEMENT);
+		EAdSceneElement activeElement = valueMap
+				.getValue(SystemFields.ACTIVE_ELEMENT);
 		if (activeElement != null)
 			return sceneElementFactory.get(activeElement);
 		else
@@ -289,10 +288,13 @@ public class GameStateImpl implements GameState {
 	}
 
 	@Override
-	public void setInitialScene(EAdScene initialScene) {
+	public void setInitialScene(EAdScene initialScene,
+			EAdList<EAdEffect> initialEffects) {
 		ChangeSceneEf ef = new ChangeSceneEf(initialScene);
+		if (initialEffects != null) {
+			ef.getNextEffects().addAll(initialEffects);
+		}
 		this.addEffect(ef);
-		// ((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
 	}
 
 	private void installPlugins() {
@@ -358,7 +360,7 @@ public class GameStateImpl implements GameState {
 
 		ArrayList<EAdElement> updateList = new ArrayList<EAdElement>();
 		updateList.addAll(state.getUpdateList());
-		
+
 		return new GameStateData(state.getScene(), effectsList, stack,
 				systemVars, elementVars, updateList);
 	}
@@ -387,6 +389,14 @@ public class GameStateImpl implements GameState {
 					gameStateData.getElementVars().keySet());
 			valueMap.setSystemVars(gameStateData.getSystemVars());
 
+		}
+	}
+
+	public void clearEffects(boolean clearPersistents) {
+		for (EffectGO<?> effect : this.getEffects()) {
+			if (!effect.getElement().isPersistent() || clearPersistents) {
+				effect.stop();
+			}
 		}
 	}
 

@@ -71,9 +71,4 @@ public class AndroidGdxGUI extends GdxGUI {
 		
 	}
 
-	@Override
-	public void finish() {
-		
-	}
-
 }

@@ -149,7 +149,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	public boolean processAction(InputAction<?> action) {
 		if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
-			if (keyAction.getKeyCode() == KeyGEvCode.ESC
+			if (keyAction.getKeyCode() == KeyGEvCode.ESCAPE
 					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
 				gameObjectManager.addHUD(menuHUD);
 				gameState.setPaused(true);

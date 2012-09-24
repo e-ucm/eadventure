@@ -162,7 +162,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
-			remove = keyAction.getKeyCode() == KeyGEvCode.ESC;
+			remove = keyAction.getKeyCode() == KeyGEvCode.ESCAPE;
 		}
 
 		if (remove) {

@@ -43,6 +43,7 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
@@ -110,8 +111,8 @@ public class TrajectoriesScene extends EmptyScene {
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
-		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, '1'),
-				effect);
+		getBackground().addBehavior(
+				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_1), effect);
 
 		effect.getNextEffects().add(changeSide);
 
@@ -164,7 +165,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, '2'),
+		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_2),
 				effect);
 	}
 
@@ -184,7 +185,7 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.setOperation(new ValueOp(trajectory));
 		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, '3'),
+		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_3),
 				effect);
 	}
 

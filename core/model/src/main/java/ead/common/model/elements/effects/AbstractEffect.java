@@ -50,35 +50,42 @@ import ead.common.model.elements.extra.EAdListImpl;
  * 
  * 
  */
-public abstract class AbstractEffect extends ConditionedElement
-		implements EAdEffect {
+public abstract class AbstractEffect extends ConditionedElement implements
+		EAdEffect {
 
 	/**
 	 * Indicates that this effect blocks the effect queue until finished
 	 */
-	@Param(value="blocking", defaultValue="false")
+	@Param(value = "blocking", defaultValue = "false")
 	private boolean blocking;
 
 	/**
 	 * Indicates that this effect is opaque and captures the interactions in the
 	 * screen
 	 */
-	@Param(value="opaque", defaultValue="false")
+	@Param(value = "opaque", defaultValue = "false")
 	private boolean opaque;
 
 	/**
 	 * Indicates that this effect is queued and can be blocked
 	 */
-	@Param(value="queueable", defaultValue="false")
+	@Param(value = "queueable", defaultValue = "false")
 	private boolean queueable;
+
+	/**
+	 * Sets if the effect must be conserved when the scene changes and the
+	 * effects is still running
+	 */
+	@Param(value = "persistent", defaultValue = "false")
+	private boolean persistent;
 
 	@Param("nextEffects")
 	private EAdList<EAdEffect> nextEffects;
-	
+
 	@Param("previousEffects")
 	private EAdList<EAdEffect> previousEffects;
-	
-	@Param(value="nextEffectsAlways", defaultValue="false")
+
+	@Param(value = "nextEffectsAlways", defaultValue = "false")
 	private boolean nextEffectsAlways;
 
 	/**
@@ -155,17 +162,33 @@ public abstract class AbstractEffect extends ConditionedElement
 	public EAdList<EAdEffect> getNextEffects() {
 		return nextEffects;
 	}
-	
+
 	public EAdList<EAdEffect> getPreviousEffects() {
 		return nextEffects;
 	}
-	
-	public void setNextEffectsAlways(boolean always){
+
+	public void setNextEffectsAlways(boolean always) {
 		this.nextEffectsAlways = always;
 	}
-	
-	public boolean isNextEffectsAlways(){
+
+	public boolean isNextEffectsAlways() {
 		return nextEffectsAlways;
+	}
+
+	/**
+	 * Indicates if the effect must be conserved when the scene changes and the
+	 * effects is still running
+	 */
+	public boolean isPersistent() {
+		return persistent;
+	}
+
+	/**
+	 * Sets if the effect must be conserved when the scene changes and the
+	 * effects is still running
+	 */
+	public void setPersistent(boolean persistent) {
+		this.persistent = persistent;
 	}
 
 }

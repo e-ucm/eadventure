@@ -35,71 +35,24 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.common.widgets;
 
-import java.util.List;
+import ead.common.interfaces.Element;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.params.fills.Paint;
+import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.engine.core.gameobjects.go.SceneGO;
+@Element
+public class TextArea extends SceneElement {
 
-/**
- * A transition game object
- * 
- */
-public interface TransitionGO<T extends EAdTransition> extends
-		SceneGO<T>, SceneLoaderListener {
-
-	/**
-	 * Set the previous scene for the transition
-	 * 
-	 * @param scene
-	 *            the previous scene
-	 */
-	void setPrevious(SceneGO<?> scene);
-
-	/**
-	 * Sets the next scene for the transition
-	 * 
-	 * @param scene
-	 *            the next scene for the transition
-	 */
-	void setNext(EAdScene scene);
-
-	/**
-	 * Returns if the next scene is loaded
-	 * 
-	 * @return
-	 */
-	boolean isLoadedNextScene();
-
-	/**
-	 * Returns if the transition is finished
-	 * 
-	 * @return
-	 */
-	boolean isFinished();
-
-	/**
-	 * Returns the list of TransitionListener. You can add or remove your
-	 * transition listeners in this list
-	 */
-	List<TransitionListener> getTransitionListeners();
-
-	public interface TransitionListener {
-
-		/**
-		 * Method called when transition begins
-		 */
-		void transitionBegins();
-
-		/**
-		 * Method called when transition ends
-		 */
-		void transitionEnds();
-
+	public TextArea() {		
+		this(100, 100);
 	}
 
-	SceneGO<?> getNextSceneGO();
+	public TextArea(int width, int height) {
+		this.setId("textArea");
+		this.setAppearance(new RectangleShape(width, height,
+				Paint.BLACK_ON_WHITE));
+	}
 
 }

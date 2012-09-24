@@ -1,4 +1,4 @@
-package ead.guitools.enginegui.effects;
+package ead.guitools.enginegui.effects.loadgame;
 
 import java.io.File;
 
@@ -18,7 +18,11 @@ import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.guitools.enginegui.EngineGUI;
+import ead.guitools.enginegui.effects.usetraces.UseTracesEffect;
 import ead.importer.EAdventureImporter;
+import ead.tools.java.JavaFileUtils;
+import ead.tools.xml.XMLDocument;
+import ead.tools.xml.XMLParser;
 
 public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 
@@ -31,14 +35,16 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 	private boolean done;
 	private AssetHandler assetHandler;
 	private String resourcesPath;
+	private XMLParser xmlReader;
 
 	@Inject
 	public LoadGameGO(SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, GameLoader gameLoader,
-			AssetHandler assetHandler) {
+			AssetHandler assetHandler, XMLParser xmlReader) {
 		super(gameObjectFactory, gui, gameState);
 		this.gameLoader = gameLoader;
 		this.assetHandler = assetHandler;
+		this.xmlReader = xmlReader;
 	}
 
 	@Override
@@ -60,7 +66,17 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 					File file = chooser.getSelectedFile();
 					EngineGUI.setProperty("folder", file.getAbsolutePath());
 					model = importer.importGame(file.getAbsolutePath(), null);
-					resourcesPath = importer.getDestinyFile();
+					resourcesPath = importer.getDestinyFile();					
+					File tracesFile = new File(file.getAbsolutePath()
+							.substring(0, file.getAbsolutePath().length() - 3)
+							+ "xml");
+					if (tracesFile.exists()) {
+						UseTracesEffect effect = new UseTracesEffect();
+						XMLDocument document = xmlReader.parse(JavaFileUtils
+								.getText(tracesFile));
+						effect.loadFromXML(document);
+						gameLoader.getInitialEffects().add(effect);
+					}
 					done = true;
 				}
 			}
