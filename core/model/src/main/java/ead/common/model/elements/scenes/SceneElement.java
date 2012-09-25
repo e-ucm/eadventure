@@ -48,6 +48,8 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
@@ -175,7 +177,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		setId(actor.getId() + "_ref");
 		this.definition = actor;
 	}
-	
+
 	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
 		this.vars = vars;
 	}
@@ -286,12 +288,15 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialEnable(boolean enable) {
-		setVarInitialValue(SceneElement.VAR_ENABLE, enable);	
+		setVarInitialValue(SceneElement.VAR_ENABLE, enable);
 	}
 
 	public void setInitialRotation(float rotation) {
 		setVarInitialValue(SceneElement.VAR_ROTATION, rotation);
-		
+	}
+
+	public <T> EAdField<T> getField(EAdVarDef<T> varDef) {
+		return new BasicField<T>(this, varDef);
 	}
 
 }

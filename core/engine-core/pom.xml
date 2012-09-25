@@ -50,6 +50,14 @@
 			<artifactId>jbox2d-library</artifactId>
 			<version>2.1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>aurelienribon</groupId>
+			<artifactId>tweenengine-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>aurelienribon</groupId>
+			<artifactId>tweenengine-api-sources</artifactId>
+		</dependency>
 
 		<!-- tests -->
 		<dependency>

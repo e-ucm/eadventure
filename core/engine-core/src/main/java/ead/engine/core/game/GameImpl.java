@@ -67,6 +67,7 @@ import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
@@ -121,6 +122,8 @@ public class GameImpl implements Game {
 
 	private GameLoader gameLoader;
 
+	private TweenController tweenController;
+
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
@@ -128,7 +131,8 @@ public class GameImpl implements Game {
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			EngineConfiguration configuration, ActionsHUD actionsHUD,
-			GameTracker tracker, SceneGraph sceneGraph) {
+			GameTracker tracker, SceneGraph sceneGraph,
+			TweenController tweenController) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -145,6 +149,7 @@ public class GameImpl implements Game {
 		this.adventure = new BasicAdventureModel();
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
+		this.tweenController = tweenController;
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.initialize();
 		gui.setGame(this);
@@ -160,6 +165,8 @@ public class GameImpl implements Game {
 
 		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
+
+		tweenController.update(gui.getSkippedMilliseconds());
 
 		updateInitialTransformation();
 		if (!gameState.isPaused()) {
@@ -262,13 +269,14 @@ public class GameImpl implements Game {
 	public void loadGame() {
 		assetHandler.initialize();
 	}
-	
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter){
-		setGame( model, eAdChapter, null );
+
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
+		setGame(model, eAdChapter, null);
 	}
 
 	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter, EAdList<EAdEffect> effects) {
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter,
+			EAdList<EAdEffect> effects) {
 		logger.info("Setting the game");
 		currentChapter = eAdChapter;
 		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,

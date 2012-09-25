@@ -886,6 +886,16 @@
 				<artifactId>gdx-backend-gwt-sources</artifactId>
 				<version>1.5</version>
 			</dependency>
+			<dependency>
+				<groupId>aurelienribon</groupId>
+				<artifactId>tweenengine-api</artifactId>
+				<version>1</version>
+			</dependency>
+			<dependency>
+				<groupId>aurelienribon</groupId>
+				<artifactId>tweenengine-api-sources</artifactId>
+				<version>1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

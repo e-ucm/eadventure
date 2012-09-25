@@ -40,92 +40,100 @@ package ead.engine.core.gameobjects.effects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.equations.Bounce;
+import aurelienribon.tweenengine.equations.Cubic;
+import aurelienribon.tweenengine.equations.Linear;
+
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.util.Interpolator;
+import ead.common.model.elements.variables.BasicField;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
+public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
+		implements TweenCallback {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("VarInterpolationGO");
-
-	private int currentTime;
-
-	private int delay;
-
-	private float interpolationLength;
-
-	private boolean integer;
 
 	private boolean finished;
 
 	private OperatorFactory operatorFactory;
 
-	private float startValue;
-
-	private float endValue;
-
-	private boolean reverse;
-
-	private int loops;
-
-	private EAdElement owner;
-
-	private Interpolator interpolator;
+	private TweenController tweenController;
 
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory) {
+			GameState gameState, OperatorFactory operatorFactory,
+			TweenController tweenController) {
 		super(gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
+		this.tweenController = tweenController;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void initialize() {
 		super.initialize();
-		currentTime = 0;
-		loops = 0;
-		reverse = false;
-		integer = element.getVarDef().getType().equals(Integer.class);
-		startValue = ((Number) operatorFactory.operate(Float.class,
+		float startValue = ((Number) operatorFactory.operate(Float.class,
 				element.getInitialValue())).floatValue();
-		endValue = ((Number) operatorFactory.operate(Float.class,
+		float endValue = ((Number) operatorFactory.operate(Float.class,
 				element.getEndValue())).floatValue();
 
-		float offset = ((Number) gameState.getValueMap().getValue(
-				element.getElement(), element.getVarDef())).floatValue();
-		startValue += offset;
-		endValue += offset;
-		interpolationLength = endValue - startValue;
 		finished = false;
 		logger.info("{}.{} is going to be interpolated from {} to {}",
 				new Object[] { element.getElement(), element.getVarDef(),
 						startValue, endValue });
-		delay = element.getDelay();
 
-		owner = element.getElement() == null ? parent : gameState.getValueMap()
-				.getFinalElement(element.getElement());
-
+		TweenEquation eq = Linear.INOUT;
 		switch (element.getInterpolationType()) {
 		case BOUNCE_END:
-			interpolator = Interpolator.BOUNCE_END;
+			eq = Bounce.OUT;
 			break;
 		case DESACCELERATE:
-			interpolator = Interpolator.DESACCELERATE;
+			eq = Cubic.OUT;
 			break;
 		default:
-			interpolator = Interpolator.LINEAR;
+			eq = Linear.INOUT;
 			break;
 
 		}
+
+		BasicField<?> f = new BasicField(element.getElement(),
+				element.getVarDef());
+		Tween t = Tween.to(f, 0, element.getInterpolationTime()).ease(eq)
+				.delay(element.getDelay());
+
+		switch (element.getLoopType()) {
+		case RESTART:
+			t.repeat(element.getLoops(), element.getDelay());
+			break;
+		case REVERSE:
+			t.repeatYoyo(element.getLoops(), element.getDelay());
+			break;
+		default:
+
+		}
+
+		if (element.isRelative()) {
+			t.targetRelative(endValue - startValue);
+		} else {
+			Tween.set(f, 0).target(startValue);
+			t.target(endValue);
+		}
+
+		tweenController.add(t);
+
 	}
 
 	@Override
@@ -139,57 +147,12 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 	}
 
 	@Override
-	public void update() {
-		if (delay <= 0) {
-			currentTime += gui.getSkippedMilliseconds();
-			if (currentTime > element.getInterpolationTime()) {
-				loops++;
-				switch (element.getLoopType()) {
-				case RESTART:
-					while (currentTime > element.getInterpolationTime()) {
-						currentTime -= element.getInterpolationTime();
-					}
-					break;
-				case REVERSE:
-					while (currentTime > element.getInterpolationTime()) {
-						currentTime -= element.getInterpolationTime();
-					}
-					reverse = !reverse;
-					break;
-				default:
-					currentTime = element.getInterpolationTime();
-					finished = true;
-					if (integer)
-						gameState.getValueMap().setValue(element.getElement(),
-								element.getVarDef(), Math.round(endValue));
-					else
-						gameState.getValueMap().setValue(element.getElement(),
-								element.getVarDef(), (Float) endValue);
-				}
-				finished |= (element.getLoops() > 0 && loops >= element
-						.getLoops());
-			} else {
-				if (integer)
-					gameState.getValueMap().setValue(owner,
-							element.getVarDef(), interpolation().intValue());
-				else
-					gameState.getValueMap().setValue(owner,
-							element.getVarDef(), interpolation().floatValue());
-			}
-		} else {
-			delay -= gui.getSkippedMilliseconds();
-			if (delay < 0) {
-				currentTime -= delay;
-			}
+	public void onEvent(int arg0, BaseTween<?> arg1) {
+		if (arg0 == END) {
+			this.stop();
+		} else if (arg0 == COMPLETE) {
+			this.finished = true;
 		}
 	}
 
-	public Number interpolation() {
-		int time = reverse ? element.getInterpolationTime() - currentTime
-				: currentTime;
-		float f = interpolator.interpolate(time,
-				element.getInterpolationTime(), interpolationLength);
-		f += startValue;
-		return (integer) ? new Integer(Math.round(f)) : new Float(f);
-	}
 }

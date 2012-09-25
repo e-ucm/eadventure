@@ -93,7 +93,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	}
 
 	public MoveSceneElementEf( EAdSceneElementDef element,
-			MathOp xTarget, MathOp yTarget) {
+			EAdOperation xTarget, EAdOperation yTarget) {
 		this( element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
@@ -104,7 +104,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	}
 
 	public MoveSceneElementEf(EAdSceneElementDef element,
-			MathOp xTarget, MathOp yTarget, MovementSpeed speed) {
+			EAdOperation xTarget, EAdOperation yTarget, MovementSpeed speed) {
 		super();
 		setSceneElement(element);
 		setQueueable(true);

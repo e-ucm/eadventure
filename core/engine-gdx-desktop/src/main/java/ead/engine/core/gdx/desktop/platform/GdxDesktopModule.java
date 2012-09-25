@@ -74,6 +74,7 @@ public class GdxDesktopModule extends AbstractModule {
 
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 		}).to(VLCDesktopVideoRenderer.class);
+
 	}
 
 }

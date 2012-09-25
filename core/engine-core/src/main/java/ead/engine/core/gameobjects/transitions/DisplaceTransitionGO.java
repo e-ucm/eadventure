@@ -49,7 +49,6 @@ import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdInterpolator;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 
@@ -148,8 +147,7 @@ public class DisplaceTransitionGO extends
 	private float getDisp(boolean horizontal, int currentTime) {
 		if ((horizontal && element.getType() == DisplaceTransitionType.HORIZONTAL)
 				|| (!horizontal && element.getType() == DisplaceTransitionType.VERTICAL)) {
-			float value = EAdInterpolator.LINEAR.interpolate(currentTime,
-					element.getTime(), 1.0f);
+			float value = (float) currentTime / (float) element.getTime();
 			return value;
 
 		} else

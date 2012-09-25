@@ -52,7 +52,7 @@ public class ModuleMap {
 		return binds;
 	}
 	
-	void setBind(Class<?> clazz, Class<?> bind){
+	public void setBind(Class<?> clazz, Class<?> bind){
 		binds.put(clazz, bind);
 	}
 

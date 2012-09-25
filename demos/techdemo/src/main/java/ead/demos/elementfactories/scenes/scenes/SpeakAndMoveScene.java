@@ -40,6 +40,7 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.ActorActionsEf;
+import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
@@ -67,14 +68,12 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// .createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
 
 		NgCommon.init();
-		SceneElement character = new SceneElement(
-				NgCommon.getMainCharacter());
+		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setInitialAlpha(0.5f);
-		character.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400,
-				400));
+		character.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 400));
 
 		SpeakEf effect = new SpeakSceneElementEf(character);
-		effect.setFont(new BasicFont( 20.0f ));
+		effect.setFont(new BasicFont(20.0f));
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()
@@ -89,8 +88,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		this.getSceneElements().add(character);
 
-		MakeActiveElementEf makeActive = new MakeActiveElementEf(
-				character);
+		MakeActiveElementEf makeActive = new MakeActiveElementEf(character);
 
 		SceneElementEv event = new SceneElementEv();
 		event.setId("makeAcitveCharacter");
@@ -104,8 +102,8 @@ public class SpeakAndMoveScene extends EmptyScene {
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementToMouseEf());
 
-		SceneElement actionsObject = new SceneElement(
-				new Image("@drawable/infobutton.png"));
+		SceneElement actionsObject = new SceneElement(new Image(
+				"@drawable/infobutton.png"));
 		actionsObject.setPosition(100, 100);
 		ElementAction action = new ElementAction();
 		action.getResources().addAsset(action.getInitialBundle(),
@@ -117,16 +115,22 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		SpeakEf speak = new SpeakEf();
 
+		MoveSceneElementEf move = new MoveSceneElementEf(
+				character.getDefinition(),
+				actionsObject.getField(SceneElement.VAR_CENTER_X),
+				actionsObject.getField(SceneElement.VAR_CENTER_Y));
+		
+		move.getNextEffects().add(speak);
+
 		EAdElementsFactory.getInstance().getStringFactory()
 				.setString(speak.getString(), "The action was triggered!");
 
-		
-		action.getEffects().add(speak);
+		action.getEffects().add(move);
 		actionsObject.getDefinition().getActions().add(action);
 
-		EAdEffect showActions = new ActorActionsEf(actionsObject.getDefinition());
-		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
-				showActions);
+		EAdEffect showActions = new ActorActionsEf(
+				actionsObject.getDefinition());
+		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
 		getSceneElements().add(actionsObject);
 	}
 

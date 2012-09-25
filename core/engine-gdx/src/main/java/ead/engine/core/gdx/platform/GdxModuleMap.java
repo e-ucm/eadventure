@@ -87,6 +87,8 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.TransitionFactory;
+import ead.engine.core.platform.TweenController;
+import ead.engine.core.platform.TweenControllerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.plugins.PluginHandler;
@@ -157,6 +159,8 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(GameLoader.class, GameLoaderImpl.class);
 		binds.put(GdxEngine.class, GdxEngineImpl.class);
+
+		binds.put(TweenController.class, TweenControllerImpl.class);
 
 	}
 
