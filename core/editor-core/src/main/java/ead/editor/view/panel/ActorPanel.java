@@ -46,26 +46,30 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An elementPanel that can display anything, in a non-editable fashion.
- *
+ * 
  * @author mfreire
  */
 public class ActorPanel extends AbstractElementPanel<ActorNode> {
 
 	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
 
-    private SceneElementDef actor;
+	private SceneElementDef actor;
 
-    @Override
+	@Override
 	protected void rebuild() {
-        this.actor = (SceneElementDef)target.getContents().iterator().next().getContent();
+		this.actor = (SceneElementDef) target.getContents().iterator().next()
+				.getContent();
 		removeAll();
 		setLayout(new FlowLayout());
-        add(new JLabel("This is an actor panel for ID " + actor.getId()));
-        add(new JLabel("This actor has desc= " + actor.getDesc()));
-        add(new JLabel("This actor has detailDesc= " + actor.getDetailDesc()));
-        add(new JLabel("This actor has " + actor.getActions().size() + " actions"));
+		add(new JLabel("This is an actor panel for ID " + actor.getId()));
+		add(new JLabel("This actor has desc= "
+				+ actor.getVars().get(SceneElementDef.VAR_DOC_DESC)));
+		add(new JLabel("This actor has detailDesc= "
+				+ actor.getVars().get(SceneElementDef.VAR_DOC_DETAILED_DESC)));
+		add(new JLabel("This actor has " + actor.getActions().size()
+				+ " actions"));
 
-        actor.getAppearance();
+		actor.getAppearance();
 
 		revalidate();
 	}

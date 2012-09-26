@@ -45,10 +45,10 @@ import java.util.Map.Entry;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
+import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
@@ -66,8 +66,8 @@ import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.params.text.EAdString;
@@ -347,16 +347,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	 * 
 	 * @param actor
 	 *            the new actor
+	 * @param sound 
 	 * @param element
 	 *            the old element
 	 */
-	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList) {
-
-		String detailedDesc = stringHandler.getString(actor.getDetailDesc());
-		if (detailedDesc == null || detailedDesc.equals("")) {
-			return;
-		}
-
+	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList, EAdEffect sound) {
 		for (Action a : actionsList) {
 			if (a.getType() == Action.EXAMINE) {
 				return;
@@ -368,9 +363,16 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		ElementAction examineAction = new ElementAction(examineString);
 		examineAction.setId(actor.getId() + "_examinate");
+		examineAction.getEffects().add( sound );
 
 		// Effect
-		SpeakEf effect = new SpeakEf(actor.getDetailDesc());
+		EAdField<EAdString> descField = new BasicField<EAdString>(actor,
+				SceneElementDef.VAR_DOC_DETAILED_DESC);
+
+		SpeakEf effect = new SpeakEf();
+		stringHandler.setString(effect.getCaption().getText(), "[0]");
+		effect.getCaption().getFields().add(descField);
+		
 		effect.setId("examinate");
 		effect.setAlignment(Alignment.CENTER);
 
@@ -442,10 +444,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public void addAllActions(List<Action> actionsList, SceneElementDef actor,
-			boolean isActiveArea) {
+			boolean isActiveArea, EAdEffect sound) {
 
 		// add examine
-		addExamine(actor, actionsList);
+		addExamine(actor, actionsList, sound);
 
 		// Yeah, I know. But all of them are necessary.
 		HashMap<Integer, EAdAction> actions = new HashMap<Integer, EAdAction>();

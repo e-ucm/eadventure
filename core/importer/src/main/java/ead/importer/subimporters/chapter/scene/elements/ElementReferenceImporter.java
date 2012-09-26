@@ -117,7 +117,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			}
 
 			// add description
-			super.addDefaultBehavior(newRef, newRef.getDefinition().getDesc());
+			// super.addDefaultBehavior(newRef,
+			// newRef.getDefinition().getDesc());
 
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
@@ -143,7 +144,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		if (i != null) {
 			return i.isReturnsWhenDragged();
 		} else if (npc != null) {
-			// Yeah, I thought too that the right code is the commented line, but
+			// Yeah, I thought too that the right code is the commented line,
+			// but
 			// no...
 			// return npc.isReturnsWhenDragged();
 			return false;

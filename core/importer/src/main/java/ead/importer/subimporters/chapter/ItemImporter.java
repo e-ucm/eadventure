@@ -42,6 +42,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAction;
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -51,6 +52,7 @@ import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
+import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 
 public class ItemImporter extends ActorImporter<Item> {
@@ -60,9 +62,10 @@ public class ItemImporter extends ActorImporter<Item> {
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			EAdElementFactory factory, ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator,
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter,
-				factory, annotator);
+				factory, annotator, conditionsImporter);
 	}
 
 	@Override

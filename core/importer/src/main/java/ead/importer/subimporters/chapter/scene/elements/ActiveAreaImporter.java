@@ -41,18 +41,17 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
-import ead.importer.subimporters.chapter.ActionImporter;
+import ead.importer.interfaces.ResourceImporter;
+import ead.importer.subimporters.chapter.ActorImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -64,14 +63,17 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	private static Paint ACTIVE_AREA_PAINT = new Paint(new ColorFill(0, 255, 0,
 			100), ColorFill.GREEN);
 
+	private ResourceImporter resourceImporter;
+
 	@Inject
 	public ActiveAreaImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementImporter<Action, EAdAction> actionImporter,
 			StringHandler stringHandler, EAdElementFactory factory,
-			ImportAnnotator annotator) {
+			ImportAnnotator annotator, ResourceImporter resourceImporter) {
 		super(factory, conditionsImporter, stringHandler, annotator);
 		this.actionImporter = actionImporter;
+		this.resourceImporter = resourceImporter;
 	}
 
 	@Override
@@ -91,11 +93,15 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		SceneElementDef newActiveArea = (SceneElementDef) newActiveAreaReference
 				.getDefinition();
 
-		// add actions
-		addActions(oldObject, newActiveArea, newActiveAreaReference);
-
 		// set documentation
-		setDocumentation(newActiveArea, oldObject);
+		EAdEffect[] sounds = ActorImporter.setDocumentation(resourceImporter,
+				conditionsImporter, stringHandler,
+				oldObject.getDocumentation(), oldObject.getDescriptions(),
+				newActiveAreaReference.getDefinition());
+
+		// add actions
+		ActorImporter.addDefaultBehavior(stringHandler, factory,
+				actionImporter, oldObject.getActions(), newActiveArea, sounds);
 
 		// set shape
 		setShape(newActiveAreaReference, oldObject, ACTIVE_AREA_PAINT);
@@ -108,22 +114,6 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		addVisibleEvent(newActiveAreaReference,
 				getEnableCondition(oldObject.getConditions()));
 
-		// Add description
-		super.addDefaultBehavior(newActiveAreaReference,
-				newActiveArea.getDesc());
-
 		return newActiveAreaReference;
 	}
-
-	private void addActions(ActiveArea oldObject,
-			SceneElementDef newActiveArea, SceneElement newActiveAreaReference) {
-
-		ActorActionsEf showActions = new ActorActionsEf(newActiveArea);
-		newActiveArea.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
-
-		((ActionImporter) actionImporter).addAllActions(oldObject.getActions(),
-				newActiveArea, true);
-
-	}
-
 }

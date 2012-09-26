@@ -76,11 +76,10 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
 			T operation) {
 		S result = operate(fieldResult.getVarDef().getType(), operation);
-		if (result != null) {
-			valueMap.setValue(fieldResult, result);
-		}
-		else {
-			log.debug("Null result for " + operation + ": {} := {}", fieldResult, result);
+		valueMap.setValue(fieldResult, result);
+		if (result == null) {
+			log.debug("Null result for " + operation + ": {} := {}",
+					fieldResult, result);
 		}
 		return result;
 
@@ -90,7 +89,8 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	@Override
 	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
-			log.error("Null operation attempted: null returned as class {}", clazz);
+			log.error("Null operation attempted: null returned as class {}",
+					clazz);
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());

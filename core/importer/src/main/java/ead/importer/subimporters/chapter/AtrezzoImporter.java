@@ -42,6 +42,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAction;
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -51,26 +52,28 @@ import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
+import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 
-
-public class AtrezzoImporter extends ActorImporter<Atrezzo>{
+public class AtrezzoImporter extends ActorImporter<Atrezzo> {
 
 	@Inject
 	public AtrezzoImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter, EAdElementFactory factory,
-			ImportAnnotator annotator) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter, factory, annotator);
+			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementFactory factory, ImportAnnotator annotator,
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
+		super(stringHandler, resourceImporter, elementFactory, actionImporter,
+				factory, annotator, conditionsImporter);
 	}
 
-	protected void addActionsEffect(Atrezzo oldObject, EAdSceneElementDef actor){
+	protected void addActionsEffect(Atrezzo oldObject, EAdSceneElementDef actor) {
 		// Atrezzo doesn't need to add any action
 	}
 
 	@Override
-	public void initResourcesCorrespondencies( ) {
+	public void initResourcesCorrespondencies() {
 
 		properties = new HashMap<String, String>();
 		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);

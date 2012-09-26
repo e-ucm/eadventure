@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdAction;
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.EAdDrawable;
@@ -62,6 +63,7 @@ import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
+import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
@@ -72,10 +74,10 @@ public class NPCImporter extends ActorImporter<NPC> {
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			EAdElementFactory factory,
-			ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator,
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter,
-				factory, annotator);
+				factory, annotator, conditionsImporter);
 	}
 
 	@Override
@@ -83,8 +85,8 @@ public class NPCImporter extends ActorImporter<NPC> {
 		ArrayList<EAdStateDrawable> drawables = new ArrayList<EAdStateDrawable>();
 
 		properties = new HashMap<String, String>();
-		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN,
-				SceneElementDef.appearance);
+		properties
+				.put(NPC.RESOURCE_TYPE_STAND_DOWN, SceneElementDef.appearance);
 
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);
@@ -99,9 +101,9 @@ public class NPCImporter extends ActorImporter<NPC> {
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_DEFAULT.toString(), stand);
 
-			StateDrawable walk = getOrientedAsset(r,
-					NPC.RESOURCE_TYPE_WALK_UP, NPC.RESOURCE_TYPE_WALK_DOWN,
-					NPC.RESOURCE_TYPE_WALK_RIGHT, NPC.RESOURCE_TYPE_WALK_LEFT);
+			StateDrawable walk = getOrientedAsset(r, NPC.RESOURCE_TYPE_WALK_UP,
+					NPC.RESOURCE_TYPE_WALK_DOWN, NPC.RESOURCE_TYPE_WALK_RIGHT,
+					NPC.RESOURCE_TYPE_WALK_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_WALKING.toString(),
 					walk == null ? stand : walk);
@@ -123,8 +125,8 @@ public class NPCImporter extends ActorImporter<NPC> {
 		}
 	}
 
-	private StateDrawable getOrientedAsset(Resources r, String up,
-			String down, String right, String left) {
+	private StateDrawable getOrientedAsset(Resources r, String up, String down,
+			String right, String left) {
 		if (up == null && down == null && right == null && left == null)
 			return null;
 
@@ -145,7 +147,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 		// Fill east
 		if (east == null && west != null && west instanceof FramesAnimation) {
-			east = mirrorAnimation( (FramesAnimation) west );
+			east = mirrorAnimation((FramesAnimation) west);
 		}
 
 		if (east == null) {
@@ -154,7 +156,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 		// Fill west
 		if (west == null && east != null) {
-			west = mirrorAnimation( (FramesAnimation) east );
+			west = mirrorAnimation((FramesAnimation) east);
 		}
 
 		if (west == null) {
@@ -168,14 +170,15 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 		return oriented;
 	}
-	
-	public FramesAnimation mirrorAnimation( FramesAnimation a ){
+
+	public FramesAnimation mirrorAnimation(FramesAnimation a) {
 		FramesAnimation mirror = new FramesAnimation();
 
 		for (Frame f : a.getFrames()) {
 			BasicMatrix m = new BasicMatrix();
 			m.scale(-1.0f, 1.0f, true);
-			EAdBasicDrawable d = new FilteredDrawable(f.getDrawable(), new MatrixFilter(m, 1.0f, 0.0f));
+			EAdBasicDrawable d = new FilteredDrawable(f.getDrawable(),
+					new MatrixFilter(m, 1.0f, 0.0f));
 			mirror.addFrame(new Frame(d, f.getTime()));
 		}
 		return mirror;

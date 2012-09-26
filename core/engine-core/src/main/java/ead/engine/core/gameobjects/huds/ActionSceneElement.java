@@ -55,14 +55,12 @@ public class ActionSceneElement extends SceneElement {
 		super();
 		this.setInitialScale(0.8f);
 		this.setId("action" + eAdAction.getId());
-		ActorActionsEf e = new ActorActionsEf( null,
+		ActorActionsEf e = new ActorActionsEf(null,
 				ChangeActorActions.HIDE_ACTIONS);
 		this.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, e);
 		this.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, e);
-		this.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				eAdAction.getEffects());
-		this.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
-				eAdAction.getEffects());
+		this.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, eAdAction.getEffects());
+		this.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, eAdAction.getEffects());
 
 		AssetDescriptor asset = eAdAction.getAsset(
 				eAdAction.getInitialBundle(), ElementAction.appearance);
@@ -77,20 +75,17 @@ public class ActionSceneElement extends SceneElement {
 					SceneElementDef.appearance,
 					eAdAction.getAsset(eAdAction.getHighlightBundle(),
 							ElementAction.appearance));
-			this.addBehavior(MouseGEv.MOUSE_ENTERED,
-					new ChangeAppearanceEf( this,
-							eAdAction.getHighlightBundle()));
+			this.addBehavior(MouseGEv.MOUSE_ENTERED, new ChangeAppearanceEf(
+					this, eAdAction.getHighlightBundle()));
 		} else
 			definition.getResources().addAsset(eAdAction.getHighlightBundle(),
 					SceneElementDef.appearance, asset);
 
-		this.addBehavior(
-				MouseGEv.MOUSE_EXITED,
-				new ChangeAppearanceEf(this, definition
-						.getInitialBundle()));
+		this.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(this,
+				definition.getInitialBundle()));
 
-		setVarInitialValue(SceneElement.VAR_NAME, eAdAction.getName());
-
+		definition.setVarInitialValue(SceneElementDef.VAR_DOC_NAME,
+				eAdAction.getName());
 
 	}
 

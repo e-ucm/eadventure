@@ -49,6 +49,7 @@ import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
+import ead.common.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -72,11 +73,10 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 	protected ResourceImporter resourceImporter;
 
 	protected ImportAnnotator annotator;
-	
+
 	public CutsceneImporter(StringHandler stringHandler,
 			EAdElementFactory factory, EffectsImporterFactory effectsImporter,
-			ResourceImporter resourceImporter,
-			ImportAnnotator annotator) {
+			ResourceImporter resourceImporter, ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.factory = factory;
 		this.effectsImporter = effectsImporter;
@@ -95,15 +95,18 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 		importConfiguration(scene, getEndEffect(oldObject));
 		// Documentation
 		importDocumentation(scene, oldObject);
-				
+
 		return scene;
 	}
 
 	private void importDocumentation(EAdScene scene, Cutscene oldScene) {
-		stringHandler.setString(scene.getDefinition().getDoc(),
-				oldScene.getDocumentation());
-		stringHandler.setString(scene.getDefinition().getName(),
-				oldScene.getName());
+		EAdString doc = stringHandler.generateNewString();
+		stringHandler.setString(doc, oldScene.getDocumentation());
+		scene.getDefinition().setDoc(doc);
+
+		EAdString name = stringHandler.generateNewString();
+		stringHandler.setString(name, oldScene.getName());
+		scene.getDefinition().setName(name);
 	}
 
 	protected EAdEffect getEndEffect(Cutscene cutscene) {
@@ -115,7 +118,7 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 			break;
 		case Slidescene.ENDCHAPTER:
 			if (factory.getOldDataModel().getChapters().size() == 1) {
-				return new QuitGameEf( );
+				return new QuitGameEf();
 			} else {
 				// FIXME end chapter if there's more than one chapter
 			}

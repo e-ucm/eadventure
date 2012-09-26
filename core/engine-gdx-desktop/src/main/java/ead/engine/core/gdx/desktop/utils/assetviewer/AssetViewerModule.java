@@ -152,7 +152,7 @@ public class AssetViewerModule extends AbstractModule {
 	public static class AssetVariableMap extends VariableMap {
 
 		public AssetVariableMap() {
-			super(null, null, null);
+			super(null, null, null, null);
 		}
 
 		@Override

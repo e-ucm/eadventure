@@ -43,6 +43,8 @@ import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
+import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
@@ -60,43 +62,43 @@ public class SceneElementDef extends ResourcedElement implements
 	public static final EAdVarDef<EAdSceneElement> VAR_SCENE_ELEMENT = new VarDef<EAdSceneElement>(
 			"scene_element", EAdSceneElement.class, null);
 
+	public static final EAdVarDef<EAdString> VAR_DOC_NAME = new VarDef<EAdString>(
+			"doc_name", EAdString.class, null);
+
+	public static final EAdVarDef<EAdString> VAR_DOC_DESC = new VarDef<EAdString>(
+			"doc_desc", EAdString.class, null);
+
+	public static final EAdVarDef<EAdString> VAR_DOC_DETAILED_DESC = new VarDef<EAdString>(
+			"detailed_desc", EAdString.class, null);
+
+	public static final EAdVarDef<EAdString> VAR_DOCUMENTATION = new VarDef<EAdString>(
+			"documentation", EAdString.class, null);
+
 	@Param("actions")
 	private EAdList<EAdAction> actions;
+
+	@Param("vars")
+	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Bundled
 	@Asset({ EAdDrawable.class })
 	public static final String appearance = "appearance";
-	
+
 	@Bundled
 	@Asset({ EAdDrawable.class })
 	public static final String overAppearance = "overAppearance";
 
-	@Param("name")
-	private EAdString name;
-
-	@Param("desc")
-	private EAdString desc;
-
-	@Param("detailDesc")
-	private EAdString detailDesc;
-
-	@Param("doc")
-	private EAdString doc;
-
 	public SceneElementDef() {
 		super();
 		this.actions = new EAdListImpl<EAdAction>(EAdAction.class);
-		this.name = EAdString.newRandomEAdString("name");
-		this.desc = EAdString.newRandomEAdString("desc");
-		this.detailDesc = EAdString.newRandomEAdString("detailDesc");
-		this.doc = EAdString.newRandomEAdString("doc");
-
+		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
+				Object.class);
 	}
 
 	public SceneElementDef(AssetDescriptor appearance) {
 		this();
-		getResources().addAsset(getInitialBundle(),
-				SceneElementDef.appearance, appearance);
+		getResources().addAsset(getInitialBundle(), SceneElementDef.appearance,
+				appearance);
 	}
 
 	public void setActions(EAdList<EAdAction> actions) {
@@ -108,46 +110,20 @@ public class SceneElementDef extends ResourcedElement implements
 		return actions;
 	}
 
-	@Override
-	public EAdString getDesc() {
-		return desc;
-	}
-
-	/**
-	 * @return the detailedDescription
-	 */
-	public EAdString getDetailDesc() {
-		return detailDesc;
-	}
-
-	/**
-	 * @return the documentation
-	 */
-	public EAdString getDoc() {
-		return doc;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public EAdString getName() {
-		return name;
-	}
-
 	public void setName(EAdString name) {
-		this.name = name;
+		setVarInitialValue(VAR_DOC_NAME, name);
 	}
 
 	public void setDesc(EAdString description) {
-		this.desc = description;
+		setVarInitialValue(VAR_DOC_DESC, description);
 	}
 
 	public void setDetailDesc(EAdString detailedDescription) {
-		this.detailDesc = detailedDescription;
+		setVarInitialValue(VAR_DOC_DETAILED_DESC, detailedDescription);
 	}
 
 	public void setDoc(EAdString documentation) {
-		this.doc = documentation;
+		setVarInitialValue(VAR_DOCUMENTATION, documentation);
 	}
 
 	public void setInitialAppearance(EAdDrawable d) {
@@ -157,7 +133,7 @@ public class SceneElementDef extends ResourcedElement implements
 
 	/**
 	 * Sets the initial appearance for the scene element
-	 *
+	 * 
 	 * @param appearance
 	 *            the initial appearance
 	 */
@@ -167,7 +143,7 @@ public class SceneElementDef extends ResourcedElement implements
 
 	/**
 	 * Sets the appearance in the given bundle
-	 *
+	 * 
 	 * @param bundle
 	 *            the bundle id
 	 * @param appearance
@@ -183,11 +159,23 @@ public class SceneElementDef extends ResourcedElement implements
 
 	@Override
 	public EAdDrawable getAppearance() {
-		return (EAdDrawable) getResources().getAsset(getInitialBundle(), SceneElementDef.appearance);
+		return (EAdDrawable) getResources().getAsset(getInitialBundle(),
+				SceneElementDef.appearance);
 	}
 
 	@Override
 	public EAdDrawable getAppearance(EAdBundleId bundle) {
-		return (EAdDrawable) getResources().getAsset(bundle, SceneElementDef.appearance);
+		return (EAdDrawable) getResources().getAsset(bundle,
+				SceneElementDef.appearance);
+	}
+
+	@Override
+	public EAdMap<EAdVarDef<?>, Object> getVars() {
+		return vars;
+	}
+
+	@Override
+	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
+		vars.put(var, value);
 	}
 }

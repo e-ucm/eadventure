@@ -45,6 +45,7 @@ import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.tools.StringHandler;
@@ -78,7 +79,9 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
 				SceneElementDef.appearance,
 				new Image("@drawable/start.png"));
-		stringHandler.setString(buttonActor.getName(), "Start game");
+		EAdString s = stringHandler.generateNewString();
+		buttonActor.setName(s);
+		stringHandler.setString(s, "Start game");
 
 		// EAdBehavior b = new StandardBehavior(buttonActor, "b");
 

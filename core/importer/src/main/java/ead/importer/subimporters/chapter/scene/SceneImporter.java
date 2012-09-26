@@ -77,6 +77,7 @@ import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.events.ScrollWithSceneElementEv;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
@@ -472,11 +473,14 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 	}
 
-	private void importDocumentation(BasicScene scene, Scene oldScene) {
-		stringHandler.setString(scene.getDefinition().getName(),
-				oldScene.getName());
-		stringHandler.setString(scene.getDefinition().getDoc(),
-				oldScene.getDocumentation());
+	private void importDocumentation(EAdScene scene, Scene oldScene) {
+		EAdString doc = stringHandler.generateNewString();
+		stringHandler.setString(doc, oldScene.getDocumentation());
+		scene.getDefinition().setDoc(doc);
+
+		EAdString name = stringHandler.generateNewString();
+		stringHandler.setString(name, oldScene.getName());
+		scene.getDefinition().setName(name);
 	}
 
 }

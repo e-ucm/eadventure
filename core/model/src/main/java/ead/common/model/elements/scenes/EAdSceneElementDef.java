@@ -39,10 +39,10 @@ package ead.common.model.elements.scenes;
 
 import ead.common.interfaces.WithActions;
 import ead.common.interfaces.WithBehavior;
-import ead.common.interfaces.features.Documented;
-import ead.common.interfaces.features.Named;
 import ead.common.interfaces.features.ResourcedEvented;
+import ead.common.interfaces.features.Variabled;
 import ead.common.model.EAdElement;
+import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
@@ -51,7 +51,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  * elements, placed in eAdventure scene.
  */
 public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
-		WithBehavior, Documented, Named, WithActions {
+		WithBehavior, Variabled, WithActions {
 
 	/**
 	 * Sets the appearance in the given bundle
@@ -85,5 +85,14 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	 * @return
 	 */
 	EAdDrawable getAppearance(EAdBundleId bundle);
+	
+	void setName(EAdString name);
+	
+
+	void setDesc(EAdString description);
+
+	void setDetailDesc(EAdString detailedDescription);
+
+	void setDoc(EAdString documentation);
 
 }

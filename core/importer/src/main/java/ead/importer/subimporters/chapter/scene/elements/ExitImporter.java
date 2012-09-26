@@ -51,6 +51,7 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.params.fills.ColorFill;
@@ -169,7 +170,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 		EAdString name = EAdString.newRandomEAdString("exitLookName");
 		stringHandler.setString(name, exitLook.getExitText());
-		newExit.setVarInitialValue(SceneElement.VAR_NAME, name);
+		newExit.getDefinition().setVarInitialValue(SceneElementDef.VAR_DOC_NAME, name);
 
 		// Change cursor
 		EAdImage cursor = null;

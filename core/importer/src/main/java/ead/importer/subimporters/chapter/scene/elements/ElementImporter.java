@@ -39,7 +39,6 @@ package ead.importer.subimporters.chapter.scene.elements;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
@@ -47,31 +46,23 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
-import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdRectangle;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.subimporters.chapter.scene.ShapedElementImporter;
-import ead.importer.subimporters.effects.texts.TextEffectImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.InfluenceArea;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
-import es.eucm.eadventure.common.data.chapter.elements.Description;
-import es.eucm.eadventure.common.data.chapter.elements.Element;
-import es.eucm.eadventure.common.data.chapter.elements.Player;
 
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
@@ -149,46 +140,6 @@ public abstract class ElementImporter<T> implements
 
 		return condition;
 
-	}
-
-	protected void setDocumentation(SceneElementDef newElement,
-			Element oldObject) {
-		// FIXME multiple descriptions not supported
-		if (oldObject.getDescriptions().size() > 0) {
-			Description desc = oldObject.getDescription(0);
-			stringHandler.setString(newElement.getName(), desc.getName());
-			stringHandler
-					.setString(newElement.getDesc(), desc.getDescription());
-			stringHandler.setString(newElement.getDetailDesc(),
-					desc.getDetailedDescription());
-			stringHandler.setString(newElement.getDoc(),
-					oldObject.getDocumentation());
-			newElement.setId(oldObject.getId() + "_element");
-		}
-
-	}
-
-	protected void addDefaultBehavior(SceneElement sceneElement,
-			EAdString shortDescription) {
-		sceneElement.setVarInitialValue(SceneElement.VAR_NAME, sceneElement
-				.getDefinition().getName());
-		if (shortDescription != null) {
-			SpeakEf showDescription = null;
-			if (factory.isFirstPerson()) {
-				showDescription = new SpeakEf(shortDescription);
-
-			} else {
-				showDescription = new SpeakSceneElementEf(shortDescription);
-				((SpeakSceneElementEf) showDescription).setElement(factory
-						.getElementById(Player.IDENTIFIER));
-			}
-			TextEffectImporter.setSpeakEffect(showDescription, null, factory
-					.getCurrentOldChapterModel().getPlayer(), factory,
-					stringHandler);
-			showDescription.setBubbleColor(ColorFill.TRANSPARENT);
-			sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-					showDescription);
-		}
 	}
 
 	protected void addVisibleEvent(SceneElement newReference,

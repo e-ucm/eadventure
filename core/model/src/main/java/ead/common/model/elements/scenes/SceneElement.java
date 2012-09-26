@@ -50,7 +50,6 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
-import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
@@ -128,9 +127,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new VarDef<Integer>(
 			"timeDisplayed", Integer.class, 0);
-
-	public static final EAdVarDef<EAdString> VAR_NAME = new VarDef<EAdString>(
-			"name", EAdString.class, null);
 
 	public static final EAdVarDef<Boolean> VAR_MOUSE_OVER = new VarDef<Boolean>(
 			"mouse_over", Boolean.class, Boolean.FALSE);

@@ -47,6 +47,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.guievents.enums.KeyGEvCode;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
@@ -203,8 +204,10 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		if (go != currentGO) {
 			ValueMap valueMap = gameState.getValueMap();
 			if (go != null) {
-				EAdString name = valueMap.getValue(
-						(EAdElement) go.getElement(), SceneElement.VAR_NAME);
+				EAdElement element = (EAdElement) go.getElement();
+				EAdString name = element instanceof EAdSceneElement ? valueMap
+						.getValue(((EAdSceneElement) element).getDefinition(),
+								SceneElementDef.VAR_DOC_NAME) : null;
 				if (name != null && !stringHandler.getString(name).equals("")) {
 					stringHandler.setString(contextualCaption.getText(),
 							stringHandler.getString(name));

@@ -42,8 +42,10 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdOperation;
+import ead.common.params.text.EAdString;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.operators.OperatorFactory;
+import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
@@ -57,10 +59,14 @@ public class VariableMap extends ValueMapImpl {
 
 	private static final char END_CONDITION_CHAR = ')';
 
+	private StringHandler stringHandler;
+
 	@Inject
 	public VariableMap(ReflectionProvider reflectionProvider,
-			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
+			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory,
+			StringHandler stringHandler) {
 		super(reflectionProvider, operatorFactory, evaluatorFactory);
+		this.stringHandler = stringHandler;
 	}
 
 	/**
@@ -75,9 +81,8 @@ public class VariableMap extends ValueMapImpl {
 	 * <ul>
 	 * <li><b>[op_index]:</b> The index of the operation whose result will be
 	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
-	 * <li><b>{[condition]? true text : false text } </b> A
-	 * conditional text, depending of the operation whose index is
-	 * {@code condition} value.</p>
+	 * <li><b>{[condition]? true text : false text } </b> A conditional text,
+	 * depending of the operation whose index is {@code condition} value.</p>
 	 * 
 	 * @param text
 	 *            the text to be processed by the value map
@@ -101,7 +106,9 @@ public class VariableMap extends ValueMapImpl {
 					Object o = operatorFactory.operate(Object.class,
 							operations.get(index));
 					if (o != null) {
-						text = text.substring(0, i) + o.toString()
+						String value = o instanceof EAdString ? stringHandler
+								.getString((EAdString) o) : o.toString();
+						text = text.substring(0, i) + value
 								+ text.substring(separatorIndex + 1);
 					}
 				}
@@ -122,7 +129,8 @@ public class VariableMap extends ValueMapImpl {
 			boolean finished = false;
 			while (!finished && i < text.length()) {
 				int beginCondition = text.indexOf(BEGIN_CONDITION_CHAR, i);
-				int endCondition = text.indexOf(END_CONDITION_CHAR, beginCondition);
+				int endCondition = text.indexOf(END_CONDITION_CHAR,
+						beginCondition);
 				if (beginCondition != -1 && endCondition != -1
 						&& endCondition > beginCondition) {
 					String condition = text.substring(beginCondition + 1,
@@ -152,39 +160,43 @@ public class VariableMap extends ValueMapImpl {
 			int questionMark = expression.indexOf('?');
 			int points = expression.indexOf(':');
 			String condition = expression.substring(0, questionMark);
-			String trueValue = expression.substring(questionMark + 1, points );
-			String falseValue = expression.substring(points + 1, expression.length()); 
+			String trueValue = expression.substring(questionMark + 1, points);
+			String falseValue = expression.substring(points + 1,
+					expression.length());
 
 			int beginVar = condition.indexOf(BEGIN_VAR_CHAR);
 			int endVar = condition.indexOf(END_VAR_CHAR);
-			if ( beginVar != -1 && endVar != -1  && endVar > beginVar ){
-				
-			Integer indexCondition = 0;
-			String varName = "";
+			if (beginVar != -1 && endVar != -1 && endVar > beginVar) {
+
+				Integer indexCondition = 0;
+				String varName = "";
 				try {
-					varName = expression.substring(beginVar + 1, endVar );
+					varName = expression.substring(beginVar + 1, endVar);
 					indexCondition = new Integer(varName);
-				} catch ( NumberFormatException e ){
-					logger.warn(varName + " is not a valid index in " + expression );
-					return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
+				} catch (NumberFormatException e) {
+					logger.warn(varName + " is not a valid index in "
+							+ expression);
+					return BEGIN_CONDITION_CHAR + expression
+							+ END_CONDITION_CHAR;
 				}
 
-			Object o = operatorFactory.operate(Object.class, operations.get(indexCondition));
+				Object o = operatorFactory.operate(Object.class,
+						operations.get(indexCondition));
 
-			if (o != null && o instanceof Boolean) {
-				Boolean b = (Boolean) o;
-				if (b.booleanValue())
-					return trueValue;
-				else
-					return falseValue;
-			} else if (o != null && o instanceof Number) {
-				Number n = (Number) o;
-				if (n.floatValue() != 0)
-					return trueValue;
-				else
-					return falseValue;
-			}
-			return falseValue;
+				if (o != null && o instanceof Boolean) {
+					Boolean b = (Boolean) o;
+					if (b.booleanValue())
+						return trueValue;
+					else
+						return falseValue;
+				} else if (o != null && o instanceof Number) {
+					Number n = (Number) o;
+					if (n.floatValue() != 0)
+						return trueValue;
+					else
+						return falseValue;
+				}
+				return falseValue;
 			}
 		}
 
