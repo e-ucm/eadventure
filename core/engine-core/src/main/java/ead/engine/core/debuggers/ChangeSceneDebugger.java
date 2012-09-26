@@ -48,7 +48,7 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;

@@ -42,7 +42,7 @@ import java.util.List;
 import ead.common.interfaces.features.Oriented;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.util.EAdPosition;
 
 /**

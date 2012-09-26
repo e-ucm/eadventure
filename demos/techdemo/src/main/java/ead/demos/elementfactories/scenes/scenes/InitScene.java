@@ -43,7 +43,7 @@ import java.util.List;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.transitions.DisplaceTransition;

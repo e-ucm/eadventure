@@ -42,7 +42,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;

@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;

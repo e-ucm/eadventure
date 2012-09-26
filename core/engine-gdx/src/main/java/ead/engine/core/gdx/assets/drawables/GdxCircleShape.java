@@ -74,7 +74,7 @@ public class GdxCircleShape extends GdxShape<CircleShape> {
 
 			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
 					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
-			pixmap.fillCircle(center, center, descriptor.getRadius()
+			pixmap.drawCircle(center, center, descriptor.getRadius()
 					+ borderWidth);
 		}
 

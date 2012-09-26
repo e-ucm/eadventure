@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ComplexBlockingEffect;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;

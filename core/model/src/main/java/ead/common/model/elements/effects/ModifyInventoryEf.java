@@ -40,7 +40,7 @@ package ead.common.model.elements.effects;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.enums.InventoryEffectAction;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 @Element
 public class ModifyInventoryEf extends AbstractEffect {

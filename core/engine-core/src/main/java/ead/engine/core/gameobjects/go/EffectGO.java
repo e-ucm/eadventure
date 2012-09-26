@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.go;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.input.InputAction;
 
 public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {

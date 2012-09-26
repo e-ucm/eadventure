@@ -39,7 +39,7 @@ package ead.editor.model.nodes;
 
 import ead.editor.model.nodes.ActorNode;
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.editor.model.EditorAnnotator;
 import ead.editor.model.EditorModel;
 import ead.importer.annotation.ImportAnnotator;

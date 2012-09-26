@@ -43,8 +43,8 @@ import java.util.Queue;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;

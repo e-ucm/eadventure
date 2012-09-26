@@ -50,7 +50,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;

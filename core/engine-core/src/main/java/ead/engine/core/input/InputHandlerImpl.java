@@ -49,7 +49,7 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.guievents.enums.KeyGEvCode;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -100,6 +100,8 @@ public class InputHandlerImpl implements InputHandler {
 
 	private GameTracker tracker;
 
+	private boolean processInput;
+
 	@Inject
 	public InputHandlerImpl(GameState gameState, GameObjectManager gameObjects,
 			GameTracker tracker) {
@@ -108,6 +110,10 @@ public class InputHandlerImpl implements InputHandler {
 		this.gameObjects = gameObjects;
 		this.gameState = gameState;
 		this.tracker = tracker;
+	}
+
+	public boolean isProcessingInput() {
+		return processInput;
 	}
 
 	@Override
@@ -122,7 +128,7 @@ public class InputHandlerImpl implements InputHandler {
 	@Override
 	public void processActions() {
 
-		boolean processInput = gameState.getValueMap().getValue(
+		processInput = gameState.getValueMap().getValue(
 				SystemFields.PROCESS_INPUT);
 		if (processInput) {
 
@@ -144,12 +150,11 @@ public class InputHandlerImpl implements InputHandler {
 						.size() > MAX_EVENTS_IN_QUEUE)) {
 
 			KeyInputAction action = keyboardHandler.getKeyActions().poll();
-			
-			if ( action.getKeyCode().equals(KeyGEvCode.F5) ){
+
+			if (action.getKeyCode().equals(KeyGEvCode.F5)) {
 				gameState.saveState();
 				continue;
-			}
-			else if ( action.getKeyCode().equals(KeyGEvCode.F6) ){
+			} else if (action.getKeyCode().equals(KeyGEvCode.F6)) {
 				gameState.loadState();
 				continue;
 			}

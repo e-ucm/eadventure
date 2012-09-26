@@ -37,7 +37,7 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 
 public class NgSceneCreator {
 	

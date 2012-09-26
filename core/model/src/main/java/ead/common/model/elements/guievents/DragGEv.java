@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.enums.DragGEvType;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 @Element
 public class DragGEv extends BasicElement implements EAdGUIEvent {

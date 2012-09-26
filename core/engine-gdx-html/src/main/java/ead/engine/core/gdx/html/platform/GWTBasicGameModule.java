@@ -42,7 +42,7 @@ import javax.inject.Singleton;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.name.Names;
 
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;

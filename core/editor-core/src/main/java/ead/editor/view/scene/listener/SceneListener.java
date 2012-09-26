@@ -39,7 +39,7 @@ package ead.editor.view.scene.listener;
 
 import java.util.List;
 
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.VarDef;
 
 /**

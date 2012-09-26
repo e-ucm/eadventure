@@ -52,13 +52,14 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.events.ChaseMouseEv;
 import ead.common.model.predef.events.StayInBoundsEv;
-import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
@@ -89,7 +90,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	/**
 	 * The logger
 	 */
-	protected static final Logger logger = LoggerFactory.getLogger("BasicHUDImpl");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("BasicHUDImpl");
 
 	private static final int CURSOR_SIZE = 32;
 
@@ -128,8 +130,9 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	private int i = 0;
 
 	@Inject
-	public TopBasicHUDImpl(MenuHUD menuHUD, SceneElementGOFactory gameObjectFactory,
-			GameState gameState, InputHandler inputHandler, StringHandler stringHandler, GUI gui,
+	public TopBasicHUDImpl(MenuHUD menuHUD,
+			SceneElementGOFactory gameObjectFactory, GameState gameState,
+			InputHandler inputHandler, StringHandler stringHandler, GUI gui,
 			AssetHandler assetHandler, EngineConfiguration engineConfiguration) {
 		super(gui);
 		this.menuHUD = menuHUD;
@@ -180,10 +183,9 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	// Contextual
 	private void initContextual() {
 		contextualCaption = new Caption();
-		contextualCaption.setFont(new BasicFont(12.0f));
-		contextualCaption.setBubblePaint(new ColorFill(255, 255, 125));
-		contextualCaption.setPadding(10);
-		contextualCaption.setTextPaint(ColorFill.BLACK);
+		contextualCaption.setFont(new BasicFont(16.0f, FontStyle.BOLD));
+		contextualCaption.setPadding(0);
+		contextualCaption.setTextPaint(Paint.BLACK_ON_WHITE);
 		stringHandler.setString(contextualCaption.getText(), "");
 		contextual = new SceneElement(contextualCaption);
 		contextual.setPosition(new EAdPosition(0, 0, 0.5f, 1.5f));
@@ -196,23 +198,27 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	}
 
 	private void updateContextual() {
-		DrawableGO<?> go = inputHandler.getGameObjectUnderPointer();
+		DrawableGO<?> go = inputHandler.isProcessingInput() ? inputHandler
+				.getGameObjectUnderPointer() : null;
 		if (go != currentGO) {
 			ValueMap valueMap = gameState.getValueMap();
 			if (go != null) {
-				EAdString name = valueMap.getValue((EAdElement) go.getElement(),
-						SceneElement.VAR_NAME);
+				EAdString name = valueMap.getValue(
+						(EAdElement) go.getElement(), SceneElement.VAR_NAME);
 				if (name != null && !stringHandler.getString(name).equals("")) {
 					stringHandler.setString(contextualCaption.getText(),
 							stringHandler.getString(name));
 
-					gameState.getValueMap().setValue(contextual, SceneElement.VAR_VISIBLE, true);
+					gameState.getValueMap().setValue(contextual,
+							SceneElement.VAR_VISIBLE, true);
 				} else {
-					gameState.getValueMap().setValue(contextual, SceneElement.VAR_VISIBLE, false);
+					gameState.getValueMap().setValue(contextual,
+							SceneElement.VAR_VISIBLE, false);
 
 				}
 			} else {
-				gameState.getValueMap().setValue(contextual, SceneElement.VAR_VISIBLE, false);
+				gameState.getValueMap().setValue(contextual,
+						SceneElement.VAR_VISIBLE, false);
 			}
 			currentGO = go;
 		}
@@ -229,24 +235,28 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	@SuppressWarnings("unchecked")
 	private void checkMouseImage() {
-		Image newCursor = gameState.getValueMap().getValue(SystemFields.MOUSE_CURSOR);
+		Image newCursor = gameState.getValueMap().getValue(
+				SystemFields.MOUSE_CURSOR);
 		if (cursor != newCursor) {
 			cursor = newCursor;
 			if (cursor != null) {
 				RuntimeDrawable<EAdDrawable, ?> rAsset = (RuntimeDrawable<EAdDrawable, ?>) assetHandler
 						.getRuntimeAsset(cursor);
-				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition().getInitialBundle()
-						: mouseBundle;
+				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition()
+						.getInitialBundle() : mouseBundle;
 				mouse.getDefinition().getResources()
 						.addAsset(bundle, SceneElementDef.appearance, cursor);
 				float scale = 1.0f;
 				if (rAsset.getWidth() > 0 && rAsset.getHeight() > 0) {
-					scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset.getWidth()
-							/ CURSOR_SIZE : rAsset.getHeight() / CURSOR_SIZE);
+					scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
+							.getWidth() / CURSOR_SIZE
+							: rAsset.getHeight() / CURSOR_SIZE);
 
 				}
-				gameState.getValueMap().setValue(mouse, SceneElement.VAR_SCALE, scale);
-				gameState.getValueMap().setValue(mouse, ResourcedElement.VAR_BUNDLE_ID, bundle);
+				gameState.getValueMap().setValue(mouse, SceneElement.VAR_SCALE,
+						scale);
+				gameState.getValueMap().setValue(mouse,
+						ResourcedElement.VAR_BUNDLE_ID, bundle);
 			}
 
 		}
@@ -256,19 +266,22 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		checkMouseImage();
 		int x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
 		int y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
-		boolean showMouse = gameState.getValueMap().getValue(SystemFields.SHOW_MOUSE);
+		boolean showMouse = gameState.getValueMap().getValue(
+				SystemFields.SHOW_MOUSE);
 
 		gameState.getValueMap().setValue(mouse, SceneElement.VAR_X, x);
 		gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y, y);
 
-		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE, showMouse);
+		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE,
+				showMouse);
 
 		mouseGO.update();
-		mouseGO.getTransformation().setClip(0, 0, engineConfiguration.getWidth(),
-				engineConfiguration.getHeight());
+		mouseGO.getTransformation()
+				.setClip(0, 0, engineConfiguration.getWidth(),
+						engineConfiguration.getHeight());
 	}
-	
-	public void init( ){
+
+	public void init() {
 		initContextual();
 		initMouse();
 	}

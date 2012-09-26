@@ -46,7 +46,7 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.ShowTextAnimation;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.resources.assets.drawable.basics.EAdCaption;

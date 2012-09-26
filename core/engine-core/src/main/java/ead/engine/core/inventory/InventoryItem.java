@@ -37,7 +37,7 @@
 
 package ead.engine.core.inventory;
 
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 public interface InventoryItem {
 	

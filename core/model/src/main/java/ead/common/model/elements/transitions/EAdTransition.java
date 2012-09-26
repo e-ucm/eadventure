@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.transitions;
 
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 
 
 /**

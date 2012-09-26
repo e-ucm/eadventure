@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.effects.sceneelement;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;

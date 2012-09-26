@@ -42,7 +42,7 @@ import java.util.Map;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.resources.assets.drawable.basics.EAdImage;
 import es.eucm.eadventure.common.data.adventure.AdventureData;

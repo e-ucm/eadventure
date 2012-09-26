@@ -46,7 +46,7 @@ import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;

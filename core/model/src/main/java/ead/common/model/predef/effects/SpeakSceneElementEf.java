@@ -39,8 +39,8 @@ package ead.common.model.predef.effects;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;

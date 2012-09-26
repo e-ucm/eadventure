@@ -42,7 +42,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.VarDef;
 
 public class LoggerSceneListener implements SceneListener {

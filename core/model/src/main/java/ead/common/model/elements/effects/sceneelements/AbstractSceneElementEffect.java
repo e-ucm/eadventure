@@ -40,7 +40,7 @@ package ead.common.model.elements.effects.sceneelements;
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.AbstractEffect;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdField;
 
 /**

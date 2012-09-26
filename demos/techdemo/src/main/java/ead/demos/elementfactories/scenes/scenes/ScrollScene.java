@@ -40,7 +40,7 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;

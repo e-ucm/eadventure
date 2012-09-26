@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;

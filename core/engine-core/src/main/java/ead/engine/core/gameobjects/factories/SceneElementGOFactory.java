@@ -37,7 +37,7 @@
 
 package ead.engine.core.gameobjects.factories;
 
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 
 public interface SceneElementGOFactory

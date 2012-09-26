@@ -35,55 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scene;
-
-import ead.common.interfaces.WithActions;
-import ead.common.interfaces.WithBehavior;
-import ead.common.interfaces.features.Documented;
-import ead.common.interfaces.features.Named;
-import ead.common.interfaces.features.ResourcedEvented;
-import ead.common.model.EAdElement;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.assets.drawable.EAdDrawable;
+package ead.common.model.elements.scenes;
 
 /**
- * Scene element definition in the eAdventure model. Definition for scene
- * elements, placed in eAdventure scene.
+ * Scenes in the eAdventure model. A scene is a game screen.
  */
-public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
-		WithBehavior, Documented, Named, WithActions {
+public interface EAdScene extends EAdComplexSceneElement {
 
 	/**
-	 * Sets the appearance in the given bundle
-	 *
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
+	 * @return the background element of the scene
 	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
+	EAdSceneElement getBackground();
 
 	/**
-	 * Sets the initial appearance for the scene element
-	 *
-	 * @param appearance
-	 *            the initial appearance
+	 * Sets the scene element representing the background
+	 * 
+	 * @param sceneElement
+	 *            the scene element for the background
 	 */
-	public void setAppearance(EAdDrawable appearance);
+	void setBackground(EAdSceneElement sceneElement);
 
 	/**
-	 * Returns the default appearance for this definition
-	 *
-	 * @return
+	 * @return true if the game can return to this scene after a cutscene or
+	 *         similiar
 	 */
-	EAdDrawable getAppearance();
+	Boolean getReturnable();
 
 	/**
-	 * Returns the appearance for the given bundle
-	 *
-	 * @param bundle
-	 * @return
+	 * Sets if the game can return to this scene after a cutscene or similar
+	 * 
+	 * @param returnable
+	 *            if the game can return to this scene after a cutscene or
+	 *            similar
 	 */
-	EAdDrawable getAppearance(EAdBundleId bundle);
+	void setReturnable(Boolean returnable);
 
 }

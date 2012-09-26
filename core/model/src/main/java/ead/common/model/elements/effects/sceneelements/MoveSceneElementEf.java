@@ -41,7 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.MovementSpeed;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;

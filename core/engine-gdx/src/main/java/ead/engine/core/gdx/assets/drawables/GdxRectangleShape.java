@@ -74,7 +74,7 @@ public class GdxRectangleShape extends GdxShape<RectangleShape> {
 			}
 			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
 					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
-			pixmap.fillRectangle(0, 0, pwidth, pheight);			
+			pixmap.drawRectangle(0, 0, pwidth, pheight);
 		}
 
 		if (fill instanceof ColorFill) {

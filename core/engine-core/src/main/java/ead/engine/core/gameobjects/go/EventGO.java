@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.go;
 
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 
 public interface EventGO<T extends EAdEvent> extends GameObject<T> {
 

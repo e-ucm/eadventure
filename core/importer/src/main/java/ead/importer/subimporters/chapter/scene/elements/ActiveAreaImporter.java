@@ -43,19 +43,16 @@ import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.importer.EAdElementImporter;
-import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.subimporters.chapter.ActionImporter;
-import ead.importer.subimporters.chapter.scene.ShapedElementImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -64,6 +61,8 @@ import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 	private EAdElementImporter<Action, EAdAction> actionImporter;
+	private static Paint ACTIVE_AREA_PAINT = new Paint(new ColorFill(0, 255, 0,
+			100), ColorFill.GREEN);
 
 	@Inject
 	public ActiveAreaImporter(
@@ -77,17 +76,16 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 	@Override
 	public EAdSceneElement init(ActiveArea oldObject) {
-		SceneElementDef newActiveArea = new SceneElementDef();
-		EAdSceneElement newActiveAreaReference = new SceneElement(
-				newActiveArea);
+		GhostElement newActiveAreaReference = new GhostElement();
 		return newActiveAreaReference;
 	}
 
 	@Override
 	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
 		// Reference to the active area
-		SceneElement newActiveAreaReference = (SceneElement) object;
-		newActiveAreaReference.getDefinition().setId(oldObject.getId() + "_ActiveArea");
+		GhostElement newActiveAreaReference = (GhostElement) object;
+		newActiveAreaReference.getDefinition().setId(
+				oldObject.getId() + "_ActiveArea");
 		newActiveAreaReference.setId(oldObject.getId() + "_ActiveArea_ref");
 
 		SceneElementDef newActiveArea = (SceneElementDef) newActiveAreaReference
@@ -100,7 +98,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		setDocumentation(newActiveArea, oldObject);
 
 		// set shape
-		setShape(newActiveArea, oldObject);
+		setShape(newActiveAreaReference, oldObject, ACTIVE_AREA_PAINT);
 
 		// set influence area
 		addInfluenceArea(newActiveAreaReference, oldObject,
@@ -117,29 +115,11 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		return newActiveAreaReference;
 	}
 
-	private void setShape(EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
-		EAdShape shape = ShapedElementImporter.importShape(oldObject);
-		if ( EAdventureImporter.IMPORTER_DEBUG ){
-			ColorFill c = new ColorFill( ColorFill.GREEN.toString() );
-			c.setAlpha(100);
-			shape.setPaint(c);
-		}
-		else {
-			shape.setPaint(Paint.TRANSPARENT);
-		}
-
-		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
-				SceneElementDef.appearance, shape);
-	}
-
 	private void addActions(ActiveArea oldObject,
-			SceneElementDef newActiveArea,
-			SceneElement newActiveAreaReference) {
+			SceneElementDef newActiveArea, SceneElement newActiveAreaReference) {
 
-		ActorActionsEf showActions = new ActorActionsEf(
-				newActiveArea);
-		newActiveArea.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
-				showActions);
+		ActorActionsEf showActions = new ActorActionsEf(newActiveArea);
+		newActiveArea.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
 
 		((ActionImporter) actionImporter).addAllActions(oldObject.getActions(),
 				newActiveArea, true);

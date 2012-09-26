@@ -52,7 +52,7 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.gameobjects.GameObjectManager;

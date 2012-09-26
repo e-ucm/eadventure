@@ -37,7 +37,7 @@
 
 package ead.engine.core.input;
 
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.util.EAdTransformation;
@@ -115,10 +115,17 @@ public interface InputHandler {
 	EAdSceneElementDef getDraggingElement();
 
 	void setInitialTransformation(EAdTransformation initialTransformation);
-	
+
 	/**
 	 * Clears all the pending inputs for the game
 	 */
 	void clearAllInputs();
+
+	/**
+	 * Returns if the input handler is currently processing user input.
+	 * 
+	 * @return
+	 */
+	boolean isProcessingInput();
 
 }

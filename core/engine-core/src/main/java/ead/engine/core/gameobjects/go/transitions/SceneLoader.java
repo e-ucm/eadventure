@@ -37,7 +37,7 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.gameobjects.go.SceneGO;
 
 /**

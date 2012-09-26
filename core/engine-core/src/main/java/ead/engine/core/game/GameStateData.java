@@ -44,7 +44,7 @@ import java.util.Stack;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.variables.EAdVarDef;
 
 public class GameStateData {

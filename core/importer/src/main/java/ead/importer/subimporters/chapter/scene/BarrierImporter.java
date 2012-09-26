@@ -44,7 +44,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;

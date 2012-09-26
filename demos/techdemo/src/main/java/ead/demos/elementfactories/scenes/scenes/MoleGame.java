@@ -47,7 +47,7 @@ import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;

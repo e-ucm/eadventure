@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;

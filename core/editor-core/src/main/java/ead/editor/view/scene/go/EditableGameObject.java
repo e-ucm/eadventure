@@ -46,7 +46,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.util.EAdRectangle;

@@ -39,7 +39,7 @@ package ead.common.model.predef.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.ValueOp;
 

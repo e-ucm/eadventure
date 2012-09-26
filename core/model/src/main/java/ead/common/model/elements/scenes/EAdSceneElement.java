@@ -35,39 +35,41 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scene;
+package ead.common.model.elements.scenes;
+
+import ead.common.interfaces.WithBehavior;
+import ead.common.interfaces.features.Draggable;
+import ead.common.interfaces.features.Evented;
+import ead.common.interfaces.features.Variabled;
+import ead.common.model.EAdElement;
+import ead.common.util.EAdPosition.Corner;
 
 /**
- * Scenes in the eAdventure model. A scene is a game screen.
+ * 
+ * A scene element is the minimal unit to build games. A scene element is
+ * anything displayed in the game.
+ * 
  */
-public interface EAdScene extends EAdComplexSceneElement {
+public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
+		Evented, Draggable {
 
 	/**
-	 * @return the background element of the scene
-	 */
-	EAdSceneElement getBackground();
-
-	/**
-	 * Sets the scene element representing the background
+	 * Returns the definition for this scene element
 	 * 
-	 * @param sceneElement
-	 *            the scene element for the background
+	 * @return the definition for this scene element
 	 */
-	void setBackground(EAdSceneElement sceneElement);
+	EAdSceneElementDef getDefinition();
 
 	/**
-	 * @return true if the game can return to this scene after a cutscene or
-	 *         similiar
-	 */
-	Boolean getReturnable();
-
-	/**
-	 * Sets if the game can return to this scene after a cutscene or similar
+	 * Sets the position for the scene element
 	 * 
-	 * @param returnable
-	 *            if the game can return to this scene after a cutscene or
-	 *            similar
+	 * @param corner
+	 *            center
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordiante
 	 */
-	void setReturnable(Boolean returnable);
+	void setPosition(Corner topLeft, int i, int j);
 
 }

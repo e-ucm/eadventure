@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

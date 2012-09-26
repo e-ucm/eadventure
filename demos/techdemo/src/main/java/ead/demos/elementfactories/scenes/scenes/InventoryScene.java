@@ -45,7 +45,7 @@ import ead.common.model.elements.effects.enums.InventoryEffectAction;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;

@@ -44,12 +44,13 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
@@ -59,7 +60,6 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdRectangle;
 import ead.importer.EAdElementImporter;
-import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -136,22 +136,11 @@ public abstract class ElementImporter<T> implements
 				ShapedElementImporter.getBounds(element), influenceArea);
 	}
 
-	protected void setShape(SceneElement sceneElement, Rectangle exit) {
+	protected void setShape(GhostElement sceneElement, Rectangle exit, Paint p) {
 		EAdShape shape = ShapedElementImporter.importShape(exit);
+		shape.setPaint(p);
 		sceneElement.setPosition(exit.getX(), exit.getY());
-		if (EAdventureImporter.IMPORTER_DEBUG) {
-			ColorFill c = new ColorFill(ColorFill.RED.toString());
-			c.setAlpha(100);
-			shape.setPaint(c);
-		} else {
-			shape.setPaint(Paint.TRANSPARENT);
-		}
-
-		sceneElement
-				.getDefinition()
-				.getResources()
-				.addAsset(sceneElement.getDefinition().getInitialBundle(),
-						SceneElementDef.appearance, shape);
+		sceneElement.setInteractionArea(shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {

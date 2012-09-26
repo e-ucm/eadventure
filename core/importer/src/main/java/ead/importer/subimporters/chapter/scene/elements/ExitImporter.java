@@ -44,16 +44,22 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.predef.effects.ChangeCursorEf;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdImage;
 import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.resources.assets.multimedia.Sound;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -72,6 +78,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 	private static int ID_GENERATOR = 0;
 	private EffectsImporterFactory effectsImporterFactory;
 	private ResourceImporter resourceImporter;
+	private static Paint EXIT_PAINT = new Paint(new ColorFill(109, 20, 0, 100),
+			ColorFill.RED);
 
 	@Inject
 	public ExitImporter(
@@ -86,18 +94,19 @@ public class ExitImporter extends ElementImporter<Exit> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		SceneElement newExit = new SceneElement();
+		GhostElement newExit = new GhostElement();
 		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
-		SceneElement newExit = (SceneElement) object;
+		GhostElement newExit = (GhostElement) object;
 		newExit.setPropagateGUIEvents(false);
+		oldObject.getDefaultExitLook();
 
 		// Shape
-		setShape(newExit, oldObject);
+		setShape(newExit, oldObject, EXIT_PAINT);
 
 		// Enable condition
 		EAdCondition enableCondition = getEnableCondition(oldObject
@@ -177,6 +186,16 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 		newExit.addBehavior(MouseGEv.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);
+
+		// Sound
+		if (exitLook.getSoundPath() != null) {
+			EAdSound s = (EAdSound) resourceImporter.getAssetDescritptor(
+					exitLook.getSoundPath(), Sound.class);
+
+			PlaySoundEf playSound = new PlaySoundEf(s, false);
+			newExit.addBehavior(MouseGEv.MOUSE_ENTERED, playSound);
+
+		}
 	}
 
 	private EAdEffect addEffects(SceneElement newExit, Exit oldObject,

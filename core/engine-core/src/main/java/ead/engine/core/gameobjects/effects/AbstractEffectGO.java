@@ -42,7 +42,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;

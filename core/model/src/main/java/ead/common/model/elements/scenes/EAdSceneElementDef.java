@@ -35,41 +35,55 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scene;
+package ead.common.model.elements.scenes;
 
+import ead.common.interfaces.WithActions;
 import ead.common.interfaces.WithBehavior;
-import ead.common.interfaces.features.Draggable;
-import ead.common.interfaces.features.Evented;
-import ead.common.interfaces.features.Variabled;
+import ead.common.interfaces.features.Documented;
+import ead.common.interfaces.features.Named;
+import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.model.EAdElement;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.resources.EAdBundleId;
+import ead.common.resources.assets.drawable.EAdDrawable;
 
 /**
- * 
- * A scene element is the minimal unit to build games. A scene element is
- * anything displayed in the game.
- * 
+ * Scene element definition in the eAdventure model. Definition for scene
+ * elements, placed in eAdventure scene.
  */
-public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
-		Evented, Draggable {
+public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
+		WithBehavior, Documented, Named, WithActions {
 
 	/**
-	 * Returns the definition for this scene element
-	 * 
-	 * @return the definition for this scene element
+	 * Sets the appearance in the given bundle
+	 *
+	 * @param bundle
+	 *            the bundle id
+	 * @param appearance
+	 *            the appearance
 	 */
-	EAdSceneElementDef getDefinition();
+	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
 
 	/**
-	 * Sets the position for the scene element
-	 * 
-	 * @param corner
-	 *            center
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordiante
+	 * Sets the initial appearance for the scene element
+	 *
+	 * @param appearance
+	 *            the initial appearance
 	 */
-	void setPosition(Corner topLeft, int i, int j);
+	public void setAppearance(EAdDrawable appearance);
+
+	/**
+	 * Returns the default appearance for this definition
+	 *
+	 * @return
+	 */
+	EAdDrawable getAppearance();
+
+	/**
+	 * Returns the appearance for the given bundle
+	 *
+	 * @param bundle
+	 * @return
+	 */
+	EAdDrawable getAppearance(EAdBundleId bundle);
 
 }

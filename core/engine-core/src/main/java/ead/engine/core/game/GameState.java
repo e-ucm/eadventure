@@ -41,8 +41,8 @@ import java.util.List;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.go.SceneGO;

@@ -45,7 +45,7 @@ import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.MovementSpeed;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

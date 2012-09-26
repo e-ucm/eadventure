@@ -40,7 +40,6 @@ package ead.common.model.elements.scenes;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 

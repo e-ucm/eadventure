@@ -47,7 +47,7 @@ import java.util.Map;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;

@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.resources.assets.AssetDescriptor;
 
 public interface SceneGraph {

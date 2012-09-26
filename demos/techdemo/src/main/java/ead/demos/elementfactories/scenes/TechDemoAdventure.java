@@ -42,7 +42,7 @@ import java.util.List;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.demos.elementfactories.scenes.normalguy.NgMainScreen;
 import ead.demos.elementfactories.scenes.scenes.BVSScene;
 import ead.demos.elementfactories.scenes.scenes.CharacterScene;

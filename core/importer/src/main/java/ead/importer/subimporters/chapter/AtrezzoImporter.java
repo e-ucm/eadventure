@@ -42,7 +42,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAction;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.importer.EAdElementImporter;

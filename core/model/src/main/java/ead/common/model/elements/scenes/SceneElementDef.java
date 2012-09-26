@@ -43,8 +43,6 @@ import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;

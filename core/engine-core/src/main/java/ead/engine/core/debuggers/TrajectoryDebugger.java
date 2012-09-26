@@ -44,10 +44,10 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;

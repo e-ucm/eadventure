@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;

@@ -39,8 +39,6 @@ package ead.common.model.elements.scenes;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;

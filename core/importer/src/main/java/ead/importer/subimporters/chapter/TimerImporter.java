@@ -54,7 +54,7 @@ import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;

@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.variables;
 
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.resources.assets.drawable.basics.Image;
 
 public class SystemFields {

@@ -44,8 +44,8 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.game.GameState;

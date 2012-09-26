@@ -47,7 +47,7 @@ import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.predef.effects.ChangeAppearanceEf;

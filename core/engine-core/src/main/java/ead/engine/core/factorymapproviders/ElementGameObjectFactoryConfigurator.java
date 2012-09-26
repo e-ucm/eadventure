@@ -37,11 +37,12 @@
 
 package ead.engine.core.factorymapproviders;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.ComposedScene;
+import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.widgets.TextArea;
@@ -51,6 +52,7 @@ import ead.engine.core.gameobjects.VideoSceneGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.platform.LoadingScreen;
 
@@ -63,6 +65,7 @@ public class ElementGameObjectFactoryConfigurator
 		factoryMap.put(BasicScene.class, SceneGOImpl.class);
 		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
 		factoryMap.put(SceneElement.class, BasicSceneElementGO.class);
+		factoryMap.put(GhostElement.class, GhostElementGO.class);
 		factoryMap
 				.put(ComplexSceneElement.class, ComplexSceneElementGO.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);

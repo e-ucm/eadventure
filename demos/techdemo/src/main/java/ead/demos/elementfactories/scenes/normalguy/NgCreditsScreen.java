@@ -44,7 +44,7 @@ import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;

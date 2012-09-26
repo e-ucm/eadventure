@@ -35,46 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.importer.subimporters.effects;
+package ead.common.model.elements.scenes;
 
-import com.google.inject.Inject;
+import ead.common.model.elements.extra.EAdList;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.importer.EAdElementImporter;
-import ead.importer.annotation.ImportAnnotator;
-import ead.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
-import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
-
-public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffect, ChangeSceneEf>{
-
-	private EAdElementFactory factory;
-
-	@Inject
-	public TriggerCutsceneImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            EAdElementFactory factory, ImportAnnotator annotator) {
-		super(conditionImporter, annotator);
-		this.factory = factory;
-	}
-
-	@Override
-	public ChangeSceneEf init(TriggerCutsceneEffect oldObject) {
-		ChangeSceneEf effect = new ChangeSceneEf();
-		effect.setId("triggerCutscene");
-		return effect;
-	}
-
-	@Override
-	public ChangeSceneEf convert(TriggerCutsceneEffect oldObject, Object object) {
-		ChangeSceneEf changeScene =  super.convert(oldObject, object);
-
-		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getTargetId());
-		changeScene.setNextScene(scene);
-
-		return changeScene;
-	}
+/**
+ * Represents an element composed by other elements
+ * 
+ * 
+ * 
+ */
+public interface EAdComplexSceneElement extends EAdSceneElement {
+	
+	/**
+	 * @return the {@link EAdSceneElement}s that make up the scene
+	 */
+	EAdList<EAdSceneElement> getSceneElements();
 
 }

@@ -46,8 +46,6 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;

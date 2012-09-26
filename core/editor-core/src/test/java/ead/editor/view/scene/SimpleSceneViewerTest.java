@@ -39,8 +39,8 @@ package ead.editor.view.scene;
 
 import javax.swing.JFrame;
 
-import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;

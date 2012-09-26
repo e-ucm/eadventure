@@ -39,7 +39,7 @@ package ead.common.model.elements;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 public interface EAdInventory extends EAdElement {
 	

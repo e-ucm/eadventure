@@ -42,7 +42,7 @@ import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;

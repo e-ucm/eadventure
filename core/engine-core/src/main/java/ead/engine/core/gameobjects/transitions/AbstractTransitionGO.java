@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.transitions;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;

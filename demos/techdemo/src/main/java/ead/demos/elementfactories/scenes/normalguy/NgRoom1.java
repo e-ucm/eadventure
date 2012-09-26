@@ -59,7 +59,7 @@ import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.guievents.DragGEv;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.elements.variables.BasicField;

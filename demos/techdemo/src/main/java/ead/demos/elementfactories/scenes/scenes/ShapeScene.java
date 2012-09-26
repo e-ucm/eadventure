@@ -44,7 +44,7 @@ import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.params.fills.ColorFill;

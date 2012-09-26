@@ -43,7 +43,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 
 @Element
 public class ComplexBlockingEffect extends AbstractEffect implements

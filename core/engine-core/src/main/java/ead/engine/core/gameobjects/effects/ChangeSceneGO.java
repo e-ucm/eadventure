@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;

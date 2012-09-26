@@ -40,7 +40,7 @@ package ead.engine.core.platform.assets;
 import java.util.List;
 
 import ead.common.interfaces.features.Resourced;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;

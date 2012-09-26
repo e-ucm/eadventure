@@ -22,6 +22,7 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.debuggers.DebuggerHandler;
+import ead.engine.core.debuggers.GhostElementDebugger;
 import ead.engine.core.debuggers.TrajectoryDebugger;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gdx.desktop.DesktopGame;
@@ -57,6 +58,8 @@ public class EngineGUI {
 		if (trajectories) {
 			debuggerHandler.add(TrajectoryDebugger.class);
 		}
+		
+		debuggerHandler.add(GhostElementDebugger.class);
 
 		SceneElement element = new SceneElement(new RectangleShape(100, 100,
 				ColorFill.BLACK));

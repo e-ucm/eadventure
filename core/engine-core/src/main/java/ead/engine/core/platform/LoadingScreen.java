@@ -44,7 +44,7 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.events.SystemEv;
 import ead.common.model.elements.events.enums.SystemEvType;
-import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.resources.assets.drawable.basics.Image;

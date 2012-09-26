@@ -43,7 +43,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryItem;
 

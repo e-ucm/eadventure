@@ -53,7 +53,7 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
-import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;

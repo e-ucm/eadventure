@@ -43,7 +43,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.effects.enums.InventoryEffectAction;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
