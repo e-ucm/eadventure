@@ -37,37 +37,28 @@
 
 package ead.engine.core.platform;
 
-import java.util.List;
+import ead.common.resources.assets.multimedia.EAdSound;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.TweenManager;
+/**
+ * General interface for managing sound
+ * 
+ */
+public interface SoundManager {
 
-public interface TweenController {
+	/**
+	 * Plays a sound
+	 * 
+	 * @param sound
+	 *            the sound
+	 */
+	void playSound(EAdSound sound);
 
-	TweenManager add(BaseTween<?> object);
-
-	boolean containsTarget(Object arg0, int arg1);
-
-	public boolean containsTarget(Object arg0);
-
-	public List<BaseTween<?>> getObjects();
-
-	public int getRunningTimelinesCount();
-
-	public int getRunningTweensCount();
-
-	public void killAll();
-
-	public void killTarget(Object arg0, int arg1);
-
-	public void killTarget(Object arg0);
-
-	public void pause();
-
-	public void resume();
-
-	public int size();
-
-	public void update(float arg0);
+	/**
+	 * Stops the current background music (if any) and plays the given one
+	 * 
+	 * @param sound
+	 *            the new background music
+	 */
+	void playBackgroundMusic(EAdSound sound);
 
 }

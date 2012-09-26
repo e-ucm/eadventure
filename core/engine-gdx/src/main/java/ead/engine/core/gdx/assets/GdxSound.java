@@ -83,4 +83,9 @@ public class GdxSound extends RuntimeSound {
 		sound.stop(id);
 	}
 
+	@Override
+	public void loop() {
+		id = sound.loop();
+	}
+
 }

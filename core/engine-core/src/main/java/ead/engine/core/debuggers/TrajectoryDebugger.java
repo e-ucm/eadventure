@@ -58,7 +58,7 @@ import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.LineShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
@@ -90,7 +90,7 @@ public class TrajectoryDebugger implements Debugger {
 
 	private List<DrawableGO<?>> gameObjects;
 
-	private List<BezierShape> barriers;
+	private List<EAdShape> barriers;
 
 	@Inject
 	public TrajectoryDebugger(GameState gameState, SceneElementGOFactory gameObjectFactory,
@@ -99,7 +99,7 @@ public class TrajectoryDebugger implements Debugger {
 		this.sceneElementFactory = gameObjectFactory;
 		this.valueMap = valueMap;
 		gameObjects = new ArrayList<DrawableGO<?>>();
-		barriers = new ArrayList<BezierShape>();
+		barriers = new ArrayList<EAdShape>();
 
 	}
 
@@ -194,9 +194,9 @@ public class TrajectoryDebugger implements Debugger {
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
 			EAdSceneElementDef def = e.getDefinition();
-			BezierShape s = (BezierShape) def.getAsset(def.getInitialBundle(),
+			EAdShape s = (EAdShape) def.getAsset(def.getInitialBundle(),
 					SceneElementDef.appearance);
-			BezierShape barrier = (BezierShape) s.clone();
+			EAdShape barrier = (EAdShape) s.clone();
 			barrier.setPaint(ColorFill.YELLOW);
 			barriers.add(barrier);
 			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e)).getPosition();

@@ -45,7 +45,8 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 
 /**
- * Effect to trigger the effects contained in a macro
+ * Effect to trigger the effects contained in a macro. It only trigger the first
+ * macro whose conditions are true
  */
 @Element
 public class TriggerMacroEf extends AbstractEffect implements EAdEffect {

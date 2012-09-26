@@ -95,6 +95,7 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 		importConfiguration(scene, getEndEffect(oldObject));
 		// Documentation
 		importDocumentation(scene, oldObject);
+				
 		return scene;
 	}
 

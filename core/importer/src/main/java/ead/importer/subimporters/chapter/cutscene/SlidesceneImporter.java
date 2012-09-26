@@ -46,6 +46,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
@@ -69,6 +70,7 @@ import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.importer.interfaces.ResourceImporter;
+import ead.importer.subimporters.chapter.scene.SceneImporter;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.Frame;
@@ -101,9 +103,9 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory, ResourceImporter resourceImporter,
 			StringHandler stringHandler, ImageLoaderFactory imageLoader,
-			InputStreamCreator inputStreamCreator,
-			ImportAnnotator annotator) {
-		super(stringHandler, factory, effectsImporter, resourceImporter, annotator);
+			InputStreamCreator inputStreamCreator, ImportAnnotator annotator) {
+		super(stringHandler, factory, effectsImporter, resourceImporter,
+				annotator);
 		this.imageLoader = imageLoader;
 		this.inputStreamCreator = inputStreamCreator;
 		this.conditionsImporter = conditionsImporter;
@@ -127,9 +129,15 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 		addHideInventoryEvent(cutscene);
 		EAdEffect changeNextScene = getEndEffect(oldSlides);
 
+		List<String> musicPaths = new ArrayList<String>();
+		List<EAdCondition> conditions = new ArrayList<EAdCondition>();
+
 		if (oldSlides.getResources().size() == 1) {
 			createSceneFromSlides(cutscene, oldSlides, oldSlides.getResources()
 					.get(0), changeNextScene);
+			musicPaths.add(oldSlides.getResources().get(0)
+					.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC));
+			conditions.add(EmptyCond.TRUE_EMPTY_CONDITION);
 		} else {
 			// When there's more than one appearance, we create a series of
 			// scene for every animation.
@@ -142,6 +150,9 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 				macro.getEffects().add(new ChangeSceneEf(scene));
 				EAdCondition c = conditionsImporter.init(res.getConditions());
 				c = conditionsImporter.convert(res.getConditions(), c);
+				musicPaths
+						.add(res.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC));
+				conditions.add(c);
 				triggerMacro.putMacro(macro, c);
 			}
 			SceneElementEv event = new SceneElementEv();
@@ -149,6 +160,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			cutscene.getEvents().add(event);
 		}
 
+		SceneImporter.importSceneMusic(musicPaths, resourceImporter, cutscene,
+				conditions);
 	}
 
 	private void createSceneFromSlides(EAdScene cutscene, Slidescene oldSlides,
@@ -204,7 +217,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			scenes[i].getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					effect);
 
-			if (i != scenes.length - 1 && times.get(i) != -1 ) {
+			if (i != scenes.length - 1 && times.get(i) != -1) {
 				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1],
 						times.get(i), effect);
 				scenes[i].getBackground().getEvents().add(changeEvent);

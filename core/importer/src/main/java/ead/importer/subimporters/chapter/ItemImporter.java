@@ -42,6 +42,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdAction;
+import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.importer.EAdElementImporter;
@@ -58,27 +59,30 @@ public class ItemImporter extends ActorImporter<Item> {
 	public ItemImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter, EAdElementFactory factory,
-			ImportAnnotator annotator) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter, factory,
-			annotator);
+			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementFactory factory, ImportAnnotator annotator) {
+		super(stringHandler, resourceImporter, elementFactory, actionImporter,
+				factory, annotator);
 	}
 
 	@Override
 	public void initResourcesCorrespondencies() {
-		
-		String resource = Item.RESOURCE_TYPE_IMAGE;
-		if ( element.getResources().get(0).getAssetPath(Item.RESOURCE_TYPE_IMAGE).contains("EmptyImage.png") ){
-			resource = Item.RESOURCE_TYPE_ICON;
-		}
-
 		properties = new HashMap<String, String>();
-		properties.put(resource, SceneElementDef.appearance);
-
 		objectClasses = new HashMap<String, Object>();
-		objectClasses.put(resource, Image.class);
+		properties.put(Item.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);
+		properties.put(Item.RESOURCE_TYPE_IMAGEOVER,
+				SceneElementDef.overAppearance);
+		objectClasses.put(Item.RESOURCE_TYPE_IMAGE, Image.class);
+		objectClasses.put(Item.RESOURCE_TYPE_IMAGEOVER, Image.class);
 
 	}
-	
+
+	@Override
+	public EAdSceneElementDef convert(Item oldObject, Object object) {
+		EAdSceneElementDef item = super.convert(oldObject, object);
+
+		// TODO inventory image
+		return item;
+	}
 
 }

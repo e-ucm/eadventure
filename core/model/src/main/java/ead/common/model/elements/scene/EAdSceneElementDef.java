@@ -40,9 +40,8 @@ package ead.common.model.elements.scene;
 import ead.common.interfaces.WithActions;
 import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Documented;
-import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Named;
-import ead.common.interfaces.features.Resourced;
+import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.model.EAdElement;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
@@ -51,8 +50,8 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  * Scene element definition in the eAdventure model. Definition for scene
  * elements, placed in eAdventure scene.
  */
-public interface EAdSceneElementDef extends EAdElement, Resourced,
-		WithBehavior, Documented, Named, Evented, WithActions {
+public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
+		WithBehavior, Documented, Named, WithActions {
 
 	/**
 	 * Sets the appearance in the given bundle

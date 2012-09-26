@@ -68,6 +68,10 @@ public class SceneElementDef extends ResourcedElement implements
 	@Bundled
 	@Asset({ EAdDrawable.class })
 	public static final String appearance = "appearance";
+	
+	@Bundled
+	@Asset({ EAdDrawable.class })
+	public static final String overAppearance = "overAppearance";
 
 	@Param("name")
 	private EAdString name;

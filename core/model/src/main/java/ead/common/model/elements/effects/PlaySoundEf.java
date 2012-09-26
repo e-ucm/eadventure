@@ -52,24 +52,32 @@ public class PlaySoundEf extends AbstractEffect {
 	@Param("sound")
 	private EAdSound sound;
 
+	@Param("background")
+	private boolean background;
+
 	/**
-	 * Creates a play sound effect
+	 * Creates a play sound effect. If sound is null, it stops the current background music
 	 * 
 	 * @param id
 	 *            the effect id
 	 * @param sound
 	 *            the sound to be played
 	 */
-	public PlaySoundEf( EAdSound sound) {
+	public PlaySoundEf(EAdSound sound) {
+		this(sound, false);
+	}
+
+	public PlaySoundEf() {
+		this(null);
+	}
+
+	public PlaySoundEf(EAdSound sound, boolean isBackground) {
 		super();
 		this.sound = sound;
+		this.background = isBackground;
 	}
-	
-	public PlaySoundEf(){
-		this( null );
-	}
-	
-	public void setSound( EAdSound sound ){
+
+	public void setSound(EAdSound sound) {
 		this.sound = sound;
 	}
 
@@ -80,6 +88,14 @@ public class PlaySoundEf extends AbstractEffect {
 	 */
 	public EAdSound getSound() {
 		return sound;
+	}
+
+	public boolean isBackground() {
+		return background;
+	}
+
+	public void setBackground(boolean isBackground) {
+		this.background = isBackground;
 	}
 
 }

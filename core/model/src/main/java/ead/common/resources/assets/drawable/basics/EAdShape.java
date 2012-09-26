@@ -43,7 +43,7 @@ import ead.common.params.paint.EAdPaint;
  * General interface for shape assets
  * 
  */
-public interface EAdShape extends EAdBasicDrawable {
+public interface EAdShape extends EAdBasicDrawable, Cloneable {
 
 	/**
 	 * Return the color with which to draw the shape.
@@ -59,5 +59,7 @@ public interface EAdShape extends EAdBasicDrawable {
 	 *            the paint
 	 */
 	void setPaint(EAdPaint paint);
+
+	Object clone();
 
 }

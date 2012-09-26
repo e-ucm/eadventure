@@ -49,17 +49,22 @@ public class EffectsMacro extends BasicElement {
 
 	@Param("effects")
 	protected EAdList<EAdEffect> effects;
-	
+
 	public EffectsMacro() {
 		super();
 		this.effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		this.setId("effectsMacro" + Math.round(Math.random() * 10000) );
+		this.setId("effectsMacro" + Math.round(Math.random() * 10000));
+	}
+
+	public EffectsMacro(EAdEffect effect) {
+		this();
+		effects.add(effect);
 	}
 
 	public EAdList<EAdEffect> getEffects() {
 		return effects;
 	}
-	
+
 	public void setEffects(EAdList<EAdEffect> effects) {
 		this.effects = effects;
 	}

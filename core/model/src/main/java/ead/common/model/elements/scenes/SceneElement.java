@@ -134,6 +134,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<EAdString> VAR_NAME = new VarDef<EAdString>(
 			"name", EAdString.class, null);
 
+	public static final EAdVarDef<Boolean> VAR_MOUSE_OVER = new VarDef<Boolean>(
+			"mouse_over", Boolean.class, Boolean.FALSE);
+
 	/**
 	 * Flag to indicate that the element will return to its initial position
 	 * after being released from a drag action

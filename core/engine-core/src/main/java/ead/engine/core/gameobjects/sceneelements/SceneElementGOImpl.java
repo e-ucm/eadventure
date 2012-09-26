@@ -52,6 +52,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -68,6 +69,7 @@ import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.ActionSceneElement;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
@@ -81,7 +83,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			.getLogger("SceneElementGOImpl");
 
 	private EventGOFactory eventFactory;
-	
+
 	protected AssetHandler assetHandler;
 
 	protected EAdPosition position;
@@ -119,8 +121,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	private RuntimeDrawable<?, ?> currentDrawable;
 
 	protected ValueMap valueMap;
-	
+
 	protected GameState gameState;
+
+	protected boolean mouseOver;
+	
+	protected boolean changeBundle;
 
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
@@ -136,6 +142,19 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	public boolean processAction(InputAction<?> action) {
+
+		if (action instanceof MouseInputAction) {
+			MouseInputAction m = (MouseInputAction) action;
+			if (m.getType() == MouseGEvType.ENTERED) {
+				valueMap.setValue(element, SceneElement.VAR_MOUSE_OVER, true);
+				changeBundle = true;
+			} else if (m.getType() == MouseGEvType.EXITED) {
+				valueMap.setValue(element, SceneElement.VAR_MOUSE_OVER, false);
+				changeBundle = true;
+			}
+
+		}
+
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
 		boolean processed = addEffects(list, action);
 
@@ -235,8 +254,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		alpha = valueMap.getValue(element, SceneElement.VAR_ALPHA);
 		orientation = valueMap.getValue(element, SceneElement.VAR_ORIENTATION);
 		state = valueMap.getValue(element, SceneElement.VAR_STATE);
+		mouseOver = valueMap.getValue(element, SceneElement.VAR_MOUSE_OVER);
 
-		this.statesList.clear();
+		statesList.clear();
 		statesList.add(state);
 		statesList.add(orientation.toString());
 
@@ -245,14 +265,29 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		position.setDispX(valueMap.getValue(element, SceneElement.VAR_DISP_X));
 		position.setDispY(valueMap.getValue(element, SceneElement.VAR_DISP_Y));
 
+		updateBundle();
+
+	}
+
+	private void updateBundle() {
 		// Bundle update
 		EAdBundleId newBundle = valueMap.getValue(element,
 				ResourcedElement.VAR_BUNDLE_ID);
 
-		if (currentBundle != newBundle) {
+		if (currentBundle != newBundle || changeBundle ) {
+			changeBundle = false;
 			currentBundle = newBundle;
-			AssetDescriptor a = element.getDefinition().getResources()
-					.getAsset(currentBundle, SceneElementDef.appearance);
+			AssetDescriptor a = element
+					.getDefinition()
+					.getResources()
+					.getAsset(
+							currentBundle,
+							mouseOver ? SceneElementDef.overAppearance
+									: SceneElementDef.appearance);
+			if (a == null) {
+				a = element.getDefinition().getAppearance(currentBundle);
+			}
+			
 			if (a != null) {
 				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
 						.getRuntimeAsset(a, true);
@@ -271,7 +306,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				}
 			}
 		}
-
 	}
 
 	/**

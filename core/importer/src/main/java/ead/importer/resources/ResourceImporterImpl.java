@@ -45,6 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,13 +58,13 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.interfaces.features.Evented;
-import ead.common.interfaces.features.Resourced;
+import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.ANDCond;
-import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
@@ -82,8 +83,8 @@ import es.eucm.eadventure.common.loader.Loader;
 
 /**
  * Resource Importer
- *
- *
+ * 
+ * 
  */
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
@@ -224,15 +225,14 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	@Override
-	public void importResources(Resourced element, List<Resources> resources,
-			Map<String, String> resourcesStrings,
+	public void importResources(ResourcedEvented element,
+			List<Resources> resources, Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
-		EAdCondition previousCondition = null;
-
 		// We iterate for the resources. Each resource is associated to some
-		// conditions. These
-		// conditions are transformed in ConditionedEvents.
+		// conditions.
+		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
+		List<EAdCondition> conditions = new ArrayList<EAdCondition>();
 		for (Resources r : resources) {
 			EAdBundleId bundleId;
 			if (i == 0) {
@@ -241,6 +241,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 				bundleId = new EAdBundleId("bundle_" + i);
 				element.getResources().addBundle(bundleId);
 			}
+			bundles.add(bundleId);
+			EAdCondition c = conditionsImporter.init(r.getConditions());
+			c = conditionsImporter.convert(r.getConditions(), c);
+			conditions.add(c);
 
 			for (String resourceType : resourcesStrings.keySet()) {
 				String assetPath = r.getAssetPath(resourceType);
@@ -261,41 +265,34 @@ public class ResourceImporterImpl implements ResourceImporter {
 				}
 
 			}
-
-			if (element instanceof Evented) {
-
-				ConditionedEv conditionEvent = new ConditionedEv();
-				conditionEvent
-						.setId(bundleId.getBundleId() + "_condition_" + i);
-
-				EAdCondition condition = conditionsImporter.init(r
-						.getConditions());
-				condition = conditionsImporter.convert(r.getConditions(),
-						condition);
-
-				if (previousCondition == null) {
-					previousCondition = new NOTCond(condition);
-				} else {
-					EAdCondition temp = condition;
-					condition = new ANDCond(condition, previousCondition);
-					previousCondition = new ANDCond(previousCondition,
-							new NOTCond(temp));
-				}
-				conditionEvent.setCondition(condition);
-
-				ChangeAppearanceEf changeAppereance = new ChangeAppearanceEf(
-						null, bundleId);
-				changeAppereance.setId(conditionEvent.getId()
-						+ "change_appearence");
-				conditionEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
-						changeAppereance);
-
-				((Evented) element).getEvents().add(conditionEvent);
-			}
-
 			i++;
 		}
 
+		if (resources.size() > 0) {
+			setBundlesEvent(element, conditions, bundles);
+		}
+
+	}
+
+	public static void setBundlesEvent(ResourcedEvented element,
+			List<EAdCondition> conditions, List<EAdBundleId> bundles) {
+		if ((conditions.size() == 1 || EmptyCond.TRUE_EMPTY_CONDITION
+				.equals(conditions.get(0))) && bundles.size() >= 1) {
+			element.setInitialBundle(bundles.get(0));
+		} else {
+			int i = 0;
+			TriggerMacroEf changeBundle = new TriggerMacroEf();
+			for (EAdCondition c : conditions) {
+				ChangeAppearanceEf effect = new ChangeAppearanceEf(null,
+						bundles.get(i));
+				changeBundle.putMacro(new EffectsMacro(effect), c);
+				i++;
+			}
+			SceneElementEv event = new SceneElementEv(
+					SceneElementEvType.ALWAYS, changeBundle);
+			element.getEvents().add(event);
+
+		}
 	}
 
 	@Override
@@ -347,8 +344,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 						.newInstance(newAssetPath);
 
 			} catch (Exception e) {
-                logger.warn("Error while playing with AssetDescriptor {}",
-                        newAssetPath, e);
+				logger.warn("Error while playing with AssetDescriptor {}",
+						newAssetPath, e);
 			}
 		}
 
@@ -361,7 +358,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	/**
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
-	 *
+	 * 
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset
@@ -480,7 +477,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		return image;
 	}
 
-	public InputStreamCreator getInputStreamCreator( ){
+	public InputStreamCreator getInputStreamCreator() {
 		return this.inputStreamCreator;
 	}
 }

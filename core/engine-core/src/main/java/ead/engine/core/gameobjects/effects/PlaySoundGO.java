@@ -43,26 +43,27 @@ import ead.common.model.elements.effects.PlaySoundEf;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.multimedia.RuntimeSound;
+import ead.engine.core.platform.SoundManager;
 
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
-	
-	private AssetHandler assetHandler;
+
+	private SoundManager soundManager;
 
 	@Inject
-	public PlaySoundGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+	public PlaySoundGO(SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, SoundManager soundManager) {
 		super(gameObjectFactory, gui, gameState);
-		this.assetHandler = assetHandler;
+		this.soundManager = soundManager;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		RuntimeSound sound = (RuntimeSound) assetHandler
-				.getRuntimeAsset(element.getSound());
-		sound.play();
+		if (element.isBackground()) {
+			soundManager.playBackgroundMusic(element.getSound());
+		} else {
+			soundManager.playSound(element.getSound());
+		}
 	}
 
 	@Override

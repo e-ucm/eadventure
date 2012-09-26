@@ -42,7 +42,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
-import ead.common.interfaces.features.Resourced;
+import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
@@ -72,7 +72,7 @@ public interface ResourceImporter {
 	 */
 	public void setPath(String newAdventurePath);
 
-	void importResources(Resourced element, List<Resources> resources,
+	void importResources(ResourcedEvented element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectsClasses);
 

@@ -40,7 +40,7 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
@@ -115,12 +115,14 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		SpeakEf speak = new SpeakEf();
 
-		MoveSceneElementEf move = new MoveSceneElementEf(
-				character.getDefinition(),
-				actionsObject.getField(SceneElement.VAR_CENTER_X),
+		InterpolationEf move = new InterpolationEf();
+		move.setInterpolationTime(1000);
+		move.addField(character.getField(SceneElement.VAR_X),
+				actionsObject.getField(SceneElement.VAR_CENTER_X));
+		move.addField(character.getField(SceneElement.VAR_Y),
 				actionsObject.getField(SceneElement.VAR_CENTER_Y));
-		
 		move.getNextEffects().add(speak);
+		move.setRelative(false);
 
 		EAdElementsFactory.getInstance().getStringFactory()
 				.setString(speak.getString(), "The action was triggered!");

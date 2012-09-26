@@ -44,7 +44,7 @@ import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.util.EAdPosition;
 
-public class BezierShape extends AbstractShape implements Cloneable {
+public class BezierShape extends AbstractShape  {
 
 	@Param("closed")
 	private boolean closed;

@@ -27,8 +27,6 @@ import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.guitools.enginegui.effects.loadgame.LoadGameEffect;
 import ead.guitools.enginegui.effects.loadgame.LoadGameGO;
-import ead.guitools.enginegui.effects.usetraces.UseTracesEffect;
-import ead.guitools.enginegui.effects.usetraces.UseTracesEffectGO;
 
 public class EngineGUI {
 
@@ -77,7 +75,7 @@ public class EngineGUI {
 		EffectGOFactory effectFactory = engine
 				.getInstance(EffectGOFactory.class);
 		effectFactory.put(LoadGameEffect.class, LoadGameGO.class);
-		effectFactory.put(UseTracesEffect.class, UseTracesEffectGO.class);
+//		effectFactory.put(UseTracesEffect.class, UseTracesEffectGO.class);
 	}
 
 	public static String getProperty(String key, String defaultValue) {

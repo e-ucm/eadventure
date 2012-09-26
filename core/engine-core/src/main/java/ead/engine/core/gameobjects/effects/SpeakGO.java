@@ -47,8 +47,8 @@ import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -140,7 +140,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		int top = verticalMargin;
 		int bottom = height / HEIGHT_PROPORTION + top;
 
-		BezierShape rectangle = null;
+		EAdShape rectangle = null;
 
 		if (element.getX() != null && element.getY() != null) {
 			EAdPosition p = gameState.getScene().getPosition();

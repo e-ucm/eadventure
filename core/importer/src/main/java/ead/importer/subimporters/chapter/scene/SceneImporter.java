@@ -41,6 +41,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +55,17 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.conditions.ANDCond;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.PlaySoundEf;
+import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
@@ -64,6 +73,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.events.ScrollWithSceneElementEv;
@@ -130,6 +140,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 	protected ImportAnnotator annotator;
 
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+
 	@Inject
 	public SceneImporter(
 			StringHandler stringHandler,
@@ -149,6 +161,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		this.barrierImporter = barrierImporter;
 		this.factory = factory;
 		this.annotator = annotator;
+		this.conditionsImporter = conditionsImporter;
 	}
 
 	@Override
@@ -271,8 +284,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			if (activeArea != null)
 				scene.getSceneElements().add(activeArea);
 		}
-		return substract -i;
-		
+		return substract - i;
 
 	}
 
@@ -284,7 +296,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 					- substract - i);
 			se = exitsImporter.convert(e, se);
 			i++;
-			if (se != null){
+			if (se != null) {
 				scene.getSceneElements().add(se);
 			}
 		}
@@ -318,40 +330,99 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 		scene.getBackground().setId("background");
 
+		// Music variables
+		List<String> musics = new ArrayList<String>();
+		List<EAdCondition> conditions = new ArrayList<EAdCondition>();
+		EAdCondition lastCondition = null;
+		boolean end = false;
+
 		for (Resources r : oldScene.getResources()) {
+
+			EAdCondition c = conditionsImporter.init(r.getConditions());
+			c = conditionsImporter.convert(r.getConditions(), c);
+
+			// This condition is to detect if the resources blocks has an empty
+			// condition. If so, subsequent resources blocks are unreachable
+			if (c.equals(EmptyCond.TRUE_EMPTY_CONDITION)) {
+				end = true;
+			}
+
+			if (lastCondition != null) {
+				c = new ANDCond(new NOTCond(lastCondition), c);
+				lastCondition = c;
+			}
+			conditions.add(c);
+
 			String foregroundPath = r
 					.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
 			if (foregroundPath != null) {
 
 				Image image = (Image) resourceImporter.getAssetDescritptor(
 						foregroundPath, Image.class);
-				
+
 				String path = image.getUri().getPath();
-				if ( path.endsWith(".jpg") || path.endsWith(".JPG")){
-					image = new Image( path.substring(0, path.length()  - 3 ) + "png");
+				if (path.endsWith(".jpg") || path.endsWith(".JPG")) {
+					image = new Image(path.substring(0, path.length() - 3)
+							+ "png");
 				}
 
 				String backgroundPath = r
 						.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
-				applyForegroundMask(image.getUri().getPath(), foregroundPath, backgroundPath);
+				applyForegroundMask(image.getUri().getPath(), foregroundPath,
+						backgroundPath);
 
 				SceneElement foreground = new SceneElement(image);
 				foreground.setId("foreground");
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
+				foreground.setInitialEnable(false);
+				foreground.setPropagateGUIEvents(true);
+
+				ChangeFieldEf changeVisibility = new ChangeFieldEf(
+						foreground.getField(SceneElement.VAR_VISIBLE),
+						new BooleanOp(c));
+
+				SceneElementEv event = new SceneElementEv(
+						SceneElementEvType.ALWAYS, changeVisibility);
+
+				foreground.getEvents().add(event);
 				scene.getSceneElements().add(foreground);
 			}
-			// Music is imported to chapter level. So, the chapter will
-			// remain with the last sound track appeared in the scenes
-			String musicPath = r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC);
 
-			if (musicPath != null) {
-				EAdSound sound = new Sound(musicPath);
-				chapter.getResources().addAsset(chapter.getInitialBundle(),
-						EAdChapter.music, sound);
+			musics.add(r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC));
+
+			if (end) {
+				break;
 			}
 		}
 
+		importSceneMusic(musics, resourceImporter, scene, conditions);
+
+	}
+
+	public static void importSceneMusic(List<String> musicPaths,
+			ResourceImporter resourceImporter, EAdScene scene,
+			List<EAdCondition> conditions) {
+
+		TriggerMacroEf triggerMacro = new TriggerMacroEf();
+		int i = 0;
+		for (String musicPath : musicPaths) {
+			EAdCondition condition = conditions.get(i);
+			EAdSound sound = null;
+			if (musicPath != null) {
+
+				sound = (EAdSound) resourceImporter.getAssetDescritptor(
+						musicPath, Sound.class);
+			}
+			PlaySoundEf playSound = new PlaySoundEf(sound, true);
+			triggerMacro.putMacro(new EffectsMacro(playSound), condition);
+			i++;
+		}
+
+		SceneElementEv event = new SceneElementEv();
+
+		event.addEffect(SceneElementEvType.ADDED_TO_SCENE, triggerMacro);
+		scene.getEvents().add(event);
 	}
 
 	private void applyForegroundMask(String finalPath, String foregroundPath,
@@ -367,31 +438,37 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		int[] maskPixels = foreground.getRGB(0, 0, width, height, null, 0,
 				width);
 
+		int[] resultPixels = new int[maskPixels.length];
+
 		for (int i = 0; i < backgroundPixels.length; i++) {
 			int color = backgroundPixels[i];
 			int mask = maskPixels[i];
-			
-			if ( mask != 0xffffffff ){
-				backgroundPixels[i] = color;
+
+			if (mask != 0xffffffff) {
+				resultPixels[i] = color;
+			} else {
+				resultPixels[i] = 0x00000000;
 			}
-			else {
-				backgroundPixels[i] = 0x00000000;
-			}
-			 
+
 		}
-
-		foreground.setRGB(0, 0, width, height, backgroundPixels, 0, width);
-
+		BufferedImage result = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_ARGB);
+		result.getRaster().setDataElements(0, 0, width, height, resultPixels);
 		String newUri = resourceImporter.getURI(foregroundPath);
 
 		try {
-			ImageIO.write(foreground, "png", new File(resourceImporter.getNewProjecFolder(), newUri.substring(1)));
+			ImageIO.write(
+					result,
+					"png",
+					new File(resourceImporter.getNewProjecFolder(), newUri
+							.substring(1)));
 		} catch (IOException e) {
 			logger.error("Error creating foreground image {}", e);
 		}
-		
+
 		foreground.flush();
 		background.flush();
+		result.flush();
 
 	}
 

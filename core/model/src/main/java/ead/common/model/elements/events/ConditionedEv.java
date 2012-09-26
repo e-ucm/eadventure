@@ -44,17 +44,16 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
 
 @Element
-public class ConditionedEv extends AbstractEvent implements
-		Conditioned {
+public class ConditionedEv extends AbstractEvent implements Conditioned {
 
 	@Param("condition")
 	private EAdCondition condition;
-	
+
 	@Param("runNotMetConditions")
 	private boolean runNotMetConditions;
 
 	public ConditionedEv() {
-		this( EmptyCond.FALSE_EMPTY_CONDITION);
+		this(EmptyCond.FALSE_EMPTY_CONDITION);
 		setId("condEvent");
 		runNotMetConditions = true;
 	}
@@ -73,12 +72,18 @@ public class ConditionedEv extends AbstractEvent implements
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
 	}
-	
-	public boolean isRunNotMetConditions( ){
+
+	public boolean isRunNotMetConditions() {
 		return runNotMetConditions;
 	}
-	
-	public void setRunNotMetConditions(boolean run ){
+
+	/**
+	 * Runs not met conditions in the first update (if the conditions are not
+	 * met)
+	 * 
+	 * @param run
+	 */
+	public void setRunNotMetConditions(boolean run) {
 		this.runNotMetConditions = run;
 	}
 

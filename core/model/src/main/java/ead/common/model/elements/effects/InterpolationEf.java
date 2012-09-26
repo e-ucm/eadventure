@@ -42,30 +42,32 @@ import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.operations.MathOp;
+import ead.common.model.elements.variables.operations.ValueOp;
 
 /**
  * Effect that performs an interpolation between two values in an {@link EAdVar}
  * 
  * 
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Element
 public class InterpolationEf extends AbstractEffect {
 
-	@Param("element")
-	private EAdElement element;
+	@Param("fields")
+	private EAdList<EAdField<?>> fields;
 
-	@Param("var")
-	private EAdVarDef<?> varDef;
+	@Param("initialValues")
+	private EAdList<EAdOperation> initialValues;
 
-	@Param("initialValue")
-	private MathOp initialValue;
-
-	@Param("endValue")
-	private MathOp endValue;
+	@Param("endValues")
+	private EAdList<EAdOperation> endValues;
 
 	@Param("time")
 	private int interpolationTime;
@@ -109,22 +111,32 @@ public class InterpolationEf extends AbstractEffect {
 	 *            the interpolation type
 	 */
 	public InterpolationEf(EAdElement element, EAdVarDef<?> varDef,
-			MathOp initialValue, MathOp endValue, int interpolationTime,
-			int delay, InterpolationLoopType loopType, int loops,
-			InterpolationType interpolationType) {
-		super();
-		setId("interpolation");
-		this.element = element;
-		this.varDef = varDef;
-		this.initialValue = initialValue;
-		this.endValue = endValue;
+			EAdOperation initialValue, EAdOperation endValue,
+			int interpolationTime, int delay, InterpolationLoopType loopType,
+			int loops, InterpolationType interpolationType) {
+		this();
+		this.initialValues.add(initialValue);
+		this.endValues.add(endValue);
+		this.fields.add(new BasicField(element, varDef));
 		this.interpolationTime = interpolationTime;
 		this.delay = delay;
 		this.loopType = loopType;
 		this.loops = loopType == InterpolationLoopType.NO_LOOP ? 1 : loops;
 		this.interpolationType = interpolationType;
-		this.relative = true;
+	}
+
+	public InterpolationEf() {
+		super();
+		setId("interpolation");
 		setQueueable(true);
+		fields = new EAdListImpl<EAdField<?>>(EAdField.class);
+		initialValues = new EAdListImpl<EAdOperation>(EAdOperation.class);
+		endValues = new EAdListImpl<EAdOperation>(EAdOperation.class);
+		delay = 0;
+		relative = true;
+		loops = 0;
+		loopType = InterpolationLoopType.NO_LOOP;
+		interpolationType = InterpolationType.LINEAR;
 	}
 
 	public InterpolationEf(EAdElement element, EAdVarDef<?> varDef,
@@ -143,8 +155,11 @@ public class InterpolationEf extends AbstractEffect {
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 	}
 
-	public InterpolationEf() {
-		super();
+	public InterpolationEf(EAdField<?> field, EAdOperation target,
+			int interpolationTime) {
+		this(field.getElement(), field.getVarDef(), new ValueOp(0), target,
+				interpolationTime, 0, InterpolationLoopType.NO_LOOP, 0,
+				InterpolationType.LINEAR);
 	}
 
 	public InterpolationEf(EAdField<?> field, float startValue, float endValue,
@@ -177,36 +192,12 @@ public class InterpolationEf extends AbstractEffect {
 				loopType, -1, interpolation);
 	}
 
-	public EAdElement getElement() {
-		return element;
+	public void setFields(EAdList<EAdField<?>> fields) {
+		this.fields = fields;
 	}
 
-	public void setElement(EAdElement element) {
-		this.element = element;
-	}
-
-	public EAdVarDef<?> getVarDef() {
-		return varDef;
-	}
-
-	public void setVarDef(EAdVarDef<?> varDef) {
-		this.varDef = varDef;
-	}
-
-	public MathOp getInitialValue() {
-		return initialValue;
-	}
-
-	public void setInitialValue(MathOp initialValue) {
-		this.initialValue = initialValue;
-	}
-
-	public MathOp getEndValue() {
-		return endValue;
-	}
-
-	public void setEndValue(MathOp endValue) {
-		this.endValue = endValue;
+	public EAdList<EAdField<?>> getFields() {
+		return fields;
 	}
 
 	public int getInterpolationTime() {
@@ -257,4 +248,30 @@ public class InterpolationEf extends AbstractEffect {
 		this.relative = relative;
 	}
 
+	public void addField(EAdField<?> field, EAdOperation target) {
+		addField(field, new ValueOp(0), target);
+	}
+
+	public void addField(EAdField<?> field, EAdOperation initialValue,
+			EAdOperation target) {
+		fields.add(field);
+		initialValues.add(initialValue);
+		endValues.add(target);
+	}
+
+	public EAdList<EAdOperation> getInitialValues() {
+		return initialValues;
+	}
+
+	public void setInitialValues(EAdList<EAdOperation> initialValues) {
+		this.initialValues = initialValues;
+	}
+
+	public EAdList<EAdOperation> getEndValues() {
+		return endValues;
+	}
+
+	public void setEndValues(EAdList<EAdOperation> endValues) {
+		this.endValues = endValues;
+	}
 }

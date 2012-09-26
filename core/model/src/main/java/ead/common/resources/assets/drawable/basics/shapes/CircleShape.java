@@ -80,4 +80,8 @@ public class CircleShape extends AbstractShape {
 		return false;
 	}
 
+	public Object clone() {
+		return new CircleShape(radius, getPaint());
+	}
+
 }

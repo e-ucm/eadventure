@@ -98,4 +98,8 @@ public class RectangleShape extends AbstractShape {
 		return false;
 	}
 
+	public Object clone() {
+		return new RectangleShape(width, height);
+	}
+
 }

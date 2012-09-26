@@ -164,7 +164,7 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	}
 
 	public EAdList<EAdEffect> getPreviousEffects() {
-		return nextEffects;
+		return previousEffects;
 	}
 
 	public void setNextEffectsAlways(boolean always) {

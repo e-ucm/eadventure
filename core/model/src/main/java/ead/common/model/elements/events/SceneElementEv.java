@@ -38,6 +38,8 @@
 package ead.common.model.elements.events;
 
 import ead.common.interfaces.Element;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 
 @Element
 public class SceneElementEv extends AbstractEvent {
@@ -45,6 +47,11 @@ public class SceneElementEv extends AbstractEvent {
 	public SceneElementEv() {
 		super();
 		setId("sceneElementEvent");
+	}
+
+	public SceneElementEv(SceneElementEvType type, EAdEffect effect) {
+		this();
+		this.addEffect(type, effect);
 	}
 
 }

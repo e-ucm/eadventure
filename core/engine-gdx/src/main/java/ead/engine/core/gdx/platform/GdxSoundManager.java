@@ -35,39 +35,46 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
+package ead.engine.core.gdx.platform;
 
-import java.util.List;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.TweenManager;
+import ead.common.resources.assets.multimedia.EAdSound;
+import ead.engine.core.platform.SoundManager;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 
-public interface TweenController {
+@Singleton
+public class GdxSoundManager implements SoundManager {
 
-	TweenManager add(BaseTween<?> object);
+	private RuntimeSound backgroundMusic;
 
-	boolean containsTarget(Object arg0, int arg1);
+	private AssetHandler assetHandler;
 
-	public boolean containsTarget(Object arg0);
+	@Inject
+	public GdxSoundManager(AssetHandler assetHandler) {
+		this.assetHandler = assetHandler;
+	}
 
-	public List<BaseTween<?>> getObjects();
+	@Override
+	public void playSound(EAdSound sound) {
+		RuntimeSound s = (RuntimeSound) assetHandler.getRuntimeAsset(sound);
+		s.play();
+	}
 
-	public int getRunningTimelinesCount();
+	@Override
+	public void playBackgroundMusic(EAdSound sound) {
+		if (backgroundMusic != null) {
+			backgroundMusic.stop();
+			backgroundMusic = null;
+		}
 
-	public int getRunningTweensCount();
-
-	public void killAll();
-
-	public void killTarget(Object arg0, int arg1);
-
-	public void killTarget(Object arg0);
-
-	public void pause();
-
-	public void resume();
-
-	public int size();
-
-	public void update(float arg0);
+		if (sound != null) {
+			backgroundMusic = (RuntimeSound) assetHandler
+					.getRuntimeAsset(sound);
+			backgroundMusic.loop();
+		}
+	}
 
 }

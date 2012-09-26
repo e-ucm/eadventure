@@ -86,6 +86,7 @@ import ead.engine.core.platform.AbstractEngineConfiguration;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
+import ead.engine.core.platform.SoundManager;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
@@ -135,6 +136,8 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(InputHandler.class, InputHandlerImpl.class);
 
 		binds.put(PluginHandler.class, GdxPluginHandler.class);
+
+		binds.put(SoundManager.class, GdxSoundManager.class);
 
 		// Game
 		binds.put(GameState.class, GameStateImpl.class);
