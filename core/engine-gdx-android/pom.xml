@@ -20,11 +20,17 @@
 	</description>
 
 	<dependencies>
-	    <!-- Gdx already include support for slf4j -->
+		<!-- Gdx already include support for slf4j -->
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-gdx</artifactId>
-			<version>${project.version}</version>			
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
