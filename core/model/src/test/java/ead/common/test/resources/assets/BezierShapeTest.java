@@ -7,12 +7,14 @@ import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.test.EqualsHashCodeTest;
+import java.util.ArrayList;
 
 public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 
 	@Override
 	public EAdShape[] getObjects() {
-		EAdShape[] shapes = new BezierShape[10];
+		ArrayList<EAdShape> shapes = new ArrayList<EAdShape>(20);
+
 		EAdPaint p1 = ColorFill.BLUE;
 		EAdPaint p2 = Paint.BLACK_ON_WHITE;
 		int i = 0;
@@ -24,9 +26,9 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shape.quadTo(50, 90, 12, 222000);
 		shape.setClosed(true);
 		shape.setPaint(p1);
-		shapes[i++] = shape;
-		shapes[i++] = shape;
-		
+		shapes.add(shape);
+		shapes.add(shape);
+
 		// Same shape, but not closed
 		shape = new BezierShape( );
 		shape.moveTo(0, 0);
@@ -35,9 +37,9 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shape.quadTo(50, 90, 12, 222000);
 		shape.setClosed(false);
 		shape.setPaint(p1);
-		shapes[i++] = shape;
-		shapes[i++] = shape;
-		
+		shapes.add(shape);
+		shapes.add(shape);
+
 		// Same shape, but with another paint
 		shape = new BezierShape( );
 		shape.moveTo(0, 0);
@@ -46,9 +48,9 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shape.quadTo(50, 90, 12, 222000);
 		shape.setClosed(true);
 		shape.setPaint(p2);
-		shapes[i++] = shape;
-		shapes[i++] = shape;
-		
+		shapes.add(shape);
+		shapes.add(shape);
+/*
 		// Same shape, but with paint as vector with true
 		shape = new BezierShape( );
 		shape.moveTo(0, 0);
@@ -56,12 +58,14 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shape.lineTo(50, 60);
 		shape.quadTo(50, 90, 12, 222000);
 		shape.setClosed(true);
-		shape.setPaint(p1);		
-		shapes[i++] = shape;
-		shapes[i++] = shape;
-		
+		shape.setPaint(p1);
+		shapes.add(shape);
+		shapes.add(shape);
+*/
 		// Shape with rectangle
-		shapes[i++] = new RectangleShape( 800, 600, p2);
+		shapes.add(new RectangleShape( 800, 600, p2));
+		shapes.add(new RectangleShape( 800, 600, p2));
+
 		shape = new BezierShape( );
 		shape.moveTo(0, 0);
 		shape.lineTo(800, 0);
@@ -69,9 +73,10 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shape.lineTo(0, 600);
 		shape.setClosed(true);
 		shape.setPaint(p2);
-		shapes[i++] = shape;
-		
-		return shapes;
-	}
+		shapes.add(shape);
+		shapes.add(shape);
 
+		// devuelta
+		return shapes.toArray(new EAdShape[shapes.size()]);
+	}
 }
