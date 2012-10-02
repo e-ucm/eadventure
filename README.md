@@ -1,3 +1,5 @@
+# eAdventure: creating and running adventure games
+
 eAdventure is a free and open source game framework (editor and engine) based on Java, with an emphasis on educational uses. eAdventure has been in development at the Complutense University at Madrid for the last few years.
 
 This project hosts the new version of eAdventure (i.e. eAdventure 2.0), which provides a completely new code base to provide support for many new features. eAdventure uses a declarative XML language to create educational adventure games, both in first and third person. 
