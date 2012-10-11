@@ -37,12 +37,14 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
@@ -61,8 +63,7 @@ public class ScrollScene extends EmptyScene {
 				"@drawable/scrollbg.png")));
 		
 		NgCommon.init();
-		EAdSceneElementDef d = NgCommon.getMainCharacter();
-		SceneElement character = new SceneElement( d );
+		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
 		
 		SpeakSceneElementEf effect = new SpeakSceneElementEf( character );
@@ -86,9 +87,14 @@ public class ScrollScene extends EmptyScene {
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 
-		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-				new MoveActiveElementToMouseEf());
-		
+		// Sets up character's movement
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setId("moveCharacter");
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(character);
+		move.setUseTrajectory(true);
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 	}
 
 	@Override
