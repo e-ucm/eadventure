@@ -41,6 +41,7 @@ import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -92,6 +93,11 @@ public class GdxDesktopGUI extends GdxGUI {
 	public void initialize() {
 
 		frame = new JFrame();
+		
+		// Sets a null cursor (so the in-game one is used)
+		frame.setCursor(frame.getToolkit().createCustomCursor(
+	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "null"));
+		
 		setFullscreenIfNeeded();
 		int width = engineConfiguration.getWidth();
 		int height = engineConfiguration.getHeight();
