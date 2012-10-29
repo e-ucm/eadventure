@@ -38,7 +38,6 @@
 package ead.editor.view.menu;
 
 import com.google.inject.Inject;
-import ead.editor.control.CommandManager;
 import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
 import ead.editor.control.EditorConfig.EditorConf;
@@ -48,14 +47,13 @@ import ead.editor.R;
 import ead.editor.control.ProjectController;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.EditorModel.ModelProgressListener;
+import ead.editor.view.EditorWindow;
 import ead.utils.FileUtils;
 import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -64,9 +62,7 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -214,6 +210,8 @@ public class FileMenu extends JMenu {
                                 f.getAbsolutePath());
                         ec.save(null);
                         controller.getProjectController().load(f.getAbsolutePath());
+						((EditorWindow)controller.getViewController())
+								.setTitleSuffix(f.getName());
                     }
                 }).runInEDT();
             }
@@ -266,6 +264,8 @@ public class FileMenu extends JMenu {
 
                         controller.getProjectController().doImport(
                                 f.getAbsolutePath(), d.getAbsolutePath());
+						((EditorWindow)controller.getViewController())
+								.setTitleSuffix(d.getName());
                     }
                 }).runInEDT();
             }
@@ -303,6 +303,8 @@ public class FileMenu extends JMenu {
                         ec.save(null);
                         controller.getProjectController().newProject();
                         controller.getProjectController().saveAs(d.getAbsolutePath());
+						((EditorWindow)controller.getViewController())
+								.setTitleSuffix(d.getName());
                     }
                 }).runInEDT();
             }

@@ -65,6 +65,7 @@ import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
 import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.ViewController;
+import ead.editor.control.change.ChangeListener;
 import ead.editor.model.nodes.ActorNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.ToolPanel;
@@ -220,6 +221,15 @@ public class EditorWindow implements ViewController {
 		}
 	}
 
+	/**
+	 * Sets a title suffix, used to display currently-edited file.
+	 * @param title 
+	 */
+	public void setTitleSuffix(String title) {
+		String nextTitle = title + " - " + Messages.main_window_title;
+		editorWindow.setTitle(nextTitle);
+	}
+	
     /**
      * Creates a new view of a given category.
      */
@@ -295,7 +305,7 @@ public class EditorWindow implements ViewController {
      */
     private void createMainWindow() {
         editorWindow = new JFrame();
-        editorWindow.setTitle("eAdventure Editor");
+        editorWindow.setTitle(Messages.main_window_title);
         editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,

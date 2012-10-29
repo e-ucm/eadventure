@@ -37,25 +37,31 @@
 
 package ead.utils.i18n;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
 //TODO This class should be called for any project that has
 //     resources upon building
 /**
- * This class allows the automatic creation of the R.java files that define
- * the class which is used to internationalize resources in the application.
+ * Automatically creates and updates R.java (for resources) and Messages.java 
+ * (for internationalized strings) files used for internationalization (I18N).
  * The R classes contain generated maps of all available resources in the
  * classpath, and should be regenerated as part of the release process. This
- * method is much quicker than scanning jar-files at execution time.
+ * method is much quicker than scanning jar-files at execution time. Messages.java
+ * files have a similar structure and workflow.
  *
  * R.java files imitate a similar mechanism developed for Android applications;
  * you can read more about it at
@@ -66,7 +72,7 @@ public class ResourceCreator {
 	private static String eol = System.getProperty("line.separator");
 
 	/**
-	 * Generate the R.java file with the R class for the given project and package
+	 * Generate the R.java file with the 'R' class for the given project and package
 	 *
 	 * @param args projecteURL: the location of the project for which the R file must be generated
 	 * packageName: the name of the main package in the project
@@ -86,9 +92,9 @@ public class ResourceCreator {
                 + "   license-file - "
                     + "name of the file with the license you want to pre-pend\n"
                 + "   package-name - "
-                    + "name of the package you want to create the R.java file in\n"
+                    + "name of the package where R.java / Messages.java files should be generated\n"
                 + "   source-location - "
-                    + "location for output R.java file; if absent, stdout is used\n");
+                    + "location for resulting R.java / Messages.java files; if absent, stdout is used\n");
             System.exit(-1);
         }
 
@@ -109,15 +115,73 @@ public class ResourceCreator {
                 + "resources");
 
         // build a paramString to include in class comment
-        StringBuilder parameterString = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for (String s : args) {
-            parameterString.append(" \"").append(s).append("\"");
+            sb.append(" \"").append(s).append("\"");
         }
+		String parameterString = sb.toString();
 
-        printLicense(licenseFileName, out);
+		// write single R file
+		System.err.println("\tProcessing resources (from " + resources + ")");
+		printLicense(licenseFileName, out);
+		out.println(resourceFileContents(packageName, importName, regenName, 
+				parameterString, resources));
+		if (out != System.out) {
+			out.close();
+		}
+		
+		// find each Messages.properties file, and generate a mirror Messages.java file
+		System.err.println("\tProcessing messages...");
+		for (File propsFile : new FileFinder(resources, "Messages.properties")) {
+			String p = propsFile.getPath();
+			File outputFile = new File(p.replace(
+						"main"+ File.separator + "resources", 
+						"main"+ File.separator + "java")
+					.replace(".properties", ".java"));
+			String startOfPackage = "main" + File.separator + "resources";
+			String truePackage = p.substring(
+					p.indexOf(startOfPackage) + startOfPackage.length() + 1, 
+					p.indexOf(propsFile.getName()) - 1)
+				.replace(File.separator, ".");
+			System.err.println("\t" + truePackage + " (from " + propsFile + ")");
+			out = (args.length == 3) ?
+                System.out : new PrintStream(outputFile);
+			
+			// write this Messages file
+			printLicense(licenseFileName, out);
+			out.println(messageFileContents(truePackage, importName, regenName, 
+					parameterString, propsFile));
+			if (out != System.out) {
+				out.close();
+			}
+		}
+	}
 
-		String classContent = eol
-            + "package " + packageName + ";" + eol
+	private static class FileFinder implements Iterable<File> {
+		private ArrayList<File> found = new ArrayList<File>();
+		public FileFinder(File dir, String name) {
+			find(dir, name);
+		}
+		
+		private void find(File dir, String name) {
+			for (File f : dir.listFiles()) {
+				if (f.isFile() && f.getName().equals(name)) {
+					found.add(f);
+				} else if (f.isDirectory()) {
+					find(f, name);
+				}
+			}
+		}
+		
+		@Override
+		public Iterator<File> iterator() {
+			return found.iterator();
+		}
+	}
+	
+	private static String resourceFileContents(String packageName, String importName,
+		String regenName, String parameterString, File resources) {
+            return "package " + packageName + ";" + eol
             + eol
             + "import " + importName + ";" + eol
             + "import java.util.Set;" + eol
@@ -128,19 +192,37 @@ public class ResourceCreator {
             + " *" + eol
             + " * This is an AUTOMATICALLY-GENERATED file - " + eol
             + " * Run class " + regenName + " with parameters: " + eol
-            + " *   " + parameterString.toString() + eol
+            + " *   " + parameterString + eol
             + " * to re-create or update this class" + eol
             + " */" + eol
             + "public class R {" + eol
             + eol
-            + createClass(resources, "Drawable")
+            + createResourceContents(resources, "Drawable")
             + "}" + eol;
-
-		out.println(classContent);
 	}
 
+	private static String messageFileContents(String packageName, String importName,
+		String regenName, String parameterString, File resource) {
+            return "package " + packageName + ";" + eol
+            + eol
+            + "import " + importName + ";" + eol
+            + eol
+            + "/**" + eol
+            + " * Message index for this class (bound at run-time according to user preferences)" + eol
+            + " *" + eol
+            + " * This is an AUTOMATICALLY-GENERATED file - " + eol
+            + " * Run class " + regenName + " with parameters: " + eol
+            + " *   " + parameterString + eol
+            + " * to re-create or update this class" + eol
+            + " */" + eol
+            + "public class Messages {" + eol
+            + eol
+            + createMessageContents(resource)
+            + "}" + eol;
+	}			
+	
     /**
-     * Return file contents as a string
+     * Writes license-file contents into a PrintStream
      */
     private static void printLicense(String fileName, PrintStream out) {
         File f = new File(fileName);
@@ -166,15 +248,25 @@ public class ResourceCreator {
     }
 
 	/**
-	 * Create a sub-class, which contains the actual resources (e.g. "Drawable").
+	 * Write resource-list into R class.
 	 * Notice that "qualifiers" (-something extensions in the leading directories) 
-	 * are ignored, to allow for internationalization.
+	 * are ignored, to allow for internationalization. Examples:
+	 * drawable/EditorIcon16x16_bw.png becomes 
+	 *		EditorIcon16x16_bw_png
+	 * drawable/SplashScreenLogo.png becomes 
+	 *		SplashScreenLogo.png
+	 * drawable-es_ES/SplashScreenLogo.png becomes 
+	 *		es_ES/SplashScreenLogo_png
+	 * drawable/conditions/vars.png becomes 
+	 *		conditions__vars_png
+	 * drawable-es_ES/SplashScreenLogo.png becomes 
+	 *		es_ES/conditions__vars_png
 	 *
 	 * @param location the location of the resources
 	 * @param className the name of the new class
 	 * @return A string with the full definition of the sub-class
 	 */
-	private static String createClass(File location, final String className) {
+	private static String createResourceContents(File location, final String className) {
 		StringBuilder classContent = new StringBuilder(
                 "\tpublic static class " + className + " {" + eol);
 
@@ -241,6 +333,48 @@ public class ResourceCreator {
 
 		return classContent.toString();
 	}
+	
+	/**
+	 * Write message-list into Messages class.
+	 * Only messages that exist in the default language are included. 
+	 *
+	 * @param location the location of the source .properties file
+	 * @param className the name of the new class
+	 * @return A string with the full definition of the sub-class
+	 */
+	private static String createMessageContents(File location) {
+		
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileReader(location));
+		} catch (Exception e) {
+			System.err.println("Sorry, '" + location + "' is not a valid properties file: \n"
+						+ "\t" + e.getMessage() + "\n");
+			e.printStackTrace();
+			return "ERROR GENERATING FROM " + location;			
+		}
+		
+		ArrayList<String> keys = new ArrayList<String>();
+		for (Object o : properties.keySet()) {
+			keys.add(o.toString());
+		}
+		Collections.sort(keys);
+		
+		StringBuilder classContent = new StringBuilder();
+		for (String key : keys) {			
+			classContent.append("\tpublic static String ")
+							.append(key).append(";")
+							.append(eol);					
+		}
+	
+        classContent.append(eol)
+                .append("\tstatic {").append(eol)
+                .append("\t\tI18N.initializeMessages(Messages.class.getName(),"
+                + " Messages.class);").append(eol)
+            .append("\t}").append(eol);
+
+		return classContent.toString();
+	}	
 
 	/**
 	 * Recursive method to visit all the sub-folders in the resource structure.

@@ -39,8 +39,9 @@ def main():
             "-cp", "core/utils/target/classes",
             "ead.utils.i18n.ResourceCreator",
             project, package, 
-            "etc/LICENSE.txt", 
-            source])   
+            "etc/LICENSE.txt"
+#  			,])   
+            ,source])   
 
     find_and_do(".", False, regen)    
     
