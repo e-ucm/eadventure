@@ -121,6 +121,7 @@
 		<gwt.module>ead.engine.core.GwtDefinition</gwt.module>
 		<gwt.version>2.4.0</gwt.version>
 		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
+		<gwt.logLevel>DEBUG</gwt.logLevel> 
 	</properties>
 
 	<dependencies>

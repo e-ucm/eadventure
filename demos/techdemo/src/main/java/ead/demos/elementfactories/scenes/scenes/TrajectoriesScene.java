@@ -37,6 +37,7 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
@@ -50,6 +51,7 @@ import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
@@ -89,6 +91,15 @@ public class TrajectoriesScene extends EmptyScene {
 				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp(null));
 
+		// Sets up character's movement
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setId("moveCharacter");
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(element);
+		move.setUseTrajectory(true);
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+		
 		createTrajectory1(changeSide);
 		createTrajectory2(changeSide);
 		createTrajectory3(changeSide);
