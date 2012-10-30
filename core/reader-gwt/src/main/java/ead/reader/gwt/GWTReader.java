@@ -98,9 +98,9 @@ public class GWTReader {
 
 					logger.info("Built.");
 
-					if (data == null)
+					if (data == null) {
 						logger.info("Data is null");
-					else {
+					} else {
 						data.getDepthControlList().clear();
 						logger.info("Setting the game");
 					}
@@ -115,27 +115,29 @@ public class GWTReader {
 	}
 
 	static String getNodeText(com.google.gwt.xml.client.Node xmlNode) {
-		if (xmlNode == null)
+		if (xmlNode == null) {
 			return "";
+		}
 		NodeList nodes = xmlNode.getChildNodes();
-		String result = "";
+		StringBuilder sb = new StringBuilder();
 		try {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				String value = nodes.item(i).getNodeValue();
-				if (value != null)
-					result += (value.equals("null") ? "" : value);
+				if (value != null) {
+					sb.append(value.equals("null") ? "" : value);
+				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warn("could not get node text", e);
 		}
-		return result;
+		return sb.toString();
 	}
 
 	private void getAliasMap(Document doc) {
 		NodeList nl = doc.getFirstChild().getChildNodes();
 
 		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
-			logger.info(nl.item(i).getNodeName());
+			logger.info("At alias {}: {}", new String[] {""+i, nl.item(i).getNodeName()});
 			if (nl.item(i).getNodeName().equals("keyMap")) {
 				NodeList nl2 = nl.item(i).getChildNodes();
 
