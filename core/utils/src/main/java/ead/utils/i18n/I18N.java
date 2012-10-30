@@ -53,6 +53,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,6 +83,8 @@ public abstract class I18N {
 
     private static final Logger logger = LoggerFactory.getLogger(I18N.class.getName());
 
+	private static final String referenceValueRegex = "[{]([a-z][a-z0-9_]+)[}]";
+	
     /**
      * Creates a new I18N instance.
      */
@@ -240,6 +244,60 @@ public abstract class I18N {
         loadMessages(baseName, clazz, Locale.getDefault());
     }
 
+	/**
+	 * Resolves all references within a string. A reference is something of 
+	 * the form {key}, which is replaced by props.get(key). Replacement is 
+	 * performed until no references remain, or until a set limit of
+	 * replacement-iterations is reached.
+	 * 
+	 * The final, substituted value is stored in its key for further reference.
+	 * 
+	 * @param input
+	 * @param props
+	 * @return substituted value
+	 */
+	private static String resolveReferences(String key, String initialValue, Properties props) {
+		Pattern p = Pattern.compile(referenceValueRegex);
+		
+		String output = initialValue;
+		int maxIterations = 10;
+		boolean found = false;
+		for (int i=0; i<maxIterations; i++) {
+			Matcher m = p.matcher(output);
+			found = false;
+			StringBuffer sb = new StringBuffer();
+			while (m.find()) {
+				found = true;
+				String value = props.getProperty(m.group(1));
+				if (value == null) {
+					value = m.group().replaceAll("[{}]", "?");
+					logger.warn("Could not resolve value {} in key {}, iteration {}",
+						new String[] { m.group(), key, ""+(i+1) });					
+				} else {
+					logger.debug("Resolved value {} in key {} as {}, iteration {}",
+						new String[] { m.group(), key, value, ""+(i+1) });
+				}
+				m.appendReplacement(sb, value);
+			}			
+			
+			if ( ! found) {
+				break;
+			}
+			
+			// prepare for next iteration
+			m.appendTail(sb);
+			output = sb.toString();
+		}
+		
+		if (found) {
+			// too many iterations: bail out
+			logger.warn("Circular reference in key {}: reached {} replacement iterations",
+				new String[] { key, ""+maxIterations });										
+		}
+		props.setProperty(key, output);
+		return output;
+	}
+	
     /**
      * Load the
      * <code>baseName</code> messages bundle and initialize
@@ -247,8 +305,8 @@ public abstract class I18N {
      *
      * <p> This method initializes
      * <code>clazz</code> public static String fields using the messages loaded
-     * from
-     * <code>baseName</code> bundle. </p>
+     * from <code>baseName</code> bundle. </p>. References to other keys
+	 * are replaced; but no guarantee is made regarding order-of-interpretation.
      *
      * @param baseName the base name of the resource bundle, a fully qualified
      * class name
@@ -274,44 +332,46 @@ public abstract class I18N {
             for (int i = 0; i < fileNames.length; i++) {
                 InputStream input = loader.getResourceAsStream(fileNames[i]);
             	logger.debug("Searching for file {} for bundle {}", fileNames[i], baseName);
-            	if (input != null) {
-                	logger.info("Processing file {} for bundle {}", fileNames[i], baseName);
-                    try {
-                        Properties props = new Properties();
-                        props.load(input);
-
-                        for (Map.Entry<Object, Object> e : props.entrySet()) {
-                            String key = (String) e.getKey();
-                            if (fieldNames.contains(key)) {
-                                if (fields.containsKey(key)) {
-                                    logger.debug("setting key {} to '{}'",
-                                            new String[]{
-                                                fields.get(key).getName(),
-                                                e.getValue().toString()});
-                                    assignField(fields.get(key), e.getValue());
-                                    fields.remove(key);
-                                }
-                            } else {
-                                logger.warn("Bundle '{}' has an unused message {}",
-                                        new Object[]{baseName, key});
-                            }
-                        }
-                        noBundleFound = false;
-                    } catch (IOException e) {
-                        logger.error("Error loading message bundle '{}'", baseName, e);
-                    } finally {
-                        if (input != null) {
-                            try {
-                                input.close();
-                            } catch (IOException e) {
-                                logger.error("Error closing stream when loading for {}", baseName, e);
-                            }
-                        }
-                    }
-                } else {
-                    logger.debug("Bundle-file NOT FOUND in classpath:'{}'",
+            	if (input == null) {
+					logger.debug("Bundle-file NOT FOUND in classpath:'{}'",
                        fileNames[i]);
-                }
+					continue;
+				}
+	
+				logger.info("Processing file {} for bundle {}", fileNames[i], baseName);
+				try {
+					Properties props = new Properties();
+					props.load(input);
+
+					for (Map.Entry<Object, Object> e : props.entrySet()) {
+						String key = (String) e.getKey();
+						String value = resolveReferences(key, e.getValue().toString(), props);
+						
+						if (fieldNames.contains(key)) {
+							if (fields.containsKey(key)) {
+								logger.debug("setting key {} to '{}'",
+										new String[]{
+											fields.get(key).getName(), value});
+								assignField(fields.get(key), e.getValue());
+								fields.remove(key);
+							}
+						} else {
+							logger.warn("Bundle '{}' has an unused message {}",
+									new Object[]{baseName, key});
+						}
+					}
+					noBundleFound = false;
+				} catch (IOException e) {
+					logger.error("Error loading message bundle '{}'", baseName, e);
+				} finally {
+					if (input != null) {
+						try {
+							input.close();
+						} catch (IOException e) {
+							logger.error("Error closing stream when loading for {}", baseName, e);
+						}
+					}
+				}                
             }
 
             if (noBundleFound) {
