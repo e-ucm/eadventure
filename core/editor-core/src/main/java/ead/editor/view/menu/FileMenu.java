@@ -210,8 +210,8 @@ public class FileMenu extends JMenu {
                                 f.getAbsolutePath());
                         ec.save(null);
                         controller.getProjectController().load(f.getAbsolutePath());
-						((EditorWindow)controller.getViewController())
-								.setTitleSuffix(f.getName());
+						controller.getViewController()
+								.setTitleQualifier(f.getName());
                     }
                 }).runInEDT();
             }
@@ -264,8 +264,8 @@ public class FileMenu extends JMenu {
 
                         controller.getProjectController().doImport(
                                 f.getAbsolutePath(), d.getAbsolutePath());
-						((EditorWindow)controller.getViewController())
-								.setTitleSuffix(d.getName());
+						controller.getViewController()
+								.setTitleQualifier(d.getName());
                     }
                 }).runInEDT();
             }
@@ -303,8 +303,8 @@ public class FileMenu extends JMenu {
                         ec.save(null);
                         controller.getProjectController().newProject();
                         controller.getProjectController().saveAs(d.getAbsolutePath());
-						((EditorWindow)controller.getViewController())
-								.setTitleSuffix(d.getName());
+						controller.getViewController()
+								.setTitleQualifier(d.getName());
                     }
                 }).runInEDT();
             }

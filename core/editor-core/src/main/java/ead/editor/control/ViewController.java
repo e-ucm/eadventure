@@ -95,6 +95,12 @@ public interface ViewController {
 	void clearViews();
 
 	/**
+	 * Sets a title qualifier, used to display (say) currently-edited file.
+	 * @param titleQualifier 
+	 */
+	public void setTitleQualifier(String titleQualifier);	
+	
+	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,
 	 * and more

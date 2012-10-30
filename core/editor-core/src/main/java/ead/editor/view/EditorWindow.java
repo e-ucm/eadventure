@@ -222,10 +222,11 @@ public class EditorWindow implements ViewController {
 	}
 
 	/**
-	 * Sets a title suffix, used to display currently-edited file.
+	 * Sets a title qualifier, used to display (say) currently-edited file.
 	 * @param title 
 	 */
-	public void setTitleSuffix(String title) {
+	@Override
+	public void setTitleQualifier(String title) {
 		String nextTitle = title + " - " + Messages.main_window_title;
 		editorWindow.setTitle(nextTitle);
 	}
