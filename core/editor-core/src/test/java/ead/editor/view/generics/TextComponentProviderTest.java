@@ -55,10 +55,10 @@ public class TextComponentProviderTest extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
-		new TextComponentProviderTest();
+		(new TextComponentProviderTest()).test();
 	}
 
-    public TextComponentProviderTest() {
+    public void test() {
         setSize( 400,400 );
 
         FieldDescriptor<String> fieldDescriptor = new FieldDescriptorImpl<String>(null, "name");
@@ -74,5 +74,4 @@ public class TextComponentProviderTest extends JFrame {
         setVisible( true );
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
-
 }

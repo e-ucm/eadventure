@@ -74,10 +74,6 @@ public class ControllerImpl implements Controller {
         this.navigationController = navigationController;
         this.viewController = viewControler;
         this.commandManager = commandManager;
-
-        this.projectController.setController(this);
-        this.navigationController.setController(this);
-        this.viewController.setController(this);
     }
 
     @Override
@@ -106,16 +102,19 @@ public class ControllerImpl implements Controller {
 
     @Override
     public ProjectController getProjectController() {
+        projectController.setController(this);	
         return projectController;
     }
 
     @Override
     public NavigationController getNavigationController() {
-        return navigationController;
+        navigationController.setController(this);
+		return navigationController;
     }
 
     @Override
     public ViewController getViewController() {
+        viewController.setController(this);
         return viewController;
     }
 

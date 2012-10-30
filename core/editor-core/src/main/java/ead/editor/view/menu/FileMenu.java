@@ -86,7 +86,6 @@ public class FileMenu extends JMenu {
     public FileMenu(Controller controller, ProjectController projectController) {
         super(Messages.file_menu);
         this.controller = controller;
-        initialize(projectController);
     }
     private static FileFilter ead2LoadFolderFilter = new EAdFileFilter(
             ".eap", "data[.]xml", "EAdventure 2 project folders", false);
@@ -97,7 +96,7 @@ public class FileMenu extends JMenu {
     /**
      * Initialize the file menu
      */
-    public void initialize(ProjectController projectController) {
+    public void initialize() {
         Action[] as = new Action[]{
             new OpenAction(Messages.file_menu_open,
                 KeyEvent.VK_O),
@@ -127,7 +126,8 @@ public class FileMenu extends JMenu {
             // controller.putAction(name, a);
 
             // register listeners for project changes
-            projectController.addChangeListener((FileMenuAction)a);
+            controller.getProjectController()
+					.addChangeListener((FileMenuAction)a);
         }
     }
 
@@ -246,7 +246,7 @@ public class FileMenu extends JMenu {
                     Messages.file_menu_import_message_error,
                     false, JFileChooser.DIRECTORIES_ONLY, null,
                     EditorConf.LastSaveDirectory, EditorConf.LastSaveFile);
-            if (f != null && d != null) {
+            if (d != null) {
                 new ProgressListener(controller, new Runnable() {
 
                     @Override

@@ -49,13 +49,14 @@ import ead.common.model.elements.variables.VarDef;
 import ead.common.params.EAdParam;
 import ead.common.resources.EAdAssetDescriptor;
 import ead.common.resources.EAdResources;
-import ead.common.resources.assets.AssetDescriptor;
 import ead.editor.model.EditorModel;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An engine-model node. Used as a base for the dependency-tracking mechanism
@@ -63,7 +64,9 @@ import java.util.Map;
  * @author mfreire
  */
 public class EngineNode<T> extends DependencyNode<T> {
-
+	
+	public static final Logger log = LoggerFactory.getLogger(EngineNode.class);
+	
 	public EngineNode(int id, T content) {
 		super(id, content);
 	}
@@ -90,11 +93,11 @@ public class EngineNode<T> extends DependencyNode<T> {
 			return;
 		}
 
-
 		String indent = new String(new char[depth*2]).replace('\0', ' ');
 
         if (o == null) {
             sb.append("(null)");
+			return;
         }
 
 		String id = "" + m.getIdFor(o);
@@ -114,13 +117,12 @@ public class EngineNode<T> extends DependencyNode<T> {
 		} else if (o instanceof EAdList) {
 			EAdList target = (EAdList) o;
 			sb.append(indent + cname + " (" + id + ")" + "\n");
-			int i = 0;
-            if (target.size() == 0) {
+			if (target.size() == 0) {
                 sb.append(indent + "  (empty)\n");
             } else if (depth == maxDepth -1) {
                 sb.append(indent + "  (" + target.size() + " elements inside)\n");
             } else {
-                for (i = 0; i < target.size(); i++) {
+                for (int i = 0; i < target.size(); i++) {
                     // visit all children-values of this list
                     Object inner = target.get(i);
                     if (inner != null) {
@@ -166,6 +168,14 @@ public class EngineNode<T> extends DependencyNode<T> {
 		}
 	}
 
+	/**
+	 * Iterates through params, providing a glimpse of their contents.
+	 * @param m model
+	 * @param o object from which to extract params, if any
+	 * @param sb output 
+	 * @param depth current depth
+	 * @param maxDepth max depth to reach
+	 */
 	private void appendParams(EditorModel m, Object o, StringBuilder sb, int depth, int maxDepth) {
 		if (maxDepth == depth+1) {
 			return;
@@ -196,7 +206,7 @@ public class EngineNode<T> extends DependencyNode<T> {
                         }
                     }
                 } catch (Exception e) {
-
+					log.warn("Error looking up params for {} of class {}", o, clazz);
                 }
             }
             clazz = clazz.getSuperclass();

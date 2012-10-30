@@ -72,7 +72,7 @@ public class ModelVisitorDriver {
     private AssetDriver assetDriver = new AssetDriver();
     private ResourceDriver resourceDriver = new ResourceDriver();
 
-    private ModelVisitor v;
+    private ModelVisitor v = null;
     
     /**
      * Visits all elements in data in a depth-first manner. Does not keep track
@@ -120,7 +120,11 @@ public class ModelVisitorDriver {
      * Deepens visit into object o; called by drivers.
      */
     @SuppressWarnings("unchecked")
-    public void driveInto(Object o, Object source, String sourceName) {        
+    public void driveInto(Object o, Object source, String sourceName) {   
+		if (v == null) {
+			throw new IllegalStateException("No visitor defined. End of visit.");
+		}
+		
         if (driverFor(o) instanceof ParamDriver) {                                
             ((ParamDriver)driverFor(o)).drive(o, source, sourceName);
         } else if (v.visitObject(o, source, sourceName)) {
@@ -186,15 +190,14 @@ public class ModelVisitorDriver {
 
         @Override
         public void drive(Object target, Object source, String sourceName) {
-            String value = null;
             if (target == null) {
                 logger.warn("Null data");
             } else {
                 if (target instanceof EAdParam) {
-                    value = ((EAdParam) target).toStringData();
+                    String value = ((EAdParam) target).toStringData();
                     v.visitProperty(source, sourceName, value);
                 } else if (target instanceof Class) {
-                    value = ((Class<?>) target).getName();
+                    String value = ((Class<?>) target).getName();
                     v.visitProperty(source, sourceName, value);
                 } else {
                     v.visitProperty(source, sourceName, target.toString());

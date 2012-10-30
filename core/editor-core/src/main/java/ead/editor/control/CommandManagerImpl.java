@@ -78,10 +78,11 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 			CommandStack as = stacks.pop();
 			if (as.getActionHistory() != 0) {
 				stacks.peek().increaseActionHistory();
-				if (as.canUndo())
+				if (as.canUndo()) {
 					stacks.peek().getPerformed().add(as);
-				else
+				} else {
 					clearCommands();
+				}
 			}
 		}	
 		notifyListeners(null);
@@ -91,10 +92,11 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	public void performCommand(Command action) {
 		CommandStack currentStack = stacks.peek();
 		if (action.performCommand()) {
-			if (action.canUndo())
+			if (action.canUndo()) {
 				currentStack.getPerformed().push(action);
-			else
+			} else {
 				clearCommands();
+			}
 		}
 		currentStack.increaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
@@ -103,8 +105,9 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 
 	@Override
 	public void undoCommand() {
-		if (!canUndo())
+		if (!canUndo()) {
 			return;
+		}
 		CommandStack currentStack = stacks.peek();
 		if (currentStack.getPerformed().peek().undoCommand()) {
 			Command action = currentStack.getPerformed().pop();
@@ -121,8 +124,9 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 
 	@Override
 	public void redoCommand() {
-		if (!canRedo())
+		if (!canRedo()) {
 			return;
+		}
 		CommandStack currentStack = stacks.peek();
 		if (currentStack.getUndone().peek().redoCommand()) {
 			Command action = currentStack.getUndone().pop();

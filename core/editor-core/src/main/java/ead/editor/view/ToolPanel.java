@@ -116,9 +116,6 @@ public class ToolPanel implements ChangeListener {
 	@Inject
 	public ToolPanel(Controller controller) {
 		this.controller = controller;
-		controller.getCommandManager().addChangeListener(this);
-		controller.getNavigationController().addChangeListener(this);
-        controller.getProjectController().addChangeListener(this);
 
         toolPanel = new JPanel(new FlowLayout());
 		SwingUtilities.doInEDTNow(new Runnable() {
@@ -136,9 +133,13 @@ public class ToolPanel implements ChangeListener {
 	}
 
 	public JPanel getPanel() {
+		controller.getCommandManager().addChangeListener(this);
+		controller.getNavigationController().addChangeListener(this);
+        controller.getProjectController().addChangeListener(this);
 		return toolPanel;
 	}
 
+	@Override
 	public final void processChange(Object o) {
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override

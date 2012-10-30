@@ -94,8 +94,11 @@ public class CommandStack extends Command {
 
 	@Override
 	public boolean canRedo() {
-		for (Command a : undone)
-			if (!a.canRedo()) return false;
+		for (Command a : undone) {
+			if (!a.canRedo()) { 
+				return false;
+			}
+		}
 		return true;
 	}
 

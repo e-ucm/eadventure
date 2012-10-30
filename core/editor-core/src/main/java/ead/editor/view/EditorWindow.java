@@ -68,7 +68,6 @@ import ead.editor.control.ViewController;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.nodes.ActorNode;
 import ead.editor.model.nodes.DependencyNode;
-import ead.editor.view.ToolPanel;
 import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.menu.EditMenu;

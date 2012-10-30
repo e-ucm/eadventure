@@ -41,7 +41,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -81,6 +80,9 @@ import ead.reader.adventure.AdventureReader;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
 import ead.writer.EAdAdventureModelWriter;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
@@ -371,9 +373,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 			return true;
 		}
 
-		DependencyNode sourceNode = (source != null) ? nodesByContent
-				.get(source) : null;
-		DependencyNode e = addNode(sourceNode, sourceName, target);
+		DependencyNode e = addNode(nodesByContent.get(source), 
+				sourceName, target);
 
 		if (e != null) {
 			nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
@@ -577,13 +578,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         StringBuilder xml = new StringBuilder();
         BufferedReader breader = null;
         try {
-        	breader = new BufferedReader(new FileReader(f));
-        	String line = null;
+        	breader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(f), Charset.forName("UTF-8")));
+        	String line;
         	while ((line=breader.readLine()) != null ){
         		xml.append(line);
         	}
-        }catch ( Exception e ){
-        	
         } finally {
         	if ( breader != null ){
         		breader.close();
@@ -701,8 +701,13 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 			throws IOException {
 		File destFile = new File(dest, "data.xml");
 
-		writer.write((EAdAdventureModel) engineModel, new FileOutputStream(
-				destFile));
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream(destFile);			
+			writer.write((EAdAdventureModel) engineModel, out);
+		} finally {
+			if (out != null) { out.close(); }
+		}
 		DataPrettifier.prettify(destFile,
 				new File(dest, "pretty-" + destFile.getName()));
 	}

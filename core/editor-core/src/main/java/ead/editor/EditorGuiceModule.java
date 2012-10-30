@@ -52,7 +52,6 @@ import ead.editor.control.ViewController;
 import ead.editor.model.EditorAnnotator;
 import ead.editor.view.EditorWindow;
 import ead.importer.annotation.ImportAnnotator;
-import ead.tools.java.ConfigBackendXMLFile;
 
 /**
  * Google Guice ({@link http://code.google.com/p/google-guice/}) module to

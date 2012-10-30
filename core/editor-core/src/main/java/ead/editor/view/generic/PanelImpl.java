@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
 
 public class PanelImpl implements Panel {
 
-	private static final Logger logger = LoggerFactory.getLogger("PanelOption");
+	private static final Logger log = LoggerFactory.getLogger("PanelOption");
 
 	private List<InterfaceElement> elements;
 
@@ -142,6 +142,7 @@ public class PanelImpl implements Panel {
 
 		private static final long serialVersionUID = -8779328786327371343L;
 
+		@Override
 		public Dimension getPreferredSize() {
 			Dimension preferred = super.getPreferredSize();
 			Dimension container = super.getParent().getParent().getSize();

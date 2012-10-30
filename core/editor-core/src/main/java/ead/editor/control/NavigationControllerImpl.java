@@ -85,7 +85,7 @@ public class NavigationControllerImpl extends ChangeNotifierImpl implements Navi
 
 	@Override
 	public void clearHistory() {
-		viewStack = null;
+		viewStack.clear();
 		current = viewStack.listIterator();
 	}
 	

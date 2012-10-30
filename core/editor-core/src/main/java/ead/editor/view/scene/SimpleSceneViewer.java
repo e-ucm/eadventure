@@ -178,8 +178,8 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 
 	@Override
 	public void resize(int w, int h) {
-		float centerX = w / 2;
-		float centerY = h / 2;
+		float centerX = w / 2.0f;
+		float centerY = h / 2.0f;
 
 		camera.position.set(centerX, centerY, 0);
 		camera.viewportWidth = w;

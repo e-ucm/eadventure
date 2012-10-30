@@ -44,13 +44,12 @@ import ead.editor.control.commands.DuplicateElementCommand;
 import ead.editor.control.commands.MoveElementCommand;
 import ead.editor.control.commands.RemoveElementCommand;
 import ead.editor.view.generic.EAdListFieldDescriptor;
-import ead.editor.view.generic.Option;
 import ead.gui.listpanel.ColumnDescriptor;
 import ead.gui.listpanel.ListPanel;
 import ead.gui.listpanel.ListPanelListener;
 import ead.gui.listpanel.columntypes.StringCellRendererEditor;
 
-public class EAdListOption<S> extends AbstractOption<EAdList<S>> implements Option<EAdList<S>> {
+public class EAdListOption<S> extends AbstractOption<EAdList<S>> {
 
 	public EAdListOption(String label, String toolTipText,
 			EAdListFieldDescriptor<S> fieldDescriptor) {
@@ -101,10 +100,11 @@ public class EAdListOption<S> extends AbstractOption<EAdList<S>> implements Opti
 		@Override
 		public boolean addElement() {
 			S newElement = null; // TODO show panel to add new? or what?
-			AddElementCommand<S> addElement = new AddElementCommand<S>(
-					eAdListFieldDescriptor.getList(), newElement);
-			manager.performCommand(addElement);
-			return true;
+			throw new UnsupportedOperationException("Not yet implemented");
+//			AddElementCommand<S> addElement = new AddElementCommand<S>(
+//					eAdListFieldDescriptor.getList(), newElement);
+//			manager.performCommand(addElement);
+//			return true;
 		}
 
 		@Override

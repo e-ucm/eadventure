@@ -95,8 +95,9 @@ public class DataPrettifier {
         TreeMap<String, String> mappings = new TreeMap<String, String>();
 
         // fist pass: build map
+		FileInputStream in = null;
         try {
-            FileInputStream in = new FileInputStream(input);
+            in = new FileInputStream(input);
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
 
@@ -129,13 +130,16 @@ public class DataPrettifier {
             }
         } catch (Exception e) {
             throw new IOException("Unable to prettify (step 1)", e);
-        }
+        } finally {
+			if (in != null) { in.close(); }
+		}
 
         // second pass: read while translating with map
-        try {
+        in = null;
+		try {
 			ByteArrayOutputStream cache = new ByteArrayOutputStream();
 
-            FileInputStream in = new FileInputStream(input);
+            in = new FileInputStream(input);
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
             XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
@@ -207,7 +211,10 @@ public class DataPrettifier {
 
         } catch (Exception e) {
             throw new IOException("Unable to prettify (step 2)", e);
-        }
+        } finally {
+			if (in != null) { in.close(); }
+		}
+		
     }
 
     public static void main(String[] args) throws Exception {

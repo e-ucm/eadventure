@@ -107,6 +107,9 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		try {
 			Class<EditorNode> c = (Class<EditorNode>)cl.loadClass(className);
 			instance = c.getConstructor(Integer.TYPE).newInstance(id);
+			for (String cid : contentIdStrings) {
+				instance.getContents().add(em.getNode(Integer.parseInt(cid)));
+			}
 			instance.restoreInner(element);
 		} catch (Exception e) {
 			logger.error("Could not restore editorNode for class {}",

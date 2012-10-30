@@ -154,7 +154,7 @@ public class EditorAnnotator implements ImportAnnotator {
                     }
                     for (String s : values) {
                         annotations.get(element).add(new Annotation(key,
-                                Type.Comment.name(), values[0]));
+                                Type.Comment.name(), s));
                     }
                     logger.debug("Commenting {}({}) with {}: {} --> {}",
                             new Object[] {element, stack, key, Type.Comment.name(), values[0]});

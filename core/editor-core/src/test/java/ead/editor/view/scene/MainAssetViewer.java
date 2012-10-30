@@ -53,12 +53,21 @@ import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.utils.swing.SwingUtilities;
 
 public class MainAssetViewer {
 
 	public static void main(String args[]) {
+		SwingUtilities.doInEDTNow(
+			new Runnable() {
+				@Override
+				public void run() {
+					showSampleAsset();
+				}
+			});
+	}
 		
-
+	public static void showSampleAsset() {
 		final Image standNorth = new Image("@drawable/man_stand_n.png");
 		final BalloonShape shape = new BalloonShape( 10, 10, 100, 100, BalloonType.CLOUD);
 		shape.setPaint(ColorFill.WHITE);
@@ -123,7 +132,5 @@ public class MainAssetViewer {
 
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 	}
-
 }

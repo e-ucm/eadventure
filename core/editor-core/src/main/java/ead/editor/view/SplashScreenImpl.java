@@ -65,11 +65,8 @@ public class SplashScreenImpl implements SplashScreen {
     /**
      * The splash screen dialog
      */
-    protected SplashScreenDialog splashScreenDialog;
-    /**
-     * The background image of the dialog
-     */
-    protected Image image;
+    protected SplashScreenDialog splashScreenDialog = null;
+
     /**
      * The time at which the splash screen appeared
      */
@@ -83,13 +80,13 @@ public class SplashScreenImpl implements SplashScreen {
     public void show() {
         logger.info("Showing Splash-screen");
 
-        image = Resource.loadImage(R.Drawable.SplashScreenLogo_png);
+        final Image image = Resource.loadImage(R.Drawable.SplashScreenLogo_png);
 
         SwingUtilities.doInEDTNow(new Runnable() {
 
             @Override
             public void run() {
-                splashScreenDialog = new SplashScreenDialog();
+                splashScreenDialog = new SplashScreenDialog(image);
                 splashScreenDialog.setUndecorated(true);
 
                 int width = image.getWidth(null);
@@ -120,6 +117,7 @@ public class SplashScreenImpl implements SplashScreen {
             try {
                 Thread.sleep(MIN_TIME - (System.currentTimeMillis() - startTime));
             } catch (Exception e) {
+				logger.warn("Sleep failed within splash");
             }
         }
 
@@ -137,7 +135,7 @@ public class SplashScreenImpl implements SplashScreen {
      * The actual splash screen dialog, that shows the image, the message and
      * dots following it to show the user that the program is loading.
      */
-    private class SplashScreenDialog extends JDialog {
+    public static class SplashScreenDialog extends JDialog {
 
         private static final long serialVersionUID = 7388884935911211935L;
 
@@ -153,22 +151,23 @@ public class SplashScreenImpl implements SplashScreen {
          * Timer used to show the dots at the end of the message
          */
         private javax.swing.Timer timer;
-
+		
         /**
          * Enables double-buffering by default
          */
-        public SplashScreenDialog() {
+        public SplashScreenDialog(final Image image) {
             super.getRootPane().setDoubleBuffered(true);
 
             splashPanel = new JPanel() {
                 @Override
                 public void paintComponent(Graphics g) {
                     g.drawImage(image, 0, 0, null);
-                    String message = Messages.splash_screen_loading_message + " ";
+                    StringBuilder message = new StringBuilder(
+							Messages.splash_screen_loading_message + " ");
                     for (int i = 0; i < status; i++) {
-                        message += ".";
+                        message.append(".");
                     }
-                    g.drawString(message, 100, 265);
+                    g.drawString(message.toString(), 100, 265);
                     status = ++status % 5;
                     timer.start();
                 }

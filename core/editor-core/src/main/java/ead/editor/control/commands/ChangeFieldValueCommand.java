@@ -88,6 +88,7 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 * Method to perform a changing values command
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public boolean performCommand() {
 		boolean done = false;
 

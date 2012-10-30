@@ -50,10 +50,10 @@ import ead.editor.view.SplashScreenImpl;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
-import ead.tools.java.reflection.JavaReflectionClassLoader;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
+import ead.utils.i18n.I18N;
 
 /**
  * eAdventure editor launcher. This class has a main method.

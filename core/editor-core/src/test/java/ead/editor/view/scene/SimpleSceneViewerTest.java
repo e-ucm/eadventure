@@ -45,10 +45,21 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
+import ead.utils.swing.SwingUtilities;
 
 public class SimpleSceneViewerTest {
 
-	public static void main( String args[] ){
+	public static void main(String args[]) {
+		SwingUtilities.doInEDTNow(
+			new Runnable() {
+				@Override
+				public void run() {
+					showSimpleScene();
+				}
+			});
+	}
+	
+	public static void showSimpleScene() {
 
 		JFrame frame = new JFrame("SceneViewer");
 		frame.setSize(800, 600);
