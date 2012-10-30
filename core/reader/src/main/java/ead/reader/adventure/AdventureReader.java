@@ -52,7 +52,7 @@ import ead.tools.xml.XMLParser;
 
 public class AdventureReader {
 
-	private static Logger logger = LoggerFactory.getLogger("GWTReader");
+	private static Logger logger = LoggerFactory.getLogger("AdventureReader");
 
 	private XMLParser xmlParser;
 	
@@ -88,9 +88,9 @@ public class AdventureReader {
 
 		logger.info("Built.");
 
-		if (data == null)
+		if (data == null) {
 			logger.info("Data is null");
-		else {
+		} else {
 			data.getDepthControlList().clear();
 			logger.info("Setting the game");
 		}
@@ -102,7 +102,7 @@ public class AdventureReader {
 		XMLNodeList nl = doc.getFirstChild().getChildNodes();
 
 		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
-			logger.info(nl.item(i).getNodeName());
+			logger.info("At alias {}: {}", new String[] {""+i, nl.item(i).getNodeName()});
 			if (nl.item(i).getNodeName().equals("keyMap")) {
 				XMLNodeList nl2 = nl.item(i).getChildNodes();
 
