@@ -218,8 +218,10 @@ public class DataPrettifier {
     }
 
     public static void main(String[] args) throws Exception {
-        File f1 = new File("/tmp/y1/data.xml");
-        File f11 = new File("/tmp/y1/d1.xml");
+        String s1 = args.length > 0 ? args[0] : "/tmp/y1/data.xml";
+		String s2 = args.length > 1 ? args[1] : "/tmp/y1/d1.xml";
+		File f1 = new File(s1);
+        File f11 = new File(s2);
         DataPrettifier.prettify(f1, f11);
         //File f2 = new File("/tmp/y2/data.xml");
         //File f21 = new File("/tmp/y2/d1.xml");

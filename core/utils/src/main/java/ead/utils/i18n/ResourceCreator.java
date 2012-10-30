@@ -183,9 +183,10 @@ public class ResourceCreator {
 		String regenName, String parameterString, File resources) {
             return "package " + packageName + ";" + eol
             + eol
-            + "import " + importName + ";" + eol
             + "import java.util.Set;" + eol
             + "import java.util.TreeSet;" + eol
+            + eol
+            + "import " + importName + ";" + eol
             + eol
             + "/**" + eol
             + " * Resource index for this package (statically compiled)." + eol
@@ -195,6 +196,7 @@ public class ResourceCreator {
             + " *   " + parameterString + eol
             + " * to re-create or update this class" + eol
             + " */" + eol
+			+ "@edu.umd.cs.findbugs.annotations.SuppressFBWarnings" + eol
             + "public class R {" + eol
             + eol
             + createResourceContents(resources, "Drawable")
@@ -215,6 +217,7 @@ public class ResourceCreator {
             + " *   " + parameterString + eol
             + " * to re-create or update this class" + eol
             + " */" + eol
+			+ "@edu.umd.cs.findbugs.annotations.SuppressFBWarnings" + eol
             + "public class Messages {" + eol
             + eol
             + createMessageContents(resource)

@@ -46,6 +46,7 @@ import ead.utils.i18n.I18N;
  *    "./core/editor-core" "ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/ead/editor/R.java"
  * to re-create or update this class
  */
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 public class Messages {
 
 	public static String illegal_access_exception;

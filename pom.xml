@@ -766,6 +766,12 @@
 				<!-- <scope>compile</scope> -->
 			</dependency>
 
+			<!-- annotations for use with FindBugs -->
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>annotations</artifactId>
+				<version>2.0.1</version>
+			</dependency>
 
 			<!-- testing libraries -->
 			<dependency>
