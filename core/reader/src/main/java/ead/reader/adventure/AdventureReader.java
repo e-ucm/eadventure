@@ -65,8 +65,7 @@ public class AdventureReader {
 	public EAdAdventureModel readXML(String xml) {
 		logger.info("Parsing XML...");
 		XMLDocument doc = xmlParser.parse(xml);
-		logger.info("Parsed.");
-		logger.info("Building the game.");
+		logger.info("Parsed; Building the game...");
 		ElementNodeVisitor env = new ElementNodeVisitor();
 		NodeVisitor.init(doc.getFirstChild().getAttributes()
 				.getValue(DOMTags.PACKAGE_AT));
@@ -83,7 +82,7 @@ public class AdventureReader {
 		);
 
 		if ( ! ObjectFactory.checkProxies()) {
-			logger.error("Error importing: unresolved proxies remain");			
+			logger.error("Error reading: unresolved proxies remain");
 		}
 		
 		logger.info("Built.");
@@ -102,7 +101,7 @@ public class AdventureReader {
 		XMLNodeList nl = doc.getFirstChild().getChildNodes();
 
 		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
-			logger.info("At alias {}: {}", new String[] {""+i, nl.item(i).getNodeName()});
+			logger.debug("At alias {}: {}", new String[] {""+i, nl.item(i).getNodeName()});
 			if (nl.item(i).getNodeName().equals("keyMap")) {
 				XMLNodeList nl2 = nl.item(i).getChildNodes();
 
