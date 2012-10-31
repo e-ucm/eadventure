@@ -83,7 +83,7 @@ public class FileMenu extends JMenu {
     private Controller controller;
 
     @Inject
-    public FileMenu(Controller controller, ProjectController projectController) {
+    public FileMenu(Controller controller) {
         super(Messages.file_menu);
         this.controller = controller;
     }

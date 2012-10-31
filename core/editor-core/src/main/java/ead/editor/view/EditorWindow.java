@@ -124,22 +124,6 @@ public class EditorWindow implements ViewController {
      */
     protected Controller controller;
 
-    @Override
-    public void initialize() {
-
-        // left panel, right panel, and the splitPane
-        initializeStructurePanel();
-        dockController = new CControl();
-        createMainWindow();
-
-        // requires main window
-        setIcons();
-
-        // Add your panel factories here
-        registerElementPanelFactory(ActorNode.class, ActorPanel.class);
-        registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
-    }
-
     private void initializeStructurePanel() {
         leftPanel = new StructurePanel();
 
@@ -313,7 +297,9 @@ public class EditorWindow implements ViewController {
         editorWindow.add(splitPane);
 
         editorMenuBar = new JMenuBar();
-        editorMenuBar.add(new FileMenu(controller, controller.getProjectController()));
+		FileMenu fm = new FileMenu(controller);
+		fm.initialize();
+        editorMenuBar.add(fm);
         editorMenuBar.add(new EditMenu(controller.getCommandManager()));
         editorWindow.setJMenuBar(editorMenuBar);
         toolPanel = new ToolPanel(controller);
@@ -429,12 +415,26 @@ public class EditorWindow implements ViewController {
 
 	/**
 	 * Set the actual super-controller.
+	 * This will finish building the interface, and then launch it.
+	 * 
 	 * @param controller the main controller, providing access to model, views,
 	 * and more
 	 */
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
+		
+        // left panel, right panel, and the splitPane
+        initializeStructurePanel();
+        dockController = new CControl();
+        createMainWindow();
+
+        // requires main window
+        setIcons();
+
+        // Add your panel factories here
+        registerElementPanelFactory(ActorNode.class, ActorPanel.class);
+        registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);		
 	}
 
 	/**

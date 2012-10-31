@@ -43,12 +43,6 @@ import javax.swing.JPanel;
  * Interface for the view controller.
  */
 public interface ViewController {
-
-	/**
-	 * Initialize the view controller
-	 */
-	void initialize();
-
 	/**
 	 * Show the eAdventure editor window
 	 */

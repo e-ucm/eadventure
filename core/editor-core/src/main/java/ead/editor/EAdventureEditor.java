@@ -89,14 +89,20 @@ public class EAdventureEditor implements Launcher {
 
         // Initialize logging
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
-            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
             "EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EditorModel", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Info,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
-            "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
-            "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug
+			
+//			Reader		
+//			  "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+//	  		  "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+//	  		  "MapNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+//	  		  "ParamNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug				
+			
 //			Internacionalizacion (i18n)
 //            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
         });
@@ -139,7 +145,7 @@ public class EAdventureEditor implements Launcher {
     @Override
     public void initialize() {
         logger.info("Initializing...");
-        controller.getViewController().initialize();
+        controller.initialize();
     }
 
     @Override

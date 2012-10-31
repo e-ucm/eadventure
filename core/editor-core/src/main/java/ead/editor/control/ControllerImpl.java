@@ -75,6 +75,13 @@ public class ControllerImpl implements Controller {
         this.viewController = viewControler;
         this.commandManager = commandManager;
     }
+	
+	@Override
+    public void initialize() {
+        projectController.setController(this);	
+        navigationController.setController(this);
+        viewController.setController(this);		
+	}
 
     @Override
     public EditorConfig getConfig() {
@@ -102,19 +109,16 @@ public class ControllerImpl implements Controller {
 
     @Override
     public ProjectController getProjectController() {
-        projectController.setController(this);	
         return projectController;
     }
 
     @Override
     public NavigationController getNavigationController() {
-        navigationController.setController(this);
 		return navigationController;
     }
 
     @Override
     public ViewController getViewController() {
-        viewController.setController(this);
         return viewController;
     }
 

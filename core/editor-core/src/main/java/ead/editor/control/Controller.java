@@ -48,6 +48,11 @@ import javax.swing.Action;
  */
 public interface Controller {
 
+	/**
+	 * Must be called before calling any other methods
+	 */
+	void initialize();
+	
     /**
      * Retrieves actions by name. Action names should be declared in the
      * interfaces, NOT in the implementation classes.
