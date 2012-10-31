@@ -41,12 +41,12 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.w3c.dom.Element;
 
 import ead.common.interfaces.Param;
+import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.resources.EAdResources;
@@ -59,6 +59,13 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
 		Class<?> clazz = data.getClass();
 
+		String debugData = null;
+		if (logger.isDebugEnabled()) {
+			debugData = (data instanceof EAdElement) ?
+					((EAdElement)data).getId() :
+					clazz.getSimpleName() + "@" + data.hashCode();
+		}
+		
 		while (clazz != null) {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {
@@ -67,33 +74,41 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 					if (param != null) {
 						PropertyDescriptor pd = getPropertyDescriptor(data.getClass(), field.getName());
 						if (pd == null) {
-							logger.error("Missing descriptor for {} in {}. Probably needs some get or set method on this field. ",
+							logger.error("Missing descriptor for {} in {}: "
+									+ "Probably needs get or set method on this field",
                                     field.getName(), data.getClass());
 							error = true;
                         }
                         Method method = pd.getReadMethod();
 						if (method == null) {
-							logger.error("Missing read-method for {} in {} ",
+							logger.error("Missing read-method for {} in {}",
                                     field.getName(), data.getClass());
 							error = true;
                         }
                         Object o = method.invoke(data);
 
 						if (!isEmpty(o)) {
+							logger.debug("not empty, so will generate param for {}.{}", 
+									new Object[] {debugData, field.getName()});								
 							Element newNode = super.initNode(o, null);
-							if (!DOMWriter.USE_DEFAULT_VALUES || !newNode.getTextContent().equals(param.defaultValue())) {
-								newNode.setAttribute(DOMTags.PARAM_AT, param.value());
+							if (!DOMWriter.USE_DEFAULT_VALUES || !isDefault(newNode, o, param.defaultValue())) {
+								newNode.setAttribute(DOMTags.PARAM_AT, param.value());								
 								doc.adoptNode(newNode);
 								node.appendChild(newNode);
+								logger.debug("param appended: {}.{}", 
+										new Object[] {debugData, field.getName()});								
+							} else {
+								logger.debug("param created but not appended: {}.{} [{} / {} == {}]", 
+										new Object[] {debugData, field.getName(), 
+											!DOMWriter.USE_DEFAULT_VALUES, newNode.getTextContent(), param.defaultValue()});								
 							}
+						} else {
+							logger.debug("ignored empty param {}.{}", 
+									new Object[] {debugData, field.getName()});
 						}
 					}
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					logger.error("Caught exception while iterating fields", e);
 				}
 			}
 			clazz = clazz.getSuperclass();
@@ -125,6 +140,18 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 		return null;
 	}
 
+	/**
+	 * Checks whether newNode contains the same default value as 'd'.
+	 * @param newNode 
+	 * @param o object from which newNode was generated
+	 * @param d default value to compare against
+	 * @return true if o is default, false otherwise
+	 */
+	public boolean isDefault(Element newNode, Object o, Object d) {		
+		// note: "" is the default default-value. All text-less nodes would match, even if very non-default... 
+		return ( ! d.equals("")) 
+				&& newNode.getTextContent().equals(d);
+	}
 
 	/**
 	 * Determines if an object is empty (whether it's null or whether is empty,
@@ -134,21 +161,10 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	 *            the object to check
 	 * @return
 	 */
-	private boolean isEmpty(Object o) {
-		if (o == null)
-			return true;
-		if (o instanceof EAdList && ((EAdList<?>) o).size() == 0) {
-			return true;
-		}
-
-		if (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) {
-			return true;
-		}
-
-		if ( o instanceof EAdResources && ((EAdResources) o).isEmpty())
-			return true;
-
-		return false;
+	public boolean isEmpty(Object o) {
+		return (o == null) 
+			|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0) 
+			|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) 
+			|| (o instanceof EAdResources && ((EAdResources) o).isEmpty());
 	}
-
 }

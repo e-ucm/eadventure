@@ -63,6 +63,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			}
 
 			if (depthManager.inPreviousList(element) || depthManager.isStored(element)) {
+				// write a reference instead of the node
 				node.setTextContent(elementMap.get(element));
 				return node;
 			}
