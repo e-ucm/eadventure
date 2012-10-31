@@ -39,7 +39,6 @@ package ead.reader.adventure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -73,7 +72,7 @@ public class ObjectFactory {
 	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
-	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
+	private static Map<String, ArrayList<ProxyElement>> proxies = new HashMap<String, ArrayList<ProxyElement>>();
 
 	private static ReflectionProvider reflectionProvider;
 
@@ -83,23 +82,23 @@ public class ObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
-		if (fieldType == String.class)
+		if (fieldType == String.class) {
 			return value;
-		else if (fieldType == Integer.class || fieldType == int.class)
+		} else if (fieldType == Integer.class || fieldType == int.class) {
 			return Integer.parseInt(value);
-		else if (fieldType == Boolean.class || fieldType == boolean.class)
+		} else if (fieldType == Boolean.class || fieldType == boolean.class) {
 			return Boolean.parseBoolean(value);
-		else if (fieldType == Float.class || fieldType == float.class)
+		} else if (fieldType == Float.class || fieldType == float.class) {
 			return Float.parseFloat(value);
-		else if (fieldType == Character.class || fieldType == char.class) {
+		} else if (fieldType == Character.class || fieldType == char.class) {
 			return new Character(value.charAt(0));
-		} else if (fieldType == EAdBundleId.class)
+		} else if (fieldType == EAdBundleId.class) {
 			return new EAdBundleId(value);
-		else if (fieldType == EAdMatrix.class || fieldType == BasicMatrix.class)
+		} else if (fieldType == EAdMatrix.class || fieldType == BasicMatrix.class) {
 			return BasicMatrix.parse(value);
-		else if (fieldType == Class.class)
+		} else if (fieldType == Class.class) {
 			return getClassFromName(value);
-		else if (fieldType.isEnum()) {
+		} else if (fieldType.isEnum()) {
 			@SuppressWarnings("rawtypes")
 			Class<? extends Enum> enumClass = (Class<? extends Enum>) fieldType;
 			return Enum.valueOf(enumClass, value);
@@ -112,11 +111,18 @@ public class ObjectFactory {
 				fieldType)) {
 			EAdElement element = elementsMap.get(value);
 			if (value != null && !value.equals("") && element == null) {
+				logger.debug("Substituting proxy for {}", value);
+				ArrayList<ProxyElement> pending = proxies.get(value);
+				if (pending == null) {
+					pending = new ArrayList<ProxyElement>();
+					proxies.put(value, pending);
+				}
 				ProxyElement proxy = new ProxyElement(value);
-				proxies.add(proxy);
+				pending.add(proxy);				
 				return proxy;
+			} else {
+				return element;
 			}
-			return element;
 		} else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
 				fieldType)) {
 			return assetsMap.get(value);
@@ -133,25 +139,37 @@ public class ObjectFactory {
 		assetsMap.clear();
 		proxies.clear();
 	}
+	
+	public static boolean checkProxies() {
+		return proxies.isEmpty();
+	}
 
+	/**
+	 * Adds an element to the proxies map. Also purges any existing proxies.
+	 * @param id
+	 * @param element 
+	 */
 	public static void addElement(String id, EAdElement element) {
-		logger.info("Element with id " + id + " added.");
+		logger.debug("Element with id {} added to element map", id);
 		elementsMap.put(id, element);
-		int i = 0;
-		while (i < proxies.size()) {
-			if (proxies.get(i).getValue().equals(id)) {
-				if (proxies.get(i).getField() != null)
-					NodeVisitor.setValue(proxies.get(i).getField(), proxies
-							.get(i).getParent(), element);
-				else if (proxies.get(i).getList() != null) {
-					proxies.get(i).getList()
-							.remove(proxies.get(i).getListPos());
-					proxies.get(i).getList()
-							.add(element, proxies.get(i).getListPos());
-				}
-				proxies.remove(i);
-			} else
-				i++;
+		ArrayList<ProxyElement> pending = proxies.get(id);
+		if (pending != null) {
+			proxies.remove(id);
+			logger.debug("Finally filling in {} proxies for {}", pending.size(), id);
+			for (ProxyElement p : pending) {
+				if (p.getField() != null) {
+					logger.debug("Setting value for {} at {} in {}", 
+							new String[] {id, p.getField().getName(), p.getParent().getClass().getSimpleName()});
+					NodeVisitor.setValue(p.getField(), p.getParent(), element);				
+				} else if (p.getList() != null) {
+					logger.debug("Setting value for {}, element {} of list {}", 
+							new String[] {id, ""+p.getListPos(), ""+p.getList().hashCode()});
+					p.getList().remove(p.getListPos());
+					p.getList().add(element, p.getListPos());
+				} else {
+					logger.warn("Proxy for {} is neither list nor field!", id);
+				}			
+			}
 		}
 	}
 
@@ -165,44 +183,44 @@ public class ObjectFactory {
 
 	private static EAdParam constructParam(String value,
 			Class<? extends EAdParam> clazz) {
-		if (clazz.equals(EAdString.class))
+		if (clazz.equals(EAdString.class)) {
 			return new EAdString(value);
-		if (clazz.equals(ColorFill.class))
+		} else 	if (clazz.equals(ColorFill.class)) {
 			return new ColorFill(value);
-		if (clazz.equals(LinearGradientFill.class))
+		} else 	if (clazz.equals(LinearGradientFill.class)) {
 			return new LinearGradientFill(value);
-		if (clazz.equals(Paint.class))
+		} else 	if (clazz.equals(Paint.class)) {
 			return new Paint(value);
-		if (clazz.equals(EAdPosition.class))
+		} else 	if (clazz.equals(EAdPosition.class)) {
 			return new EAdPosition(value);
-		if (clazz.equals(EAdRectangle.class))
+		} else 	if (clazz.equals(EAdRectangle.class)) {
 			return new EAdRectangle(value);
-		if (clazz.equals(EAdURI.class))
+		} else 	if (clazz.equals(EAdURI.class)) {
 			return new EAdURI(value);
+		}
 
-		logger.error("Param class {} needs an explicitly defined constructor",
-				clazz);
-		;
+		logger.error("Param class {} needs "
+				+ "an explicitly defined constructor", clazz);
 		return null;
 	}
 
 	public static Class<?> getClassFromName(String clazz) {
-		if (clazz.equals("java.lang.Float"))
+		if (clazz.equals("java.lang.Float")) {
 			return Float.class;
-		else if (clazz.equals("java.lang.Integer"))
+		} else if (clazz.equals("java.lang.Integer")) {
 			return Integer.class;
-		else if (clazz.equals("java.lang.Boolean"))
+		} else if (clazz.equals("java.lang.Boolean")) {
 			return Boolean.class;
-		else if (clazz.equals("java.lang.Class"))
+		} else if (clazz.equals("java.lang.Class")) {
 			return Class.class;
-		else if (clazz.equals("java.lang.Character"))
+		} else if (clazz.equals("java.lang.Character")) {
 			return Character.class;
-		else if (clazz.equals("java.lang.String"))
+		} else if (clazz.equals("java.lang.String")) {
 			return String.class;
-		else
+		} else {
 			try {
-				Class<?> clazz2 = ReflectionClassLoader.getReflectionClass(
-						clazz).getType();
+				Class<?> clazz2 = ReflectionClassLoader
+					.getReflectionClass(	clazz).getType();
 				return clazz2;
 			} catch (Exception e) {
 				logger.warn(
@@ -210,6 +228,6 @@ public class ObjectFactory {
 						clazz);
 				return Object.class;
 			}
+		}
 	}
-
 }

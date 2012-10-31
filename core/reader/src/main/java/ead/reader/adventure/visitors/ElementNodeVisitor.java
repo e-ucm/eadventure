@@ -50,9 +50,8 @@ import ead.tools.reflection.ReflectionField;
 import ead.tools.xml.XMLNode;
 
 /**
- * Visitor for the element. The element should be {@code <element id="ID"
- *  type="ENGINE_TYPE"
- *  class="EDITOR_TYPE"></element>}.
+ * Visitor for elements. The element should be 
+ * {@code <e [uid="UID"] [p="PARAM_NAME"] id="ID" t="ENGINE_TYPE"> uid | content </e>}.
  */
 public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
@@ -63,27 +62,41 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 	public void visit(XMLNode node, ReflectionField field, Object parent,
 			Class<?> listClass, NodeVisitorListener listener ) {
 		EAdElement element = null;
-		if (node == null)
+
+		if (node == null) {
 			logger.error("Null node: {} parent: {}", field.getName(),
 					(parent != null ? parent.getClass().getName() : "NULL"));
+		}
 
+		// single elements like <e p="xyz">uid</e> can be looked up and substituted
 		if (node.getChildNodes() != null
 				&& node.getChildNodes().getLength() == 1
 				&& !node.getChildNodes().item(0).hasChildNodes()) {
-			element = (EAdElement) ObjectFactory.getObject(node.getNodeText(),
-					EAdElement.class);
-			if (element != null && !(element instanceof ProxyElement)) {
-				setValue(field, parent, element);
-				listener.elementRead(element);
-				return;
-			} else if (element != null) {
-				((ProxyElement) element).setField(field);
-				((ProxyElement) element).setParent(parent);
+			element = (EAdElement) ObjectFactory
+				.getObject(node.getNodeText(), EAdElement.class);
+			if (element != null) {
+				if (element instanceof ProxyElement) {				
+					((ProxyElement) element).setField(field);
+					((ProxyElement) element).setParent(parent);
+					logger.debug("Short-circuited read of proxy-element {}({}) into {} of {}", 
+							new String[] {
+								element.getId(), ((ProxyElement)element).getValue(),
+								field != null ? field.getName() : "?", 
+								parent != null ? parent.getClass().getSimpleName() : "?"});
+				} else {
+					setValue(field, parent, element);
+					logger.debug("Short-circuited read of element {} into {} of {}", 
+							new String[] {
+								element.getId(), 
+								field != null ? field.getName() : "?", 
+								parent != null ? parent.getClass().getSimpleName() : "?"});
+				}
 				listener.elementRead(element);
 				return;
 			}
 		}
 
+		// 
 		if (node.getAttributes() == null) {
 			logger.error("Null attributes for element {}", node.getClass());
 		}
@@ -102,26 +115,25 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		if (clazz != null) {
 			ReflectionClass<?> classType = ReflectionClassLoader
 					.getReflectionClass(clazz);
-			logger.debug("Reading element '{}' of type {} - classType: {}",
-					new Object[] {uniqueId, clazz, classType});
+			logger.debug("Reading element with uid '{}' and id '{}'  of type {}",
+					new Object[] {uniqueId, id, clazz});
 			if (classType.getConstructor() != null) {
 				element = (EAdElement) classType.getConstructor().newInstance();
 				element.setId(id);
 			}
+		} else {
+			
 		}
 
-		if (element != null)
+		if (element != null) {
 			ObjectFactory.addElement(uniqueId, element);
-
+		}
+		
 		setValue(field, parent, element);
 
-//		try {
-			if (element != null)
-				readFields(element, node);
-//		} catch (Exception e) {
-//			logger.error("{}", e);
-//			logger.error("Error reading fields from {}", element.getClass());
-//		}
+		if (element != null) {
+			readFields(element, node);
+		}
 
 		listener.elementRead(element);
 	}

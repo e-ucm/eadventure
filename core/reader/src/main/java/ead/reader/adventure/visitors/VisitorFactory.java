@@ -61,11 +61,13 @@ public class VisitorFactory {
 	}
 	
 	static public NodeVisitor<?> getVisitor(String key) {
-		if (instance == null)
+		if (instance == null) {
 			instance = new VisitorFactory();
+		}
 		NodeVisitor<?> visitor = instance.map.get(key);
-		if (visitor == null)
+		if (visitor == null) {
 			throw new RuntimeException("missing visitor " + key);
+		}
 		return visitor;
 	}
 }

@@ -74,18 +74,18 @@ public class AdventureReader {
 		
 
 		env.visit(doc.getFirstChild().getFirstChild(), null, null, null,
-				new NodeVisitorListener() {
-
-					@Override
-					public void elementRead(Object element) {
-						data = (BasicAdventureModel) element;
-
-					}
-
+			new NodeVisitorListener() {
+				@Override
+				public void elementRead(Object element) {
+					data = (BasicAdventureModel) element;
 				}
-
+			}
 		);
 
+		if ( ! ObjectFactory.checkProxies()) {
+			logger.error("Error importing: unresolved proxies remain");			
+		}
+		
 		logger.info("Built.");
 
 		if (data == null) {

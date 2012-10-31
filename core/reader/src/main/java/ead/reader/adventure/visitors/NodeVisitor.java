@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.Param;
+import ead.common.model.EAdElement;
 import ead.reader.adventure.DOMTags;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.reflection.ReflectionClass;
@@ -127,6 +128,17 @@ public abstract class NodeVisitor<T> {
 			Object object) {
 		if (field != null && parent != null) {
 			try {
+				if (logger.isDebugEnabled()) {
+					String pid = ((parent instanceof EAdElement) ? 
+							((EAdElement)parent).getId() : 
+							parent.getClass().getSimpleName() + "@" + parent.hashCode());
+					String oid = ((object instanceof EAdElement) ? 
+							((EAdElement)object).getId() : 
+							object.getClass().getSimpleName() + "@" + object.hashCode());
+					logger.debug("{}.{} <-- {}", new String[] {
+						pid, field.getName(), oid
+					});
+				}
 				field.setFieldValue(parent, object);
 			} catch (ClassCastException e) {
 				logger.error("Failed to cast field {} to type {} in {}",
@@ -139,7 +151,7 @@ public abstract class NodeVisitor<T> {
 	/**
 	 * Gets the {@link Field} object identified by the given id. It gives
 	 * precedence to Fields annotated with the id though the {@link Param}
-	 * annotation, if non is found it checks if the id coincides with the name
+	 * annotation, if none is found it checks if the id coincides with the name
 	 * of a field.
 	 * 
 	 * @param object
