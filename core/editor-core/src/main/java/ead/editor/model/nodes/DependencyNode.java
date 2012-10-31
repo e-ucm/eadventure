@@ -73,6 +73,14 @@ public abstract class DependencyNode<T> {
     public int getId() {
         return id;
     }
+	
+	public void setId(int id) {
+		if (this.id == -1) {
+			this.id = id;
+		} else {
+			throw new IllegalArgumentException("Can only change temporary ids (== -1)");
+		}
+	}
 
     @Override
     public boolean equals(Object other) {

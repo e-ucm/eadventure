@@ -83,6 +83,9 @@ import ead.writer.EAdAdventureModelWriter;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
+
+import ead.common.model.elements.EAdBehavior;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
@@ -92,29 +95,25 @@ import java.nio.charset.Charset;
  * 
  * @author mfreire
  */
-public class EditorModel implements ModelVisitor, ModelAccessor {
+public class EditorModel implements ModelAccessor {
 
 	private static final Logger logger = LoggerFactory.getLogger("EditorModel");
 
 	/**
 	 * Must be high enough to avoid ID collisions, counting from 0, downward
-	 * from here, and upward fro here.
+	 * from here, and upward from here.
 	 */
 	private static final int intermediateIDPoint = 1 << 24;
+	private static final int badElementId = -1;
+	
 	/**
-	 * Node id generation
+	 * Node id generation: default ids
 	 */
 	private int lastElementNodeId = 0;
 	/**
-	 * Node id generation: transients are not serialized
+	 * Node id generation: transients (which are not serialized)
 	 */
 	private int lastTransientNodeId = intermediateIDPoint;
-	/**
-	 * Node id generation: empties are not serialized unless fleshed out counts
-	 * downwards
-	 */
-	private int lastEmptyElementNodeId = intermediateIDPoint - 1;
-
 	/**
 	 * True only during a loading operation
 	 */
@@ -137,11 +136,12 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	private ListenableDirectedGraph<DependencyNode, DependencyEdge> g;
 	/**
-	 * Quick reference for node retrieval; uses editor-ids
+	 * Quick reference for node retrieval; uses editor-ids.
 	 */
 	private TreeMap<Integer, DependencyNode> nodesById;
 	/**
-	 * Contents do not guarantee "unique IDs"
+	 * Quick reference for node retrieval; uses contents. Available only
+	 * for content-types that do not have embedded editor-ids
 	 */
 	private HashMap<Object, DependencyNode> nodesByContent;
 	/**
@@ -216,23 +216,13 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	public int generateId(Object targetObject) {
 
-		int assigned;
-		if (targetObject == null) {
-			assigned = lastElementNodeId++;
-		} else if (targetObject instanceof EAdElement) {
-			EAdElement e = (EAdElement) targetObject;
-			if (isLoading) {
-				assigned = lastEmptyElementNodeId++;
-			} else {
-				assigned = lastElementNodeId++;
-			}
-		} else {
-			assigned = lastTransientNodeId++;
-		}
+		int assigned = 
+			(targetObject == null || targetObject instanceof EAdElement) ?
+				lastElementNodeId++ : lastTransientNodeId++;
 
 		if (nodesById.containsKey(assigned)) {
-			logger.error("Duplicate ID {} for object {}", new Object[] {
-					assigned, targetObject });
+			logger.error("Duplicate ID {} for object {} (was {})", new Object[] {
+					assigned, targetObject, nodesById.get(assigned)});
 			return generateId(targetObject);
 		}
 		return assigned;
@@ -258,6 +248,40 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	}
 
 	/**
+	 * Returns the editor-id of the object
+	 * @param o
+	 * @return  editorId if it is an eAdElement and has a 
+	 * valid editorId, or badElementId otherwise.
+	 */
+	private int getEditorId(Object o) {
+		if (o instanceof EAdElement) {
+			EAdElement e = (EAdElement) o;
+
+			Matcher m = editorIdPattern.matcher(e.getId());
+			if (m.find()) {
+				return Integer.parseInt(m.group(1));
+			}
+		}
+		
+		return badElementId;
+	}
+	
+	/**
+	 * Returns the editorNode for an object that is wrapped in an editorNode.
+	 * This works in two ways. First, if it has an editor-id tag, it is used.
+	 * Otherwise, it must have been an unmarked object (list, map, resource, ...);
+	 * and it the unpersisted-to-editorNode map is used instead.
+	 */
+	private DependencyNode getNodeFor(Object content) {
+		int eid = getEditorId(content);
+		if (eid < 0) {
+			return nodesByContent.get(content);
+		} else {
+			return nodesById.get(eid);
+		}
+	}
+	
+	/**
 	 * Wraps a targetContent in an DependencyNode. If the content is of a type
 	 * that has extra editor data associated (a subclass of EAdElement), and
 	 * this editor data is available, it is used; otherwise, a new
@@ -271,63 +295,61 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	private DependencyNode createOrUnfreezeNode(Object targetContent) {
 
 		DependencyNode node;
-		int eid;
+		int eid = badElementId;
 		if (targetContent instanceof EAdElement) {
-			EAdElement e = (EAdElement) targetContent;
-
-			Matcher m = editorIdPattern.matcher(e.getId());
-			if (m.find()) {
+			EAdElement e = (EAdElement)targetContent;			
+			eid = getEditorId(targetContent);
+			if (eid != badElementId) {
 				// content is eadElement, and has editor-anotation: unfreeze
 				logger.debug("Found existing eID marker in {}: {}",
 						targetContent.getClass().getSimpleName(), e.getId());
-				eid = Integer.parseInt(m.group(1));
 				node = nodesById.get(eid);
 				if (node == null) {
-					e.setId(decorateIdWithEid(e.getId(), eid));
 					node = new EngineNode(eid, e);
 					nodesById.put(eid, node);
 				} else {
-					if (!node.getContent().equals(targetContent)) {
+					if ( ! node.getContent().equals(targetContent)) {
 						logger.error(
-								"Corrupted save-file: eid {} assigned to {} AND {}",
-								new Object[] { eid, targetContent.toString(),
-										node.getContent().toString() });
+							"Corrupted save-file: eid {} assigned to {} AND {}",
+							new Object[] { eid, targetContent.toString(),
+									node.getContent().toString() });
+						throw new IllegalStateException("Corrupted save-file: "
+								+ "same eid assigned to two objects");
 					}
 				}
 			} else {
 				// content is eadElement, but has no editor-annotation: add it
-				eid = generateId(targetContent);
-				String decorated = decorateIdWithEid(e.getId(), eid);
-				logger.debug("Created eID marker for {}: {} ({})",
-						new Object[] { e.getId(), eid, decorated });
+				String decorated = null;
 				if (isLoading) {
-					logger.error("Error: loaded elements should have their ID already set!");
-					logger.error("\tCreated eID marker for {}: {} ({})",
-							new Object[] { e.getId(), eid, decorated });
+					logger.error("Loaded EAdElement {} of type {} had no editor ID",
+							new String[] {e.getId(), e.getClass().getSimpleName()});					
+					throw new IllegalStateException("Corrupted save-file: "
+							+ "no eid assigned to loaded objects");
+				} else {
+					eid = generateId(targetContent);
+					decorated = decorateIdWithEid(e.getId(), eid);
+					logger.debug("Created eID marker for {}: {} ({})",
+							new Object[] { e.getId(), eid, decorated });					
+					e.setId(decorated);
+					node = new EngineNode(eid, e);
+					nodesById.put(eid, node);
 				}
-				e.setId(decorated);
-				node = new EngineNode(eid, e);
-				nodesById.put(eid, node);
 			}
 		} else {
-			// content cannot have editor-annotations at all
+			// content cannot have editor-annotations at all (it is transient)
 			eid = generateId(targetContent);
 			logger.debug("Created eID for non-persited {}: {}", new Object[] {
 					targetContent.getClass().getSimpleName(), eid });
 			node = new EngineNode(eid, targetContent);
 			nodesById.put(eid, node);
+			nodesByContent.put(targetContent, node);
 		}
-
-		// assign content (may overwrite existing content; no big deal)
-		node.setContent(targetContent);
-		nodesByContent.put(targetContent, node);
-		assert (nodesById.get(node.getId()) != null);
 		return node;
 	}
-
+	
 	/**
 	 * Attempts to add a new node-and-edge to the graph; use only during initial
-	 * model-building. The edge may be null (for the root).
+	 * model-building. The source may be null (for the root).
 	 * 
 	 * @return the new node if added, or null if already existing (and
 	 *         therefore, it makes no sense to continue adding recursively from
@@ -335,11 +357,11 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	private DependencyNode addNode(DependencyNode source, String type,
 			Object targetContent) {
-		boolean alreadyKnown = (nodesByContent.containsKey(targetContent));
-		DependencyNode target = alreadyKnown ? nodesByContent
-				.get(targetContent) : createOrUnfreezeNode(targetContent);
-
-		if (!alreadyKnown) {
+		DependencyNode target = getNodeFor(targetContent);
+		boolean alreadyKnown = (target != null);
+		
+		if ( ! alreadyKnown) {
+			target = createOrUnfreezeNode(targetContent);
 			g.addVertex(target);
 		}
 
@@ -349,58 +371,59 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 			root = target;
 		}
 
-		if (!alreadyKnown) {
+		if ( ! alreadyKnown) {
 			return target;
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * Visits a node
-	 * 
-	 * @see ModelVisitor#visitObject
-	 */
-	@Override
-	public boolean visitObject(Object target, Object source, String sourceName) {
-		logger.debug("Visiting object: '{}'--['{}']-->'{}'", new Object[] {
-				source, sourceName, target });
+	private class EditorModelVisitor implements ModelVisitor {
+		/**
+		 * Visits a node
+		 * 
+		 * @see ModelVisitor#visitObject
+		 */
+		@Override
+		public boolean visitObject(Object target, Object source, String sourceName) {
+			logger.debug("Visiting object: '{}'--['{}']-->'{}'", new Object[] {
+					source, sourceName, target });
 
-		// source is only null for root node
-		if (source == null) {
-			// should keep on drilling, but otherwise nothing to do here
-			addNode(null, null, target);
-			return true;
+			// source is only null for root node
+			if (source == null) {
+				// should keep on drilling, but otherwise nothing to do here
+				addNode(null, null, target);
+				return true;
+			}
+
+			DependencyNode sourceNode = getNodeFor(source);
+			DependencyNode e = addNode(sourceNode, sourceName, target);
+
+			if (e != null) {
+				nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
+						"" + e.getId(), false);
+				return true;
+			} else {
+				// already exists in graph; in this case, do not drill deeper
+				return false;
+			}
 		}
 
-		DependencyNode e = addNode(nodesByContent.get(source), 
-				sourceName, target);
-
-		if (e != null) {
-			nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
-					"" + e.getId(), false);
-			nodesByContent.put(target, e);
-			return true;
-		} else {
-			// already exists in graph; in this case, do not drill deeper
-			return false;
+		/**
+		 * Visits a node property. Mostly used for indexing
+		 * 
+		 * @see ModelVisitor#visitProperty
+		 */
+		@Override
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
+			logger.debug("Visiting property: '{}' :: '{}' = '{}'", new Object[] {
+					target, propertyName, textValue });
+			DependencyNode targetNode = getNodeFor(target);
+			nodeIndex.addProperty(targetNode, propertyName, textValue, true);
 		}
 	}
-
-	/**
-	 * Visits a node property. Mostly used for indexing
-	 * 
-	 * @see ModelVisitor#visitProperty
-	 */
-	@Override
-	public void visitProperty(Object target, String propertyName,
-			String textValue) {
-		logger.debug("Visiting property: '{}' :: '{}' = '{}'", new Object[] {
-				target, propertyName, textValue });
-		DependencyNode e = nodesByContent.get(target);
-		nodeIndex.addProperty(e, propertyName, textValue, true);
-	}
-
+		
 	/**
 	 * Exports the editor model into a zip file.
 	 * 
@@ -521,6 +544,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 
 		// clear caches
 		clear();
+		
+		long nanos = System.nanoTime();
 
 		ProgressProxy pp = new ProgressProxy();
 		importer.addProgressListener(pp);
@@ -531,8 +556,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		updateProgress(50, "Reading editor model ...");
 		logger.info("Model loaded; building graph...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(engineModel, this);
-		this.root = nodesByContent.get(engineModel);
+		driver.visit(engineModel, new EditorModelVisitor());
+		this.root = getNodeFor(engineModel);
 		for (EditorNodeFactory enf : importNodeFactories) {
 			enf.createNodes(g, importAnnotator, nodesById, this);
 		}
@@ -549,8 +574,9 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		updateProgress(90, "Indexing model ...");
 		nodeIndex.firstIndexUpdate(g.vertexSet());
 
-		logger.info("Editor model loaded: {} nodes, {} edges", new Object[] {
-				g.vertexSet().size(), g.edgeSet().size() });
+		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds", 
+				new Object[] {
+					g.vertexSet().size(), g.edgeSet().size(), time(nanos) });
 		saveDir = fout;
 
 		updateProgress(100, "... load complete.");
@@ -567,6 +593,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	public void load(File sourceDir) throws IOException {
         logger.info("Loading editor model from project dir '{}'...", sourceDir);
 
+		long nanos = System.nanoTime();
+		
         // clear caches
         clear();
 
@@ -595,22 +623,52 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
         // build editor model
         updateProgress(50, "Reading editor model ...");
         logger.info("Model loaded; building graph...");
-        isLoading = true;
+        
+		isLoading = true;
         ModelVisitorDriver driver = new ModelVisitorDriver();
-        driver.visit(engineModel, this);
+        driver.visit(engineModel, new EditorModelVisitor());
         isLoading = false;
-        this.root = nodesByContent.get(engineModel);
+		
+		int highestAssigned = nodesById.floorKey(intermediateIDPoint-1);
+		logger.debug("Bumping lastElementId of {} to closest to {}: {}", 
+				new Object[] {lastElementNodeId, intermediateIDPoint-1, highestAssigned+1});
+		lastElementNodeId = highestAssigned+1;	
+		
+		this.root = getNodeFor(engineModel);
         readMappingsFromFile(new File(sourceDir, editorNodeFile));
 
         // index & write extra XML
         updateProgress(90, "Indexing model ...");
         nodeIndex.firstIndexUpdate(g.vertexSet());
 
-        logger.info("Editor model loaded: {} nodes, {} edges",
-                new Object[]{g.vertexSet().size(), g.edgeSet().size()});
-
-        updateProgress(100, "... load complete.");
+        updateProgress(100, "... load complete.");		
+        logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
+                new Object[]{g.vertexSet().size(), g.edgeSet().size(),
+					time(nanos)});
     }
+		
+	/**
+	 * Replaces a node for another node. Incoming and outgoing references are
+	 * retained;
+	 * @param n
+	 * @param replacement 
+	 */
+	private void replaceVertex(DependencyNode n, DependencyNode replacement) {
+		ArrayList<DependencyEdge> es = new ArrayList<DependencyEdge>();
+		es.addAll(g.edgesOf(n));
+		for (DependencyEdge e : es) {
+			logger.debug("Fixing up edge {} ---[{}]---> {}");
+			DependencyNode source = g.getEdgeSource(e);
+			DependencyNode target = g.getEdgeTarget(e);
+			if (source == n) {
+				source = replacement;
+			} else {
+				target = replacement;
+			}
+			g.addEdge(source, target, new DependencyEdge(e.getType()));
+		}
+		g.removeAllEdges(es);
+	}
 
 	/**
 	 * Saves the editor model. Save will contain a normal EAdModel, plus
@@ -624,6 +682,8 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	 */
 	public void save(File target) throws IOException {
 
+		long nanos = System.nanoTime();
+		
 		updateProgress(5, "Commencing save ...");
 		if (target != null && saveDir != target) {
 			// copy over all resource-files first
@@ -653,23 +713,35 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 		updateProgress(100, "... save complete.");
 
 		logger.info(
-				"Wrote editor data from {} to {}: {} total objects, {} editor mappings",
-				new Object[] { saveDir, target, nodesById.size(), mappings });
+				"Wrote editor data from {} to {}: {} total objects,"
+				+ " {} editor mappings, in {} seconds",
+				new Object[] { saveDir, target, nodesById.size(), mappings, 
+					time(nanos)});
 	}
 
+	/**
+	 * Shows how many seconds an operation takes
+	 */
+	private String time(long nanoStart) {
+		long t = System.nanoTime() - nanoStart;
+		DecimalFormat df = new DecimalFormat("#,###.000");
+        return df.format((t / 1000000L) / 1000.0);		
+	}
+	
 	/**
 	 * Flushes the model.
 	 */
 	private void clear() {
 		lastElementNodeId = 0;
 		lastTransientNodeId = intermediateIDPoint;
-		lastEmptyElementNodeId = intermediateIDPoint - 1;
-		nodesByContent.clear();
 		nodesById.clear();
+		nodesByContent.clear();
 		isLoading = false;
 		nodeIndex = new ModelIndex();
 		g.removeAllEdges(new HashSet<DependencyEdge>(g.edgeSet()));
-		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));
+		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));		
+		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
+				DependencyEdge.class);
 		importAnnotator.reset();
 	}
 
@@ -718,11 +790,11 @@ public class EditorModel implements ModelVisitor, ModelAccessor {
 	}
 
 	public int getIdFor(Object o) {
-		DependencyNode n = nodesByContent.get(o);
+		DependencyNode n = nodesById.get(getEditorId(o));
 		if (n != null) {
 			return n.getId();
 		} else {
-			return -1;
+			return badElementId;
 		}
 	}
 

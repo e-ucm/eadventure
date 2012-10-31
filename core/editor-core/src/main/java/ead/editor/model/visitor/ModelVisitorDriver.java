@@ -121,9 +121,14 @@ public class ModelVisitorDriver {
      */
     @SuppressWarnings("unchecked")
     public void driveInto(Object o, Object source, String sourceName) {   
+		logger.debug("Driving into target of type {} [{}]", 
+				new String[] {o.getClass().getName(), 
+					(o instanceof EAdElement ? ((EAdElement)o).getId() : o.getClass().getSimpleName() + "@" + o.hashCode())
+				});
+				
 		if (v == null) {
 			throw new IllegalStateException("No visitor defined. End of visit.");
-		}
+		}		
 		
         if (driverFor(o) instanceof ParamDriver) {                                
             ((ParamDriver)driverFor(o)).drive(o, source, sourceName);
@@ -255,7 +260,7 @@ public class ModelVisitorDriver {
      */
     private void processParams(Object data) {
 
-        logger.trace("Iterating properties of {}", data);
+        logger.debug("Iterating properties of {}", data);
         
         Class<?> clazz = data.getClass();
 
@@ -278,9 +283,10 @@ public class ModelVisitorDriver {
                                     field.getName(), data.getClass());
 							continue;
                         }
+						logger.debug("\t invoking {}", field.getName());
                         Object o = method.invoke(data);
                         if (!isEmpty(o)) {
-                            logger.trace("'{}' has a '{}' property!", 
+                            logger.debug("\t'{}' has a '{}' property!", 
                                     new Object[] {data, pd.getName()});
                             driveInto(o, data, pd.getName());                            
                         }
@@ -293,7 +299,7 @@ public class ModelVisitorDriver {
             clazz = clazz.getSuperclass();
         }
 
-        logger.trace("Finished properties of {}", data);
+        logger.debug("Finished properties of {}", data);
     }
 
     /**
