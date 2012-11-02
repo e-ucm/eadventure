@@ -37,7 +37,7 @@
 
 package ead.reader.adventure.visitors;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class VisitorFactory {
@@ -47,7 +47,7 @@ public class VisitorFactory {
 	private static VisitorFactory instance;
 	
 	private VisitorFactory() {
-		map = new HashMap<String, NodeVisitor<?>>();
+		map = new LinkedHashMap<String, NodeVisitor<?>>();
 		addVisitor(new AssetNodeVisitor());
 		addVisitor(new ElementNodeVisitor());
 		addVisitor(new ListNodeVisitor());

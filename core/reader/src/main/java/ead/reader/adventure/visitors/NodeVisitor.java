@@ -37,7 +37,7 @@
 
 package ead.reader.adventure.visitors;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public abstract class NodeVisitor<T> {
 
 	private static String packageName;
 
-	public static Map<String, String> aliasMap = new HashMap<String, String>();
+	public static Map<String, String> aliasMap = new LinkedHashMap<String, String>();
 
 	protected static String loaderType;
 

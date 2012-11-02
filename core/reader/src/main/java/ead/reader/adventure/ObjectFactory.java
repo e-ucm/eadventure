@@ -38,7 +38,7 @@
 package ead.reader.adventure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -69,10 +69,10 @@ public class ObjectFactory {
 	private static final Logger logger = LoggerFactory
 			.getLogger("ObjectFactory");
 
-	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
-	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
-	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
-	private static Map<String, ArrayList<ProxyElement>> proxies = new HashMap<String, ArrayList<ProxyElement>>();
+	private static Map<String, Object> paramsMap = new LinkedHashMap<String, Object>();
+	private static Map<String, AssetDescriptor> assetsMap = new LinkedHashMap<String, AssetDescriptor>();
+	private static Map<String, EAdElement> elementsMap = new LinkedHashMap<String, EAdElement>();
+	private static Map<String, ArrayList<ProxyElement>> proxies = new LinkedHashMap<String, ArrayList<ProxyElement>>();
 
 	private static ReflectionProvider reflectionProvider;
 

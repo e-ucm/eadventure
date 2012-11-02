@@ -37,13 +37,13 @@
 
 package ead.reader.properties;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class PropertiesReader {
 
 	public Map<String, String> readProperties(String properties) {
-		Map<String, String> propertiesMap = new HashMap<String, String>();
+		Map<String, String> propertiesMap = new LinkedHashMap<String, String>();
 		for (String line : properties.split("\\r?\\n")) {
 			String[] strings = line.split("=");
 			if (strings.length == 2) {

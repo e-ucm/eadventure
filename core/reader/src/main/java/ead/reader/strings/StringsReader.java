@@ -37,7 +37,7 @@
 
 package ead.reader.strings;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import ead.common.params.text.EAdString;
@@ -54,7 +54,7 @@ public class StringsReader {
 	}
 
 	public Map<EAdString, String> readStrings(String xml) {
-		HashMap<EAdString, String> strings = new HashMap<EAdString, String>();
+		Map<EAdString, String> strings = new LinkedHashMap<EAdString, String>();
 		XMLDocument doc = xmlParser.parse(xml);
 		XMLNodeList nl = doc.getFirstChild().getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
@@ -69,5 +69,4 @@ public class StringsReader {
 		}
 		return strings;
 	}
-
 }
