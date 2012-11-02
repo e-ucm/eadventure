@@ -46,8 +46,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
+import ead.editor.model.ModelIndex.SearchResult;
+
 /**
- *
+ * This node represents a query.
+ * It is not persisted as an "editor-node", as it can be regenerated on-demand
+ * by repeating the query.
+ * 
  * @author mfreire
  */
 public class QueryNode extends EditorNode {
@@ -55,24 +60,19 @@ public class QueryNode extends EditorNode {
 	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
 
 	private String queryString;
+	private SearchResult result;
 
 	public QueryNode(EditorModel m, String queryString) {
 		super(m.generateId(null));
 		this.queryString = queryString;
 		logger.debug("Query node for '{}'", queryString);
 
-		for (DependencyNode d : m.searchAll(queryString)) {
+		result = m.searchAllDetailed(queryString);
+		
+		for (DependencyNode d : result.getMatcheNodes()) {
 			logger.debug("\tadding query match: {}", d.getId());
 			this.addChild(d);
 		}
-
-        try {
-            DependencyNode d = m.getNode(Integer.valueOf(queryString));
-			logger.debug("\tadding direct-id match: {}", d.getId());
-			this.addChild(d);
-		} catch (Exception e) {
-            logger.debug("No direct match found for {}", queryString);
-        }
 	}
 
 	/**
@@ -101,9 +101,21 @@ public class QueryNode extends EditorNode {
 	@Override
 	public String getTextualDescription(EditorModel m) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Query: '").append(queryString).append("'");
+		sb.append("Query: '").append(queryString).append("'\n");
+		int i=0;
 		for (DependencyNode n : getContents()) {
-			sb.append("\n").append(n.getTextualDescription(m));
+			sb.append("-- Match ").append(++i).append("--\n");
+			sb.append("   ")
+					.append(n.getContent().getClass().getSimpleName())
+					.append(" (")
+					.append(n.getId())
+					.append("): matches in\n");
+			for (String s : result.fieldMatchesFor(n)) {
+				sb.append("     ")
+						.append(s)
+						.append(": ")
+						.append(n.getDoc().getValues(s)[0]);
+			}
 		}
 		return sb.toString();
 	}

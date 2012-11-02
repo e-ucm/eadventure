@@ -812,6 +812,17 @@ public class EditorModel implements ModelAccessor {
 	public List<DependencyNode> searchAll(String queryText) {
 		return nodeIndex.searchAll(queryText, nodesById);
 	}
+	
+	/**
+	 * Queries all fields in all nodes for the provided text. This
+	 * variant provides details of any matches.
+	 * 
+	 * @param queryText
+	 * @return a list of all matching nodes, ranked by relevance
+	 */
+	public ModelIndex.SearchResult searchAllDetailed(String queryText) {
+		return nodeIndex.searchAllDetailed(queryText, nodesById);
+	}
 
 	/**
 	 * Queries a given field in all nodes for the provided text.

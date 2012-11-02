@@ -362,6 +362,8 @@ public class FileMenu extends JMenu {
                         controller.getConfig().put(EditorConf.LastSaveFile,
                                 d.getAbsolutePath());
                         controller.getProjectController().saveAs(d.getAbsolutePath());
+						controller.getViewController()
+								.setTitleQualifier(d.getName());						
                     }
                 }).runInEDT();
             }

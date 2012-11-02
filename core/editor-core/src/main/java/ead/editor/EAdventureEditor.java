@@ -89,12 +89,19 @@ public class EAdventureEditor implements Launcher {
 
         // Initialize logging
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
-            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
-            "EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
-            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+
+//            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
+//            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+
+            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+			"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Info,
             "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+
+//			Writer			
+//            "DOMWriter", Log4jConfig.Slf4jLevel.Debug,
+			
 			
 //			Reader		
 //			  "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,

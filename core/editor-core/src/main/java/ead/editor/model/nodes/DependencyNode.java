@@ -65,7 +65,7 @@ public abstract class DependencyNode<T> {
 	public Document getDoc() {
         return doc;
     }
-
+	
     public void setContent(T content) {
         this.content = content;
     }
