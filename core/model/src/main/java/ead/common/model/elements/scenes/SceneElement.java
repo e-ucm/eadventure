@@ -228,9 +228,26 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this.definition = def;
 	}
 
-	public boolean equals(Object o) {
-		boolean temp = this == o;
-		return temp;
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final SceneElement other = (SceneElement) obj;
+		if (this.id != other.id  && (this.id == null || !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
 	}
 
 	public void setDragCond(EAdCondition c) {

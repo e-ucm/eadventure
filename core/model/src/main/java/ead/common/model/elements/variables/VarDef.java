@@ -73,12 +73,12 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 	 *            if the variable is global
 	 */
 	public VarDef(String name, Class<T> type, T initialValue) {
-		this.id = "var_" + name + "_" + Math.round(Math.random() * 10000);
+		this.id = "var_" + name + "_" + randomSuffix();
 		this.name = name;
 		this.type = type;
 		this.initialValue = initialValue;
 	}
-
+	
 	@Override
 	public Class<T> getType() {
 		return type;
@@ -104,7 +104,7 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
             return false;
         }
         final VarDef<T> other = (VarDef<T>) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+        if ((this.name == null) ? (other.name != null) : ! this.name.equals(other.name)) {
             return false;
         }
         if (this.type != other.type &&

@@ -37,7 +37,7 @@
 
 package ead.common.model.elements;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import ead.common.interfaces.Element;
@@ -96,7 +96,7 @@ public class BasicAdventureModel extends BasicElement implements EAdAdventureMod
 		gameWidth = DEFAULT_WIDTH;
 		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
-		properties = new HashMap<String, String>();
+		properties = new LinkedHashMap<String, String>();
 	}
 
 	public EAdList<EAdChapter> getChapters() {

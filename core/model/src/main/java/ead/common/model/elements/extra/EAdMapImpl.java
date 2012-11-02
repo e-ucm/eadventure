@@ -38,11 +38,10 @@
 package ead.common.model.elements.extra;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import ead.common.model.elements.extra.EAdMap;
 
 public class EAdMapImpl<S, T> implements EAdMap<S, T> {
 	
@@ -61,7 +60,7 @@ public class EAdMapImpl<S, T> implements EAdMap<S, T> {
 	 *            Element's id
 	 */
 	public EAdMapImpl(Class<?> keyClass, Class<?> valueClass) {
-		map = new HashMap<S, T>( );
+		map = new LinkedHashMap<S, T>( );
     	this.keyClass = keyClass;
     	this.valueClass = valueClass;
 	}

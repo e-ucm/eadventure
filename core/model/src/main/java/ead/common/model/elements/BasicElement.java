@@ -37,6 +37,7 @@
 
 package ead.common.model.elements;
 
+import java.util.Random;
 import ead.common.model.EAdElement;
 
 /**
@@ -48,8 +49,14 @@ public abstract class BasicElement implements EAdElement {
 
 	protected String id;
 
+	protected static Random random = new Random(0);
+	
+	public static String randomSuffix() {
+		return "" + random.nextInt(100000);
+	}
+	
 	public BasicElement() {
-		this.id = "elem" + Math.round(Math.random() * 10000);
+		this.id = "elem" + randomSuffix();
 	}
 
 	@Override

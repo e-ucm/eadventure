@@ -39,7 +39,7 @@ package ead.common.resources;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,7 +59,7 @@ public class BasicAssetBundle implements EAdAssetBundle {
 
 	public BasicAssetBundle( ) {
 		descriptors = new ArrayList<EAdAssetDescriptor>( );
-		assets = new HashMap<String, AssetDescriptor>( );
+		assets = new LinkedHashMap<String, AssetDescriptor>( );
 	}
 
 	public BasicAssetBundle( EAdAssetDescriptor... descriptors ) {

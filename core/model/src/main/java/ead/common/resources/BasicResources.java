@@ -39,7 +39,7 @@ package ead.common.resources;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -62,7 +62,7 @@ public class BasicResources extends BasicAssetBundle implements EAdResources {
 	 */
 	public BasicResources( Class<? extends EAdElement> c ) {
 		super( );
-		assetBundles = new HashMap<EAdBundleId, EAdAssetBundle>( );
+		assetBundles = new LinkedHashMap<EAdBundleId, EAdAssetBundle>( );
 
 		boolean hasBundle = false;
 		EAdAssetBundle bundle = new BasicAssetBundle( );

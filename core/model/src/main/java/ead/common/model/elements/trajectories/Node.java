@@ -121,7 +121,7 @@ public class Node extends BasicElement {
 	}
 
 	public Node copy() {
-		Node n = new Node("node" + (new Random()).nextInt(10000), x, y,
+		Node n = new Node("node" + randomSuffix(), x, y,
 				scale);
 		return n;
 	}

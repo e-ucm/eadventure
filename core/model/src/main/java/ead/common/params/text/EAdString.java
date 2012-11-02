@@ -39,6 +39,7 @@ package ead.common.params.text;
 
 import java.util.Random;
 
+import ead.common.model.elements.BasicElement;
 import ead.common.params.EAdParam;
 
 /**
@@ -52,11 +53,6 @@ public class EAdString implements EAdParam {
 	private String id;
 
 	public static final String LITERAL_PREFIX = "#txt#";
-
-	/*
-	 * A reusable Random; not exposed
-	 */
-	private transient static Random random;
 
 	/**
 	 * Construct a new string with the given id
@@ -98,10 +94,7 @@ public class EAdString implements EAdParam {
 	}
 
 	public static EAdString newRandomEAdString(String string) {
-		if (random == null) {
-			random = new Random();
-		}
-		return new EAdString(string + random.nextInt(100000000));
+		return new EAdString(string + BasicElement.randomSuffix());
 	}
 
 	public static EAdString newEAdString(String string) {
