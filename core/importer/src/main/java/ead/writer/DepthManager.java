@@ -38,7 +38,7 @@
 package ead.writer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,8 +66,8 @@ public class DepthManager {
 	public DepthManager(EAdList<EAdElement> eAdList) {
 		lists = new ArrayList<EAdList<Object>>();
 		stored = new ArrayList<EAdElement>();
-		classAliases = new HashMap<String, String>();
-		aliasMap = new HashMap<String, String>();
+		classAliases = new LinkedHashMap<String, String>();
+		aliasMap = new LinkedHashMap<String, String>();
 		depthControlList = eAdList;
 		depthControlList.clear();
 	}

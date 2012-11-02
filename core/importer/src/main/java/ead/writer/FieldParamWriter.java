@@ -49,6 +49,8 @@ import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
+import ead.common.params.text.EAdString;
+import ead.common.resources.EAdAssetBundle;
 import ead.common.resources.EAdResources;
 import ead.reader.adventure.DOMTags;
 
@@ -149,8 +151,10 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	 */
 	public boolean isDefault(Element newNode, Object o, Object d) {		
 		// note: "" is the default default-value. All text-less nodes would match, even if very non-default... 
-		return ( ! d.equals("")) 
-				&& newNode.getTextContent().equals(d);
+		// had to make exception for EAdStrings, which when empty should not be saved
+		return ( ! d.equals("") && newNode.getTextContent().equals(d)) 
+			|| (o instanceof EAdString && newNode.getTextContent().equals(d))
+			|| (o instanceof EAdAssetBundle && newNode.getTextContent().equals(d));
 	}
 
 	/**

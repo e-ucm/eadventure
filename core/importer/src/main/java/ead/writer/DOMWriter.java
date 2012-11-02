@@ -38,7 +38,6 @@
 package ead.writer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -83,14 +82,14 @@ public abstract class DOMWriter<T> {
 	/**
 	 * Element map
 	 */
-	protected static Map<EAdElement, String> elementMap = new HashMap<EAdElement, String>();
+	protected static Map<EAdElement, String> elementMap = new LinkedHashMap<EAdElement, String>();
 
 	protected static ArrayList<EAdElement> mappedElement = new ArrayList<EAdElement>();
 
 	/**
 	 * A map to store repeated params and save some space in XML
 	 */
-	protected static Map<Object, String> paramsMap = new HashMap<Object, String>();
+	protected static Map<Object, String> paramsMap = new LinkedHashMap<Object, String>();
 
 	public static DepthManager depthManager;
 
@@ -113,21 +112,6 @@ public abstract class DOMWriter<T> {
 			logger.error("Error configuring parser for '{}'", data.getId(), e);
 			error = true;
 		}
-	}
-
-	public static Collection<Object> reorderKeys(Set<? extends Object> keys) {
-		ArrayList<Object> reordered = new ArrayList<Object>(keys);
-		Collections.sort(reordered, new Comparator<Object>() {
-			@Override
-			public int compare(Object a, Object b) {
-				String ka = (a instanceof EAdElement) ? ((EAdElement)a).getId() :
-						a.toString();
-				String kb = (b instanceof EAdElement) ? ((EAdElement)b).getId() :
-						b.toString();
-				return ka.compareTo(kb);
-			}
-		});
-		return reordered;
 	}
 
 	/**

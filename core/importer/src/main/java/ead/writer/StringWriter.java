@@ -110,12 +110,13 @@ public class StringWriter  {
 			out = new FileOutputStream(file);
 			write(out, strings);
 		} catch (FileNotFoundException e) {
-
+			logger.error("Could not write", e);
 		} finally {
 			if (out != null) {
 				try {
 					out.close();
 				} catch (IOException e) {
+					logger.error("Could not write", e);
 				}
 			}
 		}
