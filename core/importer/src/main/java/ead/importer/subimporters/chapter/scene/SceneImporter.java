@@ -42,7 +42,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -319,11 +319,11 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	private void importResources(BasicScene scene, Scene oldScene,
 			EAdChapter chapter) {
 
-		Map<String, String> resourcesStrings = new HashMap<String, String>();
+		Map<String, String> resourcesStrings = new LinkedHashMap<String, String>();
 		resourcesStrings.put(Scene.RESOURCE_TYPE_BACKGROUND,
 				SceneElementDef.appearance);
 
-		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
+		Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 		resourcesClasses.put(Scene.RESOURCE_TYPE_BACKGROUND, Image.class);
 
 		resourceImporter.importResources(scene.getBackground().getDefinition(),

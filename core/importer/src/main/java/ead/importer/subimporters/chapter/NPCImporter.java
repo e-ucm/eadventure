@@ -38,7 +38,7 @@
 package ead.importer.subimporters.chapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.google.inject.Inject;
 
@@ -84,11 +84,11 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public void initResourcesCorrespondencies() {
 		ArrayList<EAdStateDrawable> drawables = new ArrayList<EAdStateDrawable>();
 
-		properties = new HashMap<String, String>();
+		properties = new LinkedHashMap<String, String>();
 		properties
 				.put(NPC.RESOURCE_TYPE_STAND_DOWN, SceneElementDef.appearance);
 
-		objectClasses = new HashMap<String, Object>();
+		objectClasses = new LinkedHashMap<String, Object>();
 		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);
 
 		for (Resources r : element.getResources()) {

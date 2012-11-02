@@ -38,7 +38,7 @@
 package ead.importer.auxiliar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +89,8 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	private Injector injector;
 
-	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = new HashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
+	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = 
+			new LinkedHashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
 
 	@Inject
 	public EAdElementFactoryImpl(
@@ -98,11 +99,11 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 			Injector injector) {
 		this.conditionImporter = conditionImporter;
 		draggableActors = new ArrayList<EAdSceneElementDef>();
-		elements = new HashMap<String, Map<String, EAdElement>>();
-		chapterVars = new HashMap<String, Map<String, EAdField<?>>>();
-		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
-		oldType = new HashMap<String, Object>();
-		defaultCursors = new HashMap<String, EAdImage>();
+		elements = new LinkedHashMap<String, Map<String, EAdElement>>();
+		chapterVars = new LinkedHashMap<String, Map<String, EAdField<?>>>();
+		chapterGlobalStates = new LinkedHashMap<String, Map<String, EAdCondition>>();
+		oldType = new LinkedHashMap<String, Object>();
+		defaultCursors = new LinkedHashMap<String, EAdImage>();
 		this.injector = injector;
 	}
 
@@ -138,7 +139,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 				.getId());
 
 		if (chapterElements == null) {
-			chapterElements = new HashMap<String, EAdElement>();
+			chapterElements = new LinkedHashMap<String, EAdElement>();
 			elements.put(currentChapter.getId(), chapterElements);
 		}
 
@@ -193,7 +194,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		Map<String, EAdField<?>> vars = chapterVars.get(currentChapter.getId());
 
 		if (vars == null) {
-			vars = new HashMap<String, EAdField<?>>();
+			vars = new LinkedHashMap<String, EAdField<?>>();
 			chapterVars.put(currentChapter.getId(), vars);
 		}
 
@@ -221,7 +222,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 				.get(currentChapter.getId());
 
 		if (globalStates == null) {
-			globalStates = new HashMap<String, EAdCondition>();
+			globalStates = new LinkedHashMap<String, EAdCondition>();
 			chapterGlobalStates.put(currentChapter.getId(), globalStates);
 		}
 

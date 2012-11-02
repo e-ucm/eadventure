@@ -37,7 +37,7 @@
 
 package ead.importer.subimporters.chapter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -238,8 +238,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			// converter does not support it.
 			// old resources are named "buttonOver" and "buttonPressed"
 
-			Map<String, String> resourcesStrings = new HashMap<String, String>();
-			Map<String, Object> resourcesClasses = new HashMap<String, Object>();
+			Map<String, String> resourcesStrings = new LinkedHashMap<String, String>();
+			Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 
 			EAdBundleId temp = action.getInitialBundle();
 			action.setInitialBundle(action.getHighlightBundle());
@@ -450,15 +450,15 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		addExamine(actor, actionsList, sound);
 
 		// Yeah, I know. But all of them are necessary.
-		HashMap<Integer, EAdAction> actions = new HashMap<Integer, EAdAction>();
-		HashMap<String, EAdAction> customActions = new HashMap<String, EAdAction>();
-		HashMap<String, EAdAction> interactActions = new HashMap<String, EAdAction>();
-		HashMap<EAdAction, EAdCondition> previousConditions = new HashMap<EAdAction, EAdCondition>();
-		HashMap<EAdAction, EAdCondition> orConditions = new HashMap<EAdAction, EAdCondition>();
-		HashMap<EAdAction, TriggerMacroEf> effectsTriggers = new HashMap<EAdAction, TriggerMacroEf>();
-		HashMap<EAdAction, TriggerMacroEf> notEffectsTriggers = new HashMap<EAdAction, TriggerMacroEf>();
-		HashMap<EAdAction, EAdSceneElementDef> targets = new HashMap<EAdAction, EAdSceneElementDef>();
-		HashMap<EAdAction, Boolean> getsTo = new HashMap<EAdAction, Boolean>();
+		Map<Integer, EAdAction> actions = new LinkedHashMap<Integer, EAdAction>();
+		Map<String, EAdAction> customActions = new LinkedHashMap<String, EAdAction>();
+		Map<String, EAdAction> interactActions = new LinkedHashMap<String, EAdAction>();
+		Map<EAdAction, EAdCondition> previousConditions = new LinkedHashMap<EAdAction, EAdCondition>();
+		Map<EAdAction, EAdCondition> orConditions = new LinkedHashMap<EAdAction, EAdCondition>();
+		Map<EAdAction, TriggerMacroEf> effectsTriggers = new LinkedHashMap<EAdAction, TriggerMacroEf>();
+		Map<EAdAction, TriggerMacroEf> notEffectsTriggers = new LinkedHashMap<EAdAction, TriggerMacroEf>();
+		Map<EAdAction, EAdSceneElementDef> targets = new LinkedHashMap<EAdAction, EAdSceneElementDef>();
+		Map<EAdAction, Boolean> getsTo = new LinkedHashMap<EAdAction, Boolean>();
 
 		for (Action a : actionsList) {
 			EAdAction action = null;

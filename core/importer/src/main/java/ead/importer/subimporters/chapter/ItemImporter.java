@@ -37,7 +37,7 @@
 
 package ead.importer.subimporters.chapter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.google.inject.Inject;
 
@@ -70,8 +70,8 @@ public class ItemImporter extends ActorImporter<Item> {
 
 	@Override
 	public void initResourcesCorrespondencies() {
-		properties = new HashMap<String, String>();
-		objectClasses = new HashMap<String, Object>();
+		properties = new LinkedHashMap<String, String>();
+		objectClasses = new LinkedHashMap<String, Object>();
 		properties.put(Item.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);
 		properties.put(Item.RESOURCE_TYPE_IMAGEOVER,
 				SceneElementDef.overAppearance);

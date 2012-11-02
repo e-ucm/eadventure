@@ -46,7 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,8 +132,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 		this.inputStreamCreator = inputStreamCreator;
 		this.conditionsImporter = conditionsImporter;
 		this.animationImporter = animationImporter;
-		urisCorrespondences = new HashMap<String, String>();
-		assets = new HashMap<String, AssetDescriptor>();
+		urisCorrespondences = new LinkedHashMap<String, String>();
+		assets = new LinkedHashMap<String, AssetDescriptor>();
 
 	}
 

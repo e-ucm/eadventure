@@ -37,7 +37,7 @@
 
 package ead.importer.subimporters.chapter.conversations;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -72,7 +72,7 @@ public class ConversationImporter implements
 			EAdElementImporter<DialogueConversationNode, EAdEffect> dialogueImporter,
 			EffectsImporterFactory effectFactory, StringHandler stringHandler,
 			ImportAnnotator annotator) {
-		nodes = new HashMap<ConversationNode, EAdEffect>();
+		nodes = new LinkedHashMap<ConversationNode, EAdEffect>();
 		this.dialogueImporter = dialogueImporter;
 		this.stringHandler = stringHandler;
 		this.annotator = annotator;

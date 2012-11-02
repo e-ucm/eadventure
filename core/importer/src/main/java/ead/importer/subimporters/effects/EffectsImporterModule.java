@@ -37,7 +37,7 @@
 
 package ead.importer.subimporters.effects;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.inject.AbstractModule;
@@ -88,7 +88,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 	
 	@Inject
 	public EffectsImporterModule() {
-		factoryMap = new HashMap<Class<?>, Class<? extends EAdElementImporter<?, ?>>>();
+		factoryMap = new LinkedHashMap<Class<?>, Class<? extends EAdElementImporter<?, ?>>>();
 		factoryMap.put(ShowTextEffect.class, ShowTextEffectImporter.class);
 		factoryMap.put(DeactivateEffect.class, DeactivateFlagImporter.class);
 		factoryMap.put(ActivateEffect.class, ActivateFlagImporter.class);

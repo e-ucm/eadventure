@@ -37,7 +37,7 @@
 
 package ead.importer.subimporters.chapter.cutscene;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -75,9 +75,9 @@ public class VideosceneImporter extends CutsceneImporter<Videoscene> {
 	}
 
 	protected void importResources(Videoscene oldCutscene, EAdScene scene) {
-		HashMap<String, String> correspondences = new HashMap<String, String>();
+		Map<String, String> correspondences = new LinkedHashMap<String, String>();
 		correspondences.put(Videoscene.RESOURCE_TYPE_VIDEO, VideoScene.video);
-		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
+		Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 		resourcesClasses.put(VideoScene.video, Video.class);
 
 		resourceImporter.importResources(scene.getDefinition(),

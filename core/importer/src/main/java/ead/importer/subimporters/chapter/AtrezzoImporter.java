@@ -37,7 +37,7 @@
 
 package ead.importer.subimporters.chapter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.google.inject.Inject;
 
@@ -75,10 +75,10 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo> {
 	@Override
 	public void initResourcesCorrespondencies() {
 
-		properties = new HashMap<String, String>();
+		properties = new LinkedHashMap<String, String>();
 		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);
 
-		objectClasses = new HashMap<String, Object>();
+		objectClasses = new LinkedHashMap<String, Object>();
 		objectClasses.put(Atrezzo.RESOURCE_TYPE_IMAGE, Image.class);
 	}
 }

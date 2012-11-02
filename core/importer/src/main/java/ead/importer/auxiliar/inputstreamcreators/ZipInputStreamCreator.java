@@ -46,7 +46,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -88,7 +89,7 @@ public class ZipInputStreamCreator implements InputStreamCreator {
 
 		if (!filePath.contains(".")) {
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
-			HashMap<String, String> files = new HashMap<String, String>();
+			Map<String, String> files = new LinkedHashMap<String, String>();
 			while (entries.hasMoreElements()) {
 				ZipEntry ze = entries.nextElement();
 				if (ze.getName().startsWith(filePath + "/")) {
