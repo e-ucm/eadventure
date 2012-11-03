@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
@@ -89,6 +91,8 @@ import es.eucm.eadventure.common.data.chapter.effects.Effects;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
+	private static Logger logger = LoggerFactory.getLogger(ActionImporter.class);
+	
 	private StringHandler stringHandler;
 
 	private EffectsImporterFactory effectsImporterFactory;
@@ -139,8 +143,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
 
-		EAdCondition andCondition = null;
-
+		EAdCondition andCondition;
 		if (previousCondition == null && condition == null) {
 			andCondition = EmptyCond.TRUE_EMPTY_CONDITION;
 		} else if (previousCondition != null && condition != null) {
@@ -175,11 +178,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	private void setName(Action oldObject, ElementAction action) {
-		String actionName = "Action";
+		String actionName;
 		if (oldObject instanceof CustomAction) {
 			CustomAction customAction = (CustomAction) oldObject;
 			actionName = customAction.getName();
-
 		} else {
 			actionName = getActionName(oldObject.getType());
 		}
@@ -264,7 +266,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public static String getDrawablePath(int actionType) {
-		String image = null;
+		String image;
 		switch (actionType) {
 		case Action.DRAG_TO:
 			image = "drag-normal.png";
@@ -297,9 +299,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	public EAdEffect getDefaultEffects(Action a, EAdSceneElementDef actor,
 			boolean isActiveArea, EAdAction newAction) {
-		for (AbstractEffect e : a.getEffects().getEffects())
-			if (e instanceof CancelActionEffect)
+		for (AbstractEffect e : a.getEffects().getEffects()) {
+			if (e instanceof CancelActionEffect) {
 				return null;
+			}
+		}
 		switch (a.getType()) {
 		case Action.GRAB:
 			if (!isActiveArea) {
@@ -358,9 +362,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			}
 		}
 
-		if (examineString == null)
+		if (examineString == null) {
 			initExamineAction(stringHandler);
-
+		}
+		
 		ElementAction examineAction = new ElementAction(examineString);
 		examineAction.setId(actor.getId() + "_examinate");
 		examineAction.getEffects().add( sound );
@@ -390,7 +395,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public static String getHighlightDrawablePath(int actionType) {
-		String image = null;
+		String image;
 		switch (actionType) {
 		case Action.DRAG_TO:
 			image = "drag-pressed.png";
@@ -446,6 +451,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public void addAllActions(List<Action> actionsList, SceneElementDef actor,
 			boolean isActiveArea, EAdEffect sound) {
 
+		logger.info("adding all actions for list of {} actions, "
+				+ "with an actor called {}, areaActive {}, and sound {}",
+				new Object[] {actionsList.size(), actor.getId(), isActiveArea, sound});
+		
 		// add examine
 		addExamine(actor, actionsList, sound);
 
@@ -492,7 +501,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				String name = customAction.getName() + ""
 						+ customAction.getTargetId();
 				if (interactActions.containsKey(name)) {
-					action = actions.get(name);
+					action = interactActions.get(name);
 				} else {
 					action = init(a);
 					interactActions.put(name, action);
@@ -511,8 +520,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				break;
 
 			}
-
-			getsTo.put(action, a.isNeedsGoTo());
 
 			// Effects
 			TriggerMacroEf effectTrigger = effectsTriggers.get(action);
@@ -561,21 +568,35 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 						effectTrigger, notEffectTrigger);
 			}
 
+			getsTo.put(action, a.isNeedsGoTo());
 		}
 
-		// First, are added the effects fore every action. All actions with the
+		logger.info("iterating {} effect triggers...", effectsTriggers.size());		
+		
+		// First, effects for every action are added. All actions with the
 		// same name are merged in only one, with one big trigger macro effect,
 		// whose effects are conditioned by the old action conditions, chained
 		// with ORs
 		for (Entry<EAdAction, TriggerMacroEf> e : effectsTriggers.entrySet()) {
 			EAdAction a = e.getKey();
+			logger.info("at effect trigger {}", a.getName());
 			TriggerMacroEf trigger = e.getValue();
 			EAdCondition orCondition = orConditions.get(e.getKey());
 			trigger.setCondition(orCondition);
+			if (logger.isInfoEnabled()) {
+				Object v = getsTo.get(a);
+				logger.info("will operate on {}, {}, {}, {}", 
+						new Object[] {v, trigger, actor, a});
+				if (v == null) {
+					for (EAdAction x : getsTo.keySet()) {
+						logger.info("\t{} {} :: {}", new Object[] {x, x.getId(), x.equals(a)});
+					}
+				}
+			}
 			addMoveTo(getsTo.get(a), trigger, actor, a);
 		}
 
-		// Now, the not effects are added in a second trigger effect whose
+		// Now, the non-effects are added in a second trigger effect whose
 		// condition is enabled when any of the main effects for the action are
 		// active
 		for (Entry<EAdAction, TriggerMacroEf> e : notEffectsTriggers.entrySet()) {
@@ -677,14 +698,13 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	private boolean hasCancelEffect(Effects effects) {
-		if (effects == null)
-			return false;
-
-		for (AbstractEffect e : effects.getEffects()) {
-			if (e instanceof CancelActionEffect)
-				return true;
+		if (effects != null) {
+			for (AbstractEffect e : effects.getEffects()) {
+				if (e instanceof CancelActionEffect) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
-
 }
