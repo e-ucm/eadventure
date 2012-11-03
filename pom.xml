@@ -118,7 +118,6 @@
 				<!-- XML -->
 				<!-- Reader -->
 				<module>core/reader</module>
-				<module>core/reader-gwt</module>
 				<!-- Importer -->
 				<module>core/importer</module>
 				<!-- Exporter -->
