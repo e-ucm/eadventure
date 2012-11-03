@@ -83,6 +83,7 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 		return effects;
 	}
 
+	@Override
 	public EAdString getName() {
 		return name;
 	}
@@ -97,6 +98,7 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 		return highlightBundle;
 	}
 
+	@Override
 	public void setName(EAdString name) {
 		this.name = name;
 	}
