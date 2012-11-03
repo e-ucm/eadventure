@@ -131,10 +131,10 @@ public abstract class NodeVisitor<T> {
 				if (logger.isDebugEnabled()) {
 					String pid = ((parent instanceof EAdElement) ? 
 							((EAdElement)parent).getId() : 
-							parent.getClass().getSimpleName() + "@" + parent.hashCode());
+							simpleName(parent.getClass()) + "@" + parent.hashCode());
 					String oid = ((object instanceof EAdElement) ? 
 							((EAdElement)object).getId() : 
-							object.getClass().getSimpleName() + "@" + object.hashCode());
+							simpleName(object.getClass()) + "@" + object.hashCode());
 					logger.debug("{}.{} <-- {}", new String[] {
 						pid, field.getName(), oid
 					});
@@ -209,8 +209,20 @@ public abstract class NodeVisitor<T> {
 						new Object[] { node.getNodeName(), element.getClass(),
 								field.getName(), field.getType() });
 			}
-
 		}
-
 	};
+	
+	/**
+	 * GWT does not recognize "class.getSimpleName()"; this is a simple implementation. 
+	 * This implements a simple version.
+	 * @param c
+	 * @return 
+	 */
+	public static String simpleName(Class<?> c) {
+		if (c == null) {
+			return "<null>";
+		}
+		String n = c.getName();
+		return n.substring(n.lastIndexOf('.')+1);
+	}
 }

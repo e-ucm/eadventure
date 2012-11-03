@@ -82,14 +82,14 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 							new String[] {
 								element.getId(), ((ProxyElement)element).getValue(),
 								field != null ? field.getName() : "?", 
-								parent != null ? parent.getClass().getSimpleName() : "?"});
+								simpleName(parent.getClass())});
 				} else {
 					setValue(field, parent, element);
 					logger.debug("Short-circuited read of element {} into {} of {}", 
 							new String[] {
 								element.getId(), 
 								field != null ? field.getName() : "?", 
-								parent != null ? parent.getClass().getSimpleName() : "?"});
+								simpleName(parent.getClass())});
 				}
 				listener.elementRead(element);
 				return;

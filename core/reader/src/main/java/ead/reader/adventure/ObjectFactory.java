@@ -159,7 +159,8 @@ public class ObjectFactory {
 			for (ProxyElement p : pending) {
 				if (p.getField() != null) {
 					logger.debug("Setting value for {} at {} in {}", 
-							new String[] {id, p.getField().getName(), p.getParent().getClass().getSimpleName()});
+							new String[] {id, p.getField().getName(), 
+								NodeVisitor.simpleName(p.getParent().getClass())});
 					NodeVisitor.setValue(p.getField(), p.getParent(), element);				
 				} else if (p.getList() != null) {
 					logger.debug("Setting value for {}, element {} of list {}", 

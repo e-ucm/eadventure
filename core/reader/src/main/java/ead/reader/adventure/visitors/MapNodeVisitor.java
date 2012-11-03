@@ -68,17 +68,17 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 			map = createNewMap(node);
 			logger.debug("Created new {}-to-{} map", 
 					new String[] { 
-						map.getKeyClass().getSimpleName(), 
-						map.getValueClass().getSimpleName() });
+						simpleName(map.getKeyClass()), 
+						simpleName(map.getValueClass()) });
 		} else {
 			map = (EAdMap<Object, Object>) field.getFieldValue(parent);
 			String pid = ((parent instanceof EAdElement) ? 
 					((EAdElement)parent).getId() : 
-					parent.getClass().getSimpleName() + "@" + parent.hashCode());			
+					simpleName(parent.getClass()) + "@" + parent.hashCode());			
 			if (logger.isDebugEnabled()) {
 				logger.debug("Using prior map {} at {}.{}",
 						new String[] {
-							map.getClass().getSimpleName() + "@" + map.hashCode(), 
+							simpleName(map.getClass()) + "@" + map.hashCode(), 
 							pid, field.getName()
 						});
 			}
@@ -151,13 +151,13 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 				if (logger.isDebugEnabled()) {
 					String k = ((key instanceof EAdElement) ? 
 							((EAdElement)key).getId() : 
-							key.getClass().getSimpleName() + "@" + key.hashCode());
+							simpleName(key.getClass()) + "@" + key.hashCode());
 					String e = ((element instanceof EAdElement) ? 
 							((EAdElement)element).getId() : 
-							element.getClass().getSimpleName() + "@" + element.hashCode());
+							simpleName(element.getClass()) + "@" + element.hashCode());
 					
 					logger.debug("{}[{}] <-- {}", new String[] {
-						map.getClass().getSimpleName() + "@" + map.hashCode(), 
+						simpleName(map.getClass()) + "@" + map.hashCode(), 
 						k, e});					
 				}
 				// for editor nodes, IDs are important; however, they are ignored in VarDef equals-comparisons
