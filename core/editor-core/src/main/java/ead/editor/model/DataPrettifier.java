@@ -63,7 +63,12 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
+
+import ead.editor.EAdventureEditor;
 
 /**
  * Utility class that prettifies data.xml files so that they become easier to
@@ -73,6 +78,8 @@ import org.xml.sax.InputSource;
  */
 public class DataPrettifier {
 
+    private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
+	
     static final public HashSet<String> translatedAttributes = new HashSet<String>();
     static final public String keymapElement = "keyMap";
     static final public String keymapEntry = "entry";
@@ -83,9 +90,8 @@ public class DataPrettifier {
         translatedAttributes.add(DOMTags.VALUE_CLASS_AT); // "vC"
     }
 
-
     /**
-     * Prettifies an input into an output.
+     * Prettify an input into an output.
      * @param input file; requires two passes (the first one reads the mappings)
      * @param output file; created in a single pass
      * @throws IOException
@@ -118,8 +124,10 @@ public class DataPrettifier {
                         mappings.put(
                                 reader.getAttributeValue(0),
                                 reader.getAttributeValue(1));
-//						System.err.println("Mapped " + reader.getAttributeValue(0)
-//								+ " to " + reader.getAttributeValue(1));
+						logger.debug("Mapped {} to {}", new String[]{ 
+							reader.getAttributeValue(0), 
+							reader.getAttributeValue(1) 
+						});
                     }
                 }
 
@@ -129,7 +137,7 @@ public class DataPrettifier {
                 }
             }
         } catch (Exception e) {
-            throw new IOException("Unable to prettify (step 1)", e);
+            logger.error("Unable to prettify (step 1)", e);
         } finally {
 			if (in != null) { in.close(); }
 		}
@@ -143,7 +151,7 @@ public class DataPrettifier {
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
             XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
-			System.err.println(outputFactory.getClass().getName());
+			logger.debug("Output factory is {}", outputFactory.getClass().getName());
             XMLStreamWriter writer = outputFactory.createXMLStreamWriter(cache);
 			writer.writeStartDocument();
 
@@ -165,18 +173,20 @@ public class DataPrettifier {
 
                 if (event == XMLStreamConstants.START_ELEMENT) {
                     writer.writeStartElement(reader.getLocalName());
-//					System.err.println("Started " + reader.getLocalName());
+					logger.debug("Started {}", reader.getLocalName());
 
                     // not in mappings list - copy element
                     for (int i = reader.getAttributeCount() - 1; i >= 0; i--) {
                         String name = reader.getAttributeLocalName(i);
                         String value = reader.getAttributeValue(i);
                         if (translatedAttributes.contains(name) && mappings.containsKey(value)) {
-//							System.err.println("\t(switch " + value + " ::= " + mappings.get(value));
+							logger.debug("\t(switch {}  ::= {}", 
+									new String[] {value, mappings.get(value)});
                             value = mappings.get(value);
                         }
                         writer.writeAttribute(name, value);
-//						System.err.println("\tattr: " + name + " --> " + value);
+						logger.debug("\tattr: {} --> {}", 
+								new String[] { name, value });
                     }
                 }
                 switch (event) {
@@ -213,8 +223,7 @@ public class DataPrettifier {
             throw new IOException("Unable to prettify (step 2)", e);
         } finally {
 			if (in != null) { in.close(); }
-		}
-		
+		}		
     }
 
     public static void main(String[] args) throws Exception {
