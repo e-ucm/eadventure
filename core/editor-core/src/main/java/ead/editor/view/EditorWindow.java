@@ -57,7 +57,6 @@ import bibliothek.gui.dock.common.MultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import bibliothek.gui.dock.common.intern.CDockable;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.editor.R;
@@ -65,12 +64,10 @@ import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
 import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.ViewController;
-import ead.editor.control.change.ChangeListener;
 import ead.editor.model.nodes.ActorNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.dock.ElementPanel;
-import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.FileMenu;
 import ead.editor.view.panel.ActorPanel;
 import ead.editor.view.panel.RawElementPanel;
@@ -79,14 +76,15 @@ import ead.gui.structurepanel.StructureElementProvider;
 import ead.gui.structurepanel.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
-import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
+
+import ead.editor.view.menu.AbstractEditorMenu;
+import ead.editor.view.menu.EditMenu;
+import ead.editor.view.menu.RunMenu;
 
 /**
  * Default implementation of the main editor window
@@ -296,12 +294,19 @@ public class EditorWindow implements ViewController {
                 leftPanel, dockController.getContentArea());
         editorWindow.add(splitPane);
 
+		// initialize the menus
         editorMenuBar = new JMenuBar();
-		FileMenu fm = new FileMenu(controller);
-		fm.initialize();
-        editorMenuBar.add(fm);
-        editorMenuBar.add(new EditMenu(controller.getCommandManager()));
+		AbstractEditorMenu menus[] = new AbstractEditorMenu[] {
+			new FileMenu(controller), 
+			new EditMenu(controller),
+			new RunMenu(controller)
+		};
+		for (AbstractEditorMenu m : menus) {
+			m.initialize();
+			editorMenuBar.add(m);
+		}	
         editorWindow.setJMenuBar(editorMenuBar);
+		
         toolPanel = new ToolPanel(controller);
         editorMenuBar.add(new JSeparator());
         editorMenuBar.add(toolPanel.getPanel());

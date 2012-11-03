@@ -37,55 +37,41 @@
 
 package ead.editor.view.menu;
 
-import com.google.inject.Inject;
-import ead.editor.control.Controller;
-import ead.editor.control.EditorConfig;
-import ead.editor.control.EditorConfig.EditorConf;
-
-import ead.gui.EAdMenuItem;
-import ead.editor.R;
-import ead.editor.control.ProjectController;
-import ead.editor.control.change.ChangeListener;
-import ead.editor.model.EditorModel.ModelProgressListener;
-import ead.editor.view.EditorWindow;
-import ead.utils.FileUtils;
-import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileView;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+import ead.editor.R;
+import ead.editor.control.Controller;
+import ead.editor.control.EditorConfig;
+import ead.editor.control.EditorConfig.EditorConf;
+import ead.utils.FileUtils;
 
 /**
  * Default file menu implementation
  */
-public class FileMenu extends JMenu {
+public class FileMenu extends AbstractEditorMenu {
 
     private static final Logger logger = LoggerFactory.getLogger("FileMenu");
-    private Controller controller;
 
     @Inject
     public FileMenu(Controller controller) {
-        super(Messages.file_menu);
-        this.controller = controller;
+        super(controller, Messages.file_menu);
     }
     private static FileFilter ead2LoadFolderFilter = new EAdFileFilter(
             ".eap", "data[.]xml", "EAdventure 2 project folders", false);
@@ -96,38 +82,35 @@ public class FileMenu extends JMenu {
     /**
      * Initialize the file menu
      */
+	@Override
     public void initialize() {
-        Action[] as = new Action[]{
-            new OpenAction(Messages.file_menu_open,
-                KeyEvent.VK_O),
+        AbstractEditorAction[] as = new AbstractEditorAction[]{
+            
+			new OpenAction(Messages.file_menu_open,
+				KeyEvent.VK_O,
+				0),
             new ImportAction(Messages.file_menu_import,
-                KeyEvent.VK_I | KeyEvent.ALT_DOWN_MASK),
+				KeyEvent.VK_I, 
+				KeyEvent.ALT_DOWN_MASK),
             new NewAction(Messages.file_menu_new,
-                KeyEvent.VK_N),
-            new SaveAction(Messages.file_menu_save,
-                KeyEvent.VK_S),
+				KeyEvent.VK_N, 
+				0),
+
+			new SaveAction(Messages.file_menu_save,
+                KeyEvent.VK_S,
+				0),			
             new SaveAsAction(Messages.file_menu_save_as,
-                KeyEvent.VK_S | KeyEvent.ALT_DOWN_MASK),
-            new ExitAction(Messages.file_menu_exit,
-                KeyEvent.VK_Q)
+                KeyEvent.VK_S,
+				KeyEvent.ALT_DOWN_MASK),
+            
+			new ExitAction(Messages.file_menu_exit,
+                KeyEvent.VK_Q,
+				KeyEvent.ALT_DOWN_MASK),
         };
 
-        for (Action a : as) {
-            String name = "" + a.getValue(AbstractAction.NAME);
-            String desc = "" + a.getValue(AbstractAction.SHORT_DESCRIPTION);
-
-            // build menu item
-            EAdMenuItem item = new EAdMenuItem(desc);
-            item.setAction(a);
-            add(item);
-
-            // register upstream
-            // FIXME: circular reference
-            // controller.putAction(name, a);
-
-            // register listeners for project changes
-            controller.getProjectController()
-					.addChangeListener((FileMenuAction)a);
+        for (AbstractEditorAction a : as) {
+			registerAction(a);
+			controller.getProjectController().addChangeListener(a);
         }
     }
 
@@ -135,16 +118,10 @@ public class FileMenu extends JMenu {
      * File menu actions have access to the containing class, and are subscribed
      * to change events from the ProjectController
      */
-    public abstract class FileMenuAction extends AbstractAction implements ChangeListener {
+    public abstract class FileMenuAction extends AbstractEditorAction {
 
-        public FileMenuAction(String name, int key) {
-            // set action values (except handler)
-            putValue(NAME, name);
-            int keyCode = key & (~KeyEvent.ALT_DOWN_MASK);
-            int keyModifiers = (key & KeyEvent.ALT_DOWN_MASK) != 0 ?
-                    (KeyEvent.ALT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK) : KeyEvent.CTRL_DOWN_MASK;
-            putValue(MNEMONIC_KEY, keyCode);
-            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(keyCode, keyModifiers));
+        public FileMenuAction(String name, int gkey, int gmask) {
+			super(name, gkey, gmask);
         }
 
         /**
@@ -161,7 +138,7 @@ public class FileMenu extends JMenu {
                 if (rc == JOptionPane.CANCEL_OPTION) {
                     return false;
                 } else if (rc == JOptionPane.OK_OPTION) {
-                    new ProgressListener(controller, new Runnable() {
+                    new MenuProgressListener(controller, new Runnable() {
                         @Override
                         public void run() {
                             controller.getProjectController().save();
@@ -172,17 +149,12 @@ public class FileMenu extends JMenu {
             }
             return true;
         }
-
-        @Override
-        public void processChange(Object event) {
-            // default is to do nothing
-        }
     }
 
     public class OpenAction extends FileMenuAction {
 
-        public OpenAction(String name, int key) {
-            super(name, key);
+        public OpenAction(String name, int gkey, int gmask) {
+            super(name, gkey, gmask);
         }
 
         @Override
@@ -199,7 +171,7 @@ public class FileMenu extends JMenu {
                     ead2LoadFolderFilter,
                     EditorConf.LastLoadDirectory, EditorConf.LastLoadFile);
             if (f != null) {
-                new ProgressListener(controller, new Runnable() {
+                new MenuProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
@@ -220,8 +192,8 @@ public class FileMenu extends JMenu {
 
     public class ImportAction extends FileMenuAction {
 
-        public ImportAction(String name, int key) {
-            super(name, key);
+        public ImportAction(String name, int gkey, int gmask) {
+            super(name, gkey, gmask);
         }
 
         @Override
@@ -247,7 +219,7 @@ public class FileMenu extends JMenu {
                     false, JFileChooser.DIRECTORIES_ONLY, null,
                     EditorConf.LastSaveDirectory, EditorConf.LastSaveFile);
             if (d != null) {
-                new ProgressListener(controller, new Runnable() {
+                new MenuProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
@@ -274,8 +246,8 @@ public class FileMenu extends JMenu {
 
     public class NewAction extends FileMenuAction {
 
-        public NewAction(String name, int key) {
-            super(name, key);
+        public NewAction(String name, int gkey, int gmask) {
+            super(name, gkey, gmask);
         }
 
         @Override
@@ -291,7 +263,7 @@ public class FileMenu extends JMenu {
                     false, JFileChooser.DIRECTORIES_ONLY, null,
                     EditorConf.LastSaveDirectory, null);
             if (d != null) {
-                new ProgressListener(controller, new Runnable() {
+                new MenuProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
@@ -313,15 +285,15 @@ public class FileMenu extends JMenu {
 
     public class SaveAction extends FileMenuAction {
 
-        public SaveAction(String name, int key) {
-            super(name, key);
+        public SaveAction(String name, int gkey, int gmask) {
+            super(name, gkey, gmask);
             // not enabled until something is loaded
             setEnabled(false);
         }
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            new ProgressListener(controller, new Runnable() {
+            new MenuProgressListener(controller, new Runnable() {
 
                 @Override
                 public void run() {
@@ -338,8 +310,8 @@ public class FileMenu extends JMenu {
 
     public class SaveAsAction extends FileMenuAction {
 
-        public SaveAsAction(String name, int key) {
-            super(name, key);
+        public SaveAsAction(String name, int gkey, int gmask) {
+            super(name, gkey, gmask);
             // not enabled until something is loaded
             setEnabled(false);        }
 
@@ -353,7 +325,7 @@ public class FileMenu extends JMenu {
                     false, JFileChooser.DIRECTORIES_ONLY, null,
                     EditorConf.LastSaveDirectory, null);
             if (d != null) {
-                new ProgressListener(controller, new Runnable() {
+                new MenuProgressListener(controller, new Runnable() {
 
                     @Override
                     public void run() {
@@ -377,8 +349,8 @@ public class FileMenu extends JMenu {
 
     public class ExitAction extends FileMenuAction {
 
-        public ExitAction(String name, int key) {
-            super(name, key);
+        public ExitAction(String name, int gkey, int gmask) {
+            super(name, gkey, gmask);
         }
 
         @Override
@@ -563,98 +535,5 @@ public class FileMenu extends JMenu {
 //            }
 //            return (! ead1Strict.accept(f)) && (! ead2Strict.accept(f));
         }
-    }
-
-    public static class ProgressListener extends JPanel implements ModelProgressListener, Runnable {
-
-        private JProgressBar jpb;
-        private JLabel jl;
-        private int oldProgress = 0;
-        private Runnable r;
-        private Controller controller;
-
-        public ProgressListener(Controller controller, Runnable r) {
-            this.r = r;
-            this.controller = controller;
-        }
-
-        public void runInEDT() {
-            SwingUtilities.doInEDTNow(this);
-        }
-
-        /**
-         * Should only be run in EDT
-         */
-        @Override
-        public void run() {
-            setLayout(new BorderLayout());
-
-            jpb = new JProgressBar(0, 100);
-            jpb.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            add(jpb, BorderLayout.CENTER);
-
-            jl = new JLabel("hi there", JLabel.CENTER);
-            jl.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            add(jl, BorderLayout.SOUTH);
-
-            setPreferredSize(new Dimension(400, 100));
-
-            controller.getViewController().addModalPanel(this);
-            controller.getModel().addProgressListener(this);
-
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    // business
-                    try {
-                        r.run();
-                    } catch (Exception e) {
-                        SwingUtilities.showExceptionDialog(e);
-                    }
-                    // cleanup
-                    SwingUtilities.doInEDT(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            controller.getModel().removeProgressListener(ProgressListener.this);
-                            controller.getViewController().removeModalPanel(true);
-                        }
-                    });
-                }
-            }).start();
-        }
-
-        @Override
-        public void update(final int progress, final String text) {
-            logger.info("FileMenu update: {} {} ", new Object[]{"" + progress, text});
-
-            SwingUtilities.doInEDTNow(new Runnable() {
-
-                @Override
-                public void run() {
-                    jl.setText(text);
-                    if (oldProgress > progress) {
-                        jpb.setIndeterminate(true);
-                    } else if (jpb.isIndeterminate()) {
-                        jpb.setIndeterminate(false);
-                        jpb.setValue(oldProgress);
-                        jpb.setValue(progress);
-                    } else {
-                        jpb.setValue(progress);
-                    }
-                    oldProgress = progress;
-                }
-            });
-        }
-    }
-
-    public static void main(String args[]) {
-//        ProgressListener pl = new ProgressListener(null, null);
-//        JFrame jf = new JFrame();
-//        jf.add(pl);
-//        jf.pack();
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        jf.setVisible(true);
     }
 }

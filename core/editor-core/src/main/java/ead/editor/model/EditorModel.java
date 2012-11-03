@@ -905,6 +905,9 @@ public class EditorModel implements ModelAccessor {
 		}
 	}
 
+	/**
+	 * A very simple interface for progress updates
+	 */
 	public static interface ModelProgressListener {
 		public void update(int progress, String text);
 	}

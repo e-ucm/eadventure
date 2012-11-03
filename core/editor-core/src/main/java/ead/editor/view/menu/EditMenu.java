@@ -38,88 +38,78 @@
 package ead.editor.view.menu;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import com.google.inject.Inject;
-
-import ead.editor.control.CommandManager;
+import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
-import ead.editor.view.menu.EditMenu;
 import ead.gui.EAdMenuItem;
-import ead.utils.swing.SwingUtilities;
-import javax.swing.JMenu;
 
 /**
  * Default implementation of the editor menu.
  */
-public class EditMenu extends JMenu implements ChangeListener {
-
-	/**
-	 * Undo menu item
-	 */
-	private EAdMenuItem undo;
-
-	/**
-	 * Undo menu item
-	 */
-	private EAdMenuItem redo;
-
-	/**
-	 * Instance of the action manager
-	 */
-	private CommandManager actionManager;
+public class EditMenu extends AbstractEditorMenu {
 
 	@Inject
-	public EditMenu(CommandManager actionManager) {
-		super(Messages.edit_menu);
-
-		this.actionManager = actionManager;
-
-		initialize();
+	public EditMenu(Controller controller) {
+		super(controller, Messages.edit_menu);
 	}
 
 	/**
 	 * Initialize the editor menu
 	 */
-	private void initialize() {
-		undo = new EAdMenuItem(Messages.edit_menu_undo);
-		undo.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				actionManager.undoCommand();
-			}
-
-		});
-		add(undo);
-
-		redo = new EAdMenuItem(Messages.edit_menu_redo);
-		redo.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				actionManager.redoCommand();
-			}
-
-		});
-		add(redo);
-
-		actionManager.addChangeListener(this);
-
-		processChange(null);
-	}
-
 	@Override
-	public void processChange(Object o) {
-		SwingUtilities.doInEDT(new Runnable() {
+	public void initialize() {
+        AbstractEditorAction[] as = new AbstractEditorAction[]{
+			new UndoAction(Messages.edit_menu_undo,
+				KeyEvent.VK_Z,
+				0),
+            new RedoAction(Messages.edit_menu_redo,
+				KeyEvent.VK_U, 
+				0),
 
-			@Override
-			public void run() {
-				undo.setEnabled(actionManager.canUndo());
-				redo.setEnabled(actionManager.canRedo());
-			}
+        };
 
-		});
+        for (AbstractEditorAction a : as) {
+			registerAction(a);
+
+			// file actions listen to project changes
+			controller.getCommandManager()
+					.addChangeListener((ChangeListener)a);
+        }		
 	}
 
+	public class UndoAction extends AbstractEditorAction {
+
+		public UndoAction(String name, int gkey, int gmask) {
+			super(name, gkey, gmask);
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controller.getCommandManager().undoCommand();
+		}
+		
+		@Override
+		public void processChange(Object o) {
+			setEnabled(controller.getCommandManager().canUndo());
+		}		
+	}
+	
+	public class RedoAction extends AbstractEditorAction {
+
+		public RedoAction(String name, int gkey, int gmask) {
+			super(name, gkey, gmask);
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controller.getCommandManager().redoCommand();
+		}
+		
+		@Override
+		public void processChange(Object o) {
+			setEnabled(controller.getCommandManager().canRedo());
+		}		
+	}
 }

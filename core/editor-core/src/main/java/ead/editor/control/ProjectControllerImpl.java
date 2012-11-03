@@ -46,6 +46,9 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import ead.engine.core.game.GameLoader;
+
 /**
  * Default implementation for the {@link ProjectController}.
  */
@@ -57,6 +60,13 @@ public class ProjectControllerImpl implements ProjectController {
 	private Controller controller;
     private ArrayList<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
+//	private GameLoader desktopLoader;
+//	
+//	@Inject
+//	public ProjectControllerImpl(GameLoader desktopLoader) {
+//		this.desktopLoader = desktopLoader;
+//	}
+	
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
@@ -124,6 +134,14 @@ public class ProjectControllerImpl implements ProjectController {
 		controller.getViewController().clearViews();
 	}
 
+	/**
+	 * Launches a game
+	 */
+	@Override
+	public void doRun() {
+		throw new IllegalArgumentException("Not yet implemented... fairing du sport");
+	}	
+	
     @Override
     public void addChangeListener(ChangeListener changeListener) {
         listeners.add(changeListener);
