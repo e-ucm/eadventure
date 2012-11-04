@@ -66,9 +66,12 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	@Override
 	public Element buildNode(EAdResources resources, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.RESOURCES_TAG);
-		if (resources.getInitialBundle() != null)
-			node.setAttribute(DOMTags.INITIAL_BUNDLE_TAG, resources.getInitialBundle()
-					.getBundleId());
+		String initialBundleId = resources.getInitialBundle().getBundleId();
+		if (resources.getInitialBundle() != null) {
+			node.setAttribute(
+					DOMTags.INITIAL_BUNDLE_TAG, 
+					initialBundleId);
+		}
 
 		for (String assetId : ((BasicAssetBundle) resources).getIds()) {
 			Node assetNode = processAsset(assetId, resources.getAsset(assetId));
@@ -76,10 +79,14 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 			node.appendChild(assetNode);
 		}
 
-		for (EAdBundleId bundleId : ((BasicResources) resources)
-				.getBundleIds()) {
+		for (EAdBundleId bundleId : ((BasicResources) resources).getBundleIds()) {
 			Node bundleNode = processBundle(bundleId,
 					((BasicResources) resources).getBundle(bundleId));
+			if (! bundleId.getBundleId().equals(initialBundleId) && 
+				(bundleNode.hasChildNodes() || ! bundleNode.getTextContent().isEmpty())) {
+				logger.warn("Writing empty bundle {} -- this is probably a bug",
+						bundleId );
+			}
 			node.appendChild(bundleNode);
 		}
 
@@ -100,8 +107,10 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 		bundleNode.setAttribute(DOMTags.ID_AT, id.getBundleId());
 
 		for (String assetId : ((BasicAssetBundle) bundle).getIds()) {
-			if (bundle.getAsset(assetId) == null)
-				logger.warn("Null asset '{}' in bundle {}", assetId, id.getBundleId());
+			if (bundle.getAsset(assetId) == null) {
+				logger.warn("Null asset '{}' in bundle {}",
+						assetId, id.getBundleId());
+			}
 			else {
 				Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
 				doc.adoptNode(assetNode);
