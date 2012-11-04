@@ -160,7 +160,7 @@ public class ObjectFactory {
 				if (p.getField() != null) {
 					logger.debug("Setting value for {} at {} in {}", 
 							new String[] {id, p.getField().getName(), 
-								NodeVisitor.simpleName(p.getParent().getClass())});
+								NodeVisitor.objectToString(p.getParent())});
 					NodeVisitor.setValue(p.getField(), p.getParent(), element);				
 				} else if (p.getList() != null) {
 					logger.debug("Setting value for {}, element {} of list {}", 

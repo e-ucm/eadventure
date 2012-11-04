@@ -82,14 +82,14 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 							new String[] {
 								element.getId(), ((ProxyElement)element).getValue(),
 								field != null ? field.getName() : "?", 
-								simpleName(parent.getClass())});
+								objectToString(parent)});
 				} else {
 					setValue(field, parent, element);
 					logger.debug("Short-circuited read of element {} into {} of {}", 
 							new String[] {
 								element.getId(), 
 								field != null ? field.getName() : "?", 
-								simpleName(parent.getClass())});
+								objectToString(parent)});
 				}
 				listener.elementRead(element);
 				return;
@@ -109,7 +109,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			clazz = translateClass(clazz);
 		} else {
 			logger.info("Null element for: "
-					+ (parent != null ? parent.getClass() : node.getNodeName()));
+					+ (parent != null ? objectToString(parent) : node.getNodeName()));
 		}
 
 		if (clazz != null) {

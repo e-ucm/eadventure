@@ -130,11 +130,9 @@ public abstract class NodeVisitor<T> {
 			try {
 				if (logger.isDebugEnabled()) {
 					String pid = ((parent instanceof EAdElement) ? 
-							((EAdElement)parent).getId() : 
-							simpleName(parent.getClass()) + "@" + parent.hashCode());
+							((EAdElement)parent).getId() : objectToString(parent));
 					String oid = ((object instanceof EAdElement) ? 
-							((EAdElement)object).getId() : 
-							simpleName(object.getClass()) + "@" + object.hashCode());
+							((EAdElement)object).getId() : objectToString(object));
 					logger.debug("{}.{} <-- {}", new String[] {
 						pid, field.getName(), oid
 					});
@@ -213,15 +211,24 @@ public abstract class NodeVisitor<T> {
 	};
 	
 	/**
-	 * GWT does not recognize "class.getSimpleName()"; this is a simple implementation. 
-	 * This implements a simple version.
-	 * @param c
+	 * GWT does not recognize o.getClass().getSimpleName(). This helper method
+	 * should be used instead, and can be handy for debugging purposes.
+	 * @param o
 	 * @return 
 	 */
-	public static String simpleName(Class<?> c) {
-		if (c == null) {
+	public static String objectToString(Object o) {
+		if (o == null) {
 			return "<null>";
 		}
+		return classToString(o.getClass()) + "@" + o.hashCode();
+	}
+	/**
+	 * GWT does not recognize clazz.getSimpleName(). This helper method
+	 * should be used instead, and can be handy for debugging purposes.
+	 * @param o
+	 * @return 
+	 */
+	public static String classToString(Class<?> c) {
 		String n = c.getName();
 		return n.substring(n.lastIndexOf('.')+1);
 	}
