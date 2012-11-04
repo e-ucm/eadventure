@@ -451,7 +451,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public void addAllActions(List<Action> actionsList, SceneElementDef actor,
 			boolean isActiveArea, EAdEffect sound) {
 
-		logger.info("adding all actions for list of {} actions, "
+		logger.debug("adding all actions for list of {} actions, "
 				+ "with an actor called {}, areaActive {}, and sound {}",
 				new Object[] {actionsList.size(), actor.getId(), isActiveArea, sound});
 		
@@ -571,7 +571,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			getsTo.put(action, a.isNeedsGoTo());
 		}
 
-		logger.info("iterating {} effect triggers...", effectsTriggers.size());		
+		logger.debug("iterating {} effect triggers...", effectsTriggers.size());		
 		
 		// First, effects for every action are added. All actions with the
 		// same name are merged in only one, with one big trigger macro effect,
@@ -579,17 +579,17 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		// with ORs
 		for (Entry<EAdAction, TriggerMacroEf> e : effectsTriggers.entrySet()) {
 			EAdAction a = e.getKey();
-			logger.info("at effect trigger {}", a.getName());
+			logger.debug("at effect trigger {}", a.getName());
 			TriggerMacroEf trigger = e.getValue();
 			EAdCondition orCondition = orConditions.get(e.getKey());
 			trigger.setCondition(orCondition);
-			if (logger.isInfoEnabled()) {
+			if (logger.isDebugEnabled()) {
 				Object v = getsTo.get(a);
-				logger.info("will operate on {}, {}, {}, {}", 
+				logger.debug("will operate on {}, {}, {}, {}", 
 						new Object[] {v, trigger, actor, a});
 				if (v == null) {
 					for (EAdAction x : getsTo.keySet()) {
-						logger.info("\t{} {} :: {}", new Object[] {x, x.getId(), x.equals(a)});
+						logger.debug("\t{} {} :: {}", new Object[] {x, x.getId(), x.equals(a)});
 					}
 				}
 			}
