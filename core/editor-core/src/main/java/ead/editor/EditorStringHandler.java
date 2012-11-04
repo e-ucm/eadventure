@@ -140,4 +140,12 @@ public class EditorStringHandler extends StringHandlerImpl {
 	public void addStrings(Map<EAdString, String> strings) {
 		addStrings(strings, defaultLanguage);		
 	}
+
+	public String getDefaultLanguage() {
+		return defaultLanguage;
+	}
+
+	public void setDefaultLanguage(String defaultLanguage) {
+		this.defaultLanguage = defaultLanguage;
+	}		
 }
