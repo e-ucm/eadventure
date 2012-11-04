@@ -100,7 +100,7 @@ public class EAdventureImporter {
 
 	private EAdElementFactory elementFactory;
 
-	private String destinyFile;
+	private String destinationFile;
 
 	private Random rand = new Random();
 
@@ -130,7 +130,7 @@ public class EAdventureImporter {
 	 * 
 	 * @param eadFile
 	 *            original ead file
-	 * @param destiny
+	 * @param destination
 	 *            File where the import project will be stored. If {@code null},
 	 *            import project won't be saved
 	 * @param format
@@ -139,7 +139,7 @@ public class EAdventureImporter {
 	 *            file
 	 * @return An {@link EAdventureModel} complete with all game information
 	 */
-	public EAdAdventureModel importGame(String eadFile, String destiny,
+	public EAdAdventureModel importGame(String eadFile, String destination,
 			String format) {
 		// Init importer
 		updateProgress(0, "Starting importer...");
@@ -153,7 +153,7 @@ public class EAdventureImporter {
 		AdventureData adventureData = loadGame();
 
 		if (adventureData == null) {
-			updateProgress(100, "Error: model couldn't be loaded");
+			updateProgress(100, "Error: model could not be loaded");
 			return null;
 		}
 
@@ -161,31 +161,31 @@ public class EAdventureImporter {
 
 		// Set the destination folder (a temporary folder is used when the game
 		// is going to be zipped)
-		File destinyFolder = null;
-		if (zipped || destiny == null) {
+		File destinationFolder = null;
+		if (zipped || destination == null) {
 
 			String tempFolder = System.getProperty("java.io.tmpdir");
 			File tmpDir = new File(tempFolder + File.separator
 					+ "eAdventureTemp" + rand.nextInt());
-			destinyFolder = tmpDir;
+			destinationFolder = tmpDir;
 		} else {
-			destinyFolder = new File(destiny);
+			destinationFolder = new File(destination);
 		}
 
-		if (destinyFolder.exists() == false) {
-			destinyFolder.mkdir();
+		if (destinationFolder.exists() == false) {
+			destinationFolder.mkdir();
 		}
 
-		resourceImporter.setPath(destinyFolder.getAbsolutePath());
-		destinyFile = destinyFolder.getAbsolutePath();
+		resourceImporter.setPath(destinationFolder.getAbsolutePath());
+		destinationFile = destinationFolder.getAbsolutePath();
 
 		updateProgress(50, "Converting old model...");
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 
-		if (destiny != null) {
-			updateProgress(90, "Creating " + destiny);
-			createGameFile(model, destinyFolder.getAbsolutePath(), destiny, "."
+		if (destination != null) {
+			updateProgress(90, "Creating " + destination);
+			createGameFile(model, destinationFolder.getAbsolutePath(), destination, "."
 					+ format, "Imported version", zipped);
 		}
 
@@ -369,8 +369,8 @@ public class EAdventureImporter {
 		return data;
 	}
 
-	public String getDestinyFile() {
-		return destinyFile;
+	public String getDestinationFile() {
+		return destinationFile;
 	}
 
 	public Map<EAdString, String> getStrings() {
@@ -401,8 +401,8 @@ public class EAdventureImporter {
 
 	}
 
-	public EAdAdventureModel importGame(String absolutePath, String destiny) {
+	public EAdAdventureModel importGame(String absolutePath, String destination) {
 
-		return importGame(absolutePath, destiny, "none");
+		return importGame(absolutePath, destination, "none");
 	}
 }
