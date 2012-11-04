@@ -42,12 +42,17 @@
 package ead.utils;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -392,4 +397,47 @@ public class FileUtils {
             throw ex;
         }
     }
+	
+	/**
+	 * Loads a file into a string, using UTF-8 encoding
+	 * @param f the file
+	 * @return the string
+	 * @throws IOException 
+	 */
+	public static String loadFileToString(File f) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = null;
+        try {
+        	r = new BufferedReader(new InputStreamReader(
+					new FileInputStream(f), Charset.forName("UTF-8")));
+        	String line;
+        	while ((line=r.readLine()) != null ){
+        		sb.append(line);
+        	}
+			return sb.toString();
+        } finally {
+        	if (r != null){
+        		r.close();
+        	}
+        }		
+	}
+
+	/**
+	 * Writes a string into a file, using UTF-8 encoding
+	 * @param s the string
+	 * @param f the file
+	 * @throws IOException 
+	 */
+	public static void writeStringToFile(String s, File f) throws IOException {
+        BufferedWriter w = null;
+        try {
+        	w = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(f), Charset.forName("UTF-8")));
+        	w.append(s);
+        } finally {
+        	if (w != null){
+        		w.close();
+        	}
+        }		
+	}
 }
