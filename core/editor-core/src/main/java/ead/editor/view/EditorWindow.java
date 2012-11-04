@@ -180,6 +180,7 @@ public class EditorWindow implements ViewController {
 				dockController.readXML(f);
 			} catch (IOException ex) {
 				logger.error("Could not restore views from {}", f, ex);
+				clearViews();
 			}
 		}
 	}
