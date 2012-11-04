@@ -43,7 +43,6 @@ import java.awt.event.KeyEvent;
 import com.google.inject.Inject;
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
-import ead.gui.EAdMenuItem;
 
 /**
  * Default implementation of the editor menu.
@@ -72,10 +71,9 @@ public class EditMenu extends AbstractEditorMenu {
 
         for (AbstractEditorAction a : as) {
 			registerAction(a);
-
-			// file actions listen to project changes
-			controller.getCommandManager()
-					.addChangeListener((ChangeListener)a);
+			// edit actions listen to command changes
+			controller.getCommandManager().addChangeListener(a);			
+			a.processChange(null);
         }		
 	}
 

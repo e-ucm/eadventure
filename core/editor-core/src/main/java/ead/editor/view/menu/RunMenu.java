@@ -101,6 +101,7 @@ public class RunMenu extends AbstractEditorMenu {
         for (AbstractEditorAction a : as) {
 			registerAction(a);
 			controller.getProjectController().addChangeListener(a);
+			a.processChange(null);
         }
     }
 
