@@ -37,10 +37,10 @@
 
 package ead.editor.model;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -80,12 +80,14 @@ import ead.reader.adventure.AdventureReader;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
 import ead.writer.EAdAdventureModelWriter;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.text.DecimalFormat;
+import java.util.GregorianCalendar;
+import java.util.Properties;
 
-import ead.common.model.elements.EAdBehavior;
+import ead.editor.EditorStringHandler;
+import ead.reader.properties.PropertiesReader;
+import ead.reader.strings.StringsReader;
+import ead.writer.StringWriter;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
@@ -100,10 +102,12 @@ public class EditorModel implements ModelAccessor {
 	private static final Logger logger = LoggerFactory.getLogger("EditorModel");
 
 	/**
-	 * Must be high enough to avoid ID collisions, counting from 0, downward
-	 * from here, and upward from here.
+	 * A large number, hard to reach counting from 0 upwards
 	 */
 	private static final int intermediateIDPoint = 1 << 24;
+	/**
+	 * Id used for 'bad' elements; warnings will be shown if forced to used it
+	 */
 	private static final int badElementId = -1;
 	
 	/**
@@ -111,14 +115,14 @@ public class EditorModel implements ModelAccessor {
 	 */
 	private int lastElementNodeId = 0;
 	/**
-	 * Node id generation: transients (which are not serialized)
+	 * Node id generation: transients. Not serialized on save/load. 
+	 * Should never touch default ids.
 	 */
 	private int lastTransientNodeId = intermediateIDPoint;
 	/**
 	 * True only during a loading operation
 	 */
 	private boolean isLoading = false;
-
 	/**
 	 * Importer for old models
 	 */
@@ -126,11 +130,15 @@ public class EditorModel implements ModelAccessor {
 	/**
 	 * Reader for DOM models
 	 */
-	AdventureReader reader;
+	private AdventureReader reader;
 	/**
 	 * Writer for DOM models
 	 */
-	EAdAdventureModelWriter writer;
+	private EAdAdventureModelWriter writer;
+	/**
+	 * Parser for XML documents
+	 */
+	private XMLParser parser;
 	/**
 	 * Dependency graph; main model structure
 	 */
@@ -144,10 +152,20 @@ public class EditorModel implements ModelAccessor {
 	 * for content-types that do not have embedded editor-ids
 	 */
 	private HashMap<Object, DependencyNode> nodesByContent;
+	
 	/**
 	 * The root of the graph; contains the engineModel
 	 */
 	private DependencyNode root;
+	/**
+	 * Internationalized strings
+	 */
+	private EditorStringHandler stringHandler;
+	/**
+	 * Game properties. Warning: does not preserve comments
+	 */
+	private HashMap<String, String> engineProperties;	
+	
 	/**
 	 * Search index
 	 */
@@ -193,6 +211,7 @@ public class EditorModel implements ModelAccessor {
 			EAdAdventureModelWriter writer, ImportAnnotator annotator) {
 		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
 				DependencyEdge.class);
+		this.parser = parser;
 		this.reader = new AdventureReader(parser);
 		this.importer = importer;
 		this.writer = writer;
@@ -602,23 +621,10 @@ public class EditorModel implements ModelAccessor {
         saveDir = sourceDir;
         updateProgress(10, "Reading engine model ...");
         
-        File f = new File(saveDir, "data.xml");
-        StringBuilder xml = new StringBuilder();
-        BufferedReader breader = null;
-        try {
-        	breader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(f), Charset.forName("UTF-8")));
-        	String line;
-        	while ((line=breader.readLine()) != null ){
-        		xml.append(line);
-        	}
-        } finally {
-        	if ( breader != null ){
-        		breader.close();
-        	}
-        }
-        
+		String xml = FileUtils.loadFileToString(new File(saveDir, "data.xml"));
         engineModel = reader.readXML(xml.toString());
+        
+		loadStringsAndProperties();	
 
         // build editor model
         updateProgress(50, "Reading editor model ...");
@@ -646,6 +652,46 @@ public class EditorModel implements ModelAccessor {
                 new Object[]{g.vertexSet().size(), g.edgeSet().size(),
 					time(nanos)});
     }
+	
+	/**
+	 * load strings and properties
+	 */
+	private void loadStringsAndProperties() {
+		try {
+			String strings = FileUtils.loadFileToString(new File(saveDir, "strings.xml"));
+			String properties = FileUtils.loadFileToString(new File(saveDir, "ead.properties"));
+
+			// FIXME - only reads the current-language versions
+			StringsReader sr = new StringsReader(parser);
+			stringHandler = new EditorStringHandler();
+			stringHandler.setStrings(sr.readStrings(strings));
+			
+			PropertiesReader pr = new PropertiesReader();
+			engineProperties = new HashMap<String, String>();
+			engineProperties.putAll(pr.readProperties(properties));
+		} catch (Exception e) {
+			logger.error("Could not load strings or properties", e);
+		}
+	}
+	
+	/**
+	 * save strings and properties
+	 */
+	private void saveStringsAndProperties() {
+		try {			
+			// FIXME - only writes the current-language versions
+			StringWriter sw = new StringWriter();
+			sw.write(saveDir + File.separator + "strings.xml", 
+				stringHandler.getStrings());
+						
+			Properties p = new Properties();
+			p.putAll(engineProperties);
+			p.store(new FileWriter(new File(saveDir, "ead.properties")), 
+					"Saved from editor on " + (new GregorianCalendar()));
+		} catch (Exception e) {
+			logger.error("Could not write strings or properties", e);
+		}
+	}
 		
 	/**
 	 * Replaces a node for another node. Incoming and outgoing references are
@@ -761,7 +807,8 @@ public class EditorModel implements ModelAccessor {
 	}
 
 	/**
-	 * Writes the data.xml file, optionally with a human-readable copy
+	 * Writes the data.xml file, optionally with a human-readable copy.
+	 * Also includes internationalized strings and engine properties
 	 * 
 	 * @param dest
 	 *            destination file
@@ -771,8 +818,9 @@ public class EditorModel implements ModelAccessor {
 	 */
 	public void writeEngineData(File dest, boolean humanReadable)
 			throws IOException {
+		
+		// data
 		File destFile = new File(dest, "data.xml");
-
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(destFile);			
@@ -780,8 +828,13 @@ public class EditorModel implements ModelAccessor {
 		} finally {
 			if (out != null) { out.close(); }
 		}
-		DataPrettifier.prettify(destFile,
-				new File(dest, "pretty-" + destFile.getName()));
+		if (humanReadable) {
+			DataPrettifier.prettify(destFile,
+					new File(dest, "pretty-" + destFile.getName()));
+		}
+		
+		// strings and props
+		saveStringsAndProperties();
 	}
 
 	// ---- basic access
@@ -800,6 +853,14 @@ public class EditorModel implements ModelAccessor {
 
 	public EAdAdventureModel getEngineModel() {
 		return engineModel;
+	}		
+	
+	public EditorStringHandler getStringHandler() {
+		return stringHandler;
+	}
+	
+	public HashMap<String, String> getEngineProperties() {
+		return engineProperties;
 	}
 
 	// ---- search-related functions API ----

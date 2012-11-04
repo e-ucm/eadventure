@@ -50,7 +50,7 @@ public abstract class EditorConfig extends ConfigBackend {
 
         // preferred editor language
         EditorLanguage,
-
+		
         // last file operation was performed here
         LastDirectory,
 

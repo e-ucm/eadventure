@@ -52,12 +52,18 @@ import javax.swing.Action;
 public class ControllerImpl implements Controller {
 
     private boolean configLoaded = false;
+	
     private EditorConfig editorConfig;
     private EditorModel editorModel;
     private ProjectController projectController;
     private NavigationController navigationController;
     private ViewController viewController;
     private CommandManager commandManager;
+	
+	/**
+	 * Action map. Contains all actions, generally bound to menu items or 
+	 * the like.
+	 */
     private HashMap<String, Action> actionMap = new HashMap<String, Action>();
 
     @Inject

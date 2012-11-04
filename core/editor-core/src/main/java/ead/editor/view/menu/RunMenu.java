@@ -37,42 +37,17 @@
 
 package ead.editor.view.menu;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.KeyStroke;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import ead.editor.R;
 import ead.editor.control.Controller;
-import ead.editor.control.EditorConfig;
-import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.change.ChangeListener;
-import ead.editor.model.EditorModel.ModelProgressListener;
-import ead.engine.core.game.GameLoaderImpl;
-import ead.gui.EAdMenuItem;
-import ead.utils.FileUtils;
-import ead.utils.swing.SwingUtilities;
 
 /**
  * Default file menu implementation

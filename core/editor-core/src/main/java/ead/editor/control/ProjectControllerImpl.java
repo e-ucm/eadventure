@@ -46,8 +46,13 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import ead.editor.model.EditorModel;
 import ead.engine.core.game.GameLoader;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.tools.GenericInjector;
+import ead.tools.java.JavaToolsModule;
 
 /**
  * Default implementation for the {@link ProjectController}.
@@ -139,7 +144,13 @@ public class ProjectControllerImpl implements ProjectController {
 	 */
 	@Override
 	public void doRun() {
-		throw new IllegalArgumentException("Not yet implemented... fairing du sport");
+		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule());
+		GenericInjector injector = i.getInstance(GenericInjector.class);
+		GameLoader g = injector.getInstance(GameLoader.class);
+		EditorModel em = controller.getModel();
+		g.loadGame(em.getEngineModel(), 
+				em.getStringHandler().getStrings(), 
+				em.getEngineProperties());
 	}	
 	
     @Override
