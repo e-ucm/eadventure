@@ -53,7 +53,6 @@ import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
-import ead.utils.i18n.I18N;
 
 /**
  * eAdventure editor launcher. This class has a main method.
@@ -93,23 +92,25 @@ public class EAdventureEditor implements Launcher {
 //            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
 //            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
 
-            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+//            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+			
 			"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Info,
-            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
 
-//			Writer			
+//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+
+//			Writer
 //            "DOMWriter", Log4jConfig.Slf4jLevel.Debug,
-			
-			
-//			Reader		
+
+
+//			Reader
 //			  "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 //	  		  "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 //	  		  "MapNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 //	  		  "ParamNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
-//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug				
-			
+//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug
+
 //			Internacionalizacion (i18n)
 //            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
         });
