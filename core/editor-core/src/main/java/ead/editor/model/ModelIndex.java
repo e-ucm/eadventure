@@ -202,50 +202,61 @@ public class ModelIndex {
 		private TreeMap<Integer, ArrayList<String>> fieldMatches =
 				new TreeMap<Integer, ArrayList<String>>();
 
-		private static final Pattern fieldMatchPattern 
+		private static final Pattern fieldMatchPattern
 				= Pattern.compile("fieldWeight[(]([^:]+):");
-		
+
 		public SearchResult() {
 			// used for "empty" searches: no results
 		}
 
 		public SearchResult(IndexSearcher searcher, Query query, ScoreDoc[] hits, Map<Integer, DependencyNode> nodesById)
 				throws IOException {
-			
 
 			try {
 				for (ScoreDoc hit : hits) {
 					String nodeId;
 					nodeId = searcher.doc(hit.doc).get(editorIdFieldName);
+					logger.debug("Adding {}", nodeId);
 					DependencyNode node = nodesById.get(Integer.parseInt(nodeId));
 					matches.add(node);
+					fieldMatches.put(node.getId(), new ArrayList<String>());
 					fillFieldsForExplanation(searcher.explain(query, hit.doc), node.getId());
 				}
 				searcher.close();
+				if (logger.isDebugEnabled()) {
+					logger.debug("Found {} matches for query {}:",
+							new Object[] {matches.size(), query});
+					for (DependencyNode node : matches) {
+						logger.debug(" * node {}", node.getId());
+						if (fieldMatchesFor(node) != null) {
+							logger.debug("    {} fields match",
+									new Object[] { fieldMatchesFor(node).size() });
+						} else {
+							logger.error("No field matches for match {} !! ", node.getId());
+						}
+					}
+				}
 			} catch (CorruptIndexException e) {
 				throw new IOException("Corrupt index", e);
 			}
 		}
-		
+
 		public final void fillFieldsForExplanation(Explanation e, int nodeId) {
-			
 			String s = e.getDescription();
-			logger.debug("Reading explanation for {}: '{}'", 
+			logger.debug("Reading explanation for {}: '{}'",
 					new Object[] { nodeId, s});
 			Matcher m = fieldMatchPattern.matcher(s);
-			if (m.matches()) {
+			if (m.find()) {
+				logger.debug("Adding another match to {}: {}",
+						new Object[] {nodeId, m.group(1)});
 				ArrayList<String> ms = fieldMatches.get(nodeId);
-				if (ms == null) {
-					ms = new ArrayList<String>();
-					fieldMatches.put(nodeId, ms);
-				}
 				ms.add(m.group(1));
-			}
-			if (e.getDetails() == null) {
-				return;
 			}
 
 			// recurse
+			if (e.getDetails() == null) {
+				return;
+			}
 			for (Explanation se : e.getDetails()) {
 				fillFieldsForExplanation(se, nodeId);
 			}
@@ -271,7 +282,6 @@ public class ModelIndex {
 	 * Get a (sorted) list of nodes that match a query
 	 */
 	public SearchResult searchAllDetailed(String queryText, Map<Integer, DependencyNode> nodesById) {
-		ArrayList<DependencyNode> nodes = new ArrayList<DependencyNode>();
 		try {
 			IndexReader reader = IndexReader.open(searchIndex);
 			Query query = getQueryAllParser().parse(queryText);

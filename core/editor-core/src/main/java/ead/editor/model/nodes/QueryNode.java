@@ -52,7 +52,7 @@ import ead.editor.model.ModelIndex.SearchResult;
  * This node represents a query.
  * It is not persisted as an "editor-node", as it can be regenerated on-demand
  * by repeating the query.
- * 
+ *
  * @author mfreire
  */
 public class QueryNode extends EditorNode {
@@ -68,7 +68,7 @@ public class QueryNode extends EditorNode {
 		logger.debug("Query node for '{}'", queryString);
 
 		result = m.searchAllDetailed(queryString);
-		
+
 		for (DependencyNode d : result.getMatcheNodes()) {
 			logger.debug("\tadding query match: {}", d.getId());
 			this.addChild(d);
@@ -104,7 +104,7 @@ public class QueryNode extends EditorNode {
 		sb.append("Query: '").append(queryString).append("'\n");
 		int i=0;
 		for (DependencyNode n : getContents()) {
-			sb.append("-- Match ").append(++i).append("--\n");
+			sb.append("\n-- Match ").append(++i).append("--\n");
 			sb.append("   ")
 					.append(n.getContent().getClass().getSimpleName())
 					.append(" (")
