@@ -94,7 +94,7 @@ import ead.writer.StringWriter;
  * EAdAdventureModel, encompassing both engine-related model objects and
  * resources, assets, and strings. Everything is searchable, and dependencies
  * are tracked as objects are changed.
- * 
+ *
  * @author mfreire
  */
 public class EditorModel implements ModelAccessor {
@@ -109,13 +109,13 @@ public class EditorModel implements ModelAccessor {
 	 * Id used for 'bad' elements; warnings will be shown if forced to used it
 	 */
 	private static final int badElementId = -1;
-	
+
 	/**
 	 * Node id generation: default ids
 	 */
 	private int lastElementNodeId = 0;
 	/**
-	 * Node id generation: transients. Not serialized on save/load. 
+	 * Node id generation: transients. Not serialized on save/load.
 	 * Should never touch default ids.
 	 */
 	private int lastTransientNodeId = intermediateIDPoint;
@@ -152,7 +152,7 @@ public class EditorModel implements ModelAccessor {
 	 * for content-types that do not have embedded editor-ids
 	 */
 	private HashMap<Object, DependencyNode> nodesByContent;
-	
+
 	/**
 	 * The root of the graph; contains the engineModel
 	 */
@@ -164,8 +164,8 @@ public class EditorModel implements ModelAccessor {
 	/**
 	 * Game properties. Warning: does not preserve comments
 	 */
-	private HashMap<String, String> engineProperties;	
-	
+	private HashMap<String, String> engineProperties;
+
 	/**
 	 * Search index
 	 */
@@ -201,7 +201,7 @@ public class EditorModel implements ModelAccessor {
 
 	/**
 	 * Constructor. Does not do much beyond initializing fields.
-	 * 
+	 *
 	 * @param reader
 	 * @param importer
 	 * @param writer
@@ -228,14 +228,14 @@ public class EditorModel implements ModelAccessor {
 	 * Gets a unique ID. All new DependencyNodes should get their IDs this way.
 	 * Uses a static field to store the last assigned ID; standard disclaimers
 	 * on thread-safety and class-loaders apply.
-	 * 
+	 *
 	 * @param targetObject
 	 *            an engine object, or null for synthetic elements
 	 * @return
 	 */
 	public int generateId(Object targetObject) {
 
-		int assigned = 
+		int assigned =
 			(targetObject == null || targetObject instanceof EAdElement) ?
 				lastElementNodeId++ : lastTransientNodeId++;
 
@@ -249,7 +249,7 @@ public class EditorModel implements ModelAccessor {
 
 	/**
 	 * Makes sure that the returned id contains an eid-prefix.
-	 * 
+	 *
 	 * @see createOrUnfreeze for details
 	 * @param id
 	 *            to alter
@@ -269,7 +269,7 @@ public class EditorModel implements ModelAccessor {
 	/**
 	 * Returns the editor-id of the object
 	 * @param o
-	 * @return  editorId if it is an eAdElement and has a 
+	 * @return  editorId if it is an eAdElement and has a
 	 * valid editorId, or badElementId otherwise.
 	 */
 	private int getEditorId(Object o) {
@@ -281,10 +281,10 @@ public class EditorModel implements ModelAccessor {
 				return Integer.parseInt(m.group(1));
 			}
 		}
-		
+
 		return badElementId;
 	}
-	
+
 	/**
 	 * Returns the editorNode for an object that is wrapped in an editorNode.
 	 * This works in two ways. First, if it has an editor-id tag, it is used.
@@ -299,13 +299,13 @@ public class EditorModel implements ModelAccessor {
 			return nodesById.get(eid);
 		}
 	}
-	
+
 	/**
 	 * Wraps a targetContent in an DependencyNode. If the content is of a type
 	 * that has extra editor data associated (a subclass of EAdElement), and
 	 * this editor data is available, it is used; otherwise, a new
 	 * DependencyNode is created.
-	 * 
+	 *
 	 * @param targetContent
 	 *            to wrap
 	 * @return a new or old editorNode to wrap that content
@@ -316,7 +316,7 @@ public class EditorModel implements ModelAccessor {
 		DependencyNode node;
 		int eid = badElementId;
 		if (targetContent instanceof EAdElement) {
-			EAdElement e = (EAdElement)targetContent;			
+			EAdElement e = (EAdElement)targetContent;
 			eid = getEditorId(targetContent);
 			if (eid != badElementId) {
 				// content is eadElement, and has editor-anotation: unfreeze
@@ -341,14 +341,14 @@ public class EditorModel implements ModelAccessor {
 				String decorated = null;
 				if (isLoading) {
 					logger.error("Loaded EAdElement {} of type {} had no editor ID",
-							new String[] {e.getId(), e.getClass().getSimpleName()});					
+							new String[] {e.getId(), e.getClass().getSimpleName()});
 					throw new IllegalStateException("Corrupted save-file: "
 							+ "no eid assigned to loaded objects");
 				} else {
 					eid = generateId(targetContent);
 					decorated = decorateIdWithEid(e.getId(), eid);
 					logger.debug("Created eID marker for {}: {} ({})",
-							new Object[] { e.getId(), eid, decorated });					
+							new Object[] { e.getId(), eid, decorated });
 					e.setId(decorated);
 					node = new EngineNode(eid, e);
 					nodesById.put(eid, node);
@@ -365,11 +365,11 @@ public class EditorModel implements ModelAccessor {
 		}
 		return node;
 	}
-	
+
 	/**
 	 * Attempts to add a new node-and-edge to the graph; use only during initial
 	 * model-building. The source may be null (for the root).
-	 * 
+	 *
 	 * @return the new node if added, or null if already existing (and
 	 *         therefore, it makes no sense to continue adding recursively from
 	 *         there on).
@@ -378,7 +378,7 @@ public class EditorModel implements ModelAccessor {
 			Object targetContent) {
 		DependencyNode target = getNodeFor(targetContent);
 		boolean alreadyKnown = (target != null);
-		
+
 		if ( ! alreadyKnown) {
 			target = createOrUnfreezeNode(targetContent);
 			g.addVertex(target);
@@ -400,7 +400,7 @@ public class EditorModel implements ModelAccessor {
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
 		 * Visits a node
-		 * 
+		 *
 		 * @see ModelVisitor#visitObject
 		 */
 		@Override
@@ -420,7 +420,7 @@ public class EditorModel implements ModelAccessor {
 
 			if (e != null) {
 				nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
-						"" + e.getId(), false);
+						"" + e.getId(), true);
 				return true;
 			} else {
 				// already exists in graph; in this case, do not drill deeper
@@ -430,7 +430,7 @@ public class EditorModel implements ModelAccessor {
 
 		/**
 		 * Visits a node property. Mostly used for indexing
-		 * 
+		 *
 		 * @see ModelVisitor#visitProperty
 		 */
 		@Override
@@ -442,10 +442,10 @@ public class EditorModel implements ModelAccessor {
 			nodeIndex.addProperty(targetNode, propertyName, textValue, true);
 		}
 	}
-		
+
 	/**
 	 * Exports the editor model into a zip file.
-	 * 
+	 *
 	 * @param target
 	 *            ; if null, previous target is assumed
 	 * @throws IOException
@@ -473,7 +473,7 @@ public class EditorModel implements ModelAccessor {
 
 	/**
 	 * Writes the editor mappings to an editor.xml file.
-	 * 
+	 *
 	 * @param dest
 	 * @return number of mappings written
 	 */
@@ -497,7 +497,7 @@ public class EditorModel implements ModelAccessor {
 
 	/**
 	 * Reads the editor mappings to an editor.xml file.
-	 * 
+	 *
 	 * @param source
 	 * @return number of mappings read
 	 */
@@ -550,7 +550,7 @@ public class EditorModel implements ModelAccessor {
 	/**
 	 * Loads data from an EAdventure1.x game file. Saves this as an EAdventure
 	 * 2.x editor file.
-	 * 
+	 *
 	 * @param fin
 	 *            old-version file to import from
 	 * @param fout
@@ -563,7 +563,7 @@ public class EditorModel implements ModelAccessor {
 
 		// clear caches
 		clear();
-		
+
 		long nanos = System.nanoTime();
 
 		ProgressProxy pp = new ProgressProxy();
@@ -571,8 +571,10 @@ public class EditorModel implements ModelAccessor {
 		engineModel = importer.importGame(fin.getAbsolutePath(),
 				fout.getAbsolutePath());
 		importer.removeProgressListener(pp);
+		updateProgress(50, "Reading strings and engine properties ...");
+		loadStringsAndProperties(fout);
 
-		updateProgress(50, "Reading editor model ...");
+		updateProgress(55, "Reading editor model ...");
 		logger.info("Model loaded; building graph...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
 		driver.visit(engineModel, new EditorModelVisitor());
@@ -593,7 +595,7 @@ public class EditorModel implements ModelAccessor {
 		updateProgress(90, "Indexing model ...");
 		nodeIndex.firstIndexUpdate(g.vertexSet());
 
-		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds", 
+		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] {
 					g.vertexSet().size(), g.edgeSet().size(), time(nanos) });
 		saveDir = fout;
@@ -605,7 +607,7 @@ public class EditorModel implements ModelAccessor {
 	 * Loads the editor model. Discards the current editing session. The file
 	 * must have been built with save(). Any presentation-related data should be
 	 * added after this is called, using FileUtils.readEntryFromZip(source, ...)
-	 * 
+	 *
 	 * @param sourceDir
 	 * @throws IOException
 	 */
@@ -613,33 +615,34 @@ public class EditorModel implements ModelAccessor {
         logger.info("Loading editor model from project dir '{}'...", sourceDir);
 
 		long nanos = System.nanoTime();
-		
+
         // clear caches
         clear();
 
         // read
         saveDir = sourceDir;
         updateProgress(10, "Reading engine model ...");
-        
+
 		String xml = FileUtils.loadFileToString(new File(saveDir, "data.xml"));
         engineModel = reader.readXML(xml.toString());
-        
-		loadStringsAndProperties();	
+
+		updateProgress(50, "Reading strings and engine properties ...");
+		loadStringsAndProperties(saveDir);
 
         // build editor model
-        updateProgress(50, "Reading editor model ...");
+		updateProgress(55, "Reading editor model ...");
         logger.info("Model loaded; building graph...");
-        
+
 		isLoading = true;
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(engineModel, new EditorModelVisitor());
         isLoading = false;
-		
+
 		int highestAssigned = nodesById.floorKey(intermediateIDPoint-1);
-		logger.debug("Bumping lastElementId of {} to closest to {}: {}", 
+		logger.debug("Bumping lastElementId of {} to closest to {}: {}",
 				new Object[] {lastElementNodeId, intermediateIDPoint-1, highestAssigned+1});
-		lastElementNodeId = highestAssigned+1;	
-		
+		lastElementNodeId = highestAssigned+1;
+
 		this.root = getNodeFor(engineModel);
         readMappingsFromFile(new File(sourceDir, editorNodeFile));
 
@@ -647,25 +650,25 @@ public class EditorModel implements ModelAccessor {
         updateProgress(90, "Indexing model ...");
         nodeIndex.firstIndexUpdate(g.vertexSet());
 
-        updateProgress(100, "... load complete.");		
+        updateProgress(100, "... load complete.");
         logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
                 new Object[]{g.vertexSet().size(), g.edgeSet().size(),
 					time(nanos)});
     }
-	
+
 	/**
 	 * load strings and properties
 	 */
-	private void loadStringsAndProperties() {
+	private void loadStringsAndProperties(File base) {
 		try {
-			String strings = FileUtils.loadFileToString(new File(saveDir, "strings.xml"));
-			String properties = FileUtils.loadFileToString(new File(saveDir, "ead.properties"));
+			String strings = FileUtils.loadFileToString(new File(base, "strings.xml"));
+			String properties = FileUtils.loadFileToString(new File(base, "ead.properties"));
 
 			// FIXME - only reads the current-language versions
 			StringsReader sr = new StringsReader(parser);
 			stringHandler = new EditorStringHandler();
 			stringHandler.setStrings(sr.readStrings(strings));
-			
+
 			PropertiesReader pr = new PropertiesReader();
 			engineProperties = new HashMap<String, String>();
 			engineProperties.putAll(pr.readProperties(properties));
@@ -673,31 +676,31 @@ public class EditorModel implements ModelAccessor {
 			logger.error("Could not load strings or properties", e);
 		}
 	}
-	
+
 	/**
 	 * save strings and properties
 	 */
-	private void saveStringsAndProperties() {
-		try {			
+	private void saveStringsAndProperties(File base) {
+		try {
 			// FIXME - only writes the current-language versions
 			StringWriter sw = new StringWriter();
-			sw.write(saveDir + File.separator + "strings.xml", 
+			sw.write(base + File.separator + "strings.xml",
 				stringHandler.getStrings());
-						
+
 			Properties p = new Properties();
 			p.putAll(engineProperties);
-			p.store(new FileWriter(new File(saveDir, "ead.properties")), 
+			p.store(new FileWriter(new File(base, "ead.properties")),
 					"Saved from editor on " + (new GregorianCalendar()));
 		} catch (Exception e) {
 			logger.error("Could not write strings or properties", e);
 		}
 	}
-		
+
 	/**
 	 * Replaces a node for another node. Incoming and outgoing references are
 	 * retained;
 	 * @param n
-	 * @param replacement 
+	 * @param replacement
 	 */
 	private void replaceVertex(DependencyNode n, DependencyNode replacement) {
 		ArrayList<DependencyEdge> es = new ArrayList<DependencyEdge>();
@@ -721,7 +724,7 @@ public class EditorModel implements ModelAccessor {
 	 * resources, plus editor-specific model nodes. Does not include anything
 	 * presentation- related; that should be appended via
 	 * FileUtils.appendEntryToZip(target, ...)
-	 * 
+	 *
 	 * @param target
 	 *            ; if null, previous target is assumed
 	 * @throws IOException
@@ -729,7 +732,7 @@ public class EditorModel implements ModelAccessor {
 	public void save(File target) throws IOException {
 
 		long nanos = System.nanoTime();
-		
+
 		updateProgress(5, "Commencing save ...");
 		if (target != null && saveDir != target) {
 			// copy over all resource-files first
@@ -761,7 +764,7 @@ public class EditorModel implements ModelAccessor {
 		logger.info(
 				"Wrote editor data from {} to {}: {} total objects,"
 				+ " {} editor mappings, in {} seconds",
-				new Object[] { saveDir, target, nodesById.size(), mappings, 
+				new Object[] { saveDir, target, nodesById.size(), mappings,
 					time(nanos)});
 	}
 
@@ -771,9 +774,9 @@ public class EditorModel implements ModelAccessor {
 	private String time(long nanoStart) {
 		long t = System.nanoTime() - nanoStart;
 		DecimalFormat df = new DecimalFormat("#,###.000");
-        return df.format((t / 1000000L) / 1000.0);		
+        return df.format((t / 1000000L) / 1000.0);
 	}
-	
+
 	/**
 	 * Flushes the model.
 	 */
@@ -785,7 +788,7 @@ public class EditorModel implements ModelAccessor {
 		isLoading = false;
 		nodeIndex = new ModelIndex();
 		g.removeAllEdges(new HashSet<DependencyEdge>(g.edgeSet()));
-		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));		
+		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));
 		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
 				DependencyEdge.class);
 		importAnnotator.reset();
@@ -793,7 +796,7 @@ public class EditorModel implements ModelAccessor {
 
 	/**
 	 * Returns a file that is relative to this save-file
-	 * 
+	 *
 	 * @param name
 	 *            of file to return, relative to save-file
 	 */
@@ -809,7 +812,7 @@ public class EditorModel implements ModelAccessor {
 	/**
 	 * Writes the data.xml file, optionally with a human-readable copy.
 	 * Also includes internationalized strings and engine properties
-	 * 
+	 *
 	 * @param dest
 	 *            destination file
 	 * @param humanReadable
@@ -818,12 +821,12 @@ public class EditorModel implements ModelAccessor {
 	 */
 	public void writeEngineData(File dest, boolean humanReadable)
 			throws IOException {
-		
+
 		// data
 		File destFile = new File(dest, "data.xml");
 		OutputStream out = null;
 		try {
-			out = new FileOutputStream(destFile);			
+			out = new FileOutputStream(destFile);
 			writer.write((EAdAdventureModel) engineModel, out);
 		} finally {
 			if (out != null) { out.close(); }
@@ -832,9 +835,9 @@ public class EditorModel implements ModelAccessor {
 			DataPrettifier.prettify(destFile,
 					new File(dest, "pretty-" + destFile.getName()));
 		}
-		
+
 		// strings and props
-		saveStringsAndProperties();
+		saveStringsAndProperties(dest);
 	}
 
 	// ---- basic access
@@ -853,12 +856,12 @@ public class EditorModel implements ModelAccessor {
 
 	public EAdAdventureModel getEngineModel() {
 		return engineModel;
-	}		
-	
+	}
+
 	public EditorStringHandler getStringHandler() {
 		return stringHandler;
 	}
-	
+
 	public HashMap<String, String> getEngineProperties() {
 		return engineProperties;
 	}
@@ -866,18 +869,18 @@ public class EditorModel implements ModelAccessor {
 	// ---- search-related functions API ----
 	/**
 	 * Queries all fields in all nodes for the provided text.
-	 * 
+	 *
 	 * @param queryText
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
 	public List<DependencyNode> searchAll(String queryText) {
 		return nodeIndex.searchAll(queryText, nodesById);
 	}
-	
+
 	/**
 	 * Queries all fields in all nodes for the provided text. This
 	 * variant provides details of any matches.
-	 * 
+	 *
 	 * @param queryText
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
@@ -887,7 +890,7 @@ public class EditorModel implements ModelAccessor {
 
 	/**
 	 * Queries a given field in all nodes for the provided text.
-	 * 
+	 *
 	 * @param queryText
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
