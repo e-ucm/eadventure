@@ -40,36 +40,35 @@ package ead.importer.auxiliar.inputstreamcreators;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.loader.InputStreamCreator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ImporterInputStreamCreator implements InputStreamCreator {
 
 	private InputStreamCreator currentStreamCreator;
-
-	private static final Logger logger = Logger.getLogger("ImporterInputStreamCreator");
+	private static final Logger logger = LoggerFactory.getLogger("ImporterInputStreamCreator");
 
 	public void setFile(String projectFile) {
 		if (new File(projectFile).isDirectory()) {
 			currentStreamCreator = new EAPInputStreamCreator();
 			((EAPInputStreamCreator) currentStreamCreator).setFile(projectFile);
-			logger.log(Level.INFO, "Folder project reader");
+			logger.info("Folder project reader");
 		} else if (projectFile.endsWith(".eap")) {
 			projectFile = projectFile.substring(0, projectFile.length() - 4);
 			currentStreamCreator = new EAPInputStreamCreator();
 			((EAPInputStreamCreator) currentStreamCreator).setFile(projectFile);
-			logger.log(Level.INFO, "Eap project reader");
+			logger.info("Eap project reader");
 		} else if (projectFile.endsWith(".zip") || projectFile.endsWith(".ead")) {
 			currentStreamCreator = new ZipInputStreamCreator();
 			((ZipInputStreamCreator) currentStreamCreator).setZipFile(projectFile);
-			logger.log(Level.INFO, "Zip/ead project reader");
+			logger.info( "Zip/ead project reader");
 		} else {
-			logger.log(Level.SEVERE, "No project reader available for: " + projectFile);
+			logger.info("No project reader available for: " + projectFile);
 		}
 	}
 
