@@ -47,6 +47,7 @@ import javax.swing.KeyStroke;
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
 import ead.gui.EAdMenuItem;
+import java.awt.AWTKeyStroke;
 
 /**
  * An abstract editor menu. All editor menus should descend from this one
@@ -56,30 +57,30 @@ public abstract class AbstractEditorMenu extends JMenu {
 
 	protected Controller controller;
 
-	private static int platformMnemonic 
+	private static int platformMnemonic
 			= Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-	
+
 	/**
 	 * Constructor. Should not do any real work (leave that to the initialization)
 	 * @param controller
-	 * @param name 
+	 * @param name
 	 */
     public AbstractEditorMenu(Controller controller, String name) {
         super(removeMenuKeyIndicator(name));
         this.controller = controller;
 		setMnemonic(getMenuKeyFromName(name));
     }
-	
+
 	/**
-	 * Finishes menu setup. 
+	 * Finishes menu setup.
 	 * Should only be called once all controllers have been correctly set up.
 	 */
 	public abstract void initialize();
-	
+
 	/**
 	 * Returns the keycode for the char after the first '_' in the text.
 	 * @param text
-	 * @return 
+	 * @return
 	 */
 	private static int getMenuKeyFromName(String text) {
 		int pos = text.indexOf('_');
@@ -87,24 +88,24 @@ public abstract class AbstractEditorMenu extends JMenu {
 			throw new IllegalArgumentException(
 				"The string '" + text + "' must contain a '_' before its end");
 		}
-		char c = text.charAt(pos+1);
-		return KeyEvent.getExtendedKeyCodeForChar(c);
-	}		
-	
+		char c = text.toLowerCase().charAt(pos+1);
+		return AWTKeyStroke.getAWTKeyStroke(c).getKeyCode();
+	}
+
 	/**
 	 * Removes all underscores from the text
 	 * @param text
-	 * @return 
+	 * @return
 	 */
 	private static String removeMenuKeyIndicator(String text) {
 		return text.replaceAll("_", "");
 	}
-	
-	/** 
+
+	/**
 	 * An abstract editor action.
 	 * Registers a 'ctrl
 	 */
-    public abstract class AbstractEditorAction extends AbstractAction 
+    public abstract class AbstractEditorAction extends AbstractAction
 		implements ChangeListener {
 
 		/**
@@ -114,31 +115,31 @@ public abstract class AbstractEditorMenu extends JMenu {
 		 * be included in the actual menuitem name
 		 */
 	    public AbstractEditorAction(String name) {
-            putValue(NAME, removeMenuKeyIndicator(name));			            
+            putValue(NAME, removeMenuKeyIndicator(name));
             putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
 		}
-		
+
 		/**
 		 * Creates an action with an accelerator
 		 * @param nameAndMnemonic a string like "_This example", where the
 		 * 't' would be chosen as the mnemonic key, and the underscore would not
 		 * be included in the actual menuitem name
-		 * @param globalKey 
+		 * @param globalKey
 		 */
 	    public AbstractEditorAction(String name,
 				int globalKey, int globalModifiers) {
             putValue(NAME, removeMenuKeyIndicator(name));
             putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
-            putValue(ACCELERATOR_KEY, 
+            putValue(ACCELERATOR_KEY,
 					KeyStroke.getKeyStroke(globalKey, platformMnemonic | globalModifiers));
         }
-		
+
         @Override
         public void processChange(Object event) {
             // default is to do nothing
-        }		 
+        }
 	}
-	
+
 	protected void registerAction(AbstractEditorAction a) {
 		String name = "" + a.getValue(AbstractAction.NAME);
 		String desc = "" + a.getValue(AbstractAction.SHORT_DESCRIPTION);
@@ -149,6 +150,6 @@ public abstract class AbstractEditorMenu extends JMenu {
 		add(item);
 
 		// register upstream
-		controller.putAction(name, a);		
+		controller.putAction(name, a);
 	}
 }
