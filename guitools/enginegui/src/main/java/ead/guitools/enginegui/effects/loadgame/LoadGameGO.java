@@ -66,7 +66,7 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 					File file = chooser.getSelectedFile();
 					EngineGUI.setProperty("folder", file.getAbsolutePath());
 					model = importer.importGame(file.getAbsolutePath(), null);
-					resourcesPath = importer.getDestinyFile();					
+					resourcesPath = importer.getDestinationFile();					
 					File tracesFile = new File(file.getAbsolutePath()
 							.substring(0, file.getAbsolutePath().length() - 3)
 							+ "xml");
