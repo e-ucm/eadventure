@@ -121,6 +121,7 @@ public class EAdventureEditor implements Launcher {
 
 		// initialize launcher
         Injector injector = Guice.createInjector(
+				new GdxEditorModule(),
                 new BaseImporterModule(),
                 new EditorGuiceModule(),
                 new JavaToolsModule());
@@ -129,8 +130,8 @@ public class EAdventureEditor implements Launcher {
 		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
 		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
+		// launch
         Launcher launcher = injector.getInstance(Launcher.class);
-
         launcher.configure();
         launcher.initialize();
 

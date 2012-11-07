@@ -397,6 +397,10 @@ public class EditorModel implements ModelAccessor {
 		}
 	}
 
+	public File getResourcePath() {
+		return saveDir;
+	}
+
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
 		 * Visits a node

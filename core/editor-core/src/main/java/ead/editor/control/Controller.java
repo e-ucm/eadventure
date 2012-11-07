@@ -38,8 +38,10 @@
 package ead.editor.control;
 
 import ead.editor.model.EditorModel;
-import java.util.Locale;
 import javax.swing.Action;
+
+import ead.engine.core.game.GameLoader;
+import ead.engine.core.gdx.assets.GdxAssetHandler;
 
 
 /**
@@ -99,4 +101,14 @@ public interface Controller {
      * through the manager.
      */
     CommandManager getCommandManager();
+	
+	/**
+	 * Returns the GdxAssetHandler in use
+	 */
+	GdxAssetHandler getAssetHandler();
+
+	/**
+	 * Returns the GameLoader in use
+	 */
+	GameLoader getGameLoader();
 }

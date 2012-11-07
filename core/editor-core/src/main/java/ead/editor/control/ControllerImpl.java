@@ -42,8 +42,10 @@ import com.google.inject.Singleton;
 import ead.editor.model.EditorModel;
 import java.io.File;
 import java.util.HashMap;
-import java.util.Locale;
 import javax.swing.Action;
+
+import ead.engine.core.game.GameLoader;
+import ead.engine.core.gdx.assets.GdxAssetHandler;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -59,6 +61,8 @@ public class ControllerImpl implements Controller {
     private NavigationController navigationController;
     private ViewController viewController;
     private CommandManager commandManager;
+	private GameLoader gameLoader;
+	private GdxAssetHandler assetHandler;
 	
 	/**
 	 * Action map. Contains all actions, generally bound to menu items or 
@@ -72,7 +76,9 @@ public class ControllerImpl implements Controller {
             ProjectController projectController,
             NavigationController navigationController,
             ViewController viewControler,
-            CommandManager commandManager) {
+            CommandManager commandManager,
+			GameLoader gameLoader,
+			GdxAssetHandler assetHandler) {
 
         this.editorConfig = editorConfig;
         this.editorModel = editorModel;
@@ -80,6 +86,8 @@ public class ControllerImpl implements Controller {
         this.navigationController = navigationController;
         this.viewController = viewControler;
         this.commandManager = commandManager;
+		this.gameLoader = gameLoader;
+		this.assetHandler = assetHandler;
     }
 	
 	@Override
@@ -142,4 +150,14 @@ public class ControllerImpl implements Controller {
     public void putAction(String name, Action action) {
         actionMap.put(name, action);
     }
+
+	@Override
+	public GdxAssetHandler getAssetHandler() {
+		return assetHandler;
+	}
+
+	@Override
+	public GameLoader getGameLoader() {
+		return gameLoader;
+	}
 }

@@ -46,13 +46,10 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import ead.editor.GdxEditorAssetHandler;
 import ead.editor.model.EditorModel;
 import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.tools.GenericInjector;
-import ead.tools.java.JavaToolsModule;
+import ead.engine.core.gdx.assets.GdxAssetHandler;
 
 /**
  * Default implementation for the {@link ProjectController}.
@@ -144,10 +141,10 @@ public class ProjectControllerImpl implements ProjectController {
 	 */
 	@Override
 	public void doRun() {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule());
-		GenericInjector injector = i.getInstance(GenericInjector.class);
-		GameLoader g = injector.getInstance(GameLoader.class);
 		EditorModel em = controller.getModel();
+		GameLoader g = controller.getGameLoader();
+		GdxAssetHandler h = controller.getAssetHandler();
+		((GdxEditorAssetHandler)h).setResourcePath(em.getResourcePath());
 		g.loadGame(em.getEngineModel(), 
 				em.getStringHandler().getStrings(), 
 				em.getEngineProperties());
