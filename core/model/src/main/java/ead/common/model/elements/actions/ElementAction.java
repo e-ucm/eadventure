@@ -72,8 +72,7 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 	
 	public ElementAction(EAdString name) {
 		super();
-		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		highlightBundle = new EAdBundleId(id + "_highlight");
+		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);		
 		this.name = name;
 		getResources().addBundle(highlightBundle);
 	}
@@ -95,6 +94,9 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 	
 	@Override
 	public EAdBundleId getHighlightBundle() {
+		if ( highlightBundle == null ){
+			highlightBundle = new EAdBundleId(id + "_highlight");
+		}
 		return highlightBundle;
 	}
 
