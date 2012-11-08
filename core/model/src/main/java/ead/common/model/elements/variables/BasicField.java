@@ -94,6 +94,7 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 		return varDef;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {

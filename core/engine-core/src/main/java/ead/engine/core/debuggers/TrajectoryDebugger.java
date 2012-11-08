@@ -169,10 +169,10 @@ public class TrajectoryDebugger implements Debugger {
 	private void createNodes(NodeTrajectoryDefinition trajectory) {
 		EAdComposedDrawable map = new ComposedDrawable();
 		for (Side s : trajectory.getSides()) {
-			int x1 = trajectory.getNodeForId(s.getIdStart()).getX();
-			int y1 = trajectory.getNodeForId(s.getIdStart()).getY();
-			int x2 = trajectory.getNodeForId(s.getIdEnd()).getX();
-			int y2 = trajectory.getNodeForId(s.getIdEnd()).getY();
+			int x1 = s.getIdStart().getX();
+			int y1 = s.getIdStart().getY();
+			int x2 = s.getIdEnd().getX();
+			int y2 = s.getIdEnd().getY();
 
 			LineShape line = new LineShape(x1, y1, x2, y2, 4);
 			line.setPaint(ColorFill.DARK_BROWN);
