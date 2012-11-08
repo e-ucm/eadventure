@@ -53,6 +53,7 @@ import com.google.inject.Injector;
 
 import ead.common.model.EAdElement;
 import ead.editor.EditorGuiceModule;
+import ead.editor.GdxEditorModule;
 import ead.editor.model.nodes.DependencyNode;
 import ead.importer.BaseImporterModule;
 import ead.tools.java.JavaToolsModule;
@@ -60,7 +61,7 @@ import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
 /**
- * 
+ *
  * @author mfreire
  */
 public class EditorModelTest {
@@ -90,7 +91,7 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, });
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new EditorGuiceModule(), new JavaToolsModule());
+				new GdxEditorModule(), new EditorGuiceModule(), new JavaToolsModule());
 		model = injector.getInstance(EditorModel.class);
 	}
 
