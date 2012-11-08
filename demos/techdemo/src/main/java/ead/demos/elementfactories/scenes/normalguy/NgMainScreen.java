@@ -55,15 +55,12 @@ public class NgMainScreen extends EmptyScene {
 	public NgMainScreen(EAdScene initScene) {
 		setBackground(new SceneElement( new Image(
 				"@drawable/ng_mainscreen_bg.png")));
-		getBackground().setId("background");
 		SceneElement spiral = new SceneElement(
 				new Image("@drawable/ng_spiral.png"));
-		spiral.setId("spiral");
 		spiral.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(spiral);
 		SceneElement logo = new SceneElement(
 				new Image("@drawable/ng_logo.png"));
-		logo.setId("spiral");
 		logo.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(logo);
 		logo.setInitialScale( 0.0f);

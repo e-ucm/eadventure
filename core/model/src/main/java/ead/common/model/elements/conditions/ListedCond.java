@@ -66,7 +66,6 @@ public abstract class ListedCond extends ResourcedElement implements
 	public ListedCond(ConditionOperator operator,
 			EAdCondition... condition) {
 		super();
-		setId("listedCondition");
 		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
 		for (int i = 0; i < condition.length; i++)
 			if (condition[i] != null)

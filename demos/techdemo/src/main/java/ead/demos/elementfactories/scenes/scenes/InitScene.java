@@ -77,10 +77,8 @@ public class InitScene extends EmptyScene {
 	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
 
 	public InitScene() {
-		setId("InitScene");
 		this.setBackground(new SceneElement(new Image(
 				"@drawable/techdemo-bg.png")));
-		getBackground().setId("background");
 		initList();
 		initGOBackButton();
 		initInfoButton();
@@ -116,12 +114,10 @@ public class InitScene extends EmptyScene {
 
 	private void initInfoButton() {
 		infoButton = new SceneElementDef(new Image("@drawable/infobutton.png"));
-		infoButton.setId("info");
 	}
 
 	private void initGOBackButton() {
 		goBack = new SceneElement(new Image("@drawable/goback.png"));
-		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 		goBack.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(this,
 				new FadeInTransition(1000)));

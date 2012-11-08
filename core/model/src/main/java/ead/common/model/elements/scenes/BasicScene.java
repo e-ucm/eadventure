@@ -85,7 +85,6 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 	public BasicScene(EAdDrawable backgroundDrawable) {
 		super();
 		background = new SceneElement(backgroundDrawable);
-		background.setId("background");
 		background.setPosition(Corner.TOP_LEFT, 0, 0);
 		returnable = true;
 		setCenter(Corner.TOP_LEFT);

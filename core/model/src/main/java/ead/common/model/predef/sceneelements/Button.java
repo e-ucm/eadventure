@@ -58,13 +58,11 @@ public class Button extends ComplexSceneElement {
 
 	public Button() {
 		super();
-		setId("button");
 		caption = new Caption();
 		caption.setFont(new BasicFont(12));
 		caption.setTextPaint(ColorFill.BLACK);
 
 		SceneElement text = new SceneElement(caption);
-		text.setId("text");
 		text.setPosition(Corner.CENTER, 100, 15);
 		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 

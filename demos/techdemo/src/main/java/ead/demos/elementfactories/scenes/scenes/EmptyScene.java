@@ -56,7 +56,6 @@ public class EmptyScene extends BasicScene implements SceneDemo {
 
 	public EmptyScene() {
 		super();
-		setId("EmptyScene");
 		((SceneElementDef) this.getDefinition()).setName(EAdString.newRandomEAdString("name"));
 		((SceneElementDef) this.getDefinition()).setDesc(EAdString.newRandomEAdString("desc"));
 		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString.newRandomEAdString("detailDesc"));

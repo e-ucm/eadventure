@@ -171,7 +171,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public SceneElement(EAdSceneElementDef actor) {
 		this();
-		setId(actor.getId() + "_ref");
 		this.definition = actor;
 	}
 

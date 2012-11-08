@@ -55,7 +55,6 @@ public class EmptyCond extends AbstractCondition {
 	
 	public EmptyCond(){
 		super( );
-		this.setId("emptyCondition");
 	}
 
 	public EmptyCond(EmptyCondValue value) {

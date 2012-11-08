@@ -74,7 +74,6 @@ public class NgCorridor extends EmptyScene{
 		initVariables();
 		// Set the scene background
 		setBackground(new SceneElement(new Image("@drawable/ng_corridor_bg.png")));
-		getBackground().setId("ng_corridor_bg");
 		// Puts main character into the scene
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 650, 495);	
@@ -141,7 +140,6 @@ public class NgCorridor extends EmptyScene{
 	 */
 	private void setWindow() {
 		window = new SceneElement(new Image("@drawable/ng_corridor_window.png"));
-		window.setId("window");
 		window.setPosition(Corner.TOP_LEFT , 345, 39);
 	}
 	
@@ -281,7 +279,6 @@ public class NgCorridor extends EmptyScene{
 		EAdString talking = new EAdString("I think it is closed dude...");
 		SpeakSceneElementEf speak = new SpeakSceneElementEf(talking);
 		speak.setElement(ng);
-		speak.setId("speakEffect");
 		move.getNextEffects().add(speak);
 	}
 	

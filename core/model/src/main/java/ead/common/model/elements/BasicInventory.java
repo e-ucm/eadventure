@@ -56,7 +56,6 @@ public class BasicInventory extends BasicElement implements EAdInventory {
 	private EAdList<EAdSceneElementDef> initialItems;
 
 	public BasicInventory() {
-		this.setId("inventory");
 		initialItems = new EAdListImpl<EAdSceneElementDef>(
 				EAdSceneElementDef.class);
 	}

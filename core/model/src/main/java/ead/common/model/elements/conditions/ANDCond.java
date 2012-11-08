@@ -51,7 +51,6 @@ public class ANDCond extends ListedCond {
 	
 	public ANDCond() {
 		super(ConditionOperator.AND, new EmptyCond(EmptyCondValue.TRUE));
-		setId("andCondition");
 	}
 
 	@Override
