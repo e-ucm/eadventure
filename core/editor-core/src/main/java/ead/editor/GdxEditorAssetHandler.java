@@ -35,63 +35,79 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.platform;
+
+package ead.editor;
+
+import java.io.File;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import ead.common.util.EAdURI;
+import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.tools.GenericInjector;
 
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gdx.GdxEngine;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.AbstractGUI;
-import ead.engine.core.platform.EngineConfiguration;
+/**
+ * An AssetHandler for the editor.
+ * @author mfreire
+ */
 
-public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
-	
-	protected GdxEngine engine;
-
+@Singleton
+public class GdxEditorAssetHandler extends GdxAssetHandler {
+		
 	@Inject
-	public GdxGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler,
-			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GdxCanvas canvas, GdxEngine engine) {
-		super(platformConfiguration, gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas);
-		this.engine = engine;
+	public GdxEditorAssetHandler(GenericInjector injector) {
+		super(injector);
 	}
 
-	@Override
-	public int getSkippedMilliseconds() {
-		return (int) (Gdx.graphics.getDeltaTime() * 1000);
-	}
-
-	@Override
-	public int getTicksPerSecond() {
-		return Gdx.graphics.getFramesPerSecond();
+	public void setResourcePath(File path) {
+		EAdURI u = new EAdURI(path.getAbsolutePath());
+		setResourcesLocation(u);
 	}
 	
 	@Override
-	public void setGame( Game g ){
-		super.setGame(g);
-		engine.setGame(game);
+	public void initialize() {
+		logger.info("Editor asset handler initialized");
+		super.initialize();
 	}
 
 	@Override
-	public void commit(float interpolation) {
-		processInput();
-		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
-		render(interpolation);
+	public void terminate() {
+		super.terminate();
+		logger.info("Editor asset handler terminated");
+	}	
+	
+	private StringBuilder tries;
+	
+	@Override
+	public FileHandle getFileHandle(String path) {
+		tries = new StringBuilder();
+		FileHandle rc = super.getFileHandle(path);
+		logger.info("Loading {}; tried {}",
+			new Object[] { path, tries });
+		return rc;
 	}
 	
 	@Override
-	public void finish() {
-		System.err.println("Now closing app...");
-		Gdx.app.exit();
-		System.err.println("App now closed.");
+	public FileHandle getProjectFileHandle(String uri) {
+		String s = resourcesUri.getPath() + "/" 
+				+ uri.replaceFirst("/", "_").replaceFirst("_", "/");
+		tries.append("[absolute] " + s + "\n");
+		return Gdx.files.absolute(s);
 	}
+	
+	@Override
+	public FileHandle getProjectInternal( String uri ){
+		String s = PROJECT_INTERNAL_PATH + uri;
+		tries.append("[p-internal] " + s + "\n");
+		return Gdx.files.internal(s);
+	}
+
+	@Override
+	public FileHandle getEngineFileHandle(String uri) {
+		String s = ENGINE_RESOURCES_PATH + uri;
+		tries.append("[e-internal] " + s + "\n");
+		return Gdx.files.internal(s);
+	}	
 }
