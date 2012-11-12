@@ -38,12 +38,11 @@
 package ead.editor;
 
 import java.util.Map.Entry;
-
+import java.util.Map;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
@@ -55,6 +54,12 @@ import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
+
+
+/**
+ *
+ * @author mfreire
+ */
 public class GdxEditorModule extends AbstractModule {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -79,5 +84,4 @@ public class GdxEditorModule extends AbstractModule {
 		}).to(VLCDesktopVideoRenderer.class);
 
 	}
-
 }

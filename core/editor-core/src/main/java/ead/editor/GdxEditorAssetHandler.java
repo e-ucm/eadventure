@@ -35,27 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package ead.editor;
 
-import java.io.File;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ead.common.util.EAdURI;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.tools.GenericInjector;
+import java.io.File;
 
 /**
- * An AssetHandler for the editor.
+ *
  * @author mfreire
  */
-
 @Singleton
 public class GdxEditorAssetHandler extends GdxAssetHandler {
-		
+
 	@Inject
 	public GdxEditorAssetHandler(GenericInjector injector) {
 		super(injector);
@@ -109,5 +103,5 @@ public class GdxEditorAssetHandler extends GdxAssetHandler {
 		String s = ENGINE_RESOURCES_PATH + uri;
 		tries.append("[e-internal] " + s + "\n");
 		return Gdx.files.internal(s);
-	}	
+	}
 }
