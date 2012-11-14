@@ -170,20 +170,24 @@ public class ValueMapImpl implements ValueMap {
 		map.remove(getFinalElement(element));
 	}
 
+	@Override
 	public Map<EAdVarDef<?>, Object> getElementVars(EAdElement element) {
 		return element == null ? systemVars : map.get(getFinalElement(element));
 	}
 
+	@Override
 	public EAdElement getFinalElement(EAdElement element) {
 		if (element != null && element instanceof EAdField<?>) {
 			EAdField<?> field = (EAdField<?>) element;
 			Object result = getValue(field.getElement(), field.getVarDef());
-			if (result instanceof EAdElement)
+			if (result instanceof EAdElement) {
 				return (EAdElement) result;
-			else
+			} else {
 				return element;
-		} else
+			}
+		} else {
 			return element;
+		}
 	}
 
 	@Override
