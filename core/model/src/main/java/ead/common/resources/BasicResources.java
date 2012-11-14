@@ -42,20 +42,23 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ead.common.model.EAdElement;
 import ead.common.resources.assets.AssetDescriptor;
 
 public class BasicResources extends BasicAssetBundle implements EAdResources {
 
+	
 	private Map<EAdBundleId, EAdAssetBundle> assetBundles;
 
-	private EAdBundleId initialBundle;
+	private EAdBundleId initialBundleId;
 
-	private static final Logger logger = Logger.getLogger( "EAdResourcesImpl" );
-
+	private static final Logger logger = LoggerFactory.getLogger(
+			"BasicResources");	
+	
 	/**
 	 * Default constructor. The different asset descriptors and bundles are
 	 * generated for the @Asset and @BundledAsset annotations in the definition.
@@ -83,38 +86,45 @@ public class BasicResources extends BasicAssetBundle implements EAdResources {
 		hasBundle = true;
 
 		if ( hasBundle ) {
-			initialBundle = new EAdBundleId( "default" );
-			assetBundles.put( initialBundle, bundle );
+			initialBundleId = new EAdBundleId( "default" );
+			assetBundles.put( initialBundleId, bundle );
 		}
 	}
 
 	@Override
 	public AssetDescriptor getAsset( String id ) {
 		AssetDescriptor asset = super.getAsset( id );
-		if ( asset != null )
+		if ( asset != null ) {
 			return asset;
-		logger.log(Level.SEVERE, "No such asset, id: " + id );
+		}
+		logger.error("No such asset, id {}", id );
 		return null;
 	}
 
 	@Override
 	public AssetDescriptor getAsset( EAdBundleId bundleId, String id ) {
-		if ( assetBundles.get( bundleId ) == null )
+		if ( assetBundles.get( bundleId ) == null ) {
 			return this.getAsset( id );
+		}
 		return assetBundles.get( bundleId ).getAsset( id );
 	}
 
 	@Override
 	public boolean addAsset( EAdBundleId bundleId, String id, AssetDescriptor asset ) {
-		if (!assetBundles.containsKey( bundleId ))
+		if (!assetBundles.containsKey( bundleId )) {
 			this.addBundle(bundleId);
+		}
 		return assetBundles.get( bundleId ).addAsset( id, asset );
 	}
 
 	@Override
 	public void addBundle( EAdBundleId bundleId) {
+		if (bundleId == null) {
+			throw new IllegalArgumentException("Attempting to add a null bundleId");
+		}
+		
 		if (!assetBundles.containsKey(bundleId)) {
-			EAdAssetBundle initialBundle = assetBundles.get(this.initialBundle);
+			EAdAssetBundle initialBundle = assetBundles.get(initialBundleId);
 			EAdAssetBundle bundle = initialBundle.duplicate();
 			assetBundles.put(bundleId, bundle);
 		}
@@ -122,20 +132,22 @@ public class BasicResources extends BasicAssetBundle implements EAdResources {
 	
 	@Override
 	public EAdBundleId getInitialBundle( ) {
-		return this.initialBundle;
+		return this.initialBundleId;
 	}
 
 	@Override
 	public void setInitialBundle( EAdBundleId bundleId ) {
-		this.initialBundle = bundleId;
+		this.initialBundleId = bundleId;
 	}
 
 	@Override
 	public Class<? extends AssetDescriptor>[] getValidAssets( String id ) {
-		if ( this.getDescriptor( id ) != null )
+		if ( this.getDescriptor( id ) != null ) {
 			return this.getDescriptor( id ).getValidAssets( );
-		else
-			return assetBundles.get( initialBundle ).getDescriptor( id ).getValidAssets( );
+		} else {
+			return assetBundles.get( initialBundleId )
+					.getDescriptor( id ).getValidAssets( );
+		}
 	}
 
 	public Set<EAdBundleId> getBundleIds() {
@@ -167,12 +179,18 @@ public class BasicResources extends BasicAssetBundle implements EAdResources {
 
 	@Override
 	public void removeBundle(EAdBundleId bundleId) {
-		if (assetBundles.keySet().size() > 1)
+		if (assetBundles.size() > 1) {
 			assetBundles.remove(bundleId);
-		if (bundleId == initialBundle)
-			setInitialBundle(assetBundles.keySet().toArray(new EAdBundleId[] {})[0]);
+		} else {
+			throw new IllegalArgumentException("Cannot remove last bundle");
+		}
+		if (bundleId.equals(initialBundleId)) {
+			EAdBundleId first = assetBundles.keySet().iterator().next();
+			setInitialBundle(first);
+		}
 	}
 	
+	@Override
 	public Collection<AssetDescriptor> getAllAssets( ){
 		ArrayList<AssetDescriptor> allAssets = new ArrayList<AssetDescriptor>();
 		for ( EAdAssetBundle bundle: assetBundles.values() ){
