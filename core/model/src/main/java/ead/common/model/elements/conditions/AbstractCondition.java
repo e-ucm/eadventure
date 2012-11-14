@@ -45,7 +45,6 @@ public abstract class AbstractCondition extends BasicElement implements
 
 	public AbstractCondition() {
 		super();
-		setId("condition");
 	}
 
 }

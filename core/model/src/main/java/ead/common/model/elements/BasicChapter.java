@@ -88,7 +88,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	 */
 	public BasicChapter() {
 		super();
-		setId("chapter");
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);

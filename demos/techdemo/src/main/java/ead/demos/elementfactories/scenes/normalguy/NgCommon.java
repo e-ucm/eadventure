@@ -102,7 +102,6 @@ public class NgCommon {
 
 		StateDrawable stateDrawables = new StateDrawable();
 		mainCharacter = new SceneElementDef(stateDrawables);
-		mainCharacter.setId("mainCharacter");
 
 		// Stand
 		StateDrawable oriented = new StateDrawable();

@@ -124,6 +124,10 @@ public class GameImpl implements Game {
 
 	private TweenController tweenController;
 
+	private Boolean modelWaiting;
+
+	private EAdList<EAdEffect> launchEffects;
+
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
@@ -150,6 +154,7 @@ public class GameImpl implements Game {
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
 		this.tweenController = tweenController;
+		this.modelWaiting = Boolean.FALSE;
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.initialize();
 		gui.setGame(this);
@@ -157,6 +162,13 @@ public class GameImpl implements Game {
 
 	@Override
 	public void update() {
+
+		synchronized (modelWaiting) {
+			if (modelWaiting) {
+				modelWaiting = Boolean.FALSE;
+				setGame();
+			}
+		}
 
 		// We load one possible asset in the background
 		assetHandler.loadStep();
@@ -230,7 +242,7 @@ public class GameImpl implements Game {
 
 		// Delete finished effects
 		for (EffectGO<?> e : finishedEffects) {
-//			logger.info("Finished or discarded effect {}", e.getClass());
+			// logger.info("Finished or discarded effect {}", e.getClass());
 			gameState.getEffects().remove(e);
 		}
 
@@ -270,21 +282,12 @@ public class GameImpl implements Game {
 		assetHandler.initialize();
 	}
 
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
-		setGame(model, eAdChapter, null);
-	}
-
-	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter,
-			EAdList<EAdEffect> effects) {
+	private void setGame() {
 		logger.info("Setting the game");
-		currentChapter = eAdChapter;
 		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
-				model.getGameWidth());
+				adventure.getGameWidth());
 		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
-				model.getGameHeight());
-
-		this.adventure = model;
+				adventure.getGameHeight());
 
 		if (adventure.getInventory() != null) {
 			logger.info("Building inventory...");
@@ -296,7 +299,7 @@ public class GameImpl implements Game {
 
 		logger.info("Init game events...");
 		events.clear();
-		for (EAdEvent e : eAdChapter.getEvents()) {
+		for (EAdEvent e : currentChapter.getEvents()) {
 			EventGO<?> eventGO = eventFactory.get(e);
 			eventGO.setParent(null);
 			eventGO.initialize();
@@ -304,19 +307,35 @@ public class GameImpl implements Game {
 		}
 
 		// Set the debuggers
-		setDebuggers(model);
+		setDebuggers(adventure);
 
-		sceneGraph.generateGraph(eAdChapter.getInitialScene());
-		gameState.setInitialScene(eAdChapter.getInitialScene(), effects);
+		sceneGraph.generateGraph(currentChapter.getInitialScene());
+		gameState.setInitialScene(currentChapter.getInitialScene(),
+				launchEffects);
 		updateInitialTransformation();
 
 		// Start tracking
-		Boolean track = Boolean.parseBoolean(model.getProperties().get(
+		Boolean track = Boolean.parseBoolean(adventure.getProperties().get(
 				GameTracker.TRACKING_ENABLE));
 		if (track) {
-			tracker.startTracking(model);
+			tracker.startTracking(adventure);
 		}
 
+	}
+
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
+		setGame(model, eAdChapter, null);
+	}
+
+	@Override
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter,
+			EAdList<EAdEffect> effects) {
+		synchronized (modelWaiting) {
+			this.adventure = model;
+			this.currentChapter = eAdChapter;
+			this.launchEffects = effects;
+			modelWaiting = Boolean.TRUE;
+		}
 	}
 
 	private void setDebuggers(EAdAdventureModel model) {

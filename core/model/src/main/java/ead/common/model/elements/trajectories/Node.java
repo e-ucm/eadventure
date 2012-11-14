@@ -40,7 +40,6 @@ package ead.common.model.elements.trajectories;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
-import java.util.Random;
 
 @Element
 public class Node extends BasicElement {
@@ -64,6 +63,13 @@ public class Node extends BasicElement {
 		this.x = x;
 		this.y = y;
 		this.scale = scale;
+	}
+
+	public Node(Node n) {
+		this.id = n.id;
+		this.x = n.x;
+		this.y = n.y;
+		this.scale = n.scale;
 	}
 
 	public void setX(int x){

@@ -46,10 +46,10 @@ import ead.common.model.elements.BasicElement;
 public class Side extends BasicElement {
 
 	@Param("idStart")
-	private String idStart;
+	private Node idStart;
 
 	@Param("idEnd")
-	private String idEnd;
+	private Node idEnd;
 
 	@Param("length")
 	private float length = 1;
@@ -61,7 +61,7 @@ public class Side extends BasicElement {
 
 	}
 
-	public Side(String idStart, String idEnd) {
+	public Side(Node idStart, Node idEnd) {
 
 		this.idStart = idStart;
 		this.idEnd = idEnd;
@@ -71,21 +71,21 @@ public class Side extends BasicElement {
 		this.realLength = realLength;
 	}
 
-	public String getIdStart() {
+	public Node getIdStart() {
 
 		return idStart;
 	}
 
-	public String getIdEnd() {
+	public Node getIdEnd() {
 
 		return idEnd;
 	}
 
-	public void setIdStart(String idStart) {
+	public void setIdStart(Node idStart) {
 		this.idStart = idStart;
 	}
 
-	public void setIdEnd(String idEnd) {
+	public void setIdEnd(Node idEnd) {
 		this.idEnd = idEnd;
 	}
 
@@ -124,8 +124,8 @@ public class Side extends BasicElement {
 	public EAdElement copy() {
 
 		Side s = new Side(null, null);
-		s.idEnd = (idEnd != null ? new String(idEnd) : null);
-		s.idStart = (idStart != null ? new String(idStart) : null);
+		s.idEnd = (idEnd != null ? new Node(idEnd) : null);
+		s.idStart = (idStart != null ? new Node(idStart) : null);
 		s.length = length;
 		return s;
 	}

@@ -107,10 +107,10 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 	public Side addSide(String idStart, String idEnd, float length) {
 
 		if (idStart.equals(idEnd))
-			return null;
-		Side side = new Side(idStart, idEnd);
+			return null;		
 		Node a = getNodeForId(idStart);
 		Node b = getNodeForId(idEnd);
+		Side side = new Side(a, b);
 		if (a != null && b != null) {
 			int x = a.getX() - b.getX();
 			int y = a.getY() - b.getY();
