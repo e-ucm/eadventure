@@ -72,7 +72,7 @@ public class StringHandlerImpl implements StringHandler {
 		logger.debug("Add string '{}': '{}'", eAdString.toString(), string);
 		if (string == null) {
 			logger.warn(
-					"A null string has been set for {}. It's unnecessary to do that.",
+					"A null string has been set for {}. It is not necessary to do that.",
 					eAdString);
 		}
 		strings.put(eAdString, string);
