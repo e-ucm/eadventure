@@ -74,6 +74,7 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 		super();
 		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);		
 		this.name = name;
+		highlightBundle = new EAdBundleId("highlight-"+name);
 		getResources().addBundle(highlightBundle);
 	}
 

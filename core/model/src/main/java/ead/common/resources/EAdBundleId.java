@@ -54,6 +54,9 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 	 * @param bundleId the string of the id.
 	 */
 	public EAdBundleId(String bundleId) {
+		if (bundleId == null) {
+			throw new IllegalArgumentException("Attempting to set null bundle-id");
+		}
 		this.bundleId = bundleId;
 	}
 
@@ -72,6 +75,9 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 	 * @param bundleId the bundleId to set
 	 */
 	public void setBundleId(String bundleId) {
+		if (bundleId == null) {
+			throw new IllegalArgumentException("Attempting to set null bundle-id");
+		}
 		this.bundleId = bundleId;
 	}
 
