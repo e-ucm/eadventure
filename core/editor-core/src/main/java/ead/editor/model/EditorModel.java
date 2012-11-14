@@ -672,10 +672,12 @@ public class EditorModel implements ModelAccessor {
 			StringsReader sr = new StringsReader(parser);
 			stringHandler = new EditorStringHandler();
 			stringHandler.setStrings(sr.readStrings(strings));
+			logger.info("Read {} strings", stringHandler.getStrings().size());
 
 			PropertiesReader pr = new PropertiesReader();
 			engineProperties = new HashMap<String, String>();
 			engineProperties.putAll(pr.readProperties(properties));
+			logger.info("Read {} engine properties", engineProperties.size());
 		} catch (Exception e) {
 			logger.error("Could not load strings or properties", e);
 		}
@@ -690,11 +692,13 @@ public class EditorModel implements ModelAccessor {
 			StringWriter sw = new StringWriter();
 			sw.write(base + File.separator + "strings.xml",
 				stringHandler.getStrings());
+			logger.info("Wrote {} strings", stringHandler.getStrings().size());
 
 			Properties p = new Properties();
 			p.putAll(engineProperties);
 			p.store(new FileWriter(new File(base, "ead.properties")),
 					"Saved from editor on " + (new GregorianCalendar()));
+			logger.info("Wrote {} engine properties", engineProperties.size());
 		} catch (Exception e) {
 			logger.error("Could not write strings or properties", e);
 		}

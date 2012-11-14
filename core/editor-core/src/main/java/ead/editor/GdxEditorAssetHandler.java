@@ -43,6 +43,10 @@ import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.tools.GenericInjector;
 import java.io.File;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import ead.common.util.EAdURI;
+
 /**
  *
  * @author mfreire

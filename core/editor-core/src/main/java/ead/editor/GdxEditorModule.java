@@ -73,7 +73,6 @@ public class GdxEditorModule extends AbstractModule {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();
 			bind(c1).to(c2).in(Singleton.class);
-			System.err.println("binding " + c1 + " to " + c2 + " as singletons");
 		}
 
 		bind(GUI.class).to(GdxDesktopGUI.class);

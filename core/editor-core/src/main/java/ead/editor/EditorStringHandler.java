@@ -101,13 +101,13 @@ public class EditorStringHandler extends StringHandlerImpl {
 		}
 	}
 
-	public void setStrings(Map<EAdString, String> strings, String lang) {
+	public void setStrings(Map<EAdString, String> stringsToSet, String lang) {
 		strings.clear();
-		addStrings(strings, lang);
+		addStrings(stringsToSet, lang);
 	}
 
-	public void addStrings(Map<EAdString, String> strings, String lang) {
-		for (Map.Entry<EAdString, String> e : strings.entrySet()) {
+	public void addStrings(Map<EAdString, String> stringsToSet, String lang) {
+		for (Map.Entry<EAdString, String> e : stringsToSet.entrySet()) {
 			setString(e.getKey(), e.getValue(), lang);
 		}
 	}
