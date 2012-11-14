@@ -38,12 +38,11 @@
 package ead.importer.subimporters.chapter.conversations;
 
 import com.google.inject.Inject;
-
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.importer.GenericImporter;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.tools.StringHandler;
@@ -60,6 +59,7 @@ public class LineImporterToCaption implements
 	@Inject
 	private StringHandler stringHandler;
 
+	@Override
 	public EAdCaption init(ConversationLine line) {
 		return null;
 	}
@@ -72,11 +72,12 @@ public class LineImporterToCaption implements
 		Caption caption = new Caption(string);
 
 		NPC character = null;
-		if (line.getName().equals(Player.IDENTIFIER))
+		if (line.getName().equals(Player.IDENTIFIER)) {
 			character = factory.getCurrentOldChapterModel().getPlayer();
-		else
+		} else {
 			character = factory.getCurrentOldChapterModel().getCharacter(
 					line.getName());
+		}
 
 		if (character != null) {
 			String bg = getColor(character.getBubbleBkgColor());
@@ -109,8 +110,8 @@ public class LineImporterToCaption implements
 			}
 
 			return "0x" + color + "FF";
-		} else
+		} else {
 			return "0x00000000";
+		}
 	}
-
 }

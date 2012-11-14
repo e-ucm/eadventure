@@ -79,11 +79,11 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 			node.appendChild(assetNode);
 		}
 
-		for (EAdBundleId bundleId : ((BasicResources) resources).getBundleIds()) {
+		for (EAdBundleId bundleId : ((BasicResources) resources).getBundleIds()) {			
 			Node bundleNode = processBundle(bundleId,
 					((BasicResources) resources).getBundle(bundleId));
 			if (! bundleId.getBundleId().equals(initialBundleId) && 
-				(bundleNode.hasChildNodes() || ! bundleNode.getTextContent().isEmpty())) {
+				! (bundleNode.hasChildNodes() || ! bundleNode.getTextContent().isEmpty())) {
 				logger.warn("Writing empty bundle {} -- this is probably a bug",
 						bundleId );
 			}

@@ -83,6 +83,7 @@ public class ConversationImporter implements
 		return null;
 	}
 
+	@Override
 	public EAdEffect convert(Conversation oldObject, Object object) {
 		nodes.clear();
 
@@ -94,8 +95,9 @@ public class ConversationImporter implements
 						.init((DialogueConversationNode) node);
 				effect = dialogueImporter.convert(
 						(DialogueConversationNode) node, effect);
-				if (effect != null)
+				if (effect != null) {
 					nodes.put(node, effect);
+				}
 			} else if (node.getType() == ConversationNode.OPTION) {
 				EAdEffect effect = new ShowQuestionEf();
 				nodes.put(node, effect);
@@ -133,5 +135,4 @@ public class ConversationImporter implements
 
         return changeField;
 	}
-
 }
