@@ -51,15 +51,21 @@ public class EngineGUI {
 
 		DesktopGame engine = new DesktopGame();
 		addPlugins(engine);
-		boolean trajectories = Boolean.parseBoolean(getProperty("dtraj",
-				"false"));
-		DebuggerHandler debuggerHandler = engine
-				.getInstance(DebuggerHandler.class);
-		if (trajectories) {
-			debuggerHandler.add(TrajectoryDebugger.class);
+
+		boolean enableDebug = Boolean
+				.parseBoolean(getProperty("debug", "false"));
+
+		if (enableDebug) {
+			boolean trajectories = Boolean.parseBoolean(getProperty("dtraj",
+					"false"));
+			DebuggerHandler debuggerHandler = engine
+					.getInstance(DebuggerHandler.class);
+			if (trajectories) {
+				debuggerHandler.add(TrajectoryDebugger.class);
+			}
+
+			debuggerHandler.add(GhostElementDebugger.class);
 		}
-		
-		debuggerHandler.add(GhostElementDebugger.class);
 
 		SceneElement element = new SceneElement(new RectangleShape(100, 100,
 				ColorFill.BLACK));
@@ -78,7 +84,7 @@ public class EngineGUI {
 		EffectGOFactory effectFactory = engine
 				.getInstance(EffectGOFactory.class);
 		effectFactory.put(LoadGameEffect.class, LoadGameGO.class);
-//		effectFactory.put(UseTracesEffect.class, UseTracesEffectGO.class);
+		// effectFactory.put(UseTracesEffect.class, UseTracesEffectGO.class);
 	}
 
 	public static String getProperty(String key, String defaultValue) {
