@@ -77,7 +77,7 @@ public class GdxDesktopGUI extends GdxGUI {
 	private JFrame frame;
 
 	private Canvas canvas;
-	
+
 	private Component component;
 
 	@Inject
@@ -93,11 +93,11 @@ public class GdxDesktopGUI extends GdxGUI {
 	public void initialize() {
 
 		frame = new JFrame();
-		
+
 		// Sets a null cursor (so the in-game one is used)
 		frame.setCursor(frame.getToolkit().createCustomCursor(
 	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "null"));
-		
+
 		setFullscreenIfNeeded();
 		int width = engineConfiguration.getWidth();
 		int height = engineConfiguration.getHeight();
@@ -111,9 +111,12 @@ public class GdxDesktopGUI extends GdxGUI {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				finish();
+				if ( ! engineConfiguration.isExitWhenFinished()) {
+					frame.setVisible(false);
+				} else {
+					finish();
+				}
 			}
-
 		});
 
 		// Prepare Gdx configuration
@@ -122,11 +125,12 @@ public class GdxDesktopGUI extends GdxGUI {
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = engineConfiguration.isFullscreen();		
+		cfg.fullscreen = engineConfiguration.isFullscreen();
+		cfg.forceExit = engineConfiguration.isExitWhenFinished();
 
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);
-		new LwjglApplication(engine, cfg, canvas);
+		LwjglApplication app = new LwjglApplication(engine, cfg, canvas);
 
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {
@@ -140,9 +144,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 				}
 			}
-
 		});
-
 	}
 
 	@Override
@@ -175,7 +177,6 @@ public class GdxDesktopGUI extends GdxGUI {
 
 				}
 			});
-
 		}
 	}
 
@@ -186,9 +187,12 @@ public class GdxDesktopGUI extends GdxGUI {
 		int[] data = biCursor.getRaster().getPixels(0, 0, 16, 16, (int[]) null);
 
 		IntBuffer ib = BufferUtils.createIntBuffer(16 * 16);
-		for (int i = 0; i < data.length; i += 4)
-			ib.put(data[i] | data[i + 1] << 8 | data[i + 2] << 16
+		for (int i = 0; i < data.length; i += 4) {
+			ib.put(data[i]
+					| data[i + 1] << 8
+					| data[i + 2] << 16
 					| data[i + 3] << 24);
+		}
 		ib.flip();
 		return ib;
 	}
@@ -206,14 +210,13 @@ public class GdxDesktopGUI extends GdxGUI {
 		}
 
 		frame.setLocationRelativeTo(null);
-
 	}
 
 	protected GraphicsDevice getGraphicsDevice() {
 		return GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
 	}
-	
+
 	public JFrame getFrame( ){
 		return frame;
 	}

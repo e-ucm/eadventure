@@ -52,7 +52,7 @@ import ead.engine.core.platform.AbstractGUI;
 import ead.engine.core.platform.EngineConfiguration;
 
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
-	
+
 	protected GdxEngine engine;
 
 	@Inject
@@ -74,7 +74,7 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	public int getTicksPerSecond() {
 		return Gdx.graphics.getFramesPerSecond();
 	}
-	
+
 	@Override
 	public void setGame( Game g ){
 		super.setGame(g);
@@ -87,11 +87,9 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		render(interpolation);
 	}
-	
+
 	@Override
 	public void finish() {
-		System.err.println("Now closing app...");
 		Gdx.app.exit();
-		System.err.println("App now closed.");
 	}
 }

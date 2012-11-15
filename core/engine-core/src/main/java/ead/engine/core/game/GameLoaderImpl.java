@@ -147,6 +147,7 @@ public class GameLoaderImpl implements GameLoader {
 		initialEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
+	@Override
 	public void loadGameFromFiles(String dataFile, String stringsFile,
 			String propertiesFile) {
 		listeners = 0;
@@ -162,6 +163,7 @@ public class GameLoaderImpl implements GameLoader {
 		}
 	}
 
+	@Override
 	public void loadGame(String data, String strings, String properties) {
 		step = 0;
 		this.data = data;
@@ -169,8 +171,9 @@ public class GameLoaderImpl implements GameLoader {
 		this.properties = properties;
 	}
 
-	int step = -1;
+	private int step = -1;
 
+	@Override
 	public void step() {
 		if (step >= 0) {
 			if (step == 0) {
@@ -188,6 +191,7 @@ public class GameLoaderImpl implements GameLoader {
 		}
 	}
 
+	@Override
 	public void loadGame(EAdAdventureModel model,
 			Map<EAdString, String> stringsMap, Map<String, String> propertiesMap) {
 		if (stringsMap == null) {
@@ -205,8 +209,8 @@ public class GameLoaderImpl implements GameLoader {
 		initialEffects.clear();
 	}
 
+	@Override
 	public EAdList<EAdEffect> getInitialEffects() {
 		return initialEffects;
 	}
-
 }

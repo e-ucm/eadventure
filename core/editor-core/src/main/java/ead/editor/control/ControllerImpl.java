@@ -46,6 +46,10 @@ import javax.swing.Action;
 
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
+import ead.engine.core.platform.EngineConfiguration;
+import ead.utils.swing.SwingUtilities;
+import javax.swing.JFrame;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -54,7 +58,7 @@ import ead.engine.core.gdx.assets.GdxAssetHandler;
 public class ControllerImpl implements Controller {
 
     private boolean configLoaded = false;
-	
+
     private EditorConfig editorConfig;
     private EditorModel editorModel;
     private ProjectController projectController;
@@ -62,10 +66,11 @@ public class ControllerImpl implements Controller {
     private ViewController viewController;
     private CommandManager commandManager;
 	private GameLoader gameLoader;
+	private JFrame gameWindow;
 	private GdxAssetHandler assetHandler;
-	
+
 	/**
-	 * Action map. Contains all actions, generally bound to menu items or 
+	 * Action map. Contains all actions, generally bound to menu items or
 	 * the like.
 	 */
     private HashMap<String, Action> actionMap = new HashMap<String, Action>();
@@ -78,7 +83,8 @@ public class ControllerImpl implements Controller {
             ViewController viewControler,
             CommandManager commandManager,
 			GameLoader gameLoader,
-			GdxAssetHandler assetHandler) {
+			GdxAssetHandler assetHandler,
+			GdxDesktopGUI gdxGui) {
 
         this.editorConfig = editorConfig;
         this.editorModel = editorModel;
@@ -88,13 +94,21 @@ public class ControllerImpl implements Controller {
         this.commandManager = commandManager;
 		this.gameLoader = gameLoader;
 		this.assetHandler = assetHandler;
+		this.gameWindow = gdxGui.getFrame();
     }
-	
+
 	@Override
     public void initialize() {
-        projectController.setController(this);	
+        projectController.setController(this);
         navigationController.setController(this);
-        viewController.setController(this);		
+        viewController.setController(this);
+
+		SwingUtilities.doInEDT(new Runnable() {
+			@Override
+			public void run() {
+				gameWindow.setVisible(false);
+			}
+		});
 	}
 
     @Override
@@ -159,5 +173,10 @@ public class ControllerImpl implements Controller {
 	@Override
 	public GameLoader getGameLoader() {
 		return gameLoader;
+	}
+
+	@Override
+	public JFrame getGameWindow() {
+		return gameWindow;
 	}
 }

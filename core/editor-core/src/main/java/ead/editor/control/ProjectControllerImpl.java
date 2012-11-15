@@ -63,12 +63,12 @@ public class ProjectControllerImpl implements ProjectController {
     private ArrayList<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
 //	private GameLoader desktopLoader;
-//	
+//
 //	@Inject
 //	public ProjectControllerImpl(GameLoader desktopLoader) {
 //		this.desktopLoader = desktopLoader;
 //	}
-	
+
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
@@ -145,11 +145,14 @@ public class ProjectControllerImpl implements ProjectController {
 		GameLoader g = controller.getGameLoader();
 		GdxAssetHandler h = controller.getAssetHandler();
 		((GdxEditorAssetHandler)h).setResourcePath(em.getResourcePath());
-		g.loadGame(em.getEngineModel(), 
-				em.getStringHandler().getStrings(), 
+
+		controller.getGameWindow().setVisible(true);
+		
+		g.loadGame(em.getEngineModel(),
+				em.getStringHandler().getStrings(),
 				em.getEngineProperties());
-	}	
-	
+	}
+
     @Override
     public void addChangeListener(ChangeListener changeListener) {
         listeners.add(changeListener);

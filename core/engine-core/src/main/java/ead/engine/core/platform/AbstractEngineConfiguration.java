@@ -40,16 +40,14 @@ package ead.engine.core.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.platform.EngineConfiguration;
-
 /**
  * Abstract implementation for PlatformConfigurarion
- * 
+ *
  */
 @Singleton
 public class AbstractEngineConfiguration implements
 		EngineConfiguration {
-	
+
 	/**
 	 * Default window width for desktop games
 	 */
@@ -63,9 +61,11 @@ public class AbstractEngineConfiguration implements
 	private int width;
 
 	private int height;
-	
+
 	private boolean fullscreen;
-	
+
+	private boolean exitWhenFinished = true;
+
 	@Inject
 	public AbstractEngineConfiguration( ){
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -74,7 +74,7 @@ public class AbstractEngineConfiguration implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#getWidth()
 	 */
@@ -85,7 +85,7 @@ public class AbstractEngineConfiguration implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#getHeight()
 	 */
@@ -93,18 +93,31 @@ public class AbstractEngineConfiguration implements
 	public int getHeight() {
 		return height;
 	}
-	
+
+	@Override
 	public void setSize( int width, int height ){
 		this.width = width;
 		this.height = height;
 	}
-	
+
+	@Override
 	public boolean isFullscreen( ){
 		return fullscreen;
 	}
-	
+
+	@Override
 	public void setFullscreen( boolean fullscreen ){
 		this.fullscreen = fullscreen;
+	}
+
+	@Override
+	public boolean isExitWhenFinished() {
+		return exitWhenFinished;
+	}
+
+	@Override
+	public void setExitWhenFinished(boolean closeWhenFinished) {
+		this.exitWhenFinished = closeWhenFinished;
 	}
 
 }

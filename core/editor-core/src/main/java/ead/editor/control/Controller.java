@@ -42,6 +42,7 @@ import javax.swing.Action;
 
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import javax.swing.JFrame;
 
 
 /**
@@ -54,7 +55,7 @@ public interface Controller {
 	 * Must be called before calling any other methods
 	 */
 	void initialize();
-	
+
     /**
      * Retrieves actions by name. Action names should be declared in the
      * interfaces, NOT in the implementation classes.
@@ -101,7 +102,7 @@ public interface Controller {
      * through the manager.
      */
     CommandManager getCommandManager();
-	
+
 	/**
 	 * Returns the GdxAssetHandler in use
 	 */
@@ -111,4 +112,9 @@ public interface Controller {
 	 * Returns the GameLoader in use
 	 */
 	GameLoader getGameLoader();
+
+	/**
+	 * Returns the game window (a JFrame)
+	 */
+	JFrame getGameWindow();
 }
