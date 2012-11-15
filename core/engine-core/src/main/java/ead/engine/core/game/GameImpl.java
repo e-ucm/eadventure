@@ -124,7 +124,10 @@ public class GameImpl implements Game {
 
 	private TweenController tweenController;
 
-	private Boolean modelWaiting;
+	/** should only be changed within a synchronized block, locking onto modelWaitingMutex */
+	private boolean modelWaiting;
+
+	private final Object modelWaitingMutex = new Object();
 
 	private EAdList<EAdEffect> launchEffects;
 
@@ -163,9 +166,9 @@ public class GameImpl implements Game {
 	@Override
 	public void update() {
 
-		synchronized (modelWaiting) {
+		synchronized (modelWaitingMutex) {
 			if (modelWaiting) {
-				modelWaiting = Boolean.FALSE;
+				modelWaiting = false;
 				setGame();
 			}
 		}
@@ -323,6 +326,7 @@ public class GameImpl implements Game {
 
 	}
 
+	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
 		setGame(model, eAdChapter, null);
 	}
@@ -330,11 +334,11 @@ public class GameImpl implements Game {
 	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter,
 			EAdList<EAdEffect> effects) {
-		synchronized (modelWaiting) {
+		synchronized (modelWaitingMutex) {
 			this.adventure = model;
 			this.currentChapter = eAdChapter;
 			this.launchEffects = effects;
-			modelWaiting = Boolean.TRUE;
+			modelWaiting = true;
 		}
 	}
 
@@ -344,6 +348,7 @@ public class GameImpl implements Game {
 		}
 	}
 
+	@Override
 	public void updateInitialTransformation() {
 		if (initialTransformation != null) {
 			initialTransformation.setValidated(true);
@@ -374,10 +379,12 @@ public class GameImpl implements Game {
 		}
 	}
 
+	@Override
 	public EAdTransformation getInitialTransformation() {
 		return initialTransformation;
 	}
 
+	@Override
 	public EAdChapter getCurrentChapter() {
 		return currentChapter;
 	}
