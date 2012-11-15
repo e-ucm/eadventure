@@ -39,9 +39,13 @@ package ead.tools.java;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,9 +64,13 @@ public class ConfigBackendXMLFile extends ConfigBackend {
             props.loadFromXML(new FileInputStream(new File(sourceURL)));
             saveFile = new File(sourceURL);
             return true;
-        } catch (Exception ex) {
-            logger.error("Could not load properties from {}", sourceURL, ex);
-        }
+        } catch (FileNotFoundException ex) {
+            logger.debug("Could not load properties from {}. File doesn't exist. File will be created", sourceURL, ex);
+        } catch (InvalidPropertiesFormatException e) {
+			logger.debug("Invalid properties format exception in {}. Content will be ignored.", sourceURL );
+		} catch (IOException e) {
+			logger.error("Something went wrong while loading properties file {}", sourceURL, e );
+		}
         return false;
     }
 
