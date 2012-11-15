@@ -48,7 +48,7 @@ import ead.common.params.text.EAdString;
 
 public class StringHandlerImpl implements StringHandler {
 
-	private Logger logger = LoggerFactory.getLogger("DefaultStringHandler");
+	private Logger logger = LoggerFactory.getLogger("StringHandlerImpl");
 
 	private Map<EAdString, String> strings;
 

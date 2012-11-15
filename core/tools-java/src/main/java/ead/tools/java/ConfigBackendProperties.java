@@ -35,35 +35,68 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
+package ead.tools.java;
 
-import ead.tools.java.ConfigBackendProperties;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Properties;
 
-/**
- * Access to editor-wide options. Private implementation, delegates everything
- * @author mfreire
- */
-public class EditorConfigImpl extends EditorConfig {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private ConfigBackendProperties backend = new ConfigBackendProperties();
+import ead.tools.ConfigBackend;
+
+public class ConfigBackendProperties extends ConfigBackend {
+
+    public static Logger logger = LoggerFactory.getLogger("ConfigBackend");
+
+    private Properties props = new Properties();
+    private File saveFile;
 
     @Override
     public boolean load(String sourceURL) {
-        return backend.load(sourceURL);
+        try {
+            props.loadFromXML(new FileInputStream(new File(sourceURL)));
+            saveFile = new File(sourceURL);
+            return true;
+        } catch (FileNotFoundException ex) {
+            logger.debug("Could not load properties from {}. File doesn't exist. File will be created", sourceURL, ex);
+        } catch (InvalidPropertiesFormatException e) {
+			logger.debug("Invalid properties format exception in {}. Content will be ignored.", sourceURL );
+		} catch (IOException e) {
+			logger.error("Something went wrong while loading properties file {}", sourceURL, e );
+		}
+        return false;
     }
 
     @Override
     public boolean save(String targetURL) {
-        return backend.save(targetURL);
+        if (saveFile == null && targetURL == null) {
+            throw new IllegalArgumentException("Cannot save if never loaded");
+        } else if (targetURL != null) {
+            saveFile = new File(targetURL);
+        }
+        try {
+            props.storeToXML(new FileOutputStream(saveFile), "Saved at " + new Date().toString());
+            return true;
+        } catch (Exception ex) {
+            logger.error("Could not save properties to {}", saveFile, ex);
+        }
+        return false;
     }
 
     @Override
     public String getValue(Object key) {
-        return backend.getValue(key);
+        return props.getProperty(""+key);
     }
 
     @Override
     public void put(Object key, String value) {
-        backend.put(key, value);
+        props.put(""+key, value);
     }
 }
