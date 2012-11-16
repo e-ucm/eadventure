@@ -42,7 +42,8 @@ import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 
-public abstract class AbstractOperation extends BasicElement implements EAdOperation {
+public abstract class AbstractOperation extends BasicElement implements
+		EAdOperation {
 
 	/**
 	 * List of the variables
@@ -55,25 +56,9 @@ public abstract class AbstractOperation extends BasicElement implements EAdOpera
 		setId("operation");
 		varList = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
-	
+
 	public EAdList<EAdField<?>> getVarList() {
 		return varList;
-	}
-	
-	public boolean equals( Object object ){
-		if ( object instanceof AbstractOperation ){
-			if ( super.equals(object) ){
-				int i = 0;
-				for ( EAdField<?> var1: varList ){
-					EAdField<?> var2 = ((AbstractOperation) object).varList.get(i++);
-					if ( !var1.equals(var2)){
-						return false;
-					}
-				}
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

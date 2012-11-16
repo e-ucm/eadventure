@@ -52,9 +52,9 @@ public class EmptyCond extends AbstractCondition {
 
 	@Param("value")
 	private EmptyCondValue value;
-	
-	public EmptyCond(){
-		super( );
+
+	public EmptyCond() {
+		super();
 	}
 
 	public EmptyCond(EmptyCondValue value) {
@@ -76,20 +76,7 @@ public class EmptyCond extends AbstractCondition {
 	public void setValue(EmptyCondValue value) {
 		this.value = value;
 	}
-	
-	@Override
-	public boolean equals( Object object ){
-		if ( object instanceof EmptyCond ){
-			return ((EmptyCond) object).value.equals(value);
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return ("EmptyCondition" + value).hashCode();
-	}
-	
+
 	@Override
 	public String toString() {
 		return (value != null ? value.toString() : id + "NULL");

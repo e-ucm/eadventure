@@ -156,24 +156,11 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 		return button;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof MouseGEv) {
-			MouseGEv e = (MouseGEv) o;
-			return (e.type.equals(type)) && (e.button.equals(button));
-		}
-		return false;
-	}
-
 	public String toString() {
 		if (button == null || type == null) {
 			return "mousevent";
 		}
 		return type.toString() + ";" + button.toString();
-	}
-
-	public int hashCode() {
-		return toString().hashCode();
 	}
 
 	public void setType(MouseGEvType type) {

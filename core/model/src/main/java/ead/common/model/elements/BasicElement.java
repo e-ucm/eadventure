@@ -39,22 +39,31 @@ package ead.common.model.elements;
 
 import java.util.Random;
 import ead.common.model.EAdElement;
+import ead.common.model.ElementEqualsHash;
 
 /**
- * Implementation of a basic {@link EAdElement}. Most of the model elements inherits from this basis class
+ * Implementation of a basic {@link EAdElement}. Most of the model elements
+ * inherits from this basis class
+ * 
  * @author anserran
- *
+ * 
  */
 public abstract class BasicElement implements EAdElement {
+
+	private static ElementEqualsHash elementComparator;
+
+	public static void setElementEqualsHash(ElementEqualsHash elementComparator) {
+		BasicElement.elementComparator = elementComparator;
+	}
 
 	protected String id;
 
 	protected static Random random = new Random(0);
-	
+
 	public static String randomSuffix() {
 		return "" + random.nextInt(100000);
 	}
-	
+
 	public BasicElement() {
 		this.id = "elem" + randomSuffix();
 	}
@@ -71,6 +80,20 @@ public abstract class BasicElement implements EAdElement {
 
 	public String toString() {
 		return id;
+	}
+
+	public boolean equals(Object o) {
+		if (elementComparator != null && o instanceof EAdElement) {
+			return elementComparator.equals(this, (EAdElement) o);
+		}
+		return this == o;
+	}
+
+	public int hashCode() {
+		if (elementComparator != null) {
+			return elementComparator.hashCode();
+		}
+		return super.hashCode();
 	}
 
 }

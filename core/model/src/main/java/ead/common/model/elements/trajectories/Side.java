@@ -94,28 +94,6 @@ public class Side extends BasicElement {
 		this.length = length;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-
-		if (o == null)
-			return false;
-		if (o instanceof Side) {
-			Side side = (Side) o;
-			if (side.idEnd.equals(this.idEnd)
-					&& side.idStart.equals(this.idStart))
-				return true;
-		}
-		return false;
-	}
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + (this.idStart != null ? this.idStart.hashCode() : 0);
-        hash = 41 * hash + (this.idEnd != null ? this.idEnd.hashCode() : 0);
-        return hash;
-    }
-
 	public float getLength() {
 
 		return length;

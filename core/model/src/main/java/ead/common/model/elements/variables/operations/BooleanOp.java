@@ -98,13 +98,6 @@ public class BooleanOp extends AbstractOperation {
 		this.condition = condition;
 	}
 	
-	public boolean equals( Object object ){
-		if ( object instanceof BooleanOp ){
-			return super.equals(object) && condition.equals(((BooleanOp) object).condition);
-		}
-		return false;
-	}
-	
 	public String toString(){
 		return condition + "";
 	}

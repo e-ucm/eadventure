@@ -65,28 +65,9 @@ public class DragGEv extends BasicElement implements EAdGUIEvent {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof DragGEv) {
-			DragGEv e = (DragGEv) o;
-			if (action == e.getAction()) {
-				if (e.carryElement == carryElement)
-					return true;
-				return e.carryElement.equals(carryElement);
-			}
-		}
-		return false;
-	}
-
-	@Override
 	public String toString() {
 		return "Drop " + carryElement.getId();
 	}
-
-	public int hashCode() {
-		return (carryElement == null ? 0 : carryElement.hashCode())
-				+ action.hashCode();
-	}
-
 
 	public EAdSceneElementDef getCarryElement() {
 		return carryElement;

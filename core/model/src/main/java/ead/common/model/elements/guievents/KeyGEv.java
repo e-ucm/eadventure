@@ -95,17 +95,4 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 		return type.toString() + "_" + keyCode.toString();
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof KeyGEv) {
-			KeyGEv e = (KeyGEv) o;
-			return (this.type == e.getType() && this.keyCode == e.getKeyCode());
-		}
-		return false;
-	}
-
-	public int hashCode() {
-		return toString().hashCode();
-	}
-
 }

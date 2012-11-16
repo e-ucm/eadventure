@@ -101,29 +101,10 @@ public class Node extends BasicElement {
 		this.scale = scale;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-
-		if (o == null)
-			return false;
-		if (o instanceof Node) {
-			Node node = (Node) o;
-			if (node.id.equals(this.id))
-				return true;
-			if (node.x == this.x && node.y == this.y)
-				return true;
-		}
-		return false;
-	}
-
 	public void setValues(int x, int y, float scale) {
 		this.x = x;
 		this.y = y;
 		this.scale = scale;
-	}
-
-	public int hashCode( ){
-		return id.hashCode();
 	}
 
 	public Node copy() {

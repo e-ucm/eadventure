@@ -37,8 +37,6 @@
 
 package ead.common.params.text;
 
-import java.util.Random;
-
 import ead.common.model.elements.BasicElement;
 import ead.common.params.EAdParam;
 

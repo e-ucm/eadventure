@@ -92,33 +92,6 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 	@Override
 	public EAdVarDef<T> getVarDef() {
 		return varDef;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final BasicField<T> other = (BasicField<T>) obj;
-		if (this.element != other.element && (this.element == null || !this.element.equals(other.element))) {
-			return false;
-		}
-		if (this.varDef != other.varDef && (this.varDef == null || !this.varDef.equals(other.varDef))) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 5;
-		hash = 37 * hash + (this.element != null ? this.element.hashCode() : 0);
-		hash = 37 * hash + (this.varDef != null ? this.varDef.hashCode() : 0);
-		return hash;
 	}	
 
     @Override
