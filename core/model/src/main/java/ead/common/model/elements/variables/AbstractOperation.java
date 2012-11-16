@@ -53,7 +53,6 @@ public abstract class AbstractOperation extends BasicElement implements
 
 	public AbstractOperation() {
 		super();
-		setId("operation");
 		varList = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
 

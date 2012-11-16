@@ -92,7 +92,6 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	@Override
 	public EAdChapter init(Chapter oldChapter) {
 		BasicChapter newChapter = new BasicChapter();
-		newChapter.setId("chapter" + CHAPTER_ID++);
 		return newChapter;
 	}
 

@@ -45,7 +45,6 @@ public class QuitGameEf extends AbstractEffect implements EAdEffect {
 
 	public QuitGameEf() {
 		super();
-		setId("quitGame");
 	}
 
 }

@@ -82,7 +82,6 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	protected void init() {
-		setId("PhysicsScene");
 		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE,
 				800, 600));
 
@@ -119,17 +118,14 @@ public class PhysicsScene extends EmptyScene {
 				ColorFill.DARK_BROWN, 750, 50));
 		SceneElement ground = new SceneElement(
 				groundS);
-		ground.setId("ground");
 		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 545));
 
 		SceneElement wall = new SceneElement( groundS);
-		wall.setId("wall");
 		wall.setPosition(new EAdPosition(Corner.CENTER, 775, 300));
 		wall.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
 		SceneElement wall2 = new SceneElement( groundS);
-		wall2.setId("wall2");
 		wall2.setPosition(new EAdPosition(Corner.CENTER, 25, 300));
 		wall2.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
@@ -153,10 +149,8 @@ public class PhysicsScene extends EmptyScene {
 
 		SceneElement canyon = new SceneElement(
 				new Image("@drawable/canyon.png"));
-		canyon.setId("canyon");
 		SceneElement canyonSupport = new SceneElement(
 				 new Image("@drawable/canyonbottom.png"));
-		canyonSupport.setId("canyonSupport");
 		
 		canyon.setPosition(new EAdPosition(Corner.CENTER, 130, height));
 		canyonSupport.setPosition(new EAdPosition(100, height));
@@ -166,7 +160,6 @@ public class PhysicsScene extends EmptyScene {
 		composed.addDrawable(new Image("@drawable/grass.png"), 0, -15);
 		
 		SceneElement grass = new SceneElement( composed);
-		grass.setId("grass");
 		grass.setPosition(90, height + 60);
 		effect.getElements().add(grass);
 		
@@ -176,7 +169,6 @@ public class PhysicsScene extends EmptyScene {
 				SceneElement.VAR_ROTATION);
 
 		ChangeFieldEf followMouse = new ChangeFieldEf();
-		followMouse.setId("followMouse");
 
 		EAdField<Integer> mouseX = SystemFields.MOUSE_X;
 		EAdField<Integer> mouseY = SystemFields.MOUSE_Y;
@@ -214,7 +206,6 @@ public class PhysicsScene extends EmptyScene {
 		circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				ColorFill.DARK_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);
-		bullet.setId("bullet");
 
 		PhApplyImpluseEf applyForce = new PhApplyImpluseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
@@ -242,13 +233,11 @@ public class PhysicsScene extends EmptyScene {
 		SceneElement holder = new SceneElement(
 				new RectangleShape(100, 10, new LinearGradientFill(
 						ColorFill.DARK_BROWN, ColorFill.LIGHT_BROWN, 100, 10)));
-		holder.setId("holder");
 		holder.setPosition(new EAdPosition(Corner.CENTER, 400, 50));
 
 		SceneElement rope = new SceneElement(
 				new RectangleShape(150, 10, new LinearGradientFill(
 						ColorFill.YELLOW, ColorFill.LIGHT_BROWN, 150, 10)));
-		rope.setId("rope");
 		rope.setPosition(new EAdPosition(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_FRICTION, 0.7f);
@@ -282,11 +271,8 @@ public class PhysicsScene extends EmptyScene {
 	
 	private void addSea(){
 		SceneElement wave1 = new SceneElement( new Image("@drawable/wave1.png"));
-		wave1.setId("wave1");
 		SceneElement wave2 = new SceneElement(new Image("@drawable/wave2.png"));
-		wave2.setId("wave2");
 		ComplexSceneElement waves = new ComplexSceneElement();
-		waves.setId("waves");
 		waves.getSceneElements().add(wave1);
 		addGoal(waves);
 		waves.getSceneElements().add(wave2);
@@ -305,7 +291,6 @@ public class PhysicsScene extends EmptyScene {
 		shape.setClosed(true);
 		shape.setPaint(ColorFill.RED);
 		SceneElement goal = new SceneElement( shape);
-		goal.setId("goal");
 		goal.setPosition(540, 0);
 		waves.getSceneElements().add(goal);
 	}

@@ -80,7 +80,6 @@ public class NgMainScreen extends EmptyScene {
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
-		changeScene.setId("changeScene");
 		// Creates all rooms
 		NgSceneCreator.getInstance(this);
 		changeScene.setNextScene(NgSceneCreator.getRoom1());

@@ -61,7 +61,6 @@ public class ConditionedOp extends AbstractOperation {
 	
 	public ConditionedOp(EAdCondition c, EAdOperation opTrue, EAdOperation opFalse ) {
 		super();
-		setId("condOp");
 		this.opTrue = opTrue;
 		this.opFalse = opFalse;
 		this.condition = c;

@@ -177,7 +177,6 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	@Override
 	public EAdScene init(Book oldObject) {
 		EAdScene scene = new BasicScene();
-		scene.setId(oldObject.getId());
 		return scene;
 	}
 
@@ -215,7 +214,6 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		}
 
 		SceneElement content = new SceneElement(image);
-		content.setId(oldObject.getId() + "_content");
 
 		EAdField<Integer> xField = new BasicField<Integer>(content,
 				SceneElement.VAR_X);
@@ -239,7 +237,6 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		content.setPosition(Corner.TOP_LEFT, 0, 0);
 
 		SceneElementEv event = new SceneElementEv();
-		event.setId("restartBook");
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, new ChangeFieldEf(
 				xField, new ValueOp(0)));
 		content.getEvents().add(event);
@@ -281,7 +278,6 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				Comparator.LESS);
 
 		ChangeSceneEf changeScene = new ChangeSceneEf();
-		changeScene.setId("endBook");
 		changeScene.setCondition(endCondition);
 		rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 		changeScene.getNextEffects().add(showInventory);
@@ -405,7 +401,6 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			String resourceNormal, String resourceOver, Integer expression,
 			EAdCondition condition) {
 		SceneElement arrow = new SceneElement();
-		arrow.setId("arrow");
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
 		EAdField<Integer> xVar = new BasicField<Integer>(content,
@@ -530,12 +525,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				.addAsset(bundle, SceneElementDef.appearance, overAsset);
 
 		ChangeAppearanceEf change1 = new ChangeAppearanceEf(arrow, bundle);
-		change1.setId("changeArrowOver");
 		arrow.addBehavior(MouseGEv.MOUSE_ENTERED, change1);
 
 		ChangeAppearanceEf change2 = new ChangeAppearanceEf(arrow, arrow
 				.getDefinition().getInitialBundle());
-		change2.setId("changeArrowOver");
 		arrow.addBehavior(MouseGEv.MOUSE_EXITED, change2);
 
 	}

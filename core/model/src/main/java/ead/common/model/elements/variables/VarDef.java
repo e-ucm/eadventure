@@ -55,7 +55,7 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 	private T initialValue;
 
 	public VarDef() {
-		this.id = "varDef";
+		
 	}
 
 	/**
@@ -73,7 +73,6 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 	 *            if the variable is global
 	 */
 	public VarDef(String name, Class<T> type, T initialValue) {
-		this.id = "var_" + name + "_" + randomSuffix();
 		this.name = name;
 		this.type = type;
 		this.initialValue = initialValue;

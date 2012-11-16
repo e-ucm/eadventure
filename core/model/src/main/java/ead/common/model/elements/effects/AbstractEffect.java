@@ -99,7 +99,6 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	 */
 	public AbstractEffect() {
 		super();
-		setId("effect");
 		blocking = false;
 		opaque = false;
 		queueable = false;

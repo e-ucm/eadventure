@@ -93,7 +93,6 @@ public class NgFinalRoom extends EmptyScene{
 		createTrajectory();
 		
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
@@ -127,11 +126,9 @@ public class NgFinalRoom extends EmptyScene{
 	
 	private void setElements() {
 		house = new SceneElement(new Image("@drawable/ng_finalroom_house.png"));
-		house.setId("house");
 		house.setPosition(Corner.BOTTOM_CENTER, 660, 580);
 		
 		post = new SceneElement(new Image("@drawable/ng_finalroom_post.png"));
-		post.setId("post");
 		post.setPosition(Corner.BOTTOM_CENTER, 132, 580);
 	}
 	
@@ -148,7 +145,6 @@ public class NgFinalRoom extends EmptyScene{
        
         // Define next scene
         ChangeSceneEf corridorScene = new ChangeSceneEf( );
-        corridorScene.setId("corridorScene");
 		corridorScene.setNextScene(corridor);
 		move.getNextEffects().add(corridorScene);
 	}
@@ -159,7 +155,6 @@ public class NgFinalRoom extends EmptyScene{
 		post.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
         
 		ChangeSceneEf creditsScene = new ChangeSceneEf(NgSceneCreator.getCredits(), new FadeInTransition(1000));
-		creditsScene.setId("creditsScene");
 		move.getNextEffects().add(creditsScene);
 		
 	}
@@ -172,7 +167,6 @@ public class NgFinalRoom extends EmptyScene{
 	 */
 	private MoveSceneElementEf moveNg(int x, int y) {
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("move");
 		move.setSceneElement(ng);
 		move.setTargetCoordiantes(x, y);
 		return move;
@@ -208,12 +202,10 @@ public class NgFinalRoom extends EmptyScene{
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 799, 50));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setId("ground");
 		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
 
 		// Moves ng over the ground
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);

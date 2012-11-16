@@ -82,12 +82,10 @@ public class MoleGame extends EmptyScene {
 	private EAdField<EAdSceneElement> moleField;
 
 	public MoleGame() {
-		setId("MoleGame");
 		setBackgroundFill(ColorFill.DARK_BROWN);
 		moleField = new BasicField<EAdSceneElement>(this, moleVar);
 
 		dissapearMole = new ChangeFieldEf();
-		dissapearMole.setId("dissaperMole");
 		dissapearMole.setParentVar(SceneElement.VAR_VISIBLE);
 		dissapearMole.setOperation(BooleanOp.FALSE_OP);
 
@@ -121,7 +119,6 @@ public class MoleGame extends EmptyScene {
 
 	private EAdSceneElement getHole(int x, int y) {
 		SceneElement hole = new SceneElement(holeImage);
-		hole.setId("hole" + x);
 		hole.setPosition(x, y);
 		hole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, (EAdEffect) null);
 		return hole;
@@ -129,7 +126,6 @@ public class MoleGame extends EmptyScene {
 
 	private EAdSceneElement getMole(int x, int y) {
 		SceneElement mole = new SceneElement(this.mole);
-		mole.setId("mole" + x + "" + y);
 		mole.setPosition(x, y + 30);
 
 		// EAdSceneElementEventImpl event = new EAdSceneElementEventImpl();
@@ -156,10 +152,8 @@ public class MoleGame extends EmptyScene {
 
 	public void initLoop() {
 		TimedEv event = new TimedEv();
-		event.setId("moleUp");
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.setId("selectMole");
 		effect.setOperation(new ListOp(listField,
 				ListOpType.RANDOM_ELEMENT));
 		effect.addField(moleField);

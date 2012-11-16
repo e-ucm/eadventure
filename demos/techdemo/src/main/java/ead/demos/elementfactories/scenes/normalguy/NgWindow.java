@@ -45,7 +45,6 @@ import ead.demos.elementfactories.scenes.SceneDemo;
 public class NgWindow extends VideoScene implements SceneDemo {
 	public NgWindow() {
 		super();
-		setId("windowVideoScene");
 		EAdVideo video = new Video("@binary/eAdventure.webm");
 		getDefinition().getResources().addAsset(VideoScene.video, video);
 	}

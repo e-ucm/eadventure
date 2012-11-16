@@ -66,7 +66,6 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, Trigger
 	@Override
 	public TriggerMacroEf init(MoveNPCEffect oldObject) {
 		TriggerMacroEf effect = new TriggerMacroEf();
-		effect.setId("moveNPC" + oldObject.getTargetId());
 		return effect;
 	}
 
@@ -74,7 +73,6 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, Trigger
 	public TriggerMacroEf convert(MoveNPCEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
 		EffectsMacro macro = new EffectsMacro();
-		macro.setId("macro");
 		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 
 		MoveSceneElementEf moveEffect = new MoveSceneElementEf(

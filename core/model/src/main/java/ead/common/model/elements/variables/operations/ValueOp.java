@@ -66,7 +66,6 @@ public class ValueOp extends AbstractOperation {
 	 */
 	public ValueOp( Object value) {
 		super();
-		setId("assign");
 		this.value = value;
 	}
 

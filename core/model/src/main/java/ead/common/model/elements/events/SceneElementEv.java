@@ -46,7 +46,6 @@ public class SceneElementEv extends AbstractEvent {
 
 	public SceneElementEv() {
 		super();
-		setId("sceneElementEvent");
 	}
 
 	public SceneElementEv(SceneElementEvType type, EAdEffect effect) {

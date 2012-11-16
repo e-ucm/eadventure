@@ -68,7 +68,6 @@ public class PlayAnimationEffectImporter extends
 	@Override
 	public ShowSceneElementEf init(PlayAnimationEffect oldObject) {
 		ShowSceneElementEf showScene = new ShowSceneElementEf();
-		showScene.setId("playAnimationEffect" + ID_GENERATOR++);
 		return showScene;
 	}
 
@@ -81,7 +80,6 @@ public class PlayAnimationEffectImporter extends
 		EAdDrawable asset = (EAdDrawable) resourceImporter.getAssetDescritptor(
 				oldObject.getPath(), Image.class);
 		SceneElement element = new SceneElement(asset);
-		element.setId("animation" + ID_GENERATOR++);
 		element.setPosition(new EAdPosition(oldObject.getX(), oldObject
 				.getY()));
 		if (asset instanceof FramesAnimation) {

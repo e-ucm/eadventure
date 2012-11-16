@@ -76,7 +76,6 @@ import es.eucm.eadventure.common.data.chapter.effects.Effect;
 
 public class ExitImporter extends ElementImporter<Exit> {
 
-	private static int ID_GENERATOR = 0;
 	private EffectsImporterFactory effectsImporterFactory;
 	private ResourceImporter resourceImporter;
 	private static Paint EXIT_PAINT = new Paint(new ColorFill(109, 20, 0, 100),
@@ -96,7 +95,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 	public EAdSceneElement init(Exit oldObject) {
 		GhostElement newExit = new GhostElement();
-		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
@@ -148,7 +146,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 				oldObject.getTransitionType(), oldObject.getTransitionTime());
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(scene, transition);
-		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
 
 		EAdEffect previousEffect = changeScene;

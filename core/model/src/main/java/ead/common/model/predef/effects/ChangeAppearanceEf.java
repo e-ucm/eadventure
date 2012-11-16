@@ -54,7 +54,6 @@ public class ChangeAppearanceEf extends ChangeFieldEf {
 	
 	public ChangeAppearanceEf(EAdElement element, EAdBundleId bundleId) {
 		super();
-		this.setId("changeApperance");
 		if (element == null) {
 			this.setParentVar(ResourcedElement.VAR_BUNDLE_ID);
 		} else {

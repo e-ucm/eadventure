@@ -62,7 +62,6 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 	@Inject
 	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
 		super();
-		this.setId("LoadingScreen");
 
 		this.stringHandler = stringHandler;
 
@@ -75,7 +74,6 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 
 	private void initButtonActor() {
 		buttonActor = new SceneElementDef();
-		buttonActor.setId("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
 				SceneElementDef.appearance,
 				new Image("@drawable/start.png"));
@@ -94,7 +92,6 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 
 	private void initButtonActor2() {
 		buttonActor2 = new SceneElement();
-		buttonActor2.setId("StartGame");
 		buttonActor2
 				.getDefinition()
 				.getResources()

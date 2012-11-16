@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
+import ead.common.model.elements.BasicElement;
 import ead.reader.adventure.DOMTags;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.reflection.ReflectionClass;
@@ -220,16 +221,6 @@ public abstract class NodeVisitor<T> {
 		if (o == null) {
 			return "<null>";
 		}
-		return classToString(o.getClass()) + "@" + o.hashCode();
-	}
-	/**
-	 * GWT does not recognize clazz.getSimpleName(). This helper method
-	 * should be used instead, and can be handy for debugging purposes.
-	 * @param o
-	 * @return 
-	 */
-	public static String classToString(Class<?> c) {
-		String n = c.getName();
-		return n.substring(n.lastIndexOf('.')+1);
+		return BasicElement.classToString(o.getClass()) + "@" + o.hashCode();
 	}
 }

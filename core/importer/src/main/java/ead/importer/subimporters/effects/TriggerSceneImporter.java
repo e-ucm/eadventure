@@ -70,7 +70,6 @@ public class TriggerSceneImporter extends
 	@Override
 	public ChangeSceneEf init(TriggerSceneEffect oldObject) {
 		ChangeSceneEf effect = new ChangeSceneEf();
-		effect.setId("triggerCutscene");
 		return effect;
 	}
 

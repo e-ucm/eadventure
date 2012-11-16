@@ -178,12 +178,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		text.setPreferredHeight(bottom - top);
 
 		textSE = new SceneElement(text);
-		textSE.setId("text");
 		textSE.setPosition(new EAdPosition(left, top));
 		textSE.setInitialEnable(false);
 
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
-		complex.setId("complex");
 		complex.getSceneElements().add(textSE);
 
 		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);

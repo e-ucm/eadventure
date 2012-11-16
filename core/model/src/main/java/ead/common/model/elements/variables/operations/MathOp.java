@@ -79,7 +79,6 @@ public class MathOp extends AbstractOperation {
 	public MathOp(String expression,
 			EAdField<?>... fields) {
 		super();
-		setId(expression);
 		this.expression = expression;
 		if (fields != null) {
 			for (EAdField<?> f : fields) {

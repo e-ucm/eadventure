@@ -61,7 +61,6 @@ public class PhysicsScene2 extends PhysicsScene {
 
 	public PhysicsScene2() {
 		setBackgroundFill(new LinearGradientFill(ColorFill.YELLOW, ColorFill.ORANGE, 800, 600));
-		setId("PhysicsCene2");
 	}
 
 	protected void init() {
@@ -69,7 +68,6 @@ public class PhysicsScene2 extends PhysicsScene {
 		RectangleShape rShape = new RectangleShape(10, 100, ColorFill.BROWN);
 
 		SceneElement e2 = new SceneElement(rShape);
-		e2.setId("e2");
 		getSceneElements().add(e2);
 		e2.setPosition(new EAdPosition(Corner.CENTER, 500, 200));
 		e2.setVarInitialValue(SceneElement.VAR_ROTATION,
@@ -80,7 +78,6 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		
 		SceneElement e3 = new SceneElement( rShape);
-		e3.setId("e3");
 		getSceneElements().add(e3);
 		e3.setPosition(new EAdPosition(Corner.CENTER, 200, 100));
 		e3.setVarInitialValue(SceneElement.VAR_ROTATION,
@@ -93,7 +90,6 @@ public class PhysicsScene2 extends PhysicsScene {
 				new ColorFill(0, 100, 0), 40, 40));
 
 		SceneElement b = new SceneElement( circle);
-		b.setId("ball");
 		b.setPosition(new EAdPosition(Corner.CENTER, 500, 0));
 		getSceneElements().add(b, 0);
 		effect.addSceneElement(b);
@@ -109,7 +105,6 @@ public class PhysicsScene2 extends PhysicsScene {
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
 				SceneElement e = new SceneElement( circle);
-				e.setId("ball" + i + "_" + j);
 				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));
 				getSceneElements().add(e);

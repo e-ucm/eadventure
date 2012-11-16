@@ -59,7 +59,6 @@ import ead.common.util.EAdPosition.Corner;
 public class DragDropScene extends EmptyScene {
 
 	public DragDropScene() {
-		setId("DragDropScene");
 		setBackgroundFill(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				new ColorFill(245, 255, 245), 800, 600));
 		BezierShape shape = new BalloonShape(0, 0, 100, 100,
@@ -113,9 +112,7 @@ public class DragDropScene extends EmptyScene {
 		EAdField<Float> scale = new BasicField<Float>(e2,
 				SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
-		changeScale1.setId("changeScale");
 		ChangeFieldEf changeScale2 = new ChangeFieldEf( scale, new ValueOp(1.0f));
-		changeScale2.setId("changeScale");
 		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.ENTERED),
 				changeScale1);
 		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.EXITED),
@@ -125,17 +122,15 @@ public class DragDropScene extends EmptyScene {
 		BasicField<Integer> fieldX = new BasicField<Integer>(e1, SceneElement.VAR_X);
 		BasicField<Integer> fieldY = new BasicField<Integer>(e1, SceneElement.VAR_Y);
 
-		ChangeFieldEf changeX = new ChangeFieldEf(
-				fieldX,
-				new MathOp("[0]", new BasicField<Integer>(e2,
-						SceneElement.VAR_X)));
-		changeX.setId("x");
-
-		ChangeFieldEf changeY = new ChangeFieldEf(
-				fieldY,
-				new MathOp("[0]", new BasicField<Integer>(e2,
-						SceneElement.VAR_Y)));
-		changeY.setId("y");
+//		ChangeFieldEf changeX = new ChangeFieldEf(
+//				fieldX,
+//				new MathOp("[0]", new BasicField<Integer>(e2,
+//						SceneElement.VAR_X)));
+//
+//		ChangeFieldEf changeY = new ChangeFieldEf(
+//				fieldY,
+//				new MathOp("[0]", new BasicField<Integer>(e2,
+//						SceneElement.VAR_Y)));
 
 //		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);
 //		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeY);

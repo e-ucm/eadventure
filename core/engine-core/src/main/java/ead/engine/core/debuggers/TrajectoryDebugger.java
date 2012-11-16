@@ -140,7 +140,6 @@ public class TrajectoryDebugger implements Debugger {
 				SceneElement area = new SceneElement(new RectangleShape(def.getRight()
 						- def.getLeft(), def.getBottom() - def.getTop(), new ColorFill(0, 200, 0,
 						100)));
-				area.setId("walking_area");
 				area.setPosition(def.getLeft(), def.getTop());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
@@ -189,7 +188,6 @@ public class TrajectoryDebugger implements Debugger {
 		}
 
 		SceneElement mapElement = new SceneElement(map);
-		mapElement.setId("trajectoryMap");
 		mapElement.setPropagateGUIEvents(true);
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {

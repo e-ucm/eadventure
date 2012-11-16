@@ -53,7 +53,6 @@ public class NgQuiz extends EmptyScene {
 
 	public NgQuiz() {
 		setBackground(new SceneElement(new Image("@drawable/ng_quiz_bg.png")));
-		getBackground().setId("ng_quiz_bg");
 		
 		SceneElement element = createQuestions();
 		

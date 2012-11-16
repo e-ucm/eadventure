@@ -62,7 +62,6 @@ public class NgRoom3 extends EmptyScene{
 	public NgRoom3() {
 		NgCommon.init();
 		setBackground(new SceneElement(new Image("@drawable/ng_room3_bg.png")));
-		getBackground().setId("ng_room3_bg");
 		
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
@@ -88,7 +87,6 @@ public class NgRoom3 extends EmptyScene{
 		
 		// Sets up character's movement
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
@@ -106,11 +104,9 @@ public class NgRoom3 extends EmptyScene{
 	 */
 	private void createElements() {
 		door = new SceneElement(new Image("@drawable/ng_room3_door.png"));
-		door.setId("ng_room3_door");
 		door.setPosition(Corner.BOTTOM_CENTER, 86, 530);
 		
 		evil_ng = new SceneElement(new Image("@drawable/evil_man_stand_s_1.png"));
-		evil_ng.setId("ng_room3_evil_ng");
 		evil_ng.setInitialScale(0.9f);
 		evil_ng.setPosition(Corner.BOTTOM_CENTER, 660, 510);
 
@@ -143,10 +139,8 @@ public class NgRoom3 extends EmptyScene{
 		EAdString talking = new EAdString("What the...!!! Who are you and what are you doing here??? aham... you want answers... and me too! get ready!");
 		SpeakSceneElementEf speech = new SpeakSceneElementEf(talking);
 		speech.setElement(evil_ng);
-		speech.setId("speakEvilNgEffect");
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(), new FadeInTransition(1000));
-		changeScene.setId("quiz_scene");
 		
 		//move.getNextEffects().add(speech);
 		speech.getNextEffects().add(changeScene);		

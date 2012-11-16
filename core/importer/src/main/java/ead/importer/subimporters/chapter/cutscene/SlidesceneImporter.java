@@ -114,7 +114,6 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 	@Override
 	public EAdScene init(Slidescene oldSlideScene) {
 		EAdScene scene = new BasicScene();
-		scene.setId(oldSlideScene.getId() + "_slide_1");
 		return scene;
 	}
 
@@ -194,7 +193,6 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			float scaleY = 600.0f / d.height;
 			background.setInitialScale(scaleX, scaleY);
 
-			background.setId(scenes[i].getId() + "_background");
 			scenes[i].setBackground(background);
 			scenes[i].setReturnable(false);
 		}

@@ -64,13 +64,11 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
-		setId("TrajectoriesScene");
 		NgCommon.init();
 		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
 				ColorFill.LIGHT_GRAY, 800, 600, true));
 
 		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
-		element.setId("player");
 
 		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
 
@@ -93,7 +91,6 @@ public class TrajectoriesScene extends EmptyScene {
 
 		// Sets up character's movement
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(element);
@@ -117,7 +114,6 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("0", "1", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.setId("changeTrajectory");
 		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
@@ -169,7 +165,6 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.setInitial("0");
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.setId("changeTrajectory");
 		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
@@ -190,7 +185,6 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("1", "0", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.setId("changeTrajectory");
 		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));

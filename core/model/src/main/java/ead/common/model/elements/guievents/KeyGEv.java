@@ -70,7 +70,6 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 
 	public KeyGEv(KeyEventType type, KeyGEvCode keyCode) {
 		super();
-		setId("KeyEvent_" + type + "_" + keyCode);
 		this.type = type;
 		this.keyCode = keyCode;
 	}

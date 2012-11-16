@@ -61,7 +61,6 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 	@Inject
 	public LoadingScreen() {
 		super();
-		setId("LoadingScreen");
 		logger.info("New instance of LoadingScreen");
 
 		getBackground()
@@ -71,9 +70,7 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 						SceneElementDef.appearance,
 						new Image("@drawable/loading.png"));
 		EAdEvent event = new SystemEv();
-		event.setId("startEvent");
 		effect = new ChangeSceneEf();
-		effect.setId("LoadingChangeScreen");
 		event.addEffect(SystemEvType.GAME_LOADED, effect);
 		this.getEvents().add(event);
 	}

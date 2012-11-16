@@ -61,7 +61,6 @@ import ead.demos.elementfactories.assets.ShapeFactory;
  */
 public class ShapeScene extends EmptyScene {
 	public ShapeScene( ) {
-		setId("ShapeScene");
 		int margin = 10;
 		int size = 140;
 		int x = margin;

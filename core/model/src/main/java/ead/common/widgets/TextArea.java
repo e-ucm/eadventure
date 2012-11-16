@@ -50,7 +50,6 @@ public class TextArea extends SceneElement {
 	}
 
 	public TextArea(int width, int height) {
-		this.setId("textArea");
 		this.setAppearance(new RectangleShape(width, height,
 				Paint.BLACK_ON_WHITE));
 	}

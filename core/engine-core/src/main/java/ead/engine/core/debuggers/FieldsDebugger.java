@@ -144,7 +144,6 @@ public class FieldsDebugger implements Debugger {
 						yOffset += 20;
 					}
 					vars = new SceneElement();
-					vars.setId("vars");
 					vars.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 					vars.setPosition(10, 10);
 					vars.getDefinition()

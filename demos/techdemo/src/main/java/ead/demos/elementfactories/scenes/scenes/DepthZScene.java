@@ -59,7 +59,6 @@ import ead.common.util.EAdPosition.Corner;
 public class DepthZScene extends EmptyScene {
 	
 	public DepthZScene(){
-		setId("DepthzScene");
 		int totalTime = 2000;
 		
 		SceneElement e1 = new SceneElement(new RectangleShape( 50, 500, new Paint( ColorFill.RED, ColorFill.BLACK ) ));
@@ -80,11 +79,9 @@ public class DepthZScene extends EmptyScene {
 		
 		EAdField<Integer> zField = new BasicField<Integer>(e2, SceneElement.VAR_Z);
 		ChangeFieldEf changeZ = new ChangeFieldEf( zField, new MathOp("- [0]", zField ));
-		changeZ.setId("changeZ");
 		
 		EAdField<Float> scaleField = new BasicField<Float>(e2, SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale = new ChangeFieldEf( scaleField, new MathOp("1 / [0]", scaleField ));
-		changeScale.setId("changeSacle");
 		timedEvent.addEffect(TimedEvType.START_TIME, changeScale);
 		timedEvent.addEffect(TimedEvType.START_TIME, changeZ);
 		e2.getEvents().add(timedEvent);

@@ -62,7 +62,6 @@ public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro>{
 	@Override
 	public EffectsMacro init( Macro oldMacro ) {
 		EffectsMacro macro = new EffectsMacro( );
-		macro.setId( oldMacro.getId());
 		return macro;
 	}
 

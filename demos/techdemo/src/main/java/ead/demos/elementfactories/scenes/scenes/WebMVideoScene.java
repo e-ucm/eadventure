@@ -44,7 +44,6 @@ import ead.demos.elementfactories.scenes.SceneDemo;
 public class WebMVideoScene extends VideoScene implements SceneDemo {
 
 	public WebMVideoScene() {
-		setId("youtubeVideoScene");
 		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
 		video.setStream(true);
 		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);

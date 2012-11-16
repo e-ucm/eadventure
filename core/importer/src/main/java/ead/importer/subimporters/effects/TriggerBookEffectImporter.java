@@ -64,7 +64,6 @@ public class TriggerBookEffectImporter extends
 	@Override
 	public ChangeSceneEf init(TriggerBookEffect oldObject) {
 		ChangeSceneEf effect =  new ChangeSceneEf();
-		effect.setId("triggerBook_" + oldObject.getTargetId());
 		return effect;
 
 	}

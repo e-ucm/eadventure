@@ -61,14 +61,12 @@ public class SceneGraphTest {
 	@Test
 	public void testBasic() {
 		BasicScene initScene = new BasicScene();
-		initScene.setId("initScene");
 		sceneGraph.generateGraph(initScene);
 		assertTrue(sceneGraph.getScenes().size() == 1 );
 		assertTrue(sceneGraph.getEffectsVisited().size() == 0 );
 		assertTrue(sceneGraph.getGraph().get(initScene).size() == 0);
 		
 		BasicScene scene2 = new BasicScene( );
-		scene2.setId("scene2");
 		ChangeSceneEf changeScene2 = new ChangeSceneEf(scene2);
 		initScene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene2);
 		sceneGraph.generateGraph(initScene);
@@ -87,7 +85,6 @@ public class SceneGraphTest {
 		
 		ChangeSceneEf previousScene = new ChangeSceneEf( );
 		BasicScene scene3 = new BasicScene( );
-		scene3.setId("scene3");
 		ChangeSceneEf changeScene3 = new ChangeSceneEf( scene3 );
 		scene2.getBackground().addBehavior(MouseGEv.MOUSE_EXITED, changeScene3);
 		initScene.getBackground().addBehavior(MouseGEv.MOUSE_EXITED, changeScene3);
@@ -108,9 +105,6 @@ public class SceneGraphTest {
 	
 	@Test
 	public void testEvents( ){
-		BasicScene scene1 = new BasicScene();
-		scene1.setId("scene1");
-		
 		
 	}
 

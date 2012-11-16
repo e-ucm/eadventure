@@ -58,7 +58,6 @@ public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, M
 	@Override
 	public MoveActiveElementToMouseEf init(MovePlayerEffect oldObject) {
 		MoveActiveElementToMouseEf effect =  new MoveActiveElementToMouseEf();
-		effect.setId("movePlayerEffect" + ID_GENERATOR++);
 		return effect;
 	}
 

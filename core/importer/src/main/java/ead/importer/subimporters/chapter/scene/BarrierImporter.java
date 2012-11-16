@@ -81,7 +81,6 @@ public class BarrierImporter implements
 	@Override
 	public EAdSceneElement init(Barrier oldObject) {
 		EAdSceneElement element = new SceneElement();
-		element.setId(oldObject.getId());
 		return element;
 	}
 
@@ -95,7 +94,6 @@ public class BarrierImporter implements
 			condition = conditionsImporter.convert(oldObject.getConditions(),
 					condition);
 			ConditionedEv event = new ConditionedEv();
-			event.setId("barrierCondition");
 			event.setCondition(condition);
 			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);

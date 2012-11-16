@@ -92,7 +92,6 @@ public class ChangeFieldEf extends AbstractEffect {
 	public ChangeFieldEf( EAdField<?> field,
 			EAdOperation operation) {
 		super();
-		setId("changeField");
 		this.fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 		if (field != null)
 			fields.add(field);

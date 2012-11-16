@@ -51,8 +51,6 @@ import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 public class PlaySoundEffectImporter extends
 		EffectImporter<PlaySoundEffect, PlaySoundEf> {
 
-	private static int ID_GENERATOR = 0;
-
 	private ResourceImporter resourceImporter;
 
 	@Inject
@@ -66,7 +64,6 @@ public class PlaySoundEffectImporter extends
 	@Override
 	public PlaySoundEf init(PlaySoundEffect oldObject) {
 		PlaySoundEf effect = new PlaySoundEf();
-		effect.setId("playSoundEffect" + ID_GENERATOR++);
 		return effect;
 	}
 

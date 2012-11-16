@@ -148,23 +148,18 @@ public class NgCorridor extends EmptyScene{
 	 */
 	private void setDoors() {
 		door1 = new SceneElement(new Image("@drawable/ng_corridor_door1.png"));
-		door1.setId("door1");
 		door1.setPosition(Corner.TOP_LEFT, 692, 125);
 		
 		door2 = new SceneElement(new Image("@drawable/ng_corridor_door2.png"));
-		door2.setId("door2");
 		door2.setPosition(Corner.TOP_LEFT, 48, 148);
 		
 		door3 = new SceneElement(new Image("@drawable/ng_corridor_door3.png"));
-		door3.setId("door3");
 		door3.setPosition(Corner.TOP_LEFT, 145, 8);
 		
 		door4 = new SceneElement(new Image("@drawable/ng_corridor_door4.png"));
-		door4.setId("door4");
 		door4.setPosition(Corner.TOP_LEFT, 597, 8);
 		
 		doorClosed = new SceneElement(new Image("@drawable/ng_corridor_closed.png"));
-		doorClosed.setId("doorClosed");
 		doorClosed.setPosition(Corner.TOP_LEFT, 570, 72);
 		
 	}
@@ -187,7 +182,6 @@ public class NgCorridor extends EmptyScene{
 	 */
 	private void ngMovement() {
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
@@ -204,7 +198,6 @@ public class NgCorridor extends EmptyScene{
 	 */
 	private MoveSceneElementEf moveNg(int x, int y) {
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("move");
 		move.setSceneElement(ng);
 		move.setTargetCoordiantes(x, y);
 		return move;
@@ -232,7 +225,6 @@ public class NgCorridor extends EmptyScene{
 		window.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		// Changing the scene: play the video
         ChangeSceneEf toWindowScene = new ChangeSceneEf( );
-        toWindowScene.setId("windowScene");
         toWindowScene.setNextScene(windowScene);
         move.getNextEffects().add(toWindowScene);
         

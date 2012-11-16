@@ -92,7 +92,6 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 
 	public ShowQuestionEf() {
 		super();
-		setId("showQuestionEffect");
 		answers = new EAdMapImpl<EAdString, EAdEffect>(EAdString.class,
 				EAdEffect.class);
 		setOpaque(true);

@@ -62,7 +62,6 @@ public class StayInBoundsEv extends SceneElementEv {
 	 */
 	public StayInBoundsEv(EAdSceneElement e) {
 		super();
-		setId("stayInBoundsEvent");
 		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
 		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
@@ -84,7 +83,6 @@ public class StayInBoundsEv extends SceneElementEv {
 		// Correct X Left
 		String expression1 = "[0] - [1]";
 		ChangeFieldEf effect = new ChangeFieldEf(x, new MathOp(expression1, x, left));
-		effect.setId("correctXLeft");
 		OperationCond c = new OperationCond(left, 0, Comparator.LESS);
 		effect.setCondition(c);
 
@@ -94,7 +92,6 @@ public class StayInBoundsEv extends SceneElementEv {
 		String expression2 = "[0] - ( [1] - [2] )";
 		effect = new ChangeFieldEf( x,
 				new MathOp(expression2, x, right, maxX));
-		effect.setId("correctXRight");
 		c = new OperationCond(maxX, left, Comparator.LESS);
 		effect.setCondition(c);
 		addEffect(SceneElementEvType.ALWAYS, effect);
@@ -102,7 +99,6 @@ public class StayInBoundsEv extends SceneElementEv {
 		// Correct Y top
 		effect = new ChangeFieldEf( y,
 				new MathOp(expression1, y, top));
-		effect.setId("correctYTop");
 		c = new OperationCond(top, 0, Comparator.LESS);
 		effect.setCondition(c);
 		addEffect(SceneElementEvType.ALWAYS, effect);
@@ -110,7 +106,6 @@ public class StayInBoundsEv extends SceneElementEv {
 		// Correct Y bottom
 		effect = new ChangeFieldEf( y,
 				new MathOp(expression2, y, bottom, maxY));
-		effect.setId("correctXRight");
 		c = new OperationCond(maxY, bottom, Comparator.LESS);
 		effect.setCondition(c);
 		addEffect(SceneElementEvType.ALWAYS, effect);

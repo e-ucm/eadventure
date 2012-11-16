@@ -41,7 +41,9 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import ead.common.model.EAdElement;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
 import ead.reader.adventure.DOMTags;
@@ -68,8 +70,8 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 			map = createNewMap(node);
 			logger.debug("Created new {}-to-{} map", 
 					new String[] { 
-						classToString(map.getKeyClass()), 
-						classToString(map.getValueClass()) });
+						BasicElement.classToString(map.getKeyClass()), 
+						BasicElement.classToString(map.getValueClass()) });
 		} else {
 			map = (EAdMap<Object, Object>) field.getFieldValue(parent);		
 			if (logger.isDebugEnabled()) {

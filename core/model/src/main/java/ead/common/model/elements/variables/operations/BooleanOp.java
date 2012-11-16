@@ -75,7 +75,6 @@ public class BooleanOp extends AbstractOperation {
 	
 	public BooleanOp( EAdCondition condition) {
 		super();
-		setId("boolOp" + condition.toString());
 		this.condition = condition;
 	}
 

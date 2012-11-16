@@ -93,7 +93,6 @@ public class NgRoom2 extends EmptyScene{
 	public NgRoom2() {
 		NgCommon.init();
 		setBackground(new SceneElement(new Image("@drawable/ng_room2_bg.png")));
-		getBackground().setId("ng_room2_bg");
 		
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
@@ -118,7 +117,6 @@ public class NgRoom2 extends EmptyScene{
 		
 		// Sets up character's movement
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
@@ -135,19 +133,15 @@ public class NgRoom2 extends EmptyScene{
 	 */
 	private void createElements() {
 		door = new SceneElement(new Image("@drawable/ng_room2_door.png"));
-		door.setId("ng_room2_door");
 		door.setPosition(Corner.TOP_LEFT, 615, 165);
 		
 		fan = new SceneElement(new Image("@drawable/ng_room2_fan.png"));
-		fan.setId("ng_room2_fan");
 		fan.setPosition(Corner.TOP_LEFT, 540, 350);
 		
 		topFan = new SceneElement(new Image("@drawable/ng_room2_fan_piece.png"));
-		topFan.setId("ng_room2_fan_piece");
 		topFan.setPosition(Corner.CENTER, 582, 402);
 		
 		wallpaper = new SceneElement(new Image("@drawable/ng_room2_wallpaper.png"));
-		wallpaper.setId("ng_room2_wallpaper");
 		wallpaper.setPosition(Corner.TOP_LEFT, 5, 59);
 
 		
@@ -178,7 +172,6 @@ public class NgRoom2 extends EmptyScene{
 		circle.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT, 20, 20));
 		//circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY, ColorFill.LIGHT_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);
-		bullet.setId("bullet");
 
 		PhApplyImpluseEf applyForce = new PhApplyImpluseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX), new MathOp("([0] - [1])", mouseY, canyonY));
@@ -216,7 +209,6 @@ public class NgRoom2 extends EmptyScene{
        
         // Define next scene, add next behavior
         ChangeSceneEf corridorScene = new ChangeSceneEf( );
-        corridorScene.setId("corridorScene");
 		corridorScene.setNextScene(corridor);
 		//((NgCorridor)corridorScene.getNextScene()).getNg().setPosition(NgSceneCreator.getRoom2_x(), NgSceneCreator.getRoom2_y());
 		move.getNextEffects().add(corridorScene);
@@ -231,7 +223,6 @@ public class NgRoom2 extends EmptyScene{
 	 */
 	private MoveSceneElementEf moveNg(int x, int y) {
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("move");
 		move.setSceneElement(ng);
 		move.setTargetCoordiantes(x, y);
 		return move;
@@ -250,7 +241,6 @@ public class NgRoom2 extends EmptyScene{
 			desp += 20;
 			for (int j = 0; j < 10; j++) {
 				SceneElement e = new SceneElement( circle);
-				e.setId("ball" + i + "_" + j);
 				e.setPosition(new EAdPosition(Corner.CENTER,spotX + i * 20 + desp, spotY + j * 20));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
@@ -279,7 +269,6 @@ public class NgRoom2 extends EmptyScene{
 		groundS.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT,
 				ColorFill.TRANSPARENT, 799, 1));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setId("ground");
 		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
 
 

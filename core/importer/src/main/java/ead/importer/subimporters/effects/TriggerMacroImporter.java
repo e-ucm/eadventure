@@ -63,7 +63,6 @@ public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, T
 	@Override
 	public TriggerMacroEf init(MacroReferenceEffect oldObject) {
 		TriggerMacroEf effect = new TriggerMacroEf();
-		effect.setId("triggerMacro" + oldObject.getTargetId());
 		return effect;
 	}
 

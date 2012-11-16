@@ -60,7 +60,6 @@ public class ListOp extends AbstractOperation {
 
 	public ListOp(EAdField<EAdList> listField, ListOpType operation) {
 		super();
-		setId("listOp");
 		this.operation = operation;
 		this.listField = listField;
 	}

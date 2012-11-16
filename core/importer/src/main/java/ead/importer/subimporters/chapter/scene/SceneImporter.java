@@ -168,7 +168,6 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	@Override
 	public BasicScene init(Scene oldScene) {
 		BasicScene scene = new BasicScene();
-		scene.setId(oldScene.getId());
 		return scene;
 	}
 
@@ -216,7 +215,6 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 					playerReference);
 
 			SceneElementEv event = new SceneElementEv();
-			event.setId("makeActiveCharacter");
 			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 			playerReference.getEvents().add(event);
 
@@ -325,8 +323,6 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		resourceImporter.importResources(scene.getBackground().getDefinition(),
 				oldScene.getResources(), resourcesStrings, resourcesClasses);
 
-		scene.getBackground().setId("background");
-
 		// Music variables
 		List<String> musics = new ArrayList<String>();
 		List<EAdCondition> conditions = new ArrayList<EAdCondition>();
@@ -369,7 +365,6 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 						backgroundPath);
 
 				SceneElement foreground = new SceneElement(image);
-				foreground.setId("foreground");
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
 				foreground.setInitialEnable(false);

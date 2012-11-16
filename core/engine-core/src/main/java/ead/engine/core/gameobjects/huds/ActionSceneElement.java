@@ -54,7 +54,6 @@ public class ActionSceneElement extends SceneElement {
 	public ActionSceneElement(EAdAction eAdAction) {
 		super();
 		this.setInitialScale(0.8f);
-		this.setId("action" + eAdAction.getId());
 		ActorActionsEf e = new ActorActionsEf(null,
 				ChangeActorActions.HIDE_ACTIONS);
 		this.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, e);

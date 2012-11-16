@@ -186,9 +186,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		} else {
 			actionName = getActionName(oldObject.getType());
 		}
-		action.setId(actionName
-				+ (oldObject.getTargetId() != null ? oldObject
-						.getDocumentation() : ""));
 		stringHandler.setString(action.getName(), actionName);
 	}
 
@@ -213,7 +210,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		// Add conditions and get to
 		if (macro != null) {
-			macro.setId("actionMacro");
 			effectTrigger.putMacro(macro, condition);
 		}
 
@@ -221,7 +217,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		EffectsMacro notEffects = effectsImporterFactory
 				.getMacroEffects(oldObject.getNotEffects());
 		if (notEffects != null) {
-			notEffects.setId("actionNotEffectTrigger");
 			notEffectTrigger.putMacro(notEffects, new NOTCond(condition));
 		}
 	}
@@ -317,7 +312,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 				ModifyInventoryEf addToInventory = new ModifyInventoryEf(actor,
 						InventoryEffectAction.ADD_TO_INVENTORY);
-				addToInventory.setId("grabEffect");
 
 				OperationCond c = new OperationCond(inInventory);
 				addToInventory.setCondition(new NOTCond(c));
@@ -369,7 +363,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 
 		ElementAction examineAction = new ElementAction(examineString);
-		examineAction.setId(actor.getId() + "_examinate");
 		if (sound != null) {
 			examineAction.getEffects().add(sound);
 		}
@@ -382,7 +375,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		stringHandler.setString(effect.getCaption().getText(), "[0]");
 		effect.getCaption().getFields().add(descField);
 
-		effect.setId("examinate");
 		effect.setAlignment(Alignment.CENTER);
 
 		stringHandler.setString(examineAction.getName(), "Examine");
@@ -624,7 +616,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			EAdSceneElementDef actor, EAdAction action) {
 		if (!factory.isFirstPerson() && needsGoTo) {
 			MoveActiveElementToMouseEf moveActiveElement = new MoveActiveElementToMouseEf();
-			moveActiveElement.setId("moveToActionTarget");
 			moveActiveElement.setTarget(actor);
 			moveActiveElement.getNextEffects().add(triggerEffect);
 			action.getEffects().add(moveActiveElement);

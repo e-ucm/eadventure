@@ -105,7 +105,6 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			logger.debug("Reading element '{}' of type {}", uniqueId, clazz);
 			if (classType.findConstructor() != null) {
 				element = (EAdElement)classType.findConstructor().newInstance();
-				element.setId(id);
 			}
 		}
 

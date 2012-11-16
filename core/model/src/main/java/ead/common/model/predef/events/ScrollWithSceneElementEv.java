@@ -51,7 +51,6 @@ import ead.common.model.elements.variables.operations.MathOp;
 public class ScrollWithSceneElementEv extends SceneElementEv {
 
 	public ScrollWithSceneElementEv(EAdElement scene, EAdElement character) {
-		this.setId("scrollWidthElement");
 		EAdField<Integer> xElement = new BasicField<Integer>(character,
 				SceneElement.VAR_X);
 		EAdField<Integer> yElement = new BasicField<Integer>(character,

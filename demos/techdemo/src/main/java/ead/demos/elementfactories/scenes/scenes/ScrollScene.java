@@ -57,7 +57,6 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
-		setId("ScrollScene");
 		setBounds(1000, 1213);
 		setBackground(new SceneElement(new Image(
 				"@drawable/scrollbg.png")));
@@ -77,7 +76,6 @@ public class ScrollScene extends EmptyScene {
 				character);
 
 		SceneElementEv event = new SceneElementEv();
-		event.setId("makeAcitveCharacter");
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
 		character.getEvents().add(event);
 		
@@ -89,7 +87,6 @@ public class ScrollScene extends EmptyScene {
 
 		// Sets up character's movement
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(character);
