@@ -54,6 +54,7 @@ import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.AbstractCanvas;
 import ead.engine.core.util.EAdTransformation;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
@@ -63,23 +64,33 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 	private GdxFont font;
 
 	@Inject
-	public GdxCanvas(FontHandler fontHandler) {
-		super(fontHandler, null);
+	public GdxCanvas(FontHandler fontHandler, ReflectionProvider provider) {
+		super(fontHandler, new GdxFilterFactory(provider));
 		matrixes = new Stack<Matrix4>();
 	}
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
-		g.setColor(1, 1, 1, t.getAlpha() );
+		g.setColor(1, 1, 1, t.getAlpha());
 		setMatrix(t.getMatrix());
 
 	}
 
 	@Override
 	public void setMatrix(EAdMatrix m) {
+		g.setTransformMatrix(convertMatrix(m));
+	}
 
+	/**
+	 * Creates a {@link Matrix4} compatible with Gdx equivalent to
+	 * {@link EAdMatrix}
+	 * 
+	 * @param m
+	 * @return
+	 */
+	public Matrix4 convertMatrix(EAdMatrix m) {
 		float[] val = new float[16];
-		
+
 		float[] mat = m.getFlatMatrix();
 
 		val[0] = mat[0];
@@ -98,7 +109,7 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 		val[13] = mat[7];
 		val[14] = 0;
 		val[15] = mat[8];
-		g.setTransformMatrix(new Matrix4(val));
+		return new Matrix4(val);
 	}
 
 	@Override
@@ -109,23 +120,27 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 	@Override
 	public void drawText(String text, int x, int y) {
 		y -= font.getBitmapFont().getAscent();
-		x += font.getBitmapFont().getSpaceWidth() / 2; 
+		x += font.getBitmapFont().getSpaceWidth() / 2;
 		// Border
-		if ( paint.getBorder() instanceof ColorFill ){
+		if (paint.getBorder() instanceof ColorFill) {
 			ColorFill c = (ColorFill) paint.getBorder();
-			font.getBitmapFont().setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c.getBlue() / 255.0f, g.getColor().a);
+			font.getBitmapFont()
+					.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
+							c.getBlue() / 255.0f, g.getColor().a);
 			font.getBitmapFont().draw(g, text, x, y);
 			font.getBitmapFont().draw(g, text, x + 1, y + 1);
 			font.getBitmapFont().draw(g, text, x - 1, y + 1);
 			font.getBitmapFont().draw(g, text, x + 1, y - 1);
 			font.getBitmapFont().draw(g, text, x - 1, y - 1);
 		}
-		
-		if ( paint.getFill() instanceof ColorFill ){
+
+		if (paint.getFill() instanceof ColorFill) {
 			ColorFill c = (ColorFill) paint.getFill();
-			font.getBitmapFont().setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c.getBlue() / 255.0f, g.getColor().a);
+			font.getBitmapFont()
+					.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
+							c.getBlue() / 255.0f, g.getColor().a);
 			font.getBitmapFont().draw(g, text, x, y);
-		}		
+		}
 	}
 
 	@Override

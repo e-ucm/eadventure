@@ -49,6 +49,7 @@ import ead.engine.core.gdx.utils.assetviewer.AssetApplicationListener;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
+import ead.tools.reflection.ReflectionProvider;
 
 /**
  * Contains a canvas in which assets can be represented as they will be
@@ -81,7 +82,8 @@ public class AssetViewer {
 		assetHandler = injector.getInstance(AssetHandler.class);
 
 		app = new AssetApplicationListener(
-				injector.getInstance(FontHandler.class));
+				injector.getInstance(FontHandler.class),
+				injector.getInstance(ReflectionProvider.class));
 
 		if (canvas == null) {
 			lwjglCanvas = new LwjglAWTCanvas(app, true);

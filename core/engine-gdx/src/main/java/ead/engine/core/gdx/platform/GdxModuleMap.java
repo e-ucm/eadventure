@@ -92,6 +92,7 @@ import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.DefaultGameTracker;
 import ead.engine.core.tracking.GameTracker;
@@ -138,6 +139,8 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(PluginHandler.class, GdxPluginHandler.class);
 
 		binds.put(SoundManager.class, GdxSoundManager.class);
+		
+		binds.put(FilterFactory.class, GdxFilterFactory.class);
 
 		// Game
 		binds.put(GameState.class, GameStateImpl.class);

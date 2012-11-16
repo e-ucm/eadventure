@@ -52,6 +52,7 @@ import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
+import ead.tools.reflection.ReflectionProvider;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class AssetApplicationListener implements ApplicationListener {
@@ -77,8 +78,8 @@ public class AssetApplicationListener implements ApplicationListener {
 	private int time;
 	private List<String> states;
 
-	public AssetApplicationListener(FontHandler fontHandler) {
-		canvas = new GdxCanvas(fontHandler);
+	public AssetApplicationListener(FontHandler fontHandler, ReflectionProvider reflectionProvider) {
+		canvas = new GdxCanvas(fontHandler, reflectionProvider);
 		transformation = new Matrix4();
 		transformation.idt();
 		idt.idt();
