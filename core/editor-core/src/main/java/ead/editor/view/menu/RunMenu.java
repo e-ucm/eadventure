@@ -131,7 +131,7 @@ public class RunMenu extends AbstractEditorMenu {
         @Override
         public void actionPerformed(ActionEvent ae) {
             allowChanceToSave(Messages.file_menu_open_confirm_destructive);
-			controller.getProjectController().doRun();			
+			controller.getProjectController().doRun();
         }
     }
 
@@ -146,14 +146,5 @@ public class RunMenu extends AbstractEditorMenu {
             allowChanceToSave(Messages.file_menu_open_confirm_destructive);
 			logger.warn("Not implemented: run in browser");
         }
-    }
-
-    public static void main(String args[]) {
-//        ProgressListener pl = new ProgressListener(null, null);
-//        JFrame jf = new JFrame();
-//        jf.add(pl);
-//        jf.pack();
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        jf.setVisible(true);
     }
 }
