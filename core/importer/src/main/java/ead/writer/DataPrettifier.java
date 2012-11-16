@@ -39,7 +39,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ead.editor.model;
+package ead.writer;
 
 import ead.reader.adventure.DOMTags;
 import java.io.ByteArrayInputStream;

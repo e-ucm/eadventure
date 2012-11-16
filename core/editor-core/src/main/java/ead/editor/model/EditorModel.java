@@ -79,6 +79,7 @@ import ead.importer.annotation.ImportAnnotator;
 import ead.reader.adventure.AdventureReader;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
+import ead.writer.DataPrettifier;
 import ead.writer.EAdAdventureModelWriter;
 import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
