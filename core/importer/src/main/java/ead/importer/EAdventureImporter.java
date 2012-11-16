@@ -185,8 +185,8 @@ public class EAdventureImporter {
 
 		if (destination != null) {
 			updateProgress(90, "Creating " + destination);
-			createGameFile(model, destinationFolder.getAbsolutePath(), destination, "."
-					+ format, "Imported version", zipped);
+			createGameFile(model, destinationFolder.getAbsolutePath(),
+					destination, "." + format, "Imported version", zipped);
 		}
 
 		updateProgress(100, "Done.");
@@ -253,13 +253,23 @@ public class EAdventureImporter {
 		Properties properties = new Properties();
 		properties.setProperty("targetEngine", CURRENT_EAD_ENGINE_VERSION);
 
+		FileOutputStream output = null;
 		try {
-			FileOutputStream output = new FileOutputStream(propertiesFile);
+			output = new FileOutputStream(propertiesFile);
 			properties.store(output, propertiesComment);
 		} catch (Exception e) {
 			logger.error("Error writing properties file '{}'",
 					propertiesFile.getAbsolutePath(), e);
 			ok = false;
+		} finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					logger.error("Error writing properties file '{}'",
+							propertiesFile.getAbsolutePath(), e);
+				}
+			}
 		}
 
 		if (zipped) {

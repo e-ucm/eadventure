@@ -17,7 +17,6 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 
 		EAdPaint p1 = ColorFill.BLUE;
 		EAdPaint p2 = Paint.BLACK_ON_WHITE;
-		int i = 0;
 		// Shape with the same object
 		BezierShape shape = new BezierShape( );
 		shape.moveTo(0, 0);

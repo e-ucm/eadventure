@@ -43,7 +43,7 @@ import ead.common.model.elements.BasicElement;
 
 @Element
 public class Node extends BasicElement {
-	
+
 	@Param("nodeId")
 	private String nodeId;
 
@@ -56,7 +56,7 @@ public class Node extends BasicElement {
 	@Param("scale")
 	private float scale;
 
-	public Node(){
+	public Node() {
 
 	}
 
@@ -67,6 +67,18 @@ public class Node extends BasicElement {
 		this.scale = scale;
 	}
 
+	public String getNodeId() {
+		return nodeId;
+	}
+
+	public void setNodeId(String nodeId) {
+		this.nodeId = nodeId;
+	}
+
+	public String getId() {
+		return super.getId();
+	}
+
 	public Node(Node n) {
 		this.nodeId = n.nodeId;
 		this.x = n.x;
@@ -74,14 +86,13 @@ public class Node extends BasicElement {
 		this.scale = n.scale;
 	}
 
-	public void setX(int x){
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public void setY(int y){
+	public void setY(int y) {
 		this.y = y;
 	}
-
 
 	public int getX() {
 
@@ -110,8 +121,7 @@ public class Node extends BasicElement {
 	}
 
 	public Node copy() {
-		Node n = new Node("node" + randomSuffix(), x, y,
-				scale);
+		Node n = new Node("node" + randomSuffix(), x, y, scale);
 		return n;
 	}
 

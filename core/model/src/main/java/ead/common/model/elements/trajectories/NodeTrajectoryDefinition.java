@@ -134,7 +134,7 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 		if (id == null)
 			return null;
 		for (Node node : nodes) {
-			if (id.equals(node.getId()))
+			if (id.equals(node.getNodeId()))
 				return node;
 		}
 		return null;
