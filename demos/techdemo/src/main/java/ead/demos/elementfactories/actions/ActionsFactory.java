@@ -50,9 +50,6 @@ public class ActionsFactory {
 		action.getResources().addAsset(action.getInitialBundle(),
 				ElementAction.appearance,
 				new Image("@drawable/examine-normal.png"));
-		action.getResources().addAsset(action.getHighlightBundle(),
-				ElementAction.appearance,
-				new Image("@drawable/examine-pressed.png"));
 
 		SpeakEf speak = new SpeakEf();
 
