@@ -220,13 +220,9 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 			playerReference.getEvents().add(event);
 
-			int layer = oldScene.getPlayerLayer();
-
-			if (layer <= 0) {
-				scene.getSceneElements().add(playerReference);
-			} else {
-				scene.getSceneElements().add(playerReference, layer - 1);
-			}
+			int playerZ = oldScene.isAllowPlayerLayer() ? Math.max(0, oldScene.getPlayerLayer()) : 1;
+			playerReference.setVarInitialValue(SceneElement.VAR_Z, playerZ);
+			scene.getSceneElements().add(playerReference);
 
 			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 					new MoveActiveElementToMouseEf());
