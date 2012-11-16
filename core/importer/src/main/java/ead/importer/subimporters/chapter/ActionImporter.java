@@ -91,8 +91,9 @@ import es.eucm.eadventure.common.data.chapter.effects.Effects;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
-	private static Logger logger = LoggerFactory.getLogger(ActionImporter.class);
-	
+	private static Logger logger = LoggerFactory
+			.getLogger(ActionImporter.class);
+
 	private StringHandler stringHandler;
 
 	private EffectsImporterFactory effectsImporterFactory;
@@ -351,11 +352,12 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	 * 
 	 * @param actor
 	 *            the new actor
-	 * @param sound 
+	 * @param sound
 	 * @param element
 	 *            the old element
 	 */
-	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList, EAdEffect sound) {
+	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList,
+			EAdEffect sound) {
 		for (Action a : actionsList) {
 			if (a.getType() == Action.EXAMINE) {
 				return;
@@ -365,10 +367,12 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		if (examineString == null) {
 			initExamineAction(stringHandler);
 		}
-		
+
 		ElementAction examineAction = new ElementAction(examineString);
 		examineAction.setId(actor.getId() + "_examinate");
-		examineAction.getEffects().add( sound );
+		if (sound != null) {
+			examineAction.getEffects().add(sound);
+		}
 
 		// Effect
 		EAdField<EAdString> descField = new BasicField<EAdString>(actor,
@@ -377,7 +381,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		SpeakEf effect = new SpeakEf();
 		stringHandler.setString(effect.getCaption().getText(), "[0]");
 		effect.getCaption().getFields().add(descField);
-		
+
 		effect.setId("examinate");
 		effect.setAlignment(Alignment.CENTER);
 
@@ -453,8 +457,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		logger.debug("adding all actions for list of {} actions, "
 				+ "with an actor called {}, areaActive {}, and sound {}",
-				new Object[] {actionsList.size(), actor.getId(), isActiveArea, sound});
-		
+				new Object[] { actionsList.size(), actor.getId(), isActiveArea,
+						sound });
+
 		// add examine
 		addExamine(actor, actionsList, sound);
 
@@ -571,8 +576,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			getsTo.put(action, a.isNeedsGoTo());
 		}
 
-		logger.debug("iterating {} effect triggers...", effectsTriggers.size());		
-		
+		logger.debug("iterating {} effect triggers...", effectsTriggers.size());
+
 		// First, effects for every action are added. All actions with the
 		// same name are merged in only one, with one big trigger macro effect,
 		// whose effects are conditioned by the old action conditions, chained
@@ -585,11 +590,12 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			trigger.setCondition(orCondition);
 			if (logger.isDebugEnabled()) {
 				Object v = getsTo.get(a);
-				logger.debug("will operate on {}, {}, {}, {}", 
-						new Object[] {v, trigger, actor, a});
+				logger.debug("will operate on {}, {}, {}, {}", new Object[] {
+						v, trigger, actor, a });
 				if (v == null) {
 					for (EAdAction x : getsTo.keySet()) {
-						logger.debug("\t{} {} :: {}", new Object[] {x, x.getId(), x.equals(a)});
+						logger.debug("\t{} {} :: {}",
+								new Object[] { x, x.getId(), x.equals(a) });
 					}
 				}
 			}
