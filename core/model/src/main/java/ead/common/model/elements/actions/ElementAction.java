@@ -95,10 +95,7 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 	
 	@Override
 	public EAdBundleId getHighlightBundle() {
-		if ( highlightBundle == null ){
-			highlightBundle = new EAdBundleId(id + "_highlight");
-		}
-		return highlightBundle;
+		return highlightBundle == null ? this.getInitialBundle() : highlightBundle;
 	}
 
 	@Override
