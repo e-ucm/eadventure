@@ -61,9 +61,9 @@ public class EditorAnnotator implements ImportAnnotator {
     public class Annotation {
         private ArrayList<EAdElement> context = new ArrayList<EAdElement>();
         private ImportAnnotator.Type type;
-        private String key;
-        private String value;
-        private Annotation(ImportAnnotator.Type type, String key, String value) {
+        private Object key;
+        private Object value;
+        private Annotation(ImportAnnotator.Type type, Object key, Object value) {
             context.addAll(stack);
             this.type = type;
             this.key = key;
@@ -77,11 +77,11 @@ public class EditorAnnotator implements ImportAnnotator {
             return type;
         }
 
-        public String getKey() {
+        public Object getKey() {
             return key;
         }
 
-        public String getValue() {
+        public Object getValue() {
             return value;
         }
     }
@@ -124,9 +124,9 @@ public class EditorAnnotator implements ImportAnnotator {
     }
 
     @Override
-    public void annotate(EAdElement element, Type key, String ... values) {
+    public void annotate(EAdElement element, Type key, Object ... values) {
 		if (logger.isDebugEnabled()) {
-            if (element == null) element = new PlaceHolder(values[0]);
+            if (element == null) element = new PlaceHolder(values[0].toString());
             switch (key) {
                 case Open: {
                     logger.debug("Entering {}", element);
@@ -152,9 +152,9 @@ public class EditorAnnotator implements ImportAnnotator {
                     if ( ! annotations.containsKey(element)) {
                         annotations.put(element, new ArrayList<Annotation>());
                     }
-                    for (String s : values) {
+                    for (Object o : values) {
                         annotations.get(element).add(new Annotation(key,
-                                Type.Comment.name(), s));
+                                Type.Comment.name(), o.toString()));
                     }
                     logger.debug("Commenting {}({}) with {}: {} --> {}",
                             new Object[] {element, stack, key, Type.Comment.name(), values[0]});

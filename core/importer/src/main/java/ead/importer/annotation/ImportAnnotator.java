@@ -90,5 +90,5 @@ public interface ImportAnnotator {
      * @param key key to annotate it with
      * @param value value to set this key to (optional for some key types)
      */
-    public void annotate(EAdElement element, Type key, String ... values);
+    public void annotate(EAdElement element, Type key, Object ... values);
 }
