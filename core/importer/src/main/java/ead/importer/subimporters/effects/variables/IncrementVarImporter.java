@@ -55,8 +55,6 @@ public class IncrementVarImporter extends
 		EffectImporter<IncrementVarEffect, ChangeFieldEf> {
 	private EAdElementFactory factory;
 
-	private static int ID_GENERATOR = 0;
-
 	@Inject
 	public IncrementVarImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
@@ -74,7 +72,6 @@ public class IncrementVarImporter extends
 				 "[0] + "
 						+ oldObject.getIncrement(), var);
 		ChangeFieldEf effect = new ChangeFieldEf( var, op);
-		effect.setId("changeVarValueFromIncrement" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		return effect;
 	}

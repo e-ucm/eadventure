@@ -49,7 +49,6 @@ import ead.common.resources.assets.text.enums.FontStyle;
 public class TextsScene extends EmptyScene {
 
 	public TextsScene() {
-		setId("TextsScene");
 		this.setBackgroundFill(ColorFill.DARK_GRAY);
 
 		ComposedDrawable drawable = new ComposedDrawable();

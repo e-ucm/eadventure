@@ -67,8 +67,6 @@ public class EffectFactory {
 	public ChangeAppearanceEf getChangeAppearance(EAdElement element,
 			EAdBundleId bundle) {
 		ChangeAppearanceEf effect = new ChangeAppearanceEf( element, bundle);
-		effect.setId("changeAppearance"
-				+ ID_GENERATOR++);
 		return effect;
 	}
 
@@ -125,7 +123,6 @@ public class EffectFactory {
 	public ChangeFieldEf getChangeVarValueEffect(EAdField<?> var,
 			EAdOperation operation) {
 		ChangeFieldEf effect = new ChangeFieldEf( var, operation);
-		effect.setId("changeVarValue" + ID_GENERATOR++);
 		return effect;
 
 	}
@@ -139,7 +136,6 @@ public class EffectFactory {
 	public PlaySoundEf getPlaySound(String string) {
 		Sound sound = new Sound(string);
 		PlaySoundEf effect = new PlaySoundEf( sound);
-		effect.setId("playSound" + ID_GENERATOR++);
 		return effect;
 	}
 

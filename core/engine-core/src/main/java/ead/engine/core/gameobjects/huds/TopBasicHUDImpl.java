@@ -194,7 +194,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		contextual.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEv(contextual));
 		contextual.getEvents().add(new ChaseMouseEv());
-		contextual.setId("contextual");
 		addElement(sceneElementFactory.get(contextual));
 	}
 
@@ -230,7 +229,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	// Mouse
 	private void initMouse() {
 		mouse = new SceneElement(cursor);
-		mouse.setId("mouse");
 		mouse.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 		mouse.setPropagateGUIEvents(true);
 		mouseGO = sceneElementFactory.get(mouse);

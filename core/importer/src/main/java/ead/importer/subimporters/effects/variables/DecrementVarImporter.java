@@ -55,8 +55,6 @@ public class DecrementVarImporter extends
 		EffectImporter<DecrementVarEffect, ChangeFieldEf> {
 	private EAdElementFactory factory;
 
-	private static int ID_GENERATOR = 0;
-
 	@Inject
 	public DecrementVarImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
@@ -74,7 +72,6 @@ public class DecrementVarImporter extends
 				 "[0] - "
 						+ oldObject.getDecrement(), var);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
-		effect.setId("changeVarValueFromIncrement" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 
 		return effect;

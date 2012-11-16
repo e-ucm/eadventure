@@ -57,7 +57,6 @@ public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastScen
 	@Override
 	public ChangeSceneEf init(TriggerLastSceneEffect oldObject) {
 		ChangeSceneEf changeScene = new ChangeSceneEf();
-		changeScene.setId("gotToPreviousScene");
 		return changeScene;
 	}
 

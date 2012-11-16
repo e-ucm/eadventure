@@ -47,7 +47,6 @@ public class ORCond extends ListedCond {
 
 	public ORCond( ){
 		super( ConditionOperator.OR );
-		setId("orCondition");
 	}
 	
 	public ORCond(EAdCondition... condition) {

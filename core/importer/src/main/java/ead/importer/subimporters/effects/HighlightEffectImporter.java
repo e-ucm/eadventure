@@ -65,8 +65,6 @@ public class HighlightEffectImporter extends
 	@Override
 	public HighlightSceneElementEf init(HighlightItemEffect oldObject) {
 		HighlightSceneElementEf highlight = new HighlightSceneElementEf();
-		highlight.setId("highlightActorReference"
-				+ ID_GENERATOR++);
 		return highlight;
 	}
 

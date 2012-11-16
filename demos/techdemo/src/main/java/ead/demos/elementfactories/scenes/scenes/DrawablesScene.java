@@ -59,7 +59,6 @@ import ead.demos.elementfactories.EAdElementsFactory;
 public class DrawablesScene extends EmptyScene {
 
 	public DrawablesScene() {
-		setId("DrawablesScene");
 		setBackgroundFill(new ColorFill(240, 255, 255));
 		int margin = 50;
 		int x = margin;

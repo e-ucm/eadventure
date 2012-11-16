@@ -53,7 +53,6 @@ public class EffectsMacro extends BasicElement {
 	public EffectsMacro() {
 		super();
 		this.effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		this.setId("effectsMacro" + randomSuffix());
 	}
 
 	public EffectsMacro(EAdEffect effect) {

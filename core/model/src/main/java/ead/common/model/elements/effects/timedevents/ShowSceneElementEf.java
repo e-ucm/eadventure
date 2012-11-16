@@ -69,7 +69,6 @@ public class ShowSceneElementEf extends AbstractEffect {
 
 	public ShowSceneElementEf() {
 		super();
-		setId("showTextEffect");
 	}
 
 	public void setSceneElement(EAdSceneElement text) {
@@ -107,7 +106,6 @@ public class ShowSceneElementEf extends AbstractEffect {
 	public void setCaption(EAdCaption caption, int x, int y,
 			ShowTextAnimation animation) {
 		SceneElement text = new SceneElement(caption);
-		text.setId(this.id + "_caption");
 		text.setPosition(new EAdPosition(x, y));
 		setSceneElement(text, animation);
 	}

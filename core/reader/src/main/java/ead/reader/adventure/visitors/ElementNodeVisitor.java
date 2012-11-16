@@ -119,7 +119,6 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 					new Object[] {uniqueId, id, clazz});
 			if (classType.getConstructor() != null) {
 				element = (EAdElement) classType.getConstructor().newInstance();
-				element.setId(id);
 			}
 		} else {
 			

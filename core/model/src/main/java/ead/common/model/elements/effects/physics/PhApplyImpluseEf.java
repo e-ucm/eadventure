@@ -59,7 +59,6 @@ public class PhApplyImpluseEf extends AbstractSceneElementEffect {
 	public PhApplyImpluseEf(EAdSceneElement element, MathOp xForce,
 			MathOp yForce) {
 		super();
-		setId("phApplyImpulse_" + element);
 		this.xForce = xForce;
 		this.yForce = yForce;
 		this.setQueueable(false);

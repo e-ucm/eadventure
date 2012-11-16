@@ -56,8 +56,6 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, Cha
 
 	private EAdElementFactory factory;
 
-	private static int ID_GENERATOR = 0;
-
 	@Inject
 	public DeactivateFlagImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
@@ -73,7 +71,6 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, Cha
 		op.setCondition(EmptyCond.FALSE_EMPTY_CONDITION);
 
 		ChangeFieldEf changeVar = new ChangeFieldEf( var, op );
-		changeVar.setId( "changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
 
 		return changeVar;

@@ -77,7 +77,6 @@ public class NgCreditsScreen extends EmptyScene {
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
-		changeScene.setId("changeScene");
 		changeScene.setNextScene(initScene);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 		

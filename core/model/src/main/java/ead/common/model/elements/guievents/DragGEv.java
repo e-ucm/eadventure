@@ -59,7 +59,6 @@ public class DragGEv extends BasicElement implements EAdGUIEvent {
 
 	public DragGEv(EAdSceneElementDef object, DragGEvType action) {
 		super();
-		setId("dropEvent_" + object + "_" + action);
 		this.carryElement = object;
 		this.action = action;
 	}

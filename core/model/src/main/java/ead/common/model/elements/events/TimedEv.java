@@ -57,7 +57,6 @@ public class TimedEv extends AbstractEvent {
 	 */
 	public TimedEv() {
 		super();
-		setId("timedEvent");
 		repeats = -1;
 		time = 1000;
 	}

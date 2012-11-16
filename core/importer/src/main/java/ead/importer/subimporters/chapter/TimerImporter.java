@@ -76,7 +76,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 
 public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
-	private static int ID = 0;
+	private static int count = 0;
 
 	/**
 	 * Conditions importer
@@ -185,7 +185,6 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 			EAdCondition initCondition) {
 		SceneElement timer = new SceneElement();
 		timer.setVarInitialValue(SceneElement.VAR_ENABLE, false);
-		timer.setId("timer" + ID++);
 
 		EAdField<Integer> currentTimeField = new BasicField<Integer>(timer,
 				CURRENT_TIME_VAR);
@@ -196,7 +195,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 				SceneElement.VAR_VISIBLE);
 
 		timer.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
-		timer.setPosition(10, 20 * ID - 1 );
+		timer.setPosition(10, 20 * count - 1 );
 
 		// Appearance
 		if (oldTimer.isShowTime()){

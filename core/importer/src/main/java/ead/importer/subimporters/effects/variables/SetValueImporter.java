@@ -56,8 +56,6 @@ public class SetValueImporter extends
 
 	private EAdElementFactory factory;
 
-	private static int ID_GENERATOR = 0;
-
 	@Inject
 	public SetValueImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
@@ -73,7 +71,6 @@ public class SetValueImporter extends
 		MathOp op = new MathOp(
 				oldObject.getValue() + "", var);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
-		effect.setId("changeVarValueFromSet" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		return effect;
 	}

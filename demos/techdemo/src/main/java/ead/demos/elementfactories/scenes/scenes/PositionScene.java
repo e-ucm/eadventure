@@ -47,7 +47,6 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class PositionScene extends EmptyScene {
 
 	public PositionScene() {
-		setId("PositionsScene");
 		getBackground().getDefinition().getResources().addAsset(
 				getBackground().getDefinition().getInitialBundle(),
 				SceneElementDef.appearance,

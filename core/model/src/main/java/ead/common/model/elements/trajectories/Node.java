@@ -43,6 +43,9 @@ import ead.common.model.elements.BasicElement;
 
 @Element
 public class Node extends BasicElement {
+	
+	@Param("nodeId")
+	private String nodeId;
 
 	@Param("x")
 	private int x;
@@ -58,15 +61,14 @@ public class Node extends BasicElement {
 	}
 
 	public Node(String id, int x, int y, float scale) {
-
-		this.id = id;
+		this.nodeId = id;
 		this.x = x;
 		this.y = y;
 		this.scale = scale;
 	}
 
 	public Node(Node n) {
-		this.id = n.id;
+		this.nodeId = n.nodeId;
 		this.x = n.x;
 		this.y = n.y;
 		this.scale = n.scale;

@@ -61,7 +61,6 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class SpeakAndMoveScene extends EmptyScene {
 
 	public SpeakAndMoveScene() {
-		setId("SpeakAndMoveScene");
 		// EAdBasicSceneElement character = EAdElementsFactory
 		// .getInstance()
 		// .getSceneElementFactory()
@@ -91,7 +90,6 @@ public class SpeakAndMoveScene extends EmptyScene {
 		MakeActiveElementEf makeActive = new MakeActiveElementEf(character);
 
 		SceneElementEv event = new SceneElementEv();
-		event.setId("makeAcitveCharacter");
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
 		character.getEvents().add(event);
 

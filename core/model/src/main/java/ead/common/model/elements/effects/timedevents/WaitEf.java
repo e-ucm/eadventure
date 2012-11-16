@@ -76,7 +76,6 @@ public class WaitEf extends AbstractEffect {
 	 */
 	public WaitEf(int time) {
 		super();
-		setId("waitEffect");
 		this.time = time;
 		this.setBlocking(true);
 		this.setOpaque(true);

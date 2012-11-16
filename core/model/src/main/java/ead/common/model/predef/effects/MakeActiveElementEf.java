@@ -55,7 +55,6 @@ public class MakeActiveElementEf extends ChangeFieldEf {
 	
 	public MakeActiveElementEf(EAdSceneElement element) {
 		super(SystemFields.ACTIVE_ELEMENT, new ValueOp(element));
-		setId("makeActiveElement_" + element);
 	}
 	
 	

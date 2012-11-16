@@ -120,7 +120,6 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdSceneElementDef convert(P oldObject, Object object) {
 		SceneElementDef actor = (SceneElementDef) object;
-		actor.setId(oldObject.getId());
 		annotator.annotate(actor, ImportAnnotator.Type.Open);
 		annotator.annotate(actor, ImportAnnotator.Type.Entry, "type", "actor");
 

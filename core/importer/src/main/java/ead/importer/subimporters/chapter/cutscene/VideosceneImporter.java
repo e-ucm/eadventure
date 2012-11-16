@@ -70,7 +70,6 @@ public class VideosceneImporter extends CutsceneImporter<Videoscene> {
 	@Override
 	public VideoScene init(Videoscene oldSlideScene) {
 		VideoScene videoScene = new VideoScene();
-		videoScene.setId(oldSlideScene.getId());
 		return videoScene;
 	}
 

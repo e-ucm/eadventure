@@ -53,8 +53,6 @@ public class RandomEffectImporter extends
 
 	private EffectsImporterFactory effectsImporterFactory;
 
-	private static int ID_GENERATOR = 0;
-
 	@Inject
 	public RandomEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
@@ -66,7 +64,6 @@ public class RandomEffectImporter extends
 	@Override
 	public RandomEf init(RandomEffect oldObject) {
 		RandomEf effect = new RandomEf();
-		effect.setId("randomEffect" + ID_GENERATOR++);
 		return effect;
 	}
 

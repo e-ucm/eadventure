@@ -48,7 +48,6 @@ import ead.common.util.EAdPosition.Corner;
 public class FiltersDemo extends EmptyScene {
 
 	public FiltersDemo() {
-		setId("FiltersDemo");
 		BasicMatrix m = new BasicMatrix();
 		m.scale(-1.0f, 1.0f, true);
 		Image i = new Image("@drawable/ng_key.png");

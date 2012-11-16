@@ -59,11 +59,9 @@ import ead.demos.elementfactories.EAdElementsFactory;
 public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
-		setId("ComplexElementScene");
 		RectangleShape rectangle = new RectangleShape(400, 400);		
 		rectangle.setPaint(Paint.BLACK_ON_WHITE);
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
-		complex.setId("complex");
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 

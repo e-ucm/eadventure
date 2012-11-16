@@ -44,7 +44,6 @@ public class SystemEv extends AbstractEvent {
 
 	public SystemEv() {
 		super();
-		setId("systemEvent");
 	}
 
 }

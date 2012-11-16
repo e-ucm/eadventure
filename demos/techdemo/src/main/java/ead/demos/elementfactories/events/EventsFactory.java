@@ -47,7 +47,6 @@ public class EventsFactory {
 	
 	public SceneElementEv getEvent( SceneElementEvType type, EAdEffect effect ){
 		SceneElementEv event = new SceneElementEv(  );
-		event.setId("scenElementEvent" + ID_GENERATOR++);
 		event.addEffect(type, effect);
 		return event;
 	}

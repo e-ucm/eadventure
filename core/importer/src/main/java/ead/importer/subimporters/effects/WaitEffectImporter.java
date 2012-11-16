@@ -58,7 +58,6 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf>{
 	@Override
 	public WaitEf init(WaitTimeEffect oldObject) {
 		WaitEf waitEffect=  new WaitEf();
-		waitEffect.setId("waitEffect" + ID_GENERATOR);
 		return waitEffect;
 	}
 

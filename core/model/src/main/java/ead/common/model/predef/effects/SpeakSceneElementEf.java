@@ -58,7 +58,6 @@ public class SpeakSceneElementEf extends SpeakEf {
 
 	public SpeakSceneElementEf(EAdElement element) {
 		super();
-		setId("speakSceneElement");
 		this.setElement(element);
 	}
 	

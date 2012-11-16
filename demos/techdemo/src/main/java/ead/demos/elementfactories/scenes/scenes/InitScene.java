@@ -97,7 +97,6 @@ public class InitScene extends EmptyScene {
 			SceneElement info = new SceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			SpeakEf effect = new SpeakEf();
-			effect.setId("infoSpeak");
 			effect.setColor(ColorFill.GRAY, speakPaint);
 			effect.setFont(font);
 			sf.setString(effect.getString(), s.getSceneDescription());

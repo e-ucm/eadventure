@@ -144,7 +144,6 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 		Caption c = new Caption();
 		stringHandler.setString(c.getText(), "Exit");
 		SceneElement button = new SceneElement(c);
-		button.setId("exit_button");
 		c.setBubblePaint(new Paint(new LinearGradientFill(ColorFill.ORANGE,
 				new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
 		c.setPadding(10);

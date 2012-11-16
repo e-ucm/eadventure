@@ -75,19 +75,16 @@ public class NgCommon {
 
 	private static void createEffects() {
 		lookNorth = new ChangeFieldEf();
-		lookNorth.setId("lookNorth");
 		lookNorth.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookNorth.setOperation(new ValueOp(Orientation.N));
 		
 		lookEast = new ChangeFieldEf();
-		lookEast.setId("lookEast");
 		lookEast.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookEast.setOperation(new ValueOp(Orientation.E));
 		
 		lookSouth = new ChangeFieldEf();
-		lookSouth.setId("lookSouth");
 		lookSouth.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookSouth.setOperation(new ValueOp(Orientation.S));

@@ -83,7 +83,6 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 		textCaption.setPreferredHeight(this.getHeight());
 		textCaption.setPreferredWidth(this.getWidth());
 		textElement = sceneElementFactory.get(new SceneElement(textCaption));
-		textElement.getElement().setId("textCaption");
 		textElement.setEnabled(false);
 	}
 

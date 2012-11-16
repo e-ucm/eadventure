@@ -52,7 +52,6 @@ public class Label extends SceneElement {
 	}
 
 	public Label(EAdString string) {
-		setId("label" + string);
 		c = new Caption(string);
 		c.setTextPaint(ColorFill.BLACK);
 		c.setPadding(0);

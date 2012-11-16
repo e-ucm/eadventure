@@ -81,7 +81,6 @@ public class PhysicsEffect extends AbstractEffect {
 
 	public PhysicsEffect() {
 		super();
-		setId("physicsEffect");
 		elements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		joints = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		setBlocking(false);

@@ -50,7 +50,6 @@ public class ChangeCursorEf extends ChangeFieldEf {
 
 	public ChangeCursorEf(EAdImage image) {
 		super();
-		setId("changeCursorEffect");
 		addField(SystemFields.MOUSE_CURSOR);
 		setOperation(new ValueOp(image));
 	}

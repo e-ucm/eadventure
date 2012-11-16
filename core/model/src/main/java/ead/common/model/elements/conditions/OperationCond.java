@@ -68,7 +68,6 @@ public class OperationCond extends AbstractCondition implements
 	public OperationCond(EAdOperation op1, EAdOperation op2,
 			Comparator operator) {
 		super();
-		setId("operationCondition");
 		this.op1 = op1;
 		this.op2 = op2;
 		this.operator = operator;
