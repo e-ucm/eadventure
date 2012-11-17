@@ -82,6 +82,11 @@ public class ObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
+		if (reflectionProvider == null) {
+			throw new IllegalStateException(
+					"ObjectFactory.init() must be called before using it.");
+		}
+
 		if (fieldType == String.class) {
 			return value;
 		} else if (fieldType == Integer.class || fieldType == int.class) {
@@ -94,7 +99,8 @@ public class ObjectFactory {
 			return new Character(value.charAt(0));
 		} else if (fieldType == EAdBundleId.class) {
 			return new EAdBundleId(value);
-		} else if (fieldType == EAdMatrix.class || fieldType == BasicMatrix.class) {
+		} else if (fieldType == EAdMatrix.class
+				|| fieldType == BasicMatrix.class) {
 			return BasicMatrix.parse(value);
 		} else if (fieldType == Class.class) {
 			return getClassFromName(value);
@@ -118,7 +124,7 @@ public class ObjectFactory {
 					proxies.put(value, pending);
 				}
 				ProxyElement proxy = new ProxyElement(value);
-				pending.add(proxy);				
+				pending.add(proxy);
 				return proxy;
 			} else {
 				return element;
@@ -139,15 +145,16 @@ public class ObjectFactory {
 		assetsMap.clear();
 		proxies.clear();
 	}
-	
+
 	public static boolean checkProxies() {
 		return proxies.isEmpty();
 	}
 
 	/**
 	 * Adds an element to the proxies map. Also purges any existing proxies.
+	 * 
 	 * @param id
-	 * @param element 
+	 * @param element
 	 */
 	public static void addElement(String id, EAdElement element) {
 		logger.debug("Element with id {} added to element map", id);
@@ -155,21 +162,23 @@ public class ObjectFactory {
 		ArrayList<ProxyElement> pending = proxies.get(id);
 		if (pending != null) {
 			proxies.remove(id);
-			logger.debug("Finally filling in {} proxies for {}", pending.size(), id);
+			logger.debug("Finally filling in {} proxies for {}",
+					pending.size(), id);
 			for (ProxyElement p : pending) {
 				if (p.getField() != null) {
-					logger.debug("Setting value for {} at {} in {}", 
-							new String[] {id, p.getField().getName(), 
-								NodeVisitor.objectToString(p.getParent())});
-					NodeVisitor.setValue(p.getField(), p.getParent(), element);				
+					logger.debug("Setting value for {} at {} in {}",
+							new String[] { id, p.getField().getName(),
+									NodeVisitor.objectToString(p.getParent()) });
+					NodeVisitor.setValue(p.getField(), p.getParent(), element);
 				} else if (p.getList() != null) {
-					logger.debug("Setting value for {}, element {} of list {}", 
-							new String[] {id, ""+p.getListPos(), ""+p.getList().hashCode()});
+					logger.debug("Setting value for {}, element {} of list {}",
+							new String[] { id, "" + p.getListPos(),
+									"" + p.getList().hashCode() });
 					p.getList().remove(p.getListPos());
 					p.getList().add(element, p.getListPos());
 				} else {
 					logger.warn("Proxy for {} is neither list nor field!", id);
-				}			
+				}
 			}
 		}
 	}
@@ -186,17 +195,17 @@ public class ObjectFactory {
 			Class<? extends EAdParam> clazz) {
 		if (clazz.equals(EAdString.class)) {
 			return new EAdString(value);
-		} else 	if (clazz.equals(ColorFill.class)) {
+		} else if (clazz.equals(ColorFill.class)) {
 			return new ColorFill(value);
-		} else 	if (clazz.equals(LinearGradientFill.class)) {
+		} else if (clazz.equals(LinearGradientFill.class)) {
 			return new LinearGradientFill(value);
-		} else 	if (clazz.equals(Paint.class)) {
+		} else if (clazz.equals(Paint.class)) {
 			return new Paint(value);
-		} else 	if (clazz.equals(EAdPosition.class)) {
+		} else if (clazz.equals(EAdPosition.class)) {
 			return new EAdPosition(value);
-		} else 	if (clazz.equals(EAdRectangle.class)) {
+		} else if (clazz.equals(EAdRectangle.class)) {
 			return new EAdRectangle(value);
-		} else 	if (clazz.equals(EAdURI.class)) {
+		} else if (clazz.equals(EAdURI.class)) {
 			return new EAdURI(value);
 		}
 
@@ -220,8 +229,8 @@ public class ObjectFactory {
 			return String.class;
 		} else {
 			try {
-				Class<?> clazz2 = ReflectionClassLoader
-					.getReflectionClass(	clazz).getType();
+				Class<?> clazz2 = ReflectionClassLoader.getReflectionClass(
+						clazz).getType();
 				return clazz2;
 			} catch (Exception e) {
 				logger.warn(

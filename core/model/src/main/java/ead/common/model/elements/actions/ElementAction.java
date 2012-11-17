@@ -45,7 +45,6 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.annotation.Asset;
 import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.drawable.EAdDrawable;
@@ -63,19 +62,14 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 	@Param("effects")
 	private EAdList<EAdEffect> effects;
 
-	@Param("highlightBundle")
-	private EAdBundleId highlightBundle;
-	
-	public ElementAction(){
-		this( EAdString.newRandomEAdString("name"));
+	public ElementAction() {
+		this(EAdString.newRandomEAdString("name"));
 	}
-	
+
 	public ElementAction(EAdString name) {
 		super();
-		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);		
+		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 		this.name = name;
-		highlightBundle = new EAdBundleId("highlight-"+name);
-		getResources().addBundle(highlightBundle);
 	}
 
 	@Override
@@ -89,23 +83,8 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 	}
 
 	@Override
-	public EAdBundleId getNormalBundle() {
-		return getInitialBundle();
-	}
-	
-	@Override
-	public EAdBundleId getHighlightBundle() {
-		return highlightBundle == null ? this.getInitialBundle() : highlightBundle;
-	}
-
-	@Override
 	public void setName(EAdString name) {
 		this.name = name;
 	}
 
-	public void setHighlightBundle(EAdBundleId highlightBundle) {
-		this.highlightBundle = highlightBundle;
-	}
-
-	
 }

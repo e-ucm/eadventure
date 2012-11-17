@@ -39,16 +39,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ead.editor.model;
+package ead.writer;
 
-import ead.reader.adventure.DOMTags;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.TreeMap;
 
@@ -68,7 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
-import ead.editor.EAdventureEditor;
+import ead.reader.adventure.DOMTags;
 
 /**
  * Utility class that prettifies data.xml files so that they become easier to
@@ -78,7 +76,7 @@ import ead.editor.EAdventureEditor;
  */
 public class DataPrettifier {
 
-    private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
+    private static Logger logger = LoggerFactory.getLogger("DataPrettifier");
 	
     static final public HashSet<String> translatedAttributes = new HashSet<String>();
     static final public String keymapElement = "keyMap";

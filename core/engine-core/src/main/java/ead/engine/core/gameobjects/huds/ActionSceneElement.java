@@ -66,20 +66,6 @@ public class ActionSceneElement extends SceneElement {
 		definition.getResources().addAsset(definition.getInitialBundle(),
 				SceneElementDef.appearance, asset);
 
-		if (eAdAction.getResources().getBundles()
-				.contains(eAdAction.getHighlightBundle())) {
-			definition.getResources().addBundle(eAdAction.getHighlightBundle());
-			definition.getResources().addAsset(
-					eAdAction.getHighlightBundle(),
-					SceneElementDef.appearance,
-					eAdAction.getAsset(eAdAction.getHighlightBundle(),
-							ElementAction.appearance));
-			this.addBehavior(MouseGEv.MOUSE_ENTERED, new ChangeAppearanceEf(
-					this, eAdAction.getHighlightBundle()));
-		} else
-			definition.getResources().addAsset(eAdAction.getHighlightBundle(),
-					SceneElementDef.appearance, asset);
-
 		this.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(this,
 				definition.getInitialBundle()));
 

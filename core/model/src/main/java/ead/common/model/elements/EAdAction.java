@@ -41,7 +41,6 @@ import ead.common.interfaces.features.Resourced;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 
 /**
  * <p>A game action (grab, use, etc.) in the eAdventure model</p>
@@ -64,9 +63,5 @@ public interface EAdAction extends EAdElement, Resourced {
 	 * @return The action name
 	 */
 	EAdString getName();
-
-	EAdBundleId getHighlightBundle();
-
-	EAdBundleId getNormalBundle();
 
 }

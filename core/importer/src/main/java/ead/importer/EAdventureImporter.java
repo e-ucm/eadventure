@@ -60,6 +60,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
 import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
@@ -141,6 +142,7 @@ public class EAdventureImporter {
 	 */
 	public EAdAdventureModel importGame(String eadFile, String destination,
 			String format) {
+		BasicElement.initLastId();
 		// Init importer
 		updateProgress(0, "Starting importer...");
 		stringsHandler.getStrings().clear();
