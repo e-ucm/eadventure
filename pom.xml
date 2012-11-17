@@ -91,12 +91,14 @@
 	<!-- ===================================================================== -->
 	<profiles>
 		<profile>
-			<id>build</id>
+			<!-- builds everything -->
+			<id>all</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
 				<module>build-tools</module>
+
 				<!-- Model: base for all the other projects -->
 				<module>core/model</module>
 				<!-- Tools & Utils -->
@@ -105,6 +107,7 @@
 				<module>core/tools-gwt</module>
 				<module>core/utils</module>
 				<module>core/gui</module>
+
 				<!-- Engine -->
 				<module>core/engine-core</module>
 				<!-- Gdx -->
@@ -112,19 +115,20 @@
 				<module>core/engine-gdx-desktop</module>
 				<module>core/engine-gdx-android</module>
 				<module>core/engine-gdx-html</module>
+
 				<!-- Editor -->
 				<module>core/editor-core</module>
-
-				<!-- XML -->
 				<!-- Reader -->
 				<module>core/reader</module>
 				<!-- Importer -->
 				<module>core/importer</module>
 				<!-- Exporter -->
 				<module>core/exporter</module>
-				<!-- Demos modules -->
+
+				<!-- Demos -->
 				<module>demos/firstaidgame</module>
 				<module>demos/techdemo</module>
+
 				<!-- GUI tools -->
 				<module>guitools/exportergui</module>
 				<module>guitools/enginegui</module>
@@ -143,44 +147,25 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>editor-release</id>
-			<build>
-				<plugins>
-					<!-- Specific plugins to build an editor release -->
-				</plugins>
-			</build>
+			<!-- Editor-only build -->
+			<id>editor</id>
+			<modules>
+				<module>core/editor-core</module>			
+			</modules>
 		</profile>
 		<profile>
-			<id>engine-platform-release</id>
-			<build>
-				<plugins>
-					<!-- Specific plugins to build a desktop release -->
-				</plugins>
-			</build>
+			<!-- Desktop-engine-only build -->
+			<id>engine-desktop</id>
+			<modules>
+				<module>core/engine-gdx-desktop</module>			
+			</modules>
 		</profile>
 		<profile>
-			<id>engine-desktop-release</id>
-			<build>
-				<plugins>
-					<!-- Specific plugins to build a desktop release -->
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>engine-applet-release</id>
-			<build>
-				<plugins>
-					<!-- Specific plugins to build an applet release -->
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>engine-android-release</id>
-			<build>
-				<plugins>
-					<!-- Specific plugins to build an android release -->
-				</plugins>
-			</build>
+			<!-- Android-engine-only build -->
+			<id>engine-android</id>
+			<modules>
+				<module>core/engine-gdx-android</module>			
+			</modules>
 		</profile>
 	</profiles>
 	<!-- ====================================================================== -->
@@ -630,8 +615,8 @@
 			<url>http://www.capricasoftware.co.uk/repo</url>
 		</repository>
 		<repository>
-			<id>mercurial maven repo</id>
-			<name>mercurial maven repo</name>
+			<id>project github maven repo</id>
+			<name>project github maven repo</name>
 			<url>https://github.com/e-ucm/eadventure/raw/master/etc/repository/</url>
 			<snapshots>
 				<enabled>true</enabled>

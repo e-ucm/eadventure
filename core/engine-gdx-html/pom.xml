@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -15,10 +15,9 @@
 	<packaging>war</packaging>
 	<name>eAdventure Gdx HTML</name>
 	<description>
-    GDX / GWT e-Adventure engine; requires GWT SDK to build, generates web app
-  </description>
+		GDX / GWT e-Adventure engine; requires GWT SDK to build, generates web app
+	</description>
 	<build>
-		<!-- <outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory> -->
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -51,7 +50,7 @@
 			</plugin>
 
 			<!-- This configuration is used to store Eclipse m2e settings only. It 
-				has no influence on the Maven build itself. -->
+			has no influence on the Maven build itself. -->
 			<plugin>
 				<groupId>org.eclipse.m2e</groupId>
 				<artifactId>lifecycle-mapping</artifactId>
@@ -108,10 +107,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
-				<configuration>
-					<!-- <buildOutputDirectory>${project.basedir}/war/WEB-INF/classes</buildOutputDirectory> 
-						<warSourceDirectory>${project.basedir}/war</warSourceDirectory> <webXml>${project.basedir}/war/WEB-INF/web.xml</webXml> -->
-				</configuration>
 			</plugin>
 
 		</plugins>
@@ -121,11 +116,24 @@
 		<gwt.module>ead.engine.core.GwtDefinition</gwt.module>
 		<gwt.version>2.4.0</gwt.version>
 		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
-<!--
-	copy and paste outside the comment to enable ridiculous amounts of debugging output
-		<gwt.logLevel>DEBUG</gwt.logLevel> 
--->
+		<!--
+			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output
+				<gwt.logLevel>DEBUG</gwt.logLevel> 
+		-->
 	</properties>
+
+	<profiles>
+		<profile>
+			<!-- does not actually compile GWT; only validates it -->
+			<id>no-gwt</id>
+			<properties>
+				<gwt.validateOnly>true</gwt.validateOnly>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
 
 	<dependencies>
 
@@ -202,7 +210,7 @@
 		</dependency>
 
 		<!-- FIXME: Source are required in order to make gwt compilation. There's 
-			probably another way to do this, since the code is already in the above jar -->
+		probably another way to do this, since the code is already in the above jar -->
 		<dependency>
 			<groupId>es.eucm.glas</groupId>
 			<artifactId>glas-tracker-gwt</artifactId>
