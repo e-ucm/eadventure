@@ -90,7 +90,7 @@ public class EAdventureEditor implements Launcher {
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
 
 //            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
-//            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
 
 //            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
 			

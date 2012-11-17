@@ -148,7 +148,7 @@ public class EditorModelTest {
 	 */
 	private void testImportLoad(File oldEadFile, File newProjectFolder)
 			throws IOException {
-		model.loadFromImportFile(oldEadFile, newProjectFolder);
+		model.getLoader().loadFromImportFile(oldEadFile, newProjectFolder);
 	}
 
 	/**
@@ -156,14 +156,14 @@ public class EditorModelTest {
 	 * loaded)
 	 */
 	private void testSave(File saveFile) throws IOException {
-		model.save(saveFile);
+		model.getLoader().save(saveFile);
 	}
 
 	/**
 	 * Test loading editor-model from new format (created using testSave)
 	 */
 	private void testLoad(File saveFile) throws IOException {
-		model.load(saveFile);
+		model.getLoader().load(saveFile);
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -137,7 +137,7 @@ public class FileMenu extends AbstractEditorMenu {
          * @return
          */
         public boolean allowChanceToSave(String message) {
-            if (controller.getModel().initialized()
+            if (controller.getModel().getEngineModel() != null
                     && controller.getCommandManager().isChanged()) {
                 int rc = JOptionPane.showConfirmDialog(null, message,
                         Messages.file_menu_confirm_destructive_op,
@@ -315,7 +315,7 @@ public class FileMenu extends AbstractEditorMenu {
 
         @Override
         public void processChange(Object event) {
-            setEnabled(controller.getModel().initialized());
+            setEnabled(controller.getModel().getEngineModel() != null);
         }
     }
 
@@ -355,7 +355,7 @@ public class FileMenu extends AbstractEditorMenu {
 
         @Override
         public void processChange(Object event) {
-            setEnabled(controller.getModel().initialized());
+            setEnabled(controller.getModel().getEngineModel() != null);
         }
     }
 

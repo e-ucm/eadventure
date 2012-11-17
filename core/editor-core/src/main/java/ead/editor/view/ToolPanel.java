@@ -150,8 +150,8 @@ public class ToolPanel implements ChangeListener {
                 NavigationController nm = controller.getNavigationController();
 				forwardButton.setEnabled(nm.canGoForward());
 				backwardButton.setEnabled(nm.canGoBackward());
-                searchField.setEnabled(controller.getModel().initialized());
-                searchButton.setEnabled(controller.getModel().initialized());
+                searchField.setEnabled(controller.getModel().getEngineModel() != null);
+                searchButton.setEnabled(controller.getModel().getEngineModel() != null);
 				toolPanel.repaint();
 			}
 		});

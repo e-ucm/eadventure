@@ -54,6 +54,7 @@ import ead.editor.model.visitor.ModelVisitorDriver;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +82,22 @@ public class EngineNode<T> extends DependencyNode<T> {
 		appendDescription(m, content, sb, 0, 3);
 		return sb.toString();
 	}
+	
+	public String formatIds(List<DependencyNode> list) {
+		StringBuilder sb = new StringBuilder(" ");
+		for (DependencyNode n : list) {
+			sb.append("(").append(n.getId()).append(") ");
+		}
+		return sb.toString();
+	}
 
+	private void appendDependencies(DependencyNode n, EditorModel m, StringBuilder sb) {
+		sb
+			.append("Used from ")
+			.append(formatIds(m.outgoingDependencies(this)))
+			.append("\n");
+	}
+	
 	/**
 	 * Returns a descriptive string for a given object.
 	 * @param o object to drive into.
@@ -100,7 +116,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 			return;
         }
 
-		String id = "" + m.getIdFor(o);
+		String id = "" + m.getEditorId(o);
 		String cname = o.getClass().getSimpleName();
 		if (o instanceof EAdElement) {
             if (o instanceof VarDef) {
@@ -110,8 +126,14 @@ public class EngineNode<T> extends DependencyNode<T> {
                         + v.getName() + " = "
                         + v.getInitialValue()
                         + "\n");
+				if (depth != maxDepth) {
+					appendDependencies(this, m, sb);
+				}
             } else {
                 sb.append(indent + cname + " (" + id + ")" + "\n");
+				if (depth != maxDepth) {
+					appendDependencies(this, m, sb);
+				}
                 appendParams(m, o, sb, depth, maxDepth);
             }
 		} else if (o instanceof EAdList) {
@@ -161,6 +183,9 @@ public class EngineNode<T> extends DependencyNode<T> {
 					+ ((EAdAssetDescriptor)o).getAssetId()
 					+ "\n");
 			appendParams(m, o, sb, depth, maxDepth);
+			if (depth != maxDepth) {
+				appendDependencies(this, m, sb);
+			}			
 		} else if (o instanceof Class) {
 			sb.append(indent + ((Class<?>) o).getName() + "\n");
 		} else {

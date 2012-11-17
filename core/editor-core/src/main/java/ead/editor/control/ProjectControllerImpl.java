@@ -78,7 +78,7 @@ public class ProjectControllerImpl implements ProjectController {
 	public void load(String projectURL) {
 		controller.getCommandManager().clearCommands();
 		try {
-			controller.getModel().load(new File(projectURL));
+			controller.getModel().getLoader().load(new File(projectURL));
             notifyListeners("Loaded ok");
 			controller.getViewController().clearViews();
 			controller.getViewController().restoreViews();
@@ -92,7 +92,7 @@ public class ProjectControllerImpl implements ProjectController {
 	public void doImport(String sourceURL, String projectURL) {
 		controller.getCommandManager().clearCommands();
 		try {
-			controller.getModel().loadFromImportFile(
+			controller.getModel().getLoader().loadFromImportFile(
                     new File(sourceURL), new File(projectURL));
             notifyListeners("Imported ok");
 			controller.getViewController().clearViews();
@@ -108,7 +108,7 @@ public class ProjectControllerImpl implements ProjectController {
 	public void save() {
 		try {
 			controller.getViewController().saveViews();
-			controller.getModel().save(null);
+			controller.getModel().getLoader().save(null);
 		} catch (IOException ex) {
 			logger.warn("Error saving to previous dir.", ex);
 		    SwingUtilities.showExceptionDialog(ex);
@@ -119,7 +119,7 @@ public class ProjectControllerImpl implements ProjectController {
 	public void saveAs(String projectURL) {
 		try {
 			controller.getViewController().saveViews();
-			controller.getModel().save(new File(projectURL));
+			controller.getModel().getLoader().save(new File(projectURL));
 		} catch (IOException ex) {
 			logger.warn("Error saving {}", projectURL, ex);
 		    SwingUtilities.showExceptionDialog(ex);
@@ -144,7 +144,7 @@ public class ProjectControllerImpl implements ProjectController {
 		EditorModel em = controller.getModel();
 		GameLoader g = controller.getGameLoader();
 		GdxAssetHandler h = controller.getAssetHandler();
-		((GdxEditorAssetHandler)h).setResourcePath(em.getResourcePath());
+		((GdxEditorAssetHandler)h).setResourcePath(em.getLoader().getSaveDir());
 
 		controller.getGameWindow().setVisible(true);
 		

@@ -96,8 +96,8 @@ public class RunMenu extends AbstractEditorMenu {
          * @return
          */
         public boolean allowChanceToSave(String message) {
-            if (controller.getModel().initialized()
-                    && controller.getCommandManager().isChanged()) {
+            if (controller.getModel().getEngineModel() != null
+					&& controller.getCommandManager().isChanged()) {
                 int rc = JOptionPane.showConfirmDialog(null, message,
                         Messages.run_menu_confirm_save_before_run,
                         JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);

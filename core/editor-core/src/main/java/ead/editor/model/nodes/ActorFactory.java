@@ -37,17 +37,13 @@
 
 package ead.editor.model.nodes;
 
-import ead.editor.model.nodes.ActorNode;
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.editor.model.EditorAnnotator;
-import ead.editor.model.EditorModel;
-import ead.importer.annotation.ImportAnnotator;
 import java.util.ArrayList;
-import java.util.TreeMap;
-import org.jgrapht.graph.ListenableDirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.editor.model.EditorModelImpl;
 
 /**
  * A factory that recognizes attrezzo-nodes
@@ -58,21 +54,15 @@ public class ActorFactory implements EditorNodeFactory {
 
     /**
      * Find and create EditorNodes for actors
-     * @param g node graph; may contain no EditorNodes
      * @param annotator annotations for nodes (by ID)
-     * @param nodesById nodes in graph, by ID
      * @param model where the nodes should be inserted, via registerEditorNode
      */
     @Override
-    public void createNodes(
-            ListenableDirectedGraph<DependencyNode, DependencyEdge> g,
-            EditorAnnotator annotator,
-            TreeMap<Integer, DependencyNode> nodesById,
-            EditorModel model) {
+    public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
 
         ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
 
-        for (DependencyNode n : nodesById.values()) {
+        for (DependencyNode n : model.getNodesById().values()) {
             if ( ! (n instanceof EngineNode)
                     || ! (n.getContent() instanceof EAdElement)) {
                 continue;

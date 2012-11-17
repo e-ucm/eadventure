@@ -117,6 +117,17 @@ public class EditorAnnotator implements ImportAnnotator {
         stack.clear();
         annotations.clear();
     }
+	
+	/**
+	 * Ids may be changed by the editor; this makes sure that the 'get'
+	 * operation works with updated ids.
+	 */
+	public void rebuild() {
+		HashMap<EAdElement, ArrayList<Annotation>> backup =
+            new HashMap<EAdElement, ArrayList<Annotation>>();
+		backup.putAll(annotations);
+		annotations = backup;
+	}
 
     public ArrayList<Annotation> get(EAdElement element) {
         ArrayList<Annotation> al = annotations.get(element);
