@@ -44,6 +44,7 @@ package ead.utils;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -423,13 +424,38 @@ public class FileUtils {
 	}
 
 	/**
+	 * Loads a zip entry into a string, using UTF-8 encoding
+	 * @param f the zip-file
+	 * @param e the entry-name
+	 * @return the string
+	 * @throws IOException 
+	 */
+	public static String loadZipEntryToString(File f, String e) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = null;
+        try {
+        	r = new BufferedReader(new InputStreamReader(
+					readEntryFromZip(f, e), Charset.forName("UTF-8")));
+        	String line;
+        	while ((line=r.readLine()) != null ){
+        		sb.append(line);
+        	}
+			return sb.toString();
+        } finally {
+        	if (r != null){
+        		r.close();
+        	}
+        }		
+	}
+	
+	/**
 	 * Writes a string into a file, using UTF-8 encoding
 	 * @param s the string
 	 * @param f the file
 	 * @throws IOException 
 	 */
 	public static void writeStringToFile(String s, File f) throws IOException {
-        BufferedWriter w = null;
+		BufferedWriter w = null;
         try {
         	w = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(f), Charset.forName("UTF-8")));
@@ -440,4 +466,25 @@ public class FileUtils {
         	}
         }		
 	}
+	
+	/**
+	 * Utility method to write generic to files
+	 * @param is
+	 * @param f
+	 * @throws IOException 
+	 */
+	public static void writeToFile(InputStream is, File f) throws IOException {
+		copy(is, new FileOutputStream(f));
+	}
+	
+	/**
+	 * Writes a string into a file, using UTF-8 encoding
+	 * @param s the string
+	 * @param f the zip-file
+	 * @param e the path of the entry
+	 * @throws IOException 
+	 */
+	public static void writeStringToZipEntry(String s, File f, String e) throws IOException {
+		appendEntryToZip(f, e, new ByteArrayInputStream(s.getBytes("UTF-8")));
+	}	
 }

@@ -37,8 +37,11 @@
 
 package ead.editor.model;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -50,15 +53,18 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import ead.common.model.EAdElement;
 import ead.editor.EditorGuiceModule;
 import ead.editor.GdxEditorModule;
 import ead.editor.model.nodes.DependencyNode;
 import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
+import junit.framework.Assert;
 
 /**
  *
@@ -90,8 +96,16 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
 				Log4jConfig.Slf4jLevel.Debug, });
 
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxEditorModule(), new EditorGuiceModule(), new JavaToolsModule());
+		Injector injector = Guice.createInjector(
+				new BaseImporterModule(),
+				new GdxEditorModule(), 
+				new EditorGuiceModule(), 
+				new JavaToolsModule());
+
+		// init reflection
+		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+		
 		model = injector.getInstance(EditorModel.class);
 	}
 
@@ -105,6 +119,34 @@ public class EditorModelTest {
 	@Test
 	public void testLoadFromImportFile() {
 		System.out.println("loadFromImportFile");
+		URL fileUrl = Thread.currentThread().getContextClassLoader().getResource(
+				"ead/editor/model/test.ead");
+		File f = new File(fileUrl.getPath());
+		
+		assertTrue(f.exists());
+
+		try {
+			File eadtemp = File.createTempFile("eadTemp",
+					Long.toString(System.nanoTime()));
+
+			if (!(eadtemp.delete())) {
+				throw new IOException("Could not delete temp file: "
+						+ eadtemp.getAbsolutePath());
+			}
+
+			if (!(eadtemp.mkdir())) {
+				throw new IOException("Could not create temp directory: "
+						+ eadtemp.getAbsolutePath());
+			} 
+			model.getLoader().loadFromImportFile(f, eadtemp);
+			assertTrue(new File(eadtemp, "data.xml").isFile());
+			assertTrue(new File(eadtemp, "editor.xml").isFile());
+			assertTrue(new File(eadtemp, "strings.xml").isFile());
+			FileUtils.deleteRecursive(eadtemp);			
+		} catch (IOException ex) {
+			logger.error("Test failed due to exception", ex);
+			Assert.fail();
+		}
 	}
 
 	/**
@@ -121,15 +163,23 @@ public class EditorModelTest {
 	@Test
 	public void testLoad() throws Exception {
 		System.out.println("load");
+		URL fileUrl = Thread.currentThread().getContextClassLoader().getResource(
+				"ead/editor/model/saved.zip");
+		File f = new File(fileUrl.getPath());
+		
+		assertTrue(f.exists());
+		model.getLoader().load(f);
 	}
 
 	// --- non-automated tests ---
 	/**
 	 * Tests indexing and searching
 	 */
-	private void testSimpleSearch() {
+	@Test
+	public void testSimpleSearch() throws Exception {
+		testLoad();
 		String s = "disp_x";
-		logger.info("Now searching for '" + s + "' in all fields, all nodes...");
+		int matches=0;
 		for (DependencyNode e : model.searchAll(s)) {
 			logger.info("found: "
 					+ e.getId()
@@ -140,7 +190,9 @@ public class EditorModelTest {
 					+ " :: "
 					+ (e.getContent() instanceof EAdElement ? ((EAdElement) e
 							.getContent()).getId() : "??"));
+			matches ++;
 		}
+		Assert.assertEquals(1, matches);
 	}
 
 	/**

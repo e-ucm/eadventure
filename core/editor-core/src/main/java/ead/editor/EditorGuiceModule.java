@@ -50,6 +50,8 @@ import ead.editor.control.ProjectController;
 import ead.editor.control.ProjectControllerImpl;
 import ead.editor.control.ViewController;
 import ead.editor.model.EditorAnnotator;
+import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModelImpl;
 import ead.editor.view.EditorWindow;
 import ead.importer.annotation.ImportAnnotator;
 
@@ -62,6 +64,8 @@ public class EditorGuiceModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
+		bind(EditorModel.class).to(EditorModelImpl.class);
+		
 		bind(EditorConfig.class).to(EditorConfigImpl.class);
 		bind(Controller.class).to(ControllerImpl.class);
 		bind(CommandManager.class).to(CommandManagerImpl.class);

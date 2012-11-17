@@ -37,11 +37,14 @@
 
 package ead.editor.model;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -57,6 +60,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.google.inject.Inject;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
@@ -124,13 +128,26 @@ public class EditorModelLoader {
 	/**
 	 * Name of file with editor-node descriptions
 	 */
-	private static final String editorNodeFile = "editor.xml";
+	private static final String editorModelFile = "editor.xml";
+	/**
+	 * Name of file with strings
+	 */
+	private static final String stringsFile = "strings.xml";
+	/**
+	 * Name of file with engine properties
+	 */
+	private static final String enginePropertiesFile = "ead.properties";
+	/**
+	 * Name of all-important data-file with engine properties
+	 */
+	private static final String engineModelFile = "data.xml";
 
 	/**
 	 * Model to load or save; must be set before any operation is performed
 	 */
 	private EditorModelImpl model;
 	
+	@Inject
 	public EditorModelLoader(XMLParser parser, EAdventureImporter importer,
 			EAdAdventureModelWriter writer, ImportAnnotator annotator) {
 
@@ -159,6 +176,8 @@ public class EditorModelLoader {
 		importer.createGameFile((EAdAdventureModel) model.getEngineModel(),
 				saveDir.getAbsolutePath(), target.getAbsolutePath(), ".eap",
 				"Editor project, exported", true);
+		// always adds the mappings, to allow editing it once again
+		writeEditorNodes(target);
 	}
 	
 
@@ -168,7 +187,7 @@ public class EditorModelLoader {
 	 * @param dest
 	 * @return number of mappings written
 	 */
-	private int writeMappingsToFile(File dest) throws IOException {
+	private int writeEditorNodes(File target) throws IOException {
 		int mappings = 0;
 		StringBuilder sb = new StringBuilder("<editorNodes>\n");
 		for (DependencyNode n : model.getNodesById().values()) {
@@ -180,9 +199,15 @@ public class EditorModelLoader {
 			}
 		}
 		ByteArrayInputStream bis = new ByteArrayInputStream(sb
-				.append("</editorNodes>\n").toString().getBytes("UTF-8"));
-		OutputStream fos = new FileOutputStream(dest);
-		FileUtils.copy(bis, fos);
+				.append("</editorNodes>\n").toString().getBytes("UTF-8"));		
+		OutputStream fos;
+		
+		if (target.isFile()) {
+			FileUtils.appendEntryToZip(target, editorModelFile, bis);
+		} else {
+			FileUtils.writeToFile(bis, new File(target, editorModelFile));
+		}
+		
 		return mappings;
 	}
 
@@ -192,11 +217,19 @@ public class EditorModelLoader {
 	 * @param source
 	 * @return number of mappings read
 	 */
-	private int readEditorNodesFromFile(File source) throws IOException {
+	private int readEditorNodes(File source) throws IOException {
+		InputStream input;
+		if (source.isFile()) {
+			input = FileUtils.readEntryFromZip(source, editorModelFile);
+		} else {
+			input = new BufferedInputStream(new FileInputStream(
+					new File(source, editorModelFile)));
+		}
+		
 		int read = 0;
 		try {
 			Document doc = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(source);
+					.newDocumentBuilder().parse(input);
 			ClassLoader cl = this.getClass().getClassLoader();
 			NodeList nodes = doc.getElementsByTagName("node");
 			logger.debug("Parsed {} fine; {} mappings read OK", new Object[] {
@@ -252,12 +285,11 @@ public class EditorModelLoader {
 	private DependencyNode createOrUnfreezeNode(Object targetContent) {
 
 		DependencyNode node;
-		int eid = model.badElementId;
 		if (targetContent instanceof EAdElement) {
 			EAdElement e = (EAdElement)targetContent;
-			eid = model.getEditorId(targetContent);
+			int eid = model.getEditorId(targetContent);
 			if (eid != model.badElementId) {
-				// content is eadElement, and has editor-anotation: unfreeze
+				// content is eadElement, and has editor-id: unfreeze
 				logger.debug("Found existing eID marker in {}: {}",
 						targetContent.getClass().getSimpleName(), e.getId());
 				node = model.getNodesById().get(eid);
@@ -275,7 +307,7 @@ public class EditorModelLoader {
 					}
 				}
 			} else {
-				// content is eadElement, but has no editor-annotation: add it
+				// content is eadElement, but has no editor-id: add it
 				String decorated = null;
 				if (isLoading) {
 					logger.error("Loaded EAdElement {} of type {} had no editor ID",
@@ -293,8 +325,8 @@ public class EditorModelLoader {
 				}
 			}
 		} else {
-			// content cannot have editor-annotations at all (it is transient)
-			eid = model.generateId(targetContent);
+			// content cannot have true editor-id at all (it is transient)
+			int eid = model.generateId(targetContent);
 			logger.debug("Created eID for non-persited {}: {}", new Object[] {
 					targetContent.getClass().getSimpleName(), eid });
 			node = new EngineNode(eid, targetContent);
@@ -424,7 +456,7 @@ public class EditorModelLoader {
 		// write extra xml file to it
 		model.updateProgress(80, "Writing editor model ...");
 		try {
-			writeMappingsToFile(new File(fout, editorNodeFile));
+			writeEditorNodes(fout);
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", fout, ioe);
 		}
@@ -461,8 +493,13 @@ public class EditorModelLoader {
         saveDir = sourceDir;
         model.updateProgress(10, "Reading engine model ...");
 
-		String xml = FileUtils.loadFileToString(new File(saveDir, "data.xml"));
-        model.setEngineModel(reader.readXML(xml.toString()));
+		String xml;
+		if (sourceDir.isFile()) {
+			xml = FileUtils.loadZipEntryToString(saveDir, engineModelFile);
+		} else {			
+			xml = FileUtils.loadFileToString(new File(saveDir, engineModelFile));
+		}
+        model.setEngineModel(reader.readXML(xml));
 
 		model.updateProgress(50, "Reading strings and engine properties ...");
 		loadStringsAndProperties(saveDir);
@@ -482,7 +519,7 @@ public class EditorModelLoader {
 		model.setLastElementNodeId(highestAssigned+1);
 		
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
-        readEditorNodesFromFile(new File(sourceDir, editorNodeFile));
+        readEditorNodes(sourceDir);
 
         // index & write extra XML
         model.updateProgress(90, "Indexing model ...");
@@ -501,9 +538,15 @@ public class EditorModelLoader {
 	 */
 	private void loadStringsAndProperties(File base) {
 		try {
-			String strings = FileUtils.loadFileToString(new File(base, "strings.xml"));
-			String properties = FileUtils.loadFileToString(new File(base, "ead.properties"));
-
+			String strings, properties;
+			if (base.isFile()) {
+				strings = FileUtils.loadZipEntryToString(base, stringsFile);
+				properties = FileUtils.loadZipEntryToString(base, enginePropertiesFile);				
+			} else {
+				strings = FileUtils.loadFileToString(new File(base, stringsFile));
+				properties = FileUtils.loadFileToString(new File(base, enginePropertiesFile));
+			}
+				
 			// FIXME - only reads the current-language versions
 			StringsReader sr = new StringsReader(parser);
 			EditorStringHandler stringHandler = new EditorStringHandler();
@@ -526,16 +569,33 @@ public class EditorModelLoader {
 	 */
 	private void saveStringsAndProperties(File base) {
 		try {
+			ByteArrayOutputStream stringOutput = new ByteArrayOutputStream();
+			ByteArrayOutputStream propertiesOutput = new ByteArrayOutputStream();
+		
 			// FIXME - only writes the current-language versions
 			StringWriter sw = new StringWriter();
-			sw.write(base + File.separator + "strings.xml",
-				model.getStringHandler().getStrings());
+			sw.write(stringOutput, model.getStringHandler().getStrings());
 			logger.info("Wrote {} strings", model.getStringHandler().getStrings().size());
 
 			Properties p = new Properties();
 			p.putAll(model.getEngineProperties());
-			p.store(new FileWriter(new File(base, "ead.properties")),
+			p.store(propertiesOutput,
 					"Saved from editor on " + (new GregorianCalendar()));
+			
+			if (base.isFile()) {
+				ByteArrayInputStream bis;
+				bis = new ByteArrayInputStream(stringOutput.toByteArray());
+				FileUtils.appendEntryToZip(base, stringsFile, bis);
+				bis = new ByteArrayInputStream(propertiesOutput.toByteArray());
+				FileUtils.appendEntryToZip(base, enginePropertiesFile, bis);
+			} else {
+				ByteArrayInputStream bis;
+				bis = new ByteArrayInputStream(stringOutput.toByteArray());
+				FileUtils.writeToFile(bis, new File(base, stringsFile));
+				bis = new ByteArrayInputStream(propertiesOutput.toByteArray());
+				FileUtils.writeToFile(bis, new File(base, enginePropertiesFile));
+			}
+			
 			logger.info("Wrote {} engine properties", model.getEngineProperties().size());
 		} catch (Exception e) {
 			logger.error("Could not write strings or properties", e);
@@ -561,6 +621,7 @@ public class EditorModelLoader {
 		if (target != null && saveDir != target) {
 			// copy over all resource-files first
 			model.updateProgress(10, "Copying resources to new destination ...");
+			// works for zip-files as well as for whole folders
 			FileUtils.copyRecursive(saveDir, null, target);
 		} else if (target == null && saveDir != null) {
 			target = saveDir;
@@ -577,7 +638,7 @@ public class EditorModelLoader {
 		model.updateProgress(80, "Writing editor model ...");
 		int mappings = 0;
 		try {
-			mappings = writeMappingsToFile(new File(target, editorNodeFile));
+			mappings = readEditorNodes(target);
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}
