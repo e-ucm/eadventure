@@ -36,6 +36,6 @@
  */
 
 /**
- * Collection of utility interfaces and classes.
+ * Java-specific (non-GWT) utility classes
  */
-package ead.utils;
+package ead.tools.java;
