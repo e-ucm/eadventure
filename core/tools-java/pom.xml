@@ -29,6 +29,11 @@
 			<artifactId>tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- external -->
 		<dependency>

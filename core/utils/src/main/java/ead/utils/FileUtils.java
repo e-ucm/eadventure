@@ -35,12 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ead.utils;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -71,10 +68,17 @@ public class FileUtils {
 
     private static final Logger logger = LoggerFactory.getLogger("FileUtils");
     /** All zip files start with these bytes */
-    private static int[] zipMagic = new int[]{0x50, 0x4b};
+    public static int[] zipMagic = new int[]{0x50, 0x4b};
     /** Size of buffer for stream operations */
     private static final int BUFFER_SIZE = 1024;
 
+	/**
+	 * Returns the inputStream for a single zip-file entry.
+	 * @param zipFile
+	 * @param entryName
+	 * @return the requested input stream
+	 * @throws IOException on error
+	 */
     public static InputStream readEntryFromZip(File zipFile, String entryName) throws IOException {
         ZipFile zip = new ZipFile(zipFile);
         return zip.getInputStream(zip.getEntry(entryName));
@@ -141,8 +145,8 @@ public class FileUtils {
         boolean errors = false;        
         ZipOutputStream out = null;
         File tempFile = File.createTempFile("ead-copy-zip", null);
+        ZipFile source = new ZipFile(zipFile);
         try {
-            ZipFile source = new ZipFile(zipFile);
             out = new ZipOutputStream(new BufferedOutputStream(
                     new FileOutputStream(tempFile)));
 
@@ -156,20 +160,22 @@ public class FileUtils {
                 }
                 out.putNextEntry(ze);
                 if (!ze.isDirectory()) {
-                    copy(source.getInputStream(ze), out);
+                    copy(source.getInputStream(ze), out, false);
                 }
-                out.closeEntry();
             }
 
             // now, append the file
             ZipEntry ze = new ZipEntry(entryName);
             out.putNextEntry(ze);
-            copy(is, out);
+            copy(is, out, false);
             out.closeEntry();
         } catch (Exception e) {
             logger.error("Error outputting zip to {}", zipFile, e);
             errors = true;
         } finally {
+			if (source != null) {
+				source.close();
+			}
             if (out != null) {
                 try {
                     out.close();
@@ -189,6 +195,7 @@ public class FileUtils {
                 }
             }
         }
+		
         if (!errors) {
             // try to switch original source with temp target
             zipFile.delete();
@@ -206,12 +213,13 @@ public class FileUtils {
     }
 
     /**
-     * Pump from input to output. Closes both when finished
+     * Pump from input to output. Closes input, and optionally output, when finished
      * @param input
      * @param output
+	 * @param closeOutput if true, output will be closed when finished
      * @throws IOException
      */
-    public static void copy(InputStream input, OutputStream output) throws IOException {
+    public static void copy(InputStream input, OutputStream output, boolean closeOutput) throws IOException {
         int len;
         byte[] b = new byte[BUFFER_SIZE];
         try {
@@ -220,39 +228,22 @@ public class FileUtils {
             }
         } finally {
             input.close();
-            output.close();
+            if (closeOutput) {
+				output.close();
+			}
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        // read war.zip and write to append.zip
-        ZipFile war = new ZipFile("war.zip");
-        ZipOutputStream append = new ZipOutputStream(new FileOutputStream("append.zip"));
-
-        // first, copy contents from existing war
-        Enumeration<? extends ZipEntry> entries = war.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry e = entries.nextElement();
-            System.out.println("copy: " + e.getName());
-            append.putNextEntry(e);
-            if (!e.isDirectory()) {
-                copy(war.getInputStream(e), append);
-            }
-            append.closeEntry();
-        }
-
-        // now append some extra content
-        ZipEntry e = new ZipEntry("answer.txt");
-        System.out.println("append: " + e.getName());
-        append.putNextEntry(e);
-        append.write("42\n".getBytes());
-        append.closeEntry();
-
-        // close
-        war.close();
-        append.close();
-    }
-
+    /**
+     * Pump from input to output. Closes both when finished
+     * @param input
+     * @param output
+     * @throws IOException
+     */
+	public static void copy(InputStream input, OutputStream output) throws IOException {
+		copy(input, output, true);
+	}
+	
     /**
      * Uncompresses a zip file into a directory
      */
@@ -319,12 +310,9 @@ public class FileUtils {
             in = new FileInputStream(f);
             return startMatches(in, magic);
         } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e) {
-            };
+			if (in != null) {
+				in.close();
+			}
         }
     }
 
@@ -353,9 +341,8 @@ public class FileUtils {
             for (File file : f.listFiles()) {
                 deleteRecursive(file);
             }
-        } else {
-            f.delete();
         }
+        f.delete();        
     }
 
     /**
@@ -388,6 +375,9 @@ public class FileUtils {
 
     public static File createTempDir(String prefix, String suffix) throws IOException {
         try {
+			if (suffix == null) {
+				suffix = "" + (System.currentTimeMillis() % 1000);
+			}
             File tempFile = File.createTempFile(prefix, suffix);
             tempFile.delete();
             tempFile.mkdirs();
@@ -487,4 +477,37 @@ public class FileUtils {
 	public static void writeStringToZipEntry(String s, File f, String e) throws IOException {
 		appendEntryToZip(f, e, new ByteArrayInputStream(s.getBytes("UTF-8")));
 	}	
+	
+	public static boolean isFileBinaryEqual(File first, File second) throws IOException {
+		return sameContents(
+				new BufferedInputStream(new FileInputStream(first)), 
+				new BufferedInputStream(new FileInputStream(second)));
+	}
+	
+	public static boolean sameContents(InputStream a, InputStream b) throws IOException {
+		boolean same = true;
+		boolean finished = false;
+		try {
+			while (same && ! finished) {
+				int one = a.read();
+				int another = b.read();
+				if (one != another) {
+					same = false;
+				} else if (one == -1) {
+					finished = true;
+				}				
+			}
+		} finally {
+			try {
+				if (a != null) {
+					a.close();
+				}
+			} finally {
+				if (b != null) {
+					b.close();
+				}
+			}			
+		}
+		return same;
+	}
 }
