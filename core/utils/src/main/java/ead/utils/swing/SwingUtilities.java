@@ -100,7 +100,7 @@ abstract public class SwingUtilities {
         javax.swing.SwingUtilities.invokeLater(doRun);
     }
 
-    static public <T> T doInEDT(final ReturnnableRunnable<T> doRun) {
+    static public <T> T doInEDT(final ReturnableRunnable<T> doRun) {
         final Pointer<T> pointer = new Pointer<T>();
         doInEDT(new Runnable() {
 
@@ -111,7 +111,7 @@ abstract public class SwingUtilities {
         return pointer.reference;
     }
 
-    static public <T> T doInEDTNow(final ReturnnableRunnable<T> doRun) {
+    static public <T> T doInEDTNow(final ReturnableRunnable<T> doRun) {
         final Pointer<T> pointer = new Pointer<T>();
         doInEDTNow(new Runnable() {
 
