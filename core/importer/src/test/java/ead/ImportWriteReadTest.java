@@ -37,7 +37,6 @@
 
 package ead;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -45,6 +44,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import org.junit.Before;
@@ -52,15 +52,20 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
+import ead.importer.ImporterModule;
 import ead.reader.adventure.AdventureReader;
 import ead.reader.adventure.ObjectFactory;
-import ead.tools.java.FileUtils;
+import ead.tools.java.JavaToolsModule;
 import ead.tools.java.reflection.JavaReflectionClassLoader;
 import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
 import ead.tools.reflection.ReflectionClassLoader;
+import ead.utils.FileUtils;
+import ead.utils.Log4jConfig;
 import ead.writer.DataPrettifier;
 import ead.writer.EAdAdventureModelWriter;
 
@@ -73,121 +78,84 @@ public class ImportWriteReadTest {
 	private AdventureReader reader;
 	private EAdAdventureModelWriter writer;
 
+	public ImportWriteReadTest() {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, null);		
+	}
+	
 	@Before
 	public void setUp() {
-		importer = new EAdventureImporter();
+		Injector i = Guice.createInjector(
+			new ImporterModule(),
+			new JavaToolsModule()
+		);
+		
+		importer = i.getInstance(EAdventureImporter.class);
 		reader = new AdventureReader(new JavaXMLParser());
 		writer = new EAdAdventureModelWriter();
 		ObjectFactory.init(new JavaReflectionProvider());
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 	}
+	
+	private static File getFile(String name) {
+		File f = new File(ClassLoader.getSystemResource(name).getPath());
+		assertTrue(f.exists());
+		return f;
+	}
 
 	@Test
-	public void testImport() {
+	public void testImport() throws Exception {
 
-		File f = new File(ClassLoader.getSystemResource(
+		File testFile = new File(ClassLoader.getSystemResource(
 				"ead/importer/test/test.ead").getPath());
 
-		assertTrue(f.exists());
-
+		assertTrue(testFile.exists());
+		boolean errors = false;
+		File tmpDir = FileUtils.createTempDir("test", "import");
 		try {
-			File eadtemp = File.createTempFile("eadTemp",
-					Long.toString(System.nanoTime()));
-
-			if (!(eadtemp.delete())) {
-				throw new IOException("Could not delete temp file: "
-						+ eadtemp.getAbsolutePath());
-			}
-
-			if (!(eadtemp.mkdir())) {
-				throw new IOException("Could not create temp directory: "
-						+ eadtemp.getAbsolutePath());
-			}
-
-			EAdAdventureModel model = importer.importGame(f.getAbsolutePath(),
-					eadtemp.getAbsolutePath(), "none");
-
-			File modelAfterImport = new File(eadtemp, "data.xml");
+	
+			EAdAdventureModel model = importer.importGame(testFile.getAbsolutePath(),
+					tmpDir.getAbsolutePath(), "none");
+			File modelAfterImport = new File(tmpDir, "data.xml");
 			
-			File modelFile = File.createTempFile("tempmodel",
-					Long.toString(System.nanoTime()) + ".xml");
-			File modelFile2 = File.createTempFile("tempmodel",
-					Long.toString(System.nanoTime()) + ".xml");
-			File modelFileAfterRead = File.createTempFile("tempmodel",
-					Long.toString(System.nanoTime()) + ".xml");
-			File modelFileAfterReadPretty = File.createTempFile("tempmodel",
-					Long.toString(System.nanoTime()) + ".xml");
-			File modelFilePretty = File.createTempFile("tempmodel",
-					Long.toString(System.nanoTime()) + ".xml");
-
+			File modelFile = new File(tmpDir, "modelFile.xml");
 			writer.write(model, modelFile.getAbsolutePath());
+			File modelFile2 = new File(tmpDir, "modelFile2.xml");
 			writer.write(model, modelFile2.getAbsolutePath());
 
-			assertTrue(equals(modelAfterImport, modelFile));
-			assertTrue(equals(modelFile, modelFile2));
-
-//			EAdAdventureModel model2 = reader
-//					.readXML(getString(modelAfterImport));
+			if ( ! FileUtils.isFileBinaryEqual(modelAfterImport, modelFile)) {
+				errors = true;
+				logger.error("after-import != model-file");
+			}
+			if ( ! FileUtils.isFileBinaryEqual(modelFile, modelFile2)) {
+				errors = true;
+				logger.error("model-file != model-file2");
+			}
 			
-
+			model = reader.readXML(FileUtils.loadFileToString(modelFile));
+			File modelFileAfterRead = new File(tmpDir, "afterRead.xml");
 			writer.write(model, modelFileAfterRead.getAbsolutePath());
+			if ( ! FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
+				errors = true;
+				logger.error("model-file != model-file-after-read");
+			}
 
-			DataPrettifier.prettify(modelFileAfterRead,
-					modelFileAfterReadPretty);
-			DataPrettifier.prettify(modelFile, modelFilePretty);
-
-//			assertTrue(equals(modelFileAfterReadPretty, modelFilePretty));
-
-			FileUtils.deleteRecursive(eadtemp);
-//			assertFalse(eadtemp.exists());
-//			assertTrue(modelFile.delete());
-//			assertTrue(modelFile2.delete());
-//			assertTrue(modelFilePretty.delete());
-//			assertTrue(modelFileAfterRead.delete());
-//			assertTrue(modelFileAfterReadPretty.delete());
-
-		} catch (IOException e) {
-			fail();
-		}
-
-	}
-
-	public boolean equals(File f1, File f2) {
-		try {
-			return FileUtils.isFileBinaryEqual(f1, f2);
-		} catch (IOException e) {
-			return false;
-		}
-//		String s1 = getString(f1);
-//		String s2 = getString(f2);
-//		logger.debug("Comparing {} and {}", new Object[] { s1, s2 });
-//		return s1.equals(s2);
-	}
-
-	public String getString(File f) {
-		String s = "";
-		BufferedReader reader = null;
-		try {
-			char[] c = new char[(int) f.length()];
-			FileReader fileReader = new FileReader(f);
-			fileReader.read(c);
-			fileReader.close();
-			StringBuilder builder = new StringBuilder( );
-			builder.append(c);			
-		} catch (FileNotFoundException e) {
-			fail();
-		} catch (IOException e) {
-			fail();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					fail();
+		} finally {	
+			if (errors) {
+				for (File f: tmpDir.listFiles(new EndsInXmlFilter())) {
+					File dest = new File(f.getParentFile(), "pretty-" + f.getName());
+					DataPrettifier.prettify(f, dest);
 				}
+				fail("see " + tmpDir + " for details");
+			} else {
+				FileUtils.deleteRecursive(tmpDir);
 			}
 		}
-		return s;
 	}
-
+	
+	private static class EndsInXmlFilter implements FilenameFilter {
+		@Override
+		public boolean accept(File dir, String name) {
+			return name.endsWith(".xml");
+		}
+	}
 }

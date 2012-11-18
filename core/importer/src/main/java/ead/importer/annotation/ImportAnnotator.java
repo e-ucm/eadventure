@@ -37,9 +37,6 @@
 
 package ead.importer.annotation;
 
-import com.google.inject.ImplementedBy;
-
-import ead.importer.annotation.NullAnnotator;
 import ead.common.model.EAdElement;
 
 /**
@@ -50,7 +47,6 @@ import ead.common.model.EAdElement;
  *
  * @author mfreire
  */
-@ImplementedBy(NullAnnotator.class)
 public interface ImportAnnotator {
 
     public enum Type {

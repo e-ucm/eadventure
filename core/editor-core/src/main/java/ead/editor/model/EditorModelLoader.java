@@ -430,42 +430,43 @@ public class EditorModelLoader {
 				"Loading editor model from EAD 1.x import '{}' into '{}'...",
 				fin, fout);
 
-		// clear caches
+		// clear caches & start timer
 		clear();
-
+		importAnnotator.reset();
 		long nanos = System.nanoTime();
 
-		ProgressProxy pp = new ProgressProxy(0, 50);
+		// start import
+		saveDir = fout;
+		ProgressProxy pp = new ProgressProxy(0, 0.5f);
+		model.updateProgress(0, "Starting import...");
 		importer.addProgressListener(pp);
 		model.setEngineModel(importer.importGame(fin.getAbsolutePath(),
 				fout.getAbsolutePath()));
 		importer.removeProgressListener(pp);
-		model.updateProgress(50, "Reading strings and engine properties ...");
+		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(fout);
-
-		model.updateProgress(55, "Reading editor model ...");
+		writeEngineData(fout, true);
+		
+        // build editor model		
 		logger.info("Model loaded; building graph...");
+		model.updateProgress(55, "Converting engine model into editor model...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
 		driver.visit(model.getEngineModel(), new EditorModelVisitor());
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
+		
+		// add editor high-level data
+		model.updateProgress(70, "Creating high-level editor elements...");
+		importAnnotator.rebuild();
 		for (EditorNodeFactory enf : importNodeFactories) {
 			enf.createNodes(model, importAnnotator);
 		}
-		writeEngineData(fout, logger.isDebugEnabled());
-
-		// write extra xml file to it
-		model.updateProgress(80, "Writing editor model ...");
-		try {
-			writeEditorNodes(fout);
-		} catch (IOException ioe) {
-			logger.error("Could not write editor.xml file to {}", fout, ioe);
-		}
-
-		model.updateProgress(90, "Indexing model ...");
+		importAnnotator.reset();
+		writeEditorNodes(fout);
+		
+        // index  & finish
+        model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
-		model.updateProgress(100, "... load complete.");
-
-		saveDir = fout;
+        model.updateProgress(100, "... load complete.");
 
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] {
@@ -484,15 +485,14 @@ public class EditorModelLoader {
 	public void load(File sourceDir) throws IOException {
         logger.info("Loading editor model from project dir '{}'...", sourceDir);
 
+        // clear caches & start timer
+		clear();
 		long nanos = System.nanoTime();
 
-        // clear caches
-        clear();
 
         // read
         saveDir = sourceDir;
         model.updateProgress(10, "Reading engine model ...");
-
 		String xml;
 		if (sourceDir.isFile()) {
 			xml = FileUtils.loadZipEntryToString(saveDir, engineModelFile);
@@ -500,31 +500,31 @@ public class EditorModelLoader {
 			xml = FileUtils.loadFileToString(new File(saveDir, engineModelFile));
 		}
         model.setEngineModel(reader.readXML(xml));
-
-		model.updateProgress(50, "Reading strings and engine properties ...");
+		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(saveDir);
 
         // build editor model
-		model.updateProgress(55, "Reading editor model ...");
         logger.info("Model loaded; building graph...");
-
+		model.updateProgress(55, "Converting engine model into editor model...");
 		isLoading = true;
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(model.getEngineModel(), new EditorModelVisitor());
         isLoading = false;
-
-		int highestAssigned = model.getNodesById().floorKey(model.intermediateIDPoint-1);
-		logger.debug("Bumping lastElementId to closest to {}: {}",
-				new Object[] {model.intermediateIDPoint-1, highestAssigned+1});
-		model.setLastElementNodeId(highestAssigned+1);
-		
+		// set next editor-id to higher than current highest
+		int highestAssigned = model.getNodesById().floorKey(
+				EditorModelImpl.intermediateIDPoint-1);
+		logger.debug("Bumping lastElementId to closest to {}: {}", new Object[] {
+				EditorModelImpl.intermediateIDPoint-1, highestAssigned+1});
+		model.setLastElementNodeId(highestAssigned+1);		
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
+		
+		// add editor high-level data
+		model.updateProgress(70, "Creating high-level editor elements...");		
         readEditorNodes(sourceDir);
 
-        // index & write extra XML
+        // index  & finish
         model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
-
         model.updateProgress(100, "... load complete.");
 		
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
