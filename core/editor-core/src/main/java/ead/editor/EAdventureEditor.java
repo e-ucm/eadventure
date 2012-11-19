@@ -47,6 +47,7 @@ import com.google.inject.Injector;
 import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
+import ead.engine.core.platform.EngineConfiguration;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
@@ -93,7 +94,7 @@ public class EAdventureEditor implements Launcher {
 //            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
 
 //            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
-			
+
 			"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
             "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
             "EWindowImpl", Log4jConfig.Slf4jLevel.Info,
@@ -129,6 +130,10 @@ public class EAdventureEditor implements Launcher {
 		// init reflection
 		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
 		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+
+		// init engine properties
+		((EngineConfiguration)injector.getInstance(EngineConfiguration.class))
+				.setExitWhenFinished(false);
 
 		// launch
         Launcher launcher = injector.getInstance(Launcher.class);
