@@ -118,8 +118,8 @@ public class RunMenu extends AbstractEditorMenu {
 
         @Override
         public void processChange(Object event) {
-            // default is to do nothing
-        }
+			setEnabled(controller.getModel().getEngineModel() != null);
+		}
     }
 
     public class RunDesktopAction extends RunMenuAction {

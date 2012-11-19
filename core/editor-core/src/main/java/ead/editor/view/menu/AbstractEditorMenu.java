@@ -47,7 +47,6 @@ import javax.swing.KeyStroke;
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
 import ead.gui.EAdMenuItem;
-import java.awt.AWTKeyStroke;
 
 /**
  * An abstract editor menu. All editor menus should descend from this one
@@ -89,7 +88,7 @@ public abstract class AbstractEditorMenu extends JMenu {
 				"The string '" + text + "' must contain a '_' before its end");
 		}
 		char c = text.toLowerCase().charAt(pos+1);
-		return AWTKeyStroke.getAWTKeyStroke(c).getKeyCode();
+		return KeyEvent.getExtendedKeyCodeForChar(c);
 	}
 
 	/**
