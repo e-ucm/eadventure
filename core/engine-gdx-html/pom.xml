@@ -50,7 +50,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- This configuration is used to store Eclipse m2e settings only. It 
+			<!-- This configuration is used to store Eclipse m2e settings only. It
 				has no influence on the Maven build itself. -->
 			<plugin>
 				<groupId>org.eclipse.m2e</groupId>
@@ -109,7 +109,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
-					<!-- <buildOutputDirectory>${project.basedir}/war/WEB-INF/classes</buildOutputDirectory> 
+					<!-- <buildOutputDirectory>${project.basedir}/war/WEB-INF/classes</buildOutputDirectory>
 						<warSourceDirectory>${project.basedir}/war</warSourceDirectory> <webXml>${project.basedir}/war/WEB-INF/web.xml</webXml> -->
 				</configuration>
 			</plugin>
@@ -121,9 +121,10 @@
 		<gwt.module>ead.engine.core.GwtDefinition</gwt.module>
 		<gwt.version>2.4.0</gwt.version>
 		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
+		<gwt.localWorkers>4</gwt.localWorkers>
 <!--
 	copy and paste outside the comment to enable ridiculous amounts of debugging output
-		<gwt.logLevel>DEBUG</gwt.logLevel> 
+		<gwt.logLevel>DEBUG</gwt.logLevel>
 -->
 	</properties>
 
@@ -201,7 +202,7 @@
 			<artifactId>glas-tracker-gwt</artifactId>
 		</dependency>
 
-		<!-- FIXME: Source are required in order to make gwt compilation. There's 
+		<!-- FIXME: Source are required in order to make gwt compilation. There's
 			probably another way to do this, since the code is already in the above jar -->
 		<dependency>
 			<groupId>es.eucm.glas</groupId>
