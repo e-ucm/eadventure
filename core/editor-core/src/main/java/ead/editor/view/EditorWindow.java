@@ -174,7 +174,7 @@ public class EditorWindow implements ViewController {
 
 	@Override
 	public void restoreViews() {
-		File f = controller.getModel().relativeFile("views.xml");
+		File f = controller.getModel().getLoader().relativeFile("views.xml");
 		if (f.exists() && f.canRead()) {
 			try {
 				dockController.readXML(f);
@@ -195,7 +195,7 @@ public class EditorWindow implements ViewController {
 
 	@Override
 	public void saveViews() {
-		File f = controller.getModel().relativeFile("views.xml");
+		File f = controller.getModel().getLoader().relativeFile("views.xml");
 		try {
 			dockController.writeXML(f);
 		} catch (IOException ex) {

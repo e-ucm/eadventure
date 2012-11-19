@@ -55,18 +55,15 @@ import java.util.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
+import com.google.inject.Inject;
 
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
 import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
-import ead.tools.java.JavaToolsModule;
 import ead.writer.EAdAdventureModelWriter;
 import ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
@@ -109,22 +106,24 @@ public class EAdventureImporter {
 	private static final Logger logger = LoggerFactory
 			.getLogger("EAdventureImporter");
 
-	public EAdventureImporter() {
-		Injector i = Guice.createInjector(new ImporterModule(),
-				new JavaToolsModule());
+	@Inject
+	public EAdventureImporter(
+		EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter,
+		ResourceImporter resourceImporter,
+		InputStreamCreator inputStreamCreator,
+		StringHandler stringsHandler,
+		StringWriter stringFileHandler,
+		EAdElementFactory elementFactory) {
 
-		this.adventureImporter = i
-				.getInstance(Key
-						.get(new TypeLiteral<EAdElementImporter<AdventureData, EAdAdventureModel>>() {
-						}));
-		this.resourceImporter = i.getInstance(ResourceImporter.class);
-		this.inputStreamCreator = i.getInstance(InputStreamCreator.class);
-		this.stringsHandler = i.getInstance(StringHandler.class);
-		this.stringFileHandler = new StringWriter();
-		this.elementFactory = i.getInstance(EAdElementFactory.class);
+		this.adventureImporter = adventureImporter;
+		this.resourceImporter = resourceImporter;
+		this.inputStreamCreator = inputStreamCreator;
+		this.stringsHandler = stringsHandler;
+		this.stringFileHandler = stringFileHandler;
+		this.elementFactory = elementFactory;
 		this.listeners = new ArrayList<ImporterProgressListener>();
 	}
-
+	
 	/**
 	 * Imports and old game form 1.x version
 	 * 
@@ -141,6 +140,7 @@ public class EAdventureImporter {
 	 */
 	public EAdAdventureModel importGame(String eadFile, String destination,
 			String format) {
+		BasicElement.initLastId();
 		// Init importer
 		updateProgress(0, "Starting importer...");
 		stringsHandler.getStrings().clear();

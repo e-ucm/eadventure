@@ -35,56 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.actions;
-
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdAction;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.params.text.EAdString;
-import ead.common.resources.annotation.Asset;
-import ead.common.resources.annotation.Bundled;
-import ead.common.resources.assets.drawable.EAdDrawable;
-
-@Element
-public class ElementAction extends SceneElementDef implements EAdAction {
-
-	@Bundled
-	@Asset({ EAdDrawable.class })
-	public static final String appearance = "appearance";
-
-	@Param("name")
-	private EAdString name;
-
-	@Param("effects")
-	private EAdList<EAdEffect> effects;
-
-	public ElementAction() {
-		this(EAdString.newRandomEAdString("name"));
-	}
-
-	public ElementAction(EAdString name) {
-		super();
-		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		this.name = name;
-	}
-
-	@Override
-	public EAdList<EAdEffect> getEffects() {
-		return effects;
-	}
-
-	@Override
-	public EAdString getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(EAdString name) {
-		this.name = name;
-	}
-
-}
+/**
+ * Java-specific (non-GWT) utility classes
+ */
+package ead.tools.java;

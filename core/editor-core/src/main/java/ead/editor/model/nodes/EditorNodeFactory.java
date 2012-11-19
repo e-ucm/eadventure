@@ -38,9 +38,7 @@
 package ead.editor.model.nodes;
 
 import ead.editor.model.EditorAnnotator;
-import ead.editor.model.EditorModel;
-import java.util.TreeMap;
-import org.jgrapht.graph.ListenableDirectedGraph;
+import ead.editor.model.EditorModelImpl;
 
 /**
  * Recognizes a given pattern in an imported course, and builds all
@@ -51,14 +49,8 @@ public interface EditorNodeFactory {
 
     /**
      * Create & register editorNodes with the model
-     * @param g node graph; may contain no EditorNodes
      * @param annotator annotations for nodes (by ID)
-     * @param nodesById nodes in graph, by ID
      * @param model where the nodes should be inserted, via registerEditorNode
      */
-    public void createNodes(
-            ListenableDirectedGraph<DependencyNode, DependencyEdge> g,
-            EditorAnnotator importAnnotatorE,
-            TreeMap<Integer, DependencyNode> nodesById,
-            EditorModel model);
+    void createNodes(EditorModelImpl model, EditorAnnotator annotator);
 }

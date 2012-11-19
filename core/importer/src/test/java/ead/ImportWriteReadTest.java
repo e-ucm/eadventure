@@ -37,77 +37,125 @@
 
 package ead;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.omg.CORBA_2_3.portable.OutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
+import ead.importer.ImporterModule;
 import ead.reader.adventure.AdventureReader;
-import ead.tools.java.FileUtils;
+import ead.reader.adventure.ObjectFactory;
+import ead.tools.java.JavaToolsModule;
+import ead.tools.java.reflection.JavaReflectionClassLoader;
+import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.utils.FileUtils;
+import ead.utils.Log4jConfig;
+import ead.writer.DataPrettifier;
 import ead.writer.EAdAdventureModelWriter;
 
 public class ImportWriteReadTest {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ImportWriteReadTest");
 
 	private EAdventureImporter importer;
 	private AdventureReader reader;
 	private EAdAdventureModelWriter writer;
 
+	public ImportWriteReadTest() {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, null);		
+	}
+	
 	@Before
 	public void setUp() {
-		importer = new EAdventureImporter();
+		Injector i = Guice.createInjector(
+			new ImporterModule(),
+			new JavaToolsModule()
+		);
+		
+		importer = i.getInstance(EAdventureImporter.class);
 		reader = new AdventureReader(new JavaXMLParser());
 		writer = new EAdAdventureModelWriter();
+		ObjectFactory.init(new JavaReflectionProvider());
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+	}
+	
+	private static File getFile(String name) {
+		File f = new File(ClassLoader.getSystemResource(name).getPath());
+		assertTrue(f.exists());
+		return f;
 	}
 
 	@Test
-	public void testImport() {
+	public void testImport() throws Exception {
 
-		File f = new File(ClassLoader.getSystemResource(
+		File testFile = new File(ClassLoader.getSystemResource(
 				"ead/importer/test/test.ead").getPath());
 
-		assertTrue(f.exists());
-
+		assertTrue(testFile.exists());
+		boolean errors = false;
+		File tmpDir = FileUtils.createTempDir("test", "import");
 		try {
-			File eadtemp = File.createTempFile("eadTemp",
-					Long.toString(System.nanoTime()));
-
-			if (!(eadtemp.delete())) {
-				throw new IOException("Could not delete temp file: "
-						+ eadtemp.getAbsolutePath());
-			}
-
-			if (!(eadtemp.mkdir())) {
-				throw new IOException("Could not create temp directory: "
-						+ eadtemp.getAbsolutePath());
-			}
-
-			EAdAdventureModel model = importer.importGame(f.getAbsolutePath(),
-					eadtemp.getAbsolutePath(), "none");
-
-			File modelFile = File.createTempFile("tempmodel",
-					Long.toString(System.nanoTime()) + ".xml");
-
+	
+			EAdAdventureModel model = importer.importGame(testFile.getAbsolutePath(),
+					tmpDir.getAbsolutePath(), "none");
+			File modelAfterImport = new File(tmpDir, "data.xml");
+			
+			File modelFile = new File(tmpDir, "modelFile.xml");
 			writer.write(model, modelFile.getAbsolutePath());
-			
-			
+			File modelFile2 = new File(tmpDir, "modelFile2.xml");
+			writer.write(model, modelFile2.getAbsolutePath());
 
-			FileUtils.deleteRecursive(eadtemp);
-			assertFalse(eadtemp.exists());
-			assertTrue(modelFile.delete());
+			if ( ! FileUtils.isFileBinaryEqual(modelAfterImport, modelFile)) {
+				errors = true;
+				logger.error("after-import != model-file");
+			}
+			if ( ! FileUtils.isFileBinaryEqual(modelFile, modelFile2)) {
+				errors = true;
+				logger.error("model-file != model-file2");
+			}
+			
+			model = reader.readXML(FileUtils.loadFileToString(modelFile));
+			File modelFileAfterRead = new File(tmpDir, "afterRead.xml");
+			writer.write(model, modelFileAfterRead.getAbsolutePath());
+			if ( ! FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
+				errors = true;
+				logger.error("model-file != model-file-after-read");
+			}
 
-		} catch (IOException e) {
-			fail();
+		} finally {	
+			if (errors) {
+				for (File f: tmpDir.listFiles(new EndsInXmlFilter())) {
+					File dest = new File(f.getParentFile(), "pretty-" + f.getName());
+					DataPrettifier.prettify(f, dest);
+				}
+				fail("see " + tmpDir + " for details");
+			} else {
+				FileUtils.deleteRecursive(tmpDir);
+			}
 		}
-
 	}
-
+	
+	private static class EndsInXmlFilter implements FilenameFilter {
+		@Override
+		public boolean accept(File dir, String name) {
+			return name.endsWith(".xml");
+		}
+	}
 }

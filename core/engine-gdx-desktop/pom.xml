@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -94,7 +94,7 @@
 		</dependency>
 
 		<!-- Currently unused <dependency> <groupId>com.kitfox.svg</groupId> <artifactId>svg-salamander-tiny</artifactId> 
-			<version>1.0.0</version> </dependency> -->
+		<version>1.0.0</version> </dependency> -->
 
 		<!-- tests -->
 		<dependency>
@@ -109,99 +109,90 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 		</dependency>
-
 	</dependencies>
 
-	<properties>
-		<eadmainclass>ead.engine.core.gdx.desktop.EAdEngine</eadmainclass>
-	</properties>
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!--  <resource>
-				<directory>..\..\resources\engineassets\src\main\resources</directory>
-			</resource>-->
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<configuration>
-					<!--  <linkedResources>
-						<linkedResource>
-							<name>resources</name>
-							<type>2</type>
-							<location>${project.basedir}\..\..\resources\engineassets\src\main\resources</location>
-						</linkedResource>
-					</linkedResources>-->
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<!-- <minimizeJar>true</minimizeJar> -->
-							<!-- this may cause problems; it saves around 8MB -->
-							<!-- angel: it actually causes problems (with guice), so it's not 
-								used -->
-							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>unified</shadedClassifierName>
-							<filters>
-								<filter>
-									<!-- TODO: fix the library instead -->
-									<artifact>org.jbox2d:jbox2d-library</artifact>
-									<excludes>
-										<exclude>org/slf4j/**</exclude>
-									</excludes>
-								</filter>
-								<filter>
-									<artifact>javax.media:jmf</artifact>
-									<excludes>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-									</excludes>
-								</filter>
-							</filters>
-							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<manifestEntries>
-										<Main-Class>${eadmainclass}</Main-Class>
-									</manifestEntries>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
-				<artifactId>launch4j-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>l4j-gui</id>
-						<phase>package</phase>
-						<goals>
-							<goal>launch4j</goal>
-						</goals>
-						<configuration>
-							<classPath>
-								<mainClass>${eadmainclass}</mainClass>
-							</classPath>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+	<profiles>
+		<profile>
+			<!-- generates releases with unified "desktop-engine-jar" and wrapping-exe -->
+			<id>release</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-eclipse-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<minimizeJar>false</minimizeJar>
+									<!-- 'true' would cause problems with Guice -->
+									<shadedArtifactAttached>true</shadedArtifactAttached>
+									<shadedClassifierName>unified</shadedClassifierName>
+									<filters>
+										<filter>
+											<!-- TODO: fix the library instead -->
+											<artifact>org.jbox2d:jbox2d-library</artifact>
+											<excludes>
+												<exclude>org/slf4j/**</exclude>
+											</excludes>
+										</filter>
+										<filter>
+											<artifact>javax.media:jmf</artifact>
+											<excludes>
+												<exclude>META-INF/*.SF</exclude>
+												<exclude>META-INF/*.RSA</exclude>
+												<exclude>META-INF/*.DSA</exclude>
+											</excludes>
+										</filter>
+									</filters>
+									<transformers>
+										<transformer
+											implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<manifestEntries>
+												<Main-Class>ead.engine.core.gdx.desktop.EAdEngine</Main-Class>
+											</manifestEntries>
+										</transformer>
+									</transformers>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+						<artifactId>launch4j-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>l4j-gui</id>
+								<phase>package</phase>
+								<goals>
+									<goal>launch4j</goal>
+								</goals>
+								<configuration>
+									<classPath>
+										<mainClass>ead.engine.core.gdx.desktop.EAdEngine</mainClass>
+									</classPath>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

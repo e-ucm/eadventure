@@ -37,6 +37,6 @@
 
 package ead.utils.swing;
 
-public interface ReturnnableRunnable<E> {
+public interface ReturnableRunnable<E> {
 	public E run();
 }

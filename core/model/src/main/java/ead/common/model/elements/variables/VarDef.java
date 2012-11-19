@@ -55,12 +55,12 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 	private T initialValue;
 
 	public VarDef() {
-		
+
 	}
 
 	/**
 	 * Constructs a variable definition
-	 *
+	 * 
 	 * @param name
 	 *            variable's name
 	 * @param type
@@ -77,7 +77,7 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 		this.type = type;
 		this.initialValue = initialValue;
 	}
-	
+
 	@Override
 	public Class<T> getType() {
 		return type;
@@ -93,8 +93,8 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 		return initialValue;
 	}
 
-    @Override
-	public String toString(){
+	@Override
+	public String toString() {
 		return name + "";
 	}
 
@@ -108,6 +108,19 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 
 	public void setInitialValue(T initialValue) {
 		this.initialValue = initialValue;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public boolean equals(Object o) {
+		if (o instanceof VarDef) {
+			VarDef v = (VarDef) o;
+			return this.getName().equals(v.getName()) && getType().equals(v.getType());
+		}
+		return false;
+	}
+
+	public int hashCode() {
+		return name.hashCode() ^ type.hashCode();
 	}
 
 }

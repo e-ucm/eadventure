@@ -37,24 +37,23 @@
 
 package ead.common.model.elements;
 
-import java.util.Random;
-
 import ead.common.model.EAdElement;
 
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements
  * inherits from this basis class
  * 
- * @author anserran
  * 
  */
 public abstract class BasicElement implements EAdElement {
 
 	private String id;
 
-	protected static Random random = new Random(0);
-	
 	private static int lastId = 0;
+
+	public static void initLastId() {
+		lastId = 0;
+	}
 
 	public static String randomSuffix() {
 		return "" + lastId++;
@@ -92,14 +91,15 @@ public abstract class BasicElement implements EAdElement {
 	}
 
 	/**
-	 * GWT does not recognize clazz.getSimpleName(). This helper method
-	 * should be used instead, and can be handy for debugging purposes
+	 * GWT does not recognize clazz.getSimpleName(). This helper method should
+	 * be used instead, and can be handy for debugging purposes
 	 * Default-generated ids use this, for instance.
+	 * 
 	 * @param o
-	 * @return 
+	 * @return
 	 */
 	public static String classToString(Class<?> c) {
 		String n = c.getName();
-		return n.substring(n.lastIndexOf('.')+1);
+		return n.substring(n.lastIndexOf('.') + 1);
 	}
 }

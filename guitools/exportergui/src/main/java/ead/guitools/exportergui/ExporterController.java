@@ -1,30 +1,35 @@
 package ead.guitools.exportergui;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import org.codehaus.plexus.util.FileUtils;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.exporter.GeneralExporter;
 import ead.importer.EAdventureImporter;
-import ead.tools.java.JavaFileUtils;
+import ead.importer.ImporterModule;
+import ead.tools.java.JavaToolsModule;
+import ead.utils.FileUtils;
 
 public class ExporterController {
 
+	private static final Logger logger = LoggerFactory
+			.getLogger("ExporterController");
 	private GeneralExporter exporter;
 	private EAdventureImporter importer;
 	private boolean deleteTempFile;
 
 	public ExporterController() {
+		Injector i = Guice.createInjector(
+				new ImporterModule(),
+				new JavaToolsModule());
+
 		exporter = new GeneralExporter();
-		importer = new EAdventureImporter();
+		importer = i.getInstance(EAdventureImporter.class);
 		deleteTempFile = false;
 	}
 
@@ -52,83 +57,52 @@ public class ExporterController {
 		exporter.setInstallApk(installApk);
 		String finalGameFolder = getFolder(gameFolder);
 		exporter.export(finalGameFolder, outputFolder, jar, war, apk);
-		if ( deleteTempFile ){
-			File f = new File( finalGameFolder );
+		if (deleteTempFile) {
+			File f = new File(finalGameFolder);
 			try {
-				FileUtils.deleteDirectory(f);
+				FileUtils.deleteRecursive(f);
 			} catch (IOException e) {
-				
+				logger.error("While exporting", e);
 			}
 		}
 	}
 
 	private String getFolder(String gameBase) {
 		deleteTempFile = true;
-		if (gameBase.endsWith(".ead")) {
-			try {
-				File tempFile = JavaFileUtils.getTempFolder("eAdventureImport");
+		try {
+			if (gameBase.endsWith(".ead")) {
+				File tempFile = FileUtils.createTempDir("eAdventureImport", null);
 				ZipFile zipFile = new ZipFile(gameBase);
 				// If project is 2.0 or greater
-				if ( zipFile.getEntry("data.xml") != null ){
+				if (zipFile.getEntry("data.xml") != null) {
 					zipFile.close();
 					extractFolder(gameBase, tempFile.getAbsolutePath());
-				}
-				else {
+				} else {
 					importer.importGame(gameBase, tempFile.getAbsolutePath());
 				}
 				return tempFile.getAbsolutePath();
-		
-			} catch (IOException e) {
-
+			} else {
+				File f = new File(gameBase, "data.xml");
+				if (f.exists()) {
+					deleteTempFile = false;
+					return gameBase;
+				} else {
+					File tempFile = FileUtils.createTempDir("eAdventureImport", null);
+					importer.importGame(gameBase, tempFile.getAbsolutePath());
+					return tempFile.getAbsolutePath();
+				}
 			}
-		}
-		else {
-			File f = new File( gameBase, "data.xml");
-			if ( f.exists() ){
-				deleteTempFile = false;
-				return gameBase;
-			}
-			else {
-				File tempFile = JavaFileUtils.getTempFolder("eAdventureImport");
-				importer.importGame(gameBase, tempFile.getAbsolutePath());
-				return tempFile.getAbsolutePath();
-			}
+		} catch (IOException e) {
+			logger.error("While importing {}", 
+					gameBase, e);
 		}
 		return null;
 	}
 
 	public void extractFolder(String zipFile, String newPath)
 			throws ZipException, IOException {
-		int BUFFER = 2048;
-		File file = new File(zipFile);
-		ZipFile zip = new ZipFile(file);
-
-		new File(newPath).mkdir();
-		Enumeration<?> zipFileEntries = zip.entries();
-
-		while (zipFileEntries.hasMoreElements()) {
-			ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
-			String currentEntry = entry.getName();
-			File destFile = new File(newPath, currentEntry);
-			File destinationParent = destFile.getParentFile();
-			destinationParent.mkdirs();
-			if (!entry.isDirectory()) {
-				BufferedInputStream is = new BufferedInputStream(
-						zip.getInputStream(entry));
-				int currentByte;
-				byte data[] = new byte[BUFFER];
-				FileOutputStream fos = new FileOutputStream(destFile);
-				BufferedOutputStream dest = new BufferedOutputStream(fos,
-						BUFFER);
-				while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
-					dest.write(data, 0, currentByte);
-				}
-				dest.flush();
-				dest.close();
-				is.close();
-			}
-		}
-		zip.close();
+		File dest = new File(newPath);
+		dest.mkdir();
+		FileUtils.expand(new File(zipFile), dest);
 	}
-
 }

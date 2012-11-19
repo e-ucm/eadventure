@@ -8,15 +8,29 @@
 * Format file headers
 	mvn com.mycila.maven-license-plugin:maven-license-plugin:format
 
+* Profiles
+	mvn <options> -P <profile1>[,<profile2>[,<profileN>]]
+
+	the following profiles are available:
+
+	release : generates self-contained, executable jars for editor and desktop-engine
+			-- and also wraps these jars in windows executables using launch4j
+	no-gwt  : avoids GWT compilation, and only validates GWT sources
+
+	editor  : only builds the editor 
+	engine-desktop : only builds the desktop engine 
+	engine-android : only builds the desktop engine
+
 * Make a clean build of everything
 	mvn clean install -Dandroid.sdk.path=<path-to-android-sdk>
+	takes 4:00 minutes on a quad-core
 
-	NOTE: "javac" must be accesible
-	NOTE: builds windows exes and self-executable jars of desktop-engine
-    and editor-core; also builds playn webapp and android-engine apk;
-    takes around 2 minutes on a quad-core; or 40s with -T 3;
-    most of the time (~30s and ~50s) is dedicated to building 
-    engine-android and engine-playn versions
+	mvn clean install -P no-gwt -Dandroid.sdk.path=<path-to-android-sdk>
+	takes 2:50 minutes on a quad-core
+
+	NOTES: "javac" must be accesible;
+		release versions of editor and desktop engine are not created 
+		unless the release profile is enabled (see above)
 
 * Make a clean build of a single module
 	mvn clean install -pl ead:engine-desktop
@@ -34,10 +48,10 @@
 
 	NOTE: you will not be able to use it until you commit & push your changes 
 	online; *before* you do that, change 
-		<url>http://eadventure.googlecode.com/hg/etc/repository/</url>
+		<url>https://github.com/e-ucm/eadventure/raw/master/etc/repository/</url>
 	in the main pom.xml to 
 		<url>file://local-project-root/etc/repository</url>
-	to make sure everything works; it is very easy to get install-file wrong.
+	to make sure everything works; it is very easy to get the install-file wrong.
 
 * Force re-download of a single artifact
 	delete the artifact from your .m2 local repository; it will be re-downloaded
@@ -45,13 +59,13 @@
 	use the -U flag (refreshes all plugins)
 
 * Launch cobertura (check unit-test coverage) on a module
-	mvn -pl ead:engine-desktop cobertura:check
+	mvn -pl ead:engine-gdx-desktop cobertura:check
 
 * Launch findbugs on a module
-	mvn -pl ead:engine-desktop findbugs:findbugs findbugs:gui
+	mvn -pl ead:engine-gdx-desktop findbugs:findbugs findbugs:gui
 
 * Launch pmd on a module
-	mvn -pl ead:engine-desktop pmd:pmd pmd:cpd
+	mvn -pl ead:engine-gdx-desktop pmd:pmd pmd:cpd
 
 	NOTE: results are generated in the corresponding target/pmd.xml and target/cpd.xml
 

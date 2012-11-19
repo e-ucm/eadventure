@@ -58,6 +58,12 @@ public class EditorAnnotator implements ImportAnnotator {
     private HashMap<EAdElement, ArrayList<Annotation>> annotations =
             new HashMap<EAdElement, ArrayList<Annotation>>();
 
+	public EditorAnnotator() {
+		logger.warn("info is enabled");
+		logger.info("info is enabled");
+		logger.debug("debug is enabled");
+	}
+	
     public class Annotation {
         private ArrayList<EAdElement> context = new ArrayList<EAdElement>();
         private ImportAnnotator.Type type;
@@ -117,6 +123,17 @@ public class EditorAnnotator implements ImportAnnotator {
         stack.clear();
         annotations.clear();
     }
+	
+	/**
+	 * Ids may be changed by the editor; this makes sure that the 'get'
+	 * operation works with updated ids.
+	 */
+	public void rebuild() {
+		HashMap<EAdElement, ArrayList<Annotation>> backup =
+            new HashMap<EAdElement, ArrayList<Annotation>>();
+		backup.putAll(annotations);
+		annotations = backup;
+	}
 
     public ArrayList<Annotation> get(EAdElement element) {
         ArrayList<Annotation> al = annotations.get(element);
@@ -125,50 +142,50 @@ public class EditorAnnotator implements ImportAnnotator {
 
     @Override
     public void annotate(EAdElement element, Type key, Object ... values) {
-		if (logger.isDebugEnabled()) {
-            if (element == null) element = new PlaceHolder(values[0].toString());
-            switch (key) {
-                case Open: {
-                    logger.debug("Entering {}", element);
-                    stack.add(element);
-                    break;
-                }
-                case Close: {
-                    logger.debug("Exiting {}", element);
-                    int i = stack.lastIndexOf(element);
-                    if (i < 0) {
-                        logger.error("Exiting {} -- no such element currently open in {}",
-                                new Object[] {element, stack});
-                    } else if (i != stack.size()-1) {
-                        logger.error("Exiting {} -- element is not last in {}",
-                                new Object[] {element, stack});
-                        stack.remove(i);
-                    } else {
-                        stack.remove(i);
-                    }
-                    break;
-                }
-                case Comment: {
-                    if ( ! annotations.containsKey(element)) {
-                        annotations.put(element, new ArrayList<Annotation>());
-                    }
-                    for (Object o : values) {
-                        annotations.get(element).add(new Annotation(key,
-                                Type.Comment.name(), o.toString()));
-                    }
-                    logger.debug("Commenting {}({}) with {}: {} --> {}",
-                            new Object[] {element, stack, key, Type.Comment.name(), values[0]});
-                    break;
-                }
-                default: {
-                    if ( ! annotations.containsKey(element)) {
-                        annotations.put(element, new ArrayList<Annotation>());
-                    }
-                    annotations.get(element).add(new Annotation(key, values[0], values[1]));
-                    logger.debug("Annotating {}({}) with {}: {} --> {}",
-                            new Object[] {element, stack, key, values[0], values[1]});
-                }
-            }
-        }
+		if (element == null) {
+			element = new PlaceHolder(values[0].toString());
+		}
+		switch (key) {
+			case Open: {
+				logger.debug("Entering {}", element);
+				stack.add(element);
+				break;
+			}
+			case Close: {
+				logger.debug("Exiting {}", element);
+				int i = stack.lastIndexOf(element);
+				if (i < 0) {
+					logger.error("Exiting {} -- no such element currently open in {}",
+							new Object[] {element, stack});
+				} else if (i != stack.size()-1) {
+					logger.error("Exiting {} -- element is not last in {}",
+							new Object[] {element, stack});
+					stack.remove(i);
+				} else {
+					stack.remove(i);
+				}
+				break;
+			}
+			case Comment: {
+				if ( ! annotations.containsKey(element)) {
+					annotations.put(element, new ArrayList<Annotation>());
+				}
+				for (Object o : values) {
+					annotations.get(element).add(new Annotation(key,
+							Type.Comment.name(), o.toString()));
+				}
+				logger.debug("Commenting {}({}) with {}: {} --> {}",
+						new Object[] {element, stack, key, Type.Comment.name(), values[0]});
+				break;
+			}
+			default: {
+				if ( ! annotations.containsKey(element)) {
+					annotations.put(element, new ArrayList<Annotation>());
+				}
+				annotations.get(element).add(new Annotation(key, values[0], values[1]));
+				logger.debug("Annotating {}({}) with {}: {} --> {}",
+						new Object[] {element, stack, key, values[0], values[1]});
+			}
+		}
     }
 }
