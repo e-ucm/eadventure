@@ -262,7 +262,7 @@ public class ModelIndex {
 			}
 		}
 
-		public List<DependencyNode> getMatcheNodes() {
+		public List<DependencyNode> getMatchedNodes() {
 			return matches;
 		}
 
@@ -275,7 +275,7 @@ public class ModelIndex {
 	 * Get a (sorted) list of nodes that match a query
 	 */
 	public List<DependencyNode> searchAll(String queryText, Map<Integer, DependencyNode> nodesById) {
-		return searchAllDetailed(queryText, nodesById).getMatcheNodes();
+		return searchAllDetailed(queryText, nodesById).getMatchedNodes();
 	}
 
 	/**

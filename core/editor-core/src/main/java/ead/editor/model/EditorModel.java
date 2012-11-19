@@ -37,8 +37,6 @@
 
 package ead.editor.model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,43 +56,43 @@ import ead.editor.view.dock.ModelAccessor;
 public interface EditorModel extends ModelAccessor {
 
 	// -------- nodes
-	
+
 	DependencyNode getNode(int id);
-	
+
 	DependencyNode getNodeFor(Object content);
-	
+
 	int getEditorId(Object o);
-	
+
 	int generateId(Object targetObject);
-	
+
     List<DependencyNode> incomingDependencies(DependencyNode node);
-	
+
     List<DependencyNode> outgoingDependencies(DependencyNode node);
-	
-	// -------- search 
-	
+
+	// -------- search
+
 	ModelIndex.SearchResult searchAllDetailed(String queryText);
 
 	List<DependencyNode> searchAll(String queryText);
 
 	List<DependencyNode> search(String field, String queryText);
-	
+
 	// -------- saving, loading, and engine access
-	
+
 	EAdAdventureModel getEngineModel();
 
 	EditorStringHandler getStringHandler();
 
 	HashMap<String, String> getEngineProperties();
-	
+
 	EditorModelLoader getLoader();
-	
+
 	// -------- progress updates (when saving, loading, ...)
 
 	void addProgressListener(ModelProgressListener progressListener);
 
 	void removeProgressListener(ModelProgressListener progressListener);
-		
+
 	/**
 	 * A very simple interface for progress updates
 	 */
@@ -105,5 +103,5 @@ public interface EditorModel extends ModelAccessor {
 		 * @param text to display regarding progress
 		 */
 		public void update(int progress, String text);
-	}	
+	}
 }

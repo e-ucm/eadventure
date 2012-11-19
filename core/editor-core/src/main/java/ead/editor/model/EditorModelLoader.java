@@ -88,9 +88,9 @@ import ead.writer.StringWriter;
  * @author mfreire
  */
 public class EditorModelLoader {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger("EditorModelLoader");
-	
+
 	/**
 	 * Importer for old models
 	 */
@@ -118,12 +118,12 @@ public class EditorModelLoader {
 	/**
 	 * An import annotator that can reconstitute a bit of an existing import
 	 */
-	private EditorAnnotator importAnnotator;	
+	private EditorAnnotator importAnnotator;
 
 	/**
 	 * A list of editor node factories for imports
 	 */
-	private ArrayList<EditorNodeFactory> importNodeFactories 
+	private ArrayList<EditorNodeFactory> importNodeFactories
 			= new ArrayList<EditorNodeFactory>();
 	/**
 	 * Name of file with editor-node descriptions
@@ -146,7 +146,7 @@ public class EditorModelLoader {
 	 * Model to load or save; must be set before any operation is performed
 	 */
 	private EditorModelImpl model;
-	
+
 	@Inject
 	public EditorModelLoader(XMLParser parser, EAdventureImporter importer,
 			EAdAdventureModelWriter writer, ImportAnnotator annotator) {
@@ -156,15 +156,15 @@ public class EditorModelLoader {
 		this.importer = importer;
 		this.writer = writer;
 		this.importAnnotator = (EditorAnnotator) annotator;
-		this.saveDir = null;	
-		
-		importNodeFactories.add(new ActorFactory());		
+		this.saveDir = null;
+
+		importNodeFactories.add(new ActorFactory());
 	}
-	
+
 	public void setModel(EditorModelImpl model) {
 		this.model = model;
 	}
-	
+
 	/**
 	 * Exports the editor model into a zip file.
 	 *
@@ -179,7 +179,7 @@ public class EditorModelLoader {
 		// always adds the mappings, to allow editing it once again
 		writeEditorNodes(target);
 	}
-	
+
 
 	/**
 	 * Writes the editor mappings to an editor.xml file.
@@ -199,15 +199,15 @@ public class EditorModelLoader {
 			}
 		}
 		ByteArrayInputStream bis = new ByteArrayInputStream(sb
-				.append("</editorNodes>\n").toString().getBytes("UTF-8"));		
+				.append("</editorNodes>\n").toString().getBytes("UTF-8"));
 		OutputStream fos;
-		
+
 		if (target.isFile()) {
 			FileUtils.appendEntryToZip(target, editorModelFile, bis);
 		} else {
 			FileUtils.writeToFile(bis, new File(target, editorModelFile));
 		}
-		
+
 		return mappings;
 	}
 
@@ -225,7 +225,7 @@ public class EditorModelLoader {
 			input = new BufferedInputStream(new FileInputStream(
 					new File(source, editorModelFile)));
 		}
-		
+
 		int read = 0;
 		try {
 			Document doc = DocumentBuilderFactory.newInstance()
@@ -269,7 +269,7 @@ public class EditorModelLoader {
 		}
 		return read;
 	}
-	
+
 
 	/**
 	 * Wraps a targetContent in an DependencyNode. If the content is of a type
@@ -334,8 +334,8 @@ public class EditorModelLoader {
 			model.getNodesByContent().put(targetContent, node);
 		}
 		return node;
-	}	
-	
+	}
+
 
 	/**
 	 * Attempts to add a new node-and-edge to the graph; use only during initial
@@ -367,7 +367,7 @@ public class EditorModelLoader {
 			return null;
 		}
 	}
-	
+
 
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
@@ -445,15 +445,14 @@ public class EditorModelLoader {
 		importer.removeProgressListener(pp);
 		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(fout);
-		writeEngineData(fout, true);
-		
-        // build editor model		
+
+        // build editor model
 		logger.info("Model loaded; building graph...");
 		model.updateProgress(55, "Converting engine model into editor model...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
 		driver.visit(model.getEngineModel(), new EditorModelVisitor());
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
-		
+
 		// add editor high-level data
 		model.updateProgress(70, "Creating high-level editor elements...");
 		importAnnotator.rebuild();
@@ -461,8 +460,9 @@ public class EditorModelLoader {
 			enf.createNodes(model, importAnnotator);
 		}
 		importAnnotator.reset();
+		writeEngineData(fout, true);
 		writeEditorNodes(fout);
-		
+
         // index  & finish
         model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
@@ -470,7 +470,7 @@ public class EditorModelLoader {
 
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] {
-					model.getGraph().vertexSet().size(), 
+					model.getGraph().vertexSet().size(),
 					model.getGraph().edgeSet().size(), time(nanos) });
 	}
 
@@ -496,7 +496,7 @@ public class EditorModelLoader {
 		String xml;
 		if (sourceDir.isFile()) {
 			xml = FileUtils.loadZipEntryToString(saveDir, engineModelFile);
-		} else {			
+		} else {
 			xml = FileUtils.loadFileToString(new File(saveDir, engineModelFile));
 		}
         model.setEngineModel(reader.readXML(xml));
@@ -515,21 +515,21 @@ public class EditorModelLoader {
 				EditorModelImpl.intermediateIDPoint-1);
 		logger.debug("Bumping lastElementId to closest to {}: {}", new Object[] {
 				EditorModelImpl.intermediateIDPoint-1, highestAssigned+1});
-		model.setLastElementNodeId(highestAssigned+1);		
+		model.setLastElementNodeId(highestAssigned+1);
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
-		
+
 		// add editor high-level data
-		model.updateProgress(70, "Creating high-level editor elements...");		
+		model.updateProgress(70, "Creating high-level editor elements...");
         readEditorNodes(sourceDir);
 
         // index  & finish
         model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
         model.updateProgress(100, "... load complete.");
-		
+
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] {
-					model.getGraph().vertexSet().size(), 
+					model.getGraph().vertexSet().size(),
 					model.getGraph().edgeSet().size(), time(nanos) });
     }
 
@@ -541,12 +541,12 @@ public class EditorModelLoader {
 			String strings, properties;
 			if (base.isFile()) {
 				strings = FileUtils.loadZipEntryToString(base, stringsFile);
-				properties = FileUtils.loadZipEntryToString(base, enginePropertiesFile);				
+				properties = FileUtils.loadZipEntryToString(base, enginePropertiesFile);
 			} else {
 				strings = FileUtils.loadFileToString(new File(base, stringsFile));
 				properties = FileUtils.loadFileToString(new File(base, enginePropertiesFile));
 			}
-				
+
 			// FIXME - only reads the current-language versions
 			StringsReader sr = new StringsReader(parser);
 			EditorStringHandler stringHandler = new EditorStringHandler();
@@ -571,7 +571,7 @@ public class EditorModelLoader {
 		try {
 			ByteArrayOutputStream stringOutput = new ByteArrayOutputStream();
 			ByteArrayOutputStream propertiesOutput = new ByteArrayOutputStream();
-		
+
 			// FIXME - only writes the current-language versions
 			StringWriter sw = new StringWriter();
 			sw.write(stringOutput, model.getStringHandler().getStrings());
@@ -581,7 +581,7 @@ public class EditorModelLoader {
 			p.putAll(model.getEngineProperties());
 			p.store(propertiesOutput,
 					"Saved from editor on " + (new GregorianCalendar()));
-			
+
 			if (base.isFile()) {
 				ByteArrayInputStream bis;
 				bis = new ByteArrayInputStream(stringOutput.toByteArray());
@@ -595,13 +595,13 @@ public class EditorModelLoader {
 				bis = new ByteArrayInputStream(propertiesOutput.toByteArray());
 				FileUtils.writeToFile(bis, new File(base, enginePropertiesFile));
 			}
-			
+
 			logger.info("Wrote {} engine properties", model.getEngineProperties().size());
 		} catch (Exception e) {
 			logger.error("Could not write strings or properties", e);
 		}
-	}		
-	
+	}
+
 
 	/**
 	 * Saves the editor model. Save will contain a normal EAdModel, plus
@@ -649,8 +649,8 @@ public class EditorModelLoader {
 		logger.info(
 				"Wrote editor data from {} to {}: {} total objects,"
 				+ " {} editor mappings, in {} seconds",
-				new Object[] { 
-					saveDir, target, 
+				new Object[] {
+					saveDir, target,
 					model.getNodesById().size(), mappings,
 					time(nanos)
 				});
@@ -664,14 +664,14 @@ public class EditorModelLoader {
 		DecimalFormat df = new DecimalFormat("#,###.000");
         return df.format((t / 1000000L) / 1000.0);
 	}
-	
+
 	/**
 	 * Clears all model information
 	 */
 	private void clear() {
 		model.clear();
 		isLoading = false;
-		importAnnotator.reset();		
+		importAnnotator.reset();
 	}
 
 	/**
@@ -718,12 +718,12 @@ public class EditorModelLoader {
 
 		// strings and props
 		saveStringsAndProperties(dest);
-	}	
-	
+	}
+
 	public File getSaveDir() {
 		return saveDir;
-	}	
-	
+	}
+
 	/**
 	 * Re-issues importer progress updates as own updates
 	 */
@@ -736,10 +736,10 @@ public class EditorModelLoader {
 			this.start = start;
 			this.factor = factor;
 		}
-		
+
 		@Override
 		public void update(int progress, String text) {
 			model.updateProgress(start + (int)(progress*factor), text);
 		}
-	}	
+	}
 }

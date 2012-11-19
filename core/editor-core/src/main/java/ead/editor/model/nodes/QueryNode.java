@@ -42,6 +42,7 @@
 package ead.editor.model.nodes;
 
 import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModelImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -58,20 +59,47 @@ import ead.editor.model.ModelIndex.SearchResult;
 public class QueryNode extends EditorNode {
 
 	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
-
 	private String queryString;
 	private SearchResult result;
 
-	public QueryNode(EditorModel m, String queryString) {
+	public QueryNode(EditorModelImpl m, String queryString) {
 		super(m.generateId(null));
 		this.queryString = queryString;
 		logger.debug("Query node for '{}'", queryString);
 
-		result = m.searchAllDetailed(queryString);
+		if (queryString.charAt(0) != ':') {
+			result = m.searchAllDetailed(queryString);
 
-		for (DependencyNode d : result.getMatcheNodes()) {
-			logger.debug("\tadding query match: {}", d.getId());
-			this.addChild(d);
+			for (DependencyNode d : result.getMatchedNodes()) {
+				logger.debug("\tadding query match: {}", d.getId());
+				this.addChild(d);
+			}
+		} else {
+			String q = queryString.substring(2);
+			switch (queryString.charAt(1)) {
+				case 'n': {
+					for (DependencyNode n : m.getGraph().vertexSet()) {
+						if (n.getClass().getName().indexOf(q) != -1) {
+							this.addChild(n);
+						}
+					}
+					break;
+				}
+				case 'e': {
+					DependencyNode n = m.getElement(q);
+					if (n != null) {
+						this.addChild(n);
+					}
+				}
+				case 'o': {
+					for (DependencyNode n : m.getGraph().vertexSet()) {
+						if (n.getContent().getClass().getName().indexOf(q) != -1) {
+							this.addChild(n);
+						}
+					}
+					break;
+				}
+			}
 		}
 	}
 
@@ -102,19 +130,22 @@ public class QueryNode extends EditorNode {
 	public String getTextualDescription(EditorModel m) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Query: '").append(queryString).append("'\n");
-		int i=0;
+		int i = 0;
 		for (DependencyNode n : getContents()) {
 			sb.append("\n-- Match ").append(++i).append("--\n");
 			sb.append("   ")
 					.append(n.getContent().getClass().getSimpleName())
 					.append(" (")
 					.append(n.getId())
-					.append("): matches in\n");
-			for (String s : result.fieldMatchesFor(n)) {
-				sb.append("     ")
-						.append(s)
-						.append(": ")
-						.append(n.getDoc().getValues(s)[0]);
+					.append(")");
+			if (result != null) {
+				sb.append(": matches in\n");
+				for (String s : result.fieldMatchesFor(n)) {
+					sb.append("     ")
+							.append(s)
+							.append(": ")
+							.append(n.getDoc().getValues(s)[0]);
+				}
 			}
 		}
 		return sb.toString();

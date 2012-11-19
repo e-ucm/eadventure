@@ -76,15 +76,23 @@ public class EditorModelTest {
 			.getLogger("EditorModelTest");
 	private EditorModel model;
 
+	private static File tmpDir;
+	private static File importDir;
+	private static File saveDir;
+
 	public EditorModelTest() {
 	}
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
+		tmpDir = FileUtils.createTempDir("model","test");
+		importDir = new File(tmpDir, "import");
+		saveDir = new File(tmpDir, "save");
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		FileUtils.deleteRecursive(tmpDir);
 	}
 
 	@Before
@@ -98,14 +106,14 @@ public class EditorModelTest {
 
 		Injector injector = Guice.createInjector(
 				new BaseImporterModule(),
-				new GdxEditorModule(), 
-				new EditorGuiceModule(), 
+				new GdxEditorModule(),
+				new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
 		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
-		
+
 		model = injector.getInstance(EditorModel.class);
 	}
 
@@ -117,44 +125,26 @@ public class EditorModelTest {
 	 * Test of loadFromImportFile method, of class EditorModel.
 	 */
 	@Test
-	public void testLoadFromImportFile() {
+	public void testLoadFromImportFile() throws Exception {
 		System.out.println("loadFromImportFile");
 		URL fileUrl = Thread.currentThread().getContextClassLoader().getResource(
 				"ead/editor/model/test.ead");
 		File f = new File(fileUrl.getPath());
-		
 		assertTrue(f.exists());
 
-		try {
-			File eadtemp = File.createTempFile("eadTemp",
-					Long.toString(System.nanoTime()));
+		model.getLoader().loadFromImportFile(f, importDir);
+		assertTrue(importDir.exists());
+		assertTrue(new File(importDir, "data.xml").isFile());
+		assertTrue(new File(importDir, "editor.xml").isFile());
+		assertTrue(new File(importDir, "strings.xml").isFile());
 
-			if (!(eadtemp.delete())) {
-				throw new IOException("Could not delete temp file: "
-						+ eadtemp.getAbsolutePath());
-			}
-
-			if (!(eadtemp.mkdir())) {
-				throw new IOException("Could not create temp directory: "
-						+ eadtemp.getAbsolutePath());
-			} 
-			model.getLoader().loadFromImportFile(f, eadtemp);
-			assertTrue(new File(eadtemp, "data.xml").isFile());
-			assertTrue(new File(eadtemp, "editor.xml").isFile());
-			assertTrue(new File(eadtemp, "strings.xml").isFile());
-			FileUtils.deleteRecursive(eadtemp);			
-		} catch (IOException ex) {
-			logger.error("Test failed due to exception", ex);
-			Assert.fail();
-		}
-	}
-
-	/**
-	 * Test of save method, of class EditorModel.
-	 */
-	@Test
-	public void testSave() throws Exception {
 		System.out.println("save");
+		assertTrue(importDir.exists());
+		model.getLoader().save(saveDir);
+		assertTrue(saveDir.exists());
+		assertTrue(new File(saveDir, "data.xml").isFile());
+		assertTrue(new File(saveDir, "editor.xml").isFile());
+		assertTrue(new File(saveDir, "strings.xml").isFile());
 	}
 
 	/**
@@ -163,15 +153,10 @@ public class EditorModelTest {
 	@Test
 	public void testLoad() throws Exception {
 		System.out.println("load");
-		URL fileUrl = Thread.currentThread().getContextClassLoader().getResource(
-				"ead/editor/model/saved.zip");
-		File f = new File(fileUrl.getPath());
-		
-		assertTrue(f.exists());
-		model.getLoader().load(f);
+		assertTrue(saveDir.exists());
+		model.getLoader().load(saveDir);
 	}
 
-	// --- non-automated tests ---
 	/**
 	 * Tests indexing and searching
 	 */
@@ -195,6 +180,8 @@ public class EditorModelTest {
 		Assert.assertEquals(1, matches);
 	}
 
+
+	// --- non-automated tests ---
 	/**
 	 * Test import-loading of an old ead 1.x file
 	 */

@@ -65,9 +65,9 @@ import org.slf4j.LoggerFactory;
  * @author mfreire
  */
 public class EngineNode<T> extends DependencyNode<T> {
-	
+
 	public static final Logger log = LoggerFactory.getLogger(EngineNode.class);
-	
+
 	public EngineNode(int id, T content) {
 		super(id, content);
 	}
@@ -82,7 +82,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 		appendDescription(m, content, sb, 0, 3);
 		return sb.toString();
 	}
-	
+
 	public String formatIds(List<DependencyNode> list) {
 		StringBuilder sb = new StringBuilder(" ");
 		for (DependencyNode n : list) {
@@ -94,10 +94,10 @@ public class EngineNode<T> extends DependencyNode<T> {
 	private void appendDependencies(DependencyNode n, EditorModel m, StringBuilder sb) {
 		sb
 			.append("Used from ")
-			.append(formatIds(m.outgoingDependencies(this)))
+			.append(formatIds(m.incomingDependencies(this)))
 			.append("\n");
 	}
-	
+
 	/**
 	 * Returns a descriptive string for a given object.
 	 * @param o object to drive into.
@@ -185,7 +185,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 			appendParams(m, o, sb, depth, maxDepth);
 			if (depth != maxDepth) {
 				appendDependencies(this, m, sb);
-			}			
+			}
 		} else if (o instanceof Class) {
 			sb.append(indent + ((Class<?>) o).getName() + "\n");
 		} else {
@@ -197,7 +197,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 	 * Iterates through params, providing a glimpse of their contents.
 	 * @param m model
 	 * @param o object from which to extract params, if any
-	 * @param sb output 
+	 * @param sb output
 	 * @param depth current depth
 	 * @param maxDepth max depth to reach
 	 */
