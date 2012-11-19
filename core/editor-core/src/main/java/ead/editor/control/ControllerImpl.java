@@ -163,13 +163,11 @@ public class ControllerImpl implements Controller {
 
     @Override
     public Action getAction(String name) {
-		System.err.println(name);
         return actionMap.get(name);
     }
 
     @Override
     public void putAction(String name, Action action) {
-		System.err.println(name);
         actionMap.put(name, action);
     }
 
