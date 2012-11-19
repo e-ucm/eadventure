@@ -51,7 +51,18 @@ import ead.utils.i18n.I18N;
 public class Messages {
 
 	public static String edit_menu;
+	public static String edit_menu_adaptation_profiles;
+	public static String edit_menu_advanced;
+	public static String edit_menu_assessment_profiles;
+	public static String edit_menu_atrezzo;
+	public static String edit_menu_books;
+	public static String edit_menu_conversations;
+	public static String edit_menu_cutscenes;
+	public static String edit_menu_items;
+	public static String edit_menu_npcs;
+	public static String edit_menu_player;
 	public static String edit_menu_redo;
+	public static String edit_menu_scenes;
 	public static String edit_menu_undo;
 	public static String file_menu;
 	public static String file_menu_confirm_destructive_op;
@@ -87,6 +98,11 @@ public class Messages {
 	public static String run_menu_confirm_save_before_run;
 	public static String run_menu_run_browser;
 	public static String run_menu_run_desktop;
+	public static String toolbar_search;
+	public static String window_menu;
+	public static String window_menu_clear;
+	public static String window_menu_next;
+	public static String window_menu_prev;
 
 	static {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);

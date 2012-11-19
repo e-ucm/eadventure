@@ -37,5 +37,7 @@
 
 /**
  * Collection of utility interfaces and classes.
+ * Contains i18n, file (and zip-file) access, and swing utilities
+ * (mostly to execute code in EDT).
  */
 package ead.utils;

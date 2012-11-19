@@ -20,11 +20,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>gui</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
 			<artifactId>utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -95,7 +90,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<profiles>
 		<profile>
 			<!-- generates releases with unified "editor-jar" and wrapping-exe -->
@@ -162,7 +157,7 @@
 						</executions>
 					</plugin>
 				</plugins>
-			</build>			
+			</build>
 		</profile>
 	</profiles>
 </project>

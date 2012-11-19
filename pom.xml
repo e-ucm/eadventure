@@ -106,7 +106,6 @@
 				<module>core/tools-java</module>
 				<module>core/tools-gwt</module>
 				<module>core/utils</module>
-				<module>core/gui</module>
 
 				<!-- Engine -->
 				<module>core/engine-core</module>
@@ -150,21 +149,21 @@
 			<!-- Editor-only build -->
 			<id>editor</id>
 			<modules>
-				<module>core/editor-core</module>			
+				<module>core/editor-core</module>
 			</modules>
 		</profile>
 		<profile>
 			<!-- Desktop-engine-only build -->
 			<id>engine-desktop</id>
 			<modules>
-				<module>core/engine-gdx-desktop</module>			
+				<module>core/engine-gdx-desktop</module>
 			</modules>
 		</profile>
 		<profile>
 			<!-- Android-engine-only build -->
 			<id>engine-android</id>
 			<modules>
-				<module>core/engine-gdx-android</module>			
+				<module>core/engine-gdx-android</module>
 			</modules>
 		</profile>
 	</profiles>
@@ -268,7 +267,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 			<!-- ====================================================================== -->
 			<!-- Report plugins -->
 			<!-- ====================================================================== -->
@@ -337,11 +336,11 @@
 								<aggregate>true</aggregate>
 							</configuration>
 						</plugin>
-						<!-- find style deviations <plugin> <groupId>org.apache.maven.plugins</groupId> 
-							<artifactId>maven-checkstyle-plugin</artifactId> <version>2.5</version> <dependencies> 
-							<dependency> <groupId>ead</groupId> <artifactId>build-tools</artifactId> 
+						<!-- find style deviations <plugin> <groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-checkstyle-plugin</artifactId> <version>2.5</version> <dependencies>
+							<dependency> <groupId>ead</groupId> <artifactId>build-tools</artifactId>
 							<version>${project.version}</version> </dependency> </dependencies> </plugin> -->
-						<!-- Aggregate results from Checkstyle, Cobertura, Clover, Surefire, 
+						<!-- Aggregate results from Checkstyle, Cobertura, Clover, Surefire,
 							PMD, CPD, FindBugs, Taglist reports. -->
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
@@ -392,8 +391,8 @@
 							<artifactId>maven-surefire-report-plugin</artifactId>
 							<version>2.8</version>
 						</plugin>
-						<!-- Currently Apache RAT maven plugin is in incubation phase and there 
-							is no build in Apache Maven Plugins Snapshots Repository <plugin> <groupId>org.apache.rat</groupId> 
+						<!-- Currently Apache RAT maven plugin is in incubation phase and there
+							is no build in Apache Maven Plugins Snapshots Repository <plugin> <groupId>org.apache.rat</groupId>
 							<artifactId>apache-rat-plugin</artifactId> </plugin> -->
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
@@ -435,9 +434,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<!-- Plugin Management contains plugin elements in much the same way, except 
-			that rather than configuring plugin information for this particular project 
-			build, it is intended to configure project builds that inherit from this 
+		<!-- Plugin Management contains plugin elements in much the same way, except
+			that rather than configuring plugin information for this particular project
+			build, it is intended to configure project builds that inherit from this
 			one. -->
 		<pluginManagement>
 			<plugins>
@@ -565,8 +564,8 @@
 	<!-- ====================================================================== -->
 	<!-- SOURCE CODE MANAGEMENT -->
 	<!-- ====================================================================== -->
-	<!-- <scm> <connection>scm:hg:https://eadventure.googlecode.com/hg/</connection> 
-		<developerConnection>scm:hg:https://eadventure.googlecode.com/hg/</developerConnection> 
+	<!-- <scm> <connection>scm:hg:https://eadventure.googlecode.com/hg/</connection>
+		<developerConnection>scm:hg:https://eadventure.googlecode.com/hg/</developerConnection>
 		<url>https://eadventure.googlecode.com/hg/</url> </scm> -->
 
 	<!-- ====================================================================== -->
@@ -693,12 +692,12 @@
 	<!-- D E P E N D E N C I E S -->
 	<!-- ====================================================================== -->
 	<dependencies>
-		<!-- All projects should declare a dependency on <dependency> <groupId>org.slf4j</groupId> 
-			<artifactId>slf4j-api</artifactId> </dependency> (or slf4j-android; which 
-			includes slf4j inside). Subprojects can choose their own implementations; 
-			they will not conflict or propagate as long as they use the <optional>true</optional> 
-			element. Example (basic logging): <dependency> <groupId>org.slf4j</groupId> 
-			<artifactId>slf4j-simple</artifactId> <optional>true</optional> </dependency> 
+		<!-- All projects should declare a dependency on <dependency> <groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId> </dependency> (or slf4j-android; which
+			includes slf4j inside). Subprojects can choose their own implementations;
+			they will not conflict or propagate as long as they use the <optional>true</optional>
+			element. Example (basic logging): <dependency> <groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId> <optional>true</optional> </dependency>
 			No implementation specified means no logs are generated -->
 	</dependencies>
 	<dependencyManagement>
@@ -771,7 +770,7 @@
 				<version>1.8.1</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- <dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId> 
+			<!-- <dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId>
 				<version>1.8.1</version> <scope>test</scope> </dependency> -->
 			<dependency>
 				<groupId>org.jmock</groupId>

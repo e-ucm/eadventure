@@ -1,7 +1,40 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package ead.utils;
 
 import org.junit.After;
@@ -24,23 +57,23 @@ import java.io.InputStreamReader;
  * @author mfreire
  */
 public class FileUtilsTest {
-	
+
 	public FileUtilsTest() {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, null);
 	}
-	
+
 	@BeforeClass
 	public static void setUpClass() {
 	}
-	
+
 	@AfterClass
 	public static void tearDownClass() {
 	}
-	
+
 	@Before
 	public void setUp() {
 	}
-	
+
 	@After
 	public void tearDown() {
 	}
@@ -50,7 +83,7 @@ public class FileUtilsTest {
 		assertTrue(f.exists());
 		return f;
 	}
-	
+
 	/**
 	 * Test of readEntryFromZip method, of class FileUtils.
 	 */
@@ -60,7 +93,7 @@ public class FileUtilsTest {
 		File zipFile = getFile("ead/utils/sample.zip");
 		String entryName = "META-INF/MANIFEST.MF";
 		InputStream result = FileUtils.readEntryFromZip(zipFile, entryName);
-		BufferedReader r = new BufferedReader(new InputStreamReader(result));		
+		BufferedReader r = new BufferedReader(new InputStreamReader(result));
 		assertEquals("Manifest-Version: 1.0", r.readLine());
 	}
 
@@ -111,15 +144,15 @@ public class FileUtilsTest {
 			FileUtils.appendEntryToZip(tmp, entryName,
 					new ByteArrayInputStream(testContents.getBytes()));
 			assertTrue(FileUtils.zipContainsEntry(tmp, entryName));
-			
+
 			InputStream result = FileUtils.readEntryFromZip(tmp, entryName);
-			BufferedReader r = new BufferedReader(new InputStreamReader(result));		
+			BufferedReader r = new BufferedReader(new InputStreamReader(result));
 			assertEquals(testContents, r.readLine());
 		} finally {
 			if (tmp != null) {
 				FileUtils.deleteRecursive(tmp);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -165,7 +198,7 @@ public class FileUtilsTest {
 			return rc;
 		}
 	}
-	
+
 	/**
 	 * Test of toCanonicalPath method, of class FileUtils.
 	 */
@@ -206,7 +239,7 @@ public class FileUtilsTest {
 			if (tmp != null) {
 				FileUtils.deleteRecursive(tmp);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -221,13 +254,13 @@ public class FileUtilsTest {
 			String one = FileUtils.loadFileToString(src);
 			File dest = new File(tmp, "test");
 			FileUtils.writeStringToFile(one, dest);
-			String two = FileUtils.loadFileToString(dest);			
+			String two = FileUtils.loadFileToString(dest);
 			assertEquals(one, two);
 		} finally {
 			if (tmp != null) {
 				FileUtils.deleteRecursive(tmp);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -254,7 +287,7 @@ public class FileUtilsTest {
 			if (tmp != null) {
 				FileUtils.deleteRecursive(tmp);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -274,19 +307,19 @@ public class FileUtilsTest {
 			byte[] one = bos.toByteArray();
 			byte[] two = new byte[one.length];
 			System.arraycopy(one, 0, two, 0, one.length);
-			
+
 			assertTrue(FileUtils.sameContents(
-					new ByteArrayInputStream(one), 
+					new ByteArrayInputStream(one),
 					new ByteArrayInputStream(two)));
 			// change a byte
 			two[two.length / 2] ++;
 			assertFalse(FileUtils.sameContents(
-					new ByteArrayInputStream(one), 
+					new ByteArrayInputStream(one),
 					new ByteArrayInputStream(two)));
 		} finally {
 			if (tmp != null) {
 				FileUtils.deleteRecursive(tmp);
 			}
-		}	
+		}
 	}
 }

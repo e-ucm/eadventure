@@ -83,6 +83,11 @@ public class R {
 		public static String sidePanel__npcs_png;
 		public static String sidePanel__player_png;
 		public static String sidePanel__scenes_png;
+		public static String toolbar__backward_png;
+		public static String toolbar__forward_png;
+		public static String toolbar__redo_png;
+		public static String toolbar__search_png;
+		public static String toolbar__undo_png;
 
 		static {
 			Set<String> files = new TreeSet<String>();
@@ -118,6 +123,11 @@ public class R {
 			files.add("sidePanel/npcs.png");
 			files.add("sidePanel/player.png");
 			files.add("sidePanel/scenes.png");
+			files.add("toolbar/backward.png");
+			files.add("toolbar/forward.png");
+			files.add("toolbar/redo.png");
+			files.add("toolbar/search.png");
+			files.add("toolbar/undo.png");
 
 			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
 		}

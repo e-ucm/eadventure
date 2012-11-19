@@ -37,6 +37,7 @@
 
 package ead.editor.view;
 
+import ead.editor.view.toolbar.ToolPanel;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -71,9 +72,8 @@ import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.menu.FileMenu;
 import ead.editor.view.panel.ActorPanel;
 import ead.editor.view.panel.RawElementPanel;
-import ead.editor.view.generic.structure.StructureElement;
-import ead.editor.view.generic.structure.StructureElementProvider;
-import ead.editor.view.generic.structure.StructurePanel;
+import ead.editor.view.structure.StructureElement;
+import ead.editor.view.structure.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
 import java.awt.event.ComponentAdapter;
@@ -85,6 +85,7 @@ import javax.swing.*;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.RunMenu;
+import ead.editor.view.menu.WindowMenu;
 
 /**
  * Default implementation of the main editor window
@@ -123,42 +124,17 @@ public class EditorWindow implements ViewController {
     protected Controller controller;
 
     private void initializeStructurePanel() {
-        leftPanel = new StructurePanel();
+		for (Action a : controller.getActions()) {
+			if (a instanceof EditMenu.EditorAction) {
+				leftPanel.addElement(new StructureElement(a));
+			}
+		}
+		leftPanel.commit();
 
-        leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Scenes",
-                R.Drawable.sidePanel__scenes_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Player",
-                R.Drawable.sidePanel__player_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("NPCs",
-                R.Drawable.sidePanel__npcs_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Conversations",
-                R.Drawable.sidePanel__conversations_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Items",
-                R.Drawable.sidePanel__items_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Atrezzo",
-                R.Drawable.sidePanel__atrezzo_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Books",
-                R.Drawable.sidePanel__books_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Advanced",
-                R.Drawable.sidePanel__advanced_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Cutscenes",
-                R.Drawable.sidePanel__cutscenes_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Adaptation Profiles",
-                R.Drawable.sidePanel__adaptationProfiles_png)));
-		leftPanel.addElement(new StructureElement(
-				new SimpleStructureElement("Assessment Profiles",
-                R.Drawable.sidePanel__assessmentProfiles_png)));
-		leftPanel.createElements();
+		// register panel to listen to changes in the project
+		leftPanel.setController(controller);
+		controller.getProjectController().addChangeListener(leftPanel);
+		leftPanel.processChange(null);
     }
 
     /**
@@ -300,7 +276,8 @@ public class EditorWindow implements ViewController {
 		AbstractEditorMenu menus[] = new AbstractEditorMenu[] {
 			new FileMenu(controller),
 			new EditMenu(controller),
-			new RunMenu(controller)
+			new RunMenu(controller),
+			new WindowMenu(controller),
 		};
 		for (AbstractEditorMenu m : menus) {
 			m.initialize();
@@ -431,9 +408,10 @@ public class EditorWindow implements ViewController {
 		this.controller = controller;
 
         // left panel, right panel, and the splitPane
-        initializeStructurePanel();
+        leftPanel = new StructurePanel();
         dockController = new CControl();
         createMainWindow();
+        initializeStructurePanel();
 
         // requires main window
         setIcons();
@@ -441,39 +419,5 @@ public class EditorWindow implements ViewController {
         // Add your panel factories here
         registerElementPanelFactory(ActorNode.class, ActorPanel.class);
         registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
-	}
-
-	/**
-	 * Simplistic structure provider
-	 */
-	public static class SimpleStructureElement implements StructureElementProvider {
-		private String label;
-		private Icon icon;
-		public SimpleStructureElement(String label, String iconUrl) {
-			this.label = label;
-			this.icon = new ImageIcon(ClassLoader
-					.getSystemClassLoader().getResource(iconUrl));
-		}
-
-		@Override
-		public String getLabel() {
-			return label;
-		}
-
-		@Override
-		public Icon getIcon() {
-			return icon;
-		}
-
-		@Override
-		public boolean canHaveChildren() {
-			return false;
-		}
-
-		@Override
-		public int getChildCount() {
-			return 0;
-		}
-
 	}
 }

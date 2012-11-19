@@ -49,6 +49,7 @@ import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.utils.swing.SwingUtilities;
+import java.util.Collection;
 import javax.swing.JFrame;
 
 /**
@@ -155,13 +156,20 @@ public class ControllerImpl implements Controller {
         return commandManager;
     }
 
+	@Override
+	public Collection<Action> getActions() {
+		return actionMap.values();
+	}
+
     @Override
     public Action getAction(String name) {
+		System.err.println(name);
         return actionMap.get(name);
     }
 
     @Override
     public void putAction(String name, Action action) {
+		System.err.println(name);
         actionMap.put(name, action);
     }
 

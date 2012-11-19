@@ -46,7 +46,9 @@ import javax.swing.KeyStroke;
 
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
-import ead.gui.EAdMenuItem;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 
 /**
  * An abstract editor menu. All editor menus should descend from this one
@@ -96,7 +98,7 @@ public abstract class AbstractEditorMenu extends JMenu {
 	 * @param text
 	 * @return
 	 */
-	private static String removeMenuKeyIndicator(String text) {
+	public static String removeMenuKeyIndicator(String text) {
 		return text.replaceAll("_", "");
 	}
 
@@ -133,18 +135,41 @@ public abstract class AbstractEditorMenu extends JMenu {
 					KeyStroke.getKeyStroke(globalKey, platformMnemonic | globalModifiers));
         }
 
+		/**
+		 * Creates an action with an accelerator and icon
+		 * @param nameAndMnemonic a string like "_This example", where the
+		 * 't' would be chosen as the mnemonic key, and the underscore would not
+		 * be included in the actual menuitem name
+		 * @param globalKey
+		 * @param iconUrl
+		 */
+	    public AbstractEditorAction(String name,
+				int globalKey, int globalModifiers, String iconUrl) {
+            putValue(NAME, removeMenuKeyIndicator(name));
+            putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
+            putValue(ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(globalKey, platformMnemonic | globalModifiers));
+			putValue(Action.SMALL_ICON, new ImageIcon(ClassLoader
+				.getSystemClassLoader().getResource(iconUrl)));
+        }
+
         @Override
         public void processChange(Object event) {
             // default is to do nothing
         }
 	}
 
+	/**
+	 * Registers an action with the menu. This creates a suitable entry,
+	 * with key-bindings, shortcuts and everything.
+	 * @param a The action to register.
+	 */
 	protected void registerAction(AbstractEditorAction a) {
 		String name = "" + a.getValue(AbstractAction.NAME);
 		String desc = "" + a.getValue(AbstractAction.SHORT_DESCRIPTION);
 
 		// build menu item
-		EAdMenuItem item = new EAdMenuItem(desc);
+		JMenuItem item = new JMenuItem(desc);
 		item.setAction(a);
 		add(item);
 

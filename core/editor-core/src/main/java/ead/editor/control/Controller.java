@@ -42,6 +42,7 @@ import javax.swing.Action;
 
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import java.util.Collection;
 import javax.swing.JFrame;
 
 
@@ -55,6 +56,11 @@ public interface Controller {
 	 * Must be called before calling any other methods
 	 */
 	void initialize();
+
+	/**
+	 * Retrieves all actions.
+	 */
+	Collection<Action> getActions();
 
     /**
      * Retrieves actions by name. Action names should be declared in the
