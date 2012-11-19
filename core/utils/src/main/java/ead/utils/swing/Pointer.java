@@ -35,30 +35,30 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.utils;
+package ead.utils.swing;
 
 /**
  * Generic pointer class.
- * 
- * @param <T> Type of the element to point at. 
+ *
+ * @param <T> Type of the element to point at.
  */
 public class Pointer<T>{
-	
+
 	/**
 	 * Referenced element;
 	 */
 	public T reference;
-	
+
 	/**
 	 * Creates an empty {link Pointer}.
 	 */
 	public Pointer(){
 		this(null);
 	}
-	
+
 	/**
 	 * Creates a {link Pointer} to the specified element.
-	 * 
+	 *
 	 * @param reference Element to point at.
 	 */
 	public Pointer(T reference){
@@ -67,7 +67,7 @@ public class Pointer<T>{
 
 	/**
 	 * Returns the referenced element.
-	 * 
+	 *
 	 * @return the referenced element.
 	 */
 	public T getReference() {
@@ -76,7 +76,7 @@ public class Pointer<T>{
 
 	/**
 	 * Establishs the referenced element.
-	 * 
+	 *
 	 * @param reference Element to reference.
 	 */
 	public void setReference(T reference) {

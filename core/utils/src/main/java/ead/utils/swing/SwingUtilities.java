@@ -61,7 +61,6 @@ import javax.swing.JScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.utils.Pointer;
 import ead.utils.i18n.I18N;
 
 abstract public class SwingUtilities {
@@ -146,37 +145,37 @@ abstract public class SwingUtilities {
     static private JDialog exceptionDialog = null;
     static private JEditorPane exceptionEditorPane = null;
     static private ArrayList<String> exceptionsSoFar = new ArrayList<String>();
-    
+
     /**
      * Display an exception in the exception dialog. Will create a new
      * exception dialog if none was currently being displayed.
      * @param exp the throwable to display
      */
     static public void showExceptionDialog(final Throwable exp) {
-        
+
         logger.error("Exception captured by swing", exp);
-    
-        doInEDTNow(new Runnable() { 
+
+        doInEDTNow(new Runnable() {
             @Override
             public void run() {
-                showExceptionDialogEDT(exp); 
+                showExceptionDialogEDT(exp);
             }
         });
     }
-    
+
     /**
-     * Display an exception in the exception dialog. 
-     */    
+     * Display an exception in the exception dialog.
+     */
     static private void showExceptionDialogEDT(final Throwable exp) {
         if (exceptionDialog == null) {
             exceptionDialog = new JDialog(
                     findActiveFrame(), Messages.exception_dialog_title, false);
             exceptionDialog.setLayout(new BorderLayout());
-            
+
             exceptionEditorPane = new JEditorPane("text/html", "");
             exceptionEditorPane.setEditable(false);
             exceptionDialog.add(new JScrollPane(exceptionEditorPane), BorderLayout.CENTER);
-            
+
             // Add close button
             JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             btnPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -201,15 +200,15 @@ abstract public class SwingUtilities {
                     (screenSize.height / 2) - (h / 2));
 
             exceptionDialog.setResizable(true);
-            exceptionDialog.setVisible(true);            
+            exceptionDialog.setVisible(true);
         }
 
         // Contents
         StringBuilder sb = new StringBuilder();
         String expType = I18N.bind((exp instanceof Error) ?
-                Messages.exception_dialog_type_error : 
-                Messages.exception_dialog_type_exception, 
-                exp.getClass().getName());        
+                Messages.exception_dialog_type_error :
+                Messages.exception_dialog_type_exception,
+                exp.getClass().getName());
         sb.append("<h3>" + expType
                 + "<a name='a" + (exceptionsSoFar.size()+1) + "'></a>"
 				+ "</h3>");
@@ -229,7 +228,7 @@ abstract public class SwingUtilities {
     static private void fillStackTrace(StringBuilder buf, Throwable exp) {
 
         buf.append("<b>")
-           .append(I18N.bind(Messages.exception_dialog_message, 
+           .append(I18N.bind(Messages.exception_dialog_message,
 				exp.getLocalizedMessage()))
            .append("</b>\n");
         StackTraceElement traces[] = exp.getStackTrace();
@@ -262,4 +261,9 @@ abstract public class SwingUtilities {
         }
         return result;
     }
+
+
+	public interface ReturnableRunnable<E> {
+		public E run();
+	}
 }
