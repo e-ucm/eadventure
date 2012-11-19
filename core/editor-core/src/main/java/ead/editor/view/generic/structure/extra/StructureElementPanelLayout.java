@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -45,9 +45,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Layout for the whole structure panel
+ * Layout for the structure element
  */
-public class StructurePanelLayout implements LayoutManager2 {
+public class StructureElementPanelLayout implements LayoutManager2 {
 
     /**
      * List of the structure components
@@ -57,7 +57,7 @@ public class StructurePanelLayout implements LayoutManager2 {
     @Override
     public void addLayoutComponent( Component arg0, Object arg1 ) {
 
-        components.add( new StructureComponent( arg0, (Integer) arg1 ) );
+        components.add( new StructureComponent( arg0, (String) arg1 ) );
     }
 
     @Override
@@ -92,18 +92,11 @@ public class StructurePanelLayout implements LayoutManager2 {
     public void layoutContainer( Container parent ) {
 
         int width = parent.getWidth( );
-        int y = 0;
         for( StructureComponent c : components ) {
-            int height2 = c.getSize( );
-            if( c.getSize( ) == -1 ) {
-                height2 = parent.getHeight( );
-                for( StructureComponent d : components ) {
-                    if( d != c )
-                        height2 -= d.getSize( );
-                }
-            }
-            c.getComponent( ).setBounds( 0, y, width, height2 );
-            y += height2;
+            if( c.getType( ).equals( "title" ) ) {
+                c.getComponent( ).setBounds( 0, 0, width, 40 );
+            } else
+                c.getComponent( ).setBounds( 6, 40, width - 12, parent.getHeight( ) - 40 );
         }
     }
 
@@ -134,12 +127,12 @@ public class StructurePanelLayout implements LayoutManager2 {
 
         private Component component;
 
-        private Integer size;
+        private String type;
 
-        public StructureComponent( Component component, Integer size ) {
+        public StructureComponent( Component component, String type ) {
 
             this.component = component;
-            this.size = size;
+            this.type = type;
         }
 
         public Component getComponent( ) {
@@ -147,9 +140,9 @@ public class StructurePanelLayout implements LayoutManager2 {
             return component;
         }
 
-        public int getSize( ) {
+        public String getType( ) {
 
-            return size.intValue( );
+            return type;
         }
     }
 

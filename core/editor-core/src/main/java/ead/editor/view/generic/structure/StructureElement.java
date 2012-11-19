@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel;
+package ead.editor.view.generic.structure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class StructureElement {
 
 	/**
 	 * Constructor by default.
-	 * 
+	 *
 	 * @param provider
 	 * 			The provider for the values of the strucutre element
 	 */
@@ -77,10 +77,10 @@ public class StructureElement {
 	private void updateChildren() {
 		//TODO update the children list
 	}
-	
+
 	/**
 	 * Count the children of the element.
-	 * 
+	 *
 	 * @return The number of sub-elements
 	 */
 	public int getChildCount() {
@@ -91,7 +91,7 @@ public class StructureElement {
 
 	/**
 	 * Return a child, a sub-element
-	 * 
+	 *
 	 * @param index
 	 *            Number of child to return
 	 * @return A StructureSubElement {@link StructureSubElement}
@@ -115,7 +115,7 @@ public class StructureElement {
 
 	/**
 	 * Removes a child {@link StructureSubElement}
-	 * 
+	 *
 	 * @param subElement
 	 * 		Sub-element to eliminate
 	 */

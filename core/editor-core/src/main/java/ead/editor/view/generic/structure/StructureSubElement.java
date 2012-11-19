@@ -35,13 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel;
+package ead.editor.view.generic.structure;
 
 import javax.swing.Icon;
 
 /**
  * Represent a sub-element of StructurePanel {@link StructurePanel}
- * 
+ *
  * It's shown in the table of each element.
  */
 public class StructureSubElement {
@@ -77,7 +77,7 @@ public class StructureSubElement {
 
 	/**
 	 * Create a sub-element with a unique name. Can have an icon.
-	 * 
+	 *
 	 * @param name
 	 *            the unique id
 	 * @param icon
@@ -91,7 +91,7 @@ public class StructureSubElement {
 
 	/**
 	 * Return the id of the sub-element
-	 * 
+	 *
 	 * @return
 	 * 		the unique id
 	 */
@@ -121,7 +121,7 @@ public class StructureSubElement {
 
 	/**
 	 * Returns if element is movable
-	 * 
+	 *
 	 * @return if element is movable
 	 */
 	public boolean isMovable() {
@@ -130,7 +130,7 @@ public class StructureSubElement {
 
 	/**
 	 * Sets if element is movable
-	 * 
+	 *
 	 * @param movable
 	 *            if element is movable
 	 */

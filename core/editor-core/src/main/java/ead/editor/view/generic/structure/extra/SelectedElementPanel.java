@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -63,8 +63,8 @@ import org.slf4j.LoggerFactory;
 import ead.gui.CommonGUIMessages;
 import ead.gui.EAdScrollPane;
 import ead.gui.R;
-import ead.gui.structurepanel.StructureElement;
-import ead.gui.structurepanel.StructurePanel;
+import ead.editor.view.generic.structure.StructureElement;
+import ead.editor.view.generic.structure.StructurePanel;
 import ead.utils.swing.SwingUtilities;
 
 /**
@@ -79,7 +79,7 @@ public class SelectedElementPanel extends JPanel {
 	 */
 	private final static Logger logger = LoggerFactory
 			.getLogger(SelectedElementPanel.class);
-	
+
 	private JButton button;
 
 	public SelectedElementPanel(final StructureElement element, int index,

@@ -71,9 +71,9 @@ import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.menu.FileMenu;
 import ead.editor.view.panel.ActorPanel;
 import ead.editor.view.panel.RawElementPanel;
-import ead.gui.structurepanel.StructureElement;
-import ead.gui.structurepanel.StructureElementProvider;
-import ead.gui.structurepanel.StructurePanel;
+import ead.editor.view.generic.structure.StructureElement;
+import ead.editor.view.generic.structure.StructureElementProvider;
+import ead.editor.view.generic.structure.StructurePanel;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
 import java.awt.event.ComponentAdapter;
@@ -205,14 +205,14 @@ public class EditorWindow implements ViewController {
 
 	/**
 	 * Sets a title qualifier, used to display (say) currently-edited file.
-	 * @param title 
+	 * @param title
 	 */
 	@Override
 	public void setTitleQualifier(String title) {
 		String nextTitle = title + " - " + Messages.main_window_title;
 		editorWindow.setTitle(nextTitle);
 	}
-	
+
     /**
      * Creates a new view of a given category.
      */
@@ -298,16 +298,16 @@ public class EditorWindow implements ViewController {
 		// initialize the menus
         editorMenuBar = new JMenuBar();
 		AbstractEditorMenu menus[] = new AbstractEditorMenu[] {
-			new FileMenu(controller), 
+			new FileMenu(controller),
 			new EditMenu(controller),
 			new RunMenu(controller)
 		};
 		for (AbstractEditorMenu m : menus) {
 			m.initialize();
 			editorMenuBar.add(m);
-		}	
+		}
         editorWindow.setJMenuBar(editorMenuBar);
-		
+
         toolPanel = new ToolPanel(controller);
         editorMenuBar.add(new JSeparator());
         editorMenuBar.add(toolPanel.getPanel());
@@ -422,14 +422,14 @@ public class EditorWindow implements ViewController {
 	/**
 	 * Set the actual super-controller.
 	 * This will finish building the interface, and then launch it.
-	 * 
+	 *
 	 * @param controller the main controller, providing access to model, views,
 	 * and more
 	 */
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
-		
+
         // left panel, right panel, and the splitPane
         initializeStructurePanel();
         dockController = new CControl();
@@ -440,7 +440,7 @@ public class EditorWindow implements ViewController {
 
         // Add your panel factories here
         registerElementPanelFactory(ActorNode.class, ActorPanel.class);
-        registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);		
+        registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
 	}
 
 	/**

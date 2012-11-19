@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel;
+package ead.editor.view.generic.structure;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -57,20 +57,20 @@ import org.jdesktop.swingx.search.Searchable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.gui.structurepanel.extra.ElementButtonListener;
-import ead.gui.structurepanel.extra.SelectedElementPanel;
-import ead.gui.structurepanel.extra.StructureElementButton;
-import ead.gui.structurepanel.extra.StructurePanelLayout;
+import ead.editor.view.generic.structure.extra.ElementButtonListener;
+import ead.editor.view.generic.structure.extra.SelectedElementPanel;
+import ead.editor.view.generic.structure.extra.StructureElementButton;
+import ead.editor.view.generic.structure.extra.StructurePanelLayout;
 import ead.utils.swing.SwingUtilities;
 
 /**
  * Main class of the StructurePanel
- * 
+ *
  * To Add elements call to {@link StructurePanel#addElement(StructureElement)},
  * it's would be added on top. With
  * {@link StructurePanel#addElement(StructureElement, int)} is possible give a
  * position through 'int'
- * 
+ *
  * By the method {@link StructurePanel#createElements()} the panel is created
  * and drawn.
  */
@@ -131,7 +131,7 @@ public class StructurePanel extends JPanel {
 
 	/**
 	 * Constructor with a width and selectedElement predefined.
-	 * 
+	 *
 	 * @param width
 	 *            It represent the width of the panel
 	 * @param selectedElement
@@ -173,7 +173,7 @@ public class StructurePanel extends JPanel {
 
 	/**
 	 * To change the width of the panel
-	 * 
+	 *
 	 * @param width
 	 */
 	public void setWidth(int width) {
@@ -187,7 +187,7 @@ public class StructurePanel extends JPanel {
 	 * order represented by index, If the index already exists, it would be
 	 * created on top of their order. Also if index is older than size of
 	 * StructureListElement, the element is added at the end.
-	 * 
+	 *
 	 * @param element
 	 *            Element to add
 	 * @param index
@@ -204,7 +204,7 @@ public class StructurePanel extends JPanel {
 
 	/**
 	 * Add an element at the end of the list
-	 * 
+	 *
 	 * @param element
 	 *            Element to add.
 	 */
@@ -227,7 +227,7 @@ public class StructurePanel extends JPanel {
 
 	/**
 	 * Updates the GUI
-	 * 
+	 *
 	 * @param oldIndex
 	 *            Last element selected
 	 * @param newIndex
@@ -306,7 +306,7 @@ public class StructurePanel extends JPanel {
 	 * This method calculates variables "increment, bottom, top, and cont " to
 	 * draw the elements as an image, is called in
 	 * {@link StructurePanel#update(int, int)}
-	 * 
+	 *
 	 * @param newIndex
 	 *            The element selected now
 	 * @param oldIndex
@@ -409,7 +409,7 @@ public class StructurePanel extends JPanel {
 	/**
 	 * The event actionPerformed in {@link ElementButtonListener} calls to here
 	 * for update the GUI and notify the action to the element.
-	 * 
+	 *
 	 * @param index
 	 *            Index of the element selected
 	 */
@@ -420,7 +420,7 @@ public class StructurePanel extends JPanel {
 
 	/**
 	 * Moves the elements over the list {@link StructurePanel#structureElements}
-	 * 
+	 *
 	 * @param index
 	 *            The index of one element to be swapped
 	 * @param i

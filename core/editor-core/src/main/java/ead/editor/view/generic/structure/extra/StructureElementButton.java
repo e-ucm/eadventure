@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -61,12 +61,12 @@ public class StructureElementButton extends JButton {
 		setHorizontalAlignment(SwingConstants.LEFT);
 		setBorder(new RoundedBorder());
 	}
-	
+
 	/**
 	 * Rounded border for the structure element
 	 */
 	private class RoundedBorder extends AbstractBorder {
-		
+
 		private static final long serialVersionUID = 4669318117131018414L;
 
 		@Override

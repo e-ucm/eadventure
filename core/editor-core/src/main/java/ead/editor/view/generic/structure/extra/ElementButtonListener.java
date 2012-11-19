@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.Component;
 import java.awt.Cursor;
@@ -45,11 +45,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import ead.gui.structurepanel.StructurePanel;
+import ead.editor.view.generic.structure.StructurePanel;
 
 /**
  * Implements the listeners to a selected element.
- * 
+ *
  * ActionListener allows us to update the elements when one is selected and
  * return an action on the method
  * {@link ElementButtonListener#actionPerformed(ActionEvent)} MouseListener and
@@ -72,7 +72,7 @@ public class ElementButtonListener implements ActionListener, MouseListener,
 	/**
 	 * The constructor have the container panel {@link StructurePanel} and the
 	 * current element number
-	 * 
+	 *
 	 * @param container
 	 *            Container with the StructurePanel
 	 * @param index

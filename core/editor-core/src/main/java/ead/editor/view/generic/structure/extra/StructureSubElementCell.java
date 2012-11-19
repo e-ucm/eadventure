@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -61,14 +61,14 @@ import javax.swing.table.AbstractTableModel;
 
 import ead.gui.CommonGUIMessages;
 import ead.gui.R;
-import ead.gui.structurepanel.StructureElement;
-import ead.gui.structurepanel.StructureSubElement;
+import ead.editor.view.generic.structure.StructureElement;
+import ead.editor.view.generic.structure.StructureSubElement;
 import ead.utils.i18n.CommonMessages;
 import ead.utils.swing.SwingUtilities;
 
 /**
  * This class an element in the tables of StructurePanel.
- * 
+ *
  */
 public class StructureSubElementCell extends JPanel {
 
@@ -106,7 +106,7 @@ public class StructureSubElementCell extends JPanel {
 
 	/**
 	 * Constructor for the cell.
-	 * 
+	 *
 	 * @param value
 	 *            The value of the cell
 	 * @param table
@@ -240,7 +240,7 @@ public class StructureSubElementCell extends JPanel {
 	/**
 	 * Create a panel with the OK and Cancel buttons for the changes in the name
 	 * of the element.
-	 * 
+	 *
 	 * @return The JPanel with the buttons
 	 */
 	private JPanel createOKCancelButtons() {
@@ -275,7 +275,7 @@ public class StructureSubElementCell extends JPanel {
 
 	/**
 	 * Add the rename button to the cell
-	 * 
+	 *
 	 * @param c
 	 *            The constraints for the elemetns in the cell
 	 * @param optionsPanel
@@ -305,7 +305,7 @@ public class StructureSubElementCell extends JPanel {
 
 	/**
 	 * Add the duplicate button to the cell
-	 * 
+	 *
 	 * @param c
 	 *            The constraints for the elements in the cell
 	 * @param optionsPanel
@@ -338,7 +338,7 @@ public class StructureSubElementCell extends JPanel {
 
 	/**
 	 * Add the rename button to the cell
-	 * 
+	 *
 	 * @param c
 	 *            The constraints for the elements in the cell
 	 * @param optionsPanel

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.Component;
 
@@ -44,8 +44,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import ead.gui.structurepanel.StructureElement;
-import ead.gui.structurepanel.StructureSubElement;
+import ead.editor.view.generic.structure.StructureElement;
+import ead.editor.view.generic.structure.StructureSubElement;
 
 /**
  * Renderer for the StructureElement in the table

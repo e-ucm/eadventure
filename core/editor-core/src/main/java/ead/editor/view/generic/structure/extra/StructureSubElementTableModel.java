@@ -35,12 +35,12 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import ead.gui.structurepanel.StructureElement;
+import ead.editor.view.generic.structure.StructureElement;
 
 /**
  * Table model for the table of sub-elements
@@ -62,7 +62,7 @@ public class StructureSubElementTableModel extends AbstractTableModel {
 	public StructureSubElementTableModel(StructureElement element, String string) {
 		this.element = element;
 	}
-	
+
 	public void setList(JTable list) {
 		this.list = list;
 	}

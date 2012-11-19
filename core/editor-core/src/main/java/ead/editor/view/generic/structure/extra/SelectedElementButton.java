@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel.extra;
+package ead.editor.view.generic.structure.extra;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -52,7 +52,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.AbstractBorder;
 
 import ead.gui.EAdGUILookAndFeel;
-import ead.gui.structurepanel.StructurePanel;
+import ead.editor.view.generic.structure.StructurePanel;
 
 /**
  * The selected element button (black background, white letters)

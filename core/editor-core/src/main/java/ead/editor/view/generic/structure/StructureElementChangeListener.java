@@ -35,18 +35,18 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.gui.structurepanel;
+package ead.editor.view.generic.structure;
 
-import javax.swing.Icon;
+public interface StructureElementChangeListener {
 
-public interface StructureElementProvider {
+	void selectionChanged();
 
-	String getLabel();
-	
-	Icon getIcon();
-	
-	boolean canHaveChildren();
-	
-	int getChildCount();
-	
+	void selectedChildChange(StructureSubElement child);
+
+	void addChild();
+
+	void removeChild(int indexOf);
+
+	void duplicateChild(int indexOf);
+
 }
