@@ -210,7 +210,7 @@ public class NgRoom1 extends EmptyScene {
 	private void setMainCharactersSpeech() {
 		EAdString talking = new EAdString(
 				"Hey! What do you want? let's explore this room!");
-		SpeakSceneElementEf speech = new SpeakSceneElementEf(talking);
+		SpeakSceneElementEf speech = new SpeakSceneElementEf();
 
 		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
 

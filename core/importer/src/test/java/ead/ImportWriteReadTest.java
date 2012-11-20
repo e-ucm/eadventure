@@ -130,8 +130,6 @@ public class ImportWriteReadTest {
 			File modelFileAfterRead = new File(tmpDir, "afterRead.xml");
 			writer.write(model, modelFileAfterRead.getAbsolutePath());
 			if (!FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
-				// FIXME - TEMPORARY, to avoid breaking current builds with
-				// non-vital error
 				errors = true;
 				logger.error("model-file != model-file-after-read");
 			}

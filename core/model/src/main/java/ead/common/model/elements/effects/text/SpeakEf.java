@@ -87,12 +87,8 @@ public class SpeakEf extends AbstractEffect {
 	 * {@link Paint#BLACK_ON_WHITE}
 	 */
 	public SpeakEf() {
-		this(EAdString.newRandomEAdString("string"));
-	}
-
-	public SpeakEf(EAdString text) {
 		super();
-		caption = new Caption(text);
+		caption = new Caption();
 		caption.setTextPaint(ColorFill.BLACK);
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
