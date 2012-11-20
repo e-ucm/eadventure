@@ -75,6 +75,11 @@ public class QueryNode extends EditorNode {
 				this.addChild(d);
 			}
 		} else {
+			if (queryString.length() < 3) {
+				logger.warn("Illegal query : '{}'", queryString);
+				return;
+			}
+			
 			String q = queryString.substring(2);
 			switch (queryString.charAt(1)) {
 			case 'n': {
@@ -90,6 +95,7 @@ public class QueryNode extends EditorNode {
 				if (n != null) {
 					this.addChild(n);
 				}
+				break;
 			}
 			case 'o': {
 				for (DependencyNode n : m.getGraph().vertexSet()) {
@@ -99,6 +105,8 @@ public class QueryNode extends EditorNode {
 				}
 				break;
 			}
+			default:
+				logger.warn("Illegal query : '{}'", queryString);
 			}
 		}
 	}
