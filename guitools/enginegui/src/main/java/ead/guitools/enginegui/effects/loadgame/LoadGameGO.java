@@ -6,7 +6,9 @@ import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.util.EAdURI;
@@ -20,9 +22,10 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.guitools.enginegui.EngineGUI;
 import ead.guitools.enginegui.effects.usetraces.UseTracesEffect;
 import ead.importer.EAdventureImporter;
-import ead.tools.java.JavaFileUtils;
+import ead.importer.ImporterModule;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLParser;
+import ead.utils.FileUtils;
 
 public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 
@@ -66,13 +69,13 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 					File file = chooser.getSelectedFile();
 					EngineGUI.setProperty("folder", file.getAbsolutePath());
 					model = importer.importGame(file.getAbsolutePath(), null);
-					resourcesPath = importer.getDestinationFile();					
+					resourcesPath = importer.getDestinationFile();
 					File tracesFile = new File(file.getAbsolutePath()
 							.substring(0, file.getAbsolutePath().length() - 3)
 							+ "xml");
 					if (tracesFile.exists()) {
 						UseTracesEffect effect = new UseTracesEffect();
-						XMLDocument document = xmlReader.parse(JavaFileUtils
+						XMLDocument document = xmlReader.parse(FileUtils
 								.getText(tracesFile));
 						effect.loadFromXML(document);
 						gameLoader.getInitialEffects().add(effect);
@@ -92,7 +95,8 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"EAD games", "ead");
 		chooser.setFileFilter(filter);
-		importer = new EAdventureImporter();
+		Injector i = Guice.createInjector(new ImporterModule());
+		importer = i.getInstance(EAdventureImporter.class);
 	}
 
 	@Override
