@@ -47,15 +47,23 @@ import ead.common.params.text.EAdString;
 import ead.common.util.EAdURI;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.engine.core.platform.EngineConfiguration;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 
 public class DesktopGame extends JavaInjector {
 
-	public DesktopGame() {
+	public DesktopGame(boolean exitAtClose) {
 		super(Guice.createInjector(new GdxDesktopModule(),
 				new JavaToolsModule()));
+		EngineConfiguration conf = this.getInstance(EngineConfiguration.class);
+		conf.setExitWhenFinished(exitAtClose);
+	}
+
+	public DesktopGame() {
+		this(true);
 	}
 
 	public void load(String dataFile, String stringsFile, String propertiesFile) {
@@ -89,6 +97,10 @@ public class DesktopGame extends JavaInjector {
 	public void setResourcesLocation(String path) {
 		this.getInstance(AssetHandler.class).setResourcesLocation(
 				new EAdURI(path));
+	}
+
+	public void exit() {
+		getInstance(GUI.class).finish();
 	}
 
 }
