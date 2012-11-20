@@ -42,7 +42,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 public interface EAdInventory extends EAdElement {
-	
+
 	EAdList<EAdSceneElementDef> getInitialItems();
 
 }

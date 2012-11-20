@@ -92,8 +92,8 @@ public class LineImporterToShowText implements
 				.getCurrentOldChapterModel().getPlayer() : factory
 				.getCurrentOldChapterModel().getCharacter(line.getName());
 
-		String text = SpeakCharEffectImporter.setBallonType(effect,
-				line.getText());
+		String text = SpeakCharEffectImporter.setBallonType(effect, line
+				.getText());
 		stringHandler.setString(effect.getString(), text);
 		SpeakCharEffectImporter.setColor(effect, npc);
 

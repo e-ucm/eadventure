@@ -57,7 +57,6 @@ public abstract class AbstractSceneElementEffect extends AbstractEffect {
 		super();
 	}
 
-
 	public EAdElement getSceneElement() {
 		return element;
 	}
@@ -77,7 +76,5 @@ public abstract class AbstractSceneElementEffect extends AbstractEffect {
 	public void setElement(EAdElement element) {
 		this.element = element;
 	}
-	
-	
 
 }

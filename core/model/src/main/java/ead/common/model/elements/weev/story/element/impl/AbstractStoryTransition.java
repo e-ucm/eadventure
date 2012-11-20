@@ -49,9 +49,9 @@ import ead.common.model.weev.story.elements.StoryTransition;
  *
  * @param <S>
  */
-public abstract class AbstractStoryTransition extends AbstractTransition<Node> implements
-		StoryTransition {
-	
+public abstract class AbstractStoryTransition extends AbstractTransition<Node>
+		implements StoryTransition {
+
 	@Param(value = "effectList")
 	StoryList<Effect> effectList;
 
@@ -59,7 +59,7 @@ public abstract class AbstractStoryTransition extends AbstractTransition<Node> i
 	public StoryList<Effect> getEffectList() {
 		return effectList;
 	}
-	
+
 	public void setEffectList(StoryList<Effect> effectList) {
 		this.effectList = effectList;
 	}

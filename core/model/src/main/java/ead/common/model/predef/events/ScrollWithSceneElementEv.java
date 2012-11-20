@@ -63,22 +63,23 @@ public class ScrollWithSceneElementEv extends SceneElementEv {
 				SceneElement.VAR_WIDTH);
 		EAdField<Integer> heightScene = new BasicField<Integer>(scene,
 				SceneElement.VAR_HEIGHT);
-		
-		
+
 		// [0] = x-element
 		// [1] = width
 		// [2] = scene-width
 		String expression = " -( ([1] - [2]) min ( 0 max ([0] - ([2] / 2 )) ))";
-		EAdOperation opX = new MathOp( expression,  xElement, widthScene, SystemFields.GAME_WIDTH  );
-		EAdOperation opY = new MathOp( expression,  yElement, heightScene, SystemFields.GAME_HEIGHT );
-		
-		ChangeFieldEf effectX = new ChangeFieldEf( );
+		EAdOperation opX = new MathOp(expression, xElement, widthScene,
+				SystemFields.GAME_WIDTH);
+		EAdOperation opY = new MathOp(expression, yElement, heightScene,
+				SystemFields.GAME_HEIGHT);
+
+		ChangeFieldEf effectX = new ChangeFieldEf();
 		effectX.addField(xScene);
 		effectX.setOperation(opX);
-		ChangeFieldEf effectY = new ChangeFieldEf( );
+		ChangeFieldEf effectY = new ChangeFieldEf();
 		effectY.addField(yScene);
 		effectY.setOperation(opY);
-		
+
 		addEffect(SceneElementEvType.ALWAYS, effectX);
 		addEffect(SceneElementEvType.ALWAYS, effectY);
 

@@ -48,13 +48,13 @@ import ead.engine.core.input.InputAction;
  * 
  */
 public interface GameTracker {
-	
+
 	public static final String TRACKING_ENABLE = "tracking_enabled";
-	
+
 	public static final String GAME_KEY = "gamekey";
-	
+
 	public static final String SERVER_URL = "server_url";
-	
+
 	public static final String MAX_TRACES = "max_traces";
 
 	/**

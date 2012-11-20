@@ -49,7 +49,7 @@ import ead.engine.core.platform.LoadingScreen;
 
 public class GdxAndroidModule extends AbstractModule {
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	protected void configure() {
 
@@ -59,10 +59,10 @@ public class GdxAndroidModule extends AbstractModule {
 			Class c2 = entry.getValue();
 			bind(c1).to(c2);
 		}
-		
+
 		bind(GUI.class).to(AndroidGdxGUI.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
-				.to(LoadingScreen.class).asEagerSingleton();
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
+				LoadingScreen.class).asEagerSingleton();
 	}
 
 }

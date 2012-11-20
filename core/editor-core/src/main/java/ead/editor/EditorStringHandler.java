@@ -50,7 +50,7 @@ import ead.tools.StringHandlerImpl;
  */
 @Singleton
 public class EditorStringHandler extends StringHandlerImpl {
-	
+
 	/**
 	 * Map with all strings.
 	 * The first key is the language ("" stands for "default language").
@@ -65,35 +65,35 @@ public class EditorStringHandler extends StringHandlerImpl {
 	 * from the "fallback" language of "" (empty-string).
 	 */
 	private String defaultLanguage;
-	
+
 	public EditorStringHandler() {
 		strings = new TreeMap<String, Map<EAdString, String>>();
 		defaultLanguage = "";
-		
+
 		// add root language
 		strings.put("", new HashMap<EAdString, String>());
 	}
 
 	public String getString(EAdString string, String lang) {
 		// either this language or any other parent language will do
-		while ( ! lang.isEmpty() && ! strings.containsKey(lang)) {
-			int pos = Math.max(lang.lastIndexOf('_')-1, 0);
-			lang = lang.substring(0, pos);			
+		while (!lang.isEmpty() && !strings.containsKey(lang)) {
+			int pos = Math.max(lang.lastIndexOf('_') - 1, 0);
+			lang = lang.substring(0, pos);
 		}
 		String value = strings.get(lang).get(string);
 		return value == null ? "" : value;
 	}
 
-	public void setString(EAdString eAdString, String string, String lang) {		
+	public void setString(EAdString eAdString, String string, String lang) {
 		while (true) {
 			// if language does not exist, create it
-			if ( ! strings.containsKey(lang)) {
+			if (!strings.containsKey(lang)) {
 				strings.put(lang, new HashMap<EAdString, String>());
 			}
 			strings.get(lang).put(eAdString, string);
-			
-			if ( ! lang.isEmpty()) {
-				int pos = Math.max(lang.lastIndexOf('_')-1, 0);
+
+			if (!lang.isEmpty()) {
+				int pos = Math.max(lang.lastIndexOf('_') - 1, 0);
 				lang = lang.substring(0, pos);
 			} else {
 				break;
@@ -114,13 +114,13 @@ public class EditorStringHandler extends StringHandlerImpl {
 
 	public Map<EAdString, String> getStrings(String lang) {
 		return strings.get(lang);
-	}	
-	
+	}
+
 	@Override
 	public Map<EAdString, String> getStrings() {
 		return getStrings(defaultLanguage);
-	}	
-	
+	}
+
 	@Override
 	public String getString(EAdString string) {
 		return getString(string, defaultLanguage);
@@ -138,7 +138,7 @@ public class EditorStringHandler extends StringHandlerImpl {
 
 	@Override
 	public void addStrings(Map<EAdString, String> strings) {
-		addStrings(strings, defaultLanguage);		
+		addStrings(strings, defaultLanguage);
 	}
 
 	public String getDefaultLanguage() {
@@ -147,5 +147,5 @@ public class EditorStringHandler extends StringHandlerImpl {
 
 	public void setDefaultLanguage(String defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
-	}		
+	}
 }

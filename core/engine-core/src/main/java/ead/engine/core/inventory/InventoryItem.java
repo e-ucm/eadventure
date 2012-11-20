@@ -40,11 +40,11 @@ package ead.engine.core.inventory;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 public interface InventoryItem {
-	
+
 	EAdSceneElementDef getElement();
-	
+
 	int getCount();
-	
-	void add( int count );
+
+	void add(int count);
 
 }

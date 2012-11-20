@@ -55,42 +55,47 @@ import ead.common.util.EAdPosition.Corner;
 
 public class SharingEffectsScene extends EmptyScene {
 
-	public SharingEffectsScene( ){
-		SceneElement b = new SceneElement(  new RectangleShape( 50, 50, ColorFill.RED ) );
-		
-		EAdField<Float> field = new BasicField<Float>( SystemFields.ACTIVE_ELEMENT, SceneElement.VAR_ROTATION );
-		ChangeFieldEf effect = new ChangeFieldEf( field, new MathOp("[0] + 0.1", field) );
+	public SharingEffectsScene() {
+		SceneElement b = new SceneElement(new RectangleShape(50, 50,
+				ColorFill.RED));
+
+		EAdField<Float> field = new BasicField<Float>(
+				SystemFields.ACTIVE_ELEMENT, SceneElement.VAR_ROTATION);
+		ChangeFieldEf effect = new ChangeFieldEf(field, new MathOp("[0] + 0.1",
+				field));
 		b.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
-		
+
 		ChangeFieldEf changeAlpha1 = new ChangeFieldEf();
 		changeAlpha1.setParentVar(SceneElement.VAR_ALPHA);
 		changeAlpha1.setOperation(new ValueOp(new Float(0.5f)));
-		
+
 		ChangeFieldEf changeAlpha2 = new ChangeFieldEf();
 		changeAlpha2.setParentVar(SceneElement.VAR_ALPHA);
 		changeAlpha2.setOperation(new ValueOp(new Float(1.0f)));
-		
+
 		SceneElementEv event = new SceneElementEv();
-//		EAdVarInterpolationEffect rotate = new EAdVarInterpolationEffect( "rotate", )
-		
+		//		EAdVarInterpolationEffect rotate = new EAdVarInterpolationEffect( "rotate", )
+
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
-		
+
 		b.setPosition(20, 20);
 		this.getSceneElements().add(b);
-		
-		for ( int i = 0; i < 4; i++)
-			for ( int j = 0; j < 4; j++ ){
-				SceneElement e = new SceneElement( new RectangleShape( 30, 30, ColorFill.BLUE ) );
-				e.setPosition(new EAdPosition( Corner.CENTER, i * 60 + 40, j * 60 + 100));
-				MakeActiveElementEf ef = new MakeActiveElementEf( e );
+
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++) {
+				SceneElement e = new SceneElement(new RectangleShape(30, 30,
+						ColorFill.BLUE));
+				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 40,
+						j * 60 + 100));
+				MakeActiveElementEf ef = new MakeActiveElementEf(e);
 				e.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, ef);
 				e.addBehavior(MouseGEv.MOUSE_ENTERED, changeAlpha1);
 				e.addBehavior(MouseGEv.MOUSE_EXITED, changeAlpha2);
 				getSceneElements().add(e);
 			}
-				
+
 	}
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene in which elements share effects";

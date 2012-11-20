@@ -76,8 +76,10 @@ public class EngineGUI {
 		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new LoadGameEffect());
 		BasicAdventureModel adventure = new BasicAdventureModel();
 		adventure.getChapters().add(new BasicChapter(scene));
-		engine.load((EAdAdventureModel) adventure,
-				new HashMap<EAdString, String>(), new HashMap<String, String>());
+		engine
+				.load((EAdAdventureModel) adventure,
+						new HashMap<EAdString, String>(),
+						new HashMap<String, String>());
 	}
 
 	private static void addPlugins(DesktopGame engine) {

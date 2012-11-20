@@ -46,7 +46,8 @@ import javax.swing.JButton;
 
 public class ElementOption<E extends EAdElement> extends AbstractOption<E> {
 
-	public ElementOption(String title, String toolTipText, FieldDescriptor<E> fieldDescriptor) {
+	public ElementOption(String title, String toolTipText,
+			FieldDescriptor<E> fieldDescriptor) {
 		super(title, toolTipText, fieldDescriptor);
 	}
 

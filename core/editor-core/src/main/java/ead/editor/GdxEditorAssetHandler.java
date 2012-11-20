@@ -63,7 +63,7 @@ public class GdxEditorAssetHandler extends GdxAssetHandler {
 		EAdURI u = new EAdURI(path.getAbsolutePath());
 		setResourcesLocation(u);
 	}
-	
+
 	@Override
 	public void initialize() {
 		logger.info("Editor asset handler initialized");
@@ -74,29 +74,28 @@ public class GdxEditorAssetHandler extends GdxAssetHandler {
 	public void terminate() {
 		super.terminate();
 		logger.info("Editor asset handler terminated");
-	}	
-	
+	}
+
 	private StringBuilder tries;
-	
+
 	@Override
 	public FileHandle getFileHandle(String path) {
 		tries = new StringBuilder();
 		FileHandle rc = super.getFileHandle(path);
-		logger.info("Loading {}; tried {}",
-			new Object[] { path, tries });
+		logger.info("Loading {}; tried {}", new Object[] { path, tries });
 		return rc;
 	}
-	
+
 	@Override
 	public FileHandle getProjectFileHandle(String uri) {
-		String s = resourcesUri.getPath() + "/" 
+		String s = resourcesUri.getPath() + "/"
 				+ uri.replaceFirst("/", "_").replaceFirst("_", "/");
 		tries.append("[absolute] " + s + "\n");
 		return Gdx.files.absolute(s);
 	}
-	
+
 	@Override
-	public FileHandle getProjectInternal( String uri ){
+	public FileHandle getProjectInternal(String uri) {
 		String s = PROJECT_INTERNAL_PATH + uri;
 		tries.append("[p-internal] " + s + "\n");
 		return Gdx.files.internal(s);

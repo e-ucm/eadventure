@@ -108,12 +108,11 @@ public class EAdventureImporter {
 
 	@Inject
 	public EAdventureImporter(
-		EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter,
-		ResourceImporter resourceImporter,
-		InputStreamCreator inputStreamCreator,
-		StringHandler stringsHandler,
-		StringWriter stringFileHandler,
-		EAdElementFactory elementFactory) {
+			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter,
+			ResourceImporter resourceImporter,
+			InputStreamCreator inputStreamCreator,
+			StringHandler stringsHandler, StringWriter stringFileHandler,
+			EAdElementFactory elementFactory) {
 
 		this.adventureImporter = adventureImporter;
 		this.resourceImporter = resourceImporter;
@@ -123,7 +122,7 @@ public class EAdventureImporter {
 		this.elementFactory = elementFactory;
 		this.listeners = new ArrayList<ImporterProgressListener>();
 	}
-	
+
 	/**
 	 * Imports and old game form 1.x version
 	 * 
@@ -240,8 +239,8 @@ public class EAdventureImporter {
 		// Create strings.xml
 		File f = new File(path, "strings.xml");
 		try {
-			stringFileHandler.write(f.getAbsolutePath(),
-					stringsHandler.getStrings());
+			stringFileHandler.write(f.getAbsolutePath(), stringsHandler
+					.getStrings());
 		} catch (Exception e) {
 			logger.error("Error writing strings file while importing '{}'",
 					destination, e);
@@ -258,8 +257,8 @@ public class EAdventureImporter {
 			output = new FileOutputStream(propertiesFile);
 			properties.store(output, propertiesComment);
 		} catch (Exception e) {
-			logger.error("Error writing properties file '{}'",
-					propertiesFile.getAbsolutePath(), e);
+			logger.error("Error writing properties file '{}'", propertiesFile
+					.getAbsolutePath(), e);
 			ok = false;
 		} finally {
 			if (output != null) {
@@ -284,8 +283,8 @@ public class EAdventureImporter {
 				out = new ZipOutputStream(new BufferedOutputStream(
 						new FileOutputStream(outputZipFile)));
 				addFolderToZip(out, new File(path), false);
-				logger.debug("Zip file {} complete",
-						outputZipFile.getAbsolutePath());
+				logger.debug("Zip file {} complete", outputZipFile
+						.getAbsolutePath());
 			} catch (Exception e) {
 				logger.error("Error outputting zip to {}", destination, e);
 				ok = false;

@@ -42,29 +42,30 @@ package ead.utils.i18n;
  *
  */
 public class CommonMessages {
-	
+
 	public static String argument_must_not_be_null;
-	
+
 	public static String argument_has_invalid_value;
-	
+
 	public static String argument_has_invalid_type;
-	
+
 	public static String argument_must_be;
-	
+
 	public static String error_during_clonation;
-	
+
 	public static String unexpected_error;
-	
+
 	public static String ok;
-	
+
 	public static String cancel;
-	
+
 	public static String yes;
-	
+
 	public static String no;
 
 	public static String delete;
 	static {
-		I18N.initializeMessages(CommonMessages.class.getName(), CommonMessages.class);
+		I18N.initializeMessages(CommonMessages.class.getName(),
+				CommonMessages.class);
 	}
 }

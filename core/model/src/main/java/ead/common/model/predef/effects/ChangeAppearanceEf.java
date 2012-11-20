@@ -47,17 +47,17 @@ import ead.common.resources.EAdBundleId;
 
 @Element
 public class ChangeAppearanceEf extends ChangeFieldEf {
-	
+
 	public ChangeAppearanceEf() {
 		super();
 	}
-	
+
 	public ChangeAppearanceEf(EAdElement element, EAdBundleId bundleId) {
 		super();
 		if (element == null) {
 			this.setParentVar(ResourcedElement.VAR_BUNDLE_ID);
 		} else {
-			this.addField(new BasicField<EAdBundleId>(element, 
+			this.addField(new BasicField<EAdBundleId>(element,
 					ResourcedElement.VAR_BUNDLE_ID));
 		}
 		this.setOperation(new ValueOp(bundleId));

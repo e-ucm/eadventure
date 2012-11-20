@@ -69,13 +69,13 @@ public class BarrierImporter implements
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 
 	protected ImportAnnotator annotator;
-			
+
 	@Inject
 	public BarrierImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ImportAnnotator annotator) {
 		this.conditionsImporter = conditionsImporter;
-		this.annotator = annotator;		
+		this.annotator = annotator;
 	}
 
 	@Override
@@ -98,30 +98,27 @@ public class BarrierImporter implements
 			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
 			event.addEffect(ConditionedEvType.CONDITIONS_MET,
-					new ChangeFieldEf(barrierOn,
-							BooleanOp.TRUE_OP));
+					new ChangeFieldEf(barrierOn, BooleanOp.TRUE_OP));
 			event.addEffect(ConditionedEvType.CONDITIONS_UNMET,
-					new ChangeFieldEf(barrierOn,
-							BooleanOp.FALSE_OP));
+					new ChangeFieldEf(barrierOn, BooleanOp.FALSE_OP));
 
 			barrier.getEvents().add(event);
 		}
 
-		RectangleShape rectangle = new RectangleShape( oldObject.getWidth(), oldObject.getHeight() );
-		if ( EAdventureImporter.IMPORTER_DEBUG ){
-			ColorFill c = new ColorFill( ColorFill.YELLOW.toString() );
+		RectangleShape rectangle = new RectangleShape(oldObject.getWidth(),
+				oldObject.getHeight());
+		if (EAdventureImporter.IMPORTER_DEBUG) {
+			ColorFill c = new ColorFill(ColorFill.YELLOW.toString());
 			c.setAlpha(100);
 			rectangle.setPaint(c);
-		}
-		else {
+		} else {
 			rectangle.setPaint(Paint.TRANSPARENT);
 		}
-		barrier.getDefinition()
-				.getResources()
-				.addAsset(barrier.getDefinition().getInitialBundle(),
-						SceneElementDef.appearance, rectangle);
-		barrier.setPosition(new EAdPosition(Corner.TOP_LEFT, oldObject
-				.getX(), oldObject.getY()));
+		barrier.getDefinition().getResources().addAsset(
+				barrier.getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, rectangle);
+		barrier.setPosition(new EAdPosition(Corner.TOP_LEFT, oldObject.getX(),
+				oldObject.getY()));
 
 		return barrier;
 	}

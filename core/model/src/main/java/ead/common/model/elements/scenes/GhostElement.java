@@ -46,9 +46,9 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 
 	@Param("interactionArea")
 	private EAdDrawable interactionArea;
-	
-	public GhostElement( ){
-		
+
+	public GhostElement() {
+
 	}
 
 	public GhostElement(EAdDrawable interactionArea) {

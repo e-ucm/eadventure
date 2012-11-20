@@ -48,14 +48,15 @@ import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
 
-public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffect, ChangeSceneEf>{
+public class TriggerCutsceneImporter extends
+		EffectImporter<TriggerCutsceneEffect, ChangeSceneEf> {
 
 	private EAdElementFactory factory;
 
 	@Inject
 	public TriggerCutsceneImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            EAdElementFactory factory, ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
@@ -68,9 +69,10 @@ public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffec
 
 	@Override
 	public ChangeSceneEf convert(TriggerCutsceneEffect oldObject, Object object) {
-		ChangeSceneEf changeScene =  super.convert(oldObject, object);
+		ChangeSceneEf changeScene = super.convert(oldObject, object);
 
-		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getTargetId());
+		EAdScene scene = (EAdScene) factory.getElementById(oldObject
+				.getTargetId());
 		changeScene.setNextScene(scene);
 
 		return changeScene;

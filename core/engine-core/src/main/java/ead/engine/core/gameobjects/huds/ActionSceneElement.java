@@ -69,8 +69,8 @@ public class ActionSceneElement extends SceneElement {
 		this.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(this,
 				definition.getInitialBundle()));
 
-		definition.setVarInitialValue(SceneElementDef.VAR_DOC_NAME,
-				eAdAction.getName());
+		definition.setVarInitialValue(SceneElementDef.VAR_DOC_NAME, eAdAction
+				.getName());
 
 	}
 

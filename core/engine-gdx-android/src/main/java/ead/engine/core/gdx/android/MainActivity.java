@@ -59,9 +59,10 @@ public class MainActivity extends AndroidApplication {
 		JavaInjector injector = new JavaInjector(Guice.createInjector(
 				new GdxAndroidModule(), new JavaToolsModule()));
 
-		GdxEngine engine = injector.getInstance(GdxEngine.class);				
+		GdxEngine engine = injector.getInstance(GdxEngine.class);
 		initialize(engine, cfg);
 		GameLoader gameLoader = injector.getInstance(GameLoader.class);
-		gameLoader.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");
+		gameLoader.loadGameFromFiles("@data.xml", "@strings.xml",
+				"@ead.properties");
 	}
 }

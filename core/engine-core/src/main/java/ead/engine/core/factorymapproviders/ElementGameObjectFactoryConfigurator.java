@@ -66,8 +66,7 @@ public class ElementGameObjectFactoryConfigurator
 		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
 		factoryMap.put(SceneElement.class, BasicSceneElementGO.class);
 		factoryMap.put(GhostElement.class, GhostElementGO.class);
-		factoryMap
-				.put(ComplexSceneElement.class, ComplexSceneElementGO.class);
+		factoryMap.put(ComplexSceneElement.class, ComplexSceneElementGO.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
 		factoryMap.put(TextArea.class, TextAreaGO.class);

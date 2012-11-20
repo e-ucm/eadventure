@@ -46,32 +46,26 @@ import ead.tools.ConfigBackend;
  * @author mfreire
  */
 public abstract class EditorConfig extends ConfigBackend {
-    public enum EditorConf {
+	public enum EditorConf {
 
-        // preferred editor language
-        EditorLanguage,
-		
-        // last file operation was performed here
-        LastDirectory,
+		// preferred editor language
+		EditorLanguage,
 
-        // last load operations performed here
-        LastLoadDirectory,
-        LastLoadFile,
+		// last file operation was performed here
+		LastDirectory,
 
-        // last save operations performed here
-        LastSaveDirectory,
-        LastSaveFile,
+		// last load operations performed here
+		LastLoadDirectory, LastLoadFile,
 
-        // last import operations performed here
-        LastImportDirectory,
-        LastImportFile,
+		// last save operations performed here
+		LastSaveDirectory, LastSaveFile,
 
-        // Editor window
-        WindowSizeHeight,
-        WindowSizeWidth,
-        WindowPosX,
-        WindowPosY
-    };
+		// last import operations performed here
+		LastImportDirectory, LastImportFile,
 
-    public final static String fileArraySeparator = ":";
+		// Editor window
+		WindowSizeHeight, WindowSizeWidth, WindowPosX, WindowPosY
+	};
+
+	public final static String fileArraySeparator = ":";
 }

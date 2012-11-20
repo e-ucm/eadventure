@@ -52,25 +52,27 @@ import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 
-public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, ChangeFieldEf>{
+public class DeactivateFlagImporter extends
+		EffectImporter<DeactivateEffect, ChangeFieldEf> {
 
 	private EAdElementFactory factory;
 
 	@Inject
 	public DeactivateFlagImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            EAdElementFactory factory, ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
 	@Override
 	public ChangeFieldEf init(DeactivateEffect oldObject) {
-		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
-		BooleanOp op = new BooleanOp( );
+		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
+				Condition.FLAG_CONDITION);
+		BooleanOp op = new BooleanOp();
 		op.setCondition(EmptyCond.FALSE_EMPTY_CONDITION);
 
-		ChangeFieldEf changeVar = new ChangeFieldEf( var, op );
+		ChangeFieldEf changeVar = new ChangeFieldEf(var, op);
 		super.importConditions(oldObject, changeVar);
 
 		return changeVar;

@@ -50,31 +50,31 @@ public class ProxyElement extends BasicElement {
 	 * Object for which the field should be set
 	 */
 	private Object parent;
-	
+
 	/**
 	 * Field to set
 	 */
 	private ReflectionField field;
-	
+
 	/**
 	 * Reference value that is still unresolved
 	 */
 	private String value;
-	
+
 	/**
 	 * (If list-reference) list that should be set
 	 */
 	private EAdList<Object> list;
-	
+
 	/**
 	 * Index in list to set
 	 */
 	private int listPos;
-	
+
 	public ProxyElement(String value) {
 		this.value = value;
 	}
-	
+
 	public String getValue() {
 		return value;
 	}
@@ -103,7 +103,7 @@ public class ProxyElement extends BasicElement {
 	public EAdList<Object> getList() {
 		return list;
 	}
-	
+
 	public int getListPos() {
 		return listPos;
 	}

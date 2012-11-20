@@ -53,20 +53,19 @@ import org.slf4j.LoggerFactory;
  * @author mfreire
  */
 public class ClassDockableFactory implements
-        MultipleCDockableFactory<DefaultMultipleCDockable, ElementLayout> {
-    Logger logger = LoggerFactory.getLogger("cdf");
+		MultipleCDockableFactory<DefaultMultipleCDockable, ElementLayout> {
+	Logger logger = LoggerFactory.getLogger("cdf");
 
-    private Class<? extends ElementPanel> controlClass;
-    private Class<? extends DependencyNode> modelClass;
+	private Class<? extends ElementPanel> controlClass;
+	private Class<? extends DependencyNode> modelClass;
 	private Controller controller;
 
-    public ClassDockableFactory(
-            Class<? extends ElementPanel> controlClass,
-            Class<? extends DependencyNode> modelClass, Controller controller) {
-        this.controlClass = controlClass;
-        this.modelClass = modelClass;
+	public ClassDockableFactory(Class<? extends ElementPanel> controlClass,
+			Class<? extends DependencyNode> modelClass, Controller controller) {
+		this.controlClass = controlClass;
+		this.modelClass = modelClass;
 		this.controller = controller;
-    }
+	}
 
 	/**
 	 * Gets an ElementPanel for a given DependencyNode ID
@@ -74,21 +73,20 @@ public class ClassDockableFactory implements
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-    public ElementPanel getPanelFor(String id) {
-        DependencyNode e = (id != null) ?
-                controller.getModel().getElement(id) :
-                controller.getModel().createElement(modelClass);
-        ElementPanel ep;
-        try {
-            ep = (ElementPanel)controlClass.newInstance();
-        } catch (Exception ex) {
-            logger.error("could not instantiate", ex);
-            return null;
-        }
+	public ElementPanel getPanelFor(String id) {
+		DependencyNode e = (id != null) ? controller.getModel().getElement(id)
+				: controller.getModel().createElement(modelClass);
+		ElementPanel ep;
+		try {
+			ep = (ElementPanel) controlClass.newInstance();
+		} catch (Exception ex) {
+			logger.error("could not instantiate", ex);
+			return null;
+		}
 		ep.setController(controller);
-        ep.setTarget(e);
-        return ep;
-    }
+		ep.setTarget(e);
+		return ep;
+	}
 
 	/**
 	 * Creates a Dockable for a given DependencyNode ID. Calls getPanelFor
@@ -96,48 +94,50 @@ public class ClassDockableFactory implements
 	 * @param id
 	 * @return
 	 */
-    public DefaultMultipleCDockable createDockable(String id ) {
-        ElementPanel ep = getPanelFor(id);
-        DefaultMultipleCDockable d = new DefaultMultipleCDockable(this);
-        d.setCloseable(true);
+	public DefaultMultipleCDockable createDockable(String id) {
+		ElementPanel ep = getPanelFor(id);
+		DefaultMultipleCDockable d = new DefaultMultipleCDockable(this);
+		d.setCloseable(true);
 		d.setExternalizable(false);
-        d.setTitleText(ep.getTarget().getClass().getSimpleName()+" "+ep.getTarget().getId());
-        d.setRemoveOnClose(true);
-        d.add((Component)ep);
-        return d;
-    }
+		d.setTitleText(ep.getTarget().getClass().getSimpleName() + " "
+				+ ep.getTarget().getId());
+		d.setRemoveOnClose(true);
+		d.add((Component) ep);
+		return d;
+	}
 
 	/**
 	 * Returns the id being displayed in a given dockable.
 	 * @param d the dockable, created with this factory
 	 * @return the corresponding DependencyNode's ID
 	 */
-    public String getDockableId(DefaultMultipleCDockable d) {
-        return ""+((ElementPanel)d.getContentPane().getComponent(0))
-                .getTarget().getId();
-    }
+	public String getDockableId(DefaultMultipleCDockable d) {
+		return ""
+				+ ((ElementPanel) d.getContentPane().getComponent(0))
+						.getTarget().getId();
+	}
 
 	// ElementLayout-related
 
-    @Override
-    public DefaultMultipleCDockable read( ElementLayout layout ) {
-        return createDockable(layout.getId());
-    }
+	@Override
+	public DefaultMultipleCDockable read(ElementLayout layout) {
+		return createDockable(layout.getId());
+	}
 
-    @Override
-    public ElementLayout write( DefaultMultipleCDockable dockable ) {
-        ElementLayout el = create();
-        el.setId(getDockableId(dockable));
-        return el;
-    }
+	@Override
+	public ElementLayout write(DefaultMultipleCDockable dockable) {
+		ElementLayout el = create();
+		el.setId(getDockableId(dockable));
+		return el;
+	}
 
-    @Override
-    public boolean match(DefaultMultipleCDockable dockable, ElementLayout layout ){
-    	return layout.getId().equals(getDockableId(dockable));
-    }
+	@Override
+	public boolean match(DefaultMultipleCDockable dockable, ElementLayout layout) {
+		return layout.getId().equals(getDockableId(dockable));
+	}
 
-    @Override
-    public ElementLayout create() {
-        return new ElementLayout();
-    }
+	@Override
+	public ElementLayout create() {
+		return new ElementLayout();
+	}
 }

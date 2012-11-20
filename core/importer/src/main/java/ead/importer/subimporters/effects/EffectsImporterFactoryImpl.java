@@ -74,7 +74,7 @@ public class EffectsImporterFactoryImpl extends
 		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	public EAdEffect getEffect(Effect effect) {
 		EAdElementImporter importer = getImporter(effect.getClass());
@@ -87,10 +87,10 @@ public class EffectsImporterFactoryImpl extends
 
 	@Override
 	public EffectsMacro getMacroEffects(Effects effects) {
-		if ( effects == null || effects.isEmpty() ){
+		if (effects == null || effects.isEmpty()) {
 			return null;
 		}
-		
+
 		EffectsMacro macro = new EffectsMacro();
 
 		for (Effect e : effects.getEffects()) {
@@ -98,7 +98,7 @@ public class EffectsImporterFactoryImpl extends
 			if (effect != null)
 				macro.getEffects().add(effect);
 		}
-		
+
 		return macro;
 	}
 

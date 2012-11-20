@@ -43,7 +43,7 @@ import java.util.EventListener;
  * Change listener - our specific type of event listener
  */
 public interface ChangeListener extends EventListener {
-	
+
 	/**
 	 * Process the changes described by 'event'
 	 */

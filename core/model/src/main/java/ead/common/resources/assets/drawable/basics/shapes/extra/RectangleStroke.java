@@ -47,8 +47,8 @@ public class RectangleStroke implements BalloonStroke {
 		shape.lineTo(xOrigin, y);
 		shape.lineTo(xOrigin, yOrigin);
 		int diff = x2 - xOrigin;
-		diff = Math.abs(diff) > 20 ? 20 * (int) Math.signum(x2 - xOrigin) : diff;
-		
+		diff = Math.abs(diff) > 20 ? 20 * (int) Math.signum(x2 - xOrigin)
+				: diff;
 
 		shape.lineTo(xOrigin + diff, y);
 		shape.lineTo(x2, y);
@@ -72,22 +72,21 @@ public class RectangleStroke implements BalloonStroke {
 		shape.lineTo(xOrigin, yOrigin);
 		int diff = y2 - yOrigin;
 
-		shape.lineTo(x, yOrigin + diff );
+		shape.lineTo(x, yOrigin + diff);
 		shape.lineTo(x, y2);
 
 	}
 
 	@Override
-	public void addDiagonal(BezierShape shape, int x1, int x2, int y1,
-			int y2) {
+	public void addDiagonal(BezierShape shape, int x1, int x2, int y1, int y2) {
 		int corner[] = this.getCornerFromDiagonal(x1, x2, y1, y2);
 		shape.lineTo(corner[0], corner[1]);
 		shape.lineTo(x2, y2);
 	}
 
 	@Override
-	public void addDiagonal(BezierShape shape, int x1, int x2, int y1,
-			int y2, int xOrigin, int yOrigin) {
+	public void addDiagonal(BezierShape shape, int x1, int x2, int y1, int y2,
+			int xOrigin, int yOrigin) {
 		shape.lineTo(xOrigin, yOrigin);
 		shape.lineTo(x2, y2);
 

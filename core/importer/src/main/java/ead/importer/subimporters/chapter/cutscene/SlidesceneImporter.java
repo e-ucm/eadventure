@@ -134,8 +134,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 		if (oldSlides.getResources().size() == 1) {
 			createSceneFromSlides(cutscene, oldSlides, oldSlides.getResources()
 					.get(0), changeNextScene);
-			musicPaths.add(oldSlides.getResources().get(0)
-					.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC));
+			musicPaths.add(oldSlides.getResources().get(0).getAssetPath(
+					Slidescene.RESOURCE_TYPE_MUSIC));
 			conditions.add(EmptyCond.TRUE_EMPTY_CONDITION);
 		} else {
 			// When there's more than one appearance, we create a series of
@@ -216,8 +216,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 					effect);
 
 			if (i != scenes.length - 1 && times.get(i) != -1) {
-				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1],
-						times.get(i), effect);
+				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1], times
+						.get(i), effect);
 				scenes[i].getBackground().getEvents().add(changeEvent);
 			}
 
@@ -264,8 +264,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			for (int i = 0; i < animation.getFrames().size(); i++) {
 				Transition t = animation.getTranstionForFrame(i);
 				if (t != null) {
-					transitions.add(getTransition(t.getType(),
-							new Long(t.getTime()).intValue()));
+					transitions.add(getTransition(t.getType(), new Long(t
+							.getTime()).intValue()));
 				} else {
 					transitions.add(EmptyTransition.instance());
 				}

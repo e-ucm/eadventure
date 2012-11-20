@@ -61,14 +61,15 @@ import ead.engine.core.util.EAdTransformation;
 
 public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 		SceneGO<EAdScene> {
-	
+
 	private final ElementComparator comparator = new ElementComparator();
-	
+
 	private ArrayList<EAdSceneElement> orderedElements;
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState, EventGOFactory eventFactory) {
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		orderedElements = new ArrayList<EAdSceneElement>();
 	}
@@ -78,7 +79,7 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 		gui.addElement(sceneElementFactory.get(element.getBackground()),
 				transformation);
 		sortElements();
-		for ( EAdSceneElement e: orderedElements ){
+		for (EAdSceneElement e : orderedElements) {
 			gui.addElement(sceneElementFactory.get(e), transformation);
 		}
 
@@ -86,12 +87,12 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 	private void sortElements() {
 		orderedElements.clear();
-		for ( EAdSceneElement e: element.getSceneElements() ){
+		for (EAdSceneElement e : element.getSceneElements()) {
 			orderedElements.add(e);
 		}
 		Collections.sort(orderedElements, comparator);
 	}
-	
+
 	private class ElementComparator implements Comparator<EAdSceneElement> {
 
 		@Override
@@ -101,8 +102,6 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 			return z1 - z2;
 		}
 
-		
-		
 	}
 
 	@Override
@@ -132,14 +131,14 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	public boolean processAction(InputAction<?> action) {
 		return false;
 	}
-	
+
 	@Override
 	public void collectSceneElements(List<EAdSceneElement> elements) {
 		super.collectSceneElements(elements);
-		for ( EAdSceneElement e: element.getSceneElements()){
+		for (EAdSceneElement e : element.getSceneElements()) {
 			elements.add(e);
 		}
-		
+
 	}
 
 }

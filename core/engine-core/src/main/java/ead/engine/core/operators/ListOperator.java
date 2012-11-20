@@ -77,9 +77,9 @@ public class ListOperator implements Operator<ListOp> {
 				EAdList<Object> randomList = new EAdListImpl<Object>(
 						Object.class);
 				while (auxList.size() > 0)
-					randomList
-							.add(auxList.remove(random.nextInt(auxList.size())));
-				
+					randomList.add(auxList.remove(random
+							.nextInt(auxList.size())));
+
 				return (S) randomList;
 			}
 			break;

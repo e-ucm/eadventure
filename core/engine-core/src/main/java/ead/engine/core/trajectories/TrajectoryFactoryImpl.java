@@ -70,8 +70,8 @@ public class TrajectoryFactoryImpl extends
 		TrajectoryGenerator<EAdTrajectoryDefinition> generator = (TrajectoryGenerator<EAdTrajectoryDefinition>) this
 				.get(trajectoryDefinition.getClass());
 
-		return generator.getTrajectory(trajectoryDefinition, movingElement,
-				x, y);
+		return generator.getTrajectory(trajectoryDefinition, movingElement, x,
+				y);
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class TrajectoryFactoryImpl extends
 		TrajectoryGenerator<EAdTrajectoryDefinition> generator = (TrajectoryGenerator<EAdTrajectoryDefinition>) this
 				.get(trajectoryDefinition.getClass());
 
-		return generator.getTrajectory(trajectoryDefinition, movingElement,
-				x, y, sceneElement);
+		return generator.getTrajectory(trajectoryDefinition, movingElement, x,
+				y, sceneElement);
 
 	}
 

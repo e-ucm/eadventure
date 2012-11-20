@@ -56,8 +56,9 @@ import ead.tools.SceneGraph;
 
 @Singleton
 public class GraphSceneLoader implements SceneLoader {
-	
-	private static final Logger logger = LoggerFactory.getLogger("GraphSceneLoader");
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("GraphSceneLoader");
 
 	private AssetHandler assetHandler;
 

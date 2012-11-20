@@ -57,8 +57,10 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 	@Inject
 	public ShowTextEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            EAdElementFactory factory, ImportAnnotator annotator, ResourceImporter resourceImporter) {
-		super(stringHandler, conditionImporter, factory, annotator, resourceImporter);
+			EAdElementFactory factory, ImportAnnotator annotator,
+			ResourceImporter resourceImporter) {
+		super(stringHandler, conditionImporter, factory, annotator,
+				resourceImporter);
 	}
 
 	@Override
@@ -66,19 +68,21 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 		SpeakEf showText = super.convert(oldObject, object);
 		addSound(oldObject.getAudioPath(), showText);
 
-		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getText(), factory)){
+		for (EAdOperation op : TextEffectImporter.getOperations(oldObject
+				.getText(), factory)) {
 			showText.getCaption().getFields().add(op);
-		}		
-		
-		
+		}
+
 		String line = TextEffectImporter.translateLine(oldObject.getText());
 		stringHandler.setString(showText.getString(), line);
 
 		ColorFill center = new ColorFill(Integer.toHexString(oldObject
-				.getRgbFrontColor()) + "ff");
+				.getRgbFrontColor())
+				+ "ff");
 		ColorFill border = new ColorFill(Integer.toHexString(oldObject
-				.getRgbBorderColor()) + "ff");
-		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);				
+				.getRgbBorderColor())
+				+ "ff");
+		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);
 
 		return showText;
 	}

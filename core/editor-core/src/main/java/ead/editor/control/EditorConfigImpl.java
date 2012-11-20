@@ -45,25 +45,25 @@ import ead.tools.java.ConfigBackendProperties;
  */
 public class EditorConfigImpl extends EditorConfig {
 
-    private ConfigBackendProperties backend = new ConfigBackendProperties();
+	private ConfigBackendProperties backend = new ConfigBackendProperties();
 
-    @Override
-    public boolean load(String sourceURL) {
-        return backend.load(sourceURL);
-    }
+	@Override
+	public boolean load(String sourceURL) {
+		return backend.load(sourceURL);
+	}
 
-    @Override
-    public boolean save(String targetURL) {
-        return backend.save(targetURL);
-    }
+	@Override
+	public boolean save(String targetURL) {
+		return backend.save(targetURL);
+	}
 
-    @Override
-    public String getValue(Object key) {
-        return backend.getValue(key);
-    }
+	@Override
+	public String getValue(Object key) {
+		return backend.getValue(key);
+	}
 
-    @Override
-    public void put(Object key, String value) {
-        backend.put(key, value);
-    }
+	@Override
+	public void put(Object key, String value) {
+		backend.put(key, value);
+	}
 }

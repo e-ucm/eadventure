@@ -51,7 +51,6 @@ public class ChangeFieldValueTest extends TestCase {
 
 	TestClass testElement;
 
-
 	@Override
 	public void setUp() {
 		testElement = new TestClass();
@@ -60,12 +59,12 @@ public class ChangeFieldValueTest extends TestCase {
 
 	@Test
 	public void testPerformAndUndoFailCommand() {
-//		assert(!testElement.getValue());
-//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
-//		command.performCommand();
-//		assert(testElement.getValue());
-//		command.undoCommand();
-//		assert(!testElement.getValue());
+		//		assert(!testElement.getValue());
+		//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
+		//		command.performCommand();
+		//		assert(testElement.getValue());
+		//		command.undoCommand();
+		//		assert(!testElement.getValue());
 	}
 
 	public static class TestClass {

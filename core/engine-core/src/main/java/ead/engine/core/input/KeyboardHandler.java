@@ -43,14 +43,14 @@ import java.util.Queue;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.states.KeyboardState;
 
-public class KeyboardHandler  {
+public class KeyboardHandler {
 
 	private Queue<KeyInputAction> keyActions;
-	
+
 	public KeyboardHandler() {
 		keyActions = new LinkedList<KeyInputAction>();
 	}
-	
+
 	/**
 	 * Returns the queue of {@link KeyActions} yet to be processed
 	 * 
@@ -59,8 +59,8 @@ public class KeyboardHandler  {
 	public Queue<KeyInputAction> getKeyActions() {
 		return keyActions;
 	}
-	
-	public boolean checkState(KeyboardState state ){
+
+	public boolean checkState(KeyboardState state) {
 		// FIXME check states
 		return false;
 	}

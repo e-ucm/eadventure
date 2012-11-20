@@ -46,8 +46,6 @@ import ead.common.interfaces.features.enums.Orientation;
  */
 public interface Oriented {
 
-
-
 	/**
 	 * Returns the current orientation for this object
 	 * 

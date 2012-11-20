@@ -58,7 +58,7 @@ public abstract class GdxShape<T extends AbstractShape> extends
 	}
 
 	public boolean loadAsset() {
-		Pixmap pixmap = generatePixmap();				
+		Pixmap pixmap = generatePixmap();
 		textureRegion = new TextureRegion(new Texture(pixmap));
 		textureRegion.flip(false, true);
 		setWidth(pixmap.getWidth());
@@ -74,7 +74,7 @@ public abstract class GdxShape<T extends AbstractShape> extends
 	public boolean contains(int x, int y) {
 		if (x > 0 && y > 0 && x < getWidth() && y < getHeight()) {
 			int alpha = pixmapContains.getPixel(x, y) & 255;
-			return alpha > 128;			
+			return alpha > 128;
 		}
 		return false;
 	}

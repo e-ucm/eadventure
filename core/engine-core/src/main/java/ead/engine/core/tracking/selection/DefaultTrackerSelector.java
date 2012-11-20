@@ -79,11 +79,11 @@ public class DefaultTrackerSelector implements TrackerSelector {
 	private List<EAdGUIEvent> actionsAccepted;
 
 	@Inject
-	public DefaultTrackerSelector( ) {
-		
+	public DefaultTrackerSelector() {
+
 	}
-	
-	public void setSelection( List<String> text){
+
+	public void setSelection(List<String> text) {
 		this.effectsAccepted = new ArrayList<Class<?>>();
 		this.varsAccepted = new ArrayList<String>();
 		this.actionsAccepted = new ArrayList<EAdGUIEvent>();

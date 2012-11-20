@@ -55,14 +55,20 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 				mappedElement.add(element);
 
 				if (depthManager.isStored(element)) {
-					EAdElement conflicting = depthManager.getInstanceOfElement(element);
-					logger.error("Type {} has differing equals and hashcodes ({}_{} != {})",
-							new Object[]{element.getClass(), element.equals(conflicting),
-								conflicting.hashCode(), element.hashCode()});
+					EAdElement conflicting = depthManager
+							.getInstanceOfElement(element);
+					logger
+							.error(
+									"Type {} has differing equals and hashcodes ({}_{} != {})",
+									new Object[] { element.getClass(),
+											element.equals(conflicting),
+											conflicting.hashCode(),
+											element.hashCode() });
 				}
 			}
 
-			if (depthManager.inPreviousList(element) || depthManager.isStored(element)) {
+			if (depthManager.inPreviousList(element)
+					|| depthManager.isStored(element)) {
 				// write a reference instead of the node
 				node.setTextContent(elementMap.get(element));
 				return node;
@@ -77,7 +83,8 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			Class<?> clazz = element.getClass();
 			ead.common.interfaces.Element annotation = null;
 			while (clazz != null) {
-				annotation = clazz.getAnnotation(ead.common.interfaces.Element.class);
+				annotation = clazz
+						.getAnnotation(ead.common.interfaces.Element.class);
 				if (annotation != null) {
 					break;
 				}
@@ -85,13 +92,15 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			}
 
 			if (annotation != null) {
-				node.setAttribute(DOMTags.CLASS_AT, shortClass(clazz.getName()));
+				node
+						.setAttribute(DOMTags.CLASS_AT, shortClass(clazz
+								.getName()));
 
 				// Add Param fields
 				super.processParams(node, element);
 			} else {
-				logger.error("No Element annotation in class {}",
-						element.getClass());
+				logger.error("No Element annotation in class {}", element
+						.getClass());
 			}
 
 		} catch (Exception e) {

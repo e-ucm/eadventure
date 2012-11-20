@@ -37,7 +37,6 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -56,55 +55,56 @@ import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
-public class NgCorridor extends EmptyScene{
-	
+public class NgCorridor extends EmptyScene {
+
 	private SceneElement ng;
-	private SceneElement window;  // Displays a video
-	
+	private SceneElement window; // Displays a video
+
 	private SceneElement door1;
 	private SceneElement door2;
 	private SceneElement door3;
 	private SceneElement door4;
-	
+
 	private SceneElement doorClosed;
-	
-	
+
 	public NgCorridor() {
 		// Set up room's variables
 		initVariables();
 		// Set the scene background
-		setBackground(new SceneElement(new Image("@drawable/ng_corridor_bg.png")));
+		setBackground(new SceneElement(
+				new Image("@drawable/ng_corridor_bg.png")));
 		// Puts main character into the scene
 		ng = new SceneElement(NgCommon.getMainCharacter());
-		ng.setPosition(Corner.BOTTOM_CENTER, 650, 495);	
+		ng.setPosition(Corner.BOTTOM_CENTER, 650, 495);
 		ng.setInitialScale(0.8f);
-		
+
 		// Star form node trajectory
 		ChangeFieldEf changeSide = new ChangeFieldEf();
-		changeSide.addField(new BasicField<Side>(ng, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+		changeSide.addField(new BasicField<Side>(ng,
+				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp(null));
 		createNodeTrajectory(changeSide);
 
 		restOfTheRoom();
-		
+
 		addSceneElements();
-		
+
 		ngMovement();
-		
+
 	}
-	
+
 	private void initVariables() {
-		
+
 	}
-	
+
 	/**
 	 * Creates the rest of the scene elements
 	 */
-	public void restOfTheRoom(){
+	public void restOfTheRoom() {
 		setDoors();
 		setWindow();
 	}
-	
+
 	/**
 	 * Star form node trajectory for this room
 	 * @param changeSide
@@ -131,39 +131,39 @@ public class NgCorridor extends EmptyScene{
 		trajectory.addSide("5", "4", 257);
 		trajectory.addSide("1", "3", 110);
 
-
 		setTrajectoryDefinition(trajectory);
 	}
-	
+
 	/**
 	 * Sets the window's position & image
 	 */
 	private void setWindow() {
 		window = new SceneElement(new Image("@drawable/ng_corridor_window.png"));
-		window.setPosition(Corner.TOP_LEFT , 345, 39);
+		window.setPosition(Corner.TOP_LEFT, 345, 39);
 	}
-	
+
 	/**
 	 * Sets the doors' position & image
 	 */
 	private void setDoors() {
 		door1 = new SceneElement(new Image("@drawable/ng_corridor_door1.png"));
 		door1.setPosition(Corner.TOP_LEFT, 692, 125);
-		
+
 		door2 = new SceneElement(new Image("@drawable/ng_corridor_door2.png"));
 		door2.setPosition(Corner.TOP_LEFT, 48, 148);
-		
+
 		door3 = new SceneElement(new Image("@drawable/ng_corridor_door3.png"));
 		door3.setPosition(Corner.TOP_LEFT, 145, 8);
-		
+
 		door4 = new SceneElement(new Image("@drawable/ng_corridor_door4.png"));
 		door4.setPosition(Corner.TOP_LEFT, 597, 8);
-		
-		doorClosed = new SceneElement(new Image("@drawable/ng_corridor_closed.png"));
+
+		doorClosed = new SceneElement(new Image(
+				"@drawable/ng_corridor_closed.png"));
 		doorClosed.setPosition(Corner.TOP_LEFT, 570, 72);
-		
+
 	}
-	
+
 	/**
 	 * Adds the others scene elements to the room
 	 */
@@ -176,7 +176,7 @@ public class NgCorridor extends EmptyScene{
 		getSceneElements().add(window);
 		getSceneElements().add(ng);
 	}
-	
+
 	/**
 	 * Defines main character's movement effect
 	 */
@@ -186,10 +186,10 @@ public class NgCorridor extends EmptyScene{
 				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);
-		
+
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 	}
-	
+
 	/**
 	 * Moves principal character thought the room
 	 * @param x 
@@ -202,7 +202,7 @@ public class NgCorridor extends EmptyScene{
 		move.setTargetCoordiantes(x, y);
 		return move;
 	}
-	
+
 	/**
 	 * Configures the element's behavior in this scene
 	 * @param window
@@ -211,70 +211,79 @@ public class NgCorridor extends EmptyScene{
 	 * @param room3
 	 * @param finalRoom
 	 */
-	public void setUpSceneElements(EAdScene window, EAdScene room1, EAdScene room2, EAdScene room3, EAdScene finalRoom) {
+	public void setUpSceneElements(EAdScene window, EAdScene room1,
+			EAdScene room2, EAdScene room3, EAdScene finalRoom) {
 		windowBehavior(window);
 		doorsBehavior(room1, room2, room3, finalRoom);
 	}
-	
+
 	/**
 	 * Specifies the window's behavior: NgWindow with 'eAdventure.webm' video displayed
 	 */
 	private void windowBehavior(EAdScene windowScene) {
 		// Principal character moving to the window
-		MoveSceneElementEf move = moveNg(345, 39); 
+		MoveSceneElementEf move = moveNg(345, 39);
 		window.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		// Changing the scene: play the video
-        ChangeSceneEf toWindowScene = new ChangeSceneEf( );
-        toWindowScene.setNextScene(windowScene);
-        move.getNextEffects().add(toWindowScene);
-        
+		ChangeSceneEf toWindowScene = new ChangeSceneEf();
+		toWindowScene.setNextScene(windowScene);
+		move.getNextEffects().add(toWindowScene);
+
 		this.getSceneElements().add(window);
-		
+
 	}
-	
+
 	/**
 	 * Establish door's behavior
 	 */
-	private void doorsBehavior(EAdScene room1, EAdScene room2, EAdScene room3, EAdScene finalRoom) {
-		setMovementAndChangeRoomBehavior(room1, door1, NgSceneCreator.getRoom1_x(), NgSceneCreator.getRoom1_y());
-		setMovementAndChangeRoomBehavior(room2, door2, NgSceneCreator.getRoom2_x(), NgSceneCreator.getRoom2_y());
-		setMovementAndChangeRoomBehavior(room3, door3, NgSceneCreator.getRoom3_x(), NgSceneCreator.getRoom3_y());
-		setMovementAndChangeRoomBehavior(finalRoom, door4, NgSceneCreator.getRoomf_x(), NgSceneCreator.getRoomf_y());
+	private void doorsBehavior(EAdScene room1, EAdScene room2, EAdScene room3,
+			EAdScene finalRoom) {
+		setMovementAndChangeRoomBehavior(room1, door1, NgSceneCreator
+				.getRoom1_x(), NgSceneCreator.getRoom1_y());
+		setMovementAndChangeRoomBehavior(room2, door2, NgSceneCreator
+				.getRoom2_x(), NgSceneCreator.getRoom2_y());
+		setMovementAndChangeRoomBehavior(room3, door3, NgSceneCreator
+				.getRoom3_x(), NgSceneCreator.getRoom3_y());
+		setMovementAndChangeRoomBehavior(finalRoom, door4, NgSceneCreator
+				.getRoomf_x(), NgSceneCreator.getRoomf_y());
 		doorClosed();
 	}
-	
+
 	/**
 	 * Configures the movement & change room effects
 	 * @param room -> where to go through that door
 	 * @param element -> door selected
 	 */
-	private void setMovementAndChangeRoomBehavior(EAdScene room, SceneElement element, int x, int y) {
+	private void setMovementAndChangeRoomBehavior(EAdScene room,
+			SceneElement element, int x, int y) {
 		// Movement
 		MoveSceneElementEf move = new MoveSceneElementEf();
 		move.setTargetCoordiantes(x, y);
 		move.setSceneElement(ng);
 		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-		
+
 		// Changing the scene
-		ChangeSceneEf goToRoom = new ChangeSceneEf(room, new FadeInTransition(1000));
+		ChangeSceneEf goToRoom = new ChangeSceneEf(room, new FadeInTransition(
+				1000));
 		move.getNextEffects().add(goToRoom);
-		
+
 	}
-	
+
 	private void doorClosed() {
 		// Message when the main character tries to open the door
 		MoveSceneElementEf move = moveNg(565, 360);
 		doorClosed.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-		
+
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
-        
+
 		EAdString talking = new EAdString("I think it is closed dude...");
 		SpeakSceneElementEf speak = new SpeakSceneElementEf(talking);
 		speak.setElement(ng);
 		move.getNextEffects().add(speak);
 	}
-	
-	public SceneElement getNg() { return ng;}
-	
-	
+
+	public SceneElement getNg() {
+		return ng;
+	}
+
 }

@@ -78,8 +78,8 @@ public class GhostElementDebugger implements Debugger {
 			drawables.clear();
 			for (EAdSceneElement e : currentScene.getSceneElements()) {
 				if (e instanceof EAdGhostElement) {
-					SceneElement area = new SceneElement(
-							((EAdGhostElement) e).getInteractionArea());
+					SceneElement area = new SceneElement(((EAdGhostElement) e)
+							.getInteractionArea());
 					area.setInitialEnable(false);
 					DrawableGO<?> go = factory.get(e);
 					area.setPosition(new EAdPosition(go.getPosition()));

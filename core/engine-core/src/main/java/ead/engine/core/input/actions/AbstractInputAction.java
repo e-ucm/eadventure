@@ -40,7 +40,8 @@ package ead.engine.core.input.actions;
 import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.engine.core.input.InputAction;
 
-public abstract class AbstractInputAction<T extends EAdGUIEvent> implements InputAction<T> {
+public abstract class AbstractInputAction<T extends EAdGUIEvent> implements
+		InputAction<T> {
 
 	private boolean consumed;
 

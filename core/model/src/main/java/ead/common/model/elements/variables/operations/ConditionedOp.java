@@ -48,34 +48,32 @@ public class ConditionedOp extends AbstractOperation {
 
 	@Param("condition")
 	private EAdCondition condition;
-	
+
 	@Param("opTrue")
 	private EAdOperation opTrue;
-	
+
 	@Param("opFalse")
 	private EAdOperation opFalse;
-	
-	public ConditionedOp( ){
-		
+
+	public ConditionedOp() {
+
 	}
-	
-	public ConditionedOp(EAdCondition c, EAdOperation opTrue, EAdOperation opFalse ) {
+
+	public ConditionedOp(EAdCondition c, EAdOperation opTrue,
+			EAdOperation opFalse) {
 		super();
 		this.opTrue = opTrue;
 		this.opFalse = opFalse;
 		this.condition = c;
 	}
 
-
 	public EAdCondition getCondition() {
 		return condition;
 	}
 
-
 	public EAdOperation getOpTrue() {
 		return opTrue;
 	}
-
 
 	public EAdOperation getOpFalse() {
 		return opFalse;

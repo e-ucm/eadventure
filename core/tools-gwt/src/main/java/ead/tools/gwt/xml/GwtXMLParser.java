@@ -48,7 +48,7 @@ public class GwtXMLParser implements XMLParser {
 	public XMLDocument parse(String xml) {
 		Document doc = com.google.gwt.xml.client.XMLParser.parse(xml);
 		doc.getDocumentElement().normalize();
-		return new GwtXMLDocument( doc );
+		return new GwtXMLDocument(doc);
 	}
 
 }

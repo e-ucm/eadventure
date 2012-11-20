@@ -38,4 +38,5 @@
 /**
  * eAdventure reosources annotations.
  */
+
 package ead.common.resources.annotation;

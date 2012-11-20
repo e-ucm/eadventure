@@ -51,12 +51,12 @@ public class ChangeEAdStringValueCommand extends Command {
 	 * Current {@link StringHandler}
 	 */
 	private StringHandler stringHandler;
-	
+
 	/**
 	 * The string key (allowing for internationalization)
 	 */
 	private EAdString key;
-	
+
 	/**
 	 * The string value
 	 */
@@ -66,14 +66,15 @@ public class ChangeEAdStringValueCommand extends Command {
 	 * The old value stored for the string
 	 */
 	private String oldValue;
-	
-	public ChangeEAdStringValueCommand(EAdString key, String value, StringHandler stringHandler) {
+
+	public ChangeEAdStringValueCommand(EAdString key, String value,
+			StringHandler stringHandler) {
 		this.stringHandler = stringHandler;
 		this.key = key;
 		this.value = value;
 		oldValue = stringHandler.getString(key);
 	}
-	
+
 	@Override
 	public boolean performCommand() {
 		stringHandler.setString(key, value);

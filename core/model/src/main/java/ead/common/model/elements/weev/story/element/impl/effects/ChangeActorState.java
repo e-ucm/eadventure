@@ -75,8 +75,7 @@ public class ChangeActorState extends AbstractEffect {
 	 *            The change or {@link ModifyInventoryEf.InventoryEffectAction} to be
 	 *            applied to the {@link Actor}
 	 */
-	public ChangeActorState(Actor actor,
-			InventoryEffectAction modification) {
+	public ChangeActorState(Actor actor, InventoryEffectAction modification) {
 		this.actor = actor;
 		this.modification = modification;
 	}

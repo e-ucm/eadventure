@@ -40,17 +40,17 @@ package ead.engine.core.gdx.html.platform.assets;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
-public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object>{
-	
+public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> {
+
 	private boolean isStream;
 	private String source;
-	
+
 	/**
 	 * Static var used to notify when video ends 
 	 */
 	private static boolean videoEnded = true;
-	
-	public GWTVideoRenderer( ){
+
+	public GWTVideoRenderer() {
 		export();
 	}
 
@@ -69,58 +69,53 @@ public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object>{
 	@Override
 	public boolean start() {
 		videoEnded = false;
-		if ( isStream ){
-			playYouTubeVideo( source );
-		}
-		else {
-			playVideo( "assets/" + source.substring(1) );
+		if (isStream) {
+			playYouTubeVideo(source);
+		} else {
+			playVideo("assets/" + source.substring(1));
 		}
 		return true;
 	}
 
 	@Override
 	public void reset() {
-		
+
 	}
-	
-	public void hide( ){
-		if ( isStream ){
+
+	public void hide() {
+		if (isStream) {
 			hideYouTubeVideo();
 		} else {
-			hideVideo( );
+			hideVideo();
 		}
 	}
-	
-	public static void videoEnded(){
-		videoEnded = true;		
-	}
-	
-	
-	public native final void playVideo(String source) /*-{ 
-		var player = $wnd._V_("nVideo");
-		$wnd.$("#nVideoContainer").css("visibility", "visible");		
-		player.src(source);
-		player.play();
-	}-*/;
-	
-	public native final void playYouTubeVideo(String source) /*-{ 		
-		$wnd.$("#ytplayer").css("visibility", "visible");
-		ytplayer.loadVideoByUrl(source);
-	}-*/;		
-	
-	public static native final void hideVideo() /*-{
-		$wnd.$("#nVideoContainer").css("visibility", "hidden");
-	}-*/;
-	
-	public static native final void hideYouTubeVideo() /*-{
-		$wnd.$("#ytplayer").css("visibility", "hidden");
-	}-*/;
-    
-    public static native final void export()/*-{
-		$wnd.eadVideoEnded=$entry(@ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer::videoEnded());
-	}-*/;
-    	
- 	
 
+	public static void videoEnded() {
+		videoEnded = true;
+	}
+
+	public native final void playVideo(String source) /*-{ 
+																		var player = $wnd._V_("nVideo");
+																		$wnd.$("#nVideoContainer").css("visibility", "visible");		
+																		player.src(source);
+																		player.play();
+																		}-*/;
+
+	public native final void playYouTubeVideo(String source) /*-{ 		
+																				$wnd.$("#ytplayer").css("visibility", "visible");
+																				ytplayer.loadVideoByUrl(source);
+																				}-*/;
+
+	public static native final void hideVideo() /*-{
+																$wnd.$("#nVideoContainer").css("visibility", "hidden");
+																}-*/;
+
+	public static native final void hideYouTubeVideo() /*-{
+																		$wnd.$("#ytplayer").css("visibility", "hidden");
+																		}-*/;
+
+	public static native final void export()/*-{
+															$wnd.eadVideoEnded=$entry(@ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer::videoEnded());
+															}-*/;
 
 }

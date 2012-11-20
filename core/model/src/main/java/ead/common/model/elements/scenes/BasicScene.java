@@ -109,7 +109,9 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 
 	public void setTrajectoryDefinition(
 			EAdTrajectoryDefinition trajectoryDefinition) {
-		this.setVarInitialValue(VAR_TRAJECTORY_DEFINITION, trajectoryDefinition);
+		this
+				.setVarInitialValue(VAR_TRAJECTORY_DEFINITION,
+						trajectoryDefinition);
 	}
 
 	/**

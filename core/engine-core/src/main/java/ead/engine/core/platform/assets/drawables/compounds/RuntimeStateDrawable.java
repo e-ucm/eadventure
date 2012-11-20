@@ -110,8 +110,9 @@ public class RuntimeStateDrawable extends
 	@Override
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
 			int level) {
-		if ( states == null ){
-			return drawables.values().iterator().next().getDrawable(time, states, level);
+		if (states == null) {
+			return drawables.values().iterator().next().getDrawable(time,
+					states, level);
 		}
 		String state = states.get(level);
 		RuntimeCompoundDrawable<?> d = drawables.get(state);

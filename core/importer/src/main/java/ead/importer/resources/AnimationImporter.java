@@ -44,7 +44,8 @@ import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.importer.GenericImporter;
 import es.eucm.eadventure.common.data.animation.Animation;
 
-public class AnimationImporter implements GenericImporter<Animation, FramesAnimation> {
+public class AnimationImporter implements
+		GenericImporter<Animation, FramesAnimation> {
 
 	private GenericImporter<es.eucm.eadventure.common.data.animation.Frame, Frame> frameImporter;
 
@@ -55,7 +56,7 @@ public class AnimationImporter implements GenericImporter<Animation, FramesAnima
 	}
 
 	@Override
-	public FramesAnimation convert(Animation oldObject, Object object ) {
+	public FramesAnimation convert(Animation oldObject, Object object) {
 		FramesAnimation frames = (FramesAnimation) object;
 		// FIXME Transitions in animations not imported
 		for (es.eucm.eadventure.common.data.animation.Frame f : oldObject

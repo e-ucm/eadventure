@@ -51,13 +51,13 @@ package ead.editor.model.nodes;
  */
 public class DependencyEdge {
 
-    private String type;
+	private String type;
 
-    public DependencyEdge(String type) {
-        this.type = type;
-    }
+	public DependencyEdge(String type) {
+		this.type = type;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 }

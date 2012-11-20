@@ -46,7 +46,8 @@ import javax.swing.event.ChangeListener;
 
 public class BooleanOption extends AbstractOption<Boolean> {
 
-	public BooleanOption(String title, String toolTipText, FieldDescriptor<Boolean> fieldDescriptor) {
+	public BooleanOption(String title, String toolTipText,
+			FieldDescriptor<Boolean> fieldDescriptor) {
 		super(title, toolTipText, fieldDescriptor);
 	}
 
@@ -57,7 +58,7 @@ public class BooleanOption extends AbstractOption<Boolean> {
 	 * es.eucm.eadventure.editor.view.ComponentProvider#getComponent(es.eucm
 	 * .eadventure.editor.view.generics.InterfaceElement)
 	 */
-    @Override
+	@Override
 	public JCheckBox getComponent(final CommandManager manager) {
 		final JCheckBox checkBox = new JCheckBox(getTitle());
 		checkBox.setToolTipText(getToolTipText());
@@ -68,7 +69,7 @@ public class BooleanOption extends AbstractOption<Boolean> {
 			public void stateChanged(ChangeEvent arg0) {
 				ChangeFieldValueCommand<Boolean> changeFieldValueCommand;
 				changeFieldValueCommand = new ChangeFieldValueCommand<Boolean>(
-                        checkBox.isSelected(), getFieldDescriptor());
+						checkBox.isSelected(), getFieldDescriptor());
 				manager.performCommand(changeFieldValueCommand);
 			}
 

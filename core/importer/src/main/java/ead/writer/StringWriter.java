@@ -63,7 +63,7 @@ import com.google.inject.Singleton;
 import ead.common.params.text.EAdString;
 
 @Singleton
-public class StringWriter  {
+public class StringWriter {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("DefaultStringFileHandler");
@@ -103,7 +103,6 @@ public class StringWriter  {
 		}
 	}
 
-	
 	public boolean write(String file, Map<EAdString, String> strings) {
 		OutputStream out = null;
 		try {

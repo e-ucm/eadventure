@@ -99,7 +99,7 @@ public final class Logger {
 		this.logger = logger;
 		this.name = logger.getName();
 	}
-	
+
 	/**
 	 * Returns own name
 	 */
@@ -634,11 +634,11 @@ public final class Logger {
 	}
 
 	static String SELF = Logger.class.getName();
-	
+
 	// not using markers
 	// was: static String SUPER = MarkerIgnoringBase.class.getName();
-	static String SUPER = SELF;	
-	
+	static String SUPER = SELF;
+
 	/**
 	 * Fill in caller data if possible.
 	 * 

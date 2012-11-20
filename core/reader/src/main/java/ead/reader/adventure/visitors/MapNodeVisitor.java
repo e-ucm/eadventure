@@ -56,8 +56,8 @@ import ead.tools.xml.XMLNodeList;
 public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 
 	protected static final Logger logger = LoggerFactory
-			.getLogger("MapNodeVisitor");	
-	
+			.getLogger("MapNodeVisitor");
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void visit(XMLNode node, ReflectionField field, Object parent,
@@ -68,18 +68,17 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 
 		if (field == null || parent == null) {
 			map = createNewMap(node);
-			logger.debug("Created new {}-to-{} map", 
-					new String[] { 
-						BasicElement.classToString(map.getKeyClass()), 
-						BasicElement.classToString(map.getValueClass()) });
+			logger.debug("Created new {}-to-{} map", new String[] {
+					BasicElement.classToString(map.getKeyClass()),
+					BasicElement.classToString(map.getValueClass()) });
 		} else {
-			map = (EAdMap<Object, Object>) field.getFieldValue(parent);		
+			map = (EAdMap<Object, Object>) field.getFieldValue(parent);
 			if (logger.isDebugEnabled()) {
-				String pid = ((parent instanceof EAdElement) ? 
-						((EAdElement)parent).getId() : 
-						objectToString(parent));
-				logger.debug("Using prior map {} at {}.{}",
-						new String[] { objectToString(map), pid, field.getName() });
+				String pid = ((parent instanceof EAdElement) ? ((EAdElement) parent)
+						.getId()
+						: objectToString(parent));
+				logger.debug("Using prior map {} at {}.{}", new String[] {
+						objectToString(map), pid, field.getName() });
 			}
 		}
 		logger.debug("Map listener is a {}", listener.getClass().toString());
@@ -88,8 +87,8 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		for (int i = 0, cnt = nl.getLength(); i < cnt - 1; i += 2) {
 			try {
 				type = nl.item(i).getNodeName();
-				MapNodeVisitorListener mapListener = 
-						new MapNodeVisitorListener(map);
+				MapNodeVisitorListener mapListener = new MapNodeVisitorListener(
+						map);
 				// sets the entry key
 				VisitorFactory.getVisitor(type).visit(nl.item(i), null, null,
 						map.getKeyClass(), mapListener);
@@ -105,9 +104,8 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 	}
 
 	private EAdMap<Object, Object> createNewMap(XMLNode node) {
-		
-		String keyClazz = node.getAttributes().getValue(
-				DOMTags.KEY_CLASS_AT);
+
+		String keyClazz = node.getAttributes().getValue(DOMTags.KEY_CLASS_AT);
 		keyClazz = translateClass(keyClazz);
 		ReflectionClass<?> keyClassType = ReflectionClassLoader
 				.getReflectionClass(keyClazz);
@@ -118,8 +116,7 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		ReflectionClass<?> valueClassType = ReflectionClassLoader
 				.getReflectionClass(valueClazz);
 
-		return new EAdMapImpl<Object, Object>(
-				keyClassType.getType(),
+		return new EAdMapImpl<Object, Object>(keyClassType.getType(),
 				valueClassType.getType());
 	}
 
@@ -148,18 +145,18 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 				key = element;
 			} else {
 				if (logger.isDebugEnabled()) {
-					String k = ((key instanceof EAdElement) ? 
-							((EAdElement)key).getId() : 
-							objectToString(key));
-					String e = ((element instanceof EAdElement) ? 
-							((EAdElement)element).getId() : 
-							objectToString(element));
-					
+					String k = ((key instanceof EAdElement) ? ((EAdElement) key)
+							.getId()
+							: objectToString(key));
+					String e = ((element instanceof EAdElement) ? ((EAdElement) element)
+							.getId()
+							: objectToString(element));
+
 					logger.debug("{}[{}] <-- {}", new String[] {
-						objectToString(map), k, e});					
+							objectToString(map), k, e });
 				}
 				// for editor nodes, IDs are important; however, they are ignored in VarDef equals-comparisons
-				map.remove(key);				
+				map.remove(key);
 				map.put(key, element);
 			}
 		}

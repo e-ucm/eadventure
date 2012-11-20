@@ -56,7 +56,8 @@ public class RandomEffectImporter extends
 	@Inject
 	public RandomEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EffectsImporterFactory effectsImporterFactory, ImportAnnotator annotator) {
+			EffectsImporterFactory effectsImporterFactory,
+			ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.effectsImporterFactory = effectsImporterFactory;
 	}

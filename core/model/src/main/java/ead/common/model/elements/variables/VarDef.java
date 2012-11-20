@@ -114,7 +114,8 @@ public class VarDef<T> extends BasicElement implements EAdVarDef<T> {
 	public boolean equals(Object o) {
 		if (o instanceof VarDef) {
 			VarDef v = (VarDef) o;
-			return this.getName().equals(v.getName()) && getType().equals(v.getType());
+			return this.getName().equals(v.getName())
+					&& getType().equals(v.getType());
 		}
 		return false;
 	}

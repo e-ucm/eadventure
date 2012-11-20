@@ -56,7 +56,7 @@ import ead.common.model.elements.variables.operations.ValueOp;
  * 
  * 
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings( { "rawtypes", "unchecked" })
 @Element
 public class InterpolationEf extends AbstractEffect {
 

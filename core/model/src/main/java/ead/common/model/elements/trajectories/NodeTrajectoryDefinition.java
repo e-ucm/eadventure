@@ -107,7 +107,7 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 	public Side addSide(String idStart, String idEnd, float length) {
 
 		if (idStart.equals(idEnd))
-			return null;		
+			return null;
 		Node a = getNodeForId(idStart);
 		Node b = getNodeForId(idEnd);
 		Side side = new Side(a, b);
@@ -149,7 +149,7 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 
 		return initial;
 	}
-	
+
 	public void setInitial(Node initial) {
 		this.initial = initial;
 	}
@@ -171,7 +171,5 @@ public class NodeTrajectoryDefinition extends BasicElement implements
 	public EAdList<EAdSceneElement> getBarriers() {
 		return barriers;
 	}
-	
-	
 
 }

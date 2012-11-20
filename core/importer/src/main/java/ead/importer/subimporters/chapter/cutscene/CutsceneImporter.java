@@ -126,8 +126,8 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 		case Slidescene.NEWSCENE:
 			nextScene = (EAdScene) factory.getElementById(cutscene
 					.getTargetId());
-			transition = TriggerSceneImporter.getTransition(
-					cutscene.getTransitionType(), cutscene.getTransitionTime());
+			transition = TriggerSceneImporter.getTransition(cutscene
+					.getTransitionType(), cutscene.getTransitionTime());
 			break;
 		}
 		ChangeSceneEf changeScene = new ChangeSceneEf();

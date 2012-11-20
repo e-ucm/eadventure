@@ -104,12 +104,13 @@ public class ModelIndex {
 			searchIndex = new RAMDirectory();
 			// use a very simple analyzer; no fancy stopwords, stemming, ...
 			searchAnalyzer = new WhitespaceAnalyzer(Version.LUCENE_35);
-			IndexWriterConfig config = new IndexWriterConfig(
-					Version.LUCENE_35, searchAnalyzer);
+			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_35,
+					searchAnalyzer);
 			indexWriter = new IndexWriter(searchIndex, config);
 		} catch (Exception e) {
 			logger.error("Could not initialize search index (?)", e);
-			throw new IllegalArgumentException("Could not initialize search index (?)", e);
+			throw new IllegalArgumentException(
+					"Could not initialize search index (?)", e);
 		}
 	}
 
@@ -124,8 +125,9 @@ public class ModelIndex {
 	public void addProperty(DependencyNode e, String field, String value,
 			boolean searchable) {
 
-		e.getDoc().add(new Field(field, value, Store.YES,
-				searchable ? Index.ANALYZED : Index.NO));
+		e.getDoc().add(
+				new Field(field, value, Store.YES, searchable ? Index.ANALYZED
+						: Index.NO));
 	}
 
 	/**
@@ -134,13 +136,13 @@ public class ModelIndex {
 	public void firstIndexUpdate(Collection<DependencyNode> nodes) {
 		for (DependencyNode e : nodes) {
 			Document doc = e.getDoc();
-			logger.trace("Writing index for {} of class {}",
-					new Object[]{e.getId(), e.getContent().getClass().getSimpleName()});
+			logger.trace("Writing index for {} of class {}", new Object[] {
+					e.getId(), e.getContent().getClass().getSimpleName() });
 			try {
 				indexWriter.addDocument(doc);
 			} catch (Exception ex) {
-				logger.error("Error adding search information for node {}",
-						e.getId(), ex);
+				logger.error("Error adding search information for node {}", e
+						.getId(), ex);
 			}
 		}
 		try {
@@ -159,8 +161,8 @@ public class ModelIndex {
 			try {
 				IndexReader reader = IndexReader.open(searchIndex);
 
-				ArrayList<String> al = new ArrayList<String>(
-						reader.getFieldNames(IndexReader.FieldOption.INDEXED));
+				ArrayList<String> al = new ArrayList<String>(reader
+						.getFieldNames(IndexReader.FieldOption.INDEXED));
 				String[] allFields = al.toArray(new String[al.size()]);
 				if (logger.isDebugEnabled()) {
 					Arrays.sort(allFields);
@@ -169,8 +171,8 @@ public class ModelIndex {
 						logger.debug("  indexed field: '{}'", name);
 					}
 				}
-				queryParser = new MultiFieldQueryParser(
-						Version.LUCENE_35, allFields, searchAnalyzer);
+				queryParser = new MultiFieldQueryParser(Version.LUCENE_35,
+						allFields, searchAnalyzer);
 			} catch (IOException ioe) {
 				logger.error("Error constructing query parser", ioe);
 			}
@@ -185,8 +187,8 @@ public class ModelIndex {
 	public List<String> getIndexedFieldNames() {
 		try {
 			IndexReader reader = IndexReader.open(searchIndex);
-			return new ArrayList<String>(
-					reader.getFieldNames(IndexReader.FieldOption.INDEXED));
+			return new ArrayList<String>(reader
+					.getFieldNames(IndexReader.FieldOption.INDEXED));
 		} catch (IOException ioe) {
 			throw new IllegalArgumentException(
 					"Error finding names of indexable fields", ioe);
@@ -199,17 +201,17 @@ public class ModelIndex {
 	public static class SearchResult {
 
 		private ArrayList<DependencyNode> matches = new ArrayList<DependencyNode>();
-		private TreeMap<Integer, ArrayList<String>> fieldMatches =
-				new TreeMap<Integer, ArrayList<String>>();
+		private TreeMap<Integer, ArrayList<String>> fieldMatches = new TreeMap<Integer, ArrayList<String>>();
 
-		private static final Pattern fieldMatchPattern
-				= Pattern.compile("fieldWeight[(]([^:]+):");
+		private static final Pattern fieldMatchPattern = Pattern
+				.compile("fieldWeight[(]([^:]+):");
 
 		public SearchResult() {
 			// used for "empty" searches: no results
 		}
 
-		public SearchResult(IndexSearcher searcher, Query query, ScoreDoc[] hits, Map<Integer, DependencyNode> nodesById)
+		public SearchResult(IndexSearcher searcher, Query query,
+				ScoreDoc[] hits, Map<Integer, DependencyNode> nodesById)
 				throws IOException {
 
 			try {
@@ -217,22 +219,28 @@ public class ModelIndex {
 					String nodeId;
 					nodeId = searcher.doc(hit.doc).get(editorIdFieldName);
 					logger.debug("Adding {}", nodeId);
-					DependencyNode node = nodesById.get(Integer.parseInt(nodeId));
+					DependencyNode node = nodesById.get(Integer
+							.parseInt(nodeId));
 					matches.add(node);
 					fieldMatches.put(node.getId(), new ArrayList<String>());
-					fillFieldsForExplanation(searcher.explain(query, hit.doc), node.getId());
+					fillFieldsForExplanation(searcher.explain(query, hit.doc),
+							node.getId());
 				}
 				searcher.close();
 				if (logger.isDebugEnabled()) {
 					logger.debug("Found {} matches for query {}:",
-							new Object[] {matches.size(), query});
+							new Object[] { matches.size(), query });
 					for (DependencyNode node : matches) {
 						logger.debug(" * node {}", node.getId());
 						if (fieldMatchesFor(node) != null) {
-							logger.debug("    {} fields match",
-									new Object[] { fieldMatchesFor(node).size() });
+							logger
+									.debug(
+											"    {} fields match",
+											new Object[] { fieldMatchesFor(node)
+													.size() });
 						} else {
-							logger.error("No field matches for match {} !! ", node.getId());
+							logger.error("No field matches for match {} !! ",
+									node.getId());
 						}
 					}
 				}
@@ -243,12 +251,12 @@ public class ModelIndex {
 
 		public final void fillFieldsForExplanation(Explanation e, int nodeId) {
 			String s = e.getDescription();
-			logger.debug("Reading explanation for {}: '{}'",
-					new Object[] { nodeId, s});
+			logger.debug("Reading explanation for {}: '{}'", new Object[] {
+					nodeId, s });
 			Matcher m = fieldMatchPattern.matcher(s);
 			if (m.find()) {
-				logger.debug("Adding another match to {}: {}",
-						new Object[] {nodeId, m.group(1)});
+				logger.debug("Adding another match to {}: {}", new Object[] {
+						nodeId, m.group(1) });
 				ArrayList<String> ms = fieldMatches.get(nodeId);
 				ms.add(m.group(1));
 			}
@@ -274,14 +282,16 @@ public class ModelIndex {
 	/**
 	 * Get a (sorted) list of nodes that match a query
 	 */
-	public List<DependencyNode> searchAll(String queryText, Map<Integer, DependencyNode> nodesById) {
+	public List<DependencyNode> searchAll(String queryText,
+			Map<Integer, DependencyNode> nodesById) {
 		return searchAllDetailed(queryText, nodesById).getMatchedNodes();
 	}
 
 	/**
 	 * Get a (sorted) list of nodes that match a query
 	 */
-	public SearchResult searchAllDetailed(String queryText, Map<Integer, DependencyNode> nodesById) {
+	public SearchResult searchAllDetailed(String queryText,
+			Map<Integer, DependencyNode> nodesById) {
 		try {
 			IndexReader reader = IndexReader.open(searchIndex);
 			Query query = getQueryAllParser().parse(queryText);
@@ -302,13 +312,14 @@ public class ModelIndex {
 	/**
 	 * Get a (sorted) list of nodes that match a query
 	 */
-	public List<DependencyNode> search(String field, String queryText, Map<Integer, DependencyNode> nodesById) {
+	public List<DependencyNode> search(String field, String queryText,
+			Map<Integer, DependencyNode> nodesById) {
 
 		ArrayList<DependencyNode> nodes = new ArrayList<DependencyNode>();
 		try {
 			IndexReader reader = IndexReader.open(searchIndex);
-			Query query = new QueryParser(
-					Version.LUCENE_35, field, searchAnalyzer).parse(queryText);
+			Query query = new QueryParser(Version.LUCENE_35, field,
+					searchAnalyzer).parse(queryText);
 			IndexSearcher searcher = new IndexSearcher(reader);
 			TopScoreDocCollector collector = TopScoreDocCollector.create(
 					MAX_SEARCH_HITS, true);

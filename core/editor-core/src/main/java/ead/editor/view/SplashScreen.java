@@ -46,10 +46,10 @@ public interface SplashScreen {
 	 * Show the splash screen
 	 */
 	void show();
-	
+
 	/**
 	 * Hide the splash screen
 	 */
 	void hide();
-	
+
 }

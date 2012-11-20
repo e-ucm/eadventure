@@ -53,50 +53,59 @@ import ead.tools.ConfigBackend;
 
 public class ConfigBackendProperties extends ConfigBackend {
 
-    public static Logger logger = LoggerFactory.getLogger("ConfigBackend");
+	public static Logger logger = LoggerFactory.getLogger("ConfigBackend");
 
-    private Properties props = new Properties();
-    private File saveFile;
+	private Properties props = new Properties();
+	private File saveFile;
 
-    @Override
-    public boolean load(String sourceURL) {
-        try {
-            props.loadFromXML(new FileInputStream(new File(sourceURL)));
-            saveFile = new File(sourceURL);
-            return true;
-        } catch (FileNotFoundException ex) {
-            logger.debug("Could not load properties from {}. File doesn't exist. File will be created", sourceURL, ex);
-        } catch (InvalidPropertiesFormatException e) {
-			logger.debug("Invalid properties format exception in {}. Content will be ignored.", sourceURL );
+	@Override
+	public boolean load(String sourceURL) {
+		try {
+			props.loadFromXML(new FileInputStream(new File(sourceURL)));
+			saveFile = new File(sourceURL);
+			return true;
+		} catch (FileNotFoundException ex) {
+			logger
+					.debug(
+							"Could not load properties from {}. File doesn't exist. File will be created",
+							sourceURL, ex);
+		} catch (InvalidPropertiesFormatException e) {
+			logger
+					.debug(
+							"Invalid properties format exception in {}. Content will be ignored.",
+							sourceURL);
 		} catch (IOException e) {
-			logger.error("Something went wrong while loading properties file {}", sourceURL, e );
+			logger.error(
+					"Something went wrong while loading properties file {}",
+					sourceURL, e);
 		}
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    public boolean save(String targetURL) {
-        if (saveFile == null && targetURL == null) {
-            throw new IllegalArgumentException("Cannot save if never loaded");
-        } else if (targetURL != null) {
-            saveFile = new File(targetURL);
-        }
-        try {
-            props.storeToXML(new FileOutputStream(saveFile), "Saved at " + new Date().toString());
-            return true;
-        } catch (Exception ex) {
-            logger.error("Could not save properties to {}", saveFile, ex);
-        }
-        return false;
-    }
+	@Override
+	public boolean save(String targetURL) {
+		if (saveFile == null && targetURL == null) {
+			throw new IllegalArgumentException("Cannot save if never loaded");
+		} else if (targetURL != null) {
+			saveFile = new File(targetURL);
+		}
+		try {
+			props.storeToXML(new FileOutputStream(saveFile), "Saved at "
+					+ new Date().toString());
+			return true;
+		} catch (Exception ex) {
+			logger.error("Could not save properties to {}", saveFile, ex);
+		}
+		return false;
+	}
 
-    @Override
-    public String getValue(Object key) {
-        return props.getProperty(""+key);
-    }
+	@Override
+	public String getValue(Object key) {
+		return props.getProperty("" + key);
+	}
 
-    @Override
-    public void put(Object key, String value) {
-        props.put(""+key, value);
-    }
+	@Override
+	public void put(Object key, String value) {
+		props.put("" + key, value);
+	}
 }

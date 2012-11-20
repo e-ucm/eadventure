@@ -99,7 +99,7 @@ public class DefaultSceneLoader implements SceneLoader {
 		logger.info("Loading next scene: " + scene.getId());
 		loadScene();
 		sceneLoaderListener.sceneLoaded(sceneGO);
-		logger.info( scene.getId() + " loaded.");
+		logger.info(scene.getId() + " loaded.");
 	}
 
 	protected void loadScene() {
@@ -126,7 +126,7 @@ public class DefaultSceneLoader implements SceneLoader {
 	protected void freeScene() {
 		currentAssets.clear();
 		// FIXME remove assets in other way
-//		assetHandler.clean(currentSceneGO.getAssets(currentAssets, true));
+		//		assetHandler.clean(currentSceneGO.getAssets(currentAssets, true));
 
 		goList.clear();
 		currentGoList.clear();
@@ -147,7 +147,7 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	@Override
 	public void step() {
-		
+
 	}
 
 }

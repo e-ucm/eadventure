@@ -43,7 +43,7 @@ import ead.common.model.weev.world.WorldElement;
 /**
  * Abstract {@link WorldElement} implementation
  */
-public abstract class AbstractWorldElement extends AbstractPositionedWEEVElement implements
-		WorldElement {
+public abstract class AbstractWorldElement extends
+		AbstractPositionedWEEVElement implements WorldElement {
 
 }

@@ -96,7 +96,8 @@ public class GdxDesktopGUI extends GdxGUI {
 
 		// Sets a null cursor (so the in-game one is used)
 		frame.setCursor(frame.getToolkit().createCustomCursor(
-	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "null"));
+				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
+				new Point(0, 0), "null"));
 
 		setFullscreenIfNeeded();
 		int width = engineConfiguration.getWidth();
@@ -111,7 +112,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if ( ! engineConfiguration.isExitWhenFinished()) {
+				if (!engineConfiguration.isExitWhenFinished()) {
 					frame.setVisible(false);
 				} else {
 					finish();
@@ -188,9 +189,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 		IntBuffer ib = BufferUtils.createIntBuffer(16 * 16);
 		for (int i = 0; i < data.length; i += 4) {
-			ib.put(data[i]
-					| data[i + 1] << 8
-					| data[i + 2] << 16
+			ib.put(data[i] | data[i + 1] << 8 | data[i + 2] << 16
 					| data[i + 3] << 24);
 		}
 		ib.flip();
@@ -217,7 +216,7 @@ public class GdxDesktopGUI extends GdxGUI {
 				.getDefaultScreenDevice();
 	}
 
-	public JFrame getFrame( ){
+	public JFrame getFrame() {
 		return frame;
 	}
 

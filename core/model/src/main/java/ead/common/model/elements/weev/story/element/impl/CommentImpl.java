@@ -52,19 +52,19 @@ public class CommentImpl extends AbstractStoryElement implements Comment {
 
 	@Param(value = "storyElement")
 	private StoryElement storyElement;
-	
+
 	@Param(value = "text")
 	private EAdString text;
-	
+
 	public CommentImpl() {
 		text = EAdString.newRandomEAdString("text");
 	}
-	
+
 	@Override
 	public StoryElement getStoryElement() {
 		return storyElement;
 	}
-	
+
 	public void setStoryElement(StoryElement storyElement) {
 		this.storyElement = storyElement;
 	}
@@ -73,7 +73,7 @@ public class CommentImpl extends AbstractStoryElement implements Comment {
 	public EAdString getText() {
 		return text;
 	}
-	
+
 	public void setText(EAdString text) {
 		this.text = text;
 	}

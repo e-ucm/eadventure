@@ -40,16 +40,15 @@ package ead.editor.view.dock;
 import ead.editor.control.Controller;
 import ead.editor.model.nodes.DependencyNode;
 
-
 /**
  *
  * @author mfreire
  */
 public interface ElementPanel<E extends DependencyNode> {
 
-    void setController(Controller controller);
+	void setController(Controller controller);
 
-    void setTarget(E target);
+	void setTarget(E target);
 
-    E getTarget();
+	E getTarget();
 }

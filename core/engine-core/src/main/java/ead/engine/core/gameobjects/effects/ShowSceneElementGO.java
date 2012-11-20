@@ -50,12 +50,13 @@ import ead.engine.core.util.EAdTransformation;
 public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 
 	private SceneElementGO<?> sceneElement;
-	
+
 	private int time;
 
 	@Inject
-	public ShowSceneElementGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+	public ShowSceneElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
 	}
 

@@ -58,20 +58,21 @@ public class TextComponentProviderTest extends JFrame {
 		(new TextComponentProviderTest()).test();
 	}
 
-    public void test() {
-        setSize( 400,400 );
+	public void test() {
+		setSize(400, 400);
 
-        FieldDescriptor<String> fieldDescriptor = new FieldDescriptorImpl<String>(null, "name");
-        FieldValueReader fieldValueReader = mock(FieldValueReader.class);
-        when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
+		FieldDescriptor<String> fieldDescriptor = new FieldDescriptorImpl<String>(
+				null, "name");
+		FieldValueReader fieldValueReader = mock(FieldValueReader.class);
+		when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
 
-        CommandManager commandManager = mock(CommandManager.class);
+		CommandManager commandManager = mock(CommandManager.class);
 
-        setLayout(new FlowLayout());
-        TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
-        add(option.getComponent(commandManager));
+		setLayout(new FlowLayout());
+		TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
+		add(option.getComponent(commandManager));
 
-        setVisible( true );
-        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-    }
+		setVisible(true);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	}
 }

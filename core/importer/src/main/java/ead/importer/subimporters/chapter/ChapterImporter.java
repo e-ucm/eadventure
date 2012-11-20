@@ -81,7 +81,8 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	@Inject
 	public ChapterImporter(StringHandler stringHandler,
-			EAdElementFactory elementFactory, EAdElementImporter<Timer, EAdEvent> timerImporter,
+			EAdElementFactory elementFactory,
+			EAdElementImporter<Timer, EAdEvent> timerImporter,
 			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
@@ -99,16 +100,16 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	public EAdChapter convert(Chapter oldChapter, Object object) {
 		BasicChapter newChapter = (BasicChapter) object;
 
-        annotator.annotate(newChapter, ImportAnnotator.Type.Open);
-        annotator.annotate(newChapter, ImportAnnotator.Type.Entry, "title",
-                oldChapter.getTitle());
-        annotator.annotate(newChapter, ImportAnnotator.Type.Entry, "description",
-                oldChapter.getDescription());
-        elementFactory.setCurrentChapterModel(newChapter, oldChapter);
+		annotator.annotate(newChapter, ImportAnnotator.Type.Open);
+		annotator.annotate(newChapter, ImportAnnotator.Type.Entry, "title",
+				oldChapter.getTitle());
+		annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
+				"description", oldChapter.getDescription());
+		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
 		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
-		stringHandler.setString(newChapter.getDescription(),
-				oldChapter.getDescription());
+		stringHandler.setString(newChapter.getDescription(), oldChapter
+				.getDescription());
 
 		registerActiveAreas(oldChapter.getScenes());
 		registerOldElements(oldChapter.getAtrezzo());
@@ -123,7 +124,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		elementFactory.registerOldElement(oldChapter.getPlayer().getId(),
 				oldChapter.getPlayer());
 
-		importActiveAreas( oldChapter.getScenes() );
+		importActiveAreas(oldChapter.getScenes());
 		importElements(oldChapter.getAtrezzo());
 		importElements(oldChapter.getItems());
 		importElements(oldChapter.getCharacters());
@@ -159,14 +160,14 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		newChapter.setInitialScene((EAdScene) elementFactory
 				.getElementById(oldChapter.getInitialGeneralScene().getId()));
 
-        annotator.annotate(newChapter, ImportAnnotator.Type.Close);
+		annotator.annotate(newChapter, ImportAnnotator.Type.Close);
 		return newChapter;
 	}
 
 	private void setAdventureCursor(Chapter oldChapter) {
 
-		ChangeCursorEf changeCursor = new ChangeCursorEf(
-				elementFactory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
+		ChangeCursorEf changeCursor = new ChangeCursorEf(elementFactory
+				.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
 		EAdScene scene = (EAdScene) elementFactory.getElementById(oldChapter
 				.getInitialGeneralScene().getId());
 
@@ -177,40 +178,40 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	}
 
 	private void registerActiveAreas(List<Scene> scenes) {
-		for ( Scene s: scenes ){
-			for ( ActiveArea a: s.getActiveAreas() ){
+		for (Scene s : scenes) {
+			for (ActiveArea a : s.getActiveAreas()) {
 				elementFactory.registerOldElement(a.getId(), a);
 			}
 		}
 	}
 
 	private void registerOldElements(List<? extends HasId> list) {
-		for (HasId element : list){
+		for (HasId element : list) {
 			elementFactory.registerOldElement(element.getId(), element);
 		}
 	}
 
-	private void registerOldElementMacros(List<Macro> list){
-		for (Macro element : list){
+	private void registerOldElementMacros(List<Macro> list) {
+		for (Macro element : list) {
 			elementFactory.registerOldElement(element.getId(), element);
 		}
 	}
 
 	private void importElements(List<? extends HasId> list) {
-		for (HasId element : list){
+		for (HasId element : list) {
 			elementFactory.getElementById(element.getId());
 		}
 	}
 
 	private void importElementsMacro(List<Macro> list) {
-		for (Macro element : list){
+		for (Macro element : list) {
 			elementFactory.getElementById(element.getId());
 		}
 	}
 
 	private void importActiveAreas(List<Scene> scenes) {
-		for ( Scene s: scenes ){
-			for ( ActiveArea a: s.getActiveAreas() ){
+		for (Scene s : scenes) {
+			for (ActiveArea a : s.getActiveAreas()) {
 				elementFactory.getElementById(a.getId());
 			}
 		}

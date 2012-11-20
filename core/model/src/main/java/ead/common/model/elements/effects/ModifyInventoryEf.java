@@ -95,6 +95,4 @@ public class ModifyInventoryEf extends AbstractEffect {
 		this.removeFromScene = removeFromScene;
 	}
 
-	
-	
 }

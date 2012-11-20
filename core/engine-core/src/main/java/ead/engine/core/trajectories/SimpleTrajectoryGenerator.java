@@ -63,14 +63,13 @@ public class SimpleTrajectoryGenerator implements
 	public SimpleTrajectoryGenerator(ValueMap valueMap) {
 		this.valueMap = valueMap;
 	}
-	
+
 	@Override
-	public Path getTrajectory(
-			SimpleTrajectoryDefinition def,
+	public Path getTrajectory(SimpleTrajectoryDefinition def,
 			EAdElement movingElement, int x, int y) {
 
 		EAdPosition currentPosition = getCurrentPosition(movingElement);
-		
+
 		List<EAdPosition> list = new ArrayList<EAdPosition>();
 		if (def.isOnlyHorizontal()) {
 			list.add(new EAdPosition(getX(def, x), currentPosition.getY()));
@@ -78,13 +77,14 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPosition(getX(def, x), getY(def, y)));
 		}
 
-		return new SimplePathImpl(list, currentPosition, valueMap.getValue(movingElement, SceneElement.VAR_SCALE));
+		return new SimplePathImpl(list, currentPosition, valueMap.getValue(
+				movingElement, SceneElement.VAR_SCALE));
 	}
 
 	@Override
-	public Path getTrajectory(
-			SimpleTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int x, int y, SceneElementGO<?> sceneElement) {
+	public Path getTrajectory(SimpleTrajectoryDefinition trajectoryDefinition,
+			EAdElement movingElement, int x, int y,
+			SceneElementGO<?> sceneElement) {
 
 		EAdPosition currentPosition = getCurrentPosition(movingElement);
 
@@ -95,7 +95,8 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPosition(x, y));
 		}
 
-		return new SimplePathImpl(list,currentPosition, valueMap.getValue(movingElement, SceneElement.VAR_SCALE));
+		return new SimplePathImpl(list, currentPosition, valueMap.getValue(
+				movingElement, SceneElement.VAR_SCALE));
 	}
 
 	@Override
@@ -104,28 +105,26 @@ public class SimpleTrajectoryGenerator implements
 		//TODO check barriers?
 		return false;
 	}
-	
-	private int getX( SimpleTrajectoryDefinition def, int x ){
-		if ( x > def.getRight() )
+
+	private int getX(SimpleTrajectoryDefinition def, int x) {
+		if (x > def.getRight())
 			return def.getRight();
-		if ( x < def.getLeft() )
+		if (x < def.getLeft())
 			return def.getLeft();
 		return x;
 	}
-	
-	private int getY( SimpleTrajectoryDefinition def, int y ){
-		if ( y > def.getBottom() )
+
+	private int getY(SimpleTrajectoryDefinition def, int y) {
+		if (y > def.getBottom())
 			return def.getBottom();
-		if ( y < def.getTop() )
+		if (y < def.getTop())
 			return def.getTop();
 		return y;
 	}
-	
+
 	private EAdPosition getCurrentPosition(EAdElement element) {
-		int x = valueMap.getValue(element,
-				SceneElement.VAR_X);
-		int y = valueMap.getValue(element,
-				SceneElement.VAR_Y);
+		int x = valueMap.getValue(element, SceneElement.VAR_X);
+		int y = valueMap.getValue(element, SceneElement.VAR_Y);
 		return new EAdPosition(x, y);
 	}
 

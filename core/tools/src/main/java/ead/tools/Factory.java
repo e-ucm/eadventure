@@ -37,9 +37,6 @@
 
 package ead.tools;
 
-
-
-
 /**
  * Generic factory interface. Factories of this kind are used to get an object
  * of one class <T> (target) that is dependent on a source class.

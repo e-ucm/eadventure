@@ -43,7 +43,7 @@ import com.gwtent.reflection.client.Reflectable;
 public enum TimedEvType {
 
 	START_TIME,
-	
+
 	END_TIME;
 
 }

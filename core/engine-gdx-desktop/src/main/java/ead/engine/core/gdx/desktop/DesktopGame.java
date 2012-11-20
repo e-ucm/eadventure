@@ -85,9 +85,10 @@ public class DesktopGame extends JavaInjector {
 		}
 		g.loadGame(model, strings, properties);
 	}
-	
-	public void setResourcesLocation(String path){
-		this.getInstance(AssetHandler.class).setResourcesLocation(new EAdURI(path));
+
+	public void setResourcesLocation(String path) {
+		this.getInstance(AssetHandler.class).setResourcesLocation(
+				new EAdURI(path));
 	}
 
 }

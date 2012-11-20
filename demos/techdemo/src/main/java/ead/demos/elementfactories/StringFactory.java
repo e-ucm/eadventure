@@ -64,8 +64,9 @@ public class StringFactory {
 			switch (this) {
 			case VERY_LONG_STRING:
 				String s = "";
-				for ( int i = 0; i < 5; i++ ){
-					s += LONG_STRING.getString() + MEDIUM_STRING.getString() + SHORT_STRING.getString();
+				for (int i = 0; i < 5; i++) {
+					s += LONG_STRING.getString() + MEDIUM_STRING.getString()
+							+ SHORT_STRING.getString();
 				}
 				return s;
 			case LONG_STRING:
@@ -90,7 +91,8 @@ public class StringFactory {
 		if (strings == null) {
 			strings = new ArrayList<EAdString>();
 			for (StringType type : StringType.values()) {
-				EAdString string = EAdString.newRandomEAdString(type.toString());
+				EAdString string = EAdString
+						.newRandomEAdString(type.toString());
 				strings.add(string);
 			}
 		}
@@ -100,8 +102,7 @@ public class StringFactory {
 		Map<EAdString, String> shstrings = new HashMap<EAdString, String>();
 		int i = 0;
 		for (EAdString string : strings) {
-			shstrings.put(string,
-					StringType.values()[i++].getString());
+			shstrings.put(string, StringType.values()[i++].getString());
 		}
 
 		shstrings.putAll(userStrings);
@@ -124,7 +125,7 @@ public class StringFactory {
 		setString(eAdString, string);
 		return eAdString;
 	}
-	
+
 	public void setString(EAdString string, String value) {
 		userStrings.put(string, value);
 	}

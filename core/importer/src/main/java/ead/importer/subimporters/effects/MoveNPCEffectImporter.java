@@ -52,12 +52,14 @@ import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 
-public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, TriggerMacroEf> {
+public class MoveNPCEffectImporter extends
+		EffectImporter<MoveNPCEffect, TriggerMacroEf> {
 
 	private EAdElementFactory factory;
 
 	@Inject
-	public MoveNPCEffectImporter(EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+	public MoveNPCEffectImporter(
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
@@ -76,8 +78,9 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, Trigger
 		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 
 		MoveSceneElementEf moveEffect = new MoveSceneElementEf(
-				(EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()),
-				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL);
+				(EAdSceneElementDef) factory.getElementById(oldObject
+						.getTargetId()), oldObject.getX(), oldObject.getY(),
+				MovementSpeed.NORMAL);
 		moveEffect.setBlocking(true);
 		macro.getEffects().add(moveEffect);
 

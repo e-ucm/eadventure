@@ -47,17 +47,17 @@ import ead.common.model.elements.scenes.BasicScene;
  */
 @Element
 public class EmptyTransition extends BasicScene implements EAdTransition {
-	
-	private static final EmptyTransition transition = new EmptyTransition( 0 );
-	
+
+	private static final EmptyTransition transition = new EmptyTransition(0);
+
 	@Param("time")
 	private int time;
-	
-	public EmptyTransition( ){
-		this( 0 );
-	}	
-	
-	public EmptyTransition( int time ){
+
+	public EmptyTransition() {
+		this(0);
+	}
+
+	public EmptyTransition(int time) {
 		this.time = time;
 		setReturnable(false);
 	}
@@ -66,12 +66,12 @@ public class EmptyTransition extends BasicScene implements EAdTransition {
 	public int getTime() {
 		return time;
 	}
-	
-	public void setTime( int time ){
+
+	public void setTime(int time) {
 		this.time = time;
 	}
-	
-	public static EmptyTransition instance( ){
+
+	public static EmptyTransition instance() {
 		return transition;
 	}
 

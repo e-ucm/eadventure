@@ -77,28 +77,28 @@ public class QueryNode extends EditorNode {
 		} else {
 			String q = queryString.substring(2);
 			switch (queryString.charAt(1)) {
-				case 'n': {
-					for (DependencyNode n : m.getGraph().vertexSet()) {
-						if (n.getClass().getName().indexOf(q) != -1) {
-							this.addChild(n);
-						}
-					}
-					break;
-				}
-				case 'e': {
-					DependencyNode n = m.getElement(q);
-					if (n != null) {
+			case 'n': {
+				for (DependencyNode n : m.getGraph().vertexSet()) {
+					if (n.getClass().getName().indexOf(q) != -1) {
 						this.addChild(n);
 					}
 				}
-				case 'o': {
-					for (DependencyNode n : m.getGraph().vertexSet()) {
-						if (n.getContent().getClass().getName().indexOf(q) != -1) {
-							this.addChild(n);
-						}
-					}
-					break;
+				break;
+			}
+			case 'e': {
+				DependencyNode n = m.getElement(q);
+				if (n != null) {
+					this.addChild(n);
 				}
+			}
+			case 'o': {
+				for (DependencyNode n : m.getGraph().vertexSet()) {
+					if (n.getContent().getClass().getName().indexOf(q) != -1) {
+						this.addChild(n);
+					}
+				}
+				break;
+			}
 			}
 		}
 	}
@@ -109,8 +109,7 @@ public class QueryNode extends EditorNode {
 	 */
 	@Override
 	public void writeInner(StringBuilder sb) {
-		sb.append("<queryString>")
-				.append(queryString).append("</queryString>");
+		sb.append("<queryString>").append(queryString).append("</queryString>");
 	}
 
 	/**
@@ -133,18 +132,13 @@ public class QueryNode extends EditorNode {
 		int i = 0;
 		for (DependencyNode n : getContents()) {
 			sb.append("\n-- Match ").append(++i).append("--\n");
-			sb.append("   ")
-					.append(n.getContent().getClass().getSimpleName())
-					.append(" (")
-					.append(n.getId())
-					.append(")");
+			sb.append("   ").append(n.getContent().getClass().getSimpleName())
+					.append(" (").append(n.getId()).append(")");
 			if (result != null) {
 				sb.append(": matches in\n");
 				for (String s : result.fieldMatchesFor(n)) {
-					sb.append("     ")
-							.append(s)
-							.append(": ")
-							.append(n.getDoc().getValues(s)[0]);
+					sb.append("     ").append(s).append(": ").append(
+							n.getDoc().getValues(s)[0]);
 				}
 			}
 		}

@@ -38,7 +38,7 @@
 package ead.tools;
 
 public interface GenericInjector {
-	
-	<T> T getInstance( Class<T> clazz );
+
+	<T> T getInstance(Class<T> clazz);
 
 }

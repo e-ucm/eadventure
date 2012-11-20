@@ -53,17 +53,16 @@ import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 public class NgMainScreen extends EmptyScene {
 
 	public NgMainScreen(EAdScene initScene) {
-		setBackground(new SceneElement( new Image(
+		setBackground(new SceneElement(new Image(
 				"@drawable/ng_mainscreen_bg.png")));
-		SceneElement spiral = new SceneElement(
-				new Image("@drawable/ng_spiral.png"));
+		SceneElement spiral = new SceneElement(new Image(
+				"@drawable/ng_spiral.png"));
 		spiral.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(spiral);
-		SceneElement logo = new SceneElement(
-				new Image("@drawable/ng_logo.png"));
+		SceneElement logo = new SceneElement(new Image("@drawable/ng_logo.png"));
 		logo.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(logo);
-		logo.setInitialScale( 0.0f);
+		logo.setInitialScale(0.0f);
 
 		// Animations
 		SceneElementEv e = new SceneElementEv();
@@ -72,21 +71,20 @@ public class NgMainScreen extends EmptyScene {
 				InterpolationLoopType.RESTART, -1, InterpolationType.LINEAR);
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, rotate);
 		spiral.getEvents().add(e);
-		
+
 		e = new SceneElementEv();
 		InterpolationEf bounce = new InterpolationEf(logo,
 				SceneElement.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
-		
-		ChangeSceneEf changeScene = new ChangeSceneEf( );
+
+		ChangeSceneEf changeScene = new ChangeSceneEf();
 		// Creates all rooms
 		NgSceneCreator.getInstance(this);
 		changeScene.setNextScene(NgSceneCreator.getRoom1());
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
-		
+
 		logo.getEvents().add(e);
-		
 
 	}
 

@@ -139,7 +139,7 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(PluginHandler.class, GdxPluginHandler.class);
 
 		binds.put(SoundManager.class, GdxSoundManager.class);
-		
+
 		binds.put(FilterFactory.class, GdxFilterFactory.class);
 
 		// Game

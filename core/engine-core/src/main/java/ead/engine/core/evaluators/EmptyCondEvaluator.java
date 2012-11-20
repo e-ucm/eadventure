@@ -45,16 +45,19 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class EmptyCondEvaluator implements Evaluator<EmptyCond> {
 
-	private static final Logger logger = LoggerFactory.getLogger("EmptyConditionEvaluator");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EmptyConditionEvaluator");
 
 	@Override
 	public boolean evaluate(EmptyCond condition) {
-		switch(condition.getValue()) {
-            case TRUE:	return true;
-            case FALSE:	return false;
-            default: logger.error(
-                    "Invalid value '{}' for empty condition '{}'",
-                        condition.getValue(), condition);
+		switch (condition.getValue()) {
+		case TRUE:
+			return true;
+		case FALSE:
+			return false;
+		default:
+			logger.error("Invalid value '{}' for empty condition '{}'",
+					condition.getValue(), condition);
 		}
 		return false;
 	}

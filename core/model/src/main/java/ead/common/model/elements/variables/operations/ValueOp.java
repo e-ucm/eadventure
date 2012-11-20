@@ -64,7 +64,7 @@ public class ValueOp extends AbstractOperation {
 	 * @param value
 	 *            the value to be assigned
 	 */
-	public ValueOp( Object value) {
+	public ValueOp(Object value) {
 		super();
 		this.value = value;
 	}
@@ -77,8 +77,8 @@ public class ValueOp extends AbstractOperation {
 	public Object getValue() {
 		return value;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return value + "";
 	}
 

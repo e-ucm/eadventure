@@ -60,7 +60,8 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 
 	protected ReflectionProvider reflectionProvider;
 
-	protected static final Logger logger = LoggerFactory.getLogger("AbstractFactory");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("AbstractFactory");
 
 	public AbstractFactory(MapProvider<Class<?>, T> mapProvider,
 			ReflectionProvider interfacesProvider) {
@@ -78,8 +79,8 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 	public T get(Class<?> object) {
 		T element = map.get(object);
 		if (element == null) {
-			logger.info("No element in factory for object " + object
-					+ " " + this.getClass());
+			logger.info("No element in factory for object " + object + " "
+					+ this.getClass());
 			Class<?> c = reflectionProvider.getSuperclass(object);
 			while (element == null && c != null) {
 				element = map.get(c);
@@ -92,8 +93,9 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 				for (Class<?> i : interfaces) {
 					element = map.get(i);
 					if (element != null) {
-						logger.info("Using super class in factory for object of class "
-								+ object.getClass() + " using " + i);
+						logger
+								.info("Using super class in factory for object of class "
+										+ object.getClass() + " using " + i);
 						map.put(object, element);
 						return element;
 					}

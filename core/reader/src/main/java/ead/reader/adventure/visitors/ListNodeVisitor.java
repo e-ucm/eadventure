@@ -85,8 +85,8 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			if (value != null && !value.equals("")) {
 				String[] values = value.split("\\|");
 				for (int i = 0; i < values.length; i++)
-					list.add(ObjectFactory.getObject(values[i],
-							list.getValueClass()));
+					list.add(ObjectFactory.getObject(values[i], list
+							.getValueClass()));
 			}
 		} else {
 			String type;

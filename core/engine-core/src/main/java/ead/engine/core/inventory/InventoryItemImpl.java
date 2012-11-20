@@ -41,11 +41,11 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.engine.core.inventory.InventoryItem;
 
 public class InventoryItemImpl implements InventoryItem {
-	
+
 	private EAdSceneElementDef item;
-	
+
 	private int count;
-	
+
 	public InventoryItemImpl(EAdSceneElementDef item, int count) {
 		this.item = item;
 		this.count = count;
@@ -60,8 +60,8 @@ public class InventoryItemImpl implements InventoryItem {
 	public int getCount() {
 		return count;
 	}
-	
-	public void add( int count ){
+
+	public void add(int count) {
 		this.count += count;
 	}
 

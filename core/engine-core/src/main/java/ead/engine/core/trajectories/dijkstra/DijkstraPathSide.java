@@ -51,35 +51,36 @@ public class DijkstraPathSide implements PathSide {
 	 * Proportional length of the side according to the model
 	 */
 	private float length;
-	
+
 	/**
 	 * Cartesian length of the side
 	 */
 	private float realLength;
-	
+
 	/**
 	 * Start node of the side
 	 */
 	private DijkstraNode start;
-	
+
 	/**
 	 * End node of the side
 	 */
 	private DijkstraNode end;
-	
+
 	/**
 	 * The end position of the side, dependent on the direction
 	 */
 	private EAdPosition endPosition;
-	
+
 	/**
 	 * The model side of which this is part
 	 */
 	private Side side;
-	
+
 	private float endScale;
-	
-	public DijkstraPathSide(DijkstraNode s, DijkstraNode e, double length, double realLength, Side side) {
+
+	public DijkstraPathSide(DijkstraNode s, DijkstraNode e, double length,
+			double realLength, Side side) {
 		this.length = (float) length;
 		this.realLength = (float) realLength;
 		this.start = s;
@@ -96,7 +97,7 @@ public class DijkstraPathSide implements PathSide {
 	public float getSpeedFactor() {
 		return realLength / length;
 	}
-	
+
 	/**
 	 * Get the node of the side that is not the give one
 	 * 
@@ -117,7 +118,7 @@ public class DijkstraPathSide implements PathSide {
 	public DijkstraNode getEndNode() {
 		return end;
 	}
-	
+
 	public DijkstraNode getStartNode() {
 		return start;
 	}
@@ -133,7 +134,7 @@ public class DijkstraPathSide implements PathSide {
 	public void setEndScale(float scale) {
 		this.endScale = scale;
 	}
-	
+
 	@Override
 	public float getEndScale() {
 		return endScale;

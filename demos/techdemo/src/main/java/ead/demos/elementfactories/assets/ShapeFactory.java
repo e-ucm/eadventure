@@ -50,8 +50,7 @@ public class ShapeFactory {
 		RECTANGULAR_SHAPE, CIRCLE_SHAPE, TRIANGLE_SHAPE, IRREGULAR_RANDOM_SHAPE, IRREGULAR_SHAPE_1, DROP_SHAPE;
 	}
 
-	public EAdShape getElement(Enum<?> type, int width, int height,
-			Paint color) {
+	public EAdShape getElement(Enum<?> type, int width, int height, Paint color) {
 		EAdShape s = null;
 		if (type instanceof ShapeType) {
 			switch ((ShapeType) type) {
@@ -62,13 +61,13 @@ public class ShapeFactory {
 				s = createTriangle(width, height);
 				break;
 			case IRREGULAR_RANDOM_SHAPE:
-				s = createRandomIrregularShape( width, height );
+				s = createRandomIrregularShape(width, height);
 				break;
 			case IRREGULAR_SHAPE_1:
-				s = createIrregularShape1( width, height );
+				s = createIrregularShape1(width, height);
 				break;
 			case DROP_SHAPE:
-				s = createDropShape( width, height );
+				s = createDropShape(width, height);
 				break;
 			default:
 				s = new RectangleShape(width, height);
@@ -80,8 +79,8 @@ public class ShapeFactory {
 		return s;
 	}
 
-	public EAdShape createCircle(int width) {					
-		return new CircleShape( width / 2 );
+	public EAdShape createCircle(int width) {
+		return new CircleShape(width / 2);
 	}
 
 	public BezierShape createTriangle(int width, int height) {
@@ -100,27 +99,27 @@ public class ShapeFactory {
 			int y = (int) (Math.random() * height);
 			shape.lineTo(new EAdPosition(x, y));
 		}
-		
+
 		shape.setClosed(true);
 		return shape;
 	}
-	
+
 	public BezierShape createIrregularShape1(int width, int height) {
 		BezierShape shape = new BezierShape(width / 5, 0);
-		shape.lineTo(new EAdPosition( width - width / 5, 0));
-		shape.lineTo(new EAdPosition( width, height));
-		shape.lineTo(new EAdPosition( width - width / 5, height));
-		shape.lineTo(new EAdPosition( width / 2, height / 2));
-		shape.lineTo(new EAdPosition( width / 5, height));
+		shape.lineTo(new EAdPosition(width - width / 5, 0));
+		shape.lineTo(new EAdPosition(width, height));
+		shape.lineTo(new EAdPosition(width - width / 5, height));
+		shape.lineTo(new EAdPosition(width / 2, height / 2));
+		shape.lineTo(new EAdPosition(width / 5, height));
 		shape.setClosed(true);
 		return shape;
 	}
-	
-	public BezierShape createDropShape( int width, int height ){
-		BezierShape shape = new BezierShape( width / 2, 0 );
-		shape.lineTo(width, 2 * height / 3 );
-		shape.quadTo(width, height, width / 2, height );
-		shape.quadTo(0, height, 0, 2 * height / 3 );
+
+	public BezierShape createDropShape(int width, int height) {
+		BezierShape shape = new BezierShape(width / 2, 0);
+		shape.lineTo(width, 2 * height / 3);
+		shape.quadTo(width, height, width / 2, height);
+		shape.quadTo(0, height, 0, 2 * height / 3);
 		shape.setClosed(true);
 		return shape;
 	}

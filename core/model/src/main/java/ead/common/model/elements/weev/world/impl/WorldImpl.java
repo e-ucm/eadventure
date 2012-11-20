@@ -54,20 +54,20 @@ import ead.common.model.weev.world.World;
 public class WorldImpl extends AbstractWEEVElement implements World {
 
 	private EAdList<Space> spaces;
-	
+
 	private EAdList<SpaceLink> spaceLinks;
-	
+
 	private EAdList<ActorPlacement> actorPlacements;
-	
+
 	@Param(value = "initialSpace")
 	private Space initialSpace;
-	
+
 	public WorldImpl() {
 		spaces = new EAdListImpl<Space>(Space.class);
 		spaceLinks = new EAdListImpl<SpaceLink>(SpaceLink.class);
 		actorPlacements = new EAdListImpl<ActorPlacement>(ActorPlacement.class);
 	}
-	
+
 	@Override
 	public EAdList<Space> getSpaces() {
 		return spaces;

@@ -50,8 +50,7 @@ import ead.common.model.elements.variables.operations.ValueOp;
  * 
  */
 @Element
-public class OperationCond extends AbstractCondition implements
-		EAdCondition {
+public class OperationCond extends AbstractCondition implements EAdCondition {
 
 	public static final ValueOp TRUE = new ValueOp(Boolean.TRUE);
 	public static final ValueOp FALSE = new ValueOp(Boolean.FALSE);
@@ -65,8 +64,7 @@ public class OperationCond extends AbstractCondition implements
 	@Param("operator")
 	private Comparator operator;
 
-	public OperationCond(EAdOperation op1, EAdOperation op2,
-			Comparator operator) {
+	public OperationCond(EAdOperation op1, EAdOperation op2, Comparator operator) {
 		super();
 		this.op1 = op1;
 		this.op2 = op2;
@@ -92,8 +90,7 @@ public class OperationCond extends AbstractCondition implements
 		super();
 	}
 
-	public OperationCond(EAdOperation operation, int value,
-			Comparator operator) {
+	public OperationCond(EAdOperation operation, int value, Comparator operator) {
 		this(operation, new ValueOp(value), operator);
 	}
 
@@ -134,9 +131,9 @@ public class OperationCond extends AbstractCondition implements
 	public void setOp2(EAdOperation op2) {
 		this.op2 = op2;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return op1 + " " + operator + " than " + op2;
 	}
 

@@ -47,19 +47,20 @@ import ead.common.model.weev.world.Space;
  * Default {@link ActorPlacement} implementation
  */
 @Element
-public class ActorPlacementImpl extends AbstractWorldElement implements ActorPlacement {
+public class ActorPlacementImpl extends AbstractWorldElement implements
+		ActorPlacement {
 
 	@Param(value = "space")
 	private Space space;
 
 	@Param(value = "actor")
 	private Actor actor;
-	
+
 	@Override
 	public Space getSpace() {
 		return space;
 	}
-	
+
 	public void setSpace(Space space) {
 		this.space = space;
 	}
@@ -68,7 +69,7 @@ public class ActorPlacementImpl extends AbstractWorldElement implements ActorPla
 	public Actor getActor() {
 		return actor;
 	}
-	
+
 	public void setActor(Actor actor) {
 		this.actor = actor;
 	}

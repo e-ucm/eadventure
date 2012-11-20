@@ -43,7 +43,7 @@ package ead.editor.model.nodes;
  */
 public class ActorNode extends EditorNode {
 
-    public ActorNode(int id) {
-        super(id);
-    }
+	public ActorNode(int id) {
+		super(id);
+	}
 }

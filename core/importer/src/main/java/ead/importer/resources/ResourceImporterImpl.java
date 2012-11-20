@@ -277,7 +277,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 	public static void setBundlesEvent(ResourcedEvented element,
 			List<EAdCondition> conditions, List<EAdBundleId> bundles) {
 		if ((conditions.size() == 1 || EmptyCond.TRUE_EMPTY_CONDITION
-				.equals(conditions.get(0))) && bundles.size() >= 1) {
+				.equals(conditions.get(0)))
+				&& bundles.size() >= 1) {
 			element.setInitialBundle(bundles.get(0));
 		} else {
 			int i = 0;

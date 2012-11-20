@@ -58,14 +58,14 @@ import javax.swing.JFrame;
 @Singleton
 public class ControllerImpl implements Controller {
 
-    private boolean configLoaded = false;
+	private boolean configLoaded = false;
 
-    private EditorConfig editorConfig;
-    private EditorModel editorModel;
-    private ProjectController projectController;
-    private NavigationController navigationController;
-    private ViewController viewController;
-    private CommandManager commandManager;
+	private EditorConfig editorConfig;
+	private EditorModel editorModel;
+	private ProjectController projectController;
+	private NavigationController navigationController;
+	private ViewController viewController;
+	private CommandManager commandManager;
 	private GameLoader gameLoader;
 	private JFrame gameWindow;
 	private GdxAssetHandler assetHandler;
@@ -74,35 +74,32 @@ public class ControllerImpl implements Controller {
 	 * Action map. Contains all actions, generally bound to menu items or
 	 * the like.
 	 */
-    private HashMap<String, Action> actionMap = new HashMap<String, Action>();
+	private HashMap<String, Action> actionMap = new HashMap<String, Action>();
 
-    @Inject
-    public ControllerImpl(EditorConfig editorConfig,
-            EditorModel editorModel,
-            ProjectController projectController,
-            NavigationController navigationController,
-            ViewController viewControler,
-            CommandManager commandManager,
-			GameLoader gameLoader,
-			GdxAssetHandler assetHandler,
+	@Inject
+	public ControllerImpl(EditorConfig editorConfig, EditorModel editorModel,
+			ProjectController projectController,
+			NavigationController navigationController,
+			ViewController viewControler, CommandManager commandManager,
+			GameLoader gameLoader, GdxAssetHandler assetHandler,
 			GdxDesktopGUI gdxGui) {
 
-        this.editorConfig = editorConfig;
-        this.editorModel = editorModel;
-        this.projectController = projectController;
-        this.navigationController = navigationController;
-        this.viewController = viewControler;
-        this.commandManager = commandManager;
+		this.editorConfig = editorConfig;
+		this.editorModel = editorModel;
+		this.projectController = projectController;
+		this.navigationController = navigationController;
+		this.viewController = viewControler;
+		this.commandManager = commandManager;
 		this.gameLoader = gameLoader;
 		this.assetHandler = assetHandler;
 		this.gameWindow = gdxGui.getFrame();
-    }
+	}
 
 	@Override
-    public void initialize() {
-        projectController.setController(this);
-        navigationController.setController(this);
-        viewController.setController(this);
+	public void initialize() {
+		projectController.setController(this);
+		navigationController.setController(this);
+		viewController.setController(this);
 
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
@@ -112,64 +109,64 @@ public class ControllerImpl implements Controller {
 		});
 	}
 
-    @Override
-    public EditorConfig getConfig() {
-        if (!configLoaded) {
-            File f = new File("ead-editor-config.xml");
-            if (editorConfig.load(f.getAbsolutePath())) {
-                configLoaded = true;
-            } else if (editorConfig.save(f.getAbsolutePath())) {
-                configLoaded = true;
-            }
-        }
-        return editorConfig;
-    }
+	@Override
+	public EditorConfig getConfig() {
+		if (!configLoaded) {
+			File f = new File("ead-editor-config.xml");
+			if (editorConfig.load(f.getAbsolutePath())) {
+				configLoaded = true;
+			} else if (editorConfig.save(f.getAbsolutePath())) {
+				configLoaded = true;
+			}
+		}
+		return editorConfig;
+	}
 
-    /**
-     * Access to the editor model. IMPORTANT: all non-control classes should
-     * consider the returned model to be read-only and transient. Violators
-     * WILL be punished.
-     * @return
-     */
-    @Override
-    public EditorModel getModel() {
-        return editorModel;
-    }
+	/**
+	 * Access to the editor model. IMPORTANT: all non-control classes should
+	 * consider the returned model to be read-only and transient. Violators
+	 * WILL be punished.
+	 * @return
+	 */
+	@Override
+	public EditorModel getModel() {
+		return editorModel;
+	}
 
-    @Override
-    public ProjectController getProjectController() {
-        return projectController;
-    }
+	@Override
+	public ProjectController getProjectController() {
+		return projectController;
+	}
 
-    @Override
-    public NavigationController getNavigationController() {
+	@Override
+	public NavigationController getNavigationController() {
 		return navigationController;
-    }
+	}
 
-    @Override
-    public ViewController getViewController() {
-        return viewController;
-    }
+	@Override
+	public ViewController getViewController() {
+		return viewController;
+	}
 
-    @Override
-    public CommandManager getCommandManager() {
-        return commandManager;
-    }
+	@Override
+	public CommandManager getCommandManager() {
+		return commandManager;
+	}
 
 	@Override
 	public Collection<Action> getActions() {
 		return actionMap.values();
 	}
 
-    @Override
-    public Action getAction(String name) {
-        return actionMap.get(name);
-    }
+	@Override
+	public Action getAction(String name) {
+		return actionMap.get(name);
+	}
 
-    @Override
-    public void putAction(String name, Action action) {
-        actionMap.put(name, action);
-    }
+	@Override
+	public void putAction(String name, Action action) {
+		actionMap.put(name, action);
+	}
 
 	@Override
 	public GdxAssetHandler getAssetHandler() {

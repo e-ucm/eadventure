@@ -50,21 +50,20 @@ import ead.utils.swing.SwingUtilities;
 public class SimpleSceneViewerTest {
 
 	public static void main(String args[]) {
-		SwingUtilities.doInEDTNow(
-			new Runnable() {
-				@Override
-				public void run() {
-					showSimpleScene();
-				}
-			});
+		SwingUtilities.doInEDTNow(new Runnable() {
+			@Override
+			public void run() {
+				showSimpleScene();
+			}
+		});
 	}
-	
+
 	public static void showSimpleScene() {
 
 		JFrame frame = new JFrame("SceneViewer");
 		frame.setSize(800, 600);
 
-		SimpleSceneViewer viewer = new SimpleSceneViewer( );
+		SimpleSceneViewer viewer = new SimpleSceneViewer();
 		viewer.setScene(getSimpleScene());
 
 		viewer.getCanvas().setSize(800, 600);
@@ -75,10 +74,12 @@ public class SimpleSceneViewerTest {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public static EAdScene getSimpleScene( ){
-		BasicScene scene = new BasicScene( new RectangleShape( 800, 600, ColorFill.RED));
+	public static EAdScene getSimpleScene() {
+		BasicScene scene = new BasicScene(new RectangleShape(800, 600,
+				ColorFill.RED));
 
-		SceneElement button = new SceneElement( new RectangleShape( 20, 20, ColorFill.BLACK));
+		SceneElement button = new SceneElement(new RectangleShape(20, 20,
+				ColorFill.BLACK));
 		button.setPosition(Corner.CENTER, 400, 300);
 
 		scene.getSceneElements().add(button);

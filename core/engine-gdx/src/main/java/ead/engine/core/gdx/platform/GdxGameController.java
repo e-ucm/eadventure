@@ -48,7 +48,7 @@ public class GdxGameController implements GameController {
 
 	@Override
 	public void start(EAdURI uri) {
-		
+
 	}
 
 	@Override
@@ -58,12 +58,12 @@ public class GdxGameController implements GameController {
 
 	@Override
 	public void pause() {
-		
+
 	}
 
 	@Override
 	public void resume() {
-		
+
 	}
 
 }

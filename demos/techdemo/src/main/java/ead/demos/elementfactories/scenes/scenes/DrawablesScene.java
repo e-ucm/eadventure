@@ -66,8 +66,8 @@ public class DrawablesScene extends EmptyScene {
 
 		// eAdventure logo
 		Image drawable = new Image("@drawable/eAdventureLogo.png");
-		Caption caption = EAdElementsFactory.getInstance()
-				.getCaptionFactory().createCaption("Image");
+		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory()
+				.createCaption("Image");
 		caption.setPadding(0);
 		caption.setTextPaint(ColorFill.BLACK);
 		EAdComposedDrawable composed = new ComposedDrawable();
@@ -95,8 +95,7 @@ public class DrawablesScene extends EmptyScene {
 		rectangleShadow.setPaint(new ColorFill(100, 100, 100, 100));
 
 		RectangleShape rectangleB = new RectangleShape(rWidth, rHeight);
-		rectangleB
-				.setPaint(new Paint(ColorFill.GREEN, ColorFill.BLACK, 2));
+		rectangleB.setPaint(new Paint(ColorFill.GREEN, ColorFill.BLACK, 2));
 
 		EAdFill p = new LinearGradientFill(ColorFill.BLUE, ColorFill.MAGENTA,
 				rWidth, rHeight, false);
@@ -104,9 +103,9 @@ public class DrawablesScene extends EmptyScene {
 		rectangleG.setPaint(p);
 
 		RectangleShape rectangle3 = new RectangleShape(rWidth, rHeight);
-		rectangle3.setPaint(new Paint(
-				new LinearGradientFill(ColorFill.GREEN, ColorFill.YELLOW,
-						rWidth / 2, rHeight / 2, false), ColorFill.RED));
+		rectangle3.setPaint(new Paint(new LinearGradientFill(ColorFill.GREEN,
+				ColorFill.YELLOW, rWidth / 2, rHeight / 2, false),
+				ColorFill.RED));
 
 		RectangleShape rectangle4 = new RectangleShape(rWidth, rHeight);
 		rectangle4.setPaint(new Paint(null, ColorFill.BROWN, 4));
@@ -147,8 +146,8 @@ public class DrawablesScene extends EmptyScene {
 				ColorFill.LIGHT_BROWN, 8));
 
 		RectangleShape rectangle2 = new RectangleShape(rHeight, rHeight);
-		rectangle2.setPaint(new Paint(ColorFill.BLACK,
-				ColorFill.LIGHT_BROWN, 8));
+		rectangle2
+				.setPaint(new Paint(ColorFill.BLACK, ColorFill.LIGHT_BROWN, 8));
 
 		EAdStateDrawable stateDrawable = new StateDrawable();
 		stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT.toString(),
@@ -165,28 +164,24 @@ public class DrawablesScene extends EmptyScene {
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, x, y));
 		SceneElement sceneElement = EAdElementsFactory.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(stateDrawable, x + 50, y + 40);
-		sceneElement.addBehavior(
-				MouseGEv.MOUSE_RIGHT_CLICK,
-				EAdElementsFactory
-						.getInstance()
-						.getEffectFactory()
+				.getSceneElementFactory().createSceneElement(stateDrawable,
+						x + 50, y + 40);
+		sceneElement
+				.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, EAdElementsFactory
+						.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_DEFAULT
-												.toString())));
-		sceneElement.addBehavior(
-				MouseGEv.MOUSE_LEFT_CLICK,
-				EAdElementsFactory
-						.getInstance()
-						.getEffectFactory()
+										.toString())));
+		sceneElement
+				.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, EAdElementsFactory
+						.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_TALKING
-												.toString())));
+										.toString())));
 		getSceneElements().add(sceneElement);
 
 		// Frames
@@ -207,8 +202,8 @@ public class DrawablesScene extends EmptyScene {
 						.createSceneElement(caption, margin, 180));
 
 		SceneElement paniel = EAdElementsFactory.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(animation, margin, 220);
+				.getSceneElementFactory().createSceneElement(animation, margin,
+						220);
 		paniel.setInitialScale(0.8f);
 		getSceneElements().add(paniel);
 

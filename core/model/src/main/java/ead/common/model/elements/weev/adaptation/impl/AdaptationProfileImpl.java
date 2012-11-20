@@ -52,11 +52,11 @@ public class AdaptationProfileImpl extends AbstractWEEVElement implements
 
 	@Param(value = "name")
 	private EAdString name;
-	
+
 	public AdaptationProfileImpl() {
 		name = EAdString.newRandomEAdString("name");
 	}
-	
+
 	@Override
 	public EAdString getName() {
 		return name;

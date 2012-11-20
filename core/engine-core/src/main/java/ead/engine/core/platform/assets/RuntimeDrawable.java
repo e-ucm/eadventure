@@ -86,7 +86,7 @@ public interface RuntimeDrawable<T extends EAdDrawable, GraphicContext> extends
 	 * @return
 	 */
 	boolean contains(int x, int y);
-	
+
 	RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level);
 
 }

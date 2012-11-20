@@ -188,14 +188,16 @@ public class GwtInjector implements GenericInjector {
 			o = ginjector.getXMLParser();
 		else if (clazz == StringHandler.class)
 			o = ginjector.getStringHandler();
-		else if ( clazz == ReflectionProvider.class )
+		else if (clazz == ReflectionProvider.class)
 			o = ginjector.getReflectionProvider();
-		else if ( clazz == ReflectionClassLoader.class )
+		else if (clazz == ReflectionClassLoader.class)
 			o = ginjector.getReflectionClassLoader();
-		else if ( clazz == AssetHandler.class )
+		else if (clazz == AssetHandler.class)
 			o = ginjector.getAssetHandler();
 		if (o == null) {
-			logger.warn("Instance for class {} not defined in ginjector", clazz);
+			logger
+					.warn("Instance for class {} not defined in ginjector",
+							clazz);
 		}
 
 		return (T) o;

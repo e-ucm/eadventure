@@ -65,21 +65,21 @@ public class ModifyHUDEf extends AbstractSceneElementEffect {
 		this.setSceneElement(element);
 		this.add = add;
 	}
-	
-	public ModifyHUDEf( ){
-		this( null, true );
+
+	public ModifyHUDEf() {
+		this(null, true);
 	}
-	
+
 	/**
 	 * 
 	 * @return if true, the element must be added to the basic HUD. if false, the
 	 *            element must be removed from the basic HUD
 	 */
-	public boolean getAdd( ){
+	public boolean getAdd() {
 		return add;
 	}
-	
-	public void setAdd(boolean add){
+
+	public void setAdd(boolean add) {
 		this.add = add;
 	}
 }

@@ -88,84 +88,73 @@ public class CharacterScene extends EmptyScene {
 
 	public CharacterScene() {
 
-//		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
-//				.getSceneElementFactory()
-//				.createSceneElement(getStateDrawable(), 100, 300);
-		
+		//		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
+		//				.getSceneElementFactory()
+		//				.createSceneElement(getStateDrawable(), 100, 300);
+
 		NgCommon.init();
-		SceneElement element = new SceneElement( NgCommon.getMainCharacter() );
+		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 		element.setPosition(Corner.CENTER, 400, 300);
-		
 
 		SceneElementEv event = new SceneElementEv();
 
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, EAdElementsFactory
-				.getInstance().getEffectFactory().getMakeActiveElement(element));
+		event
+				.addEffect(SceneElementEvType.FIRST_UPDATE, EAdElementsFactory
+						.getInstance().getEffectFactory().getMakeActiveElement(
+								element));
 
 		element.getEvents().add(event);
 
 		this.getSceneElements().add(element);
 
-		EAdEffect goUpEffect = EAdElementsFactory
-				.getInstance()
-				.getEffectFactory()
-				.getChangeVarValueEffect(
+		EAdEffect goUpEffect = EAdElementsFactory.getInstance()
+				.getEffectFactory().getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
 								SceneElement.VAR_ORIENTATION),
-						new ValueOp( Orientation.N));
-		SceneElement goUpArrow = EAdElementsFactory
-				.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(new Image("@drawable/arrow_up.png"),
-						100, 210, goUpEffect);
+						new ValueOp(Orientation.N));
+		SceneElement goUpArrow = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(
+						new Image("@drawable/arrow_up.png"), 100, 210,
+						goUpEffect);
 		this.getSceneElements().add(goUpArrow);
 
 		element.addBehavior(KeyGEv.KEY_ARROW_UP, goUpEffect);
 
-		EAdEffect goDownEffect = EAdElementsFactory
-				.getInstance()
-				.getEffectFactory()
-				.getChangeVarValueEffect(
+		EAdEffect goDownEffect = EAdElementsFactory.getInstance()
+				.getEffectFactory().getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
 								SceneElement.VAR_ORIENTATION),
 						new ValueOp(Orientation.S));
-		SceneElement goDownArrow = EAdElementsFactory
-				.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(new Image("@drawable/arrow_down.png"),
-						100, 320, goDownEffect);
+		SceneElement goDownArrow = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(
+						new Image("@drawable/arrow_down.png"), 100, 320,
+						goDownEffect);
 		this.getSceneElements().add(goDownArrow);
 
 		element.addBehavior(KeyGEv.KEY_ARROW_DOWN, goDownEffect);
 
-		EAdEffect goLeftEffect = EAdElementsFactory
-				.getInstance()
-				.getEffectFactory()
-				.getChangeVarValueEffect(
+		EAdEffect goLeftEffect = EAdElementsFactory.getInstance()
+				.getEffectFactory().getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
 								SceneElement.VAR_ORIENTATION),
-						new ValueOp( Orientation.W));
-		SceneElement goLeftArrow = EAdElementsFactory
-				.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(new Image("@drawable/arrow_left.png"),
-						0, 260, goLeftEffect);
+						new ValueOp(Orientation.W));
+		SceneElement goLeftArrow = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(
+						new Image("@drawable/arrow_left.png"), 0, 260,
+						goLeftEffect);
 		this.getSceneElements().add(goLeftArrow);
 
 		element.addBehavior(KeyGEv.KEY_ARROW_LEFT, goLeftEffect);
 
-		EAdEffect goRightEffect = EAdElementsFactory
-				.getInstance()
-				.getEffectFactory()
-				.getChangeVarValueEffect(
+		EAdEffect goRightEffect = EAdElementsFactory.getInstance()
+				.getEffectFactory().getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
 								SceneElement.VAR_ORIENTATION),
-						new ValueOp( Orientation.E));
-		SceneElement goRightArrow = EAdElementsFactory
-				.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(new Image("@drawable/arrow_right.png"),
-						200, 260, goRightEffect);
+						new ValueOp(Orientation.E));
+		SceneElement goRightArrow = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(
+						new Image("@drawable/arrow_right.png"), 200, 260,
+						goRightEffect);
 		this.getSceneElements().add(goRightArrow);
 
 		element.addBehavior(KeyGEv.KEY_ARROW_RIGHT, goRightEffect);
@@ -175,15 +164,13 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new BasicField<String>(element,
-								SceneElement.VAR_STATE),
-						new ValueOp(
-								CommonStates.EAD_STATE_DEFAULT.toString()));
-//		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
-//				.getSceneElementFactory()
-//				.createSceneElement("Stand", 300, 10, standEffect);
+						new BasicField<String>(element, SceneElement.VAR_STATE),
+						new ValueOp(CommonStates.EAD_STATE_DEFAULT.toString()));
+		//		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
+		//				.getSceneElementFactory()
+		//				.createSceneElement("Stand", 300, 10, standEffect);
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		Button stand = new Button( );
+		Button stand = new Button();
 		sf.setString(stand.getLabel(), "Stand");
 		stand.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
@@ -193,11 +180,9 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new BasicField<String>(element,
-								SceneElement.VAR_STATE),
-						new ValueOp(
-								CommonStates.EAD_STATE_TALKING.toString()));
-		Button talk = new Button( );
+						new BasicField<String>(element, SceneElement.VAR_STATE),
+						new ValueOp(CommonStates.EAD_STATE_TALKING.toString()));
+		Button talk = new Button();
 		sf.setString(talk.getLabel(), "Talk");
 		talk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
@@ -207,11 +192,9 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new BasicField<String>(element,
-								SceneElement.VAR_STATE),
-						new ValueOp(
-								CommonStates.EAD_STATE_WALKING.toString()));
-		Button walk = new Button( );
+						new BasicField<String>(element, SceneElement.VAR_STATE),
+						new ValueOp(CommonStates.EAD_STATE_WALKING.toString()));
+		Button walk = new Button();
 		sf.setString(walk.getLabel(), "Walk");
 		walk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
@@ -220,8 +203,8 @@ public class CharacterScene extends EmptyScene {
 
 	private static StateDrawable getTalkDrawable() {
 		StateDrawable oriented = new StateDrawable();
-		oriented.setDrawable(Orientation.N, new Image(
-				"@drawable/stand_up.png"));
+		oriented
+				.setDrawable(Orientation.N, new Image("@drawable/stand_up.png"));
 
 		FramesAnimation right = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getFramesAnimation(talkRightUris, 500);

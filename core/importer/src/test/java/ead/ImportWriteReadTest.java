@@ -40,12 +40,8 @@ package ead;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FilenameFilter;
-import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import ead.common.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
@@ -84,10 +81,8 @@ public class ImportWriteReadTest {
 
 	@Before
 	public void setUp() {
-		Injector i = Guice.createInjector(
-			new ImporterModule(),
-			new JavaToolsModule()
-		);
+		Injector i = Guice.createInjector(new ImporterModule(),
+				new JavaToolsModule());
 
 		importer = i.getInstance(EAdventureImporter.class);
 		reader = new AdventureReader(new JavaXMLParser());
@@ -113,8 +108,8 @@ public class ImportWriteReadTest {
 		File tmpDir = FileUtils.createTempDir("test", "import");
 		try {
 
-			EAdAdventureModel model = importer.importGame(testFile.getAbsolutePath(),
-					tmpDir.getAbsolutePath(), "none");
+			EAdAdventureModel model = importer.importGame(testFile
+					.getAbsolutePath(), tmpDir.getAbsolutePath(), "none");
 			File modelAfterImport = new File(tmpDir, "data.xml");
 
 			File modelFile = new File(tmpDir, "modelFile.xml");
@@ -122,11 +117,11 @@ public class ImportWriteReadTest {
 			File modelFile2 = new File(tmpDir, "modelFile2.xml");
 			writer.write(model, modelFile2.getAbsolutePath());
 
-			if ( ! FileUtils.isFileBinaryEqual(modelAfterImport, modelFile)) {
+			if (!FileUtils.isFileBinaryEqual(modelAfterImport, modelFile)) {
 				errors = true;
 				logger.error("after-import != model-file");
 			}
-			if ( ! FileUtils.isFileBinaryEqual(modelFile, modelFile2)) {
+			if (!FileUtils.isFileBinaryEqual(modelFile, modelFile2)) {
 				errors = true;
 				logger.error("model-file != model-file2");
 			}
@@ -134,16 +129,19 @@ public class ImportWriteReadTest {
 			model = reader.readXML(FileUtils.loadFileToString(modelFile));
 			File modelFileAfterRead = new File(tmpDir, "afterRead.xml");
 			writer.write(model, modelFileAfterRead.getAbsolutePath());
-			if ( ! FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
-				// FIXME - TEMPORARY, to avoid breaking current builds with non-vital error
-				// errors = true;
+			if (!FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
+				// FIXME - TEMPORARY, to avoid breaking current builds with
+				// non-vital error
+				errors = true;
 				logger.error("model-file != model-file-after-read");
 			}
 
-		} finally {	
+		} finally {
 			if (errors) {
-				for (File f: tmpDir.listFiles(new EndsInXmlFilter())) {
-					File dest = new File(f.getParentFile(), "pretty-" + f.getName());
+
+				for (File f : tmpDir.listFiles(new EndsInXmlFilter())) {
+					File dest = new File(f.getParentFile(), "pretty-"
+							+ f.getName());
 					DataPrettifier.prettify(f, dest);
 				}
 				fail("see " + tmpDir + " for details");

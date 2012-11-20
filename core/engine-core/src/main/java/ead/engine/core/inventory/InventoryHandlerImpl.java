@@ -49,13 +49,13 @@ import ead.engine.core.inventory.InventoryItem;
 
 @Singleton
 public class InventoryHandlerImpl implements InventoryHandler {
-	
+
 	private long update = 0;
-	
+
 	private List<InventoryItem> inventory;
-	
+
 	@Inject
-	public InventoryHandlerImpl( ){
+	public InventoryHandlerImpl() {
 		inventory = new ArrayList<InventoryItem>();
 	}
 
@@ -67,16 +67,16 @@ public class InventoryHandlerImpl implements InventoryHandler {
 	@Override
 	public void add(EAdSceneElementDef item) {
 		boolean add = true;
-		for ( InventoryItem i: inventory ){
-			if ( i.getElement() == item ){
+		for (InventoryItem i : inventory) {
+			if (i.getElement() == item) {
 				add = false;
 				i.add(1);
 				break;
 			}
 		}
-		
-		if ( add ){
-			inventory.add(new InventoryItemImpl( item, 1 ));
+
+		if (add) {
+			inventory.add(new InventoryItemImpl(item, 1));
 		}
 		update++;
 	}
@@ -84,20 +84,19 @@ public class InventoryHandlerImpl implements InventoryHandler {
 	@Override
 	public void remove(EAdSceneElementDef item) {
 		InventoryItem itemToRemove = null;
-		for ( InventoryItem i: inventory ){
-			if ( i.getElement() == item ){
-				if ( i.getCount() == 1 ){
+		for (InventoryItem i : inventory) {
+			if (i.getElement() == item) {
+				if (i.getCount() == 1) {
 					itemToRemove = i;
 					break;
-				}
-				else {
+				} else {
 					i.add(-1);
 				}
 				break;
 			}
 		}
-		
-		if ( itemToRemove != null ){
+
+		if (itemToRemove != null) {
 			inventory.remove(itemToRemove);
 		}
 		update++;

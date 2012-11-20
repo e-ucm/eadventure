@@ -74,7 +74,8 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 		if (compressedValue == null) {
 			if (DOMWriter.USE_PARAM_IDS) {
 				String key = DOMTags.PARAM_AT
-						+ DOMWriter.convertToCode("p", paramsMap.keySet().size());
+						+ DOMWriter.convertToCode("p", paramsMap.keySet()
+								.size());
 				if (key.length() < value.length()) {
 					paramsMap.put(data, key);
 					node.setAttribute(DOMTags.UNIQUE_ID_AT, key);

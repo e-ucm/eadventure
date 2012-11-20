@@ -48,17 +48,17 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.variables.EAdVarDef;
 
 public class GameStateData {
-	
+
 	private EAdScene currentScene;
-	
+
 	private List<EAdEffect> currentEffects;
-	
+
 	private Stack<EAdScene> previousSceneStack;
-	
+
 	private Map<EAdVarDef<?>, Object> systemVars;
 
 	private Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
-	
+
 	private ArrayList<EAdElement> updateList;
 
 	public GameStateData(EAdScene currentScene, List<EAdEffect> currentEffects,
@@ -98,8 +98,5 @@ public class GameStateData {
 	public ArrayList<EAdElement> getUpdateList() {
 		return updateList;
 	}
-
-
-	
 
 }

@@ -45,14 +45,13 @@ import com.google.inject.AbstractModule;
 import ead.common.params.text.EAdString;
 import ead.tools.StringHandler;
 
-public class CommonTestModule extends AbstractModule{
+public class CommonTestModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
 		bind(StringHandler.class).to(TestStringHandler.class);
 	}
-	
-	
+
 	public static class TestStringHandler implements StringHandler {
 
 		@Override
@@ -62,17 +61,17 @@ public class CommonTestModule extends AbstractModule{
 
 		@Override
 		public void setString(EAdString eAdString, String string) {
-			
+
 		}
 
 		@Override
 		public void setStrings(Map<EAdString, String> strings) {
-			
+
 		}
 
 		@Override
 		public void addStrings(Map<EAdString, String> strings) {
-			
+
 		}
 
 		@Override
@@ -84,7 +83,7 @@ public class CommonTestModule extends AbstractModule{
 		public EAdString generateNewString() {
 			return null;
 		}
-		
+
 	}
 
 }

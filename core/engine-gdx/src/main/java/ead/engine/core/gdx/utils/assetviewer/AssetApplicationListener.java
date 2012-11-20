@@ -54,7 +54,7 @@ import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.tools.reflection.ReflectionProvider;
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings( { "unchecked", "rawtypes" })
 public class AssetApplicationListener implements ApplicationListener {
 
 	public static final int DEFAULT_PATTERN_SIZE = 20;
@@ -78,7 +78,8 @@ public class AssetApplicationListener implements ApplicationListener {
 	private int time;
 	private List<String> states;
 
-	public AssetApplicationListener(FontHandler fontHandler, ReflectionProvider reflectionProvider) {
+	public AssetApplicationListener(FontHandler fontHandler,
+			ReflectionProvider reflectionProvider) {
 		canvas = new GdxCanvas(fontHandler, reflectionProvider);
 		transformation = new Matrix4();
 		transformation.idt();
@@ -100,7 +101,7 @@ public class AssetApplicationListener implements ApplicationListener {
 	}
 
 	public void setDrawable(RuntimeCompoundDrawable drawable) {
-		if ( currentDrawable != null ){
+		if (currentDrawable != null) {
 			currentDrawable.freeMemory();
 		}
 		this.currentDrawable = drawable;

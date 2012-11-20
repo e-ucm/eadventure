@@ -58,30 +58,29 @@ public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
 		setBounds(1000, 1213);
-		setBackground(new SceneElement(new Image(
-				"@drawable/scrollbg.png")));
-		
+		setBackground(new SceneElement(new Image("@drawable/scrollbg.png")));
+
 		NgCommon.init();
 		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
-		
-		SpeakSceneElementEf effect = new SpeakSceneElementEf( character );
-		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getCaption().getText(), "Sometimes I don't speak right");
+
+		SpeakSceneElementEf effect = new SpeakSceneElementEf(character);
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				effect.getCaption().getText(), "Sometimes I don't speak right");
 		character.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, effect);
-		
-		
+
 		this.getSceneElements().add(character);
 
-		MakeActiveElementEf makeActive = new MakeActiveElementEf(
-				character);
+		MakeActiveElementEf makeActive = new MakeActiveElementEf(character);
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
 		character.getEvents().add(event);
-		
+
 		this.getEvents().add(new ScrollWithSceneElementEv(this, character));
 
-		SimpleTrajectoryDefinition trajectory = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectoryDefinition trajectory = new SimpleTrajectoryDefinition(
+				false);
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 

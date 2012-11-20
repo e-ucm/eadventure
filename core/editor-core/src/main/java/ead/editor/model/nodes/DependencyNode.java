@@ -48,52 +48,53 @@ import org.apache.lucene.document.Document;
  * @author mfreire
  */
 public abstract class DependencyNode<T> {
-    private int id;
-    protected T content;
-    private Document doc;
+	private int id;
+	protected T content;
+	private Document doc;
 
-    public DependencyNode(int id, T content) {
-        this.id = id;
-        this.content = content;
+	public DependencyNode(int id, T content) {
+		this.id = id;
+		this.content = content;
 		this.doc = new Document();
-    }
+	}
 
-    public T getContent() {
-        return content;
-    }
+	public T getContent() {
+		return content;
+	}
 
 	public Document getDoc() {
-        return doc;
-    }
-	
-    public void setContent(T content) {
-        this.content = content;
-    }
+		return doc;
+	}
 
-    public int getId() {
-        return id;
-    }
-	
+	public void setContent(T content) {
+		this.content = content;
+	}
+
+	public int getId() {
+		return id;
+	}
+
 	public void setId(int id) {
 		if (this.id == -1) {
 			this.id = id;
 		} else {
-			throw new IllegalArgumentException("Can only change temporary ids (== -1)");
+			throw new IllegalArgumentException(
+					"Can only change temporary ids (== -1)");
 		}
 	}
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == null || (getClass() != other.getClass())) {
-            return false;
-        }
-        return ((DependencyNode) other).id == id;
-    }
+	@Override
+	public boolean equals(Object other) {
+		if (other == null || (getClass() != other.getClass())) {
+			return false;
+		}
+		return ((DependencyNode) other).id == id;
+	}
 
-    @Override
-    public int hashCode() {
-        return 23 * this.id + 5;
-    }
+	@Override
+	public int hashCode() {
+		return 23 * this.id + 5;
+	}
 
 	/**
 	 * Generates a one-line description with as much information as possible.

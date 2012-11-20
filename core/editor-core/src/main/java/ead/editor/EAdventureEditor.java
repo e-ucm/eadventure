@@ -65,15 +65,15 @@ import ead.utils.Log4jConfig;
  */
 public class EAdventureEditor implements Launcher {
 
-    /**
-     * Logger
-     */
-    private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
-    /**
-     * UI Controller
-     */
-    private Controller controller;
-
+	/**
+	 * Logger
+	 */
+	private static Logger logger = LoggerFactory
+			.getLogger(EAdventureEditor.class);
+	/**
+	 * UI Controller
+	 */
+	private Controller controller;
 
 	/**
 	 * Main entry point into the editor.
@@ -81,90 +81,89 @@ public class EAdventureEditor implements Launcher {
 	 */
 	public static void main(String[] args) {
 
-        // The following line is used by MacOS X to set the application name correctly
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+		// The following line is used by MacOS X to set the application name correctly
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
 
 		// Locale.setDefault(new Locale("es", "ES"));
 
-        // Initialize logging
-        Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
+		// Initialize logging
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
 
-//            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
-            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+				//            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
+				"EditorModel",
+				Log4jConfig.Slf4jLevel.Debug,
 
-//            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+				//            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
 
-			"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
-            "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
-            "EWindowImpl", Log4jConfig.Slf4jLevel.Info,
+				"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
+				"EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
+				"EWindowImpl", Log4jConfig.Slf4jLevel.Info,
 
-//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+		//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
 
-//			Writer
-//            "DOMWriter", Log4jConfig.Slf4jLevel.Debug,
+				//			Writer
+				//            "DOMWriter", Log4jConfig.Slf4jLevel.Debug,
 
+				//			Reader
+				//			  "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+				//	  		  "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+				//	  		  "MapNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+				//	  		  "ParamNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
+				//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug
 
-//			Reader
-//			  "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
-//	  		  "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
-//	  		  "MapNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
-//	  		  "ParamNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
-//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug
-
-//			Internacionalizacion (i18n)
-//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
-        });
+				//			Internacionalizacion (i18n)
+				//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
+				});
 
 		// show splash
-        SplashScreen splashScreen = new SplashScreenImpl();
-        splashScreen.show();
+		SplashScreen splashScreen = new SplashScreenImpl();
+		splashScreen.show();
 
 		// initialize launcher
-        Injector injector = Guice.createInjector(
-				new GdxEditorModule(),
-                new BaseImporterModule(),
-                new EditorGuiceModule(),
-                new JavaToolsModule());
+		Injector injector = Guice.createInjector(new GdxEditorModule(),
+				new BaseImporterModule(), new EditorGuiceModule(),
+				new JavaToolsModule());
 
 		// init reflection
-		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
 		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		// init engine properties
-		((EngineConfiguration)injector.getInstance(EngineConfiguration.class))
+		((EngineConfiguration) injector.getInstance(EngineConfiguration.class))
 				.setExitWhenFinished(false);
 
 		// launch
-        Launcher launcher = injector.getInstance(Launcher.class);
-        launcher.configure();
-        launcher.initialize();
+		Launcher launcher = injector.getInstance(Launcher.class);
+		launcher.configure();
+		launcher.initialize();
 
 		// hide splash & launch app
 		splashScreen.hide();
-        launcher.start();
-    }
+		launcher.start();
+	}
 
-    @Inject
-    public EAdventureEditor(Controller controller) {
+	@Inject
+	public EAdventureEditor(Controller controller) {
 		logger.info("Controller set to {}", controller);
-        this.controller = controller;
-    }
+		this.controller = controller;
+	}
 
-    @Override
-    public void configure() {
-        logger.info("Configuring...");
-    }
+	@Override
+	public void configure() {
+		logger.info("Configuring...");
+	}
 
-    @Override
-    public void initialize() {
-        logger.info("Initializing...");
-        controller.initialize();
-    }
+	@Override
+	public void initialize() {
+		logger.info("Initializing...");
+		controller.initialize();
+	}
 
-    @Override
-    public void start() {
-        logger.info("Starting...");
-        controller.getViewController().showWindow();
-    }
+	@Override
+	public void start() {
+		logger.info("Starting...");
+		controller.getViewController().showWindow();
+	}
 }

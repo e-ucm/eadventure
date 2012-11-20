@@ -45,8 +45,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class AbstractEngineConfiguration implements
-		EngineConfiguration {
+public class AbstractEngineConfiguration implements EngineConfiguration {
 
 	/**
 	 * Default window width for desktop games
@@ -67,7 +66,7 @@ public class AbstractEngineConfiguration implements
 	private boolean exitWhenFinished = true;
 
 	@Inject
-	public AbstractEngineConfiguration( ){
+	public AbstractEngineConfiguration() {
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		fullscreen = false;
 	}
@@ -95,18 +94,18 @@ public class AbstractEngineConfiguration implements
 	}
 
 	@Override
-	public void setSize( int width, int height ){
+	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
 	@Override
-	public boolean isFullscreen( ){
+	public boolean isFullscreen() {
 		return fullscreen;
 	}
 
 	@Override
-	public void setFullscreen( boolean fullscreen ){
+	public void setFullscreen(boolean fullscreen) {
 		this.fullscreen = fullscreen;
 	}
 

@@ -47,7 +47,7 @@ import ead.engine.core.util.EAdTransformation;
  */
 public interface GUI {
 
-	void setGame( Game game );
+	void setGame(Game game);
 
 	/**
 	 * Add an element to the scene. The order of the elements is used during

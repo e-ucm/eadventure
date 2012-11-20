@@ -66,13 +66,13 @@ public class EffectFactory {
 
 	public ChangeAppearanceEf getChangeAppearance(EAdElement element,
 			EAdBundleId bundle) {
-		ChangeAppearanceEf effect = new ChangeAppearanceEf( element, bundle);
+		ChangeAppearanceEf effect = new ChangeAppearanceEf(element, bundle);
 		return effect;
 	}
 
 	public InterpolationEf getInterpolationEffect(EAdField<?> var,
-			float startValue, float endValue, int time, InterpolationLoopType loop,
-			InterpolationType interpolationType) {
+			float startValue, float endValue, int time,
+			InterpolationLoopType loop, InterpolationType interpolationType) {
 		InterpolationEf interpolation = new InterpolationEf(var, startValue,
 				endValue, time, loop, interpolationType);
 		return interpolation;
@@ -103,8 +103,9 @@ public class EffectFactory {
 	 */
 	public ShowQuestionEf getShowQuestion(String question, int nAnswers) {
 		ShowQuestionEf effect = new ShowQuestionEf();
-		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getQuestion(), question);
-		
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				effect.getQuestion(), question);
+
 		for (int i = 0; i < nAnswers; i++) {
 			int ordinal = i % StringType.values().length;
 			EAdString answerString = EAdElementsFactory.getInstance()
@@ -122,20 +123,19 @@ public class EffectFactory {
 
 	public ChangeFieldEf getChangeVarValueEffect(EAdField<?> var,
 			EAdOperation operation) {
-		ChangeFieldEf effect = new ChangeFieldEf( var, operation);
+		ChangeFieldEf effect = new ChangeFieldEf(var, operation);
 		return effect;
 
 	}
 
-	public MakeActiveElementEf getMakeActiveElement(
-			EAdSceneElement element) {
+	public MakeActiveElementEf getMakeActiveElement(EAdSceneElement element) {
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 		return effect;
 	}
 
 	public PlaySoundEf getPlaySound(String string) {
 		Sound sound = new Sound(string);
-		PlaySoundEf effect = new PlaySoundEf( sound);
+		PlaySoundEf effect = new PlaySoundEf(sound);
 		return effect;
 	}
 

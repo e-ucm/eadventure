@@ -45,19 +45,18 @@ import ead.tools.MapProvider;
 public abstract class AbstractMapProvider<S, T> implements MapProvider<S, T> {
 
 	protected Map<S, T> factoryMap;
-	
+
 	public AbstractMapProvider() {
 		factoryMap = new HashMap<S, T>();
 	}
-	
+
 	@Override
 	public Map<S, T> getMap() {
 		return factoryMap;
 	}
-	
-	public void put(S key, T value){
+
+	public void put(S key, T value) {
 		factoryMap.put(key, value);
 	}
-	
-	
+
 }

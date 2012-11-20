@@ -42,27 +42,27 @@ package ead.common.interfaces;
  */
 public class EAdRuntimeException extends RuntimeException {
 
-  /**
-   * @see java.io.Serializable 
-   */
-  private static final long serialVersionUID = 1L;
+	/**
+	 * @see java.io.Serializable 
+	 */
+	private static final long serialVersionUID = 1L;
 
-  /**
-   * Constructs a {@code EAdRuntimeException} with the detailed message.
-   *
-   * @param message Detailed message.
-   */
-  public EAdRuntimeException(String message) {
-    super(message);
-  };
+	/**
+	 * Constructs a {@code EAdRuntimeException} with the detailed message.
+	 *
+	 * @param message Detailed message.
+	 */
+	public EAdRuntimeException(String message) {
+		super(message);
+	};
 
-  /**
-   * Constructs a {@code EAdRuntimeException} with the detailed message and cause.
-   *
-   * @param message Detailed message.
-   * @param cause Cause of this exception.
-   */
-  public EAdRuntimeException(String message, Throwable cause){
-    super(message, cause);
-  }
+	/**
+	 * Constructs a {@code EAdRuntimeException} with the detailed message and cause.
+	 *
+	 * @param message Detailed message.
+	 * @param cause Cause of this exception.
+	 */
+	public EAdRuntimeException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

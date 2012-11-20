@@ -39,7 +39,6 @@ package ead.common.model.elements.transitions;
 
 import ead.common.model.elements.scenes.EAdScene;
 
-
 /**
  * Implemented by transitions between scenes
  * 

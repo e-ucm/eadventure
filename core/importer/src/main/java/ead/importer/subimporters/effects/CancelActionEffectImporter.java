@@ -46,8 +46,9 @@ import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 
-public class CancelActionEffectImporter extends EffectImporter<CancelActionEffect, EAdEffect>{
-	
+public class CancelActionEffectImporter extends
+		EffectImporter<CancelActionEffect, EAdEffect> {
+
 	@Inject
 	public CancelActionEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,

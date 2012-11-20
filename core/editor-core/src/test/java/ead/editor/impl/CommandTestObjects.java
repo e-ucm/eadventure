@@ -48,19 +48,19 @@ public class CommandTestObjects {
 	 * the String class.
 	 */
 	private String s;
-	
+
 	/**
 	 * Integer attribute to test the command that changes values of the members
 	 * of the Integer class.
 	 */
 	private Integer i;
-	
+
 	/**
 	 * Boolean attribute to test the command that changes values of the members
 	 * of the Boolean class.
 	 */
 	private Boolean b;
-	
+
 	/**
 	 * Object attribute to test the command that changes values of the members of
 	 * the Object class.

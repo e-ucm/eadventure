@@ -52,12 +52,12 @@ import ead.common.params.text.EAdString;
 @Element
 public class AdaptationStructureImpl extends AbstractWEEVElement implements
 		AdaptationStructure {
-	
+
 	private EAdList<AdaptationProfile> profiles;
-	
+
 	@Param(value = "name")
 	private EAdString name;
-	
+
 	public AdaptationStructureImpl() {
 		profiles = new EAdListImpl<AdaptationProfile>(AdaptationProfile.class);
 		name = EAdString.newRandomEAdString("name");

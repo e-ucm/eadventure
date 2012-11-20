@@ -68,10 +68,8 @@ public class IncrementVarImporter extends
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
-		MathOp op = new MathOp(
-				 "[0] + "
-						+ oldObject.getIncrement(), var);
-		ChangeFieldEf effect = new ChangeFieldEf( var, op);
+		MathOp op = new MathOp("[0] + " + oldObject.getIncrement(), var);
+		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		super.importConditions(oldObject, effect);
 		return effect;
 	}

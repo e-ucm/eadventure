@@ -59,14 +59,12 @@ public class GdxPluginHandler implements PluginHandler {
 
 	@Override
 	public void install(SceneElementGOFactory sceneElementFactory) {
-		
-		
+
 	}
 
 	@Override
 	public void install(EventGOFactory eventGOFactory) {
-		
-		
+
 	}
 
 }

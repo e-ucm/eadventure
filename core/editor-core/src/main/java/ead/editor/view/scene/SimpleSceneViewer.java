@@ -88,7 +88,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		selection = new ArrayList<EditableGameObject>();
 	}
 
-    @Override
+	@Override
 	public void setScene(EAdScene scene) {
 		super.setScene(scene);
 		addGameObject(scene.getBackground());
@@ -246,7 +246,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		return this.selection;
 	}
 
-	public void setDelta( int deltaX, int deltaY ){
+	public void setDelta(int deltaX, int deltaY) {
 		selectionMatrix.idt();
 		selectionMatrix.translate(deltaX - 5.0f, deltaY - 5.0f, 0);
 

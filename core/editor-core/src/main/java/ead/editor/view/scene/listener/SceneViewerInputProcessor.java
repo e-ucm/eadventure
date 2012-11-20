@@ -90,7 +90,7 @@ public class SceneViewerInputProcessor implements InputProcessor {
 			viewer.getSelection().clear();
 		}
 
-		viewer.getSelection().add(go);		
+		viewer.getSelection().add(go);
 		selection.add(go.getSceneElement());
 		sceneListener.updateSelection(selection);
 		viewer.updateSelectionBounds();
@@ -100,7 +100,7 @@ public class SceneViewerInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		if ( dragging ){
+		if (dragging) {
 			dragging = false;
 			viewer.setDelta(0, 0);
 			for (EditableGameObject go : viewer.getSelection()) {

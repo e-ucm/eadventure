@@ -51,12 +51,12 @@ public class PositionScene extends EmptyScene {
 				getBackground().getDefinition().getInitialBundle(),
 				SceneElementDef.appearance,
 				new Image("@drawable/centerbackground.png"));
-		
+
 		NgCommon.init();
-		SceneElement e = new SceneElement( NgCommon.getMainCharacter());
+		SceneElement e = new SceneElement(NgCommon.getMainCharacter());
 		e.setInitialScale(0.5f);
 		e.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
-		
+
 		this.getSceneElements().add(e);
 	}
 

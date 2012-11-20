@@ -40,11 +40,11 @@ package ead.exporter;
 import java.io.File;
 
 public interface Exporter {
-	
-	void setName( String name );
-	
-	void setIcon( File icon );
-	
+
+	void setName(String name);
+
+	void setIcon(File icon);
+
 	void export(String gameBaseDir, String outputfolder);
-	
+
 }

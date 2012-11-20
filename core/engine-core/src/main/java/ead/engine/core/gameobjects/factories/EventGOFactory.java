@@ -40,6 +40,7 @@ package ead.engine.core.gameobjects.factories;
 import ead.common.model.elements.EAdEvent;
 import ead.engine.core.gameobjects.go.EventGO;
 
-public interface EventGOFactory extends GameObjectFactory<EAdEvent, EventGO<? extends EAdEvent>>{
+public interface EventGOFactory extends
+		GameObjectFactory<EAdEvent, EventGO<? extends EAdEvent>> {
 
 }

@@ -41,11 +41,10 @@ import es.eucm.eadventure.common.data.adventure.AdventureData;
 
 public class ImporterTestAux {
 
-	
-	public static AdventureData getAdventureData( ){
-		AdventureData data = new AdventureData( );
-		data.setTitle( "Test adventure" );
-		data.setDescription( "Test data for unit tests" );
+	public static AdventureData getAdventureData() {
+		AdventureData data = new AdventureData();
+		data.setTitle("Test adventure");
+		data.setDescription("Test data for unit tests");
 		return data;
 	}
 }

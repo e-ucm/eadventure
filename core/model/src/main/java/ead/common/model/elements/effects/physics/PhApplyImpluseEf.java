@@ -72,8 +72,6 @@ public class PhApplyImpluseEf extends AbstractSceneElementEffect {
 	public MathOp getyForce() {
 		return yForce;
 	}
-	
-	
 
 	public void setxForce(MathOp xForce) {
 		this.xForce = xForce;

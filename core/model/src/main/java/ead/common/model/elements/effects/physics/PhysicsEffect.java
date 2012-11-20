@@ -51,9 +51,6 @@ import ead.common.model.elements.variables.VarDef;
 @Element
 public class PhysicsEffect extends AbstractEffect {
 
-
-
-
 	public static final EAdVarDef<PhType> VAR_PH_TYPE = new VarDef<PhType>(
 			"ph_type", PhType.class, PhType.STATIC);
 
@@ -62,20 +59,19 @@ public class PhysicsEffect extends AbstractEffect {
 
 	public static final EAdVarDef<Float> VAR_PH_FRICTION = new VarDef<Float>(
 			"ph_friction", Float.class, 0.3f);
-	
+
 	public static final EAdVarDef<Float> VAR_PH_RESTITUTION = new VarDef<Float>(
 			"ph_restitution", Float.class, 0.1f);
-	
+
 	public static final EAdVarDef<Float> VAR_PH_DENSITY = new VarDef<Float>(
 			"ph_restitution", Float.class, 0.001f);
-		
 
 	/**
 	 * Elements that are affect by the physics
 	 */
 	@Param("elements")
 	private EAdList<EAdSceneElement> elements;
-	
+
 	@Param("joints")
 	private EAdList<EAdSceneElement> joints;
 
@@ -90,8 +86,8 @@ public class PhysicsEffect extends AbstractEffect {
 	public void addSceneElement(EAdSceneElement element) {
 		this.elements.add(element);
 	}
-	
-	public void addJoint( EAdSceneElement e1, EAdSceneElement e2 ){
+
+	public void addJoint(EAdSceneElement e1, EAdSceneElement e2) {
 		joints.add(e1);
 		joints.add(e2);
 	}
@@ -99,7 +95,7 @@ public class PhysicsEffect extends AbstractEffect {
 	public EAdList<EAdSceneElement> getElements() {
 		return elements;
 	}
-	
+
 	public EAdList<EAdSceneElement> getJoints() {
 		return joints;
 	}

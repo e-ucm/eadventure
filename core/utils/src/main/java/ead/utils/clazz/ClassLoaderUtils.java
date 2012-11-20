@@ -46,8 +46,8 @@ public class ClassLoaderUtils {
 	/**
 	 * Mask containing public and static modifiers.
 	 */
-	public static final int PUBLIC_STATIC_MOD_MASK =
-            Modifier.PUBLIC | Modifier.STATIC;
+	public static final int PUBLIC_STATIC_MOD_MASK = Modifier.PUBLIC
+			| Modifier.STATIC;
 
 	/**
 	 * Return a <code>ClassLoader</code>.

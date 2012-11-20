@@ -46,7 +46,7 @@ import ead.common.model.elements.extra.EAdList;
  * 
  */
 public interface EAdComplexSceneElement extends EAdSceneElement {
-	
+
 	/**
 	 * @return the {@link EAdSceneElement}s that make up the scene
 	 */

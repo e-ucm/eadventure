@@ -66,11 +66,13 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	@Override
 	public boolean loadAsset() {
 		try {
-			pixmap = new Pixmap(((GdxAssetHandler) assetHandler).getFileHandle(descriptor.getUri()
-					.getPath()));
+			pixmap = new Pixmap(((GdxAssetHandler) assetHandler)
+					.getFileHandle(descriptor.getUri().getPath()));
 		} catch (Exception e) {
 			// TODO Load a default error image.
-			logger.warn("Cound not load image for descriptor: " + descriptor, e);
+			logger
+					.warn("Cound not load image for descriptor: " + descriptor,
+							e);
 			pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
 		}
 		Texture texture = new Texture(pixmap);

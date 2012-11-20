@@ -81,10 +81,10 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		logger.info("New instance");
 	}
 
-	public void setBasicHUDs( TopBasicHUD basicHUD, BottomBasicHUD bottomBasicHUD ){
+	public void setBasicHUDs(TopBasicHUD basicHUD, BottomBasicHUD bottomBasicHUD) {
 		this.topBasicHud = basicHUD;
 		this.bottomBasicHud = bottomBasicHUD;
-		basicHUD.setGameObjectManager( this );
+		basicHUD.setGameObjectManager(this);
 	}
 
 	/*
@@ -170,8 +170,8 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		}
 	}
 
-    @Override
-	public List<HudGO> getHUDs(){
+	@Override
+	public List<HudGO> getHUDs() {
 		return huds;
 	}
 

@@ -139,7 +139,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 			mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
 			updateState();
 			updateDisp();
-			updateItems();			
+			updateItems();
 		}
 	}
 

@@ -38,4 +38,5 @@
 /**
  * {@code Class} and {@code ClassLoader}s utility classes.
  */
+
 package ead.utils.clazz;

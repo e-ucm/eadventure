@@ -50,10 +50,10 @@ public interface Transition<S> extends Positioned, WEEVElement {
 	 * @return the start element of the transition
 	 */
 	S getStart();
-	
+
 	/**
 	 * @return the end element of the transition
 	 */
 	S getEnd();
-	
+
 }

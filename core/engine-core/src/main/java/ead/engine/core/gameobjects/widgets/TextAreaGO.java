@@ -95,10 +95,10 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 				switch (keyAction.getKeyCode()) {
 				case BACKSPACE:
 					if (currentText.length() > 0) {
-						currentText = currentText.substring(0,
-								currentText.length() - 2);
+						currentText = currentText.substring(0, currentText
+								.length() - 2);
 					}
-					break;				
+					break;
 				default:
 					if (keyAction.getCharacter() != null) {
 						currentText += keyAction.getCharacter();

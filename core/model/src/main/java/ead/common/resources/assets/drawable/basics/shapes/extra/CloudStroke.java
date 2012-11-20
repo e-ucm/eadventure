@@ -118,14 +118,14 @@ public class CloudStroke extends RectangleStroke {
 	}
 
 	@Override
-	public void addDiagonal(BezierShape shape, int x1, int x2, int y1,
-			int y2, int xOrigin, int yOrigin) {
+	public void addDiagonal(BezierShape shape, int x1, int x2, int y1, int y2,
+			int xOrigin, int yOrigin) {
 		this.addOrigin(shape, x1, y1, x2, y2, xOrigin, yOrigin);
 
 	}
 
-	protected void addSegments(BezierShape shape, int x, int y,
-			int xOffset, int yOffset, int xStep, int yStep, int segments) {
+	protected void addSegments(BezierShape shape, int x, int y, int xOffset,
+			int yOffset, int xStep, int yStep, int segments) {
 		int oldX = x;
 		int oldY = y;
 		for (int i = 0; i < segments; i++) {
@@ -138,14 +138,12 @@ public class CloudStroke extends RectangleStroke {
 
 	}
 
-	protected void addSegment(BezierShape shape, int x1, int y1, int x2,
-			int y2) {
+	protected void addSegment(BezierShape shape, int x1, int y1, int x2, int y2) {
 		shape.quadTo(x1, y1, x2, y2);
 	}
 
 	@Override
-	public void addDiagonal(BezierShape shape, int x1, int x2, int y1,
-			int y2) {
+	public void addDiagonal(BezierShape shape, int x1, int x2, int y1, int y2) {
 		int corner[] = this.getCornerFromDiagonal(x1, x2, y1, y2);
 
 		int xOffset = OFFSET;
@@ -163,8 +161,8 @@ public class CloudStroke extends RectangleStroke {
 		addSegment(shape, corner[0] + xOffset, corner[1] + yOffset, x2, y2);
 	}
 
-	protected void addOrigin(BezierShape shape, int x1, int y1, int x2,
-			int y2, int xOrigin, int yOrigin) {
+	protected void addOrigin(BezierShape shape, int x1, int y1, int x2, int y2,
+			int xOrigin, int yOrigin) {
 		shape.quadTo(xOrigin, yOrigin, x2, y2);
 	}
 }

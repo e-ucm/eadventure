@@ -48,12 +48,15 @@ import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.go.EventGO;
 
-public class EventGameObjectFactoryConfigurator extends AbstractMapProvider<Class<? extends EAdEvent>, Class<? extends EventGO<? extends EAdEvent>>>{
-	
+public class EventGameObjectFactoryConfigurator
+		extends
+		AbstractMapProvider<Class<? extends EAdEvent>, Class<? extends EventGO<? extends EAdEvent>>> {
+
 	public EventGameObjectFactoryConfigurator() {
 		factoryMap.put(ConditionedEv.class, ConditionEvGO.class);
 		factoryMap.put(SystemEv.class, SystemEvGO.class);
 		factoryMap.put(SceneElementEv.class, SceneElementEvGO.class);
-		factoryMap.put(TimedEv.class, TimedEvGO.class );	}
+		factoryMap.put(TimedEv.class, TimedEvGO.class);
+	}
 
 }

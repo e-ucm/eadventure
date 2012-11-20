@@ -43,7 +43,7 @@ public class AbstractRetractableStoryElement extends AbstractStoryElement
 		implements Retractable {
 
 	private Boolean retracted;
-	
+
 	@Override
 	public void setRetracted(Boolean retracted) {
 		this.retracted = retracted;

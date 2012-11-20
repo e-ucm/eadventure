@@ -51,8 +51,7 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class AddActorReferenceGO extends
-		AbstractEffectGO<AddActorReferenceEf> {
+public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 
 	@Inject
 	public AddActorReferenceGO(AssetHandler assetHandler,
@@ -70,8 +69,8 @@ public class AddActorReferenceGO extends
 			SceneElement ref = new SceneElement(actor);
 			ref.setPosition(element.getPosition());
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.FIRST_UPDATE,
-					element.getInitialEffect());
+			event.addEffect(SceneElementEvType.FIRST_UPDATE, element
+					.getInitialEffect());
 			((AbstractSceneElementEffect) element.getInitialEffect())
 					.setSceneElement(ref);
 			ref.getEvents().add(event);

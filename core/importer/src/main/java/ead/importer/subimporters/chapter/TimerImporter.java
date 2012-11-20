@@ -101,8 +101,8 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 	@Inject
 	public TimerImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EffectsImporterFactory effectsImporter, StringHandler stringHandler,
-			ImportAnnotator annotator) {
+			EffectsImporterFactory effectsImporter,
+			StringHandler stringHandler, ImportAnnotator annotator) {
 		this.conditionsImporter = conditionsImporter;
 		this.effectsImporter = effectsImporter;
 		this.stringHandler = stringHandler;
@@ -129,37 +129,34 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 		EAdField<Boolean> visibleField = new BasicField<Boolean>(timer,
 				SceneElement.VAR_VISIBLE);
-		ChangeFieldEf changeVisible = new ChangeFieldEf(
-				visibleField, BooleanOp.TRUE_OP);
+		ChangeFieldEf changeVisible = new ChangeFieldEf(visibleField,
+				BooleanOp.TRUE_OP);
 		EAdField<Integer> currentTimeField = new BasicField<Integer>(timer,
 				CURRENT_TIME_VAR);
 
 		ModifyHUDEf modifyHUD = new ModifyHUDEf(timer, true);
 
-		ChangeFieldEf changeRunning = new ChangeFieldEf(
-				runningField, new BooleanOp(
-						EmptyCond.TRUE_EMPTY_CONDITION));
+		ChangeFieldEf changeRunning = new ChangeFieldEf(runningField,
+				new BooleanOp(EmptyCond.TRUE_EMPTY_CONDITION));
 
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, modifyHUD);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeVisible);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET,
-				new ChangeFieldEf(currentTimeField,
-						new ValueOp(0)));
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
+				currentTimeField, new ValueOp(0)));
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeRunning);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET,
-				new ChangeFieldEf(notTriggeredField,
-						BooleanOp.FALSE_OP));
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
+				notTriggeredField, BooleanOp.FALSE_OP));
 		event.setRunNotMetConditions(false);
-		event.setCondition(new ANDCond(initCondition,
-				new OperationCond(notTriggeredField)));
+		event.setCondition(new ANDCond(initCondition, new OperationCond(
+				notTriggeredField)));
 
 		if (!oldTimer.isShowWhenStopped()) {
 			ConditionedEv visibleEvent = new ConditionedEv();
-			ChangeFieldEf changeVisibleFalse = new ChangeFieldEf(
-					visibleField, BooleanOp.FALSE_OP);
-			visibleEvent.setCondition(new ANDCond(new OperationCond(
-					visibleField), new NOTCond(new OperationCond(
-					runningField))));
+			ChangeFieldEf changeVisibleFalse = new ChangeFieldEf(visibleField,
+					BooleanOp.FALSE_OP);
+			visibleEvent
+					.setCondition(new ANDCond(new OperationCond(visibleField),
+							new NOTCond(new OperationCond(runningField))));
 			visibleEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 					changeVisibleFalse);
 			timer.getEvents().add(visibleEvent);
@@ -173,8 +170,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 			multipleStarts.addEffect(ConditionedEvType.CONDITIONS_MET,
 					changeVisible);
 			multipleStarts.addEffect(ConditionedEvType.CONDITIONS_MET,
-					new ChangeFieldEf(currentTimeField,
-							new ValueOp(0)));
+					new ChangeFieldEf(currentTimeField, new ValueOp(0)));
 			timer.getEvents().add(multipleStarts);
 		}
 
@@ -195,10 +191,10 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 				SceneElement.VAR_VISIBLE);
 
 		timer.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
-		timer.setPosition(10, 20 * count - 1 );
+		timer.setPosition(10, 20 * count - 1);
 
 		// Appearance
-		if (oldTimer.isShowTime()){
+		if (oldTimer.isShowTime()) {
 			addAppearance(timer, oldTimer, currentTimeField);
 		}
 
@@ -219,22 +215,21 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		return timer;
 	}
 
-	private void addEffectsWhenStopped(SceneElement timer,
-			Timer oldTimer, EAdField<Boolean> runningField,
-			EAdCondition initCondition) {
+	private void addEffectsWhenStopped(SceneElement timer, Timer oldTimer,
+			EAdField<Boolean> runningField, EAdCondition initCondition) {
 		EffectsMacro stopEffects = effectsImporter.getMacroEffects(oldTimer
 				.getPostEffects());
 		if (stopEffects != null) {
 			EAdCondition stopCondition = null;
 			if (oldTimer.isUsesEndCondition()) {
 				stopCondition = conditionsImporter.init(oldTimer.getEndCond());
-				stopCondition = conditionsImporter.convert(
-						oldTimer.getEndCond(), stopCondition);
+				stopCondition = conditionsImporter.convert(oldTimer
+						.getEndCond(), stopCondition);
 			} else {
 				stopCondition = new NOTCond(initCondition);
 			}
-			stopCondition = new ANDCond(new OperationCond(
-					runningField), stopCondition);
+			stopCondition = new ANDCond(new OperationCond(runningField),
+					stopCondition);
 
 			TriggerMacroEf triggerStopEffects = new TriggerMacroEf();
 			triggerStopEffects.putMacro(stopEffects,
@@ -245,8 +240,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 			stopEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 					triggerStopEffects);
 			stopEffects.getEffects().add(
-					new ChangeFieldEf(runningField,
-							BooleanOp.FALSE_OP));
+					new ChangeFieldEf(runningField, BooleanOp.FALSE_OP));
 			timer.getEvents().add(stopEvent);
 		}
 	}
@@ -264,22 +258,19 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 			triggerExpiredEffects.putMacro(expiredEffects,
 					EmptyCond.TRUE_EMPTY_CONDITION);
 
-			EAdCondition expireCondition = new OperationCond(currentTimeField, time,
-					Comparator.GREATER_EQUAL);
+			EAdCondition expireCondition = new OperationCond(currentTimeField,
+					time, Comparator.GREATER_EQUAL);
 
 			// Stop the timer if expires and set current time to its final value
-			
+
 			time = oldTimer.isRunsInLoop() ? 0 : time;
 			expiredEffects.getEffects().add(
-					new ChangeFieldEf(currentTimeField,
-							new ValueOp(time)));
-			
+					new ChangeFieldEf(currentTimeField, new ValueOp(time)));
+
 			if (!oldTimer.isRunsInLoop()) {
 				expiredEffects.getEffects().add(
-						new ChangeFieldEf(runningField,
-								BooleanOp.FALSE_OP));
+						new ChangeFieldEf(runningField, BooleanOp.FALSE_OP));
 			}
-
 
 			ConditionedEv expireEffectsEvent = new ConditionedEv();
 			expireEffectsEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
@@ -307,18 +298,17 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 		MathOp timeOperation = null;
 		if (oldTimer.isCountDown())
-			timeOperation = new MathOp(oldTimer.getTime()
-					+ " - ([0] / 1000)", currentTimeField);
+			timeOperation = new MathOp(oldTimer.getTime() + " - ([0] / 1000)",
+					currentTimeField);
 		else
 			timeOperation = new MathOp("[0] / 1000", currentTimeField);
-		
+
 		stringHandler.setString(text.getLabel(), oldTimer.getDisplayName()
 				+ " [0]");
 		text.getFields().add(timeOperation);
-		timer.getDefinition()
-				.getResources()
-				.addAsset(timer.getDefinition().getInitialBundle(),
-						SceneElementDef.appearance, text);
+		timer.getDefinition().getResources().addAsset(
+				timer.getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, text);
 
 	}
 }

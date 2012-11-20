@@ -87,7 +87,7 @@ public class ConversationImporter implements
 	public EAdEffect convert(Conversation oldObject, Object object) {
 		nodes.clear();
 
-        annotator.annotate(null, ImportAnnotator.Type.Open, oldObject.getId());
+		annotator.annotate(null, ImportAnnotator.Type.Open, oldObject.getId());
 
 		for (ConversationNode node : oldObject.getAllNodes()) {
 			if (node.getType() == ConversationNode.DIALOGUE) {
@@ -101,7 +101,8 @@ public class ConversationImporter implements
 			} else if (node.getType() == ConversationNode.OPTION) {
 				EAdEffect effect = new ShowQuestionEf();
 				nodes.put(node, effect);
-                annotator.annotate(effect, ImportAnnotator.Type.Comment, "choice");
+				annotator.annotate(effect, ImportAnnotator.Type.Comment,
+						"choice");
 			}
 		}
 
@@ -111,7 +112,8 @@ public class ConversationImporter implements
 					EAdEffect currentNodeEffect = nodes.get(node);
 					EAdEffect nextNodeEffect = nodes.get(node.getChild(0));
 					while (currentNodeEffect.getNextEffects().size() > 0) {
-						currentNodeEffect = currentNodeEffect.getNextEffects().get(0);
+						currentNodeEffect = currentNodeEffect.getNextEffects()
+								.get(0);
 					}
 					currentNodeEffect.getNextEffects().add(nextNodeEffect);
 				}
@@ -121,18 +123,19 @@ public class ConversationImporter implements
 				for (int i = 0; i < node.getChildCount(); i++) {
 					EAdString string = EAdString.newRandomEAdString("line");
 					stringHandler.setString(string, node.getLineText(i));
-					currentNodeEffect.addAnswer(string,
-							nodes.get(node.getChild(i)));
+					currentNodeEffect.addAnswer(string, nodes.get(node
+							.getChild(i)));
 				}
 				currentNodeEffect.setUpNewInstance();
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
-		ChangeFieldEf changeField = new ChangeFieldEf(SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP );
+		ChangeFieldEf changeField = new ChangeFieldEf(
+				SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP);
 		changeField.getNextEffects().add(initialEffect);
 
-        annotator.annotate(null, ImportAnnotator.Type.Close, oldObject.getId());
+		annotator.annotate(null, ImportAnnotator.Type.Close, oldObject.getId());
 
-        return changeField;
+		return changeField;
 	}
 }

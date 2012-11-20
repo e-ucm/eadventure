@@ -92,7 +92,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 				if (finalElement instanceof EAdScene) {
 					transition.setNext((EAdScene) finalElement);
 				} else {
-					logger.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
+					logger
+							.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
 					transition.setNext(gameState.getPreviousScene());
 				}
 			} else {

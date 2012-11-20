@@ -64,54 +64,55 @@ import ead.common.resources.assets.drawable.filters.MatrixFilter;
  * 
  */
 public class CompleteModel extends BasicAdventureModel {
-	
-	public CompleteModel( ){
+
+	public CompleteModel() {
 		// FIXME more elements
-		BasicChapter chapter = new BasicChapter( );
+		BasicChapter chapter = new BasicChapter();
 		chapter.setTitle(EAdString.newEAdString("A chapter"));
 		this.getChapters().add(chapter);
-		RectangleShape background = new RectangleShape( 800, 600, ColorFill.BLACK );
+		RectangleShape background = new RectangleShape(800, 600,
+				ColorFill.BLACK);
 		StateDrawable drawable = new StateDrawable();
 		drawable.addDrawable("state1", background);
 		drawable.addDrawable("state2", getDrawableWithAllBasicDrawables());
-		BasicScene scene = new BasicScene( drawable );
+		BasicScene scene = new BasicScene(drawable);
 		chapter.getScenes().add(scene);
-//		chapter.getScenes().add(new InitScene());
+		//		chapter.getScenes().add(new InitScene());
 	}
-	
-	public EAdDrawable getDrawableWithAllBasicDrawables( ){
-		ComposedDrawable composed = new ComposedDrawable( );
-		LinearGradientFill gradient = new LinearGradientFill( ColorFill.BROWN, new ColorFill(500, 10, 1 ), -1, 2, 400.2f, 2.0f );
-		BalloonShape ballonShape = new BalloonShape( 0, 10, 900, 12, BalloonType.ELECTRIC );		
+
+	public EAdDrawable getDrawableWithAllBasicDrawables() {
+		ComposedDrawable composed = new ComposedDrawable();
+		LinearGradientFill gradient = new LinearGradientFill(ColorFill.BROWN,
+				new ColorFill(500, 10, 1), -1, 2, 400.2f, 2.0f);
+		BalloonShape ballonShape = new BalloonShape(0, 10, 900, 12,
+				BalloonType.ELECTRIC);
 		ballonShape.setPaint(gradient);
-		
-		EAdPaint p = new Paint( gradient, ColorFill.BROWN );
-		CircleShape circleShape = new CircleShape( 900, p );
-		
+
+		EAdPaint p = new Paint(gradient, ColorFill.BROWN);
+		CircleShape circleShape = new CircleShape(900, p);
+
 		Image i = new Image("@drawable/someimage.png");
-		
-		Caption c = new Caption( );
+
+		Caption c = new Caption();
 		c.setAlignment(Alignment.LEFT);
 		c.getFields().add(BooleanOp.TRUE_OP);
 		c.setPadding(50);
 		c.setTextPaint(gradient);
 		c.setPreferredHeight(20);
 		c.setBubblePaint(p);
-		
-		
-		
-		FilteredDrawable filtered = new FilteredDrawable( );
+
+		FilteredDrawable filtered = new FilteredDrawable();
 		filtered.setDrawable(c);
-		filtered.setFilter(new MatrixFilter( ));
-		
+		filtered.setFilter(new MatrixFilter());
+
 		composed.addDrawable(ballonShape, 20, 50);
 		composed.addDrawable(circleShape);
 		composed.addDrawable(i);
 		composed.addDrawable(c, 1000, 100000);
 		composed.addDrawable(filtered);
-	
+
 		return composed;
-		
+
 	}
 
 }

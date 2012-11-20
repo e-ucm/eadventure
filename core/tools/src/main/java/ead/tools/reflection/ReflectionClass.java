@@ -58,7 +58,7 @@ public interface ReflectionClass<T> {
 	 * @return
 	 */
 	ReflectionClass<?> getSuperclass();
-	
+
 	/**
 	 * Return the class contained by this reflectin class
 	 * @return

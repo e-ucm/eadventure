@@ -50,22 +50,22 @@ public interface NavigationController extends ChangeNotifier {
 	 * Go forward in the screen history
 	 */
 	void goForward();
-	
+
 	/**
 	 * Go back in the screen history
 	 */
 	void goBackward();
-	
+
 	/**
 	 * @return true if there are is a screen forward in the history
 	 */
 	boolean canGoForward();
-	
+
 	/**
 	 * @return true if there are is a screen backward in the history 
 	 */
 	boolean canGoBackward();
-	
+
 	/**
 	 * Clear screen history
 	 */

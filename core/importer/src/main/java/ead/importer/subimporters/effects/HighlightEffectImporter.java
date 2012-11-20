@@ -56,8 +56,7 @@ public class HighlightEffectImporter extends
 	@Inject
 	public HighlightEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory,
-			ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
@@ -72,7 +71,8 @@ public class HighlightEffectImporter extends
 	public HighlightSceneElementEf convert(HighlightItemEffect oldObject,
 			Object newElement) {
 		HighlightSceneElementEf effect = super.convert(oldObject, newElement);
-		effect.setSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
+		effect.setSceneElement((EAdSceneElementDef) factory
+				.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

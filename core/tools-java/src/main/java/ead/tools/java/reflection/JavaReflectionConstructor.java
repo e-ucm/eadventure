@@ -44,13 +44,14 @@ import org.slf4j.LoggerFactory;
 
 import ead.tools.reflection.ReflectionConstructor;
 
-public class JavaReflectionConstructor<T> implements ReflectionConstructor<T>{
+public class JavaReflectionConstructor<T> implements ReflectionConstructor<T> {
 
-    private static Logger logger = LoggerFactory.getLogger(JavaReflectionConstructor.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(JavaReflectionConstructor.class);
 
 	private Constructor<T> constructor;
 
-	public JavaReflectionConstructor( Constructor<T> constructor ){
+	public JavaReflectionConstructor(Constructor<T> constructor) {
 		this.constructor = constructor;
 	}
 

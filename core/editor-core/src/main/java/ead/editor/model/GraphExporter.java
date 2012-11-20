@@ -50,59 +50,67 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
-  Exports editor models as graphs
+ Exports editor models as graphs
  * @author mfreire
  */
 public class GraphExporter {
 
-    private static final Logger logger = LoggerFactory.getLogger("GraphExporter");
+	private static final Logger logger = LoggerFactory
+			.getLogger("GraphExporter");
 
-    public static void export(DirectedGraph<DependencyNode, DependencyEdge> g, File target) {
-        OutputStreamWriter writer = null;
-        try {
-            writer = new OutputStreamWriter(new FileOutputStream(target), "UTF-8");
-            IdProvider idp = new IdProvider();
-            LabelProvider ldp = new LabelProvider();
+	public static void export(DirectedGraph<DependencyNode, DependencyEdge> g,
+			File target) {
+		OutputStreamWriter writer = null;
+		try {
+			writer = new OutputStreamWriter(new FileOutputStream(target),
+					"UTF-8");
+			IdProvider idp = new IdProvider();
+			LabelProvider ldp = new LabelProvider();
 
-//            GmlExporter<EditorNode, DependencyEdge> exporter
-//                    = new GmlExporter<EditorNode, DependencyEdge>(idp, idp, idp, idp);
-//            DOTExporter<EditorNode, DependencyEdge> exporter
-//                    = new DOTExporter<EditorNode, DependencyEdge>(idp, idp, idp);
-            GraphMLExporter<DependencyNode, DependencyEdge> exporter
-                    = new GraphMLExporter<DependencyNode, DependencyEdge>(idp, ldp, idp, ldp);
-            exporter.export(writer, g);
-        } catch (Exception e) {
-            logger.warn("Error during export to {}", target, e);
-        } finally {
-            try {
-                if (writer != null) writer.close();
-            } catch (Exception e) {
-                logger.error("Could not close writer", e);
-            }
-        }
-    }
+			//            GmlExporter<EditorNode, DependencyEdge> exporter
+			//                    = new GmlExporter<EditorNode, DependencyEdge>(idp, idp, idp, idp);
+			//            DOTExporter<EditorNode, DependencyEdge> exporter
+			//                    = new DOTExporter<EditorNode, DependencyEdge>(idp, idp, idp);
+			GraphMLExporter<DependencyNode, DependencyEdge> exporter = new GraphMLExporter<DependencyNode, DependencyEdge>(
+					idp, ldp, idp, ldp);
+			exporter.export(writer, g);
+		} catch (Exception e) {
+			logger.warn("Error during export to {}", target, e);
+		} finally {
+			try {
+				if (writer != null)
+					writer.close();
+			} catch (Exception e) {
+				logger.error("Could not close writer", e);
+			}
+		}
+	}
 
-    private static class IdProvider implements VertexNameProvider<DependencyNode>, EdgeNameProvider<DependencyEdge> {
-        @Override
-        public String getVertexName(DependencyNode v) {
-            return ""+v.getId();
-        }
+	private static class IdProvider implements
+			VertexNameProvider<DependencyNode>,
+			EdgeNameProvider<DependencyEdge> {
+		@Override
+		public String getVertexName(DependencyNode v) {
+			return "" + v.getId();
+		}
 
-        @Override
-        public String getEdgeName(DependencyEdge e) {
-            return "";
-        }
-    }
+		@Override
+		public String getEdgeName(DependencyEdge e) {
+			return "";
+		}
+	}
 
-    private static class LabelProvider implements VertexNameProvider<DependencyNode>, EdgeNameProvider<DependencyEdge> {
-        @Override
-        public String getVertexName(DependencyNode v) {
-            return v.getContent().getClass().getSimpleName();
-        }
+	private static class LabelProvider implements
+			VertexNameProvider<DependencyNode>,
+			EdgeNameProvider<DependencyEdge> {
+		@Override
+		public String getVertexName(DependencyNode v) {
+			return v.getContent().getClass().getSimpleName();
+		}
 
-        @Override
-        public String getEdgeName(DependencyEdge e) {
-            return e.getType();
-        }
-    }
+		@Override
+		public String getEdgeName(DependencyEdge e) {
+			return e.getType();
+		}
+	}
 }

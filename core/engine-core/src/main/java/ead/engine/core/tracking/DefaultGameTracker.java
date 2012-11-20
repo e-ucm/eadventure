@@ -54,16 +54,16 @@ public class DefaultGameTracker extends AbstractGameTracker {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("DefaultTracker");
-	
+
 	@Inject
-	public DefaultGameTracker( TrackerSelector selector){
+	public DefaultGameTracker(TrackerSelector selector) {
 		super(selector);
 	}
 
 	@Override
 	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
-		logger.info("Action: {} over {}", action.getGUIEvent(),
-				target.getElement());
+		logger.info("Action: {} over {}", action.getGUIEvent(), target
+				.getElement());
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class DefaultGameTracker extends AbstractGameTracker {
 
 	@Override
 	protected void startTrackingImpl(EAdAdventureModel model) {
-		logger.info("Tracking starts.");		
+		logger.info("Tracking starts.");
 	}
 
 }

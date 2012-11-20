@@ -58,20 +58,20 @@ import ead.utils.swing.SwingUtilities;
 public class MainAssetViewer {
 
 	public static void main(String args[]) {
-		SwingUtilities.doInEDTNow(
-			new Runnable() {
-				@Override
-				public void run() {
-					showSampleAsset();
-				}
-			});
+		SwingUtilities.doInEDTNow(new Runnable() {
+			@Override
+			public void run() {
+				showSampleAsset();
+			}
+		});
 	}
-		
+
 	public static void showSampleAsset() {
 		final Image standNorth = new Image("@drawable/man_stand_n.png");
-		final BalloonShape shape = new BalloonShape( 10, 10, 100, 100, BalloonType.CLOUD);
+		final BalloonShape shape = new BalloonShape(10, 10, 100, 100,
+				BalloonType.CLOUD);
 		shape.setPaint(ColorFill.WHITE);
-		
+
 		FramesAnimation frames2 = new FramesAnimation();
 		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 500));
 		frames2.addFrame(new Frame("@drawable/man_walk_w_2.png", 500));
@@ -104,27 +104,27 @@ public class MainAssetViewer {
 		JPanel panel = new JPanel(new GridLayout(4, 2));
 		panel.add(viewer1.getCanvas());
 		panel.add(viewer2.getCanvas());
-		panel.add(viewer3.getCanvas());		
-		panel.add(viewer4.getCanvas());		
-		panel.add(viewer5.getCanvas());		
-		panel.add(viewer6.getCanvas());		
-		panel.add(viewer7.getCanvas());		
-		panel.add(viewer8.getCanvas());						
+		panel.add(viewer3.getCanvas());
+		panel.add(viewer4.getCanvas());
+		panel.add(viewer5.getCanvas());
+		panel.add(viewer6.getCanvas());
+		panel.add(viewer7.getCanvas());
+		panel.add(viewer8.getCanvas());
 
 		frame.getContentPane().setLayout(new BorderLayout());
 
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		
+
 		JButton button = new JButton("Change");
-		button.addActionListener(new ActionListener( ){
+		button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				viewer2.setDrawable(shape);				
+				viewer2.setDrawable(shape);
 			}
-			
+
 		});
-		
+
 		frame.getContentPane().add(button, BorderLayout.SOUTH);
 
 		frame.setSize(800, 600);

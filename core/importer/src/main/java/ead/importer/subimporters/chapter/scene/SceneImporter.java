@@ -192,8 +192,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
 		SceneElement playerReference = addPlayer(scene, oldScene, chapter);
-		importTrajectory(scene, oldScene.getTrajectory(),
-				oldScene.getBarriers(), playerReference);
+		importTrajectory(scene, oldScene.getTrajectory(), oldScene
+				.getBarriers(), playerReference);
 
 	}
 
@@ -218,7 +218,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 			playerReference.getEvents().add(event);
 
-			int playerZ = oldScene.isAllowPlayerLayer() ? Math.max(0, oldScene.getPlayerLayer()) : 1;
+			int playerZ = oldScene.isAllowPlayerLayer() ? Math.max(0, oldScene
+					.getPlayerLayer()) : 1;
 			playerReference.setVarInitialValue(SceneElement.VAR_Z, playerZ);
 			scene.getSceneElements().add(playerReference);
 
@@ -227,8 +228,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 			// Add move camera with character
 			Dimension d = resourceImporter.getDimensionsForOldImage(oldScene
-					.getResources().get(0)
-					.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
+					.getResources().get(0).getAssetPath(
+							Scene.RESOURCE_TYPE_BACKGROUND));
 			scene.setBounds(d.width, 600);
 
 			ScrollWithSceneElementEv scroll = new ScrollWithSceneElementEv(
@@ -370,9 +371,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				foreground.setInitialEnable(false);
 				foreground.setPropagateGUIEvents(true);
 
-				ChangeFieldEf changeVisibility = new ChangeFieldEf(
-						foreground.getField(SceneElement.VAR_VISIBLE),
-						new BooleanOp(c));
+				ChangeFieldEf changeVisibility = new ChangeFieldEf(foreground
+						.getField(SceneElement.VAR_VISIBLE), new BooleanOp(c));
 
 				SceneElementEv event = new SceneElementEv(
 						SceneElementEvType.ALWAYS, changeVisibility);
@@ -449,11 +449,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		String newUri = resourceImporter.getURI(foregroundPath);
 
 		try {
-			ImageIO.write(
-					result,
-					"png",
-					new File(resourceImporter.getNewProjecFolder(), newUri
-							.substring(1)));
+			ImageIO.write(result, "png", new File(resourceImporter
+					.getNewProjecFolder(), newUri.substring(1)));
 		} catch (IOException e) {
 			logger.error("Error creating foreground image {}", e);
 		}

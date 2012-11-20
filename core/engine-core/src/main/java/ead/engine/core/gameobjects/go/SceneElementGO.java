@@ -85,11 +85,11 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setX(int x);
 
 	void setY(int y);
-	
+
 	void setAlpha(float alpha);
-	
+
 	void setEnabled(boolean b);
-	
+
 	void collectSceneElements(List<EAdSceneElement> elements);
 
 	boolean isVisible();

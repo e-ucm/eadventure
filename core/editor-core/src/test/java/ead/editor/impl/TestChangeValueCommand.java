@@ -47,89 +47,98 @@ import ead.editor.control.commands.ChangeValueCommand;
 /**
  * Class for testing the right functionality of ChangeValueActions that modify the game model.
  */
-public class TestChangeValueCommand extends TestCase {	
-	
+public class TestChangeValueCommand extends TestCase {
+
 	/**
 	 * Actions for testing the changes of String values. 
 	 */
-    private ChangeValueCommand<String> actionS, mockActionS;
-    /**
+	private ChangeValueCommand<String> actionS, mockActionS;
+	/**
 	 * Actions for testing the changes of Integer values. 
 	 */
-    private ChangeValueCommand<Integer> actionI, actionIb, mockActionI;
-    /**
+	private ChangeValueCommand<Integer> actionI, actionIb, mockActionI;
+	/**
 	 * Actions for testing the changes of Boolean values. 
 	 */
-    private ChangeValueCommand<Boolean> actionB, mockActionB;
-    /**
+	private ChangeValueCommand<Boolean> actionB, mockActionB;
+	/**
 	 * Actions for testing the changes of String values. 
 	 */
-    private ChangeValueCommand<Object> actionO, actionOb, mockActionO;
-    /**
+	private ChangeValueCommand<Object> actionO, actionOb, mockActionO;
+	/**
 	 * Custom object for testing the changes made by the actions with.
 	 */
-    private CommandTestObjects actionObj;
-    /**
+	private CommandTestObjects actionObj;
+	/**
 	 * Simple object for testing the actions that modify members of the Object class.  
 	 */
-    private Object obj;    
-    /**
+	private Object obj;
+	/**
 	 * Custom mock object for testing the interaction between methods in the actions.  
 	 */
 	@Mock
-    private CommandTestObjects mockActionObject;	
-	
+	private CommandTestObjects mockActionObject;
+
 	/**
 	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
 	 */
-    @Before
-    public void setUp(){
- 
-    	MockitoAnnotations.initMocks(this);
-    	
-    	actionObj = new CommandTestObjects("oh",1,false,new Object());
-    	obj = new Object();
-    	
-    	actionS = new ChangeValueCommand<String>(actionObj, "test", "setS", "getS");
-    	actionI = new ChangeValueCommand<Integer>(actionObj, 100, "setI", "getI");
-    	actionIb = new ChangeValueCommand<Integer>(actionObj, 200, "setI", "getI");
-    	actionB = new ChangeValueCommand<Boolean>(actionObj, true, "setB", "getB");
-    	actionO = new ChangeValueCommand<Object>(actionObj, obj, "setO", "getO");
-    	actionOb = new ChangeValueCommand<Object>(actionObj, new Object(), "setO", "getO");
-    	
-    	mockActionS = new ChangeValueCommand<String>(mockActionObject, "test", "setS", "getS");
-    	mockActionI = new ChangeValueCommand<Integer>(mockActionObject, 100, "setI", "getI");
-    	mockActionB = new ChangeValueCommand<Boolean>(mockActionObject, true, "setB", "getB");
-    	mockActionO = new ChangeValueCommand<Object>(mockActionObject, obj, "setO", "getO");
-    	
-    }
-    
-    /**
+	@Before
+	public void setUp() {
+
+		MockitoAnnotations.initMocks(this);
+
+		actionObj = new CommandTestObjects("oh", 1, false, new Object());
+		obj = new Object();
+
+		actionS = new ChangeValueCommand<String>(actionObj, "test", "setS",
+				"getS");
+		actionI = new ChangeValueCommand<Integer>(actionObj, 100, "setI",
+				"getI");
+		actionIb = new ChangeValueCommand<Integer>(actionObj, 200, "setI",
+				"getI");
+		actionB = new ChangeValueCommand<Boolean>(actionObj, true, "setB",
+				"getB");
+		actionO = new ChangeValueCommand<Object>(actionObj, obj, "setO", "getO");
+		actionOb = new ChangeValueCommand<Object>(actionObj, new Object(),
+				"setO", "getO");
+
+		mockActionS = new ChangeValueCommand<String>(mockActionObject, "test",
+				"setS", "getS");
+		mockActionI = new ChangeValueCommand<Integer>(mockActionObject, 100,
+				"setI", "getI");
+		mockActionB = new ChangeValueCommand<Boolean>(mockActionObject, true,
+				"setB", "getB");
+		mockActionO = new ChangeValueCommand<Object>(mockActionObject, obj,
+				"setO", "getO");
+
+	}
+
+	/**
 	 * Method for testing the right functionality of the action's method for performing actions.  
 	 */
-    @Test
+	@Test
 	public void testPerformAction() {
-		
-    	assertEquals(false, (actionObj.getS()).equals("test"));
+
+		assertEquals(false, (actionObj.getS()).equals("test"));
 		assertEquals(false, (actionObj.getI()).equals(100));
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
-		
-		actionS.performCommand();	
-		actionI.performCommand();	
-		actionB.performCommand();		
+
+		actionS.performCommand();
+		actionI.performCommand();
+		actionB.performCommand();
 		actionO.performCommand();
-		
+
 		assertEquals(true, (actionObj.getS()).equals("test"));
 		assertEquals(true, (actionObj.getI()).equals(100));
 		assertEquals(true, (actionObj.getB()).equals(true));
 		assertEquals(true, (actionObj.getO()).equals(obj));
-		
-		mockActionS.performCommand();	
-		mockActionI.performCommand();	
-		mockActionB.performCommand();		
+
+		mockActionS.performCommand();
+		mockActionI.performCommand();
+		mockActionB.performCommand();
 		mockActionO.performCommand();
-		
+
 		verify(mockActionObject, times(1)).getS();
 		verify(mockActionObject, times(1)).setS("test");
 		verify(mockActionObject, times(1)).getI();
@@ -137,117 +146,117 @@ public class TestChangeValueCommand extends TestCase {
 		verify(mockActionObject, times(1)).getB();
 		verify(mockActionObject, times(1)).setB(true);
 		verify(mockActionObject, times(1)).getO();
-		verify(mockActionObject, times(1)).setO(obj);	
-     
-    } 
-    
-    /**
+		verify(mockActionObject, times(1)).setO(obj);
+
+	}
+
+	/**
 	 * Method for testing the right functionality of the action's method for redoing actions.  
 	 */
-    @Test
+	@Test
 	public void testRedoAction() {
-		
-    	assertEquals(false, (actionObj.getS()).equals("test"));
-		assertEquals(false, (actionObj.getI()).equals(100));
-		assertEquals(false, (actionObj.getB()).equals(true));
-		assertEquals(false, (actionObj.getO()).equals(obj));
-		
-		actionS.redoCommand();	
-		actionI.redoCommand();	
-		actionB.redoCommand();		
-		actionO.redoCommand();
-		
-		assertEquals(true, (actionObj.getS()).equals("test"));
-		assertEquals(true, (actionObj.getI()).equals(100));
-		assertEquals(true, (actionObj.getB()).equals(true));
-		assertEquals(true, (actionObj.getO()).equals(obj));
-		
-		mockActionS.redoCommand();	
-		mockActionI.redoCommand();	
-		mockActionB.redoCommand();		
-		mockActionO.redoCommand();		
-		
-		verify(mockActionObject, times(1)).setS("test");		
-		verify(mockActionObject, times(1)).setI(100);		
-		verify(mockActionObject, times(1)).setB(true);		
-		verify(mockActionObject, times(1)).setO(obj);	
-     
-    } 
-    
-    /**
-	 * Method for testing the right functionality of the action's method for undoing actions.  
-	 */
-    @Test
-	public void testUndoAction() {
-    	
-    	assertEquals(false, (actionObj.getS()).equals("test"));
-		assertEquals(false, (actionObj.getI()).equals(100));
-		assertEquals(false, (actionObj.getB()).equals(true));
-		assertEquals(false, (actionObj.getO()).equals(obj));
-		
-		actionS.performCommand();	
-		actionI.performCommand();	
-		actionB.performCommand();		
-		actionO.performCommand();
-		
-		assertEquals(true, (actionObj.getS()).equals("test"));
-		assertEquals(true, (actionObj.getI()).equals(100));
-		assertEquals(true, (actionObj.getB()).equals(true));
-		assertEquals(true, (actionObj.getO()).equals(obj));
-		
-		actionS.undoCommand();	
-		actionI.undoCommand();	
-		actionB.undoCommand();		
-		actionO.undoCommand();
-		
+
 		assertEquals(false, (actionObj.getS()).equals("test"));
 		assertEquals(false, (actionObj.getI()).equals(100));
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
-		
-		mockActionS.undoCommand();	
-		mockActionI.undoCommand();	
-		mockActionB.undoCommand();		
-		mockActionO.undoCommand();		
-		
-		verify(mockActionObject, times(1)).setS(mockActionS.getOldValue());		
-		verify(mockActionObject, times(1)).setI(mockActionI.getOldValue());		
-		verify(mockActionObject, times(1)).setB(mockActionB.getOldValue());		
-		verify(mockActionObject, times(1)).setO(mockActionO.getOldValue());	
-     
-    } 
-    
-    /**
-	 * Method for testing the right functionality of the action's method for combining actions.  
-	 */    
-    @Test
-	public void testCombineAction() {
-    	
-    	assertEquals(false, (actionObj.getS()).equals("test"));
-		assertEquals(false, (actionObj.getI()).equals(100));
-		assertEquals(false, (actionObj.getB()).equals(true));
-		assertEquals(false, (actionObj.getO()).equals(obj));
-		
-		actionS.performCommand();	
-		actionI.performCommand();	
-		actionB.performCommand();		
-		actionO.performCommand();
-		
+
+		actionS.redoCommand();
+		actionI.redoCommand();
+		actionB.redoCommand();
+		actionO.redoCommand();
+
 		assertEquals(true, (actionObj.getS()).equals("test"));
 		assertEquals(true, (actionObj.getI()).equals(100));
 		assertEquals(true, (actionObj.getB()).equals(true));
 		assertEquals(true, (actionObj.getO()).equals(obj));
-		
-		actionS.combine(actionI);	
+
+		mockActionS.redoCommand();
+		mockActionI.redoCommand();
+		mockActionB.redoCommand();
+		mockActionO.redoCommand();
+
+		verify(mockActionObject, times(1)).setS("test");
+		verify(mockActionObject, times(1)).setI(100);
+		verify(mockActionObject, times(1)).setB(true);
+		verify(mockActionObject, times(1)).setO(obj);
+
+	}
+
+	/**
+	 * Method for testing the right functionality of the action's method for undoing actions.  
+	 */
+	@Test
+	public void testUndoAction() {
+
+		assertEquals(false, (actionObj.getS()).equals("test"));
+		assertEquals(false, (actionObj.getI()).equals(100));
+		assertEquals(false, (actionObj.getB()).equals(true));
+		assertEquals(false, (actionObj.getO()).equals(obj));
+
+		actionS.performCommand();
+		actionI.performCommand();
+		actionB.performCommand();
+		actionO.performCommand();
+
+		assertEquals(true, (actionObj.getS()).equals("test"));
+		assertEquals(true, (actionObj.getI()).equals(100));
+		assertEquals(true, (actionObj.getB()).equals(true));
+		assertEquals(true, (actionObj.getO()).equals(obj));
+
+		actionS.undoCommand();
+		actionI.undoCommand();
+		actionB.undoCommand();
+		actionO.undoCommand();
+
+		assertEquals(false, (actionObj.getS()).equals("test"));
+		assertEquals(false, (actionObj.getI()).equals(100));
+		assertEquals(false, (actionObj.getB()).equals(true));
+		assertEquals(false, (actionObj.getO()).equals(obj));
+
+		mockActionS.undoCommand();
+		mockActionI.undoCommand();
+		mockActionB.undoCommand();
+		mockActionO.undoCommand();
+
+		verify(mockActionObject, times(1)).setS(mockActionS.getOldValue());
+		verify(mockActionObject, times(1)).setI(mockActionI.getOldValue());
+		verify(mockActionObject, times(1)).setB(mockActionB.getOldValue());
+		verify(mockActionObject, times(1)).setO(mockActionO.getOldValue());
+
+	}
+
+	/**
+	 * Method for testing the right functionality of the action's method for combining actions.  
+	 */
+	@Test
+	public void testCombineAction() {
+
+		assertEquals(false, (actionObj.getS()).equals("test"));
+		assertEquals(false, (actionObj.getI()).equals(100));
+		assertEquals(false, (actionObj.getB()).equals(true));
+		assertEquals(false, (actionObj.getO()).equals(obj));
+
+		actionS.performCommand();
+		actionI.performCommand();
+		actionB.performCommand();
+		actionO.performCommand();
+
+		assertEquals(true, (actionObj.getS()).equals("test"));
+		assertEquals(true, (actionObj.getI()).equals(100));
+		assertEquals(true, (actionObj.getB()).equals(true));
+		assertEquals(true, (actionObj.getO()).equals(obj));
+
+		actionS.combine(actionI);
 		actionB.combine(actionO);
-		actionI.combine(actionIb);	
+		actionI.combine(actionIb);
 		actionO.combine(actionOb);
-		
-		assertEquals(true, (actionI.getNewValue()).equals(actionIb.getNewValue()));		
-		assertEquals(true, (actionO.getNewValue()).equals(actionOb.getNewValue()));		    	
-     
-    } 
 
+		assertEquals(true, (actionI.getNewValue()).equals(actionIb
+				.getNewValue()));
+		assertEquals(true, (actionO.getNewValue()).equals(actionOb
+				.getNewValue()));
 
+	}
 
 }

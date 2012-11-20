@@ -53,10 +53,13 @@ public class GWTToolsModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		bind(StringHandler.class).to(StringHandlerImpl.class).in(Singleton.class);
-		bind(ReflectionProvider.class).to(GwtReflectionProvider.class).in(Singleton.class);
+		bind(StringHandler.class).to(StringHandlerImpl.class).in(
+				Singleton.class);
+		bind(ReflectionProvider.class).to(GwtReflectionProvider.class).in(
+				Singleton.class);
 		bind(XMLParser.class).to(GwtXMLParser.class).in(Singleton.class);
-		bind(ReflectionClassLoader.class).to(GwtReflectionClassLoader.class).in(Singleton.class);
+		bind(ReflectionClassLoader.class).to(GwtReflectionClassLoader.class)
+				.in(Singleton.class);
 	}
 
 }

@@ -60,8 +60,8 @@ public class MatrixRuntimeFilter implements
 		Matrix4 m = c2.convertMatrix(matrix);
 
 		c2.getNativeGraphicContext().setTransformMatrix(
-				c2.getNativeGraphicContext().getTransformMatrix()
-						.trn(deltaX, deltaY, 0).mul(m));
+				c2.getNativeGraphicContext().getTransformMatrix().trn(deltaX,
+						deltaY, 0).mul(m));
 
 	}
 

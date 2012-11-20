@@ -60,7 +60,7 @@ public interface ProjectController extends ChangeNotifier {
 	 */
 	void doImport(String sourceURL, String projectURL);
 
-    /**
+	/**
 	 * Save the project
 	 */
 	void save();
@@ -83,7 +83,7 @@ public interface ProjectController extends ChangeNotifier {
 	 * and more
 	 */
 	void setController(Controller controller);
-	
+
 	/**
 	 * Launches a game
 	 */

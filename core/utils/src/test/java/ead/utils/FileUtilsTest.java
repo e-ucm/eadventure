@@ -105,7 +105,8 @@ public class FileUtilsTest {
 		System.out.println("zipContainsEntry");
 		File zipFile = getFile("ead/utils/sample.zip");
 		assertTrue(FileUtils.zipContainsEntry(zipFile, "META-INF/MANIFEST.MF"));
-		assertFalse(FileUtils.zipContainsEntry(zipFile, "META-INF/Manifiesto.MF"));
+		assertFalse(FileUtils.zipContainsEntry(zipFile,
+				"META-INF/Manifiesto.MF"));
 	}
 
 	/**
@@ -205,8 +206,10 @@ public class FileUtilsTest {
 	@Test
 	public void testToCanonicalPath() {
 		System.out.println("toCanonicalPath");
-		assertEquals("blah/etc", FileUtils.toCanonicalPath("  ../../../blah/etc "));
-		assertEquals("blah/etc", FileUtils.toCanonicalPath("  ..\\.\\..\\blah/etc "));
+		assertEquals("blah/etc", FileUtils
+				.toCanonicalPath("  ../../../blah/etc "));
+		assertEquals("blah/etc", FileUtils
+				.toCanonicalPath("  ..\\.\\..\\blah/etc "));
 	}
 
 	/**
@@ -217,8 +220,10 @@ public class FileUtilsTest {
 		System.out.println("startMatches");
 		File f = null;
 		int[] magic = FileUtils.zipMagic;
-		assertTrue(FileUtils.startMatches(getFile("ead/utils/sample.zip"), magic));
-		assertFalse(FileUtils.startMatches(getFile("ead/utils/sample.txt"), magic));
+		assertTrue(FileUtils.startMatches(getFile("ead/utils/sample.zip"),
+				magic));
+		assertFalse(FileUtils.startMatches(getFile("ead/utils/sample.txt"),
+				magic));
 	}
 
 	/**
@@ -308,13 +313,11 @@ public class FileUtilsTest {
 			byte[] two = new byte[one.length];
 			System.arraycopy(one, 0, two, 0, one.length);
 
-			assertTrue(FileUtils.sameContents(
-					new ByteArrayInputStream(one),
+			assertTrue(FileUtils.sameContents(new ByteArrayInputStream(one),
 					new ByteArrayInputStream(two)));
 			// change a byte
-			two[two.length / 2] ++;
-			assertFalse(FileUtils.sameContents(
-					new ByteArrayInputStream(one),
+			two[two.length / 2]++;
+			assertFalse(FileUtils.sameContents(new ByteArrayInputStream(one),
 					new ByteArrayInputStream(two)));
 		} finally {
 			if (tmp != null) {

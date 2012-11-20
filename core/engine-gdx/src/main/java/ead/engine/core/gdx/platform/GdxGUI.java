@@ -76,7 +76,7 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	}
 
 	@Override
-	public void setGame( Game g ){
+	public void setGame(Game g) {
 		super.setGame(g);
 		engine.setGame(game);
 	}

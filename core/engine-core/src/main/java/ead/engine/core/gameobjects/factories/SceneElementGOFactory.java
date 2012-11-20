@@ -56,5 +56,5 @@ public interface SceneElementGOFactory
 	 * Remove all elements from the cache
 	 */
 	void clean();
-	
+
 }

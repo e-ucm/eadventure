@@ -56,10 +56,11 @@ import ead.utils.swing.SwingUtilities;
  *
  * @author mfreire
  */
-public class MenuProgressListener extends JPanel implements EditorModel.ModelProgressListener, Runnable {
+public class MenuProgressListener extends JPanel implements
+		EditorModel.ModelProgressListener, Runnable {
 
-	private static final Logger logger = LoggerFactory.getLogger(
-			MenuProgressListener.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(MenuProgressListener.class);
 
 	private JProgressBar jpb;
 	private JLabel jl;
@@ -120,7 +121,8 @@ public class MenuProgressListener extends JPanel implements EditorModel.ModelPro
 
 	@Override
 	public void update(final int progress, final String text) {
-		logger.info("FileMenu update: {} {} ", new Object[]{"" + progress, text});
+		logger.info("FileMenu update: {} {} ", new Object[] { "" + progress,
+				text });
 
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override

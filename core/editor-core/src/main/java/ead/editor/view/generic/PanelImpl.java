@@ -95,8 +95,7 @@ public class PanelImpl implements Panel {
 	public JPanel getComponent(CommandManager manager) {
 		JPanel mainPanel = new JPanel();
 		if (getTitle() != null) {
-			mainPanel.setBorder(
-					BorderFactory.createTitledBorder(getTitle()));
+			mainPanel.setBorder(BorderFactory.createTitledBorder(getTitle()));
 		}
 
 		JPanel panel = new ScrollablePanel();
@@ -107,8 +106,8 @@ public class PanelImpl implements Panel {
 
 		java.awt.GridBagConstraints c = null;
 
-		if (getLayoutPolicy() == Panel.LayoutPolicy.HORIZONTAL ||
-				getLayoutPolicy() == Panel.LayoutPolicy.VERTICAL) {
+		if (getLayoutPolicy() == Panel.LayoutPolicy.HORIZONTAL
+				|| getLayoutPolicy() == Panel.LayoutPolicy.VERTICAL) {
 			panel.setLayout(new java.awt.GridBagLayout());
 			c = new java.awt.GridBagConstraints();
 			c.fill = java.awt.GridBagConstraints.BOTH;
@@ -119,7 +118,7 @@ public class PanelImpl implements Panel {
 		} else if (getLayoutPolicy() == Panel.LayoutPolicy.FLOW)
 			panel.setLayout(new java.awt.FlowLayout());
 		else
-			panel.setLayout(new java.awt.GridLayout(0,1));
+			panel.setLayout(new java.awt.GridLayout(0, 1));
 
 		for (InterfaceElement newElement : getElements()) {
 			JComponent component = newElement.getComponent(manager);
@@ -146,8 +145,9 @@ public class PanelImpl implements Panel {
 		public Dimension getPreferredSize() {
 			Dimension preferred = super.getPreferredSize();
 			Dimension container = super.getParent().getParent().getSize();
-			return new Dimension((int) Math.max(preferred.getWidth(), container.getWidth()),
-					(int) Math.max(preferred.getHeight(), container.getHeight()));
+			return new Dimension((int) Math.max(preferred.getWidth(), container
+					.getWidth()), (int) Math.max(preferred.getHeight(),
+					container.getHeight()));
 		}
 
 		@Override

@@ -47,7 +47,8 @@ public class VideoSceneDemo extends VideoScene implements SceneDemo {
 	public VideoSceneDemo() {
 		super();
 		EAdVideo video = new Video("@binary/eAdventure.webm");
-		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
+		getDefinition().getResources().addAsset(
+				getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
 
 	@Override

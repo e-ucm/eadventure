@@ -72,21 +72,21 @@ public class GdxRectangleShape extends GdxShape<RectangleShape> {
 				LinearGradientFill l = (LinearGradientFill) border;
 				c = l.getColor1();
 			}
-			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
+			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c
+					.getBlue() / 255.0f, c.getAlpha() / 255.0f);
 			pixmap.drawRectangle(0, 0, pwidth, pheight);
 		}
 
 		if (fill instanceof ColorFill) {
 			c = (ColorFill) fill;
-			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
-			pixmap.fillRectangle(borderWidth, borderWidth,
-					descriptor.getWidth(), descriptor.getHeight());
+			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c
+					.getBlue() / 255.0f, c.getAlpha() / 255.0f);
+			pixmap.fillRectangle(borderWidth, borderWidth, descriptor
+					.getWidth(), descriptor.getHeight());
 		} else if (fill instanceof LinearGradientFill) {
 			LinearGradientFill l = (LinearGradientFill) fill;
-			initGradientParams(l.getColor1(), l.getX0(), l.getY0(),
-					l.getColor2(), l.getX1(), l.getY1());
+			initGradientParams(l.getColor1(), l.getX0(), l.getY0(), l
+					.getColor2(), l.getX1(), l.getY1());
 			for (int i = borderWidth; i < descriptor.getWidth() + borderWidth; i++) {
 				for (int j = borderWidth; j < descriptor.getHeight()
 						+ borderWidth; j++) {

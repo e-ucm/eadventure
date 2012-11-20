@@ -50,42 +50,44 @@ import ead.editor.model.EditorModelImpl;
  * @author mfreire
  */
 public class ActorFactory implements EditorNodeFactory {
-    private static final Logger logger = LoggerFactory.getLogger("ActorFactory");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ActorFactory");
 
-    /**
-     * Find and create EditorNodes for actors
-     * @param annotator annotations for nodes (by ID)
-     * @param model where the nodes should be inserted, via registerEditorNode
-     */
-    @Override
-    public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
+	/**
+	 * Find and create EditorNodes for actors
+	 * @param annotator annotations for nodes (by ID)
+	 * @param model where the nodes should be inserted, via registerEditorNode
+	 */
+	@Override
+	public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
 
-        ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
+		ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
 
-        for (DependencyNode n : model.getNodesById().values()) {
-            if ( ! (n instanceof EngineNode)
-                    || ! (n.getContent() instanceof EAdElement)) {
-                continue;
-            }
-            EAdElement e = (EAdElement)n.getContent();
-            for (EditorAnnotator.Annotation a : annotator.get(e)) {
-                if (a.getKey().equals("type") && a.getValue().equals("actor")) {
-                    ActorNode an = new ActorNode(model.generateId(null));
-                    an.addChild(n);
-                    logger.debug("A star is born! actor {} {}", new Object[] {an.getId(), an.getTextualDescription(model)});
-//                    for (DependencyEdge de : g.outgoingEdgesOf(n)) {
-//                        logger.debug("Outgoing dep: {}",
-//                                g.getEdgeTarget(de).getTextualDescription(model));
-//                    }
-                    newNodes.add(an);
-                    logger.debug("The star is up in the sky...");
-                    break;
-                }
-            }
-        }
-        // now, register them
-        for (EditorNode en : newNodes) {
-            model.registerEditorNodeWithGraph(en);
-        }
-    }
+		for (DependencyNode n : model.getNodesById().values()) {
+			if (!(n instanceof EngineNode)
+					|| !(n.getContent() instanceof EAdElement)) {
+				continue;
+			}
+			EAdElement e = (EAdElement) n.getContent();
+			for (EditorAnnotator.Annotation a : annotator.get(e)) {
+				if (a.getKey().equals("type") && a.getValue().equals("actor")) {
+					ActorNode an = new ActorNode(model.generateId(null));
+					an.addChild(n);
+					logger.debug("A star is born! actor {} {}", new Object[] {
+							an.getId(), an.getTextualDescription(model) });
+					//                    for (DependencyEdge de : g.outgoingEdgesOf(n)) {
+					//                        logger.debug("Outgoing dep: {}",
+					//                                g.getEdgeTarget(de).getTextualDescription(model));
+					//                    }
+					newNodes.add(an);
+					logger.debug("The star is up in the sky...");
+					break;
+				}
+			}
+		}
+		// now, register them
+		for (EditorNode en : newNodes) {
+			model.registerEditorNodeWithGraph(en);
+		}
+	}
 }

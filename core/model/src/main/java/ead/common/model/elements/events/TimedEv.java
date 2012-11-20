@@ -83,8 +83,8 @@ public class TimedEv extends AbstractEvent {
 	public int getRepeats() {
 		return repeats;
 	}
-	
-	public void setRepeats( int repeats ){
+
+	public void setRepeats(int repeats) {
 		this.repeats = repeats;
 	}
 

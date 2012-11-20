@@ -39,4 +39,5 @@
  * <p>eAdventure model elements API</p>
  * <p>This package contains the interfaces of the basic eAdventure game elements</p>
  */
+
 package ead.common.model.elements;

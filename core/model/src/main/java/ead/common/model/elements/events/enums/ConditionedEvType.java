@@ -43,7 +43,7 @@ import com.gwtent.reflection.client.Reflectable;
 public enum ConditionedEvType {
 
 	CONDITIONS_MET,
-	
+
 	CONDITIONS_UNMET
-	
+
 }

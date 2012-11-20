@@ -48,21 +48,21 @@ import ead.common.model.elements.extra.EAdList;
 public class DepthManager {
 
 	private List<EAdList<Object>> lists;
-	
+
 	private List<EAdElement> stored;
-	
+
 	private Map<String, String> classAliases;
 
 	private Map<String, String> aliasMap;
-	
+
 	private static final boolean USE_DEPTH_CONTROL = true;
-	
+
 	private static final int MAX_LEVEL = 4;
-	
+
 	EAdList<EAdElement> depthControlList;
-	
+
 	private int level;
-	
+
 	public DepthManager(EAdList<EAdElement> eAdList) {
 		lists = new ArrayList<EAdList<Object>>();
 		stored = new ArrayList<EAdElement>();
@@ -71,11 +71,11 @@ public class DepthManager {
 		depthControlList = eAdList;
 		depthControlList.clear();
 	}
-	
+
 	public void addList(EAdList<Object> list) {
 		lists.add(list);
 	}
-	
+
 	public void removeList(EAdList<Object> list) {
 		lists.remove(list);
 	}
@@ -83,13 +83,13 @@ public class DepthManager {
 	public Map<String, String> getClassAliases() {
 		return classAliases;
 	}
-	
+
 	public boolean inPreviousList(EAdElement o) {
 		if (USE_DEPTH_CONTROL) {
 			for (int i = 0; i < lists.size() - 1; i++)
 				if (lists.get(i).contains(o))
 					return true;
-			
+
 			if (level > MAX_LEVEL) {
 				depthControlList.add(o);
 				return true;
@@ -97,11 +97,11 @@ public class DepthManager {
 		}
 		return false;
 	}
-	
+
 	public boolean isStored(EAdElement o) {
 		return stored.contains(o);
 	}
-	
+
 	public void setStored(EAdElement o) {
 		stored.add(o);
 	}
@@ -113,11 +113,11 @@ public class DepthManager {
 	public EAdElement getInstanceOfElement(EAdElement element) {
 		return stored.get(stored.indexOf(element));
 	}
-	
+
 	public void levelUp() {
 		level++;
 	}
-	
+
 	public void levelDown() {
 		level--;
 	}

@@ -49,5 +49,5 @@ public interface StorySectionEnd extends Node {
 	 * @return the name of the story section end
 	 */
 	EAdString getName();
-	
+
 }

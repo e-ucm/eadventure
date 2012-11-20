@@ -51,26 +51,26 @@ public class ValueMapTest {
 
 	@Before
 	public void setUp() throws Exception {
-//		v.setValue(new StringVar("name"), "John");
-//		v.setValue(new StringVar("surname"), "Doe");
-//		v.setValue(new IntegerVar("age"), new Integer(35));
-//		v.setValue(new FloatVar("height"), new Float(1.88f));
-//		v.setValue(new BooleanVar("true"), Boolean.TRUE);
-//		v.setValue(new BooleanVar("false"), Boolean.FALSE);
-//		v.setValue(new FloatVar("zero"), 0.0f);
+		//		v.setValue(new StringVar("name"), "John");
+		//		v.setValue(new StringVar("surname"), "Doe");
+		//		v.setValue(new IntegerVar("age"), new Integer(35));
+		//		v.setValue(new FloatVar("height"), new Float(1.88f));
+		//		v.setValue(new BooleanVar("true"), Boolean.TRUE);
+		//		v.setValue(new BooleanVar("false"), Boolean.FALSE);
+		//		v.setValue(new FloatVar("zero"), 0.0f);
 	}
 
 	@Test
 	public void testGetValueS() {
-//		assertEquals(v.getValue(new StringVar("name")), "John");
-//		assertEquals(v.getValue(new StringVar("surname")), "Doe");
-//		assertEquals(v.getValue(new IntegerVar("age")), new Integer(35));
-//		assertEquals(v.getValue(new FloatVar("height")), new Float(1.88f));
-//		assertEquals(v.getValue(new StringVar("non-existing-var")), null);
-//		
-//		v.setValue(new StringVar("name"), "Peter");
-//
-//		assertEquals(v.getValue(new StringVar("name")), "Peter");
+		//		assertEquals(v.getValue(new StringVar("name")), "John");
+		//		assertEquals(v.getValue(new StringVar("surname")), "Doe");
+		//		assertEquals(v.getValue(new IntegerVar("age")), new Integer(35));
+		//		assertEquals(v.getValue(new FloatVar("height")), new Float(1.88f));
+		//		assertEquals(v.getValue(new StringVar("non-existing-var")), null);
+		//		
+		//		v.setValue(new StringVar("name"), "Peter");
+		//
+		//		assertEquals(v.getValue(new StringVar("name")), "Peter");
 	}
 
 	@Test
@@ -85,24 +85,24 @@ public class ValueMapTest {
 				"(#zero? wrong choice:right choice) OK.",
 				"(#height? good :bad)" };
 
-//		String[] resultStrings = new String[] {
-//				"A var at the end " + "John",
-//				"This text has some vars to be replace. First, the name, wich is: "
-//						+ "John" + ", and second,",
-//				"What was the surname? (Sometimes I have bad memory!) Was it "
-//						+ "Doe" + "?",
-//				"Some age too, like " + "35"
-//						+ " (or something? I don't know well: too bad)",
-//				"In twitter, sometimes they used hashtags like #hashtag? "
-//						+ "John" + " loves twitter",
-//				"Some condition too, like  that was true  and  that was false ",
-//				"right choice OK.", " good " };
+		//		String[] resultStrings = new String[] {
+		//				"A var at the end " + "John",
+		//				"This text has some vars to be replace. First, the name, wich is: "
+		//						+ "John" + ", and second,",
+		//				"What was the surname? (Sometimes I have bad memory!) Was it "
+		//						+ "Doe" + "?",
+		//				"Some age too, like " + "35"
+		//						+ " (or something? I don't know well: too bad)",
+		//				"In twitter, sometimes they used hashtags like #hashtag? "
+		//						+ "John" + " loves twitter",
+		//				"Some condition too, like  that was true  and  that was false ",
+		//				"right choice OK.", " good " };
 
 		for (int i = 0; i < textsToProcess.length; i++) {
-//			String textToProcess = textsToProcess[i];
-//			String resultString = resultStrings[i];
-//			String processedText = ((VariableMap) v).processTextVars(textToProcess);
-//			assertEquals(resultString, processedText);
+			//			String textToProcess = textsToProcess[i];
+			//			String resultString = resultStrings[i];
+			//			String processedText = ((VariableMap) v).processTextVars(textToProcess);
+			//			assertEquals(resultString, processedText);
 		}
 
 	}

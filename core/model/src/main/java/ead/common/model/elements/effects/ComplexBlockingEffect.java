@@ -46,8 +46,7 @@ import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.EAdSceneElement;
 
 @Element
-public class ComplexBlockingEffect extends AbstractEffect implements
-		EAdEffect {
+public class ComplexBlockingEffect extends AbstractEffect implements EAdEffect {
 
 	@Param("initEffects")
 	protected EAdList<EAdEffect> initEffects;

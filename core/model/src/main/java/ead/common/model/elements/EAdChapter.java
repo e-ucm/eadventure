@@ -52,7 +52,7 @@ import ead.common.resources.assets.multimedia.EAdSound;
 public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 
 	@Bundled
-	@Asset({ EAdSound.class })
+	@Asset( { EAdSound.class })
 	final static String music = "music";
 
 	/**

@@ -68,9 +68,7 @@ public class DecrementVarImporter extends
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
-		MathOp op = new MathOp(
-				 "[0] - "
-						+ oldObject.getDecrement(), var);
+		MathOp op = new MathOp("[0] - " + oldObject.getDecrement(), var);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		super.importConditions(oldObject, effect);
 
@@ -79,6 +77,6 @@ public class DecrementVarImporter extends
 
 	@Override
 	public ChangeFieldEf convert(DecrementVarEffect oldObject, Object object) {
-	return (ChangeFieldEf) object;
+		return (ChangeFieldEf) object;
 	}
 }

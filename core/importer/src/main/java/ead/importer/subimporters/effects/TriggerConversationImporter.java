@@ -50,32 +50,35 @@ import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 
-public class TriggerConversationImporter extends EffectImporter<TriggerConversationEffect, TriggerMacroEf>{
+public class TriggerConversationImporter extends
+		EffectImporter<TriggerConversationEffect, TriggerMacroEf> {
 
 	private EAdElementFactory factory;
 
 	@Inject
 	public TriggerConversationImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            EAdElementFactory factory, ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
 	@Override
 	public TriggerMacroEf init(TriggerConversationEffect oldObject) {
-		TriggerMacroEf triggerMacro = new TriggerMacroEf( );
+		TriggerMacroEf triggerMacro = new TriggerMacroEf();
 		return triggerMacro;
 	}
 
 	@Override
-	public TriggerMacroEf convert(TriggerConversationEffect oldObject, Object object) {
+	public TriggerMacroEf convert(TriggerConversationEffect oldObject,
+			Object object) {
 		TriggerMacroEf triggerMacro = super.convert(oldObject, object);
 		EffectsMacro macro = new EffectsMacro();
 		triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 
-		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject.getTargetId());
-		if ( effect != null )
+		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject
+				.getTargetId());
+		if (effect != null)
 			macro.getEffects().add(effect);
 
 		return triggerMacro;

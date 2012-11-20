@@ -52,15 +52,16 @@ import ead.common.params.text.EAdString;
 @Element
 public class StorySectionImpl extends AbstractStoryElement implements
 		StorySection {
-	
+
 	@Param(value = "name")
 	private EAdString name;
-	
+
 	private EAdList<StorySectionStart> sectionStarts;
-	
+
 	public StorySectionImpl() {
 		name = EAdString.newRandomEAdString("name");
-		sectionStarts = new EAdListImpl<StorySectionStart>(StorySectionStart.class);
+		sectionStarts = new EAdListImpl<StorySectionStart>(
+				StorySectionStart.class);
 	}
 
 	@Override

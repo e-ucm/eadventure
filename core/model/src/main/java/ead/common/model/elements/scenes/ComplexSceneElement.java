@@ -89,8 +89,8 @@ public class ComplexSceneElement extends SceneElement implements
 		this.setDefinition(definition);
 	}
 
-	public ComplexSceneElement(EAdDrawable asset ) {
-		this(new SceneElementDef( asset) );
+	public ComplexSceneElement(EAdDrawable asset) {
+		this(new SceneElementDef(asset));
 	}
 
 	/**

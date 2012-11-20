@@ -81,11 +81,11 @@ public class SceneElementDef extends ResourcedElement implements
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Bundled
-	@Asset({ EAdDrawable.class })
+	@Asset( { EAdDrawable.class })
 	public static final String appearance = "appearance";
 
 	@Bundled
-	@Asset({ EAdDrawable.class })
+	@Asset( { EAdDrawable.class })
 	public static final String overAppearance = "overAppearance";
 
 	public SceneElementDef() {
@@ -155,8 +155,8 @@ public class SceneElementDef extends ResourcedElement implements
 			resources.addBundle(bundle);
 		}
 		resources.addAsset(bundle, SceneElementDef.appearance, appearance);
-	}	
-	
+	}
+
 	@Override
 	public EAdDrawable getAppearance() {
 		return (EAdDrawable) getResources().getAsset(getInitialBundle(),

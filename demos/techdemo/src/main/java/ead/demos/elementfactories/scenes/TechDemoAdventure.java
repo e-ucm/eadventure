@@ -64,31 +64,30 @@ import ead.demos.elementfactories.scenes.scenes.SpeakAndMoveScene;
 import ead.demos.elementfactories.scenes.scenes.TrajectoriesScene;
 
 public class TechDemoAdventure extends BasicAdventureModel {
-	
+
 	private List<SceneDemo> sceneDemos;
-	
+
 	private BasicChapter chapter;
-	
-	public TechDemoAdventure( ){
+
+	public TechDemoAdventure() {
 		chapter = new BasicChapter();
 		this.getChapters().add(chapter);
-		
-		
+
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new InitScene());
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
-//		sceneDemos.add(new TextsScene());
+		//		sceneDemos.add(new TextsScene());
 		sceneDemos.add(new CharacterScene());
 		sceneDemos.add(new SpeakAndMoveScene());
 		sceneDemos.add(new ComplexElementScene());
-//		sceneDemos.add(new SoundScene());
+		//		sceneDemos.add(new SoundScene());
 		sceneDemos.add(new DrawablesScene());
-//		sceneDemos.add(new MoleGame());
+		//		sceneDemos.add(new MoleGame());
 		sceneDemos.add(new ShowQuestionScene());
 		sceneDemos.add(new TrajectoriesScene());
-//		sceneDemos.add(new PhysicsScene());
+		//		sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());
 		sceneDemos.add(new DragDropScene());
 		sceneDemos.add(new PositionScene());
@@ -97,33 +96,32 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		sceneDemos.add(new InventoryScene());
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
-//		sceneDemos.add(new VideoScene());
+		//		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen(null));
-//		sceneDemos.add(new NgRoom1());
+		//		sceneDemos.add(new NgRoom1());
 		sceneDemos.add(new BVSScene());
 	}
-	
-	
-	public List<SceneDemo> getScenes(){
+
+	public List<SceneDemo> getScenes() {
 		return sceneDemos;
 	}
-	
-	public List<String> getSceneDemosDescriptions(){
+
+	public List<String> getSceneDemosDescriptions() {
 		ArrayList<String> strings = new ArrayList<String>();
-		for ( SceneDemo s: sceneDemos ){
+		for (SceneDemo s : sceneDemos) {
 			strings.add(s.toString());
 		}
 		return strings;
 	}
-	
-	public void setInitialScene( EAdScene scene ){
+
+	public void setInitialScene(EAdScene scene) {
 		chapter.setInitialScene(scene);
 	}
-	
+
 	private static TechDemoAdventure instance;
-	
-	public static TechDemoAdventure getInstance( ){
-		if ( instance == null ){
+
+	public static TechDemoAdventure getInstance() {
+		if (instance == null) {
 			instance = new TechDemoAdventure();
 		}
 		return instance;

@@ -52,19 +52,19 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
  * An abstract element with behavior, resources and events
  * 
  */
-public abstract class AbstractElementWithBehavior extends
-		BasicElement implements Evented, WithBehavior {
+public abstract class AbstractElementWithBehavior extends BasicElement
+		implements Evented, WithBehavior {
 
 	@Param("behavior")
 	protected EAdBehavior behavior;
-	
+
 	/**
 	 * Events associated with this element
 	 */
 	@Param("events")
 	protected EAdList<EAdEvent> events;
 
-	@Param(value="propagateGUIEvents", defaultValue="true")
+	@Param(value = "propagateGUIEvents", defaultValue = "true")
 	private boolean propagateGUIEvents;
 
 	public AbstractElementWithBehavior() {
@@ -119,7 +119,7 @@ public abstract class AbstractElementWithBehavior extends
 	public EAdBehavior getBehavior() {
 		return behavior;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -129,12 +129,12 @@ public abstract class AbstractElementWithBehavior extends
 	public EAdList<EAdEvent> getEvents() {
 		return events;
 	}
-	
-	public void setPropagateGUIEvents(boolean propagate){
+
+	public void setPropagateGUIEvents(boolean propagate) {
 		this.propagateGUIEvents = propagate;
 	}
-	
-	public boolean isPropagateGUIEvents(){
+
+	public boolean isPropagateGUIEvents() {
 		return propagateGUIEvents;
 	}
 

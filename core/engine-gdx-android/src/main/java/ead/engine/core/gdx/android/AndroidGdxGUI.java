@@ -48,6 +48,7 @@ import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.EngineConfiguration;
+
 @Singleton
 public class AndroidGdxGUI extends GdxGUI {
 
@@ -56,19 +57,19 @@ public class AndroidGdxGUI extends GdxGUI {
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			GdxCanvas canvas, GdxEngine engine) {
-		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas, engine);
+		super(platformConfiguration, gameObjectManager, inputHandler,
+				gameState, gameObjectFactory, canvas, engine);
 	}
 
 	@Override
 	public void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen) {
-		
+
 	}
 
 	@Override
 	public void initialize() {
-		
+
 	}
 
 }

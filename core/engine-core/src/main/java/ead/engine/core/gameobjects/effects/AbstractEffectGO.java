@@ -73,7 +73,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	protected GameState gameState;
 
 	@Inject
-	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
+	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
 		super(gameObjectFactory, gui);
 		this.gameState = gameState;
 	}

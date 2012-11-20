@@ -142,8 +142,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
 
-		EAdTransition transition = TriggerSceneImporter.getTransition(
-				oldObject.getTransitionType(), oldObject.getTransitionTime());
+		EAdTransition transition = TriggerSceneImporter.getTransition(oldObject
+				.getTransitionType(), oldObject.getTransitionTime());
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(scene, transition);
 		changeScene.setCondition(enableCondition);
@@ -167,7 +167,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 		EAdString name = EAdString.newRandomEAdString("exitLookName");
 		stringHandler.setString(name, exitLook.getExitText());
-		newExit.getDefinition().setVarInitialValue(SceneElementDef.VAR_DOC_NAME, name);
+		newExit.getDefinition().setVarInitialValue(
+				SceneElementDef.VAR_DOC_NAME, name);
 
 		// Change cursor
 		EAdImage cursor = null;
@@ -175,12 +176,12 @@ public class ExitImporter extends ElementImporter<Exit> {
 			// Default
 			cursor = factory.getDefaultCursor(AdventureData.EXIT_CURSOR);
 		else
-			cursor = (Image) resourceImporter.getAssetDescritptor(
-					exitLook.getCursorPath(), Image.class);
+			cursor = (Image) resourceImporter.getAssetDescritptor(exitLook
+					.getCursorPath(), Image.class);
 
 		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
-		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
-				factory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
+		ChangeCursorEf changeCursorBack = new ChangeCursorEf(factory
+				.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
 
 		newExit.addBehavior(MouseGEv.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);

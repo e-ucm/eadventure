@@ -112,21 +112,21 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		InterpolationEf move = new InterpolationEf();
 		move.setInterpolationTime(1000);
-		move.addField(character.getField(SceneElement.VAR_X),
-				actionsObject.getField(SceneElement.VAR_CENTER_X));
-		move.addField(character.getField(SceneElement.VAR_Y),
-				actionsObject.getField(SceneElement.VAR_CENTER_Y));
+		move.addField(character.getField(SceneElement.VAR_X), actionsObject
+				.getField(SceneElement.VAR_CENTER_X));
+		move.addField(character.getField(SceneElement.VAR_Y), actionsObject
+				.getField(SceneElement.VAR_CENTER_Y));
 		move.getNextEffects().add(speak);
 		move.setRelative(false);
 
-		EAdElementsFactory.getInstance().getStringFactory()
-				.setString(speak.getString(), "The action was triggered!");
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				speak.getString(), "The action was triggered!");
 
 		action.getEffects().add(move);
 		actionsObject.getDefinition().getActions().add(action);
 
-		EAdEffect showActions = new ActorActionsEf(
-				actionsObject.getDefinition());
+		EAdEffect showActions = new ActorActionsEf(actionsObject
+				.getDefinition());
 		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
 		getSceneElements().add(actionsObject);
 	}

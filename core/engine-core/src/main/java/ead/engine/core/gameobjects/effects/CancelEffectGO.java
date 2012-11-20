@@ -72,9 +72,9 @@ public class CancelEffectGO extends AbstractEffectGO<CancelEffectEf> {
 			}
 		} else {
 			// TOOD how to cancel one concrete effect?
-//			for (EAdEffect e : element.getEffects()) {
-//				((EffectGO<?>) gameObjectFactory.get(e)).stop();
-//			}
+			//			for (EAdEffect e : element.getEffects()) {
+			//				((EffectGO<?>) gameObjectFactory.get(e)).stop();
+			//			}
 		}
 	}
 

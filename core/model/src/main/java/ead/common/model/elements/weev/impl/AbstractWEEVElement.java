@@ -43,6 +43,7 @@ import ead.common.model.weev.WEEVElement;
 /**
  * Abstract implementation of {@link WEEVElement}
  */
-public abstract class AbstractWEEVElement extends BasicElement implements WEEVElement {
+public abstract class AbstractWEEVElement extends BasicElement implements
+		WEEVElement {
 
 }

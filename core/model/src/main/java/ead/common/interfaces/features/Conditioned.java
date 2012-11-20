@@ -50,12 +50,12 @@ public interface Conditioned {
 	 * @return The condition
 	 */
 	EAdCondition getCondition();
-	
+
 	/**
 	 * Set the actual condition
 	 * 
 	 * @param condition The condition
 	 */
 	void setCondition(EAdCondition condition);
-	
+
 }

@@ -41,4 +41,5 @@
  * in the eAdventure 2 model.</p>
  * 
  */
+
 package ead.common.model;

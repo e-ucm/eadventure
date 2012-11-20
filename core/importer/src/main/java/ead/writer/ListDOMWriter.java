@@ -50,22 +50,22 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 	@Override
 	public Element buildNode(EAdList<?> list, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.LIST_TAG);
-		node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass().getName()));
+		node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass()
+				.getName()));
 
 		if (EAdElement.class.isAssignableFrom(list.getValueClass()))
 			depthManager.addList((EAdList<Object>) list);
-		
-		
-		if (list.getValueClass() == Integer.class ||
-				list.getValueClass() == Float.class ||
-				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPosition.class) {
+
+		if (list.getValueClass() == Integer.class
+				|| list.getValueClass() == Float.class
+				|| list.getValueClass() == EAdPosition.class
+				|| list.getValueClass() == EAdPosition.class) {
 			String value = null;
 			for (Object o : list) {
 				if (o != null) {
-					if (value == null){
+					if (value == null) {
 						value = o.toString();
-					}
-					else{
+					} else {
 						value += "|" + o.toString();
 					}
 				}
@@ -73,7 +73,7 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 			node.setTextContent(value);
 		} else {
 			DOMWriter.depthManager.levelUp();
-			
+
 			for (int i = 0; i < list.size(); i++) {
 				Object o = list.get(i);
 				if (o != null) {
@@ -82,10 +82,10 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 					node.appendChild(newNode);
 				}
 			}
-			
+
 			DOMWriter.depthManager.levelDown();
 		}
-		
+
 		depthManager.removeList((EAdList<Object>) list);
 
 		return node;

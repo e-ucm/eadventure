@@ -44,8 +44,8 @@ import ead.common.model.weev.common.Positioned;
 /**
  * Abstract implementation of {@link WEEVElement}
  */
-public abstract class AbstractPositionedWEEVElement extends BasicElement implements
-		WEEVElement, Positioned {
+public abstract class AbstractPositionedWEEVElement extends BasicElement
+		implements WEEVElement, Positioned {
 
 	private int x;
 

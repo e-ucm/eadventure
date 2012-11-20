@@ -47,7 +47,7 @@ public class TestFontCache extends FontHandlerImpl {
 
 	@Override
 	public void addEAdFont(EAdFont font) {
-		this.fontCache.put(font, new RuntimeFont(){
+		this.fontCache.put(font, new RuntimeFont() {
 
 			@Override
 			public BasicFont getEAdFont() {
@@ -66,9 +66,9 @@ public class TestFontCache extends FontHandlerImpl {
 
 			@Override
 			public EAdRectangle stringBounds(String string) {
-				return new EAdRectangle( 0, -1, string.length(), 1 );
+				return new EAdRectangle(0, -1, string.length(), 1);
 			}
-			
+
 		});
 	}
 

@@ -51,7 +51,8 @@ import org.slf4j.LoggerFactory;
 public class ImporterInputStreamCreator implements InputStreamCreator {
 
 	private InputStreamCreator currentStreamCreator;
-	private static final Logger logger = LoggerFactory.getLogger("ImporterInputStreamCreator");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ImporterInputStreamCreator");
 
 	public void setFile(String projectFile) {
 		if (new File(projectFile).isDirectory()) {
@@ -65,8 +66,9 @@ public class ImporterInputStreamCreator implements InputStreamCreator {
 			logger.info("Eap project reader");
 		} else if (projectFile.endsWith(".zip") || projectFile.endsWith(".ead")) {
 			currentStreamCreator = new ZipInputStreamCreator();
-			((ZipInputStreamCreator) currentStreamCreator).setZipFile(projectFile);
-			logger.info( "Zip/ead project reader");
+			((ZipInputStreamCreator) currentStreamCreator)
+					.setZipFile(projectFile);
+			logger.info("Zip/ead project reader");
 		} else {
 			logger.info("No project reader available for: " + projectFile);
 		}

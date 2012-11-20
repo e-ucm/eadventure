@@ -68,9 +68,10 @@ public abstract class RuntimeImage<GraphicContext> extends
 	public boolean contains(int x, int y) {
 		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
 	}
-	
+
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		return this;
 	}
 

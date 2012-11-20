@@ -103,8 +103,8 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();
-				Tween t = Tween.to(f, 0, element.getInterpolationTime())
-						.ease(eq).delay(element.getDelay());
+				Tween t = Tween.to(f, 0, element.getInterpolationTime()).ease(
+						eq).delay(element.getDelay());
 
 				switch (element.getLoopType()) {
 				case RESTART:

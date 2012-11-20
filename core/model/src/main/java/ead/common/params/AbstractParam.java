@@ -51,7 +51,7 @@ public abstract class AbstractParam implements EAdParam {
 			return this.toString().equals(o.toString());
 		return false;
 	}
-	
+
 	public int hashCode() {
 		return toStringData().hashCode();
 	}

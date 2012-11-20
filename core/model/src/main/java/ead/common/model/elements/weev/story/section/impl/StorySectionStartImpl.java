@@ -53,15 +53,14 @@ public class StorySectionStartImpl extends AbstractNode implements
 
 	@Param(value = "adaptationProfile")
 	private AdaptationProfile adaptationProfile;
-	
+
 	@Override
 	public AdaptationProfile getAdaptationProfile() {
 		return adaptationProfile;
 	}
-	
+
 	public void setAdaptationProfile(AdaptationProfile adaptationProfile) {
 		this.adaptationProfile = adaptationProfile;
 	}
-
 
 }

@@ -50,19 +50,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implements EvaluatorFactory {
+public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>>
+		implements EvaluatorFactory {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger("EvaluatorFactoryImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EvaluatorFactoryImpl");
 
 	@Inject
 	public EvaluatorFactoryImpl(ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
 	}
 
-    @Override
-	public void install( ValueMap valueMap, OperatorFactory operatorFactory ){
-		setMap(new EvaluatorFactoryMapProvider( valueMap, this, operatorFactory ));
+	@Override
+	public void install(ValueMap valueMap, OperatorFactory operatorFactory) {
+		setMap(new EvaluatorFactoryMapProvider(valueMap, this, operatorFactory));
 	}
 
 	@SuppressWarnings("unchecked")

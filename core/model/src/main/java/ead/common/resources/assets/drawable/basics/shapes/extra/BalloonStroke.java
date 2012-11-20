@@ -41,8 +41,8 @@ import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 
 public interface BalloonStroke {
 
-	void addHorizontal(BezierShape shape, int x1, int x2, int y,
-			int xOrigin, int yOrigin);
+	void addHorizontal(BezierShape shape, int x1, int x2, int y, int xOrigin,
+			int yOrigin);
 
 	void addHorizontal(BezierShape shape, int x1, int x2, int y);
 

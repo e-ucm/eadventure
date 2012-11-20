@@ -44,13 +44,13 @@ import ead.tools.reflection.ReflectionClassLoader;
 
 public class GwtReflectionClassLoader extends ReflectionClassLoader {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(Class<?> clazz) {
 		return new GwtReflectionClass(clazz);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(String clazz) {
 		return new GwtReflectionClass(TypeOracle.Instance.getClassType(clazz)

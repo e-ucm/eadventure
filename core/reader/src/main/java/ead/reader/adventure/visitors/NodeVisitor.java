@@ -130,13 +130,14 @@ public abstract class NodeVisitor<T> {
 		if (field != null && parent != null) {
 			try {
 				if (logger.isDebugEnabled()) {
-					String pid = ((parent instanceof EAdElement) ? 
-							((EAdElement)parent).getId() : objectToString(parent));
-					String oid = ((object instanceof EAdElement) ? 
-							((EAdElement)object).getId() : objectToString(object));
-					logger.debug("{}.{} <-- {}", new String[] {
-						pid, field.getName(), oid
-					});
+					String pid = ((parent instanceof EAdElement) ? ((EAdElement) parent)
+							.getId()
+							: objectToString(parent));
+					String oid = ((object instanceof EAdElement) ? ((EAdElement) object)
+							.getId()
+							: objectToString(object));
+					logger.debug("{}.{} <-- {}", new String[] { pid,
+							field.getName(), oid });
 				}
 				field.setFieldValue(parent, object);
 			} catch (ClassCastException e) {
@@ -204,13 +205,13 @@ public abstract class NodeVisitor<T> {
 		public void elementRead(Object e) {
 			if (e == null) {
 				logger.error("Failed visiting node {} for element {}"
-						+ " in field {} of type {}",
-						new Object[] { node.getNodeName(), element.getClass(),
-								field.getName(), field.getType() });
+						+ " in field {} of type {}", new Object[] {
+						node.getNodeName(), element.getClass(),
+						field.getName(), field.getType() });
 			}
 		}
 	};
-	
+
 	/**
 	 * GWT does not recognize o.getClass().getSimpleName(). This helper method
 	 * should be used instead, and can be handy for debugging purposes.

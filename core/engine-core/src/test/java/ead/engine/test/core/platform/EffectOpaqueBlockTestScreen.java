@@ -50,8 +50,7 @@ import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.tools.StringHandler;
 
-public class EffectOpaqueBlockTestScreen extends BasicScene implements
-		EAdScene {
+public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene {
 
 	private SceneElementDef buttonActor;
 	private StringHandler stringHandler;
@@ -75,8 +74,7 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 	private void initButtonActor() {
 		buttonActor = new SceneElementDef();
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
-				SceneElementDef.appearance,
-				new Image("@drawable/start.png"));
+				SceneElementDef.appearance, new Image("@drawable/start.png"));
 		EAdString s = stringHandler.generateNewString();
 		buttonActor.setName(s);
 		stringHandler.setString(s, "Start game");
@@ -92,30 +90,21 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 
 	private void initButtonActor2() {
 		buttonActor2 = new SceneElement();
-		buttonActor2
-				.getDefinition()
-				.getResources()
-				.addAsset(buttonActor2.getDefinition().getInitialBundle(),
-						SceneElementDef.appearance,
-						new Image("@drawable/start.png"));
+		buttonActor2.getDefinition().getResources().addAsset(
+				buttonActor2.getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, new Image("@drawable/start.png"));
 
-		WaitEf waitEffect = new WaitEf(
-				60 + 1);
-		buttonActor2
-				.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);
+		WaitEf waitEffect = new WaitEf(60 + 1);
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);
 
-		WaitEf waitEffect2 = new WaitEf(
-				60 + 1);
+		WaitEf waitEffect2 = new WaitEf(60 + 1);
 		waitEffect2.setOpaque(false);
-		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				waitEffect2);
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect2);
 
-		WaitEf waitEffect3 = new WaitEf(
-				60 + 1);
+		WaitEf waitEffect3 = new WaitEf(60 + 1);
 		waitEffect3.setOpaque(false);
 		waitEffect3.setBlocking(false);
-		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				waitEffect3);
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect3);
 
 		buttonActor2.setPosition(new EAdPosition(
 				EAdPosition.Corner.BOTTOM_CENTER, 10, 10));

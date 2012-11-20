@@ -85,7 +85,7 @@ public class EditorModelTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
-		tmpDir = FileUtils.createTempDir("model","test");
+		tmpDir = FileUtils.createTempDir("model", "test");
 		importDir = new File(tmpDir, "import");
 		saveDir = new File(tmpDir, "save");
 	}
@@ -104,14 +104,13 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
 				Log4jConfig.Slf4jLevel.Debug, });
 
-		Injector injector = Guice.createInjector(
-				new BaseImporterModule(),
-				new GdxEditorModule(),
-				new EditorGuiceModule(),
+		Injector injector = Guice.createInjector(new BaseImporterModule(),
+				new GdxEditorModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection
-		ReflectionClassLoader.init(injector.getInstance(ReflectionClassLoader.class));
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
 		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		model = injector.getInstance(EditorModel.class);
@@ -127,8 +126,8 @@ public class EditorModelTest {
 	@Test
 	public void testLoadFromImportFile() throws Exception {
 		System.out.println("loadFromImportFile");
-		URL fileUrl = Thread.currentThread().getContextClassLoader().getResource(
-				"ead/editor/model/test.ead");
+		URL fileUrl = Thread.currentThread().getContextClassLoader()
+				.getResource("ead/editor/model/test.ead");
 		File f = new File(fileUrl.getPath());
 		assertTrue(f.exists());
 
@@ -164,7 +163,7 @@ public class EditorModelTest {
 	public void testSimpleSearch() throws Exception {
 		testLoad();
 		String s = "disp_x";
-		int matches=0;
+		int matches = 0;
 		for (DependencyNode e : model.searchAll(s)) {
 			logger.info("found: "
 					+ e.getId()
@@ -175,11 +174,10 @@ public class EditorModelTest {
 					+ " :: "
 					+ (e.getContent() instanceof EAdElement ? ((EAdElement) e
 							.getContent()).getId() : "??"));
-			matches ++;
+			matches++;
 		}
 		Assert.assertEquals(1, matches);
 	}
-
 
 	// --- non-automated tests ---
 	/**

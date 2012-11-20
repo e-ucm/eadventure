@@ -145,10 +145,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		if (element.getX() != null && element.getY() != null) {
 			EAdPosition p = gameState.getScene().getPosition();
 
-			Integer xOrigin = operatorFactory.operate(Integer.class,
-					element.getX());
-			Integer yOrigin = operatorFactory.operate(Integer.class,
-					element.getY());
+			Integer xOrigin = operatorFactory.operate(Integer.class, element
+					.getX());
+			Integer yOrigin = operatorFactory.operate(Integer.class, element
+					.getY());
 
 			xOrigin += p.getX();
 			yOrigin += p.getY();
@@ -161,14 +161,14 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 				yOrigin = bottom + MARGIN * 2;
 			}
 
-			rectangle = new BalloonShape(left, top, right, bottom,
-					element.getBallonType(), xOrigin, yOrigin);
+			rectangle = new BalloonShape(left, top, right, bottom, element
+					.getBallonType(), xOrigin, yOrigin);
 		} else {
 			int offsetY = height / 2 - (bottom - top) / 2;
 			top += offsetY;
 			bottom += offsetY;
-			rectangle = new BalloonShape(left, top, right, bottom,
-					element.getBallonType());
+			rectangle = new BalloonShape(left, top, right, bottom, element
+					.getBallonType());
 		}
 
 		rectangle.setPaint(element.getBubbleColor());

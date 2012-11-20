@@ -50,14 +50,14 @@ public class ChangeNotifierImpl implements ChangeNotifier {
 	 * List of change listeners
 	 */
 	private ArrayList<ChangeListener> changeListenerList;
-	
+
 	/**
 	 * Default constructor
 	 */
 	public ChangeNotifierImpl() {
 		changeListenerList = new ArrayList<ChangeListener>();
 	}
-	
+
 	@Override
 	public void addChangeListener(ChangeListener changeListener) {
 		changeListenerList.add(changeListener);

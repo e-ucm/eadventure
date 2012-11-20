@@ -73,6 +73,5 @@ public interface SceneViewer {
 	 * @param listener
 	 */
 	void removeFieldChangeListener(SceneListener listener);
-	
 
 }

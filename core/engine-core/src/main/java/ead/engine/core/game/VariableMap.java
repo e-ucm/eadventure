@@ -103,8 +103,8 @@ public class VariableMap extends ValueMapImpl {
 				if (separatorIndex != -1) {
 					String varName = text.substring(i + 1, separatorIndex);
 					Integer index = new Integer(varName);
-					Object o = operatorFactory.operate(Object.class,
-							operations.get(index));
+					Object o = operatorFactory.operate(Object.class, operations
+							.get(index));
 					if (o != null) {
 						String value = o instanceof EAdString ? stringHandler
 								.getString((EAdString) o) : o.toString();
@@ -161,8 +161,8 @@ public class VariableMap extends ValueMapImpl {
 			int points = expression.indexOf(':');
 			String condition = expression.substring(0, questionMark);
 			String trueValue = expression.substring(questionMark + 1, points);
-			String falseValue = expression.substring(points + 1,
-					expression.length());
+			String falseValue = expression.substring(points + 1, expression
+					.length());
 
 			int beginVar = condition.indexOf(BEGIN_VAR_CHAR);
 			int endVar = condition.indexOf(END_VAR_CHAR);
@@ -180,8 +180,8 @@ public class VariableMap extends ValueMapImpl {
 							+ END_CONDITION_CHAR;
 				}
 
-				Object o = operatorFactory.operate(Object.class,
-						operations.get(indexCondition));
+				Object o = operatorFactory.operate(Object.class, operations
+						.get(indexCondition));
 
 				if (o != null && o instanceof Boolean) {
 					Boolean b = (Boolean) o;

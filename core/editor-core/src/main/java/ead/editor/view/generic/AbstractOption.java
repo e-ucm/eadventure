@@ -115,7 +115,6 @@ public abstract class AbstractOption<S> implements Option<S> {
 		return fieldDescriptor;
 	}
 
-
 	/**
 	 * reads the value of the model object that is being configured
 	 *
@@ -124,11 +123,15 @@ public abstract class AbstractOption<S> implements Option<S> {
 	@SuppressWarnings("unchecked")
 	public static <S> S read(FieldDescriptor<S> fieldDescriptor) {
 		try {
-			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
-			S value = (S) pd.getReadMethod().invoke(fieldDescriptor.getElement());
+			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
+					.getElement().getClass(), fieldDescriptor.getFieldName());
+			S value = (S) pd.getReadMethod().invoke(
+					fieldDescriptor.getElement());
 			return value;
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field " + fieldDescriptor.getFieldName() + " in " + fieldDescriptor.getElement().getClass(), e);
+			throw new RuntimeException("Error reading field "
+					+ fieldDescriptor.getFieldName() + " in "
+					+ fieldDescriptor.getElement().getClass(), e);
 		}
 	}
 
@@ -139,17 +142,19 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * @param fieldName
 	 * @return
 	 */
-	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
+	private static PropertyDescriptor getPropertyDescriptor(Class<?> c,
+			String fieldName) {
 		try {
-			for (PropertyDescriptor pd :
-				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
+			for (PropertyDescriptor pd : Introspector.getBeanInfo(c)
+					.getPropertyDescriptors()) {
 				if (pd.getName().equals(fieldName)) {
 					return pd;
 				}
 			}
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("Could not find getters or setters for field "
-					+ fieldName + " in class " + c.getCanonicalName());
+			throw new IllegalArgumentException(
+					"Could not find getters or setters for field " + fieldName
+							+ " in class " + c.getCanonicalName());
 		}
 		return null;
 	}

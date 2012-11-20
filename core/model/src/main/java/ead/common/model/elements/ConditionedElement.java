@@ -50,11 +50,11 @@ public abstract class ConditionedElement extends BasicElement implements
 
 	@Param("condition")
 	private EAdCondition condition;
-	
+
 	public ConditionedElement() {
 		super();
 	}
-	
+
 	@Override
 	public EAdCondition getCondition() {
 		return condition;

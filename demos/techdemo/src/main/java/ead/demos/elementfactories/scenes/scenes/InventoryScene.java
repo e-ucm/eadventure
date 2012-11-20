@@ -54,35 +54,41 @@ import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class InventoryScene extends EmptyScene {
-	
-	public InventoryScene( ){
+
+	public InventoryScene() {
 		super();
-		SceneElementDef item = new SceneElementDef( new Image("@drawable/ng_key.png"));
-		
-		item.getActions().add(EAdElementsFactory.getInstance().getActionsFactory().getBasicAction());
-		
-		item.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ActorActionsEf( item ));
-		item.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ActorActionsEf( item ));
-		item.addBehavior(MouseGEv.getMouseEvent(MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_3), new ActorActionsEf( item ));
-		
-		EAdSceneElementDef item2 = new SceneElementDef( new RectangleShape( 10, 10, ColorFill.BLUE ));
-		EAdSceneElementDef item3 = new SceneElementDef( new RectangleShape( 90, 90, ColorFill.GREEN ));
+		SceneElementDef item = new SceneElementDef(new Image(
+				"@drawable/ng_key.png"));
+
+		item.getActions().add(
+				EAdElementsFactory.getInstance().getActionsFactory()
+						.getBasicAction());
+
+		item.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ActorActionsEf(item));
+		item.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ActorActionsEf(item));
+		item.addBehavior(MouseGEv.getMouseEvent(MouseGEvType.PRESSED,
+				MouseGEvButtonType.BUTTON_3), new ActorActionsEf(item));
+
+		EAdSceneElementDef item2 = new SceneElementDef(new RectangleShape(10,
+				10, ColorFill.BLUE));
+		EAdSceneElementDef item3 = new SceneElementDef(new RectangleShape(90,
+				90, ColorFill.GREEN));
 		EAdInventory inventory = new BasicInventory();
-//		inventory.getInitialItems().add(item);
+		//		inventory.getInitialItems().add(item);
 		inventory.getInitialItems().add(item2);
 		inventory.getInitialItems().add(item3);
 		EAdElementsFactory.getInstance().setInventory(inventory);
-		
-		
-		SceneElement key = new SceneElement( new Image("@drawable/ng_key.png") );
+
+		SceneElement key = new SceneElement(new Image("@drawable/ng_key.png"));
 		key.setPosition(200, 200);
-		ModifyInventoryEf effect = new ModifyInventoryEf( item, InventoryEffectAction.ADD_TO_INVENTORY );
-		
+		ModifyInventoryEf effect = new ModifyInventoryEf(item,
+				InventoryEffectAction.ADD_TO_INVENTORY);
+
 		key.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
-		
+
 		getSceneElements().add(key);
 	}
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene with inventory.";

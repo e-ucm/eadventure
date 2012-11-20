@@ -150,9 +150,8 @@ public class RuntimeCaption<GraphicContext> extends
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
 		if (descriptor.getFields().size() > 0) {
-			text = valueMap.processTextVars(
-					stringsHandler.getString(descriptor.getText()),
-					descriptor.getFields());
+			text = valueMap.processTextVars(stringsHandler.getString(descriptor
+					.getText()), descriptor.getFields());
 		} else {
 			text = stringsHandler.getString(descriptor.getText());
 		}
@@ -209,9 +208,8 @@ public class RuntimeCaption<GraphicContext> extends
 		}
 
 		if (descriptor.getFields().size() > 0) {
-			text = valueMap.processTextVars(
-					stringsHandler.getString(descriptor.getText()),
-					descriptor.getFields());
+			text = valueMap.processTextVars(stringsHandler.getString(descriptor
+					.getText()), descriptor.getFields());
 		} else {
 			text = stringsHandler.getString(descriptor.getText());
 		}

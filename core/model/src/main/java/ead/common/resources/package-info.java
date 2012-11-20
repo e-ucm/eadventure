@@ -39,4 +39,5 @@
  * <p>eAdventure resources API.</p>
  * <p>The interfaces and basic classes for representation of resources in the eAdventure 2 model</p>
  */
+
 package ead.common.resources;

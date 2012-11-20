@@ -62,8 +62,10 @@ public class SpeakCharEffectImporter extends
 	@Inject
 	public SpeakCharEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory, ImportAnnotator annotator, ResourceImporter resourceImporter) {
-		super(stringHandler, conditionImporter, factory, annotator, resourceImporter);
+			EAdElementFactory factory, ImportAnnotator annotator,
+			ResourceImporter resourceImporter) {
+		super(stringHandler, conditionImporter, factory, annotator,
+				resourceImporter);
 	}
 
 	@Override
@@ -80,13 +82,12 @@ public class SpeakCharEffectImporter extends
 		SpeakEf effect = super.convert(oldObject, object);
 		addSound(oldObject.getAudioPath(), effect);
 
-		for (EAdOperation op : TextEffectImporter.getOperations(
-				oldObject.getLine(), factory)) {
+		for (EAdOperation op : TextEffectImporter.getOperations(oldObject
+				.getLine(), factory)) {
 			effect.getCaption().getFields().add(op);
 		}
 
 		String line = setBallonType(effect, oldObject.getLine());
-
 
 		line = TextEffectImporter.translateLine(line);
 		stringHandler.setString(effect.getString(), line);
@@ -107,8 +108,8 @@ public class SpeakCharEffectImporter extends
 		ColorFill bubbleBorder = new ColorFill("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new Paint(center, border), new Paint(
-				bubbleCenter, bubbleBorder));
+		effect.setColor(new Paint(center, border), new Paint(bubbleCenter,
+				bubbleBorder));
 	}
 
 }

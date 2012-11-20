@@ -50,14 +50,14 @@ public class SpaceImpl extends BasicScene implements Space {
 
 	@Param(value = "x")
 	private int x;
-	
+
 	@Param(value = "y")
 	private int y;
-	
+
 	public SpaceImpl() {
 		super();
 	}
-	
+
 	@Override
 	public int getX() {
 		return x;
@@ -77,5 +77,5 @@ public class SpaceImpl extends BasicScene implements Space {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 }

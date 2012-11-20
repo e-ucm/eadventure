@@ -47,7 +47,8 @@ import ead.editor.control.change.ChangeNotifierImpl;
  * Default implementation of the {@link CommandManager}.
  */
 @Singleton
-public class CommandManagerImpl extends ChangeNotifierImpl implements CommandManager  {
+public class CommandManagerImpl extends ChangeNotifierImpl implements
+		CommandManager {
 
 	/**
 	 * Action stacks
@@ -61,20 +62,19 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 		stacks = new Stack<CommandStack>();
 		stacks.push(new CommandStack());
 	}
-	
+
 	@Override
 	public void addStack() {
 		stacks.push(new CommandStack());
 		notifyListeners(null);
 	}
-	
+
 	@Override
 	public void removeCommandStacks(boolean cancelChanges) {
 		if (cancelChanges && stacks.peek().canUndo()) {
 			stacks.peek().undoCommand();
 			stacks.pop();
-		}
-		else {
+		} else {
 			CommandStack as = stacks.pop();
 			if (as.getActionHistory() != 0) {
 				stacks.peek().increaseActionHistory();
@@ -84,10 +84,10 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 					clearCommands();
 				}
 			}
-		}	
+		}
 		notifyListeners(null);
 	}
-	
+
 	@Override
 	public void performCommand(Command action) {
 		CommandStack currentStack = stacks.peek();
@@ -135,7 +135,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 			} else {
 				clearCommands();
 			}
-		}		
+		}
 		currentStack.increaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
 		notifyListeners(null);
@@ -153,7 +153,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	public boolean canUndo() {
 		if (!stacks.peek().getPerformed().empty()) {
 			return true;
-		}				
+		}
 		return false;
 	}
 
@@ -162,11 +162,11 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 		for (CommandStack as : stacks) {
 			if (as.getActionHistory() != 0) {
 				return true;
-			} 
-		}				
-		return false;		
+			}
+		}
+		return false;
 	}
-	
+
 	@Override
 	public boolean isChanged() {
 		return checkChanged();
@@ -182,6 +182,6 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	@Override
 	public void setChanged() {
 		// FIXME - does nothing
-		throw new IllegalArgumentException("Not yet implemented");		
-	}		
+		throw new IllegalArgumentException("Not yet implemented");
+	}
 }

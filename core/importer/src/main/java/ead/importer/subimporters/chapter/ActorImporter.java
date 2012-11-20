@@ -136,8 +136,8 @@ public abstract class ActorImporter<P extends Element> implements
 				properties, objectClasses);
 
 		// Add actions
-		addDefaultBehavior(stringHandler, factory, actionImporter,
-				oldObject.getActions(), actor, sounds);
+		addDefaultBehavior(stringHandler, factory, actionImporter, oldObject
+				.getActions(), actor, sounds);
 
 		annotator.annotate(actor, ImportAnnotator.Type.Close);
 
@@ -204,9 +204,8 @@ public abstract class ActorImporter<P extends Element> implements
 			if (d.getDetailedDescriptionSoundPath() != null
 					&& !d.getDescriptionSoundPath().equals("")) {
 				EAdSound sound = (EAdSound) resourceImporter
-						.getAssetDescritptor(
-								d.getDetailedDescriptionSoundPath(),
-								Sound.class);
+						.getAssetDescritptor(d
+								.getDetailedDescriptionSoundPath(), Sound.class);
 				if (soundEffects[1] == null) {
 					soundEffects[1] = new TriggerMacroEf();
 				}

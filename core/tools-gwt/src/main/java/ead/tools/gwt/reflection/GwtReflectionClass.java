@@ -99,7 +99,7 @@ public class GwtReflectionClass<T> implements ReflectionClass<T> {
 		return fields.values();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	public ReflectionClass<?> getSuperclass() {
 		if (clazz.getDeclaringClass() == Object.class) {
@@ -107,7 +107,8 @@ public class GwtReflectionClass<T> implements ReflectionClass<T> {
 		}
 
 		if (superClass == null) {
-			superClass = new GwtReflectionClass(clazz.getSuperclass().getDeclaringClass());
+			superClass = new GwtReflectionClass(clazz.getSuperclass()
+					.getDeclaringClass());
 		}
 		return superClass;
 	}

@@ -57,61 +57,61 @@ public class BasicAssetBundle implements EAdAssetBundle {
 	 */
 	protected Map<String, AssetDescriptor> assets;
 
-	public BasicAssetBundle( ) {
-		descriptors = new ArrayList<EAdAssetDescriptor>( );
-		assets = new LinkedHashMap<String, AssetDescriptor>( );
+	public BasicAssetBundle() {
+		descriptors = new ArrayList<EAdAssetDescriptor>();
+		assets = new LinkedHashMap<String, AssetDescriptor>();
 	}
 
-	public BasicAssetBundle( EAdAssetDescriptor... descriptors ) {
-		for ( EAdAssetDescriptor descriptor : descriptors )
-			this.descriptors.add( descriptor );
+	public BasicAssetBundle(EAdAssetDescriptor... descriptors) {
+		for (EAdAssetDescriptor descriptor : descriptors)
+			this.descriptors.add(descriptor);
 	}
 
-	public AssetDescriptor getAsset( String id ) {
-// This code striclty checks for the validty of the asset, but should be used only on the editor
-//		for ( EAdAssetDescriptor d : descriptors ) {
-//			if ( d.getAssetId( ).equals( id ) ) {
-				AssetDescriptor assetPath = assets.get( id );
-				if ( assetPath == null ) {
-					return null;
-				}
-				return assetPath;
-//			}
-//		}
-//		logger.warn( "No such asset", id );
-//		return null;
-	}
-
-	public boolean addAsset( String id, AssetDescriptor asset ) {
-/*		This code striclty checks for the validty of the asset, but should be used only on the editor
-		EAdAssetDescriptor descriptor = getDescriptor( id );
-		if ( descriptor == null )
-			return false;
-
-		for ( Class<?> c : descriptor.getValidAssets( ) ) {
-			if ( c.isAssignableFrom( asset.getClass( ) ) ) {
-				assets.put( id, asset );
-				return true;
-			}
+	public AssetDescriptor getAsset(String id) {
+		// This code striclty checks for the validty of the asset, but should be used only on the editor
+		//		for ( EAdAssetDescriptor d : descriptors ) {
+		//			if ( d.getAssetId( ).equals( id ) ) {
+		AssetDescriptor assetPath = assets.get(id);
+		if (assetPath == null) {
+			return null;
 		}
+		return assetPath;
+		//			}
+		//		}
+		//		logger.warn( "No such asset", id );
+		//		return null;
+	}
 
-		return false;
-		*/ 
+	public boolean addAsset(String id, AssetDescriptor asset) {
+		/*		This code striclty checks for the validty of the asset, but should be used only on the editor
+		 EAdAssetDescriptor descriptor = getDescriptor( id );
+		 if ( descriptor == null )
+		 return false;
+
+		 for ( Class<?> c : descriptor.getValidAssets( ) ) {
+		 if ( c.isAssignableFrom( asset.getClass( ) ) ) {
+		 assets.put( id, asset );
+		 return true;
+		 }
+		 }
+
+		 return false;
+		 */
 		assets.put(id, asset);
 		return true;
 	}
 
-	public EAdAssetDescriptor getDescriptor( String id ) {
+	public EAdAssetDescriptor getDescriptor(String id) {
 		EAdAssetDescriptor descriptor = null;
-		for ( EAdAssetDescriptor d : descriptors )
-			if ( d.getAssetId( ).equals( id ) )
+		for (EAdAssetDescriptor d : descriptors)
+			if (d.getAssetId().equals(id))
 				descriptor = d;
 		return descriptor;
 	}
 
 	@Override
-	public void addDescriptor( EAdAssetDescriptor eAdAssetDescriptor ) {
-		descriptors.add( eAdAssetDescriptor );
+	public void addDescriptor(EAdAssetDescriptor eAdAssetDescriptor) {
+		descriptors.add(eAdAssetDescriptor);
 	}
 
 	@Override

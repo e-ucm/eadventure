@@ -69,7 +69,7 @@ public interface EAdAssetBundle {
 	 * @param eAdAssetDescriptor An asset descriptor
 	 */
 	void addDescriptor(EAdAssetDescriptor eAdAssetDescriptor);
-	
+
 	/**
 	 * Gets the descriptor {@link EAdAssetDescriptor} associated with
 	 * an id for the resources of in the bundle.
@@ -85,9 +85,9 @@ public interface EAdAssetBundle {
 	 * @return The new asset bundle
 	 */
 	EAdAssetBundle duplicate();
-	
+
 	boolean isEmpty();
-	
-	Collection<AssetDescriptor> getAllAssets( );
-	
+
+	Collection<AssetDescriptor> getAllAssets();
+
 }

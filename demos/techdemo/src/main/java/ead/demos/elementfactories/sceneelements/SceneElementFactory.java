@@ -59,8 +59,7 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public SceneElement createSceneElement(EAdDrawable appearance, int x,
-			int y) {
+	public SceneElement createSceneElement(EAdDrawable appearance, int x, int y) {
 		SceneElement sceneElement = new SceneElement(appearance);
 		sceneElement.setPosition(new EAdPosition(x, y));
 		return sceneElement;
@@ -78,28 +77,18 @@ public class SceneElementFactory {
 	 */
 	public SceneElement createSceneElement(EAdDrawable appearance1,
 			EAdDrawable appearance2, int x, int y) {
-		SceneElement sceneElement = createSceneElement(appearance1, x,
-				y);
+		SceneElement sceneElement = createSceneElement(appearance1, x, y);
 		EAdBundleId bundle = new EAdBundleId("bundle2");
 		sceneElement.getDefinition().getResources().addBundle(bundle);
-		sceneElement
-				.getDefinition()
-				.getResources()
-				.addAsset(bundle, SceneElementDef.appearance,
-						appearance2);
-		sceneElement.addBehavior(MouseGEv.MOUSE_ENTERED,
-				EAdElementsFactory.getInstance().getEffectFactory()
-						.getChangeAppearance(sceneElement, bundle));
-		sceneElement
-				.addBehavior(
-						MouseGEv.MOUSE_EXITED,
-						EAdElementsFactory
-								.getInstance()
-								.getEffectFactory()
-								.getChangeAppearance(
-										sceneElement,
-										sceneElement.getDefinition()
-												.getInitialBundle()));
+		sceneElement.getDefinition().getResources().addAsset(bundle,
+				SceneElementDef.appearance, appearance2);
+		sceneElement.addBehavior(MouseGEv.MOUSE_ENTERED, EAdElementsFactory
+				.getInstance().getEffectFactory().getChangeAppearance(
+						sceneElement, bundle));
+		sceneElement.addBehavior(MouseGEv.MOUSE_EXITED, EAdElementsFactory
+				.getInstance().getEffectFactory().getChangeAppearance(
+						sceneElement,
+						sceneElement.getDefinition().getInitialBundle()));
 		return sceneElement;
 	}
 
@@ -111,10 +100,9 @@ public class SceneElementFactory {
 	 * @param effect
 	 * @return
 	 */
-	public SceneElement createSceneElement(EAdDrawable appearance,
-			int x, int y, EAdEffect effect) {
-		SceneElement sceneElement = this.createSceneElement(appearance,
-				x, y);
+	public SceneElement createSceneElement(EAdDrawable appearance, int x,
+			int y, EAdEffect effect) {
+		SceneElement sceneElement = this.createSceneElement(appearance, x, y);
 		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		return sceneElement;
 	}

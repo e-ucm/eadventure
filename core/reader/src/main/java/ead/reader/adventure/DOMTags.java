@@ -71,5 +71,4 @@ public class DOMTags {
 
 	public static final String INITIAL_BUNDLE_TAG = "initialBundle";
 
-
 }

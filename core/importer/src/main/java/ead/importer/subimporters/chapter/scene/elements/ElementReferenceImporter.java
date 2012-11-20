@@ -105,14 +105,14 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 						.getDimensionsForOldImage(imageUri);
 				int width = (int) d.getWidth();
 				int height = (int) d.getHeight();
-				EAdPosition p = new EAdPosition(oldObject.getX(),
-						oldObject.getY(), 0.5f, 1.0f);
+				EAdPosition p = new EAdPosition(oldObject.getX(), oldObject
+						.getY(), 0.5f, 1.0f);
 				float scale = oldObject.getScale();
-				EAdRectangle bounds = new EAdRectangle(
-						p.getJavaX(width * scale), p.getJavaY(height * scale),
+				EAdRectangle bounds = new EAdRectangle(p
+						.getJavaX(width * scale), p.getJavaY(height * scale),
 						(int) (width * scale), (int) (height * scale));
-				super.addInfluenceArea(newRef, bounds,
-						oldObject.getInfluenceArea());
+				super.addInfluenceArea(newRef, bounds, oldObject
+						.getInfluenceArea());
 			}
 
 			// add description
@@ -131,8 +131,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		}
 
 		// add visible
-		super.addVisibleEvent(newRef,
-				super.getEnableCondition(oldObject.getConditions()));
+		super.addVisibleEvent(newRef, super.getEnableCondition(oldObject
+				.getConditions()));
 
 		return newRef;
 	}
@@ -157,11 +157,11 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		Item i = factory.getCurrentOldChapterModel().getItem(targetId);
 		NPC npc = factory.getCurrentOldChapterModel().getCharacter(targetId);
 		if (i != null) {
-			return i.getResources().get(0)
-					.getAssetPath(Item.RESOURCE_TYPE_IMAGE);
+			return i.getResources().get(0).getAssetPath(
+					Item.RESOURCE_TYPE_IMAGE);
 		} else if (npc != null) {
-			return npc.getResources().get(0)
-					.getAssetPath(NPC.RESOURCE_TYPE_STAND_DOWN);
+			return npc.getResources().get(0).getAssetPath(
+					NPC.RESOURCE_TYPE_STAND_DOWN);
 		}
 		return null;
 	}

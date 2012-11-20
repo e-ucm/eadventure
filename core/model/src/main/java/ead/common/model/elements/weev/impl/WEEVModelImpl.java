@@ -52,13 +52,13 @@ import ead.common.model.weev.adaptation.AdaptationStructure;
 public class WEEVModelImpl extends BasicElement implements WEEVModel {
 
 	private EAdList<Actor> actors;
-	
+
 	private Actor mainActor;
-	
+
 	private boolean firstPerson;
-	
+
 	private AdaptationStructure adaptationStructure;
-	
+
 	public WEEVModelImpl() {
 		actors = new EAdListImpl<Actor>(Actor.class);
 	}
@@ -72,7 +72,7 @@ public class WEEVModelImpl extends BasicElement implements WEEVModel {
 	public Actor getMainActor() {
 		return mainActor;
 	}
-	
+
 	public void setMainActor(Actor mainActor) {
 		this.mainActor = mainActor;
 	}
@@ -81,7 +81,7 @@ public class WEEVModelImpl extends BasicElement implements WEEVModel {
 	public boolean isFirstPerson() {
 		return firstPerson;
 	}
-	
+
 	public void setFirstPerson(boolean firstPerson) {
 		this.firstPerson = firstPerson;
 	}
@@ -90,7 +90,7 @@ public class WEEVModelImpl extends BasicElement implements WEEVModel {
 	public AdaptationStructure getAdaptationStructure() {
 		return adaptationStructure;
 	}
-	
+
 	public void setAdaptationStructure(AdaptationStructure adaptationStructure) {
 		this.adaptationStructure = adaptationStructure;
 	}

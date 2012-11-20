@@ -38,4 +38,5 @@
 /**
  * eAdventure assets API.
  */
+
 package ead.common.resources.assets;

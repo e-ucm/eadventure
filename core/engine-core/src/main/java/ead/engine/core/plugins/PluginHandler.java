@@ -42,11 +42,11 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 
 public interface PluginHandler {
-	
-	void install( EffectGOFactory effectFactory );
-	
-	void install( SceneElementGOFactory sceneElementFactory );
-	
-	void install( EventGOFactory eventGOFactory );
+
+	void install(EffectGOFactory effectFactory);
+
+	void install(SceneElementGOFactory sceneElementFactory);
+
+	void install(EventGOFactory eventGOFactory);
 
 }

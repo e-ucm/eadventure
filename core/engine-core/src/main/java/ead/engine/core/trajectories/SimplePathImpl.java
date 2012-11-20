@@ -47,8 +47,9 @@ import ead.engine.core.trajectories.PathSide;
 public class SimplePathImpl implements Path {
 
 	private List<PathSide> sides;
-	
-	public SimplePathImpl(List<EAdPosition> list, EAdPosition currentPosition, float scale) {
+
+	public SimplePathImpl(List<EAdPosition> list, EAdPosition currentPosition,
+			float scale) {
 		sides = new ArrayList<PathSide>();
 		EAdPosition temp = currentPosition;
 		for (EAdPosition pos : list) {
@@ -56,12 +57,12 @@ public class SimplePathImpl implements Path {
 			temp = pos;
 		}
 	}
-	
+
 	@Override
 	public List<PathSide> getSides() {
 		return sides;
 	}
-	
+
 	@Override
 	public boolean isGetsTo() {
 		return true;

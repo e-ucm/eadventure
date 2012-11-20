@@ -6,17 +6,17 @@ import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 
 public class FilteredDrawable implements EAdFilteredDrawable {
-	
+
 	@Param("drawable")
 	private EAdDrawable drawable;
-	
+
 	@Param("filter")
 	private EAdDrawableFilter filter;
 
-	public FilteredDrawable( ){
+	public FilteredDrawable() {
 	}
 
-	public FilteredDrawable( EAdDrawable drawable, EAdDrawableFilter filter ){
+	public FilteredDrawable(EAdDrawable drawable, EAdDrawableFilter filter) {
 		this.drawable = drawable;
 		this.filter = filter;
 	}
@@ -39,5 +39,4 @@ public class FilteredDrawable implements EAdFilteredDrawable {
 		this.filter = filter;
 	}
 
-	
 }

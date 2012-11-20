@@ -60,7 +60,8 @@ import ead.engine.core.util.EAdTransformation;
 public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 		implements SceneGO<ComposedScene> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ScreenGOImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ScreenGOImpl");
 
 	private EAdScene currentScene;
 
@@ -68,8 +69,7 @@ public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		logger.info("New instance");
 	}
 

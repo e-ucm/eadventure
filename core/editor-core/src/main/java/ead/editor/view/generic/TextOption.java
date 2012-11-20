@@ -48,11 +48,15 @@ import javax.swing.text.JTextComponent;
 
 public class TextOption extends AbstractOption<String> {
 
-	public static enum ExpectedLength {SHORT, NORMAL, LONG }
+	public static enum ExpectedLength {
+		SHORT, NORMAL, LONG
+	}
 
 	private ExpectedLength expectedLength;
 
-	public TextOption(String title, String toolTipText, FieldDescriptor<String> fieldDescriptor, ExpectedLength expectedLength) {
+	public TextOption(String title, String toolTipText,
+			FieldDescriptor<String> fieldDescriptor,
+			ExpectedLength expectedLength) {
 		super(title, toolTipText, fieldDescriptor);
 		this.expectedLength = expectedLength;
 	}
@@ -76,8 +80,8 @@ public class TextOption extends AbstractOption<String> {
 		textField.setToolTipText(getToolTipText());
 		textField.setText(read(getFieldDescriptor()));
 
-		textField.getDocument().addDocumentListener(new TextFieldDocumentListener(
-                manager, textField));
+		textField.getDocument().addDocumentListener(
+				new TextFieldDocumentListener(manager, textField));
 
 		return textField;
 	}
@@ -88,7 +92,7 @@ public class TextOption extends AbstractOption<String> {
 	 */
 	private class TextFieldDocumentListener implements DocumentListener {
 
-        private CommandManager manager;
+		private CommandManager manager;
 
 		/**
 		 * The actual JTextComponent, used to get the current value
@@ -101,7 +105,8 @@ public class TextOption extends AbstractOption<String> {
 		 * @param textField
 		 *            The JTextComponent
 		 */
-		public TextFieldDocumentListener(CommandManager manager, JTextComponent textField) {
+		public TextFieldDocumentListener(CommandManager manager,
+				JTextComponent textField) {
 			this.textField = textField;
 		}
 
@@ -112,16 +117,16 @@ public class TextOption extends AbstractOption<String> {
 		@Override
 		public void insertUpdate(DocumentEvent arg0) {
 			ChangeFieldValueCommand<String> changeFieldValueCommand;
-			changeFieldValueCommand = new ChangeFieldValueCommand<String>(textField.getText(),
-					getFieldDescriptor());
+			changeFieldValueCommand = new ChangeFieldValueCommand<String>(
+					textField.getText(), getFieldDescriptor());
 			manager.performCommand(changeFieldValueCommand);
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent arg0) {
 			ChangeFieldValueCommand<String> changeFieldValueCommand;
-			changeFieldValueCommand = new ChangeFieldValueCommand<String>(textField.getText(),
-                    getFieldDescriptor());
+			changeFieldValueCommand = new ChangeFieldValueCommand<String>(
+					textField.getText(), getFieldDescriptor());
 			manager.performCommand(changeFieldValueCommand);
 		}
 	}

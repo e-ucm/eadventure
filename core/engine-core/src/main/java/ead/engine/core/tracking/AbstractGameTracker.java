@@ -51,12 +51,13 @@ public abstract class AbstractGameTracker implements GameTracker {
 	protected EAdAdventureModel model;
 
 	private boolean tracking;
-	
+
 	private TrackerSelector selector;
-	
-	protected final static Logger logger = LoggerFactory.getLogger("GameTracker");
-	
-	public AbstractGameTracker( TrackerSelector selector){
+
+	protected final static Logger logger = LoggerFactory
+			.getLogger("GameTracker");
+
+	public AbstractGameTracker(TrackerSelector selector) {
 		tracking = false;
 		this.selector = selector;
 	}
@@ -64,21 +65,22 @@ public abstract class AbstractGameTracker implements GameTracker {
 	public void startTracking(EAdAdventureModel model) {
 		this.model = model;
 		tracking = true;
-		startTrackingImpl( model );
+		startTrackingImpl(model);
 	}
-	
-	protected abstract void startTrackingImpl( EAdAdventureModel model );
-	
-	public void track(InputAction<?> action, DrawableGO<?> target){
-		if ( isTracking() && selector.accept(action, target)){
+
+	protected abstract void startTrackingImpl(EAdAdventureModel model);
+
+	public void track(InputAction<?> action, DrawableGO<?> target) {
+		if (isTracking() && selector.accept(action, target)) {
 			trackImpl(action, target);
 		}
 	}
-	
-	protected abstract void trackImpl(InputAction<?> action, DrawableGO<?> target);
 
-	public void track(EffectGO<?> effect){
-		if (isTracking() && selector.accept(effect)){
+	protected abstract void trackImpl(InputAction<?> action,
+			DrawableGO<?> target);
+
+	public void track(EffectGO<?> effect) {
+		if (isTracking() && selector.accept(effect)) {
 			trackImpl(effect);
 		}
 	}

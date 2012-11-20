@@ -47,9 +47,10 @@ import javax.swing.JPanel;
  *
  * @author mfreire
  */
-public abstract class AbstractElementPanel<T extends DependencyNode> extends JPanel implements ElementPanel<T> {
+public abstract class AbstractElementPanel<T extends DependencyNode> extends
+		JPanel implements ElementPanel<T> {
 
-    protected T target;
+	protected T target;
 	protected Controller controller;
 
 	@Override
@@ -58,9 +59,9 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends JPa
 		rebuild();
 	}
 
-    @Override
-    public void setController(Controller controller) {
-        this.controller = controller;
+	@Override
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 
 	@Override
@@ -68,8 +69,8 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends JPa
 		return target;
 	}
 
-    /**
-     * Rebuild the panels' contents after a change to the target
-     */
+	/**
+	 * Rebuild the panels' contents after a change to the target
+	 */
 	protected abstract void rebuild();
 }

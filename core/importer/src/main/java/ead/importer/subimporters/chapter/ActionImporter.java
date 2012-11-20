@@ -228,9 +228,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			action.getResources().addAsset(action.getInitialBundle(),
 					ElementAction.appearance,
 					new Image(getDrawablePath(oldObject.getType())));
-//			action.getResources().addAsset(action.getHighlightBundle(),
-//					ElementAction.appearance,
-//					new Image(getHighlightDrawablePath(oldObject.getType())));
+			//			action.getResources().addAsset(action.getHighlightBundle(),
+			//					ElementAction.appearance,
+			//					new Image(getHighlightDrawablePath(oldObject.getType())));
 		} else {
 			// TODO highlight and pressed are now appearances, but resource
 			// converter does not support it.
@@ -240,13 +240,12 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 
 			EAdBundleId temp = action.getInitialBundle();
-//			action.setInitialBundle(action.getHighlightBundle());
+			//			action.setInitialBundle(action.getHighlightBundle());
 
 			resourcesStrings.put("buttonOver", ElementAction.appearance);
 			resourcesClasses.put("buttonOver", Image.class);
-			resourceImporter.importResources(action,
-					((CustomAction) oldObject).getResources(),
-					resourcesStrings, resourcesClasses);
+			resourceImporter.importResources(action, ((CustomAction) oldObject)
+					.getResources(), resourcesStrings, resourcesClasses);
 
 			action.setInitialBundle(temp);
 
@@ -255,9 +254,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			resourcesStrings.put("buttonNormal", ElementAction.appearance);
 			resourcesClasses.put("buttonNormal", Image.class);
 
-			resourceImporter.importResources(action,
-					((CustomAction) oldObject).getResources(),
-					resourcesStrings, resourcesClasses);
+			resourceImporter.importResources(action, ((CustomAction) oldObject)
+					.getResources(), resourcesStrings, resourcesClasses);
 		}
 	}
 
@@ -383,9 +381,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		// Appearance
 		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
 				ElementAction.appearance, examineImage);
-//		examineAction.getResources().addAsset(
-//				examineAction.getHighlightBundle(), ElementAction.appearance,
-//				examineOverImage);
+		//		examineAction.getResources().addAsset(
+		//				examineAction.getHighlightBundle(), ElementAction.appearance,
+		//				examineOverImage);
 
 		actor.getActions().add(examineAction);
 	}
@@ -536,8 +534,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			}
 
 			// Set condition
-			EAdCondition conds[] = setCondition(a, action,
-					previousConditions.get(action));
+			EAdCondition conds[] = setCondition(a, action, previousConditions
+					.get(action));
 			EAdCondition c = conds[0];
 			previousConditions.put(action, c);
 
@@ -586,8 +584,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 						v, trigger, actor, a });
 				if (v == null) {
 					for (EAdAction x : getsTo.keySet()) {
-						logger.debug("\t{} {} :: {}",
-								new Object[] { x, x.getId(), x.equals(a) });
+						logger.debug("\t{} {} :: {}", new Object[] { x,
+								x.getId(), x.equals(a) });
 					}
 				}
 			}

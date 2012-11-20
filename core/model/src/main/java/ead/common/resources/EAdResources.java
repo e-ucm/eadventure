@@ -56,7 +56,7 @@ public interface EAdResources extends EAdAssetBundle {
 	 *            The id of the asset
 	 * @return The path of the asset
 	 */
-	AssetDescriptor getAsset( EAdBundleId bundleId, String id );
+	AssetDescriptor getAsset(EAdBundleId bundleId, String id);
 
 	/**
 	 * Adds a new path for an asset in the given {@link EAdBundleId} and for the
@@ -69,7 +69,7 @@ public interface EAdResources extends EAdAssetBundle {
 	 *            The asset
 	 * @return Returns true if the path is successfully changed.
 	 */
-	boolean addAsset( EAdBundleId bundleId, String id, AssetDescriptor asset );
+	boolean addAsset(EAdBundleId bundleId, String id, AssetDescriptor asset);
 
 	/**
 	 * Returns the initially selected or default {@link EAdBundleId} for the
@@ -77,14 +77,14 @@ public interface EAdResources extends EAdAssetBundle {
 	 * 
 	 * @return The {@link EAdBundleId} to be initially selected.
 	 */
-	EAdBundleId getInitialBundle( );
+	EAdBundleId getInitialBundle();
 
 	/**
 	 * Sets the initial or default {@link EAdBundleID}.
 	 * 
 	 * @param bundleId
 	 */
-	void setInitialBundle( EAdBundleId bundleId );
+	void setInitialBundle(EAdBundleId bundleId);
 
 	/**
 	 * Returns the valid classes for an asset with the given id.
@@ -93,7 +93,7 @@ public interface EAdResources extends EAdAssetBundle {
 	 *            The id of the asset.
 	 * @return The valid classes of asset.
 	 */
-	Class<? extends AssetDescriptor>[] getValidAssets( String id );
+	Class<? extends AssetDescriptor>[] getValidAssets(String id);
 
 	/**
 	 * Add a new {@link EAdBundleId} to the list of bundles
@@ -106,7 +106,7 @@ public interface EAdResources extends EAdAssetBundle {
 	 * @return The list of bundles in this resource
 	 */
 	Collection<EAdBundleId> getBundles();
-	
+
 	boolean isEmpty();
 
 	/**

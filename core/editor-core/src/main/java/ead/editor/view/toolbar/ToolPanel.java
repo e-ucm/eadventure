@@ -78,37 +78,33 @@ public class ToolPanel implements ChangeListener {
 	 */
 	private JTextField searchField;
 
-    /**
-     * Current controller
-     */
-    private Controller controller;
+	/**
+	 * Current controller
+	 */
+	private Controller controller;
 
-    /**
-     *
-     * @param actionManager
-     * @param navigationController
-     */
+	/**
+	 *
+	 * @param actionManager
+	 * @param navigationController
+	 */
 	@Inject
 	public ToolPanel(final Controller controller) {
 		this.controller = controller;
 
-        toolPanel = new JPanel(new FlowLayout());
+		toolPanel = new JPanel(new FlowLayout());
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				addButton(controller.getAction(
-					AbstractEditorMenu.removeMenuKeyIndicator(
-						Messages.edit_menu_undo)));
-				addButton(controller.getAction(
-					AbstractEditorMenu.removeMenuKeyIndicator(
-						Messages.edit_menu_redo)));
+				addButton(controller.getAction(AbstractEditorMenu
+						.removeMenuKeyIndicator(Messages.edit_menu_undo)));
+				addButton(controller.getAction(AbstractEditorMenu
+						.removeMenuKeyIndicator(Messages.edit_menu_redo)));
 				addSeparator();
-				addButton(controller.getAction(
-					AbstractEditorMenu.removeMenuKeyIndicator(
-						Messages.window_menu_prev)));
-				addButton(controller.getAction(
-					AbstractEditorMenu.removeMenuKeyIndicator(
-						Messages.window_menu_next)));
+				addButton(controller.getAction(AbstractEditorMenu
+						.removeMenuKeyIndicator(Messages.window_menu_prev)));
+				addButton(controller.getAction(AbstractEditorMenu
+						.removeMenuKeyIndicator(Messages.window_menu_next)));
 				addSeparator();
 				addSearchFieldAndButton();
 			}
@@ -125,8 +121,10 @@ public class ToolPanel implements ChangeListener {
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {
-                searchField.setEnabled(controller.getModel().getEngineModel() != null);
-                searchButton.setEnabled(controller.getModel().getEngineModel() != null);
+				searchField
+						.setEnabled(controller.getModel().getEngineModel() != null);
+				searchButton
+						.setEnabled(controller.getModel().getEngineModel() != null);
 			}
 		});
 	}
@@ -136,8 +134,8 @@ public class ToolPanel implements ChangeListener {
 	 * @param a
 	 */
 	private void addButton(final Action a) {
-		final JButton jb = new JButton((Icon)a.getValue(Action.SMALL_ICON));
-		jb.setToolTipText((String)a.getValue(Action.NAME));
+		final JButton jb = new JButton((Icon) a.getValue(Action.SMALL_ICON));
+		jb.setToolTipText((String) a.getValue(Action.NAME));
 		a.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -153,9 +151,9 @@ public class ToolPanel implements ChangeListener {
 	 * Add a separator in the tool panel
 	 */
 	private void addSeparator() {
-        JSeparator separator = new JSeparator( SwingConstants.VERTICAL );
-        separator.setPreferredSize( new Dimension( 2, 24 ) );
-        toolPanel.add(separator);
+		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+		separator.setPreferredSize(new Dimension(2, 24));
+		toolPanel.add(separator);
 	}
 
 	/**
@@ -163,23 +161,25 @@ public class ToolPanel implements ChangeListener {
 	 */
 	private void addSearchFieldAndButton() {
 		searchButton = new JButton(new ImageIcon(ClassLoader
-				.getSystemClassLoader().getResource(R.Drawable.toolbar__search_png)));
+				.getSystemClassLoader().getResource(
+						R.Drawable.toolbar__search_png)));
 		searchButton.setEnabled(false);
-        searchField = new JTextField(20);
-        searchField.setEnabled(false);
+		searchField = new JTextField(20);
+		searchField.setEnabled(false);
 		searchField.setToolTipText(Messages.toolbar_search);
 		toolPanel.add(searchField);
 		toolPanel.add(searchButton);
 
-        ActionListener queryListener = new ActionListener() {
+		ActionListener queryListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String query = searchField.getText();
-                controller.getViewController().addView("query", "q"+query, false);
+				controller.getViewController().addView("query", "q" + query,
+						false);
 			}
 		};
 
-        searchField.addActionListener(queryListener);
+		searchField.addActionListener(queryListener);
 		searchButton.addActionListener(queryListener);
-    }
+	}
 }

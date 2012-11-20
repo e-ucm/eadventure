@@ -76,12 +76,11 @@ public class PlayAnimationEffectImporter extends
 			Object newElement) {
 		ShowSceneElementEf effect = super.convert(oldObject, newElement);
 
-
 		EAdDrawable asset = (EAdDrawable) resourceImporter.getAssetDescritptor(
 				oldObject.getPath(), Image.class);
 		SceneElement element = new SceneElement(asset);
-		element.setPosition(new EAdPosition(oldObject.getX(), oldObject
-				.getY()));
+		element
+				.setPosition(new EAdPosition(oldObject.getX(), oldObject.getY()));
 		if (asset instanceof FramesAnimation) {
 			int time = 0;
 			for (int i = 0; i < ((FramesAnimation) asset).getFrameCount(); i++) {

@@ -47,11 +47,11 @@ public abstract class AbstractNamedNode extends AbstractNode {
 
 	@Param(value = "name")
 	private EAdString name;
-	
+
 	public AbstractNamedNode() {
 		name = EAdString.newRandomEAdString("name");
 	}
-	
+
 	public EAdString getName() {
 		return name;
 	}

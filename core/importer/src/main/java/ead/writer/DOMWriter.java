@@ -102,7 +102,8 @@ public abstract class DOMWriter<T> {
 
 	public static void initMaps(EAdAdventureModel data) {
 		clearMaps();
-		depthManager = new DepthManager(((BasicAdventureModel) data).getDepthControlList());
+		depthManager = new DepthManager(((BasicAdventureModel) data)
+				.getDepthControlList());
 		error = false;
 
 		try {
@@ -126,7 +127,7 @@ public abstract class DOMWriter<T> {
 	 */
 	public abstract Element buildNode(T data, Class<?> listClass);
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	public Element initNode(Object data, Class<?> listClass) {
 		DOMWriter writer = getDOMWriter(data);
 		return writer.buildNode(data, listClass);
@@ -152,12 +153,12 @@ public abstract class DOMWriter<T> {
 	}
 
 	public String shortClass(String clazz) {
-		String shortClass = clazz.startsWith(DOMTags.PACKAGE) ? clazz.substring(DOMTags.PACKAGE.length())
-				: clazz;
+		String shortClass = clazz.startsWith(DOMTags.PACKAGE) ? clazz
+				.substring(DOMTags.PACKAGE.length()) : clazz;
 		String alias = depthManager.getClassAliases().get(shortClass);
 		if (alias == null) {
-			alias = convertToCode("c",
-					depthManager.getClassAliases().keySet().size());
+			alias = convertToCode("c", depthManager.getClassAliases().keySet()
+					.size());
 			depthManager.getAliasMap().put(alias, shortClass);
 			depthManager.getClassAliases().put(shortClass, alias);
 		}
@@ -165,7 +166,7 @@ public abstract class DOMWriter<T> {
 	}
 
 	public static String convertToCode(String prefix, int val) {
-		return prefix+Integer.toHexString(val);
+		return prefix + Integer.toHexString(val);
 	}
 
 	public static void clearMaps() {
@@ -173,7 +174,8 @@ public abstract class DOMWriter<T> {
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
-		if (depthManager != null) depthManager.clear();
+		if (depthManager != null)
+			depthManager.clear();
 	}
 
 	public static boolean getError() {

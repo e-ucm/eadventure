@@ -85,9 +85,8 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	 * @return
 	 */
 	EAdDrawable getAppearance(EAdBundleId bundle);
-	
+
 	void setName(EAdString name);
-	
 
 	void setDesc(EAdString description);
 

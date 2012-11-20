@@ -18,7 +18,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		EAdPaint p1 = ColorFill.BLUE;
 		EAdPaint p2 = Paint.BLACK_ON_WHITE;
 		// Shape with the same object
-		BezierShape shape = new BezierShape( );
+		BezierShape shape = new BezierShape();
 		shape.moveTo(0, 0);
 		shape.lineTo(10, 20);
 		shape.lineTo(50, 60);
@@ -29,7 +29,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shapes.add(shape);
 
 		// Same shape, but not closed
-		shape = new BezierShape( );
+		shape = new BezierShape();
 		shape.moveTo(0, 0);
 		shape.lineTo(10, 20);
 		shape.lineTo(50, 60);
@@ -40,7 +40,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shapes.add(shape);
 
 		// Same shape, but with another paint
-		shape = new BezierShape( );
+		shape = new BezierShape();
 		shape.moveTo(0, 0);
 		shape.lineTo(10, 20);
 		shape.lineTo(50, 60);
@@ -49,23 +49,23 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		shape.setPaint(p2);
 		shapes.add(shape);
 		shapes.add(shape);
-/*
-		// Same shape, but with paint as vector with true
-		shape = new BezierShape( );
-		shape.moveTo(0, 0);
-		shape.lineTo(10, 20);
-		shape.lineTo(50, 60);
-		shape.quadTo(50, 90, 12, 222000);
-		shape.setClosed(true);
-		shape.setPaint(p1);
-		shapes.add(shape);
-		shapes.add(shape);
-*/
+		/*
+		 // Same shape, but with paint as vector with true
+		 shape = new BezierShape( );
+		 shape.moveTo(0, 0);
+		 shape.lineTo(10, 20);
+		 shape.lineTo(50, 60);
+		 shape.quadTo(50, 90, 12, 222000);
+		 shape.setClosed(true);
+		 shape.setPaint(p1);
+		 shapes.add(shape);
+		 shapes.add(shape);
+		 */
 		// Shape with rectangle
-		shapes.add(new RectangleShape( 800, 600, p2));
-		shapes.add(new RectangleShape( 800, 600, p2));
+		shapes.add(new RectangleShape(800, 600, p2));
+		shapes.add(new RectangleShape(800, 600, p2));
 
-		shape = new BezierShape( );
+		shape = new BezierShape();
 		shape.moveTo(0, 0);
 		shape.lineTo(800, 0);
 		shape.lineTo(800, 600);

@@ -188,9 +188,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	private EAdRectangle getClip() {
 		float[] init = game.getInitialTransformation().getMatrix()
 				.multiplyPoint(0, 0, true);
-		float[] end = game
-				.getInitialTransformation()
-				.getMatrix()
+		float[] end = game.getInitialTransformation().getMatrix()
 				.multiplyPoint(game.getAdventureModel().getGameWidth(),
 						game.getAdventureModel().getGameHeight(), true);
 		return new EAdRectangle((int) init[0], (int) init[1],

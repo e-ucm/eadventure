@@ -48,7 +48,7 @@ public class BasicMatrix implements EAdMatrix {
 	 * Dimension of the transformation matrix
 	 */
 	private static final int DIMENSION = 3;
-	
+
 	private boolean validated = false;
 
 	/**
@@ -68,7 +68,7 @@ public class BasicMatrix implements EAdMatrix {
 	 * Inverse matrix, can be invalidated
 	 */
 	private float[] inverse;
-	
+
 	/**
 	 * Transposed matrix, can be invalidated
 	 */
@@ -154,7 +154,7 @@ public class BasicMatrix implements EAdMatrix {
 	public static float[] multiply(float[] m1, float[] m2) {
 		float m[] = new float[DIMENSION * DIMENSION];
 		int row = 0, column = 0;
-		
+
 		for (int i = 0; i < DIMENSION * DIMENSION; i++) {
 			row = i % DIMENSION;
 			column = i / DIMENSION;
@@ -179,7 +179,7 @@ public class BasicMatrix implements EAdMatrix {
 	public float[] multiplyPoint(float x, float y, boolean post) {
 		return multiplyPoint(matrix, x, y, post);
 	}
-	
+
 	private float[] multiplyPoint(float m[], float x, float y, boolean post) {
 		float px, py;
 		if (post) {
@@ -201,12 +201,12 @@ public class BasicMatrix implements EAdMatrix {
 		recalculate();
 		return inverse;
 	}
-	
+
 	private void invalidateMatrixes() {
 		inverse = null;
 		transposed = null;
 	}
-	
+
 	private void recalculate() {
 		if (inverse == null) {
 			inverse = new float[9];
@@ -215,15 +215,15 @@ public class BasicMatrix implements EAdMatrix {
 			inverse[8] = 1;
 			float det = matrix[0] * matrix[4] - matrix[3] * matrix[1];
 			inverse[0] = matrix[4] / det;
-			inverse[1] = - matrix[1] / det;
-			inverse[3] = - matrix[3] / det;
+			inverse[1] = -matrix[1] / det;
+			inverse[3] = -matrix[3] / det;
 			inverse[4] = matrix[0] / det;
 
 			inverse[6] = (-inverse[0] * matrix[6] - inverse[3] * matrix[7]);
 			inverse[7] = (-inverse[1] * matrix[6] - inverse[4] * matrix[7]);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "";
@@ -232,7 +232,7 @@ public class BasicMatrix implements EAdMatrix {
 		s += matrix[8];
 		return s;
 	}
-	
+
 	public static BasicMatrix parse(String s) {
 		String[] v = s.split(";");
 		BasicMatrix m = new BasicMatrix();
@@ -240,7 +240,7 @@ public class BasicMatrix implements EAdMatrix {
 			m.matrix[i] = Float.parseFloat(v[i]);
 		return m;
 	}
-	
+
 	@Override
 	public boolean isValidated() {
 		return validated;
@@ -250,8 +250,8 @@ public class BasicMatrix implements EAdMatrix {
 	public void setValidated(boolean validated) {
 		this.validated = validated;
 	}
-	
-	public void setValues(float[] values){
+
+	public void setValues(float[] values) {
 		this.matrix = values;
 		invalidateMatrixes();
 	}

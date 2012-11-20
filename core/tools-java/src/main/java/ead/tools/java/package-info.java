@@ -38,4 +38,5 @@
 /**
  * Java-specific (non-GWT) utility classes
  */
+
 package ead.tools.java;

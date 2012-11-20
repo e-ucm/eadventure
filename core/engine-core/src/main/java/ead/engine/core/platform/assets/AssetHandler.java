@@ -159,7 +159,7 @@ public interface AssetHandler {
 	 *            textFile path
 	 * @return
 	 */
-	void getTextFile(String path, LoadTextFileListener callback );
+	void getTextFile(String path, LoadTextFileListener callback);
 
 	/**
 	 * Sets if the cache is enable for this asset handler. Cache is enabled by
@@ -189,9 +189,9 @@ public interface AssetHandler {
 	 * Clears the assets queue
 	 */
 	void clearAssetQueue();
-	
+
 	public interface LoadTextFileListener {
-		
+
 		void read(String text);
 	}
 

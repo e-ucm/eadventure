@@ -44,13 +44,12 @@ import ead.common.model.elements.events.enums.TimedEvType;
 import ead.engine.core.game.GameState;
 import ead.engine.core.platform.GUI;
 
-public class TimedEvGO extends
-		AbstractEventGO<TimedEv> {
+public class TimedEvGO extends AbstractEventGO<TimedEv> {
 
 	private int elapsedTime;
 
 	private int repeats;
-	
+
 	private GUI gui;
 
 	@Inject

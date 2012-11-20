@@ -39,8 +39,6 @@ package ead.engine.test.core.platform;
 
 import ead.engine.core.platform.AbstractEngineConfiguration;
 
-
 public class TestPlatformConfiguration extends AbstractEngineConfiguration {
-
 
 }

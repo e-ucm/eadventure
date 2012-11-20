@@ -87,8 +87,8 @@ public class Button extends ComplexSceneElement {
 				SceneElementDef.appearance, buttonBgNormal);
 		EAdBundleId over = new EAdBundleId("over");
 		definition.getResources().addBundle(over);
-		definition.getResources().addAsset(over,
-				SceneElementDef.appearance, buttonBgOver);
+		definition.getResources().addAsset(over, SceneElementDef.appearance,
+				buttonBgOver);
 		setPosition(Corner.CENTER, 0, 0);
 
 		ChangeAppearanceEf changeAppearance = new ChangeAppearanceEf(this,

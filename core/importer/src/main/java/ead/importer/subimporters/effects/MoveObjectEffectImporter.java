@@ -67,7 +67,7 @@ public class MoveObjectEffectImporter extends
 
 	@Override
 	public TriggerMacroEf init(MoveObjectEffect oldObject) {
-		TriggerMacroEf effect =  new TriggerMacroEf();
+		TriggerMacroEf effect = new TriggerMacroEf();
 		return effect;
 	}
 

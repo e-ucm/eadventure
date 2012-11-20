@@ -65,9 +65,9 @@ public interface EditorModel extends ModelAccessor {
 
 	int generateId(Object targetObject);
 
-    List<DependencyNode> incomingDependencies(DependencyNode node);
+	List<DependencyNode> incomingDependencies(DependencyNode node);
 
-    List<DependencyNode> outgoingDependencies(DependencyNode node);
+	List<DependencyNode> outgoingDependencies(DependencyNode node);
 
 	// -------- search
 

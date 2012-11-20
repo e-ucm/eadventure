@@ -77,24 +77,24 @@ import java.lang.Thread.UncaughtExceptionHandler;
  *
  */
 public class SwingExceptionHandler implements
-        java.lang.Thread.UncaughtExceptionHandler {
+		java.lang.Thread.UncaughtExceptionHandler {
 
-    private static SwingExceptionHandler theInstance;
+	private static SwingExceptionHandler theInstance;
 
-    private SwingExceptionHandler() {
-    }
+	private SwingExceptionHandler() {
+	}
 
-    public static UncaughtExceptionHandler getInstance() {
-        synchronized (SwingExceptionHandler.class) {
-            if (theInstance == null) {
-                theInstance = new SwingExceptionHandler();
-            }
-        }
-        return theInstance;
-    }
+	public static UncaughtExceptionHandler getInstance() {
+		synchronized (SwingExceptionHandler.class) {
+			if (theInstance == null) {
+				theInstance = new SwingExceptionHandler();
+			}
+		}
+		return theInstance;
+	}
 
-    @Override
-    public void uncaughtException(Thread t, final Throwable e) {
-        SwingUtilities.showExceptionDialog(e);
-    }
+	@Override
+	public void uncaughtException(Thread t, final Throwable e) {
+		SwingUtilities.showExceptionDialog(e);
+	}
 }

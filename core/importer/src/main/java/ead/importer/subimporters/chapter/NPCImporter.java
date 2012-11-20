@@ -135,10 +135,10 @@ public class NPCImporter extends ActorImporter<NPC> {
 				r.getAssetPath(up), Image.class);
 		EAdDrawable south = (EAdDrawable) resourceImporter.getAssetDescritptor(
 				r.getAssetPath(down), Image.class);
-		EAdDrawable east = (EAdDrawable) resourceImporter.getAssetDescritptor(
-				r.getAssetPath(right), Image.class);
-		EAdDrawable west = (EAdDrawable) resourceImporter.getAssetDescritptor(
-				r.getAssetPath(left), Image.class);
+		EAdDrawable east = (EAdDrawable) resourceImporter.getAssetDescritptor(r
+				.getAssetPath(right), Image.class);
+		EAdDrawable west = (EAdDrawable) resourceImporter.getAssetDescritptor(r
+				.getAssetPath(left), Image.class);
 
 		// Fill north
 		if (north == null) {

@@ -37,7 +37,6 @@
 
 package ead.tools.gwt.xml;
 
-
 import com.google.gwt.xml.client.Document;
 
 import ead.tools.xml.XMLDocument;

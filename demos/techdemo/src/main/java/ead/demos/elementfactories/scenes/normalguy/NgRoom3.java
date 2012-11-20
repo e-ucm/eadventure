@@ -53,38 +53,36 @@ import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
-public class NgRoom3 extends EmptyScene{
+public class NgRoom3 extends EmptyScene {
 	private SceneElement ng;
 	private SceneElement door;
 	private SceneElement evil_ng;
-	
-	
+
 	public NgRoom3() {
 		NgCommon.init();
 		setBackground(new SceneElement(new Image("@drawable/ng_room3_bg.png")));
-		
+
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
 		ng.setPosition(Corner.BOTTOM_CENTER, 150, 525);
 		ng.setInitialScale(0.8f);
-		
+
 		// Character can talk in the scene
 		SpeakEf effect = new SpeakSceneElementEf(ng);
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()
-				.setString(
-						effect.getString(),
+				.setString(effect.getString(),
 						"There's a strange man over there... I will ask him who is he and where I am");
 		effect.getNextEffects().add(NgCommon.getLookSouthEffect());
 
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
-		
+
 		// Area where the character can walk
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
 		d.setLimits(145, 495, 750, 550);
 		setTrajectoryDefinition(d);
-		
+
 		// Sets up character's movement
 		MoveSceneElementEf move = new MoveSceneElementEf();
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
@@ -92,26 +90,27 @@ public class NgRoom3 extends EmptyScene{
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-		
+
 		createElements();
 		addElementsInOrder();
-		
+
 		setEvilGuy();
 	}
-	
+
 	/**
 	 * Generates the SceneElements
 	 */
 	private void createElements() {
 		door = new SceneElement(new Image("@drawable/ng_room3_door.png"));
 		door.setPosition(Corner.BOTTOM_CENTER, 86, 530);
-		
-		evil_ng = new SceneElement(new Image("@drawable/evil_man_stand_s_1.png"));
+
+		evil_ng = new SceneElement(
+				new Image("@drawable/evil_man_stand_s_1.png"));
 		evil_ng.setInitialScale(0.9f);
 		evil_ng.setPosition(Corner.BOTTOM_CENTER, 660, 510);
 
 	}
-	
+
 	/**
 	 * Adds the SceneElements in the correct order
 	 */
@@ -120,44 +119,48 @@ public class NgRoom3 extends EmptyScene{
 		getSceneElements().add(evil_ng);
 		getSceneElements().add(ng);
 	}
-	
+
 	/**
 	 * Sets door behavior
 	 */
 	public void setDoor(EAdScene corridor) {
-		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(corridor, new FadeInTransition(1000));
+		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(corridor,
+				new FadeInTransition(1000));
 		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToPreviousScene);
-		
+
 	}
-	
+
 	/**
 	 * The evil guy drives to the user to a Quiz game
 	 */
 	private void setEvilGuy() {
 		//MoveSceneElementEf move = moveNg(560, 510);
-        
-		EAdString talking = new EAdString("What the...!!! Who are you and what are you doing here??? aham... you want answers... and me too! get ready!");
+
+		EAdString talking = new EAdString(
+				"What the...!!! Who are you and what are you doing here??? aham... you want answers... and me too! get ready!");
 		SpeakSceneElementEf speech = new SpeakSceneElementEf(talking);
 		speech.setElement(evil_ng);
-		
-		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(), new FadeInTransition(1000));
-		
+
+		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(),
+				new FadeInTransition(1000));
+
 		//move.getNextEffects().add(speech);
-		speech.getNextEffects().add(changeScene);		
+		speech.getNextEffects().add(changeScene);
 		evil_ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speech);
 	}
-	
+
 	/**
 	 * Sets the x & y coordinates for moving the ng
 	 * @param x
 	 * @param y
 	 * @return
-	 *//*
+	 */
+	/*
 	private MoveSceneElementEf moveNg(int x, int y) {
-		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setId("move");
-		move.setSceneElement(ng);
-		move.setTargetCoordiantes(x, y);
-		return move;
+	MoveSceneElementEf move = new MoveSceneElementEf();
+	move.setId("move");
+	move.setSceneElement(ng);
+	move.setTargetCoordiantes(x, y);
+	return move;
 	}*/
 }

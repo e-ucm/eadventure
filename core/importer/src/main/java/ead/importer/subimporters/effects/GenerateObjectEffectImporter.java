@@ -50,15 +50,15 @@ import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.GenerateObjectEffect;
 
-public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectEffect, EAdEffect>{
-	
+public class GenerateObjectEffectImporter extends
+		EffectImporter<GenerateObjectEffect, EAdEffect> {
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
 	public GenerateObjectEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory,
-			ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
@@ -72,11 +72,12 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 	@Override
 	public EAdEffect convert(GenerateObjectEffect oldObject, Object object) {
 		ModifyInventoryEf effect = (ModifyInventoryEf) object;
-		
+
 		importConditions(oldObject, effect);
 
 		effect.setModification(InventoryEffectAction.ADD_TO_INVENTORY);
-		effect.setSceneElementDef((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
+		effect.setSceneElementDef((EAdSceneElementDef) factory
+				.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

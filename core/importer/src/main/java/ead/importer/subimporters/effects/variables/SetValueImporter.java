@@ -68,8 +68,7 @@ public class SetValueImporter extends
 	public ChangeFieldEf init(SetValueEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
-		MathOp op = new MathOp(
-				oldObject.getValue() + "", var);
+		MathOp op = new MathOp(oldObject.getValue() + "", var);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		super.importConditions(oldObject, effect);
 		return effect;

@@ -51,42 +51,42 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 
 	private String absolutePath;
 
-	private static final Logger logger = LoggerFactory.getLogger("EAPInputStreamCreator");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EAPInputStreamCreator");
 
-	public void setFile( String file ){
+	public void setFile(String file) {
 		this.absolutePath = file;
 	}
 
 	@Override
-	public InputStream buildInputStream( String filePath ) {
+	public InputStream buildInputStream(String filePath) {
 		try {
-			return new FileInputStream( new File( absolutePath, filePath ) );
-		}
-		catch ( FileNotFoundException e ) {
-			
+			return new FileInputStream(new File(absolutePath, filePath));
+		} catch (FileNotFoundException e) {
+
 		}
 		return null;
 	}
 
 	@Override
-	public URL buildURL( String path ) {
+	public URL buildURL(String path) {
 		try {
-			URL url = new File( absolutePath, path ).toURI( ).toURL( );
+			URL url = new File(absolutePath, path).toURI().toURL();
 			return url;
-		}
-		catch ( MalformedURLException e ) {
+		} catch (MalformedURLException e) {
 			logger.error("Problem building URL for path: '{}'", path, e);
 			return null;
 		}
 	}
 
 	@Override
-	public String[] listNames( String filePath ) {
-		File dir = new File( absolutePath, filePath );
-		if ( dir.exists( ) && dir.isDirectory( ) ) {
-			return dir.list( );
+	public String[] listNames(String filePath) {
+		File dir = new File(absolutePath, filePath);
+		if (dir.exists() && dir.isDirectory()) {
+			return dir.list();
 		} else {
-			logger.warn("Path does not exist or is not a directory: '{}'", filePath);
+			logger.warn("Path does not exist or is not a directory: '{}'",
+					filePath);
 			return new String[0];
 		}
 	}

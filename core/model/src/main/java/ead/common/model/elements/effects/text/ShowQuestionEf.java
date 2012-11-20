@@ -154,8 +154,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		SceneElement questionElement = new SceneElement(caption);
 		questionElement.setPosition(10, y);
 
-		questionElement
-				.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
+		questionElement.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
 		ChangeFieldEf setAlpha = new ChangeFieldEf();
 		setAlpha.setOperation(new ValueOp(0.0f));
 		setAlpha.addField(new BasicField<Float>(questionElement,
@@ -165,8 +164,8 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		components.add(questionElement);
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf interpolation = new InterpolationEf(
-				questionElement, SceneElement.VAR_ALPHA, 0, 1.0f, 500);
+		InterpolationEf interpolation = new InterpolationEf(questionElement,
+				SceneElement.VAR_ALPHA, 0, 1.0f, 500);
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, interpolation);
 
 		questionElement.getEvents().add(event);
@@ -185,10 +184,8 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		caption.setBubblePaint(ColorFill.WHITE);
 		SceneElement answerElement = new SceneElement(caption);
 		answerElement.setPosition(-800, y);
-		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				selectEffect);
-		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				entry.getValue());
+		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, selectEffect);
+		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, entry.getValue());
 
 		answerElement.addBehavior(MouseGEv.MOUSE_ENTERED, inEffect);
 		answerElement.addBehavior(MouseGEv.MOUSE_EXITED, outEffect);
@@ -196,12 +193,11 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf interpolation = new InterpolationEf(
-				answerElement, SceneElement.VAR_X, 0, 820, 400, 500 + pos * 100,
-				InterpolationLoopType.NO_LOOP, 1,
-				InterpolationType.LINEAR);
+		InterpolationEf interpolation = new InterpolationEf(answerElement,
+				SceneElement.VAR_X, 0, 820, 400, 500 + pos * 100,
+				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, interpolation);
-		
+
 		answerElement.getEvents().add(event);
 
 		components.add(answerElement);
@@ -214,7 +210,5 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 	public void setQuestion(EAdString question) {
 		this.question = question;
 	}
-	
-	
 
 }

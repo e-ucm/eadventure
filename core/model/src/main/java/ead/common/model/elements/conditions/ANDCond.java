@@ -48,7 +48,7 @@ public class ANDCond extends ListedCond {
 	public ANDCond(EAdCondition... condition) {
 		super(ConditionOperator.AND, condition);
 	}
-	
+
 	public ANDCond() {
 		super(ConditionOperator.AND, new EmptyCond(EmptyCondValue.TRUE));
 	}
@@ -57,7 +57,7 @@ public class ANDCond extends ListedCond {
 	public EmptyCond getNullOperator() {
 		return new EmptyCond(EmptyCondValue.TRUE);
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString();

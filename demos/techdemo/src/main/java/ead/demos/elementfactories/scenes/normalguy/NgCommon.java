@@ -78,12 +78,12 @@ public class NgCommon {
 		lookNorth.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookNorth.setOperation(new ValueOp(Orientation.N));
-		
+
 		lookEast = new ChangeFieldEf();
 		lookEast.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookEast.setOperation(new ValueOp(Orientation.E));
-		
+
 		lookSouth = new ChangeFieldEf();
 		lookSouth.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
@@ -200,11 +200,11 @@ public class NgCommon {
 	public static EAdEffect getLookNorthEffect() {
 		return lookNorth;
 	}
-	
+
 	public static EAdEffect getLookEastEffect() {
 		return lookEast;
 	}
-	
+
 	public static EAdEffect getLookSouthEffect() {
 		return lookSouth;
 	}

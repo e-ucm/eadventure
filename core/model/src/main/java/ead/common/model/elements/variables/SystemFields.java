@@ -83,18 +83,17 @@ public class SystemFields {
 			"@drawable/default_cursor.png");
 
 	public static final EAdField<Image> MOUSE_CURSOR = new BasicField<Image>(
-			null, new VarDef<Image>("mouse_cursor", Image.class,
-					DEFAULT_MOUSE));
+			null, new VarDef<Image>("mouse_cursor", Image.class, DEFAULT_MOUSE));
 
 	public static final EAdField<Boolean> SHOW_MOUSE = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("show_mouse", Boolean.class, true));
-	
+
 	public static final EAdField<Boolean> SHOW_INVENTORY = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("show_inventory", Boolean.class, true));
 
 	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new BasicField<Integer>(
-			null, new VarDef<Integer>("elapsed_time_per_update",
-					Integer.class, 0));
+			null, new VarDef<Integer>("elapsed_time_per_update", Integer.class,
+					0));
 
 	public static final EAdField<Boolean> PROCESS_INPUT = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("process_input", Boolean.class, true));
@@ -104,8 +103,7 @@ public class SystemFields {
 	 * above the basic HUD (like the effect HUD, or the actions HUD)
 	 */
 	public static final EAdField<Boolean> BASIC_HUD_OPAQUE = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("basic_hud_opaque", Boolean.class,
-					false));
+			null, new VarDef<Boolean>("basic_hud_opaque", Boolean.class, false));
 
 	/**
 	 * Field holding the milliseconds since the game started 

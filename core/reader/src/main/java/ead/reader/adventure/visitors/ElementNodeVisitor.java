@@ -60,7 +60,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
 	@Override
 	public void visit(XMLNode node, ReflectionField field, Object parent,
-			Class<?> listClass, NodeVisitorListener listener ) {
+			Class<?> listClass, NodeVisitorListener listener) {
 		EAdElement element = null;
 
 		if (node == null) {
@@ -72,24 +72,28 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		if (node.getChildNodes() != null
 				&& node.getChildNodes().getLength() == 1
 				&& !node.getChildNodes().item(0).hasChildNodes()) {
-			element = (EAdElement) ObjectFactory
-				.getObject(node.getNodeText(), EAdElement.class);
+			element = (EAdElement) ObjectFactory.getObject(node.getNodeText(),
+					EAdElement.class);
 			if (element != null) {
-				if (element instanceof ProxyElement) {				
+				if (element instanceof ProxyElement) {
 					((ProxyElement) element).setField(field);
 					((ProxyElement) element).setParent(parent);
-					logger.debug("Short-circuited read of proxy-element {}({}) into {} of {}", 
-							new String[] {
-								element.getId(), ((ProxyElement)element).getValue(),
-								field != null ? field.getName() : "?", 
-								objectToString(parent)});
+					logger
+							.debug(
+									"Short-circuited read of proxy-element {}({}) into {} of {}",
+									new String[] {
+											element.getId(),
+											((ProxyElement) element).getValue(),
+											field != null ? field.getName()
+													: "?",
+											objectToString(parent) });
 				} else {
 					setValue(field, parent, element);
-					logger.debug("Short-circuited read of element {} into {} of {}", 
-							new String[] {
-								element.getId(), 
-								field != null ? field.getName() : "?", 
-								objectToString(parent)});
+					logger.debug(
+							"Short-circuited read of element {} into {} of {}",
+							new String[] { element.getId(),
+									field != null ? field.getName() : "?",
+									objectToString(parent) });
 				}
 				listener.elementRead(element);
 				return;
@@ -109,26 +113,28 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			clazz = translateClass(clazz);
 		} else {
 			logger.info("Null element for: "
-					+ (parent != null ? objectToString(parent) : node.getNodeName()));
+					+ (parent != null ? objectToString(parent) : node
+							.getNodeName()));
 		}
 
 		if (clazz != null) {
 			ReflectionClass<?> classType = ReflectionClassLoader
 					.getReflectionClass(clazz);
-			logger.debug("Reading element with uid '{}' and id '{}'  of type {}",
-					new Object[] {uniqueId, id, clazz});
+			logger.debug(
+					"Reading element with uid '{}' and id '{}'  of type {}",
+					new Object[] { uniqueId, id, clazz });
 			if (classType.getConstructor() != null) {
 				element = (EAdElement) classType.getConstructor().newInstance();
 				element.setId(id);
 			}
 		} else {
-			
+
 		}
 
 		if (element != null) {
 			ObjectFactory.addElement(uniqueId, element);
 		}
-		
+
 		setValue(field, parent, element);
 
 		if (element != null) {

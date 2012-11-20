@@ -50,15 +50,15 @@ import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ConsumeObjectEffect;
 
-public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEffect, EAdEffect>{
-	
+public class ConsumeObjectEffectImporter extends
+		EffectImporter<ConsumeObjectEffect, EAdEffect> {
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
 	public ConsumeObjectEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory,
-			ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
@@ -72,11 +72,12 @@ public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEff
 	@Override
 	public EAdEffect convert(ConsumeObjectEffect oldObject, Object object) {
 		ModifyInventoryEf effect = (ModifyInventoryEf) object;
-		
+
 		importConditions(oldObject, effect);
 
 		effect.setModification(InventoryEffectAction.REMOVE_FROM_INVENTORY);
-		effect.setSceneElementDef((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
+		effect.setSceneElementDef((EAdSceneElementDef) factory
+				.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

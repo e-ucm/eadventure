@@ -61,7 +61,7 @@ public class DijkstraNode {
 	private float linePosition;
 
 	private float scale;
-	
+
 	public DijkstraNode(EAdPosition position) {
 		this.position = position;
 		this.sides = new ArrayList<DijkstraPathSide>();
@@ -121,7 +121,7 @@ public class DijkstraNode {
 	public void setGetsTo(boolean getsTo) {
 		this.getsTo = getsTo;
 	}
-	
+
 	public float getLinePosition() {
 		return linePosition;
 	}
@@ -129,9 +129,9 @@ public class DijkstraNode {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	
+
 	public float getScale() {
 		return scale;
 	}
-	
+
 }

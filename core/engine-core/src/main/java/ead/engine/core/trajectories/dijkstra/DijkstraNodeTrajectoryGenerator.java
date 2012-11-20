@@ -134,8 +134,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 		List<DijkstraNode> nodeList = new ArrayList<DijkstraNode>();
 
 		for (Node node : trajectoryDefinition.getNodes()) {
-			DijkstraNode dNode = new DijkstraNode(new EAdPosition(
-					node.getX(), node.getY()));
+			DijkstraNode dNode = new DijkstraNode(new EAdPosition(node.getX(),
+					node.getY()));
 			dNode.setScale(node.getScale());
 			dNode.calculateGoalDistance(toX, toY);
 			nodeMap.put(node.getId(), dNode);
@@ -150,7 +150,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 		return decodePath(currentNode, map);
 	}
-	
+
 	/**
 	 * Generate the map, used to calculate the best path and distance to each node
 	 * 
@@ -265,7 +265,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 			NodeTrajectoryDefinition trajectoryDefinition,
 			Map<String, DijkstraNode> nodeMap, EAdElement movingElement,
 			int toX, int toY, SceneElementGO<?> sceneElement) {
-		
+
 		Side currentSide = getCurrentSide(trajectoryDefinition, movingElement);
 		DijkstraNode currentNode = null;
 
@@ -274,7 +274,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 			DijkstraNode end = nodeMap.get(side.getIdEnd().getId());
 
 			EAdPosition currentPosition = getCurrentPosition(movingElement);
-			
+
 			List<DijkstraNode> intersections = new ArrayList<DijkstraNode>();
 			intersections.add(start);
 			if (side == currentSide) {
@@ -286,7 +286,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 					currentNode = end;
 				else {
 					currentNode = new DijkstraNode(currentPosition);
-					currentNode.setScale(valueMap.getValue(movingElement, SceneElement.VAR_SCALE));
+					currentNode.setScale(valueMap.getValue(movingElement,
+							SceneElement.VAR_SCALE));
 					intersections.add(currentNode);
 				}
 			}
@@ -301,16 +302,17 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 			for (DijkstraNode newNode : intersections) {
 				newNode.calculateGoalDistance(toX, toY);
-				newNode.setGetsTo(isGetsTo(newNode.getPosition(), sceneElement));
+				newNode
+						.setGetsTo(isGetsTo(newNode.getPosition(), sceneElement));
 			}
 
 			for (int i = 0; i < intersections.size() - 1; i++) {
 				DijkstraNode s = intersections.get(i);
 				DijkstraNode e = intersections.get(i + 1);
 				double length = getLength(s.getPosition(), e.getPosition());
-				DijkstraPathSide pathSide = new DijkstraPathSide(s, e,
-						side.getLength() * length / side.getRealLength(),
-						length, side);
+				DijkstraPathSide pathSide = new DijkstraPathSide(s, e, side
+						.getLength()
+						* length / side.getRealLength(), length, side);
 				s.addSide(pathSide);
 				e.addSide(pathSide);
 			}
@@ -345,9 +347,10 @@ public class DijkstraNodeTrajectoryGenerator implements
 	private void addClosestPoint(List<DijkstraNode> intersections, int toX,
 			int toY) {
 		for (int i = 0; i < intersections.size() - 1; i++) {
-			DijkstraNode newNode = getClosestPosition(intersections.get(i).getPosition(), intersections.get(i).getScale(),
-					intersections.get(i + 1).getPosition(), intersections.get(i + 1).getScale(),
-					toX, toY);
+			DijkstraNode newNode = getClosestPosition(intersections.get(i)
+					.getPosition(), intersections.get(i).getScale(),
+					intersections.get(i + 1).getPosition(), intersections.get(
+							i + 1).getScale(), toX, toY);
 			if (newNode != null) {
 				intersections.add(i + 1, newNode);
 				break;
@@ -368,8 +371,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 * @return null if the closest point is one of the nodes, or a position
 	 *         otherwise
 	 */
-	private DijkstraNode getClosestPosition(EAdPosition A, float scaleA, EAdPosition B, float scaleB,
-			int toX, int toY) {
+	private DijkstraNode getClosestPosition(EAdPosition A, float scaleA,
+			EAdPosition B, float scaleB, int toX, int toY) {
 		float APx = toX - A.getX();
 		float APy = toY - A.getY();
 
@@ -407,14 +410,14 @@ public class DijkstraNodeTrajectoryGenerator implements
 						NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
 		// TODO check if the position of the element isn't relevant (i.e. if the
 		// position of the rectangle is not relative to the element)
-		EAdPosition position = new EAdPosition(rectangle.getX(),
-				rectangle.getY());
+		EAdPosition position = new EAdPosition(rectangle.getX(), rectangle
+				.getY());
 
 		int i = 0;
 		while (i < intersections.size() - 1) {
 			List<DijkstraNode> newIntersections = getIntersections(
-					intersections.get(i), intersections.get(i + 1),
-					rectangle.getWidth(), rectangle.getHeight(), position);
+					intersections.get(i), intersections.get(i + 1), rectangle
+							.getWidth(), rectangle.getHeight(), position);
 			for (DijkstraNode newNode : newIntersections)
 				newNode.setGetsTo(true);
 			intersections.addAll(i + 1, newIntersections);
@@ -465,8 +468,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 				while (i < intersections.size() - 1) {
 					List<DijkstraNode> newIntersections = getIntersections(
 							intersections.get(i), intersections.get(i + 1),
-							(int) (go.getWidth() * go.getScale()),
-							(int) (go.getHeight() * go.getScale()), position);
+							(int) (go.getWidth() * go.getScale()), (int) (go
+									.getHeight() * go.getScale()), position);
 					for (DijkstraNode newNode : newIntersections)
 						newNode.setBreakNode(true);
 					intersections.addAll(i + 1, newIntersections);
@@ -503,19 +506,20 @@ public class DijkstraNodeTrajectoryGenerator implements
 		float startScale = start.getScale();
 		float endScale = end.getScale();
 
-		DijkstraNode temp = getIntersection(startX, startY, startScale,
-				endX, endY, endScale, x, y, x + width, y);
+		DijkstraNode temp = getIntersection(startX, startY, startScale, endX,
+				endY, endScale, x, y, x + width, y);
 		if (temp != null)
 			intersections.add(temp);
-		temp = getIntersection(startX,
-				startY, startScale, endX, endY, endScale, x + width, y, x + width, y + height);
+		temp = getIntersection(startX, startY, startScale, endX, endY,
+				endScale, x + width, y, x + width, y + height);
 		if (temp != null)
 			intersections.add(temp);
-		temp = getIntersection(startX, 
-				startY, startScale, endX, endY, endScale, x, y + height, x + width, y + height);
+		temp = getIntersection(startX, startY, startScale, endX, endY,
+				endScale, x, y + height, x + width, y + height);
 		if (temp != null)
 			intersections.add(temp);
-		temp = getIntersection(startX, startY, startScale, endX, endY, endScale, x, y, x, y + height);
+		temp = getIntersection(startX, startY, startScale, endX, endY,
+				endScale, x, y, x, y + height);
 		if (temp != null)
 			intersections.add(temp);
 
@@ -538,8 +542,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 * 
 	 * @return
 	 */
-	private DijkstraNode getIntersection(int x1, int y1, float scale1, int x2, int y2, float scale2,
-			int x3, int y3, int x4, int y4) {
+	private DijkstraNode getIntersection(int x1, int y1, float scale1, int x2,
+			int y2, float scale2, int x3, int y3, int x4, int y4) {
 		int den = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
 		if (den == 0)
 			return null;
@@ -577,13 +581,17 @@ public class DijkstraNodeTrajectoryGenerator implements
 		if (side == null) {
 			int distance = Integer.MAX_VALUE;
 			for (Node node : nodeTrajectoryDefinition.getNodes()) {
-				int d = (int) Math.sqrt(Math.pow(
-						node.getX() - valueMap.getValue(movingElement, SceneElement.VAR_X), 2)
-						+ Math.pow(node.getY() - valueMap.getValue(movingElement, SceneElement.VAR_Y), 2));
+				int d = (int) Math.sqrt(Math.pow(node.getX()
+						- valueMap.getValue(movingElement, SceneElement.VAR_X),
+						2)
+						+ Math.pow(node.getY()
+								- valueMap.getValue(movingElement,
+										SceneElement.VAR_Y), 2));
 				if (d < distance) {
 					for (Side side2 : nodeTrajectoryDefinition.getSides())
 						if (side2.getIdEnd().getId().equals(node.getId())
-								|| side2.getIdStart().getId().equals(node.getId())) {
+								|| side2.getIdStart().getId().equals(
+										node.getId())) {
 							side = side2;
 							distance = d;
 						}
@@ -592,14 +600,11 @@ public class DijkstraNodeTrajectoryGenerator implements
 		}
 		return side;
 	}
-	
+
 	private EAdPosition getCurrentPosition(EAdElement element) {
-		int x = valueMap.getValue(element,
-				SceneElement.VAR_X);
-		int y = valueMap.getValue(element,
-				SceneElement.VAR_Y);
+		int x = valueMap.getValue(element, SceneElement.VAR_X);
+		int y = valueMap.getValue(element, SceneElement.VAR_Y);
 		return new EAdPosition(x, y);
 	}
-
 
 }

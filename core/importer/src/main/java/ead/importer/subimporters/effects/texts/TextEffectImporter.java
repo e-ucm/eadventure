@@ -128,8 +128,8 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 			int questionMark = text.indexOf('?', i);
 			if (beginIndex != -1 && endIndex != -1 && endIndex > beginIndex
 					&& questionMark > beginIndex) {
-				EAdOperation op = createOperation(
-						text.substring(beginIndex + 2, questionMark), factory);
+				EAdOperation op = createOperation(text.substring(
+						beginIndex + 2, questionMark), factory);
 				if (op != null) {
 					operations.add(op);
 				}

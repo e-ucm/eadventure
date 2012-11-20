@@ -58,128 +58,132 @@ import javax.swing.JPanel;
  */
 public class SplashScreenImpl implements SplashScreen {
 
-    /**
-     * Logger
-     */
-    private static final Logger logger = LoggerFactory.getLogger("SplashScreenImpl");
-    /**
-     * The splash screen dialog
-     */
-    protected SplashScreenDialog splashScreenDialog = null;
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger("SplashScreenImpl");
+	/**
+	 * The splash screen dialog
+	 */
+	protected SplashScreenDialog splashScreenDialog = null;
 
-    /**
-     * The time at which the splash screen appeared
-     */
-    private long startTime;
-    /**
-     * The minimum time to display the splash screen
-     */
-    private static final long MIN_TIME = 1000;
+	/**
+	 * The time at which the splash screen appeared
+	 */
+	private long startTime;
+	/**
+	 * The minimum time to display the splash screen
+	 */
+	private static final long MIN_TIME = 1000;
 
-    @Override
-    public void show() {
-        logger.info("Showing Splash-screen");
+	@Override
+	public void show() {
+		logger.info("Showing Splash-screen");
 
-        final Image image = Resource.loadImage(R.Drawable.SplashScreenLogo_png);
+		final Image image = Resource.loadImage(R.Drawable.SplashScreenLogo_png);
 
-        SwingUtilities.doInEDTNow(new Runnable() {
+		SwingUtilities.doInEDTNow(new Runnable() {
 
-            @Override
-            public void run() {
-                splashScreenDialog = new SplashScreenDialog(image);
-                splashScreenDialog.setUndecorated(true);
+			@Override
+			public void run() {
+				splashScreenDialog = new SplashScreenDialog(image);
+				splashScreenDialog.setUndecorated(true);
 
-                int width = image.getWidth(null);
-                int height = image.getHeight(null);
-                splashScreenDialog.setSize(width, height);
-                splashScreenDialog.setResizable(false);
+				int width = image.getWidth(null);
+				int height = image.getHeight(null);
+				splashScreenDialog.setSize(width, height);
+				splashScreenDialog.setResizable(false);
 
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                double screenWidth = screenSize.getWidth();
-                double screenHeight = screenSize.getHeight();
-                int locX = Math.round(((int) screenWidth - width) / 2.0f);
-                int locY = Math.round(((int) screenHeight - height) / 2.0f);
-                splashScreenDialog.setLocation(locX, locY);
-                splashScreenDialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				Dimension screenSize = Toolkit.getDefaultToolkit()
+						.getScreenSize();
+				double screenWidth = screenSize.getWidth();
+				double screenHeight = screenSize.getHeight();
+				int locX = Math.round(((int) screenWidth - width) / 2.0f);
+				int locY = Math.round(((int) screenHeight - height) / 2.0f);
+				splashScreenDialog.setLocation(locX, locY);
+				splashScreenDialog.setCursor(Cursor
+						.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                splashScreenDialog.setVisible(true);
-            }
-        });
+				splashScreenDialog.setVisible(true);
+			}
+		});
 
-        startTime = System.currentTimeMillis();
-    }
+		startTime = System.currentTimeMillis();
+	}
 
-    @Override
-    public void hide() {
-        logger.info("Hiding Splash-screen");
+	@Override
+	public void hide() {
+		logger.info("Hiding Splash-screen");
 
-        if (System.currentTimeMillis() - startTime < MIN_TIME) {
-            try {
-                Thread.sleep(MIN_TIME - (System.currentTimeMillis() - startTime));
-            } catch (Exception e) {
+		if (System.currentTimeMillis() - startTime < MIN_TIME) {
+			try {
+				Thread.sleep(MIN_TIME
+						- (System.currentTimeMillis() - startTime));
+			} catch (Exception e) {
 				logger.warn("Sleep failed within splash");
-            }
-        }
+			}
+		}
 
-        SwingUtilities.doInEDTNow(new Runnable() {
+		SwingUtilities.doInEDTNow(new Runnable() {
 
-            @Override
-            public void run() {
-                splashScreenDialog.setVisible(false);
-                splashScreenDialog.dispose();
-            }
-        });
-    }
+			@Override
+			public void run() {
+				splashScreenDialog.setVisible(false);
+				splashScreenDialog.dispose();
+			}
+		});
+	}
 
-    /**
-     * The actual splash screen dialog, that shows the image, the message and
-     * dots following it to show the user that the program is loading.
-     */
-    public static class SplashScreenDialog extends JDialog {
+	/**
+	 * The actual splash screen dialog, that shows the image, the message and
+	 * dots following it to show the user that the program is loading.
+	 */
+	public static class SplashScreenDialog extends JDialog {
 
-        private static final long serialVersionUID = 7388884935911211935L;
+		private static final long serialVersionUID = 7388884935911211935L;
 
-        /**
-         * The panel that actually displays stuff
-         */
-        private JPanel splashPanel;
-        /**
-         * The number of dots to be drawn at the end of the message
-         */
-        private int status = 0;
-        /**
-         * Timer used to show the dots at the end of the message
-         */
-        private javax.swing.Timer timer;
-		
-        /**
-         * Enables double-buffering by default
-         */
-        public SplashScreenDialog(final Image image) {
-            super.getRootPane().setDoubleBuffered(true);
+		/**
+		 * The panel that actually displays stuff
+		 */
+		private JPanel splashPanel;
+		/**
+		 * The number of dots to be drawn at the end of the message
+		 */
+		private int status = 0;
+		/**
+		 * Timer used to show the dots at the end of the message
+		 */
+		private javax.swing.Timer timer;
 
-            splashPanel = new JPanel() {
-                @Override
-                public void paintComponent(Graphics g) {
-                    g.drawImage(image, 0, 0, null);
-                    StringBuilder message = new StringBuilder(
+		/**
+		 * Enables double-buffering by default
+		 */
+		public SplashScreenDialog(final Image image) {
+			super.getRootPane().setDoubleBuffered(true);
+
+			splashPanel = new JPanel() {
+				@Override
+				public void paintComponent(Graphics g) {
+					g.drawImage(image, 0, 0, null);
+					StringBuilder message = new StringBuilder(
 							Messages.splash_screen_loading_message + " ");
-                    for (int i = 0; i < status; i++) {
-                        message.append(".");
-                    }
-                    g.drawString(message.toString(), 100, 265);
-                    status = ++status % 5;
-                    timer.start();
-                }
-            };
-            add(splashPanel);
+					for (int i = 0; i < status; i++) {
+						message.append(".");
+					}
+					g.drawString(message.toString(), 100, 265);
+					status = ++status % 5;
+					timer.start();
+				}
+			};
+			add(splashPanel);
 
-            timer = new javax.swing.Timer(100, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    splashPanel.repaint();
-                }
-            });
-        }
-    }
+			timer = new javax.swing.Timer(100, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					splashPanel.repaint();
+				}
+			});
+		}
+	}
 }

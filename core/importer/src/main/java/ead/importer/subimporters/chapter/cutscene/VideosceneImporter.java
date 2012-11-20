@@ -62,9 +62,9 @@ public class VideosceneImporter extends CutsceneImporter<Videoscene> {
 	@Inject
 	public VideosceneImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter, EAdElementFactory factory,
-			EffectsImporterFactory effectsImporter,
-			ImportAnnotator annotator) {
-		super(stringHandler, factory, effectsImporter, resourceImporter, annotator);
+			EffectsImporterFactory effectsImporter, ImportAnnotator annotator) {
+		super(stringHandler, factory, effectsImporter, resourceImporter,
+				annotator);
 	}
 
 	@Override
@@ -79,8 +79,8 @@ public class VideosceneImporter extends CutsceneImporter<Videoscene> {
 		Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 		resourcesClasses.put(VideoScene.video, Video.class);
 
-		resourceImporter.importResources(scene.getDefinition(),
-				oldCutscene.getResources(), correspondences, resourcesClasses);
+		resourceImporter.importResources(scene.getDefinition(), oldCutscene
+				.getResources(), correspondences, resourcesClasses);
 	}
 
 	@Override

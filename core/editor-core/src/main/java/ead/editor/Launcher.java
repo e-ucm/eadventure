@@ -42,20 +42,20 @@ package ead.editor;
  * 
  */
 public interface Launcher {
-	
+
 	/**
 	 * Configure the <e-Adventure> editor
 	 */
 	void configure();
-	
+
 	/**
 	 * Initialize the <e-Adventure> editor and necessary plugins
 	 */
 	void initialize();
-	
+
 	/**
 	 * Start the <e-Adventure> editor, including the window
 	 */
 	void start();
-	
+
 }

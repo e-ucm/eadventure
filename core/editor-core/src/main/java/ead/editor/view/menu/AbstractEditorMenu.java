@@ -58,19 +58,19 @@ public abstract class AbstractEditorMenu extends JMenu {
 
 	protected Controller controller;
 
-	private static int platformMnemonic
-			= Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+	private static int platformMnemonic = Toolkit.getDefaultToolkit()
+			.getMenuShortcutKeyMask();
 
 	/**
 	 * Constructor. Should not do any real work (leave that to the initialization)
 	 * @param controller
 	 * @param name
 	 */
-    public AbstractEditorMenu(Controller controller, String name) {
-        super(removeMenuKeyIndicator(name));
-        this.controller = controller;
+	public AbstractEditorMenu(Controller controller, String name) {
+		super(removeMenuKeyIndicator(name));
+		this.controller = controller;
 		setMnemonic(getMenuKeyFromName(name));
-    }
+	}
 
 	/**
 	 * Finishes menu setup.
@@ -85,12 +85,13 @@ public abstract class AbstractEditorMenu extends JMenu {
 	 */
 	private static int getMenuKeyFromName(String text) {
 		int pos = text.indexOf('_');
-		if (pos == -1 || pos+1 == text.length()) {
-			throw new IllegalArgumentException(
-				"The string '" + text + "' must contain a '_' before its end");
+		if (pos == -1 || pos + 1 == text.length()) {
+			throw new IllegalArgumentException("The string '" + text
+					+ "' must contain a '_' before its end");
 		}
-		char c = text.toLowerCase().charAt(pos+1);
-		return KeyEvent.getExtendedKeyCodeForChar(c);
+		char c = text.toLowerCase().charAt(pos + 1);
+		//		return KeyEvent.getExtendedKeyCodeForChar(c);
+		return 0;
 	}
 
 	/**
@@ -106,8 +107,8 @@ public abstract class AbstractEditorMenu extends JMenu {
 	 * An abstract editor action.
 	 * Registers a 'ctrl
 	 */
-    public abstract class AbstractEditorAction extends AbstractAction
-		implements ChangeListener {
+	public abstract class AbstractEditorAction extends AbstractAction implements
+			ChangeListener {
 
 		/**
 		 * Creates an action without an accelerator
@@ -115,9 +116,9 @@ public abstract class AbstractEditorMenu extends JMenu {
 		 * 't' would be chosen as the mnemonic key, and the underscore would not
 		 * be included in the actual menuitem name
 		 */
-	    public AbstractEditorAction(String name) {
-            putValue(NAME, removeMenuKeyIndicator(name));
-            putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
+		public AbstractEditorAction(String name) {
+			putValue(NAME, removeMenuKeyIndicator(name));
+			putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
 		}
 
 		/**
@@ -127,13 +128,13 @@ public abstract class AbstractEditorMenu extends JMenu {
 		 * be included in the actual menuitem name
 		 * @param globalKey
 		 */
-	    public AbstractEditorAction(String name,
-				int globalKey, int globalModifiers) {
-            putValue(NAME, removeMenuKeyIndicator(name));
-            putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
-            putValue(ACCELERATOR_KEY,
-					KeyStroke.getKeyStroke(globalKey, platformMnemonic | globalModifiers));
-        }
+		public AbstractEditorAction(String name, int globalKey,
+				int globalModifiers) {
+			putValue(NAME, removeMenuKeyIndicator(name));
+			putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(globalKey,
+					platformMnemonic | globalModifiers));
+		}
 
 		/**
 		 * Creates an action with an accelerator and icon
@@ -143,20 +144,20 @@ public abstract class AbstractEditorMenu extends JMenu {
 		 * @param globalKey
 		 * @param iconUrl
 		 */
-	    public AbstractEditorAction(String name,
-				int globalKey, int globalModifiers, String iconUrl) {
-            putValue(NAME, removeMenuKeyIndicator(name));
-            putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
-            putValue(ACCELERATOR_KEY,
-					KeyStroke.getKeyStroke(globalKey, platformMnemonic | globalModifiers));
+		public AbstractEditorAction(String name, int globalKey,
+				int globalModifiers, String iconUrl) {
+			putValue(NAME, removeMenuKeyIndicator(name));
+			putValue(MNEMONIC_KEY, getMenuKeyFromName(name));
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(globalKey,
+					platformMnemonic | globalModifiers));
 			putValue(Action.SMALL_ICON, new ImageIcon(ClassLoader
-				.getSystemClassLoader().getResource(iconUrl)));
-        }
+					.getSystemClassLoader().getResource(iconUrl)));
+		}
 
-        @Override
-        public void processChange(Object event) {
-            // default is to do nothing
-        }
+		@Override
+		public void processChange(Object event) {
+			// default is to do nothing
+		}
 	}
 
 	/**

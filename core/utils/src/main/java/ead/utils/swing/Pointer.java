@@ -42,7 +42,7 @@ package ead.utils.swing;
  *
  * @param <T> Type of the element to point at.
  */
-public class Pointer<T>{
+public class Pointer<T> {
 
 	/**
 	 * Referenced element;
@@ -52,7 +52,7 @@ public class Pointer<T>{
 	/**
 	 * Creates an empty {link Pointer}.
 	 */
-	public Pointer(){
+	public Pointer() {
 		this(null);
 	}
 
@@ -61,7 +61,7 @@ public class Pointer<T>{
 	 *
 	 * @param reference Element to point at.
 	 */
-	public Pointer(T reference){
+	public Pointer(T reference) {
 		this.reference = reference;
 	}
 

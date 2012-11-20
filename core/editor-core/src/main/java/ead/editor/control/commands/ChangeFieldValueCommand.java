@@ -45,7 +45,6 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import ead.editor.control.Command;
 import ead.editor.view.generic.FieldDescriptor;
 
@@ -57,34 +56,36 @@ public class ChangeFieldValueCommand<T> extends Command {
 	/**
 	 * The old value (T) to be changed.
 	 */
-    protected T oldValue;
+	protected T oldValue;
 
-    /**
+	/**
 	 * The new value (T) to change.
 	 */
-    protected T newValue;
+	protected T newValue;
 
-    protected FieldDescriptor<T> fieldDescriptor;
+	protected FieldDescriptor<T> fieldDescriptor;
 
-    /**
-     * The logger
-     */
-    private static final Logger logger = LoggerFactory.getLogger(ChangeFieldValueCommand.class);
+	/**
+	 * The logger
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(ChangeFieldValueCommand.class);
 
-    /**
-     * Constructor for the ChangeValueCommand class.
-     *
-     * @param newValue
-     *            The new value (T)
-     * @param fieldDescriptor
-     *
-     */
-    public ChangeFieldValueCommand(T newValue, FieldDescriptor<T> fieldDescriptor) {
-        this.newValue = newValue;
-        this.fieldDescriptor = fieldDescriptor;
-    }
+	/**
+	 * Constructor for the ChangeValueCommand class.
+	 *
+	 * @param newValue
+	 *            The new value (T)
+	 * @param fieldDescriptor
+	 *
+	 */
+	public ChangeFieldValueCommand(T newValue,
+			FieldDescriptor<T> fieldDescriptor) {
+		this.newValue = newValue;
+		this.fieldDescriptor = fieldDescriptor;
+	}
 
-    /**
+	/**
 	 * Method to perform a changing values command
 	 */
 	@SuppressWarnings("unchecked")
@@ -93,26 +94,35 @@ public class ChangeFieldValueCommand<T> extends Command {
 		boolean done = false;
 
 		try {
-			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
+			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
+					.getElement().getClass(), fieldDescriptor.getFieldName());
 			Method method = pd.getReadMethod();
 			oldValue = (T) method.invoke(fieldDescriptor.getElement());
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field \"" + fieldDescriptor.getFieldName() + "\"", e);
+			throw new RuntimeException("Error reading field \""
+					+ fieldDescriptor.getFieldName() + "\"", e);
 		}
 
-        if (newValue != null && oldValue == null || newValue == null && oldValue != null || (newValue != null && oldValue != null && !oldValue.equals(newValue))) {
-            done = setValue(newValue);
-        }
+		if (newValue != null
+				&& oldValue == null
+				|| newValue == null
+				&& oldValue != null
+				|| (newValue != null && oldValue != null && !oldValue
+						.equals(newValue))) {
+			done = setValue(newValue);
+		}
 
-        return done;
+		return done;
 	}
 
 	private boolean setValue(T value) {
 		try {
-			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
+			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
+					.getElement().getClass(), fieldDescriptor.getFieldName());
 			pd.getWriteMethod().invoke(fieldDescriptor.getElement(), value);
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field " + fieldDescriptor.getFieldName(), e);
+			throw new RuntimeException("Error reading field "
+					+ fieldDescriptor.getFieldName(), e);
 		}
 		return true;
 	}
@@ -138,19 +148,19 @@ public class ChangeFieldValueCommand<T> extends Command {
 	/* (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public boolean combine(Command other) {
-		if(other instanceof ChangeFieldValueCommand) {
+		if (other instanceof ChangeFieldValueCommand) {
 			ChangeFieldValueCommand<T> cnt = (ChangeFieldValueCommand) other;
-            if(fieldDescriptor.equals(cnt.fieldDescriptor)) {
-                newValue = cnt.newValue;
-                timeStamp = cnt.timeStamp;
-                logger.info("Combiened command");
-                return true;
-            }
-        }
-        return false;
+			if (fieldDescriptor.equals(cnt.fieldDescriptor)) {
+				newValue = cnt.newValue;
+				timeStamp = cnt.timeStamp;
+				logger.info("Combiened command");
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -164,14 +174,14 @@ public class ChangeFieldValueCommand<T> extends Command {
 	/**
 	 * Returns the old value
 	 */
-	public T getOldValue(){
+	public T getOldValue() {
 		return oldValue;
 	}
 
 	/**
 	 * Returns the new value
 	 */
-	public T getNewValue(){
+	public T getNewValue() {
 		return newValue;
 	}
 
@@ -182,17 +192,19 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 * @param fieldName
 	 * @return
 	 */
-	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
+	private static PropertyDescriptor getPropertyDescriptor(Class<?> c,
+			String fieldName) {
 		try {
-			for (PropertyDescriptor pd :
-				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
+			for (PropertyDescriptor pd : Introspector.getBeanInfo(c)
+					.getPropertyDescriptors()) {
 				if (pd.getName().equals(fieldName)) {
 					return pd;
 				}
 			}
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("Could not find getters or setters for field "
-					+ fieldName + " in class " + c.getCanonicalName());
+			throw new IllegalArgumentException(
+					"Could not find getters or setters for field " + fieldName
+							+ " in class " + c.getCanonicalName());
 		}
 		return null;
 	}

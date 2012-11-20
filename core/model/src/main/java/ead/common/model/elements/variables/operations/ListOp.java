@@ -47,15 +47,15 @@ import ead.common.model.elements.variables.operations.enums.ListOpType;
 @Element
 @SuppressWarnings("rawtypes")
 public class ListOp extends AbstractOperation {
-	
+
 	@Param("operation")
 	private ListOpType operation;
-	
+
 	@Param("listfield")
 	private EAdField<EAdList> listField;
-	
-	public ListOp( ){
-		
+
+	public ListOp() {
+
 	}
 
 	public ListOp(EAdField<EAdList> listField, ListOpType operation) {

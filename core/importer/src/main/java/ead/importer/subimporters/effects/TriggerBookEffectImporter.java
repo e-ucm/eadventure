@@ -63,7 +63,7 @@ public class TriggerBookEffectImporter extends
 
 	@Override
 	public ChangeSceneEf init(TriggerBookEffect oldObject) {
-		ChangeSceneEf effect =  new ChangeSceneEf();
+		ChangeSceneEf effect = new ChangeSceneEf();
 		return effect;
 
 	}

@@ -45,7 +45,7 @@ public enum ListOpType {
 	 * Return the list with a random order
 	 */
 	RANDOM_LIST,
-	
+
 	/**
 	 * Returns a random element of the list
 	 */

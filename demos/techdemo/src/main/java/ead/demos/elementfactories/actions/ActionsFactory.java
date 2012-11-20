@@ -44,8 +44,8 @@ import ead.common.resources.assets.drawable.basics.Image;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class ActionsFactory {
-	
-	public EAdAction getBasicAction( ){
+
+	public EAdAction getBasicAction() {
 		ElementAction action = new ElementAction();
 		action.getResources().addAsset(action.getInitialBundle(),
 				ElementAction.appearance,
@@ -53,12 +53,11 @@ public class ActionsFactory {
 
 		SpeakEf speak = new SpeakEf();
 
-		EAdElementsFactory.getInstance().getStringFactory()
-				.setString(speak.getString(), "The action was triggered!");
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				speak.getString(), "The action was triggered!");
 
-		
 		action.getEffects().add(speak);
-		
+
 		return action;
 	}
 

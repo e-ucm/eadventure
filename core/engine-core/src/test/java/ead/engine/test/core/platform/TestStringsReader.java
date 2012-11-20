@@ -51,21 +51,19 @@ public class TestStringsReader implements StringHandler {
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
-		
-		
+
 	}
 
 	@Override
 	public void setStrings(Map<EAdString, String> strings) {
-		
-		
+
 	}
 
 	@Override
 	public void addStrings(Map<EAdString, String> strings) {
-		
+
 	}
-	
+
 	@Override
 	public Map<EAdString, String> getStrings() {
 		return null;

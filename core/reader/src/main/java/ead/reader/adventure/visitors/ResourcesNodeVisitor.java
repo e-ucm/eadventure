@@ -94,8 +94,8 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
 			for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
 				if (nl.item(i).getNodeName().equals(DOMTags.BUNDLE_TAG)) {
-					String bundleId = nl.item(i).getAttributes()
-							.getValue(DOMTags.ID_AT);
+					String bundleId = nl.item(i).getAttributes().getValue(
+							DOMTags.ID_AT);
 					EAdBundleId id = new EAdBundleId(bundleId);
 					resources.addBundle(id);
 					if (bundleId.equals(initialBundleId)
@@ -116,8 +116,8 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 									null,
 									new ResourceNodeVisitorListener(id,
 											resources, nl2.item(j)
-													.getAttributes()
-													.getValue(DOMTags.ID_AT)));
+													.getAttributes().getValue(
+															DOMTags.ID_AT)));
 
 						}
 					}
@@ -128,8 +128,8 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 							null,
 							null,
 							new ResourceNodeVisitorListener(null, resources, nl
-									.item(i).getAttributes()
-									.getValue(DOMTags.ID_AT)));
+									.item(i).getAttributes().getValue(
+											DOMTags.ID_AT)));
 
 				}
 			}

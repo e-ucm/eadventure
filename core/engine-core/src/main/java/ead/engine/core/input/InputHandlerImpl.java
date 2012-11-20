@@ -252,9 +252,8 @@ public class InputHandlerImpl implements InputHandler {
 				tracker.track(exitAction, oldGO);
 
 				if (draggedGO != null) {
-					DragInputAction action = new DragInputAction(
-							mouseHandler.getDraggingElement(),
-							DragGEvType.EXITED, x, y);
+					DragInputAction action = new DragInputAction(mouseHandler
+							.getDraggingElement(), DragGEvType.EXITED, x, y);
 
 					oldGO.processAction(action);
 					tracker.track(exitAction, oldGO);
@@ -267,9 +266,8 @@ public class InputHandlerImpl implements InputHandler {
 				currentGO.processAction(enterAction);
 				tracker.track(enterAction, currentGO);
 				if (draggedGO != null) {
-					DragInputAction action = new DragInputAction(
-							mouseHandler.getDraggingElement(),
-							DragGEvType.ENTERED, x, y);
+					DragInputAction action = new DragInputAction(mouseHandler
+							.getDraggingElement(), DragGEvType.ENTERED, x, y);
 					currentGO.processAction(action);
 					tracker.track(action, currentGO);
 				}
@@ -368,9 +366,8 @@ public class InputHandlerImpl implements InputHandler {
 					}
 
 					// Drop
-					DragInputAction action2 = new DragInputAction(
-							mouseHandler.getDraggingElement(),
-							DragGEvType.DROP, x, y);
+					DragInputAction action2 = new DragInputAction(mouseHandler
+							.getDraggingElement(), DragGEvType.DROP, x, y);
 					i = 0;
 					while (i < goMouseList.size()) {
 						goMouse = goMouseList.get(i);
@@ -397,8 +394,8 @@ public class InputHandlerImpl implements InputHandler {
 								MouseGEv.MOUSE_START_DRAG, x, y);
 						mouseHandler.getDraggingGameObject().processAction(
 								action);
-						tracker.track(action,
-								mouseHandler.getDraggingGameObject());
+						tracker.track(action, mouseHandler
+								.getDraggingGameObject());
 						dragFound = true;
 					}
 					i++;

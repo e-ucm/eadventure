@@ -44,7 +44,7 @@ import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 
 public class ComposedScene extends BasicScene implements EAdScene {
-	
+
 	public static final EAdVarDef<Integer> VAR_CURRENT_SCENE = new VarDef<Integer>(
 			"current_scene", Integer.class, 0);
 

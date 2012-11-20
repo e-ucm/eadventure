@@ -40,8 +40,8 @@ package ead.common.model.elements.events.enums;
 import com.gwtent.reflection.client.Reflectable;
 
 @Reflectable
-public enum SystemEvType { 
+public enum SystemEvType {
 
 	GAME_LOADED
-	
+
 }

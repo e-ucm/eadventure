@@ -54,8 +54,8 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	private static final Logger logger = LoggerFactory.getLogger("EditorNode");
 
 	public EditorNode(int id) {
-        super(id, new HashSet<DependencyNode<?>>());
-    }
+		super(id, new HashSet<DependencyNode<?>>());
+	}
 
 	public HashSet<DependencyNode<?>> getContents() {
 		return content;
@@ -74,15 +74,12 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	 * </node>
 	 */
 	public void write(StringBuilder sb) {
-		sb.append("<node class='")
-		  .append(getClass().getName())
-		  .append("' id='")
-		  .append(getId())
-	      .append("' contents='");
+		sb.append("<node class='").append(getClass().getName())
+				.append("' id='").append(getId()).append("' contents='");
 		for (DependencyNode<?> n : getContents()) {
 			sb.append(n.getId()).append(",");
 		}
-		sb.setCharAt(sb.length()-1, '\'');
+		sb.setCharAt(sb.length() - 1, '\'');
 		sb.append(">\n\t");
 		writeInner(sb);
 		sb.append("\n</node>\n");
@@ -105,7 +102,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		EditorNode instance = null;
 		ClassLoader cl = EditorNode.class.getClassLoader();
 		try {
-			Class<EditorNode> c = (Class<EditorNode>)cl.loadClass(className);
+			Class<EditorNode> c = (Class<EditorNode>) cl.loadClass(className);
 			instance = c.getConstructor(Integer.TYPE).newInstance(id);
 			for (String cid : contentIdStrings) {
 				instance.getContents().add(em.getNode(Integer.parseInt(cid)));
@@ -129,7 +126,8 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	@Override
 	public String getTextualDescription(EditorModel m) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(getClass().getSimpleName()).append(" (").append(getId()).append(")");
+		sb.append(getClass().getSimpleName()).append(" (").append(getId())
+				.append(")");
 		for (DependencyNode n : getContents()) {
 			sb.append("\n").append(n.getTextualDescription(m));
 		}

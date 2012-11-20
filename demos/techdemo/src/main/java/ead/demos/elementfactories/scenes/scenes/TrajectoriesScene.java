@@ -96,7 +96,7 @@ public class TrajectoriesScene extends EmptyScene {
 		move.setSceneElement(element);
 		move.setUseTrajectory(true);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-		
+
 		createTrajectory1(changeSide);
 		createTrajectory2(changeSide);
 		createTrajectory3(changeSide);
@@ -171,8 +171,8 @@ public class TrajectoriesScene extends EmptyScene {
 
 		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_2),
-				effect);
+		getBackground().addBehavior(
+				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_2), effect);
 	}
 
 	private void createTrajectory3(ChangeFieldEf changeSide) {
@@ -190,8 +190,8 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.setOperation(new ValueOp(trajectory));
 		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_3),
-				effect);
+		getBackground().addBehavior(
+				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_3), effect);
 	}
 
 	@Override

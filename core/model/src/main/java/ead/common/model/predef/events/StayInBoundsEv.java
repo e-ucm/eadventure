@@ -65,16 +65,13 @@ public class StayInBoundsEv extends SceneElementEv {
 		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
 		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
-		EAdField<Integer> x = new BasicField<Integer>(e,
-				SceneElement.VAR_X);
+		EAdField<Integer> x = new BasicField<Integer>(e, SceneElement.VAR_X);
 
-		EAdField<Integer> y = new BasicField<Integer>(e,
-				SceneElement.VAR_Y);
+		EAdField<Integer> y = new BasicField<Integer>(e, SceneElement.VAR_Y);
 
 		EAdField<Integer> left = new BasicField<Integer>(e,
 				SceneElement.VAR_LEFT);
-		EAdField<Integer> top = new BasicField<Integer>(e,
-				SceneElement.VAR_TOP);
+		EAdField<Integer> top = new BasicField<Integer>(e, SceneElement.VAR_TOP);
 		EAdField<Integer> right = new BasicField<Integer>(e,
 				SceneElement.VAR_RIGHT);
 		EAdField<Integer> bottom = new BasicField<Integer>(e,
@@ -82,7 +79,8 @@ public class StayInBoundsEv extends SceneElementEv {
 
 		// Correct X Left
 		String expression1 = "[0] - [1]";
-		ChangeFieldEf effect = new ChangeFieldEf(x, new MathOp(expression1, x, left));
+		ChangeFieldEf effect = new ChangeFieldEf(x, new MathOp(expression1, x,
+				left));
 		OperationCond c = new OperationCond(left, 0, Comparator.LESS);
 		effect.setCondition(c);
 
@@ -90,22 +88,19 @@ public class StayInBoundsEv extends SceneElementEv {
 
 		// Correct X Right
 		String expression2 = "[0] - ( [1] - [2] )";
-		effect = new ChangeFieldEf( x,
-				new MathOp(expression2, x, right, maxX));
+		effect = new ChangeFieldEf(x, new MathOp(expression2, x, right, maxX));
 		c = new OperationCond(maxX, left, Comparator.LESS);
 		effect.setCondition(c);
 		addEffect(SceneElementEvType.ALWAYS, effect);
 
 		// Correct Y top
-		effect = new ChangeFieldEf( y,
-				new MathOp(expression1, y, top));
+		effect = new ChangeFieldEf(y, new MathOp(expression1, y, top));
 		c = new OperationCond(top, 0, Comparator.LESS);
 		effect.setCondition(c);
 		addEffect(SceneElementEvType.ALWAYS, effect);
 
 		// Correct Y bottom
-		effect = new ChangeFieldEf( y,
-				new MathOp(expression2, y, bottom, maxY));
+		effect = new ChangeFieldEf(y, new MathOp(expression2, y, bottom, maxY));
 		c = new OperationCond(maxY, bottom, Comparator.LESS);
 		effect.setCondition(c);
 		addEffect(SceneElementEvType.ALWAYS, effect);

@@ -43,11 +43,11 @@ import java.awt.image.BufferedImage;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 
 public class ImporterImageLoaderFactory implements ImageLoaderFactory {
-	
+
 	private static final Image image;
-	
+
 	static {
-		image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB );
+		image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ImporterImageLoaderFactory implements ImageLoaderFactory {
 
 	@Override
 	public void showErrorDialog(String arg0, String arg1) {
-		
+
 	}
 
 }

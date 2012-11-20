@@ -46,43 +46,43 @@ import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 
 public class DrawableFactory {
-	
-	public Image getImage( String uri ){
-		Image image = new Image( uri );
+
+	public Image getImage(String uri) {
+		Image image = new Image(uri);
 		return image;
 	}
-	
-	public FramesAnimation getFramesAnimation( String[] uris, int timePerFrame ){
+
+	public FramesAnimation getFramesAnimation(String[] uris, int timePerFrame) {
 		FramesAnimation frames = new FramesAnimation();
-		for ( String s: uris ){
-			frames.addFrame(new Frame( s, timePerFrame ));
+		for (String s : uris) {
+			frames.addFrame(new Frame(s, timePerFrame));
 		}
 		return frames;
-		
+
 	}
-	
-	public StateDrawable getOrientedDrawable( String[] uris ){
-		StateDrawable oriented = new StateDrawable( );
-		if ( uris.length == 4 ){
+
+	public StateDrawable getOrientedDrawable(String[] uris) {
+		StateDrawable oriented = new StateDrawable();
+		if (uris.length == 4) {
 			int i = 0;
-			oriented.setDrawable(Orientation.N, getImage( uris[i++]));
-			oriented.setDrawable(Orientation.E, getImage( uris[i++]));
-			oriented.setDrawable(Orientation.S, getImage( uris[i++]));
-			oriented.setDrawable(Orientation.W, getImage( uris[i++]));
+			oriented.setDrawable(Orientation.N, getImage(uris[i++]));
+			oriented.setDrawable(Orientation.E, getImage(uris[i++]));
+			oriented.setDrawable(Orientation.S, getImage(uris[i++]));
+			oriented.setDrawable(Orientation.W, getImage(uris[i++]));
 		}
 		return oriented;
 	}
-	
-	public EAdStateDrawable getStateDrawable( String[] states, EAdDrawable[] drawables){
-		StateDrawable state = new StateDrawable( );
-		if ( states.length == drawables.length ){
+
+	public EAdStateDrawable getStateDrawable(String[] states,
+			EAdDrawable[] drawables) {
+		StateDrawable state = new StateDrawable();
+		if (states.length == drawables.length) {
 			int i = 0;
-			for ( String s: states ){
+			for (String s : states) {
 				state.addDrawable(s, drawables[i++]);
 			}
 		}
 		return state;
 	}
-	
 
 }

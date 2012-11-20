@@ -51,7 +51,8 @@ public class EAdEngine {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Injector i = Guice.createInjector(new GdxDesktopModule(), new JavaToolsModule());
+		Injector i = Guice.createInjector(new GdxDesktopModule(),
+				new JavaToolsModule());
 		GenericInjector injector = i.getInstance(GenericInjector.class);
 		GameLoader g = injector.getInstance(GameLoader.class);
 		g.loadGameFromFiles("@data.xml", "@strings.xml", "@ead.properties");

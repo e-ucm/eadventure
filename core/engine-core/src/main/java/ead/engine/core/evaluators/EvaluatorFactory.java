@@ -58,8 +58,8 @@ public interface EvaluatorFactory extends Factory<Evaluator<?>> {
 	 * @return The result of evaluating the condition according to the given set
 	 *         of values
 	 */
-	public <T extends EAdCondition> boolean evaluate( T condition);
-	
-	void install( ValueMap valueMap, OperatorFactory operatorFactory );
+	public <T extends EAdCondition> boolean evaluate(T condition);
+
+	void install(ValueMap valueMap, OperatorFactory operatorFactory);
 
 }

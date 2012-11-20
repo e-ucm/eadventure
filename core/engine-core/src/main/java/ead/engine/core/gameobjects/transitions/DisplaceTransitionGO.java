@@ -90,14 +90,14 @@ public class DisplaceTransitionGO extends
 			// transformation.setClip(0, 0, width, height);
 			transformation.getMatrix().setIdentity();
 			transformation.getMatrix().translate(x2, y2, false);
-			gui.addElement(nextSceneGO,
-					gui.addTransformation(transformation, t));
+			gui.addElement(nextSceneGO, gui
+					.addTransformation(transformation, t));
 			if (!isFinished()) {
 				// transformation.setClip(0, 0, width, height);
 				transformation.getMatrix().setIdentity();
 				transformation.getMatrix().translate(x1, y1, false);
-				gui.addElement(previousScene,
-						gui.addTransformation(transformation, t));
+				gui.addElement(previousScene, gui.addTransformation(
+						transformation, t));
 			}
 		}
 	}

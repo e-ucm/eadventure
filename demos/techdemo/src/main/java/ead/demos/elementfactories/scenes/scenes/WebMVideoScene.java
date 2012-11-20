@@ -46,15 +46,16 @@ public class WebMVideoScene extends VideoScene implements SceneDemo {
 	public WebMVideoScene() {
 		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
 		video.setStream(true);
-		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
+		getDefinition().getResources().addAsset(
+				getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene playing a YouTube video.";
 	}
-	
-	public String getDemoName(){
+
+	public String getDemoName() {
 		return "YouTube video Scene";
 	}
 

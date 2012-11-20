@@ -43,7 +43,7 @@ import ead.common.model.weev.story.StoryElement;
 /**
  * Abstract {@link StoryElement} implementation
  */
-public abstract class AbstractStoryElement extends AbstractPositionedWEEVElement implements
-		StoryElement {
+public abstract class AbstractStoryElement extends
+		AbstractPositionedWEEVElement implements StoryElement {
 
 }

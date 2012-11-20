@@ -43,16 +43,16 @@ import com.google.inject.Injector;
 import ead.tools.GenericInjector;
 
 public class JavaInjector implements GenericInjector {
-	
+
 	private Injector injector;
 
 	@Inject
-	public JavaInjector(Injector injector){
+	public JavaInjector(Injector injector) {
 		this.injector = injector;
 	}
 
 	@Override
-	public <T> T getInstance(Class<T> clazz) {		
+	public <T> T getInstance(Class<T> clazz) {
 		return injector.getInstance(clazz);
 	}
 

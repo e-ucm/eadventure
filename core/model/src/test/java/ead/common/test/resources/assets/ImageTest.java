@@ -8,11 +8,11 @@ import org.junit.Test;
 import ead.common.resources.assets.drawable.basics.Image;
 
 public class ImageTest {
-	
+
 	private Image img1, img2, img3, img4;
-	
+
 	@Before
-	public void setUp( ) {
+	public void setUp() {
 		img1 = new Image("@drawable/image.png");
 		img2 = new Image("@drawable/image.png");
 		img3 = new Image("@drawable/otherimage.png");

@@ -98,7 +98,7 @@ public class BasicSceneGraph implements SceneGraph {
 	 * that
 	 */
 	private Map<EAdScene, List<EAdEffect>> effectsVisitedByScene;
-	
+
 	/**
 	 * Map storing "all" assets for every scene
 	 */
@@ -175,8 +175,8 @@ public class BasicSceneGraph implements SceneGraph {
 		// Behavior
 		lookForConnections(currentScene, element.getBehavior());
 		lookForConnections(currentScene, element.getDefinition().getBehavior());
-		
-		addAssets( currentScene, element.getDefinition().getResources() );
+
+		addAssets(currentScene, element.getDefinition().getResources());
 
 		// Events
 		lookForConnectionsEvents(currentScene, element.getEvents());
@@ -189,7 +189,7 @@ public class BasicSceneGraph implements SceneGraph {
 	}
 
 	private void addAssets(EAdScene currentScene, EAdResources resources) {
-		sceneAssets.get(currentScene).addAll(resources.getAllAssets());		
+		sceneAssets.get(currentScene).addAll(resources.getAllAssets());
 	}
 
 	private void lookForConnectionsActions(EAdScene currentScene,
@@ -217,7 +217,7 @@ public class BasicSceneGraph implements SceneGraph {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	private void lookForConnections(EAdScene currentScene, EAdEffect effect) {
 		if (effect == null) {
 			logger.warn(
@@ -290,8 +290,8 @@ public class BasicSceneGraph implements SceneGraph {
 	private void addConnectToPrevious(EAdScene currentScene) {
 		if (!connectedToPrevious.contains(currentScene)) {
 			connectedToPrevious.add(currentScene);
-			logger.info("{} is linked to all its previous scenes",
-					currentScene.getId());
+			logger.info("{} is linked to all its previous scenes", currentScene
+					.getId());
 		}
 	}
 
@@ -299,8 +299,8 @@ public class BasicSceneGraph implements SceneGraph {
 		List<EAdScene> scenes = graph.get(currentScene);
 		if (!scenes.contains(scene)) {
 			scenes.add(scene);
-			logger.info("{} is linked to {}",
-					new Object[] { currentScene.getId(), scene.getId() });
+			logger.info("{} is linked to {}", new Object[] {
+					currentScene.getId(), scene.getId() });
 			if (!graph.containsKey(scene)) {
 				newScenes.add(scene);
 			}

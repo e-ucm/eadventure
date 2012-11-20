@@ -40,6 +40,7 @@ package ead.engine.core.operators.util;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.game.ValueMap;
+
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,
@@ -139,11 +140,11 @@ public class MathEvaluator {
 	private static Float evaluate(Node n) {
 		if (n.hasOperator() && n.hasChild()) {
 			if (n.getOperator().getType() == 1)
-				n.setValue(evaluateExpression(n.getOperator(),
-						evaluate(n.getLeft()), null));
+				n.setValue(evaluateExpression(n.getOperator(), evaluate(n
+						.getLeft()), null));
 			else if (n.getOperator().getType() == 2)
-				n.setValue(evaluateExpression(n.getOperator(),
-						evaluate(n.getLeft()), evaluate(n.getRight())));
+				n.setValue(evaluateExpression(n.getOperator(), evaluate(n
+						.getLeft()), evaluate(n.getRight())));
 		}
 		return n.getValue();
 	}
@@ -242,13 +243,13 @@ public class MathEvaluator {
 		try {
 			id = id.replace("[", "");
 			id = id.replace("]", "");
-		int index = Integer.parseInt(id);
-		EAdField<?> number = varList.get(index);
-		Object o = variables.getValue(number);
-		if (o instanceof Number) {
-			return ((Number) o).floatValue();
-		} else
-			return 0.0f;
+			int index = Integer.parseInt(id);
+			EAdField<?> number = varList.get(index);
+			Object o = variables.getValue(number);
+			if (o instanceof Number) {
+				return ((Number) o).floatValue();
+			} else
+				return 0.0f;
 		} catch (NumberFormatException e) {
 			return 0.0f;
 		}
@@ -327,7 +328,7 @@ public class MathEvaluator {
 			int startOperator = 0;
 
 			int i = 0;
-			while ( i < sLength ) {
+			while (i < sLength) {
 				if (s.charAt(i) == '(')
 					inBrackets++;
 				else if (s.charAt(i) == ')')

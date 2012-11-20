@@ -59,19 +59,21 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.ValueOperator;
 import ead.tools.reflection.ReflectionProvider;
 
-public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Operator<?>> {
+public class OperatorFactoryMapProvider extends
+		AbstractMapProvider<Class<?>, Operator<?>> {
 
 	private static Map<Class<?>, Operator<?>> tempMap = new HashMap<Class<?>, Operator<?>>();
-	
+
 	private EvaluatorFactory evaluatorFactory;
-	
+
 	private ReflectionProvider reflectionProvider;
-	
+
 	private ValueMap valueMap;
-	
+
 	private OperatorFactory operatorFactory;
-	
-	public OperatorFactoryMapProvider(OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory, ValueMap valueMap,
+
+	public OperatorFactoryMapProvider(OperatorFactory operatorFactory,
+			EvaluatorFactory evaluatorFactory, ValueMap valueMap,
 			ReflectionProvider reflectionProvider) {
 		super();
 		this.valueMap = valueMap;
@@ -79,7 +81,7 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 		this.reflectionProvider = reflectionProvider;
 		this.operatorFactory = operatorFactory;
 	}
-	
+
 	@Override
 	public Map<Class<?>, Operator<?>> getMap() {
 		FieldOperator fieldOperator = new FieldOperator(valueMap);
@@ -89,14 +91,14 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 		factoryMap.put(EAdField.class, fieldOperator);
 		factoryMap.put(BasicField.class, fieldOperator);
 		factoryMap.put(ListOp.class, new ListOperator(valueMap));
-		factoryMap.put(ConditionedOp.class, new ConditionedOperator(evaluatorFactory, operatorFactory));
+		factoryMap.put(ConditionedOp.class, new ConditionedOperator(
+				evaluatorFactory, operatorFactory));
 		factoryMap.putAll(tempMap);
 		return super.getMap();
 	}
-	
+
 	public static void add(Class<?> operation, Operator<?> operator) {
 		tempMap.put(operation, operator);
 	}
 
-	
 }

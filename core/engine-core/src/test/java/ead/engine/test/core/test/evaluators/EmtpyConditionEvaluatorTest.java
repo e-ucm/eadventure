@@ -48,13 +48,13 @@ import ead.common.model.elements.conditions.enums.EmptyCondValue;
 import ead.engine.core.evaluators.EmptyCondEvaluator;
 
 public class EmtpyConditionEvaluatorTest {
-	
-	protected EmptyCondEvaluator evaluator;	
+
+	protected EmptyCondEvaluator evaluator;
 	protected EmptyCond cTrue = new EmptyCond(EmptyCondValue.TRUE);
 	protected EmptyCond cFalse = new EmptyCond(EmptyCondValue.FALSE);
-	
+
 	@Before
-	public void setUp(){
+	public void setUp() {
 		evaluator = new EmptyCondEvaluator();
 	}
 

@@ -61,7 +61,7 @@ import ead.tools.GenericInjector;
 
 public class GwtModule extends AbstractGinModule {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected void configure() {
 
@@ -76,9 +76,9 @@ public class GwtModule extends AbstractGinModule {
 
 		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
 		bind(GUI.class).to(GdxGWTGUI.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
-				.to(LoadingScreen.class).asEagerSingleton();
-		
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
+				LoadingScreen.class).asEagerSingleton();
+
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 		}).to(GWTVideoRenderer.class).in(Singleton.class);
 	}

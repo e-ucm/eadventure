@@ -55,13 +55,12 @@ import ead.engine.core.platform.assets.AssetHandler;
  */
 public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 
-
 	private GameController gameController;
-	
+
 	@Inject
-	public QuitGameGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			GameController gameController) {
+	public QuitGameGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, GameController gameController) {
 		super(gameObjectFactory, gui, gameState);
 		this.gameController = gameController;
 	}

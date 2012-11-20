@@ -105,7 +105,8 @@ public class ApkExporter implements Exporter {
 	public void export(String gameBaseDir, String outputfolder) {
 
 		if (packageName == null) {
-			logger.error("app name is not set or is invalid. Apk exportation failed.");
+			logger
+					.error("app name is not set or is invalid. Apk exportation failed.");
 			return;
 		}
 
@@ -119,12 +120,13 @@ public class ApkExporter implements Exporter {
 		File manifestFile = createManifest(apkTemp);
 		File apkAssets = createAssetsFolder(apkTemp, gameFolder);
 		File apkResources = createResourcesFolder(apkTemp);
-		
+
 		// Copy native libs folder
 		try {
-			FileUtils.copyDirectoryStructure(new File("../../resources/nativelibs"), apkTemp);
+			FileUtils.copyDirectoryStructure(new File(
+					"../../resources/nativelibs"), apkTemp);
 		} catch (IOException e) {
-			
+
 		}
 
 		// Copy and load pom file
@@ -149,13 +151,13 @@ public class ApkExporter implements Exporter {
 		userProperties.setProperty("game.outputfolder", outputfolder);
 		userProperties.setProperty("game.name", appName);
 		userProperties.setProperty("ead.packagename", packageName);
-		userProperties.setProperty("eadmanifestdir",
-				manifestFile.getAbsolutePath());
+		userProperties.setProperty("eadmanifestdir", manifestFile
+				.getAbsolutePath());
 		userProperties.setProperty("ead.tempfile", apkTemp.getAbsolutePath());
 		userProperties.setProperty("ead.assets", apkAssets.getAbsolutePath());
-		userProperties.setProperty("ead.resources",
-				apkResources.getAbsolutePath());
-		
+		userProperties.setProperty("ead.resources", apkResources
+				.getAbsolutePath());
+
 		request.setUserProperties(userProperties);
 
 		// Set files
@@ -304,10 +306,8 @@ public class ApkExporter implements Exporter {
 		BufferedReader reader = null;
 		try {
 
-			reader = new BufferedReader(
-					new InputStreamReader(
-							ClassLoader
-									.getSystemResourceAsStream("manifest/AndroidManifest.xml")));
+			reader = new BufferedReader(new InputStreamReader(ClassLoader
+					.getSystemResourceAsStream("manifest/AndroidManifest.xml")));
 			manifestFile.createNewFile();
 			writer = new BufferedWriter(new FileWriter(manifestFile));
 			String line = null;
@@ -354,7 +354,8 @@ public class ApkExporter implements Exporter {
 			}
 		}
 		if (appName2.length() == 0) {
-			logger.warn("Invalid app name. The name should include at least one non-accented letter");
+			logger
+					.warn("Invalid app name. The name should include at least one non-accented letter");
 			return null;
 		}
 		return appName2;

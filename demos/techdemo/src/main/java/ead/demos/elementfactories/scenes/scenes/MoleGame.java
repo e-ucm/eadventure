@@ -140,8 +140,7 @@ public class MoleGame extends EmptyScene {
 		// event.addEffect(SceneElementEvent.ADDED_TO_SCENE, interpolation);
 
 		int initTime = (int) Math.round(Math.random() * 5500);
-		mole.setVarInitialValue(SceneElement.VAR_TIME_DISPLAYED,
-				initTime);
+		mole.setVarInitialValue(SceneElement.VAR_TIME_DISPLAYED, initTime);
 
 		mole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, dissapearMole);
 		// mole.getEvents().add(event);
@@ -154,20 +153,14 @@ public class MoleGame extends EmptyScene {
 		TimedEv event = new TimedEv();
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.setOperation(new ListOp(listField,
-				ListOpType.RANDOM_ELEMENT));
+		effect.setOperation(new ListOp(listField, ListOpType.RANDOM_ELEMENT));
 		effect.addField(moleField);
 
-		InterpolationEf interpolation = new InterpolationEf(
-				moleField, SceneElement.VAR_Y, new MathOp("0"),
-				new MathOp("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
-				InterpolationType.LINEAR);
-		event.addEffect(
-				TimedEvType.END_TIME,
-				effect);
-		event.addEffect(
-				TimedEvType.END_TIME,
-				interpolation);
+		InterpolationEf interpolation = new InterpolationEf(moleField,
+				SceneElement.VAR_Y, new MathOp("0"), new MathOp("-30"), 500, 0,
+				InterpolationLoopType.REVERSE, 2, InterpolationType.LINEAR);
+		event.addEffect(TimedEvType.END_TIME, effect);
+		event.addEffect(TimedEvType.END_TIME, interpolation);
 		event.setTime(1100);
 		this.getBackground().getEvents().add(event);
 

@@ -53,8 +53,7 @@ import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class ActorActionsGO extends
-		AbstractEffectGO<ActorActionsEf> {
+public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 
 	/**
 	 * The current {@link ActionsHUD}
@@ -86,8 +85,10 @@ public class ActorActionsGO extends
 					int x = sceneElement.getCenterX();
 					int y = sceneElement.getCenterY();
 					if (action instanceof MouseInputAction) {
-						x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
-						y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+						x = gameState.getValueMap().getValue(
+								SystemFields.MOUSE_X);
+						y = gameState.getValueMap().getValue(
+								SystemFields.MOUSE_Y);
 					}
 					actionsHUD.setElement(sceneElement, x, y);
 					gameObjectManager.addHUD(actionsHUD);

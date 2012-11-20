@@ -66,6 +66,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
  */
+
 package ead.common.model.weev.common;
 
 /**
@@ -98,7 +99,7 @@ public interface Area extends Positioned, Retractable {
 	 *            the new height of the area
 	 */
 	public void setHeight(Integer height);
-	
+
 	/**
 	 * @return the minimum width of the area
 	 */

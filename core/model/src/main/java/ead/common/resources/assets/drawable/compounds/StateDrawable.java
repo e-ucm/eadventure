@@ -63,7 +63,7 @@ public class StateDrawable implements EAdStateDrawable {
 		drawables = new EAdMapImpl<String, EAdDrawable>(String.class,
 				EAdDrawable.class);
 	}
-	
+
 	public EAdMap<String, EAdDrawable> getDrawables() {
 		return drawables;
 	}

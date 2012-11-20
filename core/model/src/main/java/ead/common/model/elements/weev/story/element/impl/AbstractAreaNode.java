@@ -49,7 +49,7 @@ public abstract class AbstractAreaNode extends AbstractNode implements Area {
 	private Integer width;
 
 	private Integer height;
-	
+
 	@Override
 	public void setRetracted(Boolean retracted) {
 		this.retracted = retracted;

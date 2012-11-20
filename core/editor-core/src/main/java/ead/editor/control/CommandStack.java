@@ -40,7 +40,6 @@ package ead.editor.control;
 import ead.editor.model.EditorModel;
 import java.util.Stack;
 
-
 /**
  * Stacks of performed and undone actions
  */
@@ -50,12 +49,12 @@ public class CommandStack extends Command {
 	 * Stack of performed actions
 	 */
 	private Stack<Command> performed;
-	
+
 	/**
 	 * Stack of undone actions
 	 */
 	private Stack<Command> undone;
-	
+
 	/**
 	 * The number of actions performed successfully on the model.
 	 * Might differ from preformed.size() if there are actions that
@@ -71,7 +70,7 @@ public class CommandStack extends Command {
 		undone = new Stack<Command>();
 		actionHistory = 0;
 	}
-	
+
 	@Override
 	public boolean performCommand() {
 		return false;
@@ -95,7 +94,7 @@ public class CommandStack extends Command {
 	@Override
 	public boolean canRedo() {
 		for (Command a : undone) {
-			if (!a.canRedo()) { 
+			if (!a.canRedo()) {
 				return false;
 			}
 		}
@@ -137,7 +136,7 @@ public class CommandStack extends Command {
 	public void increaseActionHistory() {
 		this.actionHistory++;
 	}
-	
+
 	/**
 	 * Decrease the action history
 	 */

@@ -47,8 +47,8 @@ public class ShowQuestionScene extends EmptyScene {
 
 	public ShowQuestionScene() {
 		SceneElement element = EAdElementsFactory.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement("Launch show question", 10, 10);
+				.getSceneElementFactory().createSceneElement(
+						"Launch show question", 10, 10);
 
 		getSceneElements().add(element);
 
@@ -56,12 +56,13 @@ public class ShowQuestionScene extends EmptyScene {
 				.getStringFactory();
 
 		ShowQuestionEf effect = new ShowQuestionEf();
-		stringFactory.setString(effect.getQuestion(), "A question has been made");
-		
+		stringFactory.setString(effect.getQuestion(),
+				"A question has been made");
+
 		effect.addAnswer(stringFactory.getString("Answer 1"), effect);
 		effect.addAnswer(stringFactory.getString("Answer 2"), null);
 		effect.addAnswer(stringFactory.getString("Answer 3"), null);
-		
+
 		effect.setUpNewInstance();
 
 		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);

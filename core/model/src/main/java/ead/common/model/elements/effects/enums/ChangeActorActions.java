@@ -43,5 +43,5 @@ import com.gwtent.reflection.client.Reflectable;
 public enum ChangeActorActions {
 
 	HIDE_ACTIONS, SHOW_ACTIONS
-	
+
 }

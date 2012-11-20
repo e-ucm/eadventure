@@ -44,24 +44,24 @@ public class Interpolator {
 	/**
 	 * Interpolator f(x) = x
 	 */
-	public static final Interpolator LINEAR = new Interpolator(
-			new float[] { 0.0f, 1.0f });
-	
-	public static final Interpolator BOUNCE_END = new Interpolator(
-			new float[] { 0.0f, 3.5f, -2.5f });
-	
-	public static final Interpolator ACCELERATE = new Interpolator(
-			new float[] { 0.0f, 0.0f, 1.0f });
-	
+	public static final Interpolator LINEAR = new Interpolator(new float[] {
+			0.0f, 1.0f });
+
+	public static final Interpolator BOUNCE_END = new Interpolator(new float[] {
+			0.0f, 3.5f, -2.5f });
+
+	public static final Interpolator ACCELERATE = new Interpolator(new float[] {
+			0.0f, 0.0f, 1.0f });
+
 	public static final Interpolator DESACCELERATE = new Interpolator(
 			new float[] { 0.0f, 0.0f, 1.0f });
-	
+
 	public static final Interpolator BOUNCE_START_END = new Interpolator(
 			new float[] { 0.0f, -3.1667f, 12.5f, -8.3333f });
-	
-	public static final Interpolator DASH = new Interpolator(
-			new float[] { 0.0f, -3.0f, 4.0f });
-	
+
+	public static final Interpolator DASH = new Interpolator(new float[] {
+			0.0f, -3.0f, 4.0f });
+
 	private float[] polynomial;
 
 	public Interpolator(float[] polynomial) {
@@ -72,7 +72,8 @@ public class Interpolator {
 	 * 
 	 * @return
 	 */
-	public float interpolate(float currentTime, float totalTime, float totalLength ) {
+	public float interpolate(float currentTime, float totalTime,
+			float totalLength) {
 		float v = currentTime / totalTime;
 		float r = 0;
 		for (int i = 0; i < polynomial.length; i++) {

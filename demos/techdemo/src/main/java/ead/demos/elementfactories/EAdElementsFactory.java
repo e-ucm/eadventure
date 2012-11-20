@@ -47,30 +47,30 @@ import ead.demos.elementfactories.events.EventsFactory;
 import ead.demos.elementfactories.sceneelements.SceneElementFactory;
 
 public class EAdElementsFactory {
-	
+
 	private static EAdElementsFactory instance = new EAdElementsFactory();
-	
-	public static EAdElementsFactory getInstance(){
-		return instance;	
+
+	public static EAdElementsFactory getInstance() {
+		return instance;
 	}
-	
+
 	private SceneElementFactory sceneElementFactory = new SceneElementFactory();
-	
+
 	private ShapeFactory shapeFactory = new ShapeFactory();
-	
+
 	private EffectFactory effectFactory = new EffectFactory();
-	
+
 	private EventsFactory eventsFactory = new EventsFactory();
-	
+
 	private StringFactory stringFactory = new StringFactory();
-	
+
 	private CaptionFactory captionFactory = new CaptionFactory();
-	
+
 	private DrawableFactory drawableFactory = new DrawableFactory();
-	
+
 	private ActionsFactory actionsFactory = new ActionsFactory();
-	
-	public DrawableFactory getDrawableFactory( ){
+
+	public DrawableFactory getDrawableFactory() {
 		return drawableFactory;
 	}
 
@@ -97,22 +97,19 @@ public class EAdElementsFactory {
 	public ShapeFactory getShapeFactory() {
 		return shapeFactory;
 	}
-	
+
 	private EAdInventory inventory;
-	
-	public void setInventory( EAdInventory inventory ){
+
+	public void setInventory(EAdInventory inventory) {
 		this.inventory = inventory;
 	}
-	
-	public EAdInventory getInventory(){
+
+	public EAdInventory getInventory() {
 		return inventory;
 	}
-	
-	public ActionsFactory getActionsFactory(){
+
+	public ActionsFactory getActionsFactory() {
 		return actionsFactory;
 	}
-
-	
-	
 
 }

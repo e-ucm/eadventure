@@ -54,23 +54,26 @@ import ead.engine.core.evaluators.OperationCondEvaluator;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
 
-public class EvaluatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Evaluator<?>> {
+public class EvaluatorFactoryMapProvider extends
+		AbstractMapProvider<Class<?>, Evaluator<?>> {
 
 	private static Map<Class<?>, Evaluator<?>> tempMap = new HashMap<Class<?>, Evaluator<?>>();
-	
+
 	public EvaluatorFactoryMapProvider(ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, OperatorFactory operatorFactory) {
 		super();
 		factoryMap.put(EmptyCond.class, new EmptyCondEvaluator());
-		factoryMap.put(OperationCond.class, new OperationCondEvaluator(operatorFactory));
-		factoryMap.put(ANDCond.class, new ListedCondEvaluator(evaluatorFactory));
+		factoryMap.put(OperationCond.class, new OperationCondEvaluator(
+				operatorFactory));
+		factoryMap
+				.put(ANDCond.class, new ListedCondEvaluator(evaluatorFactory));
 		factoryMap.put(ORCond.class, new ListedCondEvaluator(evaluatorFactory));
 		factoryMap.put(NOTCond.class, new NOTCondEvaluator(evaluatorFactory));
 		factoryMap.putAll(tempMap);
 	}
-	
+
 	public static void add(Class<?> condition, Evaluator<?> evaluator) {
 		tempMap.put(condition, evaluator);
 	}
-	
+
 }

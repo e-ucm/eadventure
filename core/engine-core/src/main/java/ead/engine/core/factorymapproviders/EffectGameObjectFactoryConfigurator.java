@@ -102,7 +102,7 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(AddActorReferenceEf.class, AddActorReferenceGO.class);
 		factoryMap.put(ShowQuestionEf.class, ComplexBlockingEffectGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
-		factoryMap.put(RandomEf.class, RandomGO.class);		
+		factoryMap.put(RandomEf.class, RandomGO.class);
 	}
 
 }

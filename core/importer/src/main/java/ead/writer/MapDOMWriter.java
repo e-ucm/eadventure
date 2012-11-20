@@ -48,12 +48,14 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 	public Element buildNode(EAdMap<?, ?> map, Class<?> listClass) {
 
 		Element node = doc.createElement(DOMTags.MAP_TAG);
-		
-		node.setAttribute(DOMTags.KEY_CLASS_AT, shortClass(map.getKeyClass().getName()));
-		node.setAttribute(DOMTags.VALUE_CLASS_AT, shortClass(map.getValueClass().getName()));
+
+		node.setAttribute(DOMTags.KEY_CLASS_AT, shortClass(map.getKeyClass()
+				.getName()));
+		node.setAttribute(DOMTags.VALUE_CLASS_AT, shortClass(map
+				.getValueClass().getName()));
 
 		DOMWriter.depthManager.levelDown();
-				
+
 		for (Object o : map.keySet()) {
 			if (o != null && map.get(o) != null) {
 				Element key = super.initNode(o, map.getKeyClass());

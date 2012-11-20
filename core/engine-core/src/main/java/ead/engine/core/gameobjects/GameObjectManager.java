@@ -46,20 +46,20 @@ import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
-public interface GameObjectManager  {
+public interface GameObjectManager {
 
 	static Boolean lock = Boolean.TRUE;
 
 	void add(DrawableGO<?> element, EAdTransformation transformation);
-	
+
 	List<DrawableGO<?>> getGameObjects();
 
 	void addHUD(HudGO hud);
-	
+
 	void addHUDs(GUI gui, EAdTransformation t);
-	
+
 	void removeHUD(HudGO hud);
-	
+
 	void swap();
 
 	List<HudGO> getHUDs();

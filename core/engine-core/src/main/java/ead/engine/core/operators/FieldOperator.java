@@ -43,11 +43,11 @@ import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.game.ValueMap;
 
 public class FieldOperator implements Operator<EAdField<?>> {
-	
+
 	private ValueMap valueMap;
-	
+
 	@Inject
-	public FieldOperator( ValueMap valueMap ){
+	public FieldOperator(ValueMap valueMap) {
 		this.valueMap = valueMap;
 	}
 

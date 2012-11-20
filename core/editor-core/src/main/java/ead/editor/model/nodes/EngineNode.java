@@ -91,11 +91,10 @@ public class EngineNode<T> extends DependencyNode<T> {
 		return sb.toString();
 	}
 
-	private void appendDependencies(DependencyNode n, EditorModel m, StringBuilder sb) {
-		sb
-			.append("Used from ")
-			.append(formatIds(m.incomingDependencies(this)))
-			.append("\n");
+	private void appendDependencies(DependencyNode n, EditorModel m,
+			StringBuilder sb) {
+		sb.append("Used from ").append(formatIds(m.incomingDependencies(this)))
+				.append("\n");
 	}
 
 	/**
@@ -104,84 +103,85 @@ public class EngineNode<T> extends DependencyNode<T> {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private void appendDescription(EditorModel m, Object o, StringBuilder sb, int depth, int maxDepth) {
+	private void appendDescription(EditorModel m, Object o, StringBuilder sb,
+			int depth, int maxDepth) {
 		if (maxDepth == depth) {
 			return;
 		}
 
-		String indent = new String(new char[depth*2]).replace('\0', ' ');
+		String indent = new String(new char[depth * 2]).replace('\0', ' ');
 
-        if (o == null) {
-            sb.append("(null)");
+		if (o == null) {
+			sb.append("(null)");
 			return;
-        }
+		}
 
 		String id = "" + m.getEditorId(o);
 		String cname = o.getClass().getSimpleName();
 		if (o instanceof EAdElement) {
-            if (o instanceof VarDef) {
-                VarDef<?> v = ((VarDef)o);
-                sb.append(indent + "(" + v.getId() + ") - "
-                        + v.getType().getSimpleName() + " "
-                        + v.getName() + " = "
-                        + v.getInitialValue()
-                        + "\n");
+			if (o instanceof VarDef) {
+				VarDef<?> v = ((VarDef) o);
+				sb.append(indent + "(" + v.getId() + ") - "
+						+ v.getType().getSimpleName() + " " + v.getName()
+						+ " = " + v.getInitialValue() + "\n");
 				if (depth != maxDepth) {
 					appendDependencies(this, m, sb);
 				}
-            } else {
-                sb.append(indent + cname + " (" + id + ")" + "\n");
+			} else {
+				sb.append(indent + cname + " (" + id + ")" + "\n");
 				if (depth != maxDepth) {
 					appendDependencies(this, m, sb);
 				}
-                appendParams(m, o, sb, depth, maxDepth);
-            }
+				appendParams(m, o, sb, depth, maxDepth);
+			}
 		} else if (o instanceof EAdList) {
 			EAdList target = (EAdList) o;
 			sb.append(indent + cname + " (" + id + ")" + "\n");
 			if (target.size() == 0) {
-                sb.append(indent + "  (empty)\n");
-            } else if (depth == maxDepth -1) {
-                sb.append(indent + "  (" + target.size() + " elements inside)\n");
-            } else {
-                for (int i = 0; i < target.size(); i++) {
-                    // visit all children-values of this list
-                    Object inner = target.get(i);
-                    if (inner != null) {
-                        appendDescription(m, inner, sb, depth + 1, maxDepth);
-                    }
-                }
-            }
+				sb.append(indent + "  (empty)\n");
+			} else if (depth == maxDepth - 1) {
+				sb.append(indent + "  (" + target.size()
+						+ " elements inside)\n");
+			} else {
+				for (int i = 0; i < target.size(); i++) {
+					// visit all children-values of this list
+					Object inner = target.get(i);
+					if (inner != null) {
+						appendDescription(m, inner, sb, depth + 1, maxDepth);
+					}
+				}
+			}
 		} else if (o instanceof EAdMap) {
 			EAdMap<?, ?> target = (EAdMap<?, ?>) o;
 			sb.append(indent + cname + " (" + id + ")" + "\n");
 			int i = 0;
-            if (target.size() == 0) {
-                sb.append(indent + "  (empty)\n");
-            } else if (depth == maxDepth -1) {
-                sb.append(indent + "  (" + target.size() + " elements inside)\n");
-            } else {
-                for (Map.Entry<?, ?> e : target.entrySet()) {
-                    if (e.getKey() != null) {
-                        appendDescription(m, e.getKey(), sb, depth + 1, maxDepth);
-                    }
-                    sb.append(indent + "  -m->\n");
-                    if (e.getValue() != null) {
-                        appendDescription(m, e.getValue(), sb, depth + 1, maxDepth);
-                    }
-                    i++;
-                }
-            }
+			if (target.size() == 0) {
+				sb.append(indent + "  (empty)\n");
+			} else if (depth == maxDepth - 1) {
+				sb.append(indent + "  (" + target.size()
+						+ " elements inside)\n");
+			} else {
+				for (Map.Entry<?, ?> e : target.entrySet()) {
+					if (e.getKey() != null) {
+						appendDescription(m, e.getKey(), sb, depth + 1,
+								maxDepth);
+					}
+					sb.append(indent + "  -m->\n");
+					if (e.getValue() != null) {
+						appendDescription(m, e.getValue(), sb, depth + 1,
+								maxDepth);
+					}
+					i++;
+				}
+			}
 		} else if (o instanceof EAdParam) {
-			sb.append(indent + ((EAdParam)o).toStringData());
+			sb.append(indent + ((EAdParam) o).toStringData());
 		} else if (o instanceof EAdResources) {
 			sb.append(indent + "resource" + " (" + id + "): x"
-					+ ((EAdResources)o).getBundles().size()
-					+ "\n");
+					+ ((EAdResources) o).getBundles().size() + "\n");
 		} else if (o instanceof EAdAssetDescriptor) {
 			sb.append(indent + "asset" + " (" + id + "): "
-					+ ((EAdAssetDescriptor)o).getAssetId()
-					+ "\n");
+					+ ((EAdAssetDescriptor) o).getAssetId() + "\n");
 			appendParams(m, o, sb, depth, maxDepth);
 			if (depth != maxDepth) {
 				appendDependencies(this, m, sb);
@@ -201,40 +201,43 @@ public class EngineNode<T> extends DependencyNode<T> {
 	 * @param depth current depth
 	 * @param maxDepth max depth to reach
 	 */
-	private void appendParams(EditorModel m, Object o, StringBuilder sb, int depth, int maxDepth) {
-		if (maxDepth == depth+1) {
+	private void appendParams(EditorModel m, Object o, StringBuilder sb,
+			int depth, int maxDepth) {
+		if (maxDepth == depth + 1) {
 			return;
 		}
-		String indent = new String(new char[depth*2]).replace('\0', ' ');
-        Class<?> clazz = o.getClass();
+		String indent = new String(new char[depth * 2]).replace('\0', ' ');
+		Class<?> clazz = o.getClass();
 
-        while (clazz != null) {
-            Field[] fields = clazz.getDeclaredFields();
-            for (Field field : fields) {
-                try {
-                    Param param = field.getAnnotation(Param.class);
-                    if (param != null) {
-                        PropertyDescriptor pd = ModelVisitorDriver.getPropertyDescriptor(
-                                o.getClass(), field.getName());
-                        if (pd == null) {
+		while (clazz != null) {
+			Field[] fields = clazz.getDeclaredFields();
+			for (Field field : fields) {
+				try {
+					Param param = field.getAnnotation(Param.class);
+					if (param != null) {
+						PropertyDescriptor pd = ModelVisitorDriver
+								.getPropertyDescriptor(o.getClass(), field
+										.getName());
+						if (pd == null) {
 							continue;
-                        }
-                        Method method = pd.getReadMethod();
-                        if (method == null) {
+						}
+						Method method = pd.getReadMethod();
+						if (method == null) {
 							continue;
-                        }
-                        Object v = method.invoke(o);
-                        if (! ModelVisitorDriver.isEmpty(v)) {
+						}
+						Object v = method.invoke(o);
+						if (!ModelVisitorDriver.isEmpty(v)) {
 							sb.append(indent + pd.getName() + " --> ");
-                            appendDescription(m, v, sb, depth+1, maxDepth);
-                            sb.append("\n");
-                        }
-                    }
-                } catch (Exception e) {
-					log.warn("Error looking up params for {} of class {}", o, clazz);
-                }
-            }
-            clazz = clazz.getSuperclass();
-        }
+							appendDescription(m, v, sb, depth + 1, maxDepth);
+							sb.append("\n");
+						}
+					}
+				} catch (Exception e) {
+					log.warn("Error looking up params for {} of class {}", o,
+							clazz);
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
 	}
 }

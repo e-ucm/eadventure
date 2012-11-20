@@ -84,7 +84,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
-		this.sceneLoader = sceneLoader;			
+		this.sceneLoader = sceneLoader;
 		this.inputHandler = inputHandler;
 		listeners = new ArrayList<TransitionListener>();
 		firstUpdate = true;
@@ -128,7 +128,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			sceneLoader.step();
 		}
 
-		if (!loaded && !loading) {			
+		if (!loaded && !loading) {
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}

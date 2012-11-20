@@ -66,7 +66,7 @@ public class CommandManagerTest extends TestCase {
 		protected void configure() {
 			bind(CommandManager.class).to(CommandManagerImpl.class);
 		}
-		
+
 	}
 
 	/**
@@ -74,23 +74,23 @@ public class CommandManagerTest extends TestCase {
 	 */
 	@Mock
 	Command mockCommand;
-	
+
 	/**
 	 * Mock command that can't be undone
 	 */
 	@Mock
 	Command cantUndoCommand;
-	
+
 	/**
 	 * Guice injector
 	 */
 	private Injector injector;
-	
+
 	/**
 	 * The CommandManager
 	 */
 	private CommandManager commandManager;
-	
+
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -104,7 +104,7 @@ public class CommandManagerTest extends TestCase {
 		when(mockCommand.performCommand()).thenReturn(Boolean.TRUE);
 		when(mockCommand.undoCommand()).thenReturn(Boolean.TRUE);
 		when(mockCommand.canRedo()).thenReturn(Boolean.TRUE);
-		
+
 		when(cantUndoCommand.canUndo()).thenReturn(Boolean.FALSE);
 		when(cantUndoCommand.performCommand()).thenReturn(Boolean.TRUE);
 		when(cantUndoCommand.undoCommand()).thenReturn(Boolean.TRUE);
@@ -118,17 +118,17 @@ public class CommandManagerTest extends TestCase {
 	@Test
 	public void testPerformAndUndoCommand() {
 		assertEquals(false, commandManager.isChanged());
-		
+
 		commandManager.performCommand(mockCommand);
 		assertEquals(true, commandManager.isChanged());
 
 		commandManager.undoCommand();
 		assertEquals(false, commandManager.isChanged());
 
-		verify( mockCommand, times(1)).performCommand();
-		verify( mockCommand, times(1)).undoCommand();
+		verify(mockCommand, times(1)).performCommand();
+		verify(mockCommand, times(1)).undoCommand();
 	}
-	
+
 	/**
 	 * Perform an command that can't be undone, then check
 	 * if there are changes in the acitonManager.
@@ -136,14 +136,14 @@ public class CommandManagerTest extends TestCase {
 	@Test
 	public void testPerformAndUndoFailCommand() {
 		assertEquals(false, commandManager.isChanged());
-		
+
 		commandManager.performCommand(cantUndoCommand);
 		assertEquals(true, commandManager.isChanged());
 
 		commandManager.undoCommand();
 		assertEquals(true, commandManager.isChanged());
 	}
-	
+
 	/**
 	 * Perform multiple command and undo them sequentially,
 	 * checking that there are changes until there are no more
@@ -152,7 +152,7 @@ public class CommandManagerTest extends TestCase {
 	@Test
 	public void testPerformMultipleCommand() {
 		assertEquals(false, commandManager.isChanged());
-		
+
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 
@@ -163,16 +163,16 @@ public class CommandManagerTest extends TestCase {
 
 		commandManager.undoCommand();
 		assertEquals(false, commandManager.isChanged());
-		
-		verify( mockCommand, times(2)).performCommand();
-		verify( mockCommand, times(2)).undoCommand();
+
+		verify(mockCommand, times(2)).performCommand();
+		verify(mockCommand, times(2)).undoCommand();
 
 	}
 
 	@Test
 	public void testPerformUndoRedoUndoCommand() {
 		assertEquals(false, commandManager.isChanged());
-		
+
 		commandManager.performCommand(mockCommand);
 
 		assertEquals(true, commandManager.isChanged());
@@ -182,10 +182,10 @@ public class CommandManagerTest extends TestCase {
 
 		commandManager.redoCommand();
 		assertEquals(true, commandManager.isChanged());
-		
-		verify( mockCommand, times(1)).performCommand();
-		verify( mockCommand, times(1)).undoCommand();
-		verify( mockCommand, times(1)).redoCommand();
+
+		verify(mockCommand, times(1)).performCommand();
+		verify(mockCommand, times(1)).undoCommand();
+		verify(mockCommand, times(1)).redoCommand();
 	}
 
 	@Test
@@ -193,21 +193,21 @@ public class CommandManagerTest extends TestCase {
 		assertEquals(false, commandManager.isChanged());
 
 		commandManager.addStack();
-		
+
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 
 		commandManager.removeCommandStacks(false);
-		
+
 		assertEquals(true, commandManager.isChanged());
 
 		commandManager.undoCommand();
 		assertEquals(false, commandManager.isChanged());
-		
-		verify( mockCommand, times(4)).performCommand();
-		verify( mockCommand, times(4)).undoCommand();
+
+		verify(mockCommand, times(4)).performCommand();
+		verify(mockCommand, times(4)).undoCommand();
 	}
 
 	@Test
@@ -215,18 +215,18 @@ public class CommandManagerTest extends TestCase {
 		assertEquals(false, commandManager.isChanged());
 
 		commandManager.addStack();
-		
+
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 
 		commandManager.removeCommandStacks(true);
-		
+
 		assertEquals(false, commandManager.isChanged());
 
-		verify( mockCommand, times(4)).performCommand();
-		verify( mockCommand, times(4)).undoCommand();
+		verify(mockCommand, times(4)).performCommand();
+		verify(mockCommand, times(4)).undoCommand();
 	}
 
 	@Test
@@ -234,17 +234,17 @@ public class CommandManagerTest extends TestCase {
 		assertEquals(false, commandManager.isChanged());
 
 		commandManager.addStack();
-		
+
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(cantUndoCommand);
-		
+
 		assertEquals(false, commandManager.canUndo());
-		
+
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
 
 		commandManager.removeCommandStacks(true);
-		
+
 		assertEquals(true, commandManager.isChanged());
 	}
 

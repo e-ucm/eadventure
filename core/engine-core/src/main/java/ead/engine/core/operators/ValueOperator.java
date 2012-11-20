@@ -45,19 +45,20 @@ import ead.tools.reflection.ReflectionProvider;
 public class ValueOperator implements Operator<ValueOp> {
 
 	private ReflectionProvider reflectionProvider;
-	
+
 	@Inject
 	public ValueOperator(ReflectionProvider reflectionProvider) {
 		this.reflectionProvider = reflectionProvider;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, ValueOp operation) {
-		if ( operation.getValue() == null )
+		if (operation.getValue() == null)
 			return null;
-		
-		if (reflectionProvider.isAssignableFrom(clazz, operation.getValue().getClass())) {
+
+		if (reflectionProvider.isAssignableFrom(clazz, operation.getValue()
+				.getClass())) {
 			return (S) operation.getValue();
 		}
 		return null;

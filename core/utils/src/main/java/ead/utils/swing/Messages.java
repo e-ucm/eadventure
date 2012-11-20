@@ -40,9 +40,9 @@ package ead.utils.swing;
 import ead.utils.i18n.I18N;
 
 class Messages extends ead.utils.i18n.CommonMessages {
-	
+
 	public static String exception_dialog_title;
-	
+
 	public static String exception_dialog_type_error;
 
 	public static String exception_dialog_type_exception;
@@ -53,7 +53,7 @@ class Messages extends ead.utils.i18n.CommonMessages {
 
 	public static String exception_dialog_message;
 
-	static {              
+	static {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }

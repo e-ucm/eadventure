@@ -55,23 +55,23 @@ import ead.common.model.weev.story.section.StorySection;
 public class StoryImpl extends AbstractWEEVElement implements Story {
 
 	EAdList<Node> nodes;
-	
+
 	EAdList<StoryTransition> transitions;
-	
+
 	EAdList<Comment> comments;
-	
+
 	EAdList<StorySection> storySections;
-	
+
 	@Param(value = "initialNode")
 	Node initialNode;
-	
+
 	public StoryImpl() {
 		nodes = new EAdListImpl<Node>(Node.class);
 		transitions = new EAdListImpl<StoryTransition>(StoryTransition.class);
 		comments = new EAdListImpl<Comment>(Comment.class);
 		storySections = new EAdListImpl<StorySection>(StorySection.class);
 	}
-	
+
 	@Override
 	public EAdList<Node> getNodes() {
 		return nodes;
@@ -81,7 +81,7 @@ public class StoryImpl extends AbstractWEEVElement implements Story {
 	public Node getInitialNode() {
 		return initialNode;
 	}
-	
+
 	public void setInitialNode(Node initialNode) {
 		this.initialNode = initialNode;
 	}

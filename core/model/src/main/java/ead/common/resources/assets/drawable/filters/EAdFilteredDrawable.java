@@ -8,9 +8,9 @@ import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
  *
  */
 public interface EAdFilteredDrawable extends EAdBasicDrawable {
-	
+
 	EAdDrawableFilter getFilter();
-	
+
 	EAdDrawable getDrawable();
 
 }

@@ -43,8 +43,7 @@ import ead.importer.subimporters.effects.variables.ActivateFlagImporter;
 import ead.importer.test.effects.EffectTest;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 
-public class ActivateFlagTest extends
-		EffectTest<ActivateEffect, ChangeFieldEf> {
+public class ActivateFlagTest extends EffectTest<ActivateEffect, ChangeFieldEf> {
 
 	public ActivateFlagTest() {
 		super(ActivateFlagImporter.class);
@@ -52,17 +51,16 @@ public class ActivateFlagTest extends
 
 	@Override
 	public void addOldObjects() {
-//		addTestObject(new ActivateEffect("flag1"));
-//		addTestObject(new ActivateEffect("flag1"));
-//		addTestObject(new ActivateEffect("flag2"));
-//		addTestObject(new ActivateEffect("anotherFlag"));
-//		addTestObject(new ActivateEffect("¡Ñí!"));
+		//		addTestObject(new ActivateEffect("flag1"));
+		//		addTestObject(new ActivateEffect("flag1"));
+		//		addTestObject(new ActivateEffect("flag2"));
+		//		addTestObject(new ActivateEffect("anotherFlag"));
+		//		addTestObject(new ActivateEffect("¡Ñí!"));
 
 	}
 
 	@Override
-	public boolean equals(ActivateEffect oldObject,
-			ChangeFieldEf newObject) {
+	public boolean equals(ActivateEffect oldObject, ChangeFieldEf newObject) {
 		boolean ok = super.equals(oldObject, newObject);
 		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
 		return ok;

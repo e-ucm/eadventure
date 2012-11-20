@@ -17,7 +17,7 @@ public class MatrixFilter implements EAdDrawableFilter {
 
 	public MatrixFilter() {
 	}
-	
+
 	/**
 	 * 
 	 * @param m
@@ -62,7 +62,5 @@ public class MatrixFilter implements EAdDrawableFilter {
 	public void setOriginY(float originY) {
 		this.originY = originY;
 	}
-	
-	
 
 }

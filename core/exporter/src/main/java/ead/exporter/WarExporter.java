@@ -148,8 +148,8 @@ public class WarExporter implements Exporter {
 				}
 			}
 
-			readAssets(new BufferedReader(new InputStreamReader(
-					is.getInputStream(is.getEntry("assets/assets.txt")))));
+			readAssets(new BufferedReader(new InputStreamReader(is
+					.getInputStream(is.getEntry("assets/assets.txt")))));
 			is.close();
 
 		} catch (FileNotFoundException e) {
@@ -169,9 +169,8 @@ public class WarExporter implements Exporter {
 	public void addFolder(File parent, File folder, String outputWarPath,
 			ZipOutputStream os) {
 		for (File f : folder.listFiles()) {
-			String fileEntry = f.getAbsolutePath()
-					.substring(parent.getAbsolutePath().length() + 1)
-					.replace('\\', '/');
+			String fileEntry = f.getAbsolutePath().substring(
+					parent.getAbsolutePath().length() + 1).replace('\\', '/');
 			if (f.isDirectory()) {
 				assets.add("d:" + fileEntry);
 				addFolder(parent, f, outputWarPath, os);

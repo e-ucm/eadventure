@@ -61,13 +61,12 @@ public class ConditionsImporter implements
 	private EAdElementFactory factory;
 
 	protected ImportAnnotator annotator;
-	
+
 	@Inject
 	public ConditionsImporter(
 			EAdElementImporter<FlagCondition, OperationCond> flagConditionImporter,
 			EAdElementImporter<VarCondition, OperationCond> varConditionImporter,
-			EAdElementFactory factory,
-			ImportAnnotator annotator) {
+			EAdElementFactory factory, ImportAnnotator annotator) {
 		this.factory = factory;
 		this.flagConditionImporter = flagConditionImporter;
 		this.varConditionImporter = varConditionImporter;
@@ -82,11 +81,12 @@ public class ConditionsImporter implements
 	@Override
 	public EAdCondition convert(Conditions oldObject, Object object) {
 		ANDCond newCondition = (ANDCond) object;
-		
-		if ( oldObject.getSimpleConditions().size() == 0 && oldObject.getEitherConditionsBlockCount() == 0){
+
+		if (oldObject.getSimpleConditions().size() == 0
+				&& oldObject.getEitherConditionsBlockCount() == 0) {
 			return EmptyCond.TRUE_EMPTY_CONDITION;
 		}
-		
+
 		for (Condition c : oldObject.getSimpleConditions()) {
 			EAdCondition newC = getSimpleCondition(c);
 			if (newC != null) {

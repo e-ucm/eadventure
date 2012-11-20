@@ -59,8 +59,8 @@ public class CaptionFactory {
 	public Caption createCaption(String text, EAdPaint textFill,
 			EAdPaint bubbleFill, EAdFont font) {
 		Caption caption = new Caption();
-		EAdElementsFactory.getInstance().getStringFactory()
-				.setString(caption.getText(), text);
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				caption.getText(), text);
 
 		caption.setTextPaint(textFill);
 		caption.setBubblePaint(bubbleFill);

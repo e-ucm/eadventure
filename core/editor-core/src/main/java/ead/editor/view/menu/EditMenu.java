@@ -60,62 +60,48 @@ public class EditMenu extends AbstractEditorMenu {
 	 */
 	@Override
 	public void initialize() {
-        AbstractEditorAction[] as = new AbstractEditorAction[]{
-			new UndoAction(Messages.edit_menu_undo,
-				KeyEvent.VK_Z,
-				0, R.Drawable.toolbar__undo_png),
-            new RedoAction(Messages.edit_menu_redo,
-				KeyEvent.VK_U,
-				0, R.Drawable.toolbar__redo_png),
-			null, // this is a separator
+		AbstractEditorAction[] as = new AbstractEditorAction[] {
+				new UndoAction(Messages.edit_menu_undo, KeyEvent.VK_Z, 0,
+						R.Drawable.toolbar__undo_png),
+				new RedoAction(Messages.edit_menu_redo, KeyEvent.VK_U, 0,
+						R.Drawable.toolbar__redo_png),
+				null, // this is a separator
 
-			new EditorAction(Messages.edit_menu_scenes,
-				KeyEvent.VK_S,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__scenes_png),
-			new EditorAction(Messages.edit_menu_player,
-				KeyEvent.VK_P,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__player_png),
-			new EditorAction(Messages.edit_menu_npcs,
-				KeyEvent.VK_N,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__npcs_png),
-			new EditorAction(Messages.edit_menu_conversations,
-				KeyEvent.VK_C,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__conversations_png),
-			new EditorAction(Messages.edit_menu_items,
-				KeyEvent.VK_I,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__items_png),
-			new EditorAction(Messages.edit_menu_atrezzo,
-				KeyEvent.VK_A,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__atrezzo_png),
-			new EditorAction(Messages.edit_menu_books,
-				KeyEvent.VK_B,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__books_png),
-			new EditorAction(Messages.edit_menu_advanced,
-				KeyEvent.VK_V,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__advanced_png),
-			new EditorAction(Messages.edit_menu_cutscenes,
-				KeyEvent.VK_T,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__cutscenes_png),
-			new EditorAction(Messages.edit_menu_adaptation_profiles,
-				KeyEvent.VK_P,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__adaptationProfiles_png),
-			new EditorAction(Messages.edit_menu_assessment_profiles,
-				KeyEvent.VK_R,
-				KeyEvent.SHIFT_DOWN_MASK,
-				R.Drawable.sidePanel__assessmentProfiles_png)
-        };
+				new EditorAction(Messages.edit_menu_scenes, KeyEvent.VK_S,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__scenes_png),
+				new EditorAction(Messages.edit_menu_player, KeyEvent.VK_P,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__player_png),
+				new EditorAction(Messages.edit_menu_npcs, KeyEvent.VK_N,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__npcs_png),
+				new EditorAction(Messages.edit_menu_conversations,
+						KeyEvent.VK_C, KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__conversations_png),
+				new EditorAction(Messages.edit_menu_items, KeyEvent.VK_I,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__items_png),
+				new EditorAction(Messages.edit_menu_atrezzo, KeyEvent.VK_A,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__atrezzo_png),
+				new EditorAction(Messages.edit_menu_books, KeyEvent.VK_B,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__books_png),
+				new EditorAction(Messages.edit_menu_advanced, KeyEvent.VK_V,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__advanced_png),
+				new EditorAction(Messages.edit_menu_cutscenes, KeyEvent.VK_T,
+						KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__cutscenes_png),
+				new EditorAction(Messages.edit_menu_adaptation_profiles,
+						KeyEvent.VK_P, KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__adaptationProfiles_png),
+				new EditorAction(Messages.edit_menu_assessment_profiles,
+						KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK,
+						R.Drawable.sidePanel__assessmentProfiles_png) };
 
-        for (AbstractEditorAction a : as) {
+		for (AbstractEditorAction a : as) {
 			if (a == null) {
 				addSeparator();
 				continue;
@@ -130,7 +116,7 @@ public class EditMenu extends AbstractEditorMenu {
 				controller.getCommandManager().addChangeListener(a);
 			}
 			a.processChange(null);
-        }
+		}
 	}
 
 	public class EditorAction extends AbstractEditorAction {

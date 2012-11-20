@@ -88,8 +88,8 @@ public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 						PhysicsEffect.VAR_PH_FRICTION, 0.1f);
 				valueMap.setValue(element.getSceneElement(),
 						PhysicsEffect.VAR_PH_DENSITY, 1.0f);
-				GdxPhysicsEffectGO.createBody(w,
-						(EAdSceneElement) element.getSceneElement(), valueMap);
+				GdxPhysicsEffectGO.createBody(w, (EAdSceneElement) element
+						.getSceneElement(), valueMap);
 				b = valueMap.getValue(element.getSceneElement(),
 						GdxPhysicsEffectGO.VAR_PH_BODY);
 				if (b != null) {

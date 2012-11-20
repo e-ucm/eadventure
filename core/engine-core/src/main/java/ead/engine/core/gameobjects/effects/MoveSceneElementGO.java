@@ -116,7 +116,8 @@ public class MoveSceneElementGO extends
 
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
-			OperatorFactory operatorFactory, SceneElementGOFactory gameObjectFactory,
+			OperatorFactory operatorFactory,
+			SceneElementGOFactory gameObjectFactory,
 			TrajectoryFactory trajectoryFactory, GUI gui, GameState gameState) {
 		super(assetHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
@@ -139,12 +140,12 @@ public class MoveSceneElementGO extends
 				.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
 		if (d != null && element.isUseTrajectory()) {
 			if (target == null)
-				path = trajectoryFactory.getTrajectory(d,
-						element.getSceneElement(), endX, endY);
+				path = trajectoryFactory.getTrajectory(d, element
+						.getSceneElement(), endX, endY);
 			else
-				path = trajectoryFactory.getTrajectory(d,
-						element.getSceneElement(), endX, endY,
-						sceneElementFactory.get(target));
+				path = trajectoryFactory.getTrajectory(d, element
+						.getSceneElement(), endX, endY, sceneElementFactory
+						.get(target));
 		} else {
 			List<EAdPosition> list = new ArrayList<EAdPosition>();
 			list.add(new EAdPosition(endX, endY));

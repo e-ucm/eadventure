@@ -42,69 +42,68 @@ package ead.tools;
  */
 public abstract class ConfigBackend {
 
-    /**
-     * Loads from a source URL
-     * @param sourceURL
-     * @return true if loaded correctly
-     */
-    public abstract boolean load(String sourceURL);
+	/**
+	 * Loads from a source URL
+	 * @param sourceURL
+	 * @return true if loaded correctly
+	 */
+	public abstract boolean load(String sourceURL);
 
-    /**
-     * Saves to the same URL it was loaded from
-     * @param targetURL; if null, previously-loaded sourceURL is used
-     * @return true if loaded correctly
-     */
-    public abstract boolean save(String targetURL);
+	/**
+	 * Saves to the same URL it was loaded from
+	 * @param targetURL; if null, previously-loaded sourceURL is used
+	 * @return true if loaded correctly
+	 */
+	public abstract boolean save(String targetURL);
 
-    /**
-     * Retrieves a value from a toString()ed key; returns "null" if unspecified
-     */
-    public abstract String getValue(Object key);
+	/**
+	 * Retrieves a value from a toString()ed key; returns "null" if unspecified
+	 */
+	public abstract String getValue(Object key);
 
-    /**
-     * Sets a value. Use 'null' to unset.
-     * @param key - will be toStringed before comparison
-     * @param value
-     */
-    public abstract void put(Object key, String value);
+	/**
+	 * Sets a value. Use 'null' to unset.
+	 * @param key - will be toStringed before comparison
+	 * @param value
+	 */
+	public abstract void put(Object key, String value);
 
+	/**
+	 * Returns true if key's toString() is contained in store
+	 */
+	public boolean containsKey(Object key) {
+		return getValue("" + key) != null;
+	}
 
-    /**
-     * Returns true if key's toString() is contained in store
-     */
-    public boolean containsKey(Object key) {
-        return getValue(""+key) != null;
-    }
+	/**
+	 * Retrieves an integer
+	 */
+	public int getInt(Object key) {
+		String v = getValue("" + key);
+		return (Integer.valueOf(v));
+	}
 
-    /**
-     * Retrieves an integer
-     */
-    public int getInt(Object key) {
-        String v = getValue(""+key);
-        return (Integer.valueOf(v));
-    }
+	/**
+	 * Retrieves a double
+	 */
+	public double getDouble(Object key) {
+		String v = getValue("" + key);
+		return (Double.valueOf(v));
+	}
 
-    /**
-     * Retrieves a double
-     */
-    public double getDouble(Object key) {
-        String v = getValue(""+key);
-        return (Double.valueOf(v));
-    }
+	/**
+	 * Retrieves a boolean
+	 */
+	public boolean getBoolean(Object key) {
+		String v = getValue("" + key);
+		return (Boolean.parseBoolean(v));
+	}
 
-    /**
-     * Retrieves a boolean
-     */
-    public boolean getBoolean(Object key) {
-        String v = getValue(""+key);
-        return (Boolean.parseBoolean(v));
-    }
-
-    /**
-     * Retrieves a string array
-     */
-    public String[] getArray(Object key, String separator) {
-        String v = getValue(""+key);
-        return v.split(separator);
-    }
+	/**
+	 * Retrieves a string array
+	 */
+	public String[] getArray(Object key, String separator) {
+		String v = getValue("" + key);
+		return v.split(separator);
+	}
 }

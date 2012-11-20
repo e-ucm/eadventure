@@ -42,17 +42,18 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 public class InvOrtographicCamera extends OrthographicCamera {
-	
+
 	private final Vector3 tmp = new Vector3();
-	
-	public InvOrtographicCamera( ){
-//		this.rotate(180);
+
+	public InvOrtographicCamera() {
+		//		this.rotate(180);
 	}
 
 	@Override
-	public void update () {
-		projection.setToOrtho(zoom * -viewportWidth / 2, zoom * viewportWidth / 2, zoom * viewportHeight / 2, zoom
-			* -viewportHeight / 2, Math.abs(near), Math.abs(far));
+	public void update() {
+		projection.setToOrtho(zoom * -viewportWidth / 2, zoom * viewportWidth
+				/ 2, zoom * viewportHeight / 2, zoom * -viewportHeight / 2,
+				Math.abs(near), Math.abs(far));
 		view.setToLookAt(position, tmp.set(position).add(direction), up);
 		combined.set(projection);
 		Matrix4.mul(combined.val, view.val);
@@ -62,9 +63,10 @@ public class InvOrtographicCamera extends OrthographicCamera {
 	}
 
 	@Override
-	public void update (boolean updateFrustum) {
-		projection.setToOrtho(zoom * -viewportWidth / 2, zoom * viewportWidth / 2, zoom * viewportHeight / 2, zoom
-			* -viewportHeight / 2, Math.abs(near), Math.abs(far));
+	public void update(boolean updateFrustum) {
+		projection.setToOrtho(zoom * -viewportWidth / 2, zoom * viewportWidth
+				/ 2, zoom * viewportHeight / 2, zoom * -viewportHeight / 2,
+				Math.abs(near), Math.abs(far));
 		view.setToLookAt(position, tmp.set(position).add(direction), up);
 		combined.set(projection);
 		Matrix4.mul(combined.val, view.val);

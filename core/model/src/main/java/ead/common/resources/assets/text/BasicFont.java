@@ -154,7 +154,7 @@ public class BasicFont implements EAdFont {
 	public FontStyle getStyle() {
 		return style;
 	}
-	
+
 	public void setStyle(FontStyle style) {
 		this.style = style;
 	}

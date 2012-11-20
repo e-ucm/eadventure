@@ -45,7 +45,7 @@ import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 @Element
 public class TextArea extends SceneElement {
 
-	public TextArea() {		
+	public TextArea() {
 		this(100, 100);
 	}
 

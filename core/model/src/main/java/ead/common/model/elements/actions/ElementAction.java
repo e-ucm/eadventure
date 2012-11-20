@@ -53,7 +53,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
 public class ElementAction extends SceneElementDef implements EAdAction {
 
 	@Bundled
-	@Asset({ EAdDrawable.class })
+	@Asset( { EAdDrawable.class })
 	public static final String appearance = "appearance";
 
 	@Param("name")

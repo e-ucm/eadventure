@@ -86,13 +86,13 @@ public class LineImporterToCaption implements
 			String textBorderColor = getColor(character.getTextBorderColor());
 
 			if (bg != null) {
-				Paint bubble = new Paint(
-						new ColorFill(bg), new ColorFill(borderBg));
+				Paint bubble = new Paint(new ColorFill(bg), new ColorFill(
+						borderBg));
 				caption.setBubblePaint(bubble);
 			}
 
-			Paint text = new Paint(
-					new ColorFill(textColor), new ColorFill(textBorderColor));
+			Paint text = new Paint(new ColorFill(textColor), new ColorFill(
+					textBorderColor));
 
 			caption.setTextPaint(text);
 		}

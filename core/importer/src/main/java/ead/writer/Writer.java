@@ -38,7 +38,7 @@
 package ead.writer;
 
 public interface Writer<T> {
-	
-	boolean write( T data, String file );
+
+	boolean write(T data, String file);
 
 }

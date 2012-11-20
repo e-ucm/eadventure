@@ -50,8 +50,8 @@ import ead.common.util.EAdPosition.Corner;
 public class ColumnContainer extends ComplexSceneElement {
 
 	private EAdSceneElement lastAdded;
-	
-	public ColumnContainer( ){
+
+	public ColumnContainer() {
 		this.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 	}
 

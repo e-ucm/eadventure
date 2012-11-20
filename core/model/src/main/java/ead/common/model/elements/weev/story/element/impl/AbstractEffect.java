@@ -40,7 +40,6 @@ package ead.common.model.elements.weev.story.element.impl;
 import ead.common.model.elements.weev.impl.AbstractWEEVElement;
 import ead.common.model.weev.story.elements.Effect;
 
-
 /**
  * Abstract {@link Effect} implementation
  */

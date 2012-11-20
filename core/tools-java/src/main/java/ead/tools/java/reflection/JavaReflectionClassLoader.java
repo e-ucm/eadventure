@@ -42,13 +42,13 @@ import ead.tools.reflection.ReflectionClassLoader;
 
 public class JavaReflectionClassLoader extends ReflectionClassLoader {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(Class<?> clazz) {
 		return new JavaReflectionClass(clazz);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(String clazz) {
 		try {

@@ -41,13 +41,13 @@ import ead.common.interfaces.Element;
 
 @Element
 public class FadeInTransition extends EmptyTransition {
-	
-	public FadeInTransition( ){
-		
+
+	public FadeInTransition() {
+
 	}
 
-	public FadeInTransition( int time ){
-		super( time );
+	public FadeInTransition(int time) {
+		super(time);
 	}
-	
+
 }

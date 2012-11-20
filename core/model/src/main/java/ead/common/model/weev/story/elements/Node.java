@@ -48,7 +48,7 @@ public interface Node extends StoryElement {
 	 * @return the {@link StoryList} of {@link Hint}s associated to this node
 	 */
 	StoryList<Hint> getHintList();
-	
+
 	//TODO get/set story block?
-	
+
 }

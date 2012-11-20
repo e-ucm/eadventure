@@ -46,18 +46,18 @@ import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
 
-public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf>{
+public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf> {
 
 	@Inject
 	public WaitEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-            ImportAnnotator annotator) {
+			ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 	}
 
 	@Override
 	public WaitEf init(WaitTimeEffect oldObject) {
-		WaitEf waitEffect=  new WaitEf();
+		WaitEf waitEffect = new WaitEf();
 		return waitEffect;
 	}
 
@@ -67,7 +67,5 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf>{
 		effect.setTime(oldObject.getTime() * 1000);
 		return effect;
 	}
-
-
 
 }

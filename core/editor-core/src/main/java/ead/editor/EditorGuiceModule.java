@@ -65,7 +65,7 @@ public class EditorGuiceModule extends AbstractModule {
 	protected void configure() {
 
 		bind(EditorModel.class).to(EditorModelImpl.class);
-		
+
 		bind(EditorConfig.class).to(EditorConfigImpl.class);
 		bind(Controller.class).to(ControllerImpl.class);
 		bind(CommandManager.class).to(CommandManagerImpl.class);
@@ -74,6 +74,6 @@ public class EditorGuiceModule extends AbstractModule {
 		bind(ViewController.class).to(EditorWindow.class);
 
 		bind(Launcher.class).to(EAdventureEditor.class);
-        bind(ImportAnnotator.class).to(EditorAnnotator.class);
+		bind(ImportAnnotator.class).to(EditorAnnotator.class);
 	}
 }

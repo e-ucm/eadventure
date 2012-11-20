@@ -46,7 +46,9 @@ import ead.tools.AbstractFactory;
 import ead.tools.MapProvider;
 import ead.tools.reflection.ReflectionProvider;
 
-public class AbstractFilterFactory<GraphicContext> extends AbstractFactory<RuntimeFilter<?, GraphicContext>> implements FilterFactory<GraphicContext> {
+public class AbstractFilterFactory<GraphicContext> extends
+		AbstractFactory<RuntimeFilter<?, GraphicContext>> implements
+		FilterFactory<GraphicContext> {
 
 	public AbstractFilterFactory(
 			MapProvider<Class<?>, RuntimeFilter<?, GraphicContext>> mapProvider,
@@ -56,9 +58,12 @@ public class AbstractFilterFactory<GraphicContext> extends AbstractFactory<Runti
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdDrawableFilter> void applyFilter(RuntimeDrawable<?, GraphicContext> drawable, T filter, GenericCanvas<GraphicContext> c) {
-		RuntimeFilter<T, GraphicContext> rf = (RuntimeFilter<T, GraphicContext>) this.get(filter.getClass());
-		if ( rf != null )
+	public <T extends EAdDrawableFilter> void applyFilter(
+			RuntimeDrawable<?, GraphicContext> drawable, T filter,
+			GenericCanvas<GraphicContext> c) {
+		RuntimeFilter<T, GraphicContext> rf = (RuntimeFilter<T, GraphicContext>) this
+				.get(filter.getClass());
+		if (rf != null)
 			rf.applyFilter(drawable, filter, c);
 	}
 

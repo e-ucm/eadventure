@@ -65,12 +65,14 @@ import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawab
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
 
-public class GdxAssetHandlerMap extends HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>{
+public class GdxAssetHandlerMap
+		extends
+		HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> {
 	private static final long serialVersionUID = 5284553649611577802L;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public GdxAssetHandlerMap( ){
-        HashMap inner = new HashMap();
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	public GdxAssetHandlerMap() {
+		HashMap inner = new HashMap();
 		inner.put(Image.class, GdxImage.class);
 		inner.put(BezierShape.class, GdxBezierShape.class);
 		inner.put(RectangleShape.class, GdxRectangleShape.class);
@@ -86,8 +88,7 @@ public class GdxAssetHandlerMap extends HashMap<Class<? extends AssetDescriptor>
 		inner.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		inner.put(Sound.class, GdxSound.class);
 
-        putAll((HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)inner);
+		putAll((HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>) inner);
 	}
-
 
 }

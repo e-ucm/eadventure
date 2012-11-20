@@ -157,7 +157,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 				remove = true;
 				break;
 			default:
-				logger.warn("Non-click MouseActionImpl in HUD - totally unexpected");
+				logger
+						.warn("Non-click MouseActionImpl in HUD - totally unexpected");
 			}
 
 		} else if (action instanceof KeyInputAction) {
@@ -284,7 +285,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 		alpha = alpha > 1.0f ? 1.0f : alpha;
 		transformation.setAlpha(alpha);
-		
+
 		for (SceneElementGO<?> go : actionsGO) {
 			go.update();
 		}
@@ -294,6 +295,5 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	public boolean contains(int x, int y) {
 		return true;
 	}
-
 
 }

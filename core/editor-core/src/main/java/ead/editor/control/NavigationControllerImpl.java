@@ -48,17 +48,18 @@ import java.util.ListIterator;
  * Default implementation for the {@link NavigationController}.
  */
 @Singleton
-public class NavigationControllerImpl extends ChangeNotifierImpl implements NavigationController {
+public class NavigationControllerImpl extends ChangeNotifierImpl implements
+		NavigationController {
 
-	private Controller controller;			
+	private Controller controller;
 	private LinkedList<String> viewStack = new LinkedList<String>();
 	private ListIterator<String> current;
-	
+
 	@Inject
 	NavigationControllerImpl() {
 		current = viewStack.listIterator();
 	}
-	
+
 	@Override
 	public void goForward() {
 		if (canGoForward()) {
@@ -88,7 +89,7 @@ public class NavigationControllerImpl extends ChangeNotifierImpl implements Navi
 		viewStack.clear();
 		current = viewStack.listIterator();
 	}
-	
+
 	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,
@@ -97,5 +98,5 @@ public class NavigationControllerImpl extends ChangeNotifierImpl implements Navi
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
-	}	
+	}
 }

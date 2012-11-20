@@ -47,33 +47,34 @@ import ead.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 
-public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro>{
-	
+public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro> {
+
 	private EffectsImporterFactory effectImporter;
 
 	protected ImportAnnotator annotator;;
-	
+
 	@Inject
 	public MacroImporter(EffectsImporterFactory effectImporter,
 			ImportAnnotator annotator) {
 		this.effectImporter = effectImporter;
 		this.annotator = annotator;
 	}
+
 	@Override
-	public EffectsMacro init( Macro oldMacro ) {
-		EffectsMacro macro = new EffectsMacro( );
+	public EffectsMacro init(Macro oldMacro) {
+		EffectsMacro macro = new EffectsMacro();
 		return macro;
 	}
 
 	@Override
-	public EffectsMacro convert( Macro oldMacro, Object object) {
+	public EffectsMacro convert(Macro oldMacro, Object object) {
 		EffectsMacro newMacro = (EffectsMacro) object;
-		
+
 		for (AbstractEffect e : oldMacro.getEffects()) {
 			EAdEffect newEffect = (EAdEffect) effectImporter.getEffect(e);
 			newMacro.getEffects().add(newEffect);
 		}
-		
+
 		return newMacro;
 	}
 }

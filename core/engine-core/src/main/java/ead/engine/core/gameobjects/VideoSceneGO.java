@@ -85,7 +85,7 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public void doLayout(EAdTransformation transformation) {
 		// Do nothing
 	}
-	
+
 	boolean toStart = false;
 
 	@Override
@@ -107,12 +107,10 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 				logger.warn("Error creating video component", e);
 				error = true;
 			}
-		}
-		else if ( toStart ){
+		} else if (toStart) {
 			toStart = false;
 			specialAssetRenderer.start();
-		}
-		else if (error || specialAssetRenderer.isFinished()) {
+		} else if (error || specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
 			removeVideoComponent();
 		}

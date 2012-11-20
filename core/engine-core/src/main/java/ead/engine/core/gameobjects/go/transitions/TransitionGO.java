@@ -47,8 +47,8 @@ import ead.engine.core.gameobjects.go.SceneGO;
  * A transition game object
  * 
  */
-public interface TransitionGO<T extends EAdTransition> extends
-		SceneGO<T>, SceneLoaderListener {
+public interface TransitionGO<T extends EAdTransition> extends SceneGO<T>,
+		SceneLoaderListener {
 
 	/**
 	 * Set the previous scene for the transition

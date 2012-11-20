@@ -55,7 +55,7 @@ public class RemoveElementCommand<P> extends Command {
 	 * The element to be removed from the list.
 	 */
 	private P anElement;
-	
+
 	/**
 	 * The index of the element to be removed from the list.
 	 */

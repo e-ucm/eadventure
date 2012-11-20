@@ -54,7 +54,8 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class ListedCondEvaluator implements Evaluator<ListedCond> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ListedConditionEvaluator");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ListedConditionEvaluator");
 
 	private EvaluatorFactory evaluatorFactory;
 

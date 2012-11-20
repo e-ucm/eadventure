@@ -81,7 +81,7 @@ public class CombineCommandList extends Command {
 	 * undo of previously-completed list-commands.
 	 */
 	@Override
-	public boolean performCommand() {		
+	public boolean performCommand() {
 		ArrayList<Command> done = new ArrayList<Command>();
 		for (Command c : commandList) {
 			if (c.performCommand()) {
@@ -89,7 +89,7 @@ public class CombineCommandList extends Command {
 			} else {
 				for (Command good : done) {
 					good.undoCommand();
-				}				
+				}
 				return false;
 			}
 		}
@@ -102,7 +102,7 @@ public class CombineCommandList extends Command {
 	@Override
 	public boolean canUndo() {
 		for (Command c : commandList) {
-			if ( ! c.canUndo()) {
+			if (!c.canUndo()) {
 				return false;
 			}
 		}
@@ -122,7 +122,7 @@ public class CombineCommandList extends Command {
 			} else {
 				for (Command good : undone) {
 					good.redoCommand();
-				}				
+				}
 				return false;
 			}
 		}
@@ -154,7 +154,7 @@ public class CombineCommandList extends Command {
 			} else {
 				for (Command good : redone) {
 					good.undoCommand();
-				}				
+				}
 				return false;
 			}
 		}

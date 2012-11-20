@@ -65,8 +65,8 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 			operatorFactory.operate(v, element.getOperation());
 		}
 		if (element.getParentVar() != null && parent != null) {
-			operatorFactory.operate(parent, element.getParentVar(),
-					element.getOperation());
+			operatorFactory.operate(parent, element.getParentVar(), element
+					.getOperation());
 		}
 	}
 

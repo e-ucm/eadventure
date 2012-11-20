@@ -50,19 +50,19 @@ import ead.common.model.EAdElement;
  * @author mfreire
  */
 public interface ModelVisitor {
-   
-    /**
-     * Visits an object
-     * @param target object that is being visited
-     * @param source element from which it is being visited
-     * @param sourceName name of property in source followed to get here
-     * @return true if deepening is desired, false otherwise
-     */
-    boolean visitObject(Object target, Object source, String sourceName);
 
-    /**
-     * Looks at an element's property. @see{visitElement} for this element must
-     * already have been called. This is handy for search-indexing
-     */
-    void visitProperty(Object target, String propertyName, String textValue);
+	/**
+	 * Visits an object
+	 * @param target object that is being visited
+	 * @param source element from which it is being visited
+	 * @param sourceName name of property in source followed to get here
+	 * @return true if deepening is desired, false otherwise
+	 */
+	boolean visitObject(Object target, Object source, String sourceName);
+
+	/**
+	 * Looks at an element's property. @see{visitElement} for this element must
+	 * already have been called. This is handy for search-indexing
+	 */
+	void visitProperty(Object target, String propertyName, String textValue);
 }

@@ -245,12 +245,13 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 						.getRuntimeAsset(cursor);
 				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition()
 						.getInitialBundle() : mouseBundle;
-				mouse.getDefinition().getResources()
-						.addAsset(bundle, SceneElementDef.appearance, cursor);
+				mouse.getDefinition().getResources().addAsset(bundle,
+						SceneElementDef.appearance, cursor);
 				float scale = 1.0f;
 				if (rAsset.getWidth() > 0 && rAsset.getHeight() > 0) {
 					scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
-							.getWidth() / CURSOR_SIZE
+							.getWidth()
+							/ CURSOR_SIZE
 							: rAsset.getHeight() / CURSOR_SIZE);
 
 				}

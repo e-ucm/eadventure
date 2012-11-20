@@ -47,21 +47,22 @@ public class ActorActionsEf extends AbstractEffect {
 
 	@Param("actionElement")
 	private EAdSceneElementDef actionElement;
-	
+
 	@Param("change")
 	private ChangeActorActions change;
-	
-	public ActorActionsEf(){
+
+	public ActorActionsEf() {
 		super();
 	}
-	
-	public ActorActionsEf( EAdSceneElementDef actionElement) {
+
+	public ActorActionsEf(EAdSceneElementDef actionElement) {
 		super();
 		this.actionElement = actionElement;
 		this.change = ChangeActorActions.SHOW_ACTIONS;
 	}
 
-	public ActorActionsEf(EAdSceneElementDef actionElement, ChangeActorActions change) {
+	public ActorActionsEf(EAdSceneElementDef actionElement,
+			ChangeActorActions change) {
 		super();
 		this.actionElement = actionElement;
 		this.change = change;
@@ -70,7 +71,7 @@ public class ActorActionsEf extends AbstractEffect {
 	public EAdSceneElementDef getActionElement() {
 		return actionElement;
 	}
-	
+
 	public ChangeActorActions getChange() {
 		return change;
 	}
@@ -83,5 +84,4 @@ public class ActorActionsEf extends AbstractEffect {
 		this.change = change;
 	}
 
-	
 }

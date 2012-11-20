@@ -47,7 +47,7 @@ import ead.engine.core.platform.GUI;
 
 @Singleton
 public class BottomBasicHUDImpl extends AbstractHUD implements BottomBasicHUD {
-	
+
 	private GameState gameState;
 
 	@Inject
@@ -55,16 +55,16 @@ public class BottomBasicHUDImpl extends AbstractHUD implements BottomBasicHUD {
 		super(gui);
 		this.gameState = gameState;
 	}
-	
+
 	@Override
-	public boolean processAction(InputAction<?> action) {		
-		if ( gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE)){
+	public boolean processAction(InputAction<?> action) {
+		if (gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE)) {
 			action.consume();
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean contains(int x, int y) {
 		return gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE);

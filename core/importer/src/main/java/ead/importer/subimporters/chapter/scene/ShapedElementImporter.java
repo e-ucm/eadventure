@@ -53,14 +53,15 @@ public class ShapedElementImporter {
 		int y = oldObject.getY();
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
 			oldObject.setRectangular(true);
-			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
-			
+			shape = new RectangleShape(oldObject.getWidth(), oldObject
+					.getHeight());
+
 		} else {
 			shape = null;
 			int i = 0;
 
 			for (Point p : oldObject.getPoints()) {
-				if ( i == 0 )
+				if (i == 0)
 					shape = new BezierShape(p.x - x, p.y - y);
 				else
 					((BezierShape) shape).lineTo(p.x - x, p.y - y);
@@ -70,12 +71,13 @@ public class ShapedElementImporter {
 		}
 		return shape;
 	}
-	
-	public static EAdRectangle getBounds( Rectangle oldObject ){
+
+	public static EAdRectangle getBounds(Rectangle oldObject) {
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
 			oldObject.setRectangular(true);
-			return new EAdRectangle(oldObject.getX(), oldObject.getY(), oldObject.getWidth(), oldObject.getHeight());
-			
+			return new EAdRectangle(oldObject.getX(), oldObject.getY(),
+					oldObject.getWidth(), oldObject.getHeight());
+
 		} else {
 			int maxX = Integer.MIN_VALUE;
 			int minX = Integer.MAX_VALUE;
@@ -87,10 +89,10 @@ public class ShapedElementImporter {
 				minX = (int) (p.getX() < minX ? p.getX() : minX);
 				minY = (int) (p.getY() < minY ? p.getY() : minY);
 			}
-			
-			return new EAdRectangle( minX, minY, maxX - minX, maxY - minY );
-			
+
+			return new EAdRectangle(minX, minY, maxX - minX, maxY - minY);
+
 		}
 	}
-	
+
 }

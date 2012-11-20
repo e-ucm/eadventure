@@ -46,7 +46,8 @@ import ead.editor.view.generic.Panel;
  *
  * @param <S>
  */
-public class EAdListFieldDescriptorImpl<S> extends FieldDescriptorImpl<EAdList<S>> implements EAdListFieldDescriptor<S> {
+public class EAdListFieldDescriptorImpl<S> extends
+		FieldDescriptorImpl<EAdList<S>> implements EAdListFieldDescriptor<S> {
 
 	private EAdList<S> list;
 
@@ -57,7 +58,8 @@ public class EAdListFieldDescriptorImpl<S> extends FieldDescriptorImpl<EAdList<S
 	 *            The name of the field
 	 * @param list
 	 */
-	public EAdListFieldDescriptorImpl(Object element, String fieldName, EAdList<S> list) {
+	public EAdListFieldDescriptorImpl(Object element, String fieldName,
+			EAdList<S> list) {
 		super(element, fieldName);
 		this.list = list;
 	}

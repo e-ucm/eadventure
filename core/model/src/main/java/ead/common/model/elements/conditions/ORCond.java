@@ -45,10 +45,10 @@ import ead.common.model.elements.conditions.enums.EmptyCondValue;
 @Element
 public class ORCond extends ListedCond {
 
-	public ORCond( ){
-		super( ConditionOperator.OR );
+	public ORCond() {
+		super(ConditionOperator.OR);
 	}
-	
+
 	public ORCond(EAdCondition... condition) {
 		super(ConditionOperator.OR, condition);
 	}
@@ -57,7 +57,7 @@ public class ORCond extends ListedCond {
 	public EmptyCond getNullOperator() {
 		return new EmptyCond(EmptyCondValue.FALSE);
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString();

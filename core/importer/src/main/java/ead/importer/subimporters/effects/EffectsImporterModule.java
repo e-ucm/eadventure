@@ -82,10 +82,11 @@ import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
 
-public class EffectsImporterModule extends AbstractModule implements MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>>{
+public class EffectsImporterModule extends AbstractModule implements
+		MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>> {
 
 	private Map<Class<?>, Class<? extends EAdElementImporter<?, ?>>> factoryMap;
-	
+
 	@Inject
 	public EffectsImporterModule() {
 		factoryMap = new LinkedHashMap<Class<?>, Class<? extends EAdElementImporter<?, ?>>>();
@@ -96,26 +97,36 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(IncrementVarEffect.class, IncrementVarImporter.class);
 		factoryMap.put(DecrementVarEffect.class, DecrementVarImporter.class);
 		factoryMap.put(RandomEffect.class, RandomEffectImporter.class);
-		factoryMap.put(TriggerConversationEffect.class, TriggerConversationImporter.class);
-		factoryMap.put(TriggerCutsceneEffect.class, TriggerCutsceneImporter.class);
+		factoryMap.put(TriggerConversationEffect.class,
+				TriggerConversationImporter.class);
+		factoryMap.put(TriggerCutsceneEffect.class,
+				TriggerCutsceneImporter.class);
 		factoryMap.put(TriggerSceneEffect.class, TriggerSceneImporter.class);
-		factoryMap.put(TriggerLastSceneEffect.class, TriggerPreviousSceneImporter.class);
-		factoryMap.put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
+		factoryMap.put(TriggerLastSceneEffect.class,
+				TriggerPreviousSceneImporter.class);
+		factoryMap
+				.put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
 		factoryMap.put(SpeakCharEffect.class, SpeakCharEffectImporter.class);
 		factoryMap.put(MacroReferenceEffect.class, TriggerMacroImporter.class);
-		factoryMap.put(CancelActionEffect.class, CancelActionEffectImporter.class);
+		factoryMap.put(CancelActionEffect.class,
+				CancelActionEffectImporter.class);
 		factoryMap.put(PlaySoundEffect.class, PlaySoundEffectImporter.class);
-		factoryMap.put(ConsumeObjectEffect.class, ConsumeObjectEffectImporter.class);
-		factoryMap.put(GenerateObjectEffect.class, GenerateObjectEffectImporter.class);
+		factoryMap.put(ConsumeObjectEffect.class,
+				ConsumeObjectEffectImporter.class);
+		factoryMap.put(GenerateObjectEffect.class,
+				GenerateObjectEffectImporter.class);
 		factoryMap.put(MoveNPCEffect.class, MoveNPCEffectImporter.class);
 		factoryMap.put(MoveObjectEffect.class, MoveObjectEffectImporter.class);
 		factoryMap.put(MovePlayerEffect.class, MovePlayerEffectImporter.class);
 		factoryMap.put(WaitTimeEffect.class, WaitEffectImporter.class);
-		factoryMap.put(HighlightItemEffect.class, HighlightEffectImporter.class);
-		factoryMap.put(PlayAnimationEffect.class, PlayAnimationEffectImporter.class);
-		factoryMap.put(TriggerBookEffect.class, TriggerBookEffectImporter.class);
+		factoryMap
+				.put(HighlightItemEffect.class, HighlightEffectImporter.class);
+		factoryMap.put(PlayAnimationEffect.class,
+				PlayAnimationEffectImporter.class);
+		factoryMap
+				.put(TriggerBookEffect.class, TriggerBookEffectImporter.class);
 	}
-	
+
 	@Override
 	public Map<Class<?>, Class<? extends EAdElementImporter<?, ?>>> getMap() {
 		return factoryMap;
@@ -123,10 +134,11 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>>>() {}).annotatedWith(Names.named("effects")).to(EffectsImporterModule.class);
+		bind(
+				new TypeLiteral<MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>>>() {
+				}).annotatedWith(Names.named("effects")).to(
+				EffectsImporterModule.class);
 		bind(EffectsImporterFactory.class).to(EffectsImporterFactoryImpl.class);
 	}
 
-	
-	
 }

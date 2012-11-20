@@ -41,13 +41,13 @@ package ead.common.resources;
  * EAdBundleIds are used to uniquely identify each AssetBundle of
  * a EAdResource.
  */
-public class EAdBundleId implements Comparable<EAdBundleId>{
+public class EAdBundleId implements Comparable<EAdBundleId> {
 
 	/**
 	 * Id of the bundle
 	 */
 	private String bundleId;
-	
+
 	/**
 	 * Construct a bundle id from a string id.
 	 * 
@@ -55,7 +55,8 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 	 */
 	public EAdBundleId(String bundleId) {
 		if (bundleId == null) {
-			throw new IllegalArgumentException("Attempting to set null bundle-id");
+			throw new IllegalArgumentException(
+					"Attempting to set null bundle-id");
 		}
 		this.bundleId = bundleId;
 	}
@@ -76,7 +77,8 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 	 */
 	public void setBundleId(String bundleId) {
 		if (bundleId == null) {
-			throw new IllegalArgumentException("Attempting to set null bundle-id");
+			throw new IllegalArgumentException(
+					"Attempting to set null bundle-id");
 		}
 		this.bundleId = bundleId;
 	}
@@ -85,7 +87,7 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 	public int compareTo(EAdBundleId o) {
 		return this.bundleId.compareTo(o.getBundleId());
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o != null && o instanceof EAdBundleId) {
@@ -93,15 +95,15 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return bundleId;
 	}
-	
+
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return bundleId.hashCode();
 	}
-	
+
 }

@@ -54,15 +54,13 @@ import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
-
-
 /**
  *
  * @author mfreire
  */
 public class GdxEditorModule extends AbstractModule {
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	protected void configure() {
 
@@ -76,9 +74,9 @@ public class GdxEditorModule extends AbstractModule {
 		}
 
 		bind(GUI.class).to(GdxDesktopGUI.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
-				.to(LoadingScreen.class).asEagerSingleton();
-		
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
+				LoadingScreen.class).asEagerSingleton();
+
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 		}).to(VLCDesktopVideoRenderer.class);
 

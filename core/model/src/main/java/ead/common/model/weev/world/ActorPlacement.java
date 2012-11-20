@@ -50,7 +50,7 @@ public interface ActorPlacement extends WorldElement, Positioned {
 	 * @return the {@link Space} where the actor is placed
 	 */
 	Space getSpace();
-	
+
 	/**
 	 * @return the {@link Actor} that is placed by this placement
 	 */

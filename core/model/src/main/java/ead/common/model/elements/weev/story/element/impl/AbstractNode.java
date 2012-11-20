@@ -50,12 +50,12 @@ public abstract class AbstractNode extends AbstractStoryElement implements Node 
 
 	@Param(value = "hintList")
 	private StoryList<Hint> hintList;
-	
+
 	@Override
 	public StoryList<Hint> getHintList() {
 		return hintList;
 	}
-	
+
 	public void setHintList(StoryList<Hint> hintList) {
 		this.hintList = hintList;
 	}

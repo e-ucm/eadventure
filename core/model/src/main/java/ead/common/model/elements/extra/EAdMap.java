@@ -49,11 +49,11 @@ public interface EAdMap<T, S> extends Map<T, S> {
 	 * @return
 	 */
 	Class<?> getKeyClass();
-	
+
 	/**
 	 * Returns the class for the value elements
 	 * @return
 	 */
 	Class<?> getValueClass();
-	
+
 }

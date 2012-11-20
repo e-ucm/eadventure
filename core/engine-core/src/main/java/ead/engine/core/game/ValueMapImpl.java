@@ -80,11 +80,11 @@ public class ValueMapImpl implements ValueMap {
 		logger.info("New instance");
 		this.reflectionProvider = reflectionProvider;
 		setOperatorFactory(operatorFactory);
-		if ( operatorFactory != null ){
+		if (operatorFactory != null) {
 			operatorFactory.install(this, evaluatorFactory);
 		}
-		
-		if ( evaluatorFactory != null ){
+
+		if (evaluatorFactory != null) {
 			evaluatorFactory.install(this, operatorFactory);
 		}
 		updateList = new ArrayList<EAdElement>();
@@ -99,8 +99,8 @@ public class ValueMapImpl implements ValueMap {
 	@Override
 	public void setValue(EAdElement element, EAdVarDef<?> varDef, Object value) {
 		if (value == null
-				|| reflectionProvider.isAssignableFrom(varDef.getType(),
-						value.getClass())) {
+				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
+						.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
 					: map.get(getFinalElement(element));
@@ -214,7 +214,7 @@ public class ValueMapImpl implements ValueMap {
 	public void clearUpdateList() {
 		updateList.clear();
 	}
-	
+
 	public Map<EAdVarDef<?>, Object> getSystemVars() {
 		return systemVars;
 	}

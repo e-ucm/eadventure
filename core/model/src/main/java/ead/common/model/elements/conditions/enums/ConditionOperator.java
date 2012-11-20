@@ -39,7 +39,6 @@ package ead.common.model.elements.conditions.enums;
 
 import com.gwtent.reflection.client.Reflectable;
 
-
 /**
  * Operator for conditions
  * 
@@ -47,20 +46,20 @@ import com.gwtent.reflection.client.Reflectable;
  */
 @Reflectable
 public enum ConditionOperator {
-	
-		/**
-		 * AND operator
-		 */
-		AND,
 
-		/**
-		 * OR operator
-		 */
-		OR,
+	/**
+	 * AND operator
+	 */
+	AND,
 
-		/**
-		 * OTHER operator
-		 */
-		OTHER
+	/**
+	 * OR operator
+	 */
+	OR,
+
+	/**
+	 * OTHER operator
+	 */
+	OTHER
 
 }

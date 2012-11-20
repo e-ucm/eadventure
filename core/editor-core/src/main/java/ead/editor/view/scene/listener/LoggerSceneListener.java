@@ -52,8 +52,7 @@ public class LoggerSceneListener implements SceneListener {
 	@Override
 	public <T> void updateInitialValue(VarDef<T> var, EAdSceneElement element,
 			T value) {
-		logger.debug(
-				"Varirable {} change its value to {} in element {}",
+		logger.debug("Varirable {} change its value to {} in element {}",
 				new String[] { var.toString(), value.toString(),
 						element.getId() });
 

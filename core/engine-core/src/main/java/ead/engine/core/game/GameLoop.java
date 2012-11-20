@@ -73,26 +73,26 @@ public interface GameLoop {
 	 * @param running
 	 */
 	public void stop();
-	
+
 	/**
 	 * Check if the game loop is running
 	 * @return
 	 */
-	public boolean isRunning( );
-	
+	public boolean isRunning();
+
 	/**
 	 * Sets the ticks per second
 	 * @param ticksPerSecond
 	 * @return
 	 */
-	public void setTicksPerSecond(int ticksPerSecond );
-	
+	public void setTicksPerSecond(int ticksPerSecond);
+
 	/**
 	 * Returns the skipped milliseconds in one update
 	 * @return
 	 */
-	public int getSkipMillisTick( );
+	public int getSkipMillisTick();
 
-	public int getTicksPerSecond(); 
+	public int getTicksPerSecond();
 
 }

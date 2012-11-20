@@ -82,8 +82,8 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	protected void init() {
-		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE,
-				800, 600));
+		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN,
+				ColorFill.BLUE, 800, 600));
 
 		// Add sky
 
@@ -92,18 +92,17 @@ public class PhysicsScene extends EmptyScene {
 		PhysicsEffect effect = new PhysicsEffect();
 
 		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(
-				new BasicField<Boolean>(this, BasicScene.VAR_SCENE_LOADED));
+		OperationCond condition = new OperationCond(new BasicField<Boolean>(
+				this, BasicScene.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
 
 		// getEvents().add(event);
-		getBackground()
-				.addBehavior(MouseGEv.MOUSE_ENTERED, effect);
+		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
-    	addWalls(effect);
-//		addPendulum(effect);
+		addWalls(effect);
+		//		addPendulum(effect);
 		addSea();
 	}
 
@@ -116,16 +115,15 @@ public class PhysicsScene extends EmptyScene {
 		RectangleShape groundS = new RectangleShape(750, 50);
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 750, 50));
-		SceneElement ground = new SceneElement(
-				groundS);
+		SceneElement ground = new SceneElement(groundS);
 		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 545));
 
-		SceneElement wall = new SceneElement( groundS);
+		SceneElement wall = new SceneElement(groundS);
 		wall.setPosition(new EAdPosition(Corner.CENTER, 775, 300));
 		wall.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
-		SceneElement wall2 = new SceneElement( groundS);
+		SceneElement wall2 = new SceneElement(groundS);
 		wall2.setPosition(new EAdPosition(Corner.CENTER, 25, 300));
 		wall2.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
@@ -144,25 +142,27 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	private void addCanyon(PhysicsEffect effect) {
-		
+
 		int height = 100;
 
 		SceneElement canyon = new SceneElement(
 				new Image("@drawable/canyon.png"));
-		SceneElement canyonSupport = new SceneElement(
-				 new Image("@drawable/canyonbottom.png"));
-		
+		SceneElement canyonSupport = new SceneElement(new Image(
+				"@drawable/canyonbottom.png"));
+
 		canyon.setPosition(new EAdPosition(Corner.CENTER, 130, height));
 		canyonSupport.setPosition(new EAdPosition(100, height));
-		
+
 		ComposedDrawable composed = new ComposedDrawable();
-		composed.addDrawable(new RectangleShape(80, 600, new LinearGradientFill(ColorFill.BROWN, ColorFill.LIGHT_BROWN, 80, 0)));
+		composed.addDrawable(new RectangleShape(80, 600,
+				new LinearGradientFill(ColorFill.BROWN, ColorFill.LIGHT_BROWN,
+						80, 0)));
 		composed.addDrawable(new Image("@drawable/grass.png"), 0, -15);
-		
-		SceneElement grass = new SceneElement( composed);
+
+		SceneElement grass = new SceneElement(composed);
 		grass.setPosition(90, height + 60);
 		effect.getElements().add(grass);
-		
+
 		this.getSceneElements().add(grass);
 
 		EAdField<Float> rotationField = new BasicField<Float>(canyon,
@@ -179,18 +179,15 @@ public class PhysicsScene extends EmptyScene {
 				SceneElement.VAR_Y);
 
 		String expression = "- acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )";
-		MathOp op = new MathOp(expression, canyonX, canyonY,
-				mouseX, mouseY);
+		MathOp op = new MathOp(expression, canyonX, canyonY, mouseX, mouseY);
 		followMouse.setOperation(op);
 		followMouse.addField(rotationField);
 		OperationCond c1 = new OperationCond(mouseX, 0,
 				Comparator.GREATER_EQUAL);
-		OperationCond c2 = new OperationCond(mouseY,
-				new BasicField<Integer>(canyon, SceneElement.VAR_Y),
-				Comparator.LESS_EQUAL);
-		OperationCond c3 = new OperationCond(mouseX,
-				new BasicField<Integer>(canyon, SceneElement.VAR_X),
-				Comparator.GREATER_EQUAL);
+		OperationCond c2 = new OperationCond(mouseY, new BasicField<Integer>(
+				canyon, SceneElement.VAR_Y), Comparator.LESS_EQUAL);
+		OperationCond c3 = new OperationCond(mouseX, new BasicField<Integer>(
+				canyon, SceneElement.VAR_X), Comparator.GREATER_EQUAL);
 		followMouse.setCondition(new ANDCond(c1, c2, c3));
 
 		SceneElementEv event = new SceneElementEv();
@@ -210,19 +207,17 @@ public class PhysicsScene extends EmptyScene {
 		PhApplyImpluseEf applyForce = new PhApplyImpluseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1]) * 500", mouseY, canyonY));
-		AddActorReferenceEf addEffect = new AddActorReferenceEf(
-				bullet, new EAdPosition(Corner.CENTER, 140, height - 5),
-				applyForce);
+		AddActorReferenceEf addEffect = new AddActorReferenceEf(bullet,
+				new EAdPosition(Corner.CENTER, 140, height - 5), applyForce);
 
-		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-				addEffect);
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, addEffect);
 
 		// Add text
 		Caption c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("radians: #0 ");
 		c.getFields().add(rotationField);
 		c.setBubblePaint(ColorFill.TRANSPARENT);
-		SceneElement e = new SceneElement( c);
+		SceneElement e = new SceneElement(c);
 		e.setPosition(120, 375);
 		getSceneElements().add(e);
 
@@ -230,14 +225,14 @@ public class PhysicsScene extends EmptyScene {
 
 	protected void addPendulum(PhysicsEffect effect) {
 
-		SceneElement holder = new SceneElement(
-				new RectangleShape(100, 10, new LinearGradientFill(
-						ColorFill.DARK_BROWN, ColorFill.LIGHT_BROWN, 100, 10)));
+		SceneElement holder = new SceneElement(new RectangleShape(100, 10,
+				new LinearGradientFill(ColorFill.DARK_BROWN,
+						ColorFill.LIGHT_BROWN, 100, 10)));
 		holder.setPosition(new EAdPosition(Corner.CENTER, 400, 50));
 
-		SceneElement rope = new SceneElement(
-				new RectangleShape(150, 10, new LinearGradientFill(
-						ColorFill.YELLOW, ColorFill.LIGHT_BROWN, 150, 10)));
+		SceneElement rope = new SceneElement(new RectangleShape(150, 10,
+				new LinearGradientFill(ColorFill.YELLOW, ColorFill.LIGHT_BROWN,
+						150, 10)));
 		rope.setPosition(new EAdPosition(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_FRICTION, 0.7f);
@@ -250,39 +245,35 @@ public class PhysicsScene extends EmptyScene {
 
 	private void addSky() {
 		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
-		backgroundDef.getResources().addAsset(
-				backgroundDef.getInitialBundle(),
-				SceneElementDef.appearance,
-				new Image("@drawable/sky.png"));
+		backgroundDef.getResources().addAsset(backgroundDef.getInitialBundle(),
+				SceneElementDef.appearance, new Image("@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(
-				new BasicField<Integer>(getBackground(),
-						SceneElement.VAR_X), 0, -800, 100000,
+		InterpolationEf effect = new InterpolationEf(new BasicField<Integer>(
+				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
-		event.addEffect(SceneElementEvType.FIRST_UPDATE,
-				effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		this.getBackground().getEvents().add(event);
 
 	}
-	
-	private void addSea(){
-		SceneElement wave1 = new SceneElement( new Image("@drawable/wave1.png"));
+
+	private void addSea() {
+		SceneElement wave1 = new SceneElement(new Image("@drawable/wave1.png"));
 		SceneElement wave2 = new SceneElement(new Image("@drawable/wave2.png"));
 		ComplexSceneElement waves = new ComplexSceneElement();
 		waves.getSceneElements().add(wave1);
 		addGoal(waves);
 		waves.getSceneElements().add(wave2);
 		waves.setPosition(EAdPosition.Corner.BOTTOM_LEFT, -50, 600);
-		
+
 		this.getSceneElements().add(waves);
-		
+
 	}
-	
-	private void addGoal(ComplexSceneElement waves){
+
+	private void addGoal(ComplexSceneElement waves) {
 		BezierShape shape = new BezierShape();
 		shape.moveTo(0, 0);
 		shape.lineTo(40, 0);
@@ -290,7 +281,7 @@ public class PhysicsScene extends EmptyScene {
 		shape.lineTo(5, 40);
 		shape.setClosed(true);
 		shape.setPaint(ColorFill.RED);
-		SceneElement goal = new SceneElement( shape);
+		SceneElement goal = new SceneElement(shape);
 		goal.setPosition(540, 0);
 		waves.getSceneElements().add(goal);
 	}

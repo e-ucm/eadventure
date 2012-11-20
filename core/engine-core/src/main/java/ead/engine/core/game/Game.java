@@ -37,7 +37,6 @@
 
 package ead.engine.core.game;
 
-
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;

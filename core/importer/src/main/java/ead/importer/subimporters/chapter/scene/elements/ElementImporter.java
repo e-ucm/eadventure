@@ -109,13 +109,13 @@ public abstract class ElementImporter<T> implements
 		EAdRectangle rect = null;
 		if (hasInfluenceArea) {
 			rect = new EAdRectangle(influenceArea.getX() + bounds.getX(),
-					influenceArea.getY() + bounds.getY(),
-					influenceArea.getWidth(), influenceArea.getHeight());
+					influenceArea.getY() + bounds.getY(), influenceArea
+							.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = new EAdRectangle(bounds.getX() - INFLUENCE_MARGIN,
-					bounds.getY() - INFLUENCE_MARGIN, bounds.getWidth()
-							+ INFLUENCE_MARGIN * 2, bounds.getHeight()
-							+ INFLUENCE_MARGIN * 2);
+			rect = new EAdRectangle(bounds.getX() - INFLUENCE_MARGIN, bounds
+					.getY()
+					- INFLUENCE_MARGIN, bounds.getWidth() + INFLUENCE_MARGIN
+					* 2, bounds.getHeight() + INFLUENCE_MARGIN * 2);
 		}
 		sceneElement.setVarInitialValue(
 				NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, rect);

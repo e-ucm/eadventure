@@ -49,11 +49,14 @@ import javax.swing.JTextField;
 
 public class EAdConditionOption extends AbstractOption<EAdCondition> {
 
-	public static enum View { DETAILED, BASIC }
+	public static enum View {
+		DETAILED, BASIC
+	}
 
 	private View view;
 
-	public EAdConditionOption(String title, String toolTipText, FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
+	public EAdConditionOption(String title, String toolTipText,
+			FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
 		super(title, toolTipText, fieldDescriptor);
 		this.view = view;
 	}

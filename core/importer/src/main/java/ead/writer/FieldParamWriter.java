@@ -63,50 +63,68 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
 		String debugData = null;
 		if (logger.isDebugEnabled()) {
-			debugData = (data instanceof EAdElement) ?
-					((EAdElement)data).getId() :
-					clazz.getSimpleName() + "@" + data.hashCode();
+			debugData = (data instanceof EAdElement) ? ((EAdElement) data)
+					.getId() : clazz.getSimpleName() + "@" + data.hashCode();
 		}
-		
+
 		while (clazz != null) {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {
 				try {
 					Param param = field.getAnnotation(Param.class);
 					if (param != null) {
-						PropertyDescriptor pd = getPropertyDescriptor(data.getClass(), field.getName());
+						PropertyDescriptor pd = getPropertyDescriptor(data
+								.getClass(), field.getName());
 						if (pd == null) {
-							logger.error("Missing descriptor for {} in {}: "
-									+ "Probably needs get or set method on this field",
-                                    field.getName(), data.getClass());
+							logger
+									.error(
+											"Missing descriptor for {} in {}: "
+													+ "Probably needs get or set method on this field",
+											field.getName(), data.getClass());
 							error = true;
-                        }
-                        Method method = pd.getReadMethod();
+						}
+						Method method = pd.getReadMethod();
 						if (method == null) {
 							logger.error("Missing read-method for {} in {}",
-                                    field.getName(), data.getClass());
+									field.getName(), data.getClass());
 							error = true;
-                        }
-                        Object o = method.invoke(data);
+						}
+						Object o = method.invoke(data);
 
 						if (!isEmpty(o)) {
-							logger.debug("not empty, so will generate param for {}.{}", 
-									new Object[] {debugData, field.getName()});								
+							logger
+									.debug(
+											"not empty, so will generate param for {}.{}",
+											new Object[] { debugData,
+													field.getName() });
 							Element newNode = super.initNode(o, null);
-							if (!DOMWriter.USE_DEFAULT_VALUES || !isDefault(newNode, o, param.defaultValue())) {
-								newNode.setAttribute(DOMTags.PARAM_AT, param.value());								
+							if (!DOMWriter.USE_DEFAULT_VALUES
+									|| !isDefault(newNode, o, param
+											.defaultValue())) {
+								newNode.setAttribute(DOMTags.PARAM_AT, param
+										.value());
 								doc.adoptNode(newNode);
 								node.appendChild(newNode);
-								logger.debug("param appended: {}.{}", 
-										new Object[] {debugData, field.getName()});								
+								logger.debug("param appended: {}.{}",
+										new Object[] { debugData,
+												field.getName() });
 							} else {
-								logger.debug("param created but not appended: {}.{} [{} / {} == {}]", 
-										new Object[] {debugData, field.getName(), 
-											!DOMWriter.USE_DEFAULT_VALUES, newNode.getTextContent(), param.defaultValue()});								
+								logger
+										.debug(
+												"param created but not appended: {}.{} [{} / {} == {}]",
+												new Object[] {
+														debugData,
+														field.getName(),
+														!DOMWriter.USE_DEFAULT_VALUES,
+														newNode
+																.getTextContent(),
+														param.defaultValue() });
 							}
 						} else {
-							logger.debug("ignored empty param {}.{}", 
-									new Object[] {debugData, field.getName()});
+							logger
+									.debug("ignored empty param {}.{}",
+											new Object[] { debugData,
+													field.getName() });
 						}
 					}
 				} catch (Exception e) {
@@ -119,7 +137,6 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 		DOMWriter.depthManager.levelDown();
 	}
 
-
 	/**
 	 * Utility method to find a property descriptor for a single property
 	 *
@@ -127,17 +144,19 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	 * @param fieldName
 	 * @return
 	 */
-	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
+	private static PropertyDescriptor getPropertyDescriptor(Class<?> c,
+			String fieldName) {
 		try {
-			for (PropertyDescriptor pd :
-				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
+			for (PropertyDescriptor pd : Introspector.getBeanInfo(c)
+					.getPropertyDescriptors()) {
 				if (pd.getName().equals(fieldName)) {
 					return pd;
 				}
 			}
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("Could not find getters or setters for field "
-					+ fieldName + " in class " + c.getCanonicalName());
+			throw new IllegalArgumentException(
+					"Could not find getters or setters for field " + fieldName
+							+ " in class " + c.getCanonicalName());
 		}
 		return null;
 	}
@@ -149,12 +168,14 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	 * @param d default value to compare against
 	 * @return true if o is default, false otherwise
 	 */
-	public boolean isDefault(Element newNode, Object o, Object d) {		
+	public boolean isDefault(Element newNode, Object o, Object d) {
 		// note: "" is the default default-value. All text-less nodes would match, even if very non-default... 
 		// had to make exception for EAdStrings, which when empty should not be saved
-		return ( ! d.equals("") && newNode.getTextContent().equals(d)) 
-			|| (o instanceof EAdString && newNode.getTextContent().equals(d))
-			|| (o instanceof EAdAssetBundle && newNode.getTextContent().equals(d));
+		return (!d.equals("") && newNode.getTextContent().equals(d))
+				|| (o instanceof EAdString && newNode.getTextContent()
+						.equals(d))
+				|| (o instanceof EAdAssetBundle && newNode.getTextContent()
+						.equals(d));
 	}
 
 	/**
@@ -166,9 +187,9 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	 * @return
 	 */
 	public boolean isEmpty(Object o) {
-		return (o == null) 
-			|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0) 
-			|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) 
-			|| (o instanceof EAdResources && ((EAdResources) o).isEmpty());
+		return (o == null)
+				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0)
+				|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty())
+				|| (o instanceof EAdResources && ((EAdResources) o).isEmpty());
 	}
 }

@@ -179,7 +179,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 		RuntimeAsset<T> temp = null;
 		if (cacheEnabled) {
-				temp = (RuntimeAsset<T>) cache.get(descriptor);			
+			temp = (RuntimeAsset<T>) cache.get(descriptor);
 		}
 
 		if (temp == null) {

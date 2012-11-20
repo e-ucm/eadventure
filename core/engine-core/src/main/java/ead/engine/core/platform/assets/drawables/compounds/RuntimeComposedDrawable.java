@@ -99,16 +99,16 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	public int getWidth() {
 		int width = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			width = Math.max(assetHandler.getDrawableAsset(asset)
-					.getWidth(), width);
+			width = Math.max(assetHandler.getDrawableAsset(asset).getWidth(),
+					width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			height = Math.max(assetHandler.getDrawableAsset(asset)
-					.getHeight(), height);
+			height = Math.max(assetHandler.getDrawableAsset(asset).getHeight(),
+					height);
 		return height;
 	}
 
@@ -160,10 +160,11 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		}
 		return false;
 	}
-	
+
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
-		for ( RuntimeDrawable<?,?> d: this.drawables ){
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
+		for (RuntimeDrawable<?, ?> d : this.drawables) {
 			d.getDrawable(time, states, level);
 		}
 		return this;

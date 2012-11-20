@@ -42,13 +42,13 @@ import java.util.List;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 public interface InventoryHandler {
-	
+
 	List<InventoryItem> getItems();
-	
-	void add( EAdSceneElementDef item );
-	
-	void remove( EAdSceneElementDef item );
-	
+
+	void add(EAdSceneElementDef item);
+
+	void remove(EAdSceneElementDef item);
+
 	long updateNumber();
 
 }

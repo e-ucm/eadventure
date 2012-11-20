@@ -55,7 +55,8 @@ import org.slf4j.LoggerFactory;
  */
 public class StructurePanel extends JPanel implements ChangeListener {
 
-	private static Logger logger = LoggerFactory.getLogger(StructurePanel.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(StructurePanel.class);
 
 	private static final long serialVersionUID = -1768584184321389780L;
 
@@ -80,10 +81,10 @@ public class StructurePanel extends JPanel implements ChangeListener {
 	public void commit() {
 		removeAll();
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx=0;
-		gbc.gridy=0;
-		gbc.gridheight=1;
-		gbc.gridwidth=1;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
 		gbc.weighty = 0;

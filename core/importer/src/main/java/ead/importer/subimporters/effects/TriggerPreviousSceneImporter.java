@@ -46,11 +46,13 @@ import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 
-public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastSceneEffect, ChangeSceneEf>{
+public class TriggerPreviousSceneImporter extends
+		EffectImporter<TriggerLastSceneEffect, ChangeSceneEf> {
 
 	@Inject
 	public TriggerPreviousSceneImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter, ImportAnnotator annotator) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+			ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 	}
 

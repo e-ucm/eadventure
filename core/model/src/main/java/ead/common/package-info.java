@@ -38,4 +38,5 @@
 /**
  * eAdventure common.
  */
+
 package ead.common;

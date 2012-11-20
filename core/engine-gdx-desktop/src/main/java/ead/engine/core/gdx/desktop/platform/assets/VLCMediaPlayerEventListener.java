@@ -65,9 +65,9 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 
 	@Override
 	public void error(MediaPlayer player) {
-		
-//		vlcDesktopVideoRenderer.setFinished(true);
-//		vlcDesktopVideoRenderer.setStarted(false);
+
+		//		vlcDesktopVideoRenderer.setFinished(true);
+		//		vlcDesktopVideoRenderer.setStarted(false);
 	}
 
 	@Override
@@ -173,12 +173,12 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 
 	@Override
 	public void buffering(MediaPlayer arg0, float arg1) {
-		
+
 	}
 
 	@Override
 	public void mediaChanged(MediaPlayer arg0, libvlc_media_t arg1, String arg2) {
-		
+
 	}
 
 }

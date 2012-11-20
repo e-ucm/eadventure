@@ -59,60 +59,62 @@ public class Resource {
 
 	private static final Logger logger = LoggerFactory.getLogger("Resource");
 
-    private static BufferedImage placeholderImage;
-    private static Font placeholderFont;
+	private static BufferedImage placeholderImage;
+	private static Font placeholderFont;
 
-    /**
-     * Returns a placeholder image, used when no image is found
-     */
-    public static Image placeholderImage() {
-        if (placeholderImage == null) {
-            // currently a 32x32 pixmap with a red '?' on a white field
-            placeholderImage = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
-            Graphics g = placeholderImage.getGraphics();
-            g.setColor(Color.red);
-            g.drawString("?", 5, 30);
-            g.dispose();
-        }
-        return placeholderImage;
-    }
+	/**
+	 * Returns a placeholder image, used when no image is found
+	 */
+	public static Image placeholderImage() {
+		if (placeholderImage == null) {
+			// currently a 32x32 pixmap with a red '?' on a white field
+			placeholderImage = new BufferedImage(32, 32,
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics g = placeholderImage.getGraphics();
+			g.setColor(Color.red);
+			g.drawString("?", 5, 30);
+			g.dispose();
+		}
+		return placeholderImage;
+	}
 
-    /**
-     * Returns a placeholder font, used when no font is found
-     */
-    public static Font placeholderFont() {
-        if (placeholderFont == null) {
-            placeholderFont = (new JPanel()).getFont();
-        }
-        return placeholderFont;
-    }
+	/**
+	 * Returns a placeholder font, used when no font is found
+	 */
+	public static Font placeholderFont() {
+		if (placeholderFont == null) {
+			placeholderFont = (new JPanel()).getFont();
+		}
+		return placeholderFont;
+	}
 
-    /**
-     * Loads an image resource; logs an exception if not possible.
-     * @param resourceName name of resource (typically R.Drawable.something)
-     */
-    public static Image loadImage(String resourceName) {
-        try {
-            return ImageIO.read(ClassLoader.getSystemResourceAsStream(resourceName));
-        } catch (IOException e) {
-            logger.warn("Image not found: '{}'", resourceName);
-            return placeholderImage();
-        }
-    }
+	/**
+	 * Loads an image resource; logs an exception if not possible.
+	 * @param resourceName name of resource (typically R.Drawable.something)
+	 */
+	public static Image loadImage(String resourceName) {
+		try {
+			return ImageIO.read(ClassLoader
+					.getSystemResourceAsStream(resourceName));
+		} catch (IOException e) {
+			logger.warn("Image not found: '{}'", resourceName);
+			return placeholderImage();
+		}
+	}
 
-    /**
-     * Loads a font resource; logs an exception if not possible
-     * @param resourceName name of resource (must be available in class-path)
-     */
-    public static Font loadFont(String resourceName) {
-        try {
-            return Font.createFont(Font.TRUETYPE_FONT,
-                ClassLoader.getSystemResourceAsStream(resourceName));
-        } catch (IOException e) {
-            logger.warn("Font not found: '{}'", resourceName, e);
-        } catch (FontFormatException ffe) {
-            logger.warn("Bad font format: '{}'", resourceName, ffe);
-        }
-        return placeholderFont();
-    }
+	/**
+	 * Loads a font resource; logs an exception if not possible
+	 * @param resourceName name of resource (must be available in class-path)
+	 */
+	public static Font loadFont(String resourceName) {
+		try {
+			return Font.createFont(Font.TRUETYPE_FONT, ClassLoader
+					.getSystemResourceAsStream(resourceName));
+		} catch (IOException e) {
+			logger.warn("Font not found: '{}'", resourceName, e);
+		} catch (FontFormatException ffe) {
+			logger.warn("Bad font format: '{}'", resourceName, ffe);
+		}
+		return placeholderFont();
+	}
 }

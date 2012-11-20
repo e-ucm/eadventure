@@ -81,9 +81,9 @@ public class AssetViewer {
 
 		assetHandler = injector.getInstance(AssetHandler.class);
 
-		app = new AssetApplicationListener(
-				injector.getInstance(FontHandler.class),
-				injector.getInstance(ReflectionProvider.class));
+		app = new AssetApplicationListener(injector
+				.getInstance(FontHandler.class), injector
+				.getInstance(ReflectionProvider.class));
 
 		if (canvas == null) {
 			lwjglCanvas = new LwjglAWTCanvas(app, true);

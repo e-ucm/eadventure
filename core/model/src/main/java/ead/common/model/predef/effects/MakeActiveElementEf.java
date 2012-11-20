@@ -48,14 +48,13 @@ import ead.common.model.elements.variables.operations.ValueOp;
  */
 @Element
 public class MakeActiveElementEf extends ChangeFieldEf {
-	
+
 	public MakeActiveElementEf() {
 		super();
 	}
-	
+
 	public MakeActiveElementEf(EAdSceneElement element) {
 		super(SystemFields.ACTIVE_ELEMENT, new ValueOp(element));
 	}
-	
-	
+
 }

@@ -171,10 +171,10 @@ public class ExporterPanel extends JPanel {
 		new Thread() {
 			public void run() {
 				String gameBase = inputField.getText();
-				String outputFolder = outputField.getText();			
-				exporter.export(nameField.getText(), gameBase,
-						outputFolder, jar.isSelected(), war.isSelected(),
-						apk.isSelected(), install.isSelected());
+				String outputFolder = outputField.getText();
+				exporter.export(nameField.getText(), gameBase, outputFolder,
+						jar.isSelected(), war.isSelected(), apk.isSelected(),
+						install.isSelected());
 				status.setText("Done.");
 			}
 

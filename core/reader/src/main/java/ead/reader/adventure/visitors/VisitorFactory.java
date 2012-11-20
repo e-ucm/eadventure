@@ -43,9 +43,9 @@ import java.util.Map;
 public class VisitorFactory {
 
 	private Map<String, NodeVisitor<?>> map;
-	
+
 	private static VisitorFactory instance;
-	
+
 	private VisitorFactory() {
 		map = new LinkedHashMap<String, NodeVisitor<?>>();
 		addVisitor(new AssetNodeVisitor());
@@ -55,11 +55,11 @@ public class VisitorFactory {
 		addVisitor(new ParamNodeVisitor());
 		addVisitor(new ResourcesNodeVisitor());
 	}
-	
+
 	private void addVisitor(NodeVisitor<?> nodeVisitor) {
 		map.put(nodeVisitor.getNodeType(), nodeVisitor);
 	}
-	
+
 	static public NodeVisitor<?> getVisitor(String key) {
 		if (instance == null) {
 			instance = new VisitorFactory();

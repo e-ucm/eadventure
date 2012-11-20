@@ -37,8 +37,6 @@
 
 package ead.engine.core.gdx.gameobjects;
 
-
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -123,8 +121,8 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 			EAdSceneElement e2 = element.getJoints().get(i + 1);
 			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
 			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
-			jd.initialize(b2, b1, new Vector2(b1.getPosition().x,
-					b1.getPosition().y));
+			jd.initialize(b2, b1, new Vector2(b1.getPosition().x, b1
+					.getPosition().y));
 			world.createJoint(jd);
 		}
 
@@ -143,12 +141,12 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 
-					valueMap.setValue(e, SceneElement.VAR_X,
-							(int) (b.getWorldCenter().x * WORLD_SCALE));
-					valueMap.setValue(e, SceneElement.VAR_Y,
-							(int) (b.getWorldCenter().y * WORLD_SCALE));
-					valueMap.setValue(e, SceneElement.VAR_ROTATION,
-							b.getAngle());
+					valueMap.setValue(e, SceneElement.VAR_X, (int) (b
+							.getWorldCenter().x * WORLD_SCALE));
+					valueMap.setValue(e, SceneElement.VAR_Y, (int) (b
+							.getWorldCenter().y * WORLD_SCALE));
+					valueMap.setValue(e, SceneElement.VAR_ROTATION, b
+							.getAngle());
 				}
 			}
 		} else {

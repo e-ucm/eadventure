@@ -47,12 +47,12 @@ public class NOTCond extends ResourcedElement implements EAdCondition {
 
 	@Param("condition")
 	private EAdCondition condition;
-	
+
 	public NOTCond() {
 		super();
 		this.condition = EmptyCond.FALSE_EMPTY_CONDITION;
 	}
-	
+
 	public NOTCond(EAdCondition condition) {
 		super();
 		this.condition = condition;
@@ -71,7 +71,7 @@ public class NOTCond extends ResourcedElement implements EAdCondition {
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "NOT " + condition.toString();

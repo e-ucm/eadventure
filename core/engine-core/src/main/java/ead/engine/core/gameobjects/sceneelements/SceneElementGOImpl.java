@@ -125,7 +125,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	protected GameState gameState;
 
 	protected boolean mouseOver;
-	
+
 	protected boolean changeBundle;
 
 	@Inject
@@ -274,12 +274,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		EAdBundleId newBundle = valueMap.getValue(element,
 				ResourcedElement.VAR_BUNDLE_ID);
 
-		if (currentBundle != newBundle || changeBundle ) {
+		if (currentBundle != newBundle || changeBundle) {
 			changeBundle = false;
 			currentBundle = newBundle;
-			AssetDescriptor a = element
-					.getDefinition()
-					.getResources()
+			AssetDescriptor a = element.getDefinition().getResources()
 					.getAsset(
 							currentBundle,
 							mouseOver ? SceneElementDef.overAppearance
@@ -287,7 +285,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			if (a == null) {
 				a = element.getDefinition().getAppearance(currentBundle);
 			}
-			
+
 			if (a != null) {
 				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
 						.getRuntimeAsset(a, true);
@@ -409,8 +407,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void setPosition(EAdPosition position) {
 		valueMap.setValue(element, SceneElement.VAR_X, position.getX());
 		valueMap.setValue(element, SceneElement.VAR_Y, position.getY());
-		valueMap.setValue(element, SceneElement.VAR_DISP_X, position.getDispX());
-		valueMap.setValue(element, SceneElement.VAR_DISP_Y, position.getDispY());
+		valueMap
+				.setValue(element, SceneElement.VAR_DISP_X, position.getDispX());
+		valueMap
+				.setValue(element, SceneElement.VAR_DISP_Y, position.getDispY());
 	}
 
 	@Override

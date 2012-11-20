@@ -42,7 +42,6 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import ead.editor.control.Command;
 
 /**
@@ -53,118 +52,121 @@ public class ChangeValueCommand<T> extends Command {
 	/**
 	 * The old value (T) to be changed.
 	 */
-    protected T oldValue;
-    
-    /**
+	protected T oldValue;
+
+	/**
 	 * The new value (T) to change.
 	 */
-    protected T newValue;
-    
-    /**
+	protected T newValue;
+
+	/**
 	 * The object which data is to be modified.
 	 */
-    protected Object data;
-    
-    /**
+	protected Object data;
+
+	/**
 	 * The name of the object data set method.
 	 */
-    protected String setName;
-    
-    /**
+	protected String setName;
+
+	/**
 	 * The name of the object data get method.
 	 */
-    protected String getName;
-    
-    /**
-     * The logger
-     */
-    private static final Logger logger = LoggerFactory.getLogger(ChangeValueCommand.class);
-    
-    /**
-     * Constructor for the ChangeValueCommand class.
-     * 
-     * @param data
-     *            The object which data is to be modified
-     * @param newValue
-     *            The new value (T)
-     * @param setMethodName
-     *            The name of the object data set method
-     * @param getMethodName
-     *            The name of the object data get method
-     */
-    public ChangeValueCommand(Object data, T newValue, String setMethodName, String getMethodName) {
-        this.data = data;
-        this.newValue = newValue;
-        this.getName = getMethodName;
-        this.setName = setMethodName;
-    }   
-    
-    /**
-     * Constructor for the ChangeValueCommand with fieldName
-     * 
-     * @param data The object where to change the value
-     * @param newValue The new value
-     * @param fieldName The name of the field
-     */
-    public ChangeValueCommand(Object data, T newValue, String fieldName) {
-    	this(data, newValue, fieldName, fieldName);
-    }
-    
-    /**
-	 * Method to obtain the setter of the data object. 
-	 */    
-    public Method getSetMethod(){
-    	try {
-            return data.getClass().getMethod(setName, newValue.getClass());
-        } catch(SecurityException e) {
-            logger.error("Security exception setting {}", setName, e);
-        } catch(NoSuchMethodException e) {
-            logger.error("No such set method: {}", setName, e);
-        }        
-		return null;
-    }
-    
-    /**
-	 * Method to obtain the getter of the data object. 
-	 */ 
-    public Method getGetMethod(){
-    	
-    	try {
-            return data.getClass().getMethod(getName);
-        } catch(SecurityException e) {
-            logger.error("Security exception getting {}", getName, e);
-        } catch(NoSuchMethodException e) {
-            logger.error("No such get method: {}", getName, e);
-        }        
-		return null;
-    }
+	protected String getName;
 
-    /**
+	/**
+	 * The logger
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(ChangeValueCommand.class);
+
+	/**
+	 * Constructor for the ChangeValueCommand class.
+	 * 
+	 * @param data
+	 *            The object which data is to be modified
+	 * @param newValue
+	 *            The new value (T)
+	 * @param setMethodName
+	 *            The name of the object data set method
+	 * @param getMethodName
+	 *            The name of the object data get method
+	 */
+	public ChangeValueCommand(Object data, T newValue, String setMethodName,
+			String getMethodName) {
+		this.data = data;
+		this.newValue = newValue;
+		this.getName = getMethodName;
+		this.setName = setMethodName;
+	}
+
+	/**
+	 * Constructor for the ChangeValueCommand with fieldName
+	 * 
+	 * @param data The object where to change the value
+	 * @param newValue The new value
+	 * @param fieldName The name of the field
+	 */
+	public ChangeValueCommand(Object data, T newValue, String fieldName) {
+		this(data, newValue, fieldName, fieldName);
+	}
+
+	/**
+	 * Method to obtain the setter of the data object. 
+	 */
+	public Method getSetMethod() {
+		try {
+			return data.getClass().getMethod(setName, newValue.getClass());
+		} catch (SecurityException e) {
+			logger.error("Security exception setting {}", setName, e);
+		} catch (NoSuchMethodException e) {
+			logger.error("No such set method: {}", setName, e);
+		}
+		return null;
+	}
+
+	/**
+	 * Method to obtain the getter of the data object. 
+	 */
+	public Method getGetMethod() {
+
+		try {
+			return data.getClass().getMethod(getName);
+		} catch (SecurityException e) {
+			logger.error("Security exception getting {}", getName, e);
+		} catch (NoSuchMethodException e) {
+			logger.error("No such get method: {}", getName, e);
+		}
+		return null;
+	}
+
+	/**
 	 * Method to perform a changing values command 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean performCommand() {
-		
+
 		boolean done = false;
-        if(getGetMethod() != null && getSetMethod() != null) {
-            try {
-                oldValue = (T) getGetMethod().invoke(data);
-                if ((newValue != null && oldValue == null) || 
-					(newValue == null && oldValue != null) ||
-					(newValue != null && oldValue != null && !oldValue.equals(newValue))) {
+		if (getGetMethod() != null && getSetMethod() != null) {
+			try {
+				oldValue = (T) getGetMethod().invoke(data);
+				if ((newValue != null && oldValue == null)
+						|| (newValue == null && oldValue != null)
+						|| (newValue != null && oldValue != null && !oldValue
+								.equals(newValue))) {
 					// ok, new != old, and 
 					getSetMethod().invoke(data, newValue);
-                    done = true;
-                }
-            } catch(Exception e) {
-            	logger.error("Error performing changValueCommand: {} ",
+					done = true;
+				}
+			} catch (Exception e) {
+				logger.error("Error performing changValueCommand: {} ",
 						setName, e);
-            }
-        }
-        return done;
+			}
+		}
+		return done;
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return true;
@@ -181,66 +183,65 @@ public class ChangeValueCommand<T> extends Command {
 	 */
 	@Override
 	public boolean redoCommand() {
-		
+
 		boolean done = false;
-        try {
-        	getSetMethod().invoke(data, newValue);
-            done = true;
-        }
-        catch(Exception e) {
-        	logger.error("Error at redoing Action");
-        }
-        return done;
-        
+		try {
+			getSetMethod().invoke(data, newValue);
+			done = true;
+		} catch (Exception e) {
+			logger.error("Error at redoing Action");
+		}
+		return done;
+
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public boolean combine(Command other) {
-		if(other instanceof ChangeValueCommand) {
+		if (other instanceof ChangeValueCommand) {
 			ChangeValueCommand<T> cnt = (ChangeValueCommand) other;
-            if(cnt.getName.equals(getName) && cnt.setName.equals(setName) && data == cnt.data) {
-                newValue = cnt.newValue;
-                timeStamp = cnt.timeStamp;
-                return true;
-            }
-        }
-        return false;
+			if (cnt.getName.equals(getName) && cnt.setName.equals(setName)
+					&& data == cnt.data) {
+				newValue = cnt.newValue;
+				timeStamp = cnt.timeStamp;
+				return true;
+			}
+		}
+		return false;
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
 	public boolean undoCommand() {
-		
+
 		boolean done = false;
-        try {
-        	getSetMethod().invoke(data, oldValue);
-            done = true;
-        }
-        catch( Exception e ) {
-        	logger.error("Error at redoing Action");
-        }
-        return done;
+		try {
+			getSetMethod().invoke(data, oldValue);
+			done = true;
+		} catch (Exception e) {
+			logger.error("Error at redoing Action");
+		}
+		return done;
 	}
-	
+
 	/**
 	 * Returns the old value
 	 */
-	public T getOldValue(){
+	public T getOldValue() {
 		return oldValue;
 	}
-	
+
 	/**
 	 * Returns the new value
 	 */
-	public T getNewValue(){
+	public T getNewValue() {
 		return newValue;
 	}
 

@@ -45,13 +45,14 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class WaitGO extends AbstractEffectGO<WaitEf>{
-	
+public class WaitGO extends AbstractEffectGO<WaitEf> {
+
 	private int time;
-	
+
 	@Inject
 	public WaitGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
 	}
 
@@ -60,8 +61,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf>{
 		super.initialize();
 		time = element.getTime();
 	}
-	
-	public void update( ){
+
+	public void update() {
 		time -= gui.getSkippedMilliseconds();
 	}
 
@@ -74,9 +75,9 @@ public class WaitGO extends AbstractEffectGO<WaitEf>{
 	public boolean isFinished() {
 		return time <= 0;
 	}
-	
-	public String toString( ){
-		return "WaitEffect:  Time left " + time ;
+
+	public String toString() {
+		return "WaitEffect:  Time left " + time;
 	}
 
 }

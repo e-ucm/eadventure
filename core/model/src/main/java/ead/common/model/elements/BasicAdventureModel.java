@@ -54,7 +54,8 @@ import ead.common.params.text.EAdString;
  * The eAdventure game model.
  */
 @Element
-public class BasicAdventureModel extends BasicElement implements EAdAdventureModel {
+public class BasicAdventureModel extends BasicElement implements
+		EAdAdventureModel {
 
 	@Param("description")
 	public EAdString description;

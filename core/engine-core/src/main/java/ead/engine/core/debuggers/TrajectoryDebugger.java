@@ -93,8 +93,8 @@ public class TrajectoryDebugger implements Debugger {
 	private List<EAdShape> barriers;
 
 	@Inject
-	public TrajectoryDebugger(GameState gameState, SceneElementGOFactory gameObjectFactory,
-			ValueMap valueMap) {
+	public TrajectoryDebugger(GameState gameState,
+			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
 		this.gameState = gameState;
 		this.sceneElementFactory = gameObjectFactory;
 		this.valueMap = valueMap;
@@ -106,16 +106,22 @@ public class TrajectoryDebugger implements Debugger {
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
 		if (currentScene != gameState.getScene().getElement()
-				|| valueMap.getValue(currentScene, BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
+				|| valueMap.getValue(currentScene,
+						BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
 			createTrajectory();
 		}
 
 		if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 			int i = 0;
-			for (EAdSceneElement e : ((NodeTrajectoryDefinition) currentTrajectory).getBarriers()) {
-				barriers.get(i)
+			for (EAdSceneElement e : ((NodeTrajectoryDefinition) currentTrajectory)
+					.getBarriers()) {
+				barriers
+						.get(i)
 						.setPaint(
-								valueMap.getValue(e, NodeTrajectoryDefinition.VAR_BARRIER_ON) ? ColorFill.YELLOW
+								valueMap
+										.getValue(
+												e,
+												NodeTrajectoryDefinition.VAR_BARRIER_ON) ? ColorFill.YELLOW
 										: ColorFill.TRANSPARENT);
 				i++;
 			}
@@ -134,12 +140,14 @@ public class TrajectoryDebugger implements Debugger {
 
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
-				addInfluenceAreas(gameState.getScene().getElement().getSceneElements());
+				addInfluenceAreas(gameState.getScene().getElement()
+						.getSceneElements());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
-				SceneElement area = new SceneElement(new RectangleShape(def.getRight()
-						- def.getLeft(), def.getBottom() - def.getTop(), new ColorFill(0, 200, 0,
-						100)));
+				SceneElement area = new SceneElement(new RectangleShape(def
+						.getRight()
+						- def.getLeft(), def.getBottom() - def.getTop(),
+						new ColorFill(0, 200, 0, 100)));
 				area.setPosition(def.getLeft(), def.getTop());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
@@ -150,8 +158,8 @@ public class TrajectoryDebugger implements Debugger {
 	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
 		EAdPaint p = new ColorFill(0, 0, 200, 100);
 		for (EAdSceneElement sceneElement : sceneElements) {
-			EAdRectangle rectangle = gameState.getValueMap().getValue(sceneElement,
-					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
+			EAdRectangle rectangle = gameState.getValueMap().getValue(
+					sceneElement, NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
 			if (rectangle != null) {
 				RectangleShape shape = new RectangleShape(rectangle.getWidth(),
 						rectangle.getHeight());
@@ -181,7 +189,8 @@ public class TrajectoryDebugger implements Debugger {
 
 		for (Node n : trajectory.getNodes()) {
 			CircleShape circle = new CircleShape(20);
-			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED : ColorFill.BLUE;
+			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED
+					: ColorFill.BLUE;
 
 			circle.setPaint(new Paint(color, ColorFill.BLACK, 2));
 			map.addDrawable(circle);
@@ -197,7 +206,8 @@ public class TrajectoryDebugger implements Debugger {
 			EAdShape barrier = (EAdShape) s.clone();
 			barrier.setPaint(ColorFill.YELLOW);
 			barriers.add(barrier);
-			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e)).getPosition();
+			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e))
+					.getPosition();
 			map.addDrawable(barrier, p.getX(), p.getY());
 		}
 

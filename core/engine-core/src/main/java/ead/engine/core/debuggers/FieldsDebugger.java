@@ -85,7 +85,7 @@ public class FieldsDebugger implements Debugger {
 	private StringHandler stringHandler;
 
 	private SceneElementGOFactory gameObjectFactory;
-	
+
 	private Game game;
 
 	private EAdFont font = new BasicFont(12);
@@ -94,7 +94,8 @@ public class FieldsDebugger implements Debugger {
 
 	@Inject
 	public FieldsDebugger(InputHandler inputHandler, GameState gameState,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory, Game game) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, Game game) {
 		this.inputHandler = inputHandler;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
@@ -103,12 +104,13 @@ public class FieldsDebugger implements Debugger {
 		gos = new ArrayList<DrawableGO<?>>();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
 		GameObject<?> newGO = inputHandler.getGameObjectUnderPointer();
-		EAdElement newElement = (EAdElement) (newGO != null ? newGO.getElement() : game.getCurrentChapter());
-		if ( newElement != element) {
+		EAdElement newElement = (EAdElement) (newGO != null ? newGO
+				.getElement() : game.getCurrentChapter());
+		if (newElement != element) {
 			element = newElement;
 			gos.clear();
 			if (element != null) {
@@ -146,10 +148,9 @@ public class FieldsDebugger implements Debugger {
 					vars = new SceneElement();
 					vars.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 					vars.setPosition(10, 10);
-					vars.getDefinition()
-							.getResources()
-							.addAsset(vars.getDefinition().getInitialBundle(),
-									SceneElementDef.appearance, d);
+					vars.getDefinition().getResources().addAsset(
+							vars.getDefinition().getInitialBundle(),
+							SceneElementDef.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
 				}
@@ -166,7 +167,7 @@ public class FieldsDebugger implements Debugger {
 
 	@Override
 	public void setUp(EAdAdventureModel model) {
-		
+
 	}
 
 }

@@ -48,8 +48,8 @@ import ead.editor.control.Command;
 import ead.editor.control.commands.CombineCommandList;
 import junit.framework.TestCase;
 
-public class CombineCommandListTest extends TestCase{
-	
+public class CombineCommandListTest extends TestCase {
+
 	/**
 	 * The mock commands to be added to the list
 	 */
@@ -59,87 +59,86 @@ public class CombineCommandListTest extends TestCase{
 	 * The command to combine the actions of a list of commands
 	 */
 	private CombineCommandList comm;
-	
-	
+
 	/**
 	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
 	 */
-    @Before
-    public void setUp(){
- 
-    	MockitoAnnotations.initMocks(this);    	
-    	comm = new CombineCommandList(mockCommand1, mockCommand2, mockCommand3);
-    	
-    }
-    
-    /**
+	@Before
+	public void setUp() {
+
+		MockitoAnnotations.initMocks(this);
+		comm = new CombineCommandList(mockCommand1, mockCommand2, mockCommand3);
+
+	}
+
+	/**
 	 * Testing the correct functionality of the method for performing commands.  
 	 */
-    @Test
-	public void testPerformCommands() {		
-    	
-    	comm.performCommand();
-    
+	@Test
+	public void testPerformCommands() {
+
+		comm.performCommand();
+
 		verify(mockCommand1).performCommand();
-		verify(mockCommand2,never()).performCommand();
-		verify(mockCommand3,never()).performCommand();
-		
+		verify(mockCommand2, never()).performCommand();
+		verify(mockCommand3, never()).performCommand();
+
 		when(mockCommand1.performCommand()).thenReturn(true);
-    	when(mockCommand2.performCommand()).thenReturn(true);
-    	when(mockCommand3.performCommand()).thenReturn(true);
-    	
-    	comm.performCommand();
-    	
-    	verify(mockCommand1,times(2)).performCommand();
+		when(mockCommand2.performCommand()).thenReturn(true);
+		when(mockCommand3.performCommand()).thenReturn(true);
+
+		comm.performCommand();
+
+		verify(mockCommand1, times(2)).performCommand();
 		verify(mockCommand2).performCommand();
 		verify(mockCommand3).performCommand();
-     
-    } 
-    
-    /**
+
+	}
+
+	/**
 	 * Testing the correct functionality of the method for undoing commands.  
 	 */
-    @Test
-	public void testUndoCommands() {		
-    	
-    	comm.undoCommand();
-        
+	@Test
+	public void testUndoCommands() {
+
+		comm.undoCommand();
+
 		verify(mockCommand1).undoCommand();
-		verify(mockCommand2,never()).undoCommand();
-		verify(mockCommand3,never()).undoCommand();
-		
+		verify(mockCommand2, never()).undoCommand();
+		verify(mockCommand3, never()).undoCommand();
+
 		when(mockCommand1.undoCommand()).thenReturn(true);
-    	when(mockCommand2.undoCommand()).thenReturn(true);
-    	when(mockCommand3.undoCommand()).thenReturn(true);
-    	
-    	comm.undoCommand();
-    	
-    	verify(mockCommand1,times(2)).undoCommand();
+		when(mockCommand2.undoCommand()).thenReturn(true);
+		when(mockCommand3.undoCommand()).thenReturn(true);
+
+		comm.undoCommand();
+
+		verify(mockCommand1, times(2)).undoCommand();
 		verify(mockCommand2).undoCommand();
 		verify(mockCommand3).undoCommand();
-    } 
-    
-    /**
+	}
+
+	/**
 	 * Testing the correct functionality of the method for redoing commands.  
 	 */
-    @Test
-	public void testRedoCommands() {		
-    	
-    	comm.redoCommand();
-        
+	@Test
+	public void testRedoCommands() {
+
+		comm.redoCommand();
+
 		verify(mockCommand1).redoCommand();
-		verify(mockCommand2,never()).redoCommand();
-		verify(mockCommand3,never()).redoCommand();
-		
+		verify(mockCommand2, never()).redoCommand();
+		verify(mockCommand3, never()).redoCommand();
+
 		when(mockCommand1.redoCommand()).thenReturn(true);
-    	when(mockCommand2.redoCommand()).thenReturn(true);
-    	when(mockCommand3.redoCommand()).thenReturn(true);
-    	
-    	comm.redoCommand();
-    	
-    	verify(mockCommand1, times(2)).redoCommand();
+		when(mockCommand2.redoCommand()).thenReturn(true);
+		when(mockCommand3.redoCommand()).thenReturn(true);
+
+		comm.redoCommand();
+
+		verify(mockCommand1, times(2)).redoCommand();
 		verify(mockCommand2).redoCommand();
 		verify(mockCommand3).redoCommand();
-    } 
+	}
 
 }

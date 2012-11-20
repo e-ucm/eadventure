@@ -39,19 +39,20 @@ package ead.engine.core.platform.assets;
 
 import ead.common.resources.assets.AssetDescriptor;
 
-public abstract class AbstractRuntimeAsset<T extends AssetDescriptor> implements RuntimeAsset<T> {
+public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
+		implements RuntimeAsset<T> {
 
 	protected T descriptor;
-	
+
 	@Override
 	public void setDescriptor(T descriptor) {
 		this.descriptor = descriptor;
 		loadAsset();
 	}
-	
+
 	@Override
 	public T getAssetDescriptor() {
 		return descriptor;
 	}
-	
+
 }

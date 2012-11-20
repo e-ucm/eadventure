@@ -59,19 +59,14 @@ public class WindowMenu extends AbstractEditorMenu {
 	 */
 	@Override
 	public void initialize() {
-        AbstractEditorAction[] as = new AbstractEditorAction[]{
-			new PrevAction(Messages.window_menu_prev,
-				KeyEvent.VK_P,	0,
-				R.Drawable.toolbar__backward_png),
-            new NextAction(Messages.window_menu_next,
-				KeyEvent.VK_N,	0,
-				R.Drawable.toolbar__forward_png),
-            new ClearAction(Messages.window_menu_clear,
-				KeyEvent.VK_C,
-				0),
-			};
+		AbstractEditorAction[] as = new AbstractEditorAction[] {
+				new PrevAction(Messages.window_menu_prev, KeyEvent.VK_P, 0,
+						R.Drawable.toolbar__backward_png),
+				new NextAction(Messages.window_menu_next, KeyEvent.VK_N, 0,
+						R.Drawable.toolbar__forward_png),
+				new ClearAction(Messages.window_menu_clear, KeyEvent.VK_C, 0), };
 
-        for (AbstractEditorAction a : as) {
+		for (AbstractEditorAction a : as) {
 			if (a == null) {
 				addSeparator();
 				continue;
@@ -81,7 +76,7 @@ public class WindowMenu extends AbstractEditorMenu {
 			// edit actions listen to navigation changes
 			controller.getNavigationController().addChangeListener(a);
 			a.processChange(null);
-        }
+		}
 	}
 
 	public class PrevAction extends AbstractEditorAction {
@@ -120,7 +115,7 @@ public class WindowMenu extends AbstractEditorMenu {
 
 	public class ClearAction extends AbstractEditorAction {
 
-		public  ClearAction(String name, int gkey, int gmask) {
+		public ClearAction(String name, int gkey, int gmask) {
 			super(name, gkey, gmask);
 		}
 

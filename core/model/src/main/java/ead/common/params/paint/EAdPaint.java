@@ -40,11 +40,11 @@ package ead.common.params.paint;
 import ead.common.params.EAdParam;
 
 public interface EAdPaint extends EAdParam {
-	
+
 	EAdFill getBorder();
-	
+
 	EAdFill getFill();
-	
+
 	int getBorderWidth();
 
 }

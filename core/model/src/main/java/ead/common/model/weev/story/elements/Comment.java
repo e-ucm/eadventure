@@ -49,10 +49,10 @@ public interface Comment extends StoryElement {
 	 * @return the {@StoryElement} with which this comment is associated
 	 */
 	StoryElement getStoryElement();
-	
+
 	/**
 	 * @return the text of the comment
 	 */
 	EAdString getText();
-	
+
 }

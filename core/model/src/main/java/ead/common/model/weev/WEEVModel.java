@@ -50,20 +50,20 @@ public interface WEEVModel extends EAdElement {
 	 * @return the list of {@link Actor}s in the WEEV model
 	 */
 	EAdList<Actor> getActors();
-	
+
 	/**
 	 * @return the main {@link Actor}s in the game
 	 */
 	Actor getMainActor();
-	
+
 	/**
 	 * @return TRUE if the game is in first person
 	 */
 	boolean isFirstPerson();
-	
+
 	/**
 	 * @return the {@link AdaptationStructure} of the game
 	 */
 	AdaptationStructure getAdaptationStructure();
-	
+
 }

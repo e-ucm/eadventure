@@ -62,10 +62,12 @@ public abstract class ParamsTest<T extends EAdParam> extends
 	}
 
 	@Test
-	public void testParseCorruptedData(){
-		String[] strings = new String[]{ null, "0;2;4;a", ";;;", "0:2;4.03f;0f", "dakjfaosidfyipu43676r21", "jo09ua87/77;;", ":0:2", "21;78;20:20", "ljasfasdfa", "123456789!"};
+	public void testParseCorruptedData() {
+		String[] strings = new String[] { null, "0;2;4;a", ";;;",
+				"0:2;4.03f;0f", "dakjfaosidfyipu43676r21", "jo09ua87/77;;",
+				":0:2", "21;78;20:20", "ljasfasdfa", "123456789!" };
 		T defaultValue = defaultValue();
-		for ( String s: strings ){
+		for (String s : strings) {
 			T c = buildParam(s);
 			assertTrue(defaultValue.equals(c));
 		}

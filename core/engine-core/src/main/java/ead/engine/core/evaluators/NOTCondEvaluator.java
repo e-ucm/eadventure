@@ -50,7 +50,8 @@ import org.slf4j.LoggerFactory;
 public class NOTCondEvaluator implements Evaluator<NOTCond> {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger("NOTConditionEvaluator");
+	private static final Logger logger = LoggerFactory
+			.getLogger("NOTConditionEvaluator");
 
 	private EvaluatorFactory evaluatorFactory;
 

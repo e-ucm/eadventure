@@ -41,7 +41,6 @@ import java.util.List;
 
 import ead.engine.core.gameobjects.go.EffectGO;
 
-
 /**
  * Interface for Effect HUDs
  * 
@@ -50,5 +49,5 @@ import ead.engine.core.gameobjects.go.EffectGO;
 public interface EffectHUD extends HudGO {
 
 	void setEffects(List<EffectGO<?>> effects);
-	
+
 }

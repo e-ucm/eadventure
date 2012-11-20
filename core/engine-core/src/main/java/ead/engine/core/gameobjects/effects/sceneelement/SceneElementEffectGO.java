@@ -72,6 +72,6 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		} else {
 			this.sceneElement = this.parent;
 		}
-		
+
 	}
 }

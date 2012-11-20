@@ -58,7 +58,7 @@ public class VideoScene extends BasicScene implements EAdScene {
 			"finished", Boolean.class, Boolean.FALSE);
 
 	@Bundled
-	@Asset({ EAdVideo.class })
+	@Asset( { EAdVideo.class })
 	public static final String video = "video";
 
 	@Param("finalEffects")
@@ -76,7 +76,7 @@ public class VideoScene extends BasicScene implements EAdScene {
 	public EAdList<EAdEffect> getFinalEffects() {
 		return finalEffects;
 	}
-	
+
 	public void setFinalEffects(EAdList<EAdEffect> finalEffects) {
 		this.finalEffects = finalEffects;
 	}

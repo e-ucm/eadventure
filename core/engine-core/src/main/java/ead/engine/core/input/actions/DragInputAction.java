@@ -53,8 +53,8 @@ public class DragInputAction extends AbstractInputAction<DragGEv> {
 	 */
 	private int virtualY;
 
-	public DragInputAction(EAdSceneElementDef draggingElement, DragGEvType action, int virtualX,
-			int virtualY) {
+	public DragInputAction(EAdSceneElementDef draggingElement,
+			DragGEvType action, int virtualX, int virtualY) {
 		super(new DragGEv(draggingElement, action));
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;

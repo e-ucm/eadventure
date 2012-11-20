@@ -48,15 +48,16 @@ import ead.common.params.text.EAdString;
  * Default {@link SpaceLink} implementation
  */
 @Element
-public class SpaceLinkImpl extends AbstractTransition<Space> implements SpaceLink {
+public class SpaceLinkImpl extends AbstractTransition<Space> implements
+		SpaceLink {
 
 	@Param(value = "name")
 	private EAdString name;
-	
+
 	public SpaceLinkImpl() {
 		name = EAdString.newRandomEAdString("name");
 	}
-	
+
 	@Override
 	public EAdString getName() {
 		return name;

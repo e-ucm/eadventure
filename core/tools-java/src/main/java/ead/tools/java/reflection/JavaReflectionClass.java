@@ -51,8 +51,8 @@ import org.slf4j.LoggerFactory;
 
 public class JavaReflectionClass<T> implements ReflectionClass<T> {
 
-    private static Logger logger = LoggerFactory.getLogger(JavaReflectionClass.class);
-
+	private static Logger logger = LoggerFactory
+			.getLogger(JavaReflectionClass.class);
 
 	private Class<T> clazz;
 
@@ -71,7 +71,7 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	}
 
 	@Override
-	public ReflectionConstructor<T> getConstructor() {		
+	public ReflectionConstructor<T> getConstructor() {
 		if (constructor == null) {
 			try {
 				Constructor<T> c = clazz.getConstructor();
@@ -89,14 +89,14 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	public ReflectionField getField(String name) {
 		if (!fields.containsKey(name)) {
 			try {
-				fields.put(name,
-						new JavaReflectionField(clazz.getDeclaredField(name)));
+				fields.put(name, new JavaReflectionField(clazz
+						.getDeclaredField(name)));
 			} catch (SecurityException e) {
-				logger.error("error accessing field {} for {}",
-						new Object[] {clazz, name}, e);
+				logger.error("error accessing field {} for {}", new Object[] {
+						clazz, name }, e);
 			} catch (NoSuchFieldException e) {
-				logger.error("no such field for {} for {}",
-						new Object[] {clazz, name}, e);
+				logger.error("no such field for {} for {}", new Object[] {
+						clazz, name }, e);
 			}
 		}
 		return fields.get(name);
@@ -115,15 +115,15 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 		return fields.values();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	public ReflectionClass<?> getSuperclass() {
-		if ( clazz == Object.class ){
+		if (clazz == Object.class) {
 			return null;
 		}
 
-		if ( superClass == null ){
-			superClass = new JavaReflectionClass( clazz.getSuperclass() );
+		if (superClass == null) {
+			superClass = new JavaReflectionClass(clazz.getSuperclass());
 		}
 		return superClass;
 	}

@@ -75,8 +75,8 @@ public class AdventureImporter implements
 		this.annotator = annotator;
 	}
 
-	protected ImportAnnotator annotator;	
-	
+	protected ImportAnnotator annotator;
+
 	@Override
 	public EAdAdventureModel init(AdventureData oldData) {
 		BasicAdventureModel model = new BasicAdventureModel();
@@ -87,15 +87,15 @@ public class AdventureImporter implements
 	public EAdAdventureModel convert(AdventureData oldData, Object object) {
 		factory.setOldDataModel(oldData);
 		BasicAdventureModel model = (BasicAdventureModel) object;
-		
+
 		// FIXME positions for the inventory (among other things in AdventureData)
-		if (oldData.getInventoryPosition() != AdventureData.INVENTORY_NONE){
+		if (oldData.getInventoryPosition() != AdventureData.INVENTORY_NONE) {
 			model.setInventory(new BasicInventory());
 		}
 
 		stringsWriter.setString(model.getTitle(), oldData.getTitle());
-		stringsWriter.setString(model.getDescription(),
-				oldData.getDescription());
+		stringsWriter.setString(model.getDescription(), oldData
+				.getDescription());
 
 		for (Chapter oldChapter : oldData.getChapters()) {
 			EAdChapter newChapter = chapterImporter.init(oldChapter);

@@ -50,7 +50,7 @@ public class TrajectoryImporter implements
 
 	protected ImportAnnotator annotator;
 
-    @Inject
+	@Inject
 	public TrajectoryImporter(ImportAnnotator annotator) {
 		this.annotator = annotator;
 	}

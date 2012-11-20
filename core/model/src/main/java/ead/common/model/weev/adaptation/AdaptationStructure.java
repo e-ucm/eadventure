@@ -44,7 +44,7 @@ import ead.common.params.text.EAdString;
 public interface AdaptationStructure extends WEEVElement {
 
 	EAdList<AdaptationProfile> getProfiles();
-	
+
 	EAdString getName();
-	
+
 }

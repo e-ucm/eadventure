@@ -55,8 +55,8 @@ public class AdventureReader {
 	private static Logger logger = LoggerFactory.getLogger("AdventureReader");
 
 	private XMLParser xmlParser;
-	
-	private BasicAdventureModel data; 
+
+	private BasicAdventureModel data;
 
 	public AdventureReader(XMLParser xmlParser) {
 		this.xmlParser = xmlParser;
@@ -67,24 +67,22 @@ public class AdventureReader {
 		XMLDocument doc = xmlParser.parse(xml);
 		logger.info("Parsed; Building the game...");
 		ElementNodeVisitor env = new ElementNodeVisitor();
-		NodeVisitor.init(doc.getFirstChild().getAttributes()
-				.getValue(DOMTags.PACKAGE_AT));
+		NodeVisitor.init(doc.getFirstChild().getAttributes().getValue(
+				DOMTags.PACKAGE_AT));
 		getAliasMap(doc);
-		
 
 		env.visit(doc.getFirstChild().getFirstChild(), null, null, null,
-			new NodeVisitorListener() {
-				@Override
-				public void elementRead(Object element) {
-					data = (BasicAdventureModel) element;
-				}
-			}
-		);
+				new NodeVisitorListener() {
+					@Override
+					public void elementRead(Object element) {
+						data = (BasicAdventureModel) element;
+					}
+				});
 
-		if ( ! ObjectFactory.checkProxies()) {
+		if (!ObjectFactory.checkProxies()) {
 			logger.error("Error reading: unresolved proxies remain");
 		}
-		
+
 		logger.info("Built.");
 
 		if (data == null) {
@@ -101,7 +99,8 @@ public class AdventureReader {
 		XMLNodeList nl = doc.getFirstChild().getChildNodes();
 
 		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
-			logger.debug("At alias {}: {}", new String[] {""+i, nl.item(i).getNodeName()});
+			logger.debug("At alias {}: {}", new String[] { "" + i,
+					nl.item(i).getNodeName() });
 			if (nl.item(i).getNodeName().equals("keyMap")) {
 				XMLNodeList nl2 = nl.item(i).getChildNodes();
 

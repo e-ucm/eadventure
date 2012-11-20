@@ -51,15 +51,15 @@ public class HintImpl extends AbstractWEEVElement implements Hint {
 
 	@Param(value = "hint")
 	private EAdString hint;
-	
+
 	@Param(value = "value")
 	private Integer value;
-	
+
 	@Override
 	public EAdString getHint() {
 		return hint;
 	}
-	
+
 	public void setHint(EAdString hint) {
 		this.hint = hint;
 	}
@@ -68,7 +68,7 @@ public class HintImpl extends AbstractWEEVElement implements Hint {
 	public int getValue() {
 		return value;
 	}
-	
+
 	public void setValue(Integer value) {
 		this.value = value;
 	}

@@ -49,17 +49,17 @@ public interface ChangeNotifier {
 	 * @param changeListener The change listener
 	 */
 	void addChangeListener(ChangeListener changeListener);
-	
+
 	/**
 	 * Remove a change listener
 	 * 
 	 * @param changeListener The change listener
 	 */
 	void removeChangeListener(ChangeListener changeListener);
-	
+
 	/**
 	 * Call listeners to process changes described by event
 	 */
 	void notifyListeners(Object event);
-	
+
 }

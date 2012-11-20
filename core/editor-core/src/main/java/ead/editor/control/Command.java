@@ -50,62 +50,62 @@ public abstract class Command {
 	 * Time stamp of when the action was created
 	 */
 	protected long timeStamp = System.currentTimeMillis();
-	
-    /**
-     * Get the time when the action was created
-     * 
-     * @return The time when the action was created
-     */
-    public long getTimeStamp( ) {
-        return timeStamp;
-    }
 
-    /**
-     * Do the actual work. Returns true if it could be performed,
-     * false in other case.
-     * 
-     * @return True if the action was performed correctly
-     */
-    public abstract boolean performCommand();
+	/**
+	 * Get the time when the action was created
+	 * 
+	 * @return The time when the action was created
+	 */
+	public long getTimeStamp() {
+		return timeStamp;
+	}
 
-    /**
-     * Returns true if the action can be undone
-     * 
-     * @return True if the action can be undone
-     */
-    public abstract boolean canUndo( );
+	/**
+	 * Do the actual work. Returns true if it could be performed,
+	 * false in other case.
+	 * 
+	 * @return True if the action was performed correctly
+	 */
+	public abstract boolean performCommand();
 
-    /**
-     * Undo the work done by the action. Returns true if it could be undone,
-     * false in other case.
-     * 
-     * @return True if the action was undone correctly
-     */
-    public abstract boolean undoCommand( );
+	/**
+	 * Returns true if the action can be undone
+	 * 
+	 * @return True if the action can be undone
+	 */
+	public abstract boolean canUndo();
 
-    /**
-     * Returns true if the action can be redone
-     * 
-     * @return True if the action can be redone
-     */
-    public abstract boolean canRedo( );
+	/**
+	 * Undo the work done by the action. Returns true if it could be undone,
+	 * false in other case.
+	 * 
+	 * @return True if the action was undone correctly
+	 */
+	public abstract boolean undoCommand();
 
-    /**
-     * Re-do the work done by the action before it was undone.
-     * 
-     * @return True if the action was re-done correctly
-     */
-    public abstract boolean redoCommand( );
+	/**
+	 * Returns true if the action can be redone
+	 * 
+	 * @return True if the action can be redone
+	 */
+	public abstract boolean canRedo();
 
-    /**
-     * Combines this action with other similar action (if possible).
-     * Useful for combining simple changes as characters typed in the
-     * same field.
-     * 
-     * @param other The other action with which this action can
-     * be combined if possible
-     * @return true if the actions were combined
-     */
-    public abstract boolean combine( Command other );
-	
+	/**
+	 * Re-do the work done by the action before it was undone.
+	 * 
+	 * @return True if the action was re-done correctly
+	 */
+	public abstract boolean redoCommand();
+
+	/**
+	 * Combines this action with other similar action (if possible).
+	 * Useful for combining simple changes as characters typed in the
+	 * same field.
+	 * 
+	 * @param other The other action with which this action can
+	 * be combined if possible
+	 * @return true if the actions were combined
+	 */
+	public abstract boolean combine(Command other);
+
 }

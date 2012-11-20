@@ -39,7 +39,6 @@ package ead.importer;
 
 import ead.common.model.EAdElement;
 
-
 /**
  * An importer for converting old model {@link AdventureData} objects into new
  * model {@link EAdventureModel} objects
@@ -49,6 +48,7 @@ import ead.common.model.EAdElement;
  * @param <NewT>
  *            New class class name from new model {@link EAdventureModel}
  */
-public interface EAdElementImporter<OldT, NewT extends EAdElement> extends GenericImporter<OldT, NewT> {
-	
+public interface EAdElementImporter<OldT, NewT extends EAdElement> extends
+		GenericImporter<OldT, NewT> {
+
 }

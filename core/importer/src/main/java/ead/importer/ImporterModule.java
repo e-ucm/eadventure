@@ -49,6 +49,6 @@ public class ImporterModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		install(new BaseImporterModule());
-        bind(ImportAnnotator.class).to(NullAnnotator.class);
+		bind(ImportAnnotator.class).to(NullAnnotator.class);
 	}
 }

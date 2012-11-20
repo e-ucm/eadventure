@@ -40,122 +40,122 @@ package ead.editor.view.generics;
 import javax.swing.JFrame;
 
 public class ElementControllerGetPanelTest extends JFrame {
-//
-//	private static final long serialVersionUID = 1L;
-//
-//	private EAdScene scene, scene2;
-//
-//	private SwingProviderFactory swingProviderFactory;
-//
-//	private EAdSceneController sceneController, sceneController2;
-//
-//	private EAdSceneElementDefController sceneElementController;
-//
-//	private JComponent component;
-//
-//	public static void main(String[] args) {
-//		try {
-//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-//		} catch (UnsupportedLookAndFeelException e) {
-//			e.printStackTrace();
-//		}
-//		new ElementControllerGetPanelTest();
-//	}
-//
-//
-//    public ElementControllerGetPanelTest() {
-//        setSize( 600,400 );
-//
-//        setLayout(new BorderLayout());
-//
-//        scene = new InitScene();
-//        scene2 = new ComplexElementScene();
-//
-//        CommandManager commandManager = mock(CommandManager.class);
-//
-//        sceneController = new EAdSceneController();
-//        sceneController.setElement(scene);
-//
-//        sceneController2 = new EAdSceneController();
-//        sceneController2.setElement(scene2);
-//
-//        EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
-//        when(sceneElementDef.getName()).thenReturn(EAdString.newRandomEAdString("testName"));
-//        when(sceneElementDef.getDoc()).thenReturn(EAdString.newRandomEAdString("testDocumentation"));
-//        when(sceneElementDef.getDesc()).thenReturn(EAdString.newRandomEAdString("testDescription"));
-//        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newRandomEAdString("testDetailedDescription"));
-//
-//        sceneElementController = new EAdSceneElementDefController();
-//        sceneElementController.setElement(sceneElementDef);
-//
-//        StringHandler stringHandler = new EditorStringHandler();
-//
-//        swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
-//
-//        add(getButtons(), BorderLayout.NORTH);
-//
-//        setVisible( true );
-//        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-//        //pack();
-//    }
-//
-//    public JPanel getButtons() {
-//    	EAdBorderedPanel panel = new EAdBorderedPanel("buttons");
-//    	panel.setLayout(new GridLayout(1, 0));
-//
-//    	JButton button = new JButton("scene");
-//    	button.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//		        Panel panel = sceneController.getPanel(ElementController.LevelOfDetail.EXPERT);
-//		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
-//		        if (component != null)
-//		        	remove(component);
-//		        component = componentProvider.getComponent(panel);
-//		        add(component, BorderLayout.CENTER);
-//		        validate();
-//			}
-//
-//    	});
-//    	panel.add(button);
-//
-//    	button = new JButton("scene2");
-//    	button.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//		        Panel panel = sceneController2.getPanel(ElementController.LevelOfDetail.EXPERT);
-//		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
-//		        if (component != null)
-//		        	remove(component);
-//		        component = componentProvider.getComponent(panel);
-//		        add(component, BorderLayout.CENTER);
-//		        validate();
-//			}
-//
-//    	});
-//    	panel.add(button);
-//
-//    	button = new JButton("element");
-//    	button.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//		        Panel panel = sceneElementController.getPanel(ElementController.LevelOfDetail.EXPERT);
-//		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
-//		        if (component != null)
-//		        	remove(component);
-//		        component = componentProvider.getComponent(panel);
-//		        add(component, BorderLayout.CENTER);
-//		        validate();
-//			}
-//
-//    	});
-//    	panel.add(button);
-//
-//    	panel.setVisible(true);
-//    	return panel;
-//    }
+	//
+	//	private static final long serialVersionUID = 1L;
+	//
+	//	private EAdScene scene, scene2;
+	//
+	//	private SwingProviderFactory swingProviderFactory;
+	//
+	//	private EAdSceneController sceneController, sceneController2;
+	//
+	//	private EAdSceneElementDefController sceneElementController;
+	//
+	//	private JComponent component;
+	//
+	//	public static void main(String[] args) {
+	//		try {
+	//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+	//		} catch (UnsupportedLookAndFeelException e) {
+	//			e.printStackTrace();
+	//		}
+	//		new ElementControllerGetPanelTest();
+	//	}
+	//
+	//
+	//    public ElementControllerGetPanelTest() {
+	//        setSize( 600,400 );
+	//
+	//        setLayout(new BorderLayout());
+	//
+	//        scene = new InitScene();
+	//        scene2 = new ComplexElementScene();
+	//
+	//        CommandManager commandManager = mock(CommandManager.class);
+	//
+	//        sceneController = new EAdSceneController();
+	//        sceneController.setElement(scene);
+	//
+	//        sceneController2 = new EAdSceneController();
+	//        sceneController2.setElement(scene2);
+	//
+	//        EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
+	//        when(sceneElementDef.getName()).thenReturn(EAdString.newRandomEAdString("testName"));
+	//        when(sceneElementDef.getDoc()).thenReturn(EAdString.newRandomEAdString("testDocumentation"));
+	//        when(sceneElementDef.getDesc()).thenReturn(EAdString.newRandomEAdString("testDescription"));
+	//        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newRandomEAdString("testDetailedDescription"));
+	//
+	//        sceneElementController = new EAdSceneElementDefController();
+	//        sceneElementController.setElement(sceneElementDef);
+	//
+	//        StringHandler stringHandler = new EditorStringHandler();
+	//
+	//        swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
+	//
+	//        add(getButtons(), BorderLayout.NORTH);
+	//
+	//        setVisible( true );
+	//        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+	//        //pack();
+	//    }
+	//
+	//    public JPanel getButtons() {
+	//    	EAdBorderedPanel panel = new EAdBorderedPanel("buttons");
+	//    	panel.setLayout(new GridLayout(1, 0));
+	//
+	//    	JButton button = new JButton("scene");
+	//    	button.addActionListener(new ActionListener() {
+	//
+	//			@Override
+	//			public void actionPerformed(ActionEvent arg0) {
+	//		        Panel panel = sceneController.getPanel(ElementController.LevelOfDetail.EXPERT);
+	//		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
+	//		        if (component != null)
+	//		        	remove(component);
+	//		        component = componentProvider.getComponent(panel);
+	//		        add(component, BorderLayout.CENTER);
+	//		        validate();
+	//			}
+	//
+	//    	});
+	//    	panel.add(button);
+	//
+	//    	button = new JButton("scene2");
+	//    	button.addActionListener(new ActionListener() {
+	//
+	//			@Override
+	//			public void actionPerformed(ActionEvent arg0) {
+	//		        Panel panel = sceneController2.getPanel(ElementController.LevelOfDetail.EXPERT);
+	//		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
+	//		        if (component != null)
+	//		        	remove(component);
+	//		        component = componentProvider.getComponent(panel);
+	//		        add(component, BorderLayout.CENTER);
+	//		        validate();
+	//			}
+	//
+	//    	});
+	//    	panel.add(button);
+	//
+	//    	button = new JButton("element");
+	//    	button.addActionListener(new ActionListener() {
+	//
+	//			@Override
+	//			public void actionPerformed(ActionEvent arg0) {
+	//		        Panel panel = sceneElementController.getPanel(ElementController.LevelOfDetail.EXPERT);
+	//		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
+	//		        if (component != null)
+	//		        	remove(component);
+	//		        component = componentProvider.getComponent(panel);
+	//		        add(component, BorderLayout.CENTER);
+	//		        validate();
+	//			}
+	//
+	//    	});
+	//    	panel.add(button);
+	//
+	//    	panel.setVisible(true);
+	//    	return panel;
+	//    }
 
 }

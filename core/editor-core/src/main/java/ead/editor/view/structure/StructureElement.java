@@ -52,9 +52,9 @@ public class StructureElement extends JButton {
 	private String label;
 	private ImageIcon icon;
 
-	public StructureElement (String label, String iconUrl) {
-		super(label, new ImageIcon(ClassLoader
-				.getSystemClassLoader().getResource(iconUrl)));
+	public StructureElement(String label, String iconUrl) {
+		super(label, new ImageIcon(ClassLoader.getSystemClassLoader()
+				.getResource(iconUrl)));
 
 		setIconTextGap(10);
 		setHorizontalAlignment(SwingConstants.LEFT);

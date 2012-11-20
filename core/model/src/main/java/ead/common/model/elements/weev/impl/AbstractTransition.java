@@ -40,20 +40,20 @@ package ead.common.model.elements.weev.impl;
 import ead.common.interfaces.Param;
 import ead.common.model.weev.Transition;
 
-public class AbstractTransition<S> extends AbstractPositionedWEEVElement implements
-		Transition<S> {
+public class AbstractTransition<S> extends AbstractPositionedWEEVElement
+		implements Transition<S> {
 
 	@Param(value = "start")
 	private S start;
-	
+
 	@Param(value = "end")
 	private S end;
-	
+
 	@Override
 	public S getStart() {
 		return start;
 	}
-	
+
 	public void setStart(S start) {
 		this.start = start;
 	}
@@ -62,7 +62,7 @@ public class AbstractTransition<S> extends AbstractPositionedWEEVElement impleme
 	public S getEnd() {
 		return end;
 	}
-	
+
 	public void setEnd(S end) {
 		this.end = end;
 	}

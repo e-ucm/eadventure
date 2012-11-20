@@ -41,7 +41,6 @@ import ead.common.interfaces.Element;
 import ead.common.model.elements.weev.story.element.impl.AbstractNode;
 import ead.common.model.weev.story.elements.Node;
 
-
 /**
  * A state is the most generic kind of {@link Node} available
  */

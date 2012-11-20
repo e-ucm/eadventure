@@ -71,8 +71,7 @@ public abstract class EqualsHashCodeTest<T> {
 			assertTrue(objects[i].hashCode() == objects[i + 1].hashCode());
 			for (int j = 0; j < objects.length; j++) {
 				if (j != i && j != i + 1) {
-					assertTrue(objects[i].hashCode() != objects[j]
-							.hashCode());
+					assertTrue(objects[i].hashCode() != objects[j].hashCode());
 				}
 			}
 		}

@@ -48,11 +48,10 @@ import ead.engine.core.evaluators.Evaluator;
 import ead.engine.core.operators.OperatorFactory;
 
 @Singleton
-public class OperationCondEvaluator implements
-		Evaluator<OperationCond> {
+public class OperationCondEvaluator implements Evaluator<OperationCond> {
 
 	private static final Logger logger = LoggerFactory
-		.getLogger("VarConditionEvaluator");
+			.getLogger("VarConditionEvaluator");
 
 	private OperatorFactory operatorFactory;
 
@@ -61,26 +60,27 @@ public class OperationCondEvaluator implements
 		this.operatorFactory = operatorFactory;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public boolean evaluate(OperationCond condition) {
-		Object value1 = operatorFactory.operate(Object.class,
-				condition.getOp1());
-		Object value2 = operatorFactory.operate(Object.class,
-				condition.getOp2());
+		Object value1 = operatorFactory.operate(Object.class, condition
+				.getOp1());
+		Object value2 = operatorFactory.operate(Object.class, condition
+				.getOp2());
 
 		if (value1 == null || value2 == null)
 			return false;
 
-		if ( value1 instanceof Number ){
+		if (value1 instanceof Number) {
 			value1 = ((Number) value1).floatValue();
 		}
 
-		if ( value2 instanceof Number ){
+		if (value2 instanceof Number) {
 			value2 = ((Number) value2).floatValue();
 		}
 
-		if (value1.getClass() == value2.getClass() && value1 instanceof Comparable) {
+		if (value1.getClass() == value2.getClass()
+				&& value1 instanceof Comparable) {
 			int result = ((Comparable) value1).compareTo(value2);
 			switch (condition.getOperator()) {
 			case EQUAL:

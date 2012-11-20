@@ -89,8 +89,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * @param operation
 	 *            The operation to be performed to obtain the value of the field
 	 */
-	public ChangeFieldEf( EAdField<?> field,
-			EAdOperation operation) {
+	public ChangeFieldEf(EAdField<?> field, EAdOperation operation) {
 		super();
 		this.fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 		if (field != null)
@@ -166,7 +165,5 @@ public class ChangeFieldEf extends AbstractEffect {
 	public EAdVarDef<?> getVarDef() {
 		return varDef;
 	}
-	
-	
-	
+
 }

@@ -84,8 +84,8 @@ public class DialogueNodeImporter implements
 		for (int i = 0; i < oldObject.getLineCount(); i++) {
 			SpeakEf effect = conversationLineImporter
 					.init(oldObject.getLine(i));
-            annotator.annotate(effect, ImportAnnotator.Type.Comment,
-                    oldObject.getLineText(i));
+			annotator.annotate(effect, ImportAnnotator.Type.Comment, oldObject
+					.getLineText(i));
 
 			effect = conversationLineImporter.convert(oldObject.getLine(i),
 					effect);
@@ -99,7 +99,8 @@ public class DialogueNodeImporter implements
 
 		if (initialEffect == null) {
 			initialEffect = new SpeakEf();
-			initialEffect.setColor(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
+			initialEffect
+					.setColor(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
 			initialEffect.getCaption().getText().parse("");
 			previousEffect = initialEffect;
 		}

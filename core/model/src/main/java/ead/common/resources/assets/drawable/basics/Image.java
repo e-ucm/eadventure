@@ -85,16 +85,16 @@ public class Image implements EAdImage {
 	}
 
 	public boolean equals(Object o) {
-		if ( o instanceof EAdImage ){
+		if (o instanceof EAdImage) {
 			EAdURI uri = ((EAdImage) o).getUri();
-			if ( uri == null && this.uri == null ){
+			if (uri == null && this.uri == null) {
 				return true;
 			}
-			
-			if ( uri != null && this.uri != null ){
+
+			if (uri != null && this.uri != null) {
 				return uri.equals(this.uri);
 			}
-			
+
 			return false;
 		}
 		return false;

@@ -57,19 +57,19 @@ public interface EngineConfiguration {
 	 */
 	int getHeight();
 
-	void setSize( int width, int height );
+	void setSize(int width, int height);
 
 	/**
 	 * Returns if the engine is in fullscreen
 	 * @return
 	 */
-	boolean isFullscreen( );
+	boolean isFullscreen();
 
 	/**
 	 * Sets if the engine is in full screen
 	 * @param fullscreen if the engine is in full screen
 	 */
-	void setFullscreen( boolean fullscreen );
+	void setFullscreen(boolean fullscreen);
 
 	/**
 	 * Returns whether the application should exit when engine finishes

@@ -190,15 +190,11 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		book.getEvents().add(hideEvent);
 		// Import background
 		AssetDescriptor background = resourceImporter.getAssetDescritptor(
-				oldObject.getResources().get(0)
-						.getAssetPath(Book.RESOURCE_TYPE_BACKGROUND),
-				Image.class);
-		book.getBackground()
-				.getDefinition()
-				.getResources()
-				.addAsset(
-						book.getBackground().getDefinition().getInitialBundle(),
-						SceneElementDef.appearance, background);
+				oldObject.getResources().get(0).getAssetPath(
+						Book.RESOURCE_TYPE_BACKGROUND), Image.class);
+		book.getBackground().getDefinition().getResources().addAsset(
+				book.getBackground().getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, background);
 
 		ChangeFieldEf showInventory = new ChangeFieldEf(
 				SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
@@ -314,8 +310,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 							TEXT_WIDTH_BULLET);
 					break;
 				case BookParagraph.IMAGE:
-					Image i = (Image) resourceImporter.getAssetDescritptor(
-							p.getContent(), Image.class);
+					Image i = (Image) resourceImporter.getAssetDescritptor(p
+							.getContent(), Image.class);
 					try {
 						BufferedImage im = ImageIO.read(new File(
 								resourceImporter.getNewProjecFolder(), i
@@ -382,8 +378,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				}
 				break;
 			case BookPage.TYPE_URL:
-				logger.warn("Remote URLs are no longer supported by eAdventure. {} wasn't imported."
-						+ page.getUri());
+				logger
+						.warn("Remote URLs are no longer supported by eAdventure. {} wasn't imported."
+								+ page.getUri());
 				break;
 			}
 
@@ -514,15 +511,14 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 
 		AssetDescriptor overAsset = getArrowAsset(book, over);
-		arrow.getDefinition()
-				.getResources()
-				.addAsset(arrow.getDefinition().getInitialBundle(),
-						SceneElementDef.appearance, normalAsset);
+		arrow.getDefinition().getResources().addAsset(
+				arrow.getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, normalAsset);
 
 		EAdBundleId bundle = new EAdBundleId("over");
 		arrow.getDefinition().getResources().addBundle(bundle);
-		arrow.getDefinition().getResources()
-				.addAsset(bundle, SceneElementDef.appearance, overAsset);
+		arrow.getDefinition().getResources().addAsset(bundle,
+				SceneElementDef.appearance, overAsset);
 
 		ChangeAppearanceEf change1 = new ChangeAppearanceEf(arrow, bundle);
 		arrow.addBehavior(MouseGEv.MOUSE_ENTERED, change1);

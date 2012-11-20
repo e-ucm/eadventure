@@ -51,11 +51,11 @@ import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 
 public class GdxBezierShape extends GdxShape<BezierShape> {
-	
+
 	protected static boolean usingGradient = false;
 
-	protected Pixmap generatePixmap() {				
-		ArrayList<Float> shape = new ArrayList<Float>( );
+	protected Pixmap generatePixmap() {
+		ArrayList<Float> shape = new ArrayList<Float>();
 		float x0, y0, x1, y1, x2, y2, x3, y3;
 		EAdList<Integer> pointsList = descriptor.getPoints();
 		x0 = pointsList.get(0);
@@ -103,33 +103,33 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 		// TODO Probably this can be improved
 
 		EAdPaint p = descriptor.getPaint();
-		
+
 		float f[] = new float[shape.size()];
-		for ( int i = 0; i < shape.size(); i++ ){
+		for (int i = 0; i < shape.size(); i++) {
 			f[i] = shape.get(i);
 		}
-		Polygon polygon = new Polygon( f );
+		Polygon polygon = new Polygon(f);
 
-		Rectangle rectangle = polygon.getBoundingRectangle(); 
-		
+		Rectangle rectangle = polygon.getBoundingRectangle();
+
 		int borderWidth = p.getBorderWidth();
 		int x = (int) rectangle.x;
 		int y = (int) rectangle.y;
-		int width = (int) ( rectangle.x + rectangle.width);
-		int height = (int) ( rectangle.y + rectangle.height );
-		
-		Pixmap pixmap = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
-				Pixmap.Format.RGBA8888);
-		pixmapContains = new Pixmap(width + borderWidth * 2, height + borderWidth * 2,
-				Pixmap.Format.RGBA8888);
+		int width = (int) (rectangle.x + rectangle.width);
+		int height = (int) (rectangle.y + rectangle.height);
+
+		Pixmap pixmap = new Pixmap(width + borderWidth * 2, height
+				+ borderWidth * 2, Pixmap.Format.RGBA8888);
+		pixmapContains = new Pixmap(width + borderWidth * 2, height
+				+ borderWidth * 2, Pixmap.Format.RGBA8888);
 		pixmapContains.setColor(0, 0, 0, 1);
 		pixmap.setColor(0, 0, 0, 0);
 		pixmap.fill();
 
 		if (p.getFill() instanceof ColorFill) {
 			ColorFill c = (ColorFill) p.getFill();
-			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
+			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c
+					.getBlue() / 255.0f, c.getAlpha() / 255.0f);
 		} else if (p.getFill() instanceof LinearGradientFill) {
 			LinearGradientFill gradient = (LinearGradientFill) p.getFill();
 			usingGradient = true;
@@ -141,7 +141,6 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 			pixmap.setColor(0, 0, 0, 1);
 		}
 
-		
 		for (int i = x; i < width; i++) {
 			for (int j = y; j < height; j++) {
 				if (polygon.contains(i, j)) {
@@ -158,33 +157,32 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 		if (p.getBorder() != null) {
 			if (p.getBorder() instanceof ColorFill) {
 				ColorFill c = (ColorFill) p.getBorder();
-				pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-						c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
+				pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c
+						.getBlue() / 255.0f, c.getAlpha() / 255.0f);
 			} else if (p.getBorder() instanceof LinearGradientFill) {
 				LinearGradientFill gradient = (LinearGradientFill) p
 						.getBorder();
 				usingGradient = true;
 				initGradientParams(gradient.getColor1(), gradient.getX0(),
-						gradient.getY0(), gradient.getColor2(),
-						gradient.getX1(), gradient.getY1());
+						gradient.getY0(), gradient.getColor2(), gradient
+								.getX1(), gradient.getY1());
 			}
 
 			float previousX = 0;
 			float previousY = 0;
 			float currentX = 0;
 			float currentY = 0;
-			for ( int k = 0; k < shape.size(); k+=2 ){
+			for (int k = 0; k < shape.size(); k += 2) {
 				currentX = shape.get(k);
 				currentY = shape.get(k + 1);
-				if ( k >= 2) {
+				if (k >= 2) {
 					for (int i = 1; i <= borderWidth; i++) {
 						if (usingGradient) {
 							this.setColor(pixmap, (int) previousX + i,
 									(int) previousY + i);
 						}
-						pixmap.drawLine((int) previousX + i,
-								(int) previousY + i, (int) currentX + i,
-								(int) currentY + i);
+						pixmap.drawLine((int) previousX + i, (int) previousY
+								+ i, (int) currentX + i, (int) currentY + i);
 						pixmapContains.drawLine((int) previousX + i,
 								(int) previousY + i, (int) currentX + i,
 								(int) currentY + i);
@@ -195,15 +193,17 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 			}
 			for (int i = 1; i <= borderWidth; i++) {
 				pixmap.drawLine((int) previousX + i, (int) previousY + i,
-						(int) shape.get(0).intValue() + i,
-						(int) shape.get(1).intValue() + i);
-				pixmapContains.drawLine((int) previousX + i, (int) previousY + i,
-						(int) shape.get(0).intValue() + i,
-						(int) shape.get(1).intValue() + i);
+						(int) shape.get(0).intValue() + i, (int) shape.get(1)
+								.intValue()
+								+ i);
+				pixmapContains.drawLine((int) previousX + i, (int) previousY
+						+ i, (int) shape.get(0).intValue() + i, (int) shape
+						.get(1).intValue()
+						+ i);
 			}
 
 		}
-		usingGradient = false;	
+		usingGradient = false;
 		return pixmap;
 	}
 
@@ -226,7 +226,7 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 	}
 
 	private void curveTo(float x0, float y0, float x1, float y1, float x2,
-			float y2, float x3, float y3, List<Float> points ) {
+			float y2, float x3, float y3, List<Float> points) {
 		for (float t = 0.2f; t <= 1.0f; t += 0.1f) {
 			float _t2 = (1 - t) * (1 - t);
 			float _t3 = _t2 * (1 - t);
@@ -238,5 +238,5 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 			points.add(y);
 		}
 	}
-	
+
 }

@@ -89,7 +89,7 @@ import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLParser;
 
-@GinModules({ GwtModule.class, GWTToolsModule.class })
+@GinModules( { GwtModule.class, GWTToolsModule.class })
 public interface GwtGinInjector extends Ginjector {
 
 	public BasicTransitionGO getSimpleTransitionGO();
@@ -169,7 +169,7 @@ public interface GwtGinInjector extends Ginjector {
 	public InputHandler getInputHandler();
 
 	public FontHandler getFontHandler();
-	
+
 	public SceneGraph getSceneGraph();
 
 	public AddActorReferenceGO getAddActorReferenceGO();
@@ -185,7 +185,7 @@ public interface GwtGinInjector extends Ginjector {
 	public ReflectionClassLoader getReflectionClassLoader();
 
 	public AssetHandler getAssetHandler();
-	
+
 	public GWTVideoRenderer getGWTVideoRenderer();
 
 }

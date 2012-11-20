@@ -110,8 +110,8 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 		for (String key : DOMWriter.depthManager.getAliasMap().keySet()) {
 			Element n = doc.createElement("entry");
 			n.setAttribute("key", key);
-			n.setAttribute("value",
-					DOMWriter.depthManager.getAliasMap().get(key));
+			n.setAttribute("value", DOMWriter.depthManager.getAliasMap().get(
+					key));
 			node.appendChild(n);
 		}
 

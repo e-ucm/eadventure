@@ -50,10 +50,10 @@ public interface Hint extends WEEVElement {
 	 * @return the string containing the actual hint
 	 */
 	EAdString getHint();
-	
+
 	/**
 	 * @return the cost, in points, to the palyer of requesting the hint
 	 */
 	int getValue();
-	
+
 }

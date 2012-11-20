@@ -69,8 +69,8 @@ public class VarConditionImporter implements
 		EAdField<Integer> var = (EAdField<Integer>) factory.getVarByOldId(
 				oldObject.getId(), Condition.VAR_CONDITION);
 
-		OperationCond condition = new OperationCond(var,
-				oldObject.getValue(), op);
+		OperationCond condition = new OperationCond(var, oldObject.getValue(),
+				op);
 		return condition;
 	}
 

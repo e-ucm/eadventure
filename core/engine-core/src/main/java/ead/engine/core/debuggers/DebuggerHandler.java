@@ -41,12 +41,11 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
-
 public interface DebuggerHandler {
 
 	public void add(Class<? extends Debugger> debugger);
-	
-	public void doLayout(GUI gui, EAdTransformation initialTransformation );
+
+	public void doLayout(GUI gui, EAdTransformation initialTransformation);
 
 	void setUp(EAdAdventureModel model);
 

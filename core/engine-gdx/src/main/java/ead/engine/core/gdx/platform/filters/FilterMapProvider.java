@@ -46,7 +46,8 @@ import ead.common.resources.assets.drawable.filters.MatrixFilter;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 import ead.tools.MapProvider;
 
-public class FilterMapProvider implements MapProvider<Class<?>, RuntimeFilter<?, SpriteBatch>>{
+public class FilterMapProvider implements
+		MapProvider<Class<?>, RuntimeFilter<?, SpriteBatch>> {
 
 	@Override
 	public Map<Class<?>, RuntimeFilter<?, SpriteBatch>> getMap() {

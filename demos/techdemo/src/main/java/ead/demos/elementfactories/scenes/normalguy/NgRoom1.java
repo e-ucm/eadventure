@@ -77,7 +77,6 @@ import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
-
 /**
  * First scene. Main character does not know where he is. Everything is dark in here. Where will be the light?
  */
@@ -95,6 +94,7 @@ public class NgRoom1 extends EmptyScene {
 	private SceneElement portrait;
 	private SceneElement key;
 	private BasicField<Integer> timesField;
+
 	//private EAdScene initScene;
 
 	public NgRoom1() {
@@ -122,7 +122,7 @@ public class NgRoom1 extends EmptyScene {
 		createElements();
 		initConditions();
 		addElementsInOrder();
-		
+
 	}
 
 	private void initConditions() {
@@ -140,13 +140,13 @@ public class NgRoom1 extends EmptyScene {
 
 		table = new SceneElement(new Image("@drawable/ng_table.png"));
 		table.setPosition(Corner.CENTER, 576, 550);
-		
+
 		lamp = new SceneElement(new Image("@drawable/ng_lamp.png"));
 		lamp.setPosition(Corner.CENTER, 617, 470);
 
 		carpet = new SceneElement(new Image("@drawable/ng_carpet.png"));
 		carpet.setPosition(Corner.CENTER, 350, 470);
-		
+
 		door = new SceneElement(new Image("@drawable/ng_door.png"));
 		door.setPosition(Corner.CENTER, 662, 235);
 
@@ -158,7 +158,6 @@ public class NgRoom1 extends EmptyScene {
 
 	}
 
-
 	private void addElementsInOrder() {
 		getSceneElements().add(door);
 		getSceneElements().add(key);
@@ -169,8 +168,7 @@ public class NgRoom1 extends EmptyScene {
 		getSceneElements().add(lamp);
 		getSceneElements().add(darkness);
 	}
-	
-	
+
 	public void setUpSceneElements(EAdScene corridor) {
 		setDarkness(ng);
 		setMainCharactersSpeech();
@@ -183,41 +181,44 @@ public class NgRoom1 extends EmptyScene {
 		setTable();
 		this.getSceneElements().add(darkness);
 	}
-	
+
 	/**
 	 * Lets main character's move over the carpet
 	 */
-	private void setCarpet() {		
+	private void setCarpet() {
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
-        carpet.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+		carpet.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 	}
-	
+
 	/**
 	 * Lets main character's move to the door
 	 */
 	private void setTable() {
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
-        table.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+		table.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 	}
-	
+
 	/**
 	 * When the user clicks on the main character, it looks to the user and a text appears 
 	 */
-	private void setMainCharactersSpeech() {		
-		EAdString talking = new EAdString("Hey! What do you want? let's explore this room!");
+	private void setMainCharactersSpeech() {
+		EAdString talking = new EAdString(
+				"Hey! What do you want? let's explore this room!");
 		SpeakSceneElementEf speech = new SpeakSceneElementEf(talking);
-		
+
 		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
-		
+
 		speech.setElement(ng);
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speech);
-		
+
 	}
-	
+
 	/**
 	 * Puts the darkness in the room
 	 * @param ng
@@ -241,17 +242,18 @@ public class NgRoom1 extends EmptyScene {
 				new ValueOp(0.0f));
 		MoveSceneElementEf move = moveNg(617, 510);
 		move.getNextEffects().add(switchLights);
-		
+
 		lamp.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 	}
 
-	private void setDoor(EAdScene corridor) {		
+	private void setDoor(EAdScene corridor) {
 		// Principal character moving to the door
 		MoveSceneElementEf move = moveNg(662, 235);
-        door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP), move);
-       
-        // Define next scene, add next behavior
-        ChangeSceneEf corridorScene = new ChangeSceneEf();
+		door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP),
+				move);
+
+		// Define next scene, add next behavior
+		ChangeSceneEf corridorScene = new ChangeSceneEf();
 		corridorScene.setNextScene(corridor);
 		move.getNextEffects().add(corridorScene);
 	}

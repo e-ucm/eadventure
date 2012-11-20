@@ -83,10 +83,8 @@ public class JarExporter implements Exporter {
 		// Load pom file
 		File pomFile = new File(jarTemp, "pom.xml");
 		try {
-			FileUtils.copyStreamToFile(
-					new RawInputStreamFacade(ClassLoader
-							.getSystemResourceAsStream("pom/desktoppom.xml")),
-					pomFile);
+			FileUtils.copyStreamToFile(new RawInputStreamFacade(ClassLoader
+					.getSystemResourceAsStream("pom/desktoppom.xml")), pomFile);
 		} catch (IOException e1) {
 
 		}

@@ -58,8 +58,9 @@ public class SceneElementGOFactoryImpl
 		implements SceneElementGOFactory {
 
 	@Inject
-	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider, GenericInjector injector) {
-		super( true, reflectionProvider, injector );
+	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider,
+			GenericInjector injector) {
+		super(true, reflectionProvider, injector);
 		ElementGameObjectFactoryConfigurator provider = new ElementGameObjectFactoryConfigurator();
 		setClassMap(provider.getMap());
 	}

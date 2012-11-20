@@ -64,34 +64,35 @@ import ead.common.util.EAdPosition.Corner;
 public class BVSScene extends EmptyScene {
 
 	private static String optionUris[] = new String[] {
-		"@drawable/tos correcta 1_01.jpg", "@drawable/tos correcta 1_02.jpg"
-	};
+			"@drawable/tos correcta 1_01.jpg",
+			"@drawable/tos correcta 1_02.jpg" };
 
 	private static String option1Uris[] = new String[] {
-		"@drawable/tos incorrecta 1_01.jpg", "@drawable/tos incorrecta 1_02.jpg"
-	};
-	
+			"@drawable/tos incorrecta 1_01.jpg",
+			"@drawable/tos incorrecta 1_02.jpg" };
+
 	private static String option2Uris[] = new String[] {
-		"@drawable/tos incorrecta 2_01.jpg", "@drawable/tos incorrecta 2_02.jpg"
-	};
+			"@drawable/tos incorrecta 2_01.jpg",
+			"@drawable/tos incorrecta 2_02.jpg" };
 
 	private static String option3Uris[] = new String[] {
-		"@drawable/tos incorrecta 3_01.jpg", "@drawable/tos incorrecta 3_02.jpg"
-	};
-	
+			"@drawable/tos incorrecta 3_01.jpg",
+			"@drawable/tos incorrecta 3_02.jpg" };
+
 	public BVSScene() {
 		//NgCommon.init();
 		EAdSceneElementDef background = getBackground().getDefinition();
-		
-		Image drawable = new Image("@drawable/backgroundSVB.jpg");	
-		background.getResources().addAsset(background.getInitialBundle(), SceneElementDef.appearance, drawable);
-		
+
+		Image drawable = new Image("@drawable/backgroundSVB.jpg");
+		background.getResources().addAsset(background.getInitialBundle(),
+				SceneElementDef.appearance, drawable);
+
 		//250 x 200
-		
+
 		SceneElement b = getButton(optionUris);
 		b.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 75, 575));
 		getSceneElements().add(b);
-		
+
 		b = getButton(option1Uris);
 		b.setPosition(new EAdPosition(Corner.BOTTOM_RIGHT, 725, 575));
 		getSceneElements().add(b);
@@ -104,42 +105,43 @@ public class BVSScene extends EmptyScene {
 		b.setPosition(new EAdPosition(Corner.TOP_LEFT, 75, 150));
 		getSceneElements().add(b);
 
-		Caption caption = new Caption(new EAdString("Choose how to start a cough..."));
+		Caption caption = new Caption(new EAdString(
+				"Choose how to start a cough..."));
 		caption.setFont(new BasicFont(45.0f));
 		caption.setTextPaint(new Paint(ColorFill.GREEN, ColorFill.WHITE));
 		EAdSceneElementDef title = new SceneElementDef();
-		title.getResources().addAsset(title.getInitialBundle(), SceneElementDef.appearance, caption);
+		title.getResources().addAsset(title.getInitialBundle(),
+				SceneElementDef.appearance, caption);
 		SceneElement titleRef = new SceneElement(title);
 		titleRef.setPosition(20, 20);
 		getSceneElements().add(titleRef);
-		
+
 		SceneElementEv event = new SceneElementEv();
-		InterpolationEf effect = new InterpolationEf(
-				new BasicField<Integer>(titleRef,
-						SceneElement.VAR_X), -50, 20, 2500,
+		InterpolationEf effect = new InterpolationEf(new BasicField<Integer>(
+				titleRef, SceneElement.VAR_X), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
-		effect = new InterpolationEf(
-				new BasicField<Integer>(titleRef,
-						SceneElement.VAR_Y), -50, 20, 2500,
+		effect = new InterpolationEf(new BasicField<Integer>(titleRef,
+				SceneElement.VAR_Y), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		getBackground().getEvents().add(event);
 	}
-	
+
 	private SceneElement getButton(String[] frames) {
 		EAdSceneElementDef button = new SceneElementDef();
-		button.getResources().addAsset(button.getInitialBundle(), SceneElementDef.appearance, getAnimation(frames));
+		button.getResources().addAsset(button.getInitialBundle(),
+				SceneElementDef.appearance, getAnimation(frames));
 		SceneElement buttonRef = new SceneElement(button);
 		buttonRef.setPosition(20, 20);
-		
-		EAdField<Integer> scale2 = new BasicField<Integer>(buttonRef, SceneElement.VAR_Z);
+
+		EAdField<Integer> scale2 = new BasicField<Integer>(buttonRef,
+				SceneElement.VAR_Z);
 		ChangeFieldEf e = new ChangeFieldEf(scale2, new ValueOp(1));
-		
-		InterpolationEf e2 = new InterpolationEf(
-				new BasicField<Float>(buttonRef,
-						SceneElement.VAR_SCALE), 0.0f, 0.4f, 150,
+
+		InterpolationEf e2 = new InterpolationEf(new BasicField<Float>(
+				buttonRef, SceneElement.VAR_SCALE), 0.0f, 0.4f, 150,
 				InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
 		buttonRef.addBehavior(MouseGEv.MOUSE_ENTERED, e);
@@ -147,14 +149,14 @@ public class BVSScene extends EmptyScene {
 
 		e = new ChangeFieldEf(scale2, new ValueOp(0));
 		buttonRef.addBehavior(MouseGEv.MOUSE_EXITED, e);
-		EAdField<Float> scale = new BasicField<Float>(buttonRef, SceneElement.VAR_SCALE);
+		EAdField<Float> scale = new BasicField<Float>(buttonRef,
+				SceneElement.VAR_SCALE);
 		e = new ChangeFieldEf(scale, new ValueOp(1.0f));
 		buttonRef.addBehavior(MouseGEv.MOUSE_EXITED, e);
 
-		
 		return buttonRef;
 	}
-	
+
 	private FramesAnimation getAnimation(String[] frames) {
 		FramesAnimation fa = new FramesAnimation();
 		for (String s : frames) {
@@ -164,7 +166,7 @@ public class BVSScene extends EmptyScene {
 		}
 		return fa;
 	}
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene with a character, with orientation and different states. Press the buttons to control the character.";
@@ -174,7 +176,4 @@ public class BVSScene extends EmptyScene {
 		return "Basic vital support Scene";
 	}
 
-	
-
-	
 }

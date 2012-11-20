@@ -66,7 +66,8 @@ public interface Panel extends InterfaceElement {
 		/**
 		 * A policy where elements are stacked on top of each other, each with the same height
 		 */
-		STRICT_VERTICAL }
+		STRICT_VERTICAL
+	}
 
 	/**
 	 * @return The list of interface elements in the panel

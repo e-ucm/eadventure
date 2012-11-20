@@ -45,5 +45,4 @@ import ead.common.model.EAdElement;
  */
 public interface EAdTrajectoryDefinition extends EAdElement {
 
-
 }

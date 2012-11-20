@@ -50,9 +50,9 @@ import ead.common.resources.assets.AssetDescriptor;
  * Abstract {@link ead.common.model.EAdElement} implementation,
  * with resources and events
  */
-public abstract class ResourcedElement extends AbstractElementWithBehavior implements
-		Resourced {
-	
+public abstract class ResourcedElement extends AbstractElementWithBehavior
+		implements Resourced {
+
 	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new VarDef<EAdBundleId>(
 			"bundle_id", EAdBundleId.class, null);
 

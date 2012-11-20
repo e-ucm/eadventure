@@ -65,16 +65,16 @@ public class AssetViewerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
-		bind(AssetHandler.class).to(GdxAssetHandler.class).in(
-				Singleton.class);
+		bind(AssetHandler.class).to(GdxAssetHandler.class).in(Singleton.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);
 		bind(VariableMap.class).to(AssetVariableMap.class).in(Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
 		bind(SceneGraph.class).to(BasicSceneGraph.class).in(Singleton.class);
-        bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(Singleton.class);
-    }
+		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
+				Singleton.class);
+	}
 
 	public static class AssetViewerGUI implements GUI {
 

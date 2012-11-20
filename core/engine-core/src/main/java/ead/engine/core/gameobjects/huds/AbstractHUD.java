@@ -59,7 +59,7 @@ public abstract class AbstractHUD implements HudGO {
 	private List<DrawableGO<?>> hudGameObjects;
 
 	protected EAdTransformation transformation;
-	
+
 	private boolean first = true;
 
 	public AbstractHUD(GUI gui) {
@@ -87,7 +87,7 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	public void update() {
-		if ( first ){
+		if (first) {
 			first = false;
 			init();
 		}
@@ -156,11 +156,10 @@ public abstract class AbstractHUD implements HudGO {
 	public int getHeight() {
 		return 1;
 	}
-	
+
 	@Override
 	public void init() {
-		
-	}
 
+	}
 
 }

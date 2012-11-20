@@ -150,7 +150,9 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 		c.setFont(new BasicFont(18));
 		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				new QuitGameEf());
-		button.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 400, 300));
+		button
+				.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 400,
+						300));
 		addElement(sceneElementFactory.get(button));
 	}
 

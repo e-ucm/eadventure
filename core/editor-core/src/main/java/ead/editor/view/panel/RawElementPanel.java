@@ -60,14 +60,15 @@ import org.slf4j.LoggerFactory;
  */
 public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 
-	private static final Logger logger = LoggerFactory.getLogger("RawElementPanel");
+	private static final Logger logger = LoggerFactory
+			.getLogger("RawElementPanel");
 
-    private JPanel inner = new JPanel();
+	private JPanel inner = new JPanel();
 
 	private JPanel startRow(JPanel container) {
 		logger.debug("   -- new row --");
 		JPanel jp = new JPanel();
-//			jp.setBackground(container.getComponentCount()%2 == 0? Color.lightGray : Color.lightGray.brighter());
+		//			jp.setBackground(container.getComponentCount()%2 == 0? Color.lightGray : Color.lightGray.brighter());
 		FlowLayout fl = new FlowLayout(FlowLayout.LEFT, 0, 0);
 		fl.setAlignOnBaseline(true);
 		jp.setLayout(fl);
@@ -78,11 +79,12 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 	private void addLabelToRow(JPanel row, String text) {
 		logger.debug("   appending label: " + text);
 		JLabel jl = new JLabel(text);
-//			jl.setBackground(Math.random() > 0.5?new Color(0xbbffbbff):new Color(0xffbbbbff));
-//			jl.setOpaque(true);
+		//			jl.setBackground(Math.random() > 0.5?new Color(0xbbffbbff):new Color(0xffbbbbff));
+		//			jl.setOpaque(true);
 		Dimension d = new Dimension(jl.getPreferredSize());
 		FontMetrics fm = jl.getFontMetrics(jl.getFont());
-		d.setSize(d.width, fm.getMaxAscent() + fm.getMaxDescent() + fm.getLeading());
+		d.setSize(d.width, fm.getMaxAscent() + fm.getMaxDescent()
+				+ fm.getLeading());
 		jl.setPreferredSize(d);
 		jl.setMinimumSize(d);
 		jl.setMaximumSize(d);
@@ -102,15 +104,15 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 		row.add(jb);
 	}
 
-    @Override
+	@Override
 	protected void rebuild() {
 		removeAll();
 		setLayout(new BorderLayout());
 		inner = new JPanel();
 		inner.setLayout(new CheapVerticalLayout());
-		add(new JScrollPane(inner,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+		add(new JScrollPane(inner, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+				BorderLayout.CENTER);
 		String st = target.getTextualDescription(controller.getModel());
 		logger.debug("preparing to render\n" + st);
 

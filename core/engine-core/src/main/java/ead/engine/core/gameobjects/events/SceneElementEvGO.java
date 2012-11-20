@@ -50,17 +50,16 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	private boolean firstCheck = true;
 
 	private boolean hasAlways;
-	
+
 	private Long timeLastUpdate;
-	
+
 	private GUI gui;
-	
+
 	@Inject
 	public SceneElementEvGO(GUI gui, GameState gameState) {
 		super(gameState);
 		this.gui = gui;
 	}
-
 
 	public void initialize() {
 		firstCheck = true;
@@ -70,15 +69,19 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
 	@Override
 	public void update() {
-		Long currentTime = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
-		if ( timeLastUpdate == -1 || currentTime - timeLastUpdate > gui.getSkippedMilliseconds() * 2 ){
-			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED_TO_SCENE));
+		Long currentTime = gameState.getValueMap().getValue(
+				SystemFields.GAME_TIME);
+		if (timeLastUpdate == -1
+				|| currentTime - timeLastUpdate > gui.getSkippedMilliseconds() * 2) {
+			runEffects(element
+					.getEffectsForEvent(SceneElementEvType.ADDED_TO_SCENE));
 		}
 		timeLastUpdate = currentTime;
-		
+
 		if (firstCheck) {
 			firstCheck = false;
-			runEffects(element.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
+			runEffects(element
+					.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
 		}
 
 		if (hasAlways)

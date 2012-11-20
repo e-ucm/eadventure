@@ -83,8 +83,8 @@ public class GdxFont extends BasicRuntimeFont {
 			fontData = fileName + ".fnt";
 			fontPng = fileName + ".png";
 		}
-		bitmapFont = new BitmapFont(ah.getFileHandle(fontData),
-				ah.getFileHandle(fontPng), true);
+		bitmapFont = new BitmapFont(ah.getFileHandle(fontData), ah
+				.getFileHandle(fontPng), true);
 		return true;
 	}
 

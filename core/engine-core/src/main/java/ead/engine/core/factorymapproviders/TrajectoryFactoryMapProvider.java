@@ -49,32 +49,36 @@ import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryGenerator;
 import ead.engine.core.trajectories.dijkstra.DijkstraNodeTrajectoryGenerator;
 
-public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, TrajectoryGenerator<?>> {
+public class TrajectoryFactoryMapProvider extends
+		AbstractMapProvider<Class<?>, TrajectoryGenerator<?>> {
 
 	private static Map<Class<?>, TrajectoryGenerator<?>> tempMap = new HashMap<Class<?>, TrajectoryGenerator<?>>();
-	
+
 	private ValueMap valueMap;
-	
+
 	private SceneElementGOFactory sceneElementFactory;
 
 	public TrajectoryFactoryMapProvider(TrajectoryFactory trajectoryFactory,
-			SceneElementGOFactory gameObjectFactory,
-			ValueMap valueMap) {
+			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
 		super();
 		this.valueMap = valueMap;
 		this.sceneElementFactory = gameObjectFactory;
 
 	}
-	
-	public Map<Class<?>, TrajectoryGenerator<?>> getMap(){
-		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator(valueMap));
-		factoryMap.put(NodeTrajectoryDefinition.class, new DijkstraNodeTrajectoryGenerator(sceneElementFactory, valueMap));
+
+	public Map<Class<?>, TrajectoryGenerator<?>> getMap() {
+		factoryMap.put(SimpleTrajectoryDefinition.class,
+				new SimpleTrajectoryGenerator(valueMap));
+		factoryMap.put(NodeTrajectoryDefinition.class,
+				new DijkstraNodeTrajectoryGenerator(sceneElementFactory,
+						valueMap));
 		factoryMap.putAll(tempMap);
 		factoryMap.putAll(tempMap);
 		return super.getMap();
 	}
-	
-	public static void add(Class<?> trjaectoryDefinition, TrajectoryGenerator<?> trajectoryGenerator) {
+
+	public static void add(Class<?> trjaectoryDefinition,
+			TrajectoryGenerator<?> trajectoryGenerator) {
 		tempMap.put(trjaectoryDefinition, trajectoryGenerator);
 	}
 

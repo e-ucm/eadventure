@@ -94,9 +94,8 @@ public class ZipInputStreamCreator implements InputStreamCreator {
 				ZipEntry ze = entries.nextElement();
 				if (ze.getName().startsWith(filePath + "/")) {
 					if (ze.getName().contains("/"))
-						files.put(
-								ze.getName().substring(0,
-										ze.getName().indexOf("/")), null);
+						files.put(ze.getName().substring(0,
+								ze.getName().indexOf("/")), null);
 					else
 						files.put(ze.getName(), null);
 				}
@@ -129,9 +128,9 @@ public class ZipInputStreamCreator implements InputStreamCreator {
 		File file = new File(parentFile, assetPath);
 
 		url = file.toURI().toURL();
-		url = new URL(url.getProtocol(), url.getHost(), url.getPort(),
-				url.getFile(), new ZipURLStreamHandler(zipFile, zipPath,
-						assetPath));
+		url = new URL(url.getProtocol(), url.getHost(), url.getPort(), url
+				.getFile(),
+				new ZipURLStreamHandler(zipFile, zipPath, assetPath));
 
 		return url;
 	}
@@ -234,7 +233,7 @@ public class ZipInputStreamCreator implements InputStreamCreator {
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

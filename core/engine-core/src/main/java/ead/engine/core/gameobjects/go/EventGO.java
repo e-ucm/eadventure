@@ -43,7 +43,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 public interface EventGO<T extends EAdEvent> extends GameObject<T> {
 
 	void initialize();
-	
+
 	void setParent(EAdSceneElement element);
 
 }

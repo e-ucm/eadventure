@@ -81,7 +81,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 		this.classMap = classMap;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public T get(S element) {
 		if (element == null)
@@ -101,15 +101,15 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 			runtimeClass = classMap.get(elementClass);
 			elementClass = reflectionProvider.getSuperclass(elementClass);
 		}
-		
+
 		if (runtimeClass == null) {
-			logger.error("No game element mapped for class {}",
-					element.getClass());
+			logger.error("No game element mapped for class {}", element
+					.getClass());
 		} else {
 			temp = (GameObject) injector.getInstance(runtimeClass);
 			if (temp == null) {
-				logger.error("No instance for game object of class {}",
-						element.getClass());
+				logger.error("No instance for game object of class {}", element
+						.getClass());
 			} else {
 				temp.setElement(element);
 				if (useCache) {

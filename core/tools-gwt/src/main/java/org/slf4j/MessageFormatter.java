@@ -219,10 +219,10 @@ final public class MessageFormatter {
 					return new FormattingTuple(messagePattern, argArray,
 							throwableCandidate);
 				} else { // add the tail string which contains no variables and
-							// return
+					// return
 					// the result.
-					sbuf.append(messagePattern.substring(i,
-							messagePattern.length()));
+					sbuf.append(messagePattern.substring(i, messagePattern
+							.length()));
 					return new FormattingTuple(sbuf.toString(), argArray,
 							throwableCandidate);
 				}
@@ -230,7 +230,7 @@ final public class MessageFormatter {
 				if (isEscapedDelimeter(messagePattern, j)) {
 					if (!isDoubleEscaped(messagePattern, j)) {
 						L--; // DELIM_START was escaped, thus should not be
-								// incremented
+						// incremented
 						sbuf.append(messagePattern.substring(i, j - 1));
 						sbuf.append(DELIM_START);
 						i = j + 1;
@@ -333,9 +333,9 @@ final public class MessageFormatter {
 
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	private static void objectArrayAppend(StringBuffer sbuf, Object[] a,
-			 Map seenMap) {
+			Map seenMap) {
 		sbuf.append('[');
 		if (!seenMap.containsKey(a)) {
 			seenMap.put(a, null);

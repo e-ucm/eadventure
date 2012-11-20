@@ -45,7 +45,6 @@ import ead.engine.core.gdx.assets.GdxAssetHandler;
 import java.util.Collection;
 import javax.swing.JFrame;
 
-
 /**
  * Game editor controller. The main controller provides access to delegate
  * controllers in charge of project-wide operations, view and command management
@@ -62,22 +61,22 @@ public interface Controller {
 	 */
 	Collection<Action> getActions();
 
-    /**
-     * Retrieves actions by name. Action names should be declared in the
-     * interfaces, NOT in the implementation classes.
-     */
-    Action getAction(String name);
+	/**
+	 * Retrieves actions by name. Action names should be declared in the
+	 * interfaces, NOT in the implementation classes.
+	 */
+	Action getAction(String name);
 
-    /**
-     * Adds a new action for general use. Action names should be declared in the
-     * interfaces, NOT in the implementation classes.
-     */
-    void putAction(String name, Action action);
+	/**
+	 * Adds a new action for general use. Action names should be declared in the
+	 * interfaces, NOT in the implementation classes.
+	 */
+	void putAction(String name, Action action);
 
-    /**
-     * Retrieves the editor-wide configuration
-     */
-    EditorConfig getConfig();
+	/**
+	 * Retrieves the editor-wide configuration
+	 */
+	EditorConfig getConfig();
 
 	/**
 	 * Retrieve the model for read-only purposes.
@@ -85,29 +84,29 @@ public interface Controller {
 	 */
 	EditorModel getModel();
 
-    /**
-     * Returns the project controller. In charge of project loading / saving
-     */
-    ProjectController getProjectController();
+	/**
+	 * Returns the project controller. In charge of project loading / saving
+	 */
+	ProjectController getProjectController();
 
-    /**
-     * Returns the navigation controller. In charge of forward / backward
-     * navigation in views.
-     */
-    NavigationController getNavigationController();
+	/**
+	 * Returns the navigation controller. In charge of forward / backward
+	 * navigation in views.
+	 */
+	NavigationController getNavigationController();
 
-    /**
-     * Returns the view controller. In charge of creating, hiding and
-     * displaying views.
-     */
-    ViewController getViewController();
+	/**
+	 * Returns the view controller. In charge of creating, hiding and
+	 * displaying views.
+	 */
+	ViewController getViewController();
 
-    /**
-     * Returns the command controller. In charge of model-changing command
-     * execution, including undo / redo. All commands should be executed
-     * through the manager.
-     */
-    CommandManager getCommandManager();
+	/**
+	 * Returns the command controller. In charge of model-changing command
+	 * execution, including undo / redo. All commands should be executed
+	 * through the manager.
+	 */
+	CommandManager getCommandManager();
 
 	/**
 	 * Returns the GdxAssetHandler in use

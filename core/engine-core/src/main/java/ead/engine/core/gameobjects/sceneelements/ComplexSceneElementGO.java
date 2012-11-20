@@ -69,8 +69,7 @@ public class ComplexSceneElementGO extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EvaluatorFactory evaluatorFactory,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		sceneElements = new ArrayList<SceneElementGO<?>>();
 	}
 

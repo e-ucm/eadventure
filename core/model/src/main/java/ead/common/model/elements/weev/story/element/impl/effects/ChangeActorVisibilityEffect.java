@@ -99,5 +99,4 @@ public class ChangeActorVisibilityEffect extends AbstractEffect {
 		this.actor = actor;
 	}
 
-	
 }

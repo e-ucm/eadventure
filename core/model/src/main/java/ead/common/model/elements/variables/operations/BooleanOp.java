@@ -56,12 +56,12 @@ public class BooleanOp extends AbstractOperation {
 	 */
 	public static BooleanOp FALSE_OP = new BooleanOp(
 			EmptyCond.FALSE_EMPTY_CONDITION);
-	
+
 	/**
 	 * Set to true boolean operation
 	 */
 	public static BooleanOp TRUE_OP = new BooleanOp(
-			 EmptyCond.TRUE_EMPTY_CONDITION);
+			EmptyCond.TRUE_EMPTY_CONDITION);
 
 	/**
 	 * Operation to be done
@@ -70,10 +70,10 @@ public class BooleanOp extends AbstractOperation {
 	private EAdCondition condition;
 
 	public BooleanOp() {
-		this( EmptyCond.TRUE_EMPTY_CONDITION);
+		this(EmptyCond.TRUE_EMPTY_CONDITION);
 	}
-	
-	public BooleanOp( EAdCondition condition) {
+
+	public BooleanOp(EAdCondition condition) {
 		super();
 		this.condition = condition;
 	}
@@ -96,8 +96,8 @@ public class BooleanOp extends AbstractOperation {
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return condition + "";
 	}
 

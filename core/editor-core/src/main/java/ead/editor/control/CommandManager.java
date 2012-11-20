@@ -48,38 +48,38 @@ public interface CommandManager extends ChangeNotifier {
 	 * Perform an command over the game model
 	 */
 	public void performCommand(Command action);
-	
+
 	/**
 	 * Undo the latest command over the game model
 	 */
 	public void undoCommand();
-	
+
 	/**
 	 * Redo the latest undo command over the game model
 	 */
 	public void redoCommand();
-	
+
 	/**
 	 * Returns true if there is an command to redo
 	 */
 	public boolean canRedo();
-	
+
 	/**
 	 * Returns true if there is an command to undo
 	 */
 	public boolean canUndo();
-	
+
 	/**
 	 * @return true if the game model was modified
 	 */
 	public boolean isChanged();
-	
+
 	/**
 	 * Should be called to indicate that the model has been saved.
 	 * @param changed
 	 */
 	public void setChanged();
-	
+
 	/**
 	 * Clear the list of commands performed
 	 */
@@ -96,5 +96,5 @@ public interface CommandManager extends ChangeNotifier {
 	 * 
 	 * @param cancelChanges Cancel changes performed on the command stack
 	 */
-	void removeCommandStacks(boolean cancelChanges);	
+	void removeCommandStacks(boolean cancelChanges);
 }

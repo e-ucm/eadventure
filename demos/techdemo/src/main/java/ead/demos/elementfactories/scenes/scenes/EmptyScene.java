@@ -56,20 +56,24 @@ public class EmptyScene extends BasicScene implements SceneDemo {
 
 	public EmptyScene() {
 		super();
-		((SceneElementDef) this.getDefinition()).setName(EAdString.newRandomEAdString("name"));
-		((SceneElementDef) this.getDefinition()).setDesc(EAdString.newRandomEAdString("desc"));
-		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString.newRandomEAdString("detailDesc"));
-		((SceneElementDef) this.getDefinition()).setDoc(EAdString.newRandomEAdString("doc"));
-		
-		
+		((SceneElementDef) this.getDefinition()).setName(EAdString
+				.newRandomEAdString("name"));
+		((SceneElementDef) this.getDefinition()).setDesc(EAdString
+				.newRandomEAdString("desc"));
+		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString
+				.newRandomEAdString("detailDesc"));
+		((SceneElementDef) this.getDefinition()).setDoc(EAdString
+				.newRandomEAdString("doc"));
+
 		rectangle = new RectangleShape(800, 600);
-		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240), ColorFill.WHITE, 800, 600));
+		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
+				ColorFill.WHITE, 800, 600));
 		getBackground().getDefinition().getResources().addAsset(
 				getBackground().getDefinition().getInitialBundle(),
 				SceneElementDef.appearance, rectangle);
 	}
-	
-	public void setBackgroundFill( EAdFill fill ){
+
+	public void setBackgroundFill(EAdFill fill) {
 		rectangle.setPaint(fill);
 	}
 
@@ -81,12 +85,12 @@ public class EmptyScene extends BasicScene implements SceneDemo {
 	public String getDemoName() {
 		return "Empty Scene";
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return getDemoName() + " - " + getSceneDescription();
 	}
-	
-	public String getId(){
+
+	public String getId() {
 		return getDemoName();
 	}
 

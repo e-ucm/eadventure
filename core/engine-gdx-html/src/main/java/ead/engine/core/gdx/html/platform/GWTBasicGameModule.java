@@ -104,8 +104,8 @@ public class GWTBasicGameModule extends AbstractGinModule {
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(
 				Singleton.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
-				.to(LoadingScreen.class).in(Singleton.class);
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
+				LoadingScreen.class).in(Singleton.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class).in(
 				Singleton.class);
 

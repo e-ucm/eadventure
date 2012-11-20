@@ -104,12 +104,12 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		setShape(newActiveAreaReference, oldObject, ACTIVE_AREA_PAINT);
 
 		// set influence area
-		addInfluenceArea(newActiveAreaReference, oldObject,
-				oldObject.getInfluenceArea());
+		addInfluenceArea(newActiveAreaReference, oldObject, oldObject
+				.getInfluenceArea());
 
 		// enable event
-		addVisibleEvent(newActiveAreaReference,
-				getEnableCondition(oldObject.getConditions()));
+		addVisibleEvent(newActiveAreaReference, getEnableCondition(oldObject
+				.getConditions()));
 
 		return newActiveAreaReference;
 	}

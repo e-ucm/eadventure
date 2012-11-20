@@ -47,10 +47,10 @@ import ead.editor.model.EditorModelImpl;
  */
 public interface EditorNodeFactory {
 
-    /**
-     * Create & register editorNodes with the model
-     * @param annotator annotations for nodes (by ID)
-     * @param model where the nodes should be inserted, via registerEditorNode
-     */
-    void createNodes(EditorModelImpl model, EditorAnnotator annotator);
+	/**
+	 * Create & register editorNodes with the model
+	 * @param annotator annotations for nodes (by ID)
+	 * @param model where the nodes should be inserted, via registerEditorNode
+	 */
+	void createNodes(EditorModelImpl model, EditorAnnotator annotator);
 }

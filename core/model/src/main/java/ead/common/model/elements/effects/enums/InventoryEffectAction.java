@@ -39,7 +39,6 @@ package ead.common.model.elements.effects.enums;
 
 import com.gwtent.reflection.client.Reflectable;
 
-
 @Reflectable
 public enum InventoryEffectAction {
 

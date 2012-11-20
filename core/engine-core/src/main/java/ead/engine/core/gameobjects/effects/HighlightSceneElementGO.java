@@ -56,15 +56,17 @@ public class HighlightSceneElementGO extends
 	private boolean started;
 
 	@Inject
-	public HighlightSceneElementGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+	public HighlightSceneElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		oldScale = gameState.getValueMap().getValue(element, SceneElement.VAR_SCALE);
+		oldScale = gameState.getValueMap().getValue(element,
+				SceneElement.VAR_SCALE);
 		time = element.getTime();
 		started = false;
 	}
@@ -77,14 +79,14 @@ public class HighlightSceneElementGO extends
 	public void update() {
 		if (time > 0) {
 			if (!started) {
-				gameState.getValueMap().setValue(element, SceneElement.VAR_SCALE,
-						oldScale * 2);
+				gameState.getValueMap().setValue(element,
+						SceneElement.VAR_SCALE, oldScale * 2);
 				started = true;
 			}
 			time -= gui.getSkippedMilliseconds();
 			if (time <= 0) {
-				gameState.getValueMap().setValue(element, SceneElement.VAR_SCALE,
-						oldScale);
+				gameState.getValueMap().setValue(element,
+						SceneElement.VAR_SCALE, oldScale);
 			}
 		}
 	}

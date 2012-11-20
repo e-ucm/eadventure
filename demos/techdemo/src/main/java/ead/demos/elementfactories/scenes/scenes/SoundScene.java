@@ -45,20 +45,28 @@ import ead.common.util.EAdURI;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class SoundScene extends EmptyScene {
-	
-	public SoundScene( ){
-		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Play", Paint.WHITE_ON_BLACK, Paint.BLACK_ON_WHITE, new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
-		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory().getPlaySound("@binary/sound.mp3" );
-		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption, 10, 10, effect));
+
+	public SoundScene() {
+		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory()
+				.createCaption(
+						"Play",
+						Paint.WHITE_ON_BLACK,
+						Paint.BLACK_ON_WHITE,
+						new BasicFont(new EAdURI("@binary/DroidSans-Bold.ttf"),
+								20));
+		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory()
+				.getPlaySound("@binary/sound.mp3");
+		getSceneElements().add(
+				EAdElementsFactory.getInstance().getSceneElementFactory()
+						.createSceneElement(caption, 10, 10, effect));
 	}
-	
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene where a sound is played";
 	}
-	
-	public String getDemoName(){
+
+	public String getDemoName() {
 		return "Sound Scene";
 	}
 }

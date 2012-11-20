@@ -76,8 +76,7 @@ public class MathOp extends AbstractOperation {
 	 * @param floatVar2
 	 * @param fields
 	 */
-	public MathOp(String expression,
-			EAdField<?>... fields) {
+	public MathOp(String expression, EAdField<?>... fields) {
 		super();
 		this.expression = expression;
 		if (fields != null) {
@@ -86,6 +85,7 @@ public class MathOp extends AbstractOperation {
 			}
 		}
 	}
+
 	/**
 	 * Sets the literal expression to be evaluated
 	 * 
@@ -113,17 +113,16 @@ public class MathOp extends AbstractOperation {
 	 *            the increment
 	 * @return the operation
 	 */
-	public static MathOp getIncrementExpression(
-			EAdField<?> var, Integer increment) {
-		return new MathOp(
-				"[0] + " + increment, var);
+	public static MathOp getIncrementExpression(EAdField<?> var,
+			Integer increment) {
+		return new MathOp("[0] + " + increment, var);
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String s = expression;
 		int i = 0;
-		for ( EAdField<?> f: varList){
-			s = s.replace("[" + i + "]", f + "" );
+		for (EAdField<?> f : varList) {
+			s = s.replace("[" + i + "]", f + "");
 			i++;
 		}
 		return s;

@@ -57,22 +57,27 @@ import javax.swing.text.JTextComponent;
  */
 public class EAdStringOption extends AbstractOption<EAdString> {
 
-	public static enum ExpectedLength {SHORT, NORMAL, LONG }
+	public static enum ExpectedLength {
+		SHORT, NORMAL, LONG
+	}
 
 	private ExpectedLength expectedLength;
 
-    /**
+	/**
 	 * The current {@link StringHandler} that maps {@link EAdString}s with their
 	 * actual values
 	 */
 	private StringHandler stringHandler;
 
-	public EAdStringOption(String title, String toolTipText, FieldDescriptor<EAdString> fieldDescriptor, ExpectedLength expectedLength) {
+	public EAdStringOption(String title, String toolTipText,
+			FieldDescriptor<EAdString> fieldDescriptor,
+			ExpectedLength expectedLength) {
 		super(title, toolTipText, fieldDescriptor);
 		this.expectedLength = expectedLength;
 	}
 
-	public EAdStringOption(String title, String toolTipText, FieldDescriptor<EAdString> fieldDescriptor) {
+	public EAdStringOption(String title, String toolTipText,
+			FieldDescriptor<EAdString> fieldDescriptor) {
 		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
 	}
 
@@ -83,7 +88,6 @@ public class EAdStringOption extends AbstractOption<EAdString> {
 	public void setExpectedLength(ExpectedLength expectedLength) {
 		this.expectedLength = expectedLength;
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -97,24 +101,25 @@ public class EAdStringOption extends AbstractOption<EAdString> {
 		JComponent component = null;
 		JTextComponent textField;
 		switch (getExpectedLength()) {
-			case LONG:
-				textField = new JTextArea(getTitle());
-				component = textField;
-				break;
-			case SHORT:
-			case NORMAL:
-				textField = new JTextField(getTitle());
-				component = textField;
-				break;
-			default:
-				throw new IllegalArgumentException("Bad expected length");
+		case LONG:
+			textField = new JTextArea(getTitle());
+			component = textField;
+			break;
+		case SHORT:
+		case NORMAL:
+			textField = new JTextField(getTitle());
+			component = textField;
+			break;
+		default:
+			throw new IllegalArgumentException("Bad expected length");
 		}
 		textField.setToolTipText(getToolTipText());
 
 		textField.setText(stringHandler.getString(read(getFieldDescriptor())));
 
 		textField.getDocument().addDocumentListener(
-				new TextFieldDocumentListener(manager, read(getFieldDescriptor()), textField));
+				new TextFieldDocumentListener(manager,
+						read(getFieldDescriptor()), textField));
 
 		return component;
 	}
@@ -125,7 +130,7 @@ public class EAdStringOption extends AbstractOption<EAdString> {
 	 */
 	private class TextFieldDocumentListener implements DocumentListener {
 
-        private CommandManager manager;
+		private CommandManager manager;
 
 		/**
 		 * The key {@link EAdString}
@@ -143,9 +148,9 @@ public class EAdStringOption extends AbstractOption<EAdString> {
 		 * @param textField
 		 *            The JTextComponent
 		 */
-		public TextFieldDocumentListener(CommandManager manager,
-                EAdString key, JTextComponent textField) {
-            this.manager = manager;
+		public TextFieldDocumentListener(CommandManager manager, EAdString key,
+				JTextComponent textField) {
+			this.manager = manager;
 			this.key = key;
 			this.textField = textField;
 		}

@@ -50,7 +50,7 @@ public class StartNode extends AbstractNode {
 	 * The {@link MultiInteractionNode} where this node is
 	 */
 	private MultiInteractionNode multiInteractionNode;
-	
+
 	public StartNode(MultiInteractionNode multiInteractionNode) {
 		this.multiInteractionNode = multiInteractionNode;
 	}
@@ -58,5 +58,5 @@ public class StartNode extends AbstractNode {
 	public MultiInteractionNode getMultiInteractionNode() {
 		return multiInteractionNode;
 	}
-	
+
 }

@@ -46,25 +46,27 @@ import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MovePlayerEffect;
 
-public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, MoveActiveElementToMouseEf>{
+public class MovePlayerEffectImporter extends
+		EffectImporter<MovePlayerEffect, MoveActiveElementToMouseEf> {
 
 	@Inject
 	public MovePlayerEffectImporter(
-			EAdElementImporter<Conditions,
-            EAdCondition> conditionImporter, ImportAnnotator annotator) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+			ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 	}
 
 	@Override
 	public MoveActiveElementToMouseEf init(MovePlayerEffect oldObject) {
-		MoveActiveElementToMouseEf effect =  new MoveActiveElementToMouseEf();
+		MoveActiveElementToMouseEf effect = new MoveActiveElementToMouseEf();
 		return effect;
 	}
 
 	@Override
 	public MoveActiveElementToMouseEf convert(MovePlayerEffect oldObject,
 			Object newElement) {
-		MoveActiveElementToMouseEf effect = super.convert(oldObject, newElement);
+		MoveActiveElementToMouseEf effect = super
+				.convert(oldObject, newElement);
 		effect.setTargetCoordiantes(oldObject.getX(), oldObject.getY());
 		return effect;
 	}

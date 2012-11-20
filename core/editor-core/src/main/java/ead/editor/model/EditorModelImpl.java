@@ -124,7 +124,8 @@ public class EditorModelImpl implements EditorModel {
 	/**
 	 * Used to quickly search editor-nodes for editor-ids
 	 */
-	public static final Pattern editorIdPattern = Pattern.compile("__([0-9]+)__.*");
+	public static final Pattern editorIdPattern = Pattern
+			.compile("__([0-9]+)__.*");
 	/**
 	 * Engine model
 	 */
@@ -134,13 +135,12 @@ public class EditorModelImpl implements EditorModel {
 	 * Loader - in charge  of save/load operations
 	 */
 	private EditorModelLoader loader;
-	
+
 	/**
 	 * Listeners for long operations
 	 */
-	private ArrayList<ModelProgressListener> progressListeners 
-			= new ArrayList<ModelProgressListener>();	
-	
+	private ArrayList<ModelProgressListener> progressListeners = new ArrayList<ModelProgressListener>();
+
 	/**
 	 * Constructor. Does not do much beyond initializing fields.
 	 *
@@ -159,12 +159,12 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	// ----- nodes 
-		
+
 	@Override
 	public DependencyNode getNode(int id) {
 		return nodesById.get(id);
 	}
-	
+
 	/**
 	 * Gets a unique ID. All new DependencyNodes should get their IDs this way.
 	 * Uses a static field to store the last assigned ID; standard disclaimers
@@ -177,13 +177,13 @@ public class EditorModelImpl implements EditorModel {
 	@Override
 	public int generateId(Object targetObject) {
 
-		int assigned =
-			(targetObject == null || targetObject instanceof EAdElement) ?
-				lastElementNodeId++ : lastTransientNodeId++;
+		int assigned = (targetObject == null || targetObject instanceof EAdElement) ? lastElementNodeId++
+				: lastTransientNodeId++;
 
 		if (nodesById.containsKey(assigned)) {
-			logger.error("Duplicate ID {} for object {} (was {})", new Object[] {
-					assigned, targetObject, nodesById.get(assigned)});
+			logger.error("Duplicate ID {} for object {} (was {})",
+					new Object[] { assigned, targetObject,
+							nodesById.get(assigned) });
 			return generateId(targetObject);
 		}
 		return assigned;
@@ -245,23 +245,23 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	@Override
-    public List<DependencyNode> incomingDependencies(DependencyNode node) {
+	public List<DependencyNode> incomingDependencies(DependencyNode node) {
 		ArrayList<DependencyNode> ns = new ArrayList<DependencyNode>();
 		for (DependencyEdge e : g.incomingEdgesOf(node)) {
 			ns.add(g.getEdgeSource(e));
 		}
-		return ns;		
-	}		
+		return ns;
+	}
 
 	@Override
-    public List<DependencyNode> outgoingDependencies(DependencyNode node) {
+	public List<DependencyNode> outgoingDependencies(DependencyNode node) {
 		ArrayList<DependencyNode> ns = new ArrayList<DependencyNode>();
 		for (DependencyEdge e : g.outgoingEdgesOf(node)) {
 			ns.add(g.getEdgeTarget(e));
 		}
-		return ns;		
-	}			
-	
+		return ns;
+	}
+
 	// ----- Internal access (mostly for loading & saving)
 
 	/**
@@ -277,8 +277,8 @@ public class EditorModelImpl implements EditorModel {
 		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));
 		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
 				DependencyEdge.class);
-	}	
-	
+	}
+
 	public ListenableDirectedGraph<DependencyNode, DependencyEdge> getGraph() {
 		return g;
 	}
@@ -297,8 +297,8 @@ public class EditorModelImpl implements EditorModel {
 
 	public void setEngineModel(EAdAdventureModel engineModel) {
 		this.engineModel = engineModel;
-	}	
-	
+	}
+
 	public TreeMap<Integer, DependencyNode> getNodesById() {
 		return nodesById;
 	}
@@ -310,7 +310,7 @@ public class EditorModelImpl implements EditorModel {
 	public ModelIndex getNodeIndex() {
 		return nodeIndex;
 	}
-	
+
 	public File getResourcePath() {
 		return loader.getSaveDir();
 	}
@@ -337,7 +337,7 @@ public class EditorModelImpl implements EditorModel {
 			g.addEdge(e, n, new DependencyEdge(e.getClass().getName()));
 		}
 	}
-	
+
 	@Override
 	public DependencyNode createElement(Class<? extends DependencyNode> type) {
 		throw new UnsupportedOperationException("Not supported yet.");
@@ -347,7 +347,7 @@ public class EditorModelImpl implements EditorModel {
 	public DependencyNode copyElement(DependencyNode e) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
-	
+
 	/**
 	 * Replaces a node for another node. Incoming and outgoing references are
 	 * retained;
@@ -378,7 +378,7 @@ public class EditorModelImpl implements EditorModel {
 		loader.setModel(this);
 		return loader;
 	}
-	
+
 	@Override
 	public EAdAdventureModel getEngineModel() {
 		return engineModel;
@@ -462,9 +462,9 @@ public class EditorModelImpl implements EditorModel {
 					"Expected number or q*,t*,f* queries");
 		}
 	}
-	
+
 	// ----- progress -----
-	
+
 	@Override
 	public void addProgressListener(ModelProgressListener progressListener) {
 		progressListeners.add(progressListener);

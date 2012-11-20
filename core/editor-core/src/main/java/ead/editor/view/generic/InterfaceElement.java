@@ -45,8 +45,8 @@ import javax.swing.JComponent;
  */
 public interface InterfaceElement {
 
-    /**
-     * @return a component for this element
-     */
-    JComponent getComponent(CommandManager manager);
+	/**
+	 * @return a component for this element
+	 */
+	JComponent getComponent(CommandManager manager);
 }

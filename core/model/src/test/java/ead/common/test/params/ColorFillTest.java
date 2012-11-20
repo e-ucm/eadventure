@@ -64,9 +64,9 @@ public class ColorFillTest extends ParamsTest<ColorFill> {
 		}
 		return colors;
 	}
-	
+
 	@Test
-	public void testWellKnownColors(){
+	public void testWellKnownColors() {
 		assertTrue(new ColorFill("0xFF0000FF").equals(ColorFill.RED));
 		assertTrue(new ColorFill("0xFFFFFFFF").equals(ColorFill.WHITE));
 		assertTrue(new ColorFill("0x000000FF").equals(ColorFill.BLACK));

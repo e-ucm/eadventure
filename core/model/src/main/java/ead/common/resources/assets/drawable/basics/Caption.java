@@ -226,7 +226,7 @@ public class Caption implements EAdCaption {
 	public EAdString getLabel() {
 		return label;
 	}
-	
+
 	public void setLabel(EAdString label) {
 		this.label = label;
 	}
@@ -235,5 +235,4 @@ public class Caption implements EAdCaption {
 		return hasBubble;
 	}
 
-	
 }

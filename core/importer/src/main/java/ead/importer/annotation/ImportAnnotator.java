@@ -49,42 +49,42 @@ import ead.common.model.EAdElement;
  */
 public interface ImportAnnotator {
 
-    public enum Type {
-        /**
+	public enum Type {
+		/**
 		 * Entry. A generic key-value entry. The first value is interpreted as
-         * the key, and the second as the actual value
-         * Key capitalization and whitespace is important.
+		 * the key, and the second as the actual value
+		 * Key capitalization and whitespace is important.
 		 */
-        Entry,
+		Entry,
 
-        /**
+		/**
 		 * Comment. Ignored, but may be useful for human-readable debugging.
-         * Values should be the corresponding comments.
+		 * Values should be the corresponding comments.
 		 */
-        Comment,
+		Comment,
 
-        /**
+		/**
 		 * Opens a context.
 		 * All annotations until the close() of this object imply that
-         * whatever is being annotated is part of this context.
-         * If element != null, value will be ignored. Otherwise, value should
-         * be a unique ID string.
+		 * whatever is being annotated is part of this context.
+		 * If element != null, value will be ignored. Otherwise, value should
+		 * be a unique ID string.
 		 */
-        Open,
+		Open,
 
-        /**
+		/**
 		 * Closes a context.
-         * Indicates that new annotations no longer belong to this context.
+		 * Indicates that new annotations no longer belong to this context.
 		 * Element and value should match those of the corresponding 'open'
 		 */
-        Close
-    }
+		Close
+	}
 
-    /**
-     * Annotate an element created by an importer.
-     * @param element element to annotate
-     * @param key key to annotate it with
-     * @param value value to set this key to (optional for some key types)
-     */
-    public void annotate(EAdElement element, Type key, Object ... values);
+	/**
+	 * Annotate an element created by an importer.
+	 * @param element element to annotate
+	 * @param key key to annotate it with
+	 * @param value value to set this key to (optional for some key types)
+	 */
+	public void annotate(EAdElement element, Type key, Object... values);
 }

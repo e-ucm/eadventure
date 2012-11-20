@@ -60,10 +60,9 @@ public class StringsReader {
 		for (int i = 0; i < nl.getLength(); i++) {
 			String name = nl.item(i).getAttributes().getValue("name");
 			String value = nl.item(i).getNodeText();
-			if ( name != null ){
+			if (name != null) {
 				strings.put(new EAdString(name), value);
-			}
-			else {
+			} else {
 				name = "0";
 			}
 		}

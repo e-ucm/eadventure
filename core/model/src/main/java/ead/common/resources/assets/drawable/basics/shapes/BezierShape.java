@@ -44,7 +44,7 @@ import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.util.EAdPosition;
 
-public class BezierShape extends AbstractShape  {
+public class BezierShape extends AbstractShape {
 
 	@Param("closed")
 	private boolean closed;
@@ -111,8 +111,8 @@ public class BezierShape extends AbstractShape  {
 	}
 
 	public void curveTo(EAdPosition p1, EAdPosition p2, EAdPosition p3) {
-		curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(),
-				p3.getY());
+		curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3
+				.getY());
 	}
 
 	public void curveTo(int x1, int y1, int x2, int y2, int x3, int y3) {

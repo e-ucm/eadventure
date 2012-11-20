@@ -55,7 +55,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {
 
 	// Platform
@@ -67,7 +67,7 @@ public class EditableGameObject {
 	private int y;
 	private float dispX;
 	private float dispY;
-	
+
 	// Deltas (used for drag)
 	private int deltaX;
 	private int deltaY;
@@ -190,7 +190,7 @@ public class EditableGameObject {
 			matrix.rotate(0, 0, 1, rotation);
 			matrix.scale(scaleX, scaleY, 1);
 			matrix.translate(-deltaX, -deltaY, 0);
-			
+
 			invMatrix.set(matrix);
 			invMatrix.inv();
 		}
@@ -211,8 +211,8 @@ public class EditableGameObject {
 	public EAdRectangle getBounds() {
 		return bounds;
 	}
-	
-	public void setDelta( int deltaX, int deltaY ){
+
+	public void setDelta(int deltaX, int deltaY) {
 		this.deltaX = deltaX;
 		this.deltaY = deltaY;
 		updateMatrix();

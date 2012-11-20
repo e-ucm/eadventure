@@ -42,11 +42,11 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 
 public class EventsFactory {
-	
+
 	private static int ID_GENERATOR = 0;
-	
-	public SceneElementEv getEvent( SceneElementEvType type, EAdEffect effect ){
-		SceneElementEv event = new SceneElementEv(  );
+
+	public SceneElementEv getEvent(SceneElementEvType type, EAdEffect effect) {
+		SceneElementEv event = new SceneElementEv();
 		event.addEffect(type, effect);
 		return event;
 	}

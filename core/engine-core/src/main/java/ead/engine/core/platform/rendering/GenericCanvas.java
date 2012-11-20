@@ -68,12 +68,12 @@ public interface GenericCanvas<S> {
 	 *            canvas
 	 */
 	void setTransformation(EAdTransformation t);
-	
+
 	/**
 	 * Sets a transformation matrix for the canvas
 	 * @param m the matrix
 	 */
-	void setMatrix( EAdMatrix m );
+	void setMatrix(EAdMatrix m);
 
 	/**
 	 * @param shape

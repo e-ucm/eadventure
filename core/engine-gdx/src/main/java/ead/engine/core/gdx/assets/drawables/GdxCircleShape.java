@@ -72,21 +72,21 @@ public class GdxCircleShape extends GdxShape<CircleShape> {
 				c = l.getColor1();
 			}
 
-			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
+			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c
+					.getBlue() / 255.0f, c.getAlpha() / 255.0f);
 			pixmap.drawCircle(center, center, descriptor.getRadius()
 					+ borderWidth);
 		}
 
 		if (fill instanceof ColorFill) {
 			c = (ColorFill) fill;
-			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-					c.getBlue() / 255.0f, c.getAlpha() / 255.0f);
+			pixmap.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f, c
+					.getBlue() / 255.0f, c.getAlpha() / 255.0f);
 			pixmap.fillCircle(center, center, descriptor.getRadius());
 		} else if (fill instanceof LinearGradientFill) {
 			LinearGradientFill l = (LinearGradientFill) fill;
-			initGradientParams(l.getColor1(), l.getX0(), l.getY0(),
-					l.getColor2(), l.getX1(), l.getY1());
+			initGradientParams(l.getColor1(), l.getX0(), l.getY0(), l
+					.getColor2(), l.getX1(), l.getY1());
 			int size2 = descriptor.getRadius() * descriptor.getRadius();
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < size; j++) {

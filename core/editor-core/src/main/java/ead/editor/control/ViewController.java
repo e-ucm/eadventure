@@ -63,7 +63,7 @@ public interface ViewController {
 	 */
 	void removeModalPanel(boolean cancelChanges);
 
-    /**
+	/**
 	 * Creates a new view.
 	 * @param type used for grouping purposes; views with the same type
 	 *    can be grouped together.
@@ -92,8 +92,8 @@ public interface ViewController {
 	 * Sets a title qualifier, used to display (say) currently-edited file.
 	 * @param titleQualifier 
 	 */
-	public void setTitleQualifier(String titleQualifier);	
-	
+	public void setTitleQualifier(String titleQualifier);
+
 	/**
 	 * Set the actual super-controller.
 	 * @param controller the main controller, providing access to model, views,

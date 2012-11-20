@@ -61,7 +61,8 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("EffectHUDImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EffectHUDImpl");
 
 	/**
 	 * List of current {@link EffectGO}

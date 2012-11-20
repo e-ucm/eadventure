@@ -59,7 +59,8 @@ public class MouseInputAction extends AbstractInputAction<MouseGEv> {
 		this.virtualY = virtualY;
 	}
 
-	public MouseInputAction(MouseGEvType type, MouseGEvButtonType button, int virtualX, int virtualY) {
+	public MouseInputAction(MouseGEvType type, MouseGEvButtonType button,
+			int virtualX, int virtualY) {
 		this(new MouseGEv(type, button), virtualX, virtualY);
 	}
 

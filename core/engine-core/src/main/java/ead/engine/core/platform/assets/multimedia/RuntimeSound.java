@@ -61,8 +61,7 @@ public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 	 * Stops playing the sound
 	 */
 	public abstract void stop();
-	
-	
+
 	public abstract void loop();
 
 }

@@ -24,8 +24,7 @@ public class ExporterController {
 	private boolean deleteTempFile;
 
 	public ExporterController() {
-		Injector i = Guice.createInjector(
-				new ImporterModule(),
+		Injector i = Guice.createInjector(new ImporterModule(),
 				new JavaToolsModule());
 
 		exporter = new GeneralExporter();
@@ -71,7 +70,8 @@ public class ExporterController {
 		deleteTempFile = true;
 		try {
 			if (gameBase.endsWith(".ead")) {
-				File tempFile = FileUtils.createTempDir("eAdventureImport", null);
+				File tempFile = FileUtils.createTempDir("eAdventureImport",
+						null);
 				ZipFile zipFile = new ZipFile(gameBase);
 				// If project is 2.0 or greater
 				if (zipFile.getEntry("data.xml") != null) {
@@ -87,14 +87,14 @@ public class ExporterController {
 					deleteTempFile = false;
 					return gameBase;
 				} else {
-					File tempFile = FileUtils.createTempDir("eAdventureImport", null);
+					File tempFile = FileUtils.createTempDir("eAdventureImport",
+							null);
 					importer.importGame(gameBase, tempFile.getAbsolutePath());
 					return tempFile.getAbsolutePath();
 				}
 			}
 		} catch (IOException e) {
-			logger.error("While importing {}", 
-					gameBase, e);
+			logger.error("While importing {}", gameBase, e);
 		}
 		return null;
 	}

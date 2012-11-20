@@ -49,12 +49,12 @@ public class EAdAssetDescriptor {
 	 * Id of the asset
 	 */
 	private String assetId;
-	
+
 	/**
 	 * A list of the valid asset interfaces this asset might implement
 	 */
 	private Class<? extends AssetDescriptor>[] validAssets;
-	         
+
 	/**
 	 * Constructor for an asset descriptor. The asset descriptor requires an id
 	 * and an undetermined number of classes that extend {@link AssetDescriptor}.
@@ -62,7 +62,8 @@ public class EAdAssetDescriptor {
 	 * @param assetId The id of the descriptor
 	 * @param validAssets The valid classes for the asset
 	 */
-	public EAdAssetDescriptor(String assetId, Class<? extends AssetDescriptor>... validAssets) {
+	public EAdAssetDescriptor(String assetId,
+			Class<? extends AssetDescriptor>... validAssets) {
 		this.assetId = assetId;
 		this.validAssets = validAssets;
 	}

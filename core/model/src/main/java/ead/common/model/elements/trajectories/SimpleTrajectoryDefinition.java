@@ -47,24 +47,25 @@ import ead.common.model.elements.BasicElement;
  * 
  */
 @Element
-public class SimpleTrajectoryDefinition extends BasicElement implements EAdTrajectoryDefinition {
+public class SimpleTrajectoryDefinition extends BasicElement implements
+		EAdTrajectoryDefinition {
 
 	@Param("onlyHorizontal")
 	private boolean onlyHorizontal;
-	
+
 	@Param("top")
 	private int top;
-	
+
 	@Param("bottom")
 	private int bottom;
-	
+
 	@Param("left")
 	private int left;
-	
+
 	@Param("right")
 	private int right;
-	
-	public SimpleTrajectoryDefinition( ){
+
+	public SimpleTrajectoryDefinition() {
 		this(true);
 	}
 
@@ -79,35 +80,34 @@ public class SimpleTrajectoryDefinition extends BasicElement implements EAdTraje
 		bottom = right = Integer.MAX_VALUE;
 		top = left = Integer.MIN_VALUE;
 	}
-	
-	public boolean isOnlyHorizontal( ){
+
+	public boolean isOnlyHorizontal() {
 		return onlyHorizontal;
 	}
-	
-	public void setLimits( int left, int top, int right, int bottom ){
+
+	public void setLimits(int left, int top, int right, int bottom) {
 		this.left = left;
 		this.top = top;
 		this.right = right;
 		this.bottom = bottom;
 	}
-	
-	public int getTop(){
+
+	public int getTop() {
 		return top;
 	}
-	
-	public int getLeft(){
+
+	public int getLeft() {
 		return left;
 	}
-	
-	public int getRight(){
+
+	public int getRight() {
 		return right;
 	}
-	
-	public int getBottom(){
+
+	public int getBottom() {
 		return bottom;
 	}
 
-	
 	public void setOnlyHorizontal(boolean onlyHorizontal) {
 		this.onlyHorizontal = onlyHorizontal;
 	}
@@ -127,7 +127,5 @@ public class SimpleTrajectoryDefinition extends BasicElement implements EAdTraje
 	public void setRight(int right) {
 		this.right = right;
 	}
-	
-	
 
 }

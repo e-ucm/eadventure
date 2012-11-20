@@ -72,17 +72,19 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 			String value = textContent;
 			if (ObjectFactory.getParamsMap().containsKey(value)) {
 				object = ObjectFactory.getParamsMap().get(value);
-				logger.debug(
-						"Mapped '{}' of value '{}' and type {} to existing instance",
-						new Object[] { value, object.toString(),
-								object.getClass() });
+				logger
+						.debug(
+								"Mapped '{}' of value '{}' and type {} to existing instance",
+								new Object[] { value, object.toString(),
+										object.getClass() });
 			} else {
 				object = ObjectFactory.getObject(value, c);
 				if (node.getAttributes() != null
 						&& node.getAttributes().getValue(DOMTags.UNIQUE_ID_AT) != null) {
 					ObjectFactory.getParamsMap()
-							.put(node.getAttributes().getValue(
-									DOMTags.UNIQUE_ID_AT), object);
+							.put(
+									node.getAttributes().getValue(
+											DOMTags.UNIQUE_ID_AT), object);
 				}
 			}
 

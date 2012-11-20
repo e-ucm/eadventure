@@ -59,14 +59,14 @@ public class Frame implements AssetDescriptor {
 	 */
 	@Param("time")
 	private int time;
-	
+
 	@Param("drawable")
 	private EAdBasicDrawable drawable;
 
-	public Frame(){
-		
+	public Frame() {
+
 	}
-	
+
 	/**
 	 * Constructs a frame with the given image. Sets the frame time to
 	 * {@link Frame#DEFAULT_FRAME_TIME}
@@ -87,10 +87,10 @@ public class Frame implements AssetDescriptor {
 	 *            the time for the frame
 	 */
 	public Frame(String uri, int time) {
-		this( new Image(uri), time);
+		this(new Image(uri), time);
 	}
-	
-	public Frame( EAdBasicDrawable drawable, int time ){
+
+	public Frame(EAdBasicDrawable drawable, int time) {
 		this.drawable = drawable;
 		this.time = time;
 	}
@@ -113,13 +113,13 @@ public class Frame implements AssetDescriptor {
 	public int getTime() {
 		return time;
 	}
-	
-	public EAdBasicDrawable getDrawable( ){
+
+	public EAdBasicDrawable getDrawable() {
 		return drawable;
 	}
-	
-	public boolean equals( Object o ){
-		if ( o instanceof Frame ){
+
+	public boolean equals(Object o) {
+		if (o instanceof Frame) {
 			return super.equals(o) && ((Frame) o).time == time;
 		}
 		return false;
@@ -129,5 +129,4 @@ public class Frame implements AssetDescriptor {
 		this.drawable = drawable;
 	}
 
-	
 }

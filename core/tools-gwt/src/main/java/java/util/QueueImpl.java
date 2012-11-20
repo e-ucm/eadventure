@@ -45,29 +45,29 @@ public class QueueImpl<E> extends ArrayList<E> implements Queue<E> {
 	private static final long serialVersionUID = 1L;
 
 	public E pop() {
-        if (size() == 0)
-            return null;
+		if (size() == 0)
+			return null;
 
-        return remove(0);
-    }
+		return remove(0);
+	}
 
-    public void push(E item) {
-        add(item);
-    }
+	public void push(E item) {
+		add(item);
+	}
 
-    public E first() {
-        if (size() == 0)
-            return null;
+	public E first() {
+		if (size() == 0)
+			return null;
 
-        return get(0);
-    }
+		return get(0);
+	}
 
-    public E last() {
-        if (size() == 0)
-            return null;
+	public E last() {
+		if (size() == 0)
+			return null;
 
-        return get(size() - 1);
-    }
+		return get(size() - 1);
+	}
 
 	@Override
 	public E element() {
@@ -80,13 +80,13 @@ public class QueueImpl<E> extends ArrayList<E> implements Queue<E> {
 		return false;
 	}
 
-    public E peek() {
-        return first();
-    }
+	public E peek() {
+		return first();
+	}
 
-    public E poll() {
-        return pop();
-    }
+	public E poll() {
+		return pop();
+	}
 
 	@Override
 	public E remove() {

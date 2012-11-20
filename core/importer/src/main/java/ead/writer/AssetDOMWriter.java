@@ -54,11 +54,12 @@ public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 			node.setTextContent("" + index);
 			return node;
 		}
-		
+
 		// Set unique id and class (it has to be in this order)
 		node.setAttribute(DOMTags.UNIQUE_ID_AT, mappedAsset.size() + "");
 		mappedAsset.add(assetDescriptor);
-		node.setAttribute(DOMTags.CLASS_AT, shortClass(assetDescriptor.getClass().getName()));
+		node.setAttribute(DOMTags.CLASS_AT, shortClass(assetDescriptor
+				.getClass().getName()));
 
 		// Process Param fields
 		super.processParams(node, assetDescriptor);

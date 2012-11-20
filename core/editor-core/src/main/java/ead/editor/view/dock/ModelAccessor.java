@@ -48,28 +48,28 @@ import java.util.NoSuchElementException;
  */
 public interface ModelAccessor {
 
-    /**
-     * Gets the model element with id 'id'.
-     * @throws NoSuchElementException if not found.
-     * @param id of element (assigned by editor when project is imported)
-     * @return element with id as its editor-id
-     */
-    DependencyNode getElement(String id);
+	/**
+	 * Gets the model element with id 'id'.
+	 * @throws NoSuchElementException if not found.
+	 * @param id of element (assigned by editor when project is imported)
+	 * @return element with id as its editor-id
+	 */
+	DependencyNode getElement(String id);
 
-    /**
-     * Creates a new empty model element of type class).
-     * @param type of element
-     * @return brand new, unattached element of correct type, with a unique
-     * editor-id
-     */
-    DependencyNode createElement(Class<? extends DependencyNode> type);
+	/**
+	 * Creates a new empty model element of type class).
+	 * @param type of element
+	 * @return brand new, unattached element of correct type, with a unique
+	 * editor-id
+	 */
+	DependencyNode createElement(Class<? extends DependencyNode> type);
 
-    /**
-     * Creates a new shallow copy of an element. The copy will be unattached,
-     * will reference the same references as the original (not copies), and
-     * will have a unique editor-id.
-     * @param e element to copy
-     * @return unattached shallow copy of element, with a unique id
-     */
-    DependencyNode copyElement(DependencyNode e);
+	/**
+	 * Creates a new shallow copy of an element. The copy will be unattached,
+	 * will reference the same references as the original (not copies), and
+	 * will have a unique editor-id.
+	 * @param e element to copy
+	 * @return unattached shallow copy of element, with a unique id
+	 */
+	DependencyNode copyElement(DependencyNode e);
 }

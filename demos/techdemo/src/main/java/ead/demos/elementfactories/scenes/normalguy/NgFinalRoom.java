@@ -69,29 +69,29 @@ import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 /**
  * Final scene. Main character walks out the house and gets freedom
  */
-public class NgFinalRoom extends EmptyScene{
-	
+public class NgFinalRoom extends EmptyScene {
+
 	private SceneElement house;
 	private SceneElement ng;
 	private SceneElement post;
-	
-	
+
 	public NgFinalRoom() {
 		init();
 	}
-	
+
 	protected void init() {
-		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE, 800, 500));
+		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN,
+				ColorFill.BLUE, 800, 500));
 
 		addSky();
-		
+
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
-		ng.setPosition(Corner.BOTTOM_CENTER , 629, 579);
+		ng.setPosition(Corner.BOTTOM_CENTER, 629, 579);
 		ng.setInitialScale(0.8f);
-				
+
 		createTrajectory();
-		
+
 		MoveSceneElementEf move = new MoveSceneElementEf();
 		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
@@ -99,66 +99,67 @@ public class NgFinalRoom extends EmptyScene{
 		move.setUseTrajectory(true);
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-		
+
 		PhysicsEffect effect = new PhysicsEffect();
 
 		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(this, BasicScene.VAR_SCENE_LOADED));
+		OperationCond condition = new OperationCond(new BasicField<Boolean>(
+				this, BasicScene.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
 
 		// getEvents().add(event);
 		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);
-		
+
 		addGround(effect);
 		setElements();
 		addElementsInOrder();
-		
+
 		setPost();
 	}
-	
+
 	private void createTrajectory() {
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
 		d.setLimits(50, 575, 630, 580);
 		setTrajectoryDefinition(d);
 	}
-	
-	
+
 	private void setElements() {
 		house = new SceneElement(new Image("@drawable/ng_finalroom_house.png"));
 		house.setPosition(Corner.BOTTOM_CENTER, 660, 580);
-		
+
 		post = new SceneElement(new Image("@drawable/ng_finalroom_post.png"));
 		post.setPosition(Corner.BOTTOM_CENTER, 132, 580);
 	}
-	
+
 	private void addElementsInOrder() {
 		getSceneElements().add(house);
 		getSceneElements().add(post);
 		getSceneElements().add(ng);
 	}
-	
+
 	public void setHouse(EAdScene corridor) {
 		// Principal character moving to the house
 		MoveSceneElementEf move = moveNg(630, 300);
-        house.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-       
-        // Define next scene
-        ChangeSceneEf corridorScene = new ChangeSceneEf( );
+		house.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+
+		// Define next scene
+		ChangeSceneEf corridorScene = new ChangeSceneEf();
 		corridorScene.setNextScene(corridor);
 		move.getNextEffects().add(corridorScene);
 	}
-	
+
 	public void setPost() {
 		// The game ends
 		MoveSceneElementEf move = moveNg(132, 580);
 		post.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-        
-		ChangeSceneEf creditsScene = new ChangeSceneEf(NgSceneCreator.getCredits(), new FadeInTransition(1000));
+
+		ChangeSceneEf creditsScene = new ChangeSceneEf(NgSceneCreator
+				.getCredits(), new FadeInTransition(1000));
 		move.getNextEffects().add(creditsScene);
-		
+
 	}
-	
+
 	/**
 	 * Moves ng to x & y coordinates
 	 * @param x
@@ -171,28 +172,24 @@ public class NgFinalRoom extends EmptyScene{
 		move.setTargetCoordiantes(x, y);
 		return move;
 	}
-	
+
 	private void addSky() {
 		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
-		backgroundDef.getResources().addAsset(
-				backgroundDef.getInitialBundle(),
-				SceneElementDef.appearance,
-				new Image("@drawable/sky.png"));
+		backgroundDef.getResources().addAsset(backgroundDef.getInitialBundle(),
+				SceneElementDef.appearance, new Image("@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(
-				new BasicField<Integer>(getBackground(),
-						SceneElement.VAR_X), 0, -800, 100000,
+		InterpolationEf effect = new InterpolationEf(new BasicField<Integer>(
+				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
-		event.addEffect(SceneElementEvType.FIRST_UPDATE,
-				effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		this.getBackground().getEvents().add(event);
 
 	}
-	
+
 	/**
 	 * Creates and adds the scene's ground
 	 * @param effect
@@ -206,7 +203,8 @@ public class NgFinalRoom extends EmptyScene{
 
 		// Moves ng over the ground
 		MoveSceneElementEf move = new MoveSceneElementEf();
-		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);
 
@@ -215,7 +213,6 @@ public class NgFinalRoom extends EmptyScene{
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);
 
-
 	}
-	
+
 }

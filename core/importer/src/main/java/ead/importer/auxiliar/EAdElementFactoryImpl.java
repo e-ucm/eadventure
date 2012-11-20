@@ -89,8 +89,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	private Injector injector;
 
-	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = 
-			new LinkedHashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
+	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = new LinkedHashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
 
 	@Inject
 	public EAdElementFactoryImpl(
@@ -200,16 +199,22 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 		EAdField<?> var = vars.get(id);
 		if (var == null) {
-			
+
 			if (type == Condition.FLAG_CONDITION) {
-				VarDef<Boolean> varDef = new VarDef<Boolean>(id, Boolean.class, Boolean.FALSE);
-				var = new BasicField<Boolean>(currentChapter, (VarDef<Boolean>) varDef);
-				currentChapter.setVarInitialValue(varDef, varDef.getInitialValue());
+				VarDef<Boolean> varDef = new VarDef<Boolean>(id, Boolean.class,
+						Boolean.FALSE);
+				var = new BasicField<Boolean>(currentChapter,
+						(VarDef<Boolean>) varDef);
+				currentChapter.setVarInitialValue(varDef, varDef
+						.getInitialValue());
 
 			} else {
-				VarDef<Integer> varDef = new VarDef<Integer>(id, Integer.class, 0);
-				var = new BasicField<Integer>(currentChapter, (VarDef<Integer>) varDef);
-				currentChapter.setVarInitialValue(varDef, varDef.getInitialValue());
+				VarDef<Integer> varDef = new VarDef<Integer>(id, Integer.class,
+						0);
+				var = new BasicField<Integer>(currentChapter,
+						(VarDef<Integer>) varDef);
+				currentChapter.setVarInitialValue(varDef, varDef
+						.getInitialValue());
 			}
 			vars.put(id, var);
 		}
@@ -230,8 +235,8 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		if (condition == null) {
 			condition = conditionImporter.init(currentOldChapter
 					.getGlobalState(id));
-			condition = conditionImporter.convert(
-					currentOldChapter.getGlobalState(id), condition);
+			condition = conditionImporter.convert(currentOldChapter
+					.getGlobalState(id), condition);
 			if (condition != null)
 				globalStates.put(id, condition);
 		}

@@ -63,8 +63,7 @@ public abstract class ListedCond extends ResourcedElement implements
 		this(operator, (EAdCondition) null);
 	}
 
-	public ListedCond(ConditionOperator operator,
-			EAdCondition... condition) {
+	public ListedCond(ConditionOperator operator, EAdCondition... condition) {
 		super();
 		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
 		for (int i = 0; i < condition.length; i++)
@@ -124,7 +123,5 @@ public abstract class ListedCond extends ResourcedElement implements
 	public void setOperator(ConditionOperator operator) {
 		this.operator = operator;
 	}
-	
-	
 
 }

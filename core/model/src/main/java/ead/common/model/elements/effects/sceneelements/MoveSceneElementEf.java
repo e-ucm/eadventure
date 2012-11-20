@@ -72,10 +72,10 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 
 	@Param("speedFactor")
 	private float speedFactor;
-	
+
 	@Param("boolean")
 	private boolean useTrajectory;
-	
+
 	@Param("target")
 	private EAdSceneElementDef target;
 
@@ -88,23 +88,22 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 		this(null);
 	}
 
-	public MoveSceneElementEf( EAdSceneElementDef element) {
+	public MoveSceneElementEf(EAdSceneElementDef element) {
 		this(element, new MathOp("0"), new MathOp("0"));
 	}
 
-	public MoveSceneElementEf( EAdSceneElementDef element,
-			EAdOperation xTarget, EAdOperation yTarget) {
-		this( element, xTarget, yTarget, MovementSpeed.NORMAL);
+	public MoveSceneElementEf(EAdSceneElementDef element, EAdOperation xTarget,
+			EAdOperation yTarget) {
+		this(element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public MoveSceneElementEf( EAdSceneElementDef element, int xTarget,
+	public MoveSceneElementEf(EAdSceneElementDef element, int xTarget,
 			int yTarget, MovementSpeed speed) {
-		this( element, new MathOp( "" + xTarget),
-				new MathOp( "" + yTarget), speed);
+		this(element, new MathOp("" + xTarget), new MathOp("" + yTarget), speed);
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element,
-			EAdOperation xTarget, EAdOperation yTarget, MovementSpeed speed) {
+	public MoveSceneElementEf(EAdSceneElementDef element, EAdOperation xTarget,
+			EAdOperation yTarget, MovementSpeed speed) {
 		super();
 		setSceneElement(element);
 		setQueueable(true);
@@ -161,14 +160,14 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	public MovementSpeed getSpeed() {
 		return speed;
 	}
-	
-	public void setUseTrajectory( boolean useTrajectory ){
+
+	public void setUseTrajectory(boolean useTrajectory) {
 		this.useTrajectory = useTrajectory;
 	}
 
 	public void setTargetCoordiantes(int x, int y) {
-		setTargetCoordiantes(new ValueOp(new Integer(x)),
-				new ValueOp(new Integer(y)));
+		setTargetCoordiantes(new ValueOp(new Integer(x)), new ValueOp(
+				new Integer(y)));
 	}
 
 	public float getSpeedFactor() {
@@ -181,16 +180,16 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 		this.speed = MovementSpeed.CUSTOM;
 		this.speedFactor = speedFactor;
 	}
-	
-	public boolean isUseTrajectory(){
+
+	public boolean isUseTrajectory() {
 		return useTrajectory;
 	}
 
-	public void setTarget( EAdSceneElementDef sceneElementDef ){
+	public void setTarget(EAdSceneElementDef sceneElementDef) {
 		this.target = sceneElementDef;
 	}
-	
-	public EAdSceneElementDef getTarget( ){
+
+	public EAdSceneElementDef getTarget() {
 		return target;
 	}
 
@@ -201,7 +200,5 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	public void setyTarget(EAdOperation yTarget) {
 		this.yTarget = yTarget;
 	}
-	
-	
-	
+
 }

@@ -62,14 +62,13 @@ public class Main {
 			}
 		}
 
-		Injector injector = Guice.createInjector(
-                new ImporterModule(),
-                new JavaToolsModule()
-        );
+		Injector injector = Guice.createInjector(new ImporterModule(),
+				new JavaToolsModule());
 
-		EAdventureImporter importer = injector.getInstance(EAdventureImporter.class);
+		EAdventureImporter importer = injector
+				.getInstance(EAdventureImporter.class);
 
-		importer.addProgressListener(new ImporterProgressListener( ){
+		importer.addProgressListener(new ImporterProgressListener() {
 
 			@Override
 			public void update(int progress, String text) {

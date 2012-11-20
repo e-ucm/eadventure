@@ -42,15 +42,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-
 public class EAdMapImpl<S, T> implements EAdMap<S, T> {
-	
+
 	private Map<S, T> map;
 
 	private Class<?> keyClass;
-	
+
 	private Class<?> valueClass;
-	
+
 	/**
 	 * Creates an empty map
 	 * 
@@ -60,15 +59,15 @@ public class EAdMapImpl<S, T> implements EAdMap<S, T> {
 	 *            Element's id
 	 */
 	public EAdMapImpl(Class<?> keyClass, Class<?> valueClass) {
-		map = new LinkedHashMap<S, T>( );
-    	this.keyClass = keyClass;
-    	this.valueClass = valueClass;
+		map = new LinkedHashMap<S, T>();
+		this.keyClass = keyClass;
+		this.valueClass = valueClass;
 	}
-	
+
 	@Override
 	public void clear() {
 		map.clear();
-		
+
 	}
 
 	@Override
@@ -135,5 +134,5 @@ public class EAdMapImpl<S, T> implements EAdMap<S, T> {
 	public Class<?> getValueClass() {
 		return this.valueClass;
 	}
-	
+
 }

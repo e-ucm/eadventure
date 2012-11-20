@@ -1,6 +1,5 @@
 package ead.guitools.enginegui.effects.usetraces;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +23,11 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 	private int currentEvent;
 
 	private InputHandler inputHandler;
-	
+
 	private int elapsed;
 
-	private static final Logger logger = LoggerFactory.getLogger("UseTracesEffect");
+	private static final Logger logger = LoggerFactory
+			.getLogger("UseTracesEffect");
 
 	@Inject
 	public UseTracesEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -46,8 +46,8 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 	public void update() {
 		super.update();
 		elapsed += gui.getSkippedMilliseconds();
-		while ( currentEvent < element.getTimestamps().size() &&
-				elapsed >= element.getTimestamps().get(currentEvent) ){
+		while (currentEvent < element.getTimestamps().size()
+				&& elapsed >= element.getTimestamps().get(currentEvent)) {
 			InputAction<?> inputAction = getInputAction(element
 					.getInputEvents().get(currentEvent), element.getPositions()
 					.get(currentEvent));
@@ -56,7 +56,7 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 				logger.info("Send " + inputAction);
 			}
 			elapsed -= element.getTimestamps().get(currentEvent);
-			currentEvent++;			
+			currentEvent++;
 		}
 	}
 
@@ -76,8 +76,8 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 	public boolean isVisualEffect() {
 		return false;
 	}
-	
-	public void finish(){
+
+	public void finish() {
 		super.finish();
 		logger.info("All traces were consumed.");
 	}

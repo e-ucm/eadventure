@@ -51,11 +51,12 @@ public class FiltersDemo extends EmptyScene {
 		BasicMatrix m = new BasicMatrix();
 		m.scale(-1.0f, 1.0f, true);
 		Image i = new Image("@drawable/ng_key.png");
-		EAdFilteredDrawable d = new FilteredDrawable(i, new MatrixFilter(m, 1.0f, 0.0f));
+		EAdFilteredDrawable d = new FilteredDrawable(i, new MatrixFilter(m,
+				1.0f, 0.0f));
 		SceneElement e = new SceneElement(d);
 		e.setInitialScale(0.8f);
 		e.setPosition(Corner.CENTER, 400, 300);
-		
+
 		SceneElement e2 = new SceneElement(i);
 		e2.setPosition(Corner.CENTER, 400, 400);
 		e2.setInitialScale(0.8f);

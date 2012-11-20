@@ -37,7 +37,6 @@
 
 package ead.engine.core.gameobjects.go;
 
-
 /**
  * A game object
  * 

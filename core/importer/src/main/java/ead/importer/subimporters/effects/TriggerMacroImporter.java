@@ -49,12 +49,14 @@ import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 
-public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, TriggerMacroEf> {
+public class TriggerMacroImporter extends
+		EffectImporter<MacroReferenceEffect, TriggerMacroEf> {
 
 	private EAdElementFactory factory;
 
 	@Inject
-	public TriggerMacroImporter(EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+	public TriggerMacroImporter(
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
@@ -69,8 +71,8 @@ public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, T
 	@Override
 	public TriggerMacroEf convert(MacroReferenceEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
-		effect.putMacro((EffectsMacro) factory.getElementById(oldObject.getTargetId()),
-				EmptyCond.TRUE_EMPTY_CONDITION);
+		effect.putMacro((EffectsMacro) factory.getElementById(oldObject
+				.getTargetId()), EmptyCond.TRUE_EMPTY_CONDITION);
 		return effect;
 	}
 

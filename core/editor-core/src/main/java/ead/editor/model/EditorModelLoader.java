@@ -89,7 +89,8 @@ import ead.writer.StringWriter;
  */
 public class EditorModelLoader {
 
-	private static final Logger logger = LoggerFactory.getLogger("EditorModelLoader");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EditorModelLoader");
 
 	/**
 	 * Importer for old models
@@ -123,8 +124,7 @@ public class EditorModelLoader {
 	/**
 	 * A list of editor node factories for imports
 	 */
-	private ArrayList<EditorNodeFactory> importNodeFactories
-			= new ArrayList<EditorNodeFactory>();
+	private ArrayList<EditorNodeFactory> importNodeFactories = new ArrayList<EditorNodeFactory>();
 	/**
 	 * Name of file with editor-node descriptions
 	 */
@@ -180,7 +180,6 @@ public class EditorModelLoader {
 		writeEditorNodes(target);
 	}
 
-
 	/**
 	 * Writes the editor mappings to an editor.xml file.
 	 *
@@ -198,8 +197,8 @@ public class EditorModelLoader {
 				mappings++;
 			}
 		}
-		ByteArrayInputStream bis = new ByteArrayInputStream(sb
-				.append("</editorNodes>\n").toString().getBytes("UTF-8"));
+		ByteArrayInputStream bis = new ByteArrayInputStream(sb.append(
+				"</editorNodes>\n").toString().getBytes("UTF-8"));
 		OutputStream fos;
 
 		if (target.isFile()) {
@@ -222,8 +221,8 @@ public class EditorModelLoader {
 		if (source.isFile()) {
 			input = FileUtils.readEntryFromZip(source, editorModelFile);
 		} else {
-			input = new BufferedInputStream(new FileInputStream(
-					new File(source, editorModelFile)));
+			input = new BufferedInputStream(new FileInputStream(new File(
+					source, editorModelFile)));
 		}
 
 		int read = 0;
@@ -249,7 +248,8 @@ public class EditorModelLoader {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Element e = (Element) nodes.item(i);
 				int id = Integer.valueOf(e.getAttribute("id"));
-				EditorNode editorNode = (EditorNode) model.getNodesById().get(id);
+				EditorNode editorNode = (EditorNode) model.getNodesById().get(
+						id);
 				String childrenIds = e.getAttribute("contents");
 				logger.debug("\tinitializing {}, {}", new Object[] { id,
 						childrenIds });
@@ -257,8 +257,10 @@ public class EditorModelLoader {
 					int cid = Integer.valueOf(idString);
 					logger.debug("\tadding child {}", cid);
 					editorNode.addChild(model.getNodesById().get(cid));
-					logger.debug("\tadding child {} [{}]", new Object[] { cid,
-							model.getNodesById().get(cid).getTextualDescription(model) });
+					logger.debug("\tadding child {} [{}]", new Object[] {
+							cid,
+							model.getNodesById().get(cid)
+									.getTextualDescription(model) });
 				}
 				editorNode.restoreInner(e);
 				model.registerEditorNodeWithGraph(editorNode);
@@ -269,7 +271,6 @@ public class EditorModelLoader {
 		}
 		return read;
 	}
-
 
 	/**
 	 * Wraps a targetContent in an DependencyNode. If the content is of a type
@@ -286,7 +287,7 @@ public class EditorModelLoader {
 
 		DependencyNode node;
 		if (targetContent instanceof EAdElement) {
-			EAdElement e = (EAdElement)targetContent;
+			EAdElement e = (EAdElement) targetContent;
 			int eid = model.getEditorId(targetContent);
 			if (eid != model.badElementId) {
 				// content is eadElement, and has editor-id: unfreeze
@@ -297,11 +298,13 @@ public class EditorModelLoader {
 					node = new EngineNode(eid, e);
 					model.getNodesById().put(eid, node);
 				} else {
-					if ( ! node.getContent().equals(targetContent)) {
-						logger.error(
-							"Corrupted save-file: eid {} assigned to {} AND {}",
-							new Object[] { eid, targetContent.toString(),
-									node.getContent().toString() });
+					if (!node.getContent().equals(targetContent)) {
+						logger
+								.error(
+										"Corrupted save-file: eid {} assigned to {} AND {}",
+										new Object[] { eid,
+												targetContent.toString(),
+												node.getContent().toString() });
 						throw new IllegalStateException("Corrupted save-file: "
 								+ "same eid assigned to two objects");
 					}
@@ -310,8 +313,10 @@ public class EditorModelLoader {
 				// content is eadElement, but has no editor-id: add it
 				String decorated = null;
 				if (isLoading) {
-					logger.error("Loaded EAdElement {} of type {} had no editor ID",
-							new String[] {e.getId(), e.getClass().getSimpleName()});
+					logger.error(
+							"Loaded EAdElement {} of type {} had no editor ID",
+							new String[] { e.getId(),
+									e.getClass().getSimpleName() });
 					throw new IllegalStateException("Corrupted save-file: "
 							+ "no eid assigned to loaded objects");
 				} else {
@@ -336,7 +341,6 @@ public class EditorModelLoader {
 		return node;
 	}
 
-
 	/**
 	 * Attempts to add a new node-and-edge to the graph; use only during initial
 	 * model-building. The source may be null (for the root).
@@ -350,7 +354,7 @@ public class EditorModelLoader {
 		DependencyNode target = model.getNodeFor(targetContent);
 		boolean alreadyKnown = (target != null);
 
-		if ( ! alreadyKnown) {
+		if (!alreadyKnown) {
 			target = createOrUnfreezeNode(targetContent);
 			model.getGraph().addVertex(target);
 		}
@@ -361,13 +365,12 @@ public class EditorModelLoader {
 			model.setRoot(target);
 		}
 
-		if ( ! alreadyKnown) {
+		if (!alreadyKnown) {
 			return target;
 		} else {
 			return null;
 		}
 	}
-
 
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
@@ -376,7 +379,8 @@ public class EditorModelLoader {
 		 * @see ModelVisitor#visitObject
 		 */
 		@Override
-		public boolean visitObject(Object target, Object source, String sourceName) {
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
 			logger.debug("Visiting object: '{}'--['{}']-->'{}'", new Object[] {
 					source, sourceName, target });
 
@@ -391,8 +395,8 @@ public class EditorModelLoader {
 			DependencyNode e = addNode(sourceNode, sourceName, target);
 
 			if (e != null) {
-				model.getNodeIndex().addProperty(e, ModelIndex.editorIdFieldName,
-						"" + e.getId(), true);
+				model.getNodeIndex().addProperty(e,
+						ModelIndex.editorIdFieldName, "" + e.getId(), true);
 				return true;
 			} else {
 				// already exists in graph; in this case, do not drill deeper
@@ -408,10 +412,11 @@ public class EditorModelLoader {
 		@Override
 		public void visitProperty(Object target, String propertyName,
 				String textValue) {
-			logger.debug("Visiting property: '{}' :: '{}' = '{}'", new Object[] {
-					target, propertyName, textValue });
+			logger.debug("Visiting property: '{}' :: '{}' = '{}'",
+					new Object[] { target, propertyName, textValue });
 			DependencyNode targetNode = model.getNodeFor(target);
-			model.getNodeIndex().addProperty(targetNode, propertyName, textValue, true);
+			model.getNodeIndex().addProperty(targetNode, propertyName,
+					textValue, true);
 		}
 	}
 
@@ -440,15 +445,17 @@ public class EditorModelLoader {
 		ProgressProxy pp = new ProgressProxy(0, 0.5f);
 		model.updateProgress(0, "Starting import...");
 		importer.addProgressListener(pp);
-		model.setEngineModel(importer.importGame(fin.getAbsolutePath(),
-				fout.getAbsolutePath()));
+		model.setEngineModel(importer.importGame(fin.getAbsolutePath(), fout
+				.getAbsolutePath()));
 		importer.removeProgressListener(pp);
 		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(fout);
 
-        // build editor model
+		// build editor model
 		logger.info("Model loaded; building graph...");
-		model.updateProgress(55, "Converting engine model into editor model...");
+		model
+				.updateProgress(55,
+						"Converting engine model into editor model...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
 		driver.visit(model.getEngineModel(), new EditorModelVisitor());
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
@@ -463,15 +470,14 @@ public class EditorModelLoader {
 		writeEngineData(fout, true);
 		writeEditorNodes(fout);
 
-        // index  & finish
-        model.updateProgress(90, "Indexing model ...");
+		// index  & finish
+		model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
-        model.updateProgress(100, "... load complete.");
+		model.updateProgress(100, "... load complete.");
 
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
-				new Object[] {
-					model.getGraph().vertexSet().size(),
-					model.getGraph().edgeSet().size(), time(nanos) });
+				new Object[] { model.getGraph().vertexSet().size(),
+						model.getGraph().edgeSet().size(), time(nanos) });
 	}
 
 	/**
@@ -483,55 +489,57 @@ public class EditorModelLoader {
 	 * @throws IOException
 	 */
 	public void load(File sourceDir) throws IOException {
-        logger.info("Loading editor model from project dir '{}'...", sourceDir);
+		logger.info("Loading editor model from project dir '{}'...", sourceDir);
 
-        // clear caches & start timer
+		// clear caches & start timer
 		clear();
 		long nanos = System.nanoTime();
 
-
-        // read
-        saveDir = sourceDir;
-        model.updateProgress(10, "Reading engine model ...");
+		// read
+		saveDir = sourceDir;
+		model.updateProgress(10, "Reading engine model ...");
 		String xml;
 		if (sourceDir.isFile()) {
 			xml = FileUtils.loadZipEntryToString(saveDir, engineModelFile);
 		} else {
-			xml = FileUtils.loadFileToString(new File(saveDir, engineModelFile));
+			xml = FileUtils
+					.loadFileToString(new File(saveDir, engineModelFile));
 		}
-        model.setEngineModel(reader.readXML(xml));
+		model.setEngineModel(reader.readXML(xml));
 		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(saveDir);
 
-        // build editor model
-        logger.info("Model loaded; building graph...");
-		model.updateProgress(55, "Converting engine model into editor model...");
+		// build editor model
+		logger.info("Model loaded; building graph...");
+		model
+				.updateProgress(55,
+						"Converting engine model into editor model...");
 		isLoading = true;
-        ModelVisitorDriver driver = new ModelVisitorDriver();
-        driver.visit(model.getEngineModel(), new EditorModelVisitor());
-        isLoading = false;
+		ModelVisitorDriver driver = new ModelVisitorDriver();
+		driver.visit(model.getEngineModel(), new EditorModelVisitor());
+		isLoading = false;
 		// set next editor-id to higher than current highest
 		int highestAssigned = model.getNodesById().floorKey(
-				EditorModelImpl.intermediateIDPoint-1);
-		logger.debug("Bumping lastElementId to closest to {}: {}", new Object[] {
-				EditorModelImpl.intermediateIDPoint-1, highestAssigned+1});
-		model.setLastElementNodeId(highestAssigned+1);
+				EditorModelImpl.intermediateIDPoint - 1);
+		logger.debug("Bumping lastElementId to closest to {}: {}",
+				new Object[] { EditorModelImpl.intermediateIDPoint - 1,
+						highestAssigned + 1 });
+		model.setLastElementNodeId(highestAssigned + 1);
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
 
 		// add editor high-level data
 		model.updateProgress(70, "Creating high-level editor elements...");
-        readEditorNodes(sourceDir);
+		readEditorNodes(sourceDir);
 
-        // index  & finish
-        model.updateProgress(90, "Indexing model ...");
+		// index  & finish
+		model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
-        model.updateProgress(100, "... load complete.");
+		model.updateProgress(100, "... load complete.");
 
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
-				new Object[] {
-					model.getGraph().vertexSet().size(),
-					model.getGraph().edgeSet().size(), time(nanos) });
-    }
+				new Object[] { model.getGraph().vertexSet().size(),
+						model.getGraph().edgeSet().size(), time(nanos) });
+	}
 
 	/**
 	 * load strings and properties
@@ -541,10 +549,13 @@ public class EditorModelLoader {
 			String strings, properties;
 			if (base.isFile()) {
 				strings = FileUtils.loadZipEntryToString(base, stringsFile);
-				properties = FileUtils.loadZipEntryToString(base, enginePropertiesFile);
+				properties = FileUtils.loadZipEntryToString(base,
+						enginePropertiesFile);
 			} else {
-				strings = FileUtils.loadFileToString(new File(base, stringsFile));
-				properties = FileUtils.loadFileToString(new File(base, enginePropertiesFile));
+				strings = FileUtils
+						.loadFileToString(new File(base, stringsFile));
+				properties = FileUtils.loadFileToString(new File(base,
+						enginePropertiesFile));
 			}
 
 			// FIXME - only reads the current-language versions
@@ -575,12 +586,13 @@ public class EditorModelLoader {
 			// FIXME - only writes the current-language versions
 			StringWriter sw = new StringWriter();
 			sw.write(stringOutput, model.getStringHandler().getStrings());
-			logger.info("Wrote {} strings", model.getStringHandler().getStrings().size());
+			logger.info("Wrote {} strings", model.getStringHandler()
+					.getStrings().size());
 
 			Properties p = new Properties();
 			p.putAll(model.getEngineProperties());
-			p.store(propertiesOutput,
-					"Saved from editor on " + (new GregorianCalendar()));
+			p.store(propertiesOutput, "Saved from editor on "
+					+ (new GregorianCalendar()));
 
 			if (base.isFile()) {
 				ByteArrayInputStream bis;
@@ -593,15 +605,16 @@ public class EditorModelLoader {
 				bis = new ByteArrayInputStream(stringOutput.toByteArray());
 				FileUtils.writeToFile(bis, new File(base, stringsFile));
 				bis = new ByteArrayInputStream(propertiesOutput.toByteArray());
-				FileUtils.writeToFile(bis, new File(base, enginePropertiesFile));
+				FileUtils
+						.writeToFile(bis, new File(base, enginePropertiesFile));
 			}
 
-			logger.info("Wrote {} engine properties", model.getEngineProperties().size());
+			logger.info("Wrote {} engine properties", model
+					.getEngineProperties().size());
 		} catch (Exception e) {
 			logger.error("Could not write strings or properties", e);
 		}
 	}
-
 
 	/**
 	 * Saves the editor model. Save will contain a normal EAdModel, plus
@@ -620,7 +633,9 @@ public class EditorModelLoader {
 		model.updateProgress(5, "Commencing save ...");
 		if (target != null && saveDir != target) {
 			// copy over all resource-files first
-			model.updateProgress(10, "Copying resources to new destination ...");
+			model
+					.updateProgress(10,
+							"Copying resources to new destination ...");
 			// works for zip-files as well as for whole folders
 			FileUtils.copyRecursive(saveDir, null, target);
 		} else if (target == null && saveDir != null) {
@@ -646,14 +661,9 @@ public class EditorModelLoader {
 		saveDir = target;
 		model.updateProgress(100, "... save complete.");
 
-		logger.info(
-				"Wrote editor data from {} to {}: {} total objects,"
-				+ " {} editor mappings, in {} seconds",
-				new Object[] {
-					saveDir, target,
-					model.getNodesById().size(), mappings,
-					time(nanos)
-				});
+		logger.info("Wrote editor data from {} to {}: {} total objects,"
+				+ " {} editor mappings, in {} seconds", new Object[] { saveDir,
+				target, model.getNodesById().size(), mappings, time(nanos) });
 	}
 
 	/**
@@ -662,7 +672,7 @@ public class EditorModelLoader {
 	private String time(long nanoStart) {
 		long t = System.nanoTime() - nanoStart;
 		DecimalFormat df = new DecimalFormat("#,###.000");
-        return df.format((t / 1000000L) / 1000.0);
+		return df.format((t / 1000000L) / 1000.0);
 	}
 
 	/**
@@ -707,13 +717,15 @@ public class EditorModelLoader {
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(destFile);
-			writer.write((EAdAdventureModel)model.getEngineModel(), out);
+			writer.write((EAdAdventureModel) model.getEngineModel(), out);
 		} finally {
-			if (out != null) { out.close(); }
+			if (out != null) {
+				out.close();
+			}
 		}
 		if (humanReadable) {
-			DataPrettifier.prettify(destFile,
-					new File(dest, "pretty-" + destFile.getName()));
+			DataPrettifier.prettify(destFile, new File(dest, "pretty-"
+					+ destFile.getName()));
 		}
 
 		// strings and props
@@ -732,6 +744,7 @@ public class EditorModelLoader {
 
 		private int start;
 		private float factor;
+
 		public ProgressProxy(int start, float factor) {
 			this.start = start;
 			this.factor = factor;
@@ -739,7 +752,7 @@ public class EditorModelLoader {
 
 		@Override
 		public void update(int progress, String text) {
-			model.updateProgress(start + (int)(progress*factor), text);
+			model.updateProgress(start + (int) (progress * factor), text);
 		}
 	}
 }
