@@ -138,7 +138,7 @@ public class NgRoom3 extends EmptyScene {
 
 		EAdString talking = new EAdString(
 				"What the...!!! Who are you and what are you doing here??? aham... you want answers... and me too! get ready!");
-		SpeakSceneElementEf speech = new SpeakSceneElementEf(talking);
+		SpeakSceneElementEf speech = new SpeakSceneElementEf();
 		speech.setElement(evil_ng);
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(),

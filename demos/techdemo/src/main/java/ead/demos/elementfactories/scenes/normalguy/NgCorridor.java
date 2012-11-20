@@ -277,7 +277,7 @@ public class NgCorridor extends EmptyScene {
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
 
 		EAdString talking = new EAdString("I think it is closed dude...");
-		SpeakSceneElementEf speak = new SpeakSceneElementEf(talking);
+		SpeakSceneElementEf speak = new SpeakSceneElementEf();
 		speak.setElement(ng);
 		move.getNextEffects().add(speak);
 	}

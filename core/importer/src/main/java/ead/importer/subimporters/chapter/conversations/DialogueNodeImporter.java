@@ -48,6 +48,7 @@ import ead.common.params.fills.ColorFill;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
+import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
@@ -61,8 +62,11 @@ public class DialogueNodeImporter implements
 
 	protected ImportAnnotator annotator;
 
+	protected StringHandler stringHandler;
+
 	@Inject
 	public DialogueNodeImporter(
+			StringHandler stringHandler,
 			EffectsImporterFactory effectsImporter,
 			EAdElementImporter<ConversationLine, SpeakEf> conversationLineImporter,
 			ImportAnnotator annotator) {
@@ -70,6 +74,7 @@ public class DialogueNodeImporter implements
 		this.effectsImporter = effectsImporter;
 		this.conversationLineImporter = conversationLineImporter;
 		this.annotator = annotator;
+		this.stringHandler = stringHandler;
 	}
 
 	@Override
@@ -101,7 +106,7 @@ public class DialogueNodeImporter implements
 			initialEffect = new SpeakEf();
 			initialEffect
 					.setColor(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
-			initialEffect.getCaption().getText().parse("");
+			stringHandler.setString(initialEffect.getString(), "");
 			previousEffect = initialEffect;
 		}
 

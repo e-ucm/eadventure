@@ -41,19 +41,14 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
-import ead.common.params.text.EAdString;
 
 public class SpeakSceneElementEf extends SpeakEf {
 
 	public SpeakSceneElementEf() {
 		super();
-	}
-
-	public SpeakSceneElementEf(EAdString string) {
-		super(string);
 	}
 
 	public SpeakSceneElementEf(EAdElement element) {

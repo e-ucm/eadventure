@@ -47,6 +47,10 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 	@Override
 	public Element buildNode(EAdMap<?, ?> map, Class<?> listClass) {
 
+		if (map.isEmpty()) {
+			logger.warn("The map is empty. It shouldn't be serialized");
+		}
+
 		Element node = doc.createElement(DOMTags.MAP_TAG);
 
 		node.setAttribute(DOMTags.KEY_CLASS_AT, shortClass(map.getKeyClass()
