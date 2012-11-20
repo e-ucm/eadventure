@@ -99,6 +99,7 @@ public class EAdventureEditor implements Launcher {
 				"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
 				"EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
 				"EWindowImpl", Log4jConfig.Slf4jLevel.Info,
+				"ActorFactory", Log4jConfig.Slf4jLevel.Debug,
 
 		//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
 

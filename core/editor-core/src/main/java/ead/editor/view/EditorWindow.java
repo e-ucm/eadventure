@@ -65,7 +65,7 @@ import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
 import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.ViewController;
-import ead.editor.model.nodes.ActorNode;
+import ead.editor.model.nodes.CharacterNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.dock.ElementPanel;
@@ -424,7 +424,7 @@ public class EditorWindow implements ViewController {
 		setIcons();
 
 		// Add your panel factories here
-		registerElementPanelFactory(ActorNode.class, ActorPanel.class);
+		registerElementPanelFactory(CharacterNode.class, ActorPanel.class);
 		registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
 	}
 }

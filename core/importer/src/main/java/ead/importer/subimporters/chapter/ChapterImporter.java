@@ -101,7 +101,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		BasicChapter newChapter = (BasicChapter) object;
 
 		annotator.annotate(newChapter, ImportAnnotator.Type.Open);
-		annotator.annotate(newChapter, ImportAnnotator.Type.Entry, "title",
+		annotator.annotate(newChapter, ImportAnnotator.Type.Entry, ImportAnnotator.Key.Role,
 				oldChapter.getTitle());
 		annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
 				"description", oldChapter.getDescription());
@@ -123,6 +123,8 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		registerOldElements(oldChapter.getConversations());
 		elementFactory.registerOldElement(oldChapter.getPlayer().getId(),
 				oldChapter.getPlayer());
+
+
 
 		importActiveAreas(oldChapter.getScenes());
 		importElements(oldChapter.getAtrezzo());

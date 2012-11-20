@@ -68,6 +68,8 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 	public static final Logger log = LoggerFactory.getLogger(EngineNode.class);
 
+	public static final int maxDependencies = 10;
+
 	public EngineNode(int id, T content) {
 		super(id, content);
 	}
@@ -85,15 +87,22 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 	public String formatIds(List<DependencyNode> list) {
 		StringBuilder sb = new StringBuilder(" ");
+		int remaining = maxDependencies;
 		for (DependencyNode n : list) {
+			remaining --;
 			sb.append("(").append(n.getId()).append(") ");
+			if (remaining == 0) {
+				sb.append("...");
+				break;
+			}
 		}
 		return sb.toString();
 	}
 
 	private void appendDependencies(DependencyNode n, EditorModel m,
 			StringBuilder sb) {
-		sb.append("Used from ").append(formatIds(m.incomingDependencies(this)))
+		List<DependencyNode> incoming = m.incomingDependencies(this);
+		sb.append("Used from ").append(formatIds(incoming))
 				.append("\n");
 	}
 

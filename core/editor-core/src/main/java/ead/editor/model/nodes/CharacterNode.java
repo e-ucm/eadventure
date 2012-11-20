@@ -35,46 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.panel;
-
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.editor.model.nodes.CharacterNode;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package ead.editor.model.nodes;
 
 /**
- * An elementPanel that can display anything, in a non-editable fashion.
+ * Wraps a character.
  *
  * @author mfreire
  */
-public class ActorPanel extends AbstractElementPanel<CharacterNode> {
+public class CharacterNode extends EditorNode {
 
-	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
-
-	private SceneElementDef actor;
-
-	@Override
-	protected void rebuild() {
-		this.actor = (SceneElementDef) target.getContents().iterator().next()
-				.getContent();
-		removeAll();
-		setLayout(new FlowLayout());
-		add(new JLabel("This is an actor panel for ID " + actor.getId()));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has desc= "
-				+ actor.getVars().get(SceneElementDef.VAR_DOC_DESC)));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has detailDesc= "
-				+ actor.getVars().get(SceneElementDef.VAR_DOC_DETAILED_DESC)));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has " + actor.getActions().size()
-				+ " actions"));
-
-		actor.getAppearance();
-
-		revalidate();
+	public CharacterNode(int id) {
+		super(id);
 	}
 }

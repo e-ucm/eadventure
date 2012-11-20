@@ -84,6 +84,8 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public void initResourcesCorrespondencies() {
 		ArrayList<EAdStateDrawable> drawables = new ArrayList<EAdStateDrawable>();
 
+		annotator.annotate(ImportAnnotator.Type.Entry, ImportAnnotator.Key.Role, "actor.npc");
+
 		properties = new LinkedHashMap<String, String>();
 		properties
 				.put(NPC.RESOURCE_TYPE_STAND_DOWN, SceneElementDef.appearance);
@@ -134,8 +136,9 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 	private StateDrawable getOrientedAsset(Resources r, String up, String down,
 			String right, String left) {
-		if (up == null && down == null && right == null && left == null)
+		if (up == null && down == null && right == null && left == null) {
 			return null;
+		}
 
 		StateDrawable oriented = new StateDrawable();
 		EAdDrawable north = (EAdDrawable) resourceImporter.getAssetDescritptor(

@@ -61,6 +61,14 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		return content;
 	}
 
+	/**
+	 * Many editor-nodes will only have a single child.
+	 * @return
+	 */
+	public DependencyNode getFirst() {
+		return content.iterator().next();
+	}
+
 	public boolean addChild(DependencyNode<?> node) {
 		return content.add(node);
 	}

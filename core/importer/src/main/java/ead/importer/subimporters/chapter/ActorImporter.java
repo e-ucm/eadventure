@@ -63,6 +63,8 @@ import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
+import ead.importer.annotation.ImportAnnotator.Key;
+import ead.importer.annotation.ImportAnnotator.Type;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
@@ -120,8 +122,12 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdSceneElementDef convert(P oldObject, Object object) {
 		SceneElementDef actor = (SceneElementDef) object;
-		annotator.annotate(actor, ImportAnnotator.Type.Open);
-		annotator.annotate(actor, ImportAnnotator.Type.Entry, "type", "actor");
+		annotator.annotate(actor, Type.Open);
+
+		if (actor.getId().equals(elementFactory
+				.getCurrentOldChapterModel().getPlayer().getId())) {
+			annotator.annotate(actor, Type.Entry, Key.Role, "actor.player");
+		}
 
 		EAdEffect[] sounds = setDocumentation(resourceImporter,
 				conditionsImporter, stringHandler,

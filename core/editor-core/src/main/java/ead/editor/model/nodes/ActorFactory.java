@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.model.EditorModelImpl;
+import java.util.HashSet;
 
 /**
  * A factory that recognizes attrezzo-nodes
@@ -69,22 +70,23 @@ public class ActorFactory implements EditorNodeFactory {
 				continue;
 			}
 			EAdElement e = (EAdElement) n.getContent();
-			for (EditorAnnotator.Annotation a : annotator.get(e)) {
-				if (a.getKey().equals("type") && a.getValue().equals("actor")) {
-					ActorNode an = new ActorNode(model.generateId(null));
-					an.addChild(n);
-					logger.debug("A star is born! actor {} {}", new Object[] {
-							an.getId(), an.getTextualDescription(model) });
-					//                    for (DependencyEdge de : g.outgoingEdgesOf(n)) {
-					//                        logger.debug("Outgoing dep: {}",
-					//                                g.getEdgeTarget(de).getTextualDescription(model));
-					//                    }
-					newNodes.add(an);
-					logger.debug("The star is up in the sky...");
-					break;
-				}
+			HashSet<String> notes = annotator.get(e, "actor");
+			if (notes.isEmpty()) {
+				continue;
+			}
+			for (EAdElement child : annotator.getChildren(e)) {
+				logger.debug("Child: {}", child);
+			}
+
+			if (notes.contains("actor.player") || notes.contains("actor.npc")) {
+				newNodes.add(new CharacterNode(model.generateId(null)));
+			} else if (notes.contains("actor.npc")) {
+				newNodes.add(new AtrezzoNode(model.generateId(null)));
+			} else if (notes.contains("actor.item")) {
+				newNodes.add(new AtrezzoNode(model.generateId(null)));
 			}
 		}
+		
 		// now, register them
 		for (EditorNode en : newNodes) {
 			model.registerEditorNodeWithGraph(en);

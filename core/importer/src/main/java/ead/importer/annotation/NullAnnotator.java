@@ -88,6 +88,11 @@ public class NullAnnotator implements ImportAnnotator {
 	}
 
 	@Override
+	public void annotate(Type key, Object... values) {
+		annotate(stack.get(stack.size()-1), key, values);
+	}
+
+	@Override
 	public void annotate(EAdElement element, Type key, Object... values) {
 		if (logger.isDebugEnabled()) {
 			if (element == null)

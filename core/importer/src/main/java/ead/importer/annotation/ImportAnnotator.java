@@ -49,6 +49,20 @@ import ead.common.model.EAdElement;
  */
 public interface ImportAnnotator {
 
+	/**
+	 * Keys that you may want to use in Type.Entry annotations.
+	 */
+	public enum Key {
+		/**
+		 * Role. Indicates the role of this element. By far the most
+		 * frequent annotation.
+		 */
+		Role
+	}
+
+	/**
+	 * Types of annotations
+	 */
 	public enum Type {
 		/**
 		 * Entry. A generic key-value entry. The first value is interpreted as
@@ -87,4 +101,11 @@ public interface ImportAnnotator {
 	 * @param value value to set this key to (optional for some key types)
 	 */
 	public void annotate(EAdElement element, Type key, Object... values);
+
+	/**
+	 * Annotate last-annotated-element created by an importer.
+	 * @param key key to annotate it with
+	 * @param value value to set this key to (optional for some key types)
+	 */
+	public void annotate(Type key, Object... values);
 }
