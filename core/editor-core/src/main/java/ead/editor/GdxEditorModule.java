@@ -38,7 +38,6 @@
 package ead.editor;
 
 import java.util.Map.Entry;
-import java.util.Map;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
