@@ -38,26 +38,30 @@
 package ead.editor.view.scene;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.Image;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.util.EAdURI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.utils.Log4jConfig;
 import ead.utils.swing.SwingUtilities;
 
 public class MainAssetViewer {
 
 	public static void main(String args[]) {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
+				new Object[] {});
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
@@ -67,62 +71,47 @@ public class MainAssetViewer {
 	}
 
 	public static void showSampleAsset() {
-		final Image standNorth = new Image("@drawable/man_stand_n.png");
-		final BalloonShape shape = new BalloonShape(10, 10, 100, 100,
-				BalloonType.CLOUD);
-		shape.setPaint(ColorFill.WHITE);
 
-		FramesAnimation frames2 = new FramesAnimation();
-		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 500));
+		File root = new File("../../demos/techdemo/src/main/resources/");
+		if (!root.exists()) {
+			System.err.println("resources not found");
+			return;
+		}
+
+		System.err.println(new File(".").getAbsolutePath());
+
+		Injector i = Guice.createInjector(new AssetViewerModule());
+		AssetHandler ah = i.getInstance(AssetHandler.class);
+		ah.setCacheEnabled(false);
+		ah.setResourcesLocation(new EAdURI(new File(
+				"../../demos/techdemo/src/main/resources/").getPath()));
+		final AssetViewer viewer = i.getInstance(AssetViewer.class);
+
+		final FramesAnimation frames2 = new FramesAnimation();
+		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 100));
 		frames2.addFrame(new Frame("@drawable/man_walk_w_2.png", 500));
+		final FramesAnimation frames3 = new FramesAnimation();
+		frames3.addFrame(new Frame("@drawable/man_walk_n_1.png", 500));
+		frames3.addFrame(new Frame("@drawable/man_walk_n_2.png", 100));
+
+		viewer.setDrawable(frames2);
+
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(viewer.getCanvas(), BorderLayout.CENTER);
+
 		JFrame frame = new JFrame();
-
-		AssetViewer viewer1 = new AssetViewer();
-		AssetViewer viewer8 = new AssetViewer();
-		AssetViewer viewer3 = new AssetViewer();
-		AssetViewer viewer4 = new AssetViewer();
-		AssetViewer viewer5 = new AssetViewer();
-		AssetViewer viewer6 = new AssetViewer();
-		AssetViewer viewer7 = new AssetViewer();
-		final AssetViewer viewer2 = new AssetViewer(viewer1.getLwjglAWTCanvas());
-
-		viewer1.setDrawable(standNorth);
-		viewer8.setDrawable(frames2);
-		viewer3.setDrawable(standNorth);
-		viewer4.setDrawable(standNorth);
-		viewer5.setDrawable(shape);
-		viewer6.setDrawable(standNorth);
-		viewer7.setDrawable(frames2);
-
-		FramesAnimation frames = new FramesAnimation();
-		Frame standSouth = new Frame("@drawable/man_stand_s_1.png", 1000);
-		frames.addFrame(standSouth);
-		frames.addFrame(new Frame("@drawable/man_stand_s_2.png", 200));
-
-		viewer2.setDrawable(frames);
-
-		JPanel panel = new JPanel(new GridLayout(4, 2));
-		panel.add(viewer1.getCanvas());
-		panel.add(viewer2.getCanvas());
-		panel.add(viewer3.getCanvas());
-		panel.add(viewer4.getCanvas());
-		panel.add(viewer5.getCanvas());
-		panel.add(viewer6.getCanvas());
-		panel.add(viewer7.getCanvas());
-		panel.add(viewer8.getCanvas());
-
 		frame.getContentPane().setLayout(new BorderLayout());
-
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 
-		JButton button = new JButton("Change");
+		JButton button = new JButton("Change animations");
 		button.addActionListener(new ActionListener() {
+			boolean b;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				viewer2.setDrawable(shape);
+				viewer.setDrawable(b ? frames3 : frames2);
+				b = !b;
 			}
-
 		});
 
 		frame.getContentPane().add(button, BorderLayout.SOUTH);

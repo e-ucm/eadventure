@@ -74,6 +74,8 @@ public class AssetViewerModule extends AbstractModule {
 		bind(SceneGraph.class).to(BasicSceneGraph.class).in(Singleton.class);
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
 				Singleton.class);
+
+		bind(AssetViewer.class);
 	}
 
 	public static class AssetViewerGUI implements GUI {
