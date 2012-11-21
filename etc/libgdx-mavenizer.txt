@@ -1,0 +1,12 @@
+mvn install:install-file -Dfile=C:\Users\angel\repositories/libgdx/dist/gdx.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/sources/gdx-sources.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-sources -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/gdx-natives.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-natives -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/gdx-openal.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-openal -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/sources/gdx-openal-sources.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-openal-sources -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/gdx-backend-android.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-android -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/sources/gdx-backend-android-sources.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-android-sources -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/gdx-backend-gwt.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-gwt -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/sources/gdx-backend-gwt-sources.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-gwt-sources -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/gdx-backend-lwjgl.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-lwjgl -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/sources/gdx-backend-lwjgl-sources.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-lwjgl-sources -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository
+mvn install:install-file -Dfile=../libgdx/dist/gdx-backend-lwjgl-natives.jar -DgroupId=com.badlogic.gdx -DartifactId=gdx-backend-lwjgl-natives -Dversion=1.6 -Dpackaging=jar -DlocalRepositoryPath=etc/repository

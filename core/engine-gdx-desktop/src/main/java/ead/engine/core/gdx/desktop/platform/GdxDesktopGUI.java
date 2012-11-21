@@ -112,11 +112,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (!engineConfiguration.isExitWhenFinished()) {
-					frame.setVisible(false);
-				} else {
-					finish();
-				}
+				finish();
 			}
 		});
 
@@ -131,7 +127,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);
-		LwjglApplication app = new LwjglApplication(engine, cfg, canvas);
+		new LwjglApplication(engine, cfg, canvas);
 
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {
@@ -218,6 +214,13 @@ public class GdxDesktopGUI extends GdxGUI {
 
 	public JFrame getFrame() {
 		return frame;
+	}
+
+	public void finish() {
+		if (frame != null) {
+			frame.setVisible(false);
+		}
+		super.finish();
 	}
 
 }
