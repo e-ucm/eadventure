@@ -84,10 +84,14 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	public void write(StringBuilder sb) {
 		sb.append("<node class='").append(getClass().getName())
 				.append("' id='").append(getId()).append("' contents='");
-		for (DependencyNode<?> n : getContents()) {
-			sb.append(n.getId()).append(",");
+		if (getContents().isEmpty()) {
+			sb.append("\'");
+		} else {
+			for (DependencyNode<?> n : getContents()) {
+				sb.append(n.getId()).append(",");
+			}
+			sb.setCharAt(sb.length() - 1, '\'');
 		}
-		sb.setCharAt(sb.length() - 1, '\'');
 		sb.append(">\n\t");
 		writeInner(sb);
 		sb.append("\n</node>\n");

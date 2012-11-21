@@ -256,6 +256,10 @@ public class EditorModelLoader {
 				logger.debug("\tinitializing {}, {}", new Object[] { id,
 						childrenIds });
 				for (String idString : childrenIds.split("[,]")) {
+					if (idString.isEmpty()) {
+						// this can happen if there are no values...
+						continue;
+					}
 					int cid = Integer.valueOf(idString);
 					logger.debug("\tadding child {}", cid);
 					editorNode.addChild(model.getNodesById().get(cid));
@@ -538,18 +542,13 @@ public class EditorModelLoader {
 		ModelVisitorDriver driver = new ModelVisitorDriver();
 		driver.visit(model.getEngineModel(), new EditorModelVisitor());
 		isLoading = false;
-		// set next editor-id to higher than current highest
-		int highestAssigned = model.getNodesById().floorKey(
-				EditorModelImpl.intermediateIDPoint - 1);
-		logger.debug("Bumping lastElementId to closest to {}: {}",
-				new Object[] { EditorModelImpl.intermediateIDPoint - 1,
-						highestAssigned + 1 });
-		model.setLastElementNodeId(highestAssigned + 1);
+		bumpLastElementNodeId();
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
 
 		// add editor high-level data
 		model.updateProgress(70, "Creating high-level editor elements...");
 		readEditorNodes(sourceDir);
+		bumpLastElementNodeId();
 
 		// index  & finish
 		model.updateProgress(90, "Indexing model ...");
@@ -559,6 +558,16 @@ public class EditorModelLoader {
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] { model.getGraph().vertexSet().size(),
 						model.getGraph().edgeSet().size(), time(nanos) });
+	}
+
+	private void bumpLastElementNodeId() {
+		// set next editor-id to higher than current highest
+		int highestAssigned = model.getNodesById().floorKey(
+				EditorModelImpl.intermediateIDPoint - 1);
+		logger.debug("Bumping lastElementId to closest to {}: {}",
+				new Object[] { EditorModelImpl.intermediateIDPoint - 1,
+						highestAssigned + 1 });
+		model.setLastElementNodeId(highestAssigned + 1);
 	}
 
 	/**
