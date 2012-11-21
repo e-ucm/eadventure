@@ -2,11 +2,14 @@
    Maven Recipes
 -------------------------------------------------------------------------------
 
-* Build the eclipse projects:
+* Build the eclipse projects
 	mvn eclipse:eclipse
 
 * Format file headers
 	mvn com.mycila.maven-license-plugin:maven-license-plugin:format
+
+* Format code (invoked automatically on compile)
+    mvn com.googlecode.maven-java-formatter-plugin:maven-java-formatter-plugin:forma
 
 * Profiles
 	mvn <options> -P <profile1>[,<profile2>[,<profileN>]]
