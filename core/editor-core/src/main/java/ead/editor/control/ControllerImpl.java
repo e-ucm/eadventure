@@ -47,10 +47,11 @@ import javax.swing.Action;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
-import ead.engine.core.platform.EngineConfiguration;
-import ead.utils.swing.SwingUtilities;
 import java.util.Collection;
-import javax.swing.JFrame;
+
+import com.google.inject.Provider;
+import ead.common.util.EAdURI;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -66,23 +67,25 @@ public class ControllerImpl implements Controller {
 	private NavigationController navigationController;
 	private ViewController viewController;
 	private CommandManager commandManager;
-	private GameLoader gameLoader;
-	private JFrame gameWindow;
-	private GdxAssetHandler assetHandler;
+	private GdxAssetHandler nonCachingAssetHandler;
+
+	private final Provider<AssetViewer> assetViewerProvider;
+	private final Provider<GameLoader> gameLoaderProvider;
 
 	/**
 	 * Action map. Contains all actions, generally bound to menu items or
 	 * the like.
 	 */
 	private HashMap<String, Action> actionMap = new HashMap<String, Action>();
-
+	
 	@Inject
 	public ControllerImpl(EditorConfig editorConfig, EditorModel editorModel,
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			GameLoader gameLoader, GdxAssetHandler assetHandler,
-			GdxDesktopGUI gdxGui) {
+			GdxDesktopGUI gdxGui, GdxAssetHandler nonCachingAssetHandler, 
+			Provider<AssetViewer> assetViewerProvider,
+			Provider<GameLoader> gameLoaderProvider) {
 
 		this.editorConfig = editorConfig;
 		this.editorModel = editorModel;
@@ -90,9 +93,9 @@ public class ControllerImpl implements Controller {
 		this.navigationController = navigationController;
 		this.viewController = viewControler;
 		this.commandManager = commandManager;
-		this.gameLoader = gameLoader;
-		this.assetHandler = assetHandler;
-		this.gameWindow = gdxGui.getFrame();
+		this.nonCachingAssetHandler = nonCachingAssetHandler;
+		this.assetViewerProvider = assetViewerProvider;
+		this.gameLoaderProvider = gameLoaderProvider;
 	}
 
 	@Override
@@ -100,13 +103,6 @@ public class ControllerImpl implements Controller {
 		projectController.setController(this);
 		navigationController.setController(this);
 		viewController.setController(this);
-
-		SwingUtilities.doInEDT(new Runnable() {
-			@Override
-			public void run() {
-				gameWindow.setVisible(false);
-			}
-		});
 	}
 
 	@Override
@@ -167,19 +163,29 @@ public class ControllerImpl implements Controller {
 	public void putAction(String name, Action action) {
 		actionMap.put(name, action);
 	}
-
+	
 	@Override
 	public GdxAssetHandler getAssetHandler() {
-		return assetHandler;
+		return nonCachingAssetHandler;
+	}
+	
+	/**
+	 * Provides GameLoaders on request
+	 */
+	@Override
+	public GameLoader createGameLoader() {
+		nonCachingAssetHandler.setCacheEnabled(true);
+		nonCachingAssetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader().getSaveDir().getPath()));
+		return gameLoaderProvider.get();
 	}
 
+	/**
+	 * Provides AssetViewers on request
+	 */
 	@Override
-	public GameLoader getGameLoader() {
-		return gameLoader;
-	}
-
-	@Override
-	public JFrame getGameWindow() {
-		return gameWindow;
+	public AssetViewer createAssetViewer() {
+		nonCachingAssetHandler.setCacheEnabled(false);
+		nonCachingAssetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader().getSaveDir().getPath()));
+		return assetViewerProvider.get();
 	}
 }

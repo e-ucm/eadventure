@@ -43,7 +43,8 @@ import javax.swing.Action;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import java.util.Collection;
-import javax.swing.JFrame;
+
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 
 /**
  * Game editor controller. The main controller provides access to delegate
@@ -114,12 +115,12 @@ public interface Controller {
 	GdxAssetHandler getAssetHandler();
 
 	/**
-	 * Returns the GameLoader in use
+	 * Provides AssetViewers on request
 	 */
-	GameLoader getGameLoader();
+	AssetViewer createAssetViewer();
 
 	/**
-	 * Returns the game window (a JFrame)
+	 * Provides GameLoaders on request
 	 */
-	JFrame getGameWindow();
+	GameLoader createGameLoader();
 }
