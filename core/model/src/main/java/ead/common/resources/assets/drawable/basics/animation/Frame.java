@@ -118,6 +118,11 @@ public class Frame implements AssetDescriptor {
 		return drawable;
 	}
 
+	@Override
+	public int hashCode() {
+		return 61 * super.hashCode() + this.time;
+	}
+
 	public boolean equals(Object o) {
 		if (o instanceof Frame) {
 			return super.equals(o) && ((Frame) o).time == time;
@@ -128,5 +133,4 @@ public class Frame implements AssetDescriptor {
 	public void setDrawable(EAdBasicDrawable drawable) {
 		this.drawable = drawable;
 	}
-
 }
