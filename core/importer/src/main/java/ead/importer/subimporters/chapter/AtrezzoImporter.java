@@ -75,7 +75,8 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo> {
 
 	@Override
 	public void initResourcesCorrespondencies() {
-		annotator.annotate(ImportAnnotator.Type.Entry, Key.Role, "actor.atrezzo");
+		annotator.annotate(ImportAnnotator.Type.Entry, Key.Role,
+				"actor.atrezzo");
 
 		properties = new LinkedHashMap<String, String>();
 		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);

@@ -84,7 +84,8 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public void initResourcesCorrespondencies() {
 		ArrayList<EAdStateDrawable> drawables = new ArrayList<EAdStateDrawable>();
 
-		annotator.annotate(ImportAnnotator.Type.Entry, ImportAnnotator.Key.Role, "actor.npc");
+		annotator.annotate(ImportAnnotator.Type.Entry,
+				ImportAnnotator.Key.Role, "actor.npc");
 
 		properties = new LinkedHashMap<String, String>();
 		properties

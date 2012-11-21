@@ -87,7 +87,8 @@ public class ConversationImporter implements
 	public EAdEffect convert(Conversation oldObject, Object object) {
 		nodes.clear();
 
-		annotator.annotate(ImportAnnotator.Type.Entry, ImportAnnotator.Key.Role, "Conversation");
+		annotator.annotate(ImportAnnotator.Type.Entry,
+				ImportAnnotator.Key.Role, "Conversation");
 		annotator.annotate(ImportAnnotator.Type.Open, oldObject.getId());
 
 		for (ConversationNode node : oldObject.getAllNodes()) {

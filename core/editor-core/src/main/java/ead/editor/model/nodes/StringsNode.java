@@ -35,45 +35,31 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.panel;
+package ead.editor.model.nodes;
 
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.editor.model.nodes.CharacterNode;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+import ead.common.params.text.EAdString;
+import ead.editor.model.EditorModel;
 
 /**
- * An elementPanel that can display anything, in a non-editable fashion.
+ * Synthetic node for i18n-susceptible game strings.
  *
  * @author mfreire
  */
-public class ActorPanel extends AbstractElementPanel<CharacterNode> {
+public class StringsNode extends EditorNode {
 
-	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
-
-	private SceneElementDef actor;
+	public StringsNode(int id) {
+		super(id);
+	}
 
 	@Override
-	protected void rebuild() {
-		this.actor = (SceneElementDef) target.getFirst().getContent();
-		removeAll();
-		setLayout(new FlowLayout());
-		add(new JLabel("This is an actor panel for ID " + actor.getId()));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has desc= "
-				+ actor.getVars().get(SceneElementDef.VAR_DOC_DESC)));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has detailDesc= "
-				+ actor.getVars().get(SceneElementDef.VAR_DOC_DETAILED_DESC)));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has " + actor.getActions().size()
-				+ " actions"));
-
-		actor.getAppearance();
-
-		revalidate();
+	public String getTextualDescription(EditorModel m) {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<EAdString, String> e : m.getStringHandler().getStrings()
+				.entrySet()) {
+			sb.append(e.getKey()).append(" == ").append(e.getValue()).append(
+					"\n");
+		}
+		return sb.toString();
 	}
 }

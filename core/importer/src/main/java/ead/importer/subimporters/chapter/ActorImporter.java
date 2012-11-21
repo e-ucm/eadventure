@@ -124,8 +124,8 @@ public abstract class ActorImporter<P extends Element> implements
 		SceneElementDef actor = (SceneElementDef) object;
 		annotator.annotate(actor, Type.Open);
 
-		if (actor.getId().equals(elementFactory
-				.getCurrentOldChapterModel().getPlayer().getId())) {
+		if (actor.getId().equals(
+				elementFactory.getCurrentOldChapterModel().getPlayer().getId())) {
 			annotator.annotate(actor, Type.Entry, Key.Role, "actor.player");
 		}
 

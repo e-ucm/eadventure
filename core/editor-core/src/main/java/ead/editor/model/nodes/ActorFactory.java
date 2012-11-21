@@ -78,15 +78,23 @@ public class ActorFactory implements EditorNodeFactory {
 				logger.debug("Child: {}", child);
 			}
 
+			EditorNode an = null;
 			if (notes.contains("actor.player") || notes.contains("actor.npc")) {
-				newNodes.add(new CharacterNode(model.generateId(null)));
+				an = new CharacterNode(model.generateId(null));
 			} else if (notes.contains("actor.npc")) {
-				newNodes.add(new AtrezzoNode(model.generateId(null)));
+				an = new AtrezzoNode(model.generateId(null));
 			} else if (notes.contains("actor.item")) {
-				newNodes.add(new AtrezzoNode(model.generateId(null)));
+				an = new AtrezzoNode(model.generateId(null));
+			} else {
+				logger.warn("Bad annotations on actor-node");
+			}
+
+			if (an != null) {
+				an.addChild(n);
+				newNodes.add(an);
 			}
 		}
-		
+
 		// now, register them
 		for (EditorNode en : newNodes) {
 			model.registerEditorNodeWithGraph(en);

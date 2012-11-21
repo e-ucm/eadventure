@@ -79,7 +79,7 @@ public class QueryNode extends EditorNode {
 				logger.warn("Illegal query : '{}'", queryString);
 				return;
 			}
-			
+
 			String q = queryString.substring(2);
 			switch (queryString.charAt(1)) {
 			case 'n': {

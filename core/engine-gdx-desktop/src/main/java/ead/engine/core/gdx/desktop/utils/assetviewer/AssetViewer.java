@@ -102,9 +102,7 @@ public class AssetViewer {
 				app.setDrawable((RuntimeCompoundDrawable) assetHandler
 						.getRuntimeAsset(drawable));
 			}
-
 		});
-
 	}
 
 	public void setList(final List<String> states) {

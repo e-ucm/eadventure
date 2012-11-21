@@ -89,7 +89,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 		StringBuilder sb = new StringBuilder(" ");
 		int remaining = maxDependencies;
 		for (DependencyNode n : list) {
-			remaining --;
+			remaining--;
 			sb.append("(").append(n.getId()).append(") ");
 			if (remaining == 0) {
 				sb.append("...");
@@ -102,8 +102,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 	private void appendDependencies(DependencyNode n, EditorModel m,
 			StringBuilder sb) {
 		List<DependencyNode> incoming = m.incomingDependencies(this);
-		sb.append("Used from ").append(formatIds(incoming))
-				.append("\n");
+		sb.append("Used from ").append(formatIds(incoming)).append("\n");
 	}
 
 	/**

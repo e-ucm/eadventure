@@ -78,7 +78,8 @@ public class ItemImporter extends ActorImporter<Item> {
 		objectClasses.put(Item.RESOURCE_TYPE_IMAGE, Image.class);
 		objectClasses.put(Item.RESOURCE_TYPE_IMAGEOVER, Image.class);
 
-		annotator.annotate(ImportAnnotator.Type.Entry, ImportAnnotator.Key.Role, "actor.item");
+		annotator.annotate(ImportAnnotator.Type.Entry,
+				ImportAnnotator.Key.Role, "actor.item");
 	}
 
 	@Override
