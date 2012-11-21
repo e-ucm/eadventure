@@ -47,6 +47,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.google.inject.Inject;
 
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
@@ -78,6 +79,7 @@ public class AssetApplicationListener implements ApplicationListener {
 	private int time;
 	private List<String> states;
 
+	@Inject
 	public AssetApplicationListener(FontHandler fontHandler,
 			ReflectionProvider reflectionProvider) {
 		canvas = new GdxCanvas(fontHandler, reflectionProvider);
@@ -109,7 +111,6 @@ public class AssetApplicationListener implements ApplicationListener {
 		drawableHeight = currentDrawable.getDrawable(time, states, 0)
 				.getHeight();
 		updateZoom();
-
 	}
 
 	public void setStates(List<String> states) {
