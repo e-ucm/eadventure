@@ -37,6 +37,7 @@
 
 package ead.editor.model.nodes;
 
+import java.util.ArrayList;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModelImpl;
@@ -48,17 +49,27 @@ import ead.editor.model.EditorModelImpl;
  */
 public class AssetsNode extends EditorNode {
 
+	private ArrayList<DependencyNode> assetNodes = new ArrayList<DependencyNode>();
+
 	public AssetsNode(int id) {
 		super(id);
+	}
+
+	public ArrayList<DependencyNode> getNodes(EditorModel m) {
+		assetNodes.clear();
+		for (DependencyNode n : ((EditorModelImpl) m).getNodesById().values()) {
+			if (n.getContent() instanceof AssetDescriptor) {
+				assetNodes.add(n);
+			}
+		}
+		return assetNodes;
 	}
 
 	@Override
 	public String getTextualDescription(EditorModel m) {
 		StringBuilder sb = new StringBuilder();
-		for (DependencyNode n : ((EditorModelImpl) m).getNodesById().values()) {
-			if (n.getContent() instanceof AssetDescriptor) {
-				sb.append(n.getTextualDescription(m));
-			}
+		for (DependencyNode n : getNodes(m)) {
+			sb.append(n.getTextualDescription(m));
 		}
 		return sb.toString();
 	}
