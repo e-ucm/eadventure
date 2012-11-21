@@ -56,6 +56,7 @@ import ead.common.params.EAdParam;
 import ead.common.resources.BasicAssetBundle;
 import ead.common.resources.BasicResources;
 import ead.common.resources.EAdAssetBundle;
+import ead.common.resources.EAdAssetDescriptor;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
@@ -228,7 +229,8 @@ public class ModelVisitorDriver {
 
 			int i = 0;
 			for (String assetId : ((BasicAssetBundle) target).getIds()) {
-				driveInto(assetId, target, "asset-" + i);
+				AssetDescriptor asset = ((BasicAssetBundle) target).getAsset(assetId);
+				driveInto(asset, target, "inner-asset-" + i);
 				i++;
 			}
 
@@ -239,7 +241,8 @@ public class ModelVisitorDriver {
 
 				int j = 0;
 				for (String assetId : ((BasicAssetBundle) bundle).getIds()) {
-					driveInto(assetId, target, "inner-asset-" + j);
+					AssetDescriptor asset = ((BasicAssetBundle) bundle).getAsset(assetId);
+					driveInto(asset, target, "inner-asset-" + j);
 					j++;
 				}
 			}
