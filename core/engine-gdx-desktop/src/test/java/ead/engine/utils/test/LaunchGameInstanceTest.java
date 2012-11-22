@@ -68,7 +68,7 @@ public class LaunchGameInstanceTest {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if ( game != null ){
+				if (game != null) {
 					game.exit();
 				}
 				game = new DesktopGame(false);

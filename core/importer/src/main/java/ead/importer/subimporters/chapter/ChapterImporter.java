@@ -66,8 +66,6 @@ import es.eucm.eadventure.common.data.chapter.scenes.Scene;
  */
 public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> {
 
-	private static int CHAPTER_ID;
-
 	/**
 	 * String handler
 	 */

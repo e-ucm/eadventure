@@ -67,9 +67,8 @@ public class ActionSceneElement extends SceneElement {
 		definition.getResources().addAsset(definition.getInitialBundle(),
 				SceneElementDef.appearance, asset);
 
-		AssetDescriptor assetHighlight = eAdAction
-				.getAsset(eAdAction.getInitialBundle(),
-						ElementAction.highlightAppearabce);
+		AssetDescriptor assetHighlight = eAdAction.getAsset(eAdAction
+				.getInitialBundle(), ElementAction.highlightAppearabce);
 		if (assetHighlight != null) {
 			EAdBundleId highlightBundle = new EAdBundleId("highLightBundle");
 			definition.getResources().addBundle(highlightBundle);
@@ -82,8 +81,8 @@ public class ActionSceneElement extends SceneElement {
 					this, definition.getInitialBundle()));
 		}
 
-		definition.setVarInitialValue(SceneElementDef.VAR_DOC_NAME,
-				eAdAction.getName());
+		definition.setVarInitialValue(SceneElementDef.VAR_DOC_NAME, eAdAction
+				.getName());
 
 	}
 

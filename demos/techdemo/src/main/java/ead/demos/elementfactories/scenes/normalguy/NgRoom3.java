@@ -47,7 +47,6 @@ import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
@@ -134,33 +133,29 @@ public class NgRoom3 extends EmptyScene {
 	 * The evil guy drives to the user to a Quiz game
 	 */
 	private void setEvilGuy() {
-		//MoveSceneElementEf move = moveNg(560, 510);
+		// MoveSceneElementEf move = moveNg(560, 510);
 
-		EAdString talking = new EAdString(
-				"What the...!!! Who are you and what are you doing here??? aham... you want answers... and me too! get ready!");
 		SpeakSceneElementEf speech = new SpeakSceneElementEf();
 		speech.setElement(evil_ng);
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(),
 				new FadeInTransition(1000));
 
-		//move.getNextEffects().add(speech);
+		// move.getNextEffects().add(speech);
 		speech.getNextEffects().add(changeScene);
 		evil_ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speech);
 	}
 
 	/**
 	 * Sets the x & y coordinates for moving the ng
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
 	 */
 	/*
-	private MoveSceneElementEf moveNg(int x, int y) {
-	MoveSceneElementEf move = new MoveSceneElementEf();
-	move.setId("move");
-	move.setSceneElement(ng);
-	move.setTargetCoordiantes(x, y);
-	return move;
-	}*/
+	 * private MoveSceneElementEf moveNg(int x, int y) { MoveSceneElementEf move
+	 * = new MoveSceneElementEf(); move.setId("move"); move.setSceneElement(ng);
+	 * move.setTargetCoordiantes(x, y); return move; }
+	 */
 }

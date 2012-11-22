@@ -44,6 +44,7 @@ import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
@@ -73,7 +74,6 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.importer.EAdElementImporter;
@@ -232,28 +232,14 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 					ElementAction.highlightAppearabce,
 					new Image(getHighlightDrawablePath(oldObject.getType())));
 		} else {
-			// TODO highlight and pressed are now appearances, but resource
-			// converter does not support it.
-			// old resources are named "buttonOver" and "buttonPressed"
-
 			Map<String, String> resourcesStrings = new LinkedHashMap<String, String>();
 			Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 
-			EAdBundleId temp = action.getInitialBundle();
-			// action.setInitialBundle(action.getHighlightBundle());
-
 			resourcesStrings.put("buttonOver", ElementAction.appearance);
+			resourcesStrings.put("buttonNormal",
+					ElementAction.highlightAppearabce);
 			resourcesClasses.put("buttonOver", Image.class);
-			resourceImporter.importResources(action, ((CustomAction) oldObject)
-					.getResources(), resourcesStrings, resourcesClasses);
-
-			action.setInitialBundle(temp);
-
-			resourcesStrings.clear();
-			resourcesClasses.clear();
-			resourcesStrings.put("buttonNormal", ElementAction.appearance);
 			resourcesClasses.put("buttonNormal", Image.class);
-
 			resourceImporter.importResources(action, ((CustomAction) oldObject)
 					.getResources(), resourcesStrings, resourcesClasses);
 		}
@@ -381,9 +367,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		// Appearance
 		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
 				ElementAction.appearance, examineImage);
-		// examineAction.getResources().addAsset(
-		// examineAction.getHighlightBundle(), ElementAction.appearance,
-		// examineOverImage);
+		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
+				ElementAction.highlightAppearabce, examineOverImage);
 
 		actor.getActions().add(examineAction);
 	}

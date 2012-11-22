@@ -70,7 +70,6 @@ import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
@@ -78,7 +77,8 @@ import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 /**
- * First scene. Main character does not know where he is. Everything is dark in here. Where will be the light?
+ * First scene. Main character does not know where he is. Everything is dark in
+ * here. Where will be the light?
  */
 public class NgRoom1 extends EmptyScene {
 
@@ -95,11 +95,11 @@ public class NgRoom1 extends EmptyScene {
 	private SceneElement key;
 	private BasicField<Integer> timesField;
 
-	//private EAdScene initScene;
+	// private EAdScene initScene;
 
 	public NgRoom1() {
-		//this.initScene = initScene;
-		//NgCommon.init();
+		// this.initScene = initScene;
+		// NgCommon.init();
 		initConditions();
 		setBackground(new SceneElement(new Image("@drawable/ng_room1_bg.png")));
 
@@ -205,11 +205,10 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	/**
-	 * When the user clicks on the main character, it looks to the user and a text appears 
+	 * When the user clicks on the main character, it looks to the user and a
+	 * text appears
 	 */
 	private void setMainCharactersSpeech() {
-		EAdString talking = new EAdString(
-				"Hey! What do you want? let's explore this room!");
 		SpeakSceneElementEf speech = new SpeakSceneElementEf();
 
 		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
@@ -221,6 +220,7 @@ public class NgRoom1 extends EmptyScene {
 
 	/**
 	 * Puts the darkness in the room
+	 * 
 	 * @param ng
 	 */
 	private void setDarkness(SceneElement ng) {

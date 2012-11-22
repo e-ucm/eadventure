@@ -91,12 +91,6 @@ public class ImportWriteReadTest {
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 	}
 
-	private static File getFile(String name) {
-		File f = new File(ClassLoader.getSystemResource(name).getPath());
-		assertTrue(f.exists());
-		return f;
-	}
-
 	@Test
 	public void testImport() throws Exception {
 
