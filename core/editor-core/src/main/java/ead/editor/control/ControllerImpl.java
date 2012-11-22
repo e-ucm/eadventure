@@ -67,7 +67,7 @@ public class ControllerImpl implements Controller {
 	private NavigationController navigationController;
 	private ViewController viewController;
 	private CommandManager commandManager;
-	private GdxAssetHandler nonCachingAssetHandler;
+	private GdxAssetHandler assetHandler;
 	private GdxDesktopGUI gui;
 
 	private final Provider<AssetViewer> assetViewerProvider;
@@ -84,10 +84,9 @@ public class ControllerImpl implements Controller {
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			GdxDesktopGUI gdxGui, GdxAssetHandler nonCachingAssetHandler,
+			GdxDesktopGUI gdxGui, GdxAssetHandler assetHandler,
 			Provider<AssetViewer> assetViewerProvider,
-			Provider<GameLoader> gameLoaderProvider,
-			GdxDesktopGUI gui) {
+			Provider<GameLoader> gameLoaderProvider, GdxDesktopGUI gui) {
 
 		this.editorConfig = editorConfig;
 		this.editorModel = editorModel;
@@ -95,10 +94,12 @@ public class ControllerImpl implements Controller {
 		this.navigationController = navigationController;
 		this.viewController = viewControler;
 		this.commandManager = commandManager;
-		this.nonCachingAssetHandler = nonCachingAssetHandler;
+		this.assetHandler = assetHandler;
 		this.assetViewerProvider = assetViewerProvider;
 		this.gameLoaderProvider = gameLoaderProvider;
 		this.gui = gui;
+
+		assetHandler.setCacheEnabled(true);
 	}
 
 	@Override
@@ -169,7 +170,7 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public GdxAssetHandler getAssetHandler() {
-		return nonCachingAssetHandler;
+		return assetHandler;
 	}
 
 	/**
@@ -178,8 +179,8 @@ public class ControllerImpl implements Controller {
 	@Override
 	public GameLoader createGameLoader() {
 		gui.finish();
-		nonCachingAssetHandler.setCacheEnabled(true);
-		nonCachingAssetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader().getSaveDir().getPath()));
+		assetHandler.setResourcesLocation(new EAdURI(editorModel
+				.getLoader().getSaveDir().getPath()));
 		return gameLoaderProvider.get();
 	}
 
@@ -188,8 +189,8 @@ public class ControllerImpl implements Controller {
 	 */
 	@Override
 	public AssetViewer createAssetViewer() {
-		nonCachingAssetHandler.setCacheEnabled(true);
-		nonCachingAssetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader().getSaveDir().getPath()));
+		assetHandler.setResourcesLocation(new EAdURI(editorModel
+				.getLoader().getSaveDir().getPath()));
 		return assetViewerProvider.get();
 	}
 }

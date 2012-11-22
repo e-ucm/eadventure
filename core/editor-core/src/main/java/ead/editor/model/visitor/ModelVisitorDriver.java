@@ -229,7 +229,8 @@ public class ModelVisitorDriver {
 
 			int i = 0;
 			for (String assetId : ((BasicAssetBundle) target).getIds()) {
-				AssetDescriptor asset = ((BasicAssetBundle) target).getAsset(assetId);
+				AssetDescriptor asset = ((BasicAssetBundle) target)
+						.getAsset(assetId);
 				driveInto(asset, target, "inner-asset-" + i);
 				i++;
 			}
@@ -241,7 +242,8 @@ public class ModelVisitorDriver {
 
 				int j = 0;
 				for (String assetId : ((BasicAssetBundle) bundle).getIds()) {
-					AssetDescriptor asset = ((BasicAssetBundle) bundle).getAsset(assetId);
+					AssetDescriptor asset = ((BasicAssetBundle) bundle)
+							.getAsset(assetId);
 					driveInto(asset, target, "inner-asset-" + j);
 					j++;
 				}

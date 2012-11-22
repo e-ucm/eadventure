@@ -62,6 +62,8 @@ import ead.editor.control.Controller;
 import ead.editor.model.nodes.AssetsNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import java.util.HashMap;
+import javax.swing.JTabbedPane;
 
 /**
  * An elementPanel that can display anything, in a non-editable fashion.
@@ -73,74 +75,103 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
 
 	private AssetsNode assetsNode;
-	
-	private JPanel scrollable;
-	private JPanel spacerPanel;
-	private ArrayList<AssetPanel> panels = new ArrayList<AssetPanel>();	
-	
+
+	private JTabbedPane tabs;
+	private HashMap<String, AssetCategoryPanel> panels
+			= new HashMap<String, AssetCategoryPanel>();
+
 	public AssetsPanel() {
-		scrollable = new JPanel();
-		scrollable.setLayout(new GridBagLayout());
-		spacerPanel = new JPanel();
+		tabs = new JTabbedPane();
 		setLayout(new BorderLayout());
-		add(new JScrollPane(scrollable), BorderLayout.CENTER);
+		this.add(tabs, BorderLayout.CENTER);
 	}
 
-	/**
-	 * Prepare the panel for drawing. Makes changes visible.
-	 */
-	public void commit() {
-		scrollable.removeAll();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridheight = 1;
-		gbc.gridwidth = 1;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0;
-		for (JPanel p : panels) {
-			gbc.gridy++;
-			scrollable.add(p, gbc);
-		}
-		gbc.gridy++;
-		gbc.weighty = 1.0;
-		scrollable.add(spacerPanel, gbc);
-		revalidate();
-	}	
-	
 	@Override
 	protected void rebuild() {
 		this.assetsNode = (AssetsNode) target;
-		panels.clear();
-		for (DependencyNode n : assetsNode.getNodes(controller.getModel())) {
-			panels.add(new AssetPanel(n, controller));
+		for (AssetCategoryPanel cp : panels.values()) {
+			cp.clear();
 		}
-		Collections.sort(panels, new Comparator<AssetPanel>() {
-			@Override
-			public int compare(AssetPanel a, AssetPanel b) {
-				String aa = a.an.getContent().getClass().getName();
-				String bb = b.an.getContent().getClass().getName();
-				return aa.compareTo(bb);
+		tabs.removeAll();
+		for (DependencyNode n : assetsNode.getNodes(controller.getModel())) {
+			String cn = n.getContent().getClass().getName();
+			AssetCategoryPanel cp = panels.get(cn);
+			if (cp == null) {
+				cp = new AssetCategoryPanel();
+				panels.put(cn, cp);
+				tabs.add(cn.substring(cn.lastIndexOf('.')+1), cp);
 			}
-		});
-		commit();
+			cp.add(new AssetPanel(n, controller));
+		}
+		for (AssetCategoryPanel cp : panels.values()) {
+			cp.commit();
+		}
+	}
+
+	private class AssetCategoryPanel extends JPanel {
+		private JPanel scrollable;
+		private JPanel spacerPanel;
+		private ArrayList<AssetPanel> panels = new ArrayList<AssetPanel>();
+
+		private AssetCategoryPanel() {
+			scrollable = new JPanel();
+			scrollable.setLayout(new GridBagLayout());
+			spacerPanel = new JPanel();
+			setLayout(new BorderLayout());
+			add(new JScrollPane(scrollable), BorderLayout.CENTER);
+		}
+
+		/**
+		 * Prepare the panel for drawing. Makes changes visible.
+		 */
+		public void commit() {
+			scrollable.removeAll();
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.gridheight = 1;
+			gbc.gridwidth = 1;
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weightx = 1.0;
+			gbc.weighty = 0;
+			for (JPanel p : panels) {
+				gbc.gridy++;
+				scrollable.add(p, gbc);
+			}
+			gbc.gridy++;
+			gbc.weighty = 1.0;
+			scrollable.add(spacerPanel, gbc);
+			revalidate();
+		}
+
+		public void add(AssetPanel panel) {
+			panels.add(panel);
+		}
+
+		public void clear() {
+			for (AssetPanel p : panels) {
+				if (p.visible) {
+					p.toggleShow();
+				}
+			}
+			panels.clear();
+		}
 	}
 
 	private class AssetPanel extends JPanel {
-		private DependencyNode an;
+		private final DependencyNode an;
 		private JPanel canvasPanel;
 		private boolean visible = false;
 		private AssetViewer av;
-		private JButton showButton; 
-		private AssetDescriptor descriptor; 
-		
+		private JButton showButton;
+		private AssetDescriptor descriptor;
+
 		public void toggleShow() {
 			if (visible) {
 				if (av != null) {
 					av.stop();
 				}
-				canvasPanel.removeAll();				
+				canvasPanel.removeAll();
 				showButton.setText("<O>");
 			} else {
 				av = controller.createAssetViewer();
@@ -150,40 +181,38 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			}
 			visible = !visible;
 		}
-		
-		public AssetPanel(DependencyNode an, Controller controller) {						
+
+		public AssetPanel(DependencyNode an, Controller controller) {
 			this.an = an;
-			this.descriptor = (AssetDescriptor)an.getContent();
-			GridBagConstraints gbc = new GridBagConstraints(
-					1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, 
-					GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 
-					0, 0);			
+			this.descriptor = (AssetDescriptor) an.getContent();
+			GridBagConstraints gbc = new GridBagConstraints(1, 0, 1, 1, 1, 0,
+					GridBagConstraints.WEST, GridBagConstraints.BOTH,
+					new Insets(5, 5, 5, 5), 0, 0);
 			setLayout(new GridBagLayout());
 			JLabel description = new JLabel();
 			description.setText("<html>"
-					+ descriptor.getClass().getSimpleName()
-					+ "<br>"
-					+ descriptor.toString()
-					+ "</html>");
+					+ descriptor.toString() + "</html>");
 			description.setHorizontalAlignment(SwingConstants.LEFT);
 			add(description, gbc);
 			canvasPanel = new JPanel();
-			canvasPanel.setLayout(new BorderLayout());			
+			canvasPanel.setLayout(new BorderLayout());
 			canvasPanel.setPreferredSize(new Dimension(100, 100));
 			gbc.weightx = 0;
 			gbc.gridx = 0;
 			gbc.gridheight = 2;
 			add(canvasPanel, gbc);
 			showButton = new JButton("<O>");
-			if ( ! ( descriptor instanceof EAdDrawable)) {
-				showButton.setEnabled(false);
-			}
 			showButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					toggleShow();
 				}
 			});
+			if (!(descriptor instanceof EAdDrawable)) {
+				showButton.setEnabled(false);
+			} else {
+				toggleShow();
+			}
 			gbc.weightx = 0;
 			gbc.gridx = 1;
 			gbc.gridy = 1;
