@@ -55,6 +55,8 @@ import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
  */
 public class AssetViewer {
 
+	private static LwjglAWTCanvas sharedContext;
+
 	private LwjglAWTCanvas canvas;
 
 	private AssetApplicationListener app;
@@ -65,7 +67,12 @@ public class AssetViewer {
 	public AssetViewer(AssetHandler assetHandler, AssetApplicationListener app) {
 		this.assetHandler = assetHandler;
 		this.app = app;
-		this.canvas = new LwjglAWTCanvas(app, true);
+		if (sharedContext == null) {
+			this.canvas = new LwjglAWTCanvas(app, true);
+			sharedContext = canvas;
+		} else {
+			this.canvas = new LwjglAWTCanvas(app, true, sharedContext);
+		}
 	}
 
 	public void setDrawable(final EAdDrawable drawable) {
@@ -92,7 +99,7 @@ public class AssetViewer {
 	/**
 	 * Replaces the current canvas with a copy of an existing one.
 	 * 
-	 * @param canvas 
+	 * @param canvas
 	 */
 	public void setCanvas(LwjglAWTCanvas canvas) {
 		this.canvas.stop();

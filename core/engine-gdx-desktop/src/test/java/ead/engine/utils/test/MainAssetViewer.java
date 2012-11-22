@@ -94,7 +94,6 @@ public class MainAssetViewer implements Runnable {
 		AssetViewer viewer6 = i.getInstance(AssetViewer.class);
 		AssetViewer viewer7 = i.getInstance(AssetViewer.class);
 		final AssetViewer viewer2 = i.getInstance(AssetViewer.class);
-		viewer2.setCanvas(viewer1.getLwjglAWTCanvas());
 
 		viewer1.setDrawable(standNorth);
 		viewer8.setDrawable(frames2);
