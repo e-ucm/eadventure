@@ -80,10 +80,6 @@ public class GdxDesktopGUI extends GdxGUI {
 
 	private Component component;
 
-	private static GdxDesktopGUI previous;
-	
-	private boolean finished = false;
-	
 	@Inject
 	public GdxDesktopGUI(EngineConfiguration engineConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
@@ -96,12 +92,6 @@ public class GdxDesktopGUI extends GdxGUI {
 	@Override
 	public void initialize() {
 
-		// Makes sure that previous instances are closed before running this one
-		if (previous != null && ! previous.finished) {
-			previous.finish();			
-		}
-		previous = this;
-		
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)
@@ -232,6 +222,5 @@ public class GdxDesktopGUI extends GdxGUI {
 			frame.setVisible(false);
 		}
 		super.finish();
-		finished = true;
 	}
 }

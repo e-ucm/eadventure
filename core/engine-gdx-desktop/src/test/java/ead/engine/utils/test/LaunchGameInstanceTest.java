@@ -50,7 +50,7 @@ import ead.engine.core.gdx.desktop.DesktopGame;
 
 /**
  * Test to launch several instances of the engine
- * 
+ *
  */
 public class LaunchGameInstanceTest {
 
@@ -63,24 +63,23 @@ public class LaunchGameInstanceTest {
 		BasicScene scene = new BasicScene();
 		chapter1.setInitialScene(scene);
 
-		JFrame frame = new JFrame("Frame not closing");
-		frame.setVisible(true);
 		JButton b = new JButton("Launch engine");
-		frame.getContentPane().add(b);
-		frame.pack();
 		b.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (game != null) {
-					game.exit();
-				}
 				game = new DesktopGame(false);
 				game.load(model, null, null);
 			}
 
 		});
 
+		JFrame frame = new JFrame("Frame not closing");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(200, 200);
+		frame.getContentPane().add(b);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 }

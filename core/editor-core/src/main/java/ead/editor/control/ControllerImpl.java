@@ -68,6 +68,7 @@ public class ControllerImpl implements Controller {
 	private ViewController viewController;
 	private CommandManager commandManager;
 	private GdxAssetHandler nonCachingAssetHandler;
+	private GdxDesktopGUI gui;
 
 	private final Provider<AssetViewer> assetViewerProvider;
 	private final Provider<GameLoader> gameLoaderProvider;
@@ -77,15 +78,16 @@ public class ControllerImpl implements Controller {
 	 * the like.
 	 */
 	private HashMap<String, Action> actionMap = new HashMap<String, Action>();
-	
+
 	@Inject
 	public ControllerImpl(EditorConfig editorConfig, EditorModel editorModel,
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			GdxDesktopGUI gdxGui, GdxAssetHandler nonCachingAssetHandler, 
+			GdxDesktopGUI gdxGui, GdxAssetHandler nonCachingAssetHandler,
 			Provider<AssetViewer> assetViewerProvider,
-			Provider<GameLoader> gameLoaderProvider) {
+			Provider<GameLoader> gameLoaderProvider,
+			GdxDesktopGUI gui) {
 
 		this.editorConfig = editorConfig;
 		this.editorModel = editorModel;
@@ -96,6 +98,7 @@ public class ControllerImpl implements Controller {
 		this.nonCachingAssetHandler = nonCachingAssetHandler;
 		this.assetViewerProvider = assetViewerProvider;
 		this.gameLoaderProvider = gameLoaderProvider;
+		this.gui = gui;
 	}
 
 	@Override
@@ -163,17 +166,18 @@ public class ControllerImpl implements Controller {
 	public void putAction(String name, Action action) {
 		actionMap.put(name, action);
 	}
-	
+
 	@Override
 	public GdxAssetHandler getAssetHandler() {
 		return nonCachingAssetHandler;
 	}
-	
+
 	/**
 	 * Provides GameLoaders on request
 	 */
 	@Override
 	public GameLoader createGameLoader() {
+		gui.finish();
 		nonCachingAssetHandler.setCacheEnabled(true);
 		nonCachingAssetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader().getSaveDir().getPath()));
 		return gameLoaderProvider.get();
@@ -184,7 +188,7 @@ public class ControllerImpl implements Controller {
 	 */
 	@Override
 	public AssetViewer createAssetViewer() {
-		nonCachingAssetHandler.setCacheEnabled(false);
+		nonCachingAssetHandler.setCacheEnabled(true);
 		nonCachingAssetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader().getSaveDir().getPath()));
 		return assetViewerProvider.get();
 	}
