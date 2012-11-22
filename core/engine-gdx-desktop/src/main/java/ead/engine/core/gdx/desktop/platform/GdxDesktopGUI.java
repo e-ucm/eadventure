@@ -216,11 +216,11 @@ public class GdxDesktopGUI extends GdxGUI {
 		return frame;
 	}
 
+	@Override
 	public void finish() {
 		if (frame != null) {
 			frame.setVisible(false);
 		}
 		super.finish();
 	}
-
 }

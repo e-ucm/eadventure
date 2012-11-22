@@ -41,15 +41,12 @@ import java.awt.Canvas;
 import java.util.List;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Inject;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.engine.core.gdx.utils.assetviewer.AssetApplicationListener;
-import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
-import ead.tools.reflection.ReflectionProvider;
 
 /**
  * Contains a canvas in which assets can be represented as they will be
@@ -58,64 +55,48 @@ import ead.tools.reflection.ReflectionProvider;
  */
 public class AssetViewer {
 
-	/**
-	 * Injector is shared by all the instances
-	 */
-	private static Injector injector;
-
-	private LwjglAWTCanvas lwjglCanvas;
+	private LwjglAWTCanvas canvas;
 
 	private AssetApplicationListener app;
 
 	private AssetHandler assetHandler;
 
-	public AssetViewer() {
-		this(null);
-	}
-
-	public AssetViewer(LwjglAWTCanvas canvas) {
-		if (injector == null) {
-			injector = Guice.createInjector(new AssetViewerModule());
-			injector.getInstance(AssetHandler.class).setCacheEnabled(false);
-		}
-
-		assetHandler = injector.getInstance(AssetHandler.class);
-
-		app = new AssetApplicationListener(injector
-				.getInstance(FontHandler.class), injector
-				.getInstance(ReflectionProvider.class));
-
-		if (canvas == null) {
-			lwjglCanvas = new LwjglAWTCanvas(app, true);
-		} else {
-			lwjglCanvas = new LwjglAWTCanvas(app, true, canvas);
-		}
-		app.setGraphics(lwjglCanvas.getGraphics());
+	@Inject
+	public AssetViewer(AssetHandler assetHandler, AssetApplicationListener app) {
+		this.assetHandler = assetHandler;
+		this.app = app;
+		this.canvas = new LwjglAWTCanvas(app, true);
 	}
 
 	public void setDrawable(final EAdDrawable drawable) {
-		lwjglCanvas.postRunnable(new Runnable() {
-
+		app.setGraphics(canvas.getGraphics());
+		canvas.postRunnable(new Runnable() {
 			@SuppressWarnings("rawtypes")
 			@Override
 			public void run() {
 				app.setDrawable((RuntimeCompoundDrawable) assetHandler
 						.getRuntimeAsset(drawable));
 			}
-
 		});
-
 	}
 
 	public void setList(final List<String> states) {
-		lwjglCanvas.postRunnable(new Runnable() {
-
+		canvas.postRunnable(new Runnable() {
 			@Override
 			public void run() {
 				app.setStates(states);
 			}
-
 		});
+	}
+
+	/**
+	 * Replaces the current canvas with a copy of an existing one.
+	 * 
+	 * @param canvas 
+	 */
+	public void setCanvas(LwjglAWTCanvas canvas) {
+		this.canvas.stop();
+		this.canvas = new LwjglAWTCanvas(app, true, canvas);
 	}
 
 	/**
@@ -124,12 +105,12 @@ public class AssetViewer {
 	 * @return
 	 */
 	public Canvas getCanvas() {
-		return lwjglCanvas.getCanvas();
+		return canvas.getCanvas();
 
 	}
 
 	public LwjglAWTCanvas getLwjglAWTCanvas() {
-		return lwjglCanvas;
+		return canvas;
 	}
 
 	/**
@@ -137,7 +118,6 @@ public class AssetViewer {
 	 * destroyed
 	 */
 	public void stop() {
-		lwjglCanvas.stop();
+		canvas.stop();
 	}
-
 }

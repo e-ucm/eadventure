@@ -55,6 +55,8 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 
 	protected GdxEngine engine;
 
+	private boolean started;
+
 	@Inject
 	public GdxGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
@@ -89,7 +91,15 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	}
 
 	@Override
+	public void initialize() {
+		started = true;
+	}
+
+	@Override
 	public void finish() {
-		Gdx.app.exit();
+		if (started) {
+			Gdx.app.exit();
+			started = false;
+		}
 	}
 }

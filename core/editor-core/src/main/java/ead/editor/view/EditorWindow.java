@@ -65,7 +65,7 @@ import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
 import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.ViewController;
-import ead.editor.model.nodes.ActorNode;
+import ead.editor.model.nodes.CharacterNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.dock.ElementPanel;
@@ -82,10 +82,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
 
+import ead.editor.model.nodes.AssetsNode;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.RunMenu;
 import ead.editor.view.menu.WindowMenu;
+import ead.editor.view.panel.AssetsPanel;
 
 /**
  * Default implementation of the main editor window
@@ -424,7 +426,8 @@ public class EditorWindow implements ViewController {
 		setIcons();
 
 		// Add your panel factories here
-		registerElementPanelFactory(ActorNode.class, ActorPanel.class);
+		registerElementPanelFactory(CharacterNode.class, ActorPanel.class);
 		registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
+		registerElementPanelFactory(AssetsNode.class, AssetsPanel.class);
 	}
 }

@@ -41,22 +41,35 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.util.EAdURI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.utils.swing.SwingUtilities;
 
-public class MainAssetViewer {
+public class MainAssetViewer implements Runnable {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		Thread.sleep(5000);
+		SwingUtilities.doInEDT(new MainAssetViewer());
+	}
+
+	@Override
+	public void run() {
 
 		final Image standNorth = new Image("@drawable/man_stand_n.png");
 		final BalloonShape shape = new BalloonShape(10, 10, 100, 100,
@@ -66,16 +79,22 @@ public class MainAssetViewer {
 		FramesAnimation frames2 = new FramesAnimation();
 		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 500));
 		frames2.addFrame(new Frame("@drawable/man_walk_w_2.png", 500));
-		JFrame frame = new JFrame();
 
-		AssetViewer viewer1 = new AssetViewer();
-		AssetViewer viewer8 = new AssetViewer();
-		AssetViewer viewer3 = new AssetViewer();
-		AssetViewer viewer4 = new AssetViewer();
-		AssetViewer viewer5 = new AssetViewer();
-		AssetViewer viewer6 = new AssetViewer();
-		AssetViewer viewer7 = new AssetViewer();
-		final AssetViewer viewer2 = new AssetViewer(viewer1.getLwjglAWTCanvas());
+		Injector i = Guice.createInjector(new AssetViewerModule());
+		AssetHandler ah = i.getInstance(AssetHandler.class);
+		ah.setCacheEnabled(false);
+		ah.setResourcesLocation(new EAdURI(new File(
+				"../../demos/techdemo/src/main/resources/").getPath()));
+
+		AssetViewer viewer1 = i.getInstance(AssetViewer.class);
+		AssetViewer viewer8 = i.getInstance(AssetViewer.class);
+		AssetViewer viewer3 = i.getInstance(AssetViewer.class);
+		AssetViewer viewer4 = i.getInstance(AssetViewer.class);
+		AssetViewer viewer5 = i.getInstance(AssetViewer.class);
+		AssetViewer viewer6 = i.getInstance(AssetViewer.class);
+		AssetViewer viewer7 = i.getInstance(AssetViewer.class);
+		final AssetViewer viewer2 = i.getInstance(AssetViewer.class);
+		viewer2.setCanvas(viewer1.getLwjglAWTCanvas());
 
 		viewer1.setDrawable(standNorth);
 		viewer8.setDrawable(frames2);
@@ -102,8 +121,8 @@ public class MainAssetViewer {
 		panel.add(viewer7.getCanvas());
 		panel.add(viewer8.getCanvas());
 
+		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new BorderLayout());
-
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 
 		JButton button = new JButton("Change");

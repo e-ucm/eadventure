@@ -43,6 +43,8 @@ import ead.importer.annotation.ImportAnnotator;
 import ead.importer.annotation.ImportAnnotator.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,11 +59,12 @@ public class EditorAnnotator implements ImportAnnotator {
 
 	private ArrayList<EAdElement> stack = new ArrayList<EAdElement>();
 	private HashMap<EAdElement, ArrayList<Annotation>> annotations = new HashMap<EAdElement, ArrayList<Annotation>>();
+	private HashMap<EAdElement, HashSet<EAdElement>> children = new HashMap<EAdElement, HashSet<EAdElement>>();
 
 	public EditorAnnotator() {
-		logger.warn("info is enabled");
-		logger.info("info is enabled");
-		logger.debug("debug is enabled");
+		logger.warn("warning level enabled");
+		logger.info("info level enabled");
+		logger.debug("debug level enabled");
 	}
 
 	public class Annotation {
@@ -134,17 +137,66 @@ public class EditorAnnotator implements ImportAnnotator {
 
 	/**
 	 * Ids may be changed by the editor; this makes sure that the 'get'
-	 * operation works with updated ids.
+	 * operations works with updated ids.
 	 */
 	public void rebuild() {
-		HashMap<EAdElement, ArrayList<Annotation>> backup = new HashMap<EAdElement, ArrayList<Annotation>>();
-		backup.putAll(annotations);
-		annotations = backup;
+		HashMap<EAdElement, ArrayList<Annotation>> annotationBackup = new HashMap<EAdElement, ArrayList<Annotation>>();
+		annotationBackup.putAll(annotations);
+		annotations = annotationBackup;
+		HashMap<EAdElement, HashSet<EAdElement>> childrenBackup = new HashMap<EAdElement, HashSet<EAdElement>>();
+		childrenBackup.putAll(children);
+		for (Map.Entry<EAdElement, HashSet<EAdElement>> p : children.entrySet()) {
+			HashSet<EAdElement> set = new HashSet<EAdElement>();
+			set.addAll(p.getValue());
+			p.setValue(set);
+		}
 	}
+
+	private static final ArrayList<Annotation> emptyAnnotations = new ArrayList<Annotation>();
 
 	public ArrayList<Annotation> get(EAdElement element) {
 		ArrayList<Annotation> al = annotations.get(element);
-		return (al != null) ? al : new ArrayList<Annotation>();
+		return (al != null) ? al : emptyAnnotations;
+	}
+
+	/**
+	 * Returns all elements with 'element' as their direct
+	 * context-ancestor
+	 * @param element
+	 * @return
+	 */
+	private static final HashSet<EAdElement> emptyChildren = new HashSet<EAdElement>();
+
+	public HashSet<EAdElement> getChildren(EAdElement element) {
+		HashSet<EAdElement> rc = children.get(element);
+		return (rc != null) ? rc : emptyChildren;
+	}
+
+	/**
+	 * Returns all values of annotations on an element with Key.Role
+	 * starting with typePrefix.
+	 * @param element
+	 * @param typePrefix
+	 * @return
+	 */
+	public HashSet<String> get(EAdElement element, String typePrefix) {
+		HashSet<String> results = new HashSet<String>();
+		for (Annotation a : get(element)) {
+			String v = a.getValue().toString();
+			if (a.getType().equals(Type.Entry)) {
+				logger.debug("evaluating {}::{} vs {}", new Object[] {
+						a.getKey(), a.getValue(), typePrefix });
+				if (a.getKey().equals(Key.Role) && v.startsWith(typePrefix)) {
+					results.add(v);
+				}
+			}
+		}
+		return results;
+	}
+
+	@Override
+	public void annotate(Type key, Object... values) {
+		annotate(stack.get(stack.size() - 1), key, values);
 	}
 
 	@Override
@@ -152,6 +204,17 @@ public class EditorAnnotator implements ImportAnnotator {
 		if (element == null) {
 			element = new PlaceHolder(values[0].toString());
 		}
+
+		if (!stack.isEmpty()) {
+			EAdElement parent = stack.get(stack.size() - 1);
+			HashSet<EAdElement> cs = children.get(parent);
+			if (cs == null) {
+				cs = new HashSet<EAdElement>();
+				children.put(parent, cs);
+			}
+			cs.add(element);
+		}
+
 		switch (key) {
 		case Open: {
 			logger.debug("Entering {}", element);

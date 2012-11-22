@@ -434,25 +434,26 @@ public class FileMenu extends AbstractEditorMenu {
 				if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION)) {
 					selection.selectedFile = null;
 					jd.dispose();
+				} else if (e.getActionCommand().equals(
+						JFileChooser.APPROVE_SELECTION)) {
+					File f = jfc.getSelectedFile();
+					if (f != null && f.getParentFile().isDirectory()) {
+						File nextDirectory = f.getParentFile();
+						ec.put(EditorConf.LastDirectory, nextDirectory
+								.getAbsolutePath());
+						ec.save(null);
+					}
+					if (f == null
+							|| (!f.exists() && toOpen)
+							|| (fileType == JFileChooser.FILES_ONLY && f
+									.isDirectory())) {
+						JOptionPane.showMessageDialog(p, errorDescription,
+								errorTitle, JOptionPane.ERROR_MESSAGE);
+						f = null;
+					}
+					selection.selectedFile = f;
+					jd.dispose();
 				}
-
-				File f = jfc.getSelectedFile();
-				if (f != null && f.getParentFile().isDirectory()) {
-					File nextDirectory = f.getParentFile();
-					ec.put(EditorConf.LastDirectory, nextDirectory
-							.getAbsolutePath());
-					ec.save(null);
-				}
-				if (f == null
-						|| (!f.exists() && toOpen)
-						|| (fileType == JFileChooser.FILES_ONLY && f
-								.isDirectory())) {
-					JOptionPane.showMessageDialog(p, errorDescription,
-							errorTitle, JOptionPane.ERROR_MESSAGE);
-					f = null;
-				}
-				selection.selectedFile = f;
-				jd.dispose();
 			}
 		});
 		jd.pack();

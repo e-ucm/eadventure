@@ -35,80 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.animation;
-
-import ead.common.interfaces.Param;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.resources.assets.drawable.EAdDrawable;
+package ead.editor.model.nodes;
 
 /**
- * Represents a frames animation. Contains frames
- * 
+ * Wraps a character.
+ *
+ * @author mfreire
  */
-public class FramesAnimation implements EAdDrawable {
+public class CharacterNode extends EditorNode {
 
-	@Param("frames")
-	private EAdList<Frame> frames;
-
-	private int totalTime = 0;
-
-	/**
-	 * Constructs an empty animation
-	 */
-	public FramesAnimation() {
-		frames = new EAdListImpl<Frame>(Frame.class);
-	}
-
-	/**
-	 * Adds a frame to the and of the animation
-	 * 
-	 * @param frame
-	 */
-	public void addFrame(Frame frame) {
-		frames.add(frame);
-		totalTime += frame.getTime();
-	}
-
-	/**
-	 * Returns the frame situated at the given index
-	 * 
-	 * @param index
-	 *            index
-	 * @return the frame at the index
-	 */
-	public Frame getFrame(int index) {
-		return frames.get(index);
-	}
-
-	/**
-	 * Returns the total number of frames of this animation
-	 * 
-	 * @return the number of frames
-	 */
-	public int getFrameCount() {
-		return frames.size();
-	}
-
-	public Frame getFrameFromTime(int timeDisplayed) {
-		int i = this.getFrameIndexFromTime(timeDisplayed);
-		return frames.get(i);
-	}
-
-	public int getFrameIndexFromTime(int timeDisplayed) {
-		if (totalTime > 0) {
-			long time = timeDisplayed % totalTime;
-			int i = 0;
-			while (time > getFrame(i).getTime()) {
-				time -= getFrame(i).getTime();
-				i++;
-			}
-			return i;
-		}
-		return 0;
-	}
-
-	public EAdList<Frame> getFrames() {
-		return frames;
+	public CharacterNode(int id) {
+		super(id);
 	}
 }

@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.model.EditorModelImpl;
+import java.util.HashSet;
 
 /**
  * A factory that recognizes attrezzo-nodes
@@ -69,22 +70,31 @@ public class ActorFactory implements EditorNodeFactory {
 				continue;
 			}
 			EAdElement e = (EAdElement) n.getContent();
-			for (EditorAnnotator.Annotation a : annotator.get(e)) {
-				if (a.getKey().equals("type") && a.getValue().equals("actor")) {
-					ActorNode an = new ActorNode(model.generateId(null));
-					an.addChild(n);
-					logger.debug("A star is born! actor {} {}", new Object[] {
-							an.getId(), an.getTextualDescription(model) });
-					//                    for (DependencyEdge de : g.outgoingEdgesOf(n)) {
-					//                        logger.debug("Outgoing dep: {}",
-					//                                g.getEdgeTarget(de).getTextualDescription(model));
-					//                    }
-					newNodes.add(an);
-					logger.debug("The star is up in the sky...");
-					break;
-				}
+			HashSet<String> notes = annotator.get(e, "actor");
+			if (notes.isEmpty()) {
+				continue;
+			}
+			for (EAdElement child : annotator.getChildren(e)) {
+				logger.debug("Child: {}", child);
+			}
+
+			EditorNode an = null;
+			if (notes.contains("actor.player") || notes.contains("actor.npc")) {
+				an = new CharacterNode(model.generateId(null));
+			} else if (notes.contains("actor.npc")) {
+				an = new AtrezzoNode(model.generateId(null));
+			} else if (notes.contains("actor.item")) {
+				an = new AtrezzoNode(model.generateId(null));
+			} else {
+				logger.warn("Bad annotations on actor-node");
+			}
+
+			if (an != null) {
+				an.addChild(n);
+				newNodes.add(an);
 			}
 		}
+
 		// now, register them
 		for (EditorNode en : newNodes) {
 			model.registerEditorNodeWithGraph(en);

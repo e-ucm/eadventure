@@ -90,8 +90,96 @@ public abstract class AbstractEditorMenu extends JMenu {
 					+ "' must contain a '_' before its end");
 		}
 		char c = text.toLowerCase().charAt(pos + 1);
-		//		return KeyEvent.getExtendedKeyCodeForChar(c);
-		return 0;
+		return getKeyCodeForChar(c);
+	}
+
+	/**
+	 * Java 1.6 does not support 1.7's KeyEvent.getExtendedKeyCodeForChar.
+	 * This is a temporary replacement.
+	 * @param c a char (ideally non-accented)
+	 * @return the corresponding key-code
+	 */
+	private static int getKeyCodeForChar(char c) {
+		char lc = Character.toLowerCase(c);
+		char uc = Character.toUpperCase(c);
+		switch (lc) {
+		case '0':
+			return KeyEvent.VK_0;
+		case '1':
+			return KeyEvent.VK_1;
+		case '2':
+			return KeyEvent.VK_2;
+		case '3':
+			return KeyEvent.VK_3;
+		case '4':
+			return KeyEvent.VK_4;
+		case '5':
+			return KeyEvent.VK_5;
+		case '6':
+			return KeyEvent.VK_6;
+		case '7':
+			return KeyEvent.VK_7;
+		case '8':
+			return KeyEvent.VK_8;
+		case '9':
+			return KeyEvent.VK_9;
+		case 'a':
+			return KeyEvent.VK_A;
+		case 'b':
+			return KeyEvent.VK_B;
+		case 'c':
+			return KeyEvent.VK_C;
+		case 'd':
+			return KeyEvent.VK_D;
+		case 'e':
+			return KeyEvent.VK_E;
+		case 'f':
+			return KeyEvent.VK_F;
+		case 'g':
+			return KeyEvent.VK_G;
+		case 'h':
+			return KeyEvent.VK_H;
+		case 'i':
+			return KeyEvent.VK_I;
+		case 'j':
+			return KeyEvent.VK_J;
+		case 'k':
+			return KeyEvent.VK_K;
+		case 'l':
+			return KeyEvent.VK_L;
+		case 'm':
+			return KeyEvent.VK_M;
+		case 'n':
+			return KeyEvent.VK_N;
+		case 'o':
+			return KeyEvent.VK_O;
+		case 'p':
+			return KeyEvent.VK_P;
+		case 'q':
+			return KeyEvent.VK_Q;
+		case 'r':
+			return KeyEvent.VK_R;
+		case 's':
+			return KeyEvent.VK_S;
+		case 't':
+			return KeyEvent.VK_T;
+		case 'u':
+			return KeyEvent.VK_U;
+		case 'v':
+			return KeyEvent.VK_V;
+		case 'w':
+			return KeyEvent.VK_W;
+		case 'x':
+			return KeyEvent.VK_X;
+		case 'y':
+			return KeyEvent.VK_Y;
+		case 'z':
+			return KeyEvent.VK_Z;
+
+			// seems to work for most characters in 1.7's ExtendedKeyCodes
+		default:
+			return 0x01000000 + uc;
+		}
 	}
 
 	/**

@@ -46,10 +46,9 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.editor.GdxEditorAssetHandler;
+import ead.common.util.EAdURI;
 import ead.editor.model.EditorModel;
 import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
 
 /**
  * Default implementation for the {@link ProjectController}.
@@ -142,13 +141,7 @@ public class ProjectControllerImpl implements ProjectController {
 	@Override
 	public void doRun() {
 		EditorModel em = controller.getModel();
-		GameLoader g = controller.getGameLoader();
-		GdxAssetHandler h = controller.getAssetHandler();
-		((GdxEditorAssetHandler) h)
-				.setResourcePath(em.getLoader().getSaveDir());
-
-		controller.getGameWindow().setVisible(true);
-
+		GameLoader g = controller.createGameLoader();
 		g.loadGame(em.getEngineModel(), em.getStringHandler().getStrings(), em
 				.getEngineProperties());
 	}

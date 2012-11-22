@@ -38,12 +38,13 @@
 package ead.editor.model.nodes;
 
 /**
+ * Wraps an item
  *
  * @author mfreire
  */
-public class ActorNode extends EditorNode {
+public class ItemNode extends EditorNode {
 
-	public ActorNode(int id) {
+	public ItemNode(int id) {
 		super(id);
 	}
 }

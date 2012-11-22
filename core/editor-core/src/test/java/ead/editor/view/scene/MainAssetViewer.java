@@ -41,96 +41,112 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.Image;
+import org.junit.Before;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.util.EAdURI;
+import ead.editor.EditorGuiceModule;
+import ead.editor.GdxEditorModule;
+import ead.editor.control.Controller;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
+import ead.tools.java.JavaToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
+import ead.utils.Log4jConfig;
 import ead.utils.swing.SwingUtilities;
 
 public class MainAssetViewer {
 
+	private Controller controller;
+
 	public static void main(String args[]) {
+		final MainAssetViewer mav = new MainAssetViewer();
+		mav.setUp();
+
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				showSampleAsset();
+				JFrame jf = new JFrame();
+				jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				jf.setLayout(new GridLayout(1, 2));
+				jf.add(mav.showSampleAsset());
+				jf.add(mav.showSampleAsset());
+				jf.setLocationRelativeTo(null);
+				jf.setSize(400, 200);
+				jf.setVisible(true);
 			}
 		});
 	}
 
-	public static void showSampleAsset() {
-		final Image standNorth = new Image("@drawable/man_stand_n.png");
-		final BalloonShape shape = new BalloonShape(10, 10, 100, 100,
-				BalloonType.CLOUD);
-		shape.setPaint(ColorFill.WHITE);
+	@Before
+	public void setUp() {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
+				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+				"EditorModel", Log4jConfig.Slf4jLevel.Debug, "EditorAnnotator",
+				Log4jConfig.Slf4jLevel.Debug, "EAdventureImporter",
+				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
+				Log4jConfig.Slf4jLevel.Debug, });
 
-		FramesAnimation frames2 = new FramesAnimation();
-		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 500));
-		frames2.addFrame(new Frame("@drawable/man_walk_w_2.png", 500));
-		JFrame frame = new JFrame();
+		Injector injector = Guice.createInjector(new BaseImporterModule(),
+				new GdxEditorModule(), new EditorGuiceModule(),
+				new JavaToolsModule());
 
-		AssetViewer viewer1 = new AssetViewer();
-		AssetViewer viewer8 = new AssetViewer();
-		AssetViewer viewer3 = new AssetViewer();
-		AssetViewer viewer4 = new AssetViewer();
-		AssetViewer viewer5 = new AssetViewer();
-		AssetViewer viewer6 = new AssetViewer();
-		AssetViewer viewer7 = new AssetViewer();
-		final AssetViewer viewer2 = new AssetViewer(viewer1.getLwjglAWTCanvas());
+		// init reflection
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
-		viewer1.setDrawable(standNorth);
-		viewer8.setDrawable(frames2);
-		viewer3.setDrawable(standNorth);
-		viewer4.setDrawable(standNorth);
-		viewer5.setDrawable(shape);
-		viewer6.setDrawable(standNorth);
-		viewer7.setDrawable(frames2);
+		// init sample resource root
+		File root = new File("../../demos/techdemo/src/main/resources/");
+		if (!root.exists()) {
+			System.err.println("resources not found");
+			return;
+		}
 
-		FramesAnimation frames = new FramesAnimation();
-		Frame standSouth = new Frame("@drawable/man_stand_s_1.png", 1000);
-		frames.addFrame(standSouth);
-		frames.addFrame(new Frame("@drawable/man_stand_s_2.png", 200));
+		controller = injector.getInstance(Controller.class);
+		AssetHandler ah = injector.getInstance(AssetHandler.class);
+		ah.setCacheEnabled(false);
+		ah.setResourcesLocation(new EAdURI(root.getPath()));
+	}
 
-		viewer2.setDrawable(frames);
+	public JPanel showSampleAsset() {
 
-		JPanel panel = new JPanel(new GridLayout(4, 2));
-		panel.add(viewer1.getCanvas());
-		panel.add(viewer2.getCanvas());
-		panel.add(viewer3.getCanvas());
-		panel.add(viewer4.getCanvas());
-		panel.add(viewer5.getCanvas());
-		panel.add(viewer6.getCanvas());
-		panel.add(viewer7.getCanvas());
-		panel.add(viewer8.getCanvas());
+		final AssetViewer viewer = controller.createAssetViewer();
 
-		frame.getContentPane().setLayout(new BorderLayout());
+		final FramesAnimation frames2 = new FramesAnimation();
+		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 200));
+		frames2.addFrame(new Frame("@drawable/man_walk_w_2.png", 200));
+		final FramesAnimation frames3 = new FramesAnimation();
+		frames3.addFrame(new Frame("@drawable/man_walk_n_1.png", 500));
+		frames3.addFrame(new Frame("@drawable/man_walk_n_2.png", 500));
 
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		viewer.setDrawable(frames2);
 
-		JButton button = new JButton("Change");
+		JButton button = new JButton("Change animations");
 		button.addActionListener(new ActionListener() {
+			boolean b;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				viewer2.setDrawable(shape);
+				viewer.setDrawable(b ? frames2 : frames3);
+				b = !b;
 			}
-
 		});
 
-		frame.getContentPane().add(button, BorderLayout.SOUTH);
-
-		frame.setSize(800, 600);
-		frame.setLocationRelativeTo(null);
-
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(viewer.getCanvas(), BorderLayout.CENTER);
+		panel.add(button, BorderLayout.SOUTH);
+		return panel;
 	}
 }

@@ -141,6 +141,7 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 			return zipEntry != null;
 		}
 
+		@Override
 		public long length() {
 			try {
 				return read().available();
@@ -149,10 +150,9 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 			}
 		}
 
+		@Override
 		public String toString() {
 			return zipFile.getName() + zipEntry.getName();
 		}
-
 	}
-
 }

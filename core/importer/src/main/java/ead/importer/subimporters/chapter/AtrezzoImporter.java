@@ -48,6 +48,7 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
+import ead.importer.annotation.ImportAnnotator.Key;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
@@ -74,6 +75,8 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo> {
 
 	@Override
 	public void initResourcesCorrespondencies() {
+		annotator.annotate(ImportAnnotator.Type.Entry, Key.Role,
+				"actor.atrezzo");
 
 		properties = new LinkedHashMap<String, String>();
 		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);

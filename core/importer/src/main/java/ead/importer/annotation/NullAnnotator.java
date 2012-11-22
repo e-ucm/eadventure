@@ -88,10 +88,20 @@ public class NullAnnotator implements ImportAnnotator {
 	}
 
 	@Override
+	public void annotate(Type key, Object... values) {
+		if (stack.isEmpty()) {
+			logger.error("Cowardly refusing to annotate: stack is empty!");
+		} else {
+			annotate(stack.get(stack.size() - 1), key, values);
+		}
+	}
+
+	@Override
 	public void annotate(EAdElement element, Type key, Object... values) {
 		if (logger.isDebugEnabled()) {
-			if (element == null)
+			if (element == null) {
 				element = new PlaceHolder(values[0].toString());
+			}
 			switch (key) {
 			case Open: {
 				logger.debug("Entering {}", element);

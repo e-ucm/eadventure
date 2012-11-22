@@ -184,6 +184,7 @@ public class EditorModelImpl implements EditorModel {
 			logger.error("Duplicate ID {} for object {} (was {})",
 					new Object[] { assigned, targetObject,
 							nodesById.get(assigned) });
+			// will keep on trying until it finds a free id
 			return generateId(targetObject);
 		}
 		return assigned;

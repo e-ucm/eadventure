@@ -87,7 +87,9 @@ public class ConversationImporter implements
 	public EAdEffect convert(Conversation oldObject, Object object) {
 		nodes.clear();
 
-		annotator.annotate(null, ImportAnnotator.Type.Open, oldObject.getId());
+		annotator.annotate(ImportAnnotator.Type.Entry,
+				ImportAnnotator.Key.Role, "Conversation");
+		annotator.annotate(ImportAnnotator.Type.Open, oldObject.getId());
 
 		for (ConversationNode node : oldObject.getAllNodes()) {
 			if (node.getType() == ConversationNode.DIALOGUE) {
@@ -134,7 +136,7 @@ public class ConversationImporter implements
 				SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP);
 		changeField.getNextEffects().add(initialEffect);
 
-		annotator.annotate(null, ImportAnnotator.Type.Close, oldObject.getId());
+		annotator.annotate(ImportAnnotator.Type.Close, oldObject.getId());
 
 		return changeField;
 	}

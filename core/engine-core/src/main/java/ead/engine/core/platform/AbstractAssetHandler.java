@@ -78,28 +78,20 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 */
 	protected static final Logger logger = LoggerFactory
 			.getLogger("AbstractAssetHandler");
-
 	/**
 	 * A cache of the runtime assets for each asset descriptor
 	 */
 	final protected Map<AssetDescriptor, RuntimeAsset<?>> cache;
-
 	/**
 	 * A class map of the asset descriptor classes and their corresponding
 	 * runtime assets
 	 */
 	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap;
-
 	private boolean loaded = false;
-
 	protected FontHandler fontHandler;
-
 	protected EAdURI resourcesUri;
-
 	private boolean cacheEnabled;
-
 	private ArrayList<AssetDescriptor> assetsQueue;
-
 	private SceneGraph sceneGraph;
 
 	/**
@@ -236,8 +228,9 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	public RuntimeAsset<?> getRuntimeAsset(Resourced element,
 			EAdBundleId bundleId, String id) {
 		AssetDescriptor descriptor = element.getAsset(bundleId, id);
-		if (descriptor == null)
+		if (descriptor == null) {
 			descriptor = element.getAsset(id);
+		}
 
 		if (descriptor == null) {
 			logger.error("No such asset. element: " + element.getClass()
@@ -296,10 +289,12 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		this.loaded = loaded;
 	}
 
+	@Override
 	public void setResourcesLocation(EAdURI uri) {
 		this.resourcesUri = uri;
 	}
 
+	@Override
 	public void setCacheEnabled(boolean enable) {
 		this.cacheEnabled = enable;
 	}

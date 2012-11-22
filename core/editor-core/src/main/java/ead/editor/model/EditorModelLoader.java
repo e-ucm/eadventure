@@ -65,11 +65,13 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
+import ead.editor.model.nodes.AssetsNode;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EditorNodeFactory;
 import ead.editor.model.nodes.EngineNode;
+import ead.editor.model.nodes.StringsNode;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.importer.EAdventureImporter;
@@ -254,6 +256,10 @@ public class EditorModelLoader {
 				logger.debug("\tinitializing {}, {}", new Object[] { id,
 						childrenIds });
 				for (String idString : childrenIds.split("[,]")) {
+					if (idString.isEmpty()) {
+						// this can happen if there are no values...
+						continue;
+					}
 					int cid = Integer.valueOf(idString);
 					logger.debug("\tadding child {}", cid);
 					editorNode.addChild(model.getNodesById().get(cid));
@@ -420,6 +426,28 @@ public class EditorModelLoader {
 		}
 	}
 
+	/**
+	 * Builds EditorNodes from EngineNodes.
+	 * Requires a 'hot' (recently updated) EditorAnnotator. Discards 
+	 * annotator information after use.
+	 */
+	private void createEditorNodes() {
+		// engine ids may have changed during load
+		importAnnotator.rebuild();
+
+		for (EditorNodeFactory enf : importNodeFactories) {
+			enf.createNodes(model, importAnnotator);
+		}
+
+		model
+				.registerEditorNodeWithGraph(new AssetsNode(model
+						.generateId(null)));
+		model.registerEditorNodeWithGraph(new StringsNode(model
+				.generateId(null)));
+
+		importAnnotator.reset();
+	}
+
 	// ----- Import, Load, Save
 	/**
 	 * Loads data from an EAdventure1.x game file. Saves this as an EAdventure
@@ -462,11 +490,7 @@ public class EditorModelLoader {
 
 		// add editor high-level data
 		model.updateProgress(70, "Creating high-level editor elements...");
-		importAnnotator.rebuild();
-		for (EditorNodeFactory enf : importNodeFactories) {
-			enf.createNodes(model, importAnnotator);
-		}
-		importAnnotator.reset();
+		createEditorNodes();
 		writeEngineData(fout, true);
 		writeEditorNodes(fout);
 
@@ -518,18 +542,13 @@ public class EditorModelLoader {
 		ModelVisitorDriver driver = new ModelVisitorDriver();
 		driver.visit(model.getEngineModel(), new EditorModelVisitor());
 		isLoading = false;
-		// set next editor-id to higher than current highest
-		int highestAssigned = model.getNodesById().floorKey(
-				EditorModelImpl.intermediateIDPoint - 1);
-		logger.debug("Bumping lastElementId to closest to {}: {}",
-				new Object[] { EditorModelImpl.intermediateIDPoint - 1,
-						highestAssigned + 1 });
-		model.setLastElementNodeId(highestAssigned + 1);
+		bumpLastElementNodeId();
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
 
 		// add editor high-level data
 		model.updateProgress(70, "Creating high-level editor elements...");
 		readEditorNodes(sourceDir);
+		bumpLastElementNodeId();
 
 		// index  & finish
 		model.updateProgress(90, "Indexing model ...");
@@ -539,6 +558,16 @@ public class EditorModelLoader {
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] { model.getGraph().vertexSet().size(),
 						model.getGraph().edgeSet().size(), time(nanos) });
+	}
+
+	private void bumpLastElementNodeId() {
+		// set next editor-id to higher than current highest
+		int highestAssigned = model.getNodesById().floorKey(
+				EditorModelImpl.intermediateIDPoint - 1);
+		logger.debug("Bumping lastElementId to closest to {}: {}",
+				new Object[] { EditorModelImpl.intermediateIDPoint - 1,
+						highestAssigned + 1 });
+		model.setLastElementNodeId(highestAssigned + 1);
 	}
 
 	/**
