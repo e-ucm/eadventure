@@ -228,9 +228,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			action.getResources().addAsset(action.getInitialBundle(),
 					ElementAction.appearance,
 					new Image(getDrawablePath(oldObject.getType())));
-			//			action.getResources().addAsset(action.getHighlightBundle(),
-			//					ElementAction.appearance,
-			//					new Image(getHighlightDrawablePath(oldObject.getType())));
+			action.getResources().addAsset(action.getInitialBundle(),
+					ElementAction.highlightAppearabce,
+					new Image(getHighlightDrawablePath(oldObject.getType())));
 		} else {
 			// TODO highlight and pressed are now appearances, but resource
 			// converter does not support it.
@@ -240,7 +240,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 
 			EAdBundleId temp = action.getInitialBundle();
-			//			action.setInitialBundle(action.getHighlightBundle());
+			// action.setInitialBundle(action.getHighlightBundle());
 
 			resourcesStrings.put("buttonOver", ElementAction.appearance);
 			resourcesClasses.put("buttonOver", Image.class);
@@ -381,9 +381,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		// Appearance
 		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
 				ElementAction.appearance, examineImage);
-		//		examineAction.getResources().addAsset(
-		//				examineAction.getHighlightBundle(), ElementAction.appearance,
-		//				examineOverImage);
+		// examineAction.getResources().addAsset(
+		// examineAction.getHighlightBundle(), ElementAction.appearance,
+		// examineOverImage);
 
 		actor.getActions().add(examineAction);
 	}

@@ -54,7 +54,7 @@ public class ElementAction extends SceneElementDef implements EAdAction {
 
 	@Bundled
 	@Asset( { EAdDrawable.class })
-	public static final String appearance = "appearance";
+	public static final String highlightAppearabce = "highlight_appearance";
 
 	@Param("name")
 	private EAdString name;
