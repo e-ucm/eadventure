@@ -56,6 +56,7 @@ import javax.swing.SwingConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.editor.control.Controller;
 import ead.editor.model.nodes.AssetsNode;
@@ -132,7 +133,8 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		private boolean visible = false;
 		private AssetViewer av;
 		private JButton showButton; 
-				
+		private AssetDescriptor descriptor; 
+		
 		public void toggleShow() {
 			if (visible) {
 				if (av != null) {
@@ -151,13 +153,18 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		
 		public AssetPanel(DependencyNode an, Controller controller) {						
 			this.an = an;
+			this.descriptor = (AssetDescriptor)an.getContent();
 			GridBagConstraints gbc = new GridBagConstraints(
 					1, 0, 1, 1, 1, 0, GridBagConstraints.WEST, 
 					GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 
 					0, 0);			
 			setLayout(new GridBagLayout());
-			JLabel description = new JLabel(
-					an.getTextualDescription(controller.getModel()));
+			JLabel description = new JLabel();
+			description.setText("<html>"
+					+ descriptor.getClass().getSimpleName()
+					+ "<br>"
+					+ descriptor.toString()
+					+ "</html>");
 			description.setHorizontalAlignment(SwingConstants.LEFT);
 			add(description, gbc);
 			canvasPanel = new JPanel();
@@ -168,6 +175,9 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			gbc.gridheight = 2;
 			add(canvasPanel, gbc);
 			showButton = new JButton("<O>");
+			if ( ! ( descriptor instanceof EAdDrawable)) {
+				showButton.setEnabled(false);
+			}
 			showButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
