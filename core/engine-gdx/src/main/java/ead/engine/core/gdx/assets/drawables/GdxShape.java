@@ -136,4 +136,8 @@ public abstract class GdxShape<T extends AbstractShape> extends
 		}
 	}
 
+	@Override
+	public int getLength() {
+		return 0;
+	}
 }

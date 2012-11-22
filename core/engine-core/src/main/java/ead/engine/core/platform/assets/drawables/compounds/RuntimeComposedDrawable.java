@@ -57,7 +57,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 /**
  * Represents a runtime engine composed drawable, associated with an
  * {@link AssetDescritpor}
- * 
+ *
  */
 public class RuntimeComposedDrawable<GraphicContext> extends
 		AbstractRuntimeAsset<EAdComposedDrawable> implements
@@ -170,4 +170,12 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		return this;
 	}
 
+	@Override
+	public int getLength() {
+		int length = 0;
+		for (RuntimeDrawable<?, GraphicContext> d : getAssets()) {
+			length += d.getLength();
+		}
+		return length;
+	}
 }

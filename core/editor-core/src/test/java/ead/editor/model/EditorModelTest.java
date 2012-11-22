@@ -55,8 +55,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import ead.common.model.EAdElement;
 import ead.editor.EditorGuiceModule;
-import ead.editor.GdxEditorModule;
 import ead.editor.model.nodes.DependencyNode;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
@@ -105,7 +105,7 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, });
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxEditorModule(), new EditorGuiceModule(),
+				new GdxDesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

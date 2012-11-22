@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+import ead.common.resources.assets.AssetDescriptor;
 
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
@@ -108,6 +109,15 @@ public class RuntimeFramesAnimation extends
 			int level) {
 		int index = descriptor.getFrameIndexFromTime(time);
 		return frames.get(index);
+	}
+
+	@Override
+	public int getLength() {
+		int length = 0;
+		for (RuntimeDrawable d : frames) {
+			length += d.getLength();
+		}
+		return length;
 	}
 
 }

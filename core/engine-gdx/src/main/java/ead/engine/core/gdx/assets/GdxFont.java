@@ -37,6 +37,7 @@
 
 package ead.engine.core.gdx.assets;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.google.inject.Inject;
@@ -51,6 +52,8 @@ public class GdxFont extends BasicRuntimeFont {
 
 	private static final String defaultFont = "@font/droid-12.fnt";
 	private static final String defaultFontPng = "@font/droid-12.png";
+
+	private int length;
 
 	@Inject
 	public GdxFont(AssetHandler assetHandler) {
@@ -78,10 +81,15 @@ public class GdxFont extends BasicRuntimeFont {
 		String fontPng = defaultFontPng;
 
 		GdxAssetHandler ah = (GdxAssetHandler) assetHandler;
-		if (ah.getFileHandle(fileName + ".fnt").exists()
-				&& ah.getFileHandle(fileName + ".png").exists()) {
+		FileHandle fntHandle = ah.getFileHandle(fileName + ".fnt");
+		FileHandle pngHandle = ah.getFileHandle(fileName + ".png");
+
+		if (fntHandle.exists() && pngHandle.exists()) {
 			fontData = fileName + ".fnt";
 			fontPng = fileName + ".png";
+			length = (int) (fntHandle.length() + pngHandle.length());
+		} else {
+			length = 0;
 		}
 		bitmapFont = new BitmapFont(ah.getFileHandle(fontData), ah
 				.getFileHandle(fontPng), true);
@@ -114,4 +122,9 @@ public class GdxFont extends BasicRuntimeFont {
 		bitmapFont.dispose();
 	}
 
+	@Override
+	public int getLength() {
+		// set when first loaded
+		return length;
+	}
 }

@@ -238,5 +238,4 @@ public class GdxBezierShape extends GdxShape<BezierShape> {
 			points.add(y);
 		}
 	}
-
 }

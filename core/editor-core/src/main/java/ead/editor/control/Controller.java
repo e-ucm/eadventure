@@ -45,6 +45,7 @@ import ead.engine.core.gdx.assets.GdxAssetHandler;
 import java.util.Collection;
 
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * Game editor controller. The main controller provides access to delegate
@@ -110,9 +111,9 @@ public interface Controller {
 	CommandManager getCommandManager();
 
 	/**
-	 * Returns the GdxAssetHandler in use
+	 * Returns the AssetHandler in use
 	 */
-	GdxAssetHandler getAssetHandler();
+	AssetHandler getAssetHandler();
 
 	/**
 	 * Provides AssetViewers on request

@@ -48,7 +48,7 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
 
 /**
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
- * 
+ *
  */
 public abstract class RuntimeImage<GraphicContext> extends
 		AbstractRuntimeAsset<Image> implements

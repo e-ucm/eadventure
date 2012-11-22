@@ -93,7 +93,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * When some text is too long, it could be divided separate parts that will
 	 * be shown one by one
-	 * 
+	 *
 	 */
 	protected int totalParts;
 
@@ -143,7 +143,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#loadAsset()
 	 */
 	@Override
@@ -171,7 +171,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#freeMemory()
 	 */
 	@Override
@@ -181,7 +181,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#isLoaded()
 	 */
 	@Override
@@ -191,7 +191,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
 	 * eadventure.engine.core.GameState)
 	 */
@@ -363,7 +363,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * If text is divided in parts and current part is n, this method advances
 	 * the text to n + i part
-	 * 
+	 *
 	 * @param i
 	 *            steps to go forward
 	 */
@@ -420,7 +420,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * Returns the number of times the text has been read by the player. This
 	 * calculation is made from an reading time estimation
-	 * 
+	 *
 	 * @return the number of times the text has been read by the player. This
 	 *         calculation is made from an reading time estimation
 	 */
@@ -431,7 +431,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * Sets how many times this text game object loops before adding one to
 	 * times read. Negative number will be interpreted as infinitum
-	 * 
+	 *
 	 * @param loops
 	 *            times text loops
 	 */
@@ -516,4 +516,12 @@ public class RuntimeCaption<GraphicContext> extends
 		return this;
 	}
 
+	/**
+	 * For all intents and purposes, captions take no permanent space.
+	 * @return 0
+	 */
+	@Override
+	public int getLength() {
+		return 0;
+	}
 }

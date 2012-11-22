@@ -191,7 +191,10 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			setLayout(new GridBagLayout());
 			JLabel description = new JLabel();
 			description.setText("<html>"
-					+ descriptor.toString() + "</html>");
+					+ descriptor.toString()
+					+ controller.getAssetHandler().getRuntimeAsset(descriptor).getLength()
+					+ " bytes"
+					+ "</html>");
 			description.setHorizontalAlignment(SwingConstants.LEFT);
 			add(description, gbc);
 			canvasPanel = new JPanel();

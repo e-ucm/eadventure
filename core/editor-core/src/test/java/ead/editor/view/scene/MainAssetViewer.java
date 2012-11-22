@@ -54,8 +54,8 @@ import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.util.EAdURI;
 import ead.editor.EditorGuiceModule;
-import ead.editor.GdxEditorModule;
 import ead.editor.control.Controller;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.importer.BaseImporterModule;
@@ -99,7 +99,7 @@ public class MainAssetViewer {
 				Log4jConfig.Slf4jLevel.Debug, });
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxEditorModule(), new EditorGuiceModule(),
+				new GdxDesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

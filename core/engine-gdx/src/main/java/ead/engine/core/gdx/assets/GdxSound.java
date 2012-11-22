@@ -39,6 +39,7 @@ package ead.engine.core.gdx.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
 
 import ead.engine.core.platform.assets.AssetHandler;
@@ -50,6 +51,8 @@ public class GdxSound extends RuntimeSound {
 
 	private long id;
 
+	private int length;
+
 	@Inject
 	public GdxSound(AssetHandler assetHandler) {
 		super(assetHandler);
@@ -57,8 +60,10 @@ public class GdxSound extends RuntimeSound {
 
 	@Override
 	public boolean loadAsset() {
-		sound = Gdx.audio.newSound(((GdxAssetHandler) assetHandler)
-				.getFileHandle(descriptor.getUri().getPath()));
+		FileHandle fh = ((GdxAssetHandler) assetHandler)
+				.getFileHandle(descriptor.getUri().getPath());
+		length = (int) fh.length();
+		sound = Gdx.audio.newSound(fh);
 		return true;
 	}
 
@@ -88,4 +93,9 @@ public class GdxSound extends RuntimeSound {
 		id = sound.loop();
 	}
 
+	@Override
+	public int getLength() {
+		// set when first loaded
+		return length;
+	}
 }

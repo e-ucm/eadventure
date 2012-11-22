@@ -52,6 +52,7 @@ import java.util.Collection;
 import com.google.inject.Provider;
 import ead.common.util.EAdURI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -67,7 +68,7 @@ public class ControllerImpl implements Controller {
 	private NavigationController navigationController;
 	private ViewController viewController;
 	private CommandManager commandManager;
-	private GdxAssetHandler assetHandler;
+	private AssetHandler assetHandler;
 	private GdxDesktopGUI gui;
 
 	private final Provider<AssetViewer> assetViewerProvider;
@@ -84,7 +85,7 @@ public class ControllerImpl implements Controller {
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			GdxDesktopGUI gdxGui, GdxAssetHandler assetHandler,
+			GdxDesktopGUI gdxGui, AssetHandler assetHandler,
 			Provider<AssetViewer> assetViewerProvider,
 			Provider<GameLoader> gameLoaderProvider, GdxDesktopGUI gui) {
 
@@ -169,7 +170,7 @@ public class ControllerImpl implements Controller {
 	}
 
 	@Override
-	public GdxAssetHandler getAssetHandler() {
+	public AssetHandler getAssetHandler() {
 		return assetHandler;
 	}
 

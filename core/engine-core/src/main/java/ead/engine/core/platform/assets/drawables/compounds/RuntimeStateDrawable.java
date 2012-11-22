@@ -123,4 +123,12 @@ public class RuntimeStateDrawable extends
 		}
 	}
 
+	@Override
+	public int getLength() {
+		int length = 0;
+		for (RuntimeCompoundDrawable d : drawables.values()) {
+			length += d.getLength();
+		}
+		return length;
+	}
 }

@@ -41,7 +41,7 @@ import ead.common.resources.assets.AssetDescriptor;
 
 /**
  * A platform-independent description of an asset in the runtime environment
- * 
+ *
  * @param <T>
  *            The type of the {@link AssetDescriptor}
  */
@@ -49,7 +49,7 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 
 	/**
 	 * Load the actual asset into memory
-	 * 
+	 *
 	 * @return True if the asset was loaded correctly
 	 */
 	boolean loadAsset();
@@ -60,15 +60,20 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	void freeMemory();
 
 	/**
+	 * Returns the size, in bytes, of the asset.
+	 */
+	int getLength();
+
+	/**
 	 * Returns true if the asset is loaded
-	 * 
+	 *
 	 * @return true if the asset is loaded
 	 */
 	boolean isLoaded();
 
 	/**
 	 * Set the descriptor of the asset
-	 * 
+	 *
 	 * @param descriptor
 	 *            the {@link AssetDescriptor}
 	 */
@@ -76,7 +81,7 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 
 	/**
 	 * Returns the asset descriptor for this runtime asset
-	 * 
+	 *
 	 * @return
 	 */
 	T getAssetDescriptor();

@@ -71,7 +71,7 @@ public interface AssetHandler {
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
 	 * element for the selected bundle
-	 * 
+	 *
 	 * @param element
 	 *            The element with the asset
 	 * @param bundleId
@@ -87,7 +87,7 @@ public interface AssetHandler {
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
 	 * element, with no asset bundle
-	 * 
+	 *
 	 * @param element
 	 *            The element with the asset
 	 * @param id
@@ -99,7 +99,7 @@ public interface AssetHandler {
 
 	/**
 	 * Returns the runtime asset for a given asset descriptor
-	 * 
+	 *
 	 * @param <T>
 	 *            The type of the asset descriptor
 	 * @param descriptor
@@ -114,7 +114,7 @@ public interface AssetHandler {
 	 * Returns the runtime asset for a given asset descriptor. It loads it if
 	 * parameter load is true. Otherwise, asset must be loaded through
 	 * {@link RuntimeAsset#loadAsset()}
-	 * 
+	 *
 	 * @param descriptor
 	 *            the asset descriptor
 	 * @param load
@@ -129,7 +129,7 @@ public interface AssetHandler {
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded
-	 * 
+	 *
 	 * @return true if assets loaded
 	 */
 	boolean isLoaded();
@@ -137,7 +137,7 @@ public interface AssetHandler {
 	/**
 	 * Frees and removes all the assets contained in the cache, except for the
 	 * ones in the exceptions list
-	 * 
+	 *
 	 * @param exceptions
 	 *            list with assets not to be deleted
 	 */
@@ -145,7 +145,7 @@ public interface AssetHandler {
 
 	/**
 	 * Sets the resources location
-	 * 
+	 *
 	 * @param uri
 	 *            uri point to the resources locatin root
 	 */
@@ -154,7 +154,7 @@ public interface AssetHandler {
 	/**
 	 * Returns a set of strings containing the text file in the given path.
 	 * Useful to read some configuration files at multi-platform level
-	 * 
+	 *
 	 * @param path
 	 *            textFile path
 	 * @return
@@ -164,7 +164,7 @@ public interface AssetHandler {
 	/**
 	 * Sets if the cache is enable for this asset handler. Cache is enabled by
 	 * default.
-	 * 
+	 *
 	 * @param enable
 	 */
 	void setCacheEnabled(boolean enable);
@@ -172,7 +172,7 @@ public interface AssetHandler {
 	/**
 	 * Queues the scene to load all its assets. This method DOES NOT load the
 	 * assets. {@link AssetHandler#loadStep()} must be used in order to do that.
-	 * 
+	 *
 	 * @param scene
 	 *            the scene whose assets must be loaded
 	 */
@@ -180,7 +180,7 @@ public interface AssetHandler {
 
 	/**
 	 * Loads one asset of the queue.
-	 * 
+	 *
 	 * @return if there are assets left to be loaded
 	 */
 	boolean loadStep();

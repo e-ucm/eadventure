@@ -47,6 +47,7 @@ import com.google.inject.Injector;
 import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
@@ -122,7 +123,7 @@ public class EAdventureEditor implements Launcher {
 		splashScreen.show();
 
 		// initialize launcher
-		Injector injector = Guice.createInjector(new GdxEditorModule(),
+		Injector injector = Guice.createInjector(new GdxDesktopModule(),
 				new BaseImporterModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 

@@ -37,6 +37,7 @@
 
 package ead.engine.core.gdx.assets.drawables;
 
+import com.badlogic.gdx.files.FileHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +58,7 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
+	private int length;
 
 	@Inject
 	public GdxImage(AssetHandler assetHandler) {
@@ -66,8 +68,10 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	@Override
 	public boolean loadAsset() {
 		try {
-			pixmap = new Pixmap(((GdxAssetHandler) assetHandler)
-					.getFileHandle(descriptor.getUri().getPath()));
+			FileHandle fh = ((GdxAssetHandler) assetHandler)
+					.getFileHandle(descriptor.getUri().getPath());
+			length = (int) fh.length();
+			pixmap = new Pixmap(fh);
 		} catch (Exception e) {
 			// TODO Load a default error image.
 			logger
@@ -119,4 +123,9 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 		batch.draw(textureRegion, 0, 0);
 	}
 
+	@Override
+	public int getLength() {
+		// set when first loaded
+		return length;
+	}
 }
