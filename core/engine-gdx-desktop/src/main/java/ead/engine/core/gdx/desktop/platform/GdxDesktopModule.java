@@ -37,6 +37,7 @@
 
 package ead.engine.core.gdx.desktop.platform;
 
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.inject.AbstractModule;
@@ -56,11 +57,26 @@ import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
 public class GdxDesktopModule extends AbstractModule {
 
-	@SuppressWarnings( { "unchecked", "rawtypes" })
+	private Map<Class<?>, Class<?>> binds;
+
+	public GdxDesktopModule() {
+
+	}
+
+	public GdxDesktopModule(Map<Class<?>, Class<?>> binds) {
+		this.binds = binds;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void configure() {
 
 		GdxModuleMap map = new GdxModuleMap();
+		if (binds != null) {
+			for (Entry<Class<?>, Class<?>> e : binds.entrySet()) {
+				map.setBind(e.getKey(), e.getValue());
+			}
+		}
 		map.getBinds().put(AssetHandler.class, GdxDesktopAssetHandler.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
@@ -69,8 +85,8 @@ public class GdxDesktopModule extends AbstractModule {
 		}
 
 		bind(GUI.class).to(GdxDesktopGUI.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
-				LoadingScreen.class).asEagerSingleton();
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
+				.to(LoadingScreen.class).asEagerSingleton();
 
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 		}).to(VLCDesktopVideoRenderer.class);

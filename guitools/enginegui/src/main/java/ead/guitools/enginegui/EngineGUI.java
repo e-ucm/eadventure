@@ -21,10 +21,8 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
-import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.debuggers.GhostElementDebugger;
 import ead.engine.core.debuggers.TrajectoryDebugger;
-import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.guitools.enginegui.effects.loadgame.LoadGameEffect;
 import ead.guitools.enginegui.effects.loadgame.LoadGameGO;
@@ -58,13 +56,12 @@ public class EngineGUI {
 		if (enableDebug) {
 			boolean trajectories = Boolean.parseBoolean(getProperty("dtraj",
 					"false"));
-			DebuggerHandler debuggerHandler = engine
-					.getInstance(DebuggerHandler.class);
+
 			if (trajectories) {
-				debuggerHandler.add(TrajectoryDebugger.class);
+				engine.addDebugger(TrajectoryDebugger.class);
 			}
 
-			debuggerHandler.add(GhostElementDebugger.class);
+			engine.addDebugger(GhostElementDebugger.class);
 		}
 
 		SceneElement element = new SceneElement(new RectangleShape(100, 100,
@@ -76,17 +73,12 @@ public class EngineGUI {
 		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new LoadGameEffect());
 		BasicAdventureModel adventure = new BasicAdventureModel();
 		adventure.getChapters().add(new BasicChapter(scene));
-		engine
-				.load((EAdAdventureModel) adventure,
-						new HashMap<EAdString, String>(),
-						new HashMap<String, String>());
+		engine.load((EAdAdventureModel) adventure,
+				new HashMap<EAdString, String>(), new HashMap<String, String>());
 	}
 
 	private static void addPlugins(DesktopGame engine) {
-		EffectGOFactory effectFactory = engine
-				.getInstance(EffectGOFactory.class);
-		effectFactory.put(LoadGameEffect.class, LoadGameGO.class);
-		// effectFactory.put(UseTracesEffect.class, UseTracesEffectGO.class);
+		engine.addEffectPlugin(LoadGameEffect.class, LoadGameGO.class);
 	}
 
 	public static String getProperty(String key, String defaultValue) {

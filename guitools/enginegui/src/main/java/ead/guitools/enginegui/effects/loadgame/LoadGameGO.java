@@ -23,6 +23,7 @@ import ead.guitools.enginegui.EngineGUI;
 import ead.guitools.enginegui.effects.usetraces.UseTracesEffect;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
+import ead.tools.java.JavaToolsModule;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
@@ -95,7 +96,8 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"EAD games", "ead");
 		chooser.setFileFilter(filter);
-		Injector i = Guice.createInjector(new ImporterModule());
+		Injector i = Guice.createInjector(new ImporterModule(),
+				new JavaToolsModule());
 		importer = i.getInstance(EAdventureImporter.class);
 	}
 

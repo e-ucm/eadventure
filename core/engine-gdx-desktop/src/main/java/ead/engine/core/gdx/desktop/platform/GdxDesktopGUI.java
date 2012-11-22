@@ -91,7 +91,7 @@ public class GdxDesktopGUI extends GdxGUI {
 
 	@Override
 	public void initialize() {
-
+		super.initialize();
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)

@@ -37,37 +37,93 @@
 
 package ead.engine.core.gdx.desktop;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.EAdEffect;
 import ead.common.params.text.EAdString;
 import ead.common.util.EAdURI;
+import ead.engine.core.debuggers.Debugger;
+import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.GameLoader;
+import ead.engine.core.gameobjects.factories.EffectGOFactory;
+import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 
-public class DesktopGame extends JavaInjector {
+public class DesktopGame {
+
+	private Injector injector;
+
+	private boolean exitAtClose;
+
+	private Map<Class<?>, Class<?>> binds;
+
+	private List<Class<? extends Debugger>> debuggers;
+
+	private String resourcesLocation;
+
+	private Map<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> effectsPlugin;
 
 	public DesktopGame(boolean exitAtClose) {
-		super(Guice.createInjector(new GdxDesktopModule(),
-				new JavaToolsModule()));
-		EngineConfiguration conf = this.getInstance(EngineConfiguration.class);
-		conf.setExitWhenFinished(exitAtClose);
+		this.exitAtClose = exitAtClose;
+		this.binds = new HashMap<Class<?>, Class<?>>();
+		debuggers = new ArrayList<Class<? extends Debugger>>();
+		effectsPlugin = new HashMap<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>>();
+	}
+
+	public <T> void setBind(Class<T> clazz, Class<? extends T> implementation) {
+		binds.put(clazz, implementation);
+	}
+
+	private void prepare() {
+		if (injector == null) {
+			injector = Guice.createInjector(new GdxDesktopModule(binds),
+					new JavaToolsModule());
+			EngineConfiguration conf = injector
+					.getInstance(EngineConfiguration.class);
+			conf.setExitWhenFinished(exitAtClose);
+			injector.getInstance(AssetHandler.class).setResourcesLocation(
+					new EAdURI(resourcesLocation));
+			if (debuggers.size() > 0) {
+				DebuggerHandler debuggerHandler = injector
+						.getInstance(DebuggerHandler.class);
+				for (Class<? extends Debugger> d : debuggers) {
+					debuggerHandler.add(d);
+				}
+			}
+
+			// Add effects plugins
+			EffectGOFactory effectFactory = injector
+					.getInstance(EffectGOFactory.class);
+			for (Entry<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> e : effectsPlugin
+					.entrySet()) {
+				effectFactory.put(e.getKey(), e.getValue());
+			}
+		}
 	}
 
 	public DesktopGame() {
 		this(true);
 	}
 
+	public void addDebugger(Class<? extends Debugger> debuggerClass) {
+		debuggers.add(debuggerClass);
+	}
+
 	public void load(String dataFile, String stringsFile, String propertiesFile) {
-		GameLoader g = getInstance(GameLoader.class);
+		prepare();
+		GameLoader g = injector.getInstance(GameLoader.class);
 		g.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
 	}
 
@@ -83,7 +139,8 @@ public class DesktopGame extends JavaInjector {
 	 */
 	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
 			Map<String, String> properties) {
-		GameLoader g = getInstance(GameLoader.class);
+		prepare();
+		GameLoader g = injector.getInstance(GameLoader.class);
 		if (strings == null) {
 			strings = new HashMap<EAdString, String>();
 		}
@@ -95,12 +152,16 @@ public class DesktopGame extends JavaInjector {
 	}
 
 	public void setResourcesLocation(String path) {
-		this.getInstance(AssetHandler.class).setResourcesLocation(
-				new EAdURI(path));
+		this.resourcesLocation = path;
 	}
 
 	public void exit() {
-		getInstance(GUI.class).finish();
+		injector.getInstance(GUI.class).finish();
+	}
+
+	public void addEffectPlugin(Class<? extends EAdEffect> effect,
+			Class<? extends EffectGO<? extends EAdEffect>> gameObject) {
+		effectsPlugin.put(effect, gameObject);
 	}
 
 }
