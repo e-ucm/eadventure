@@ -48,8 +48,6 @@ import ead.demos.elementfactories.EAdElementsFactory;
 
 public class SceneElementFactory {
 
-	private static int ID_GENERATOR = 0;
-
 	/**
 	 * Creates an scene element with the given appearance in the given
 	 * coordinates

@@ -62,8 +62,6 @@ import ead.demos.elementfactories.StringFactory.StringType;
 
 public class EffectFactory {
 
-	private static int ID_GENERATOR = 0;
-
 	public ChangeAppearanceEf getChangeAppearance(EAdElement element,
 			EAdBundleId bundle) {
 		ChangeAppearanceEf effect = new ChangeAppearanceEf(element, bundle);

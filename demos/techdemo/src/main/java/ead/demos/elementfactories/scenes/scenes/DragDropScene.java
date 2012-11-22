@@ -45,7 +45,6 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
@@ -115,10 +114,10 @@ public class DragDropScene extends EmptyScene {
 		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.EXITED),
 				changeScale2);
 
-		BasicField<Integer> fieldX = new BasicField<Integer>(e1,
-				SceneElement.VAR_X);
-		BasicField<Integer> fieldY = new BasicField<Integer>(e1,
-				SceneElement.VAR_Y);
+		//		BasicField<Integer> fieldX = new BasicField<Integer>(e1,
+		//				SceneElement.VAR_X);
+		//		BasicField<Integer> fieldY = new BasicField<Integer>(e1,
+		//				SceneElement.VAR_Y);
 
 		//		ChangeFieldEf changeX = new ChangeFieldEf(
 		//				fieldX,

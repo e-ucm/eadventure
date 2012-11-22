@@ -43,9 +43,10 @@ import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
+import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 
 @Element
@@ -66,8 +67,19 @@ public class ActionSceneElement extends SceneElement {
 		definition.getResources().addAsset(definition.getInitialBundle(),
 				SceneElementDef.appearance, asset);
 
-		this.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(this,
-				definition.getInitialBundle()));
+		AssetDescriptor assetHighlight = eAdAction.getAsset(eAdAction
+				.getInitialBundle(), ElementAction.highlightAppearabce);
+		if (assetHighlight != null) {
+			EAdBundleId highlightBundle = new EAdBundleId("highLightBundle");
+			definition.getResources().addBundle(highlightBundle);
+			definition.getResources().addAsset(highlightBundle,
+					SceneElementDef.appearance, assetHighlight);
+
+			this.addBehavior(MouseGEv.MOUSE_ENTERED, new ChangeAppearanceEf(
+					this, highlightBundle));
+			this.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(
+					this, definition.getInitialBundle()));
+		}
 
 		definition.setVarInitialValue(SceneElementDef.VAR_DOC_NAME, eAdAction
 				.getName());

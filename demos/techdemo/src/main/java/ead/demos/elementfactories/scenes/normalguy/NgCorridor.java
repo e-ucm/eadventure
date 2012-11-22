@@ -50,7 +50,6 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
@@ -107,6 +106,7 @@ public class NgCorridor extends EmptyScene {
 
 	/**
 	 * Star form node trajectory for this room
+	 * 
 	 * @param changeSide
 	 */
 	private void createNodeTrajectory(ChangeFieldEf changeSide) {
@@ -192,7 +192,8 @@ public class NgCorridor extends EmptyScene {
 
 	/**
 	 * Moves principal character thought the room
-	 * @param x 
+	 * 
+	 * @param x
 	 * @param y
 	 * @return MoveSceneElementEf with the movement
 	 */
@@ -205,6 +206,7 @@ public class NgCorridor extends EmptyScene {
 
 	/**
 	 * Configures the element's behavior in this scene
+	 * 
 	 * @param window
 	 * @param room1
 	 * @param room2
@@ -218,7 +220,8 @@ public class NgCorridor extends EmptyScene {
 	}
 
 	/**
-	 * Specifies the window's behavior: NgWindow with 'eAdventure.webm' video displayed
+	 * Specifies the window's behavior: NgWindow with 'eAdventure.webm' video
+	 * displayed
 	 */
 	private void windowBehavior(EAdScene windowScene) {
 		// Principal character moving to the window
@@ -251,8 +254,11 @@ public class NgCorridor extends EmptyScene {
 
 	/**
 	 * Configures the movement & change room effects
-	 * @param room -> where to go through that door
-	 * @param element -> door selected
+	 * 
+	 * @param room
+	 *            -> where to go through that door
+	 * @param element
+	 *            -> door selected
 	 */
 	private void setMovementAndChangeRoomBehavior(EAdScene room,
 			SceneElement element, int x, int y) {
@@ -276,7 +282,6 @@ public class NgCorridor extends EmptyScene {
 
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
 
-		EAdString talking = new EAdString("I think it is closed dude...");
 		SpeakSceneElementEf speak = new SpeakSceneElementEf();
 		speak.setElement(ng);
 		move.getNextEffects().add(speak);

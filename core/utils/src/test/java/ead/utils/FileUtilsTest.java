@@ -218,7 +218,6 @@ public class FileUtilsTest {
 	@Test
 	public void testStartMatches_File_intArr() throws Exception {
 		System.out.println("startMatches");
-		File f = null;
 		int[] magic = FileUtils.zipMagic;
 		assertTrue(FileUtils.startMatches(getFile("ead/utils/sample.zip"),
 				magic));
