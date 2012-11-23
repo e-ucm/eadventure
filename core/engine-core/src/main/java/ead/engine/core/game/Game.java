@@ -100,4 +100,6 @@ public interface Game {
 
 	void setGameLoader(GameLoader gameLoader);
 
+	void stop();
+
 }

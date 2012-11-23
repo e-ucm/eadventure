@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.QuitGameEf;
-import ead.engine.core.game.GameController;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.GameObject;
@@ -55,21 +55,20 @@ import ead.engine.core.platform.assets.AssetHandler;
  */
 public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 
-	private GameController gameController;
+	private Game game;
 
 	@Inject
 	public QuitGameGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, GameController gameController) {
+			GameState gameState, Game gameController) {
 		super(gameObjectFactory, gui, gameState);
-		this.gameController = gameController;
+		this.game = gameController;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		// TODO should probably take to the screen with the evaluation report
-		gameController.stop();
+		game.stop();
 	}
 
 	@Override

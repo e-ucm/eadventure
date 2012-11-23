@@ -223,7 +223,7 @@ public class VLCDesktopVideoRenderer implements
 			try {
 				img = ImageIO
 						.read(ClassLoader
-								.getSystemResourceAsStream("ead/engine/resources/desktop/drawable/vlc.png"));
+								.getSystemResourceAsStream("ead/engine/desktop/drawable/vlc.png"));
 			} catch (IOException e) {
 
 			}
