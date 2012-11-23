@@ -42,7 +42,6 @@ import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.evaluators.EvaluatorFactoryImpl;
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.game.GameLoaderImpl;
@@ -144,7 +143,6 @@ public class GdxModuleMap extends ModuleMap {
 
 		// Game
 		binds.put(GameState.class, GameStateImpl.class);
-		binds.put(GameController.class, GdxGameController.class);
 		binds.put(Game.class, GameImpl.class);
 
 		// Tracking
