@@ -393,10 +393,10 @@ public class GameImpl implements Game {
 	public void setGameLoader(GameLoader gameLoader) {
 		this.gameLoader = gameLoader;
 	}
-	
+
 	public void stop() {
 		gui.finish();
-		tracker.stop();		
+		tracker.stop();
 	}
 
 }
