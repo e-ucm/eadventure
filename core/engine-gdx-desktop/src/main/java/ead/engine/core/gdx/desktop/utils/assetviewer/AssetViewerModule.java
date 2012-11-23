@@ -113,16 +113,6 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public int getWidth() {
-			return 0;
-		}
-
-		@Override
-		public int getHeight() {
-			return 0;
-		}
-
-		@Override
 		public EAdTransformation addTransformation(EAdTransformation t1,
 				EAdTransformation t2) {
 			return null;

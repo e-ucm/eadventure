@@ -68,7 +68,7 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	@Override
 	public void initialize() {
 		super.initialize();
-		game.stop();
+		game.dispose();
 	}
 
 	@Override

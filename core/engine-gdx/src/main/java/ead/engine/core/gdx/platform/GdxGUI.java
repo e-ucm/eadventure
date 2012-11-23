@@ -62,7 +62,7 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			GdxCanvas canvas, GdxEngine engine) {
-		super(platformConfiguration, gameObjectManager, inputHandler,
+		super(gameObjectManager, inputHandler,
 				gameState, gameObjectFactory, canvas);
 		this.engine = engine;
 	}

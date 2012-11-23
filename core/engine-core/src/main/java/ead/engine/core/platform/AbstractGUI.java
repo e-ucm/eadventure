@@ -70,11 +70,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
 
 	/**
-	 * Platform configuration parameters
-	 */
-	protected EngineConfiguration engineConfiguration;
-
-	/**
 	 * Game object manager
 	 */
 	protected GameObjectManager gameObjects;
@@ -93,11 +88,9 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected Game game;
 
-	public AbstractGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler,
-			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GenericCanvas<T> canvas) {
-		this.engineConfiguration = platformConfiguration;
+	public AbstractGUI(GameObjectManager gameObjectManager,
+			InputHandler inputHandler, GameState gameState,
+			SceneElementGOFactory gameObjectFactory, GenericCanvas<T> canvas) {
 		this.gameObjects = gameObjectManager;
 		this.inputHandler = inputHandler;
 		this.gameState = gameState;
@@ -106,7 +99,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		logger.info("Created abstract GUI");
 	}
 
-	public void setGame(Game game) {
+	public void initialize(Game game) {
 		this.game = game;
 	}
 
@@ -186,31 +179,13 @@ public abstract class AbstractGUI<T> implements GUI {
 	private EAdRectangle getClip() {
 		float[] init = game.getInitialTransformation().getMatrix()
 				.multiplyPoint(0, 0, true);
-		float[] end = game.getInitialTransformation().getMatrix()
+		float[] end = game
+				.getInitialTransformation()
+				.getMatrix()
 				.multiplyPoint(game.getAdventureModel().getGameWidth(),
 						game.getAdventureModel().getGameHeight(), true);
 		return new EAdRectangle((int) init[0], (int) init[1],
 				(int) (end[0] - init[0]), (int) (end[1] - init[1]));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#getWidth()
-	 */
-	@Override
-	public int getWidth() {
-		return engineConfiguration.getWidth();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#getHeight()
-	 */
-	@Override
-	public int getHeight() {
-		return engineConfiguration.getHeight();
 	}
 
 	@Override

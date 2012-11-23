@@ -101,7 +101,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		ValueMap valueMap = gameState.getValueMap();
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
-		timeStep = 1.0f / gui.getTicksPerSecond();
+		
 		velocityIterations = 24;
 		positionIterations = 8;
 
@@ -131,6 +131,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	@Override
 	public void update() {
 		super.update();
+		timeStep = 1.0f / gui.getTicksPerSecond();
 		world.step(timeStep, velocityIterations, positionIterations);
 
 		EAdScene scene = gameState.getScene().getElement();

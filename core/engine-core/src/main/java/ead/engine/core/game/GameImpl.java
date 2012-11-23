@@ -38,7 +38,9 @@
 package ead.engine.core.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +56,7 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.params.text.EAdString;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -73,17 +76,32 @@ import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 import ead.tools.SceneGraph;
+import ead.tools.StringHandler;
 
 @Singleton
 public class GameImpl implements Game {
+
+	/**
+	 * Game gui
+	 */
+	private GUI gui;
+
+	/**
+	 * String handler
+	 */
+	private StringHandler stringHandler;
+
+	/**
+	 * A map holding some useful game properties (like width, height,
+	 * fullscreen...)
+	 */
+	private Map<String, Object> properties;
 
 	private AssetHandler assetHandler;
 
 	private EAdAdventureModel adventure;
 
 	private EAdChapter currentChapter;
-
-	private GUI gui;
 
 	private GameState gameState;
 
@@ -124,7 +142,10 @@ public class GameImpl implements Game {
 
 	private TweenController tweenController;
 
-	/** should only be changed within a synchronized block, locking onto modelWaitingMutex */
+	/**
+	 * should only be changed within a synchronized block, locking onto
+	 * modelWaitingMutex
+	 */
 	private boolean modelWaiting;
 
 	private final Object modelWaitingMutex = new Object();
@@ -132,15 +153,18 @@ public class GameImpl implements Game {
 	private EAdList<EAdEffect> launchEffects;
 
 	@Inject
-	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
-			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
+	public GameImpl(GUI gui, StringHandler stringHandler, GameState gameState,
+			EffectHUD effectHUD, AssetHandler assetHandler,
+			GameObjectManager gameObjectManager, DebuggerHandler debugger,
+			ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			EngineConfiguration configuration, ActionsHUD actionsHUD,
 			GameTracker tracker, SceneGraph sceneGraph,
 			TweenController tweenController) {
 		this.gui = gui;
+		this.stringHandler = stringHandler;
+
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
 		this.actionsHUD = actionsHUD;
@@ -159,8 +183,29 @@ public class GameImpl implements Game {
 		this.tweenController = tweenController;
 		this.modelWaiting = Boolean.FALSE;
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
-		gui.initialize();
-		gui.setGame(this);
+
+	}
+
+	@Override
+	public void initialize() {
+		// GUI initialization
+		gui.initialize(this);
+		
+		// Properties
+		properties = new HashMap<String, Object>();
+		// These properties won't change during game play
+		Map<String, Object> engineProperties = null;
+		properties.putAll(engineProperties);
+		
+		// Load strings
+		Map<EAdString, String> engineStrings = null;
+		stringHandler.addStrings(engineStrings);
+	}
+
+	@Override
+	public void dispose() {
+		gui.finish();
+		tracker.stop();
 	}
 
 	@Override
@@ -271,7 +316,7 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void render(float interpolation) {
+	public void render() {
 		gui.commit();
 	}
 
@@ -392,11 +437,6 @@ public class GameImpl implements Game {
 	@Override
 	public void setGameLoader(GameLoader gameLoader) {
 		this.gameLoader = gameLoader;
-	}
-	
-	public void stop() {
-		gui.finish();
-		tracker.stop();		
 	}
 
 }

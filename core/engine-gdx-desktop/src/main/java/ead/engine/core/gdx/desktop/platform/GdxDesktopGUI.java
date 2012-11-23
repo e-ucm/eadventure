@@ -79,6 +79,11 @@ public class GdxDesktopGUI extends GdxGUI {
 	private Canvas canvas;
 
 	private Component component;
+	
+	/**
+	 * Platform configuration parameters
+	 */
+	private EngineConfiguration engineConfiguration;
 
 	@Inject
 	public GdxDesktopGUI(EngineConfiguration engineConfiguration,
@@ -87,6 +92,7 @@ public class GdxDesktopGUI extends GdxGUI {
 			GdxCanvas canvas, GdxEngine engine) {
 		super(engineConfiguration, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas, engine);
+		this.engineConfiguration = engineConfiguration;
 	}
 
 	@Override

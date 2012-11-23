@@ -39,9 +39,6 @@ package ead.engine.core.game;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
-import ead.engine.core.util.EAdTransformation;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
@@ -51,20 +48,21 @@ import ead.engine.core.util.EAdTransformation;
 public interface Game {
 
 	/**
-	 * Updates the game state. It mostly processes the pending actions for the
-	 * model and recreates a representation of the game.
+	 * Initialize the whole engine, loading default properties, string, creating
+	 * the GUI...
+	 */
+	void initialize();
+
+	/**
+	 * Updates the game state
 	 */
 	void update();
 
 	/**
 	 * Renders the game to the screen.
 	 * 
-	 * @param interpolation
-	 *            The interpolation factor between game update cycles, allows
-	 *            for smother animations when the frame updates are faster than
-	 *            the model updates.
 	 */
-	void render(float interpolation);
+	void render();
 
 	/**
 	 * Returns the current adventure game model ({@link EAdAdventureModel})
@@ -74,32 +72,40 @@ public interface Game {
 	EAdAdventureModel getAdventureModel();
 
 	/**
-	 * Load the game
-	 */
-	void loadGame();
-
-	void setGame(EAdAdventureModel model, EAdChapter eAdChapter);
-
-	/**
-	 * Loads the given game
+	 * Returns the current chapter
 	 * 
-	 * @param model
-	 * @param chpater
-	 * @param initialEffects
-	 *            the effects to be launched after the first scene of the game
-	 *            is launched
+	 * @return
 	 */
-	void setGame(EAdAdventureModel model, EAdChapter chpater,
-			EAdList<EAdEffect> initialEffects);
-
-	void updateInitialTransformation();
-
-	EAdTransformation getInitialTransformation();
-
 	EAdChapter getCurrentChapter();
 
-	void setGameLoader(GameLoader gameLoader);
+	/**
+	 * Loads the given eAdventure model
+	 * 
+	 * @param model
+	 */
+	void loadGame(EAdAdventureModel model);
 
-	void stop();
+	/**
+	 * Disposes all the resources allocated by the engine and destroys the GUI
+	 */
+	void dispose();
+
+	/**
+	 * Returns the value for a property key
+	 * 
+	 * @param key
+	 * @param defaultValue
+	 *            a default value in case the key is not found
+	 * @return the value can be any object
+	 */
+	Object getProperty(String key, Object defaultValue);
+
+	/**
+	 * Sets a property value
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	void setProperty(String key, Object value);
 
 }

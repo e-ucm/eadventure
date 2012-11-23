@@ -48,9 +48,12 @@ import ead.engine.core.util.EAdTransformation;
 public interface GUI {
 
 	/**
-	 * Initialize the GUI. Creates the graphic context and and shows it
+	 * Initialize the GUI. Creates the graphic context and and shows it.
+	 * 
+	 * @param the
+	 *            game
 	 */
-	void initialize();
+	void initialize(Game game);
 
 	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is
@@ -58,7 +61,20 @@ public interface GUI {
 	 */
 	void finish();
 
-	void setGame(Game game);
+	/**
+	 * Returns the milliseconds since last update
+	 * 
+	 * @return
+	 */
+	int getSkippedMilliseconds();
+
+	/**
+	 * Returns ticks per second in the game - the same as FPS, since one logic
+	 * update produces one frame
+	 * 
+	 * @return
+	 */
+	int getTicksPerSecond();
 
 	/**
 	 * Add an element to the scene. The order of the elements is used during
@@ -105,20 +121,6 @@ public interface GUI {
 	void commit();
 
 	/**
-	 * Returns the main window's width
-	 * 
-	 * @return the main window's width
-	 */
-	int getWidth();
-
-	/**
-	 * Returns the window's height
-	 * 
-	 * @return the window's height
-	 */
-	int getHeight();
-
-	/**
 	 * Adds to transformation t1 transformation t2
 	 * 
 	 * @param t1
@@ -131,19 +133,5 @@ public interface GUI {
 			EAdTransformation t2);
 
 	void setInitialTransformation(EAdTransformation initialTransformation);
-
-	/**
-	 * Returns the milliseconds since last update
-	 * 
-	 * @return
-	 */
-	int getSkippedMilliseconds();
-
-	/**
-	 * Returns tics per second in the game
-	 * 
-	 * @return
-	 */
-	int getTicksPerSecond();
 
 }
