@@ -111,8 +111,8 @@ public class RuntimeStateDrawable extends
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
 			int level) {
 		if (states == null) {
-			return drawables.values().iterator().next().getDrawable(time,
-					states, level);
+			return drawables.values().iterator().next()
+					.getDrawable(time, states, level);
 		}
 		String state = states.get(level);
 		RuntimeCompoundDrawable<?> d = drawables.get(state);
@@ -121,14 +121,5 @@ public class RuntimeStateDrawable extends
 		} else {
 			return d.getDrawable(time, states, ++level);
 		}
-	}
-
-	@Override
-	public int getLength() {
-		int length = 0;
-		for (RuntimeCompoundDrawable d : drawables.values()) {
-			length += d.getLength();
-		}
-		return length;
 	}
 }

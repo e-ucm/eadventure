@@ -112,8 +112,4 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 		return this;
 	}
 
-	@Override
-	public int getLength() {
-		return drawable.getLength();
-	}
 }

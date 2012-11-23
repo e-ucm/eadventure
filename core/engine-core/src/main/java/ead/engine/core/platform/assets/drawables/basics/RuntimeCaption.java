@@ -516,12 +516,4 @@ public class RuntimeCaption<GraphicContext> extends
 		return this;
 	}
 
-	/**
-	 * For all intents and purposes, captions take no permanent space.
-	 * @return 0
-	 */
-	@Override
-	public int getLength() {
-		return 0;
-	}
 }
