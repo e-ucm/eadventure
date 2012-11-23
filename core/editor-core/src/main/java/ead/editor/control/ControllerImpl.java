@@ -184,8 +184,7 @@ public class ControllerImpl implements Controller {
 	@Override
 	public AssetViewer createAssetViewer() {
 		AssetViewer viewer = assetViewerProvider.get();
-		viewer.setResourcesLocation(editorModel.getLoader().getSaveDir()
-				.getPath());
+		getAssetHandler();
 		return viewer;
 	}
 
@@ -193,6 +192,7 @@ public class ControllerImpl implements Controller {
 	public AssetHandler getAssetHandler() {
 		assetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader()
 				.getSaveDir().getPath()));
+		assetHandler.setCacheEnabled(false);
 		return assetHandler;
 	}
 }

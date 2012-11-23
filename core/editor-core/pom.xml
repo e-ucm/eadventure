@@ -112,7 +112,7 @@
 									<goal>shade</goal>
 								</goals>
 								<configuration>
-									<minimizeJar>true</minimizeJar>
+									<minimizeJar>false</minimizeJar>
 									<!-- this may cause problems; it saves around 8MB -->
 									<shadedArtifactAttached>true</shadedArtifactAttached>
 									<shadedClassifierName>unified</shadedClassifierName>

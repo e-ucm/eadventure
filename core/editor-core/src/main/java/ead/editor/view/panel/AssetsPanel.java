@@ -62,6 +62,7 @@ import ead.editor.control.Controller;
 import ead.editor.model.nodes.AssetsNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import java.io.File;
 import java.util.HashMap;
 import javax.swing.JTabbedPane;
 
@@ -77,8 +78,8 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	private AssetsNode assetsNode;
 
 	private JTabbedPane tabs;
-	private HashMap<String, AssetCategoryPanel> panels
-			= new HashMap<String, AssetCategoryPanel>();
+	private HashMap<String, AssetCategoryPanel> panels = new HashMap<String, AssetCategoryPanel>();
+	private AssetViewer rootAssetViewer;
 
 	public AssetsPanel() {
 		tabs = new JTabbedPane();
@@ -88,6 +89,16 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 
 	@Override
 	protected void rebuild() {
+
+		// without a pre-existing gl context, size checks further on will fail
+		if (rootAssetViewer != null) {
+			rootAssetViewer.stop();
+		}
+		rootAssetViewer = controller.createAssetViewer();
+		JPanel jp = new JPanel();
+		jp.add(rootAssetViewer.getCanvas());
+		add(jp, BorderLayout.SOUTH);
+
 		this.assetsNode = (AssetsNode) target;
 		for (AssetCategoryPanel cp : panels.values()) {
 			cp.clear();
@@ -99,13 +110,29 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			if (cp == null) {
 				cp = new AssetCategoryPanel();
 				panels.put(cn, cp);
-				tabs.add(cn.substring(cn.lastIndexOf('.')+1), cp);
+				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), cp);
 			}
 			cp.add(new AssetPanel(n, controller));
 		}
 		for (AssetCategoryPanel cp : panels.values()) {
 			cp.commit();
 		}
+	}
+
+	private File assetFile(AssetDescriptor descriptor) {
+		String s = descriptor.toString();
+		if (s.contains("@")) {
+			File base = controller.getModel().getLoader().getSaveDir();
+			File f = new File(base.getAbsolutePath(), s.substring(s
+					.indexOf('@') + 1));
+			return f.exists() ? f : null;
+		}
+		return null;
+	}
+
+	private String fileToString(File f) {
+		File base = controller.getModel().getLoader().getSaveDir();
+		return f.getAbsolutePath().replace(base.getAbsolutePath(), ".");
 	}
 
 	private class AssetCategoryPanel extends JPanel {
@@ -190,10 +217,13 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 					new Insets(5, 5, 5, 5), 0, 0);
 			setLayout(new GridBagLayout());
 			JLabel description = new JLabel();
-			description.setText("<html>"
-					+ descriptor.toString()
-					+ controller.getAssetHandler().getRuntimeAsset(descriptor).getLength()
-					+ " bytes"
+			String extra = "";
+			File f = assetFile(descriptor);
+			if (f != null) {
+				extra = "<br>" + fileToString(f) + " (" + f.length()
+						+ " bytes)";
+			}
+			description.setText("<html>" + descriptor.toString() + extra
 					+ "</html>");
 			description.setHorizontalAlignment(SwingConstants.LEFT);
 			add(description, gbc);
