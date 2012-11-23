@@ -42,9 +42,9 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectImpl;
 import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.gameobjects.go.GameObject;
+import ead.engine.core.gameobjects.go.GameObjectImpl;
 
 /**
  * Basic game object for events

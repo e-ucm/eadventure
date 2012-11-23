@@ -48,6 +48,26 @@ import ead.common.model.elements.EAdChapter;
 public interface Game {
 
 	/**
+	 * Container width
+	 */
+	public static final String WIDTH = "width";
+
+	/**
+	 * Container height
+	 */
+	public static final String HEIGHT = "height";
+
+	/**
+	 * Game is fullscreen
+	 */
+	public static final String FULLSCREEN = "fullscreen";
+
+	/**
+	 * Sets if System.exit must be called when the game is closed
+	 */
+	public static final String EXIT_WHEN_CLOSE = "exit_when_close";
+
+	/**
 	 * Initialize the whole engine, loading default properties, string, creating
 	 * the GUI...
 	 */

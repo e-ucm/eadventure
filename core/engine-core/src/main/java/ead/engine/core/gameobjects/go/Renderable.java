@@ -62,9 +62,10 @@ public interface Renderable {
 	 * 
 	 * @param action
 	 *            the action to process
-	 * @return {@code true} if he action has been processed by the object
+	 * @return the object that processed the action. {@code null} if no one
+	 *         processed it
 	 */
-	boolean processAction(InputAction<?> action);
+	DrawableGO<?> processAction(InputAction<?> action);
 
 	/**
 	 * Returns the transformation (translation, rotation, scale, etc.) of this

@@ -35,36 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects;
+package ead.engine.core.gameobjects.go;
 
-import ead.common.model.EAdElement;
-import ead.engine.core.gameobjects.go.GameObject;
+import com.google.inject.Inject;
 
-/**
- * Basic game object implementation for eAdventure elements
- * 
- * 
- * @param <T>
- *            the class of the eAdventure element contained by this game object
- */
-public abstract class GameObjectImpl<T extends EAdElement> implements
-		GameObject<T> {
+import ead.common.model.elements.scenes.EAdGhostElement;
+import ead.common.params.fills.Paint;
+import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 
-	protected T element;
+public class GhostElementGO extends SceneElementGOImpl<EAdGhostElement> {
 
-	@Override
-	public void setElement(T element) {
-		this.element = element;
+	private RuntimeDrawable<?, ?> interactionArea;
+
+	@Inject
+	public GhostElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
 	@Override
-	public T getElement() {
-		return element;
+	public void setElement(EAdGhostElement element) {
+		interactionArea = assetHandler.getDrawableAsset(element
+				.getInteractionArea());
+		RectangleShape area = new RectangleShape(interactionArea.getWidth(),
+				interactionArea.getHeight(), Paint.TRANSPARENT);
+		element.getDefinition().setAppearance(area);
+		super.setElement(element);
 	}
 
 	@Override
-	public String toString() {
-		return element + "";
+	public boolean contains(int x, int y) {
+		return interactionArea.contains(x, y);
 	}
 
 }

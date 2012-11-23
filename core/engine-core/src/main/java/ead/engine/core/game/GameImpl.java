@@ -67,6 +67,7 @@ import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
+import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
@@ -92,6 +93,11 @@ public class GameImpl implements Game {
 	private StringHandler stringHandler;
 
 	/**
+	 * Input handler
+	 */
+	private InputHandler inputHandler;
+
+	/**
 	 * A map holding some useful game properties (like width, height,
 	 * fullscreen...)
 	 */
@@ -111,7 +117,8 @@ public class GameImpl implements Game {
 
 	private ActionsHUD actionsHUD;
 
-	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
@@ -153,17 +160,21 @@ public class GameImpl implements Game {
 	private EAdList<EAdEffect> launchEffects;
 
 	@Inject
-	public GameImpl(GUI gui, StringHandler stringHandler, GameState gameState,
+	public GameImpl(GUI gui, StringHandler stringHandler,
+			InputHandler inputHandler, GameState gameState,
 			EffectHUD effectHUD, AssetHandler assetHandler,
-			GameObjectManager gameObjectManager, DebuggerHandler debugger,
-			ValueMap valueMap, TopBasicHUD basicHud,
-			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
-			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
+			GameObjectManager gameObjectManager,
+			DebuggerHandler debugger, ValueMap valueMap,
+			TopBasicHUD basicHud, BottomBasicHUD bottomBasicHud,
+			InventoryHUD inventoryHud,
+			InventoryHandler inventoryHandler,
+			EventGOFactory eventFactory,
 			EngineConfiguration configuration, ActionsHUD actionsHUD,
 			GameTracker tracker, SceneGraph sceneGraph,
 			TweenController tweenController) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
+		this.inputHandler = inputHandler;
 
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -181,25 +192,29 @@ public class GameImpl implements Game {
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
 		this.tweenController = tweenController;
-		this.modelWaiting = Boolean.FALSE;
-		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
+		this.modelWaiting = Boolean.FALSE;		
 
 	}
 
 	@Override
 	public void initialize() {
-		// GUI initialization
-		gui.initialize(this);
-		
 		// Properties
 		properties = new HashMap<String, Object>();
 		// These properties won't change during game play
 		Map<String, Object> engineProperties = null;
 		properties.putAll(engineProperties);
-		
+
+		// GUI initialization
+		gui.initialize(this);
+
 		// Load strings
 		Map<EAdString, String> engineStrings = null;
 		stringHandler.addStrings(engineStrings);
+		
+		
+		// FIXME add huds
+		gui.addHud( bottomBasicHud, 0 );
+		
 	}
 
 	@Override
@@ -210,6 +225,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public void update() {
+		inputHandler.processActions();
 
 		synchronized (modelWaitingMutex) {
 			if (modelWaiting) {
@@ -223,7 +239,8 @@ public class GameImpl implements Game {
 		// We load some possible game
 		gameLoader.step();
 
-		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+		gameState.getValueMap().setValue(
+				SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
 		tweenController.update(gui.getSkippedMilliseconds());
@@ -253,7 +270,8 @@ public class GameImpl implements Game {
 	}
 
 	private void updateGameEvents() {
-		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
+		Long l = gameState.getValueMap().getValue(
+				SystemFields.GAME_TIME);
 		l += gui.getSkippedMilliseconds();
 		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
 
@@ -297,10 +315,12 @@ public class GameImpl implements Game {
 		boolean visualEffect = false;
 		int index = 0;
 		while (!visualEffect && index < gameState.getEffects().size()) {
-			visualEffect = gameState.getEffects().get(index++).isVisualEffect();
+			visualEffect = gameState.getEffects().get(index++)
+					.isVisualEffect();
 		}
 
-		boolean effectHUDon = gameObjectManager.getHUDs().contains(effectHUD);
+		boolean effectHUDon = gameObjectManager.getHUDs().contains(
+				effectHUD);
 		if (visualEffect) {
 			if (!effectHUDon) {
 				gameObjectManager.addHUD(effectHUD);
@@ -363,8 +383,8 @@ public class GameImpl implements Game {
 		updateInitialTransformation();
 
 		// Start tracking
-		Boolean track = Boolean.parseBoolean(adventure.getProperties().get(
-				GameTracker.TRACKING_ENABLE));
+		Boolean track = Boolean.parseBoolean(adventure
+				.getProperties().get(GameTracker.TRACKING_ENABLE));
 		if (track) {
 			tracker.startTracking(adventure);
 		}
@@ -377,8 +397,8 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter,
-			EAdList<EAdEffect> effects) {
+	public void setGame(EAdAdventureModel model,
+			EAdChapter eAdChapter, EAdList<EAdEffect> effects) {
 		synchronized (modelWaitingMutex) {
 			this.adventure = model;
 			this.currentChapter = eAdChapter;
@@ -417,8 +437,10 @@ public class GameImpl implements Game {
 					- adventure.getGameHeight() * scale) / 2;
 
 			initialTransformation = new EAdTransformationImpl();
-			initialTransformation.getMatrix().translate(dispX, dispY, true);
-			initialTransformation.getMatrix().scale(scale, scale, true);
+			initialTransformation.getMatrix().translate(dispX, dispY,
+					true);
+			initialTransformation.getMatrix().scale(scale, scale,
+					true);
 			initialTransformation.setValidated(false);
 			gui.setInitialTransformation(initialTransformation);
 		}

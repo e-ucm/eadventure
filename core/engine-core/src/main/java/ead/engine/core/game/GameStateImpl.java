@@ -74,7 +74,7 @@ import ead.engine.core.tracking.GameTracker;
 @Singleton
 public class GameStateImpl implements GameState {
 
-	private SceneGO<?> scene;
+	private SceneGO scene;
 
 	private List<EffectGO<?>> effects;
 
@@ -130,11 +130,11 @@ public class GameStateImpl implements GameState {
 	}
 
 	@Override
-	public SceneGO<?> getScene() {
+	public SceneGO getScene() {
 		if (scene == null) {
 			logger.debug("null scene, Loading screen: "
 					+ (loadingScreen != null));
-			this.scene = (SceneGO<?>) sceneElementFactory.get(loadingScreen);
+			this.scene = (SceneGO) sceneElementFactory.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
 		}
 		return scene;
@@ -148,7 +148,7 @@ public class GameStateImpl implements GameState {
 	 * engine.core.gameobjects.SceneGO)
 	 */
 	@Override
-	public void setScene(SceneGO<? extends EAdScene> newScene) {
+	public void setScene(SceneGO newScene) {
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.FALSE);
@@ -373,7 +373,7 @@ public class GameStateImpl implements GameState {
 			this.previousSceneStack = gameStateData.getPreviousSceneStack();
 			sceneElementFactory.remove(gameStateData.getScene());
 
-			scene = (SceneGO<?>) sceneElementFactory.get(gameStateData
+			scene = (SceneGO) sceneElementFactory.get(gameStateData
 					.getScene());
 			scene.update();
 

@@ -74,7 +74,7 @@ public interface GameState {
 	 * 
 	 * @return a {@link SceneGO} object
 	 */
-	SceneGO<?> getScene();
+	SceneGO getScene();
 
 	/**
 	 * <p>
@@ -89,7 +89,7 @@ public interface GameState {
 	 * @param screen
 	 *            the current {@link SceneGO}.
 	 */
-	void setScene(SceneGO<? extends EAdScene> scene);
+	void setScene(SceneElementGO<?> scene);
 
 	/**
 	 * Adds an effect without any gui action associated

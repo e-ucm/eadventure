@@ -35,59 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects;
+package ead.engine.core.gameobjects.go;
 
-import ead.common.model.EAdElement;
+import com.google.inject.Inject;
+
+import ead.common.model.elements.scenes.SceneElement;
+import ead.engine.core.evaluators.EvaluatorFactory;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
+import ead.engine.core.platform.assets.AssetHandler;
 
-public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
-		GameObjectImpl<T> implements DrawableGO<T> {
+public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
 
-	protected SceneElementGOFactory sceneElementFactory;
+	private EvaluatorFactory evaluatorFactory;
 
-	/**
-	 * The game's asset handler
+	@Inject
+	public BasicSceneElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory,
+			EvaluatorFactory evaluatorFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		this.evaluatorFactory = evaluatorFactory;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
+	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
-
-	protected GUI gui;
-
-	protected EAdTransformation transformation;
-
-	protected boolean enable;
-
-	public DrawableGameObjectImpl(SceneElementGOFactory sceneElementFactory,
-			GUI gui) {
-		super();
-		this.sceneElementFactory = sceneElementFactory;
-		this.gui = gui;
-	}
-
-	@Override
-	public void setElement(T element) {
-		super.setElement(element);
-		transformation = new EAdTransformationImpl();
-	}
-
-	public boolean isEnable() {
-		return enable;
-	}
-
-	public EAdTransformation getTransformation() {
-		return transformation;
-	}
-
-	@Override
 	public SceneElementGO<?> getDraggableElement() {
+		if (evaluatorFactory.evaluate(element.getDragCond())) {
+			return this;
+		}
 		return null;
-	}
-
-	public void resetTransfromation() {
-		transformation.getMatrix().setIdentity();
 	}
 
 }

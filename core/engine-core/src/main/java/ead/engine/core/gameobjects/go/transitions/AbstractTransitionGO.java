@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.transitions;
+package ead.engine.core.gameobjects.go.transitions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +46,10 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.SceneElementGOImpl;
 import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.go.transitions.SceneLoader;
-import ead.engine.core.gameobjects.go.transitions.TransitionGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
@@ -63,11 +63,11 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	protected T transition;
 
-	protected SceneGO<?> previousScene;
+	protected SceneGO previousScene;
 
 	protected EAdScene nextScene;
 
-	protected SceneGO<?> nextSceneGO;
+	protected SceneGO nextSceneGO;
 
 	protected SceneLoader sceneLoader;
 
@@ -90,7 +90,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		firstUpdate = true;
 	}
 
-	public void setPrevious(SceneGO<?> scene) {
+	public void setPrevious(SceneGO scene) {
 		this.previousScene = scene;
 		gameState.getValueMap().clearUpdateList();
 		gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT, false);
@@ -100,7 +100,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	}
 
 	@Override
-	public void sceneLoaded(SceneGO<?> sceneGO) {
+	public void sceneLoaded(SceneGO sceneGO) {
 		nextSceneGO = sceneGO;
 		loaded = true;
 		loading = false;
@@ -161,14 +161,13 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		return listeners;
 	}
 
-	public SceneGO<?> getNextSceneGO() {
+	public SceneGO getNextSceneGO() {
 		return nextSceneGO;
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
-		// Do nothing
-		return true;
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		return this;
 	}
 
 }

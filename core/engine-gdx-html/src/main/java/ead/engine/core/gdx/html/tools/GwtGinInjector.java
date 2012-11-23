@@ -43,7 +43,7 @@ import com.google.gwt.inject.client.Ginjector;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
-import ead.engine.core.gameobjects.SceneGOImpl;
+import ead.engine.core.gameobjects.SceneGO;
 import ead.engine.core.gameobjects.VideoSceneGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
@@ -68,7 +68,7 @@ import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGOImpl;
 import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
 import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
@@ -140,9 +140,9 @@ public interface GwtGinInjector extends Ginjector {
 
 	public BasicSceneElementGO getBasicSceneElementGO();
 
-	public ComplexSceneElementGO getComplexSceneElementGO();
+	public ComplexSceneElementGOImpl getComplexSceneElementGO();
 
-	public SceneGOImpl getSceneGO();
+	public SceneGO getSceneGO();
 
 	public VideoSceneGO getVideoSceneGO();
 

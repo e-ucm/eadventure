@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects;
+package ead.engine.core.gameobjects.go;
 
 import java.util.List;
 
@@ -50,15 +50,13 @@ import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
 public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
-		implements SceneGO<ComposedScene> {
+		implements ComplexSceneElementGO<ComposedScene> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ScreenGOImpl");
@@ -109,7 +107,7 @@ public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
-		return false;
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		return null;
 	}
 }

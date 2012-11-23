@@ -37,39 +37,26 @@
 
 package ead.engine.core.gdx.android;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 
 @Singleton
 public class AndroidGdxGUI extends GdxGUI {
 
-	@Inject
-	public AndroidGdxGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler,
-			GameState gameState, SceneElementGOFactory gameObjectFactory,
+	public AndroidGdxGUI(GameObjectManager gameObjectManager,
 			GdxCanvas canvas, GdxEngine engine) {
-		super(platformConfiguration, gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas, engine);
+		super(gameObjectManager, canvas, engine);
 	}
 
 	@Override
 	public void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen) {
-
-	}
-
-	@Override
-	public void initialize() {
-
+		// FIXME show special resources
+		
 	}
 
 }

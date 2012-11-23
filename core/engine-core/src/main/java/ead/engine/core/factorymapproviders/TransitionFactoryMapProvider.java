@@ -41,10 +41,10 @@ import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
+import ead.engine.core.gameobjects.go.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.go.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.go.transitions.FadeInTransitionGO;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
-import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
-import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 
 public class TransitionFactoryMapProvider
 		extends

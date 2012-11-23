@@ -46,8 +46,9 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.DrawableGameObjectImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.DrawableGameObjectImpl;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
@@ -154,8 +155,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
-		return false;
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		return null;
 	}
 
 	@Override

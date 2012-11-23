@@ -42,6 +42,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 
@@ -57,12 +58,12 @@ public class BottomBasicHUDImpl extends AbstractHUD implements BottomBasicHUD {
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE)) {
 			action.consume();
-			return true;
+			return this;
 		}
-		return false;
+		return null;
 	}
 
 	@Override

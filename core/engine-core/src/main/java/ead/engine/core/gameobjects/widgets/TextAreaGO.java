@@ -47,8 +47,9 @@ import ead.common.widgets.TextArea;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.go.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
@@ -72,7 +73,8 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			StringHandler stringHandler) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+		super(assetHandler, sceneElementFactory, gui, gameState,
+				eventFactory);
 		this.stringHandler = stringHandler;
 	}
 
@@ -82,12 +84,13 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 		textCaption = new Caption(stringHandler.generateNewString());
 		textCaption.setPreferredHeight(this.getHeight());
 		textCaption.setPreferredWidth(this.getWidth());
-		textElement = sceneElementFactory.get(new SceneElement(textCaption));
+		textElement = sceneElementFactory.get(new SceneElement(
+				textCaption));
 		textElement.setEnabled(false);
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		super.processAction(action);
 		if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
@@ -95,8 +98,8 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 				switch (keyAction.getKeyCode()) {
 				case BACKSPACE:
 					if (currentText.length() > 0) {
-						currentText = currentText.substring(0, currentText
-								.length() - 2);
+						currentText = currentText.substring(0,
+								currentText.length() - 2);
 					}
 					break;
 				default:
@@ -104,19 +107,20 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 						currentText += keyAction.getCharacter();
 					}
 				}
-				stringHandler.setString(textCaption.getLabel(), currentText);
+				stringHandler.setString(textCaption.getLabel(),
+						currentText);
 			}
 			action.consume();
-			return true;
+			return this;
 		} else if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			if (mouseAction.getType() == MouseGEvType.PRESSED) {
 				gameState.setActiveElement(element);
 				action.consume();
-				return true;
+				return this;
 			}
 		}
-		return false;
+		return null;
 
 	}
 

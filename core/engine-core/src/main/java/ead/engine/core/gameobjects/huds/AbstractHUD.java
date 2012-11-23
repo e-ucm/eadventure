@@ -54,6 +54,8 @@ import ead.engine.core.util.EAdTransformationImpl;
 
 public abstract class AbstractHUD implements HudGO {
 
+	private boolean visible = false;
+
 	protected GUI gui;
 
 	private List<DrawableGO<?>> hudGameObjects;
@@ -100,8 +102,8 @@ public abstract class AbstractHUD implements HudGO {
 		return false;
 	}
 
-	public boolean processAction(InputAction<?> action) {
-		return false;
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		return null;
 	}
 
 	@Override
@@ -131,8 +133,8 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	@Override
-	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets) {
+	public List<AssetDescriptor> getAssets(
+			List<AssetDescriptor> assetList, boolean allAssets) {
 		return assetList;
 	}
 
@@ -160,6 +162,10 @@ public abstract class AbstractHUD implements HudGO {
 	@Override
 	public void init() {
 
+	}
+
+	public boolean isVisible() {
+		return visible;
 	}
 
 }

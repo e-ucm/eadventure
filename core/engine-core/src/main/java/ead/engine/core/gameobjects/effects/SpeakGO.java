@@ -52,6 +52,7 @@ import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.MouseInputAction;
@@ -97,7 +98,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			action.consume();
@@ -110,7 +111,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 					else
 						caption.goForward(1);
 				}
-			return true;
+			return this;
 		}
 		return super.processAction(action);
 	}

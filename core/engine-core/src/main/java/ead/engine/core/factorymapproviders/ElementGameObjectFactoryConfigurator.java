@@ -46,13 +46,13 @@ import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.widgets.TextArea;
-import ead.engine.core.gameobjects.ComposedSceneGOImpl;
-import ead.engine.core.gameobjects.SceneGOImpl;
-import ead.engine.core.gameobjects.VideoSceneGO;
+import ead.engine.core.gameobjects.go.BasicSceneElementGO;
+import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
+import ead.engine.core.gameobjects.go.ComposedSceneGOImpl;
+import ead.engine.core.gameobjects.go.GhostElementGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
+import ead.engine.core.gameobjects.go.SceneGO;
+import ead.engine.core.gameobjects.go.VideoSceneGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.platform.LoadingScreen;
 
@@ -61,14 +61,14 @@ public class ElementGameObjectFactoryConfigurator
 		AbstractMapProvider<Class<? extends EAdSceneElement>, Class<? extends SceneElementGO<? extends EAdSceneElement>>> {
 
 	public ElementGameObjectFactoryConfigurator() {
-		factoryMap.put(EAdScene.class, SceneGOImpl.class);
-		factoryMap.put(BasicScene.class, SceneGOImpl.class);
+		factoryMap.put(EAdScene.class, SceneGO.class);
+		factoryMap.put(BasicScene.class, SceneGO.class);
 		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
 		factoryMap.put(SceneElement.class, BasicSceneElementGO.class);
 		factoryMap.put(GhostElement.class, GhostElementGO.class);
-		factoryMap.put(ComplexSceneElement.class, ComplexSceneElementGO.class);
+		factoryMap.put(ComplexSceneElement.class, ComplexSceneElementGOImpl.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
-		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
+		factoryMap.put(LoadingScreen.class, SceneGO.class);
 		factoryMap.put(TextArea.class, TextAreaGO.class);
 	}
 }

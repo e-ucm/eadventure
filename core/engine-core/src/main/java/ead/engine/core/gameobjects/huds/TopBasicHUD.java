@@ -37,10 +37,9 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import ead.engine.core.gameobjects.GameObjectManager;
 
 public interface TopBasicHUD extends HudGO {
 
-	void setGameObjectManager(GameObjectManager gameObjectManager);
+	
 
 }

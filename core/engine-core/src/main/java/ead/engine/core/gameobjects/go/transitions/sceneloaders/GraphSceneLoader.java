@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.transitions.sceneloaders;
+package ead.engine.core.gameobjects.go.transitions.sceneloaders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +49,6 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.go.transitions.SceneLoader;
-import ead.engine.core.gameobjects.go.transitions.SceneLoaderListener;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.SceneGraph;
 
@@ -111,7 +109,7 @@ public class GraphSceneLoader implements SceneLoader {
 	}
 
 	@Override
-	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene) {
+	public void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene) {
 		// TODO Auto-generated method stub
 
 	}
@@ -119,7 +117,7 @@ public class GraphSceneLoader implements SceneLoader {
 	@Override
 	public void step() {
 		if (!assetHandler.loadStep()) {
-			SceneGO<?> sceneGO = (SceneGO<?>) factory.get(scene);
+			SceneGO sceneGO = (SceneGO) factory.get(scene);
 			sceneGO.update();
 			// Add the next scenes, so they load in the background
 			for (EAdScene s : sceneRemainingToBeLoad) {

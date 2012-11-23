@@ -37,36 +37,26 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
-import ead.common.model.elements.scenes.EAdScene;
-import ead.engine.core.gameobjects.go.SceneGO;
+import com.google.inject.Inject;
 
-/**
- * Implemented by those classes loading scenes assets
- * 
- */
-public interface SceneLoader {
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-	/**
-	 * Loads the scene assets.
-	 * 
-	 * @param scene
-	 *            The scene to load
-	 * @param listener
-	 *            the listener will be notices when the load is complete
-	 */
-	void loadScene(EAdScene scene, SceneLoaderListener listener);
+public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
 
-	/**
-	 * Frees all the assets contained by the scene, and not used by the
-	 * currentScene
-	 * @param currentScene
-	 *            the current scene
-	 */
-	void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene);
-
-	/**
-	 * The scene loader gets permission to one more step in its loading process
-	 */
-	void step();
+	@Inject
+	public BasicTransitionGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory,
+			SceneLoader sceneLoader, InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				sceneLoader, inputHandler);
+	}
 
 }

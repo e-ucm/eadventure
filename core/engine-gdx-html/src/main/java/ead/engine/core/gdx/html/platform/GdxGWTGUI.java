@@ -40,15 +40,11 @@ package ead.engine.core.gdx.html.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 
 @Singleton
 public class GdxGWTGUI extends GdxGUI {
@@ -56,12 +52,9 @@ public class GdxGWTGUI extends GdxGUI {
 	GWTVideoRenderer renderer;
 
 	@Inject
-	public GdxGWTGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler,
-			GameState gameState, SceneElementGOFactory gameObjectFactory,
+	public GdxGWTGUI(GameObjectManager gameObjectManager,
 			GdxCanvas canvas, GdxEngine engine) {
-		super(platformConfiguration, gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas, engine);
+		super(gameObjectManager, canvas, engine);
 	}
 
 	@Override
@@ -73,11 +66,6 @@ public class GdxGWTGUI extends GdxGUI {
 			renderer.hide();
 			renderer = null;
 		}
-
-	}
-
-	@Override
-	public void initialize() {
 
 	}
 

@@ -35,44 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.sceneelements;
+package ead.engine.core.gameobjects.go;
 
-import com.google.inject.Inject;
+import ead.common.model.EAdElement;
 
-import ead.common.model.elements.scenes.EAdGhostElement;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeDrawable;
+/**
+ * Basic game object implementation for eAdventure elements
+ * 
+ * 
+ * @param <T>
+ *            the class of the eAdventure element contained by this game object
+ */
+public abstract class GameObjectImpl<T extends EAdElement> implements
+		GameObject<T> {
 
-public class GhostElementGO extends SceneElementGOImpl<EAdGhostElement> {
+	protected T element;
 
-	private RuntimeDrawable<?, ?> interactionArea;
-
-	@Inject
-	public GhostElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+	@Override
+	public void setElement(T element) {
+		this.element = element;
 	}
 
 	@Override
-	public void setElement(EAdGhostElement element) {
-		interactionArea = assetHandler.getDrawableAsset(element
-				.getInteractionArea());
-		RectangleShape area = new RectangleShape(interactionArea.getWidth(),
-				interactionArea.getHeight(), Paint.TRANSPARENT);
-		element.getDefinition().setAppearance(area);
-		super.setElement(element);
+	public T getElement() {
+		return element;
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
-		return interactionArea.contains(x, y);
+	public String toString() {
+		return element + "";
 	}
 
 }

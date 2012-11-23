@@ -55,8 +55,8 @@ import ead.common.util.EAdPosition.Corner;
 import ead.common.util.Interpolator;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
@@ -113,8 +113,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private List<EAdPosition> positions;
 
-	private GameObjectManager gameObjectManager;
-
 	private List<SceneElementGO<?>> actionsGO;
 
 	private SceneElementGOFactory sceneElementFactory;
@@ -124,12 +122,11 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	private float alpha;
 
 	@Inject
-	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager,
+	public ActionsHUDImpl(GUI gui,
 			GameState gameState, SceneElementGOFactory sceneElementFactory,
 			EvaluatorFactory evaluatorFactory) {
 		super(gui);
 		logger.info("New instance");
-		this.gameObjectManager = gameObjectManager;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
 		positions = new ArrayList<EAdPosition>();
 		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
@@ -147,7 +144,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		boolean remove = false;
 		if (action instanceof MouseInputAction) {
 			MouseInputAction temp = (MouseInputAction) action;
@@ -167,13 +164,12 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		}
 
 		if (remove) {
-			logger.info("Remove actions HUD");
-			gameObjectManager.removeHUD(this);
+			logger.info("Remove actions HUD");			
 			action.consume();
 		}
 
 		action.consume();
-		return true;
+		return this;
 	}
 
 	/*

@@ -55,8 +55,8 @@ import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.platform.GUI;
@@ -81,20 +81,17 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 	 */
 	private GameState gameState;
 
-	private GameObjectManager gameObjectManager;
-
 	private StringHandler stringHandler;
 
 	private SceneElementGOFactory sceneElementFactory;
 
 	@Inject
 	public MenuHUDImpl(GUI gui, GameState gameState,
-			GameObjectManager gameObjectManager, StringHandler stringHandler,
+			StringHandler stringHandler,
 			SceneElementGOFactory sceneElementFactory) {
 		super(gui);
 		logger.info("New instance of MenuHUD");
 		this.gameState = gameState;
-		this.gameObjectManager = gameObjectManager;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
 
@@ -117,21 +114,20 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
 			if (keyAction.getKeyCode() == KeyGEvCode.ESCAPE
-					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
-				gameObjectManager.removeHUD(this);
+					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {				
 				gameState.setPaused(false);
 				action.consume();
-				return true;
+				return this;
 			}
 		}
 
 		// Returns true to block interaction with lower HUDs and GOs
 		action.consume();
-		return true;
+		return this;
 	}
 
 	@Override

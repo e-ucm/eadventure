@@ -45,7 +45,6 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
@@ -60,16 +59,12 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 	 */
 	private ActionsHUD actionsHUD;
 
-	private GameObjectManager gameObjectManager;
-
 	@Inject
 	public ActorActionsGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, ActionsHUD actionsHUD,
-			GameObjectManager gameObjectManager) {
+			GameState gameState, ActionsHUD actionsHUD) {
 		super(gameObjectFactory, gui, gameState);
 		this.actionsHUD = actionsHUD;
-		this.gameObjectManager = gameObjectManager;
 	}
 
 	@Override
@@ -80,7 +75,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 					element.getActionElement(),
 					SceneElementDef.VAR_SCENE_ELEMENT);
 			if (ref != null) {
-				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
+				SceneElementGO<?> sceneElement = sceneElementFactory
+						.get(ref);
 				if (sceneElement.getActions() != null) {
 					int x = sceneElement.getCenterX();
 					int y = sceneElement.getCenterY();
@@ -91,11 +87,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 								SystemFields.MOUSE_Y);
 					}
 					actionsHUD.setElement(sceneElement, x, y);
-					gameObjectManager.addHUD(actionsHUD);
 				}
 			}
-		} else {
-			gameObjectManager.removeHUD(actionsHUD);
 		}
 	}
 

@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
-import ead.engine.core.gameobjects.SceneGOImpl;
+import ead.engine.core.gameobjects.SceneGO;
 import ead.engine.core.gameobjects.VideoSceneGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
@@ -70,7 +70,7 @@ import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGOImpl;
 import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
 import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
@@ -172,11 +172,11 @@ public class GwtInjector implements GenericInjector {
 			o = ginjector.getSystemEventGO();
 		else if (clazz == BasicSceneElementGO.class)
 			o = ginjector.getBasicSceneElementGO();
-		else if (clazz == ComplexSceneElementGO.class)
+		else if (clazz == ComplexSceneElementGOImpl.class)
 			o = ginjector.getComplexSceneElementGO();
 		else if (clazz == ComposedSceneGOImpl.class)
 			o = ginjector.getComposedSceneGO();
-		else if (clazz == SceneGO.class || clazz == SceneGOImpl.class)
+		else if (clazz == SceneGO.class || clazz == SceneGO.class)
 			o = ginjector.getSceneGO();
 		else if (clazz == VideoSceneGO.class)
 			o = ginjector.getVideoSceneGO();

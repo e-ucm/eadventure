@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects;
+package ead.engine.core.gameobjects.go;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,16 +49,14 @@ import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.util.EAdTransformation;
 
-public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
-		SceneGO<VideoScene> {
+public class VideoSceneGO extends SceneElementGOImpl<VideoScene>
+		implements ComplexSceneElementGO<VideoScene> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("VideoScreenGOImpl");
@@ -75,7 +73,8 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 			GameState gameState,
 			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
@@ -93,8 +92,8 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 		super.update();
 		if (component == null) {
 			try {
-				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
-						currentBundle, VideoScene.video);
+				EAdVideo v = (EAdVideo) element.getDefinition()
+						.getAsset(currentBundle, VideoScene.video);
 				component = specialAssetRenderer.getComponent(v);
 				if (component != null) {
 					gui.showSpecialResource(component, 0, 0, true);
@@ -137,8 +136,8 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	}
 
 	@Override
-	public boolean processAction(InputAction<?> action) {
-		return false;
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		return null;
 	}
 
 }

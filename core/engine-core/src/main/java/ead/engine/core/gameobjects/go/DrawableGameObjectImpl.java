@@ -35,73 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.transitions;
+package ead.engine.core.gameobjects.go;
 
-import com.google.inject.Inject;
-
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.util.Interpolator;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.common.model.EAdElement;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.transitions.SceneLoader;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.util.EAdTransformationImpl;
 
-public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
+public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
+		GameObjectImpl<T> implements DrawableGO<T> {
 
-	private boolean finished;
+	protected SceneElementGOFactory sceneElementFactory;
 
-	private int startTime = -1;
+	/**
+	 * The game's asset handler
+	 */
 
-	private float sceneAlpha;
+	protected GUI gui;
 
-	private int currentTime;
+	protected EAdTransformation transformation;
 
-	@Inject
-	public FadeInTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
-		finished = false;
-		currentTime = 0;
+	protected boolean enable;
+
+	public DrawableGameObjectImpl(SceneElementGOFactory sceneElementFactory,
+			GUI gui) {
+		super();
+		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
 	}
 
-	public void update() {
-		super.update();
-		if (isLoadedNextScene()) {
-
-			currentTime += gui.getSkippedMilliseconds();
-			if (startTime == -1) {
-				startTime = currentTime;
-				sceneAlpha = 0.0f;
-			}
-
-			if (currentTime - startTime >= element.getTime()) {
-				finished = true;
-			} else {
-				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
-						- startTime, element.getTime(), 1.0f));
-			}
-		}
+	@Override
+	public void setElement(T element) {
+		super.setElement(element);
+		transformation = new EAdTransformationImpl();
 	}
 
-	public void doLayout(EAdTransformation t) {
-		if (this.isLoadedNextScene()) {
-			gui.addElement(previousScene, t);
-			transformation.setAlpha(sceneAlpha);
-			gui.addElement(nextSceneGO, transformation);
-		} else {
-			super.doLayout(t);
-		}
+	public boolean isEnable() {
+		return enable;
 	}
 
-	public boolean isFinished() {
-		return finished;
+	public EAdTransformation getTransformation() {
+		return transformation;
+	}
+
+	@Override
+	public SceneElementGO<?> getDraggableElement() {
+		return null;
+	}
+
+	public void resetTransfromation() {
+		transformation.getMatrix().setIdentity();
 	}
 
 }

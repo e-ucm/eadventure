@@ -39,10 +39,7 @@ package ead.engine.core.gdx.desktop.platform;
 
 import java.awt.Canvas;
 import java.awt.Component;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -61,14 +58,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.Game;
 import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.utils.swing.SwingUtilities;
 
 @Singleton
@@ -79,25 +73,16 @@ public class GdxDesktopGUI extends GdxGUI {
 	private Canvas canvas;
 
 	private Component component;
-	
-	/**
-	 * Platform configuration parameters
-	 */
-	private EngineConfiguration engineConfiguration;
 
 	@Inject
-	public GdxDesktopGUI(EngineConfiguration engineConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler,
-			GameState gameState, SceneElementGOFactory gameObjectFactory,
+	public GdxDesktopGUI(GameObjectManager gameObjectManager,
 			GdxCanvas canvas, GdxEngine engine) {
-		super(engineConfiguration, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas, engine);
-		this.engineConfiguration = engineConfiguration;
+		super(gameObjectManager, canvas, engine);
 	}
 
 	@Override
-	public void initialize() {
-		super.initialize();
+	public void initialize(Game game) {
+		super.initialize(game);
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)
@@ -105,9 +90,8 @@ public class GdxDesktopGUI extends GdxGUI {
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(0, 0), "null"));
 
-		setFullscreenIfNeeded();
-		int width = engineConfiguration.getWidth();
-		int height = engineConfiguration.getHeight();
+		int width = (Integer) game.getProperty(Game.WIDTH, 800);
+		int height = (Integer) game.getProperty(Game.HEIGHT, 800);
 		canvas = new Canvas();
 		canvas.setSize(width, height);
 		frame.add(canvas);
@@ -128,8 +112,10 @@ public class GdxDesktopGUI extends GdxGUI {
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = engineConfiguration.isFullscreen();
-		cfg.forceExit = engineConfiguration.isExitWhenFinished();
+		cfg.fullscreen = (Boolean) game.getProperty(Game.FULLSCREEN,
+				false);
+		cfg.forceExit = (Boolean) game.getProperty(
+				Game.EXIT_WHEN_CLOSE, true);
 
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);
@@ -184,10 +170,10 @@ public class GdxDesktopGUI extends GdxGUI {
 	}
 
 	private IntBuffer getCursor() {
-
 		BufferedImage biCursor = new BufferedImage(16, 16,
 				BufferedImage.TYPE_INT_ARGB);
-		int[] data = biCursor.getRaster().getPixels(0, 0, 16, 16, (int[]) null);
+		int[] data = biCursor.getRaster().getPixels(0, 0, 16, 16,
+				(int[]) null);
 
 		IntBuffer ib = BufferUtils.createIntBuffer(16 * 16);
 		for (int i = 0; i < data.length; i += 4) {
@@ -198,35 +184,20 @@ public class GdxDesktopGUI extends GdxGUI {
 		return ib;
 	}
 
-	private void setFullscreenIfNeeded() {
-		if (engineConfiguration.isFullscreen()) {
-			// TODO this might not work in windows
-			if (!frame.isDisplayable()) {
-				frame.setUndecorated(true);
-			}
-			// FIXME fullscreen not working with Gdx
-			// getGraphicsDevice().setFullScreenWindow(frame);
-			frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-			engineConfiguration.setSize(frame.getWidth(), frame.getHeight());
-		}
-
-		frame.setLocationRelativeTo(null);
-	}
-
-	protected GraphicsDevice getGraphicsDevice() {
-		return GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getDefaultScreenDevice();
-	}
-
-	public JFrame getFrame() {
-		return frame;
-	}
-
 	@Override
 	public void finish() {
 		if (frame != null) {
 			frame.setVisible(false);
 		}
 		super.finish();
+	}
+
+	/**
+	 * Returns the JFrame holding the engine
+	 * 
+	 * @return
+	 */
+	public JFrame getFrame() {
+		return frame;
 	}
 }

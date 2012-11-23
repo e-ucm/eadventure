@@ -64,7 +64,6 @@ import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
@@ -110,8 +109,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	private AssetHandler assetHandler;
 
-	private GameObjectManager gameObjectManager;
-
 	private DrawableGO<?> currentGO;
 
 	// Contextual
@@ -145,23 +142,18 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		this.engineConfiguration = engineConfiguration;
 	}
 
-	public void setGameObjectManager(GameObjectManager gameObjectManager) {
-		this.gameObjectManager = gameObjectManager;
-	}
-
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
 			if (keyAction.getKeyCode() == KeyGEvCode.ESCAPE
-					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
-				gameObjectManager.addHUD(menuHUD);
+					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {				
 				gameState.setPaused(true);
 				action.consume();
-				return true;
+				return this;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public void doLayout(EAdTransformation t) {

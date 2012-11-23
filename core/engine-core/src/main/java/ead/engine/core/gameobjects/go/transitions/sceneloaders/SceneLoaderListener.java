@@ -35,43 +35,23 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.sceneelements;
+package ead.engine.core.gameobjects.go.transitions.sceneloaders;
 
-import com.google.inject.Inject;
+import ead.engine.core.gameobjects.go.SceneGO;
 
-import ead.common.model.elements.scenes.SceneElement;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+/**
+ * 
+ * Implemented by elements interested in knowing when a scene is loaded by a
+ * {@link SceneLoader}
+ * 
+ */
+public interface SceneLoaderListener {
 
-public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
-
-	private EvaluatorFactory evaluatorFactory;
-
-	@Inject
-	public BasicSceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		this.evaluatorFactory = evaluatorFactory;
-	}
-
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Triggers when the scene is loaded
 	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
-	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
+	 * @param sceneGO
+	 *            the game object for the loaded scene
 	 */
-	public SceneElementGO<?> getDraggableElement() {
-		if (evaluatorFactory.evaluate(element.getDragCond())) {
-			return this;
-		}
-		return null;
-	}
-
+	void sceneLoaded(SceneGO sceneGO);
 }

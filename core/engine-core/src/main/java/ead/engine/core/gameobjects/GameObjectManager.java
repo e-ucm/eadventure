@@ -40,32 +40,47 @@ package ead.engine.core.gameobjects;
 import java.util.List;
 
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.HudGO;
-import ead.engine.core.gameobjects.huds.TopBasicHUD;
-import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
+/**
+ * 
+ * Game object manager. Handles current game objects. If you're using this from
+ * somewhere outside of the GUI, you're using it wrong
+ * 
+ */
 public interface GameObjectManager {
 
-	static Boolean lock = Boolean.TRUE;
-
+	/**
+	 * Adds a game object to list
+	 * 
+	 * @param element
+	 * @param transformation
+	 */
 	void add(DrawableGO<?> element, EAdTransformation transformation);
 
+	/**
+	 * Returns the current list of game objects
+	 * 
+	 * @return
+	 */
 	List<DrawableGO<?>> getGameObjects();
 
-	void addHUD(HudGO hud);
+	/**
+	 * Adds a hud to the manager
+	 * 
+	 * @param hud
+	 * @param priority
+	 *            the bigger the priority the later is drawn (and the higher
+	 *            appears to be)
+	 */
+	void addHUD(HudGO hud, int priority);
 
-	void addHUDs(GUI gui, EAdTransformation t);
-
-	void removeHUD(HudGO hud);
-
-	void swap();
-
+	/**
+	 * Returns the list of huds
+	 * 
+	 * @return
+	 */
 	List<HudGO> getHUDs();
-
-	void setBasicHUDs(TopBasicHUD topBasicHud, BottomBasicHUD bottomBasicHUD);
-
-	void updateHUDs();
 
 }

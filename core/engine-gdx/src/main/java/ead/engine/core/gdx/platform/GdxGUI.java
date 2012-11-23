@@ -43,27 +43,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.AbstractGUI;
-import ead.engine.core.platform.EngineConfiguration;
 
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 
 	protected GdxEngine engine;
 
-	private boolean started;
-
 	@Inject
-	public GdxGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler,
-			GameState gameState, SceneElementGOFactory gameObjectFactory,
+	public GdxGUI(GameObjectManager gameObjectManager,
 			GdxCanvas canvas, GdxEngine engine) {
-		super(gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas);
+		super(gameObjectManager, canvas);
 		this.engine = engine;
 	}
 
@@ -78,28 +69,19 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	}
 
 	@Override
-	public void setGame(Game g) {
-		super.setGame(g);
+	public void commit() {
+		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
+		super.commit();
+	}
+
+	@Override
+	public void initialize(Game g) {
+		super.initialize(g);
 		engine.setGame(game);
 	}
 
 	@Override
-	public void commit() {
-		processInput();
-		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
-		render();
-	}
-
-	@Override
-	public void initialize() {
-		started = true;
-	}
-
-	@Override
 	public void finish() {
-		if (started) {
-			Gdx.app.exit();
-			started = false;
-		}
+		Gdx.app.exit();
 	}
 }

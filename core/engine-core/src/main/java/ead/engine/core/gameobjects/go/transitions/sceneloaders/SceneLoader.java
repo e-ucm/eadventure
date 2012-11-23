@@ -35,23 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.engine.core.gameobjects.go.transitions.sceneloaders;
 
+import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.gameobjects.go.SceneGO;
 
 /**
- * 
- * Implemented by elements interested in knowing when a scene is loaded by a
- * {@link SceneLoader}
+ * Implemented by those classes loading scenes assets
  * 
  */
-public interface SceneLoaderListener {
+public interface SceneLoader {
 
 	/**
-	 * Triggers when the scene is loaded
+	 * Loads the scene assets.
 	 * 
-	 * @param sceneGO
-	 *            the game object for the loaded scene
+	 * @param scene
+	 *            The scene to load
+	 * @param listener
+	 *            the listener will be notices when the load is complete
 	 */
-	void sceneLoaded(SceneGO<?> sceneGO);
+	void loadScene(EAdScene scene, SceneLoaderListener listener);
+
+	/**
+	 * Frees all the assets contained by the scene, and not used by the
+	 * currentScene
+	 * @param currentScene
+	 *            the current scene
+	 */
+	void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene);
+
+	/**
+	 * The scene loader gets permission to one more step in its loading process
+	 */
+	void step();
+
 }

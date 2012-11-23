@@ -45,6 +45,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
@@ -71,12 +72,12 @@ public class ComplexBlockingEffectGO extends
 		}
 	}
 
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (element.isOpaque()) {
 			action.consume();
-			return true;
+			return this;
 		}
-		return false;
+		return null;
 
 	}
 

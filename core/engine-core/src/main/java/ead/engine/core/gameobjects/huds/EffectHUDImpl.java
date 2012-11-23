@@ -39,15 +39,17 @@ package ead.engine.core.gameobjects.huds;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -87,12 +89,12 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override
-	public boolean processAction(InputAction<?> action) {
+	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (effects.size() > 0) {
 			effects.get(0).processAction(action);
 		}
 		action.consume();
-		return true;
+		return this;
 	}
 
 	/*

@@ -43,11 +43,8 @@ import org.slf4j.LoggerFactory;
 import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -67,21 +64,13 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
+	private static final Logger logger = LoggerFactory
+			.getLogger("AbstractGUI");
 
 	/**
 	 * Game object manager
 	 */
 	protected GameObjectManager gameObjects;
-
-	/**
-	 * The current mouse state
-	 */
-	protected InputHandler inputHandler;
-
-	protected GameState gameState;
-
-	protected SceneElementGOFactory gameObjectFactory;
 
 	@SuppressWarnings("rawtypes")
 	protected GenericCanvas eAdCanvas;
@@ -89,12 +78,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected Game game;
 
 	public AbstractGUI(GameObjectManager gameObjectManager,
-			InputHandler inputHandler, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, GenericCanvas<T> canvas) {
+			GenericCanvas<T> canvas) {
 		this.gameObjects = gameObjectManager;
-		this.inputHandler = inputHandler;
-		this.gameState = gameState;
-		this.gameObjectFactory = gameObjectFactory;
 		this.eAdCanvas = canvas;
 		logger.info("Created abstract GUI");
 	}
@@ -119,7 +104,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 		if (t != null) {
 
-			if (!t.isValidated() || !parentTransformation.isValidated()) {
+			if (!t.isValidated()
+					|| !parentTransformation.isValidated()) {
 				element.resetTransfromation();
 				addTransformation(t, parentTransformation);
 			}
@@ -130,62 +116,28 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#prepareGUI()
-	 */
-	@Override
-	public void prepareGUI() {
-		gameObjects.swap();
-		for (DrawableGO<?> go : gameObjects.getGameObjects()) {
-			go.getTransformation().setValidated(true);
-		}
-	}
-
-	/**
-	 * Process the different sort of inputs received by the game
-	 */
-	protected void processInput() {
-		inputHandler.processActions();
-	}
-
 	/**
 	 * Render the game objects into the graphic context
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	protected void render() {
-		synchronized (GameObjectManager.lock) {
-
-			eAdCanvas.setClip(getClip());
-			for (DrawableGO<?> go : gameObjects.getGameObjects()) {
-				if (go != null) {
-					EAdTransformation t = go.getTransformation();
-					eAdCanvas.setTransformation(t);
-					RuntimeDrawable<?, ?> r = go.getRuntimeDrawable();
-					if (r != null) {
-						go.getRuntimeDrawable().render(eAdCanvas);
-					} else {
-						eAdCanvas.setPaint(ColorFill.MAGENTA);
-						eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
-					}
+	public void commit() {
+		for (DrawableGO<?> go : gameObjects.getGameObjects()) {
+			if (go != null) {				
+				EAdTransformation t = go.getTransformation();
+				t.setValidated(true);
+				eAdCanvas.setTransformation(t);
+				RuntimeDrawable<?, ?> r = go.getRuntimeDrawable();
+				if (r != null) {
+					go.getRuntimeDrawable().render(eAdCanvas);
+				} else {
+					eAdCanvas.setPaint(ColorFill.MAGENTA);
+					eAdCanvas.fillRect(0, 0, go.getWidth(),
+							go.getHeight());
 				}
-
 			}
-		}
-	}
 
-	private EAdRectangle getClip() {
-		float[] init = game.getInitialTransformation().getMatrix()
-				.multiplyPoint(0, 0, true);
-		float[] end = game
-				.getInitialTransformation()
-				.getMatrix()
-				.multiplyPoint(game.getAdventureModel().getGameWidth(),
-						game.getAdventureModel().getGameHeight(), true);
-		return new EAdRectangle((int) init[0], (int) init[1],
-				(int) (end[0] - init[0]), (int) (end[1] - init[1]));
+		}
 	}
 
 	@Override
@@ -196,7 +148,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 		t1.setAlpha(alpha);
 		t1.setVisible(visible);
-		t1.getMatrix().multiply(t2.getMatrix().getFlatMatrix(), false);
+		t1.getMatrix()
+				.multiply(t2.getMatrix().getFlatMatrix(), false);
 
 		EAdRectangle clip1 = t1.getClip();
 		EAdRectangle clip2 = t2.getClip();
@@ -212,15 +165,11 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 
 		if (newclip != null)
-			t1.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
+			t1.setClip(newclip.x, newclip.y, newclip.width,
+					newclip.height);
 
 		return t1;
 
-	}
-
-	@Override
-	public void setInitialTransformation(EAdTransformation initialTransformation) {
-		inputHandler.setInitialTransformation(initialTransformation);
 	}
 
 }

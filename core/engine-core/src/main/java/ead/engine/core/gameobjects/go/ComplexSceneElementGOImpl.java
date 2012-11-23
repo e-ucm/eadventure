@@ -35,15 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.sceneelements;
+package ead.engine.core.gameobjects.go;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
@@ -51,65 +51,94 @@ import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
-public class ComplexSceneElementGO extends
-		SceneElementGOImpl<EAdComplexSceneElement> {
+public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
+		extends SceneElementGOImpl<T> implements
+		ComplexSceneElementGO<T> {
 
 	private List<SceneElementGO<?>> sceneElements;
 
 	private boolean first = true;
 
+	private boolean propagateEvents = true;
+
+	/**
+	 * Comparator to order the scene elements
+	 */
+	private Comparator<SceneElementGO<?>> comparator;
+
 	@Inject
-	public ComplexSceneElementGO(AssetHandler assetHandler,
+	public ComplexSceneElementGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EvaluatorFactory evaluatorFactory,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		sceneElements = new ArrayList<SceneElementGO<?>>();
 	}
 
-	public void setElement(EAdComplexSceneElement element) {
+	public void setElement(T element) {
 		super.setElement(element);
 		sceneElements.clear();
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
+		for (EAdSceneElement sceneElement : element
+				.getSceneElements()) {
+			SceneElementGO<?> go = sceneElementFactory
+					.get(sceneElement);
 			sceneElements.add(go);
 		}
 	}
 
-	@Override
-	public boolean processAction(InputAction<?> action) {
-		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
-		boolean processed = addEffects(list, action);
-		if (element.getDefinition() != element) {
-			list = element.getDefinition().getEffects(action.getGUIEvent());
-			processed |= addEffects(list, action);
-		}
-		return processed;
-
+	/**
+	 * Sets a comparator to automatically reorder the scene elements (modifies
+	 * drawing order)
+	 * 
+	 * @param comparator
+	 */
+	public void setComparator(Comparator<SceneElementGO<?>> comparator) {
+		this.comparator = comparator;
 	}
 
-	private boolean addEffects(EAdList<EAdEffect> list, InputAction<?> action) {
-		if (list != null && list.size() > 0) {
-			action.consume();
-			for (EAdEffect e : list) {
-				gameState.addEffect(e, action, getElement());
+	@Override
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		int i = sceneElements.size() - 1;
+
+		while (!action.isConsumed() && i >= 0) {
+			DrawableGO<?> go = sceneElements.get(i);
+			if (action instanceof MouseInputAction) {
+				MouseInputAction m = (MouseInputAction) action;
+				int x = m.getVirtualX();
+				int y = m.getVirtualY();
+				if (go.contains(x, y)) {
+					go.processAction(action);
+				}
 			}
-			return true;
+
+			if (action.isConsumed()) {
+				logger.info("Action {} consumed by {}", action, go);
+				return go;
+			}
+
+			i = propagateEvents ? i - 1 : -1;
 		}
-		return false;
+		return super.processAction(action);
+
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			sceneElementFactory.get(sceneElement).update();
+		for (DrawableGO<?> go : this.sceneElements) {
+			go.update();
+		}
+
+		// Reorder list
+		if (comparator != null) {
+			Collections.sort(sceneElements, comparator);
 		}
 	}
 
@@ -131,7 +160,8 @@ public class ComplexSceneElementGO extends
 		}
 	}
 
-	private void updateDimensions(boolean updateWidth, boolean updateHeight) {
+	private void updateDimensions(boolean updateWidth,
+			boolean updateHeight) {
 		int minX = Integer.MAX_VALUE;
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
@@ -158,19 +188,18 @@ public class ComplexSceneElementGO extends
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			gui.addElement(sceneElementFactory.get(sceneElement),
-					transformation);
-
+		for (DrawableGO<?> sceneElement : sceneElements) {
+			gui.addElement(sceneElement, transformation);
 		}
 	}
 
 	@Override
-	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets) {
-		for (EAdSceneElement sceneElement : element.getSceneElements())
-			assetList = sceneElementFactory.get(sceneElement).getAssets(
-					assetList, allAssets);
+	public List<AssetDescriptor> getAssets(
+			List<AssetDescriptor> assetList, boolean allAssets) {
+		for (EAdSceneElement sceneElement : element
+				.getSceneElements())
+			assetList = sceneElementFactory.get(sceneElement)
+					.getAssets(assetList, allAssets);
 		return assetList;
 	}
 
@@ -183,16 +212,15 @@ public class ComplexSceneElementGO extends
 
 	}
 
-	// @Override
-	// public boolean contains(int x, int y) {
-	// for (EAdSceneElement sceneElement : element.getElements()) {
-	// SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
-	// float[] mouse =
-	// go.getTransformation().getMatrix().multiplyPointInverse(x, y, true);
-	// if ( go.contains((int) mouse[0], (int) mouse[1]))
-	// return true;
-	// }
-	// return super.contains(x, y);
-	// }
+	@Override
+	public boolean contains(int x, int y) {
+		for (DrawableGO<?> go : sceneElements) {
+			float[] mouse = go.getTransformation().getMatrix()
+					.multiplyPointInverse(x, y, true);
+			if (go.contains((int) mouse[0], (int) mouse[1]))
+				return true;
+		}
+		return super.contains(x, y);
+	}
 
 }

@@ -53,7 +53,7 @@ public class SceneViewer implements ApplicationListener {
 
 	private EngineConfiguration configuration;
 
-	private SceneGO<?> currentScene;
+	private SceneGO currentScene;
 
 	private int sceneWidth;
 	private int sceneHeight;

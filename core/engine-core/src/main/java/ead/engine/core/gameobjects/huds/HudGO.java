@@ -57,5 +57,7 @@ public interface HudGO extends DrawableGO<Void>, Renderable {
 	 * components (buttons, labels...) should be created here
 	 */
 	void init();
+	
+	boolean isVisible( );
 
 }

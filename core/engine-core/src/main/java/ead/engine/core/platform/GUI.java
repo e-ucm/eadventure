@@ -85,7 +85,8 @@ public interface GUI {
 	 * @param parentTransformation
 	 *            parent transformation
 	 */
-	void addElement(DrawableGO<?> go, EAdTransformation parentTransformation);
+	void addElement(DrawableGO<?> go,
+			EAdTransformation parentTransformation);
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
@@ -100,17 +101,8 @@ public interface GUI {
 	 *            Boolean indicating if the resource should be scaled to the
 	 *            full game screen.
 	 */
-	void showSpecialResource(Object object, int x, int y, boolean fullscreen);
-
-	/**
-	 * <p>
-	 * Do layout of the game elements, swap the game object manager to prepare
-	 * for drawing and process the dragging element if needed.
-	 * </p>
-	 * 
-	 * 
-	 */
-	void prepareGUI();
+	void showSpecialResource(Object object, int x, int y,
+			boolean fullscreen);
 
 	/**
 	 * <p>
@@ -121,7 +113,8 @@ public interface GUI {
 	void commit();
 
 	/**
-	 * Adds to transformation t1 transformation t2
+	 * Adds to transformation t1 transformation t2. Can be used externally for
+	 * those interested
 	 * 
 	 * @param t1
 	 *            transformation 1
@@ -131,7 +124,5 @@ public interface GUI {
 	 */
 	EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2);
-
-	void setInitialTransformation(EAdTransformation initialTransformation);
 
 }

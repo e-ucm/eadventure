@@ -35,28 +35,73 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.transitions;
+package ead.engine.core.gameobjects.go.transitions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.transitions.SceneLoader;
+import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.util.EAdTransformation;
 
-public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
+public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
+
+	private boolean finished;
+
+	private int startTime = -1;
+
+	private float sceneAlpha;
+
+	private int currentTime;
 
 	@Inject
-	public BasicTransitionGO(AssetHandler assetHandler,
+	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
 				sceneLoader, inputHandler);
+		finished = false;
+		currentTime = 0;
+	}
+
+	public void update() {
+		super.update();
+		if (isLoadedNextScene()) {
+
+			currentTime += gui.getSkippedMilliseconds();
+			if (startTime == -1) {
+				startTime = currentTime;
+				sceneAlpha = 0.0f;
+			}
+
+			if (currentTime - startTime >= element.getTime()) {
+				finished = true;
+			} else {
+				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
+						- startTime, element.getTime(), 1.0f));
+			}
+		}
+	}
+
+	public void doLayout(EAdTransformation t) {
+		if (this.isLoadedNextScene()) {
+			gui.addElement(previousScene, t);
+			transformation.setAlpha(sceneAlpha);
+			gui.addElement(nextSceneGO, transformation);
+		} else {
+			super.doLayout(t);
+		}
+	}
+
+	public boolean isFinished() {
+		return finished;
 	}
 
 }
