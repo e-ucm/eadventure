@@ -116,9 +116,9 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 
 	/**
 	 * retrieves a file handle for the path
-	 * 
+	 *
 	 * @param path
-	 * @return 
+	 * @return
 	 */
 	public FileHandle getFileHandle(String path) {
 		String uri = path.substring(1);
@@ -127,11 +127,10 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 			if (absolute.exists()) {
 				return absolute;
 			}
-		} else {
-			FileHandle internal = getProjectInternal(uri);
-			if (internal.exists()) {
-				return internal;
-			}
+		}
+		FileHandle internal = getProjectInternal(uri);
+		if (internal.exists()) {
+			return internal;
 		}
 
 		return getEngineFileHandle(uri);
