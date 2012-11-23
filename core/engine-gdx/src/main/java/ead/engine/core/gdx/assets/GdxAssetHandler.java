@@ -147,5 +147,4 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 	public FileHandle getEngineFileHandle(String uri) {
 		return Gdx.files.internal(ENGINE_RESOURCES_PATH + uri);
 	}
-
 }

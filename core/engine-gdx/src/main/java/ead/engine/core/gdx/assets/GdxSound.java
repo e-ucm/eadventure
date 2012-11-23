@@ -92,10 +92,4 @@ public class GdxSound extends RuntimeSound {
 	public void loop() {
 		id = sound.loop();
 	}
-
-	@Override
-	public int getLength() {
-		// set when first loaded
-		return length;
-	}
 }

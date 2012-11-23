@@ -135,9 +135,4 @@ public abstract class GdxShape<T extends AbstractShape> extends
 					+ vca * proj);
 		}
 	}
-
-	@Override
-	public int getLength() {
-		return 0;
-	}
 }
