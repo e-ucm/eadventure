@@ -44,6 +44,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.google.inject.Inject;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.util.EAdURI;
 import ead.engine.core.gdx.utils.assetviewer.AssetApplicationListener;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
@@ -51,7 +52,7 @@ import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 /**
  * Contains a canvas in which assets can be represented as they will be
  * represented in the game engine
- * 
+ *
  */
 public class AssetViewer {
 
@@ -98,7 +99,7 @@ public class AssetViewer {
 
 	/**
 	 * Replaces the current canvas with a copy of an existing one.
-	 * 
+	 *
 	 * @param canvas
 	 */
 	public void setCanvas(LwjglAWTCanvas canvas) {
@@ -108,7 +109,7 @@ public class AssetViewer {
 
 	/**
 	 * Returns a canvas displaying assets
-	 * 
+	 *
 	 * @return
 	 */
 	public Canvas getCanvas() {

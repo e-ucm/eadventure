@@ -58,7 +58,6 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
-	private int length;
 
 	@Inject
 	public GdxImage(AssetHandler assetHandler) {
@@ -70,7 +69,6 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 		try {
 			FileHandle fh = ((GdxAssetHandler) assetHandler)
 					.getFileHandle(descriptor.getUri().getPath());
-			length = (int) fh.length();
 			pixmap = new Pixmap(fh);
 		} catch (Exception e) {
 			// TODO Load a default error image.
@@ -121,11 +119,5 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	public void render(SpriteBatch batch) {
 		batch.draw(textureRegion, 0, 0);
-	}
-
-	@Override
-	public int getLength() {
-		// set when first loaded
-		return length;
 	}
 }

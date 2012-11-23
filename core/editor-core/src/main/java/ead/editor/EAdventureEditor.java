@@ -103,17 +103,14 @@ public class EAdventureEditor implements Launcher {
 				Log4jConfig.Slf4jLevel.Debug,
 
 		//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
-
 				//			Writer
 				//            "DOMWriter", Log4jConfig.Slf4jLevel.Debug,
-
 				//			Reader
 				//			  "NodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 				//	  		  "ElementNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 				//	  		  "MapNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 				//	  		  "ParamNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 				//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug
-
 				//			Internacionalizacion (i18n)
 				//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
 				});
@@ -131,10 +128,6 @@ public class EAdventureEditor implements Launcher {
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
 		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
-
-		// init engine properties
-		((EngineConfiguration) injector.getInstance(EngineConfiguration.class))
-				.setExitWhenFinished(false);
 
 		// launch
 		Launcher launcher = injector.getInstance(Launcher.class);

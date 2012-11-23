@@ -73,6 +73,8 @@ public class DesktopGame {
 
 	private String resourcesLocation;
 
+	private GameLoader loader;
+
 	private Map<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> effectsPlugin;
 
 	public DesktopGame(boolean exitAtClose) {
@@ -84,6 +86,11 @@ public class DesktopGame {
 
 	public <T> void setBind(Class<T> clazz, Class<? extends T> implementation) {
 		binds.put(clazz, implementation);
+	}
+
+	public GameLoader getPreparedLoader() {
+		prepare();
+		return loader;
 	}
 
 	private void prepare() {
@@ -110,6 +117,8 @@ public class DesktopGame {
 					.entrySet()) {
 				effectFactory.put(e.getKey(), e.getValue());
 			}
+
+			loader = injector.getInstance(GameLoader.class);
 		}
 	}
 
@@ -123,13 +132,12 @@ public class DesktopGame {
 
 	public void load(String dataFile, String stringsFile, String propertiesFile) {
 		prepare();
-		GameLoader g = injector.getInstance(GameLoader.class);
-		g.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
+		loader.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
 	}
 
 	/**
 	 * Loads a game from its model, with strings and properties.
-	 * 
+	 *
 	 * @param model
 	 *            the model
 	 * @param strings
@@ -140,7 +148,6 @@ public class DesktopGame {
 	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
 			Map<String, String> properties) {
 		prepare();
-		GameLoader g = injector.getInstance(GameLoader.class);
 		if (strings == null) {
 			strings = new HashMap<EAdString, String>();
 		}
@@ -148,7 +155,7 @@ public class DesktopGame {
 		if (properties == null) {
 			properties = new HashMap<String, String>();
 		}
-		g.loadGame(model, strings, properties);
+		loader.loadGame(model, strings, properties);
 	}
 
 	public void setResourcesLocation(String path) {

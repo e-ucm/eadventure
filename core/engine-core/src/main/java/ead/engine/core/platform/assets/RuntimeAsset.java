@@ -60,11 +60,6 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	void freeMemory();
 
 	/**
-	 * Returns the size, in bytes, of the asset.
-	 */
-	int getLength();
-
-	/**
 	 * Returns true if the asset is loaded
 	 *
 	 * @return true if the asset is loaded
@@ -85,5 +80,4 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	 * @return
 	 */
 	T getAssetDescriptor();
-
 }
