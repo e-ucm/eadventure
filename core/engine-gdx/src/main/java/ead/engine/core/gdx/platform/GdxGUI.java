@@ -84,10 +84,10 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	}
 
 	@Override
-	public void commit(float interpolation) {
+	public void commit() {
 		processInput();
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
-		render(interpolation);
+		render();
 	}
 
 	@Override

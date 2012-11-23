@@ -80,7 +80,7 @@ public class SceneViewer implements ApplicationListener {
 		updateInitialTransformation();
 		currentScene.update();
 		gui.addElement(currentScene, initialTransformation);
-		gui.commit(0);
+		gui.commit();
 		gui.prepareGUI();
 	}
 

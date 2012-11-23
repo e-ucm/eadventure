@@ -272,7 +272,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public void render(float interpolation) {
-		gui.commit(interpolation);
+		gui.commit();
 	}
 
 	@Override

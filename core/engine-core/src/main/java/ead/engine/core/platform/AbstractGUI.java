@@ -160,11 +160,9 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Render the game objects into the graphic context
 	 * 
-	 * @param interpolation
-	 *            The current interpolation between ideal game frames
 	 */
 	@SuppressWarnings("unchecked")
-	protected void render(float interpolation) {
+	protected void render() {
 		synchronized (GameObjectManager.lock) {
 
 			eAdCanvas.setClip(getClip());

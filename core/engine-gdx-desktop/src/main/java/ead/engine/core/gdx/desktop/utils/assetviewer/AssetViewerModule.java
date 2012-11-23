@@ -103,7 +103,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void commit(float interpolation) {
+		public void commit( ) {
 
 		}
 

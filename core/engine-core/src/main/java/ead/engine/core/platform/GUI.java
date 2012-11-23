@@ -47,6 +47,17 @@ import ead.engine.core.util.EAdTransformation;
  */
 public interface GUI {
 
+	/**
+	 * Initialize the GUI. Creates the graphic context and and shows it
+	 */
+	void initialize();
+
+	/**
+	 * Finalize the GUI. Destroy the graphic context. Once this method is
+	 * called, the engine is unable to load more games
+	 */
+	void finish();
+
 	void setGame(Game game);
 
 	/**
@@ -90,17 +101,8 @@ public interface GUI {
 	 * Commit the current game state into the screen
 	 * </p>
 	 * 
-	 * @param interpolation
-	 *            Value provided to smooth animations, between 0 and 1,
-	 *            represents how much the game has advanced within the frame
-	 *            cycle
 	 */
-	void commit(float interpolation);
-
-	/**
-	 * Initialize the GUI
-	 */
-	void initialize();
+	void commit();
 
 	/**
 	 * Returns the main window's width
@@ -127,11 +129,6 @@ public interface GUI {
 	 */
 	EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2);
-
-	/**
-	 * Finalize the GUI, used when the game is stopped and finished.
-	 */
-	void finish();
 
 	void setInitialTransformation(EAdTransformation initialTransformation);
 
