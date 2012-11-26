@@ -48,15 +48,17 @@ import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.text.EAdString;
 import ead.common.util.EAdURI;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.DebuggerHandler;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoader;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.java.JavaToolsModule;
@@ -75,16 +77,21 @@ public class DesktopGame {
 
 	private GameLoader loader;
 
-	private Map<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> effectsPlugin;
-
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
-		debuggers = new ArrayList<Class<? extends Debugger>>();
-		effectsPlugin = new HashMap<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>>();
+		debuggers = new ArrayList<Class<? extends Debugger>>();		
 	}
 
-	public <T> void setBind(Class<T> clazz, Class<? extends T> implementation) {
+	public void start() {
+		injector = Guice.createInjector(new GdxDesktopModule(
+				binds), new JavaToolsModule());
+		Game g = injector.getInstance(Game.class);
+		g.initialize();
+	}
+
+	public <T> void setBind(Class<T> clazz,
+			Class<? extends T> implementation) {
 		binds.put(clazz, implementation);
 	}
 
@@ -95,27 +102,20 @@ public class DesktopGame {
 
 	private void prepare() {
 		if (injector == null) {
-			injector = Guice.createInjector(new GdxDesktopModule(binds),
-					new JavaToolsModule());
-			EngineConfiguration conf = injector
-					.getInstance(EngineConfiguration.class);
-			conf.setExitWhenFinished(exitAtClose);
-			injector.getInstance(AssetHandler.class).setResourcesLocation(
-					new EAdURI(resourcesLocation));
+			injector = Guice.createInjector(new GdxDesktopModule(
+					binds), new JavaToolsModule());
+			GameState g = injector.getInstance(GameState.class);
+			g.getValueMap().setValue(SystemFields.EXIT_WHEN_CLOSE,
+					exitAtClose);
+			injector.getInstance(AssetHandler.class)
+					.setResourcesLocation(
+							new EAdURI(resourcesLocation));
 			if (debuggers.size() > 0) {
 				DebuggerHandler debuggerHandler = injector
 						.getInstance(DebuggerHandler.class);
 				for (Class<? extends Debugger> d : debuggers) {
 					debuggerHandler.add(d);
 				}
-			}
-
-			// Add effects plugins
-			EffectGOFactory effectFactory = injector
-					.getInstance(EffectGOFactory.class);
-			for (Entry<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> e : effectsPlugin
-					.entrySet()) {
-				effectFactory.put(e.getKey(), e.getValue());
 			}
 
 			loader = injector.getInstance(GameLoader.class);
@@ -130,14 +130,16 @@ public class DesktopGame {
 		debuggers.add(debuggerClass);
 	}
 
-	public void load(String dataFile, String stringsFile, String propertiesFile) {
+	public void load(String dataFile, String stringsFile,
+			String propertiesFile) {
 		prepare();
-		loader.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
+		loader.loadGameFromFiles(dataFile, stringsFile,
+				propertiesFile);
 	}
 
 	/**
 	 * Loads a game from its model, with strings and properties.
-	 *
+	 * 
 	 * @param model
 	 *            the model
 	 * @param strings
@@ -145,7 +147,8 @@ public class DesktopGame {
 	 * @param properties
 	 *            the game properties. It can be {@code null}
 	 */
-	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
+	public void load(EAdAdventureModel model,
+			Map<EAdString, String> strings,
 			Map<String, String> properties) {
 		prepare();
 		if (strings == null) {
@@ -164,11 +167,6 @@ public class DesktopGame {
 
 	public void exit() {
 		injector.getInstance(GUI.class).finish();
-	}
-
-	public void addEffectPlugin(Class<? extends EAdEffect> effect,
-			Class<? extends EffectGO<? extends EAdEffect>> gameObject) {
-		effectsPlugin.put(effect, gameObject);
 	}
 
 }

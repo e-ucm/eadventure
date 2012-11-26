@@ -58,7 +58,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
@@ -81,8 +83,8 @@ public class GdxDesktopGUI extends GdxGUI {
 	}
 
 	@Override
-	public void initialize(Game game) {
-		super.initialize(game);
+	public void initialize(Game game, GameState gameState) {
+		super.initialize(game, gameState);
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)
@@ -90,8 +92,10 @@ public class GdxDesktopGUI extends GdxGUI {
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(0, 0), "null"));
 
-		int width = (Integer) game.getProperty(Game.WIDTH, 800);
-		int height = (Integer) game.getProperty(Game.HEIGHT, 800);
+		int width = gameState.getValueMap().getValue(
+				SystemFields.GAME_WIDTH);
+		int height = gameState.getValueMap().getValue(
+				SystemFields.GAME_HEIGHT);
 		canvas = new Canvas();
 		canvas.setSize(width, height);
 		frame.add(canvas);
@@ -112,10 +116,10 @@ public class GdxDesktopGUI extends GdxGUI {
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = (Boolean) game.getProperty(Game.FULLSCREEN,
-				false);
-		cfg.forceExit = (Boolean) game.getProperty(
-				Game.EXIT_WHEN_CLOSE, true);
+		cfg.fullscreen = gameState.getValueMap().getValue(
+				SystemFields.FULLSCREEN);
+		cfg.forceExit = gameState.getValueMap().getValue(
+				SystemFields.EXIT_WHEN_CLOSE);
 
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);

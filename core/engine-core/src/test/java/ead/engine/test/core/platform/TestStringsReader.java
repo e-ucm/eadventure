@@ -74,4 +74,10 @@ public class TestStringsReader implements StringHandler {
 		return null;
 	}
 
+	@Override
+	public void setLanguage(String language) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

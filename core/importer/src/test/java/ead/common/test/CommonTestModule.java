@@ -84,6 +84,12 @@ public class CommonTestModule extends AbstractModule {
 			return null;
 		}
 
+		@Override
+		public void setLanguage(String language) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 }

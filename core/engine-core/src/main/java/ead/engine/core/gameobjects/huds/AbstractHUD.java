@@ -44,8 +44,8 @@ import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
@@ -64,10 +64,27 @@ public abstract class AbstractHUD implements HudGO {
 
 	private boolean first = true;
 
+	private int priority;
+
 	public AbstractHUD(GUI gui) {
 		this.gui = gui;
 		hudGameObjects = new ArrayList<DrawableGO<?>>();
 		transformation = new EAdTransformationImpl();
+	}
+
+	@Override
+	public void init() {
+
+	}
+
+	@Override
+	public boolean isVisible() {
+		return visible;
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	public List<DrawableGO<?>> getContaintedGOs() {
@@ -83,8 +100,10 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	public void doLayout(EAdTransformation t) {
-		for (DrawableGO<?> go : hudGameObjects) {
-			gui.addElement(go, t);
+		if (isVisible()) {
+			for (DrawableGO<?> go : hudGameObjects) {
+				gui.addElement(go, t);
+			}
 		}
 	}
 
@@ -103,7 +122,22 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	public DrawableGO<?> processAction(InputAction<?> action) {
-		return null;
+		DrawableGO<?> gor = null;
+		for (DrawableGO<?> go : hudGameObjects) {
+			if (action.isConsumed()) {
+				break;
+			} else {
+				if (action instanceof MouseInputAction) {
+					MouseInputAction m = (MouseInputAction) action;
+					if (go.contains(m.getVirtualX(), m.getVirtualY())) {
+						gor = go.processAction(action);
+					}
+				} else {
+					gor = go.processAction(action);
+				}
+			}
+		}
+		return gor;
 	}
 
 	@Override
@@ -151,21 +185,20 @@ public abstract class AbstractHUD implements HudGO {
 		return null;
 	}
 
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
 	public int getWidth() {
 		return 1;
 	}
 
 	public int getHeight() {
 		return 1;
-	}
-
-	@Override
-	public void init() {
-
-	}
-
-	public boolean isVisible() {
-		return visible;
 	}
 
 }

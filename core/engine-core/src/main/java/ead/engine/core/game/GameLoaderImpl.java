@@ -50,10 +50,8 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.params.text.EAdString;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.AssetHandler.LoadTextFileListener;
 import ead.reader.adventure.AdventureReader;
 import ead.reader.adventure.ObjectFactory;
-import ead.reader.properties.PropertiesReader;
 import ead.reader.strings.StringsReader;
 import ead.tools.GenericInjector;
 import ead.tools.StringHandler;
@@ -69,8 +67,6 @@ public class GameLoaderImpl implements GameLoader {
 	private AdventureReader adventureReader;
 
 	private StringsReader stringsReader;
-
-	private PropertiesReader propertiesReader;
 
 	private Game game;
 
@@ -101,43 +97,13 @@ public class GameLoaderImpl implements GameLoader {
 
 	private EAdList<EAdEffect> initialEffects;
 
-	// Aux
-	private LoadTextFileListener dataListener = new LoadTextFileListener() {
-
-		@Override
-		public void read(String text) {
-			data = text;
-			checkListeners();
-		}
-	};
-
-	private LoadTextFileListener stringsListener = new LoadTextFileListener() {
-
-		@Override
-		public void read(String text) {
-			strings = text;
-			checkListeners();
-		}
-	};
-
-	private LoadTextFileListener propertiesListener = new LoadTextFileListener() {
-
-		@Override
-		public void read(String text) {
-			properties = text;
-			checkListeners();
-		}
-	};
-
 	@Inject
 	public GameLoaderImpl(GenericInjector injector) {
 		parser = injector.getInstance(XMLParser.class);
 		adventureReader = new AdventureReader(parser);
-		stringsReader = new StringsReader(parser);
-		propertiesReader = new PropertiesReader();
+		stringsReader = new StringsReader(parser);		
 		stringHandler = injector.getInstance(StringHandler.class);
 		game = injector.getInstance(Game.class);
-		game.setGameLoader(this);
 		reflectionProvider = injector.getInstance(ReflectionProvider.class);
 		reflectionClassLoader = injector
 				.getInstance(ReflectionClassLoader.class);
@@ -151,9 +117,6 @@ public class GameLoaderImpl implements GameLoader {
 	public void loadGameFromFiles(String dataFile, String stringsFile,
 			String propertiesFile) {
 		listeners = 0;
-		assetHandler.getTextFile(dataFile, dataListener);
-		assetHandler.getTextFile(stringsFile, stringsListener);
-		assetHandler.getTextFile(propertiesFile, propertiesListener);
 	}
 
 	private void checkListeners() {
@@ -181,7 +144,7 @@ public class GameLoaderImpl implements GameLoader {
 			} else if (step == 1) {
 				stringsMap = stringsReader.readStrings(strings);
 			} else if (step == 2) {
-				propertiesMap = propertiesReader.readProperties(properties);
+				
 			} else if (step == 3) {
 				loadGame(model, stringsMap, propertiesMap);
 			}
@@ -205,7 +168,6 @@ public class GameLoaderImpl implements GameLoader {
 		for (Entry<String, String> entry : propertiesMap.entrySet()) {
 			model.setProperty(entry.getKey(), entry.getValue());
 		}
-		game.setGame(model, model.getChapters().get(0), initialEffects);
 		initialEffects.clear();
 	}
 

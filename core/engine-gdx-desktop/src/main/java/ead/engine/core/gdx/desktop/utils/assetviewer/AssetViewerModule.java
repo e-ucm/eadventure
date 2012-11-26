@@ -37,14 +37,18 @@
 
 package ead.engine.core.gdx.desktop.utils.assetviewer;
 
+import java.util.List;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameState;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
@@ -81,11 +85,6 @@ public class AssetViewerModule extends AbstractModule {
 	public static class AssetViewerGUI implements GUI {
 
 		@Override
-		public void setGame(Game game) {
-
-		}
-
-		@Override
 		public void addElement(DrawableGO<?> go,
 				EAdTransformation parentTransformation) {
 
@@ -98,17 +97,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void prepareGUI() {
-
-		}
-
-		@Override
 		public void commit( ) {
-
-		}
-
-		@Override
-		public void initialize() {
 
 		}
 
@@ -124,12 +113,6 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void setInitialTransformation(
-				EAdTransformation initialTransformation) {
-
-		}
-
-		@Override
 		public int getSkippedMilliseconds() {
 			return Math.round(1000.0f / 60.0f);
 		}
@@ -137,6 +120,30 @@ public class AssetViewerModule extends AbstractModule {
 		@Override
 		public int getTicksPerSecond() {
 			return 0;
+		}
+
+		@Override
+		public void initialize(Game game, GameState gameState) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void addHud(HudGO hud) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeHUD(HudGO hud) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public List<HudGO> getHUDs() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

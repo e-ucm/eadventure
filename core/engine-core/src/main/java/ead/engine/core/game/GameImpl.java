@@ -38,9 +38,9 @@
 package ead.engine.core.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,32 +56,50 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.EventGO;
+import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.gameobjects.huds.BottomBasicHUD;
+import ead.engine.core.gameobjects.huds.BottomHUD;
 import ead.engine.core.gameobjects.huds.EffectHUD;
+import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
+import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler.TextHandler;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
+import ead.reader.strings.StringsReader;
+import ead.tools.PropertiesReader;
 import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
 
 @Singleton
-public class GameImpl implements Game {
+public class GameImpl implements Game, TextHandler {
+
+	/**
+	 * Default properties file. Loaded during initialization
+	 */
+	private static final String DEFAULT_PROPERTIES = "ead/engine/resources/ead.properties";
+
+	/**
+	 * Default strings file. Loaded during initialization
+	 */
+	private static final String DEFAULT_STRINGS = "@strings.xml";
 
 	/**
 	 * Game gui
@@ -97,18 +115,20 @@ public class GameImpl implements Game {
 	 * Input handler
 	 */
 	private InputHandler inputHandler;
-	
+
 	/**
 	 * Plugin handler
 	 */
 	private PluginHandler pluginHandler;
 
 	/**
-	 * A map holding some useful game properties (like width, height,
-	 * fullscreen...)
+	 * Scene element game objects factory
 	 */
-	private Map<String, Object> properties;
+	private SceneElementGOFactory sceneElementFactory;
 
+	/**
+	 * Asset handler
+	 */
 	private AssetHandler assetHandler;
 
 	private EAdAdventureModel adventure;
@@ -129,8 +149,6 @@ public class GameImpl implements Game {
 	// Auxiliary variable, to avoid new every time
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
 
-	private GameObjectManager gameObjectManager;
-
 	private DebuggerHandler debuggerHandler;
 
 	private InventoryHandler inventoryHandler;
@@ -140,8 +158,6 @@ public class GameImpl implements Game {
 	private EventGOFactory eventFactory;
 
 	private List<EventGO<?>> events;
-
-	private EngineConfiguration configuration;
 
 	private int currentWidth = -1;
 
@@ -155,74 +171,170 @@ public class GameImpl implements Game {
 
 	private TweenController tweenController;
 
-	/**
-	 * should only be changed within a synchronized block, locking onto
-	 * modelWaitingMutex
-	 */
-	private boolean modelWaiting;
-
-	private final Object modelWaitingMutex = new Object();
-
 	private EAdList<EAdEffect> launchEffects;
+
+	private TopBasicHUD topBasicHUD;
+
+	private StringsReader stringsReader;
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
-			InputHandler inputHandler, PluginHandler pluginHandler, GameState gameState,
+			InputHandler inputHandler, PluginHandler pluginHandler,
+			GameState gameState,
+			SceneElementGOFactory sceneElementFactory,
 			EffectHUD effectHUD, AssetHandler assetHandler,
 			GameObjectManager gameObjectManager,
 			DebuggerHandler debugger, ValueMap valueMap,
-			TopBasicHUD basicHud, BottomBasicHUD bottomBasicHud,
-			InventoryHUD inventoryHud,
+			TopBasicHUD basicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD,
+			EventGOFactory eventFactory, ActionsHUD actionsHUD,
 			GameTracker tracker, SceneGraph sceneGraph,
-			TweenController tweenController) {
+			TweenController tweenController,
+			StringsReader stringsReader) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.inputHandler = inputHandler;
-
+		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
+		this.assetHandler = assetHandler;
+		this.pluginHandler = pluginHandler;
+		this.stringsReader = stringsReader;
+
 		this.effectHUD = effectHUD;
 		this.actionsHUD = actionsHUD;
-		this.assetHandler = assetHandler;
+		this.topBasicHUD = basicHud;
+
 		this.adventure = null;
-		this.gameObjectManager = gameObjectManager;
 		this.debuggerHandler = debugger;
 		this.inventoryHUD = inventoryHud;
 		this.inventoryHandler = inventoryHandler;
 		this.eventFactory = eventFactory;
-		this.configuration = configuration;
 		this.tracker = tracker;
 		this.adventure = new BasicAdventureModel();
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
 		this.tweenController = tweenController;
-		this.modelWaiting = Boolean.FALSE;		
 
 	}
 
 	@Override
 	public void initialize() {
-		// Load plugins
-		pluginHandler.initialize();
-		
-		// Properties
-		properties = new HashMap<String, Object>();
-		// These properties won't change during game play
-		Map<String, Object> engineProperties = null;
-		properties.putAll(engineProperties);
+		loadDefaultProperties();
+	}
 
-		// GUI initialization
-		gui.initialize(this);
+	@Override
+	public void setUp() {
+		assetHandler.initialize();
 
 		// Load strings
-		Map<EAdString, String> engineStrings = null;
-		stringHandler.addStrings(engineStrings);
-		
-		
-		// FIXME add huds
-		gui.addHud( bottomBasicHud, 0 );		
+		loadDefaultStrings();
+
+		// Load plugins
+		pluginHandler.initialize();
+
+		// HUDs
+		gui.addHud(new BottomHUD(gui, gameState));
+		// gui.addHud(inventoryHUD, 1);
+		// gui.addHud(actionsHUD, 5);
+		// gui.addHud(effectHUD, 10);
+		gui.addHud(new MenuHUD(gui, gameState, sceneElementFactory));
+		gui.addHud(topBasicHUD);
+		updateInitialTransformation();
+		inputHandler.setInitialTransformation(initialTransformation);
+
+		LoadingScreen loadingScreen = new LoadingScreen();
+		gameState.setScene((SceneGO<?>) sceneElementFactory
+				.get(loadingScreen));
+	}
+
+	private void loadDefaultProperties() {
+		assetHandler.getTextfileAsync(DEFAULT_PROPERTIES, this);
+	}
+
+	@Override
+	public void handle(String text) {
+		processProperties(text);
+		// It is necessary to load the default properties before set up
+		// GUI initialization
+		gui.initialize(this, gameState);
+	}
+
+	private void processProperties(String text) {
+		Map<String, Map<String, String>> map = PropertiesReader
+				.parse("defaultProperties", text);
+		for (Entry<String, Map<String, String>> e : map.entrySet()) {
+			String type = e.getKey();
+			if (type == null || type.equals("String")) {
+				for (Entry<String, String> e2 : e.getValue()
+						.entrySet()) {
+					VarDef<String> varDef = new VarDef<String>(
+							e2.getKey(), String.class, e2.getValue());
+					gameState.getValueMap().setValue(null, varDef,
+							e2.getValue());
+				}
+			} else if (type.equals("Integer")) {
+				for (Entry<String, String> e2 : e.getValue()
+						.entrySet()) {
+					try {
+						Integer i = Integer.parseInt(e2.getValue());
+						VarDef<Integer> varDef = new VarDef<Integer>(
+								e2.getKey(), Integer.class, i);
+						gameState.getValueMap().setValue(null,
+								varDef, i);
+					} catch (NumberFormatException ex) {
+						logger.warn(
+								"{} is not a number valid for property {}",
+								new Object[] { e2.getValue(),
+										e2.getKey() });
+					}
+				}
+			} else if (type.equals("Float")) {
+				for (Entry<String, String> e2 : e.getValue()
+						.entrySet()) {
+					try {
+						Float i = Float.parseFloat(e2.getValue());
+						VarDef<Float> varDef = new VarDef<Float>(
+								e2.getKey(), Float.class, i);
+						gameState.getValueMap().setValue(null,
+								varDef, i);
+					} catch (NumberFormatException ex) {
+						logger.warn(
+								"{} is not a number valid for property {}",
+								new Object[] { e2.getValue(),
+										e2.getKey() });
+					}
+				}
+			} else if (type.equals("Boolean")) {
+				for (Entry<String, String> e2 : e.getValue()
+						.entrySet()) {
+					try {
+						Boolean b = Boolean.parseBoolean(e2
+								.getValue());
+						VarDef<Boolean> varDef = new VarDef<Boolean>(
+								e2.getKey(), Boolean.class, b);
+						gameState.getValueMap().setValue(null,
+								varDef, b);
+					} catch (NumberFormatException ex) {
+						logger.warn(
+								"{} is not a number valid for property {}",
+								new Object[] { e2.getValue(),
+										e2.getKey() });
+					}
+				}
+			} else {
+				logger.warn(
+						"{} is not a valid type in ead.properties",
+						type);
+			}
+		}
+	}
+
+	private Map<EAdString, String> loadDefaultStrings() {
+		String strings = assetHandler.getTextFile(DEFAULT_STRINGS);
+		this.stringHandler.addStrings(stringsReader
+				.readStrings(strings));
+
+		return null;
 	}
 
 	@Override
@@ -235,17 +347,10 @@ public class GameImpl implements Game {
 	public void update() {
 		inputHandler.processActions();
 
-		synchronized (modelWaitingMutex) {
-			if (modelWaiting) {
-				modelWaiting = false;
-				setGame();
-			}
-		}
-
 		// We load one possible asset in the background
-		assetHandler.loadStep();
+		// assetHandler.loadStep();
 		// We load some possible game
-		gameLoader.step();
+		// gameLoader.step();
 
 		gameState.getValueMap().setValue(
 				SystemFields.ELAPSED_TIME_PER_UPDATE,
@@ -253,19 +358,22 @@ public class GameImpl implements Game {
 
 		tweenController.update(gui.getSkippedMilliseconds());
 
-		updateInitialTransformation();
+		// Scene
 		if (!gameState.isPaused()) {
 			processEffects();
 			updateGameEvents();
 			gameState.getScene().update();
-
 		}
-		gameObjectManager.updateHUDs();
+
 		gui.addElement(gameState.getScene(), initialTransformation);
 
-		updateDebuggers();
-		// Add huds
-		gameObjectManager.addHUDs(gui, initialTransformation);		
+		// HUDs
+		for (HudGO hud : gui.getHUDs()) {
+			hud.update();
+			gui.addElement(hud, initialTransformation);
+		}
+
+		// updateDebuggers();
 
 	}
 
@@ -324,21 +432,7 @@ public class GameImpl implements Game {
 			visualEffect = gameState.getEffects().get(index++)
 					.isVisualEffect();
 		}
-
-		boolean effectHUDon = gameObjectManager.getHUDs().contains(
-				effectHUD);
-		if (visualEffect) {
-			if (!effectHUDon) {
-				gameObjectManager.addHUD(effectHUD);
-				gameObjectManager.removeHUD(actionsHUD);
-			}
-			effectHUD.setEffects(gameState.getEffects());
-		} else {
-			if (effectHUDon) {
-				gameObjectManager.removeHUD(effectHUD);
-				effectHUDon = false;
-			}
-		}
+		effectHUD.setVisible(visualEffect);
 	}
 
 	@Override
@@ -349,11 +443,6 @@ public class GameImpl implements Game {
 	@Override
 	public EAdAdventureModel getAdventureModel() {
 		return adventure;
-	}
-
-	@Override
-	public void loadGame() {
-		assetHandler.initialize();
 	}
 
 	private void setGame() {
@@ -368,7 +457,9 @@ public class GameImpl implements Game {
 			for (EAdSceneElementDef def : adventure.getInventory()
 					.getInitialItems())
 				inventoryHandler.add(def);
-			gameObjectManager.addHUD(inventoryHUD);
+			inventoryHUD.setVisible(true);
+		} else {
+			inventoryHUD.setVisible(false);
 		}
 
 		logger.info("Init game events...");
@@ -397,64 +488,39 @@ public class GameImpl implements Game {
 
 	}
 
-	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
-		setGame(model, eAdChapter, null);
-	}
-
-	@Override
-	public void setGame(EAdAdventureModel model,
-			EAdChapter eAdChapter, EAdList<EAdEffect> effects) {
-		synchronized (modelWaitingMutex) {
-			this.adventure = model;
-			this.currentChapter = eAdChapter;
-			this.launchEffects = effects;
-			modelWaiting = true;
-		}
-	}
-
 	private void setDebuggers(EAdAdventureModel model) {
 		if (debuggerHandler != null) {
 			debuggerHandler.setUp(model);
 		}
 	}
 
-	@Override
-	public void updateInitialTransformation() {
+	private void updateInitialTransformation() {
 		if (initialTransformation != null) {
 			initialTransformation.setValidated(true);
 		}
 
-		if (currentWidth != configuration.getWidth()
-				|| currentHeight != configuration.getHeight()) {
+		// currentWidth = gameState.getValueMap().getValue(
+		// SystemFields.GAME_WIDTH);
+		// currentWidth = gameState.getValueMap().getValue(
+		// SystemFields.GAME_HEIGHT);
+		//
+		// float scaleX = currentWidth
+		// / (float) adventure.getGameWidth();
+		// float scaleY = currentHeight
+		// / (float) adventure.getGameHeight();
+		//
+		// float scale = scaleX < scaleY ? scaleX : scaleY;
+		// float dispX = Math.abs(adventure.getGameWidth() * scaleX
+		// - adventure.getGameWidth() * scale) / 2;
+		// float dispY = Math.abs(adventure.getGameHeight() * scaleY
+		// - adventure.getGameHeight() * scale) / 2;
+		//
+		initialTransformation = new EAdTransformationImpl();
+		// initialTransformation.getMatrix().translate(dispX, dispY,
+		// true);
+		// initialTransformation.getMatrix().scale(scale, scale, true);
+		initialTransformation.setValidated(false);
 
-			currentWidth = configuration.getWidth();
-			currentHeight = configuration.getHeight();
-
-			float scaleX = configuration.getWidth()
-					/ (float) adventure.getGameWidth();
-			float scaleY = configuration.getHeight()
-					/ (float) adventure.getGameHeight();
-
-			float scale = scaleX < scaleY ? scaleX : scaleY;
-			float dispX = Math.abs(adventure.getGameWidth() * scaleX
-					- adventure.getGameWidth() * scale) / 2;
-			float dispY = Math.abs(adventure.getGameHeight() * scaleY
-					- adventure.getGameHeight() * scale) / 2;
-
-			initialTransformation = new EAdTransformationImpl();
-			initialTransformation.getMatrix().translate(dispX, dispY,
-					true);
-			initialTransformation.getMatrix().scale(scale, scale,
-					true);
-			initialTransformation.setValidated(false);
-			gui.setInitialTransformation(initialTransformation);
-		}
-	}
-
-	@Override
-	public EAdTransformation getInitialTransformation() {
-		return initialTransformation;
 	}
 
 	@Override
@@ -463,8 +529,9 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void setGameLoader(GameLoader gameLoader) {
-		this.gameLoader = gameLoader;
+	public void loadGame(EAdAdventureModel model) {
+		this.adventure = model;
+
 	}
 
 }

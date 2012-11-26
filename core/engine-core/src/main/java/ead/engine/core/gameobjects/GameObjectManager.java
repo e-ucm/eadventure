@@ -70,11 +70,8 @@ public interface GameObjectManager {
 	 * Adds a hud to the manager
 	 * 
 	 * @param hud
-	 * @param priority
-	 *            the bigger the priority the later is drawn (and the higher
-	 *            appears to be)
 	 */
-	void addHUD(HudGO hud, int priority);
+	void addHUD(HudGO hud);
 
 	/**
 	 * Returns the list of huds
@@ -82,5 +79,11 @@ public interface GameObjectManager {
 	 * @return
 	 */
 	List<HudGO> getHUDs();
+
+	/**
+	 * Removes the HUD from the stack
+	 * @param hud
+	 */
+	void removeHud(HudGO hud);
 
 }

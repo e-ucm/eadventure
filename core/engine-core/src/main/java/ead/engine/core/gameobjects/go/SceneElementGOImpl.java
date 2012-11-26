@@ -165,6 +165,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement>
 		if (!element.isPropagateGUIEvents()
 				&& !action.alwaysPropagates()) {
 			action.consume();
+			return this;
 		}
 
 		return processed ? this : null;

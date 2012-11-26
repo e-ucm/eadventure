@@ -97,4 +97,13 @@ public class GwtReflectionProvider implements ReflectionProvider {
 		return ClassHelper.AsClass(c).getSuperclass();
 	}
 
+	@Override
+	public Class<?> getClassforName(String string) {
+		try {
+			return ClassHelper.forName(string);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
+
 }

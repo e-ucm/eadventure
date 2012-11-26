@@ -37,8 +37,12 @@
 
 package ead.engine.core.platform;
 
+import java.util.List;
+
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -53,7 +57,7 @@ public interface GUI {
 	 * @param the
 	 *            game
 	 */
-	void initialize(Game game);
+	void initialize(Game game, GameState gameState);
 
 	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is
@@ -87,6 +91,29 @@ public interface GUI {
 	 */
 	void addElement(DrawableGO<?> go,
 			EAdTransformation parentTransformation);
+
+	/**
+	 * Adds a hud to the GUI
+	 * 
+	 * 
+	 * @param hud
+	 */
+	void addHud(HudGO hud);
+
+	/**
+	 * Removes a HUD to the GUI. This method shouldn't be used to control HUDs
+	 * visibility, only to removed a HUD that is no longer needed
+	 * 
+	 * @param hud
+	 */
+	void removeHUD(HudGO hud);
+
+	/**
+	 * Return a list of HUDs added to the GUI
+	 * 
+	 * @return
+	 */
+	List<HudGO> getHUDs();
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)

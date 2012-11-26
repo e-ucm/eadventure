@@ -35,24 +35,55 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.properties;
+package ead.common.model.elements.effects.physics;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
+import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.variables.operations.MathOp;
 
-public class PropertiesReader {
+@Element
+public class PhApplyImpulseEf extends AbstractSceneElementEffect {
 
-	public Map<String, String> readProperties(String properties) {
-		Map<String, String> propertiesMap = new LinkedHashMap<String, String>();
-		for (String line : properties.split("\\r?\\n")) {
-			String[] strings = line.split("=");
-			if (strings.length == 2) {
-				String key = strings[0];
-				String value = strings[1];
-				propertiesMap.put(key, value);
-			}
-		}
-		return propertiesMap;
+	@Param("xForce")
+	private MathOp xForce;
+
+	@Param("yForce")
+	private MathOp yForce;
+
+	public PhApplyImpulseEf() {
+		this(null, null, null);
+	}
+
+	public PhApplyImpulseEf(EAdSceneElement element, MathOp xForce,
+			MathOp yForce) {
+		super();
+		this.xForce = xForce;
+		this.yForce = yForce;
+		this.setQueueable(false);
+		this.setSceneElement(element);
+	}
+
+	public MathOp getxForce() {
+		return xForce;
+	}
+
+	public MathOp getyForce() {
+		return yForce;
+	}
+
+	public void setxForce(MathOp xForce) {
+		this.xForce = xForce;
+	}
+
+	public void setyForce(MathOp yForce) {
+		this.yForce = yForce;
+	}
+
+	public void setForce(MathOp xForce, MathOp yForce) {
+		this.xForce = xForce;
+		this.yForce = yForce;
 	}
 
 }

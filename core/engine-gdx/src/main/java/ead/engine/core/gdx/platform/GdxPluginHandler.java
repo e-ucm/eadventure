@@ -37,6 +37,7 @@
 
 package ead.engine.core.gdx.platform;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
@@ -49,8 +50,9 @@ import ead.tools.reflection.ReflectionProvider;
 @Singleton
 public class GdxPluginHandler extends PluginHandlerImpl {
 
-	private static final String GDX_PLUGIN_TXT = "ead/engine/gdx/plugins.txt";
+	private static final String GDX_PLUGIN_TXT = "@gdx/plugins.txt";
 
+	@Inject
 	public GdxPluginHandler(ReflectionProvider reflectionProvider,
 			AssetHandler assetHandler, EffectGOFactory effectFactory,
 			SceneElementGOFactory sceneElementFactory,

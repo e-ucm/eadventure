@@ -78,7 +78,7 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 	}
 
 	public void setEffects(List<EffectGO<?>> effects) {
-		this.effects = effects;
+		this.effects = effects;		
 	}
 
 	/*

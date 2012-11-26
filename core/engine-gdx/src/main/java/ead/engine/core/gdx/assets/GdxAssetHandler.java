@@ -43,6 +43,7 @@ import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -53,7 +54,7 @@ import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 
 @Singleton
-public class GdxAssetHandler extends AbstractAssetHandler {
+public abstract class GdxAssetHandler extends AbstractAssetHandler {
 
 	public static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
 
@@ -63,9 +64,9 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 
 	@Inject
 	public GdxAssetHandler(GenericInjector injector) {
-		super(new GdxAssetHandlerMap(),
-				injector.getInstance(FontHandler.class), injector
-						.getInstance(SceneGraph.class));
+		super(new GdxAssetHandlerMap(), injector
+				.getInstance(FontHandler.class), injector
+				.getInstance(SceneGraph.class));
 		this.injector = injector;
 	}
 
@@ -80,7 +81,7 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 	}
 
 	@Override
-	public void getTextFile(String path, LoadTextFileListener callback) {
+	public String getTextFile(String path) {
 		FileHandle fh = getFileHandle(path);
 
 		if (fh != null) {
@@ -96,6 +97,8 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 
 			} catch (IOException e) {
 
+			} catch (GdxRuntimeException e) {
+
 			} finally {
 				try {
 					if (reader != null) {
@@ -105,18 +108,20 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 
 				}
 			}
-			callback.read(text.toString());
+			return text.toString();
 		}
+		return null;
 	}
 
 	@Override
-	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
+	public RuntimeAsset<?> getInstance(
+			Class<? extends RuntimeAsset<?>> clazz) {
 		return injector.getInstance(clazz);
 	}
 
 	/**
 	 * retrieves a file handle for the path
-	 *
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -137,7 +142,8 @@ public class GdxAssetHandler extends AbstractAssetHandler {
 	}
 
 	public FileHandle getProjectFileHandle(String uri) {
-		return Gdx.files.absolute(this.resourcesUri.getPath() + "/" + uri);
+		return Gdx.files.absolute(this.resourcesUri.getPath() + "/"
+				+ uri);
 	}
 
 	public FileHandle getProjectInternal(String uri) {

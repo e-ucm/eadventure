@@ -58,4 +58,13 @@ public class JavaReflectionProvider implements ReflectionProvider {
 	public Class<?> getSuperclass(Class<?> c) {
 		return c.getSuperclass();
 	}
+
+	@Override
+	public Class<?> getClassforName(String string) {
+		try {
+			return Class.forName(string);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
 }

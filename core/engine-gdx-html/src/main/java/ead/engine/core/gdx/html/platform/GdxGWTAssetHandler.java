@@ -40,6 +40,11 @@ package ead.engine.core.gdx.html.platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -65,7 +70,8 @@ import ead.tools.StringHandler;
 @Singleton
 public class GdxGWTAssetHandler extends GdxAssetHandler {
 
-	private Logger logger = LoggerFactory.getLogger("GdxGWTAssetHandler");
+	private Logger logger = LoggerFactory
+			.getLogger("GdxGWTAssetHandler");
 
 	private VariableMap valueMap;
 
@@ -74,8 +80,8 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	private GUI gui;
 
 	@Inject
-	public GdxGWTAssetHandler(GenericInjector injector, VariableMap valueMap,
-			StringHandler stringHandler, GUI gui) {
+	public GdxGWTAssetHandler(GenericInjector injector,
+			VariableMap valueMap, StringHandler stringHandler, GUI gui) {
 		super(injector);
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
@@ -89,7 +95,8 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	}
 
 	@Override
-	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
+	public RuntimeAsset<?> getInstance(
+			Class<? extends RuntimeAsset<?>> clazz) {
 
 		// FIXME: it is ugly to discard all these generics; find another way to
 		// get clean builds
@@ -104,8 +111,8 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 		else if (clazz == GdxCircleShape.class)
 			r = new GdxCircleShape();
 		else if (clazz == (Object) RuntimeCaption.class)
-			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler, valueMap,
-					stringHandler, this);
+			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler,
+					valueMap, stringHandler, this);
 		else if (clazz == GdxSound.class)
 			r = new GdxSound(this);
 		else if (clazz == (Object) RuntimeComposedDrawable.class)
@@ -123,6 +130,40 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 		}
 
 		return (RuntimeAsset<?>) r;
+	}
+
+	@Override
+	public void getTextfileAsync(String path, TextHandler textHandler) {
+		try {
+			new RequestBuilder(RequestBuilder.GET, path).sendRequest(
+					"", new TextRequestCallback(textHandler));
+		} catch (RequestException e) {
+			textHandler.handle(null);
+		}
+	}
+
+	private class TextRequestCallback implements RequestCallback {
+
+		private TextHandler textHandler;
+
+		public TextRequestCallback(TextHandler textHandler) {
+			super();
+			this.textHandler = textHandler;
+		}
+
+		@Override
+		public void onResponseReceived(Request req, Response resp) {
+			String text = resp.getText().replace("\n\r", "\n");
+			text = text.replace("\r\n", "\n");
+			text = text.replace("\r", "\n");
+			textHandler.handle(text);
+		}
+
+		@Override
+		public void onError(Request res, Throwable throwable) {
+			textHandler.handle(null);
+		}
+
 	}
 
 }

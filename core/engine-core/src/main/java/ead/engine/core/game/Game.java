@@ -74,6 +74,12 @@ public interface Game {
 	void initialize();
 
 	/**
+	 * This method is called once the underlying context is created, and runs in
+	 * the game thread
+	 */
+	void setUp();
+
+	/**
 	 * Updates the game state
 	 */
 	void update();
@@ -109,23 +115,5 @@ public interface Game {
 	 * Disposes all the resources allocated by the engine and destroys the GUI
 	 */
 	void dispose();
-
-	/**
-	 * Returns the value for a property key
-	 * 
-	 * @param key
-	 * @param defaultValue
-	 *            a default value in case the key is not found
-	 * @return the value can be any object
-	 */
-	Object getProperty(String key, Object defaultValue);
-
-	/**
-	 * Sets a property value
-	 * 
-	 * @param key
-	 * @param value
-	 */
-	void setProperty(String key, Object value);
 
 }

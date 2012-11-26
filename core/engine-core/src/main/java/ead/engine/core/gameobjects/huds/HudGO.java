@@ -48,16 +48,52 @@ import ead.engine.core.gameobjects.go.Renderable;
  */
 public interface HudGO extends DrawableGO<Void>, Renderable {
 
-	void addElement(DrawableGO<?> drawable);
-
-	List<DrawableGO<?>> getContaintedGOs();
-
 	/**
 	 * It is called when the graphic context has been created. HUDs graphics
 	 * components (buttons, labels...) should be created here
 	 */
 	void init();
-	
-	boolean isVisible( );
+
+	/**
+	 * Adds a drawable go that will be drawn within this HUD
+	 * 
+	 * @param drawable
+	 */
+	void addElement(DrawableGO<?> drawable);
+
+	/**
+	 * Returns a list wiht all drawables game object within this HUD
+	 * 
+	 * @return
+	 */
+	List<DrawableGO<?>> getContaintedGOs();
+
+	/**
+	 * Returns whether this HUD is currently visible
+	 * 
+	 * @return
+	 */
+	boolean isVisible();
+
+	/**
+	 * Sets the HUD visibility
+	 * 
+	 * @param visible
+	 */
+	void setVisible(boolean visible);
+
+	/**
+	 * @param priority
+	 *            the bigger the priority the later is drawn (and the higher
+	 *            appears to be)
+	 */
+	void setPriority(int priority);
+
+	/**
+	 * the bigger the priority the later is drawn (and the higher appears to be)
+	 * 
+	 * @return
+	 */
+	int getPriority();
 
 }

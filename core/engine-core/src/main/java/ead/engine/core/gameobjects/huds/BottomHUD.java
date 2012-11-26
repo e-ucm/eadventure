@@ -37,6 +37,42 @@
 
 package ead.engine.core.gameobjects.huds;
 
-public interface BottomBasicHUD extends HudGO {
+import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.input.InputAction;
+import ead.engine.core.platform.GUI;
+
+/**
+ * 
+ * This is the first HUD to be drawn. It prevents user interaction with the
+ * scene when {@link SystemFields#BASIC_HUD_OPAQUE} is true
+ * 
+ */
+public class BottomHUD extends AbstractHUD {
+
+	private GameState gameState;
+
+	public BottomHUD(GUI gui, GameState gameState) {
+		super(gui);
+		this.gameState = gameState;
+		this.setPriority(0);
+	}
+
+	@Override
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		if (gameState.getValueMap().getValue(
+				SystemFields.BASIC_HUD_OPAQUE)) {
+			action.consume();
+			return this;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return gameState.getValueMap().getValue(
+				SystemFields.BASIC_HUD_OPAQUE);
+	}
 
 }

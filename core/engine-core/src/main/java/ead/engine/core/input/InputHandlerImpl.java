@@ -47,7 +47,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
@@ -58,6 +58,7 @@ import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.KeyboardState;
 import ead.engine.core.input.states.MouseState;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 
@@ -90,14 +91,18 @@ public class InputHandlerImpl implements InputHandler {
 
 	private GameTracker tracker;
 
+	private GUI gui;
+
 	private boolean processInput;
 
 	@Inject
-	public InputHandlerImpl(GameState gameState, GameTracker tracker) {
+	public InputHandlerImpl(GameState gameState, GameTracker tracker,
+			GUI gui) {
 		mouseHandler = new MouseHandler(gameState);
 		keyboardHandler = new KeyboardHandler();
 		this.gameState = gameState;
 		this.tracker = tracker;
+		this.gui = gui;
 	}
 
 	public boolean isProcessingInput() {
@@ -142,30 +147,22 @@ public class InputHandlerImpl implements InputHandler {
 			KeyInputAction action = keyboardHandler.getKeyActions()
 					.poll();
 
-			if (action.getKeyCode().equals(KeyGEvCode.F5)) {
-				gameState.saveState();
-				continue;
-			} else if (action.getKeyCode().equals(KeyGEvCode.F6)) {
-				gameState.loadState();
-				continue;
-			}
-
-			DrawableGO<?> go = gameState.getActiveElement();
-
-			// only the active element gets a try to consume it
-			if (go != null) {
-				go.processAction(action);
-
-				if (action.isConsumed()) {
-					tracker.track(action, go);
+			DrawableGO<?> go = hudProcess(action);
+			if (go == null) {
+				go = gameState.getActiveElement();
+				// only the active element gets a try to consume it
+				if (go != null) {
+					go.processAction(action);
 				}
 			}
 
 			if (action.isConsumed() && go != null) {
+				tracker.track(action, go);
 				logger.info("Action {} consumed by {}", action, go);
 			} else {
 				logger.info("Action {} not consumed by any element",
 						action);
+
 			}
 			j++;
 		}
@@ -204,12 +201,24 @@ public class InputHandlerImpl implements InputHandler {
 				break;
 			}
 
-			if (processInput) {
-				DrawableGO<?> go = gameState.getScene()
-						.processAction(action);
-				if (go != null) {
-					tracker.track(action, go);
+			DrawableGO<?> go = hudProcess(action);
+
+			if (!action.isConsumed()) {
+				if (processInput) {
+					go = gameState.getScene().processAction(action);
 				}
+			}
+
+			if (go != null) {
+				tracker.track(action, go);
+			}
+
+			if (action.isConsumed() && go != null
+					&& mouseAction.getType() == MouseGEvType.PRESSED) {
+				logger.info("Action {} consumed by {}", action, go);
+			} else if (mouseAction.getType() == MouseGEvType.PRESSED) {
+				logger.info("Action {} not consumed by any element",
+						action);
 			}
 
 			j++;
@@ -259,6 +268,15 @@ public class InputHandlerImpl implements InputHandler {
 			}
 			mouseHandler.setGameObjectUnderMouse(currentGO);
 		}
+	}
+
+	private DrawableGO<?> hudProcess(InputAction<?> a) {
+		DrawableGO<?> go = null;
+		int i = gui.getHUDs().size() - 1;
+		while (!a.isConsumed() && i >= 0) {
+			go = gui.getHUDs().get(i--).processAction(a);
+		}
+		return go;
 	}
 
 	@Override
@@ -382,7 +400,8 @@ public class InputHandlerImpl implements InputHandler {
 
 	private List<DrawableGO<?>> getAllGOUnderMouse() {
 		if (checkState(MouseState.POINTER_INSIDE)) {
-			return gameState.getScene().getAllGOIn(mouseHandler.getMouseX(),
+			return gameState.getScene().getAllGOIn(
+					mouseHandler.getMouseX(),
 					mouseHandler.getMouseY());
 		}
 		return null;

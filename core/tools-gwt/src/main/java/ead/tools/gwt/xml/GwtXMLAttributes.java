@@ -52,8 +52,11 @@ public class GwtXMLAttributes implements XMLAttributes {
 
 	@Override
 	public String getValue(String atttributeName) {
-		Node n = map.getNamedItem(atttributeName);
-		return n == null ? null : n.getNodeValue();
+		if (map != null) {
+			Node n = map.getNamedItem(atttributeName);
+			return n == null ? null : n.getNodeValue();
+		}
+		return null;
 	}
 
 }

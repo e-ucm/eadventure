@@ -43,6 +43,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.platform.AbstractGUI;
@@ -75,8 +76,8 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	}
 
 	@Override
-	public void initialize(Game g) {
-		super.initialize(g);
+	public void initialize(Game g, GameState gameState) {
+		super.initialize(g, gameState);
 		engine.setGame(game);
 	}
 

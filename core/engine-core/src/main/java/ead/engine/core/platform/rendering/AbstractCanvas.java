@@ -50,7 +50,8 @@ import ead.engine.core.platform.rendering.filters.FilterFactory;
 
 public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 
-	protected static final Logger logger = LoggerFactory.getLogger("EAdCanvas");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("EAdCanvas");
 
 	protected T g;
 
@@ -59,6 +60,10 @@ public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 	protected FontHandler fontHandler;
 
 	protected FilterFactory<T> filterFactory;
+
+	private int width;
+
+	private int height;
 
 	@Inject
 	public AbstractCanvas(FontHandler fontHandler,
@@ -89,6 +94,22 @@ public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 		if (filterFactory != null) {
 			filterFactory.applyFilter(drawable, filter, this);
 		}
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height){
+		this.height = height;
 	}
 
 }

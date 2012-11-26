@@ -42,9 +42,6 @@ import com.google.gwt.inject.client.Ginjector;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoader;
-import ead.engine.core.gameobjects.ComposedSceneGOImpl;
-import ead.engine.core.gameobjects.SceneGO;
-import ead.engine.core.gameobjects.VideoSceneGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
 import ead.engine.core.gameobjects.effects.CancelEffectGO;
@@ -67,18 +64,20 @@ import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
-import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGOImpl;
-import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
-import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
+import ead.engine.core.gameobjects.go.BasicComplexSceneElementGO;
+import ead.engine.core.gameobjects.go.BasicSceneElementGO;
+import ead.engine.core.gameobjects.go.ComposedSceneGOImpl;
+import ead.engine.core.gameobjects.go.SceneGOImpl;
+import ead.engine.core.gameobjects.go.VideoSceneGO;
+import ead.engine.core.gameobjects.go.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.go.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.go.transitions.FadeInTransitionGO;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.gameobjects.GdxApplyForceGO;
 import ead.engine.core.gdx.gameobjects.GdxPhysicsEffectGO;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.GenericInjector;
@@ -140,9 +139,9 @@ public interface GwtGinInjector extends Ginjector {
 
 	public BasicSceneElementGO getBasicSceneElementGO();
 
-	public ComplexSceneElementGOImpl getComplexSceneElementGO();
+	public BasicComplexSceneElementGO getComplexSceneElementGO();
 
-	public SceneGO getSceneGO();
+	public SceneGOImpl getSceneGO();
 
 	public VideoSceneGO getVideoSceneGO();
 
@@ -159,8 +158,6 @@ public interface GwtGinInjector extends Ginjector {
 	public ModifyHudGO getModifyHUGGO();
 
 	public GenericInjector getPlayNInjector();
-
-	public EngineConfiguration getEngineConfiguration();
 
 	public GdxCanvas getCanvas();
 

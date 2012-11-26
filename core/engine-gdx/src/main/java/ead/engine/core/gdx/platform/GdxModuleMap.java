@@ -62,14 +62,10 @@ import ead.engine.core.gameobjects.go.transitions.sceneloaders.GraphSceneLoader;
 import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.ActionsHUDImpl;
-import ead.engine.core.gameobjects.huds.BottomBasicHUD;
-import ead.engine.core.gameobjects.huds.BottomBasicHUDImpl;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.EffectHUDImpl;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
-import ead.engine.core.gameobjects.huds.MenuHUD;
-import ead.engine.core.gameobjects.huds.MenuHUDImpl;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.gdx.GdxEngine;
@@ -81,8 +77,6 @@ import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
-import ead.engine.core.platform.AbstractEngineConfiguration;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.SoundManager;
@@ -124,8 +118,6 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(GameObjectManager.class, GameObjectManagerImpl.class);
 
-		binds.put(EngineConfiguration.class, AbstractEngineConfiguration.class);
-
 		binds.put(DebuggerHandler.class, DebuggerHandlerImpl.class);
 
 		binds.put(InventoryHandler.class, InventoryHandlerImpl.class);
@@ -152,10 +144,8 @@ public class GdxModuleMap extends ModuleMap {
 		// HUDs
 		binds.put(EffectHUD.class, EffectHUDImpl.class);
 		binds.put(TopBasicHUD.class, TopBasicHUDImpl.class);
-		binds.put(BottomBasicHUD.class, BottomBasicHUDImpl.class);
 		binds.put(InventoryHUD.class, InventoryHUDImpl.class);
-		binds.put(ActionsHUD.class, ActionsHUDImpl.class);
-		binds.put(MenuHUD.class, MenuHUDImpl.class);
+		binds.put(ActionsHUD.class, ActionsHUDImpl.class);		
 
 		binds.put(SceneLoader.class, GraphSceneLoader.class);
 

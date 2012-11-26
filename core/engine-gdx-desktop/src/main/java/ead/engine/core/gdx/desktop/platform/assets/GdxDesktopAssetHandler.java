@@ -37,9 +37,13 @@
 
 package ead.engine.core.gdx.desktop.platform.assets;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -155,4 +159,48 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 			return zipFile.getName() + zipEntry.getName();
 		}
 	}
+
+	@Override
+	public void getTextfileAsync(String path, TextHandler textHandler) {
+		String result = null;
+		InputStream is = ClassLoader.getSystemResourceAsStream(path);
+		if (is == null) {
+			File f = new File(path);
+			if (f.exists()) {
+				try {
+					is = new FileInputStream(f);
+				} catch (FileNotFoundException e) {
+
+				}
+			}
+		}
+
+		if (is != null) {
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(is));
+
+			try {
+				String line = null;
+				result = "";
+				while ((line = reader.readLine()) != null) {
+					result += line + "\n";
+				}				
+			} catch (IOException e) {
+				logger.error("Error reading file", e);
+				result = null;
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						logger.error("Error closing reader", e);
+					}
+				}
+			}
+		} else {
+			logger.warn("Unable to find resource {}", path);
+		}
+		textHandler.handle(result);
+	}
+
 }

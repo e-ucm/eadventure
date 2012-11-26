@@ -49,7 +49,6 @@ import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxInputHandler;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 
 @Singleton
 public class GdxEngineImpl implements GdxEngine {
@@ -60,31 +59,26 @@ public class GdxEngineImpl implements GdxEngine {
 
 	private Game game;
 
-	private EngineConfiguration engineConfiguration;
-
 	private GdxCanvas canvas;
 
 	private InputHandler inputHandler;
 
 	@Inject
-	public GdxEngineImpl(EngineConfiguration engineConfiguration,
-			GdxCanvas canvas, InputHandler inputHandler) {
+	public GdxEngineImpl(GdxCanvas canvas, InputHandler inputHandler) {
 		ShaderProgram.pedantic = false;
-		this.engineConfiguration = engineConfiguration;
 		this.canvas = canvas;
 		this.inputHandler = inputHandler;
 	}
 
 	@Override
 	public void create() {
-
 		spriteBatch = new SpriteBatch();
 		spriteBatch.enableBlending();
 		spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA,
 				GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		int width = engineConfiguration.getWidth();
-		int height = engineConfiguration.getHeight();
+		int width = canvas.getWidth();
+		int height = canvas.getHeight();
 
 		c = new InvOrtographicCamera();
 		float centerX = width / 2;
@@ -97,6 +91,8 @@ public class GdxEngineImpl implements GdxEngine {
 		canvas.setGraphicContext(spriteBatch);
 
 		Gdx.input.setInputProcessor(new GdxInputHandler(inputHandler, c));
+		
+		game.setUp();
 
 	}
 
@@ -115,7 +111,7 @@ public class GdxEngineImpl implements GdxEngine {
 		spriteBatch.setProjectionMatrix(c.combined);
 		game.update();
 		spriteBatch.begin();
-		game.render(0);
+		game.render();
 		spriteBatch.end();
 	}
 

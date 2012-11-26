@@ -43,9 +43,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
-import ead.engine.core.gameobjects.ComposedSceneGOImpl;
-import ead.engine.core.gameobjects.SceneGO;
-import ead.engine.core.gameobjects.VideoSceneGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
 import ead.engine.core.gameobjects.effects.CancelEffectGO;
@@ -68,17 +65,18 @@ import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
+import ead.engine.core.gameobjects.go.BasicSceneElementGO;
+import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
+import ead.engine.core.gameobjects.go.ComposedSceneGOImpl;
 import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGOImpl;
-import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
-import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
+import ead.engine.core.gameobjects.go.VideoSceneGO;
+import ead.engine.core.gameobjects.go.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.go.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.go.transitions.FadeInTransitionGO;
 import ead.engine.core.gdx.gameobjects.GdxApplyForceGO;
 import ead.engine.core.gdx.gameobjects.GdxPhysicsEffectGO;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.GenericInjector;
@@ -106,10 +104,8 @@ public class GwtInjector implements GenericInjector {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
-		Object o = null;
-		if (clazz == EngineConfiguration.class)
-			o = ginjector.getEngineConfiguration();
-		else if (clazz == GdxCanvas.class)
+		Object o = null;		
+		if (clazz == GdxCanvas.class)
 			o = ginjector.getCanvas();
 		else if (clazz == Game.class)
 			o = ginjector.getGame();

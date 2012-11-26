@@ -48,7 +48,6 @@ import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;

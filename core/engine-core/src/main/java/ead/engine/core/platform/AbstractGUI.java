@@ -37,14 +37,19 @@
 
 package ead.engine.core.platform;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -84,8 +89,10 @@ public abstract class AbstractGUI<T> implements GUI {
 		logger.info("Created abstract GUI");
 	}
 
-	public void initialize(Game game) {
+	public void initialize(Game game, GameState gameState) {
 		this.game = game;
+		eAdCanvas.setWidth(gameState.getValueMap().getValue(SystemFields.GAME_WIDTH));
+		eAdCanvas.setHeight(gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT));
 	}
 
 	/*
@@ -116,6 +123,23 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 	}
 
+	@Override
+	public void addHud(HudGO hud) {
+		gameObjects.addHUD(hud);
+
+	}
+
+	@Override
+	public void removeHUD(HudGO hud) {
+		gameObjects.removeHud(hud);
+
+	}
+
+	@Override
+	public List<HudGO> getHUDs() {
+		return gameObjects.getHUDs();
+	}
+
 	/**
 	 * Render the game objects into the graphic context
 	 * 
@@ -123,7 +147,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	@SuppressWarnings("unchecked")
 	public void commit() {
 		for (DrawableGO<?> go : gameObjects.getGameObjects()) {
-			if (go != null) {				
+			if (go != null) {
 				EAdTransformation t = go.getTransformation();
 				t.setValidated(true);
 				eAdCanvas.setTransformation(t);
@@ -138,6 +162,7 @@ public abstract class AbstractGUI<T> implements GUI {
 			}
 
 		}
+		gameObjects.getGameObjects().clear();
 	}
 
 	@Override
@@ -169,7 +194,6 @@ public abstract class AbstractGUI<T> implements GUI {
 					newclip.height);
 
 		return t1;
-
 	}
 
 }

@@ -47,7 +47,6 @@ import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.GdxEngineImpl;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
 
 public class GwtGdxEngine extends GdxEngineImpl {
 
@@ -60,9 +59,8 @@ public class GwtGdxEngine extends GdxEngineImpl {
 	private Map<String, String> properties;
 
 	@Inject
-	public GwtGdxEngine(EngineConfiguration engineConfiguration,
-			GdxCanvas canvas, InputHandler inputHandler) {
-		super(engineConfiguration, canvas, inputHandler);
+	public GwtGdxEngine(GdxCanvas canvas, InputHandler inputHandler) {
+		super(canvas, inputHandler);
 	}
 
 	public void create() {
@@ -80,7 +78,8 @@ public class GwtGdxEngine extends GdxEngineImpl {
 	}
 
 	public void setGame(EAdAdventureModel model,
-			Map<EAdString, String> strings, Map<String, String> properties) {
+			Map<EAdString, String> strings,
+			Map<String, String> properties) {
 		this.model = model;
 		this.strings = strings;
 		this.properties = properties;

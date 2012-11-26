@@ -38,6 +38,8 @@
 package ead.engine.core.gameobjects;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -50,7 +52,8 @@ import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.util.EAdTransformation;
 
 @Singleton
-public class GameObjectManagerImpl implements GameObjectManager {
+public class GameObjectManagerImpl implements GameObjectManager,
+		Comparator<HudGO> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("GameObjectManagerImpl");
@@ -98,9 +101,11 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * .eucm.eadventure.engine.core.gameobjects.huds.HudGO)
 	 */
 	@Override
-	public void addHUD(HudGO hud, int priority) {
+	public void addHUD(HudGO hud) {
 		if (!huds.contains(hud))
 			huds.add(hud);
+
+		Collections.sort(huds, this);
 		logger.info("Added HUD. size: " + huds.size() + "; huds: "
 				+ huds);
 	}
@@ -108,6 +113,16 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	@Override
 	public List<HudGO> getHUDs() {
 		return huds;
+	}
+
+	@Override
+	public void removeHud(HudGO hud) {
+		huds.remove(hud);
+	}
+
+	@Override
+	public int compare(HudGO arg0, HudGO arg1) {
+		return arg0.getPriority() - arg1.getPriority();
 	}
 
 }

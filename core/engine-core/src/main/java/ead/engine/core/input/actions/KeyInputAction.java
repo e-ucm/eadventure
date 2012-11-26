@@ -68,7 +68,7 @@ public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 
 	@Override
 	public boolean alwaysPropagates() {
-		return false;
+		return true;
 	}
 
 	/**

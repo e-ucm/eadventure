@@ -48,17 +48,37 @@ import ead.common.params.text.EAdString;
 
 public class StringHandlerImpl implements StringHandler {
 
-	private Logger logger = LoggerFactory.getLogger("StringHandlerImpl");
+	private Logger logger = LoggerFactory
+			.getLogger("StringHandlerImpl");
+
+	private Map<String, Map<EAdString, String>> loadedStrings;
 
 	private Map<EAdString, String> strings;
 
+	private String language;
+
 	public StringHandlerImpl() {
 		strings = new HashMap<EAdString, String>();
+		loadedStrings = new HashMap<String, Map<EAdString, String>>();
+		loadedStrings.put("", strings);
+		language = "";
+	}
+
+	public void setLanguage(String language) {
+		if (!language.equals(this.language)) {
+			this.language = language;
+			if (loadedStrings.containsKey(language)) {
+				strings = loadedStrings.get(language);
+			} else {
+				strings = loadedStrings.get("");
+			}
+		}
 	}
 
 	@Override
 	public String getString(EAdString string) {
-		if (string.toString().startsWith(StringHandler.TEXTUAL_STRING_PREFIX)) {
+		if (string.toString().startsWith(
+				StringHandler.TEXTUAL_STRING_PREFIX)) {
 			return string.toString().substring(
 					StringHandler.TEXTUAL_STRING_PREFIX.length());
 		}
@@ -69,12 +89,12 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
-		logger.debug("Add string '{}': '{}'", eAdString.toString(), string);
+		logger.debug("Add string '{}': '{}'", eAdString.toString(),
+				string);
 		if (string == null) {
-			logger
-					.warn(
-							"A null string has been set for {}. It is not necessary to do that.",
-							eAdString);
+			logger.warn(
+					"A null string has been set for {}. It is not necessary to do that.",
+					eAdString);
 		}
 		strings.put(eAdString, string);
 	}
