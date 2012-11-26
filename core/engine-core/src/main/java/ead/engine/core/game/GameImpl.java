@@ -73,6 +73,7 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
@@ -96,6 +97,11 @@ public class GameImpl implements Game {
 	 * Input handler
 	 */
 	private InputHandler inputHandler;
+	
+	/**
+	 * Plugin handler
+	 */
+	private PluginHandler pluginHandler;
 
 	/**
 	 * A map holding some useful game properties (like width, height,
@@ -161,7 +167,7 @@ public class GameImpl implements Game {
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
-			InputHandler inputHandler, GameState gameState,
+			InputHandler inputHandler, PluginHandler pluginHandler, GameState gameState,
 			EffectHUD effectHUD, AssetHandler assetHandler,
 			GameObjectManager gameObjectManager,
 			DebuggerHandler debugger, ValueMap valueMap,
@@ -198,6 +204,9 @@ public class GameImpl implements Game {
 
 	@Override
 	public void initialize() {
+		// Load plugins
+		pluginHandler.initialize();
+		
 		// Properties
 		properties = new HashMap<String, Object>();
 		// These properties won't change during game play
@@ -213,8 +222,7 @@ public class GameImpl implements Game {
 		
 		
 		// FIXME add huds
-		gui.addHud( bottomBasicHud, 0 );
-		
+		gui.addHud( bottomBasicHud, 0 );		
 	}
 
 	@Override
@@ -257,9 +265,7 @@ public class GameImpl implements Game {
 
 		updateDebuggers();
 		// Add huds
-		gameObjectManager.addHUDs(gui, initialTransformation);
-
-		gui.prepareGUI();
+		gameObjectManager.addHUDs(gui, initialTransformation);		
 
 	}
 

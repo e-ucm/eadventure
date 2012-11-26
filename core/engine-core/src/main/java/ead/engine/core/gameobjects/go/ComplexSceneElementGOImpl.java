@@ -67,6 +67,8 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 
 	private boolean propagateEvents = true;
 
+	private transient ArrayList<DrawableGO<?>> goUnderMouse;
+
 	/**
 	 * Comparator to order the scene elements
 	 */
@@ -80,6 +82,7 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 		super(assetHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
 		sceneElements = new ArrayList<SceneElementGO<?>>();
+		goUnderMouse = new ArrayList<DrawableGO<?>>();
 	}
 
 	public void setElement(T element) {
@@ -223,4 +226,26 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 		return super.contains(x, y);
 	}
 
+	@Override
+	public DrawableGO<?> getFirstGOIn(int x, int y) {
+		for (int i = sceneElements.size() - 1; i >= 0; i--) {
+			DrawableGO<?> tempGameObject = sceneElements.get(i);
+			if (tempGameObject.contains(x, y)) {
+				return tempGameObject;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<DrawableGO<?>> getAllGOIn(int x, int y) {
+		goUnderMouse.clear();
+		for (DrawableGO<?> go : sceneElements) {
+			float[] mouse = go.getTransformation().getMatrix()
+					.multiplyPointInverse(x, y, true);
+			if (go.contains((int) mouse[0], (int) mouse[1]))
+				goUnderMouse.add(go);
+		}
+		return goUnderMouse;
+	}
 }

@@ -45,7 +45,7 @@ import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.PhType;
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
+import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
@@ -204,7 +204,7 @@ public class PhysicsScene extends EmptyScene {
 				ColorFill.DARK_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);
 
-		PhApplyImpluseEf applyForce = new PhApplyImpluseEf();
+		PhApplyImpulseEf applyForce = new PhApplyImpulseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1]) * 500", mouseY, canyonY));
 		AddActorReferenceEf addEffect = new AddActorReferenceEf(bullet,

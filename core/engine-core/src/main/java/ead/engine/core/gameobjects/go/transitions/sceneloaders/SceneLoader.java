@@ -62,7 +62,7 @@ public interface SceneLoader {
 	 * @param currentScene
 	 *            the current scene
 	 */
-	void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene);
+	void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene);
 
 	/**
 	 * The scene loader gets permission to one more step in its loading process

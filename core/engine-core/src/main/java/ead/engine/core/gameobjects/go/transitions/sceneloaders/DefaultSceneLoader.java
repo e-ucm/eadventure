@@ -74,11 +74,11 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	private EAdScene scene;
 
-	protected SceneGO sceneGO;
+	protected SceneGO<?> sceneGO;
 
-	protected SceneGO currentSceneGO;
+	protected SceneGO<?> currentSceneGO;
 
-	protected SceneGO oldSceneGO;
+	protected SceneGO<?> oldSceneGO;
 
 	@Inject
 	public DefaultSceneLoader(AssetHandler assetHandler,
@@ -101,7 +101,7 @@ public class DefaultSceneLoader implements SceneLoader {
 	}
 
 	protected void loadScene() {
-		sceneGO = (SceneGO) sceneElementFactory.get(scene);
+		sceneGO = (SceneGO<?>) sceneElementFactory.get(scene);
 		assetsList.clear();
 
 		assetsList = sceneGO.getAssets(assetsList, false);
@@ -113,7 +113,7 @@ public class DefaultSceneLoader implements SceneLoader {
 		}
 	}
 
-	public void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene) {
+	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene) {
 		this.currentSceneGO = currentScene;
 		this.oldSceneGO = oldScene;
 		logger.info("Freeing unused assets...");

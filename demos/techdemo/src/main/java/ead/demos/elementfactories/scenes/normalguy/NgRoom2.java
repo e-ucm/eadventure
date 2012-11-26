@@ -45,7 +45,7 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
+import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
@@ -175,7 +175,7 @@ public class NgRoom2 extends EmptyScene {
 		//circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY, ColorFill.LIGHT_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);
 
-		PhApplyImpluseEf applyForce = new PhApplyImpluseEf();
+		PhApplyImpulseEf applyForce = new PhApplyImpulseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1])", mouseY, canyonY));
 		AddActorReferenceEf addEffect = new AddActorReferenceEf(bullet,

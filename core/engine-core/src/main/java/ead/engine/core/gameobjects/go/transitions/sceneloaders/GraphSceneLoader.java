@@ -109,7 +109,7 @@ public class GraphSceneLoader implements SceneLoader {
 	}
 
 	@Override
-	public void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene) {
+	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene) {
 		// TODO Auto-generated method stub
 
 	}
@@ -117,7 +117,7 @@ public class GraphSceneLoader implements SceneLoader {
 	@Override
 	public void step() {
 		if (!assetHandler.loadStep()) {
-			SceneGO sceneGO = (SceneGO) factory.get(scene);
+			SceneGO<?> sceneGO = (SceneGO<?>) factory.get(scene);
 			sceneGO.update();
 			// Add the next scenes, so they load in the background
 			for (EAdScene s : sceneRemainingToBeLoad) {

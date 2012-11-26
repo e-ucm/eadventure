@@ -37,9 +37,8 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
-import com.google.inject.Inject;
-
 import ead.common.model.elements.transitions.EmptyTransition;
+import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -50,13 +49,15 @@ import ead.engine.core.platform.assets.AssetHandler;
 
 public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
 
-	@Inject
 	public BasicTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory, SceneLoader sceneLoader,
+			InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				evaluatorFactory, eventFactory, sceneLoader, inputHandler);
 	}
+
+
 
 }

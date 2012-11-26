@@ -40,7 +40,7 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
+import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
@@ -97,7 +97,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		effect.addSceneElement(b);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				new PhApplyImpluseEf(b, new MathOp("0"), new MathOp("-1")));
+				new PhApplyImpulseEf(b, new MathOp("0"), new MathOp("-1")));
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 
@@ -111,7 +111,7 @@ public class PhysicsScene2 extends PhysicsScene {
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 				getBackground().addBehavior(
 						MouseGEv.MOUSE_LEFT_CLICK,
-						new PhApplyImpluseEf(e, new MathOp("0"), new MathOp(
+						new PhApplyImpulseEf(e, new MathOp("0"), new MathOp(
 								"-100")));
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE,

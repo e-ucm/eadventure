@@ -37,16 +37,17 @@
 
 package ead.engine.core.plugins;
 
-import ead.engine.core.gameobjects.factories.EffectGOFactory;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 
+/**
+ * 
+ * General interface 
+ *
+ */
 public interface PluginHandler {
-
-	void install(EffectGOFactory effectFactory);
-
-	void install(SceneElementGOFactory sceneElementFactory);
-
-	void install(EventGOFactory eventGOFactory);
+	
+	/**
+	 * Loads all the plugins 
+	 */
+	void initialize();
 
 }

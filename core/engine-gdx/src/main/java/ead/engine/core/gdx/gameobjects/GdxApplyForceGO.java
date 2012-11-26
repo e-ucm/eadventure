@@ -44,7 +44,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.enums.PhShape;
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
+import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
@@ -55,7 +55,7 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
+public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 
 	private OperatorFactory operatorFactory;
 

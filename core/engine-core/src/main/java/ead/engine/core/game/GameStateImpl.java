@@ -62,19 +62,17 @@ import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 
 @Singleton
 public class GameStateImpl implements GameState {
 
-	private SceneGO scene;
+	private SceneGO<?> scene;
 
 	private List<EffectGO<?>> effects;
 
@@ -91,7 +89,8 @@ public class GameStateImpl implements GameState {
 	 */
 	private List<EffectGO<?>> effectsQueue;
 
-	private static Logger logger = LoggerFactory.getLogger("GameState");
+	private static Logger logger = LoggerFactory
+			.getLogger("GameState");
 
 	private boolean paused;
 
@@ -99,20 +98,16 @@ public class GameStateImpl implements GameState {
 
 	private EvaluatorFactory evaluatorFactory;
 
-	private EventGOFactory eventGOFactory;
-
-	private PluginHandler pluginHandler;
-
 	private GameTracker tracker;
 
 	private GameStateData gameStateData;
 
 	@Inject
-	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
+	public GameStateImpl(
+			@Named("LoadingScreen") EAdScene loadingScreen,
 			SceneElementGOFactory gameObjectFactory,
 			EffectGOFactory effectFactory, ValueMap valueMap,
-			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
-			PluginHandler pluginHandler, GameTracker tracker) {
+			EvaluatorFactory evaluatorFactory, GameTracker tracker) {
 		logger.info("New instance of GameState");
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EffectGO<?>>();
@@ -122,19 +117,16 @@ public class GameStateImpl implements GameState {
 		this.previousSceneStack = new Stack<EAdScene>();
 		this.evaluatorFactory = evaluatorFactory;
 		this.effectFactory = effectFactory;
-		this.pluginHandler = pluginHandler;
-		this.eventGOFactory = eventGOFactory;
 		this.tracker = tracker;
-		// TODO improve
-		installPlugins();
 	}
 
 	@Override
-	public SceneGO getScene() {
+	public SceneGO<?> getScene() {
 		if (scene == null) {
 			logger.debug("null scene, Loading screen: "
 					+ (loadingScreen != null));
-			this.scene = (SceneGO) sceneElementFactory.get(loadingScreen);
+			this.scene = (SceneGO<?>) sceneElementFactory
+					.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
 		}
 		return scene;
@@ -148,21 +140,22 @@ public class GameStateImpl implements GameState {
 	 * engine.core.gameobjects.SceneGO)
 	 */
 	@Override
-	public void setScene(SceneGO newScene) {
+	public void setScene(SceneGO<?> newScene) {
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
-					Boolean.FALSE);
+			valueMap.setValue(scene.getElement(),
+					BasicScene.VAR_SCENE_LOADED, Boolean.FALSE);
 			if (scene.getElement().getReturnable()) {
 				previousSceneStack.push(scene.getElement());
 			}
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
-					Boolean.TRUE);
-			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
-					.entrySet()) {
-				valueMap.setValue(scene.getElement(), e.getKey(), e.getValue());
+			valueMap.setValue(scene.getElement(),
+					BasicScene.VAR_SCENE_LOADED, Boolean.TRUE);
+			for (Entry<EAdVarDef<?>, Object> e : scene.getElement()
+					.getVars().entrySet()) {
+				valueMap.setValue(scene.getElement(), e.getKey(),
+						e.getValue());
 			}
 		}
 
@@ -208,13 +201,14 @@ public class GameStateImpl implements GameState {
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
 	@Override
-	public EffectGO<?> addEffect(int pos, EAdEffect e, InputAction<?> action,
-			EAdSceneElement parent) {
+	public EffectGO<?> addEffect(int pos, EAdEffect e,
+			InputAction<?> action, EAdSceneElement parent) {
 		if (e != null) {
 			if (evaluatorFactory.evaluate(e.getCondition())) {
 				EffectGO<?> effectGO = effectFactory.get(e);
 				if (effectGO == null) {
-					logger.warn("No game object for effect {}", e.getClass());
+					logger.warn("No game object for effect {}",
+							e.getClass());
 					return null;
 				}
 				effectGO.setGUIAction(action);
@@ -297,12 +291,6 @@ public class GameStateImpl implements GameState {
 		this.addEffect(ef);
 	}
 
-	private void installPlugins() {
-		pluginHandler.install(effectFactory);
-		pluginHandler.install(eventGOFactory);
-		pluginHandler.install(sceneElementFactory);
-	}
-
 	public void saveState() {
 		ArrayList<EAdEffect> effectsList = new ArrayList<EAdEffect>();
 		for (EffectGO<?> effGO : effects) {
@@ -330,8 +318,9 @@ public class GameStateImpl implements GameState {
 		ArrayList<EAdElement> updateList = new ArrayList<EAdElement>();
 		updateList.addAll(valueMap.getUpdateList());
 
-		gameStateData = new GameStateData(scene.getElement(), effectsList,
-				stack, systemVars, elementVars, updateList);
+		gameStateData = new GameStateData(scene.getElement(),
+				effectsList, stack, systemVars, elementVars,
+				updateList);
 	}
 
 	private GameStateData clone(GameStateData state) {
@@ -361,8 +350,8 @@ public class GameStateImpl implements GameState {
 		ArrayList<EAdElement> updateList = new ArrayList<EAdElement>();
 		updateList.addAll(state.getUpdateList());
 
-		return new GameStateData(state.getScene(), effectsList, stack,
-				systemVars, elementVars, updateList);
+		return new GameStateData(state.getScene(), effectsList,
+				stack, systemVars, elementVars, updateList);
 	}
 
 	public void loadState() {
@@ -370,10 +359,11 @@ public class GameStateImpl implements GameState {
 			logger.info("No state saved.");
 		} else {
 			GameStateData gameStateData = clone(this.gameStateData);
-			this.previousSceneStack = gameStateData.getPreviousSceneStack();
+			this.previousSceneStack = gameStateData
+					.getPreviousSceneStack();
 			sceneElementFactory.remove(gameStateData.getScene());
 
-			scene = (SceneGO) sceneElementFactory.get(gameStateData
+			scene = (SceneGO<?>) sceneElementFactory.get(gameStateData
 					.getScene());
 			scene.update();
 
@@ -394,7 +384,8 @@ public class GameStateImpl implements GameState {
 
 	public void clearEffects(boolean clearPersistents) {
 		for (EffectGO<?> effect : this.getEffects()) {
-			if (!effect.getElement().isPersistent() || clearPersistents) {
+			if (!effect.getElement().isPersistent()
+					|| clearPersistents) {
 				effect.stop();
 			}
 		}

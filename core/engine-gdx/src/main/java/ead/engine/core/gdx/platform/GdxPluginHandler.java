@@ -39,32 +39,30 @@ package ead.engine.core.gdx.platform;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gdx.gameobjects.GdxApplyForceGO;
-import ead.engine.core.gdx.gameobjects.GdxPhysicsEffectGO;
-import ead.engine.core.plugins.PluginHandler;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.plugins.PluginHandlerImpl;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class GdxPluginHandler implements PluginHandler {
+public class GdxPluginHandler extends PluginHandlerImpl {
 
-	@Override
-	public void install(EffectGOFactory effectFactory) {
-		effectFactory.put(PhysicsEffect.class, GdxPhysicsEffectGO.class);
-		effectFactory.put(PhApplyImpluseEf.class, GdxApplyForceGO.class);
+	private static final String GDX_PLUGIN_TXT = "ead/engine/gdx/plugins.txt";
+
+	public GdxPluginHandler(ReflectionProvider reflectionProvider,
+			AssetHandler assetHandler, EffectGOFactory effectFactory,
+			SceneElementGOFactory sceneElementFactory,
+			EventGOFactory eventGOFactory) {
+		super(reflectionProvider, assetHandler, effectFactory,
+				sceneElementFactory, eventGOFactory);
 	}
 
 	@Override
-	public void install(SceneElementGOFactory sceneElementFactory) {
-
-	}
-
-	@Override
-	public void install(EventGOFactory eventGOFactory) {
-
+	public void initialize() {
+		super.initialize();
+		load(GDX_PLUGIN_TXT);
 	}
 
 }

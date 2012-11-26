@@ -37,7 +37,6 @@
 
 package ead.engine.core.input;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -53,7 +52,6 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.actions.DragInputAction;
 import ead.engine.core.input.actions.KeyInputAction;
@@ -89,8 +87,6 @@ public class InputHandlerImpl implements InputHandler {
 	private GameState gameState;
 
 	private boolean checkDrag = true;
-
-	private ArrayList<DrawableGO<?>> gameObjectsUnderMouse = new ArrayList<DrawableGO<?>>();
 
 	private GameTracker tracker;
 
@@ -302,20 +298,9 @@ public class InputHandlerImpl implements InputHandler {
 
 	private DrawableGO<?> getGOUnderMouse() {
 		if (checkState(MouseState.POINTER_INSIDE)) {
-			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
-				DrawableGO<?> tempGameObject = gameObjects
-						.getGameObjects().get(i);
-				if (tempGameObject != mouseHandler
-						.getDraggingGameObject()) {
-					EAdTransformation t = tempGameObject
-							.getTransformation();
-					if (contains(tempGameObject,
-							mouseHandler.getMouseX(),
-							mouseHandler.getMouseY(), t)) {
-						return tempGameObject;
-					}
-				}
-			}
+			return gameState.getScene().getFirstGOIn(
+					mouseHandler.getMouseX(),
+					mouseHandler.getMouseY());
 		}
 		return null;
 	}
@@ -396,24 +381,11 @@ public class InputHandlerImpl implements InputHandler {
 	}
 
 	private List<DrawableGO<?>> getAllGOUnderMouse() {
-		gameObjectsUnderMouse.clear();
 		if (checkState(MouseState.POINTER_INSIDE)) {
-			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
-				DrawableGO<?> tempGameObject = gameObjects
-						.getGameObjects().get(i);
-				if (tempGameObject != mouseHandler
-						.getDraggingGameObject()) {
-					EAdTransformation t = tempGameObject
-							.getTransformation();
-					if (contains(tempGameObject,
-							mouseHandler.getMouseX(),
-							mouseHandler.getMouseY(), t)) {
-						gameObjectsUnderMouse.add(tempGameObject);
-					}
-				}
-			}
+			return gameState.getScene().getAllGOIn(mouseHandler.getMouseX(),
+					mouseHandler.getMouseY());
 		}
-		return gameObjectsUnderMouse;
+		return null;
 	}
 
 	@Override

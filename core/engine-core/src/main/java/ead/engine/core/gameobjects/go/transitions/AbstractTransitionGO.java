@@ -43,11 +43,12 @@ import java.util.List;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGOImpl;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.input.InputAction;
@@ -56,18 +57,32 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
-public abstract class AbstractTransitionGO<T extends EAdTransition> extends
-		SceneElementGOImpl<T> implements TransitionGO<T> {
+public abstract class AbstractTransitionGO<T extends EAdTransition>
+		extends ComplexSceneElementGOImpl<T> implements
+		TransitionGO<T> {
+
+	public AbstractTransitionGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory, SceneLoader sceneLoader,
+			InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				evaluatorFactory, eventFactory);
+		this.sceneLoader = sceneLoader;
+		this.inputHandler = inputHandler;
+		listeners = new ArrayList<TransitionListener>();
+		firstUpdate = true;
+	}
 
 	protected InputHandler inputHandler;
 
 	protected T transition;
 
-	protected SceneGO previousScene;
+	protected SceneGO<?> previousScene;
 
 	protected EAdScene nextScene;
 
-	protected SceneGO nextSceneGO;
+	protected SceneGO<?> nextSceneGO;
 
 	protected SceneLoader sceneLoader;
 
@@ -79,28 +94,18 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	private boolean firstUpdate;
 
-	public AbstractTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
-		this.sceneLoader = sceneLoader;
-		this.inputHandler = inputHandler;
-		listeners = new ArrayList<TransitionListener>();
-		firstUpdate = true;
-	}
-
-	public void setPrevious(SceneGO scene) {
+	public void setPrevious(SceneGO<?> scene) {
 		this.previousScene = scene;
 		gameState.getValueMap().clearUpdateList();
-		gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT, false);
+		gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT,
+				false);
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();
 		}
 	}
 
 	@Override
-	public void sceneLoaded(SceneGO sceneGO) {
+	public void sceneLoaded(SceneGO<?> sceneGO) {
 		nextSceneGO = sceneGO;
 		loaded = true;
 		loading = false;
@@ -145,7 +150,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			sceneLoader.freeUnusedAssets(nextSceneGO, previousScene);
 
 			gameState.setScene(nextSceneGO);
-			gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT, true);
+			gameState.getValueMap().setValue(
+					SystemFields.PROCESS_INPUT, true);
 			for (TransitionListener l : this.getTransitionListeners()) {
 				l.transitionEnds();
 			}
@@ -161,7 +167,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		return listeners;
 	}
 
-	public SceneGO getNextSceneGO() {
+	public SceneGO<?> getNextSceneGO() {
 		return nextSceneGO;
 	}
 

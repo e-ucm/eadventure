@@ -53,5 +53,5 @@ public interface SceneLoaderListener {
 	 * @param sceneGO
 	 *            the game object for the loaded scene
 	 */
-	void sceneLoaded(SceneGO sceneGO);
+	void sceneLoaded(SceneGO<?> sceneGO);
 }

@@ -41,7 +41,6 @@ import java.util.List;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoaderListener;
 
@@ -49,7 +48,7 @@ import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoaderListen
  * A transition game object
  * 
  */
-public interface TransitionGO<T extends EAdTransition> extends SceneElementGO<T>,
+public interface TransitionGO<T extends EAdTransition> extends SceneGO<T>,
 		SceneLoaderListener {
 
 	/**
@@ -58,7 +57,7 @@ public interface TransitionGO<T extends EAdTransition> extends SceneElementGO<T>
 	 * @param scene
 	 *            the previous scene
 	 */
-	void setPrevious(SceneGO scene);
+	void setPrevious(SceneGO<?> scene);
 
 	/**
 	 * Sets the next scene for the transition
@@ -102,6 +101,6 @@ public interface TransitionGO<T extends EAdTransition> extends SceneElementGO<T>
 
 	}
 
-	SceneGO getNextSceneGO();
+	SceneGO<?> getNextSceneGO();
 
 }

@@ -37,10 +37,9 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
-import com.google.inject.Inject;
-
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.util.Interpolator;
+import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -50,7 +49,8 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
-public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
+public class FadeInTransitionGO extends
+		AbstractTransitionGO<FadeInTransition> {
 
 	private boolean finished;
 
@@ -60,13 +60,14 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
 
 	private int currentTime;
 
-	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory, SceneLoader sceneLoader,
+			InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				evaluatorFactory, eventFactory, sceneLoader,
+				inputHandler);
 		finished = false;
 		currentTime = 0;
 	}
@@ -84,8 +85,9 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
 			if (currentTime - startTime >= element.getTime()) {
 				finished = true;
 			} else {
-				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
-						- startTime, element.getTime(), 1.0f));
+				sceneAlpha = (Interpolator.LINEAR.interpolate(
+						currentTime - startTime, element.getTime(),
+						1.0f));
 			}
 		}
 	}

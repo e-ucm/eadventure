@@ -37,11 +37,10 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
-import com.google.inject.Inject;
-
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -54,6 +53,20 @@ import ead.engine.core.util.EAdTransformationImpl;
 
 public class DisplaceTransitionGO extends
 		AbstractTransitionGO<DisplaceTransition> {
+
+	public DisplaceTransitionGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory, SceneLoader sceneLoader,
+			InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				evaluatorFactory, eventFactory, sceneLoader, inputHandler);
+		finished = false;
+		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
+		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
+		transformation = new EAdTransformationImpl();
+		currentTime = 0;
+	}
 
 	private boolean finished;
 
@@ -69,19 +82,6 @@ public class DisplaceTransitionGO extends
 
 	private int currentTime;
 
-	@Inject
-	public DisplaceTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
-		finished = false;
-		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
-		transformation = new EAdTransformationImpl();
-		currentTime = 0;
-	}
 
 	public void doLayout(EAdTransformation t) {
 		super.doLayout(t);
