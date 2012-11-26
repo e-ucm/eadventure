@@ -37,17 +37,28 @@
 
 package ead.engine.core.gdx.desktop.utils.assetviewer;
 
+import com.badlogic.gdx.Gdx;
 import java.awt.Canvas;
 import java.util.List;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.google.inject.Inject;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdURI;
 import ead.engine.core.gdx.utils.assetviewer.AssetApplicationListener;
+import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
+import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import org.slf4j.LoggerFactory;
 
 /**
  * Contains a canvas in which assets can be represented as they will be
@@ -56,12 +67,12 @@ import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
  */
 public class AssetViewer {
 
+	private static final org.slf4j.Logger logger = LoggerFactory
+			.getLogger("AssetViewer");
+
 	private static LwjglAWTCanvas sharedContext;
-
 	private LwjglAWTCanvas canvas;
-
 	private AssetApplicationListener app;
-
 	private AssetHandler assetHandler;
 
 	@Inject
@@ -74,6 +85,70 @@ public class AssetViewer {
 		} else {
 			this.canvas = new LwjglAWTCanvas(app, true, sharedContext);
 		}
+	}
+
+	/**
+	 * used to grab images of whatever is being rendered.
+	 */
+	public static class ImageGrabber implements Runnable {
+
+		private BufferedImage image;
+		private Runnable callback;
+		private int w;
+		private int h;
+
+		public void setCallback(Runnable callback) {
+			this.callback = callback;
+		}
+
+		private void setSize(int w, int h) {
+			this.w = w;
+			this.h = h;
+		}
+
+		public BufferedImage getImage() {
+			return image;
+		}
+
+		public void writeToFile(File f) {
+			try {
+				ImageIO.write(image, "png", f);
+			} catch (IOException ex) {
+				logger.error("could not write image", ex);
+			}
+		}
+
+		@Override
+		public void run() {
+			if (w <= 0 || h <= 0) {
+				throw new IllegalStateException("Invalid size");
+			}
+
+			BufferedImage bi = new BufferedImage(w, h,
+					BufferedImage.TYPE_INT_ARGB);
+			WritableRaster wr = bi.getRaster();
+			byte[] bytes = ScreenUtils.getFrameBufferPixels(0, 0, w, h, true);
+			int[] pixel = new int[4];
+			for (int y = 0, b = 0; y < h; y++) {
+				for (int x = 0; x < w; x++) {
+					pixel[0] = bytes[b++];
+					pixel[1] = bytes[b++];
+					pixel[2] = bytes[b++];
+					pixel[3] = bytes[b++];
+					wr.setPixel(x, y, pixel);
+				}
+			}
+			image = bi;
+			if (callback != null) {
+				callback.run();
+			}
+		}
+	}
+
+	public void grabImage(ImageGrabber grabber) {
+		grabber.setSize(canvas.getGraphics().getWidth(), canvas.getGraphics()
+				.getHeight());
+		canvas.postRunnable(grabber);
 	}
 
 	public void setDrawable(final EAdDrawable drawable) {

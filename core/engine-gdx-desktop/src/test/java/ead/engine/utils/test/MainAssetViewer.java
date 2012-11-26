@@ -57,14 +57,15 @@ import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.util.EAdURI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.utils.swing.SwingUtilities;
+import java.awt.FlowLayout;
 
 public class MainAssetViewer implements Runnable {
 
 	public static void main(String args[]) throws Exception {
-		Thread.sleep(5000);
 		SwingUtilities.doInEDT(new MainAssetViewer());
 	}
 
@@ -110,31 +111,50 @@ public class MainAssetViewer implements Runnable {
 
 		viewer2.setDrawable(frames);
 
-		JPanel panel = new JPanel(new GridLayout(4, 2));
-		panel.add(viewer1.getCanvas());
-		panel.add(viewer2.getCanvas());
-		panel.add(viewer3.getCanvas());
-		panel.add(viewer4.getCanvas());
-		panel.add(viewer5.getCanvas());
-		panel.add(viewer6.getCanvas());
-		panel.add(viewer7.getCanvas());
-		panel.add(viewer8.getCanvas());
+		JPanel viewerPanel = new JPanel(new GridLayout(4, 2));
+		viewerPanel.add(viewer1.getCanvas());
+		viewerPanel.add(viewer2.getCanvas());
+		viewerPanel.add(viewer3.getCanvas());
+		viewerPanel.add(viewer4.getCanvas());
+		viewerPanel.add(viewer5.getCanvas());
+		viewerPanel.add(viewer6.getCanvas());
+		viewerPanel.add(viewer7.getCanvas());
+		viewerPanel.add(viewer8.getCanvas());
 
-		JFrame frame = new JFrame();
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-
-		JButton button = new JButton("Change");
-		button.addActionListener(new ActionListener() {
-
+		JButton changeButton = new JButton("Change#2");
+		changeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				viewer2.setDrawable(shape);
 			}
-
 		});
 
-		frame.getContentPane().add(button, BorderLayout.SOUTH);
+		JButton grabButton = new JButton("Grab#2");
+		grabButton.addActionListener(new ActionListener() {
+			int i = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final ImageGrabber g = new ImageGrabber();
+				g.setCallback(new Runnable() {
+					@Override
+					public void run() {
+						g.writeToFile(new File("/tmp/f" + (++i) + ".png"));
+					}
+				});
+				viewer2.grabImage(g);
+			}
+		});
+
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new FlowLayout());
+		buttonsPanel.add(changeButton);
+		buttonsPanel.add(grabButton);
+
+		JFrame frame = new JFrame();
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(viewerPanel, BorderLayout.CENTER);
+		frame.getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
 
 		frame.setSize(800, 600);
 		frame.setLocationRelativeTo(null);
