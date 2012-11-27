@@ -35,19 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop.platform.assets;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.view.components;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.common.resources.assets.multimedia.Video;
-import ead.common.util.EAdURI;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
-import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.editor.EditorGuiceModule;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
+import ead.tools.java.JavaToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
 import java.awt.Component;
-import java.io.File;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -56,41 +63,45 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Tests video rendering
+ *
  * @author mfreire
  */
-public class VLCDesktopVideoRendererTest {
+public class EditorLinkTest {
 
-	private EAdVideo video = new Video(
-			"@binary/assets_video_CambiarPosicion.AVIXVID.webm");
-
-	private AssetHandler ah;
-
-	public VLCDesktopVideoRendererTest() {
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info,
-				new Object[] {});
-
-		Injector i = Guice.createInjector(new AssetViewerModule());
-		ah = i.getInstance(AssetHandler.class);
-		ah.setCacheEnabled(false);
-		ah.setResourcesLocation(new EAdURI(new File(
-				"../../demos/firstaidgame/src/main/resources/").getPath()));
+	public EditorLinkTest() {
 	}
 
-	/**
-	 * Test of getVLCComponent method, of class VLCDesktopVideoRenderer.
-	 */
-	@Test
-	public void testGetVLCComponent() {
-		System.out.println("getVLCComponent");
-		EAdVideo asset = null;
-		//		VLCDesktopVideoRenderer instance = new VLCDesktopVideoRenderer(
-		//				(GdxDesktopAssetHandler) ah);
-		//		Component result = instance.getVLCComponent(asset);
+	@BeforeClass
+	public static void setUpClass() {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
+				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+				"EditorModel", Log4jConfig.Slf4jLevel.Debug, "EditorAnnotator",
+				Log4jConfig.Slf4jLevel.Debug, "EAdventureImporter",
+				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
+				Log4jConfig.Slf4jLevel.Debug, });
+
+		Injector injector = Guice.createInjector(new BaseImporterModule(),
+				new GdxDesktopModule(), new EditorGuiceModule(),
+				new JavaToolsModule());
+
+		// init reflection
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+
 	}
 
 	public static void main(String[] args) {
-		VLCDesktopVideoRendererTest t = new VLCDesktopVideoRendererTest();
-		t.testGetVLCComponent();
+
+		Component[] c = new Component[] {
+		//new EditorLink("hi", "hullo", )
+		};
+
+		JFrame jf = new JFrame();
+		jf.setLayout(new FlowLayout());
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setSize(800, 600);
+		jf.setLocationRelativeTo(null);
+		jf.setVisible(true);
 	}
 }

@@ -64,7 +64,7 @@ public class AssetNode extends EditorNode {
 	}
 
 	public AssetDescriptor getDescriptor() {
-		return (AssetDescriptor)(getFirst().getContent());
+		return (AssetDescriptor) (getFirst().getContent());
 	}
 
 	public void setDescriptor(AssetDescriptor descriptor) {
@@ -80,17 +80,20 @@ public class AssetNode extends EditorNode {
 		for (String s : sources) {
 			sb.append("\t<source>").append(s).append("</source>\n");
 		}
-		sb.append("\t<notes>").append(notes.trim()).append("</notes>\n");
+		sb.append("\t<notes>").append(notes != null ? notes.trim() : "")
+				.append("</notes>\n");
 	}
 
 	@Override
 	public void restoreInner(Element element) {
 		sources.clear();
 		NodeList sourceList = element.getElementsByTagName("source");
-		for (int i=0; i<sourceList.getLength(); i++) {
+		for (int i = 0; i < sourceList.getLength(); i++) {
 			sources.add(sourceList.item(i).getTextContent().trim());
 		}
-		notes = element.getElementsByTagName("notes").item(0).getTextContent().trim();
+		notes = element.getElementsByTagName("notes").item(0).getTextContent()
+				.trim();
+		getFirst().setManager(this);
 	}
 
 	@Override
@@ -98,9 +101,9 @@ public class AssetNode extends EditorNode {
 		AssetDescriptor d = getDescriptor();
 		if (d instanceof Video || d instanceof Image || d instanceof Sound) {
 			String s = d.toString();
-			return s.substring(s.indexOf("/")+1);
+			return s.substring(s.indexOf("/") + 1);
 		} else {
-			return ""+getFirst().getId();
+			return "" + getFirst().getId();
 		}
 	}
 

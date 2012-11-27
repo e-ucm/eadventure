@@ -35,78 +35,40 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics;
+package ead.common.resources.assets;
 
+import com.gwtent.reflection.client.Reflectable;
 import ead.common.interfaces.Param;
-import ead.common.resources.assets.AbstractAssetDescriptor;
-import ead.common.util.EAdURI;
+import ead.common.model.elements.BasicElement;
 
 /**
- * An image asset
- *
+ * Classes that implement this interface represent an asset. An asset
+ * is any element that can be represented within an eAdventure game.
  */
-public class Image extends AbstractAssetDescriptor implements EAdImage {
+@Reflectable
+public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
-	@Param("uri")
-	private EAdURI uri;
+	@Param("id")
+	private String id;
 
-	/**
-	 * Constructs an empty
-	 */
-	public Image() {
-
+	public AbstractAssetDescriptor() {
+		this.id = BasicElement.classToString(this.getClass())
+				+ BasicElement.randomSuffix();
 	}
 
 	/**
-	 * Constructs an image with the given URI
+	 * Get the element ID. This is guaranteed to be unique.
 	 *
-	 * @param uri
-	 *            the image's URI
+	 * @return the id
 	 */
-	public Image(String uri) {
-		this.uri = new EAdURI(uri);
+	public String getId() {
+		return id;
 	}
 
 	/**
-	 * Constructs an image with the given URI
-	 * @param uri the URI
+	 * Set the element ID. The ID must be unique.
 	 */
-	public Image(EAdURI uri) {
-		this.uri = uri;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	@Override
-	public EAdURI getUri() {
-		return uri;
-	}
-
-	@Override
-	public void setUri(EAdURI uri) {
-		this.uri = uri;
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof EAdImage) {
-			EAdURI uri = ((EAdImage) o).getUri();
-			if (uri == null && this.uri == null) {
-				return true;
-			}
-
-			if (uri != null && this.uri != null) {
-				return uri.equals(this.uri);
-			}
-
-			return false;
-		}
-		return false;
-	}
-
-	public int hashCode() {
-		return (uri != null ? uri.hashCode() : 0);
-	}
-
-	public String toString() {
-		return "Img:" + uri;
-	}
-
 }

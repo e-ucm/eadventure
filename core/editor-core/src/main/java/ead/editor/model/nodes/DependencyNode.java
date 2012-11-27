@@ -52,6 +52,7 @@ public abstract class DependencyNode<T> {
 	private int id;
 	protected T content;
 	private Document doc;
+	private DependencyNode manager;
 
 	public DependencyNode(int id, T content) {
 		this.id = id;
@@ -59,8 +60,20 @@ public abstract class DependencyNode<T> {
 		this.doc = new Document();
 	}
 
+	public void setManager(DependencyNode manager) {
+		this.manager = manager;
+	}
+
+	public boolean isManaged() {
+		return manager != null;
+	}
+
+	public DependencyNode getManager() {
+		return manager;
+	}
+
 	public String getLinkText() {
-		return ""+id;
+		return "" + id;
 	}
 
 	public String getLinkIcon() {

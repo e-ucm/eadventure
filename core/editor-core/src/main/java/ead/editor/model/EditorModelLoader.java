@@ -61,10 +61,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.google.inject.Inject;
-import ead.common.model.EAdElement;
+import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
+import ead.editor.model.nodes.AssetFactory;
 import ead.editor.model.nodes.AssetsNode;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
@@ -161,6 +162,7 @@ public class EditorModelLoader {
 		this.saveDir = null;
 
 		importNodeFactories.add(new ActorFactory());
+		importNodeFactories.add(new AssetFactory());
 	}
 
 	public void setModel(EditorModelImpl model) {
@@ -292,16 +294,16 @@ public class EditorModelLoader {
 	private DependencyNode createOrUnfreezeNode(Object targetContent) {
 
 		DependencyNode node;
-		if (targetContent instanceof EAdElement) {
-			EAdElement e = (EAdElement) targetContent;
+		if (targetContent instanceof Identified) {
+			String oid = ((Identified) targetContent).getId();
 			int eid = model.getEditorId(targetContent);
 			if (eid != model.badElementId) {
 				// content is eadElement, and has editor-id: unfreeze
 				logger.debug("Found existing eID marker in {}: {}",
-						targetContent.getClass().getSimpleName(), e.getId());
+						targetContent.getClass().getSimpleName(), oid);
 				node = model.getNodesById().get(eid);
 				if (node == null) {
-					node = new EngineNode(eid, e);
+					node = new EngineNode(eid, targetContent);
 					model.getNodesById().put(eid, node);
 				} else {
 					if (!node.getContent().equals(targetContent)) {
@@ -321,17 +323,17 @@ public class EditorModelLoader {
 				if (isLoading) {
 					logger.error(
 							"Loaded EAdElement {} of type {} had no editor ID",
-							new String[] { e.getId(),
-									e.getClass().getSimpleName() });
+							new String[] { oid,
+									targetContent.getClass().getSimpleName() });
 					throw new IllegalStateException("Corrupted save-file: "
 							+ "no eid assigned to loaded objects");
 				} else {
 					eid = model.generateId(targetContent);
-					decorated = model.decorateIdWithEid(e.getId(), eid);
+					decorated = model.decorateIdWithEid(oid, eid);
 					logger.debug("Created eID marker for {}: {} ({})",
-							new Object[] { e.getId(), eid, decorated });
-					e.setId(decorated);
-					node = new EngineNode(eid, e);
+							new Object[] { oid, eid, decorated });
+					((Identified) targetContent).setId(decorated);
+					node = new EngineNode(eid, targetContent);
 					model.getNodesById().put(eid, node);
 				}
 			}
@@ -428,7 +430,7 @@ public class EditorModelLoader {
 
 	/**
 	 * Builds EditorNodes from EngineNodes.
-	 * Requires a 'hot' (recently updated) EditorAnnotator. Discards 
+	 * Requires a 'hot' (recently updated) EditorAnnotator. Discards
 	 * annotator information after use.
 	 */
 	private void createEditorNodes() {

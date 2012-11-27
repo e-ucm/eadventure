@@ -35,78 +35,51 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics;
+package ead.editor.model.nodes;
 
-import ead.common.interfaces.Param;
-import ead.common.resources.assets.AbstractAssetDescriptor;
-import ead.common.util.EAdURI;
+import ead.common.model.EAdElement;
+import ead.common.resources.assets.AssetDescriptor;
+import ead.editor.model.EditorAnnotator;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ead.editor.model.EditorModelImpl;
+import java.util.HashSet;
 
 /**
- * An image asset
- *
+ * A factory that recognizes attrezzo-nodes
+ * @author mfreire
  */
-public class Image extends AbstractAssetDescriptor implements EAdImage {
-
-	@Param("uri")
-	private EAdURI uri;
-
-	/**
-	 * Constructs an empty
-	 */
-	public Image() {
-
-	}
+public class AssetFactory implements EditorNodeFactory {
+	private static final Logger logger = LoggerFactory
+			.getLogger("AssetFactory");
 
 	/**
-	 * Constructs an image with the given URI
-	 *
-	 * @param uri
-	 *            the image's URI
+	 * Find and create EditorNodes for actors
+	 * @param annotator annotations for nodes (by ID)
+	 * @param model where the nodes should be inserted, via registerEditorNode
 	 */
-	public Image(String uri) {
-		this.uri = new EAdURI(uri);
-	}
-
-	/**
-	 * Constructs an image with the given URI
-	 * @param uri the URI
-	 */
-	public Image(EAdURI uri) {
-		this.uri = uri;
-	}
-
 	@Override
-	public EAdURI getUri() {
-		return uri;
-	}
+	public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
 
-	@Override
-	public void setUri(EAdURI uri) {
-		this.uri = uri;
-	}
+		ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
 
-	public boolean equals(Object o) {
-		if (o instanceof EAdImage) {
-			EAdURI uri = ((EAdImage) o).getUri();
-			if (uri == null && this.uri == null) {
-				return true;
+		for (DependencyNode n : model.getNodesById().values()) {
+			if (!(n instanceof EngineNode)
+					|| !(n.getContent() instanceof AssetDescriptor)) {
+				continue;
 			}
-
-			if (uri != null && this.uri != null) {
-				return uri.equals(this.uri);
-			}
-
-			return false;
+			EditorNode an = new AssetNode(model.generateId(null));
+			n.setManager(an);
+			an.addChild(n);
+			newNodes.add(an);
 		}
-		return false;
-	}
 
-	public int hashCode() {
-		return (uri != null ? uri.hashCode() : 0);
+		// now, register them
+		for (EditorNode en : newNodes) {
+			logger.info("Registered {} as an AssetNode", en.getId());
+			model.registerEditorNodeWithGraph(en);
+		}
 	}
-
-	public String toString() {
-		return "Img:" + uri;
-	}
-
 }

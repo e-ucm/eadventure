@@ -40,6 +40,7 @@ package ead.editor.view.panel;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.components.CheapVerticalLayout;
 import ead.editor.view.components.EditorLink;
+import ead.editor.view.components.EditorLinkFactory;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -90,11 +91,6 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 		row.add(jl);
 	}
 
-	private void addButtonToRow(JPanel row, String text, String id) {
-		logger.debug("   appending button for id: " + id);
-		row.add(new EditorLink(text, id, null, controller));
-	}
-
 	@Override
 	protected void rebuild() {
 		removeAll();
@@ -118,7 +114,8 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 			} else {
 				addLabelToRow(row, st.substring(offset, m.start()));
 				String id = st.substring(m.start(1), m.end(1));
-				addButtonToRow(row, id, id);
+				row.add(EditorLinkFactory.createLink(Integer.parseInt(id),
+						controller));
 			}
 			offset = m.end();
 		}

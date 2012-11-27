@@ -294,27 +294,27 @@ public class VLCDesktopVideoRenderer implements
 			vlcOptions = "--vout=macosx";
 			vlcLoaded = true;
 		} else if (os.contains("linux")) {
-			File[] libDirs = new File[] { new File("/usr/lib/vlc"),
-					new File("/usr/local/lib/vlc") };
-			File libDir = null;
-			for (File d : libDirs) {
-				if (d.exists()) {
-					libDir = d;
-					break;
-				}
-			}
-			if (libDir != null) {
-				logger.info("VLC installation at {}", libDir);
-				String pathPlugins = new File(libDir, "plugins")
-						.getAbsolutePath();
-				String pathLibvlc = libDir.getAbsolutePath();
-				NativeLibrary.addSearchPath("vlc", pathLibvlc);
-				System.setProperty("jna.library.path", pathLibvlc);
-				System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
-				vlcLoaded = true;
-			} else {
-				logger.error("No VLC installations found (linux OS)");
-			}
+			//			File[] libDirs = new File[] { new File("/usr/lib/vlc"),
+			//					new File("/usr/local/lib/vlc") };
+			//			File libDir = null;
+			//			for (File d : libDirs) {
+			//				if (d.exists()) {
+			//					libDir = d;
+			//					break;
+			//				}
+			//			}
+			//			if (libDir != null) {
+			//				logger.info("VLC installation at {}", libDir);
+			//				String pathPlugins = new File(libDir, "plugins")
+			//						.getAbsolutePath();
+			//				String pathLibvlc = libDir.getAbsolutePath();
+			//				NativeLibrary.addSearchPath("vlc", pathLibvlc);
+			//				System.setProperty("jna.library.path", pathLibvlc);
+			//				System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
+			//				vlcLoaded = true;
+			//			} else {
+			//				logger.error("No VLC installations found (linux OS)");
+			//			}
 		} else {
 			logger.error("OS '{}' not supported by VLC video plugin", os);
 		}

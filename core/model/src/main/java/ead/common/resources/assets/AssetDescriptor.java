@@ -38,12 +38,12 @@
 package ead.common.resources.assets;
 
 import com.gwtent.reflection.client.Reflectable;
+import ead.common.interfaces.features.Identified;
 
 /**
  * Classes that implement this interface represent an asset. An asset
  * is any element that can be represented within an eAdventure game.
  */
 @Reflectable
-public interface AssetDescriptor {
-
+public interface AssetDescriptor extends Identified {
 }

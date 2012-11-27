@@ -40,13 +40,15 @@ package ead.common.resources.assets.drawable.basics.animation;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
 /**
  * Represents a frames animation. Contains frames
- * 
+ *
  */
-public class FramesAnimation implements EAdDrawable {
+public class FramesAnimation extends AbstractAssetDescriptor implements
+		EAdDrawable {
 
 	@Param("frames")
 	private EAdList<Frame> frames;
@@ -62,7 +64,7 @@ public class FramesAnimation implements EAdDrawable {
 
 	/**
 	 * Adds a frame to the and of the animation
-	 * 
+	 *
 	 * @param frame
 	 */
 	public void addFrame(Frame frame) {
@@ -72,7 +74,7 @@ public class FramesAnimation implements EAdDrawable {
 
 	/**
 	 * Returns the frame situated at the given index
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return the frame at the index
@@ -83,7 +85,7 @@ public class FramesAnimation implements EAdDrawable {
 
 	/**
 	 * Returns the total number of frames of this animation
-	 * 
+	 *
 	 * @return the number of frames
 	 */
 	public int getFrameCount() {

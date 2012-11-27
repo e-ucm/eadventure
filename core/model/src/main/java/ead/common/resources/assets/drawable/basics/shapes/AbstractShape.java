@@ -2,9 +2,11 @@ package ead.common.resources.assets.drawable.basics.shapes;
 
 import ead.common.interfaces.Param;
 import ead.common.params.paint.EAdPaint;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 
-public abstract class AbstractShape implements EAdShape {
+public abstract class AbstractShape extends AbstractAssetDescriptor implements
+		EAdShape {
 
 	@Param("paint")
 	private EAdPaint paint;

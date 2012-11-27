@@ -38,15 +38,16 @@
 package ead.common.resources.assets.text;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdURI;
 
 /**
  * EAdFont represents a text font and its metrics
- * 
+ *
  */
-public class BasicFont implements EAdFont {
+public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 
 	/**
 	 * Name of the font

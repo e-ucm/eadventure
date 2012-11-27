@@ -35,78 +35,22 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics;
-
-import ead.common.interfaces.Param;
-import ead.common.resources.assets.AbstractAssetDescriptor;
-import ead.common.util.EAdURI;
+package ead.common.interfaces.features;
 
 /**
- * An image asset
- *
+ * Interface that declares that the object has an Id attribute.
  */
-public class Image extends AbstractAssetDescriptor implements EAdImage {
-
-	@Param("uri")
-	private EAdURI uri;
+public interface Identified {
 
 	/**
-	 * Constructs an empty
-	 */
-	public Image() {
-
-	}
-
-	/**
-	 * Constructs an image with the given URI
+	 * Get the element ID. This is guaranteed to be unique.
 	 *
-	 * @param uri
-	 *            the image's URI
+	 * @return the id
 	 */
-	public Image(String uri) {
-		this.uri = new EAdURI(uri);
-	}
+	String getId();
 
 	/**
-	 * Constructs an image with the given URI
-	 * @param uri the URI
+	 * Set the element ID. The ID must be unique.
 	 */
-	public Image(EAdURI uri) {
-		this.uri = uri;
-	}
-
-	@Override
-	public EAdURI getUri() {
-		return uri;
-	}
-
-	@Override
-	public void setUri(EAdURI uri) {
-		this.uri = uri;
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof EAdImage) {
-			EAdURI uri = ((EAdImage) o).getUri();
-			if (uri == null && this.uri == null) {
-				return true;
-			}
-
-			if (uri != null && this.uri != null) {
-				return uri.equals(this.uri);
-			}
-
-			return false;
-		}
-		return false;
-	}
-
-	public int hashCode() {
-		return (uri != null ? uri.hashCode() : 0);
-	}
-
-	public String toString() {
-		return "Img:" + uri;
-	}
-
+	void setId(String id);
 }

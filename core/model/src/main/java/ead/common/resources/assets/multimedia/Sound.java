@@ -38,13 +38,14 @@
 package ead.common.resources.assets.multimedia;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.util.EAdURI;
 
 /**
  * Basic sound implementation
- * 
+ *
  */
-public class Sound implements EAdSound {
+public class Sound extends AbstractAssetDescriptor implements EAdSound {
 
 	@Param("uri")
 	private EAdURI uri;
@@ -55,7 +56,7 @@ public class Sound implements EAdSound {
 
 	/**
 	 * Creates a sound asset with the given URI
-	 * 
+	 *
 	 * @param uri
 	 *            the URI
 	 */

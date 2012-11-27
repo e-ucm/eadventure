@@ -51,7 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import ead.common.model.EAdElement;
+import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyEdge;
@@ -158,7 +158,7 @@ public class EditorModelImpl implements EditorModel {
 		this.loader = loader;
 	}
 
-	// ----- nodes 
+	// ----- nodes
 
 	@Override
 	public DependencyNode getNode(int id) {
@@ -177,7 +177,7 @@ public class EditorModelImpl implements EditorModel {
 	@Override
 	public int generateId(Object targetObject) {
 
-		int assigned = (targetObject == null || targetObject instanceof EAdElement) ? lastElementNodeId++
+		int assigned = (targetObject == null || targetObject instanceof Identified) ? lastElementNodeId++
 				: lastTransientNodeId++;
 
 		if (nodesById.containsKey(assigned)) {
@@ -217,10 +217,10 @@ public class EditorModelImpl implements EditorModel {
 	 */
 	@Override
 	public int getEditorId(Object o) {
-		if (o instanceof EAdElement) {
-			EAdElement e = (EAdElement) o;
+		if (o instanceof Identified) {
+			Identified i = (Identified) o;
 
-			Matcher m = editorIdPattern.matcher(e.getId());
+			Matcher m = editorIdPattern.matcher(i.getId());
 			if (m.find()) {
 				return Integer.parseInt(m.group(1));
 			}
