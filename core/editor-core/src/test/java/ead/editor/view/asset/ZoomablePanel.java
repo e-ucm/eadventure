@@ -51,6 +51,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A zoomable JPanel. Catches mouse scrolling and translates it into zooming
@@ -60,6 +62,9 @@ import javax.swing.JViewport;
  * @author mfreire
  */
 public class ZoomablePanel extends JPanel {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ZoomablePanelHolder");
 
 	private double zoomFactor = 1.08;
 	private boolean zoomXAxis = true;
@@ -171,7 +176,8 @@ public class ZoomablePanel extends JPanel {
 	}
 
 	private void zoom(Point p, double dx, double dy) {
-		System.err.println("to request size of " + width + "x" + height);
+		logger.debug("ZoomablePanel requesting {}x{}", new Object[] { width,
+				height });
 		setPreferredSize(new Dimension(width, height));
 
 		if (p != null) {
