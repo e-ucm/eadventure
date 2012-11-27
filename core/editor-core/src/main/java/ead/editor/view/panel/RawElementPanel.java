@@ -38,15 +38,14 @@
 package ead.editor.view.panel;
 
 import ead.editor.model.nodes.DependencyNode;
-import ead.editor.view.EditorWindow;
-import ead.editor.view.dock.ElementPanel;
-import ead.editor.view.CheapVerticalLayout;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import ead.editor.view.components.CheapVerticalLayout;
+import ead.editor.view.components.EditorLink;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -93,15 +92,7 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 
 	private void addButtonToRow(JPanel row, String text, String id) {
 		logger.debug("   appending button for id: " + id);
-		JButton jb = new JButton(htmlize(id));
-		jb.setForeground(Color.blue);
-		jb.setBorderPainted(false);
-		jb.setMargin(new Insets(0, 0, 0, 0));
-		jb.setContentAreaFilled(false);
-		jb.addActionListener(new OpenLinkAction(id));
-
-		jb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		row.add(jb);
+		row.add(new EditorLink(text, id, null, controller));
 	}
 
 	@Override
@@ -134,23 +125,5 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 		addLabelToRow(row, st.substring(offset));
 
 		revalidate();
-	}
-
-	private String htmlize(String s) {
-		return "<html>" + s + "</html>";
-	}
-
-	class OpenLinkAction implements ActionListener {
-
-		String id;
-
-		private OpenLinkAction(String id) {
-			this.id = id;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			controller.getViewController().addView("", id, true);
-		}
 	}
 }

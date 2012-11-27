@@ -35,79 +35,65 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.view.components;
 
-import ead.editor.R;
-import ead.editor.model.EditorModel;
-import org.apache.lucene.document.Document;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
 /**
- * The editor uses these nodes to encapsulate actual model objects, be they
- * Resources or EAdElements. The nodes are expected to be collected into
- * a large model graph, and must have a model-wide unique id.
- *
+ * An alternative to a vertical BoxLayout that stacks things vertically
+ * (assigning all equal spaces) without stretching them.
  * @author mfreire
  */
-public abstract class DependencyNode<T> {
-	private int id;
-	protected T content;
-	private Document doc;
+public class CheapVerticalLayout implements LayoutManager {
 
-	public DependencyNode(int id, T content) {
-		this.id = id;
-		this.content = content;
-		this.doc = new Document();
-	}
+	private Dimension min = new Dimension(10, 10);
+	private Dimension pref = new Dimension(10, 10);
+	private int maxRowHeight = 0;
 
-	public String getLinkText() {
-		return ""+id;
-	}
-
-	public String getLinkIcon() {
-		return R.Drawable.assets__engine_png;
-	}
-
-	public T getContent() {
-		return content;
-	}
-
-	public Document getDoc() {
-		return doc;
-	}
-
-	public void setContent(T content) {
-		this.content = content;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		if (this.id == -1) {
-			this.id = id;
-		} else {
-			throw new IllegalArgumentException(
-					"Can only change temporary ids (== -1)");
-		}
+	@Override
+	public void addLayoutComponent(String name, Component comp) {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		if (other == null || (getClass() != other.getClass())) {
-			return false;
-		}
-		return ((DependencyNode) other).id == id;
+	public void removeLayoutComponent(Component comp) {
 	}
 
 	@Override
-	public int hashCode() {
-		return 23 * this.id + 5;
+	public Dimension preferredLayoutSize(Container parent) {
+		int maxX = 0;
+		int maxY = 0;
+		for (int i = 0; i < parent.getComponentCount(); i++) {
+			Component c = parent.getComponent(i);
+			Dimension d = c.getPreferredSize();
+			maxY = Math.max(d.height, maxY);
+			maxX = Math.max(d.width, maxX);
+
+		}
+		maxRowHeight = maxY;
+		pref.setSize(maxX, maxRowHeight * parent.getComponentCount());
+		return pref;
 	}
 
-	/**
-	 * Generates a one-line description with as much information as possible.
-	 * @return a human-readable description of this node
-	 */
-	public abstract String getTextualDescription(EditorModel m);
+	@Override
+	public Dimension minimumLayoutSize(Container parent) {
+		return min;
+	}
+
+	@Override
+	public void layoutContainer(Container parent) {
+		// recalculates row-height
+		preferredLayoutSize(parent);
+		int x = 0;
+		int y = 0;
+		for (int i = 0; i < parent.getComponentCount(); i++) {
+			Component c = parent.getComponent(i);
+			Dimension d = c.getPreferredSize();
+			c.setLocation(x, y + (maxRowHeight - d.height) / 2);
+			c.setSize(d.width, d.height);
+			y += maxRowHeight;
+		}
+	}
 }

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.asset;
+package ead.editor.view.components;
 
 import java.awt.Color;
 import java.awt.Component;

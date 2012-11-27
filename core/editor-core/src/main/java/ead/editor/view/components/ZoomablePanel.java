@@ -39,7 +39,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ead.editor.view.asset;
+package ead.editor.view.components;
 
 import java.awt.Component;
 import java.awt.Cursor;
