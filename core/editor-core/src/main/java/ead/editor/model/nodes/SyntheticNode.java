@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- /**
+/**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
  *    <e-UCM> research group.
  *
@@ -38,22 +35,14 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.asset;
-
-import java.io.File;
-import java.util.ArrayList;
+package ead.editor.model.nodes;
 
 /**
- * Encapsulates an asset for use in the editor. Links back to source file,
- * and can move the asset to deployment dir if needed.
+ * Tagging interface that indicates that this node should not be
+ * persisted or created.
+ *
  * @author mfreire
  */
-public class EditorImageAsset {
-	private Object descriptor;
-	private ArrayList<File> sources;
-	private ArrayList<File> targets;
+public interface SyntheticNode {
 
-	public Object getAsset() {
-		return descriptor;
-	}
 }
