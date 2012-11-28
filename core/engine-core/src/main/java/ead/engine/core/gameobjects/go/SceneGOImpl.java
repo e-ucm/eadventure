@@ -63,8 +63,8 @@ public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene>
 
 	public void setElement(EAdScene element) {
 		super.setElement(element);
-		sceneElements.add(sceneElementFactory.get(element
-				.getBackground()));
+		sceneElements.add(0,
+				sceneElementFactory.get(element.getBackground()));
 		gameState.getValueMap().setValue(element.getBackground(),
 				SceneElement.VAR_Z, Integer.MIN_VALUE);
 	}

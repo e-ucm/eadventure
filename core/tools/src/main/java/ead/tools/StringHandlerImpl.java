@@ -94,7 +94,7 @@ public class StringHandlerImpl implements StringHandler {
 		if (value == null) {
 			value = defaultStrings.get(string);
 		}
-		return value == null ? "" : value;
+		return value == null ? string.toString() : value;
 	}
 
 	@Override
