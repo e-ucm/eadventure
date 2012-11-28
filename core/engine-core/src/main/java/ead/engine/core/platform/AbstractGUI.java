@@ -49,7 +49,11 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.InputActionProcessor;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.input.InputAction;
+import ead.engine.core.input.actions.KeyInputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -82,6 +86,10 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected Game game;
 
+	protected GameState gameState;
+
+	private InputActionProcessor defaultProcessor;
+
 	public AbstractGUI(GameObjectManager gameObjectManager,
 			GenericCanvas<T> canvas) {
 		this.gameObjects = gameObjectManager;
@@ -91,8 +99,11 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	public void initialize(Game game, GameState gameState) {
 		this.game = game;
-		eAdCanvas.setWidth(gameState.getValueMap().getValue(SystemFields.GAME_WIDTH));
-		eAdCanvas.setHeight(gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT));
+		this.gameState = gameState;
+		eAdCanvas.setWidth(gameState.getValueMap().getValue(
+				SystemFields.GAME_WIDTH));
+		eAdCanvas.setHeight(gameState.getValueMap().getValue(
+				SystemFields.GAME_HEIGHT));
 	}
 
 	/*
@@ -194,6 +205,65 @@ public abstract class AbstractGUI<T> implements GUI {
 					newclip.height);
 
 		return t1;
+	}
+
+	public DrawableGO<?> processAction(InputAction<?> action) {
+		DrawableGO<?> go = null;
+		if (action instanceof MouseInputAction) {
+			MouseInputAction m = (MouseInputAction) action;
+			go = hudProcess(m);
+			if (go == null) {
+				gameState.getScene().processAction(action);
+			}
+		} else if (action instanceof KeyInputAction) {
+			KeyInputAction k = (KeyInputAction) action;
+			go = gameState.getActiveElement();
+			// only the active element gets a try to consume it
+			if (go != null) {
+				go.processAction(k);
+			}
+		}
+
+		if (!action.isConsumed()) {
+			// Fire default behavior
+			if (defaultProcessor != null) {
+				go = defaultProcessor.processAction(action);
+			}
+
+		}
+		return go;
+	}
+
+	public DrawableGO<?> getGameObjectIn(int x, int y) {
+		DrawableGO<?> go = null;
+		int i = getHUDs().size() - 1;
+		while (go == null && i >= 0) {
+			HudGO hud = getHUDs().get(i--);
+			if (hud.contains(x, y)) {
+				go = hud.getFirstGOIn(x, y);
+			}
+		}
+		if (go == null) {
+			return gameState.getScene().getFirstGOIn(x, y);
+		}
+		return go;
+	}
+
+	public void setDefaultInputActionProcessor(
+			InputActionProcessor processor) {
+		this.defaultProcessor = processor;
+	}
+
+	private DrawableGO<?> hudProcess(MouseInputAction a) {
+		DrawableGO<?> go = null;
+		int i = getHUDs().size() - 1;
+		while (!a.isConsumed() && i >= 0) {
+			HudGO hud = getHUDs().get(i--);
+			if (hud.contains(a.getVirtualX(), a.getVirtualY())) {
+				go = hud.processAction(a);
+			}
+		}
+		return go;
 	}
 
 }

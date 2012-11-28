@@ -39,6 +39,7 @@ package ead.engine.core.game;
 
 import java.util.List;
 
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
@@ -186,4 +187,17 @@ public interface GameState {
 	 *            sets if persistent effects should also be deleted
 	 */
 	void clearEffects(boolean persistent);
+	
+	/**
+	 * Evaluates a condition, using the required evaluator, based on a given
+	 * {@link ValeMap}.
+	 * 
+	 * @param <T>
+	 *            The actual condition class
+	 * @param condition
+	 *            The condition to be evaluated
+	 * @return The result of evaluating the condition according to the given set
+	 *         of values
+	 */
+	<T extends EAdCondition> boolean evaluate(T condition);
 }

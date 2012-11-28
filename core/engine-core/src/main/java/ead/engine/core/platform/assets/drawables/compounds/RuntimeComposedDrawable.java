@@ -114,6 +114,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 
 	@Override
 	public boolean loadAsset() {
+		super.loadAsset();
 		for (EAdDrawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset, true);
 		return assetHandler != null;
@@ -121,16 +122,9 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 
 	@Override
 	public void freeMemory() {
+		super.freeMemory();
 		for (EAdDrawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset).freeMemory();
-	}
-
-	@Override
-	public boolean isLoaded() {
-		boolean loaded = true;
-		for (EAdDrawable asset : descriptor.getAssetList())
-			loaded = loaded & assetHandler.getRuntimeAsset(asset).isLoaded();
-		return loaded;
 	}
 
 	public void render(GenericCanvas<GraphicContext> c) {

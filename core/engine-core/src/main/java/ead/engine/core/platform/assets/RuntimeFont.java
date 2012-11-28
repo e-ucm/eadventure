@@ -47,7 +47,7 @@ import ead.common.util.EAdRectangle;
  * 
  * {@link RuntimeFont} is born from an {@link EAdFont}
  */
-public interface RuntimeFont {
+public interface RuntimeFont extends RuntimeAsset<EAdFont> {
 
 	/**
 	 * Returns the {@link EAdFont} linked to this object

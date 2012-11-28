@@ -58,6 +58,7 @@ public class GdxSound extends RuntimeSound {
 
 	@Override
 	public boolean loadAsset() {
+		super.loadAsset();
 		FileHandle fh = ((GdxAssetHandler) assetHandler)
 				.getFileHandle(descriptor.getUri().getPath());
 		sound = Gdx.audio.newSound(fh);
@@ -66,12 +67,9 @@ public class GdxSound extends RuntimeSound {
 
 	@Override
 	public void freeMemory() {
+		super.freeMemory();
 		sound.dispose();
-	}
-
-	@Override
-	public boolean isLoaded() {
-		return sound != null;
+		sound = null;
 	}
 
 	@Override

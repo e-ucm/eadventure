@@ -2,4 +2,8 @@
 <resources>
 	<string name="engine.Loading">Loading...</string>
 	<string name="engine.Exit">Exit</string>
+	<string name="engine.Resume">Resume</string>
+	<string name="engine.language">English</string>
+	<string name="engine.language.es_ES">Español</string>
+	<string name="engine.language.it_IT">Italiano</string>
 </resources>

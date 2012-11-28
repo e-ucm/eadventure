@@ -48,6 +48,7 @@ import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
@@ -196,8 +197,8 @@ public class TrajectoryDebugger implements Debugger {
 			map.addDrawable(circle);
 		}
 
-		SceneElement mapElement = new SceneElement(map);
-		mapElement.setPropagateGUIEvents(true);
+		SceneElement mapElement = new GhostElement(map, null);
+		mapElement.setInitialEnable(false);
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
 			EAdSceneElementDef def = e.getDefinition();

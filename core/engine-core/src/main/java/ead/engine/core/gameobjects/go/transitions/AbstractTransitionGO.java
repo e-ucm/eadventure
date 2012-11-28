@@ -42,8 +42,6 @@ import java.util.List;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -63,11 +61,10 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 
 	public AbstractTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory, SceneLoader sceneLoader,
-			InputHandler inputHandler) {
+			GameState gameState, EventGOFactory eventFactory,
+			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				evaluatorFactory, eventFactory);
+				eventFactory);
 		this.sceneLoader = sceneLoader;
 		this.inputHandler = inputHandler;
 		listeners = new ArrayList<TransitionListener>();
@@ -97,8 +94,6 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 	public void setPrevious(SceneGO<?> scene) {
 		this.previousScene = scene;
 		gameState.getValueMap().clearUpdateList();
-		gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT,
-				false);
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();
 		}
@@ -148,10 +143,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 
 		if (isFinished()) {
 			sceneLoader.freeUnusedAssets(nextSceneGO, previousScene);
-
-			gameState.setScene(nextSceneGO);
-			gameState.getValueMap().setValue(
-					SystemFields.PROCESS_INPUT, true);
+			gameState.setScene(nextSceneGO);			
 			for (TransitionListener l : this.getTransitionListeners()) {
 				l.transitionEnds();
 			}
@@ -160,7 +152,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		gui.addElement(previousScene, transformation);
+//		gui.addElement(previousScene, transformation);
 	}
 
 	public List<TransitionListener> getTransitionListeners() {

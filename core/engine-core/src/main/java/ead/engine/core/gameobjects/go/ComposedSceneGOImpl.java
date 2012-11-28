@@ -42,7 +42,6 @@ import java.util.List;
 import ead.common.model.elements.scenes.ComposedScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -58,10 +57,9 @@ public class ComposedSceneGOImpl extends ComplexSceneElementGOImpl<ComposedScene
 
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
+			GameState gameState,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				evaluatorFactory, eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
 	public void doLayout(EAdTransformation transformation) {

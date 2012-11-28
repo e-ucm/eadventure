@@ -122,9 +122,11 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	}
 
 	public void queueSceneToLoad(EAdScene scene) {
-		List<AssetDescriptor> list = sceneGraph.getSceneAssets().get(scene);
+		List<AssetDescriptor> list = sceneGraph.getSceneAssets().get(
+				scene);
 		if (list == null) {
-			logger.warn("Assets for scene {} were empty in the scene graph",
+			logger.warn(
+					"Assets for scene {} were empty in the scene graph",
 					scene.getId());
 		} else {
 			int i = 0;
@@ -233,8 +235,9 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		}
 
 		if (descriptor == null) {
-			logger.error("No such asset. element: " + element.getClass()
-					+ "; bundleId: " + (bundleId != null ? bundleId : "null")
+			logger.error("No such asset. element: "
+					+ element.getClass() + "; bundleId: "
+					+ (bundleId != null ? bundleId : "null")
 					+ "; id: " + id);
 			return null;
 		}
@@ -249,7 +252,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 * es.eucm.eadventure.common.model.EAdElement, java.lang.String)
 	 */
 	@Override
-	public RuntimeAsset<?> getRuntimeAsset(Resourced element, String id) {
+	public RuntimeAsset<?> getRuntimeAsset(Resourced element,
+			String id) {
 		return getRuntimeAsset(element, null, id);
 	}
 
@@ -269,10 +273,14 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	public void clean(List<AssetDescriptor> exceptions) {
 		descriptorsToRemove.clear();
 		synchronized (cache) {
-			for (AssetDescriptor asset : cache.keySet()) {
-				if (!exceptions.contains(asset)) {
-					descriptorsToRemove.add(asset);
+			if (exceptions != null) {
+				for (AssetDescriptor asset : cache.keySet()) {
+					if (!exceptions.contains(asset)) {
+						descriptorsToRemove.add(asset);
+					}
 				}
+			} else {
+				descriptorsToRemove.addAll(cache.keySet());
 			}
 
 			for (AssetDescriptor a : descriptorsToRemove) {

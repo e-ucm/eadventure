@@ -56,8 +56,10 @@ import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
+import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -67,6 +69,7 @@ import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryItem;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 import ead.tools.StringHandler;
 
@@ -112,14 +115,13 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	private Integer height;
 
 	@Inject
-	public InventoryHUDImpl(GUI gui, GameState gameState,
-			SceneElementGOFactory factory, InventoryHandler inventoryHandler,
-			InputHandler inputHandler) {
-		super(gui);
-		valueMap = gameState.getValueMap();
-		this.sceneElementFactory = factory;
-		this.inputHandler = inputHandler;
-		this.inventoryHandler = inventoryHandler;
+	public InventoryHUDImpl(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
+		valueMap = gameState.getValueMap();		
 		isShowing = true;
 		height = valueMap.getValue(SystemFields.GAME_HEIGHT);
 	}
@@ -158,8 +160,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 		inventory.setPosition(new EAdPosition(0, guiHeight, 0.0f,
 				inventoryDispY));
-		SceneElementGO<?> go = sceneElementFactory.get(inventory);
-		addElement(go);
+//		SceneElementGO<?> go = sceneElementFactory.get(inventory);
+//		addElement(go);
 	}
 
 	private void updateState() {

@@ -66,6 +66,7 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	@Override
 	public boolean loadAsset() {
+		super.loadAsset();		
 		try {
 			FileHandle fh = ((GdxAssetHandler) assetHandler)
 					.getFileHandle(descriptor.getUri().getPath());
@@ -104,12 +105,9 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	@Override
 	public void freeMemory() {
+		super.freeMemory();
 		textureRegion.getTexture().dispose();
-	}
-
-	@Override
-	public boolean isLoaded() {
-		return textureRegion != null;
+		textureRegion = null;
 	}
 
 	@Override

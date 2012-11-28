@@ -94,4 +94,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	boolean isVisible();
 
+	void setVisible(boolean visible);
+
 }

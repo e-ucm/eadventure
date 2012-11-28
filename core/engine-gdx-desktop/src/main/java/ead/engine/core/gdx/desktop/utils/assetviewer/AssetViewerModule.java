@@ -48,8 +48,10 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.InputActionProcessor;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
@@ -142,6 +144,25 @@ public class AssetViewerModule extends AbstractModule {
 
 		@Override
 		public List<HudGO> getHUDs() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public DrawableGO<?> processAction(InputAction<?> action) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setDefaultInputActionProcessor(
+				InputActionProcessor processor) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public DrawableGO<?> getGameObjectIn(int x, int y) {
 			// TODO Auto-generated method stub
 			return null;
 		}

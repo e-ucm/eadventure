@@ -80,4 +80,10 @@ public class TestStringsReader implements StringHandler {
 		
 	}
 
+	@Override
+	public void addLanguage(String language) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

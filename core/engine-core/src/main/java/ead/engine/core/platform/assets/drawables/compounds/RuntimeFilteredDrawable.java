@@ -63,6 +63,7 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean loadAsset() {
+		super.loadAsset();
 		drawable = (RuntimeDrawable<?, GraphicContext>) assetHandler
 				.getRuntimeAsset(descriptor.getDrawable(), true);
 
@@ -71,13 +72,10 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 
 	@Override
 	public void freeMemory() {
+		super.freeMemory();
 		if (drawable != null)
 			drawable.freeMemory();
-	}
-
-	@Override
-	public boolean isLoaded() {
-		return drawable != null && drawable.isLoaded();
+		drawable = null;
 	}
 
 	@Override
@@ -107,8 +105,8 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
-			int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time,
+			List<String> states, int level) {
 		return this;
 	}
 

@@ -101,7 +101,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
 		GhostElement newExit = (GhostElement) object;
-		newExit.setPropagateGUIEvents(false);
 		oldObject.getDefaultExitLook();
 
 		// Shape

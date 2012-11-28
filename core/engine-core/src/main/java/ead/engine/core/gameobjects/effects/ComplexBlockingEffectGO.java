@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ComplexBlockingEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -55,14 +54,11 @@ import ead.engine.core.util.EAdTransformation;
 public class ComplexBlockingEffectGO extends
 		AbstractEffectGO<ComplexBlockingEffect> {
 
-	private EvaluatorFactory evaluatorFactory;
-
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory) {
+			GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
-		this.evaluatorFactory = evaluatorFactory;
 	}
 
 	public void initialize() {
@@ -97,7 +93,7 @@ public class ComplexBlockingEffectGO extends
 
 	@Override
 	public boolean isFinished() {
-		return evaluatorFactory.evaluate(element.getEndCondition());
+		return gameState.evaluate(element.getEndCondition());
 	}
 
 	@Override

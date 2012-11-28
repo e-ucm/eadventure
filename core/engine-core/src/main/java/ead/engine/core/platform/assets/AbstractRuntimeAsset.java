@@ -42,6 +42,8 @@ import ead.common.resources.assets.AssetDescriptor;
 public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
 		implements RuntimeAsset<T> {
 
+	protected boolean loaded = false;
+	
 	protected T descriptor;
 
 	@Override
@@ -53,6 +55,19 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
 	@Override
 	public T getAssetDescriptor() {
 		return descriptor;
+	}
+	
+	public boolean loadAsset(){
+		loaded = true;
+		return true;
+	}
+	
+	public void freeMemory( ){
+		loaded = false;
+	}
+	
+	public boolean isLoaded( ){
+		return loaded;
 	}
 
 }

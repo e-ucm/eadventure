@@ -66,11 +66,6 @@ public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 		return event.getType();
 	}
 
-	@Override
-	public boolean alwaysPropagates() {
-		return true;
-	}
-
 	/**
 	 * Returns the character for the event. Only return a non-null value when
 	 * the event type is {@link KeyEventType#KEY_TYPED}

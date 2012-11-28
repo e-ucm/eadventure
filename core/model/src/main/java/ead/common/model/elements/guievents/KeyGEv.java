@@ -55,8 +55,8 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 			KeyEventType.KEY_PRESSED, KeyGEvCode.RIGHT);
 	public static final KeyGEv KEY_ARROW_UP = new KeyGEv(
 			KeyEventType.KEY_PRESSED, KeyGEvCode.UP);
-	public static final KeyGEv KEY_ESC = new KeyGEv(KeyEventType.KEY_PRESSED,
-			KeyGEvCode.ESCAPE);
+	public static final KeyGEv KEY_ESC = new KeyGEv(
+			KeyEventType.KEY_PRESSED, KeyGEvCode.ESCAPE);
 
 	@Param("type")
 	private KeyEventType type;
@@ -92,6 +92,14 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 
 	public String toString() {
 		return type.toString() + "_" + keyCode.toString();
+	}
+
+	public int hashCode() {
+		return toString().hashCode();
+	}
+
+	public boolean equals(Object o) {
+		return o instanceof KeyGEv && toString().equals(o.toString());
 	}
 
 }

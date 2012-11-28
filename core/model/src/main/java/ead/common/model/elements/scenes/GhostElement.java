@@ -41,14 +41,41 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
+/**
+ * <p>
+ * Use ghost elements whenever you want to create a scene element whose
+ * interaction area is different from its appearance.
+ * </p>
+ * <p>
+ * You also can use ghost elements with a null interaction area to create
+ * elements that don't interfere with user interaction at all (such a mouse
+ * pointer, a score board...)
+ * </p>
+ * 
+ */
 @Element
-public class GhostElement extends SceneElement implements EAdGhostElement {
+public class GhostElement extends SceneElement implements
+		EAdGhostElement {
 
 	@Param("interactionArea")
 	private EAdDrawable interactionArea;
 
 	public GhostElement() {
 
+	}
+
+	/**
+	 * Creates a ghost element
+	 * 
+	 * @param appearance
+	 *            the appearance
+	 * @param interactionArea
+	 *            the interaction area. Could be {@code null}
+	 */
+	public GhostElement(EAdDrawable appearance,
+			EAdDrawable interactionArea) {
+		super(appearance);
+		this.interactionArea = interactionArea;
 	}
 
 	public GhostElement(EAdDrawable interactionArea) {

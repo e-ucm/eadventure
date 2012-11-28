@@ -81,11 +81,11 @@ public class SceneElementDef extends ResourcedElement implements
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Bundled
-	@Asset( { EAdDrawable.class })
+	@Asset({ EAdDrawable.class })
 	public static final String appearance = "appearance";
 
 	@Bundled
-	@Asset( { EAdDrawable.class })
+	@Asset({ EAdDrawable.class })
 	public static final String overAppearance = "overAppearance";
 
 	public SceneElementDef() {
@@ -97,8 +97,15 @@ public class SceneElementDef extends ResourcedElement implements
 
 	public SceneElementDef(AssetDescriptor appearance) {
 		this();
-		getResources().addAsset(getInitialBundle(), SceneElementDef.appearance,
-				appearance);
+		getResources().addAsset(getInitialBundle(),
+				SceneElementDef.appearance, appearance);
+	}
+
+	public SceneElementDef(EAdDrawable appearance,
+			EAdDrawable overAppearance) {
+		this(appearance);
+		getResources().addAsset(getInitialBundle(),
+				SceneElementDef.overAppearance, overAppearance);
 	}
 
 	public void setActions(EAdList<EAdAction> actions) {
@@ -149,18 +156,20 @@ public class SceneElementDef extends ResourcedElement implements
 	 * @param appearance
 	 *            the appearance
 	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
+	public void setAppearance(EAdBundleId bundle,
+			EAdDrawable appearance) {
 		EAdResources resources = getResources();
 		if (!resources.getBundles().contains(bundle)) {
 			resources.addBundle(bundle);
 		}
-		resources.addAsset(bundle, SceneElementDef.appearance, appearance);
+		resources.addAsset(bundle, SceneElementDef.appearance,
+				appearance);
 	}
 
 	@Override
 	public EAdDrawable getAppearance() {
-		return (EAdDrawable) getResources().getAsset(getInitialBundle(),
-				SceneElementDef.appearance);
+		return (EAdDrawable) getResources().getAsset(
+				getInitialBundle(), SceneElementDef.appearance);
 	}
 
 	@Override

@@ -37,50 +37,22 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import java.util.List;
-
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.Renderable;
+import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.engine.core.gameobjects.go.ComplexSceneElementGO;
 
 /**
  * Classes that implement this interface represent a HUD element of the
  * eAdventure game.
  */
-public interface HudGO extends DrawableGO<Void>, Renderable {
+public interface HudGO extends ComplexSceneElementGO<ComplexSceneElement> {
 
 	/**
 	 * It is called when the graphic context has been created. HUDs graphics
-	 * components (buttons, labels...) should be created here
+	 * components (buttons, labels...) should be created here. The method
+	 * {@link ComplexSceneElementGO#setElement(Object)} with an appropriate
+	 * element is usually called here
 	 */
 	void init();
-
-	/**
-	 * Adds a drawable go that will be drawn within this HUD
-	 * 
-	 * @param drawable
-	 */
-	void addElement(DrawableGO<?> drawable);
-
-	/**
-	 * Returns a list wiht all drawables game object within this HUD
-	 * 
-	 * @return
-	 */
-	List<DrawableGO<?>> getContaintedGOs();
-
-	/**
-	 * Returns whether this HUD is currently visible
-	 * 
-	 * @return
-	 */
-	boolean isVisible();
-
-	/**
-	 * Sets the HUD visibility
-	 * 
-	 * @param visible
-	 */
-	void setVisible(boolean visible);
 
 	/**
 	 * @param priority

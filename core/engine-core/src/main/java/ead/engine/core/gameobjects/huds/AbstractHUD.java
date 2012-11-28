@@ -37,168 +37,38 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdPosition;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.MouseInputAction;
+import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
-import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
+import ead.engine.core.platform.assets.AssetHandler;
 
-public abstract class AbstractHUD implements HudGO {
+public abstract class AbstractHUD extends
+		ComplexSceneElementGOImpl<ComplexSceneElement> implements
+		HudGO {
 
-	private boolean visible = false;
-
-	protected GUI gui;
-
-	private List<DrawableGO<?>> hudGameObjects;
-
-	protected EAdTransformation transformation;
-
-	private boolean first = true;
-
+	/**
+	 * HUD priority
+	 */
 	private int priority;
 
-	public AbstractHUD(GUI gui) {
-		this.gui = gui;
-		hudGameObjects = new ArrayList<DrawableGO<?>>();
-		transformation = new EAdTransformationImpl();
+	public AbstractHUD(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);		
 	}
 
 	@Override
-	public void init() {
-
-	}
-
-	@Override
-	public boolean isVisible() {
-		return visible;
-	}
-
-	@Override
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public List<DrawableGO<?>> getContaintedGOs() {
-		return hudGameObjects;
-	}
-
-	public void addElement(DrawableGO<?> drawable) {
-		hudGameObjects.add(drawable);
-	}
-
-	public void render(GenericCanvas<?> c) {
-
-	}
-
-	public void doLayout(EAdTransformation t) {
-		if (isVisible()) {
-			for (DrawableGO<?> go : hudGameObjects) {
-				gui.addElement(go, t);
-			}
-		}
-	}
-
-	public void update() {
-		if (first) {
-			first = false;
-			init();
-		}
-		for (DrawableGO<?> go : hudGameObjects) {
-			go.update();
-		}
-	}
-
-	public boolean contains(int x, int y) {
-		return false;
-	}
-
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		DrawableGO<?> gor = null;
-		for (DrawableGO<?> go : hudGameObjects) {
-			if (action.isConsumed()) {
-				break;
-			} else {
-				if (action instanceof MouseInputAction) {
-					MouseInputAction m = (MouseInputAction) action;
-					if (go.contains(m.getVirtualX(), m.getVirtualY())) {
-						gor = go.processAction(action);
-					}
-				} else {
-					gor = go.processAction(action);
-				}
-			}
-		}
-		return gor;
-	}
-
-	@Override
-	public void setElement(Void element) {
-		// Do nothing
-	}
-
-	@Override
-	public Void getElement() {
-		// Return nothing
-		return null;
-	}
-
-	@Override
-	public EAdTransformation getTransformation() {
-		return transformation;
-	}
-
-	@Override
-	public SceneElementGO<?> getDraggableElement() {
-		return null;
-	}
-
-	@Override
-	public boolean isEnable() {
-		return true;
-	}
-
-	@Override
-	public List<AssetDescriptor> getAssets(
-			List<AssetDescriptor> assetList, boolean allAssets) {
-		return assetList;
-	}
-
-	@Override
-	public EAdPosition getPosition() {
-		return null;
-	}
-
-	public void resetTransfromation() {
-		transformation.getMatrix().setIdentity();
-	}
-
-	public RuntimeDrawable<?, ?> getRuntimeDrawable() {
-		return null;
-	}
-
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
 
+	@Override
 	public int getPriority() {
 		return priority;
-	}
-
-	public int getWidth() {
-		return 1;
-	}
-
-	public int getHeight() {
-		return 1;
 	}
 
 }

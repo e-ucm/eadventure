@@ -44,7 +44,6 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -69,11 +68,10 @@ public class VideoSceneGO extends
 
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory,
+			GameState gameState, EventGOFactory eventFactory,
 			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				evaluatorFactory, eventFactory);
+				eventFactory);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;

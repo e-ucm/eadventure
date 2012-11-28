@@ -42,7 +42,9 @@ import java.util.List;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.InputActionProcessor;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.input.InputAction;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -151,5 +153,31 @@ public interface GUI {
 	 */
 	EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2);
+
+	/**
+	 * Processes the given action. The GUI deals with finding the target for the
+	 * action
+	 * 
+	 * @param action
+	 *            the action
+	 * @return the game object that consumed the action
+	 */
+	DrawableGO<?> processAction(InputAction<?> action);
+
+	/**
+	 * Sets an input processor for actions not processed by any game object
+	 * 
+	 * @param processor
+	 */
+	void setDefaultInputActionProcessor(InputActionProcessor processor);
+
+	/**
+	 * Returns the first object that contains the given coordinates
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	DrawableGO<?> getGameObjectIn(int x, int y);
 
 }

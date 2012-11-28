@@ -40,24 +40,21 @@ package ead.engine.core.gameobjects.go;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.SceneElement;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
-
-	private EvaluatorFactory evaluatorFactory;
+public class BasicSceneElementGO extends
+		SceneElementGOImpl<SceneElement> {
 
 	@Inject
 	public BasicSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		this.evaluatorFactory = evaluatorFactory;
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	/*
@@ -67,7 +64,7 @@ public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
 	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
 	public SceneElementGO<?> getDraggableElement() {
-		if (evaluatorFactory.evaluate(element.getDragCond())) {
+		if (gameState.evaluate(element.getDragCond())) {
 			return this;
 		}
 		return null;

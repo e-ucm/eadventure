@@ -86,9 +86,4 @@ public class MouseInputAction extends AbstractInputAction<MouseGEv> {
 		return event.getButton();
 	}
 
-	@Override
-	public boolean alwaysPropagates() {
-		return false;
-	}
-
 }

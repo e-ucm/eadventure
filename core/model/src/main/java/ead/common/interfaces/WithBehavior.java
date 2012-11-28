@@ -95,19 +95,4 @@ public interface WithBehavior {
 	 */
 	void setBehavior(EAdBehavior behavior);
 
-	/**
-	 * Return if the GUI events are propagated to elements below this one, when
-	 * this element doesn't process the event
-	 * 
-	 * @return
-	 */
-	boolean isPropagateGUIEvents();
-
-	/**
-	 * Sets if the GUI events are propagated to elements below this one, when
-	 * this element doesn't process the event
-	 * 
-	 * @param propagate if propagation is active
-	 */
-	void setPropagateGUIEvents(boolean propagate);
 }

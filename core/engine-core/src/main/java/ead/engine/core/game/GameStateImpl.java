@@ -52,6 +52,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.extra.EAdList;
@@ -363,8 +364,8 @@ public class GameStateImpl implements GameState {
 					.getPreviousSceneStack();
 			sceneElementFactory.remove(gameStateData.getScene());
 
-			scene = (SceneGO<?>) sceneElementFactory.get(gameStateData
-					.getScene());
+			scene = (SceneGO<?>) sceneElementFactory
+					.get(gameStateData.getScene());
 			scene.update();
 
 			// FIXME this will fail in some cases (when the effect depend on an
@@ -389,6 +390,11 @@ public class GameStateImpl implements GameState {
 				effect.stop();
 			}
 		}
+	}
+
+	@Override
+	public <T extends EAdCondition> boolean evaluate(T condition) {
+		return evaluatorFactory.evaluate(condition);
 	}
 
 }

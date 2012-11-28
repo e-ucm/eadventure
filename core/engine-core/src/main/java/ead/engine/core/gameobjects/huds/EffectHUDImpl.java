@@ -39,16 +39,18 @@ package ead.engine.core.gameobjects.huds;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.engine.core.evaluators.EvaluatorFactory;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -61,20 +63,18 @@ import ead.engine.core.util.EAdTransformation;
 public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 
 	/**
-	 * The logger
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger("EffectHUDImpl");
-
-	/**
 	 * List of current {@link EffectGO}
 	 */
 	private List<EffectGO<?>> effects;
 
 	@Inject
-	public EffectHUDImpl(GUI gui) {
-		super(gui);
-		logger.info("New instance");
+	public EffectHUDImpl(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
+		
 	}
 
 	public void setEffects(List<EffectGO<?>> effects) {
@@ -118,6 +118,11 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 			block = e.isBlocking();
 			i++;
 		}
+	}
+
+	@Override
+	public void init() {
+		
 	}
 
 }

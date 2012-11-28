@@ -8,6 +8,13 @@ public interface ComplexSceneElementGO<T extends EAdComplexSceneElement>
 		extends SceneElementGO<T> {
 
 	/**
+	 * Returns the game objects contained by this element
+	 * 
+	 * @return
+	 */
+	List<DrawableGO<?>> getContainedDrawables();
+
+	/**
 	 * Returns the game object in the given relative coordinates
 	 * 
 	 * @param x

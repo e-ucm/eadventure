@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.go.transitions;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -56,14 +55,15 @@ public class DisplaceTransitionGO extends
 
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory, SceneLoader sceneLoader,
-			InputHandler inputHandler) {
+			GameState gameState, EventGOFactory eventFactory,
+			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				evaluatorFactory, eventFactory, sceneLoader, inputHandler);
+				eventFactory, sceneLoader, inputHandler);
 		finished = false;
-		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
+		width = gameState.getValueMap().getValue(
+				SystemFields.GAME_WIDTH);
+		height = gameState.getValueMap().getValue(
+				SystemFields.GAME_HEIGHT);
 		transformation = new EAdTransformationImpl();
 		currentTime = 0;
 	}
@@ -82,7 +82,6 @@ public class DisplaceTransitionGO extends
 
 	private int currentTime;
 
-
 	public void doLayout(EAdTransformation t) {
 		super.doLayout(t);
 
@@ -90,14 +89,14 @@ public class DisplaceTransitionGO extends
 			// transformation.setClip(0, 0, width, height);
 			transformation.getMatrix().setIdentity();
 			transformation.getMatrix().translate(x2, y2, false);
-			gui.addElement(nextSceneGO, gui
-					.addTransformation(transformation, t));
+			gui.addElement(nextSceneGO,
+					gui.addTransformation(transformation, t));
 			if (!isFinished()) {
 				// transformation.setClip(0, 0, width, height);
 				transformation.getMatrix().setIdentity();
 				transformation.getMatrix().translate(x1, y1, false);
-				gui.addElement(previousScene, gui.addTransformation(
-						transformation, t));
+				gui.addElement(previousScene,
+						gui.addTransformation(transformation, t));
 			}
 		}
 	}
@@ -147,7 +146,8 @@ public class DisplaceTransitionGO extends
 	private float getDisp(boolean horizontal, int currentTime) {
 		if ((horizontal && element.getType() == DisplaceTransitionType.HORIZONTAL)
 				|| (!horizontal && element.getType() == DisplaceTransitionType.VERTICAL)) {
-			float value = (float) currentTime / (float) element.getTime();
+			float value = (float) currentTime
+					/ (float) element.getTime();
 			return value;
 
 		} else

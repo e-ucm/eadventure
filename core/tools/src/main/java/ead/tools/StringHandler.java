@@ -55,6 +55,16 @@ public interface StringHandler {
 	public static String TEXTUAL_STRING_PREFIX = "#txt#";
 
 	/**
+	 * 
+	 * @param language
+	 *            A language, usually in the form "en_EN", "es_ES", "en_GB"...
+	 *            Setting the language to an unknown language or null makes the
+	 *            string handler to return strings in the default language
+	 *            (English)
+	 */
+	void addLanguage(String language);
+
+	/**
 	 * Sets the current language
 	 * 
 	 * @param language

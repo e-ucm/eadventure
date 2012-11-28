@@ -69,12 +69,10 @@ public class SystemFields {
 					0));
 
 	public static final EAdField<Integer> GAME_WIDTH = new BasicField<Integer>(
-			null,
-			new VarDef<Integer>("width", Integer.class, 800));
+			null, new VarDef<Integer>("width", Integer.class, 800));
 
 	public static final EAdField<Integer> GAME_HEIGHT = new BasicField<Integer>(
-			null, new VarDef<Integer>("height", Integer.class,
-					600));
+			null, new VarDef<Integer>("height", Integer.class, 600));
 
 	/**
 	 * Variable containing the active element in the game
@@ -102,10 +100,6 @@ public class SystemFields {
 			null, new VarDef<Integer>("elapsed_time_per_update",
 					Integer.class, 0));
 
-	public static final EAdField<Boolean> PROCESS_INPUT = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("process_input", Boolean.class,
-					true));
-
 	/**
 	 * If true, the player will only be able to interact with the elements in or
 	 * above the basic HUD (like the effect HUD, or the actions HUD)
@@ -125,7 +119,13 @@ public class SystemFields {
 					false));
 
 	public static final EAdField<Boolean> EXIT_WHEN_CLOSE = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("exitWhenClose",
-					Boolean.class, true));
+			null, new VarDef<Boolean>("exitWhenClose", Boolean.class,
+					true));
+
+	public static EAdField<String> LANGUAGE = new BasicField<String>(
+			null, new VarDef<String>("language", String.class, ""));
+
+	public static EAdField<String> LANGUAGES = new BasicField<String>(
+			null, new VarDef<String>("languages", String.class, ""));
 
 }

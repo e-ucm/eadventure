@@ -47,6 +47,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.game.GameState;
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
@@ -62,12 +64,15 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 
 	protected GenericInjector injector;
 
+	protected GameState gameState;
+
 	@Inject
 	public GdxAssetHandler(GenericInjector injector) {
 		super(new GdxAssetHandlerMap(), injector
 				.getInstance(FontHandler.class), injector
 				.getInstance(SceneGraph.class));
 		this.injector = injector;
+		this.gameState = injector.getInstance(GameState.class);
 	}
 
 	@Override
@@ -119,14 +124,27 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 		return injector.getInstance(clazz);
 	}
 
+	public FileHandle getFileHandle(String path) {
+		String uri = path.substring(1);
+		String language = gameState.getValueMap().getValue(
+				SystemFields.LANGUAGE);
+		FileHandle fh = null;
+		if (language != null && !"".equals(language)) {
+			fh = getFileHandleLocalized(language + "/" + uri);
+		}
+		if (fh == null || !fh.exists()) {
+			fh = getFileHandleLocalized(uri);
+		}
+		return fh;
+	}
+
 	/**
 	 * retrieves a file handle for the path
 	 * 
 	 * @param path
 	 * @return
 	 */
-	public FileHandle getFileHandle(String path) {
-		String uri = path.substring(1);
+	public FileHandle getFileHandleLocalized(String uri) {
 		if (resourcesUri != null) {
 			FileHandle absolute = getProjectFileHandle(uri);
 			if (absolute.exists()) {

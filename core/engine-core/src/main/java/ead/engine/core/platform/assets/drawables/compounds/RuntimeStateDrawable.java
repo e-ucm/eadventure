@@ -58,21 +58,15 @@ public class RuntimeStateDrawable extends
 
 	private Map<String, RuntimeCompoundDrawable<?>> drawables;
 
-	private boolean loaded;
-
-	private boolean loading;
-
 	@Inject
 	public RuntimeStateDrawable(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
-		drawables = new HashMap<String, RuntimeCompoundDrawable<?>>();
-		loaded = false;
-		loading = false;
 	}
 
 	@Override
 	public boolean loadAsset() {
-		loading = true;
+		super.loadAsset();
+		drawables = new HashMap<String, RuntimeCompoundDrawable<?>>();
 		for (String s : descriptor.getStates()) {
 			EAdDrawable d = descriptor.getDrawable(s);
 			if (d != null) {
@@ -86,25 +80,12 @@ public class RuntimeStateDrawable extends
 
 	@Override
 	public void freeMemory() {
+		super.freeMemory();
 		for (RuntimeCompoundDrawable<?> r : drawables.values()) {
 			r.freeMemory();
 		}
 		drawables.clear();
-	}
-
-	@Override
-	public boolean isLoaded() {
-		if (loading) {
-			loaded = true;
-			for (RuntimeCompoundDrawable<?> r : drawables.values()) {
-				if (!r.isLoaded()) {
-					loaded = false;
-					break;
-				}
-				loading = false;
-			}
-		}
-		return loaded;
+		drawables = null;
 	}
 
 	@Override

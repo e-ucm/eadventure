@@ -96,6 +96,13 @@ public interface Game {
 	 * @return The adventure game model
 	 */
 	EAdAdventureModel getAdventureModel();
+	
+	/**
+	 * Sets the current adventure game model ({@link EAdAdventureModel})
+	 * 
+	 * @return The adventure game model
+	 */
+	void setAdventureModel(EAdAdventureModel model);
 
 	/**
 	 * Returns the current chapter
@@ -103,13 +110,6 @@ public interface Game {
 	 * @return
 	 */
 	EAdChapter getCurrentChapter();
-
-	/**
-	 * Loads the given eAdventure model
-	 * 
-	 * @param model
-	 */
-	void loadGame(EAdAdventureModel model);
 
 	/**
 	 * Disposes all the resources allocated by the engine and destroys the GUI

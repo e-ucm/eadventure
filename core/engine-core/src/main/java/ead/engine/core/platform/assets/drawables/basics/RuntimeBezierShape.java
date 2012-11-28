@@ -54,8 +54,6 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 	protected final static Logger logger = LoggerFactory
 			.getLogger("RuntimeBezierShape");
 
-	protected boolean loaded = false;
-
 	private int width = 0;
 
 	private int height = 0;
@@ -76,11 +74,6 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 	@Override
 	public int getHeight() {
 		return height;
-	}
-
-	@Override
-	public boolean isLoaded() {
-		return loaded;
 	}
 
 	public void render(GenericCanvas<GraphicContext> c) {

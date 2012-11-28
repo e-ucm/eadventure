@@ -52,12 +52,18 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.model.elements.guievents.KeyGEv;
+import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDef;
-import ead.common.params.text.EAdString;
+import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -99,7 +105,7 @@ public class GameImpl implements Game, TextHandler {
 	/**
 	 * Default strings file. Loaded during initialization
 	 */
-	private static final String DEFAULT_STRINGS = "@strings.xml";
+	private static final String DEFAULT_STRINGS = "@strings";
 
 	/**
 	 * Game gui
@@ -159,10 +165,6 @@ public class GameImpl implements Game, TextHandler {
 
 	private List<EventGO<?>> events;
 
-	private int currentWidth = -1;
-
-	private int currentHeight = -1;
-
 	private GameTracker tracker;
 
 	private SceneGraph sceneGraph;
@@ -176,6 +178,10 @@ public class GameImpl implements Game, TextHandler {
 	private TopBasicHUD topBasicHUD;
 
 	private StringsReader stringsReader;
+
+	private MenuHUD menuHud;
+
+	private String currentLanguage = "";
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
@@ -233,22 +239,49 @@ public class GameImpl implements Game, TextHandler {
 		pluginHandler.initialize();
 
 		// HUDs
-		gui.addHud(new BottomHUD(gui, gameState));
+		gui.addHud(new BottomHUD(assetHandler, sceneElementFactory,
+				gui, gameState, eventFactory));
 		// gui.addHud(inventoryHUD, 1);
 		// gui.addHud(actionsHUD, 5);
 		// gui.addHud(effectHUD, 10);
-		gui.addHud(new MenuHUD(gui, gameState, sceneElementFactory));
+		menuHud = new MenuHUD(assetHandler, sceneElementFactory, gui,
+				gameState, eventFactory);
+		gui.addHud(menuHud);
 		gui.addHud(topBasicHUD);
+
+		for (HudGO hud : gui.getHUDs()) {
+			hud.init();
+		}
+
 		updateInitialTransformation();
 		inputHandler.setInitialTransformation(initialTransformation);
 
 		LoadingScreen loadingScreen = new LoadingScreen();
 		gameState.setScene((SceneGO<?>) sceneElementFactory
 				.get(loadingScreen));
+
+		// Add default events processor
+		addDefaultInputProcessor();
+		setGame();
 	}
 
 	private void loadDefaultProperties() {
 		assetHandler.getTextfileAsync(DEFAULT_PROPERTIES, this);
+	}
+
+	private void addDefaultInputProcessor() {
+		SceneElement defaultProcessor = new SceneElement();
+		defaultProcessor.setId("ead.defaultProcessor");
+		BasicField<Boolean> field = new BasicField<Boolean>(
+				menuHud.getElement(), SceneElement.VAR_VISIBLE);
+
+		defaultProcessor.addBehavior(new KeyGEv(
+				KeyEventType.KEY_PRESSED, KeyGEvCode.ESCAPE),
+				new ChangeFieldEf(field, new BooleanOp(new NOTCond(
+						new OperationCond(field)))));
+
+		gui.setDefaultInputActionProcessor(sceneElementFactory
+				.get(defaultProcessor));
 	}
 
 	@Override
@@ -329,12 +362,33 @@ public class GameImpl implements Game, TextHandler {
 		}
 	}
 
-	private Map<EAdString, String> loadDefaultStrings() {
-		String strings = assetHandler.getTextFile(DEFAULT_STRINGS);
-		this.stringHandler.addStrings(stringsReader
-				.readStrings(strings));
+	private void loadDefaultStrings() {
+		// Default strings
+		String strings = assetHandler.getTextFile(DEFAULT_STRINGS
+				+ ".xml");
+		stringHandler.addStrings(stringsReader.readStrings(strings));
 
-		return null;
+		String languagesProperty = gameState.getValueMap().getValue(
+				null,
+				new VarDef<String>("languages", String.class, null));
+		if (languagesProperty != null) {
+			String[] languages = languagesProperty.split(",");
+			for (String language : languages) {
+				strings = assetHandler.getTextFile(DEFAULT_STRINGS
+						+ "-" + language + ".xml");
+				if (strings == null) {
+					logger.info(
+							"{} language was not loaded. Maybe the strings.xml file associated is not present",
+							language);
+				} else {
+					logger.info("{} language loaded", language);
+					stringHandler.addLanguage(language);
+					stringHandler.setLanguage(language);
+					stringHandler.addStrings(stringsReader
+							.readStrings(strings));
+				}
+			}
+		}
 	}
 
 	@Override
@@ -346,6 +400,9 @@ public class GameImpl implements Game, TextHandler {
 	@Override
 	public void update() {
 		inputHandler.processActions();
+
+		// Update language. Update this every loop is probably too much
+		updateLanguage();
 
 		// We load one possible asset in the background
 		// assetHandler.loadStep();
@@ -370,10 +427,25 @@ public class GameImpl implements Game, TextHandler {
 		// HUDs
 		for (HudGO hud : gui.getHUDs()) {
 			hud.update();
-			gui.addElement(hud, initialTransformation);
+			if (hud.isVisible()) {
+				gui.addElement(hud, initialTransformation);
+			}
 		}
 
 		// updateDebuggers();
+
+	}
+
+	private void updateLanguage() {
+		String newLanguage = gameState.getValueMap().getValue(
+				SystemFields.LANGUAGE);
+
+		if (newLanguage != null
+				&& !newLanguage.equals(currentLanguage)) {
+			currentLanguage = newLanguage;
+			stringHandler.setLanguage(currentLanguage);
+			assetHandler.clean(null);
+		}
 
 	}
 
@@ -446,45 +518,47 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void setGame() {
-		logger.info("Setting the game");
-		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
-				adventure.getGameWidth());
-		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
-				adventure.getGameHeight());
-
-		if (adventure.getInventory() != null) {
-			logger.info("Building inventory...");
-			for (EAdSceneElementDef def : adventure.getInventory()
-					.getInitialItems())
-				inventoryHandler.add(def);
-			inventoryHUD.setVisible(true);
-		} else {
-			inventoryHUD.setVisible(false);
-		}
-
-		logger.info("Init game events...");
-		events.clear();
-		for (EAdEvent e : currentChapter.getEvents()) {
-			EventGO<?> eventGO = eventFactory.get(e);
-			eventGO.setParent(null);
-			eventGO.initialize();
-			events.add(eventGO);
-		}
-
-		// Set the debuggers
-		setDebuggers(adventure);
-
-		sceneGraph.generateGraph(currentChapter.getInitialScene());
-		gameState.setInitialScene(currentChapter.getInitialScene(),
-				launchEffects);
-		updateInitialTransformation();
-
-		// Start tracking
-		Boolean track = Boolean.parseBoolean(adventure
-				.getProperties().get(GameTracker.TRACKING_ENABLE));
-		if (track) {
-			tracker.startTracking(adventure);
-		}
+		if (adventure != null)
+			gameState.setInitialScene(adventure.getChapters().get(0)
+					.getInitialScene(), launchEffects);
+		// logger.info("Setting the game");
+		// gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
+		// adventure.getGameWidth());
+		// gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
+		// adventure.getGameHeight());
+		//
+		// if (adventure.getInventory() != null) {
+		// logger.info("Building inventory...");
+		// for (EAdSceneElementDef def : adventure.getInventory()
+		// .getInitialItems())
+		// inventoryHandler.add(def);
+		// inventoryHUD.setVisible(true);
+		// } else {
+		// inventoryHUD.setVisible(false);
+		// }
+		//
+		// logger.info("Init game events...");
+		// events.clear();
+		// for (EAdEvent e : currentChapter.getEvents()) {
+		// EventGO<?> eventGO = eventFactory.get(e);
+		// eventGO.setParent(null);
+		// eventGO.initialize();
+		// events.add(eventGO);
+		// }
+		//
+		// // Set the debuggers
+		// setDebuggers(adventure);
+		//
+		// sceneGraph.generateGraph(currentChapter.getInitialScene());
+		//
+		// updateInitialTransformation();
+		//
+		// // Start tracking
+		// Boolean track = Boolean.parseBoolean(adventure
+		// .getProperties().get(GameTracker.TRACKING_ENABLE));
+		// if (track) {
+		// tracker.startTracking(adventure);
+		// }
 
 	}
 
@@ -529,9 +603,8 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	@Override
-	public void loadGame(EAdAdventureModel model) {
+	public void setAdventureModel(EAdAdventureModel model) {
 		this.adventure = model;
-
 	}
 
 }

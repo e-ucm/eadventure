@@ -45,7 +45,9 @@ import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.ResourcedElement;
+import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
@@ -62,13 +64,13 @@ import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.util.EAdTransformation;
 import ead.tools.StringHandler;
 
 /**
@@ -91,15 +93,9 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 
 	private static final int CURSOR_SIZE = 32;
 
-	private SceneElementGOFactory sceneElementFactory;
-
-	protected GameState gameState;
-
 	protected InputHandler inputHandler;
 
 	private StringHandler stringHandler;
-
-	private AssetHandler assetHandler;
 
 	private DrawableGO<?> currentGO;
 
@@ -120,29 +116,15 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 	private int i = 0;
 
 	@Inject
-	public TopBasicHUDImpl(SceneElementGOFactory gameObjectFactory,
-			GameState gameState, InputHandler inputHandler,
-			StringHandler stringHandler, GUI gui,
-			AssetHandler assetHandler) {
-		super(gui);
-		this.sceneElementFactory = gameObjectFactory;
-		this.gameState = gameState;
-		this.inputHandler = inputHandler;
+	public TopBasicHUDImpl(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory,
+			StringHandler stringHandler, InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
+		setPriority(1000);
 		this.stringHandler = stringHandler;
-		this.assetHandler = assetHandler;
-		this.setPriority(1000);
-	}
-
-	public void doLayout(EAdTransformation t) {
-		super.doLayout(t);
-		gui.addElement(mouseGO, t);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		updateContextual();
-		updateMouse();
+		this.inputHandler = inputHandler;
 	}
 
 	@Override
@@ -150,9 +132,19 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 		return false;
 	}
 
+	public void init() {
+		initContextual();
+		initMouse();
+		ComplexSceneElement element = new ComplexSceneElement();
+		element.getSceneElements().add(contextual);
+		element.getSceneElements().add(mouse);
+		setElement(element);
+	}
+
 	// Contextual
 	private void initContextual() {
-		contextualCaption = new Caption();
+		contextualCaption = new Caption(new EAdString(
+				"engine.contextual"));
 		contextualCaption
 				.setFont(new BasicFont(16.0f, FontStyle.BOLD));
 		contextualCaption.setPadding(0);
@@ -166,7 +158,21 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 				Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEv(contextual));
 		contextual.getEvents().add(new ChaseMouseEv());
-		addElement(sceneElementFactory.get(contextual));
+	}
+
+	// Mouse
+	private void initMouse() {
+		mouse = new GhostElement(cursor, null);
+		mouse.setVarInitialValue(SceneElement.VAR_ENABLE,
+				Boolean.FALSE);
+		mouse.setInitialEnable(false);
+		mouseGO = sceneElementFactory.get(mouse);
+	}
+
+	public void update() {
+		updateContextual();
+		updateMouse();
+		super.update();
 	}
 
 	private void updateContextual() {
@@ -199,15 +205,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 			}
 			currentGO = go;
 		}
-	}
-
-	// Mouse
-	private void initMouse() {
-		mouse = new SceneElement(cursor);
-		mouse.setVarInitialValue(SceneElement.VAR_ENABLE,
-				Boolean.FALSE);
-		mouse.setPropagateGUIEvents(true);
-		mouseGO = sceneElementFactory.get(mouse);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -261,11 +258,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 				SceneElement.VAR_VISIBLE, showMouse);
 
 		mouseGO.update();
-	}
-
-	public void init() {
-		initContextual();
-		initMouse();
 	}
 
 }

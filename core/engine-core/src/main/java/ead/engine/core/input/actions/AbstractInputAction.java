@@ -71,7 +71,4 @@ public abstract class AbstractInputAction<T extends EAdGUIEvent> implements
 		return event.toString();
 	}
 
-	@Override
-	public abstract boolean alwaysPropagates();
-
 }

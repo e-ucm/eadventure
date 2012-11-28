@@ -38,93 +38,44 @@
 package ead.engine.core.gameobjects.go;
 
 import java.util.Comparator;
-import java.util.List;
 
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 
 public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene>
-		implements Comparator<SceneElementGO<?>>, SceneGO<EAdScene> {
+		implements Comparator<DrawableGO<?>>, SceneGO<EAdScene> {
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory) {
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				evaluatorFactory, eventFactory);
-		this.setComparator(this);
+				eventFactory);
+		setComparator(this);
 	}
 
-	public void doLayout(EAdTransformation transformation) {
-		gui.addElement(
-				sceneElementFactory.get(element.getBackground()),
-				transformation);
-		super.doLayout(transformation);
+	public void setElement(EAdScene element) {
+		super.setElement(element);
+		sceneElements.add(sceneElementFactory.get(element
+				.getBackground()));
+		gameState.getValueMap().setValue(element.getBackground(),
+				SceneElement.VAR_Z, Integer.MIN_VALUE);
 	}
 
 	@Override
-	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
+	public int compare(DrawableGO<?> o1, DrawableGO<?> o2) {
 		int z1 = gameState.getValueMap().getValue(o1.getElement(),
 				SceneElement.VAR_Z);
 		int z2 = gameState.getValueMap().getValue(o2.getElement(),
 				SceneElement.VAR_Z);
 		return z1 - z2;
-	}
-
-	@Override
-	public void update() {
-		sceneElementFactory.get(element.getBackground()).update();
-		super.update();
-	}
-
-	@Override
-	public List<AssetDescriptor> getAssets(
-			List<AssetDescriptor> assetList, boolean allAssets) {
-		if (element != null) {
-			EAdSceneElement background = element.getBackground();
-			SceneElementGO<?> gameObject = sceneElementFactory
-					.get(background);
-			assetList = gameObject.getAssets(assetList, allAssets);
-			for (EAdSceneElement sceneElement : element
-					.getSceneElements())
-				assetList = sceneElementFactory.get(sceneElement)
-						.getAssets(assetList, allAssets);
-			return assetList;
-		}
-		return null;
-	}
-
-	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		DrawableGO<?> go = super.processAction(action);
-		if (go == null) {
-			return sceneElementFactory.get(element.getBackground())
-					.processAction(action);
-		} else {
-			return go;
-		}
-	}
-
-	@Override
-	public void collectSceneElements(List<EAdSceneElement> elements) {
-		super.collectSceneElements(elements);
-		for (EAdSceneElement e : element.getSceneElements()) {
-			elements.add(e);
-		}
-
 	}
 
 }

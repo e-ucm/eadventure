@@ -69,6 +69,36 @@ public class TestFontCache extends FontHandlerImpl {
 				return new EAdRectangle(0, -1, string.length(), 1);
 			}
 
+			@Override
+			public boolean loadAsset() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void freeMemory() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public boolean isLoaded() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void setDescriptor(EAdFont descriptor) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public EAdFont getAssetDescriptor() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 	}
 

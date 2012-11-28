@@ -37,11 +37,16 @@
 
 package ead.engine.core.gameobjects.huds;
 
+import com.google.inject.Inject;
+
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * 
@@ -51,12 +56,12 @@ import ead.engine.core.platform.GUI;
  */
 public class BottomHUD extends AbstractHUD {
 
-	private GameState gameState;
-
-	public BottomHUD(GUI gui, GameState gameState) {
-		super(gui);
-		this.gameState = gameState;
-		this.setPriority(0);
+	@Inject
+	public BottomHUD(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	@Override
@@ -73,6 +78,15 @@ public class BottomHUD extends AbstractHUD {
 	public boolean contains(int x, int y) {
 		return gameState.getValueMap().getValue(
 				SystemFields.BASIC_HUD_OPAQUE);
+	}
+
+	@Override
+	public void init() {
+		setPriority(0);
+	}
+
+	public void doLayout() {
+
 	}
 
 }

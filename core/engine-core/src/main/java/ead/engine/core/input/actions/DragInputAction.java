@@ -74,9 +74,4 @@ public class DragInputAction extends AbstractInputAction<DragGEv> {
 		return virtualY;
 	}
 
-	@Override
-	public boolean alwaysPropagates() {
-		return false;
-	}
-
 }

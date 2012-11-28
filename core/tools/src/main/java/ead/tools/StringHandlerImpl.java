@@ -55,13 +55,20 @@ public class StringHandlerImpl implements StringHandler {
 
 	private Map<EAdString, String> strings;
 
+	private Map<EAdString, String> defaultStrings;
+
 	private String language;
 
 	public StringHandlerImpl() {
-		strings = new HashMap<EAdString, String>();
+		defaultStrings = new HashMap<EAdString, String>();
 		loadedStrings = new HashMap<String, Map<EAdString, String>>();
-		loadedStrings.put("", strings);
+		loadedStrings.put("", defaultStrings);
+		strings = defaultStrings;
 		language = "";
+	}
+
+	public void addLanguage(String language) {
+		loadedStrings.put(language, new HashMap<EAdString, String>());
 	}
 
 	public void setLanguage(String language) {
@@ -84,7 +91,10 @@ public class StringHandlerImpl implements StringHandler {
 		}
 
 		String value = strings.get(string);
-		return value == null ? "" : strings.get(string);
+		if (value == null) {
+			value = defaultStrings.get(string);
+		}
+		return value == null ? "" : value;
 	}
 
 	@Override

@@ -37,10 +37,9 @@
 
 package ead.engine.core.gameobjects.go;
 
-import ead.engine.core.input.InputAction;
 import ead.engine.core.util.EAdTransformation;
 
-public interface Renderable {
+public interface Renderable extends InputActionProcessor {
 
 	/**
 	 * Layout out the child game objects of this game objects
@@ -56,16 +55,6 @@ public interface Renderable {
 	void update();
 
 	boolean contains(int x, int y);
-
-	/**
-	 * Process the action in the graphic interface (click, etc.)
-	 * 
-	 * @param action
-	 *            the action to process
-	 * @return the object that processed the action. {@code null} if no one
-	 *         processed it
-	 */
-	DrawableGO<?> processAction(InputAction<?> action);
 
 	/**
 	 * Returns the transformation (translation, rotation, scale, etc.) of this

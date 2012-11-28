@@ -49,7 +49,7 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -122,17 +122,10 @@ public class InputHandlerImpl implements InputHandler {
 
 	@Override
 	public void processActions() {
-
-		processInput = gameState.getValueMap().getValue(
-				SystemFields.PROCESS_INPUT);
-		if (processInput) {
-
-			processKeyActions();
-			processEnterExit();
-			processDrag();
-		}
-
-		processMouseActions(processInput);
+		processKeyActions();
+		processEnterExit();
+		processDrag();
+		processMouseActions();
 	}
 
 	/**
@@ -147,14 +140,7 @@ public class InputHandlerImpl implements InputHandler {
 			KeyInputAction action = keyboardHandler.getKeyActions()
 					.poll();
 
-			DrawableGO<?> go = hudProcess(action);
-			if (go == null) {
-				go = gameState.getActiveElement();
-				// only the active element gets a try to consume it
-				if (go != null) {
-					go.processAction(action);
-				}
-			}
+			DrawableGO<?> go = gui.processAction(action);
 
 			if (action.isConsumed() && go != null) {
 				tracker.track(action, go);
@@ -173,7 +159,7 @@ public class InputHandlerImpl implements InputHandler {
 	 * 
 	 * @param processInput
 	 */
-	private void processMouseActions(boolean processInput) {
+	private void processMouseActions() {
 		int j = 0;
 		while (!mouseHandler.getMouseEvents().isEmpty()
 				&& (j < MAX_EVENTS_PER_CYCLE || mouseHandler
@@ -201,13 +187,7 @@ public class InputHandlerImpl implements InputHandler {
 				break;
 			}
 
-			DrawableGO<?> go = hudProcess(action);
-
-			if (!action.isConsumed()) {
-				if (processInput) {
-					go = gameState.getScene().processAction(action);
-				}
-			}
+			DrawableGO<?> go = gui.processAction(mouseAction);
 
 			if (go != null) {
 				tracker.track(action, go);
@@ -242,6 +222,9 @@ public class InputHandlerImpl implements InputHandler {
 						MouseGEv.MOUSE_EXITED, x, y);
 				oldGO.processAction(exitAction);
 				tracker.track(exitAction, oldGO);
+				gameState.getValueMap().setValue(
+						oldGO.getElement(),
+						SceneElement.VAR_MOUSE_OVER, false);
 
 				if (draggedGO != null) {
 					DragInputAction action = new DragInputAction(
@@ -257,6 +240,9 @@ public class InputHandlerImpl implements InputHandler {
 				MouseInputAction enterAction = new MouseInputAction(
 						MouseGEv.MOUSE_ENTERED, x, y);
 				currentGO.processAction(enterAction);
+				gameState.getValueMap().setValue(
+						currentGO.getElement(),
+						SceneElement.VAR_MOUSE_OVER, true);
 				tracker.track(enterAction, currentGO);
 				if (draggedGO != null) {
 					DragInputAction action = new DragInputAction(
@@ -268,15 +254,6 @@ public class InputHandlerImpl implements InputHandler {
 			}
 			mouseHandler.setGameObjectUnderMouse(currentGO);
 		}
-	}
-
-	private DrawableGO<?> hudProcess(InputAction<?> a) {
-		DrawableGO<?> go = null;
-		int i = gui.getHUDs().size() - 1;
-		while (!a.isConsumed() && i >= 0) {
-			go = gui.getHUDs().get(i--).processAction(a);
-		}
-		return go;
 	}
 
 	@Override
@@ -316,9 +293,7 @@ public class InputHandlerImpl implements InputHandler {
 
 	private DrawableGO<?> getGOUnderMouse() {
 		if (checkState(MouseState.POINTER_INSIDE)) {
-			return gameState.getScene().getFirstGOIn(
-					mouseHandler.getMouseX(),
-					mouseHandler.getMouseY());
+			return gui.getGameObjectIn(mouseHandler.getMouseX(), mouseHandler.getMouseY());			
 		}
 		return null;
 	}

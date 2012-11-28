@@ -148,7 +148,9 @@ public class RuntimeCaption<GraphicContext> extends
 	 */
 	@Override
 	public boolean loadAsset() {
+		super.loadAsset();
 		font = fontCache.get(descriptor.getFont());
+		font.loadAsset();
 		if (descriptor.getFields().size() > 0) {
 			text = valueMap.processTextVars(stringsHandler.getString(descriptor
 					.getText()), descriptor.getFields());
@@ -168,25 +170,11 @@ public class RuntimeCaption<GraphicContext> extends
 		}
 		return true;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#freeMemory()
-	 */
-	@Override
-	public void freeMemory() {
-		// DO NOTHING
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#isLoaded()
-	 */
-	@Override
-	public boolean isLoaded() {
-		return lines != null;
+	
+	public void freeMemory( ){
+		super.freeMemory();
+		lines = null;
+		widths = null;		
 	}
 
 	/*
@@ -494,7 +482,7 @@ public class RuntimeCaption<GraphicContext> extends
 					xOffset = descriptor.getPadding();
 				}
 				c.setPaint(descriptor.getTextPaint());
-				c.drawText(s, xOffset, yOffset);
+				c.drawText(s, xOffset, yOffset);				
 				yOffset += getLineHeight();
 				i++;
 			}

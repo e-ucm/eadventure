@@ -77,16 +77,23 @@ public class DesktopGame {
 
 	private GameLoader loader;
 
+	private EAdAdventureModel model;
+
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
-		debuggers = new ArrayList<Class<? extends Debugger>>();		
+		debuggers = new ArrayList<Class<? extends Debugger>>();
+	}
+
+	public void setModel(EAdAdventureModel model) {
+		this.model = model;
 	}
 
 	public void start() {
-		injector = Guice.createInjector(new GdxDesktopModule(
-				binds), new JavaToolsModule());
+		injector = Guice.createInjector(new GdxDesktopModule(binds),
+				new JavaToolsModule());
 		Game g = injector.getInstance(Game.class);
+		g.setAdventureModel(model);
 		g.initialize();
 	}
 

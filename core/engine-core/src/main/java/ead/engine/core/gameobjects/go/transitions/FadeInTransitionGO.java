@@ -39,7 +39,6 @@ package ead.engine.core.gameobjects.go.transitions;
 
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.util.Interpolator;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -62,12 +61,10 @@ public class FadeInTransitionGO extends
 
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory, SceneLoader sceneLoader,
-			InputHandler inputHandler) {
+			GameState gameState, EventGOFactory eventFactory,
+			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				evaluatorFactory, eventFactory, sceneLoader,
-				inputHandler);
+				eventFactory, sceneLoader, inputHandler);
 		finished = false;
 		currentTime = 0;
 	}

@@ -40,7 +40,6 @@ package ead.common.model.elements.guievents;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 
@@ -63,11 +62,6 @@ public class DragGEv extends BasicElement implements EAdGUIEvent {
 		this.action = action;
 	}
 
-	@Override
-	public String toString() {
-		return "Drop " + carryElement.getId();
-	}
-
 	public EAdSceneElementDef getCarryElement() {
 		return carryElement;
 	}
@@ -82,6 +76,19 @@ public class DragGEv extends BasicElement implements EAdGUIEvent {
 
 	public void setAction(DragGEvType action) {
 		this.action = action;
+	}
+
+	public String toString() {
+		return carryElement.getId() + "_" + action;
+	}
+
+	public int hashCode() {
+		return toString().hashCode();
+	}
+
+	public boolean equals(Object o) {
+		return o instanceof DragGEv
+				&& toString().equals(o.toString());
 	}
 
 }

@@ -55,6 +55,7 @@ import ead.common.util.EAdPosition.Corner;
 import ead.common.util.Interpolator;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -62,7 +63,7 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 
@@ -115,25 +116,23 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private List<SceneElementGO<?>> actionsGO;
 
-	private SceneElementGOFactory sceneElementFactory;
-
 	private EvaluatorFactory evaluatorFactory;
 
 	private float alpha;
 
 	@Inject
-	public ActionsHUDImpl(GUI gui,
-			GameState gameState, SceneElementGOFactory sceneElementFactory,
-			EvaluatorFactory evaluatorFactory) {
-		super(gui);
+	public ActionsHUDImpl(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		logger.info("New instance");
 		actionsGO = new ArrayList<SceneElementGO<?>>();
 		positions = new ArrayList<EAdPosition>();
 		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
-		this.sceneElementFactory = sceneElementFactory;
+		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);		
 		this.evaluatorFactory = evaluatorFactory;
-
 	}
 
 	/*
@@ -261,11 +260,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	}
 
 	@Override
-	public void render(GenericCanvas<?> c) {
-
-	}
-
-	@Override
 	public void update() {
 
 		if (currentTime < ANIMATION_TIME) {
@@ -290,6 +284,12 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	@Override
 	public boolean contains(int x, int y) {
 		return true;
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

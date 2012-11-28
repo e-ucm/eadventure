@@ -57,55 +57,36 @@ public class RuntimeFramesAnimation extends
 
 	private AssetHandler assetHandler;
 
-	private boolean loaded;
-
-	private boolean loading;
-
 	@Inject
 	public RuntimeFramesAnimation(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
-		frames = new ArrayList<RuntimeDrawable<?, ?>>();
-		loaded = false;
-		loading = false;
+		this.assetHandler = assetHandler;		
 	}
 
 	@Override
 	public boolean loadAsset() {
+		super.loadAsset();
+		frames = new ArrayList<RuntimeDrawable<?, ?>>();
 		for (Frame f : descriptor.getFrames()) {
 			RuntimeDrawable<?, ?> d = (RuntimeDrawable<?, ?>) assetHandler
 					.getRuntimeAsset(f.getDrawable(), true);
 			frames.add(d);
 		}
-		loading = true;
 		return true;
 	}
 
 	@Override
 	public void freeMemory() {
+		super.freeMemory();
 		for (RuntimeDrawable<?, ?> d : frames) {
 			d.freeMemory();
 		}
 		frames.clear();
+		frames = null;
 	}
 
 	@Override
-	public boolean isLoaded() {
-		if (loading) {
-			loaded = true;
-			for (RuntimeDrawable<?, ?> d : frames) {
-				if (!d.isLoaded()) {
-					loaded = false;
-					break;
-				}
-			}
-			loading = false;
-		}
-		return loaded;
-	}
-
-	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
-			int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time,
+			List<String> states, int level) {
 		int index = descriptor.getFrameIndexFromTime(time);
 		return frames.get(index);
 	}

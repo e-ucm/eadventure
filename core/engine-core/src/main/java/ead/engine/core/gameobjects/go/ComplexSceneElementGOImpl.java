@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -61,27 +60,24 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 		extends SceneElementGOImpl<T> implements
 		ComplexSceneElementGO<T> {
 
-	private List<SceneElementGO<?>> sceneElements;
+	protected List<DrawableGO<?>> sceneElements;
 
 	private boolean first = true;
 
-	private boolean propagateEvents = true;
-
-	private transient ArrayList<DrawableGO<?>> goUnderMouse;
+	private ArrayList<DrawableGO<?>> goUnderMouse;
 
 	/**
 	 * Comparator to order the scene elements
 	 */
-	private Comparator<SceneElementGO<?>> comparator;
+	private Comparator<DrawableGO<?>> comparator;
 
 	@Inject
 	public ComplexSceneElementGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory) {
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
-		sceneElements = new ArrayList<SceneElementGO<?>>();
+		sceneElements = new ArrayList<DrawableGO<?>>();
 		goUnderMouse = new ArrayList<DrawableGO<?>>();
 	}
 
@@ -102,34 +98,44 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 	 * 
 	 * @param comparator
 	 */
-	public void setComparator(Comparator<SceneElementGO<?>> comparator) {
+	public void setComparator(Comparator<DrawableGO<?>> comparator) {
 		this.comparator = comparator;
 	}
 
 	@Override
+	public List<DrawableGO<?>> getContainedDrawables() {
+		return sceneElements;
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		if (super.contains(x, y)) {
+			return true;
+		}
+
+		for (DrawableGO<?> go : sceneElements) {
+			if (go.contains(x, y))
+				return true;
+		}
+		return false;
+	}
+
+	@Override
 	public DrawableGO<?> processAction(InputAction<?> action) {
-		int i = sceneElements.size() - 1;
-
-		while (!action.isConsumed() && i >= 0) {
-			DrawableGO<?> go = sceneElements.get(i);
-			if (action instanceof MouseInputAction) {
-				MouseInputAction m = (MouseInputAction) action;
-				int x = m.getVirtualX();
-				int y = m.getVirtualY();
+		if (action instanceof MouseInputAction) {
+			int i = sceneElements.size() - 1;
+			MouseInputAction m = (MouseInputAction) action;
+			int x = m.getVirtualX();
+			int y = m.getVirtualY();
+			while (i >= 0) {
+				DrawableGO<?> go = sceneElements.get(i);
 				if (go.contains(x, y)) {
-					go.processAction(action);
+					return go.processAction(action);
 				}
+				i--;
 			}
-
-			if (action.isConsumed()) {
-				logger.info("Action {} consumed by {}", action, go);
-				return go;
-			}
-
-			i = propagateEvents ? i - 1 : -1;
 		}
 		return super.processAction(action);
-
 	}
 
 	@Override
@@ -169,7 +175,7 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
 		int maxY = maxX;
-		for (SceneElementGO<?> go : sceneElements) {
+		for (DrawableGO<?> go : sceneElements) {
 			int xLeft = go.getPosition().getJavaX(go.getWidth());
 			int xRight = xLeft + go.getWidth();
 			int yTop = go.getPosition().getJavaY(go.getHeight());
@@ -199,10 +205,9 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 	@Override
 	public List<AssetDescriptor> getAssets(
 			List<AssetDescriptor> assetList, boolean allAssets) {
-		for (EAdSceneElement sceneElement : element
-				.getSceneElements())
-			assetList = sceneElementFactory.get(sceneElement)
-					.getAssets(assetList, allAssets);
+		for (DrawableGO<?> sceneElement : sceneElements) {
+			assetList = sceneElement.getAssets(assetList, allAssets);
+		}
 		return assetList;
 	}
 
@@ -216,17 +221,6 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
-		for (DrawableGO<?> go : sceneElements) {
-			float[] mouse = go.getTransformation().getMatrix()
-					.multiplyPointInverse(x, y, true);
-			if (go.contains((int) mouse[0], (int) mouse[1]))
-				return true;
-		}
-		return super.contains(x, y);
-	}
-
-	@Override
 	public DrawableGO<?> getFirstGOIn(int x, int y) {
 		for (int i = sceneElements.size() - 1; i >= 0; i--) {
 			DrawableGO<?> tempGameObject = sceneElements.get(i);
@@ -234,7 +228,7 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 				return tempGameObject;
 			}
 		}
-		return null;
+		return contains(x, y) ? this : null;
 	}
 
 	@Override

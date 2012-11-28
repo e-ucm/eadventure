@@ -43,7 +43,7 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.tools.Factory;
 
 /**
- * Factory to provide the evaluator and evaluate the different {@link EAdCondition} elements.
+ * Factory to provide the evaluator and evaluate the different {@link EAdCondition} elements. You should use this factory through {@link GameState#evaluate(EAdCondition)}
  */
 public interface EvaluatorFactory extends Factory<Evaluator<?>> {
 
