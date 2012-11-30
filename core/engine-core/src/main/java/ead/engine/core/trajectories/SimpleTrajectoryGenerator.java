@@ -42,14 +42,12 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.trajectories.Path;
-import ead.engine.core.trajectories.TrajectoryGenerator;
 
 public class SimpleTrajectoryGenerator implements
 		TrajectoryGenerator<SimpleTrajectoryDefinition> {
@@ -66,7 +64,7 @@ public class SimpleTrajectoryGenerator implements
 
 	@Override
 	public Path getTrajectory(SimpleTrajectoryDefinition def,
-			EAdElement movingElement, int x, int y) {
+			EAdSceneElement movingElement, int x, int y) {
 
 		EAdPosition currentPosition = getCurrentPosition(movingElement);
 
@@ -83,7 +81,7 @@ public class SimpleTrajectoryGenerator implements
 
 	@Override
 	public Path getTrajectory(SimpleTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int x, int y,
+			EAdSceneElement movingElement, int x, int y,
 			SceneElementGO<?> sceneElement) {
 
 		EAdPosition currentPosition = getCurrentPosition(movingElement);
@@ -101,7 +99,7 @@ public class SimpleTrajectoryGenerator implements
 
 	@Override
 	public boolean canGetTo(SimpleTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, SceneElementGO<?> sceneElement) {
+			EAdSceneElement movingElement, SceneElementGO<?> sceneElement) {
 		//TODO check barriers?
 		return false;
 	}
@@ -122,7 +120,7 @@ public class SimpleTrajectoryGenerator implements
 		return y;
 	}
 
-	private EAdPosition getCurrentPosition(EAdElement element) {
+	private EAdPosition getCurrentPosition(EAdSceneElement element) {
 		int x = valueMap.getValue(element, SceneElement.VAR_X);
 		int y = valueMap.getValue(element, SceneElement.VAR_Y);
 		return new EAdPosition(x, y);

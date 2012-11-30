@@ -54,13 +54,11 @@ public class RuntimeStateDrawable extends
 		AbstractRuntimeAsset<EAdStateDrawable> implements
 		RuntimeCompoundDrawable<EAdStateDrawable> {
 
-	private AssetHandler assetHandler;
-
 	private Map<String, RuntimeCompoundDrawable<?>> drawables;
 
 	@Inject
 	public RuntimeStateDrawable(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+		super(assetHandler);
 	}
 
 	@Override
@@ -89,8 +87,8 @@ public class RuntimeStateDrawable extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
-			int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time,
+			List<String> states, int level) {
 		if (states == null) {
 			return drawables.values().iterator().next()
 					.getDrawable(time, states, level);
@@ -101,6 +99,13 @@ public class RuntimeStateDrawable extends
 			return null;
 		} else {
 			return d.getDrawable(time, states, ++level);
+		}
+	}
+
+	@Override
+	public void refresh() {
+		for (RuntimeCompoundDrawable<?> d : drawables.values()) {
+			d.refresh();
 		}
 	}
 }

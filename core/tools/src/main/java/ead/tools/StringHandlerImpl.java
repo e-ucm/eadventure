@@ -68,7 +68,9 @@ public class StringHandlerImpl implements StringHandler {
 	}
 
 	public void addLanguage(String language) {
-		loadedStrings.put(language, new HashMap<EAdString, String>());
+		if (!loadedStrings.containsKey(language))
+			loadedStrings.put(language,
+					new HashMap<EAdString, String>());
 	}
 
 	public void setLanguage(String language) {

@@ -48,13 +48,13 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.sceneelements.Button;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
-import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class CharacterScene extends EmptyScene {
@@ -87,6 +87,7 @@ public class CharacterScene extends EmptyScene {
 			"@drawable/walking_left_1.png", "@drawable/walking_left_2.png" };
 
 	public CharacterScene() {
+		this.setId("CharacterScene");
 
 		//		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
 		//				.getSceneElementFactory()
@@ -168,10 +169,8 @@ public class CharacterScene extends EmptyScene {
 						new ValueOp(CommonStates.EAD_STATE_DEFAULT.toString()));
 		//		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 		//				.getSceneElementFactory()
-		//				.createSceneElement("Stand", 300, 10, standEffect);
-		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		Button stand = new Button();
-		sf.setString(stand.getLabel(), "Stand");
+		//				.createSceneElement("Stand", 300, 10, standEffect);		
+		Button stand = new Button(new EAdString("techDemo.CharacterScene.Stand"));		
 		stand.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
 		getSceneElements().add(stand);
@@ -182,8 +181,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
 						new ValueOp(CommonStates.EAD_STATE_TALKING.toString()));
-		Button talk = new Button();
-		sf.setString(talk.getLabel(), "Talk");
+		Button talk = new Button(new EAdString("techDemo.CharacterScene.Talk"));		
 		talk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
 		getSceneElements().add(talk);
@@ -194,8 +192,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
 						new ValueOp(CommonStates.EAD_STATE_WALKING.toString()));
-		Button walk = new Button();
-		sf.setString(walk.getLabel(), "Walk");
+		Button walk = new Button(new EAdString("techDemo.CharacterScene.Walk"));		
 		walk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
 		getSceneElements().add(walk);
@@ -256,15 +253,6 @@ public class CharacterScene extends EmptyScene {
 				getWalkDrawable());
 
 		return stateDrawable;
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene with a character, with orientation and different states. Press the buttons to control the character.";
-	}
-
-	public String getDemoName() {
-		return "Character Scene";
 	}
 
 }

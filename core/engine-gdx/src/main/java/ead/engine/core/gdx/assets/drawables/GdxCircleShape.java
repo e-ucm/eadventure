@@ -38,14 +38,21 @@
 package ead.engine.core.gdx.assets.drawables;
 
 import com.badlogic.gdx.graphics.Pixmap;
+import com.google.inject.Inject;
 
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxCircleShape extends GdxShape<CircleShape> {
+	
+	@Inject
+	public GdxCircleShape(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
 
 	@Override
 	protected Pixmap generatePixmap() {

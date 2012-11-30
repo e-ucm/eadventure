@@ -40,7 +40,6 @@ package ead.importer;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
-import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
@@ -187,7 +186,7 @@ public class BaseImporterModule extends AbstractModule {
 		}).to(MacroImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Macro.class, MacroImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Action, EAdAction>>() {
+		bind(new TypeLiteral<EAdElementImporter<Action, EAdSceneElementDef>>() {
 		}).to(ActionImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Action.class,
 				ActionImporter.class);

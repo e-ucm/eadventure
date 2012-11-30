@@ -37,7 +37,7 @@
 
 package ead.engine.core.operators;
 
-import ead.common.model.EAdElement;
+import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -66,11 +66,13 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
+	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar,
+			T eAdOperation);
 
-	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar,
+			T eAdOperation);
 
-	<T extends EAdOperation, S> S operate(EAdElement element,
+	<T extends EAdOperation, S> S operate(Variabled element,
 			EAdVarDef<S> varDef, T operation);
 
 	void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory);

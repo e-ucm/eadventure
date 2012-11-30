@@ -38,9 +38,15 @@
 package ead.engine.core.gameobjects.huds;
 
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
@@ -56,8 +62,10 @@ import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
 import ead.common.widgets.containers.ColumnContainer;
 import ead.engine.core.game.GameState;
+import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
@@ -67,20 +75,24 @@ import ead.engine.core.platform.assets.AssetHandler;
  * </p>
  * 
  */
-public class MenuHUD extends AbstractHUD {
+public class MenuHUD extends AbstractHUD implements
+		EngineFilter<InputAction<?>> {
+
+	private static final EAdGUIEvent MENU_EVENT = new KeyGEv(
+			KeyEventType.KEY_PRESSED, KeyGEvCode.ESCAPE);
+	public static String ID = "Hud.Menu";
 
 	public MenuHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+				eventFactory, 100);
 	}
 
 	public void init() {
-		setPriority(100);
 
 		ColumnContainer menu = new ColumnContainer();
-		menu.setId("MenuHud");
+		menu.setId(ID);
 		menu.setPosition(new EAdPosition(EAdPosition.Corner.CENTER,
 				400, 300));
 
@@ -118,6 +130,12 @@ public class MenuHUD extends AbstractHUD {
 		menu.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
 
 		setElement(menu);
+
+		BasicField<Boolean> field = new BasicField<Boolean>(
+				this.getElement(), SceneElement.VAR_VISIBLE);
+
+		menu.addBehavior(MENU_EVENT, new ChangeFieldEf(field,
+				new BooleanOp(new NOTCond(new OperationCond(field)))));
 	}
 
 	public EAdSceneElement createMenuButton(EAdString string,
@@ -144,6 +162,24 @@ public class MenuHUD extends AbstractHUD {
 		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				effect);
 		return button;
+	}
+
+	public void update() {
+		super.update();
+		gameState.setPaused(isVisible());
+	}
+
+	@Override
+	public int compareTo(EngineFilter<?> o) {
+		return this.getPriority() - o.getPriority();
+	}
+
+	@Override
+	public InputAction<?> filter(InputAction<?> o, Object[] params) {
+		if (MENU_EVENT.equals(o.getGUIEvent())) {
+			processAction(o);
+		}
+		return o;
 	}
 
 }

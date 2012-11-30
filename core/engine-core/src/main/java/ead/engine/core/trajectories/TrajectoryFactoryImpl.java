@@ -39,15 +39,12 @@ package ead.engine.core.trajectories;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.engine.core.factorymapproviders.TrajectoryFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.trajectories.Path;
-import ead.engine.core.trajectories.TrajectoryFactory;
-import ead.engine.core.trajectories.TrajectoryGenerator;
 import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;
 
@@ -64,7 +61,7 @@ public class TrajectoryFactoryImpl extends
 
 	@Override
 	public Path getTrajectory(EAdTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int x, int y) {
+			EAdSceneElement movingElement, int x, int y) {
 
 		@SuppressWarnings("unchecked")
 		TrajectoryGenerator<EAdTrajectoryDefinition> generator = (TrajectoryGenerator<EAdTrajectoryDefinition>) this
@@ -76,7 +73,7 @@ public class TrajectoryFactoryImpl extends
 
 	@Override
 	public Path getTrajectory(EAdTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int x, int y,
+			EAdSceneElement movingElement, int x, int y,
 			SceneElementGO<?> sceneElement) {
 
 		@SuppressWarnings("unchecked")
@@ -90,7 +87,7 @@ public class TrajectoryFactoryImpl extends
 
 	@Override
 	public boolean canGetTo(EAdTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, SceneElementGO<?> sceneElement) {
+			EAdSceneElement movingElement, SceneElementGO<?> sceneElement) {
 		return false;
 	}
 }

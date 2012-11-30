@@ -66,18 +66,14 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	/**
 	 * Logger
 	 */
-	private Logger logger = LoggerFactory.getLogger("RuntimeComposedDrawable");
-
-	/**
-	 * The asset handler
-	 */
-	protected AssetHandler assetHandler;
+	private Logger logger = LoggerFactory
+			.getLogger("RuntimeComposedDrawable");
 
 	protected ArrayList<RuntimeDrawable<?, GraphicContext>> drawables;
 
 	@Inject
 	public RuntimeComposedDrawable(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+		super(assetHandler);
 		this.drawables = new ArrayList<RuntimeDrawable<?, GraphicContext>>();
 		logger.info("New instance");
 	}
@@ -87,8 +83,9 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		super.setDescriptor(e);
 		drawables.clear();
 		for (EAdBasicDrawable d : e.getAssetList()) {
-			drawables.add((RuntimeDrawable<?, GraphicContext>) assetHandler
-					.getDrawableAsset(d));
+			drawables
+					.add((RuntimeDrawable<?, GraphicContext>) assetHandler
+							.getDrawableAsset(d));
 		}
 	}
 
@@ -99,25 +96,27 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	public int getWidth() {
 		int width = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			width = Math.max(assetHandler.getDrawableAsset(asset).getWidth(),
-					width);
+			width = Math.max(assetHandler.getDrawableAsset(asset)
+					.getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			height = Math.max(assetHandler.getDrawableAsset(asset).getHeight(),
-					height);
+			height = Math.max(assetHandler.getDrawableAsset(asset)
+					.getHeight(), height);
 		return height;
 	}
 
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		for (EAdDrawable asset : descriptor.getAssetList())
-			assetHandler.getRuntimeAsset(asset, true);
-		return assetHandler != null;
+		for (RuntimeDrawable<?, ?> d : this.drawables) {
+			if (!d.isLoaded())
+				d.loadAsset();
+		}
+		return true;
 	}
 
 	@Override
@@ -156,12 +155,19 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
-			int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time,
+			List<String> states, int level) {
 		for (RuntimeDrawable<?, ?> d : this.drawables) {
 			d.getDrawable(time, states, level);
 		}
 		return this;
+	}
+
+	@Override
+	public void refresh() {
+		for (RuntimeDrawable<?, ?> d : this.drawables) {
+			d.refresh();
+		}
 	}
 
 }

@@ -50,7 +50,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene>
-		implements Comparator<DrawableGO<?>>, SceneGO<EAdScene> {
+		implements Comparator<SceneElementGO<?>>, SceneGO<EAdScene> {
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler,
@@ -70,7 +70,7 @@ public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene>
 	}
 
 	@Override
-	public int compare(DrawableGO<?> o1, DrawableGO<?> o2) {
+	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
 		int z1 = gameState.getValueMap().getValue(o1.getElement(),
 				SceneElement.VAR_Z);
 		int z2 = gameState.getValueMap().getValue(o2.getElement(),

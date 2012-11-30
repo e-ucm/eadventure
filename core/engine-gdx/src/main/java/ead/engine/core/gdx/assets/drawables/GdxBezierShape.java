@@ -43,16 +43,23 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.google.inject.Inject;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxBezierShape extends GdxShape<BezierShape> {
 
 	protected static boolean usingGradient = false;
+	
+	@Inject
+	public GdxBezierShape(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
 
 	protected Pixmap generatePixmap() {
 		ArrayList<Float> shape = new ArrayList<Float>();

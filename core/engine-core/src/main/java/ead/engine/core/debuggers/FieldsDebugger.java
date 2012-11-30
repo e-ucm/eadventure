@@ -43,8 +43,8 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
@@ -72,7 +72,7 @@ import ead.tools.StringHandler;
  */
 public class FieldsDebugger implements Debugger {
 
-	private EAdElement element;
+	private EAdSceneElement element;
 
 	private InputHandler inputHandler;
 
@@ -108,7 +108,7 @@ public class FieldsDebugger implements Debugger {
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
 		GameObject<?> newGO = inputHandler.getGameObjectUnderPointer();
-		EAdElement newElement = (EAdElement) (newGO != null ? newGO
+		EAdSceneElement newElement = (EAdSceneElement) (newGO != null ? newGO
 				.getElement() : game.getCurrentChapter());
 		if (newElement != element) {
 			element = newElement;

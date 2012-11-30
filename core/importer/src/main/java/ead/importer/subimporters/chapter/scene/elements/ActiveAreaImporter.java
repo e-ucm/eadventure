@@ -39,10 +39,10 @@ package ead.importer.subimporters.chapter.scene.elements;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
@@ -59,7 +59,7 @@ import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 
 public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
-	private EAdElementImporter<Action, EAdAction> actionImporter;
+	private EAdElementImporter<Action, EAdSceneElementDef> actionImporter;
 	private static Paint ACTIVE_AREA_PAINT = new Paint(new ColorFill(0, 255, 0,
 			100), ColorFill.GREEN);
 
@@ -68,7 +68,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	@Inject
 	public ActiveAreaImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			StringHandler stringHandler, EAdElementFactory factory,
 			ImportAnnotator annotator, ResourceImporter resourceImporter) {
 		super(factory, conditionsImporter, stringHandler, annotator);

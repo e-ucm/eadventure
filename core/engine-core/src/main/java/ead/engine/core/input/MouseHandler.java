@@ -103,7 +103,7 @@ public class MouseHandler {
 	/**
 	 * Game object under the mouse
 	 */
-	private DrawableGO<?> gameObjectUnderMouse;
+	private SceneElementGO<?> gameObjectUnderMouse;
 
 	// Drag & Drop attributes
 
@@ -209,7 +209,7 @@ public class MouseHandler {
 	 * 
 	 * @return the game object currently under the mouse
 	 */
-	public DrawableGO<?> getGameObjectUnderMouse() {
+	public SceneElementGO<?> getGameObjectUnderMouse() {
 		return gameObjectUnderMouse;
 	}
 
@@ -219,7 +219,7 @@ public class MouseHandler {
 	 * @param currentGO
 	 *            the game object under the mouse pointer
 	 */
-	public void setGameObjectUnderMouse(DrawableGO<?> gameObjectUnderMouse) {
+	public void setGameObjectUnderMouse(SceneElementGO<?> gameObjectUnderMouse) {
 		this.gameObjectUnderMouse = gameObjectUnderMouse;
 	}
 

@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 
 import ead.common.resources.assets.drawable.basics.shapes.AbstractShape;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
@@ -57,6 +58,10 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 	private int width = 0;
 
 	private int height = 0;
+
+	public RuntimeBezierShape(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
 
 	@Override
 	public int getWidth() {
@@ -82,8 +87,8 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
-			int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time,
+			List<String> states, int level) {
 		return this;
 	}
 

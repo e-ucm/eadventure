@@ -60,8 +60,8 @@ import ead.common.resources.assets.text.EAdFont;
 @Element
 public class SpeakEf extends AbstractEffect {
 
-	private static final Paint BUBBLE_PAINT = new Paint(new ColorFill(255, 255,
-			255, 220), ColorFill.BLACK, 2);
+	private static final Paint BUBBLE_PAINT = new Paint(
+			new ColorFill(255, 255, 255, 220), ColorFill.BLACK, 2);
 
 	@Param("x")
 	private EAdOperation x;
@@ -86,14 +86,22 @@ public class SpeakEf extends AbstractEffect {
 	 * {@link Paint#WHITE_ON_BLACK} and bubble color of
 	 * {@link Paint#BLACK_ON_WHITE}
 	 */
-	public SpeakEf() {
+	public SpeakEf(EAdString string) {
 		super();
-		caption = new Caption();
+		if (string != null) {
+			caption = new Caption(string);
+		} else {
+			caption = new Caption();
+		}
 		caption.setTextPaint(ColorFill.BLACK);
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 		setQueueable(true);
 		setOpaque(true);
+	}
+
+	public SpeakEf() {
+		this(null);
 	}
 
 	/**

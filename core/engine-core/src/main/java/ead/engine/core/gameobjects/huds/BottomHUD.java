@@ -61,7 +61,7 @@ public class BottomHUD extends AbstractHUD {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+				eventFactory, 0);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class BottomHUD extends AbstractHUD {
 
 	@Override
 	public void init() {
-		setPriority(0);
+		
 	}
 
 	public void doLayout() {

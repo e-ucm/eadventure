@@ -60,10 +60,6 @@ import ead.engine.core.gameobjects.factories.EventGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.TransitionFactoryImpl;
-import ead.engine.core.gameobjects.huds.EffectHUD;
-import ead.engine.core.gameobjects.huds.EffectHUDImpl;
-import ead.engine.core.gameobjects.huds.InventoryHUD;
-import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
 import ead.engine.core.gdx.html.tools.GwtInjector;
 import ead.engine.core.gdx.platform.GdxPluginHandler;
 import ead.engine.core.inventory.InventoryHandler;
@@ -93,8 +89,7 @@ public class GWTBasicGameModule extends AbstractGinModule {
 		bind(ValueMap.class).to(VariableMap.class).in(Singleton.class);
 		bind(GameState.class).to(GameStateImpl.class).in(Singleton.class);
 
-		bind(Game.class).to(GameImpl.class).in(Singleton.class);
-		bind(EffectHUD.class).to(EffectHUDImpl.class).in(Singleton.class);
+		bind(Game.class).to(GameImpl.class).in(Singleton.class);		
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
 		bind(DebuggerHandler.class).to(DebuggerHandlerImpl.class).in(
 				Singleton.class);
@@ -103,7 +98,7 @@ public class GWTBasicGameModule extends AbstractGinModule {
 		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(
 				Singleton.class);
-		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);
+		
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
 				LoadingScreen.class).in(Singleton.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class).in(

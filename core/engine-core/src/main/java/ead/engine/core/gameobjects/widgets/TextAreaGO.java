@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.widgets.TextArea;
 import ead.engine.core.game.GameState;
@@ -115,7 +116,8 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 		} else if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			if (mouseAction.getType() == MouseGEvType.PRESSED) {
-				gameState.setActiveElement(element);
+				gameState.getValueMap().setValue(
+						SystemFields.ACTIVE_ELEMENT, getElement());
 				action.consume();
 				return this;
 			}

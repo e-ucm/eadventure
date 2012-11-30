@@ -65,16 +65,15 @@ import ead.demos.elementfactories.scenes.scenes.TrajectoriesScene;
 
 public class TechDemoAdventure extends BasicAdventureModel {
 
-	private List<SceneDemo> sceneDemos;
+	private List<EAdScene> sceneDemos;
 
 	private BasicChapter chapter;
 
 	public TechDemoAdventure() {
 		chapter = new BasicChapter();
 		this.getChapters().add(chapter);
-
-		sceneDemos = new ArrayList<SceneDemo>();
-		sceneDemos = new ArrayList<SceneDemo>();
+		
+		sceneDemos = new ArrayList<EAdScene>();
 		sceneDemos.add(new InitScene());
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
@@ -102,13 +101,13 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		sceneDemos.add(new BVSScene());
 	}
 
-	public List<SceneDemo> getScenes() {
+	public List<EAdScene> getScenes() {
 		return sceneDemos;
 	}
 
 	public List<String> getSceneDemosDescriptions() {
 		ArrayList<String> strings = new ArrayList<String>();
-		for (SceneDemo s : sceneDemos) {
+		for (EAdScene s : sceneDemos) {
 			strings.add(s.toString());
 		}
 		return strings;

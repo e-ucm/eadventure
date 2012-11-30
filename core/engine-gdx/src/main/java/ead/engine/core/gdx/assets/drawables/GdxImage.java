@@ -54,8 +54,10 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class GdxImage extends RuntimeImage<SpriteBatch> {
 
-	private static final Logger logger = LoggerFactory.getLogger("GdxImage");
+	private static final Logger logger = LoggerFactory
+			.getLogger("GdxImage");
 
+	private FileHandle fh;
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
 
@@ -66,16 +68,15 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	@Override
 	public boolean loadAsset() {
-		super.loadAsset();		
+		super.loadAsset();
 		try {
-			FileHandle fh = ((GdxAssetHandler) assetHandler)
+			fh = ((GdxAssetHandler) assetHandler)
 					.getFileHandle(descriptor.getUri().getPath());
 			pixmap = new Pixmap(fh);
 		} catch (Exception e) {
 			// TODO Load a default error image.
-			logger
-					.warn("Cound not load image for descriptor: " + descriptor,
-							e);
+			logger.warn("Cound not load image for descriptor: "
+					+ descriptor, e);
 			pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
 		}
 		Texture texture = new Texture(pixmap);
@@ -108,6 +109,8 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 		super.freeMemory();
 		textureRegion.getTexture().dispose();
 		textureRegion = null;
+		pixmap.dispose();
+		pixmap = null;
 	}
 
 	@Override
@@ -117,5 +120,15 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 
 	public void render(SpriteBatch batch) {
 		batch.draw(textureRegion, 0, 0);
+	}
+
+	@Override
+	public void refresh() {
+		FileHandle fh = ((GdxAssetHandler) assetHandler)
+				.getFileHandle(descriptor.getUri().getPath());
+		if (!this.fh.path().equals(fh.path())) {
+			this.freeMemory();
+			this.loadAsset();
+		}
 	}
 }

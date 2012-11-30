@@ -44,6 +44,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.shapes.AbstractShape;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
@@ -53,8 +54,8 @@ public abstract class GdxShape<T extends AbstractShape> extends
 	private TextureRegion textureRegion;
 	protected Pixmap pixmapContains;
 
-	public GdxShape() {
-
+	public GdxShape(AssetHandler assetHandler) {
+		super(assetHandler);
 	}
 
 	public boolean loadAsset() {
@@ -83,7 +84,7 @@ public abstract class GdxShape<T extends AbstractShape> extends
 	@Override
 	public void freeMemory() {
 		super.freeMemory();
-		if (pixmapContains != null) {
+		if (pixmapContains != null ) {
 			this.pixmapContains.dispose();
 		}
 	}
@@ -136,5 +137,10 @@ public abstract class GdxShape<T extends AbstractShape> extends
 			p.setColor(rI + vcr * proj, gI + vcg * proj, bI + vcb
 					* proj, aI + vca * proj);
 		}
+	}
+	
+	@Override
+	public void refresh() {
+		// Do nothing
 	}
 }

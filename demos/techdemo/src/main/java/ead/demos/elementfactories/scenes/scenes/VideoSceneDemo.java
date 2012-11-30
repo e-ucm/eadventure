@@ -40,9 +40,8 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.demos.elementfactories.scenes.SceneDemo;
 
-public class VideoSceneDemo extends VideoScene implements SceneDemo {
+public class VideoSceneDemo extends VideoScene {
 
 	public VideoSceneDemo() {
 		super();
@@ -51,7 +50,7 @@ public class VideoSceneDemo extends VideoScene implements SceneDemo {
 				getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
 
-	@Override
+	
 	public String getSceneDescription() {
 		return "A scene showing a video";
 	}

@@ -37,56 +37,53 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.input.actions.MouseInputAction;
+import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 
-	/**
-	 * The current {@link ActionsHUD}
-	 */
-	private ActionsHUD actionsHUD;
+	private static final Logger logger = LoggerFactory
+			.getLogger("ActorActionsGO");
 
 	@Inject
-	public ActorActionsGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, ActionsHUD actionsHUD) {
+	public ActorActionsGO(SceneElementGOFactory gameObjectFactory,
+			GUI gui, GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
-		this.actionsHUD = actionsHUD;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize() {
 		super.initialize();
 		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
-			EAdSceneElement ref = gameState.getValueMap().getValue(
-					element.getActionElement(),
-					SceneElementDef.VAR_SCENE_ELEMENT);
+			EAdSceneElementDef ref = element.getActionElement();
 			if (ref != null) {
-				SceneElementGO<?> sceneElement = sceneElementFactory
-						.get(ref);
-				if (sceneElement.getActions() != null) {
-					int x = sceneElement.getCenterX();
-					int y = sceneElement.getCenterY();
-					if (action instanceof MouseInputAction) {
-						x = gameState.getValueMap().getValue(
+				EAdList<EAdSceneElementDef> list = gameState
+						.getValueMap().getValue(ref,
+								ActorActionsEf.VAR_ACTIONS);
+				if (list != null) {
+					ActionsHUD hud = getActionsHUD();
+					if (hud != null) {
+						int x = gameState.getValueMap().getValue(
 								SystemFields.MOUSE_X);
-						y = gameState.getValueMap().getValue(
+						int y = gameState.getValueMap().getValue(
 								SystemFields.MOUSE_Y);
+						hud.showActions( list, x, y );
 					}
-					actionsHUD.setElement(sceneElement, x, y);
+
 				}
 			}
 		}
@@ -102,4 +99,13 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 		return true;
 	}
 
+	private ActionsHUD getActionsHUD() {
+		for (HudGO h : gui.getHUDs()) {
+			if (h instanceof ActionsHUD) {
+				return (ActionsHUD) h;
+			}
+		}
+		logger.warn("There is no Actions HUD. Actions won't be shown");
+		return null;
+	}
 }

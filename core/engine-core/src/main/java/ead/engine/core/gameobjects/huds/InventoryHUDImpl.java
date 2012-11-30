@@ -74,7 +74,7 @@ import ead.engine.core.util.EAdTransformation;
 import ead.tools.StringHandler;
 
 @Singleton
-public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
+public class InventoryHUDImpl extends AbstractHUD  {
 
 	private static final int TIME_TO_SHOW = 500;
 
@@ -120,7 +120,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 			GameState gameState, EvaluatorFactory evaluatorFactory,
 			EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+				eventFactory, 6);
 		valueMap = gameState.getValueMap();		
 		isShowing = true;
 		height = valueMap.getValue(SystemFields.GAME_HEIGHT);

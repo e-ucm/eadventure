@@ -41,7 +41,6 @@ import java.util.LinkedHashMap;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -62,7 +61,7 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo> {
 	public AtrezzoImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter,

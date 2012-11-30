@@ -56,9 +56,10 @@ public abstract class AbstractHUD extends
 
 	public AbstractHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
+			GameState gameState, EventGOFactory eventFactory, int priority) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);		
+				eventFactory);
+		this.setPriority(priority);
 	}
 
 	@Override

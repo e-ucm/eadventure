@@ -37,28 +37,25 @@
 
 package ead.demos.elementfactories.actions;
 
-import ead.common.model.elements.EAdAction;
-import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class ActionsFactory {
 
-	public EAdAction getBasicAction() {
-		ElementAction action = new ElementAction();
-		action.getResources().addAsset(action.getInitialBundle(),
-				ElementAction.appearance,
-				new Image("@drawable/examine-normal.png"));
-
+	public SceneElementDef getBasicAction() {
+		SceneElementDef def = new SceneElementDef(new Image(
+				"@drawable/examine-normal.png"));
 		SpeakEf speak = new SpeakEf();
-
-		EAdElementsFactory.getInstance().getStringFactory().setString(
-				speak.getString(), "The action was triggered!");
-
-		action.getEffects().add(speak);
-
-		return action;
+		EAdElementsFactory
+				.getInstance()
+				.getStringFactory()
+				.setString(speak.getString(),
+						"The action was triggered!");
+		def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speak);
+		return def;
 	}
 
 }

@@ -46,10 +46,11 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.InputActionProcessor;
+import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
@@ -86,9 +87,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected Game game;
 
-	protected GameState gameState;
-
-	private InputActionProcessor defaultProcessor;
+	protected GameState gameState;	
 
 	public AbstractGUI(GameObjectManager gameObjectManager,
 			GenericCanvas<T> canvas) {
@@ -213,7 +212,7 @@ public abstract class AbstractGUI<T> implements GUI {
 			MouseInputAction m = (MouseInputAction) action;
 			go = hudProcess(m);
 			if (go == null) {
-				gameState.getScene().processAction(action);
+				go = gameState.getScene().processAction(action);
 			}
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction k = (KeyInputAction) action;
@@ -223,19 +222,12 @@ public abstract class AbstractGUI<T> implements GUI {
 				go.processAction(k);
 			}
 		}
-
-		if (!action.isConsumed()) {
-			// Fire default behavior
-			if (defaultProcessor != null) {
-				go = defaultProcessor.processAction(action);
-			}
-
-		}
+		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action, null);
 		return go;
 	}
 
-	public DrawableGO<?> getGameObjectIn(int x, int y) {
-		DrawableGO<?> go = null;
+	public SceneElementGO<?> getGameObjectIn(int x, int y) {
+		SceneElementGO<?> go = null;
 		int i = getHUDs().size() - 1;
 		while (go == null && i >= 0) {
 			HudGO hud = getHUDs().get(i--);
@@ -247,11 +239,6 @@ public abstract class AbstractGUI<T> implements GUI {
 			return gameState.getScene().getFirstGOIn(x, y);
 		}
 		return go;
-	}
-
-	public void setDefaultInputActionProcessor(
-			InputActionProcessor processor) {
-		this.defaultProcessor = processor;
 	}
 
 	private DrawableGO<?> hudProcess(MouseInputAction a) {

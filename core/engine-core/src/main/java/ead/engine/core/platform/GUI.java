@@ -42,7 +42,7 @@ import java.util.List;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.InputActionProcessor;
+import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.util.EAdTransformation;
@@ -165,19 +165,12 @@ public interface GUI {
 	DrawableGO<?> processAction(InputAction<?> action);
 
 	/**
-	 * Sets an input processor for actions not processed by any game object
-	 * 
-	 * @param processor
-	 */
-	void setDefaultInputActionProcessor(InputActionProcessor processor);
-
-	/**
 	 * Returns the first object that contains the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 * @return
 	 */
-	DrawableGO<?> getGameObjectIn(int x, int y);
+	SceneElementGO<?> getGameObjectIn(int x, int y);
 
 }

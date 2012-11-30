@@ -55,7 +55,8 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
+public class GdxApplyForceGO extends
+		AbstractEffectGO<PhApplyImpulseEf> {
 
 	private OperatorFactory operatorFactory;
 
@@ -70,31 +71,38 @@ public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 	@Override
 	public void initialize() {
 		super.initialize();
-		float x = operatorFactory.operate(Float.class, element.getxForce());
-		float y = operatorFactory.operate(Float.class, element.getyForce());
+		float x = operatorFactory.operate(Float.class,
+				element.getxForce());
+		float y = operatorFactory.operate(Float.class,
+				element.getyForce());
 		ValueMap valueMap = gameState.getValueMap();
-		Body b = valueMap.getValue(element.getSceneElement(),
+		Object finalElement = valueMap.maybeDecodeField(element
+				.getSceneElement());
+		Body b = valueMap.getValue(finalElement,
 				GdxPhysicsEffectGO.VAR_PH_BODY);
 		if (b != null) {
 			b.applyForce(new Vector2(x, y), b.getWorldCenter());
 		} else {
-			World w = valueMap.getValue(null, GdxPhysicsEffectGO.VAR_PH_WORLD);
+			World w = valueMap.getValue(null,
+					GdxPhysicsEffectGO.VAR_PH_WORLD);
 			if (w != null) {
-				valueMap.setValue(element.getSceneElement(),
+				valueMap.setValue(finalElement,
 						PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
-				valueMap.setValue(element.getSceneElement(),
+				valueMap.setValue(finalElement,
 						PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-				valueMap.setValue(element.getSceneElement(),
+				valueMap.setValue(finalElement,
 						PhysicsEffect.VAR_PH_FRICTION, 0.1f);
-				valueMap.setValue(element.getSceneElement(),
+				valueMap.setValue(finalElement,
 						PhysicsEffect.VAR_PH_DENSITY, 1.0f);
-				GdxPhysicsEffectGO.createBody(w, (EAdSceneElement) element
-						.getSceneElement(), valueMap);
-				b = valueMap.getValue(element.getSceneElement(),
+				GdxPhysicsEffectGO.createBody(w,
+						(EAdSceneElement) element.getSceneElement(),
+						valueMap);
+				b = valueMap.getValue(finalElement,
 						GdxPhysicsEffectGO.VAR_PH_BODY);
 				if (b != null) {
 					b.setType(BodyType.DynamicBody);
-					b.applyForce(new Vector2(x, y), b.getWorldCenter());
+					b.applyForce(new Vector2(x, y),
+							b.getWorldCenter());
 				}
 			}
 		}

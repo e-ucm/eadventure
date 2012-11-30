@@ -37,7 +37,7 @@
 
 package ead.engine.core.trajectories;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 
@@ -66,7 +66,7 @@ public interface TrajectoryGenerator<T extends EAdTrajectoryDefinition> {
 	 *            target y coordinate
 	 * @return the path
 	 */
-	Path getTrajectory(T trajectoryDefinition, EAdElement movingElement, int x,
+	Path getTrajectory(T trajectoryDefinition, EAdSceneElement movingElement, int x,
 			int y);
 
 	/**
@@ -87,7 +87,7 @@ public interface TrajectoryGenerator<T extends EAdTrajectoryDefinition> {
 	 *            The element towards which to move
 	 * @return a path
 	 */
-	Path getTrajectory(T trajectoryDefinition, EAdElement movingElement, int x,
+	Path getTrajectory(T trajectoryDefinition, EAdSceneElement movingElement, int x,
 			int y, SceneElementGO<?> sceneElement);
 
 	/**
@@ -103,7 +103,7 @@ public interface TrajectoryGenerator<T extends EAdTrajectoryDefinition> {
 	 *            the element that needs to be reached
 	 * @return true if the element can be reached, false otherwise
 	 */
-	boolean canGetTo(T trajectoryDefinition, EAdElement movingElement,
+	boolean canGetTo(T trajectoryDefinition, EAdSceneElement movingElement,
 			SceneElementGO<?> sceneElement);
 
 }

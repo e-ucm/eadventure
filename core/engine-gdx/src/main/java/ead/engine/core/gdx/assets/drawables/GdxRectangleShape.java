@@ -38,14 +38,21 @@
 package ead.engine.core.gdx.assets.drawables;
 
 import com.badlogic.gdx.graphics.Pixmap;
+import com.google.inject.Inject;
 
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxRectangleShape extends GdxShape<RectangleShape> {
+	
+	@Inject
+	public GdxRectangleShape(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
 
 	@Override
 	protected Pixmap generatePixmap() {

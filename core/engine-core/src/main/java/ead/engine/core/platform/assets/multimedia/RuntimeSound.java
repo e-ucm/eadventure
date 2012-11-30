@@ -45,11 +45,9 @@ import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
-	protected AssetHandler assetHandler;
-
 	@Inject
 	public RuntimeSound(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+		super(assetHandler);
 	}
 
 	/**

@@ -49,6 +49,7 @@ import ead.common.resources.assets.text.enums.FontStyle;
 public class TextsScene extends EmptyScene {
 
 	public TextsScene() {
+		this.setId("TextsScene");
 		this.setBackgroundFill(ColorFill.DARK_GRAY);
 
 		ComposedDrawable drawable = new ComposedDrawable();
@@ -92,15 +93,6 @@ public class TextsScene extends EmptyScene {
 		c.setPadding(0);
 		c.setFont(font);
 		return c;
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene for test texts";
-	}
-
-	public String getDemoName() {
-		return "Texts Scene";
 	}
 
 }

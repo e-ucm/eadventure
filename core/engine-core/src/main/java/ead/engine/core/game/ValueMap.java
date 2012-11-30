@@ -37,14 +37,12 @@
 
 package ead.engine.core.game;
 
-import java.util.ArrayList;
 import java.util.Map;
 
-import ead.common.model.EAdElement;
+import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.engine.core.operators.OperatorFactory;
 
 /**
  * The value map interfaces allows for the definition of key-value pairs of
@@ -52,16 +50,7 @@ import ead.engine.core.operators.OperatorFactory;
  */
 public interface ValueMap {
 
-	/**
-	 * Sets the operator factory used for this value amp
-	 * 
-	 * @param operatorFactory
-	 *            the operator factory
-	 */
-	void setOperatorFactory(OperatorFactory operatorFactory);
-
 	// Sets
-
 	/**
 	 * Sets the field to given value
 	 * 
@@ -82,7 +71,7 @@ public interface ValueMap {
 	 * @param value
 	 *            the value for the variable
 	 */
-	void setValue(EAdElement element, EAdVarDef<?> varDef, Object value);
+	void setValue(Object element, EAdVarDef<?> varDef, Object value);
 
 	/**
 	 * Sets the variable to the result value of the operation
@@ -104,7 +93,8 @@ public interface ValueMap {
 	 * @param operation
 	 *            the operation whose result will be assigned to the variable
 	 */
-	void setValue(EAdElement element, EAdVarDef<?> var, EAdOperation operation);
+	void setValue(Object element, EAdVarDef<?> var,
+			EAdOperation operation);
 
 	// Gets
 
@@ -128,25 +118,17 @@ public interface ValueMap {
 	 *            the variable definition to be consulted
 	 * @return the variable's value
 	 */
-	<S> S getValue(EAdElement element, EAdVarDef<S> varDef);
+	<S> S getValue(Object element, EAdVarDef<S> varDef);
 
 	/**
 	 * Returns the variables associated to an element, whose values are
 	 * different from the defaults
 	 * 
 	 * @param element
-	 *            the element
+	 *            the element. If the element is null, it returns system vars
 	 * @return a map with the variables
 	 */
-	Map<EAdVarDef<?>, Object> getElementVars(EAdElement element);
-
-	/**
-	 * Removes all fields associated to the given element
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	void remove(EAdElement element);
+	Map<EAdVarDef<?>, Object> getElementVars(Object element);
 
 	/**
 	 * Returns the final element associated to the given element. It could be
@@ -157,7 +139,7 @@ public interface ValueMap {
 	 *            the element
 	 * @return the final element pointed by the element
 	 */
-	EAdElement getFinalElement(EAdElement element);
+	Object maybeDecodeField(Object element);
 
 	/**
 	 * Checks if the value map contains updated variables' values for the given
@@ -170,7 +152,7 @@ public interface ValueMap {
 	 *            the element
 	 * @return if any element's field has been updated since last check
 	 */
-	boolean checkForUpdates(EAdElement element);
+	boolean checkForUpdates(Variabled element);
 
 	/**
 	 * Sets if the updates list is enable and it is recording all fields changes
@@ -182,20 +164,11 @@ public interface ValueMap {
 	void setUpdateListEnable(boolean enable);
 
 	/**
-	 * Clears the update list
+	 * Removes all fields associated to the given element
+	 * 
+	 * @param element
+	 *            the element
 	 */
-	void clearUpdateList();
-
-	Map<EAdVarDef<?>, Object> getSystemVars();
-
-	void setSystemVars(Map<EAdVarDef<?>, Object> systemVars);
-
-	Map<EAdElement, Map<EAdVarDef<?>, Object>> getElementVars();
-
-	void setElementVars(Map<EAdElement, Map<EAdVarDef<?>, Object>> map);
-
-	ArrayList<EAdElement> getUpdateList();
-
-	void setUpdateList(ArrayList<EAdElement> updateList);
+	void remove(Object element);
 
 }

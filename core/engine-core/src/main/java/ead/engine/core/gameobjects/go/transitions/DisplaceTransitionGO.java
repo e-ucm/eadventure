@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
+import com.google.inject.Inject;
+
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
@@ -53,6 +55,21 @@ import ead.engine.core.util.EAdTransformationImpl;
 public class DisplaceTransitionGO extends
 		AbstractTransitionGO<DisplaceTransition> {
 
+	private boolean finished;
+
+	private int width;
+
+	private int height;
+
+	private int startTime = -1;
+
+	private int x1, x2, y1, y2;
+
+	private EAdTransformation transformation;
+
+	private int currentTime;
+
+	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
@@ -67,20 +84,6 @@ public class DisplaceTransitionGO extends
 		transformation = new EAdTransformationImpl();
 		currentTime = 0;
 	}
-
-	private boolean finished;
-
-	private int width;
-
-	private int height;
-
-	private int startTime = -1;
-
-	private int x1, x2, y1, y2;
-
-	private EAdTransformation transformation;
-
-	private int currentTime;
 
 	public void doLayout(EAdTransformation t) {
 		super.doLayout(t);

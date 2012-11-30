@@ -155,14 +155,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void setDefaultInputActionProcessor(
-				InputActionProcessor processor) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public DrawableGO<?> getGameObjectIn(int x, int y) {
+		public SceneElementGO<?> getGameObjectIn(int x, int y) {
 			// TODO Auto-generated method stub
 			return null;
 		}

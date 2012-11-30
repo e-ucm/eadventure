@@ -46,14 +46,13 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.ValueMap;
@@ -86,14 +85,14 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 	@Override
 	public Path getTrajectory(NodeTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int x, int y) {
+			EAdSceneElement movingElement, int x, int y) {
 		return pathToNearestPoint(trajectoryDefinition, movingElement, x, y,
 				null);
 	}
 
 	@Override
 	public Path getTrajectory(NodeTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int x, int y,
+			EAdSceneElement movingElement, int x, int y,
 			SceneElementGO<?> sceneElement) {
 		return pathToNearestPoint(trajectoryDefinition, movingElement, x, y,
 				sceneElement);
@@ -101,7 +100,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 	@Override
 	public boolean canGetTo(NodeTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, SceneElementGO<?> sceneElement) {
+			EAdSceneElement movingElement, SceneElementGO<?> sceneElement) {
 		return pathToNearestPoint(trajectoryDefinition, movingElement,
 				sceneElement.getCenterX(), sceneElement.getCenterY(),
 				sceneElement).isGetsTo();
@@ -127,7 +126,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 */
 	private Path pathToNearestPoint(
 			NodeTrajectoryDefinition trajectoryDefinition,
-			EAdElement movingElement, int toX, int toY,
+			EAdSceneElement movingElement, int toX, int toY,
 			SceneElementGO<?> sceneElement) {
 
 		Map<String, DijkstraNode> nodeMap = new HashMap<String, DijkstraNode>();
@@ -263,7 +262,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 */
 	private DijkstraNode generateSides(
 			NodeTrajectoryDefinition trajectoryDefinition,
-			Map<String, DijkstraNode> nodeMap, EAdElement movingElement,
+			Map<String, DijkstraNode> nodeMap, EAdSceneElement movingElement,
 			int toX, int toY, SceneElementGO<?> sceneElement) {
 
 		Side currentSide = getCurrentSide(trajectoryDefinition, movingElement);
@@ -406,7 +405,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 			List<DijkstraNode> intersections) {
 		EAdRectangle rectangle = valueMap
 				.getValue(new BasicField<EAdRectangle>(
-						(EAdElement) sceneElement.getElement(),
+						(EAdSceneElement) sceneElement.getElement(),
 						NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
 		// TODO check if the position of the element isn't relevant (i.e. if the
 		// position of the rectangle is not relative to the element)
@@ -431,7 +430,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 			return false;
 		EAdRectangle rectangle = valueMap
 				.getValue(new BasicField<EAdRectangle>(
-						(EAdElement) sceneElement.getElement(),
+						(EAdSceneElement) sceneElement.getElement(),
 						NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
 		if (rectangle == null)
 			return false;
@@ -573,7 +572,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 */
 	private Side getCurrentSide(
 			NodeTrajectoryDefinition nodeTrajectoryDefinition,
-			EAdElement movingElement) {
+			EAdSceneElement movingElement) {
 		Side side = valueMap.getValue(movingElement,
 				NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
 		if (!nodeTrajectoryDefinition.getSides().contains(side))
@@ -601,7 +600,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 		return side;
 	}
 
-	private EAdPosition getCurrentPosition(EAdElement element) {
+	private EAdPosition getCurrentPosition(EAdSceneElement element) {
 		int x = valueMap.getValue(element, SceneElement.VAR_X);
 		int y = valueMap.getValue(element, SceneElement.VAR_Y);
 		return new EAdPosition(x, y);

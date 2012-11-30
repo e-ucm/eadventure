@@ -51,13 +51,11 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 		AbstractRuntimeAsset<EAdFilteredDrawable> implements
 		RuntimeDrawable<EAdFilteredDrawable, GraphicContext> {
 
-	private AssetHandler assetHandler;
-
 	private RuntimeDrawable<?, GraphicContext> drawable;
 
 	@Inject
 	public RuntimeFilteredDrawable(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+		super(assetHandler);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -108,6 +106,11 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	public RuntimeDrawable<?, ?> getDrawable(int time,
 			List<String> states, int level) {
 		return this;
+	}
+	
+	@Override
+	public void refresh() {
+		drawable.refresh();		
 	}
 
 }

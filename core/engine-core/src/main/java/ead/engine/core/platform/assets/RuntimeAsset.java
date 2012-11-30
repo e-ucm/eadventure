@@ -80,4 +80,10 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	 * @return
 	 */
 	T getAssetDescriptor();
+
+	/**
+	 * Refreshes the asset (normally used to refresh those assets that change
+	 * with localization)
+	 */
+	void refresh();
 }

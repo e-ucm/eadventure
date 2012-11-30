@@ -60,14 +60,6 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.TransitionFactoryImpl;
 import ead.engine.core.gameobjects.go.transitions.sceneloaders.GraphSceneLoader;
 import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
-import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.gameobjects.huds.ActionsHUDImpl;
-import ead.engine.core.gameobjects.huds.EffectHUD;
-import ead.engine.core.gameobjects.huds.EffectHUDImpl;
-import ead.engine.core.gameobjects.huds.InventoryHUD;
-import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
-import ead.engine.core.gameobjects.huds.TopBasicHUD;
-import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.GdxEngineImpl;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
@@ -139,13 +131,7 @@ public class GdxModuleMap extends ModuleMap {
 
 		// Tracking
 		binds.put(GameTracker.class, DefaultGameTracker.class);
-		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);
-
-		// HUDs
-		binds.put(EffectHUD.class, EffectHUDImpl.class);
-		binds.put(TopBasicHUD.class, TopBasicHUDImpl.class);
-		binds.put(InventoryHUD.class, InventoryHUDImpl.class);
-		binds.put(ActionsHUD.class, ActionsHUDImpl.class);		
+		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);		
 
 		binds.put(SceneLoader.class, GraphSceneLoader.class);
 

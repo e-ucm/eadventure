@@ -38,6 +38,8 @@
 package ead.engine.core.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -52,32 +54,20 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDef;
-import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.params.text.EAdString;
 import ead.engine.core.debuggers.DebuggerHandler;
+import ead.engine.core.game.enginefilters.EngineFilter;
+import ead.engine.core.game.enginefilters.EngineStringFilter;
+import ead.engine.core.game.enginefilters.HudsCreationFilter;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.gameobjects.huds.BottomHUD;
-import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.HudGO;
-import ead.engine.core.gameobjects.huds.InventoryHUD;
-import ead.engine.core.gameobjects.huds.MenuHUD;
-import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.GUI;
@@ -97,15 +87,19 @@ import ead.tools.StringHandler;
 @Singleton
 public class GameImpl implements Game, TextHandler {
 
+	private static final Logger logger = LoggerFactory
+			.getLogger("GameImpl");
+
+	public static final String FILTER_STRING_FILES = "stringFiles";
+
+	public static final String FILTER_HUDS_CREATION = "huds_creation";
+	
+	public static final String FILTER_PROCESS_ACTION = "action_generated";
+
 	/**
 	 * Default properties file. Loaded during initialization
 	 */
 	private static final String DEFAULT_PROPERTIES = "ead/engine/resources/ead.properties";
-
-	/**
-	 * Default strings file. Loaded during initialization
-	 */
-	private static final String DEFAULT_STRINGS = "@strings";
 
 	/**
 	 * Game gui
@@ -136,24 +130,23 @@ public class GameImpl implements Game, TextHandler {
 	 * Asset handler
 	 */
 	private AssetHandler assetHandler;
-
-	private EAdAdventureModel adventure;
-
-	private EAdChapter currentChapter;
-
+	
+	/**
+	 * Game state
+	 */
 	private GameState gameState;
 
-	private EffectHUD effectHUD;
+	/**
+	 * Current adventure model
+	 */
+	private EAdAdventureModel adventure;
 
-	private InventoryHUD inventoryHUD;
+	/**
+	 * Engine filters
+	 */
+	private Map<String, List<EngineFilter<?>>> filters;
 
-	private ActionsHUD actionsHUD;
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("GameImpl");
-
-	// Auxiliary variable, to avoid new every time
-	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
+	private EAdChapter currentChapter;
 
 	private DebuggerHandler debuggerHandler;
 
@@ -175,11 +168,7 @@ public class GameImpl implements Game, TextHandler {
 
 	private EAdList<EAdEffect> launchEffects;
 
-	private TopBasicHUD topBasicHUD;
-
 	private StringsReader stringsReader;
-
-	private MenuHUD menuHud;
 
 	private String currentLanguage = "";
 
@@ -188,12 +177,11 @@ public class GameImpl implements Game, TextHandler {
 			InputHandler inputHandler, PluginHandler pluginHandler,
 			GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			EffectHUD effectHUD, AssetHandler assetHandler,
+			AssetHandler assetHandler,
 			GameObjectManager gameObjectManager,
-			DebuggerHandler debugger, ValueMap valueMap,
-			TopBasicHUD basicHud, InventoryHUD inventoryHud,
+			DebuggerHandler debugger, ValueMap valueMap,			 
 			InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory, ActionsHUD actionsHUD,
+			EventGOFactory eventFactory,
 			GameTracker tracker, SceneGraph sceneGraph,
 			TweenController tweenController,
 			StringsReader stringsReader) {
@@ -205,14 +193,8 @@ public class GameImpl implements Game, TextHandler {
 		this.assetHandler = assetHandler;
 		this.pluginHandler = pluginHandler;
 		this.stringsReader = stringsReader;
-
-		this.effectHUD = effectHUD;
-		this.actionsHUD = actionsHUD;
-		this.topBasicHUD = basicHud;
-
 		this.adventure = null;
-		this.debuggerHandler = debugger;
-		this.inventoryHUD = inventoryHud;
+		this.debuggerHandler = debugger;		
 		this.inventoryHandler = inventoryHandler;
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
@@ -220,6 +202,8 @@ public class GameImpl implements Game, TextHandler {
 		this.sceneGraph = sceneGraph;
 		events = new ArrayList<EventGO<?>>();
 		this.tweenController = tweenController;
+
+		filters = new HashMap<String, List<EngineFilter<?>>>();
 
 	}
 
@@ -230,24 +214,24 @@ public class GameImpl implements Game, TextHandler {
 
 	@Override
 	public void setUp() {
+		addFilters();
+
 		assetHandler.initialize();
 
 		// Load strings
-		loadDefaultStrings();
+		loadStrings();
 
 		// Load plugins
 		pluginHandler.initialize();
 
 		// HUDs
-		gui.addHud(new BottomHUD(assetHandler, sceneElementFactory,
-				gui, gameState, eventFactory));
-		// gui.addHud(inventoryHUD, 1);
-		// gui.addHud(actionsHUD, 5);
-		// gui.addHud(effectHUD, 10);
-		menuHud = new MenuHUD(assetHandler, sceneElementFactory, gui,
-				gameState, eventFactory);
-		gui.addHud(menuHud);
-		gui.addHud(topBasicHUD);
+		List<HudGO> huds = new ArrayList<HudGO>();
+		huds = applyFilters(FILTER_HUDS_CREATION, huds, new Object[] {
+				assetHandler, sceneElementFactory, gui, gameState,
+				eventFactory, this });
+		for (HudGO h : huds) {
+			gui.addHud(h);
+		}
 
 		for (HudGO hud : gui.getHUDs()) {
 			hud.init();
@@ -259,29 +243,12 @@ public class GameImpl implements Game, TextHandler {
 		LoadingScreen loadingScreen = new LoadingScreen();
 		gameState.setScene((SceneGO<?>) sceneElementFactory
 				.get(loadingScreen));
-
-		// Add default events processor
-		addDefaultInputProcessor();
+		
 		setGame();
 	}
 
 	private void loadDefaultProperties() {
 		assetHandler.getTextfileAsync(DEFAULT_PROPERTIES, this);
-	}
-
-	private void addDefaultInputProcessor() {
-		SceneElement defaultProcessor = new SceneElement();
-		defaultProcessor.setId("ead.defaultProcessor");
-		BasicField<Boolean> field = new BasicField<Boolean>(
-				menuHud.getElement(), SceneElement.VAR_VISIBLE);
-
-		defaultProcessor.addBehavior(new KeyGEv(
-				KeyEventType.KEY_PRESSED, KeyGEvCode.ESCAPE),
-				new ChangeFieldEf(field, new BooleanOp(new NOTCond(
-						new OperationCond(field)))));
-
-		gui.setDefaultInputActionProcessor(sceneElementFactory
-				.get(defaultProcessor));
 	}
 
 	@Override
@@ -362,30 +329,32 @@ public class GameImpl implements Game, TextHandler {
 		}
 	}
 
-	private void loadDefaultStrings() {
-		// Default strings
-		String strings = assetHandler.getTextFile(DEFAULT_STRINGS
-				+ ".xml");
-		stringHandler.addStrings(stringsReader.readStrings(strings));
+	private void loadStrings() {
+		// Map containing all the files with strings (keys) and its associated
+		// language (value)
+		Map<String, String> stringFiles = new HashMap<String, String>();
+		stringFiles = applyFilters(FILTER_STRING_FILES, stringFiles,
+				new Object[] { gameState });
 
-		String languagesProperty = gameState.getValueMap().getValue(
-				null,
-				new VarDef<String>("languages", String.class, null));
-		if (languagesProperty != null) {
-			String[] languages = languagesProperty.split(",");
-			for (String language : languages) {
-				strings = assetHandler.getTextFile(DEFAULT_STRINGS
-						+ "-" + language + ".xml");
-				if (strings == null) {
-					logger.info(
-							"{} language was not loaded. Maybe the strings.xml file associated is not present",
-							language);
-				} else {
+		for (Entry<String, String> file : stringFiles.entrySet()) {
+			String strings = assetHandler.getTextFile(file.getKey());
+			String language = file.getValue();
+			if (strings == null || strings.equals("")) {
+				logger.info(
+						"{} language was not loaded. Maybe the strings.xml file associated is not present",
+						language);
+			} else {
+				stringHandler.addLanguage(language);
+				stringHandler.setLanguage(language);
+				Map<EAdString, String> stringsMap = stringsReader
+						.readStrings(strings);
+				if (stringsMap != null) {
+					stringHandler.addStrings(stringsMap);
 					logger.info("{} language loaded", language);
-					stringHandler.addLanguage(language);
-					stringHandler.setLanguage(language);
-					stringHandler.addStrings(stringsReader
-							.readStrings(strings));
+				} else {
+					logger.info(
+							"{} language not loaded. See previous erros.",
+							language);
 				}
 			}
 		}
@@ -413,13 +382,13 @@ public class GameImpl implements Game, TextHandler {
 				SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
-		tweenController.update(gui.getSkippedMilliseconds());
+		
 
 		// Scene
 		if (!gameState.isPaused()) {
-			processEffects();
 			updateGameEvents();
 			gameState.getScene().update();
+			tweenController.update(gui.getSkippedMilliseconds());
 		}
 
 		gui.addElement(gameState.getScene(), initialTransformation);
@@ -444,7 +413,7 @@ public class GameImpl implements Game, TextHandler {
 				&& !newLanguage.equals(currentLanguage)) {
 			currentLanguage = newLanguage;
 			stringHandler.setLanguage(currentLanguage);
-			assetHandler.clean(null);
+			assetHandler.refresh();			
 		}
 
 	}
@@ -464,47 +433,6 @@ public class GameImpl implements Game, TextHandler {
 		for (EventGO<?> e : events) {
 			e.update();
 		}
-	}
-
-	private void processEffects() {
-		gameState.updateEffectsQueue();
-		finishedEffects.clear();
-		boolean block = false;
-		int i = 0;
-		while (i < gameState.getEffects().size()) {
-			EffectGO<?> effectGO = gameState.getEffects().get(i);
-			i++;
-
-			if (block)
-				continue;
-
-			if (effectGO.isStopped() || effectGO.isFinished()) {
-				finishedEffects.add(effectGO);
-				if (effectGO.isFinished())
-					effectGO.finish();
-			} else {
-				if (effectGO.isBlocking())
-					// If effect is blocking, get out of the loop
-					block = true;
-
-				effectGO.update();
-			}
-
-		}
-
-		// Delete finished effects
-		for (EffectGO<?> e : finishedEffects) {
-			// logger.info("Finished or discarded effect {}", e.getClass());
-			gameState.getEffects().remove(e);
-		}
-
-		boolean visualEffect = false;
-		int index = 0;
-		while (!visualEffect && index < gameState.getEffects().size()) {
-			visualEffect = gameState.getEffects().get(index++)
-					.isVisualEffect();
-		}
-		effectHUD.setVisible(visualEffect);
 	}
 
 	@Override
@@ -605,6 +533,38 @@ public class GameImpl implements Game, TextHandler {
 	@Override
 	public void setAdventureModel(EAdAdventureModel model) {
 		this.adventure = model;
+	}
+
+	@Override
+	public void addFilter(String filterName, EngineFilter<?> filter) {
+
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		if (filtersList == null) {
+			filtersList = new ArrayList<EngineFilter<?>>();
+			filters.put(filterName, filtersList);
+		}
+
+		filtersList.add(filter);
+		Collections.sort(filtersList);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public <T> T applyFilters(String filterName, T o, Object[] params) {
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		T result = o;
+		if (filtersList != null) {
+			for (EngineFilter f : filtersList) {
+				result = (T) f.filter(o, params);
+			}
+		}
+		return result;
+
+	}
+
+	private void addFilters() {
+		addFilter(FILTER_STRING_FILES, new EngineStringFilter());
+		addFilter(FILTER_HUDS_CREATION, new HudsCreationFilter());
 	}
 
 }

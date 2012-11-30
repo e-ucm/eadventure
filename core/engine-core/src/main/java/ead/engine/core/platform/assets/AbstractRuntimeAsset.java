@@ -43,8 +43,14 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
 		implements RuntimeAsset<T> {
 
 	protected boolean loaded = false;
-	
+
 	protected T descriptor;
+
+	protected AssetHandler assetHandler;
+
+	public AbstractRuntimeAsset(AssetHandler assetHandler) {
+		this.assetHandler = assetHandler;
+	}
 
 	@Override
 	public void setDescriptor(T descriptor) {
@@ -56,17 +62,18 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
 	public T getAssetDescriptor() {
 		return descriptor;
 	}
-	
-	public boolean loadAsset(){
+
+	public boolean loadAsset() {
 		loaded = true;
 		return true;
 	}
-	
-	public void freeMemory( ){
+
+	public void freeMemory() {
 		loaded = false;
+		assetHandler.remove(descriptor);
 	}
-	
-	public boolean isLoaded( ){
+
+	public boolean isLoaded() {
 		return loaded;
 	}
 

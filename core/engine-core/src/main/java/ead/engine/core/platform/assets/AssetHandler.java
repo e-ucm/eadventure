@@ -206,4 +206,18 @@ public interface AssetHandler {
 		void handle(String text);
 	}
 
+	/**
+	 * Refreshes the assets (normally used to refresh those assets that change
+	 * with localization)
+	 */
+	void refresh();
+
+	/**
+	 * Removes the asset descriptor from the cache, and frees whatever resources
+	 * its runtime asset had
+	 * 
+	 * @param assetDescriptor
+	 */
+	void remove(AssetDescriptor assetDescriptor);
+
 }

@@ -42,7 +42,6 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
@@ -101,7 +100,7 @@ public abstract class ActorImporter<P extends Element> implements
 	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		this.stringHandler = stringHandler;
@@ -254,7 +253,7 @@ public abstract class ActorImporter<P extends Element> implements
 
 	public static void addDefaultBehavior(StringHandler stringHandler,
 			EAdElementFactory factory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			List<Action> actions, SceneElementDef actor, EAdEffect[] sounds) {
 
 		// add actions

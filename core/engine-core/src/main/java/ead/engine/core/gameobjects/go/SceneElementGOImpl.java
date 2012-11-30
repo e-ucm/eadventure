@@ -39,7 +39,6 @@ package ead.engine.core.gameobjects.go;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.ResourcedElement;
@@ -55,7 +53,6 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
@@ -63,7 +60,6 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.huds.ActionSceneElement;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -207,13 +203,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement>
 		// Bundle
 		valueMap.setValue(element, ResourcedElement.VAR_BUNDLE_ID,
 				element.getDefinition().getInitialBundle());
-
-		// Other vars
-		for (Entry<EAdVarDef<?>, Object> entry : element.getVars()
-				.entrySet()) {
-			valueMap.setValue(element, entry.getKey(),
-					entry.getValue());
-		}
 
 		// Scene element events
 		if (element.getEvents() != null) {
@@ -402,7 +391,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement>
 			currentDrawable = runtimeDrawable.getDrawable(
 					timeDisplayed, statesList, 0);
 			if (currentDrawable != null) {
-				if ( !currentDrawable.isLoaded() ){
+				if (!currentDrawable.isLoaded()) {
 					currentDrawable.loadAsset();
 				}
 				if (currentDrawable.getWidth() != width) {
@@ -461,10 +450,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement>
 			assetList.add(a);
 		}
 
-		for (EAdAction a : getActions())
-			sceneElementFactory.get(new ActionSceneElement(a))
-					.getAssets(assetList, true);
-
 		return assetList;
 	}
 
@@ -509,11 +494,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement>
 
 	public EAdPosition getPosition() {
 		return position;
-	}
-
-	@Override
-	public EAdList<EAdAction> getActions() {
-		return element.getDefinition().getActions();
 	}
 
 	public float getScale() {

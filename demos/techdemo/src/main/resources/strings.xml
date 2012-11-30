@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+	<string name="techDemo.EmptyScene">Empty Scene</string>
+	<string name="techDemo.EmptyScene.description">An empty scene. Not much to do here.</string>
+	<string name="techDemo.ShapeScene">Shapes</string>
+	<string name="techDemo.ShapeScene.description">A scene with some shapes. Move the mouse over the shapes.</string>
+	<string name="techDemo.TextsScene">Texts</string>
+	<string name="techDemo.TextsScene.description">A scene for test texts.</string>
+	<string name="techDemo.CharacterScene.Stand">Stand</string>
+	<string name="techDemo.CharacterScene.Talk">Talk</string>
+	<string name="techDemo.CharacterScene.Walk">Walk</string>
+	<string name="techDemo.CharacterScene">Character Scene</string>
+	<string name="techDemo.CharacterScene.description">A scene with a character, with orientation and different states. Press the buttons to control the character.</string>
+	<string name="techDemo.SpeakAndMoveScene">Speak and Move</string>
+	<string name="techDemo.SpeakAndMoveScene.description">A scene with a character moving and talking. Press anywhere in the scene to move the character there. Press on the character to make him talk.</string>	
+</resources>

@@ -87,7 +87,7 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 
 	@Override
 	public String getTextFile(String path) {
-		FileHandle fh = getFileHandle(path);
+		FileHandle fh = getFileHandleLocalized(path.substring(1));
 
 		if (fh != null) {
 			StringBuilder text = new StringBuilder();

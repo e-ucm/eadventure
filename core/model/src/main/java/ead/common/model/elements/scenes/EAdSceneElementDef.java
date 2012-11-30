@@ -37,7 +37,6 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.interfaces.WithActions;
 import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.interfaces.features.Variabled;
@@ -51,7 +50,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  * elements, placed in eAdventure scene.
  */
 public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
-		WithBehavior, Variabled, WithActions {
+		WithBehavior, Variabled {
 
 	/**
 	 * Sets the appearance in the given bundle

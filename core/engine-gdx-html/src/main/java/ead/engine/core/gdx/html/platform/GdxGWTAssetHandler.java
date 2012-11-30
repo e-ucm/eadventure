@@ -105,11 +105,11 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 		if (clazz == GdxImage.class)
 			r = new GdxImage(this);
 		else if (clazz == GdxBezierShape.class)
-			r = new GdxBezierShape();
+			r = new GdxBezierShape(this);
 		else if (clazz == GdxRectangleShape.class)
-			r = new GdxRectangleShape();
+			r = new GdxRectangleShape(this);
 		else if (clazz == GdxCircleShape.class)
-			r = new GdxCircleShape();
+			r = new GdxCircleShape(this);
 		else if (clazz == (Object) RuntimeCaption.class)
 			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler,
 					valueMap, stringHandler, this);

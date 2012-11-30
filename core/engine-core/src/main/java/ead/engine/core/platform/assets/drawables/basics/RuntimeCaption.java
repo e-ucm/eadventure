@@ -60,8 +60,6 @@ public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<EAdCaption> implements
 		RuntimeDrawable<EAdCaption, GraphicContext> {
 
-	private AssetHandler assetHandler;
-
 	/**
 	 * Average time used to read one word, in milliseconds
 	 */
@@ -93,7 +91,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * When some text is too long, it could be divided separate parts that will
 	 * be shown one by one
-	 *
+	 * 
 	 */
 	protected int totalParts;
 
@@ -132,54 +130,64 @@ public class RuntimeCaption<GraphicContext> extends
 	private RuntimeDrawable shape;
 
 	@Inject
-	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
-			StringHandler stringsHandler, AssetHandler assetHandler) {
+	public RuntimeCaption(GUI gui, FontHandler fontCache,
+			VariableMap valueMap, StringHandler stringsHandler,
+			AssetHandler assetHandler) {
+		super(assetHandler);
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringsHandler = stringsHandler;
-		this.assetHandler = assetHandler;
 		this.gui = gui;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#loadAsset()
 	 */
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
 		font = fontCache.get(descriptor.getFont());
-		font.loadAsset();
-		if (descriptor.getFields().size() > 0) {
-			text = valueMap.processTextVars(stringsHandler.getString(descriptor
-					.getText()), descriptor.getFields());
-		} else {
-			text = stringsHandler.getString(descriptor.getText());
-		}
-
+		text = getProcessedText();
 		lines = new ArrayList<String>();
 		widths = new ArrayList<Integer>();
 		wrapText();
 
 		// Draw bubble
 		if (getAssetDescriptor().hasBubble()) {
-			RectangleShape rect = new RectangleShape(getWidth(), getHeight());
+			RectangleShape rect = new RectangleShape(getWidth(),
+					getHeight());
 			rect.setPaint(getAssetDescriptor().getBubblePaint());
 			shape = assetHandler.getDrawableAsset(rect);
 		}
 		return true;
 	}
-	
-	public void freeMemory( ){
+
+	private String getProcessedText() {
+		String text = null;
+		if (descriptor.getFields().size() > 0) {
+			text = valueMap.processTextVars(
+					stringsHandler.getString(descriptor.getText()),
+					descriptor.getFields());
+		} else {
+			text = stringsHandler.getString(descriptor.getText());
+		}
+		return text;
+	}
+
+	public void freeMemory() {
 		super.freeMemory();
+		if (shape != null)
+			shape.freeMemory();
+		shape = null;
 		lines = null;
-		widths = null;		
+		widths = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
 	 * eadventure.engine.core.GameState)
 	 */
@@ -187,20 +195,13 @@ public class RuntimeCaption<GraphicContext> extends
 	// FIXME this is the only asset using the update method, this must be
 	// deleted, because with getDrawable can be done
 	public void update() {
-		if (!isLoaded())
-			loadAsset();
 
 		timeShown -= gui.getSkippedMilliseconds();
 		if (timeShown <= 0) {
 			goForward(1);
 		}
-
-		if (descriptor.getFields().size() > 0) {
-			text = valueMap.processTextVars(stringsHandler.getString(descriptor
-					.getText()), descriptor.getFields());
-		} else {
-			text = stringsHandler.getString(descriptor.getText());
-		}
+		
+		text = getProcessedText( );
 
 		// If text has changed
 		if (!currentText.equals(text))
@@ -236,7 +237,8 @@ public class RuntimeCaption<GraphicContext> extends
 			preferredWidth = Integer.MAX_VALUE;
 			break;
 		case EAdCaption.SCREEN_SIZE:
-			preferredWidth = valueMap.getValue(SystemFields.GAME_WIDTH);
+			preferredWidth = valueMap
+					.getValue(SystemFields.GAME_WIDTH);
 			break;
 		default:
 			preferredWidth = descriptor.getPreferredWidth();
@@ -257,7 +259,8 @@ public class RuntimeCaption<GraphicContext> extends
 
 		while (contWord < words.length) {
 
-			int nextWordWidth = font.stringWidth(words[contWord] + " ");
+			int nextWordWidth = font.stringWidth(words[contWord]
+					+ " ");
 
 			if (currentLineWidth + nextWordWidth <= preferredWidth) {
 				currentLineWidth += nextWordWidth;
@@ -288,7 +291,8 @@ public class RuntimeCaption<GraphicContext> extends
 		int preferredHeight = 0;
 		switch (descriptor.getPreferredHeight()) {
 		case EAdCaption.SCREEN_SIZE:
-			preferredHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
+			preferredHeight = valueMap
+					.getValue(SystemFields.GAME_HEIGHT);
 			break;
 		case EAdCaption.AUTO_SIZE:
 			preferredHeight = Integer.MAX_VALUE;
@@ -299,9 +303,10 @@ public class RuntimeCaption<GraphicContext> extends
 		preferredHeight -= descriptor.getPadding() * 2;
 
 		linesInPart = preferredHeight / lineHeight;
-		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();
-		totalParts = (int) Math
-				.ceil((float) lines.size() / (float) linesInPart);
+		linesInPart = linesInPart < lines.size() ? linesInPart
+				: lines.size();
+		totalParts = (int) Math.ceil((float) lines.size()
+				/ (float) linesInPart);
 		bounds.height = descriptor.getPreferredHeight() == EAdCaption.AUTO_SIZE ? linesInPart
 				* lineHeight
 				: preferredHeight;
@@ -351,7 +356,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * If text is divided in parts and current part is n, this method advances
 	 * the text to n + i part
-	 *
+	 * 
 	 * @param i
 	 *            steps to go forward
 	 */
@@ -398,7 +403,8 @@ public class RuntimeCaption<GraphicContext> extends
 	public List<String> getText() {
 		int beginIndex = currentPart * linesInPart;
 		int lastIndex = beginIndex + linesInPart;
-		lastIndex = lastIndex > lines.size() ? lines.size() : lastIndex;
+		lastIndex = lastIndex > lines.size() ? lines.size()
+				: lastIndex;
 		return lines.subList(beginIndex, lastIndex);
 	}
 
@@ -408,7 +414,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * Returns the number of times the text has been read by the player. This
 	 * calculation is made from an reading time estimation
-	 *
+	 * 
 	 * @return the number of times the text has been read by the player. This
 	 *         calculation is made from an reading time estimation
 	 */
@@ -419,7 +425,7 @@ public class RuntimeCaption<GraphicContext> extends
 	/**
 	 * Sets how many times this text game object loops before adding one to
 	 * times read. Negative number will be interpreted as infinitum
-	 *
+	 * 
 	 * @param loops
 	 *            times text loops
 	 */
@@ -459,8 +465,10 @@ public class RuntimeCaption<GraphicContext> extends
 		c.setFont(descriptor.getFont());
 		int xOffset = 0;
 		int yOffset = getAssetDescriptor().getPadding();
-		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0) {
-			yOffset += (bounds.height - getAssetDescriptor().getPadding() * 2 - ((lines
+		if (currentPart == totalParts - 1
+				&& lines.size() % linesInPart != 0) {
+			yOffset += (bounds.height
+					- getAssetDescriptor().getPadding() * 2 - ((lines
 					.size() % linesInPart) * lineHeight)) / 2;
 		} else {
 			yOffset += heightOffset;
@@ -482,7 +490,7 @@ public class RuntimeCaption<GraphicContext> extends
 					xOffset = descriptor.getPadding();
 				}
 				c.setPaint(descriptor.getTextPaint());
-				c.drawText(s, xOffset, yOffset);				
+				c.drawText(s, xOffset, yOffset);
 				yOffset += getLineHeight();
 				i++;
 			}
@@ -497,11 +505,20 @@ public class RuntimeCaption<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
-			int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time,
+			List<String> states, int level) {
 		// FIXME man, fix this
 		update();
 		return this;
+	}
+
+	@Override
+	public void refresh() {
+		String newText = getProcessedText();
+		if (!newText.equals(text)) {
+			freeMemory();
+			loadAsset();
+		}
 	}
 
 }

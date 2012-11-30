@@ -59,18 +59,6 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 		extends ComplexSceneElementGOImpl<T> implements
 		TransitionGO<T> {
 
-	public AbstractTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
-		this.sceneLoader = sceneLoader;
-		this.inputHandler = inputHandler;
-		listeners = new ArrayList<TransitionListener>();
-		firstUpdate = true;
-	}
-
 	protected InputHandler inputHandler;
 
 	protected T transition;
@@ -89,11 +77,25 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 
 	private ArrayList<TransitionListener> listeners;
 
-	private boolean firstUpdate;
+	private boolean firstUpdateNext;
+	
+	private boolean firstUpdatePrevious;
+	
+	public AbstractTransitionGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory,
+			SceneLoader sceneLoader, InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
+		this.sceneLoader = sceneLoader;
+		this.inputHandler = inputHandler;
+		listeners = new ArrayList<TransitionListener>();
+		
+	}
 
 	public void setPrevious(SceneGO<?> scene) {
 		this.previousScene = scene;
-		gameState.getValueMap().clearUpdateList();
+		firstUpdatePrevious = true;		
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();
 		}
@@ -120,6 +122,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 	public void setNext(EAdScene scene) {
 		nextScene = scene;
 		loading = false;
+		firstUpdateNext = true;
 	}
 
 	public void update() {
@@ -132,18 +135,24 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}
-
-		if (loaded && firstUpdate) {
+		
+		if ( firstUpdatePrevious ){			
+			// Necessary to maintain consistency
+			firstUpdatePrevious = false;
+			previousScene.update();
 			gameState.clearEffects(false);
+		}
+
+		if (loaded && firstUpdateNext) {			
 			inputHandler.clearAllInputs();
 
-			firstUpdate = false;
+			firstUpdateNext = false;
 			nextSceneGO.update();
 		}
 
 		if (isFinished()) {
 			sceneLoader.freeUnusedAssets(nextSceneGO, previousScene);
-			gameState.setScene(nextSceneGO);			
+			gameState.setScene(nextSceneGO);
 			for (TransitionListener l : this.getTransitionListeners()) {
 				l.transitionEnds();
 			}
@@ -152,7 +161,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-//		gui.addElement(previousScene, transformation);
+		if (!isFinished())
+			gui.addElement(previousScene, transformation);
 	}
 
 	public List<TransitionListener> getTransitionListeners() {

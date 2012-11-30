@@ -39,6 +39,7 @@ package ead.engine.core.game;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
+import ead.engine.core.game.enginefilters.EngineFilter;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
@@ -115,5 +116,9 @@ public interface Game {
 	 * Disposes all the resources allocated by the engine and destroys the GUI
 	 */
 	void dispose();
+	
+	void addFilter( String filterName, EngineFilter<?> filter );	
+
+	<T> T applyFilters(String filterName, T o, Object[] params);
 
 }

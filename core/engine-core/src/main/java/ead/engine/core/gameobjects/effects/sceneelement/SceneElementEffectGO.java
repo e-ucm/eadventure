@@ -37,7 +37,6 @@
 
 package ead.engine.core.gameobjects.effects.sceneelement;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -61,14 +60,14 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		EAdElement sceneElement = gameState.getValueMap().getFinalElement(
+		Object sceneElement = gameState.getValueMap().maybeDecodeField(
 				element.getSceneElement());
 
 		if (sceneElement instanceof EAdSceneElement) {
 			this.sceneElement = (EAdSceneElement) sceneElement;
 		} else if (sceneElement != null) {
-			this.sceneElement = gameState.getValueMap().getValue(sceneElement,
-					SceneElementDef.VAR_SCENE_ELEMENT);
+			this.sceneElement = gameState.getValueMap().getValue(
+					sceneElement, SceneElementDef.VAR_SCENE_ELEMENT);
 		} else {
 			this.sceneElement = this.parent;
 		}

@@ -51,6 +51,8 @@ public class GdxSound extends RuntimeSound {
 
 	private long id;
 
+	private FileHandle fh;
+
 	@Inject
 	public GdxSound(AssetHandler assetHandler) {
 		super(assetHandler);
@@ -59,7 +61,7 @@ public class GdxSound extends RuntimeSound {
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		FileHandle fh = ((GdxAssetHandler) assetHandler)
+		fh = ((GdxAssetHandler) assetHandler)
 				.getFileHandle(descriptor.getUri().getPath());
 		sound = Gdx.audio.newSound(fh);
 		return true;
@@ -86,5 +88,15 @@ public class GdxSound extends RuntimeSound {
 	@Override
 	public void loop() {
 		id = sound.loop();
+	}
+	
+	@Override
+	public void refresh() {
+		FileHandle fh = ((GdxAssetHandler) assetHandler)
+				.getFileHandle(descriptor.getUri().getPath());
+		if (!this.fh.path().equals(fh.path())) {
+			this.freeMemory();
+			this.loadAsset();
+		}
 	}
 }

@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
+import com.google.inject.Inject;
+
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
@@ -59,6 +61,7 @@ public class FadeInTransitionGO extends
 
 	private int currentTime;
 
+	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,

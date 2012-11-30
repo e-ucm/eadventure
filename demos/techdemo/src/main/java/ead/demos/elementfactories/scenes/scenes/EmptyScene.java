@@ -42,42 +42,36 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;
-import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.demos.elementfactories.scenes.SceneDemo;
 
 /**
  * An empty scene
  * 
  */
-public class EmptyScene extends BasicScene implements SceneDemo {
+public class EmptyScene extends BasicScene {
 
 	private RectangleShape rectangle;
 
 	public EmptyScene() {
 		super();
-		((SceneElementDef) this.getDefinition()).setName(EAdString
-				.newRandomEAdString("name"));
-		((SceneElementDef) this.getDefinition()).setDesc(EAdString
-				.newRandomEAdString("desc"));
-		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString
-				.newRandomEAdString("detailDesc"));
-		((SceneElementDef) this.getDefinition()).setDoc(EAdString
-				.newRandomEAdString("doc"));
-
+		setId("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
-		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
-				ColorFill.WHITE, 800, 600));
-		getBackground().getDefinition().getResources().addAsset(
-				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, rectangle);
+		rectangle.setPaint(new LinearGradientFill(new ColorFill(240,
+				240, 240), ColorFill.WHITE, 800, 600));
+		getBackground()
+				.getDefinition()
+				.getResources()
+				.addAsset(
+						getBackground().getDefinition()
+								.getInitialBundle(),
+						SceneElementDef.appearance, rectangle);
 	}
 
 	public void setBackgroundFill(EAdFill fill) {
 		rectangle.setPaint(fill);
 	}
 
-	@Override
+	
 	public String getSceneDescription() {
 		return "An empty scene. Not much to do here.";
 	}
@@ -90,8 +84,6 @@ public class EmptyScene extends BasicScene implements SceneDemo {
 		return getDemoName() + " - " + getSceneDescription();
 	}
 
-	public String getId() {
-		return getDemoName();
-	}
+
 
 }

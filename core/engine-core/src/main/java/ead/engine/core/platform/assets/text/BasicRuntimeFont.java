@@ -45,10 +45,8 @@ import ead.engine.core.platform.assets.RuntimeFont;
 public abstract class BasicRuntimeFont extends AbstractRuntimeAsset<EAdFont>
 		implements RuntimeFont {
 
-	protected AssetHandler assetHandler;
-
 	public BasicRuntimeFont(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+		super(assetHandler);
 	}
 
 	public EAdFont getEAdFont() {

@@ -121,11 +121,4 @@ public interface InputHandler {
 	 */
 	void clearAllInputs();
 
-	/**
-	 * Returns if the input handler is currently processing user input.
-	 * 
-	 * @return
-	 */
-	boolean isProcessingInput();
-
 }

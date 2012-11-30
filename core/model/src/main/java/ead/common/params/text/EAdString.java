@@ -50,7 +50,7 @@ public class EAdString implements EAdParam {
 	 */
 	private String id;
 
-	public static final String LITERAL_PREFIX = "#txt#";
+	public static final String LITERAL_PREFIX = "&#lit;";
 
 	/**
 	 * Construct a new string with the given id

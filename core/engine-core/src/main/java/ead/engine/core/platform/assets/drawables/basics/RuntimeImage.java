@@ -54,14 +54,9 @@ public abstract class RuntimeImage<GraphicContext> extends
 		AbstractRuntimeAsset<Image> implements
 		RuntimeDrawable<Image, GraphicContext> {
 
-	/**
-	 * The asset handler
-	 */
-	protected AssetHandler assetHandler;
-
 	@Inject
 	public RuntimeImage(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+		super(assetHandler);
 	}
 
 	@Override

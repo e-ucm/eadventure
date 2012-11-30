@@ -122,6 +122,10 @@ public class SystemFields {
 			null, new VarDef<Boolean>("exitWhenClose", Boolean.class,
 					true));
 
+	public static final EAdField<EAdSceneElement> MOUSE_OVER_ELEMENT = new BasicField<EAdSceneElement>(
+			null, new VarDef<EAdSceneElement>("mouseOverElement",
+					EAdSceneElement.class, null));
+
 	public static EAdField<String> LANGUAGE = new BasicField<String>(
 			null, new VarDef<String>("language", String.class, ""));
 

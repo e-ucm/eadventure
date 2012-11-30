@@ -38,9 +38,9 @@
 package ead.engine.core.platform;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,7 +110,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap,
 			FontHandler fontHandler, SceneGraph sceneGraph) {
 		this.classMap = classMap;
-		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
+		cache = new ConcurrentHashMap<AssetDescriptor, RuntimeAsset<?>>();
 		cacheEnabled = true;
 		this.fontHandler = fontHandler;
 		if (fontHandler != null) {
@@ -305,5 +305,19 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	@Override
 	public void setCacheEnabled(boolean enable) {
 		this.cacheEnabled = enable;
+	}
+
+	@Override
+	public void refresh() {
+		for (RuntimeAsset<?> r : cache.values()) {
+			r.refresh();
+		}
+	}
+
+	public void remove(AssetDescriptor assetDescriptor) {
+		RuntimeAsset<?> asset = cache.remove(assetDescriptor);
+		if (asset != null && asset.isLoaded()) {
+			asset.freeMemory();
+		}
 	}
 }

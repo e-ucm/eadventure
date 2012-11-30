@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -67,11 +66,9 @@ import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.tools.StringHandler;
 
 /**
  * <p>
@@ -82,8 +79,7 @@ import ead.tools.StringHandler;
  * 
  */
 @Singleton
-public class TopBasicHUDImpl extends AbstractHUD implements
-		TopBasicHUD {
+public class TopBasicHUDImpl extends AbstractHUD {
 
 	/**
 	 * The logger
@@ -93,11 +89,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 
 	private static final int CURSOR_SIZE = 32;
 
-	protected InputHandler inputHandler;
-
-	private StringHandler stringHandler;
-
-	private DrawableGO<?> currentGO;
+	private EAdSceneElement currentElement;
 
 	// Contextual
 	private SceneElement contextual;
@@ -118,13 +110,9 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 	@Inject
 	public TopBasicHUDImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			StringHandler stringHandler, InputHandler inputHandler) {
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
-		setPriority(1000);
-		this.stringHandler = stringHandler;
-		this.inputHandler = inputHandler;
+				eventFactory, 1000);
 	}
 
 	@Override
@@ -132,7 +120,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 		return false;
 	}
 
-	public void init() {
+	public void init() {		
 		initContextual();
 		initMouse();
 		ComplexSceneElement element = new ComplexSceneElement();
@@ -144,12 +132,11 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 	// Contextual
 	private void initContextual() {
 		contextualCaption = new Caption(new EAdString(
-				"engine.contextual"));
+				EAdString.LITERAL_PREFIX));
 		contextualCaption
 				.setFont(new BasicFont(16.0f, FontStyle.BOLD));
 		contextualCaption.setPadding(0);
 		contextualCaption.setTextPaint(Paint.BLACK_ON_WHITE);
-		stringHandler.setString(contextualCaption.getText(), "");
 		contextual = new SceneElement(contextualCaption);
 		contextual.setPosition(new EAdPosition(0, 0, 0.5f, 1.5f));
 		contextual.setVarInitialValue(SceneElement.VAR_VISIBLE,
@@ -176,22 +163,17 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 	}
 
 	private void updateContextual() {
-		DrawableGO<?> go = inputHandler.isProcessingInput() ? inputHandler
-				.getGameObjectUnderPointer() : null;
-		if (go != currentGO) {
+		EAdSceneElement element = gameState.getValueMap().getValue(
+				SystemFields.MOUSE_OVER_ELEMENT);
+		if (element != currentElement) {
 			ValueMap valueMap = gameState.getValueMap();
-			if (go != null) {
-				EAdElement element = (EAdElement) go.getElement();
+			if (element != null) {
 				EAdString name = element instanceof EAdSceneElement ? valueMap
 						.getValue(((EAdSceneElement) element)
 								.getDefinition(),
 								SceneElementDef.VAR_DOC_NAME) : null;
-				if (name != null
-						&& !stringHandler.getString(name).equals("")) {
-					stringHandler.setString(
-							contextualCaption.getText(),
-							stringHandler.getString(name));
-
+				if (name != null) {
+					contextualCaption.setLabel(name);
 					gameState.getValueMap().setValue(contextual,
 							SceneElement.VAR_VISIBLE, true);
 				} else {
@@ -203,7 +185,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements
 				gameState.getValueMap().setValue(contextual,
 						SceneElement.VAR_VISIBLE, false);
 			}
-			currentGO = go;
+			currentElement = element;
 		}
 	}
 

@@ -12,7 +12,7 @@ public interface ComplexSceneElementGO<T extends EAdComplexSceneElement>
 	 * 
 	 * @return
 	 */
-	List<DrawableGO<?>> getContainedDrawables();
+	List<SceneElementGO<?>> getContainedDrawables();
 
 	/**
 	 * Returns the game object in the given relative coordinates
@@ -21,7 +21,7 @@ public interface ComplexSceneElementGO<T extends EAdComplexSceneElement>
 	 * @param y
 	 * @return
 	 */
-	DrawableGO<?> getFirstGOIn(int x, int y);
+	SceneElementGO<?> getFirstGOIn(int x, int y);
 
 	/**
 	 * Returns a list with all the game objects in the given relative
@@ -32,6 +32,6 @@ public interface ComplexSceneElementGO<T extends EAdComplexSceneElement>
 	 * @param y
 	 * @return
 	 */
-	List<DrawableGO<?>> getAllGOIn(int x, int y);
+	List<SceneElementGO<?>> getAllGOIn(int x, int y);
 
 }

@@ -41,11 +41,9 @@ import java.util.List;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
 
@@ -61,36 +59,19 @@ public interface GameState {
 	 * @return a {@link ValueMap}
 	 */
 	ValueMap getValueMap();
-
+	
 	/**
-	 * Returns a list with all game objects linked to the current effects.
+	 * Evaluates a condition, using the required evaluator, based on a given
+	 * {@link ValeMap}.
 	 * 
-	 * @return a list with all game objects linked to the current effects.
+	 * @param <T>
+	 *            The actual condition class
+	 * @param condition
+	 *            The condition to be evaluated
+	 * @return The result of evaluating the condition according to the given set
+	 *         of values
 	 */
-	List<EffectGO<?>> getEffects();
-
-	/**
-	 * Returns the current game screen object. The {@link SceneGO} element is
-	 * the root of all what is drawn to the screen.
-	 * 
-	 * @return a {@link SceneGO} object
-	 */
-	SceneGO<?> getScene();
-
-	/**
-	 * <p>
-	 * Sets the current {@link SceneGO} of the game.
-	 * </p>
-	 * <p>
-	 * Implementation should check if the scene is stackable (not all scenes
-	 * are, such as video scenes, cutscenes, loading screens) and stack it if
-	 * necessary.
-	 * </p>
-	 * 
-	 * @param screen
-	 *            the current {@link SceneGO}.
-	 */
-	void setScene(SceneGO<?> scene);
+	<T extends EAdCondition> boolean evaluate(T condition);
 
 	/**
 	 * Adds an effect without any gui action associated
@@ -99,6 +80,13 @@ public interface GameState {
 	 *            the effect
 	 */
 	void addEffect(EAdEffect e);
+
+	/**
+	 * Returns a list with all game objects linked to the current effects.
+	 * 
+	 * @return a list with all game objects linked to the current effects.
+	 */
+	List<EffectGO<?>> getEffects();
 
 	/**
 	 * Adds a new effect to the effects' tail
@@ -113,42 +101,37 @@ public interface GameState {
 	 */
 	EffectGO<?> addEffect(EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent);
-
+	
 	/**
-	 * Adds a new effect in a specific position in the queue
+	 * Clears all the current effects
 	 * 
-	 * @param pos
-	 *            the position where to add the new effect
-	 * @param e
-	 *            the new effect to be added to the queue
-	 * @param action
-	 *            the action that launched this effect
-	 * @param parent
-	 *            the element that that launched this effect
-	 * @return the effect game object create from the effect element
+	 * @param persisten
+	 *            sets if persistent effects should also be deleted
 	 */
-	EffectGO<?> addEffect(int pos, EAdEffect e, InputAction<?> action,
-			EAdSceneElement parent);
-
+	void clearEffects(boolean persistent);
+	
 	/**
-	 * Adds the effects waiting in the queue (after being added with
-	 * {@link GameState#addEffect(EAdEffect)} ) the effects lists
-	 */
-	void updateEffectsQueue();
-
-	/**
-	 * Returns the active element of the game
+	 * <p>
+	 * Sets the current {@link SceneGO} of the game.
+	 * </p>
+	 * <p>
+	 * Implementation should check if the scene is stackable (not all scenes
+	 * are, such as video scenes, cutscenes, loading screens) and stack it if
+	 * necessary.
+	 * </p>
 	 * 
-	 * @return
+	 * @param screen
+	 *            the current {@link SceneGO}.
 	 */
-	SceneElementGO<?> getActiveElement();
-
+	void setScene(SceneGO<?> scene);
+	
 	/**
-	 * Sets the active element of the game
+	 * Returns the current game screen object. The {@link SceneGO} element is
+	 * the root of all what is drawn to the screen.
 	 * 
-	 * @param activeElement
+	 * @return a {@link SceneGO} object
 	 */
-	void setActiveElement(EAdSceneElement activeElement);
+	SceneGO<?> getScene();
 
 	/**
 	 * @return the {@link EAdScene} previously visible in the game
@@ -167,37 +150,8 @@ public interface GameState {
 	 */
 	void setPaused(boolean paused);
 
-	/**
-	 * @param initialScene
-	 *            The initial scene in the game
-	 * @param initialEffects
-	 *            TODO
-	 */
-	void setInitialScene(EAdScene initialScene,
-			EAdList<EAdEffect> initialEffects);
-
 	void saveState();
 
 	void loadState();
 
-	/**
-	 * Clear all the current effects
-	 * 
-	 * @param persisten
-	 *            sets if persistent effects should also be deleted
-	 */
-	void clearEffects(boolean persistent);
-	
-	/**
-	 * Evaluates a condition, using the required evaluator, based on a given
-	 * {@link ValeMap}.
-	 * 
-	 * @param <T>
-	 *            The actual condition class
-	 * @param condition
-	 *            The condition to be evaluated
-	 * @return The result of evaluating the condition according to the given set
-	 *         of values
-	 */
-	<T extends EAdCondition> boolean evaluate(T condition);
 }

@@ -43,9 +43,9 @@ import java.util.LinkedHashMap;
 import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
@@ -73,7 +73,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public NPCImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter,

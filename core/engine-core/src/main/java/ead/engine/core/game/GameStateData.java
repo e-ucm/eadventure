@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import ead.common.model.EAdElement;
+import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -57,15 +57,15 @@ public class GameStateData {
 
 	private Map<EAdVarDef<?>, Object> systemVars;
 
-	private Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
+	private Map<Variabled, Map<EAdVarDef<?>, Object>> map;
 
-	private ArrayList<EAdElement> updateList;
+	private ArrayList<Variabled> updateList;
 
 	public GameStateData(EAdScene currentScene, List<EAdEffect> currentEffects,
 			Stack<EAdScene> previousSceneStack,
 			Map<EAdVarDef<?>, Object> systemVars,
-			Map<EAdElement, Map<EAdVarDef<?>, Object>> map,
-			ArrayList<EAdElement> updateList) {
+			Map<Variabled, Map<EAdVarDef<?>, Object>> map,
+			ArrayList<Variabled> updateList) {
 		super();
 		this.currentScene = currentScene;
 		this.currentEffects = currentEffects;
@@ -91,11 +91,11 @@ public class GameStateData {
 		return systemVars;
 	}
 
-	public Map<EAdElement, Map<EAdVarDef<?>, Object>> getElementVars() {
+	public Map<Variabled, Map<EAdVarDef<?>, Object>> getElementVars() {
 		return map;
 	}
 
-	public ArrayList<EAdElement> getUpdateList() {
+	public ArrayList<Variabled> getUpdateList() {
 		return updateList;
 	}
 

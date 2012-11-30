@@ -37,16 +37,14 @@
 
 package ead.common.model.predef.sceneelements;
 
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.predef.effects.ChangeAppearanceEf;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.text.BasicFont;
@@ -54,24 +52,19 @@ import ead.common.util.EAdPosition.Corner;
 
 public class Button extends ComplexSceneElement {
 
-	private Caption caption;
-
-	public Button() {
+	public Button(EAdString string) {
 		super();
-		caption = new Caption();
+		Caption caption = new Caption(string);
 		caption.setFont(new BasicFont(12));
 		caption.setTextPaint(ColorFill.BLACK);
 
-		SceneElement text = new SceneElement(caption);
+		SceneElement text = new GhostElement(caption, null);
 		text.setPosition(Corner.CENTER, 100, 15);
-		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
+		text.setVarInitialValue(SceneElement.VAR_ENABLE,
+				Boolean.FALSE);
 
 		createButton();
 		getSceneElements().add(text);
-	}
-
-	public EAdString getLabel() {
-		return caption.getText();
 	}
 
 	private void createButton() {
@@ -80,23 +73,17 @@ public class Button extends ComplexSceneElement {
 		buttonBgNormal.setPaint(new Paint(new LinearGradientFill(
 				ColorFill.WHITE, lightGray, 0, 20), ColorFill.BLACK));
 		RectangleShape buttonBgOver = new RectangleShape(200, 30);
-		buttonBgOver.setPaint(new Paint(new LinearGradientFill(lightGray,
-				ColorFill.WHITE, 0, 20), ColorFill.BLACK));
+		buttonBgOver.setPaint(new Paint(new LinearGradientFill(
+				lightGray, ColorFill.WHITE, 0, 20), ColorFill.BLACK));
 
-		definition.getResources().addAsset(definition.getInitialBundle(),
+		definition.getResources().addAsset(
+				definition.getInitialBundle(),
 				SceneElementDef.appearance, buttonBgNormal);
-		EAdBundleId over = new EAdBundleId("over");
-		definition.getResources().addBundle(over);
-		definition.getResources().addAsset(over, SceneElementDef.appearance,
-				buttonBgOver);
-		setPosition(Corner.CENTER, 0, 0);
+		definition.getResources().addAsset(
+				definition.getInitialBundle(),
+				SceneElementDef.overAppearance, buttonBgOver);
 
-		ChangeAppearanceEf changeAppearance = new ChangeAppearanceEf(this,
-				definition.getInitialBundle());
-		ChangeAppearanceEf changeAppearance2 = new ChangeAppearanceEf(this,
-				over);
-		addBehavior(MouseGEv.MOUSE_EXITED, changeAppearance);
-		addBehavior(MouseGEv.MOUSE_ENTERED, changeAppearance2);
+		setPosition(Corner.CENTER, 0, 0);
 	}
 
 }
