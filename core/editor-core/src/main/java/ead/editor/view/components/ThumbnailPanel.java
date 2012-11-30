@@ -40,7 +40,7 @@
 
 package ead.editor.view.components;
 
-import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -55,7 +55,6 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
-import java.util.TreeSet;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import org.slf4j.Logger;
@@ -67,25 +66,24 @@ import org.slf4j.LoggerFactory;
  * EditorLinks.
  * @author mfreire
  */
-public class ThumbnailPanel extends JPanel {
+public class ThumbnailPanel extends AssetBrowsePanel {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ThumbnailPanel");
 
-	private TreeSet<Integer> selected = new TreeSet<Integer>();
 	private JPanel inner;
 
-	public final static String selectedPropertyName = "node_selected";
+	private int thumbImageSize = 64;
+	private int thumbWidth = 128;
+	private int thumbHeight = 92;
+	private int thumbInnerMargins = 3;
 
-	private final static int thumbImageSize = 64;
-	private final static int thumbWidth = 100;
-	private final static int thumbHeight = 92;
-	private final static int thumbInnerMargins = 3;
+	private DynamicGridLayout dgl;
 
 	private class Thumbnail extends JPanel {
-		private final DependencyNode node;
+		private final EditorNode node;
 
-		public Thumbnail(DependencyNode node) {
+		public Thumbnail(EditorNode node) {
 			this.node = node;
 			setLayout(null);
 
@@ -104,24 +102,32 @@ public class ThumbnailPanel extends JPanel {
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					int id = Thumbnail.this.node.getId();
+					EditorNode node = Thumbnail.this.node;
 					int ctrlDown = MouseEvent.CTRL_DOWN_MASK;
+					boolean wasSelected = selected.contains(node);
 					if ((e.getModifiersEx() & ctrlDown) != ctrlDown) {
 						selected.clear();
-						selected.add(id);
+						if (!wasSelected) {
+							selected.add(node);
+						}
 						getParent().repaint();
 					} else {
-						repaint();
-						selected.add(id);
+						if (!wasSelected) {
+							selected.add(node);
+						} else {
+							selected.remove(node);
+						}
+						getParent().repaint();
 					}
-					ThumbnailPanel.this.firePropertyChange(selectedPropertyName, null, id);
+					ThumbnailPanel.this.firePropertyChange(
+							selectedPropertyName, null, null);
 				}
 			});
 		}
 
 		@Override
 		public void paint(Graphics g) {
-			if (selected.contains(node.getId())) {
+			if (selected.contains(node)) {
 				super.paintComponent(g);
 				g.setColor(new Color(0.8f, 0.8f, 1.0f));
 				g.fillRoundRect(1, 1, getWidth() - 3, getHeight() - 3, 2, 2);
@@ -138,27 +144,33 @@ public class ThumbnailPanel extends JPanel {
 
 			@Override
 			public void paint(Graphics g) {
-				super.paint(g);
 				g.drawImage(node.getThumbnail(), 0, 0, getWidth(), getHeight(),
 						this);
 			}
 		}
 	}
 
-	public static class DynamicGridLayout implements LayoutManager {
+	private class DynamicGridLayout implements LayoutManager {
 
-		private static int tw = thumbWidth;
-		private static int th = thumbHeight;
-		private static int margin = 5;
+		private int margin = 5;
+		private int minMargin = 5;
 
-		private Container lastParent;
-
-		public static int colsFor(int width) {
-			return (width - margin) / (tw + margin);
+		public int colsFor(int width) {
+			return (width - minMargin) / (thumbWidth + minMargin);
 		}
 
-		public static int widthFor(int cols) {
-			return cols * (tw + margin) + margin;
+		public void updateMarginFromWidth(int width, int cols) {
+			int need = cols * thumbWidth;
+			int extra = width - need;
+			margin = extra / (cols + 1);
+			logger
+					.info(
+							"UpdateMargin: width {}, {} cols; need {}, {} left-over - setting margin to {}",
+							new Object[] { width, cols, need, extra, margin });
+		}
+
+		public int widthFor(int cols) {
+			return cols * (thumbWidth + minMargin) + minMargin;
 		}
 
 		private int heightFor(int n, int cols) {
@@ -166,7 +178,7 @@ public class ThumbnailPanel extends JPanel {
 				return 0;
 			}
 			int rows = n / cols + ((n % cols > 0) ? 1 : 0);
-			return rows * (th + margin) + margin;
+			return rows * (thumbHeight + minMargin) + minMargin;
 		}
 
 		@Override
@@ -179,8 +191,7 @@ public class ThumbnailPanel extends JPanel {
 
 		@Override
 		public Dimension preferredLayoutSize(Container parent) {
-			lastParent = parent;
-			int w = Math.max(parent.getWidth(), margin + tw + margin);
+			int w = Math.max(parent.getWidth(), margin + thumbWidth + margin);
 			int cols = colsFor(w);
 			return new Dimension(widthFor(cols), heightFor(parent
 					.getComponentCount(), cols));
@@ -193,29 +204,31 @@ public class ThumbnailPanel extends JPanel {
 
 		@Override
 		public void layoutContainer(Container parent) {
-			Rectangle r = new Rectangle(margin, margin, tw, th);
+			Rectangle r = new Rectangle(margin, minMargin, thumbWidth,
+					thumbHeight);
 			int cols = Math.max(1, colsFor(parent.getWidth()));
 			for (int i = 0; i < parent.getComponentCount(); i++) {
 				int row = i / cols;
 				int col = i % cols;
-				r.x = margin + col * (tw + margin);
-				r.y = margin + row * (th + margin);
+				r.x = margin + col * (thumbWidth + margin);
+				r.y = minMargin + row * (thumbHeight + minMargin);
 				Component c = parent.getComponent(i);
 				c.setBounds(r);
-				c.setSize(tw, th);
+				c.setSize(thumbWidth, thumbHeight);
 			}
 		}
 	}
 
-	public static class WidthSensitiveScrollPane extends JScrollPane {
+	private class WidthSensitiveScrollPane extends JScrollPane {
 		private ComponentListener resizeListener = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				Dimension p = e.getComponent().getSize();
 				Component v = getViewport().getComponent(0);
 				Dimension c = new Dimension(v.getPreferredSize());
-				c.width = DynamicGridLayout.widthFor(DynamicGridLayout
-						.colsFor(p.width)) + 4;
+				int cols = dgl.colsFor(p.width - 4);
+				c.width = dgl.widthFor(cols);
+				dgl.updateMarginFromWidth(p.width - 4, cols);
 				v.setPreferredSize(c);
 				v.doLayout();
 			}
@@ -226,26 +239,24 @@ public class ThumbnailPanel extends JPanel {
 		}
 	}
 
-	public ThumbnailPanel() {
-		inner = new JPanel();
-		inner.setLayout(new DynamicGridLayout());
-		WidthSensitiveScrollPane scroll = new WidthSensitiveScrollPane();
-		scroll.setViewportView(inner);
-		scroll.setParent(this);
-		setLayout(new BorderLayout());
-		add(scroll, BorderLayout.CENTER);
-	}
-
-	public void setNodes(Collection<DependencyNode> nodes) {
+	@Override
+	public void setNodes(Collection<EditorNode> nodes) {
 		selected.clear();
 		inner.removeAll();
-		for (DependencyNode n : nodes) {
-			inner.add(new Thumbnail(n));
+		for (EditorNode n : nodes) {
+			inner.add(new ThumbnailPanel.Thumbnail(n));
 		}
 		inner.validate();
 	}
 
-	public TreeSet<Integer> getSelected() {
-		return selected;
+	public ThumbnailPanel() {
+		inner = new JPanel();
+		dgl = new DynamicGridLayout();
+		inner.setLayout(dgl);
+		WidthSensitiveScrollPane scroll = new WidthSensitiveScrollPane();
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		scroll.setViewportView(inner);
+		scroll.setParent(this);
+		add(scroll, BorderLayout.CENTER);
 	}
 }

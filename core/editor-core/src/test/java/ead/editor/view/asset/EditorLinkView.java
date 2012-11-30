@@ -40,61 +40,77 @@
 
 package ead.editor.view.asset;
 
+import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.editor.model.nodes.DependencyNode;
-import ead.editor.model.nodes.EditorNode;
+import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.multimedia.Video;
+import ead.editor.model.nodes.AssetNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.ImageAssetNode;
-import ead.editor.view.components.PropertiesTablePanel;
-import ead.editor.view.components.ThumbnailPanel;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.editor.model.nodes.QueryNode;
+import ead.editor.model.nodes.VideoAssetNode;
+import ead.editor.view.components.EditorLink;
+import ead.editor.view.components.EditorLinkFactory;
 import ead.utils.Log4jConfig;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 /**
- * A panel that displays thumbnails for a number of elements.
- * Element thumbnails can be selected (all or some), and have, as titles, the
- * EditorLinks.
+ * A test for EditorLink icon views.
  * @author mfreire
  */
-public class ThumbnailPanelTest extends JPanel {
+public class EditorLinkView extends JPanel {
 
 	public static void main(String[] args) {
 
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info,
 				new Object[] {});
 
-		ArrayList<EditorNode> ians = new ArrayList<EditorNode>();
-		for (int i = 0; i < 100; i++) {
-			ImageAssetNode ian = new ImageAssetNode(i);
-			ian.addChild(new EngineNode<Image>(i + 100, new Image(
-					"@drawable/assets_animation_telefono.png")));
-			ian.setBase(new File(
-					"../../demos/firstaidgame/src/main/resources/",
-					GdxAssetHandler.PROJECT_INTERNAL_PATH));
-			ians.add(ian);
+		ArrayList<EditorLink> els = new ArrayList<EditorLink>();
+
+		AssetDescriptor[] descriptors = new AssetDescriptor[] {
+				new FramesAnimation(), new RectangleShape(), new BezierShape(),
+				new Caption("Hi there!"), };
+		for (AssetDescriptor a : descriptors) {
+			AssetNode an = new AssetNode(els.size());
+			an.addChild(new EngineNode<AssetDescriptor>(100 + els.size(), a));
+			els.add(EditorLinkFactory.createLink(an, null));
 		}
-		ThumbnailPanel tnp = new ThumbnailPanel();
-		tnp.setNodes(ians);
-
-		PropertiesTablePanel ptp = new PropertiesTablePanel();
-		ptp.setNodes(ians);
-
-		JTabbedPane jtp = new JTabbedPane();
-		jtp.add("Icons", tnp);
-		jtp.add("Table", ptp);
+		{
+			ImageAssetNode an = new ImageAssetNode(els.size());
+			an.addChild(new EngineNode<AssetDescriptor>(100 + els.size(),
+					new Image("@drawable/assets_image_vervideo.png")));
+			els.add(EditorLinkFactory.createLink(an, null));
+		}
+		{
+			VideoAssetNode an = new VideoAssetNode(els.size());
+			an.addChild(new EngineNode<AssetDescriptor>(100 + els.size(),
+					new Video("@binary/assets_video_IniciarTos.AVIXVID.webm")));
+			els.add(EditorLinkFactory.createLink(an, null));
+		}
+		els.add(EditorLinkFactory.createLink(new QueryNode(els.size(),
+				"anybody home?"), null));
+		els.add(EditorLinkFactory.createLink(new EngineNode<Object>(els.size(),
+				"guess not!"), null));
 
 		JFrame jf = new JFrame();
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.add(jtp);
-		jf.setSize(800, 600);
+		jf.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 0,
+				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(4,
+						4, 4, 4), 0, 0);
+		for (EditorLink el : els) {
+			gbc.gridy++;
+			jf.add(el, gbc);
+		}
+		jf.setSize(150, 300);
 		jf.setLocationRelativeTo(null);
 		jf.setVisible(true);
 	}

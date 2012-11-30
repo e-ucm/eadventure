@@ -41,6 +41,7 @@
  */
 package ead.editor.model.nodes;
 
+import ead.editor.R;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModelImpl;
 import org.slf4j.Logger;
@@ -48,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import ead.editor.model.ModelIndex.SearchResult;
+import java.awt.Image;
 
 /**
  * This node represents a query.
@@ -62,11 +64,28 @@ public class QueryNode extends EditorNode {
 	private String queryString;
 	private SearchResult result;
 
-	public QueryNode(EditorModelImpl m, String queryString) {
-		super(m.generateId(null));
+	public QueryNode(int id, String queryString) {
+		super(id);
 		this.queryString = queryString;
 		logger.debug("Query node for '{}'", queryString);
+	}
 
+	@Override
+	public Image getThumbnail() {
+		return super.getThumbnail();
+	}
+
+	@Override
+	public String getLinkText() {
+		return queryString;
+	}
+
+	@Override
+	public String getLinkIcon() {
+		return R.Drawable.assets__query_png;
+	}
+
+	public void executeQuery(EditorModelImpl m) {
 		if (queryString.charAt(0) != ':') {
 			result = m.searchAllDetailed(queryString);
 

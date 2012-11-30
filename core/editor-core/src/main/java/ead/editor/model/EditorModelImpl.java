@@ -345,7 +345,9 @@ public class EditorModelImpl implements EditorModel {
 		if (Character.isLetter(c)) {
 			switch (c) {
 			case 'q':
-				return new QueryNode(this, id.substring(1));
+				QueryNode qn = new QueryNode(generateId(null), id.substring(1));
+				qn.executeQuery(this);
+				return qn;
 			case 't': // type query
 			case 'f': // field query
 				throw new IllegalArgumentException("Not yet implemented");

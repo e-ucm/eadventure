@@ -56,9 +56,6 @@ public abstract class DependencyNode<T> {
 	private Document doc;
 	private DependencyNode manager;
 
-	private static BufferedImage defaultThumbnail = new BufferedImage(128, 128,
-			BufferedImage.TYPE_INT_ARGB);
-
 	public DependencyNode(int id, T content) {
 		this.id = id;
 		this.content = content;
@@ -67,10 +64,6 @@ public abstract class DependencyNode<T> {
 
 	public void setManager(DependencyNode manager) {
 		this.manager = manager;
-	}
-
-	public Image getThumbnail() {
-		return defaultThumbnail;
 	}
 
 	public boolean isManaged() {

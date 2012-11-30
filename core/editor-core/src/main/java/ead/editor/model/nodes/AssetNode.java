@@ -39,13 +39,13 @@ package ead.editor.model.nodes;
 
 import java.util.ArrayList;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.multimedia.Sound;
-import ead.common.resources.assets.multimedia.Video;
-import ead.common.util.EAdRectangle;
 import ead.editor.R;
-import es.eucm.eadventure.common.data.animation.Animation;
+import java.io.File;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -56,11 +56,16 @@ import org.w3c.dom.NodeList;
  */
 public class AssetNode extends EditorNode {
 
-	private ArrayList<String> sources = new ArrayList<String>();
-	private String notes;
+	protected ArrayList<String> sources = new ArrayList<String>();
+	protected String notes;
+	protected File base;
 
 	public AssetNode(int id) {
 		super(id);
+	}
+
+	public void setBase(File base) {
+		this.base = base;
 	}
 
 	public AssetDescriptor getDescriptor() {
@@ -99,7 +104,7 @@ public class AssetNode extends EditorNode {
 	@Override
 	public String getLinkText() {
 		AssetDescriptor d = getDescriptor();
-		if (d instanceof Video || d instanceof Image || d instanceof Sound) {
+		if (d instanceof Sound) {
 			String s = d.toString();
 			return s.substring(s.indexOf("/") + 1);
 		} else {
@@ -110,18 +115,20 @@ public class AssetNode extends EditorNode {
 	@Override
 	public String getLinkIcon() {
 		AssetDescriptor d = getDescriptor();
-		if (d instanceof Video) {
-			return R.Drawable.assets__video_png;
-		} else if (d instanceof Image) {
-			return R.Drawable.assets__image_png;
-		} else if (d instanceof Animation) {
+		if (d instanceof FramesAnimation) {
 			return R.Drawable.assets__animation_png;
-		} else if (d instanceof EAdRectangle) {
+		} else if (d instanceof RectangleShape) {
 			return R.Drawable.assets__rectangle_png;
+		} else if (d instanceof Caption) {
+			return R.Drawable.assets__caption_png;
 		} else if (d instanceof BezierShape) {
 			return R.Drawable.assets__bezier_png;
 		} else {
 			return super.getLinkIcon();
 		}
+	}
+
+	public int getAssetSize() {
+		return 0;
 	}
 }

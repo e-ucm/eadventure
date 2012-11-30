@@ -37,18 +37,20 @@
 
 package ead.editor.model.nodes;
 
-import ead.common.model.EAdElement;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.animation.Frame;
+import ead.common.resources.assets.multimedia.Video;
 import ead.editor.model.EditorAnnotator;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.model.EditorModelImpl;
-import java.util.HashSet;
+import java.util.List;
 
 /**
- * A factory that recognizes attrezzo-nodes
+ * A factory that creates asset nodes
  * @author mfreire
  */
 public class AssetFactory implements EditorNodeFactory {
@@ -64,13 +66,28 @@ public class AssetFactory implements EditorNodeFactory {
 	public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
 
 		ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
+		ArrayList<DependencyNode> frames = new ArrayList<DependencyNode>();
 
 		for (DependencyNode n : model.getNodesById().values()) {
 			if (!(n instanceof EngineNode)
 					|| !(n.getContent() instanceof AssetDescriptor)) {
 				continue;
 			}
-			EditorNode an = new AssetNode(model.generateId(null));
+
+			AssetDescriptor d = (AssetDescriptor) n.getContent();
+			EditorNode an = null;
+			if (d instanceof Frame) {
+				frames.add(n);
+				continue;
+			} else if (d instanceof Image) {
+				an = new ImageAssetNode(model.generateId(null));
+			} else if (d instanceof Video) {
+				an = new VideoAssetNode(model.generateId(null));
+			} else {
+				an = new AssetNode(model.generateId(null));
+			}
+
+			new AssetNode(model.generateId(null));
 			n.setManager(an);
 			an.addChild(n);
 			newNodes.add(an);
@@ -80,6 +97,23 @@ public class AssetFactory implements EditorNodeFactory {
 		for (EditorNode en : newNodes) {
 			logger.info("Registered {} as an AssetNode", en.getId());
 			model.registerEditorNodeWithGraph(en);
+		}
+
+		// and resolve frames to their rightful parents
+		for (DependencyNode f : frames) {
+			List<DependencyNode> ins = model.incomingDependencies(f);
+			if (ins.size() != 1) {
+				logger
+						.warn(
+								"Expected exactly 1 incoming dep. into frame {}, got {}",
+								new Object[] { f.getId(), ins.size() });
+				continue;
+			} else {
+				DependencyNode first = ins.iterator().next();
+				logger.debug("Associated {} with {}, managed by {}",
+						new Object[] { f, first, first.getManager() });
+				f.setManager(first.getManager());
+			}
 		}
 	}
 }

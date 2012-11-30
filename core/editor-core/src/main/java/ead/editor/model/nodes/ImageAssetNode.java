@@ -35,56 +35,67 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ead.editor.view.components;
+package ead.editor.model.nodes;
 
-import ead.editor.control.Controller;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.editor.R;
+import ead.utils.i18n.Resource;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
- * A special button that looks like a "label with a link", including
- * and optional icon. Intended to represent an editor node in the views.
+ * Image asset node
  *
  * @author mfreire
  */
-public class EditorLink extends JButton implements ActionListener {
+public class ImageAssetNode extends AssetNode {
 
-	private static final Logger logger = LoggerFactory.getLogger("EditorLink");
+	public ImageAssetNode(int id) {
+		super(id);
+	}
 
-	private Controller controller;
-	private String editorId;
+	private transient BufferedImage thumbnail;
 
-	public EditorLink(String text, String editorId, Icon icon,
-			Controller controller) {
-		super(text);
-		this.controller = controller;
-		this.editorId = editorId;
+	@Override
+	public String getLinkText() {
+		String s = ((Image) getDescriptor()).getUri().toString();
+		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
+	}
 
-		if (icon != null) {
-			setIcon(icon);
-		}
-		setForeground(Color.blue);
-		setBorderPainted(false);
-		setMargin(new Insets(0, 0, 0, 0));
-		setContentAreaFilled(false);
-		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		addActionListener(this);
-		setToolTipText(text);
+	private File getFile() {
+		String uri = ((Image) getDescriptor()).getUri().toString();
+		return new File(uri.replace("@", base.getAbsolutePath()
+				+ File.separator));
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent ae) {
-		controller.getViewController().addView("", editorId, true);
+	public java.awt.Image getThumbnail() {
+		if (thumbnail == null) {
+			BufferedImage fullImage = Resource.loadExternalImage(getFile());
+			int fw = fullImage.getWidth();
+			int fh = fullImage.getHeight();
+			double s = Math.min(THUMBNAIL_SIZE * 1.0 / fw, THUMBNAIL_SIZE * 1.0
+					/ fh);
+
+			thumbnail = new BufferedImage(THUMBNAIL_SIZE, THUMBNAIL_SIZE,
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics g = thumbnail.getGraphics();
+			int tw = (int) (s * fw);
+			int th = (int) (s * fh);
+			g.drawImage(fullImage, (THUMBNAIL_SIZE - tw) / 2,
+					(THUMBNAIL_SIZE - th) / 2, tw, th, null);
+		}
+		return thumbnail;
+	}
+
+	@Override
+	public int getAssetSize() {
+		return (int) getFile().length();
+	}
+
+	@Override
+	public String getLinkIcon() {
+		return R.Drawable.assets__image_png;
 	}
 }

@@ -35,59 +35,31 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ead.editor.view.asset;
+package ead.editor.model.nodes;
 
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.multimedia.Video;
+import ead.editor.R;
 
 /**
- * Utility class that performs asset-related functions.
+ * Image asset node
  *
  * @author mfreire
  */
-public class AssetHelper {
+public class VideoAssetNode extends AssetNode {
 
-	private File resourcePath;
-
-	public static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
-
-	public AssetHelper(File resourcePath) {
-		this.resourcePath = resourcePath;
+	public VideoAssetNode(int id) {
+		super(id);
 	}
 
-	public File getFile(AssetDescriptor d) {
-		String s = d.toString();
-		if (s.contains("@")) {
-			File f = new File(resourcePath.getAbsolutePath(), s.substring(s
-					.indexOf('@') + 1));
-			return f.exists() ? f : null;
-		}
-		return null;
+	@Override
+	public String getLinkText() {
+		String s = ((Video) getDescriptor()).getUri().toString();
+		return s.substring(s.lastIndexOf("video") + "video".length() + 1);
 	}
 
-	public InputStream getEngineResource(AssetDescriptor d) throws IOException {
-		ClassLoader cl = AssetHelper.class.getClassLoader();
-		if (d instanceof EAdBasicDrawable) {
-			EAdBasicDrawable drawable = (EAdBasicDrawable) d;
-		}
-		return null;
-	}
-
-	public boolean isEngineResource(AssetDescriptor d) {
-		return false;
-	}
-
-	public Image getThumbnail(AssetDescriptor d, File resourcePath) {
-		return null;
+	@Override
+	public String getLinkIcon() {
+		return R.Drawable.assets__video_png;
 	}
 }

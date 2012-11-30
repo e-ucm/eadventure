@@ -133,7 +133,8 @@ public class ImageAssetPane extends javax.swing.JPanel {
 	}
 
 	private void setFile(File f) {
-		if (f != null && f.getName().toLowerCase().matches(".*[.]png")) {
+		if (f != null
+				&& f.getName().toLowerCase().matches(".*[.](png|jpg|jpeg)")) {
 			jtfFileName.setText(f.getAbsolutePath());
 			imageFile = f;
 			jpCanvas.refreshImage();

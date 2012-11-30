@@ -38,6 +38,8 @@
 package ead.editor.model.nodes;
 
 import ead.editor.model.EditorModel;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,12 +55,20 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
 	private static final Logger logger = LoggerFactory.getLogger("EditorNode");
 
+	public static final int THUMBNAIL_SIZE = 128;
+	private static final BufferedImage defaultThumbnail = new BufferedImage(
+			THUMBNAIL_SIZE, 128, BufferedImage.TYPE_INT_ARGB);
+
 	public EditorNode(int id) {
 		super(id, new HashSet<DependencyNode<?>>());
 	}
 
 	public HashSet<DependencyNode<?>> getContents() {
 		return content;
+	}
+
+	public Image getThumbnail() {
+		return defaultThumbnail;
 	}
 
 	/**
