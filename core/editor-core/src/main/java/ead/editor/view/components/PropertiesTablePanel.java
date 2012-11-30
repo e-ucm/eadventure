@@ -49,8 +49,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JPanel;
@@ -69,7 +67,7 @@ import org.jdesktop.swingx.JXTable;
  *
  * @author mfreire
  */
-public class PropertiesTablePanel extends AssetBrowsePanel {
+public class PropertiesTablePanel extends NodeBrowserPanel {
 
 	private EditorModel editorModel;
 	private ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
@@ -85,6 +83,10 @@ public class PropertiesTablePanel extends AssetBrowsePanel {
 				new ListSelectionListener() {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
+						selected.clear();
+						for (int row : table.getSelectedRows()) {
+							selected.add(nodes.get(row));
+						}
 						firePropertyChange(selectedPropertyName, null, null);
 					}
 				});
@@ -94,6 +96,8 @@ public class PropertiesTablePanel extends AssetBrowsePanel {
 		table.setAutoResizeMode(JXTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setRowHeight(32);
 		table.setColumnMargin(5);
+		table.setDragEnabled(true);
+		table.setTransferHandler(new NodeTransferHandler());
 		TableColumnModel tcm = table.getColumnModel();
 		tcm.getColumn(0).setMaxWidth(50);
 		tcm.getColumn(2).setMaxWidth(80);

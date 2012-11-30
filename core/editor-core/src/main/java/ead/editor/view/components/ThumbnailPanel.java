@@ -45,18 +45,33 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceAdapter;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
+import javax.activation.DataHandler;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.TransferHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +81,7 @@ import org.slf4j.LoggerFactory;
  * EditorLinks.
  * @author mfreire
  */
-public class ThumbnailPanel extends AssetBrowsePanel {
+public class ThumbnailPanel extends NodeBrowserPanel {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ThumbnailPanel");
@@ -80,12 +95,42 @@ public class ThumbnailPanel extends AssetBrowsePanel {
 
 	private DynamicGridLayout dgl;
 
+	private NodeTransferHandler transferHandler = new NodeTransferHandler();
+
+	public ThumbnailPanel() {
+		inner = new JPanel();
+		dgl = new DynamicGridLayout();
+		inner.setLayout(dgl);
+		WidthSensitiveScrollPane scroll = new WidthSensitiveScrollPane();
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		scroll.setViewportView(inner);
+		scroll.setParent(this);
+		inner.setTransferHandler(transferHandler);
+		add(scroll, BorderLayout.CENTER);
+	}
+
 	private class Thumbnail extends JPanel {
 		private final EditorNode node;
 
 		public Thumbnail(EditorNode node) {
 			this.node = node;
 			setLayout(null);
+
+			DragSource.getDefaultDragSource()
+					.createDefaultDragGestureRecognizer(this,
+							DnDConstants.ACTION_COPY,
+							new DragGestureListener() {
+								@Override
+								public void dragGestureRecognized(
+										DragGestureEvent dge) {
+									Transferable t = transferHandler
+											.createTransferable(ThumbnailPanel.this);
+									dge.startDrag(DragSource.DefaultCopyNoDrop,
+											t, new DragSourceAdapter() {
+
+											});
+								}
+							});
 
 			int m = (thumbWidth - (thumbImageSize + thumbInnerMargins * 2)) / 2;
 			Thumb t = new Thumb();
@@ -247,16 +292,5 @@ public class ThumbnailPanel extends AssetBrowsePanel {
 			inner.add(new ThumbnailPanel.Thumbnail(n));
 		}
 		inner.validate();
-	}
-
-	public ThumbnailPanel() {
-		inner = new JPanel();
-		dgl = new DynamicGridLayout();
-		inner.setLayout(dgl);
-		WidthSensitiveScrollPane scroll = new WidthSensitiveScrollPane();
-		scroll.getVerticalScrollBar().setUnitIncrement(16);
-		scroll.setViewportView(inner);
-		scroll.setParent(this);
-		add(scroll, BorderLayout.CENTER);
 	}
 }
