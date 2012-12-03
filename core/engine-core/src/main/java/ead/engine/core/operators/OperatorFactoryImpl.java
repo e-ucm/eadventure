@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -102,12 +101,9 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
 	}
 
 	@Override
-	public <T extends EAdOperation, S> S operate(Variabled element,
-			EAdVarDef<S> varDef, T operation) {
+	public <T extends EAdOperation, S> S operate(EAdVarDef<S> varDef,
+			T operation) {
 		S result = operate(varDef.getType(), operation);
-		if (result != null) {
-			valueMap.setValue(element, varDef, result);
-		}
 		return result;
 	}
 

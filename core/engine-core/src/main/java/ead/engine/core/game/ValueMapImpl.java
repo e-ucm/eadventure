@@ -109,7 +109,7 @@ public class ValueMapImpl implements ValueMap {
 				map.put(element, valMap);
 
 				// Sets initial values, if any
-				addInitVariables( element, map );
+				addInitVariables(element, valMap);
 			}
 
 			valMap.put(varDef, value);
@@ -132,8 +132,11 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	public void setValue(EAdField<?> var, EAdOperation operation) {
-		operatorFactory.operate(maybeDecodeField(var.getElement()),
-				var.getVarDef(), operation);
+		Object result = operatorFactory.operate(var.getVarDef(),
+				operation);
+		if (result != null) {
+			setValue(var, result);
+		}
 	}
 
 	@Override
@@ -146,23 +149,24 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public <S> S getValue(EAdField<S> var) {
-		return getValue(maybeDecodeField(var.getClass()),
-				var.getVarDef());
+		return getValue(var.getElement(), var.getVarDef());
 	}
 
 	@Override
 	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
-		return getFinalValue(element, varDef);
+		return getFinalValue(maybeDecodeField(element), varDef);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <S> S getFinalValue(Variabled element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
-				: map.get(element);
+	private <S> S getFinalValue(Object element, EAdVarDef<S> varDef) {
+		Map<EAdVarDef<?>, Object> valMap = map.get(element);
 
 		if (valMap == null) {
-			// If the variable has not been set, returns the initial value
-			return varDef.getInitialValue();
+			valMap = new HashMap<EAdVarDef<?>, Object>();
+			map.put(element, valMap);
+
+			// Sets initial values, if any
+			addInitVariables(element, valMap);
 		}
 		Object value = valMap.get(varDef);
 		// If the variable has not been set, returns the initial value
@@ -174,34 +178,28 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void remove(Variabled element) {
-		map.remove(maybeDecodeField(element));
-	}
-
-	@Override
-	public Map<EAdVarDef<?>, Object> getElementVars(Variabled element) {
-		return element == null ? systemVars : map
-				.get(maybeDecodeField(element));
+	public Map<EAdVarDef<?>, Object> getElementVars(Object element) {
+		return map.get(maybeDecodeField(element));
 	}
 
 	@Override
 	public Object maybeDecodeField(Object element) {
 		if (element != null && element instanceof EAdField<?>) {
 			EAdField<?> field = (EAdField<?>) element;
-			Object result = getValue(field.getElement(),
-					field.getVarDef());
-			if (result instanceof Variabled) {
-				return (Variabled) result;
+			Object fieldElement = field.getElement();
+			if (fieldElement instanceof EAdField<?>) {
+				Object result = getValue(field.getElement(),
+						field.getVarDef());
+				return maybeDecodeField(result);
 			} else {
-				return null;
+				return fieldElement;
 			}
-		} else {
-			return null;
 		}
+		return element;
 	}
 
 	@Override
-	public boolean checkForUpdates(Variabled element) {
+	public boolean checkForUpdates(Object element) {
 		if (updateList.contains(element)) {
 			updateList.remove(element);
 			return true;
@@ -209,6 +207,11 @@ public class ValueMapImpl implements ValueMap {
 		return false;
 	}
 
+	/**
+	 * Adds ana element to the update list
+	 * 
+	 * @param element
+	 */
 	private void addUpdatedElement(Object element) {
 		if (element != null && !updateList.contains(element)) {
 			updateList.add(element);
@@ -221,33 +224,8 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void clearUpdateList() {
-		updateList.clear();
-	}
-
-	public Map<EAdVarDef<?>, Object> getSystemVars() {
-		return systemVars;
-	}
-
-	public void setSystemVars(Map<EAdVarDef<?>, Object> systemVars) {
-		this.systemVars = systemVars;
-	}
-
-	public Map<Variabled, Map<EAdVarDef<?>, Object>> getElementVars() {
-		return map;
-	}
-
-	public void setElementVars(
-			Map<Variabled, Map<EAdVarDef<?>, Object>> map) {
-		this.map = map;
-	}
-
-	public ArrayList<Variabled> getUpdateList() {
-		return updateList;
-	}
-
-	public void setUpdateList(ArrayList<Variabled> updateList) {
-		this.updateList = updateList;
+	public void remove(Object element) {
+		map.remove(maybeDecodeField(element));
 	}
 
 }

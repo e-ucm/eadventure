@@ -93,7 +93,7 @@ public class GameImpl implements Game, TextHandler {
 	public static final String FILTER_STRING_FILES = "stringFiles";
 
 	public static final String FILTER_HUDS_CREATION = "huds_creation";
-	
+
 	public static final String FILTER_PROCESS_ACTION = "action_generated";
 
 	/**
@@ -130,7 +130,7 @@ public class GameImpl implements Game, TextHandler {
 	 * Asset handler
 	 */
 	private AssetHandler assetHandler;
-	
+
 	/**
 	 * Game state
 	 */
@@ -179,11 +179,10 @@ public class GameImpl implements Game, TextHandler {
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler,
 			GameObjectManager gameObjectManager,
-			DebuggerHandler debugger, ValueMap valueMap,			 
+			DebuggerHandler debugger, ValueMap valueMap,
 			InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory,
-			GameTracker tracker, SceneGraph sceneGraph,
-			TweenController tweenController,
+			EventGOFactory eventFactory, GameTracker tracker,
+			SceneGraph sceneGraph, TweenController tweenController,
 			StringsReader stringsReader) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
@@ -194,7 +193,7 @@ public class GameImpl implements Game, TextHandler {
 		this.pluginHandler = pluginHandler;
 		this.stringsReader = stringsReader;
 		this.adventure = null;
-		this.debuggerHandler = debugger;		
+		this.debuggerHandler = debugger;
 		this.inventoryHandler = inventoryHandler;
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
@@ -243,7 +242,7 @@ public class GameImpl implements Game, TextHandler {
 		LoadingScreen loadingScreen = new LoadingScreen();
 		gameState.setScene((SceneGO<?>) sceneElementFactory
 				.get(loadingScreen));
-		
+
 		setGame();
 	}
 
@@ -382,8 +381,6 @@ public class GameImpl implements Game, TextHandler {
 				SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
-		
-
 		// Scene
 		if (!gameState.isPaused()) {
 			updateGameEvents();
@@ -413,7 +410,7 @@ public class GameImpl implements Game, TextHandler {
 				&& !newLanguage.equals(currentLanguage)) {
 			currentLanguage = newLanguage;
 			stringHandler.setLanguage(currentLanguage);
-			assetHandler.refresh();			
+			assetHandler.refresh();
 		}
 
 	}
@@ -446,9 +443,12 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void setGame() {
-		if (adventure != null)
-			gameState.setInitialScene(adventure.getChapters().get(0)
-					.getInitialScene(), launchEffects);
+		if (adventure != null) {
+			SceneGO<?> scene = (SceneGO<?>) sceneElementFactory
+					.get(adventure.getChapters().get(0)
+							.getInitialScene());
+			gameState.setScene(scene);
+		}
 		// logger.info("Setting the game");
 		// gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
 		// adventure.getGameWidth());

@@ -48,7 +48,7 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.InputActionProcessor;
+import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.input.InputAction;

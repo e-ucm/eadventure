@@ -39,6 +39,7 @@ package ead.engine.core.gameobjects;
 
 import java.util.List;
 
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.util.EAdTransformation;
@@ -82,8 +83,16 @@ public interface GameObjectManager {
 
 	/**
 	 * Removes the HUD from the stack
+	 * 
 	 * @param hud
 	 */
 	void removeHud(HudGO hud);
+
+	/**
+	 * Returns the game object associatd to the given elemetn
+	 * 
+	 * @param element
+	 */
+	DrawableGO<?> getGameObject(EAdSceneElement element);
 
 }

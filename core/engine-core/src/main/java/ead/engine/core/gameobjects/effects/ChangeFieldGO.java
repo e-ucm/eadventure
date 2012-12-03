@@ -43,30 +43,25 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
-	private OperatorFactory operatorFactory;
-
 	@Inject
-	public ChangeFieldGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory) {
+	public ChangeFieldGO(SceneElementGOFactory sceneElementFactory,
+			GUI gui, GameState gameState) {
 		super(sceneElementFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
 	}
 
 	@Override
 	public void initialize() {
 		for (EAdField<?> v : element.getFields()) {
-			operatorFactory.operate(v, element.getOperation());
+			gameState.getValueMap().setValue(v,
+					element.getOperation());
 		}
 		if (element.getParentVar() != null && parent != null) {
-			operatorFactory.operate(parent, element.getParentVar(), element
-					.getOperation());
+			gameState.getValueMap().setValue(parent,
+					element.getParentVar(), element.getOperation());
 		}
 	}
 

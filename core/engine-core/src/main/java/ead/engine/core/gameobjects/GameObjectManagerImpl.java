@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.util.EAdTransformation;
@@ -123,6 +124,19 @@ public class GameObjectManagerImpl implements GameObjectManager,
 	@Override
 	public int compare(HudGO arg0, HudGO arg1) {
 		return arg0.getPriority() - arg1.getPriority();
+	}
+
+	@Override
+	public DrawableGO<?> getGameObject(EAdSceneElement element) {
+		if (element == null) {
+			return null;
+		}
+		for (DrawableGO<?> go : gameObjects) {
+			if (go.getElement() == element) {
+				return go;
+			}
+		}
+		return null;
 	}
 
 }

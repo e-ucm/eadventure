@@ -42,6 +42,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
@@ -87,7 +88,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected Game game;
 
-	protected GameState gameState;	
+	protected GameState gameState;
 
 	public AbstractGUI(GameObjectManager gameObjectManager,
 			GenericCanvas<T> canvas) {
@@ -216,13 +217,18 @@ public abstract class AbstractGUI<T> implements GUI {
 			}
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction k = (KeyInputAction) action;
-			go = gameState.getActiveElement();
+			EAdSceneElement element = gameState.getValueMap()
+					.getValue(SystemFields.ACTIVE_ELEMENT);
 			// only the active element gets a try to consume it
-			if (go != null) {
-				go.processAction(k);
+			if (element != null) {
+				go = gameObjects.getGameObject(element);
+				if (go != null) {
+					go.processAction(k);
+				}
 			}
 		}
-		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action, null);
+		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action,
+				null);
 		return go;
 	}
 

@@ -48,7 +48,6 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.MouseState;

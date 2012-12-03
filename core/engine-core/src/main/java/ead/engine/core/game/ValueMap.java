@@ -39,7 +39,7 @@ package ead.engine.core.game;
 
 import java.util.Map;
 
-import ead.common.interfaces.features.Variabled;
+import ead.common.model.EAdElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -152,7 +152,7 @@ public interface ValueMap {
 	 *            the element
 	 * @return if any element's field has been updated since last check
 	 */
-	boolean checkForUpdates(Variabled element);
+	boolean checkForUpdates(Object element);
 
 	/**
 	 * Sets if the updates list is enable and it is recording all fields changes
