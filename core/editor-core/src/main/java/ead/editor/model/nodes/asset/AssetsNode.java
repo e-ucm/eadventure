@@ -35,67 +35,43 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.model.nodes.asset;
 
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.editor.R;
-import ead.utils.i18n.Resource;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModelImpl;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
+import java.util.ArrayList;
 
 /**
- * Image asset node
+ * Synthetic node for i18n-susceptible game strings.
  *
  * @author mfreire
  */
-public class ImageAssetNode extends AssetNode {
+public class AssetsNode extends EditorNode {
 
-	public ImageAssetNode(int id) {
+	private ArrayList<DependencyNode> assetNodes = new ArrayList<DependencyNode>();
+
+	public AssetsNode(int id) {
 		super(id);
 	}
 
-	private transient BufferedImage thumbnail;
-
-	@Override
-	public String getLinkText() {
-		String s = ((Image) getDescriptor()).getUri().toString();
-		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
-	}
-
-	private File getFile() {
-		String uri = ((Image) getDescriptor()).getUri().toString();
-		return new File(uri.replace("@", base.getAbsolutePath()
-				+ File.separator));
-	}
-
-	@Override
-	public java.awt.Image getThumbnail() {
-		if (thumbnail == null) {
-			BufferedImage fullImage = Resource.loadExternalImage(getFile());
-			int fw = fullImage.getWidth();
-			int fh = fullImage.getHeight();
-			double s = Math.min(THUMBNAIL_SIZE * 1.0 / fw, THUMBNAIL_SIZE * 1.0
-					/ fh);
-
-			thumbnail = new BufferedImage(THUMBNAIL_SIZE, THUMBNAIL_SIZE,
-					BufferedImage.TYPE_INT_ARGB);
-			Graphics g = thumbnail.getGraphics();
-			int tw = (int) (s * fw);
-			int th = (int) (s * fh);
-			g.drawImage(fullImage, (THUMBNAIL_SIZE - tw) / 2,
-					(THUMBNAIL_SIZE - th) / 2, tw, th, null);
+	public ArrayList<DependencyNode> getNodes(EditorModel m) {
+		assetNodes.clear();
+		for (DependencyNode n : ((EditorModelImpl) m).getNodesById().values()) {
+			if (n.getContent() instanceof AssetNode) {
+				assetNodes.add(n);
+			}
 		}
-		return thumbnail;
+		return assetNodes;
 	}
 
 	@Override
-	public int getAssetSize() {
-		return (int) getFile().length();
-	}
-
-	@Override
-	public String getLinkIcon() {
-		return R.Drawable.assets__image_png;
+	public String getTextualDescription(EditorModel m) {
+		StringBuilder sb = new StringBuilder();
+		for (DependencyNode n : getNodes(m)) {
+			sb.append(n.getTextualDescription(m));
+		}
+		return sb.toString();
 	}
 }

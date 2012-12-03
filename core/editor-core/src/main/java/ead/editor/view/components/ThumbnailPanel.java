@@ -45,33 +45,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceEvent;
-import java.awt.dnd.DragSourceListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
-import javax.activation.DataHandler;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.TransferHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,11 +145,13 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 						selected.clear();
 						if (!wasSelected) {
 							selected.add(node);
+							lastSelected = node;
 						}
 						getParent().repaint();
 					} else {
 						if (!wasSelected) {
 							selected.add(node);
+							lastSelected = node;
 						} else {
 							selected.remove(node);
 						}
@@ -292,5 +285,37 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 			inner.add(new ThumbnailPanel.Thumbnail(n));
 		}
 		inner.validate();
+	}
+
+	@Override
+	public void addNode(EditorNode node) {
+		inner.add(new ThumbnailPanel.Thumbnail(node));
+	}
+
+	private int indexOf(EditorNode node) {
+		for (int i = 0; i < getComponentCount(); i++) {
+			Thumbnail t = (Thumbnail) getComponent(i);
+			if (t.node == node) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	@Override
+	public EditorNode getPrevious() {
+		int pos = (lastSelected == null) ? getComponentCount() - 1
+				: (indexOf(lastSelected) - 1 + getComponentCount())
+						% getComponentCount();
+		lastSelected = ((Thumbnail) getComponent(pos)).node;
+		return lastSelected;
+	}
+
+	@Override
+	public EditorNode getNext() {
+		int pos = (lastSelected == null) ? 0 : (indexOf(lastSelected) + 1)
+				% getComponentCount();
+		lastSelected = ((Thumbnail) getComponent(pos)).node;
+		return lastSelected;
 	}
 }

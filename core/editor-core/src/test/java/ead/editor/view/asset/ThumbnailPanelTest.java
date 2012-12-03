@@ -44,7 +44,7 @@ import ead.common.resources.assets.drawable.basics.Image;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EngineNode;
-import ead.editor.model.nodes.ImageAssetNode;
+import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.components.PropertiesTablePanel;
 import ead.editor.view.components.ThumbnailPanel;
 import ead.engine.core.gdx.assets.GdxAssetHandler;

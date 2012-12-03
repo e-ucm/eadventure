@@ -65,8 +65,8 @@ import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
-import ead.editor.model.nodes.AssetFactory;
-import ead.editor.model.nodes.AssetsNode;
+import ead.editor.model.nodes.asset.AssetFactory;
+import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
@@ -264,11 +264,16 @@ public class EditorModelLoader {
 					}
 					int cid = Integer.valueOf(idString);
 					logger.debug("\tadding child {}", cid);
-					editorNode.addChild(model.getNodesById().get(cid));
-					logger.debug("\tadding child {} [{}]", new Object[] {
-							cid,
-							model.getNodesById().get(cid)
-									.getTextualDescription(model) });
+					if (model.getNodesById().get(cid) == null) {
+						logger.error("Cannot add child {} of editorNode {}: null child (id {} not registered)",
+								new Object[] {idString, id, idString});
+					} else {
+						editorNode.addChild(model.getNodesById().get(cid));
+						logger.debug("\tadding child {} [{}]", new Object[] {
+								cid,
+								model.getNodesById().get(cid)
+										.getTextualDescription(model) });
+					}
 				}
 				editorNode.restoreInner(e);
 				model.registerEditorNodeWithGraph(editorNode);

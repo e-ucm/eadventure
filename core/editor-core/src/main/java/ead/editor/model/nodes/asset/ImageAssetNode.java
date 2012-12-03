@@ -35,31 +35,51 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.model.nodes.asset;
 
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.multimedia.Video;
 import ead.editor.R;
+import ead.utils.i18n.Resource;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * Image asset node
  *
  * @author mfreire
  */
-public class VideoAssetNode extends AssetNode {
+public class ImageAssetNode extends AssetNode {
 
-	public VideoAssetNode(int id) {
+	public ImageAssetNode(int id) {
 		super(id);
 	}
 
 	@Override
 	public String getLinkText() {
-		String s = ((Video) getDescriptor()).getUri().toString();
-		return s.substring(s.lastIndexOf("video") + "video".length() + 1);
+		String s = ((Image) getDescriptor()).getUri().toString();
+		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
+	}
+
+	private File getFile() {
+		String uri = ((Image) getDescriptor()).getUri().toString();
+		return new File(uri.replace("@", base.getAbsolutePath()
+				+ File.separator));
+	}
+
+	@Override
+	public void updateThumbnail() {
+		BufferedImage fullImage = Resource.loadExternalImage(getFile());
+		setThumbnail(fullImage);
+	}
+
+	@Override
+	public int getAssetSize() {
+		return (int) getFile().length();
 	}
 
 	@Override
 	public String getLinkIcon() {
-		return R.Drawable.assets__video_png;
+		return R.Drawable.assets__image_png;
 	}
 }

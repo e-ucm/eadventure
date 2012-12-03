@@ -82,7 +82,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
 
-import ead.editor.model.nodes.AssetsNode;
+import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.RunMenu;

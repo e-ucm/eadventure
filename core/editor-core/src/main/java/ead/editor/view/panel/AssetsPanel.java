@@ -38,209 +38,156 @@
 package ead.editor.view.panel;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.editor.control.Controller;
-import ead.editor.model.nodes.AssetsNode;
+import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
+import ead.editor.view.components.NodeBrowserPanel;
+import ead.editor.view.components.ThumbnailPanel;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
-import java.io.File;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
+import java.awt.FlowLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 /**
- * An elementPanel that can display anything, in a non-editable fashion.
+ * A panel that displays all assets, by type. A preview is available
+ * on the left-hand side.
  *
  * @author mfreire
  */
 public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
+	private static final Logger logger = LoggerFactory.getLogger("AssetsPanel");
 
 	private AssetsNode assetsNode;
 
+	private JSplitPane split;
 	private JTabbedPane tabs;
-	private HashMap<String, AssetCategoryPanel> panels = new HashMap<String, AssetCategoryPanel>();
+	private AssetPreviewer previewer;
+	private HashMap<String, ThumbnailPanel> panels = new HashMap<String, ThumbnailPanel>();
 	private AssetViewer rootAssetViewer;
 
 	public AssetsPanel() {
 		tabs = new JTabbedPane();
+		previewer = new AssetPreviewer();
+		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabs, previewer);
+
 		setLayout(new BorderLayout());
-		this.add(tabs, BorderLayout.CENTER);
+		add(split, BorderLayout.CENTER);
+	}
+
+	private class AssetPreviewer extends JPanel {
+		private JButton prev = new JButton("<");
+		private JPanel current = new JPanel();
+		private JButton next = new JButton(">");
+
+		private void initialize(Controller controller) {
+			tabs.removeAll();
+
+			if (rootAssetViewer != null) {
+				rootAssetViewer.stop();
+			}
+			rootAssetViewer = controller.createAssetViewer();
+			add(rootAssetViewer.getCanvas(), BorderLayout.CENTER);
+
+			JPanel buttonsPanel = new JPanel(new FlowLayout());
+			buttonsPanel.add(prev);
+			buttonsPanel.add(current);
+			buttonsPanel.add(next);
+			add(buttonsPanel, BorderLayout.SOUTH);
+
+			prev.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ThumbnailPanel selectedPane = (ThumbnailPanel) tabs
+							.getSelectedComponent();
+					setNode(selectedPane.getPrevious());
+				}
+			});
+			next.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ThumbnailPanel selectedPane = (ThumbnailPanel) tabs
+							.getSelectedComponent();
+					setNode(selectedPane.getNext());
+				}
+			});
+		}
+
+		public void setNode(final EditorNode node) {
+			if (node.getFirst() instanceof EAdDrawable) {
+				rootAssetViewer.setDrawable(null);
+				final ImageGrabber grabber = new ImageGrabber();
+				grabber.setCallback(new Runnable() {
+					@Override
+					public void run() {
+						node.setThumbnail(grabber.getImage());
+					}
+				});
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(100);
+							Thread.yield();
+							rootAssetViewer.grabImage(grabber);
+						} catch (InterruptedException ex) {
+							logger.warn("interrupt while grabbing image");
+						}
+					}
+				}).start();
+			}
+		}
 	}
 
 	@Override
 	protected void rebuild() {
-
-		// without a pre-existing gl context, size checks further on will fail
-		if (rootAssetViewer != null) {
-			rootAssetViewer.stop();
-		}
-		rootAssetViewer = controller.createAssetViewer();
-		JPanel jp = new JPanel();
-		jp.add(rootAssetViewer.getCanvas());
-		add(jp, BorderLayout.SOUTH);
+		HashMap<String, ArrayList<EditorNode>> nodesByCategory = new HashMap<String, ArrayList<EditorNode>>();
 
 		this.assetsNode = (AssetsNode) target;
-		for (AssetCategoryPanel cp : panels.values()) {
-			cp.clear();
-		}
 		tabs.removeAll();
+		previewer.initialize(controller);
 		for (DependencyNode n : assetsNode.getNodes(controller.getModel())) {
+
 			String cn = n.getContent().getClass().getName();
-			AssetCategoryPanel cp = panels.get(cn);
-			if (cp == null) {
-				cp = new AssetCategoryPanel();
-				panels.put(cn, cp);
-				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), cp);
+			ThumbnailPanel tp = panels.get(cn);
+			ArrayList<EditorNode> al = nodesByCategory.get(cn);
+			if (tp == null) {
+				tp = new ThumbnailPanel();
+				al = new ArrayList<EditorNode>();
+				panels.put(cn, tp);
+				nodesByCategory.put(cn, al);
+				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), tp);
+
 			}
-			cp.add(new AssetPanel(n, controller));
+			tp.add(new ThumbnailPanel());
+			al.add((EditorNode) n);
+			tp.addPropertyChangeListener(NodeBrowserPanel.selectedPropertyName,
+					new PropertyChangeListener() {
+						@Override
+						public void propertyChange(PropertyChangeEvent evt) {
+							EditorNode node = ((NodeBrowserPanel) evt
+									.getSource()).getLastSelected();
+							previewer.setNode(node);
+						}
+					});
 		}
-		for (AssetCategoryPanel cp : panels.values()) {
-			cp.commit();
-		}
-	}
-
-	private String fileToString(File f) {
-		File base = controller.getModel().getLoader().getSaveDir();
-		return f.getAbsolutePath().replace(base.getAbsolutePath(), ".");
-	}
-
-	private class AssetCategoryPanel extends JPanel {
-		private JPanel scrollable;
-		private JPanel spacerPanel;
-		private ArrayList<AssetPanel> panels = new ArrayList<AssetPanel>();
-
-		private AssetCategoryPanel() {
-			scrollable = new JPanel();
-			scrollable.setLayout(new GridBagLayout());
-			spacerPanel = new JPanel();
-			setLayout(new BorderLayout());
-			add(new JScrollPane(scrollable), BorderLayout.CENTER);
-		}
-
-		/**
-		 * Prepare the panel for drawing. Makes changes visible.
-		 */
-		public void commit() {
-			scrollable.removeAll();
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.gridx = 0;
-			gbc.gridy = 0;
-			gbc.gridheight = 1;
-			gbc.gridwidth = 1;
-			gbc.fill = GridBagConstraints.BOTH;
-			gbc.weightx = 1.0;
-			gbc.weighty = 0;
-			for (JPanel p : panels) {
-				gbc.gridy++;
-				scrollable.add(p, gbc);
-			}
-			gbc.gridy++;
-			gbc.weighty = 1.0;
-			scrollable.add(spacerPanel, gbc);
-			revalidate();
-		}
-
-		public void add(AssetPanel panel) {
-			panels.add(panel);
-		}
-
-		public void clear() {
-			for (AssetPanel p : panels) {
-				if (p.visible) {
-					p.toggleShow();
-				}
-			}
-			panels.clear();
-		}
-	}
-
-	private class AssetPanel extends JPanel {
-		private final DependencyNode an;
-		private JPanel canvasPanel;
-		private boolean visible = false;
-		private AssetViewer av;
-		private JButton showButton;
-		private AssetDescriptor descriptor;
-
-		public void toggleShow() {
-			if (visible) {
-				if (av != null) {
-					av.stop();
-				}
-				canvasPanel.removeAll();
-				showButton.setText("<O>");
-			} else {
-				av = controller.createAssetViewer();
-				av.setDrawable((EAdDrawable) an.getContent());
-				canvasPanel.add(av.getCanvas(), BorderLayout.CENTER);
-				showButton.setText("\\_/");
-			}
-			visible = !visible;
-		}
-
-		public AssetPanel(DependencyNode an, Controller controller) {
-			this.an = an;
-			this.descriptor = (AssetDescriptor) an.getContent();
-			GridBagConstraints gbc = new GridBagConstraints(1, 0, 1, 1, 1, 0,
-					GridBagConstraints.WEST, GridBagConstraints.BOTH,
-					new Insets(5, 5, 5, 5), 0, 0);
-			setLayout(new GridBagLayout());
-			JLabel description = new JLabel();
-			String extra = "";
-			File f = null; // assetFile(descriptor);
-			if (f != null) {
-				extra = "<br>" + fileToString(f) + " (" + f.length()
-						+ " bytes)";
-			}
-			description.setText("<html>" + descriptor.toString() + extra
-					+ "</html>");
-			description.setHorizontalAlignment(SwingConstants.LEFT);
-			add(description, gbc);
-			canvasPanel = new JPanel();
-			canvasPanel.setLayout(new BorderLayout());
-			canvasPanel.setPreferredSize(new Dimension(100, 100));
-			gbc.weightx = 0;
-			gbc.gridx = 0;
-			gbc.gridheight = 2;
-			add(canvasPanel, gbc);
-			showButton = new JButton("<O>");
-			showButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					toggleShow();
-				}
-			});
-			if (!(descriptor instanceof EAdDrawable)) {
-				showButton.setEnabled(false);
-			} else {
-				toggleShow();
-			}
-			gbc.weightx = 0;
-			gbc.gridx = 1;
-			gbc.gridy = 1;
-			gbc.gridheight = 1;
-			gbc.fill = GridBagConstraints.NONE;
-			add(showButton, gbc);
+		for (String s : panels.keySet()) {
+			panels.get(s).setNodes(nodesByCategory.get(s));
 		}
 	}
 }

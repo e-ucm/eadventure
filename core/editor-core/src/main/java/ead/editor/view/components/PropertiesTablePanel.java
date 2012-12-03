@@ -42,7 +42,7 @@
 package ead.editor.view.components;
 
 import ead.editor.model.EditorModel;
-import ead.editor.model.nodes.AssetNode;
+import ead.editor.model.nodes.asset.AssetNode;
 import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -83,6 +83,15 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 				new ListSelectionListener() {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
+						// update "last-selected"
+						for (int row : table.getSelectedRows()) {
+							EditorNode node = nodes.get(row);
+							if (!selected.contains(node)) {
+								lastSelected = node;
+								break;
+							}
+						}
+						// update selection-list itself
 						selected.clear();
 						for (int row : table.getSelectedRows()) {
 							selected.add(nodes.get(row));
@@ -225,5 +234,38 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		this.nodes.addAll(nodes);
 		selected.clear();
 		tableModel.fireTableDataChanged();
+	}
+
+	@Override
+	public void addNode(EditorNode node) {
+		nodes.add(node);
+		tableModel.fireTableDataChanged();
+	}
+
+	private int indexOf(EditorNode node) {
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i) == node) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	@Override
+	public EditorNode getPrevious() {
+		int rows = table.getRowCount();
+		int pos = (lastSelected == null) ? rows - 1
+				: (indexOf(lastSelected) - 1 + rows) % rows;
+		lastSelected = nodes.get(pos);
+		return lastSelected;
+	}
+
+	@Override
+	public EditorNode getNext() {
+		int rows = table.getRowCount();
+		int pos = (lastSelected == null) ? 0 : (indexOf(lastSelected) + 1)
+				% rows;
+		lastSelected = nodes.get(pos);
+		return lastSelected;
 	}
 }
