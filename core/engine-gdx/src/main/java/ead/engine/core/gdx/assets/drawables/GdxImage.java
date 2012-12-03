@@ -54,8 +54,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class GdxImage extends RuntimeImage<SpriteBatch> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("GdxImage");
+	private static final Logger logger = LoggerFactory.getLogger("GdxImage");
 
 	private FileHandle fh;
 	private TextureRegion textureRegion;
@@ -70,13 +69,14 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	public boolean loadAsset() {
 		super.loadAsset();
 		try {
-			fh = ((GdxAssetHandler) assetHandler)
-					.getFileHandle(descriptor.getUri().getPath());
+			fh = ((GdxAssetHandler) assetHandler).getFileHandle(descriptor
+					.getUri().getPath());
 			pixmap = new Pixmap(fh);
 		} catch (Exception e) {
 			// TODO Load a default error image.
-			logger.warn("Cound not load image for descriptor: "
-					+ descriptor, e);
+			logger
+					.warn("Cound not load image for descriptor: " + descriptor,
+							e);
 			pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
 		}
 		Texture texture = new Texture(pixmap);

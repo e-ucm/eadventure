@@ -101,7 +101,6 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		ValueMap valueMap = gameState.getValueMap();
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
-		
 		velocityIterations = 24;
 		positionIterations = 8;
 

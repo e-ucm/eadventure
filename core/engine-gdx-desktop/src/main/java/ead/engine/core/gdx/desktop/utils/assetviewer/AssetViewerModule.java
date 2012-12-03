@@ -50,7 +50,7 @@ import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
@@ -71,7 +71,8 @@ public class AssetViewerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
-		bind(AssetHandler.class).to(GdxAssetHandler.class).in(Singleton.class);
+		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class).in(
+				Singleton.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);
@@ -87,63 +88,70 @@ public class AssetViewerModule extends AbstractModule {
 	public static class AssetViewerGUI implements GUI {
 
 		@Override
+		public void initialize(Game game, GameState gameState) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void finish() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public int getSkippedMilliseconds() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getTicksPerSecond() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
 		public void addElement(DrawableGO<?> go,
 				EAdTransformation parentTransformation) {
+			// TODO Auto-generated method stub
 
+		}
+
+		@Override
+		public void addHud(HudGO hud) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void removeHUD(HudGO hud) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public List<HudGO> getHUDs() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		@Override
 		public void showSpecialResource(Object object, int x, int y,
 				boolean fullscreen) {
+			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void commit( ) {
+		public void commit() {
+			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public EAdTransformation addTransformation(EAdTransformation t1,
 				EAdTransformation t2) {
-			return null;
-		}
-
-		@Override
-		public void finish() {
-
-		}
-
-		@Override
-		public int getSkippedMilliseconds() {
-			return Math.round(1000.0f / 60.0f);
-		}
-
-		@Override
-		public int getTicksPerSecond() {
-			return 0;
-		}
-
-		@Override
-		public void initialize(Game game, GameState gameState) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void addHud(HudGO hud) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void removeHUD(HudGO hud) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public List<HudGO> getHUDs() {
 			// TODO Auto-generated method stub
 			return null;
 		}

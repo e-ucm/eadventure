@@ -40,12 +40,13 @@ package ead.common.resources.assets.drawable.basics.shapes;
 import ead.common.interfaces.Param;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 
 /**
  * <p>
  * Rectangular shape asset
  * </p>
- * 
+ *
  */
 public class RectangleShape extends AbstractShape {
 

@@ -60,8 +60,7 @@ public class Button extends ComplexSceneElement {
 
 		SceneElement text = new GhostElement(caption, null);
 		text.setPosition(Corner.CENTER, 100, 15);
-		text.setVarInitialValue(SceneElement.VAR_ENABLE,
-				Boolean.FALSE);
+		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
 		getSceneElements().add(text);
@@ -73,14 +72,12 @@ public class Button extends ComplexSceneElement {
 		buttonBgNormal.setPaint(new Paint(new LinearGradientFill(
 				ColorFill.WHITE, lightGray, 0, 20), ColorFill.BLACK));
 		RectangleShape buttonBgOver = new RectangleShape(200, 30);
-		buttonBgOver.setPaint(new Paint(new LinearGradientFill(
-				lightGray, ColorFill.WHITE, 0, 20), ColorFill.BLACK));
+		buttonBgOver.setPaint(new Paint(new LinearGradientFill(lightGray,
+				ColorFill.WHITE, 0, 20), ColorFill.BLACK));
 
-		definition.getResources().addAsset(
-				definition.getInitialBundle(),
+		definition.getResources().addAsset(definition.getInitialBundle(),
 				SceneElementDef.appearance, buttonBgNormal);
-		definition.getResources().addAsset(
-				definition.getInitialBundle(),
+		definition.getResources().addAsset(definition.getInitialBundle(),
 				SceneElementDef.overAppearance, buttonBgOver);
 
 		setPosition(Corner.CENTER, 0, 0);

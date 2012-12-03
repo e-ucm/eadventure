@@ -167,7 +167,6 @@ public class BVSScene extends EmptyScene {
 		return fa;
 	}
 
-	
 	public String getSceneDescription() {
 		return "A scene with a character, with orientation and different states. Press the buttons to control the character.";
 	}

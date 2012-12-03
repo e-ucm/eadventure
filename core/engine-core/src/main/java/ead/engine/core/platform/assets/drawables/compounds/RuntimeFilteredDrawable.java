@@ -103,14 +103,14 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time,
-			List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		return this;
 	}
-	
+
 	@Override
 	public void refresh() {
-		drawable.refresh();		
+		drawable.refresh();
 	}
 
 }

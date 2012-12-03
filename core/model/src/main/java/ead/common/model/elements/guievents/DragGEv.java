@@ -87,8 +87,7 @@ public class DragGEv extends BasicElement implements EAdGUIEvent {
 	}
 
 	public boolean equals(Object o) {
-		return o instanceof DragGEv
-				&& toString().equals(o.toString());
+		return o instanceof DragGEv && toString().equals(o.toString());
 	}
 
 }

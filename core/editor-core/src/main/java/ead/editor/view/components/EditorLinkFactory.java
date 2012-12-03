@@ -35,65 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.view.components;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
+import ead.editor.control.Controller;
+import ead.editor.model.nodes.DependencyNode;
+import ead.utils.i18n.Resource;
+import javax.swing.ImageIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * An alternative to a vertical BoxLayout that stacks things vertically
- * (assigning all equal spaces) without stretching them.
+ * Creates EditorLinks for EditorNodes.
+ *
  * @author mfreire
  */
-public class CheapVerticalLayout implements LayoutManager {
+public class EditorLinkFactory {
 
-	private Dimension min = new Dimension(10, 10);
-	private Dimension pref = new Dimension(10, 10);
-	private int maxRowHeight = 0;
+	private static final Logger logger = LoggerFactory
+			.getLogger("EditorLinkFactory");
 
-	@Override
-	public void addLayoutComponent(String name, Component comp) {
+	public static EditorLink createLink(int id, Controller controller) {
+		return createLink(controller.getModel().getNode(id), controller);
 	}
 
-	@Override
-	public void removeLayoutComponent(Component comp) {
-	}
-
-	@Override
-	public Dimension preferredLayoutSize(Container parent) {
-		int maxX = 0;
-		int maxY = 0;
-		for (int i = 0; i < parent.getComponentCount(); i++) {
-			Component c = parent.getComponent(i);
-			Dimension d = c.getPreferredSize();
-			maxY = Math.max(d.height, maxY);
-			maxX = Math.max(d.width, maxX);
-
+	public static EditorLink createLink(DependencyNode node,
+			Controller controller) {
+		if (node.isManaged()) {
+			logger.info("{} is managed! going upstream to {}", new Object[] {
+					node.getId(), node.getManager().getId() });
+			return createLink(node.getManager(), controller);
 		}
-		maxRowHeight = maxY;
-		pref.setSize(maxX, maxRowHeight * parent.getComponentCount());
-		return pref;
-	}
-
-	@Override
-	public Dimension minimumLayoutSize(Container parent) {
-		return min;
-	}
-
-	@Override
-	public void layoutContainer(Container parent) {
-		// recalculates row-height
-		preferredLayoutSize(parent);
-		int x = 0;
-		int y = 0;
-		for (int i = 0; i < parent.getComponentCount(); i++) {
-			Component c = parent.getComponent(i);
-			Dimension d = c.getPreferredSize();
-			c.setLocation(x, y + (maxRowHeight - d.height) / 2);
-			c.setSize(d.width, d.height);
-			y += maxRowHeight;
-		}
+		ImageIcon icon = new ImageIcon(Resource.loadImage(node.getLinkIcon()));
+		logger.info("Creating link for id {} with icon {}", new Object[] {
+				node.getId(), icon });
+		return new EditorLink(node.getLinkText(), "" + node.getId(), icon,
+				controller);
 	}
 }

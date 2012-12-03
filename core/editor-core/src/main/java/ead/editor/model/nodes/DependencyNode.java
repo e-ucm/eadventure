@@ -37,7 +37,10 @@
 
 package ead.editor.model.nodes;
 
+import ead.editor.R;
 import ead.editor.model.EditorModel;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import org.apache.lucene.document.Document;
 
 /**
@@ -51,11 +54,32 @@ public abstract class DependencyNode<T> {
 	private int id;
 	protected T content;
 	private Document doc;
+	private DependencyNode manager;
 
 	public DependencyNode(int id, T content) {
 		this.id = id;
 		this.content = content;
 		this.doc = new Document();
+	}
+
+	public void setManager(DependencyNode manager) {
+		this.manager = manager;
+	}
+
+	public boolean isManaged() {
+		return manager != null;
+	}
+
+	public DependencyNode getManager() {
+		return manager;
+	}
+
+	public String getLinkText() {
+		return "" + id;
+	}
+
+	public String getLinkIcon() {
+		return R.Drawable.assets__engine_png;
 	}
 
 	public T getContent() {

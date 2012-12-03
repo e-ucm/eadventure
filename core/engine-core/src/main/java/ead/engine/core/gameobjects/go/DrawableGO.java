@@ -44,7 +44,8 @@ import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 
-public interface DrawableGO<T extends EAdElement> extends GameObject<T>, Renderable {
+public interface DrawableGO<T extends EAdElement> extends GameObject<T>,
+		Renderable {
 
 	/**
 	 * The the draggable element

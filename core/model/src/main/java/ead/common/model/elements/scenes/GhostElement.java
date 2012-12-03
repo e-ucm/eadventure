@@ -54,8 +54,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  * 
  */
 @Element
-public class GhostElement extends SceneElement implements
-		EAdGhostElement {
+public class GhostElement extends SceneElement implements EAdGhostElement {
 
 	@Param("interactionArea")
 	private EAdDrawable interactionArea;
@@ -72,8 +71,7 @@ public class GhostElement extends SceneElement implements
 	 * @param interactionArea
 	 *            the interaction area. Could be {@code null}
 	 */
-	public GhostElement(EAdDrawable appearance,
-			EAdDrawable interactionArea) {
+	public GhostElement(EAdDrawable appearance, EAdDrawable interactionArea) {
 		super(appearance);
 		this.interactionArea = interactionArea;
 	}

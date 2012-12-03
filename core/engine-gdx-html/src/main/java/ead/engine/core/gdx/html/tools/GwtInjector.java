@@ -104,7 +104,7 @@ public class GwtInjector implements GenericInjector {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
-		Object o = null;		
+		Object o = null;
 		if (clazz == GdxCanvas.class)
 			o = ginjector.getCanvas();
 		else if (clazz == Game.class)

@@ -131,7 +131,7 @@ public class GdxModuleMap extends ModuleMap {
 
 		// Tracking
 		binds.put(GameTracker.class, DefaultGameTracker.class);
-		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);		
+		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);
 
 		binds.put(SceneLoader.class, GraphSceneLoader.class);
 

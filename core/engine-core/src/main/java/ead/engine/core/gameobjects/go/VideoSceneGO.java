@@ -53,9 +53,8 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.util.EAdTransformation;
 
-public class VideoSceneGO extends
-		ComplexSceneElementGOImpl<VideoScene> implements
-		ComplexSceneElementGO<VideoScene> {
+public class VideoSceneGO extends ComplexSceneElementGOImpl<VideoScene>
+		implements ComplexSceneElementGO<VideoScene> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("VideoScreenGOImpl");
@@ -70,8 +69,7 @@ public class VideoSceneGO extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
@@ -89,8 +87,8 @@ public class VideoSceneGO extends
 		super.update();
 		if (component == null) {
 			try {
-				EAdVideo v = (EAdVideo) element.getDefinition()
-						.getAsset(currentBundle, VideoScene.video);
+				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
+						currentBundle, VideoScene.video);
 				component = specialAssetRenderer.getComponent(v);
 				if (component != null) {
 					gui.showSpecialResource(component, 0, 0, true);

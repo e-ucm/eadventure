@@ -70,8 +70,7 @@ public class StringsReader {
 			XMLDocument doc = xmlParser.parse(xml);
 			XMLNodeList nl = doc.getFirstChild().getChildNodes();
 			for (int i = 0; i < nl.getLength(); i++) {
-				String name = nl.item(i).getAttributes()
-						.getValue("name");
+				String name = nl.item(i).getAttributes().getValue("name");
 				String value = nl.item(i).getNodeText();
 				if (name != null) {
 					strings.put(new EAdString(name), value);

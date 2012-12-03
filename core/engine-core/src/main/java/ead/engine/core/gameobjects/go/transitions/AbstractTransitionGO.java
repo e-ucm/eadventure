@@ -55,9 +55,8 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
-public abstract class AbstractTransitionGO<T extends EAdTransition>
-		extends ComplexSceneElementGOImpl<T> implements
-		TransitionGO<T> {
+public abstract class AbstractTransitionGO<T extends EAdTransition> extends
+		ComplexSceneElementGOImpl<T> implements TransitionGO<T> {
 
 	protected InputHandler inputHandler;
 
@@ -78,24 +77,23 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 	private ArrayList<TransitionListener> listeners;
 
 	private boolean firstUpdateNext;
-	
+
 	private boolean firstUpdatePrevious;
-	
+
 	public AbstractTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		this.sceneLoader = sceneLoader;
 		this.inputHandler = inputHandler;
 		listeners = new ArrayList<TransitionListener>();
-		
+
 	}
 
 	public void setPrevious(SceneGO<?> scene) {
 		this.previousScene = scene;
-		firstUpdatePrevious = true;		
+		firstUpdatePrevious = true;
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();
 		}
@@ -135,15 +133,15 @@ public abstract class AbstractTransitionGO<T extends EAdTransition>
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}
-		
-		if ( firstUpdatePrevious ){			
+
+		if (firstUpdatePrevious) {
 			// Necessary to maintain consistency
 			firstUpdatePrevious = false;
 			previousScene.update();
 			gameState.clearEffects(false);
 		}
 
-		if (loaded && firstUpdateNext) {			
+		if (loaded && firstUpdateNext) {
 			inputHandler.clearAllInputs();
 
 			firstUpdateNext = false;

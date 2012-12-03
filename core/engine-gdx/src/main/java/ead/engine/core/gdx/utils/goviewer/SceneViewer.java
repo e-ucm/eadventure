@@ -75,9 +75,8 @@ public class SceneViewer implements ApplicationListener {
 	public void render() {
 		currentScene.update();
 		gui.addElement(currentScene, initialTransformation);
-		gui.commit();		
+		gui.commit();
 	}
-
 
 	@Override
 	public void resize(int arg0, int arg1) {

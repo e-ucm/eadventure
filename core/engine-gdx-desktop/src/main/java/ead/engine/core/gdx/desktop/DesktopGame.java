@@ -97,8 +97,7 @@ public class DesktopGame {
 		g.initialize();
 	}
 
-	public <T> void setBind(Class<T> clazz,
-			Class<? extends T> implementation) {
+	public <T> void setBind(Class<T> clazz, Class<? extends T> implementation) {
 		binds.put(clazz, implementation);
 	}
 
@@ -109,14 +108,12 @@ public class DesktopGame {
 
 	private void prepare() {
 		if (injector == null) {
-			injector = Guice.createInjector(new GdxDesktopModule(
-					binds), new JavaToolsModule());
+			injector = Guice.createInjector(new GdxDesktopModule(binds),
+					new JavaToolsModule());
 			GameState g = injector.getInstance(GameState.class);
-			g.getValueMap().setValue(SystemFields.EXIT_WHEN_CLOSE,
-					exitAtClose);
-			injector.getInstance(AssetHandler.class)
-					.setResourcesLocation(
-							new EAdURI(resourcesLocation));
+			g.getValueMap().setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
+			injector.getInstance(AssetHandler.class).setResourcesLocation(
+					new EAdURI(resourcesLocation));
 			if (debuggers.size() > 0) {
 				DebuggerHandler debuggerHandler = injector
 						.getInstance(DebuggerHandler.class);
@@ -137,11 +134,9 @@ public class DesktopGame {
 		debuggers.add(debuggerClass);
 	}
 
-	public void load(String dataFile, String stringsFile,
-			String propertiesFile) {
+	public void load(String dataFile, String stringsFile, String propertiesFile) {
 		prepare();
-		loader.loadGameFromFiles(dataFile, stringsFile,
-				propertiesFile);
+		loader.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
 	}
 
 	/**
@@ -154,8 +149,7 @@ public class DesktopGame {
 	 * @param properties
 	 *            the game properties. It can be {@code null}
 	 */
-	public void load(EAdAdventureModel model,
-			Map<EAdString, String> strings,
+	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
 			Map<String, String> properties) {
 		prepare();
 		if (strings == null) {

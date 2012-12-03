@@ -46,8 +46,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class AbstractHUD extends
-		ComplexSceneElementGOImpl<ComplexSceneElement> implements
-		HudGO {
+		ComplexSceneElementGOImpl<ComplexSceneElement> implements HudGO {
 
 	/**
 	 * HUD priority
@@ -57,8 +56,7 @@ public abstract class AbstractHUD extends
 	public AbstractHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory, int priority) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		this.setPriority(priority);
 	}
 

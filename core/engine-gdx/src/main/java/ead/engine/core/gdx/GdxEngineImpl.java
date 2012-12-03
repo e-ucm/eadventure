@@ -91,7 +91,7 @@ public class GdxEngineImpl implements GdxEngine {
 		canvas.setGraphicContext(spriteBatch);
 
 		Gdx.input.setInputProcessor(new GdxInputHandler(inputHandler, c));
-		
+
 		game.setUp();
 
 	}

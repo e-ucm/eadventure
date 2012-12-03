@@ -87,8 +87,7 @@ import ead.tools.StringHandler;
 @Singleton
 public class GameImpl implements Game, TextHandler {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("GameImpl");
+	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
 
 	public static final String FILTER_STRING_FILES = "stringFiles";
 
@@ -175,15 +174,12 @@ public class GameImpl implements Game, TextHandler {
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
 			InputHandler inputHandler, PluginHandler pluginHandler,
-			GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			AssetHandler assetHandler,
-			GameObjectManager gameObjectManager,
+			GameState gameState, SceneElementGOFactory sceneElementFactory,
+			AssetHandler assetHandler, GameObjectManager gameObjectManager,
 			DebuggerHandler debugger, ValueMap valueMap,
-			InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory, GameTracker tracker,
-			SceneGraph sceneGraph, TweenController tweenController,
-			StringsReader stringsReader) {
+			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
+			GameTracker tracker, SceneGraph sceneGraph,
+			TweenController tweenController, StringsReader stringsReader) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.inputHandler = inputHandler;
@@ -240,8 +236,7 @@ public class GameImpl implements Game, TextHandler {
 		inputHandler.setInitialTransformation(initialTransformation);
 
 		LoadingScreen loadingScreen = new LoadingScreen();
-		gameState.setScene((SceneGO<?>) sceneElementFactory
-				.get(loadingScreen));
+		gameState.setScene((SceneGO<?>) sceneElementFactory.get(loadingScreen));
 
 		setGame();
 	}
@@ -259,71 +254,55 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void processProperties(String text) {
-		Map<String, Map<String, String>> map = PropertiesReader
-				.parse("defaultProperties", text);
+		Map<String, Map<String, String>> map = PropertiesReader.parse(
+				"defaultProperties", text);
 		for (Entry<String, Map<String, String>> e : map.entrySet()) {
 			String type = e.getKey();
 			if (type == null || type.equals("String")) {
-				for (Entry<String, String> e2 : e.getValue()
-						.entrySet()) {
-					VarDef<String> varDef = new VarDef<String>(
-							e2.getKey(), String.class, e2.getValue());
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
+					VarDef<String> varDef = new VarDef<String>(e2.getKey(),
+							String.class, e2.getValue());
 					gameState.getValueMap().setValue(null, varDef,
 							e2.getValue());
 				}
 			} else if (type.equals("Integer")) {
-				for (Entry<String, String> e2 : e.getValue()
-						.entrySet()) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
 					try {
 						Integer i = Integer.parseInt(e2.getValue());
-						VarDef<Integer> varDef = new VarDef<Integer>(
-								e2.getKey(), Integer.class, i);
-						gameState.getValueMap().setValue(null,
-								varDef, i);
+						VarDef<Integer> varDef = new VarDef<Integer>(e2
+								.getKey(), Integer.class, i);
+						gameState.getValueMap().setValue(null, varDef, i);
 					} catch (NumberFormatException ex) {
-						logger.warn(
-								"{} is not a number valid for property {}",
-								new Object[] { e2.getValue(),
-										e2.getKey() });
+						logger.warn("{} is not a number valid for property {}",
+								new Object[] { e2.getValue(), e2.getKey() });
 					}
 				}
 			} else if (type.equals("Float")) {
-				for (Entry<String, String> e2 : e.getValue()
-						.entrySet()) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
 					try {
 						Float i = Float.parseFloat(e2.getValue());
-						VarDef<Float> varDef = new VarDef<Float>(
-								e2.getKey(), Float.class, i);
-						gameState.getValueMap().setValue(null,
-								varDef, i);
+						VarDef<Float> varDef = new VarDef<Float>(e2.getKey(),
+								Float.class, i);
+						gameState.getValueMap().setValue(null, varDef, i);
 					} catch (NumberFormatException ex) {
-						logger.warn(
-								"{} is not a number valid for property {}",
-								new Object[] { e2.getValue(),
-										e2.getKey() });
+						logger.warn("{} is not a number valid for property {}",
+								new Object[] { e2.getValue(), e2.getKey() });
 					}
 				}
 			} else if (type.equals("Boolean")) {
-				for (Entry<String, String> e2 : e.getValue()
-						.entrySet()) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
 					try {
-						Boolean b = Boolean.parseBoolean(e2
-								.getValue());
-						VarDef<Boolean> varDef = new VarDef<Boolean>(
-								e2.getKey(), Boolean.class, b);
-						gameState.getValueMap().setValue(null,
-								varDef, b);
+						Boolean b = Boolean.parseBoolean(e2.getValue());
+						VarDef<Boolean> varDef = new VarDef<Boolean>(e2
+								.getKey(), Boolean.class, b);
+						gameState.getValueMap().setValue(null, varDef, b);
 					} catch (NumberFormatException ex) {
-						logger.warn(
-								"{} is not a number valid for property {}",
-								new Object[] { e2.getValue(),
-										e2.getKey() });
+						logger.warn("{} is not a number valid for property {}",
+								new Object[] { e2.getValue(), e2.getKey() });
 					}
 				}
 			} else {
-				logger.warn(
-						"{} is not a valid type in ead.properties",
-						type);
+				logger.warn("{} is not a valid type in ead.properties", type);
 			}
 		}
 	}
@@ -339,9 +318,10 @@ public class GameImpl implements Game, TextHandler {
 			String strings = assetHandler.getTextFile(file.getKey());
 			String language = file.getValue();
 			if (strings == null || strings.equals("")) {
-				logger.info(
-						"{} language was not loaded. Maybe the strings.xml file associated is not present",
-						language);
+				logger
+						.info(
+								"{} language was not loaded. Maybe the strings.xml file associated is not present",
+								language);
 			} else {
 				stringHandler.addLanguage(language);
 				stringHandler.setLanguage(language);
@@ -351,8 +331,7 @@ public class GameImpl implements Game, TextHandler {
 					stringHandler.addStrings(stringsMap);
 					logger.info("{} language loaded", language);
 				} else {
-					logger.info(
-							"{} language not loaded. See previous erros.",
+					logger.info("{} language not loaded. See previous erros.",
 							language);
 				}
 			}
@@ -377,8 +356,7 @@ public class GameImpl implements Game, TextHandler {
 		// We load some possible game
 		// gameLoader.step();
 
-		gameState.getValueMap().setValue(
-				SystemFields.ELAPSED_TIME_PER_UPDATE,
+		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
 		// Scene
@@ -406,8 +384,7 @@ public class GameImpl implements Game, TextHandler {
 		String newLanguage = gameState.getValueMap().getValue(
 				SystemFields.LANGUAGE);
 
-		if (newLanguage != null
-				&& !newLanguage.equals(currentLanguage)) {
+		if (newLanguage != null && !newLanguage.equals(currentLanguage)) {
 			currentLanguage = newLanguage;
 			stringHandler.setLanguage(currentLanguage);
 			assetHandler.refresh();
@@ -422,8 +399,7 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void updateGameEvents() {
-		Long l = gameState.getValueMap().getValue(
-				SystemFields.GAME_TIME);
+		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
 		l += gui.getSkippedMilliseconds();
 		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
 
@@ -444,9 +420,8 @@ public class GameImpl implements Game, TextHandler {
 
 	private void setGame() {
 		if (adventure != null) {
-			SceneGO<?> scene = (SceneGO<?>) sceneElementFactory
-					.get(adventure.getChapters().get(0)
-							.getInitialScene());
+			SceneGO<?> scene = (SceneGO<?>) sceneElementFactory.get(adventure
+					.getChapters().get(0).getInitialScene());
 			gameState.setScene(scene);
 		}
 		// logger.info("Setting the game");
@@ -548,7 +523,7 @@ public class GameImpl implements Game, TextHandler {
 		Collections.sort(filtersList);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public <T> T applyFilters(String filterName, T o, Object[] params) {
 		List<EngineFilter<?>> filtersList = filters.get(filterName);

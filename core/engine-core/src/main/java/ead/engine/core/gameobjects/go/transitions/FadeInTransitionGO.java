@@ -50,8 +50,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
-public class FadeInTransitionGO extends
-		AbstractTransitionGO<FadeInTransition> {
+public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
 
 	private boolean finished;
 
@@ -66,8 +65,8 @@ public class FadeInTransitionGO extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, sceneLoader, inputHandler);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				sceneLoader, inputHandler);
 		finished = false;
 		currentTime = 0;
 	}
@@ -85,9 +84,8 @@ public class FadeInTransitionGO extends
 			if (currentTime - startTime >= element.getTime()) {
 				finished = true;
 			} else {
-				sceneAlpha = (Interpolator.LINEAR.interpolate(
-						currentTime - startTime, element.getTime(),
-						1.0f));
+				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
+						- startTime, element.getTime(), 1.0f));
 			}
 		}
 	}

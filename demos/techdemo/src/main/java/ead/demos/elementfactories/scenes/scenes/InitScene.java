@@ -82,23 +82,24 @@ public class InitScene extends EmptyScene {
 		initGOBackButton();
 		initInfoButton();
 		int y = 200;
-		int x = 120;		
+		int x = 120;
 		for (EAdScene s : sceneDemos) {
 			EAdString name = new EAdString("techDemo." + s.getId());
-			EAdString description = new EAdString("techDemo." + s.getId() + ".description");
-			Button b = new Button(name);			
+			EAdString description = new EAdString("techDemo." + s.getId()
+					+ ".description");
+			Button b = new Button(name);
 			b.setPosition(x, y);
 			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(s,
 					new DisplaceTransition(1000,
 							DisplaceTransitionType.VERTICAL, true)));
 			this.getSceneElements().add(b);
 			s.getSceneElements().add(goBack);
-			
+
 			SceneElement info = new SceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			SpeakEf effect = new SpeakEf(description);
 			effect.setColor(ColorFill.GRAY, speakPaint);
-			effect.setFont(font);			
+			effect.setFont(font);
 			info.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 			// info.setScale(0.5f);
 			s.getSceneElements().add(info);
@@ -153,7 +154,6 @@ public class InitScene extends EmptyScene {
 
 	}
 
-	
 	public String getSceneDescription() {
 		return "A scene containing the demos scene";
 	}

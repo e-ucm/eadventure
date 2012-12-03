@@ -65,14 +65,11 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar,
-			T eAdOperation);
+	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
 
-	<T extends EAdOperation, S> S operate(Class<S> eAdVar,
-			T eAdOperation);
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
 
-	<T extends EAdOperation, S> S operate(EAdVarDef<S> varDef,
-			T operation);
+	<T extends EAdOperation, S> S operate(EAdVarDef<S> varDef, T operation);
 
 	void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
 

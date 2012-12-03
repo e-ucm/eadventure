@@ -369,7 +369,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				SceneElement foreground = new GhostElement(image, null);
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
-				foreground.setInitialEnable(false);				
+				foreground.setInitialEnable(false);
 
 				ChangeFieldEf changeVisibility = new ChangeFieldEf(foreground
 						.getField(SceneElement.VAR_VISIBLE), new BooleanOp(c));

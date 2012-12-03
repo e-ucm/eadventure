@@ -86,8 +86,8 @@ public class GdxFont extends BasicRuntimeFont {
 			fontData = fileName + ".fnt";
 			fontPng = fileName + ".png";
 		}
-		bitmapFont = new BitmapFont(ah.getFileHandle(fontData),
-				ah.getFileHandle(fontPng), true);
+		bitmapFont = new BitmapFont(ah.getFileHandle(fontData), ah
+				.getFileHandle(fontPng), true);
 		return true;
 	}
 
@@ -104,8 +104,7 @@ public class GdxFont extends BasicRuntimeFont {
 	@Override
 	public EAdRectangle stringBounds(String string) {
 		TextBounds b = bitmapFont.getBounds(string);
-		return new EAdRectangle(0, 0, Math.round(b.width),
-				Math.round(b.height));
+		return new EAdRectangle(0, 0, Math.round(b.width), Math.round(b.height));
 	}
 
 	public BitmapFont getBitmapFont() {
@@ -117,7 +116,7 @@ public class GdxFont extends BasicRuntimeFont {
 		super.freeMemory();
 		bitmapFont.dispose();
 	}
-	
+
 	@Override
 	public void refresh() {
 		// Do nothing

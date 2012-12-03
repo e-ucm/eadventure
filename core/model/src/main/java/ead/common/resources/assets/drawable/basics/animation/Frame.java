@@ -38,16 +38,17 @@
 package ead.common.resources.assets.drawable.basics.animation;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.resources.assets.drawable.basics.Image;
 
 /**
- * 
+ *
  * Represents a frame within a {@link FramesAnimation}
- * 
+ *
  */
-public class Frame implements AssetDescriptor {
+public class Frame extends AbstractAssetDescriptor {
 
 	/**
 	 * Default frame time in milliseconds, with a value of 300 ms
@@ -70,7 +71,7 @@ public class Frame implements AssetDescriptor {
 	/**
 	 * Constructs a frame with the given image. Sets the frame time to
 	 * {@link Frame#DEFAULT_FRAME_TIME}
-	 * 
+	 *
 	 * @param uri
 	 *            the uri to the image for the frame
 	 */
@@ -80,7 +81,7 @@ public class Frame implements AssetDescriptor {
 
 	/**
 	 * Constructs a frame with the given image and time.
-	 * 
+	 *
 	 * @param uri
 	 *            the uri to the image for the frame
 	 * @param time
@@ -97,7 +98,7 @@ public class Frame implements AssetDescriptor {
 
 	/**
 	 * Sets the time for this frame (in milliseconds)
-	 * 
+	 *
 	 * @param time
 	 *            the time for this frame (in milliseconds)
 	 */
@@ -107,7 +108,7 @@ public class Frame implements AssetDescriptor {
 
 	/**
 	 * Returns the time for this frame
-	 * 
+	 *
 	 * @return the time for this frame
 	 */
 	public int getTime() {

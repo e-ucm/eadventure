@@ -87,13 +87,13 @@ public class CommonTestModule extends AbstractModule {
 		@Override
 		public void setLanguage(String language) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void addLanguage(String language) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 	}

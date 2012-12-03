@@ -55,8 +55,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 	@Inject
 	public TriggerMacroGO(AssetHandler assetHandler,
-			SceneElementGOFactory factory, GUI gui,
-			GameState gameState) {
+			SceneElementGOFactory factory, GUI gui, GameState gameState) {
 		super(factory, gui, gameState);
 	}
 

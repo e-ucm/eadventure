@@ -48,7 +48,7 @@ import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxCircleShape extends GdxShape<CircleShape> {
-	
+
 	@Inject
 	public GdxCircleShape(AssetHandler assetHandler) {
 		super(assetHandler);

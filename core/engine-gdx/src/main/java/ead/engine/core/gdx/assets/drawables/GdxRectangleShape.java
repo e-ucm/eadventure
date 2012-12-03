@@ -48,7 +48,7 @@ import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxRectangleShape extends GdxShape<RectangleShape> {
-	
+
 	@Inject
 	public GdxRectangleShape(AssetHandler assetHandler) {
 		super(assetHandler);

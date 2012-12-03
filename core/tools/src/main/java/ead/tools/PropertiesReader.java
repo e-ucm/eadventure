@@ -41,8 +41,8 @@ public class PropertiesReader {
 	public static Map<String, Map<String, String>> parse(
 			String propertiesIdentifier, String properties) {
 		Map<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
-		
-		if ( properties == null ){
+
+		if (properties == null) {
 			return map;
 		}
 
@@ -56,12 +56,12 @@ public class PropertiesReader {
 			} else {
 				String pair[] = l.split("=");
 				if (pair.length != 2) {
-					logger.warn(
-							"Error reading {} while processing {}",
+					logger.warn("Error reading {} while processing {}",
 							new Object[] { l, propertiesIdentifier });
 				} else {
 					if (section == null) {
-						logger.warn("Found property out with no section. This is not an error, but it is recommended to use sections in properties files.");
+						logger
+								.warn("Found property out with no section. This is not an error, but it is recommended to use sections in properties files.");
 					}
 					Map<String, String> m = map.get(section);
 					if (m == null) {

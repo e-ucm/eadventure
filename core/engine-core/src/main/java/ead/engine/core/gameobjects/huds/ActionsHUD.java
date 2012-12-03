@@ -107,8 +107,7 @@ public class ActionsHUD extends AbstractHUD {
 	public ActionsHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, 5);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 5);
 		logger.info("New instance");
 		positions = new ArrayList<EAdPosition>();
 	}
@@ -119,11 +118,9 @@ public class ActionsHUD extends AbstractHUD {
 		e.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
 		e.setId("ActionsHUD");
 		setElement(e);
-		
-		gameWidth = gameState.getValueMap().getValue(
-				SystemFields.GAME_WIDTH);
-		gameHeight = gameState.getValueMap().getValue(
-				SystemFields.GAME_HEIGHT);
+
+		gameWidth = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
+		gameHeight = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 	}
 
 	/*
@@ -136,20 +133,18 @@ public class ActionsHUD extends AbstractHUD {
 	@Override
 	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (MouseGEv.MOUSE_LEFT_PRESSED.equals(action.getGUIEvent())
-				|| MouseGEv.MOUSE_RIGHT_PRESSED.equals(action
-						.getGUIEvent())) {
+				|| MouseGEv.MOUSE_RIGHT_PRESSED.equals(action.getGUIEvent())) {
 			setVisible(false);
 		}
 		return super.processAction(action);
 	}
 
-	public void showActions(EAdList<EAdSceneElementDef> list, int x,
-			int y) {
+	public void showActions(EAdList<EAdSceneElementDef> list, int x, int y) {
 		setVisible(true);
 		currentTime = 0;
 		radius = gameHeight / 8;
-		int maxRadius = gameWidth - x < gameHeight - y ? gameWidth
-				- x : gameHeight - y;
+		int maxRadius = gameWidth - x < gameHeight - y ? gameWidth - x
+				: gameHeight - y;
 		maxRadius = x < maxRadius ? x : maxRadius;
 		maxRadius = y < maxRadius ? y : maxRadius;
 		this.actionsX = x;
@@ -180,16 +175,16 @@ public class ActionsHUD extends AbstractHUD {
 			int k = 0;
 
 			while (k < a.getBehavior().getAllEffects().size() && !add) {
-				add = gameState.evaluate(a.getBehavior()
-						.getAllEffects().get(k).getCondition());
+				add = gameState.evaluate(a.getBehavior().getAllEffects().get(k)
+						.getCondition());
 				k++;
 			}
 
 			if (add) {
 				SceneElement action = new SceneElement(a);
-				positions.add(new EAdPosition((int) (Math
-						.cos(accAngle) * radius), (int) (Math
-						.sin(accAngle) * radius)));
+				positions.add(new EAdPosition(
+						(int) (Math.cos(accAngle) * radius), (int) (Math
+								.sin(accAngle) * radius)));
 				action.setPosition(Corner.CENTER, actionsX, actionsY);
 				sceneElements.add(sceneElementFactory.get(action));
 				accAngle += angle;
@@ -199,10 +194,10 @@ public class ActionsHUD extends AbstractHUD {
 
 	@Override
 	public void doLayout(EAdTransformation t) {
-		float interpolation1 = Interpolator.BOUNCE_END.interpolate(
-				currentTime, ANIMATION_TIME, 1.0f);
-		float interpolation2 = Interpolator.LINEAR.interpolate(
-				currentTime, ANIMATION_TIME, 1.0f);
+		float interpolation1 = Interpolator.BOUNCE_END.interpolate(currentTime,
+				ANIMATION_TIME, 1.0f);
+		float interpolation2 = Interpolator.LINEAR.interpolate(currentTime,
+				ANIMATION_TIME, 1.0f);
 		transformation.setAlpha(alpha);
 		int i = 0;
 		for (DrawableGO<?> go : sceneElements) {

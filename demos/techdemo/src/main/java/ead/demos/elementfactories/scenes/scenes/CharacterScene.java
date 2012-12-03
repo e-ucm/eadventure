@@ -170,7 +170,8 @@ public class CharacterScene extends EmptyScene {
 		//		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 		//				.getSceneElementFactory()
 		//				.createSceneElement("Stand", 300, 10, standEffect);		
-		Button stand = new Button(new EAdString("techDemo.CharacterScene.Stand"));		
+		Button stand = new Button(
+				new EAdString("techDemo.CharacterScene.Stand"));
 		stand.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
 		getSceneElements().add(stand);
@@ -181,7 +182,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
 						new ValueOp(CommonStates.EAD_STATE_TALKING.toString()));
-		Button talk = new Button(new EAdString("techDemo.CharacterScene.Talk"));		
+		Button talk = new Button(new EAdString("techDemo.CharacterScene.Talk"));
 		talk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
 		getSceneElements().add(talk);
@@ -192,7 +193,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
 						new ValueOp(CommonStates.EAD_STATE_WALKING.toString()));
-		Button walk = new Button(new EAdString("techDemo.CharacterScene.Walk"));		
+		Button walk = new Button(new EAdString("techDemo.CharacterScene.Walk"));
 		walk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
 		getSceneElements().add(walk);

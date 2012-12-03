@@ -58,15 +58,13 @@ public class SystemFields {
 	 * X coordinate of the mouse in the scene coordinate system
 	 */
 	public static final EAdField<Integer> MOUSE_SCENE_X = new BasicField<Integer>(
-			null, new VarDef<Integer>("mouse_scene_x", Integer.class,
-					0));
+			null, new VarDef<Integer>("mouse_scene_x", Integer.class, 0));
 
 	/**
 	 * Y coordinate of the mouse in the scene coordinate system
 	 */
 	public static final EAdField<Integer> MOUSE_SCENE_Y = new BasicField<Integer>(
-			null, new VarDef<Integer>("mouse_scene_y", Integer.class,
-					0));
+			null, new VarDef<Integer>("mouse_scene_y", Integer.class, 0));
 
 	public static final EAdField<Integer> GAME_WIDTH = new BasicField<Integer>(
 			null, new VarDef<Integer>("width", Integer.class, 800));
@@ -85,51 +83,45 @@ public class SystemFields {
 			"@drawable/default_cursor.png");
 
 	public static final EAdField<Image> MOUSE_CURSOR = new BasicField<Image>(
-			null, new VarDef<Image>("mouse_cursor", Image.class,
-					DEFAULT_MOUSE));
+			null, new VarDef<Image>("mouse_cursor", Image.class, DEFAULT_MOUSE));
 
 	public static final EAdField<Boolean> SHOW_MOUSE = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("show_mouse", Boolean.class,
-					true));
+			null, new VarDef<Boolean>("show_mouse", Boolean.class, true));
 
 	public static final EAdField<Boolean> SHOW_INVENTORY = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("show_inventory",
-					Boolean.class, true));
+			null, new VarDef<Boolean>("show_inventory", Boolean.class, true));
 
 	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new BasicField<Integer>(
-			null, new VarDef<Integer>("elapsed_time_per_update",
-					Integer.class, 0));
+			null, new VarDef<Integer>("elapsed_time_per_update", Integer.class,
+					0));
 
 	/**
 	 * If true, the player will only be able to interact with the elements in or
 	 * above the basic HUD (like the effect HUD, or the actions HUD)
 	 */
 	public static final EAdField<Boolean> BASIC_HUD_OPAQUE = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("basic_hud_opaque",
-					Boolean.class, false));
+			null, new VarDef<Boolean>("basic_hud_opaque", Boolean.class, false));
 
 	/**
 	 * Field holding the milliseconds since the game started
 	 */
-	public static final EAdField<Long> GAME_TIME = new BasicField<Long>(
-			null, new VarDef<Long>("game_time", Long.class, 0l));
+	public static final EAdField<Long> GAME_TIME = new BasicField<Long>(null,
+			new VarDef<Long>("game_time", Long.class, 0l));
 
 	public static final EAdField<Boolean> FULLSCREEN = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("fullscreen", Boolean.class,
-					false));
+			null, new VarDef<Boolean>("fullscreen", Boolean.class, false));
 
 	public static final EAdField<Boolean> EXIT_WHEN_CLOSE = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("exitWhenClose", Boolean.class,
-					true));
+			null, new VarDef<Boolean>("exitWhenClose", Boolean.class, true));
 
 	public static final EAdField<EAdSceneElement> MOUSE_OVER_ELEMENT = new BasicField<EAdSceneElement>(
 			null, new VarDef<EAdSceneElement>("mouseOverElement",
 					EAdSceneElement.class, null));
 
-	public static EAdField<String> LANGUAGE = new BasicField<String>(
-			null, new VarDef<String>("language", String.class, ""));
+	public static EAdField<String> LANGUAGE = new BasicField<String>(null,
+			new VarDef<String>("language", String.class, ""));
 
-	public static EAdField<String> LANGUAGES = new BasicField<String>(
-			null, new VarDef<String>("languages", String.class, ""));
+	public static EAdField<String> LANGUAGES = new BasicField<String>(null,
+			new VarDef<String>("languages", String.class, ""));
 
 }

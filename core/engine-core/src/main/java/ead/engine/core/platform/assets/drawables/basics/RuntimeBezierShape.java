@@ -87,8 +87,8 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time,
-			List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		return this;
 	}
 

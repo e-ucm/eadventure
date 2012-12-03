@@ -48,16 +48,15 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class BasicTransitionGO extends
-		AbstractTransitionGO<EmptyTransition> {
+public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
 
 	@Inject
 	public BasicTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, sceneLoader, inputHandler);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				sceneLoader, inputHandler);
 	}
 
 }

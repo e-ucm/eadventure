@@ -91,8 +91,7 @@ public interface GUI {
 	 * @param parentTransformation
 	 *            parent transformation
 	 */
-	void addElement(DrawableGO<?> go,
-			EAdTransformation parentTransformation);
+	void addElement(DrawableGO<?> go, EAdTransformation parentTransformation);
 
 	/**
 	 * Adds a hud to the GUI
@@ -130,8 +129,7 @@ public interface GUI {
 	 *            Boolean indicating if the resource should be scaled to the
 	 *            full game screen.
 	 */
-	void showSpecialResource(Object object, int x, int y,
-			boolean fullscreen);
+	void showSpecialResource(Object object, int x, int y, boolean fullscreen);
 
 	/**
 	 * <p>

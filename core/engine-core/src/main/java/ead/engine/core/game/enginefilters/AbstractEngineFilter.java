@@ -1,10 +1,10 @@
 package ead.engine.core.game.enginefilters;
 
 public abstract class AbstractEngineFilter<T> implements EngineFilter<T> {
-	
+
 	private int priority;
-	
-	public AbstractEngineFilter( int priority ){
+
+	public AbstractEngineFilter(int priority) {
 		this.priority = priority;
 	}
 
@@ -19,7 +19,7 @@ public abstract class AbstractEngineFilter<T> implements EngineFilter<T> {
 	}
 
 	@Override
-	public void setPriority(int priority) {		
+	public void setPriority(int priority) {
 		this.priority = priority;
 	}
 

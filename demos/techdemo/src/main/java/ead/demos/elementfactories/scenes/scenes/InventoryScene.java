@@ -60,9 +60,9 @@ public class InventoryScene extends EmptyScene {
 		SceneElementDef item = new SceneElementDef(new Image(
 				"@drawable/ng_key.png"));
 
-//		item.getActions().add(
-//				EAdElementsFactory.getInstance().getActionsFactory()
-//						.getBasicAction());
+		//		item.getActions().add(
+		//				EAdElementsFactory.getInstance().getActionsFactory()
+		//						.getBasicAction());
 
 		item.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ActorActionsEf(item));
 		item.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ActorActionsEf(item));

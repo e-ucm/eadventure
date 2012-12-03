@@ -53,8 +53,8 @@ import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
-		implements OperatorFactory {
+public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
+		OperatorFactory {
 
 	private Logger log = LoggerFactory.getLogger("Operator Factory");
 
@@ -65,18 +65,16 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
 		super(null, interfacesProvider);
 	}
 
-	public void install(ValueMap valueMap,
-			EvaluatorFactory evaluatorFactory) {
+	public void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
 		this.valueMap = valueMap;
-		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory,
-				valueMap, reflectionProvider));
+		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory, valueMap,
+				reflectionProvider));
 	}
 
 	@Override
-	public <T extends EAdOperation, S> S operate(
-			EAdField<S> fieldResult, T operation) {
-		S result = operate(fieldResult.getVarDef().getType(),
-				operation);
+	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
+			T operation) {
+		S result = operate(fieldResult.getVarDef().getType(), operation);
 		valueMap.setValue(fieldResult, result);
 		if (result == null) {
 			log.debug("Null result for " + operation + ": {} := {}",
@@ -88,11 +86,9 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdOperation, S> S operate(Class<S> clazz,
-			T operation) {
+	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
-			log.error(
-					"Null operation attempted: null returned as class {}",
+			log.error("Null operation attempted: null returned as class {}",
 					clazz);
 			return null;
 		}

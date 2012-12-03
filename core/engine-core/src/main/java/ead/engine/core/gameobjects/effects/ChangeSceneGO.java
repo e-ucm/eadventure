@@ -53,8 +53,8 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf>
-		implements TransitionListener {
+public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
+		TransitionListener {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ChangeSceneGO");
@@ -82,19 +82,18 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf>
 		end = false;
 		// If the effect is to a different scene
 		if (element.getNextScene() == null
-				|| element.getNextScene() != gameState.getScene()
-						.getElement()) {
-			transition = transitionFactory.get(element
-					.getTransition());
+				|| element.getNextScene() != gameState.getScene().getElement()) {
+			transition = transitionFactory.get(element.getTransition());
 			transition.getTransitionListeners().add(this);
 			EAdElement e = element.getNextScene();
 			if (e != null) {
-				Object finalElement = gameState.getValueMap()
-						.maybeDecodeField(e);
+				Object finalElement = gameState.getValueMap().maybeDecodeField(
+						e);
 				if (finalElement instanceof EAdScene) {
 					transition.setNext((EAdScene) finalElement);
 				} else {
-					logger.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
+					logger
+							.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
 					transition.setNext(gameState.getPreviousScene());
 				}
 			} else {

@@ -37,14 +37,13 @@
 
 package ead.engine.core.plugins;
 
-
 /**
  * 
  * General interface 
  *
  */
 public interface PluginHandler {
-	
+
 	/**
 	 * Loads all the plugins 
 	 */

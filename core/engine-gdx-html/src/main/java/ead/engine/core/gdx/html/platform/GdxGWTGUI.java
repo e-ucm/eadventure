@@ -52,8 +52,8 @@ public class GdxGWTGUI extends GdxGUI {
 	GWTVideoRenderer renderer;
 
 	@Inject
-	public GdxGWTGUI(GameObjectManager gameObjectManager,
-			GdxCanvas canvas, GdxEngine engine) {
+	public GdxGWTGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
+			GdxEngine engine) {
 		super(gameObjectManager, canvas, engine);
 	}
 

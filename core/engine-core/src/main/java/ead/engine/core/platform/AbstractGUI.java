@@ -75,8 +75,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger("AbstractGUI");
+	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
 
 	/**
 	 * Game object manager
@@ -122,8 +121,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 		if (t != null) {
 
-			if (!t.isValidated()
-					|| !parentTransformation.isValidated()) {
+			if (!t.isValidated() || !parentTransformation.isValidated()) {
 				element.resetTransfromation();
 				addTransformation(t, parentTransformation);
 			}
@@ -167,8 +165,7 @@ public abstract class AbstractGUI<T> implements GUI {
 					go.getRuntimeDrawable().render(eAdCanvas);
 				} else {
 					eAdCanvas.setPaint(ColorFill.MAGENTA);
-					eAdCanvas.fillRect(0, 0, go.getWidth(),
-							go.getHeight());
+					eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
 				}
 			}
 
@@ -184,8 +181,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 		t1.setAlpha(alpha);
 		t1.setVisible(visible);
-		t1.getMatrix()
-				.multiply(t2.getMatrix().getFlatMatrix(), false);
+		t1.getMatrix().multiply(t2.getMatrix().getFlatMatrix(), false);
 
 		EAdRectangle clip1 = t1.getClip();
 		EAdRectangle clip2 = t2.getClip();
@@ -201,8 +197,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 
 		if (newclip != null)
-			t1.setClip(newclip.x, newclip.y, newclip.width,
-					newclip.height);
+			t1.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
 
 		return t1;
 	}
@@ -217,8 +212,8 @@ public abstract class AbstractGUI<T> implements GUI {
 			}
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction k = (KeyInputAction) action;
-			EAdSceneElement element = gameState.getValueMap()
-					.getValue(SystemFields.ACTIVE_ELEMENT);
+			EAdSceneElement element = gameState.getValueMap().getValue(
+					SystemFields.ACTIVE_ELEMENT);
 			// only the active element gets a try to consume it
 			if (element != null) {
 				go = gameObjects.getGameObject(element);
@@ -227,8 +222,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				}
 			}
 		}
-		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action,
-				null);
+		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action, null);
 		return go;
 	}
 

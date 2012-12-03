@@ -84,7 +84,7 @@ public abstract class GdxShape<T extends AbstractShape> extends
 	@Override
 	public void freeMemory() {
 		super.freeMemory();
-		if (pixmapContains != null ) {
+		if (pixmapContains != null) {
 			this.pixmapContains.dispose();
 		}
 	}
@@ -108,8 +108,8 @@ public abstract class GdxShape<T extends AbstractShape> extends
 
 	protected static float vcr, vcg, vcb, vca;
 
-	protected void initGradientParams(ColorFill c1, float x0,
-			float y0, ColorFill c2, float x1, float y1) {
+	protected void initGradientParams(ColorFill c1, float x0, float y0,
+			ColorFill c2, float x1, float y1) {
 		vBx = x1 - x0;
 		vBy = y1 - y0;
 		vMod2 = vBx * vBx + vBy * vBy;
@@ -134,11 +134,11 @@ public abstract class GdxShape<T extends AbstractShape> extends
 		} else if (proj >= 1) {
 			p.setColor(rE, gE, bE, aE);
 		} else {
-			p.setColor(rI + vcr * proj, gI + vcg * proj, bI + vcb
-					* proj, aI + vca * proj);
+			p.setColor(rI + vcr * proj, gI + vcg * proj, bI + vcb * proj, aI
+					+ vca * proj);
 		}
 	}
-	
+
 	@Override
 	public void refresh() {
 		// Do nothing

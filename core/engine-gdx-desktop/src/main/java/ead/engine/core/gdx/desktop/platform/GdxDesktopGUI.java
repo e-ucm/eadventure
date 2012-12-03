@@ -77,8 +77,8 @@ public class GdxDesktopGUI extends GdxGUI {
 	private Component component;
 
 	@Inject
-	public GdxDesktopGUI(GameObjectManager gameObjectManager,
-			GdxCanvas canvas, GdxEngine engine) {
+	public GdxDesktopGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
+			GdxEngine engine) {
 		super(gameObjectManager, canvas, engine);
 	}
 
@@ -92,10 +92,8 @@ public class GdxDesktopGUI extends GdxGUI {
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(0, 0), "null"));
 
-		int width = gameState.getValueMap().getValue(
-				SystemFields.GAME_WIDTH);
-		int height = gameState.getValueMap().getValue(
-				SystemFields.GAME_HEIGHT);
+		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		canvas = new Canvas();
 		canvas.setSize(width, height);
 		frame.add(canvas);
@@ -176,8 +174,7 @@ public class GdxDesktopGUI extends GdxGUI {
 	private IntBuffer getCursor() {
 		BufferedImage biCursor = new BufferedImage(16, 16,
 				BufferedImage.TYPE_INT_ARGB);
-		int[] data = biCursor.getRaster().getPixels(0, 0, 16, 16,
-				(int[]) null);
+		int[] data = biCursor.getRaster().getPixels(0, 0, 16, 16, (int[]) null);
 
 		IntBuffer ib = BufferUtils.createIntBuffer(16 * 16);
 		for (int i = 0; i < data.length; i += 4) {

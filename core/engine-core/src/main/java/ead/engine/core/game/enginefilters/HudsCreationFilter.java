@@ -16,8 +16,7 @@ import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class HudsCreationFilter extends
-		AbstractEngineFilter<List<HudGO>> {
+public class HudsCreationFilter extends AbstractEngineFilter<List<HudGO>> {
 
 	public HudsCreationFilter() {
 		super(0);
@@ -32,15 +31,15 @@ public class HudsCreationFilter extends
 		EventGOFactory eventFactory = (EventGOFactory) params[4];
 		Game g = (Game) params[5];
 		// Bottom HUD
-		o.add(new BottomHUD(assetHandler, sceneElementFactory, gui,
-				gameState, eventFactory));
+		o.add(new BottomHUD(assetHandler, sceneElementFactory, gui, gameState,
+				eventFactory));
 
 		// gui.addHud(inventoryHUD, 1);
-		gui.addHud(new ActionsHUD(assetHandler,
-				sceneElementFactory, gui, gameState, eventFactory));
+		gui.addHud(new ActionsHUD(assetHandler, sceneElementFactory, gui,
+				gameState, eventFactory));
 		// Menu HUD
-		MenuHUD menuHud = new MenuHUD(assetHandler,
-				sceneElementFactory, gui, gameState, eventFactory);
+		MenuHUD menuHud = new MenuHUD(assetHandler, sceneElementFactory, gui,
+				gameState, eventFactory);
 		o.add(menuHud);
 		g.addFilter(GameImpl.FILTER_PROCESS_ACTION, menuHud);
 
@@ -49,9 +48,8 @@ public class HudsCreationFilter extends
 				sceneElementFactory, gui, gameState, eventFactory);
 		o.add(effectHUD);
 
-		TopBasicHUDImpl topBasicHUD = new TopBasicHUDImpl(
-				assetHandler, sceneElementFactory, gui, gameState,
-				eventFactory);
+		TopBasicHUDImpl topBasicHUD = new TopBasicHUDImpl(assetHandler,
+				sceneElementFactory, gui, gameState, eventFactory);
 		o.add(topBasicHUD);
 		return o;
 	}

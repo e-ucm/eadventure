@@ -81,8 +81,8 @@ public interface AssetHandler {
 	 * @return The platform-independent runtime asset
 	 * @see RuntimeAsset
 	 */
-	RuntimeAsset<?> getRuntimeAsset(Resourced element,
-			EAdBundleId bundleId, String id);
+	RuntimeAsset<?> getRuntimeAsset(Resourced element, EAdBundleId bundleId,
+			String id);
 
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
@@ -108,8 +108,7 @@ public interface AssetHandler {
 	 * @see RuntimeAsset
 	 * @see AssetDescriptor
 	 */
-	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
-			T descriptor);
+	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor);
 
 	/**
 	 * Returns the runtime asset for a given asset descriptor. It loads it if
@@ -122,8 +121,8 @@ public interface AssetHandler {
 	 *            if the asset must be loaded
 	 * @return the runtime asset
 	 */
-	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
-			T descriptor, boolean load);
+	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
+			boolean load);
 
 	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T, GraphicContext> getDrawableAsset(
 			T descriptor);

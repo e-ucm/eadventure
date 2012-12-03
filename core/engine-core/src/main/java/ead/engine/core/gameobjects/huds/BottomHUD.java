@@ -60,14 +60,12 @@ public class BottomHUD extends AbstractHUD {
 	public BottomHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, 0);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 0);
 	}
 
 	@Override
 	public DrawableGO<?> processAction(InputAction<?> action) {
-		if (gameState.getValueMap().getValue(
-				SystemFields.BASIC_HUD_OPAQUE)) {
+		if (gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE)) {
 			action.consume();
 			return this;
 		}
@@ -76,13 +74,12 @@ public class BottomHUD extends AbstractHUD {
 
 	@Override
 	public boolean contains(int x, int y) {
-		return gameState.getValueMap().getValue(
-				SystemFields.BASIC_HUD_OPAQUE);
+		return gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE);
 	}
 
 	@Override
 	public void init() {
-		
+
 	}
 
 	public void doLayout() {

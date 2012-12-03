@@ -50,7 +50,6 @@ public class VideoSceneDemo extends VideoScene {
 				getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
 
-	
 	public String getSceneDescription() {
 		return "A scene showing a video";
 	}

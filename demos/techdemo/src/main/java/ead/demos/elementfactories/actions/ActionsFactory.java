@@ -49,11 +49,8 @@ public class ActionsFactory {
 		SceneElementDef def = new SceneElementDef(new Image(
 				"@drawable/examine-normal.png"));
 		SpeakEf speak = new SpeakEf();
-		EAdElementsFactory
-				.getInstance()
-				.getStringFactory()
-				.setString(speak.getString(),
-						"The action was triggered!");
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				speak.getString(), "The action was triggered!");
 		def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speak);
 		return def;
 	}

@@ -59,8 +59,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 			.getLogger("ActorActionsGO");
 
 	@Inject
-	public ActorActionsGO(SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+	public ActorActionsGO(SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
 	}
 
@@ -71,9 +71,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElementDef ref = element.getActionElement();
 			if (ref != null) {
-				EAdList<EAdSceneElementDef> list = gameState
-						.getValueMap().getValue(ref,
-								ActorActionsEf.VAR_ACTIONS);
+				EAdList<EAdSceneElementDef> list = gameState.getValueMap()
+						.getValue(ref, ActorActionsEf.VAR_ACTIONS);
 				if (list != null) {
 					ActionsHUD hud = getActionsHUD();
 					if (hud != null) {
@@ -81,7 +80,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 								SystemFields.MOUSE_X);
 						int y = gameState.getValueMap().getValue(
 								SystemFields.MOUSE_Y);
-						hud.showActions( list, x, y );
+						hud.showActions(list, x, y);
 					}
 
 				}

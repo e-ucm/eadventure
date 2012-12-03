@@ -77,8 +77,7 @@ public class GameObjectManagerImpl implements GameObjectManager,
 	 * .eadventure.engine.core.gameobjects.GameObject)
 	 */
 	@Override
-	public void add(DrawableGO<?> element,
-			EAdTransformation transformation) {
+	public void add(DrawableGO<?> element, EAdTransformation transformation) {
 		gameObjects.add(element);
 	}
 
@@ -107,8 +106,7 @@ public class GameObjectManagerImpl implements GameObjectManager,
 			huds.add(hud);
 
 		Collections.sort(huds, this);
-		logger.info("Added HUD. size: " + huds.size() + "; huds: "
-				+ huds);
+		logger.info("Added HUD. size: " + huds.size() + "; huds: " + huds);
 	}
 
 	@Override

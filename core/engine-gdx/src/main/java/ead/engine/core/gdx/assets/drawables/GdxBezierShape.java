@@ -55,7 +55,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 public class GdxBezierShape extends GdxShape<BezierShape> {
 
 	protected static boolean usingGradient = false;
-	
+
 	@Inject
 	public GdxBezierShape(AssetHandler assetHandler) {
 		super(assetHandler);

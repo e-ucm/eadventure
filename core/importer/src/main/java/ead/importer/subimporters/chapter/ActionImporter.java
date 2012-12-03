@@ -110,14 +110,12 @@ public class ActionImporter implements
 
 	private EAdElementFactory factory;
 
-	public static final String DRAWABLE_PATH = "@"
-			+ ResourceImporter.DRAWABLE;
+	public static final String DRAWABLE_PATH = "@" + ResourceImporter.DRAWABLE;
 
 	protected ImportAnnotator annotator;
 
 	@Inject
-	public ActionImporter(
-			StringHandler stringHandler,
+	public ActionImporter(StringHandler stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
@@ -146,15 +144,15 @@ public class ActionImporter implements
 		EAdCondition conditions[] = new EAdCondition[2];
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
-		condition = conditionsImporter.convert(
-				oldObject.getConditions(), condition);
+		condition = conditionsImporter.convert(oldObject.getConditions(),
+				condition);
 
 		EAdCondition andCondition;
 		if (previousCondition == null && condition == null) {
 			andCondition = EmptyCond.TRUE_EMPTY_CONDITION;
 		} else if (previousCondition != null && condition != null) {
-			andCondition = new ANDCond(condition, new NOTCond(
-					previousCondition));
+			andCondition = new ANDCond(condition,
+					new NOTCond(previousCondition));
 		} else if (condition == null) {
 			andCondition = previousCondition;
 		} else {
@@ -179,8 +177,8 @@ public class ActionImporter implements
 		addAppearance(oldObject, action);
 
 		// Add effects
-		addEffects(effecttrigger, notEffectTrigger, oldObject,
-				action, owner, condition, isActiveArea);
+		addEffects(effecttrigger, notEffectTrigger, oldObject, action, owner,
+				condition, isActiveArea);
 	}
 
 	private void setName(Action oldObject, SceneElementDef action) {
@@ -193,8 +191,7 @@ public class ActionImporter implements
 		}
 		EAdString nameString = stringHandler.generateNewString();
 		stringHandler.setString(nameString, actionName);
-		action.setVarInitialValue(SceneElementDef.VAR_DOC_NAME,
-				nameString);
+		action.setVarInitialValue(SceneElementDef.VAR_DOC_NAME, nameString);
 	}
 
 	private void addEffects(TriggerMacroEf effectTrigger,
@@ -202,8 +199,8 @@ public class ActionImporter implements
 			SceneElementDef action, EAdSceneElementDef actor,
 			EAdCondition condition, boolean isActiveArea) {
 		// Add effects
-		EffectsMacro macro = effectsImporterFactory
-				.getMacroEffects(oldObject.getEffects());
+		EffectsMacro macro = effectsImporterFactory.getMacroEffects(oldObject
+				.getEffects());
 
 		// Add default effects for the action
 		EAdEffect defaultEffect = getDefaultEffects(oldObject, actor,
@@ -225,37 +222,31 @@ public class ActionImporter implements
 		EffectsMacro notEffects = effectsImporterFactory
 				.getMacroEffects(oldObject.getNotEffects());
 		if (notEffects != null) {
-			notEffectTrigger.putMacro(notEffects, new NOTCond(
-					condition));
+			notEffectTrigger.putMacro(notEffects, new NOTCond(condition));
 		}
 	}
 
-	private void addAppearance(Action oldObject,
-			SceneElementDef action) {
+	private void addAppearance(Action oldObject, SceneElementDef action) {
 		// If it's a standard action
 		if (oldObject.getType() != Action.CUSTOM
 				&& oldObject.getType() != Action.CUSTOM_INTERACT) {
 			action.getResources().addAsset(action.getInitialBundle(),
 					SceneElementDef.appearance,
 					new Image(getDrawablePath(oldObject.getType())));
-			action.getResources().addAsset(
-					action.getInitialBundle(),
+			action.getResources().addAsset(action.getInitialBundle(),
 					SceneElementDef.overAppearance,
-					new Image(getHighlightDrawablePath(oldObject
-							.getType())));
+					new Image(getHighlightDrawablePath(oldObject.getType())));
 		} else {
 			Map<String, String> resourcesStrings = new LinkedHashMap<String, String>();
 			Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
 
-			resourcesStrings.put("buttonOver",
-					SceneElementDef.appearance);
-			resourcesStrings.put("buttonNormal",
-					SceneElementDef.overAppearance);
+			resourcesStrings.put("buttonOver", SceneElementDef.appearance);
+			resourcesStrings
+					.put("buttonNormal", SceneElementDef.overAppearance);
 			resourcesClasses.put("buttonOver", Image.class);
 			resourcesClasses.put("buttonNormal", Image.class);
-			resourceImporter.importResources(action,
-					((CustomAction) oldObject).getResources(),
-					resourcesStrings, resourcesClasses);
+			resourceImporter.importResources(action, ((CustomAction) oldObject)
+					.getResources(), resourcesStrings, resourcesClasses);
 		}
 	}
 
@@ -291,9 +282,8 @@ public class ActionImporter implements
 		return image;
 	}
 
-	public EAdEffect getDefaultEffects(Action a,
-			EAdSceneElementDef actor, boolean isActiveArea,
-			EAdSceneElementDef newAction) {
+	public EAdEffect getDefaultEffects(Action a, EAdSceneElementDef actor,
+			boolean isActiveArea, EAdSceneElementDef newAction) {
 		for (AbstractEffect e : a.getEffects().getEffects()) {
 			if (e instanceof CancelActionEffect) {
 				return null;
@@ -309,8 +299,8 @@ public class ActionImporter implements
 				EAdField<Boolean> inInventory = new BasicField<Boolean>(
 						sceneElement, BasicInventory.VAR_IN_INVENTORY);
 
-				ModifyInventoryEf addToInventory = new ModifyInventoryEf(
-						actor, InventoryEffectAction.ADD_TO_INVENTORY);
+				ModifyInventoryEf addToInventory = new ModifyInventoryEf(actor,
+						InventoryEffectAction.ADD_TO_INVENTORY);
 
 				OperationCond c = new OperationCond(inInventory);
 				addToInventory.setCondition(new NOTCond(c));
@@ -335,8 +325,7 @@ public class ActionImporter implements
 	private static void initExamineAction(StringHandler handler) {
 		examineString = new EAdString("engine.Examine");
 		examineImage = new Image(getDrawablePath(Action.EXAMINE));
-		examineOverImage = new Image(
-				getHighlightDrawablePath(Action.EXAMINE));
+		examineOverImage = new Image(getHighlightDrawablePath(Action.EXAMINE));
 	}
 
 	/**
@@ -348,9 +337,9 @@ public class ActionImporter implements
 	 * @param element
 	 *            the old element
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addExamine(EAdSceneElementDef actor,
-			List<Action> actionsList, EAdEffect sound) {
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList,
+			EAdEffect sound) {
 		for (Action a : actionsList) {
 			if (a.getType() == Action.EXAMINE) {
 				return;
@@ -362,40 +351,35 @@ public class ActionImporter implements
 		}
 
 		SceneElementDef examineAction = new SceneElementDef();
-		examineAction.setVarInitialValue(
-				SceneElementDef.VAR_DOC_NAME, examineString);
+		examineAction.setVarInitialValue(SceneElementDef.VAR_DOC_NAME,
+				examineString);
 		if (sound != null) {
-			examineAction.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-					sound);
+			examineAction.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, sound);
 		}
 
 		// Effect
-		EAdField<EAdString> descField = new BasicField<EAdString>(
-				actor, SceneElementDef.VAR_DOC_DETAILED_DESC);
+		EAdField<EAdString> descField = new BasicField<EAdString>(actor,
+				SceneElementDef.VAR_DOC_DETAILED_DESC);
 
 		SpeakEf effect = new SpeakEf();
 		stringHandler.setString(effect.getCaption().getText(), "[0]");
 		effect.getCaption().getFields().add(descField);
 
 		effect.setAlignment(Alignment.CENTER);
-		examineAction
-				.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+		examineAction.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		// Appearance
-		examineAction.getResources().addAsset(
-				examineAction.getInitialBundle(),
+		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
 				SceneElementDef.appearance, examineImage);
-		examineAction.getResources().addAsset(
-				examineAction.getInitialBundle(),
+		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
 				SceneElementDef.overAppearance, examineOverImage);
 
-		EAdList list = (EAdList) actor.getVars().get(
-				ActorActionsEf.VAR_ACTIONS);
+		EAdList list = (EAdList) actor.getVars()
+				.get(ActorActionsEf.VAR_ACTIONS);
 		if (list == null) {
 			list = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 			actor.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, list);
 		}
-
 
 		list.add(examineAction);
 	}
@@ -454,16 +438,14 @@ public class ActionImporter implements
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addAllActions(List<Action> actionsList,
-			SceneElementDef actor, boolean isActiveArea,
-			EAdEffect sound) {
+	@SuppressWarnings( { "rawtypes", "unchecked" })
+	public void addAllActions(List<Action> actionsList, SceneElementDef actor,
+			boolean isActiveArea, EAdEffect sound) {
 
-		logger.debug(
-				"adding all actions for list of {} actions, "
-						+ "with an actor called {}, areaActive {}, and sound {}",
-				new Object[] { actionsList.size(), actor.getId(),
-						isActiveArea, sound });
+		logger.debug("adding all actions for list of {} actions, "
+				+ "with an actor called {}, areaActive {}, and sound {}",
+				new Object[] { actionsList.size(), actor.getId(), isActiveArea,
+						sound });
 
 		// add examine
 		addExamine(actor, actionsList, sound);
@@ -480,8 +462,8 @@ public class ActionImporter implements
 		Map<EAdSceneElementDef, Boolean> getsTo = new LinkedHashMap<EAdSceneElementDef, Boolean>();
 
 		// Actions list
-		EAdList list = (EAdList) actor.getVars().get(
-				ActorActionsEf.VAR_ACTIONS);
+		EAdList list = (EAdList) actor.getVars()
+				.get(ActorActionsEf.VAR_ACTIONS);
 		if (list == null) {
 			list = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 			actor.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, list);
@@ -495,8 +477,7 @@ public class ActionImporter implements
 			case Action.CUSTOM:
 				CustomAction customAction = (CustomAction) a;
 				if (customActions.containsKey(customAction.getName())) {
-					action = customActions
-							.get(customAction.getName());
+					action = customActions.get(customAction.getName());
 				} else {
 					action = init(a);
 					list.add(action);
@@ -541,8 +522,7 @@ public class ActionImporter implements
 			}
 
 			// Effects
-			TriggerMacroEf effectTrigger = effectsTriggers
-					.get(action);
+			TriggerMacroEf effectTrigger = effectsTriggers.get(action);
 			if (effectTrigger == null) {
 				effectTrigger = new TriggerMacroEf();
 				effectsTriggers.put(action, effectTrigger);
@@ -559,8 +539,8 @@ public class ActionImporter implements
 			}
 
 			// Set condition
-			EAdCondition conds[] = setCondition(a, action,
-					previousConditions.get(action));
+			EAdCondition conds[] = setCondition(a, action, previousConditions
+					.get(action));
 			EAdCondition c = conds[0];
 			previousConditions.put(action, c);
 
@@ -579,20 +559,19 @@ public class ActionImporter implements
 						notEffectTrigger, a, actor, c);
 				targets.put(action, target);
 			} else if (isInteraction(a)) {
-				EAdSceneElementDef target = addInteraction(
-						effectTrigger, notEffectTrigger, a, actor, c);
+				EAdSceneElementDef target = addInteraction(effectTrigger,
+						notEffectTrigger, a, actor, c);
 				targets.put(action, target);
 
 			} else {
-				convert(a, (SceneElementDef) action, actor, c,
-						isActiveArea, effectTrigger, notEffectTrigger);
+				convert(a, (SceneElementDef) action, actor, c, isActiveArea,
+						effectTrigger, notEffectTrigger);
 			}
 
 			getsTo.put(action, a.isNeedsGoTo());
 		}
 
-		logger.debug("iterating {} effect triggers...",
-				effectsTriggers.size());
+		logger.debug("iterating {} effect triggers...", effectsTriggers.size());
 
 		// First, effects for every action are added. All actions with the
 		// same name are merged in only one, with one big trigger macro effect,
@@ -600,18 +579,18 @@ public class ActionImporter implements
 		// with ORs
 		for (Entry<EAdSceneElementDef, TriggerMacroEf> e : effectsTriggers
 				.entrySet()) {
-			EAdSceneElementDef a = e.getKey();			
+			EAdSceneElementDef a = e.getKey();
 			TriggerMacroEf trigger = e.getValue();
 			EAdCondition orCondition = orConditions.get(e.getKey());
 			trigger.setCondition(orCondition);
 			if (logger.isDebugEnabled()) {
 				Object v = getsTo.get(a);
-				logger.debug("will operate on {}, {}, {}, {}",
-						new Object[] { v, trigger, actor, a });
+				logger.debug("will operate on {}, {}, {}, {}", new Object[] {
+						v, trigger, actor, a });
 				if (v == null) {
 					for (EAdSceneElementDef x : getsTo.keySet()) {
-						logger.debug("\t{} {} :: {}", new Object[] {
-								x, x.getId(), x.equals(a) });
+						logger.debug("\t{} {} :: {}", new Object[] { x,
+								x.getId(), x.equals(a) });
 					}
 				}
 			}
@@ -638,12 +617,11 @@ public class ActionImporter implements
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addMoveTo(boolean needsGoTo,
-			TriggerMacroEf triggerEffect, EAdSceneElementDef actor,
-			EAdSceneElementDef action) {
-		EAdList list = (EAdList) actor.getVars().get(
-				ActorActionsEf.VAR_ACTIONS);
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	private void addMoveTo(boolean needsGoTo, TriggerMacroEf triggerEffect,
+			EAdSceneElementDef actor, EAdSceneElementDef action) {
+		EAdList list = (EAdList) actor.getVars()
+				.get(ActorActionsEf.VAR_ACTIONS);
 		if (!factory.isFirstPerson() && needsGoTo) {
 			MoveActiveElementToMouseEf moveActiveElement = new MoveActiveElementToMouseEf();
 			moveActiveElement.setTarget(actor);
@@ -655,8 +633,8 @@ public class ActionImporter implements
 	}
 
 	private EAdSceneElementDef addDrag(TriggerMacroEf effectTrigger,
-			TriggerMacroEf notEffectTrigger, Action a,
-			SceneElementDef actor, EAdCondition c) {
+			TriggerMacroEf notEffectTrigger, Action a, SceneElementDef actor,
+			EAdCondition c) {
 		EAdElement element = factory.getElementById(a.getTargetId());
 		EAdSceneElementDef target = null;
 
@@ -666,8 +644,8 @@ public class ActionImporter implements
 			target = ((EAdSceneElement) element).getDefinition();
 		}
 
-		EffectsMacro macro = this.effectsImporterFactory
-				.getMacroEffects(a.getEffects());
+		EffectsMacro macro = this.effectsImporterFactory.getMacroEffects(a
+				.getEffects());
 		if (effectTrigger != null) {
 			effectTrigger.putMacro(macro, c);
 		}
@@ -685,23 +663,20 @@ public class ActionImporter implements
 	}
 
 	private boolean isInteraction(Action a) {
-		return a.getType() == Action.GIVE_TO
-				|| a.getType() == Action.USE_WITH
+		return a.getType() == Action.GIVE_TO || a.getType() == Action.USE_WITH
 				|| a.getType() == Action.CUSTOM_INTERACT;
 	}
 
-	private EAdSceneElementDef addInteraction(
-			TriggerMacroEf effectTrigger,
-			TriggerMacroEf notEffectTrigger, Action a,
-			SceneElementDef actor, EAdCondition condition) {
+	private EAdSceneElementDef addInteraction(TriggerMacroEf effectTrigger,
+			TriggerMacroEf notEffectTrigger, Action a, SceneElementDef actor,
+			EAdCondition condition) {
 
 		EffectsMacro macro = effectsImporterFactory.getMacroEffects(a
 				.getEffects());
 
 		if (macro != null) {
 			ModifyInventoryEf removeFromInventory = new ModifyInventoryEf(
-					actor,
-					InventoryEffectAction.REMOVE_FROM_INVENTORY);
+					actor, InventoryEffectAction.REMOVE_FROM_INVENTORY);
 			if (a.getType() == Action.GIVE_TO
 					&& !hasCancelEffect(a.getEffects())) {
 				macro.getEffects().add(removeFromInventory);
@@ -712,8 +687,7 @@ public class ActionImporter implements
 		EffectsMacro noEffectsMacro = this.effectsImporterFactory
 				.getMacroEffects(a.getNotEffects());
 		if (noEffectsMacro != null) {
-			notEffectTrigger.putMacro(noEffectsMacro, new NOTCond(
-					condition));
+			notEffectTrigger.putMacro(noEffectsMacro, new NOTCond(condition));
 		}
 
 		EAdElement e = factory.getElementById(a.getTargetId());

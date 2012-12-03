@@ -75,8 +75,7 @@ public class EffectsHUD extends AbstractHUD {
 	public EffectsHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, 10);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 10);
 	}
 
 	@Override
@@ -103,19 +102,19 @@ public class EffectsHUD extends AbstractHUD {
 			i++;
 		}
 	}
-	
+
 	public DrawableGO<?> processAction(InputAction<?> action) {
 		int i = 0;
 		DrawableGO<?> go = null;
-		while(!action.isConsumed() && i < gameState.getEffects().size()){
+		while (!action.isConsumed() && i < gameState.getEffects().size()) {
 			go = gameState.getEffects().get(i).processAction(action);
 			i++;
 		}
-		return go;		
+		return go;
 	}
 
 	public void update() {
-		if (!gameState.isPaused()) {			
+		if (!gameState.isPaused()) {
 			effects = gameState.getEffects();
 			finishedEffects.clear();
 			boolean block = false;
@@ -149,8 +148,7 @@ public class EffectsHUD extends AbstractHUD {
 
 			boolean visualEffect = false;
 			int index = 0;
-			while (!visualEffect
-					&& index < gameState.getEffects().size()) {
+			while (!visualEffect && index < gameState.getEffects().size()) {
 				visualEffect = gameState.getEffects().get(index++)
 						.isVisualEffect();
 			}
@@ -158,11 +156,11 @@ public class EffectsHUD extends AbstractHUD {
 			super.update();
 		}
 	}
-	
-	public boolean contains( int x, int y ){
+
+	public boolean contains(int x, int y) {
 		boolean contains = false;
 		int i = 0;
-		while(!contains && i < gameState.getEffects().size()){
+		while (!contains && i < gameState.getEffects().size()) {
 			contains = gameState.getEffects().get(i).contains(x, y);
 			i++;
 		}

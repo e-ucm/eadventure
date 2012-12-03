@@ -57,7 +57,7 @@ public class RuntimeFramesAnimation extends
 
 	@Inject
 	public RuntimeFramesAnimation(AssetHandler assetHandler) {
-		super(assetHandler);	
+		super(assetHandler);
 	}
 
 	@Override
@@ -83,12 +83,12 @@ public class RuntimeFramesAnimation extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time,
-			List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		int index = descriptor.getFrameIndexFromTime(time);
 		return frames.get(index);
 	}
-	
+
 	@Override
 	public void refresh() {
 		for (RuntimeDrawable<?, ?> d : this.frames) {

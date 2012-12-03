@@ -47,8 +47,8 @@ import ead.engine.core.gdx.platform.GdxGUI;
 @Singleton
 public class AndroidGdxGUI extends GdxGUI {
 
-	public AndroidGdxGUI(GameObjectManager gameObjectManager,
-			GdxCanvas canvas, GdxEngine engine) {
+	public AndroidGdxGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
+			GdxEngine engine) {
 		super(gameObjectManager, canvas, engine);
 	}
 
@@ -56,7 +56,7 @@ public class AndroidGdxGUI extends GdxGUI {
 	public void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen) {
 		// FIXME show special resources
-		
+
 	}
 
 }

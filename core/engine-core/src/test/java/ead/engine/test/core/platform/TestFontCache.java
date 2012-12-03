@@ -78,7 +78,7 @@ public class TestFontCache extends FontHandlerImpl {
 			@Override
 			public void freeMemory() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -90,7 +90,7 @@ public class TestFontCache extends FontHandlerImpl {
 			@Override
 			public void setDescriptor(EAdFont descriptor) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -102,7 +102,7 @@ public class TestFontCache extends FontHandlerImpl {
 			@Override
 			public void refresh() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		});

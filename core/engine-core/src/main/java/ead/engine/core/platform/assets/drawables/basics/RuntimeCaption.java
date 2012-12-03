@@ -130,9 +130,8 @@ public class RuntimeCaption<GraphicContext> extends
 	private RuntimeDrawable shape;
 
 	@Inject
-	public RuntimeCaption(GUI gui, FontHandler fontCache,
-			VariableMap valueMap, StringHandler stringsHandler,
-			AssetHandler assetHandler) {
+	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
+			StringHandler stringsHandler, AssetHandler assetHandler) {
 		super(assetHandler);
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
@@ -156,8 +155,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 		// Draw bubble
 		if (getAssetDescriptor().hasBubble()) {
-			RectangleShape rect = new RectangleShape(getWidth(),
-					getHeight());
+			RectangleShape rect = new RectangleShape(getWidth(), getHeight());
 			rect.setPaint(getAssetDescriptor().getBubblePaint());
 			shape = assetHandler.getDrawableAsset(rect);
 		}
@@ -167,9 +165,8 @@ public class RuntimeCaption<GraphicContext> extends
 	private String getProcessedText() {
 		String text = null;
 		if (descriptor.getFields().size() > 0) {
-			text = valueMap.processTextVars(
-					stringsHandler.getString(descriptor.getText()),
-					descriptor.getFields());
+			text = valueMap.processTextVars(stringsHandler.getString(descriptor
+					.getText()), descriptor.getFields());
 		} else {
 			text = stringsHandler.getString(descriptor.getText());
 		}
@@ -200,8 +197,8 @@ public class RuntimeCaption<GraphicContext> extends
 		if (timeShown <= 0) {
 			goForward(1);
 		}
-		
-		text = getProcessedText( );
+
+		text = getProcessedText();
 
 		// If text has changed
 		if (!currentText.equals(text))
@@ -237,8 +234,7 @@ public class RuntimeCaption<GraphicContext> extends
 			preferredWidth = Integer.MAX_VALUE;
 			break;
 		case EAdCaption.SCREEN_SIZE:
-			preferredWidth = valueMap
-					.getValue(SystemFields.GAME_WIDTH);
+			preferredWidth = valueMap.getValue(SystemFields.GAME_WIDTH);
 			break;
 		default:
 			preferredWidth = descriptor.getPreferredWidth();
@@ -259,8 +255,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 		while (contWord < words.length) {
 
-			int nextWordWidth = font.stringWidth(words[contWord]
-					+ " ");
+			int nextWordWidth = font.stringWidth(words[contWord] + " ");
 
 			if (currentLineWidth + nextWordWidth <= preferredWidth) {
 				currentLineWidth += nextWordWidth;
@@ -291,8 +286,7 @@ public class RuntimeCaption<GraphicContext> extends
 		int preferredHeight = 0;
 		switch (descriptor.getPreferredHeight()) {
 		case EAdCaption.SCREEN_SIZE:
-			preferredHeight = valueMap
-					.getValue(SystemFields.GAME_HEIGHT);
+			preferredHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
 			break;
 		case EAdCaption.AUTO_SIZE:
 			preferredHeight = Integer.MAX_VALUE;
@@ -303,10 +297,9 @@ public class RuntimeCaption<GraphicContext> extends
 		preferredHeight -= descriptor.getPadding() * 2;
 
 		linesInPart = preferredHeight / lineHeight;
-		linesInPart = linesInPart < lines.size() ? linesInPart
-				: lines.size();
-		totalParts = (int) Math.ceil((float) lines.size()
-				/ (float) linesInPart);
+		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();
+		totalParts = (int) Math
+				.ceil((float) lines.size() / (float) linesInPart);
 		bounds.height = descriptor.getPreferredHeight() == EAdCaption.AUTO_SIZE ? linesInPart
 				* lineHeight
 				: preferredHeight;
@@ -403,8 +396,7 @@ public class RuntimeCaption<GraphicContext> extends
 	public List<String> getText() {
 		int beginIndex = currentPart * linesInPart;
 		int lastIndex = beginIndex + linesInPart;
-		lastIndex = lastIndex > lines.size() ? lines.size()
-				: lastIndex;
+		lastIndex = lastIndex > lines.size() ? lines.size() : lastIndex;
 		return lines.subList(beginIndex, lastIndex);
 	}
 
@@ -465,10 +457,8 @@ public class RuntimeCaption<GraphicContext> extends
 		c.setFont(descriptor.getFont());
 		int xOffset = 0;
 		int yOffset = getAssetDescriptor().getPadding();
-		if (currentPart == totalParts - 1
-				&& lines.size() % linesInPart != 0) {
-			yOffset += (bounds.height
-					- getAssetDescriptor().getPadding() * 2 - ((lines
+		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0) {
+			yOffset += (bounds.height - getAssetDescriptor().getPadding() * 2 - ((lines
 					.size() % linesInPart) * lineHeight)) / 2;
 		} else {
 			yOffset += heightOffset;
@@ -505,8 +495,8 @@ public class RuntimeCaption<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time,
-			List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		// FIXME man, fix this
 		update();
 		return this;

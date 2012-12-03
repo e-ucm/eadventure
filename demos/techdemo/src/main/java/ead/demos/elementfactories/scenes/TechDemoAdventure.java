@@ -72,7 +72,7 @@ public class TechDemoAdventure extends BasicAdventureModel {
 	public TechDemoAdventure() {
 		chapter = new BasicChapter();
 		this.getChapters().add(chapter);
-		
+
 		sceneDemos = new ArrayList<EAdScene>();
 		sceneDemos.add(new InitScene());
 		sceneDemos.add(new EmptyScene());

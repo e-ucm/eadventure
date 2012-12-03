@@ -101,7 +101,7 @@ public class GameLoaderImpl implements GameLoader {
 	public GameLoaderImpl(GenericInjector injector) {
 		parser = injector.getInstance(XMLParser.class);
 		adventureReader = new AdventureReader(parser);
-		stringsReader = new StringsReader(parser);		
+		stringsReader = new StringsReader(parser);
 		stringHandler = injector.getInstance(StringHandler.class);
 		game = injector.getInstance(Game.class);
 		reflectionProvider = injector.getInstance(ReflectionProvider.class);
@@ -144,7 +144,7 @@ public class GameLoaderImpl implements GameLoader {
 			} else if (step == 1) {
 				stringsMap = stringsReader.readStrings(strings);
 			} else if (step == 2) {
-				
+
 			} else if (step == 3) {
 				loadGame(model, stringsMap, propertiesMap);
 			}

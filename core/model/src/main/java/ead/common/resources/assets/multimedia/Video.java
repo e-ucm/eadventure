@@ -38,9 +38,10 @@
 package ead.common.resources.assets.multimedia;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.util.EAdURI;
 
-public class Video implements EAdVideo {
+public class Video extends AbstractAssetDescriptor implements EAdVideo {
 
 	@Param("stream")
 	private boolean stream;

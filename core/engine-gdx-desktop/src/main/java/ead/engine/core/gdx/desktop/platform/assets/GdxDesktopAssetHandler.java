@@ -184,7 +184,7 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 				result = "";
 				while ((line = reader.readLine()) != null) {
 					result += line + "\n";
-				}				
+				}
 			} catch (IOException e) {
 				logger.error("Error reading file", e);
 				result = null;

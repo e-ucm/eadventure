@@ -59,7 +59,7 @@ public interface GameState {
 	 * @return a {@link ValueMap}
 	 */
 	ValueMap getValueMap();
-	
+
 	/**
 	 * Evaluates a condition, using the required evaluator, based on a given
 	 * {@link ValeMap}.
@@ -101,7 +101,7 @@ public interface GameState {
 	 */
 	EffectGO<?> addEffect(EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent);
-	
+
 	/**
 	 * Clears all the current effects
 	 * 
@@ -109,7 +109,7 @@ public interface GameState {
 	 *            sets if persistent effects should also be deleted
 	 */
 	void clearEffects(boolean persistent);
-	
+
 	/**
 	 * <p>
 	 * Sets the current {@link SceneGO} of the game.
@@ -124,7 +124,7 @@ public interface GameState {
 	 *            the current {@link SceneGO}.
 	 */
 	void setScene(SceneGO<?> scene);
-	
+
 	/**
 	 * Returns the current game screen object. The {@link SceneGO} element is
 	 * the root of all what is drawn to the screen.

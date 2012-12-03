@@ -66,8 +66,8 @@ public interface TrajectoryGenerator<T extends EAdTrajectoryDefinition> {
 	 *            target y coordinate
 	 * @return the path
 	 */
-	Path getTrajectory(T trajectoryDefinition, EAdSceneElement movingElement, int x,
-			int y);
+	Path getTrajectory(T trajectoryDefinition, EAdSceneElement movingElement,
+			int x, int y);
 
 	/**
 	 * Returns a {@link Path} representing the trajectory to get as close as
@@ -87,8 +87,8 @@ public interface TrajectoryGenerator<T extends EAdTrajectoryDefinition> {
 	 *            The element towards which to move
 	 * @return a path
 	 */
-	Path getTrajectory(T trajectoryDefinition, EAdSceneElement movingElement, int x,
-			int y, SceneElementGO<?> sceneElement);
+	Path getTrajectory(T trajectoryDefinition, EAdSceneElement movingElement,
+			int x, int y, SceneElementGO<?> sceneElement);
 
 	/**
 	 * Returns true if the player can get to the given {@link SceneElementGO}

@@ -48,20 +48,19 @@ import ead.engine.core.platform.GUI;
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
 	@Inject
-	public ChangeFieldGO(SceneElementGOFactory sceneElementFactory,
-			GUI gui, GameState gameState) {
+	public ChangeFieldGO(SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState) {
 		super(sceneElementFactory, gui, gameState);
 	}
 
 	@Override
 	public void initialize() {
 		for (EAdField<?> v : element.getFields()) {
-			gameState.getValueMap().setValue(v,
-					element.getOperation());
+			gameState.getValueMap().setValue(v, element.getOperation());
 		}
 		if (element.getParentVar() != null && parent != null) {
-			gameState.getValueMap().setValue(parent,
-					element.getParentVar(), element.getOperation());
+			gameState.getValueMap().setValue(parent, element.getParentVar(),
+					element.getOperation());
 		}
 	}
 

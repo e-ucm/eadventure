@@ -10,9 +10,9 @@ public interface EngineFilter<T> extends Comparable<EngineFilter<?>> {
 	 * @return
 	 */
 	T filter(T o, Object[] params);
-	
+
 	int getPriority();
-	
-	void setPriority( int priority );
+
+	void setPriority(int priority);
 
 }

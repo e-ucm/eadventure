@@ -70,8 +70,7 @@ import ead.tools.StringHandler;
 @Singleton
 public class GdxGWTAssetHandler extends GdxAssetHandler {
 
-	private Logger logger = LoggerFactory
-			.getLogger("GdxGWTAssetHandler");
+	private Logger logger = LoggerFactory.getLogger("GdxGWTAssetHandler");
 
 	private VariableMap valueMap;
 
@@ -80,8 +79,8 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	private GUI gui;
 
 	@Inject
-	public GdxGWTAssetHandler(GenericInjector injector,
-			VariableMap valueMap, StringHandler stringHandler, GUI gui) {
+	public GdxGWTAssetHandler(GenericInjector injector, VariableMap valueMap,
+			StringHandler stringHandler, GUI gui) {
 		super(injector);
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
@@ -95,8 +94,7 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	}
 
 	@Override
-	public RuntimeAsset<?> getInstance(
-			Class<? extends RuntimeAsset<?>> clazz) {
+	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 
 		// FIXME: it is ugly to discard all these generics; find another way to
 		// get clean builds
@@ -111,8 +109,8 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 		else if (clazz == GdxCircleShape.class)
 			r = new GdxCircleShape(this);
 		else if (clazz == (Object) RuntimeCaption.class)
-			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler,
-					valueMap, stringHandler, this);
+			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler, valueMap,
+					stringHandler, this);
 		else if (clazz == GdxSound.class)
 			r = new GdxSound(this);
 		else if (clazz == (Object) RuntimeComposedDrawable.class)
@@ -135,8 +133,8 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	@Override
 	public void getTextfileAsync(String path, TextHandler textHandler) {
 		try {
-			new RequestBuilder(RequestBuilder.GET, path).sendRequest(
-					"", new TextRequestCallback(textHandler));
+			new RequestBuilder(RequestBuilder.GET, path).sendRequest("",
+					new TextRequestCallback(textHandler));
 		} catch (RequestException e) {
 			textHandler.handle(null);
 		}

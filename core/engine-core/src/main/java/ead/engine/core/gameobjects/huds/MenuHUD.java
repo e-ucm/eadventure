@@ -85,16 +85,15 @@ public class MenuHUD extends AbstractHUD implements
 	public MenuHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, 100);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				100);
 	}
 
 	public void init() {
 
 		ColumnContainer menu = new ColumnContainer();
 		menu.setId(ID);
-		menu.setPosition(new EAdPosition(EAdPosition.Corner.CENTER,
-				400, 300));
+		menu.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 400, 300));
 
 		EAdString exitString = new EAdString("engine.Exit");
 
@@ -111,56 +110,52 @@ public class MenuHUD extends AbstractHUD implements
 
 		String[] languages = languagesProperty.split(",");
 		for (String language : languages) {
-			EAdString languageString = new EAdString(
-					"engine.language." + language);
+			EAdString languageString = new EAdString("engine.language."
+					+ language);
 
-			menu.add(createMenuButton(languageString,
-					new ChangeFieldEf(SystemFields.LANGUAGE,
-							new ValueOp(language))));
+			menu.add(createMenuButton(languageString, new ChangeFieldEf(
+					SystemFields.LANGUAGE, new ValueOp(language))));
 		}
 
-		BasicField<Boolean> visibleField = new BasicField<Boolean>(
-				menu, SceneElement.VAR_VISIBLE);
+		BasicField<Boolean> visibleField = new BasicField<Boolean>(menu,
+				SceneElement.VAR_VISIBLE);
 
 		EAdString resumeString = new EAdString("engine.Resume");
 
-		menu.add(createMenuButton(resumeString, new ChangeFieldEf(
-				visibleField, BooleanOp.FALSE_OP)));
+		menu.add(createMenuButton(resumeString, new ChangeFieldEf(visibleField,
+				BooleanOp.FALSE_OP)));
 
 		menu.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
 
 		setElement(menu);
 
-		BasicField<Boolean> field = new BasicField<Boolean>(
-				this.getElement(), SceneElement.VAR_VISIBLE);
+		BasicField<Boolean> field = new BasicField<Boolean>(this.getElement(),
+				SceneElement.VAR_VISIBLE);
 
-		menu.addBehavior(MENU_EVENT, new ChangeFieldEf(field,
-				new BooleanOp(new NOTCond(new OperationCond(field)))));
+		menu.addBehavior(MENU_EVENT, new ChangeFieldEf(field, new BooleanOp(
+				new NOTCond(new OperationCond(field)))));
 	}
 
-	public EAdSceneElement createMenuButton(EAdString string,
-			EAdEffect effect) {
+	public EAdSceneElement createMenuButton(EAdString string, EAdEffect effect) {
 		Caption c1 = new Caption(string);
 		Caption c2 = new Caption(string);
 
 		SceneElement button = new SceneElement(c1, c2);
 		button.setId(string.toString());
 
-		c1.setBubblePaint(new Paint(new LinearGradientFill(
-				ColorFill.ORANGE, new ColorFill(255, 200, 0), 0, 40),
-				ColorFill.BLACK, 2));
+		c1.setBubblePaint(new Paint(new LinearGradientFill(ColorFill.ORANGE,
+				new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
 		c1.setPadding(10);
 		c1.setFont(new BasicFont(18));
 
-		c2.setBubblePaint(new Paint(new LinearGradientFill(
-				new ColorFill(255, 200, 0),
-				new ColorFill(255, 150, 0), 0, 40), ColorFill.BLACK,
-				3));
+		c2
+				.setBubblePaint(new Paint(new LinearGradientFill(new ColorFill(
+						255, 200, 0), new ColorFill(255, 150, 0), 0, 40),
+						ColorFill.BLACK, 3));
 		c2.setPadding(11);
 		c2.setFont(new BasicFont(18));
 
-		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				effect);
+		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		return button;
 	}
 

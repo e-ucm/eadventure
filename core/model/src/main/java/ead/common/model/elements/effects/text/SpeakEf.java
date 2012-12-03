@@ -60,8 +60,8 @@ import ead.common.resources.assets.text.EAdFont;
 @Element
 public class SpeakEf extends AbstractEffect {
 
-	private static final Paint BUBBLE_PAINT = new Paint(
-			new ColorFill(255, 255, 255, 220), ColorFill.BLACK, 2);
+	private static final Paint BUBBLE_PAINT = new Paint(new ColorFill(255, 255,
+			255, 220), ColorFill.BLACK, 2);
 
 	@Param("x")
 	private EAdOperation x;

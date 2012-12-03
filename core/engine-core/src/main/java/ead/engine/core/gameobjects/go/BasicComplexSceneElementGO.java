@@ -16,8 +16,7 @@ public class BasicComplexSceneElementGO extends
 	public BasicComplexSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
 }

@@ -64,8 +64,7 @@ public class ValueMapImpl implements ValueMap {
 
 	protected OperatorFactory operatorFactory;
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("Value Map");
+	protected static final Logger logger = LoggerFactory.getLogger("Value Map");
 
 	private ReflectionProvider reflectionProvider;
 
@@ -73,8 +72,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Inject
 	public ValueMapImpl(ReflectionProvider reflectionProvider,
-			OperatorFactory operatorFactory,
-			EvaluatorFactory evaluatorFactory) {
+			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
 		map = new HashMap<Object, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
 		this.reflectionProvider = reflectionProvider;
@@ -96,11 +94,10 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void setValue(Object element, EAdVarDef<?> varDef,
-			Object value) {
+	public void setValue(Object element, EAdVarDef<?> varDef, Object value) {
 		if (value == null
-				|| reflectionProvider.isAssignableFrom(
-						varDef.getType(), value.getClass())) {
+				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
+						.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = map
 					.get(maybeDecodeField(element));
@@ -124,16 +121,14 @@ public class ValueMapImpl implements ValueMap {
 		}
 	}
 
-	private void addInitVariables(Object o,
-			Map<EAdVarDef<?>, Object> initVars) {
+	private void addInitVariables(Object o, Map<EAdVarDef<?>, Object> initVars) {
 		if (o instanceof Variabled) {
 			initVars.putAll(((Variabled) o).getVars());
 		}
 	}
 
 	public void setValue(EAdField<?> var, EAdOperation operation) {
-		Object result = operatorFactory.operate(var.getVarDef(),
-				operation);
+		Object result = operatorFactory.operate(var.getVarDef(), operation);
 		if (result != null) {
 			setValue(var, result);
 		}
@@ -142,8 +137,7 @@ public class ValueMapImpl implements ValueMap {
 	@Override
 	public void setValue(Object element, EAdVarDef<?> var,
 			EAdOperation operation) {
-		Object result = operatorFactory.operate(var.getType(),
-				operation);
+		Object result = operatorFactory.operate(var.getType(), operation);
 		setValue(element, var, result);
 	}
 
@@ -188,8 +182,7 @@ public class ValueMapImpl implements ValueMap {
 			EAdField<?> field = (EAdField<?>) element;
 			Object fieldElement = field.getElement();
 			if (fieldElement instanceof EAdField<?>) {
-				Object result = getValue(field.getElement(),
-						field.getVarDef());
+				Object result = getValue(field.getElement(), field.getVarDef());
 				return maybeDecodeField(result);
 			} else {
 				return fieldElement;

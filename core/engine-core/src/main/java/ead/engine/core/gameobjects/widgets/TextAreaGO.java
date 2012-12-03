@@ -74,8 +74,7 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			StringHandler stringHandler) {
-		super(assetHandler, sceneElementFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.stringHandler = stringHandler;
 	}
 
@@ -85,8 +84,7 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 		textCaption = new Caption(stringHandler.generateNewString());
 		textCaption.setPreferredHeight(this.getHeight());
 		textCaption.setPreferredWidth(this.getWidth());
-		textElement = sceneElementFactory.get(new SceneElement(
-				textCaption));
+		textElement = sceneElementFactory.get(new SceneElement(textCaption));
 		textElement.setEnabled(false);
 	}
 
@@ -99,8 +97,8 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 				switch (keyAction.getKeyCode()) {
 				case BACKSPACE:
 					if (currentText.length() > 0) {
-						currentText = currentText.substring(0,
-								currentText.length() - 2);
+						currentText = currentText.substring(0, currentText
+								.length() - 2);
 					}
 					break;
 				default:
@@ -108,16 +106,15 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 						currentText += keyAction.getCharacter();
 					}
 				}
-				stringHandler.setString(textCaption.getLabel(),
-						currentText);
+				stringHandler.setString(textCaption.getLabel(), currentText);
 			}
 			action.consume();
 			return this;
 		} else if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			if (mouseAction.getType() == MouseGEvType.PRESSED) {
-				gameState.getValueMap().setValue(
-						SystemFields.ACTIVE_ELEMENT, getElement());
+				gameState.getValueMap().setValue(SystemFields.ACTIVE_ELEMENT,
+						getElement());
 				action.consume();
 				return this;
 			}

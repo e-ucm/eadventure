@@ -68,9 +68,9 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 
 	@Inject
 	public GdxAssetHandler(GenericInjector injector) {
-		super(new GdxAssetHandlerMap(), injector
-				.getInstance(FontHandler.class), injector
-				.getInstance(SceneGraph.class));
+		super(new GdxAssetHandlerMap(),
+				injector.getInstance(FontHandler.class), injector
+						.getInstance(SceneGraph.class));
 		this.injector = injector;
 		this.gameState = injector.getInstance(GameState.class);
 	}
@@ -119,8 +119,7 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 	}
 
 	@Override
-	public RuntimeAsset<?> getInstance(
-			Class<? extends RuntimeAsset<?>> clazz) {
+	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		return injector.getInstance(clazz);
 	}
 
@@ -160,8 +159,7 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 	}
 
 	public FileHandle getProjectFileHandle(String uri) {
-		return Gdx.files.absolute(this.resourcesUri.getPath() + "/"
-				+ uri);
+		return Gdx.files.absolute(this.resourcesUri.getPath() + "/" + uri);
 	}
 
 	public FileHandle getProjectInternal(String uri) {

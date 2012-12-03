@@ -19,8 +19,7 @@ import ead.tools.reflection.ReflectionProvider;
 @Singleton
 public class PluginHandlerImpl implements PluginHandler {
 
-	public static final int EFFECTS = 0, EVENTS = 1,
-			SCENE_ELEMENTS = 2;
+	public static final int EFFECTS = 0, EVENTS = 1, SCENE_ELEMENTS = 2;
 
 	protected ReflectionProvider reflectionProvider;
 
@@ -57,13 +56,12 @@ public class PluginHandlerImpl implements PluginHandler {
 
 	protected void load(String pluginsFile) {
 		String text = assetHandler.getTextFile(pluginsFile);
-		Map<String, Map<String, String>> map = PropertiesReader
-				.parse("Plugins", text);
+		Map<String, Map<String, String>> map = PropertiesReader.parse(
+				"Plugins", text);
 		for (Entry<String, Map<String, String>> e : map.entrySet()) {
 			if (e.getKey() == null) {
-				logger.warn(
-						"All plugins with no section were ignored: {}",
-						e.getValue());
+				logger.warn("All plugins with no section were ignored: {}", e
+						.getValue());
 			} else if (e.getKey().equals("effects")) {
 				loadClasses(EFFECTS, e.getValue());
 			} else if (e.getKey().equals("events")) {
@@ -71,14 +69,13 @@ public class PluginHandlerImpl implements PluginHandler {
 			} else if (e.getKey().equals("sceneElement")) {
 				loadClasses(SCENE_ELEMENTS, e.getValue());
 			} else {
-				logger.warn(
-						"Unkown section {} while loading plugins",
-						e.getKey());
+				logger.warn("Unkown section {} while loading plugins", e
+						.getKey());
 			}
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	private void loadClasses(int section, Map<String, String> classes) {
 		for (Entry<String, String> e : classes.entrySet()) {
 			String key = e.getKey();
@@ -101,7 +98,8 @@ public class PluginHandlerImpl implements PluginHandler {
 			}
 
 			if (section == -1) {
-				logger.warn("{}={} is declared out of any section. It won't be loaded.");
+				logger
+						.warn("{}={} is declared out of any section. It won't be loaded.");
 			} else {
 				switch (section) {
 				case EFFECTS:
@@ -114,7 +112,8 @@ public class PluginHandlerImpl implements PluginHandler {
 					sceneElementFactory.put(c1, c2);
 					break;
 				default:
-					logger.warn("{}={} is declared out of any known section. It won't be loaded.");
+					logger
+							.warn("{}={} is declared out of any known section. It won't be loaded.");
 				}
 			}
 		}

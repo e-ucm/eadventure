@@ -74,8 +74,8 @@ import ead.engine.core.platform.assets.SpecialAssetRenderer;
  * Video renderer for desktop (and applets) using vlcj library {@link http
  * ://code.google.com/p/vlcj/}
  * </p>
- * 
- * 
+ *
+ *
  */
 @Singleton
 public class VLCDesktopVideoRenderer implements
@@ -293,6 +293,28 @@ public class VLCDesktopVideoRenderer implements
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--vout=macosx";
 			vlcLoaded = true;
+		} else if (os.contains("linux")) {
+			//			File[] libDirs = new File[] { new File("/usr/lib/vlc"),
+			//					new File("/usr/local/lib/vlc") };
+			//			File libDir = null;
+			//			for (File d : libDirs) {
+			//				if (d.exists()) {
+			//					libDir = d;
+			//					break;
+			//				}
+			//			}
+			//			if (libDir != null) {
+			//				logger.info("VLC installation at {}", libDir);
+			//				String pathPlugins = new File(libDir, "plugins")
+			//						.getAbsolutePath();
+			//				String pathLibvlc = libDir.getAbsolutePath();
+			//				NativeLibrary.addSearchPath("vlc", pathLibvlc);
+			//				System.setProperty("jna.library.path", pathLibvlc);
+			//				System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
+			//				vlcLoaded = true;
+			//			} else {
+			//				logger.error("No VLC installations found (linux OS)");
+			//			}
 		} else {
 			logger.error("OS '{}' not supported by VLC video plugin", os);
 		}
@@ -317,7 +339,7 @@ public class VLCDesktopVideoRenderer implements
 
 	/**
 	 * Set the finished flag
-	 * 
+	 *
 	 * @param b
 	 *            The new value for finished
 	 */
@@ -331,7 +353,7 @@ public class VLCDesktopVideoRenderer implements
 
 	/**
 	 * Set the started flag
-	 * 
+	 *
 	 * @param b
 	 *            The new value for started
 	 */

@@ -49,22 +49,20 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene>
-		implements Comparator<SceneElementGO<?>>, SceneGO<EAdScene> {
+public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene> implements
+		Comparator<SceneElementGO<?>>, SceneGO<EAdScene> {
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		setComparator(this);
 	}
 
 	public void setElement(EAdScene element) {
 		super.setElement(element);
-		sceneElements.add(0,
-				sceneElementFactory.get(element.getBackground()));
+		sceneElements.add(0, sceneElementFactory.get(element.getBackground()));
 		gameState.getValueMap().setValue(element.getBackground(),
 				SceneElement.VAR_Z, Integer.MIN_VALUE);
 	}

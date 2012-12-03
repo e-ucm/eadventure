@@ -50,15 +50,15 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
-public class ComposedSceneGOImpl extends ComplexSceneElementGOImpl<ComposedScene>
-		implements ComplexSceneElementGO<ComposedScene> {
+public class ComposedSceneGOImpl extends
+		ComplexSceneElementGOImpl<ComposedScene> implements
+		ComplexSceneElementGO<ComposedScene> {
 
 	private EAdScene currentScene;
 
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState,
-			EventGOFactory eventFactory) {
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 

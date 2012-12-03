@@ -57,8 +57,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
 public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
-		extends SceneElementGOImpl<T> implements
-		ComplexSceneElementGO<T> {
+		extends SceneElementGOImpl<T> implements ComplexSceneElementGO<T> {
 
 	protected List<SceneElementGO<?>> sceneElements;
 
@@ -75,8 +74,7 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 	public ComplexSceneElementGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		sceneElements = new ArrayList<SceneElementGO<?>>();
 		goUnderMouse = new ArrayList<SceneElementGO<?>>();
 	}
@@ -84,10 +82,8 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 	public void setElement(T element) {
 		super.setElement(element);
 		sceneElements.clear();
-		for (EAdSceneElement sceneElement : element
-				.getSceneElements()) {
-			SceneElementGO<?> go = sceneElementFactory
-					.get(sceneElement);
+		for (EAdSceneElement sceneElement : element.getSceneElements()) {
+			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			sceneElements.add(go);
 		}
 	}
@@ -171,8 +167,7 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 		}
 	}
 
-	private void updateDimensions(boolean updateWidth,
-			boolean updateHeight) {
+	private void updateDimensions(boolean updateWidth, boolean updateHeight) {
 		int minX = Integer.MAX_VALUE;
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
@@ -205,8 +200,8 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 	}
 
 	@Override
-	public List<AssetDescriptor> getAssets(
-			List<AssetDescriptor> assetList, boolean allAssets) {
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
+			boolean allAssets) {
 		for (DrawableGO<?> sceneElement : sceneElements) {
 			assetList = sceneElement.getAssets(assetList, allAssets);
 		}

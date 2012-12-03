@@ -187,13 +187,13 @@ public interface GenericCanvas<S> {
 	 *            the filter. {@code null} if no filter must be applied
 	 */
 	void setFilter(RuntimeDrawable<?, S> drawable, EAdDrawableFilter filter);
-	
+
 	int getWidth();
-	
+
 	int getHeight();
-	
+
 	void setWidth(int width);
-	
+
 	void setHeight(int height);
 
 }

@@ -97,7 +97,7 @@ public interface Game {
 	 * @return The adventure game model
 	 */
 	EAdAdventureModel getAdventureModel();
-	
+
 	/**
 	 * Sets the current adventure game model ({@link EAdAdventureModel})
 	 * 
@@ -116,8 +116,8 @@ public interface Game {
 	 * Disposes all the resources allocated by the engine and destroys the GUI
 	 */
 	void dispose();
-	
-	void addFilter( String filterName, EngineFilter<?> filter );	
+
+	void addFilter(String filterName, EngineFilter<?> filter);
 
 	<T> T applyFilters(String filterName, T o, Object[] params);
 

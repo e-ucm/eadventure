@@ -46,15 +46,13 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class BasicSceneElementGO extends
-		SceneElementGOImpl<SceneElement> {
+public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
 
 	@Inject
 	public BasicSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
 	/*

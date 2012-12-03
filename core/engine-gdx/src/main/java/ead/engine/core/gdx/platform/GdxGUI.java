@@ -53,8 +53,8 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	protected GdxEngine engine;
 
 	@Inject
-	public GdxGUI(GameObjectManager gameObjectManager,
-			GdxCanvas canvas, GdxEngine engine) {
+	public GdxGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
+			GdxEngine engine) {
 		super(gameObjectManager, canvas);
 		this.engine = engine;
 	}

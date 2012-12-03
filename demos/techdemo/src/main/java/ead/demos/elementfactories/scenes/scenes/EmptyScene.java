@@ -56,22 +56,17 @@ public class EmptyScene extends BasicScene {
 		super();
 		setId("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
-		rectangle.setPaint(new LinearGradientFill(new ColorFill(240,
-				240, 240), ColorFill.WHITE, 800, 600));
-		getBackground()
-				.getDefinition()
-				.getResources()
-				.addAsset(
-						getBackground().getDefinition()
-								.getInitialBundle(),
-						SceneElementDef.appearance, rectangle);
+		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
+				ColorFill.WHITE, 800, 600));
+		getBackground().getDefinition().getResources().addAsset(
+				getBackground().getDefinition().getInitialBundle(),
+				SceneElementDef.appearance, rectangle);
 	}
 
 	public void setBackgroundFill(EAdFill fill) {
 		rectangle.setPaint(fill);
 	}
 
-	
 	public String getSceneDescription() {
 		return "An empty scene. Not much to do here.";
 	}
@@ -83,7 +78,5 @@ public class EmptyScene extends BasicScene {
 	public String toString() {
 		return getDemoName() + " - " + getSceneDescription();
 	}
-
-
 
 }

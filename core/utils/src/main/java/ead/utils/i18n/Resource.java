@@ -43,6 +43,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -65,7 +66,7 @@ public class Resource {
 	/**
 	 * Returns a placeholder image, used when no image is found
 	 */
-	public static Image placeholderImage() {
+	public static BufferedImage placeholderImage() {
 		if (placeholderImage == null) {
 			// currently a 32x32 pixmap with a red '?' on a white field
 			placeholderImage = new BufferedImage(32, 32,
@@ -92,12 +93,26 @@ public class Resource {
 	 * Loads an image resource; logs an exception if not possible.
 	 * @param resourceName name of resource (typically R.Drawable.something)
 	 */
-	public static Image loadImage(String resourceName) {
+	public static BufferedImage loadImage(String resourceName) {
 		try {
 			return ImageIO.read(ClassLoader
 					.getSystemResourceAsStream(resourceName));
 		} catch (IOException e) {
 			logger.warn("Image not found: '{}'", resourceName);
+			return placeholderImage();
+		}
+	}
+
+	/**
+	 * Loads an external image resource; logs an exception if not possible.
+	 * @param file fileName of resource
+	 */
+	public static BufferedImage loadExternalImage(File file) {
+		try {
+			return ImageIO.read(file);
+		} catch (IOException e) {
+			logger.warn("External image not found: '{}'", file
+					.getAbsolutePath());
 			return placeholderImage();
 		}
 	}

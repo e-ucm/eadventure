@@ -168,8 +168,8 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this();
 		this.definition = new SceneElementDef(appearance);
 	}
-	
-	public SceneElement(EAdDrawable appearance, EAdDrawable overAppearance ) {
+
+	public SceneElement(EAdDrawable appearance, EAdDrawable overAppearance) {
 		this();
 		this.definition = new SceneElementDef(appearance, overAppearance);
 	}

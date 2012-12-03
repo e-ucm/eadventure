@@ -74,7 +74,7 @@ import ead.engine.core.util.EAdTransformation;
 import ead.tools.StringHandler;
 
 @Singleton
-public class InventoryHUDImpl extends AbstractHUD  {
+public class InventoryHUDImpl extends AbstractHUD {
 
 	private static final int TIME_TO_SHOW = 500;
 
@@ -119,9 +119,8 @@ public class InventoryHUDImpl extends AbstractHUD  {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EvaluatorFactory evaluatorFactory,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, 6);
-		valueMap = gameState.getValueMap();		
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 6);
+		valueMap = gameState.getValueMap();
 		isShowing = true;
 		height = valueMap.getValue(SystemFields.GAME_HEIGHT);
 	}
@@ -160,8 +159,8 @@ public class InventoryHUDImpl extends AbstractHUD  {
 
 		inventory.setPosition(new EAdPosition(0, guiHeight, 0.0f,
 				inventoryDispY));
-//		SceneElementGO<?> go = sceneElementFactory.get(inventory);
-//		addElement(go);
+		//		SceneElementGO<?> go = sceneElementFactory.get(inventory);
+		//		addElement(go);
 	}
 
 	private void updateState() {

@@ -119,17 +119,6 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		}
 	}
 
-	private File assetFile(AssetDescriptor descriptor) {
-		String s = descriptor.toString();
-		if (s.contains("@")) {
-			File base = controller.getModel().getLoader().getSaveDir();
-			File f = new File(base.getAbsolutePath(), s.substring(s
-					.indexOf('@') + 1));
-			return f.exists() ? f : null;
-		}
-		return null;
-	}
-
 	private String fileToString(File f) {
 		File base = controller.getModel().getLoader().getSaveDir();
 		return f.getAbsolutePath().replace(base.getAbsolutePath(), ".");
@@ -218,7 +207,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			setLayout(new GridBagLayout());
 			JLabel description = new JLabel();
 			String extra = "";
-			File f = assetFile(descriptor);
+			File f = null; // assetFile(descriptor);
 			if (f != null) {
 				extra = "<br>" + fileToString(f) + " (" + f.length()
 						+ " bytes)";

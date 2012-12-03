@@ -74,8 +74,7 @@ import ead.tools.reflection.ReflectionProvider;
 public class BasicSceneGraph implements SceneGraph {
 
 	private Map<EAdScene, List<EAdScene>> graph;
-	private static final Logger logger = LoggerFactory
-			.getLogger("SceneGraph");
+	private static final Logger logger = LoggerFactory.getLogger("SceneGraph");
 
 	/**
 	 * This map stores fields of change scene effects. Whenever a change field
@@ -147,10 +146,8 @@ public class BasicSceneGraph implements SceneGraph {
 			graph.put(nextScene, new ArrayList<EAdScene>());
 			changeSceneFields.put(nextScene,
 					new ArrayList<EAdField<EAdScene>>());
-			effectsVisitedByScene.put(nextScene,
-					new ArrayList<EAdEffect>());
-			sceneAssets.put(nextScene,
-					new ArrayList<AssetDescriptor>());
+			effectsVisitedByScene.put(nextScene, new ArrayList<EAdEffect>());
+			sceneAssets.put(nextScene, new ArrayList<AssetDescriptor>());
 			lookForConnections(nextScene);
 		}
 
@@ -166,8 +163,7 @@ public class BasicSceneGraph implements SceneGraph {
 
 	private void lookForConnections(EAdScene nextScene) {
 		lookForConnections(nextScene, nextScene.getBackground());
-		for (EAdSceneElement sceneElement : nextScene
-				.getSceneElements()) {
+		for (EAdSceneElement sceneElement : nextScene.getSceneElements()) {
 			lookForConnections(nextScene, sceneElement);
 		}
 	}
@@ -181,28 +177,23 @@ public class BasicSceneGraph implements SceneGraph {
 			EAdSceneElement element) {
 		// Behavior
 		lookForConnections(currentScene, element.getBehavior());
-		lookForConnections(currentScene, element.getDefinition()
-				.getBehavior());
+		lookForConnections(currentScene, element.getDefinition().getBehavior());
 
-		addAssets(currentScene, element.getDefinition()
-				.getResources());
+		addAssets(currentScene, element.getDefinition().getResources());
 
 		// Events
 		lookForConnectionsEvents(currentScene, element.getEvents());
-		lookForConnectionsEvents(currentScene, element
-				.getDefinition().getEvents());
+		lookForConnectionsEvents(currentScene, element.getDefinition()
+				.getEvents());
 
 		// Actions
 		EAdList<EAdSceneElementDef> list = (EAdList<EAdSceneElementDef>) element
-				.getDefinition().getVars()
-				.get(ActorActionsEf.VAR_ACTIONS);
+				.getDefinition().getVars().get(ActorActionsEf.VAR_ACTIONS);
 		lookForConnectionsActions(currentScene, list);
 	}
 
-	private void addAssets(EAdScene currentScene,
-			EAdResources resources) {
-		sceneAssets.get(currentScene)
-				.addAll(resources.getAllAssets());
+	private void addAssets(EAdScene currentScene, EAdResources resources) {
+		sceneAssets.get(currentScene).addAll(resources.getAllAssets());
 	}
 
 	private void lookForConnectionsActions(EAdScene currentScene,
@@ -214,8 +205,7 @@ public class BasicSceneGraph implements SceneGraph {
 			}
 	}
 
-	private void lookForConnections(EAdScene currentScene,
-			EAdBehavior behavior) {
+	private void lookForConnections(EAdScene currentScene, EAdBehavior behavior) {
 		for (EAdEffect e : behavior.getAllEffects()) {
 			lookForConnections(currentScene, e);
 		}
@@ -230,9 +220,8 @@ public class BasicSceneGraph implements SceneGraph {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void lookForConnections(EAdScene currentScene,
-			EAdEffect effect) {
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	private void lookForConnections(EAdScene currentScene, EAdEffect effect) {
 		if (effect == null) {
 			logger.warn(
 					"A null effect in scene {}. You should check your model",
@@ -244,8 +233,7 @@ public class BasicSceneGraph implements SceneGraph {
 			effectsVisited.add(effect);
 		}
 
-		List<EAdEffect> sceneEffects = effectsVisitedByScene
-				.get(currentScene);
+		List<EAdEffect> sceneEffects = effectsVisitedByScene.get(currentScene);
 		if (sceneEffects.contains(effect)) {
 			return;
 		}
@@ -261,8 +249,8 @@ public class BasicSceneGraph implements SceneGraph {
 				addConnection(currentScene, (EAdScene) element);
 			} else if (element instanceof EAdField) {
 				EAdField field = (EAdField) element;
-				if (reflectionProvider.isAssignableFrom(
-						EAdScene.class, field.getVarDef().getType())) {
+				if (reflectionProvider.isAssignableFrom(EAdScene.class, field
+						.getVarDef().getType())) {
 					addConnectionField(currentScene, field);
 				}
 			}
@@ -287,12 +275,10 @@ public class BasicSceneGraph implements SceneGraph {
 			checkChangeField((ChangeFieldEf) effect);
 		} else if (effect instanceof AddActorReferenceEf) {
 			AddActorReferenceEf addActor = (AddActorReferenceEf) effect;
-			lookForConnections(currentScene,
-					addActor.getInitialEffect());
-			lookForConnections(currentScene, addActor.getActor()
-					.getBehavior());
-			lookForConnectionsEvents(currentScene, addActor
-					.getActor().getEvents());
+			lookForConnections(currentScene, addActor.getInitialEffect());
+			lookForConnections(currentScene, addActor.getActor().getBehavior());
+			lookForConnectionsEvents(currentScene, addActor.getActor()
+					.getEvents());
 		}
 
 		for (EAdEffect nextEffect : effect.getNextEffects()) {
@@ -307,8 +293,8 @@ public class BasicSceneGraph implements SceneGraph {
 	private void addConnectToPrevious(EAdScene currentScene) {
 		if (!connectedToPrevious.contains(currentScene)) {
 			connectedToPrevious.add(currentScene);
-			logger.info("{} is linked to all its previous scenes",
-					currentScene.getId());
+			logger.info("{} is linked to all its previous scenes", currentScene
+					.getId());
 		}
 	}
 
@@ -326,8 +312,7 @@ public class BasicSceneGraph implements SceneGraph {
 
 	private void addConnectionField(EAdScene currentScene,
 			EAdField<EAdScene> field) {
-		List<EAdField<EAdScene>> fields = changeSceneFields
-				.get(currentScene);
+		List<EAdField<EAdScene>> fields = changeSceneFields.get(currentScene);
 		if (!fields.contains(field)) {
 			fields.add(field);
 		}

@@ -50,8 +50,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 
-public class GhostElementGO extends
-		SceneElementGOImpl<EAdGhostElement> {
+public class GhostElementGO extends SceneElementGOImpl<EAdGhostElement> {
 
 	private RuntimeDrawable<?, ?> interactionArea;
 
@@ -59,22 +58,20 @@ public class GhostElementGO extends
 	public GhostElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
 	@Override
 	public void setElement(EAdGhostElement element) {
 		super.setElement(element);
-		EAdDrawable interactionAreaDrawable = element
-				.getInteractionArea();
+		EAdDrawable interactionAreaDrawable = element.getInteractionArea();
 
 		if (interactionAreaDrawable != null) {
 			interactionArea = assetHandler
 					.getDrawableAsset(interactionAreaDrawable);
 			RectangleShape area = new RectangleShape(
-					interactionArea.getWidth(),
-					interactionArea.getHeight(), Paint.TRANSPARENT);
+					interactionArea.getWidth(), interactionArea.getHeight(),
+					Paint.TRANSPARENT);
 			element.getDefinition().setAppearance(area);
 		}
 	}

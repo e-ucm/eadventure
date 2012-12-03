@@ -78,8 +78,7 @@ public class GwtGdxEngine extends GdxEngineImpl {
 	}
 
 	public void setGame(EAdAdventureModel model,
-			Map<EAdString, String> strings,
-			Map<String, String> properties) {
+			Map<EAdString, String> strings, Map<String, String> properties) {
 		this.model = model;
 		this.strings = strings;
 		this.properties = properties;

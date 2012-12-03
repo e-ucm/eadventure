@@ -89,7 +89,7 @@ public class GWTBasicGameModule extends AbstractGinModule {
 		bind(ValueMap.class).to(VariableMap.class).in(Singleton.class);
 		bind(GameState.class).to(GameStateImpl.class).in(Singleton.class);
 
-		bind(Game.class).to(GameImpl.class).in(Singleton.class);		
+		bind(Game.class).to(GameImpl.class).in(Singleton.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
 		bind(DebuggerHandler.class).to(DebuggerHandlerImpl.class).in(
 				Singleton.class);
@@ -98,7 +98,7 @@ public class GWTBasicGameModule extends AbstractGinModule {
 		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(
 				Singleton.class);
-		
+
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
 				LoadingScreen.class).in(Singleton.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class).in(

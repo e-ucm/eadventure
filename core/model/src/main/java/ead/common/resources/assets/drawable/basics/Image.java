@@ -38,13 +38,14 @@
 package ead.common.resources.assets.drawable.basics;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.util.EAdURI;
 
 /**
  * An image asset
- * 
+ *
  */
-public class Image implements EAdImage {
+public class Image extends AbstractAssetDescriptor implements EAdImage {
 
 	@Param("uri")
 	private EAdURI uri;
@@ -58,7 +59,7 @@ public class Image implements EAdImage {
 
 	/**
 	 * Constructs an image with the given URI
-	 * 
+	 *
 	 * @param uri
 	 *            the image's URI
 	 */

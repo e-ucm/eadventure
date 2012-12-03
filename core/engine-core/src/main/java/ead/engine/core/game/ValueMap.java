@@ -93,8 +93,7 @@ public interface ValueMap {
 	 * @param operation
 	 *            the operation whose result will be assigned to the variable
 	 */
-	void setValue(Object element, EAdVarDef<?> var,
-			EAdOperation operation);
+	void setValue(Object element, EAdVarDef<?> var, EAdOperation operation);
 
 	// Gets
 
