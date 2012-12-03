@@ -39,7 +39,6 @@ package ead.common.resources.assets.text;
 
 import ead.common.interfaces.Param;
 import ead.common.resources.assets.AbstractAssetDescriptor;
-import ead.common.resources.assets.text.EAdFont;
 import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdURI;
 
@@ -145,6 +144,7 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 		return size;
 	}
 
+	@Override
 	public void setSize(float size) {
 		this.size = size;
 	}
@@ -152,10 +152,12 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	/**
 	 * @return the style
 	 */
+	@Override
 	public FontStyle getStyle() {
 		return style;
 	}
 
+	@Override
 	public void setStyle(FontStyle style) {
 		this.style = style;
 	}
@@ -165,39 +167,34 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 		this.uri = uri;
 	}
 
+	@Override
 	public int hashCode() {
-		return (name + size + style + uri).hashCode();
+		int hash = 3 * super.hashCode();
+		hash = 89 * hash + (this.name != null ? this.name.hashCode() : 0);
+		hash = 89 * hash + Float.floatToIntBits(this.size);
+		hash = 89 * hash + (this.style != null ? this.style.hashCode() : 0);
+		hash = 89 * hash + (this.uri != null ? this.uri.hashCode() : 0);
+		return hash;
 	}
 
-	public boolean equals(Object o) {
-		if (o instanceof EAdFont) {
-			EAdFont f = (EAdFont) o;
-			if (name != null) {
-				if (!name.equals(f.getName())) {
-					return false;
-				}
-			} else if (f.getName() != null) {
-				return false;
-			}
-
-			if (size != f.getSize())
-				return false;
-
-			if (style != f.getStyle())
-				return false;
-
-			if (uri != null) {
-				if (!uri.equals(f.getUri()))
-					return false;
-			} else if (f.getUri() != null) {
-				return false;
-			}
-
-			return true;
-
+	@Override
+	public boolean equals(Object obj) {
+		if ( ! super.equals(obj)) {
+			return false;
 		}
-		return false;
-
+		final BasicFont other = (BasicFont) obj;
+		if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+			return false;
+		}
+		if (Float.floatToIntBits(this.size) != Float.floatToIntBits(other.size)) {
+			return false;
+		}
+		if (this.style != other.style) {
+			return false;
+		}
+		if (this.uri != other.uri && (this.uri == null || !this.uri.equals(other.uri))) {
+			return false;
+		}
+		return true;
 	}
-
 }

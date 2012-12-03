@@ -119,19 +119,40 @@ public class Frame extends AbstractAssetDescriptor {
 		return drawable;
 	}
 
-	@Override
-	public int hashCode() {
-		return 61 * super.hashCode() + this.time;
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof Frame) {
-			return super.equals(o) && ((Frame) o).time == time;
-		}
-		return false;
-	}
-
 	public void setDrawable(EAdBasicDrawable drawable) {
 		this.drawable = drawable;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 31 * hash + this.getId().hashCode();
+		hash = 31 * hash + this.time;
+		hash = 31 * hash
+				+ (this.drawable != null ? this.drawable.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Frame other = (Frame) obj;
+		if (!this.getId().equals(other.getId())) {
+			return false;
+		}
+		if (this.time != other.time) {
+			return false;
+		}
+		if (this.drawable != other.drawable
+				&& (this.drawable == null || !this.drawable
+						.equals(other.drawable))) {
+			return false;
+		}
+		return true;
 	}
 }

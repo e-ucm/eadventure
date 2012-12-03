@@ -86,21 +86,26 @@ public class RectangleShape extends AbstractShape {
 		this.height = height;
 	}
 
-	public int hashCode() {
-		return (width + "" + height + getPaint() + "").hashCode();
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof RectangleShape) {
-			RectangleShape r = (RectangleShape) o;
-			return r.width == width && r.height == height && getPaint() != null
-					&& getPaint().equals(r.getPaint());
-		}
-		return false;
-	}
-
+	@Override
 	public Object clone() {
 		return new RectangleShape(width, height);
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 29 * hash + super.hashCode();
+		hash = 29 * hash + this.width;
+		hash = 29 * hash + this.height;
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		final RectangleShape other = (RectangleShape) obj;
+		return true;
+	}
 }

@@ -14,9 +14,13 @@ public class ImageTest {
 	@Before
 	public void setUp() {
 		img1 = new Image("@drawable/image.png");
+		img1.setId(null);
 		img2 = new Image("@drawable/image.png");
+		img2.setId(null);
 		img3 = new Image("@drawable/otherimage.png");
+		img3.setId(null);
 		img4 = new Image("@drawable/anotherimage.png");
+		img4.setId(null);
 	}
 
 	@Test
