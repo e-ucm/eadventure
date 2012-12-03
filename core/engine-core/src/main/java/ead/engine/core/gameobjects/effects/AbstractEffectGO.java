@@ -60,10 +60,6 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	private boolean stopped = false;
 
-	private boolean initialized = false;
-
-	protected int currentTime = 0;
-
 	protected InputAction<?> action;
 
 	/**
@@ -74,23 +70,10 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	protected GameState gameState;
 
 	@Inject
-	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
+	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory,
+			GUI gui, GameState gameState) {
 		super(gameObjectFactory, gui);
 		this.gameState = gameState;
-	}
-
-	@Override
-	public void initialize() {
-		initialized = true;
-		stopped = false;
-		for (EAdEffect e : element.getPreviousEffects()) {
-			gameState.addEffect(e, action, parent);
-		}
-	}
-
-	public void update() {
-		currentTime += gui.getSkippedMilliseconds();
 	}
 
 	public P getEffect() {
@@ -98,13 +81,20 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 
 	@Override
-	public boolean isBlocking() {
-		return element.isBlocking();
+	public void initialize() {
+		stopped = false;
+		for (EAdEffect e : element.getPreviousEffects()) {
+			gameState.addEffect(e, action, parent);
+		}
+	}
+
+	public void update() {
+
 	}
 
 	@Override
-	public boolean isOpaque() {
-		return element.isOpaque();
+	public boolean isBlocking() {
+		return element.isBlocking();
 	}
 
 	@Override
@@ -121,16 +111,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		stopped = true;
 	}
 
-	public void run() {
-		stopped = false;
-	}
-
-	public boolean isInitilized() {
-		return initialized;
-	}
-
 	public void finish() {
-		initialized = false;
 		stopped = true;
 		for (EAdEffect e : element.getNextEffects()) {
 			gameState.addEffect(e, action, parent);
@@ -166,12 +147,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	@Override
 	public boolean isEnable() {
-		return element.isOpaque();
+		return true;
 	}
 
 	@Override
-	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets) {
+	public List<AssetDescriptor> getAssets(
+			List<AssetDescriptor> assetList, boolean allAssets) {
 		return assetList;
 	}
 
@@ -185,6 +166,10 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	public int getHeight() {
 		return 1;
+	}
+
+	public boolean isVisualEffect() {
+		return false;
 	}
 
 }

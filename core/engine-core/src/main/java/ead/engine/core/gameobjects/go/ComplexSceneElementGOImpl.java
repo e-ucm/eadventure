@@ -151,7 +151,7 @@ public class ComplexSceneElementGOImpl<T extends EAdComplexSceneElement>
 
 	protected void updateVars() {
 		super.updateVars();
-		// ValueMap valueMap = gameState.getValueMap();
+		// ValueMap valueMap = gameState;
 		// TODO we will use it, some day
 		// setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
 		// setHeight(valueMap.getValue(element,

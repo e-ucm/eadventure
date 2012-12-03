@@ -114,7 +114,7 @@ public class FieldsDebugger implements Debugger {
 			element = newElement;
 			gos.clear();
 			if (element != null) {
-				Map<EAdVarDef<?>, Object> fields = gameState.getValueMap()
+				Map<EAdVarDef<?>, Object> fields = gameState
 						.getElementVars(element);
 
 				if (fields != null) {

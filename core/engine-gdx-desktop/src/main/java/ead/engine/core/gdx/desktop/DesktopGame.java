@@ -111,7 +111,7 @@ public class DesktopGame {
 			injector = Guice.createInjector(new GdxDesktopModule(binds),
 					new JavaToolsModule());
 			GameState g = injector.getInstance(GameState.class);
-			g.getValueMap().setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
+			g.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
 			injector.getInstance(AssetHandler.class).setResourcesLocation(
 					new EAdURI(resourcesLocation));
 			if (debuggers.size() > 0) {

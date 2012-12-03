@@ -167,4 +167,9 @@ public class TweenControllerImpl implements TweenController,
 
 	}
 
+	@Override
+	public TweenManager getManager() {
+		return t;
+	}
+
 }

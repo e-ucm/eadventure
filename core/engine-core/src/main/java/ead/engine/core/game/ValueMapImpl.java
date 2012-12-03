@@ -49,10 +49,7 @@ import com.google.inject.Singleton;
 
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.operators.OperatorFactory;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
@@ -62,42 +59,33 @@ public class ValueMapImpl implements ValueMap {
 
 	private ArrayList<Object> updateList;
 
-	protected OperatorFactory operatorFactory;
-
-	protected static final Logger logger = LoggerFactory.getLogger("Value Map");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("Value Map");
 
 	private ReflectionProvider reflectionProvider;
 
 	private boolean updateEnable;
 
 	@Inject
-	public ValueMapImpl(ReflectionProvider reflectionProvider,
-			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
+	public ValueMapImpl(ReflectionProvider reflectionProvider) {
 		map = new HashMap<Object, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
 		this.reflectionProvider = reflectionProvider;
-		this.operatorFactory = operatorFactory;
-		if (operatorFactory != null) {
-			operatorFactory.install(this, evaluatorFactory);
-		}
-
-		if (evaluatorFactory != null) {
-			evaluatorFactory.install(this, operatorFactory);
-		}
 		updateList = new ArrayList<Object>();
 		updateEnable = true;
 	}
 
 	@Override
 	public void setValue(EAdField<?> field, Object value) {
-		setValue(maybeDecodeField(field), field.getVarDef(), value);
+		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
 	@Override
-	public void setValue(Object element, EAdVarDef<?> varDef, Object value) {
+	public void setValue(Object element, EAdVarDef<?> varDef,
+			Object value) {
 		if (value == null
-				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
-						.getClass())) {
+				|| reflectionProvider.isAssignableFrom(
+						varDef.getType(), value.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = map
 					.get(maybeDecodeField(element));
@@ -121,24 +109,11 @@ public class ValueMapImpl implements ValueMap {
 		}
 	}
 
-	private void addInitVariables(Object o, Map<EAdVarDef<?>, Object> initVars) {
+	private void addInitVariables(Object o,
+			Map<EAdVarDef<?>, Object> initVars) {
 		if (o instanceof Variabled) {
 			initVars.putAll(((Variabled) o).getVars());
 		}
-	}
-
-	public void setValue(EAdField<?> var, EAdOperation operation) {
-		Object result = operatorFactory.operate(var.getVarDef(), operation);
-		if (result != null) {
-			setValue(var, result);
-		}
-	}
-
-	@Override
-	public void setValue(Object element, EAdVarDef<?> var,
-			EAdOperation operation) {
-		Object result = operatorFactory.operate(var.getType(), operation);
-		setValue(element, var, result);
 	}
 
 	@Override
@@ -146,14 +121,10 @@ public class ValueMapImpl implements ValueMap {
 		return getValue(var.getElement(), var.getVarDef());
 	}
 
-	@Override
-	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
-		return getFinalValue(maybeDecodeField(element), varDef);
-	}
-
 	@SuppressWarnings("unchecked")
-	private <S> S getFinalValue(Object element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = map.get(element);
+	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
+		Map<EAdVarDef<?>, Object> valMap = map
+				.get(maybeDecodeField(element));
 
 		if (valMap == null) {
 			valMap = new HashMap<EAdVarDef<?>, Object>();
@@ -180,13 +151,8 @@ public class ValueMapImpl implements ValueMap {
 	public Object maybeDecodeField(Object element) {
 		if (element != null && element instanceof EAdField<?>) {
 			EAdField<?> field = (EAdField<?>) element;
-			Object fieldElement = field.getElement();
-			if (fieldElement instanceof EAdField<?>) {
-				Object result = getValue(field.getElement(), field.getVarDef());
-				return maybeDecodeField(result);
-			} else {
-				return fieldElement;
-			}
+			Object result = getValue(field.getElement(), field.getVarDef());
+			return maybeDecodeField(result);
 		}
 		return element;
 	}

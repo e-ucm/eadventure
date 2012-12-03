@@ -63,7 +63,7 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>>
 	}
 
 	@Override
-	public void install(ValueMap valueMap, OperatorFactory operatorFactory) {
+	public void init(ValueMap valueMap, OperatorFactory operatorFactory) {
 		setMap(new EvaluatorFactoryMapProvider(valueMap, this, operatorFactory));
 	}
 

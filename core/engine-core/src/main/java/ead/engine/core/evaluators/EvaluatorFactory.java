@@ -60,6 +60,6 @@ public interface EvaluatorFactory extends Factory<Evaluator<?>> {
 	 */
 	public <T extends EAdCondition> boolean evaluate(T condition);
 
-	void install(ValueMap valueMap, OperatorFactory operatorFactory);
+	void init(ValueMap valueMap, OperatorFactory operatorFactory);
 
 }

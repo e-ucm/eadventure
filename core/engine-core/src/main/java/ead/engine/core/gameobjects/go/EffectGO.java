@@ -43,7 +43,32 @@ import ead.engine.core.input.InputAction;
 
 public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 
+	/**
+	 * Initializes the effect game object
+	 */
 	void initialize();
+
+	/**
+	 * Returns the effect attached to this game object
+	 * 
+	 * @return the effect attached to this game object
+	 */
+	P getEffect();
+
+	/**
+	 * Sets the gui action that launched this effect
+	 * 
+	 * @param gui
+	 *            the gui action
+	 */
+	void setGUIAction(InputAction<?> gui);
+
+	/**
+	 * Sets the element launching the effect
+	 * 
+	 * @param parent
+	 */
+	void setParent(EAdSceneElement parent);
 
 	/**
 	 * 
@@ -61,13 +86,6 @@ public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 	boolean isFinished();
 
 	/**
-	 * Returns the effect attached to this game object
-	 * 
-	 * @return the effect attached to this game object
-	 */
-	P getEffect();
-
-	/**
 	 * Returns {@code true} if this effect blocks the next effects until this
 	 * one is finished
 	 * 
@@ -77,22 +95,15 @@ public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 	boolean isBlocking();
 
 	/**
-	 * If returns {@code true} means that GUI events will be only processed for
-	 * this effect or those which are over it
-	 * 
-	 * @return
+	 * Ends the effect normally
 	 */
-	boolean isOpaque();
-
-	/**
-	 * Runs the effect. Right after calling this method,
-	 * {@link EffectGO#isStopped()} will return {@code false}
-	 */
-	void run();
+	void finish();
 
 	/**
 	 * Stops the effect. Right after calling this method,
-	 * {@link EffectGO#isStopped()} will return {@code true}
+	 * {@link EffectGO#isStopped()} will return {@code true}. Use this method to
+	 * end the effect in abnormal circumstances (to avoid the execution of the
+	 * final effects, for example)
 	 */
 	void stop();
 
@@ -103,28 +114,11 @@ public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 	 */
 	boolean isStopped();
 
-	boolean isInitilized();
-
 	/**
-	 * Ends the effect
-	 */
-	void finish();
-
-	/**
-	 * Sets the gui action that launched this effect
+	 * Returns if this effects takes more than one tick to execute
 	 * 
-	 * @param gui
-	 *            the gui action
+	 * @return
 	 */
-	void setGUIAction(InputAction<?> gui);
-
-	/**
-	 * Sets the element launching the effect
-	 * 
-	 * @param parent
-	 */
-	void setParent(EAdSceneElement parent);
-
 	boolean isQueueable();
 
 }

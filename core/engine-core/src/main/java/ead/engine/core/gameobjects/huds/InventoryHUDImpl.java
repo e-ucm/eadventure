@@ -120,7 +120,7 @@ public class InventoryHUDImpl extends AbstractHUD {
 			GameState gameState, EvaluatorFactory evaluatorFactory,
 			EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 6);
-		valueMap = gameState.getValueMap();
+		valueMap = gameState;
 		isShowing = true;
 		height = valueMap.getValue(SystemFields.GAME_HEIGHT);
 	}

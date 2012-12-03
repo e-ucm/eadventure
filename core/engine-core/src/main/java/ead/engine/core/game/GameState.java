@@ -43,22 +43,18 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.variables.EAdOperation;
+import ead.common.model.elements.variables.EAdVarDef;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.operators.Operator;
 
 /**
  * The state of the game.
  */
-public interface GameState {
-
-	/**
-	 * The {@link ValueMap} stores the current value of different elements in
-	 * the game, such as flags, variables and the like.
-	 * 
-	 * @return a {@link ValueMap}
-	 */
-	ValueMap getValueMap();
+public interface GameState extends ValueMap {
 
 	/**
 	 * Evaluates a condition, using the required evaluator, based on a given
@@ -72,6 +68,47 @@ public interface GameState {
 	 *         of values
 	 */
 	<T extends EAdCondition> boolean evaluate(T condition);
+
+	/**
+	 * <p>
+	 * Calculates the result of the given {@link EAdOperation} with the current
+	 * values in the {@link ValueMap}
+	 * </p>
+	 * The value should be stored in the {@link ValueMap} by the actual
+	 * {@link Operator}
+	 * 
+	 * @param <T>
+	 * @param eAdVar
+	 *            the class for the result
+	 * @param eAdOperation
+	 *            operation to be done
+	 * @return operation's result. If operation is {@code null}, a null is
+	 *         returned.
+	 */
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar,
+			T eAdOperation);
+	
+	/**
+	 * Sets the variable to the result value of the operation
+	 * 
+	 * @param var
+	 * @param operation
+	 */
+	void setValue(EAdField<?> var, EAdOperation operation);
+	
+	/**
+	 * Sets the variable value for the given element
+	 * 
+	 * @param element
+	 *            the element holding the variable. If the element is
+	 *            {@code null}, it's considered that the variable belongs to the
+	 *            system
+	 * @param var
+	 *            the variable definition
+	 * @param operation
+	 *            the operation whose result will be assigned to the variable
+	 */
+	void setValue(Object element, EAdVarDef<?> var, EAdOperation operation);
 
 	/**
 	 * Adds an effect without any gui action associated

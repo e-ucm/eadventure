@@ -215,7 +215,7 @@ public class InputHandlerImpl implements InputHandler {
 						MouseGEv.MOUSE_EXITED, x, y);
 				oldGO.processAction(exitAction);
 				tracker.track(exitAction, oldGO);
-				gameState.getValueMap().setValue(oldGO.getElement(),
+				gameState.setValue(oldGO.getElement(),
 						SceneElement.VAR_MOUSE_OVER, false);
 
 				if (draggedGO != null) {
@@ -231,7 +231,7 @@ public class InputHandlerImpl implements InputHandler {
 				MouseInputAction enterAction = new MouseInputAction(
 						MouseGEv.MOUSE_ENTERED, x, y);
 				currentGO.processAction(enterAction);
-				gameState.getValueMap().setValue(currentGO.getElement(),
+				gameState.setValue(currentGO.getElement(),
 						SceneElement.VAR_MOUSE_OVER, true);
 				tracker.track(enterAction, currentGO);
 				if (draggedGO != null) {
@@ -243,7 +243,7 @@ public class InputHandlerImpl implements InputHandler {
 			}
 		}
 		mouseHandler.setGameObjectUnderMouse(currentGO);
-		gameState.getValueMap().setValue(SystemFields.MOUSE_OVER_ELEMENT,
+		gameState.setValue(SystemFields.MOUSE_OVER_ELEMENT,
 				currentGO == null ? null : currentGO.getElement());
 	}
 

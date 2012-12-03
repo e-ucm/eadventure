@@ -262,7 +262,7 @@ public class GameImpl implements Game, TextHandler {
 				for (Entry<String, String> e2 : e.getValue().entrySet()) {
 					VarDef<String> varDef = new VarDef<String>(e2.getKey(),
 							String.class, e2.getValue());
-					gameState.getValueMap().setValue(null, varDef,
+					gameState.setValue(null, varDef,
 							e2.getValue());
 				}
 			} else if (type.equals("Integer")) {
@@ -271,7 +271,7 @@ public class GameImpl implements Game, TextHandler {
 						Integer i = Integer.parseInt(e2.getValue());
 						VarDef<Integer> varDef = new VarDef<Integer>(e2
 								.getKey(), Integer.class, i);
-						gameState.getValueMap().setValue(null, varDef, i);
+						gameState.setValue(null, varDef, i);
 					} catch (NumberFormatException ex) {
 						logger.warn("{} is not a number valid for property {}",
 								new Object[] { e2.getValue(), e2.getKey() });
@@ -283,7 +283,7 @@ public class GameImpl implements Game, TextHandler {
 						Float i = Float.parseFloat(e2.getValue());
 						VarDef<Float> varDef = new VarDef<Float>(e2.getKey(),
 								Float.class, i);
-						gameState.getValueMap().setValue(null, varDef, i);
+						gameState.setValue(null, varDef, i);
 					} catch (NumberFormatException ex) {
 						logger.warn("{} is not a number valid for property {}",
 								new Object[] { e2.getValue(), e2.getKey() });
@@ -295,7 +295,7 @@ public class GameImpl implements Game, TextHandler {
 						Boolean b = Boolean.parseBoolean(e2.getValue());
 						VarDef<Boolean> varDef = new VarDef<Boolean>(e2
 								.getKey(), Boolean.class, b);
-						gameState.getValueMap().setValue(null, varDef, b);
+						gameState.setValue(null, varDef, b);
 					} catch (NumberFormatException ex) {
 						logger.warn("{} is not a number valid for property {}",
 								new Object[] { e2.getValue(), e2.getKey() });
@@ -356,7 +356,7 @@ public class GameImpl implements Game, TextHandler {
 		// We load some possible game
 		// gameLoader.step();
 
-		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
 
 		// Scene
@@ -381,7 +381,7 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void updateLanguage() {
-		String newLanguage = gameState.getValueMap().getValue(
+		String newLanguage = gameState.getValue(
 				SystemFields.LANGUAGE);
 
 		if (newLanguage != null && !newLanguage.equals(currentLanguage)) {
@@ -399,9 +399,9 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void updateGameEvents() {
-		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
+		Long l = gameState.getValue(SystemFields.GAME_TIME);
 		l += gui.getSkippedMilliseconds();
-		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
+		gameState.setValue(SystemFields.GAME_TIME, l);
 
 		for (EventGO<?> e : events) {
 			e.update();
@@ -425,9 +425,9 @@ public class GameImpl implements Game, TextHandler {
 			gameState.setScene(scene);
 		}
 		// logger.info("Setting the game");
-		// gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
+		// gameState.setValue(SystemFields.GAME_WIDTH,
 		// adventure.getGameWidth());
-		// gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
+		// gameState.setValue(SystemFields.GAME_HEIGHT,
 		// adventure.getGameHeight());
 		//
 		// if (adventure.getInventory() != null) {
@@ -476,9 +476,9 @@ public class GameImpl implements Game, TextHandler {
 			initialTransformation.setValidated(true);
 		}
 
-		// currentWidth = gameState.getValueMap().getValue(
+		// currentWidth = gameState.getValue(
 		// SystemFields.GAME_WIDTH);
-		// currentWidth = gameState.getValueMap().getValue(
+		// currentWidth = gameState.getValue(
 		// SystemFields.GAME_HEIGHT);
 		//
 		// float scaleX = currentWidth

@@ -170,12 +170,12 @@ public class ChangeSceneDebugger implements Debugger {
 
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
-		int newIndex = gameState.getValueMap().getValue(currentScene);
+		int newIndex = gameState.getValue(currentScene);
 		if (index != newIndex) {
 			index = newIndex;
-			gameState.getValueMap().setValue(currentScene, index);
-			gameState.getValueMap().setValue(sceneField, scenes.get(index));
-			gameState.getValueMap().setValue(sceneIdField,
+			gameState.setValue(currentScene, index);
+			gameState.setValue(sceneField, scenes.get(index));
+			gameState.setValue(sceneIdField,
 					scenes.get(index).getId());
 		}
 		return drawables;
@@ -189,8 +189,8 @@ public class ChangeSceneDebugger implements Debugger {
 			}
 		}
 
-		gameState.getValueMap().setValue(sceneField, scenes.get(0));
-		gameState.getValueMap().setValue(totalScenes, scenes.size());
+		gameState.setValue(sceneField, scenes.get(0));
+		gameState.setValue(totalScenes, scenes.size());
 	}
 
 }

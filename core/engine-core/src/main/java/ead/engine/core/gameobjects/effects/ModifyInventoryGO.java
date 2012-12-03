@@ -79,13 +79,13 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 		case ADD_TO_INVENTORY:
 			inventoryHandler.add(element.getSceneElementDef());
 			if (element.isRemoveFromScene()) {
-				EAdSceneElement sceneElement = gameState.getValueMap()
+				EAdSceneElement sceneElement = gameState
 						.getValue(element.getSceneElementDef(),
 								SceneElementDef.VAR_SCENE_ELEMENT);
 				if (sceneElement != null) {
-					gameState.getValueMap().setValue(sceneElement,
+					gameState.setValue(sceneElement,
 							SceneElement.VAR_VISIBLE, false);
-					gameState.getValueMap().setValue(sceneElement,
+					gameState.setValue(sceneElement,
 							SceneElement.VAR_ENABLE, true);
 				}
 			}

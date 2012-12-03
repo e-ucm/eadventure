@@ -87,7 +87,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 			transition.getTransitionListeners().add(this);
 			EAdElement e = element.getNextScene();
 			if (e != null) {
-				Object finalElement = gameState.getValueMap().maybeDecodeField(
+				Object finalElement = gameState.maybeDecodeField(
 						e);
 				if (finalElement instanceof EAdScene) {
 					transition.setNext((EAdScene) finalElement);

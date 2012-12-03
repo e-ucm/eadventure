@@ -43,9 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.factorymapproviders.OperatorFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
@@ -53,54 +51,35 @@ import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
-		OperatorFactory {
+public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
+		implements OperatorFactory {
 
-	private Logger log = LoggerFactory.getLogger("Operator Factory");
-
-	private ValueMap valueMap;
+	private static final Logger logger = LoggerFactory
+			.getLogger("Operator Factory");
 
 	@Inject
 	public OperatorFactoryImpl(ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
 	}
 
-	public void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
-		this.valueMap = valueMap;
-		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory, valueMap,
-				reflectionProvider));
-	}
-
-	@Override
-	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
-			T operation) {
-		S result = operate(fieldResult.getVarDef().getType(), operation);
-		valueMap.setValue(fieldResult, result);
-		if (result == null) {
-			log.debug("Null result for " + operation + ": {} := {}",
-					fieldResult, result);
-		}
-		return result;
-
+	public void init(ValueMap valueMap,
+			EvaluatorFactory evaluatorFactory) {
+		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory,
+				valueMap, reflectionProvider));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
+	public <T extends EAdOperation, S> S operate(Class<S> clazz,
+			T operation) {
 		if (operation == null) {
-			log.error("Null operation attempted: null returned as class {}",
+			logger.error(
+					"Null operation attempted: null returned as class {}",
 					clazz);
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
 		return operator.operate(clazz, operation);
-	}
-
-	@Override
-	public <T extends EAdOperation, S> S operate(EAdVarDef<S> varDef,
-			T operation) {
-		S result = operate(varDef.getType(), operation);
-		return result;
 	}
 
 }

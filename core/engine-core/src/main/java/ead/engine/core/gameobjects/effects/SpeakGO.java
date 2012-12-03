@@ -56,7 +56,6 @@ import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.MouseInputAction;
-import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
@@ -80,8 +79,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	private SceneElement textSE;
 
-	private OperatorFactory operatorFactory;
-
 	private float alpha;
 
 	private String previousState;
@@ -91,9 +88,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	@Inject
 	public SpeakGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory) {
+			GameState gameState) {
 		super(gameObjectFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
 		this.assetHandler = assetHandler;
 	}
 
@@ -120,9 +116,9 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	public void initialize() {
 		super.initialize();
 		if (element.getStateField() != null) {
-			previousState = gameState.getValueMap().getValue(
+			previousState = gameState.getValue(
 					element.getStateField());
-			gameState.getValueMap().setValue(element.getStateField(),
+			gameState.setValue(element.getStateField(),
 					CommonStates.EAD_STATE_TALKING.toString());
 		}
 		finished = false;
@@ -132,8 +128,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	}
 
 	private EAdSceneElement getSceneElement() {
-		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
+		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
@@ -146,9 +142,9 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		if (element.getX() != null && element.getY() != null) {
 			EAdPosition p = gameState.getScene().getPosition();
 
-			Integer xOrigin = operatorFactory.operate(Integer.class, element
+			Integer xOrigin = gameState.operate(Integer.class, element
 					.getX());
-			Integer yOrigin = operatorFactory.operate(Integer.class, element
+			Integer yOrigin = gameState.operate(Integer.class, element
 					.getY());
 
 			xOrigin += p.getX();
@@ -238,7 +234,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	@Override
 	public void finish() {
 		if (element.getStateField() != null) {
-			gameState.getValueMap().setValue(element.getStateField(),
+			gameState.setValue(element.getStateField(),
 					previousState);
 		}
 		super.finish();

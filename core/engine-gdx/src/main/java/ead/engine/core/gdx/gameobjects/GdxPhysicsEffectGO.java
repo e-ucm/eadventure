@@ -98,7 +98,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		world.setContinuousPhysics(true);
 		world.setWarmStarting(true);
 		world.setAutoClearForces(true);
-		ValueMap valueMap = gameState.getValueMap();
+		ValueMap valueMap = gameState;
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
 		velocityIterations = 24;
@@ -137,7 +137,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 		if (scene != null) {
 			for (EAdSceneElement e : scene.getSceneElements()) {
-				ValueMap valueMap = gameState.getValueMap();
+				ValueMap valueMap = gameState;
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 

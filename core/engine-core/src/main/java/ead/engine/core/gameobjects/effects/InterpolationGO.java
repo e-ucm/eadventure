@@ -52,27 +52,21 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
-import ead.engine.core.platform.assets.AssetHandler;
 
-public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
-		implements TweenCallback {
+public class InterpolationGO extends
+		AbstractEffectGO<InterpolationEf> implements TweenCallback {
 
 	private int finished;
-
-	private OperatorFactory operatorFactory;
 
 	private TweenController tweenController;
 
 	@Inject
-	public InterpolationGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory,
+	public InterpolationGO(SceneElementGOFactory gameObjectFactory,
+			GUI gui, GameState gameState,
 			TweenController tweenController) {
 		super(gameObjectFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
 		this.tweenController = tweenController;
 	}
 
@@ -97,21 +91,23 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		int i = 0;
 		for (EAdField<?> f : element.getFields()) {
 			EAdOperation op = element.getInitialValues().get(i);
-			Number n1 = operatorFactory.operate(Number.class, op);
+			Number n1 = gameState.operate(Number.class, op);
 			EAdOperation opR = element.getEndValues().get(i);
-			Number n2 = operatorFactory.operate(Number.class, opR);
+			Number n2 = gameState.operate(Number.class, opR);
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();
-				Tween t = Tween.to(f, 0, element.getInterpolationTime()).ease(
-						eq).delay(element.getDelay());
+				Tween t = Tween
+						.to(f, 0, element.getInterpolationTime())
+						.ease(eq).delay(element.getDelay());
 
 				switch (element.getLoopType()) {
 				case RESTART:
 					t.repeat(element.getLoops(), element.getDelay());
 					break;
 				case REVERSE:
-					t.repeatYoyo(element.getLoops(), element.getDelay());
+					t.repeatYoyo(element.getLoops(),
+							element.getDelay());
 					break;
 				default:
 

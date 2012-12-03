@@ -57,6 +57,8 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
@@ -64,12 +66,14 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.tracking.GameTracker;
 
 @Singleton
 public class GameStateImpl implements GameState {
 
-	private static Logger logger = LoggerFactory.getLogger("GameState");
+	private static Logger logger = LoggerFactory
+			.getLogger("GameState");
 
 	/**
 	 * Game tracker
@@ -85,6 +89,11 @@ public class GameStateImpl implements GameState {
 	 * Evaluator factory
 	 */
 	private EvaluatorFactory evaluatorFactory;
+
+	/**
+	 * Operator factory
+	 */
+	private OperatorFactory operatorFactory;
 
 	/**
 	 * Scene Element factory
@@ -121,19 +130,26 @@ public class GameStateImpl implements GameState {
 	private GameStateData gameStateData;
 
 	@Inject
-	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
-			SceneElementGOFactory gameObjectFactory,
+	public GameStateImpl(
+			@Named("LoadingScreen") EAdScene loadingScreen,
+			SceneElementGOFactory sceneElementFactory,
 			EffectGOFactory effectFactory, ValueMap valueMap,
+			OperatorFactory operatorFactory,
 			EvaluatorFactory evaluatorFactory, GameTracker tracker) {
-		logger.info("New instance of GameState");
-		effects = new ArrayList<EffectGO<?>>();
+		logger.info("Initializing GameState...");
 		this.loadingScreen = loadingScreen;
-		this.valueMap = valueMap;
-		this.sceneElementFactory = gameObjectFactory;
-		this.previousSceneStack = new Stack<EAdScene>();
-		this.evaluatorFactory = evaluatorFactory;
+		this.sceneElementFactory = sceneElementFactory;
 		this.effectFactory = effectFactory;
+		this.valueMap = valueMap;
+		this.operatorFactory = operatorFactory;
+		this.evaluatorFactory = evaluatorFactory;
 		this.tracker = tracker;
+
+		this.operatorFactory.init(this, evaluatorFactory);
+		this.evaluatorFactory.init(this, operatorFactory);
+
+		effects = new ArrayList<EffectGO<?>>();
+		previousSceneStack = new Stack<EAdScene>();
 	}
 
 	@Override
@@ -141,14 +157,9 @@ public class GameStateImpl implements GameState {
 		return evaluatorFactory.evaluate(condition);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.GameState#getValueMap()
-	 */
-	@Override
-	public ValueMap getValueMap() {
-		return valueMap;
+	public <T extends EAdOperation, S> S operate(Class<S> eAdVar,
+			T eAdOperation) {
+		return operatorFactory.operate(eAdVar, eAdOperation);
 	}
 
 	@Override
@@ -156,7 +167,8 @@ public class GameStateImpl implements GameState {
 		if (scene == null) {
 			logger.debug("null scene, Loading screen: "
 					+ (loadingScreen != null));
-			this.scene = (SceneGO<?>) sceneElementFactory.get(loadingScreen);
+			this.scene = (SceneGO<?>) sceneElementFactory
+					.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
 		}
 		return scene;
@@ -172,19 +184,20 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void setScene(SceneGO<?> newScene) {
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
-					Boolean.FALSE);
+			valueMap.setValue(scene.getElement(),
+					BasicScene.VAR_SCENE_LOADED, Boolean.FALSE);
 			if (scene.getElement().getReturnable()) {
 				previousSceneStack.push(scene.getElement());
 			}
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
-					Boolean.TRUE);
-			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
-					.entrySet()) {
-				valueMap.setValue(scene.getElement(), e.getKey(), e.getValue());
+			valueMap.setValue(scene.getElement(),
+					BasicScene.VAR_SCENE_LOADED, Boolean.TRUE);
+			for (Entry<EAdVarDef<?>, Object> e : scene.getElement()
+					.getVars().entrySet()) {
+				valueMap.setValue(scene.getElement(), e.getKey(),
+						e.getValue());
 			}
 		}
 
@@ -208,7 +221,8 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void clearEffects(boolean clearPersistents) {
 		for (EffectGO<?> effect : this.getEffects()) {
-			if (!effect.getElement().isPersistent() || clearPersistents) {
+			if (!effect.getElement().isPersistent()
+					|| clearPersistents) {
 				effect.stop();
 			}
 		}
@@ -232,7 +246,8 @@ public class GameStateImpl implements GameState {
 			if (evaluatorFactory.evaluate(e.getCondition())) {
 				EffectGO<?> effectGO = effectFactory.get(e);
 				if (effectGO == null) {
-					logger.warn("No game object for effect {}", e.getClass());
+					logger.warn("No game object for effect {}",
+							e.getClass());
 					return null;
 				}
 				effectGO.setGUIAction(action);
@@ -278,23 +293,26 @@ public class GameStateImpl implements GameState {
 		}
 
 		Map<EAdVarDef<?>, Object> systemVars = new HashMap<EAdVarDef<?>, Object>();
-		//		systemVars.putAll(valueMap.getSystemVars());
+		// systemVars.putAll(valueMap.getSystemVars());
 
-		//		Map<Variabled, Map<EAdVarDef<?>, Object>> originalElementVars = valueMap
-		//				.getElementVars();
+		// Map<Variabled, Map<EAdVarDef<?>, Object>> originalElementVars =
+		// valueMap
+		// .getElementVars();
 		Map<Variabled, Map<EAdVarDef<?>, Object>> elementVars = new HashMap<Variabled, Map<EAdVarDef<?>, Object>>();
-		//		for (Entry<Variabled, Map<EAdVarDef<?>, Object>> entry : originalElementVars
-		//				.entrySet()) {
-		//			Map<EAdVarDef<?>, Object> map = new HashMap<EAdVarDef<?>, Object>();
-		//			map.putAll(entry.getValue());
-		//			elementVars.put(entry.getKey(), map);
-		//		}
+		// for (Entry<Variabled, Map<EAdVarDef<?>, Object>> entry :
+		// originalElementVars
+		// .entrySet()) {
+		// Map<EAdVarDef<?>, Object> map = new HashMap<EAdVarDef<?>, Object>();
+		// map.putAll(entry.getValue());
+		// elementVars.put(entry.getKey(), map);
+		// }
 
 		ArrayList<Variabled> updateList = new ArrayList<Variabled>();
-		//		updateList.addAll(valueMap.getUpdateList());
+		// updateList.addAll(valueMap.getUpdateList());
 
-		gameStateData = new GameStateData(scene.getElement(), effectsList,
-				stack, systemVars, elementVars, updateList);
+		gameStateData = new GameStateData(scene.getElement(),
+				effectsList, stack, systemVars, elementVars,
+				updateList);
 	}
 
 	private GameStateData clone(GameStateData state) {
@@ -324,8 +342,8 @@ public class GameStateImpl implements GameState {
 		ArrayList<Variabled> updateList = new ArrayList<Variabled>();
 		updateList.addAll(state.getUpdateList());
 
-		return new GameStateData(state.getScene(), effectsList, stack,
-				systemVars, elementVars, updateList);
+		return new GameStateData(state.getScene(), effectsList,
+				stack, systemVars, elementVars, updateList);
 	}
 
 	public void loadState() {
@@ -333,11 +351,12 @@ public class GameStateImpl implements GameState {
 			logger.info("No state saved.");
 		} else {
 			GameStateData gameStateData = clone(this.gameStateData);
-			this.previousSceneStack = gameStateData.getPreviousSceneStack();
+			this.previousSceneStack = gameStateData
+					.getPreviousSceneStack();
 			sceneElementFactory.remove(gameStateData.getScene());
 
-			scene = (SceneGO<?>) sceneElementFactory.get(gameStateData
-					.getScene());
+			scene = (SceneGO<?>) sceneElementFactory
+					.get(gameStateData.getScene());
 			scene.update();
 
 			// FIXME this will fail in some cases (when the effect depend on an
@@ -346,13 +365,73 @@ public class GameStateImpl implements GameState {
 				this.addEffect(effect);
 			}
 
-			//			valueMap.setElementVars(gameStateData.getElementVars());
-			//			valueMap.setUpdateList(gameStateData.getUpdateList());
-			//			valueMap.getUpdateList().addAll(
-			//					gameStateData.getElementVars().keySet());
-			//			valueMap.setSystemVars(gameStateData.getSystemVars());
+			// valueMap.setElementVars(gameStateData.getElementVars());
+			// valueMap.setUpdateList(gameStateData.getUpdateList());
+			// valueMap.getUpdateList().addAll(
+			// gameStateData.getElementVars().keySet());
+			// valueMap.setSystemVars(gameStateData.getSystemVars());
 
 		}
+	}
+
+	@Override
+	public void setValue(EAdField<?> var, EAdOperation operation) {
+		setValue(var.getElement(), var.getVarDef(), operation);
+	}
+
+	@Override
+	public void setValue(Object element, EAdVarDef<?> var,
+			EAdOperation operation) {
+		Object result = operatorFactory.operate(var.getType(),
+				operation);
+		setValue(element, var, result);
+	}
+
+	@Override
+	public void setValue(EAdField<?> field, Object value) {
+		valueMap.setValue(field, value);
+
+	}
+
+	@Override
+	public void setValue(Object element, EAdVarDef<?> varDef,
+			Object value) {
+		valueMap.setValue(element, varDef, value);
+	}
+
+	@Override
+	public <S> S getValue(EAdField<S> field) {
+		return valueMap.getValue(field);
+	}
+
+	@Override
+	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
+		return valueMap.getValue(element, varDef);
+	}
+
+	@Override
+	public Map<EAdVarDef<?>, Object> getElementVars(Object element) {
+		return valueMap.getElementVars(element);
+	}
+
+	@Override
+	public Object maybeDecodeField(Object element) {
+		return valueMap.maybeDecodeField(element);
+	}
+
+	@Override
+	public boolean checkForUpdates(Object element) {
+		return valueMap.checkForUpdates(element);
+	}
+
+	@Override
+	public void setUpdateListEnable(boolean enable) {
+		valueMap.setUpdateListEnable(enable);
+	}
+
+	@Override
+	public void remove(Object element) {
+		valueMap.remove(element);
 	}
 
 }

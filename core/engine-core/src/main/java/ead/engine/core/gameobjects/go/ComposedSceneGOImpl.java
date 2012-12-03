@@ -91,7 +91,7 @@ public class ComposedSceneGOImpl extends
 	}
 
 	private void updateScene() {
-		int currentSceneIndex = gameState.getValueMap().getValue(element,
+		int currentSceneIndex = gameState.getValue(element,
 				ComposedScene.VAR_CURRENT_SCENE);
 		if (currentSceneIndex < element.getScenes().size())
 			currentScene = element.getScenes().get(currentSceneIndex);

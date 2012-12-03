@@ -52,6 +52,7 @@ import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
@@ -172,8 +173,11 @@ public class AssetViewerModule extends AbstractModule {
 
 	public static class AssetVariableMap extends VariableMap {
 
-		public AssetVariableMap() {
-			super(null, null, null, null);
+		public AssetVariableMap(
+				ReflectionProvider reflectionProvider,
+				OperatorFactory operatorFactory,
+				StringHandler stringHandler) {
+			super(reflectionProvider, operatorFactory, stringHandler);
 		}
 
 		@Override

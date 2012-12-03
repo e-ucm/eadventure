@@ -67,9 +67,9 @@ public class HighlightSceneElementGO extends
 	@Override
 	public void initialize() {
 		super.initialize();
-		highLightElement = gameState.getValueMap().maybeDecodeField(
+		highLightElement = gameState.maybeDecodeField(
 				element.getSceneElement());
-		oldScale = gameState.getValueMap().getValue(highLightElement,
+		oldScale = gameState.getValue(highLightElement,
 				SceneElement.VAR_SCALE);
 		time = element.getTime();
 		started = false;
@@ -83,13 +83,13 @@ public class HighlightSceneElementGO extends
 	public void update() {
 		if (time > 0) {
 			if (!started) {
-				gameState.getValueMap().setValue(highLightElement,
+				gameState.setValue(highLightElement,
 						SceneElement.VAR_SCALE, oldScale * 2);
 				started = true;
 			}
 			time -= gui.getSkippedMilliseconds();
 			if (time <= 0) {
-				gameState.getValueMap().setValue(highLightElement,
+				gameState.setValue(highLightElement,
 						SceneElement.VAR_SCALE, oldScale);
 			}
 		}

@@ -92,8 +92,8 @@ public class GdxDesktopGUI extends GdxGUI {
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(0, 0), "null"));
 
-		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
+		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		canvas = new Canvas();
 		canvas.setSize(width, height);
 		frame.add(canvas);
@@ -114,9 +114,9 @@ public class GdxDesktopGUI extends GdxGUI {
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = gameState.getValueMap().getValue(
+		cfg.fullscreen = gameState.getValue(
 				SystemFields.FULLSCREEN);
-		cfg.forceExit = gameState.getValueMap().getValue(
+		cfg.forceExit = gameState.getValue(
 				SystemFields.EXIT_WHEN_CLOSE);
 
 		// Frame needs to be visible so Gdx can create the right context

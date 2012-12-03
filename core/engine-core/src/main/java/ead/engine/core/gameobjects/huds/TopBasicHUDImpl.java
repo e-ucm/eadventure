@@ -158,25 +158,25 @@ public class TopBasicHUDImpl extends AbstractHUD {
 	}
 
 	private void updateContextual() {
-		EAdSceneElement element = gameState.getValueMap().getValue(
+		EAdSceneElement element = gameState.getValue(
 				SystemFields.MOUSE_OVER_ELEMENT);
 		if (element != currentElement) {
-			ValueMap valueMap = gameState.getValueMap();
+			ValueMap valueMap = gameState;
 			if (element != null) {
 				EAdString name = element instanceof EAdSceneElement ? valueMap
 						.getValue(((EAdSceneElement) element).getDefinition(),
 								SceneElementDef.VAR_DOC_NAME) : null;
 				if (name != null) {
 					contextualCaption.setLabel(name);
-					gameState.getValueMap().setValue(contextual,
+					gameState.setValue(contextual,
 							SceneElement.VAR_VISIBLE, true);
 				} else {
-					gameState.getValueMap().setValue(contextual,
+					gameState.setValue(contextual,
 							SceneElement.VAR_VISIBLE, false);
 
 				}
 			} else {
-				gameState.getValueMap().setValue(contextual,
+				gameState.setValue(contextual,
 						SceneElement.VAR_VISIBLE, false);
 			}
 			currentElement = element;
@@ -185,7 +185,7 @@ public class TopBasicHUDImpl extends AbstractHUD {
 
 	@SuppressWarnings("unchecked")
 	private void checkMouseImage() {
-		Image newCursor = gameState.getValueMap().getValue(
+		Image newCursor = gameState.getValue(
 				SystemFields.MOUSE_CURSOR);
 		if (cursor != newCursor) {
 			cursor = newCursor;
@@ -204,9 +204,9 @@ public class TopBasicHUDImpl extends AbstractHUD {
 							: rAsset.getHeight() / CURSOR_SIZE);
 
 				}
-				gameState.getValueMap().setValue(mouse, SceneElement.VAR_SCALE,
+				gameState.setValue(mouse, SceneElement.VAR_SCALE,
 						scale);
-				gameState.getValueMap().setValue(mouse,
+				gameState.setValue(mouse,
 						ResourcedElement.VAR_BUNDLE_ID, bundle);
 			}
 
@@ -215,15 +215,15 @@ public class TopBasicHUDImpl extends AbstractHUD {
 
 	private void updateMouse() {
 		checkMouseImage();
-		int x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
-		int y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
-		boolean showMouse = gameState.getValueMap().getValue(
+		int x = gameState.getValue(SystemFields.MOUSE_X);
+		int y = gameState.getValue(SystemFields.MOUSE_Y);
+		boolean showMouse = gameState.getValue(
 				SystemFields.SHOW_MOUSE);
 
-		gameState.getValueMap().setValue(mouse, SceneElement.VAR_X, x);
-		gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y, y);
+		gameState.setValue(mouse, SceneElement.VAR_X, x);
+		gameState.setValue(mouse, SceneElement.VAR_Y, y);
 
-		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE,
+		gameState.setValue(mouse, SceneElement.VAR_VISIBLE,
 				showMouse);
 
 		mouseGO.update();

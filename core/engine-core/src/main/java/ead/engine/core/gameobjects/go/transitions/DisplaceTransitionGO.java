@@ -77,8 +77,8 @@ public class DisplaceTransitionGO extends
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
 				sceneLoader, inputHandler);
 		finished = false;
-		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
+		width = gameState.getValue(SystemFields.GAME_WIDTH);
+		height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		transformation = new EAdTransformationImpl();
 		currentTime = 0;
 	}

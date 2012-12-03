@@ -56,10 +56,10 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 	@Override
 	public void initialize() {
 		for (EAdField<?> v : element.getFields()) {
-			gameState.getValueMap().setValue(v, element.getOperation());
+			gameState.setValue(v, element.getOperation());
 		}
 		if (element.getParentVar() != null && parent != null) {
-			gameState.getValueMap().setValue(parent, element.getParentVar(),
+			gameState.setValue(parent, element.getParentVar(),
 					element.getOperation());
 		}
 	}

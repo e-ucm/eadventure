@@ -100,7 +100,7 @@ public class MenuHUD extends AbstractHUD implements
 		menu.add(createMenuButton(exitString, new QuitGameEf()));
 
 		// Languages
-		String languagesProperty = gameState.getValueMap().getValue(
+		String languagesProperty = gameState.getValue(
 				SystemFields.LANGUAGES);
 
 		EAdString defaultLanguage = new EAdString("engine.language");

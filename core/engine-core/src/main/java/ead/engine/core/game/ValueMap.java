@@ -41,7 +41,6 @@ import java.util.Map;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
 
 /**
@@ -72,28 +71,6 @@ public interface ValueMap {
 	 *            the value for the variable
 	 */
 	void setValue(Object element, EAdVarDef<?> varDef, Object value);
-
-	/**
-	 * Sets the variable to the result value of the operation
-	 * 
-	 * @param var
-	 * @param operation
-	 */
-	void setValue(EAdField<?> var, EAdOperation operation);
-
-	/**
-	 * Sets the variable value for the given element
-	 * 
-	 * @param element
-	 *            the element holding the variable. If the element is
-	 *            {@code null}, it's considered that the variable belongs to the
-	 *            system
-	 * @param var
-	 *            the variable definition
-	 * @param operation
-	 *            the operation whose result will be assigned to the variable
-	 */
-	void setValue(Object element, EAdVarDef<?> var, EAdOperation operation);
 
 	// Gets
 

@@ -37,6 +37,10 @@
 
 package ead.editor.view.scene;
 
+import java.awt.Canvas;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.badlogic.gdx.graphics.Color;
@@ -58,9 +62,6 @@ import ead.editor.view.scene.listener.SceneViewerInputProcessor;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
-import java.awt.Canvas;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {

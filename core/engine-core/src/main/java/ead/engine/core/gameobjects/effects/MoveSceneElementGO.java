@@ -59,7 +59,6 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.trajectories.Path;
@@ -83,8 +82,6 @@ public class MoveSceneElementGO extends
 	 * Pixels traveled per second
 	 */
 	private static final int PIXELS_PER_SECOND = 250;
-
-	private OperatorFactory operatorFactory;
 
 	private TrajectoryFactory trajectoryFactory;
 
@@ -114,42 +111,50 @@ public class MoveSceneElementGO extends
 
 	private int currentSide;
 
+	private int currentTime;
+
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
-			OperatorFactory operatorFactory,
 			SceneElementGOFactory gameObjectFactory,
-			TrajectoryFactory trajectoryFactory, GUI gui, GameState gameState) {
+			TrajectoryFactory trajectoryFactory, GUI gui,
+			GameState gameState) {
 		super(assetHandler, gameObjectFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
 		this.trajectoryFactory = trajectoryFactory;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		ValueMap valueMap = gameState.getValueMap();
+		currentTime = 0;
+		ValueMap valueMap = gameState;
 
-		int endX = operatorFactory.operate(Integer.class, element.getxTarget());
-		int endY = operatorFactory.operate(Integer.class, element.getyTarget());
+		int endX = gameState.operate(Integer.class,
+				element.getxTarget());
+		int endY = gameState.operate(Integer.class,
+				element.getyTarget());
 
 		EAdSceneElement target = element.getTarget() != null ? valueMap
 				.getValue(element.getTarget(),
 						SceneElementDef.VAR_SCENE_ELEMENT) : null;
 
-		EAdTrajectoryDefinition d = valueMap.getValue(gameState.getScene()
-				.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
+		EAdTrajectoryDefinition d = valueMap.getValue(gameState
+				.getScene().getElement(),
+				BasicScene.VAR_TRAJECTORY_DEFINITION);
 		if (d != null && element.isUseTrajectory()) {
 			if (target == null)
-				path = trajectoryFactory.getTrajectory(d, sceneElement, endX,
-						endY);
+				path = trajectoryFactory.getTrajectory(d,
+						sceneElement, endX, endY);
 			else
-				path = trajectoryFactory.getTrajectory(d, sceneElement, endX,
-						endY, sceneElementFactory.get(target));
+				path = trajectoryFactory.getTrajectory(d,
+						sceneElement, endX, endY,
+						sceneElementFactory.get(target));
 		} else {
 			List<EAdPosition> list = new ArrayList<EAdPosition>();
 			list.add(new EAdPosition(endX, endY));
-			int x = valueMap.getValue(sceneElement, SceneElement.VAR_X);
-			int y = valueMap.getValue(sceneElement, SceneElement.VAR_Y);
+			int x = valueMap.getValue(sceneElement,
+					SceneElement.VAR_X);
+			int y = valueMap.getValue(sceneElement,
+					SceneElement.VAR_Y);
 			float scale = valueMap.getValue(sceneElement,
 					SceneElement.VAR_SCALE);
 			EAdPosition currentPosition = new EAdPosition(x, y);
@@ -157,13 +162,12 @@ public class MoveSceneElementGO extends
 		}
 
 		currentSide = 0;
-		MoveSceneElementGO go = gameState.getValueMap().getValue(sceneElement,
+		MoveSceneElementGO go = gameState.getValue(sceneElement,
 				VAR_ELEMENT_MOVING);
 		if (go != null) {
 			go.stop();
 		}
-		gameState.getValueMap()
-				.setValue(sceneElement, VAR_ELEMENT_MOVING, this);
+		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, this);
 		currentTime = 0;
 		totalTime = 0;
 		updateTarget();
@@ -174,15 +178,15 @@ public class MoveSceneElementGO extends
 		if (currentSide < path.getSides().size()) {
 			PathSide side = path.getSides().get(currentSide);
 
-			initX = gameState.getValueMap().getValue(sceneElement,
+			initX = gameState.getValue(sceneElement,
 					SceneElement.VAR_X);
-			initY = gameState.getValueMap().getValue(sceneElement,
+			initY = gameState.getValue(sceneElement,
 					SceneElement.VAR_Y);
-			initScale = gameState.getValueMap().getValue(sceneElement,
+			initScale = gameState.getValue(sceneElement,
 					SceneElement.VAR_SCALE);
 
-			EAdPosition p = side.getEndPosition(currentSide == path.getSides()
-					.size() - 1);
+			EAdPosition p = side.getEndPosition(currentSide == path
+					.getSides().size() - 1);
 			targetX = p.getX();
 			targetY = p.getY();
 			targetScale = side.getEndScale();
@@ -193,12 +197,12 @@ public class MoveSceneElementGO extends
 					* side.getSpeedFactor();
 
 			// TODO should be more generic...
-			EAdTrajectoryDefinition d = gameState.getValueMap().getValue(
-					gameState.getScene().getElement(),
+			EAdTrajectoryDefinition d = gameState.getValue(gameState
+					.getScene().getElement(),
 					BasicScene.VAR_TRAJECTORY_DEFINITION);
 			if (d != null && element.isUseTrajectory()
 					&& side instanceof DijkstraPathSide) {
-				gameState.getValueMap().setValue(sceneElement,
+				gameState.setValue(sceneElement,
 						NodeTrajectoryDefinition.VAR_CURRENT_SIDE,
 						((DijkstraPathSide) side).getSide());
 			}
@@ -221,7 +225,8 @@ public class MoveSceneElementGO extends
 		Orientation tempDirection = Orientation.W;
 
 		if (-0.00001f < angle && angle < 0.00001f) {
-			tempDirection = initX > targetX ? Orientation.W : Orientation.E;
+			tempDirection = initX > targetX ? Orientation.W
+					: Orientation.E;
 		} else if (angle < 3 * Math.PI / 4 && angle >= Math.PI / 4) {
 			tempDirection = Orientation.N;
 		} else if (angle < Math.PI / 4 && angle >= -Math.PI / 4) {
@@ -230,7 +235,7 @@ public class MoveSceneElementGO extends
 			tempDirection = Orientation.S;
 		}
 
-		gameState.getValueMap().setValue(sceneElement,
+		gameState.setValue(sceneElement,
 				SceneElement.VAR_ORIENTATION, tempDirection);
 
 	}
@@ -251,10 +256,10 @@ public class MoveSceneElementGO extends
 			super.update();
 			if (firstUpdate) {
 				firstUpdate = false;
-				oldState = gameState.getValueMap().getValue(sceneElement,
+				oldState = gameState.getValue(sceneElement,
 						SceneElement.VAR_STATE);
 
-				gameState.getValueMap().setValue(sceneElement,
+				gameState.setValue(sceneElement,
 						SceneElement.VAR_STATE,
 						CommonStates.EAD_STATE_WALKING.toString());
 			}
@@ -264,42 +269,46 @@ public class MoveSceneElementGO extends
 			}
 
 			if (currentTime <= totalTime) {
-				gameState.getValueMap().setValue(
+				gameState.setValue(
 						sceneElement,
 						SceneElement.VAR_X,
 						initX
 								+ (int) Interpolator.LINEAR
-										.interpolate(currentTime, totalTime,
-												targetX - initX));
-				gameState.getValueMap().setValue(
+										.interpolate(currentTime,
+												totalTime, targetX
+														- initX));
+				gameState.setValue(
 						sceneElement,
 						SceneElement.VAR_Y,
 						initY
 								+ (int) Interpolator.LINEAR
-										.interpolate(currentTime, totalTime,
-												targetY - initY));
-				gameState.getValueMap().setValue(
+										.interpolate(currentTime,
+												totalTime, targetY
+														- initY));
+				gameState.setValue(
 						sceneElement,
 						SceneElement.VAR_SCALE,
 						initScale
-								+ (float) Interpolator.LINEAR.interpolate(
-										currentTime, totalTime, targetScale
-												- initScale));
+								+ (float) Interpolator.LINEAR
+										.interpolate(currentTime,
+												totalTime,
+												targetScale
+														- initScale));
 
 			} else {
-				gameState.getValueMap().setValue(sceneElement,
-						SceneElement.VAR_X, (int) targetX);
-				gameState.getValueMap().setValue(sceneElement,
-						SceneElement.VAR_Y, (int) targetY);
+				gameState.setValue(sceneElement, SceneElement.VAR_X,
+						(int) targetX);
+				gameState.setValue(sceneElement, SceneElement.VAR_Y,
+						(int) targetY);
 				finishedSide = true;
 			}
 		}
 	}
 
 	public void finish() {
-		gameState.getValueMap().setValue(sceneElement, SceneElement.VAR_STATE,
+		gameState.setValue(sceneElement, SceneElement.VAR_STATE,
 				oldState);
-		gameState.getValueMap().setValue(sceneElement, VAR_ELEMENT_MOVING,
+		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(Object) null);
 
 		if (path.isGetsTo() || element.getTarget() == null)
@@ -308,7 +317,7 @@ public class MoveSceneElementGO extends
 
 	public void stop() {
 		super.stop();
-		gameState.getValueMap().setValue(sceneElement, SceneElement.VAR_STATE,
+		gameState.setValue(sceneElement, SceneElement.VAR_STATE,
 				oldState);
 	}
 

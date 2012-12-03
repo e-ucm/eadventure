@@ -44,11 +44,17 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.params.text.EAdString;
 
 public class SpeakSceneElementEf extends SpeakEf {
 
 	public SpeakSceneElementEf() {
 		super();
+	}
+	
+	public SpeakSceneElementEf( EAdElement element, EAdString text ){
+		super( text );
+		this.setElement(element);
 	}
 
 	public SpeakSceneElementEf(EAdElement element) {

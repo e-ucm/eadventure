@@ -159,7 +159,7 @@ public class TrajectoryDebugger implements Debugger {
 	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
 		EAdPaint p = new ColorFill(0, 0, 200, 100);
 		for (EAdSceneElement sceneElement : sceneElements) {
-			EAdRectangle rectangle = gameState.getValueMap().getValue(
+			EAdRectangle rectangle = gameState.getValue(
 					sceneElement, NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
 			if (rectangle != null) {
 				RectangleShape shape = new RectangleShape(rectangle.getWidth(),

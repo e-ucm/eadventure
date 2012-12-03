@@ -65,7 +65,7 @@ public class BottomHUD extends AbstractHUD {
 
 	@Override
 	public DrawableGO<?> processAction(InputAction<?> action) {
-		if (gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE)) {
+		if (gameState.getValue(SystemFields.BASIC_HUD_OPAQUE)) {
 			action.consume();
 			return this;
 		}
@@ -74,7 +74,7 @@ public class BottomHUD extends AbstractHUD {
 
 	@Override
 	public boolean contains(int x, int y) {
-		return gameState.getValueMap().getValue(SystemFields.BASIC_HUD_OPAQUE);
+		return gameState.getValue(SystemFields.BASIC_HUD_OPAQUE);
 	}
 
 	@Override

@@ -113,7 +113,7 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 		} else if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			if (mouseAction.getType() == MouseGEvType.PRESSED) {
-				gameState.getValueMap().setValue(SystemFields.ACTIVE_ELEMENT,
+				gameState.setValue(SystemFields.ACTIVE_ELEMENT,
 						getElement());
 				action.consume();
 				return this;

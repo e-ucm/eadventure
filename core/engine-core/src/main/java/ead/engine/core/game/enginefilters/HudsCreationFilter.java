@@ -7,7 +7,6 @@ import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.BottomHUD;
 import ead.engine.core.gameobjects.huds.EffectsHUD;
 import ead.engine.core.gameobjects.huds.HudGO;
@@ -35,8 +34,7 @@ public class HudsCreationFilter extends AbstractEngineFilter<List<HudGO>> {
 				eventFactory));
 
 		// gui.addHud(inventoryHUD, 1);
-		gui.addHud(new ActionsHUD(assetHandler, sceneElementFactory, gui,
-				gameState, eventFactory));
+
 		// Menu HUD
 		MenuHUD menuHud = new MenuHUD(assetHandler, sceneElementFactory, gui,
 				gameState, eventFactory);

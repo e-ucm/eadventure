@@ -125,7 +125,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		eventGOList = new ArrayList<EventGO<?>>();
 		this.eventFactory = eventFactory;
 		this.statesList = new ArrayList<String>();
-		this.valueMap = gameState.getValueMap();
+		this.valueMap = gameState;
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
 	}

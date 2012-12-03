@@ -37,17 +37,27 @@
 
 package ead.engine.core.operators;
 
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.ValueMap;
 import ead.tools.Factory;
 
 /**
- * A factory with all {@link Operator} for all {@link EAdOperation}.
+ * A factory with all {@link Operator} for all {@link EAdOperation}. The Game
+ * State is the only class that should access to this factory. If you're using
+ * it somewhere else, try to use
  */
 public interface OperatorFactory extends Factory<Operator<?>> {
+
+	/**
+	 * Initializes this factory
+	 * 
+	 * @param valueMap
+	 *            the values map
+	 * @param evaluatorFactory
+	 *            the evaluator factory
+	 */
+	void init(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
 
 	/**
 	 * <p>
@@ -59,18 +69,13 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 	 * 
 	 * @param <T>
 	 * @param eAdVar
-	 *            the var where the result will be stored
+	 *            the class for the result
 	 * @param eAdOperation
 	 *            operation to be done
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
-
-	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
-
-	<T extends EAdOperation, S> S operate(EAdVarDef<S> varDef, T operation);
-
-	void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar,
+			T eAdOperation);
 
 }

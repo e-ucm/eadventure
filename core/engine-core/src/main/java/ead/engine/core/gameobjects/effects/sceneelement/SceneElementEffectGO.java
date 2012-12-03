@@ -60,13 +60,13 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		Object sceneElement = gameState.getValueMap().maybeDecodeField(
+		Object sceneElement = gameState.maybeDecodeField(
 				element.getSceneElement());
 
 		if (sceneElement instanceof EAdSceneElement) {
 			this.sceneElement = (EAdSceneElement) sceneElement;
 		} else if (sceneElement != null) {
-			this.sceneElement = gameState.getValueMap().getValue(sceneElement,
+			this.sceneElement = gameState.getValue(sceneElement,
 					SceneElementDef.VAR_SCENE_ELEMENT);
 		} else {
 			this.sceneElement = this.parent;

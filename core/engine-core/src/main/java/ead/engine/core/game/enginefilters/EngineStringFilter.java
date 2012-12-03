@@ -25,7 +25,7 @@ public class EngineStringFilter extends
 		o.put("@" + DEFAULT_STRINGS, "");
 		o.put("@" + ENGINE_DEFAULT_STRINGS, "");
 
-		String languagesProperty = gameState.getValueMap().getValue(null,
+		String languagesProperty = gameState.getValue(null,
 				new VarDef<String>("languages", String.class, null));
 		if (languagesProperty != null) {
 			String[] languages = languagesProperty.split(",");
