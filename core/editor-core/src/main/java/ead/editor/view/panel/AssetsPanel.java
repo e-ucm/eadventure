@@ -52,10 +52,13 @@ import ead.editor.control.Controller;
 import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.asset.AssetNode;
+import ead.editor.view.components.EditorLinkFactory;
 import ead.editor.view.components.NodeBrowserPanel;
 import ead.editor.view.components.ThumbnailPanel;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -85,6 +88,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		tabs = new JTabbedPane();
 		previewer = new AssetPreviewer();
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabs, previewer);
+		split.setDividerLocation(500);
 
 		setLayout(new BorderLayout());
 		add(split, BorderLayout.CENTER);
@@ -95,19 +99,13 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		private JPanel current = new JPanel();
 		private JButton next = new JButton(">");
 
-		private void initialize(Controller controller) {
-			tabs.removeAll();
-
-			if (rootAssetViewer != null) {
-				rootAssetViewer.stop();
-			}
-			rootAssetViewer = controller.createAssetViewer();
-			add(rootAssetViewer.getCanvas(), BorderLayout.CENTER);
-
-			JPanel buttonsPanel = new JPanel(new FlowLayout());
-			buttonsPanel.add(prev);
-			buttonsPanel.add(current);
-			buttonsPanel.add(next);
+		private AssetPreviewer() {
+			setLayout(new BorderLayout());
+			
+			JPanel buttonsPanel = new JPanel(new BorderLayout());
+			buttonsPanel.add(prev, BorderLayout.WEST);
+			buttonsPanel.add(current, BorderLayout.CENTER);
+			buttonsPanel.add(next, BorderLayout.EAST);
 			add(buttonsPanel, BorderLayout.SOUTH);
 
 			prev.addActionListener(new ActionListener() {
@@ -128,14 +126,48 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			});
 		}
 
+		@Override
+		public void setSize(Dimension d) {
+			super.setSize(d);
+			updateCanvasSize();
+		}
+
+		@Override
+		public void setSize(int w, int h) {
+			super.setSize(w, h);
+			updateCanvasSize();
+		}
+
+		private void updateCanvasSize() {
+			int m = Math.max(0, Math.min(getWidth(), getHeight()-40));
+			rootAssetViewer.getCanvas().setPreferredSize(new Dimension(m, m));
+			doLayout();
+		}
+
 		public void setNode(final EditorNode node) {
-			if (node.getFirst() instanceof EAdDrawable) {
-				rootAssetViewer.setDrawable(null);
+			logger.info("Setting preview to node {}", node.getId());
+
+			if (node == null) {
+				return;
+			}
+
+			if (rootAssetViewer == null) {
+				rootAssetViewer = controller.createAssetViewer();
+				add(rootAssetViewer.getCanvas(), BorderLayout.CENTER);
+				updateCanvasSize();
+			}
+
+			current.removeAll();
+			current.add(EditorLinkFactory.createLink(node, controller));
+			if (node.getFirst().getContent() instanceof EAdDrawable) {
+				EAdDrawable d = (EAdDrawable)node.getFirst().getContent();
+				rootAssetViewer.setDrawable(d);
 				final ImageGrabber grabber = new ImageGrabber();
 				grabber.setCallback(new Runnable() {
 					@Override
 					public void run() {
 						node.setThumbnail(grabber.getImage());
+						tabs.getSelectedComponent().repaint();
 					}
 				});
 				new Thread(new Runnable() {
@@ -151,6 +183,8 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 					}
 				}).start();
 			}
+			revalidate();
+			repaint();
 		}
 	}
 
@@ -160,23 +194,15 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 
 		this.assetsNode = (AssetsNode) target;
 		tabs.removeAll();
-		previewer.initialize(controller);
-		for (DependencyNode n : assetsNode.getNodes(controller.getModel())) {
+		for (AssetNode n : assetsNode.getNodes(controller.getModel())) {
 
-			String cn = n.getContent().getClass().getName();
+			String cn = n.getFirst().getContent().getClass().getName();
 			ThumbnailPanel tp = panels.get(cn);
 			ArrayList<EditorNode> al = nodesByCategory.get(cn);
 			if (tp == null) {
 				tp = new ThumbnailPanel();
-				al = new ArrayList<EditorNode>();
-				panels.put(cn, tp);
-				nodesByCategory.put(cn, al);
-				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), tp);
-
-			}
-			tp.add(new ThumbnailPanel());
-			al.add((EditorNode) n);
-			tp.addPropertyChangeListener(NodeBrowserPanel.selectedPropertyName,
+				tp.setController(controller);
+				tp.addPropertyChangeListener(NodeBrowserPanel.selectedPropertyName,
 					new PropertyChangeListener() {
 						@Override
 						public void propertyChange(PropertyChangeEvent evt) {
@@ -185,9 +211,21 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 							previewer.setNode(node);
 						}
 					});
+				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), tp);
+				panels.put(cn, tp);
+
+				al = new ArrayList<EditorNode>();
+				nodesByCategory.put(cn, al);
+				logger.info("Added category {}", cn);
+			}
+			al.add((EditorNode) n);
 		}
 		for (String s : panels.keySet()) {
+			logger.info("Setting {} nodes for category {}", new Object[] {
+					nodesByCategory.get(s).size(), s });
 			panels.get(s).setNodes(nodesByCategory.get(s));
 		}
+		tabs.revalidate();
+		previewer.revalidate();
 	}
 }

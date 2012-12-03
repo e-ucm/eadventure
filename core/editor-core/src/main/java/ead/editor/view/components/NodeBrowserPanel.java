@@ -41,10 +41,12 @@
  */
 package ead.editor.view.components;
 
+import ead.editor.control.Controller;
 import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeSet;
@@ -66,12 +68,21 @@ public abstract class NodeBrowserPanel extends JPanel {
 
 	public final static String selectedPropertyName = "node_selected";
 
+	protected Controller controller;
+
 	public abstract void setNodes(Collection<EditorNode> nodes);
 
 	public abstract void addNode(EditorNode node);
 
+	protected ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
+
+
 	public NodeBrowserPanel() {
 		setLayout(new BorderLayout());
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 
 	public TreeSet<EditorNode> getSelected() {
@@ -82,9 +93,33 @@ public abstract class NodeBrowserPanel extends JPanel {
 		return lastSelected;
 	}
 
-	public abstract EditorNode getPrevious();
 
-	public abstract EditorNode getNext();
+	private int indexOf(EditorNode node) {
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i) == node) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public EditorNode getPrevious() {
+		int count = nodes.size();
+		if (count == 0) return null;
+		int pos = (lastSelected == null) ? count - 1
+				: (indexOf(lastSelected) - 1 + count) % count;
+		lastSelected = nodes.get(pos);
+		return lastSelected;
+	}
+
+	public EditorNode getNext() {
+		int count = nodes.size();
+		if (count == 0) return null;
+		int pos = (lastSelected == null) ? 0 : (indexOf(lastSelected) + 1)
+				% count;
+		lastSelected = nodes.get(pos);
+		return lastSelected;
+	}
 
 	private static class IdComparator implements Comparator<EditorNode> {
 		@Override

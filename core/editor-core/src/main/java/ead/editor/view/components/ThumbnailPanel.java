@@ -129,7 +129,7 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 			t.setSize(thumbImageSize, thumbImageSize);
 			add(t);
 
-			EditorLink e = EditorLinkFactory.createLink(node, null);
+			EditorLink e = EditorLinkFactory.createLink(node, controller);
 			e.setBounds(0, thumbImageSize, thumbWidth, (int) e
 					.getPreferredSize().getHeight());
 			e.setSize(thumbWidth, (int) e.getPreferredSize().getHeight());
@@ -145,20 +145,18 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 						selected.clear();
 						if (!wasSelected) {
 							selected.add(node);
-							lastSelected = node;
 						}
-						getParent().repaint();
 					} else {
 						if (!wasSelected) {
 							selected.add(node);
-							lastSelected = node;
 						} else {
 							selected.remove(node);
 						}
-						getParent().repaint();
 					}
+					lastSelected = node;
 					ThumbnailPanel.this.firePropertyChange(
-							selectedPropertyName, null, null);
+							selectedPropertyName, null, node);
+					getParent().repaint();
 				}
 			});
 		}
@@ -281,41 +279,18 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 	public void setNodes(Collection<EditorNode> nodes) {
 		selected.clear();
 		inner.removeAll();
+		this.nodes.clear();
 		for (EditorNode n : nodes) {
+			this.nodes.add(n);
 			inner.add(new ThumbnailPanel.Thumbnail(n));
 		}
-		inner.validate();
+		inner.revalidate();
+		revalidate();
 	}
 
 	@Override
 	public void addNode(EditorNode node) {
+		nodes.add(node);
 		inner.add(new ThumbnailPanel.Thumbnail(node));
-	}
-
-	private int indexOf(EditorNode node) {
-		for (int i = 0; i < getComponentCount(); i++) {
-			Thumbnail t = (Thumbnail) getComponent(i);
-			if (t.node == node) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	@Override
-	public EditorNode getPrevious() {
-		int pos = (lastSelected == null) ? getComponentCount() - 1
-				: (indexOf(lastSelected) - 1 + getComponentCount())
-						% getComponentCount();
-		lastSelected = ((Thumbnail) getComponent(pos)).node;
-		return lastSelected;
-	}
-
-	@Override
-	public EditorNode getNext() {
-		int pos = (lastSelected == null) ? 0 : (indexOf(lastSelected) + 1)
-				% getComponentCount();
-		lastSelected = ((Thumbnail) getComponent(pos)).node;
-		return lastSelected;
 	}
 }

@@ -50,17 +50,18 @@ import java.util.ArrayList;
  */
 public class AssetsNode extends EditorNode {
 
-	private ArrayList<DependencyNode> assetNodes = new ArrayList<DependencyNode>();
+	private ArrayList<AssetNode> assetNodes = new ArrayList<AssetNode>();
 
 	public AssetsNode(int id) {
 		super(id);
 	}
 
-	public ArrayList<DependencyNode> getNodes(EditorModel m) {
+	public ArrayList<AssetNode> getNodes(EditorModel m) {
 		assetNodes.clear();
 		for (DependencyNode n : ((EditorModelImpl) m).getNodesById().values()) {
-			if (n.getContent() instanceof AssetNode) {
-				assetNodes.add(n);
+			if (n instanceof AssetNode) {
+				((AssetNode) n).setBase(m.getLoader().getSaveDir());
+				assetNodes.add((AssetNode) n);
 			}
 		}
 		return assetNodes;

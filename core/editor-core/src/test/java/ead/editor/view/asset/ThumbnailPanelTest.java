@@ -49,11 +49,16 @@ import ead.editor.view.components.PropertiesTablePanel;
 import ead.editor.view.components.ThumbnailPanel;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.utils.Log4jConfig;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -71,7 +76,7 @@ public class ThumbnailPanelTest extends JPanel {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info,
 				new Object[] {});
 
-		ArrayList<EditorNode> ians = new ArrayList<EditorNode>();
+		final ArrayList<EditorNode> ians = new ArrayList<EditorNode>();
 		for (int i = 0; i < 100; i++) {
 			ImageAssetNode ian = new ImageAssetNode(i);
 			ian.addChild(new EngineNode<Image>(i + 100, new Image(
@@ -81,8 +86,16 @@ public class ThumbnailPanelTest extends JPanel {
 					GdxAssetHandler.PROJECT_INTERNAL_PATH));
 			ians.add(ian);
 		}
-		ThumbnailPanel tnp = new ThumbnailPanel();
-		tnp.setNodes(ians);
+		final ThumbnailPanel tnp = new ThumbnailPanel();
+
+		JButton jb = new JButton("click to add nodes");
+		jb.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tnp.setNodes(ians);
+			}
+		});
 
 		PropertiesTablePanel ptp = new PropertiesTablePanel();
 		ptp.setNodes(ians);
@@ -94,6 +107,7 @@ public class ThumbnailPanelTest extends JPanel {
 		JFrame jf = new JFrame();
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.add(jtp);
+		jf.add(jb, BorderLayout.SOUTH);
 		jf.setSize(800, 600);
 		jf.setLocationRelativeTo(null);
 		jf.setVisible(true);

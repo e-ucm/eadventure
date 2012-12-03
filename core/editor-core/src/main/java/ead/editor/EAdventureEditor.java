@@ -94,6 +94,8 @@ public class EAdventureEditor implements Launcher {
 				//            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
 				"EditorModel",
 				Log4jConfig.Slf4jLevel.Debug,
+				//				"EditorModelLoader",
+				//				Log4jConfig.Slf4jLevel.Debug,
 
 				//            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
 

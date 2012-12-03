@@ -70,7 +70,6 @@ import org.jdesktop.swingx.JXTable;
 public class PropertiesTablePanel extends NodeBrowserPanel {
 
 	private EditorModel editorModel;
-	private ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
 
 	private JXTable table;
 	private SimpleTableModel tableModel;
@@ -80,25 +79,25 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		table = new JXTable(tableModel);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						// update "last-selected"
-						for (int row : table.getSelectedRows()) {
-							EditorNode node = nodes.get(row);
-							if (!selected.contains(node)) {
-								lastSelected = node;
-								break;
-							}
+			new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					// update "last-selected"
+					for (int row : table.getSelectedRows()) {
+						EditorNode node = nodes.get(row);
+						if (!selected.contains(node)) {
+							lastSelected = node;
+							break;
 						}
-						// update selection-list itself
-						selected.clear();
-						for (int row : table.getSelectedRows()) {
-							selected.add(nodes.get(row));
-						}
-						firePropertyChange(selectedPropertyName, null, null);
 					}
-				});
+					// update selection-list itself
+					selected.clear();
+					for (int row : table.getSelectedRows()) {
+						selected.add(nodes.get(row));
+					}
+					firePropertyChange(selectedPropertyName, null, lastSelected);
+				}
+			});
 		table.setColumnControlVisible(true);
 		table.setSortable(true);
 		table.setDefaultRenderer(BufferedImage.class, new ImageCellRenderer());
@@ -240,32 +239,5 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 	public void addNode(EditorNode node) {
 		nodes.add(node);
 		tableModel.fireTableDataChanged();
-	}
-
-	private int indexOf(EditorNode node) {
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i) == node) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	@Override
-	public EditorNode getPrevious() {
-		int rows = table.getRowCount();
-		int pos = (lastSelected == null) ? rows - 1
-				: (indexOf(lastSelected) - 1 + rows) % rows;
-		lastSelected = nodes.get(pos);
-		return lastSelected;
-	}
-
-	@Override
-	public EditorNode getNext() {
-		int rows = table.getRowCount();
-		int pos = (lastSelected == null) ? 0 : (indexOf(lastSelected) + 1)
-				% rows;
-		lastSelected = nodes.get(pos);
-		return lastSelected;
 	}
 }
