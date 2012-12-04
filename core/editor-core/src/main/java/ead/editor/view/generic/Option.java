@@ -49,11 +49,6 @@ package ead.editor.view.generic;
 public interface Option<S> extends InterfaceElement {
 
 	/**
-	 * @return the title to be used in the interface (can be null)
-	 */
-	String getTitle();
-
-	/**
 	 * @return the tooltiptext for the interface, to help users (should not be
 	 *         left null)
 	 */

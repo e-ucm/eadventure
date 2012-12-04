@@ -46,6 +46,11 @@ import javax.swing.JComponent;
 public interface InterfaceElement {
 
 	/**
+	 * @return the title to be used in the interface (can be null)
+	 */
+	String getTitle();
+
+	/**
 	 * @return a component for this element
 	 */
 	JComponent getComponent(CommandManager manager);

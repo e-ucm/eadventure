@@ -103,8 +103,14 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 		CommandStack currentStack = stacks.peek();
 		ChangeEvent ce = action.performCommand();
 		if (ce != null) {
+			// once you do something, you can no longer redo what you had undone
+			currentStack.getUndone().clear();
+
 			if (action.canUndo()) {
-				currentStack.getPerformed().push(action);
+				if (currentStack.getPerformed().isEmpty()
+						|| !currentStack.getPerformed().peek().combine(action)) {
+					currentStack.getPerformed().push(action);
+				}
 			} else {
 				clearCommands();
 			}

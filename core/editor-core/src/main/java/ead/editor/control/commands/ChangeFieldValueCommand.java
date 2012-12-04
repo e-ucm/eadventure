@@ -156,15 +156,26 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	@Override
 	public boolean combine(Command other) {
 		if (other instanceof ChangeFieldValueCommand) {
-			ChangeFieldValueCommand<T> cnt = (ChangeFieldValueCommand) other;
-			if (fieldDescriptor.equals(cnt.fieldDescriptor)) {
-				newValue = cnt.newValue;
-				timeStamp = cnt.timeStamp;
+			ChangeFieldValueCommand<T> o = (ChangeFieldValueCommand) other;
+			if (fieldDescriptor.equals(o.fieldDescriptor)
+					&& likesToCombine(o.newValue)) {
+				newValue = o.newValue;
+				timeStamp = o.timeStamp;
 				logger.info("Combined command");
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Hook for subclasses, so they can decide if they want to combine with 
+	 * next-in-line or not.
+	 * @param nextValue value to combine to
+	 * @return true if combination is good, false otherwise
+	 */
+	public boolean likesToCombine(T nextValue) {
+		return true;
 	}
 
 	/* (non-Javadoc)

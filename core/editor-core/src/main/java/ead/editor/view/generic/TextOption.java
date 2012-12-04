@@ -37,7 +37,9 @@
 
 package ead.editor.view.generic;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JTextArea;
 import ead.editor.control.CommandManager;
 import ead.editor.control.commands.ChangeFieldValueCommand;
 import javax.swing.JTextField;
@@ -101,7 +103,21 @@ public class TextOption extends AbstractOption<String> implements
 
 	@Override
 	public JComponent getComponent(CommandManager manager) {
-		textField = new JTextField(getTitle(), 20);
+		switch (expectedLength) {
+		case SHORT:
+			textField = new JTextField(getTitle(), 10);
+			break;
+		case NORMAL:
+			textField = new JTextField(getTitle(), 20);
+			break;
+		case LONG:
+			textField = new JTextArea(getTitle(), 3, 20);
+			textField.setBorder(BorderFactory.createEtchedBorder());
+			break;
+		default:
+			throw new IllegalArgumentException("Not a valid length: "
+					+ expectedLength);
+		}
 		textField.setToolTipText(getToolTipText());
 		textField.setText(read(getFieldDescriptor()));
 		oldValue = textField.getText();
@@ -136,7 +152,17 @@ public class TextOption extends AbstractOption<String> implements
 
 		isUpdating = true;
 		manager.performCommand(new ChangeFieldValueCommand<String>(oldValue,
-				textField.getText(), getFieldDescriptor()));
+				textField.getText(), getFieldDescriptor()) {
+
+			@Override
+			public boolean likesToCombine(String nextValue) {
+				return nextValue.startsWith(newValue)
+						&& nextValue.length() == newValue.length() + 1
+						&& !Character.isWhitespace(nextValue.charAt(nextValue
+								.length() - 1));
+			}
+
+		});
 		isUpdating = false;
 	}
 }

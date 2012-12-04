@@ -112,9 +112,9 @@ public class CombineCommandListTest extends TestCase {
 		verify(mockCommand2, never()).undoCommand();
 		verify(mockCommand3, never()).undoCommand();
 
-		when(mockCommand1.undoCommand()).thenReturn(true);
-		when(mockCommand2.undoCommand()).thenReturn(true);
-		when(mockCommand3.undoCommand()).thenReturn(true);
+		when(mockCommand1.undoCommand()).thenReturn(changeEvent1);
+		when(mockCommand2.undoCommand()).thenReturn(changeEvent1);
+		when(mockCommand3.undoCommand()).thenReturn(changeEvent1);
 
 		comm.undoCommand();
 
@@ -135,9 +135,9 @@ public class CombineCommandListTest extends TestCase {
 		verify(mockCommand2, never()).redoCommand();
 		verify(mockCommand3, never()).redoCommand();
 
-		when(mockCommand1.redoCommand()).thenReturn(true);
-		when(mockCommand2.redoCommand()).thenReturn(true);
-		when(mockCommand3.redoCommand()).thenReturn(true);
+		when(mockCommand1.redoCommand()).thenReturn(changeEvent1);
+		when(mockCommand2.redoCommand()).thenReturn(changeEvent1);
+		when(mockCommand3.redoCommand()).thenReturn(changeEvent1);
 
 		comm.redoCommand();
 

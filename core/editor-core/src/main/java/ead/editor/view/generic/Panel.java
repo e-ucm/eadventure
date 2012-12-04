@@ -54,19 +54,19 @@ public interface Panel extends InterfaceElement {
 		/**
 		 * A policy where each element is placed following the next, minimizing the size of the panel
 		 */
-		FLOW,
+		Flow,
 		/**
 		 * A policy where elements are placed next to each other, even if of different sizes
 		 */
-		HORIZONTAL,
+		HorizontalBlocks,
 		/**
 		 * A policy where elements are placed on top of each other, even if of different sizes
 		 */
-		VERTICAL,
+		VerticalBlocks,
 		/**
 		 * A policy where elements are stacked on top of each other, each with the same height
 		 */
-		STRICT_VERTICAL
+		VerticalEquallySpaced
 	}
 
 	/**
@@ -75,14 +75,9 @@ public interface Panel extends InterfaceElement {
 	List<InterfaceElement> getElements();
 
 	/**
-	 * @return The title of the panel (can be null)
-	 */
-	String getTitle();
-
-	/**
 	 * @param element The element to be added to the panel
 	 */
-	void addElement(InterfaceElement element);
+	Panel addElement(InterfaceElement element);
 
 	/**
 	 * @return the layout policy for this panel

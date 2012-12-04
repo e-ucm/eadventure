@@ -34,11 +34,8 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.Option;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -55,17 +52,14 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * Label on the component
 	 */
 	private String label;
-
 	/**
 	 * Tool tip text explanation
 	 */
 	private String toolTipText;
-
 	/**
 	 * Descriptor of the field represented by this option
 	 */
 	protected FieldDescriptor<S> fieldDescriptor;
-
 	/**
 	 * While updating, external updates will be ignored
 	 */
@@ -84,9 +78,10 @@ public abstract class AbstractOption<S> implements Option<S> {
 			FieldDescriptor<S> fieldDescriptor) {
 		this.label = label;
 		this.toolTipText = toolTipText;
-		if (toolTipText == null || toolTipText.isEmpty())
+		if (toolTipText == null || toolTipText.isEmpty()) {
 			throw new RuntimeException(
 					"BALTAEXCEPTION: ToolTipTexts must be provided for all interface elements!");
+		}
 		this.fieldDescriptor = fieldDescriptor;
 	}
 

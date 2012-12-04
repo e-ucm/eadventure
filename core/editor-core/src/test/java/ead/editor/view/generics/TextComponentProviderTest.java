@@ -40,11 +40,9 @@ package ead.editor.view.generics;
 import java.awt.BorderLayout;
 import ead.editor.view.generic.TextOption;
 import ead.editor.view.generic.FieldDescriptorImpl;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.WindowConstants;
 
@@ -54,6 +52,8 @@ import javax.swing.JPanel;
 
 import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.change.ChangeListener;
+import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.PanelImpl;
 import ead.utils.Log4jConfig;
 
 public class TextComponentProviderTest extends JFrame {
@@ -61,7 +61,7 @@ public class TextComponentProviderTest extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private CommandManager commandManager;
-	private JButton undo, redo;
+	private JButton undo, redo, merge;
 
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
@@ -73,7 +73,7 @@ public class TextComponentProviderTest extends JFrame {
 	public void init() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		setSize(400, 130);
+		setSize(400, 400);
 		setLocationRelativeTo(null);
 
 		commandManager = new CommandManagerImpl();
@@ -91,6 +91,12 @@ public class TextComponentProviderTest extends JFrame {
 				if (commandManager.canUndo()) {
 					commandManager.undoCommand();
 				}
+			}
+		});
+		merge = new JButton(new AbstractAction("merge") {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// not supported yet; would seek to compress actions
 			}
 		});
 		redo = new JButton(new AbstractAction("redo") {
@@ -111,7 +117,8 @@ public class TextComponentProviderTest extends JFrame {
 	}
 
 	public static class ExampleClass {
-		public String name = "initialName";
+		public String name = "initial name";
+		public String description = "initial description";
 
 		public String getName() {
 			return name;
@@ -120,24 +127,44 @@ public class TextComponentProviderTest extends JFrame {
 		public void setName(String name) {
 			this.name = name;
 		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
 	}
 
 	public void test() {
 		init();
 
-		JPanel jp = new JPanel();
-		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
 		Object model = new ExampleClass();
-		TextOption option1 = new TextOption("name1", "toolTip1",
-				new FieldDescriptorImpl<String>(model, "name"));
-		TextOption option2 = new TextOption("name2", "toolTip2",
-				new FieldDescriptorImpl<String>(model, "name"));
-		TextOption option3 = new TextOption("name2", "toolTip2",
-				new FieldDescriptorImpl<String>(model, "name"));
-		jp.add(option1.getComponent(commandManager), BorderLayout.NORTH);
-		jp.add(option2.getComponent(commandManager), BorderLayout.NORTH);
-		jp.add(option3.getComponent(commandManager), BorderLayout.NORTH);
-		add(jp, BorderLayout.CENTER);
+
+		Panel p1 = new PanelImpl("Test", Panel.LayoutPolicy.VerticalBlocks, 4)
+				.addElement(
+						new TextOption("name1", "toolTip1",
+								new FieldDescriptorImpl<String>(model, "name"),
+								TextOption.ExpectedLength.SHORT))
+				.addElement(
+						new TextOption("name2", "toolTip2",
+								new FieldDescriptorImpl<String>(model, "name")))
+				.addElement(
+						new TextOption("name3", "toolTip3",
+								new FieldDescriptorImpl<String>(model, "name")))
+				.addElement(
+						new TextOption("description1",
+								"a longish description tooltip 1",
+								new FieldDescriptorImpl<String>(model,
+										"description"),
+								TextOption.ExpectedLength.LONG)).addElement(
+						new TextOption("description2",
+								"a longish description tooltip 2",
+								new FieldDescriptorImpl<String>(model,
+										"description"),
+								TextOption.ExpectedLength.LONG));
+		add(p1.getComponent(commandManager), BorderLayout.CENTER);
 
 		setVisible(true);
 	}
