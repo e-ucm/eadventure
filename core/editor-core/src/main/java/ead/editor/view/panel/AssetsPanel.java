@@ -101,7 +101,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 
 		private AssetPreviewer() {
 			setLayout(new BorderLayout());
-			
+
 			JPanel buttonsPanel = new JPanel(new BorderLayout());
 			buttonsPanel.add(prev, BorderLayout.WEST);
 			buttonsPanel.add(current, BorderLayout.CENTER);
@@ -139,7 +139,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		}
 
 		private void updateCanvasSize() {
-			int m = Math.max(0, Math.min(getWidth(), getHeight()-40));
+			int m = Math.max(0, Math.min(getWidth(), getHeight() - 40));
 			rootAssetViewer.getCanvas().setPreferredSize(new Dimension(m, m));
 			doLayout();
 		}
@@ -160,7 +160,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			current.removeAll();
 			current.add(EditorLinkFactory.createLink(node, controller));
 			if (node.getFirst().getContent() instanceof EAdDrawable) {
-				EAdDrawable d = (EAdDrawable)node.getFirst().getContent();
+				EAdDrawable d = (EAdDrawable) node.getFirst().getContent();
 				rootAssetViewer.setDrawable(d);
 				final ImageGrabber grabber = new ImageGrabber();
 				grabber.setCallback(new Runnable() {
@@ -202,15 +202,16 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			if (tp == null) {
 				tp = new ThumbnailPanel();
 				tp.setController(controller);
-				tp.addPropertyChangeListener(NodeBrowserPanel.selectedPropertyName,
-					new PropertyChangeListener() {
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							EditorNode node = ((NodeBrowserPanel) evt
-									.getSource()).getLastSelected();
-							previewer.setNode(node);
-						}
-					});
+				tp.addPropertyChangeListener(
+						NodeBrowserPanel.selectedPropertyName,
+						new PropertyChangeListener() {
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								EditorNode node = ((NodeBrowserPanel) evt
+										.getSource()).getLastSelected();
+								previewer.setNode(node);
+							}
+						});
 				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), tp);
 				panels.put(cn, tp);
 

@@ -37,6 +37,7 @@
 
 package ead.editor.control;
 
+import ead.editor.control.change.ChangeEvent;
 import ead.editor.model.EditorModel;
 
 /**
@@ -61,12 +62,12 @@ public abstract class Command {
 	}
 
 	/**
-	 * Do the actual work. Returns true if it could be performed,
-	 * false in other case.
+	 * Do the actual work. Returns a ChangeEvent if it could be performed,
+	 * null in other case.
 	 * 
 	 * @return True if the action was performed correctly
 	 */
-	public abstract boolean performCommand();
+	public abstract ChangeEvent performCommand();
 
 	/**
 	 * Returns true if the action can be undone
@@ -79,9 +80,10 @@ public abstract class Command {
 	 * Undo the work done by the action. Returns true if it could be undone,
 	 * false in other case.
 	 * 
-	 * @return True if the action was undone correctly
+	 * @return a ChangeEvent if it could be performed,
+	 * null in other case.
 	 */
-	public abstract boolean undoCommand();
+	public abstract ChangeEvent undoCommand();
 
 	/**
 	 * Returns true if the action can be redone
@@ -93,13 +95,14 @@ public abstract class Command {
 	/**
 	 * Re-do the work done by the action before it was undone.
 	 * 
-	 * @return True if the action was re-done correctly
+	 * @return a ChangeEvent if it could be performed,
+	 * null in other case.
 	 */
-	public abstract boolean redoCommand();
+	public abstract ChangeEvent redoCommand();
 
 	/**
 	 * Combines this action with other similar action (if possible).
-	 * Useful for combining simple changes as characters typed in the
+	 * Useful for combining simple changes such as characters typed in the
 	 * same field.
 	 * 
 	 * @param other The other action with which this action can

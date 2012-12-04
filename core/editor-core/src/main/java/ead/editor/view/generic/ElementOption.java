@@ -39,7 +39,6 @@ package ead.editor.view.generic;
 
 import ead.common.model.EAdElement;
 import ead.editor.control.CommandManager;
-import ead.editor.view.generic.FieldDescriptor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -65,5 +64,10 @@ public class ElementOption<E extends EAdElement> extends AbstractOption<E> {
 		});
 
 		return button;
+	}
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

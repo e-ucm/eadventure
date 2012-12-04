@@ -35,71 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.view.asset;
 
-import ead.common.model.elements.extra.EAdList;
+import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 
 /**
- * Generic implementation of {@link EAdListFieldDescriptor}
+ * Utility class that performs asset-related functions.
  *
- * @param <S>
+ * @author mfreire
  */
-public class EAdListFieldDescriptorImpl<S> extends
-		FieldDescriptorImpl<EAdList<S>> implements EAdListFieldDescriptor<S> {
+public class AssetHelper {
 
-	private EAdList<S> list;
+	private File resourcePath;
 
-	/**
-	 * @param element
-	 *            The element where the value is stored
-	 * @param fieldName
-	 *            The name of the field
-	 * @param list
-	 */
-	public EAdListFieldDescriptorImpl(Object element, String fieldName,
-			EAdList<S> list) {
-		super(element, fieldName);
-		this.list = list;
+	public static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
+
+	public AssetHelper(File resourcePath) {
+		this.resourcePath = resourcePath;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
-	 */
-	@Override
-	public Object getElement() {
-		return element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
-	 */
-	@Override
-	public String getFieldName() {
-		return fieldName;
-	}
-
-	@Override
-	public int getCount() {
-		return list.size();
-	}
-
-	@Override
-	public S getElementAt(int pos) {
-		return list.get(pos);
-	}
-
-	@Override
-	public Panel getPanel(int pos, boolean selected) {
+	public File getFile(AssetDescriptor d) {
+		String s = d.toString();
+		if (s.contains("@")) {
+			File f = new File(resourcePath.getAbsolutePath(), s.substring(s
+					.indexOf('@') + 1));
+			return f.exists() ? f : null;
+		}
 		return null;
 	}
 
-	@Override
-	public EAdList<S> getList() {
-		return list;
+	public InputStream getEngineResource(AssetDescriptor d) throws IOException {
+		ClassLoader cl = AssetHelper.class.getClassLoader();
+		if (d instanceof EAdBasicDrawable) {
+			EAdBasicDrawable drawable = (EAdBasicDrawable) d;
+		}
+		return null;
+	}
+
+	public boolean isEngineResource(AssetDescriptor d) {
+		return false;
+	}
+
+	public Image getThumbnail(AssetDescriptor d, File resourcePath) {
+		return null;
 	}
 }

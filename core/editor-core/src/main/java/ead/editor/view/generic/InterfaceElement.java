@@ -49,4 +49,10 @@ public interface InterfaceElement {
 	 * @return a component for this element
 	 */
 	JComponent getComponent(CommandManager manager);
+
+	/**
+	 * De-registers this component from the CommandManager, so that
+	 * no listeners are left behind
+	 */
+	void cleanup(CommandManager manager);
 }

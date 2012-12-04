@@ -38,40 +38,39 @@
 package ead.editor.control.change;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Default change notifier implementation. Notice that this is in no way
  * thread-safe.
  */
-public class ChangeNotifierImpl implements ChangeNotifier {
+public class ChangeNotifierImpl<E> implements ChangeNotifier<E> {
 
 	/**
 	 * List of change listeners
 	 */
-	private ArrayList<ChangeListener> changeListenerList;
+	private ArrayList<ChangeListener<E>> changeListenerList;
 
 	/**
 	 * Default constructor
 	 */
 	public ChangeNotifierImpl() {
-		changeListenerList = new ArrayList<ChangeListener>();
+		changeListenerList = new ArrayList<ChangeListener<E>>();
 	}
 
 	@Override
-	public void addChangeListener(ChangeListener changeListener) {
+	public void addChangeListener(ChangeListener<E> changeListener) {
 		changeListenerList.add(changeListener);
 	}
 
 	@Override
-	public void notifyListeners(Object event) {
-		for (ChangeListener cl : changeListenerList) {
+	public void notifyListeners(E event) {
+		for (ChangeListener<E> cl : changeListenerList) {
 			cl.processChange(event);
 		}
 	}
 
 	@Override
-	public void removeChangeListener(ChangeListener changeListener) {
+	public void removeChangeListener(ChangeListener<E> changeListener) {
 		changeListenerList.remove(changeListener);
 	}
 }

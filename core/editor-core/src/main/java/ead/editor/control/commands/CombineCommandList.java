@@ -43,6 +43,8 @@ import java.util.List;
 import ead.editor.control.Command;
 import java.util.ArrayList;
 
+import ead.editor.control.change.ChangeEvent;
+
 /**
  * Class that handles multiple commands in a list as a single one
  */
@@ -81,19 +83,22 @@ public class CombineCommandList extends Command {
 	 * undo of previously-completed list-commands.
 	 */
 	@Override
-	public boolean performCommand() {
+	public ChangeEvent performCommand() {
 		ArrayList<Command> done = new ArrayList<Command>();
+		CombinedChangeEvent cce = new CombinedChangeEvent();
 		for (Command c : commandList) {
-			if (c.performCommand()) {
+			ChangeEvent ce = c.performCommand();
+			if (ce != null) {
 				done.add(c);
+				cce.add(ce);
 			} else {
 				for (Command good : done) {
 					good.undoCommand();
 				}
-				return false;
+				return null;
 			}
 		}
-		return true;
+		return cce;
 	}
 
 	/**
@@ -114,19 +119,23 @@ public class CombineCommandList extends Command {
 	 * a redo of previously-completed undos.
 	 */
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 		ArrayList<Command> undone = new ArrayList<Command>();
+		CombinedChangeEvent cce = new CombinedChangeEvent();
+
 		for (Command c : commandList) {
-			if (c.undoCommand()) {
+			ChangeEvent ce = c.undoCommand();
+			if (ce != null) {
 				undone.add(c);
+				cce.add(ce);
 			} else {
 				for (Command good : undone) {
 					good.redoCommand();
 				}
-				return false;
+				return null;
 			}
 		}
-		return true;
+		return cce;
 	}
 
 	/**
@@ -146,19 +155,23 @@ public class CombineCommandList extends Command {
 	 * Repeats all commands in the list
 	 */
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
 		ArrayList<Command> redone = new ArrayList<Command>();
+		CombinedChangeEvent cce = new CombinedChangeEvent();
+
 		for (Command c : commandList) {
-			if (c.redoCommand()) {
+			ChangeEvent ce = c.redoCommand();
+			if (ce != null) {
 				redone.add(c);
+				cce.add(ce);
 			} else {
 				for (Command good : redone) {
 					good.undoCommand();
 				}
-				return false;
+				return null;
 			}
 		}
-		return true;
+		return cce;
 	}
 
 	/**

@@ -37,9 +37,6 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.control.CommandManager;
-import javax.swing.JComponent;
-
 /**
  * An option in the user interface.
  * <p>

@@ -39,12 +39,15 @@ package ead.editor.view.generic;
 
 import ead.editor.control.CommandManager;
 import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
 import javax.swing.JCheckBox;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-public class BooleanOption extends AbstractOption<Boolean> {
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.control.change.ChangeListener;
+
+public class BooleanOption extends AbstractOption<Boolean> implements
+		ChangeListener<ChangeEvent> {
+
+	private JCheckBox checkBox;
 
 	public BooleanOption(String title, String toolTipText,
 			FieldDescriptor<Boolean> fieldDescriptor) {
@@ -60,20 +63,35 @@ public class BooleanOption extends AbstractOption<Boolean> {
 	 */
 	@Override
 	public JCheckBox getComponent(final CommandManager manager) {
-		final JCheckBox checkBox = new JCheckBox(getTitle());
+		checkBox = new JCheckBox(getTitle());
 		checkBox.setToolTipText(getToolTipText());
 		checkBox.setSelected(read(getFieldDescriptor()));
-		checkBox.addChangeListener(new ChangeListener() {
+		checkBox.addChangeListener(new javax.swing.event.ChangeListener() {
 
 			@Override
-			public void stateChanged(ChangeEvent arg0) {
+			public void stateChanged(javax.swing.event.ChangeEvent change) {
 				ChangeFieldValueCommand<Boolean> changeFieldValueCommand;
 				changeFieldValueCommand = new ChangeFieldValueCommand<Boolean>(
-						checkBox.isSelected(), getFieldDescriptor());
+						!checkBox.isSelected(), checkBox.isSelected(),
+						getFieldDescriptor());
+				isUpdating = true;
 				manager.performCommand(changeFieldValueCommand);
+				isUpdating = false;
 			}
 
 		});
 		return checkBox;
+	}
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		manager.removeChangeListener(this);
+	}
+
+	@Override
+	public void processChange(ChangeEvent event) {
+		if (!isUpdating && event.hasChanged(fieldDescriptor)) {
+			checkBox.setSelected(read(getFieldDescriptor()));
+		}
 	}
 }

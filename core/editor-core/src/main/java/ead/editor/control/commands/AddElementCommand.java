@@ -39,12 +39,14 @@ package ead.editor.control.commands;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Class that represents the generic command that adds an element to an
  * {@link EAdList}.
  */
-public class AddElementCommand<P> extends Command {
+public class AddElementCommand<P> extends Command implements ChangeEvent {
 
 	/**
 	 * The list in which the added elements will be placed.
@@ -76,9 +78,14 @@ public class AddElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
 	 */
 	@Override
-	public boolean performCommand() {
+	public ChangeEvent performCommand() {
 		elementList.add(anElement);
-		return true;
+		return this;
+	}
+
+	@Override
+	public boolean hasChanged(FieldDescriptor fd) {
+		return fd.getElement() == elementList;
 	}
 
 	/*
@@ -97,9 +104,9 @@ public class AddElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 		elementList.remove(anElement);
-		return true;
+		return this;
 	}
 
 	/*
@@ -118,9 +125,9 @@ public class AddElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
 		elementList.add(anElement);
-		return true;
+		return this;
 	}
 
 	/*

@@ -37,16 +37,41 @@
 
 package ead.editor.view.generic;
 
+import javax.swing.JComponent;
 import ead.editor.control.CommandManager;
-import ead.editor.control.commands.ChangeEAdStringValueCommand;
 import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-public class TextOption extends AbstractOption<String> {
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.control.change.ChangeListener;
+
+public class TextOption extends AbstractOption<String> implements
+		ChangeListener<ChangeEvent>, DocumentListener {
+
+	private JTextComponent textField;
+	private String oldValue = "";
+
+	private CommandManager manager;
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		manager.removeChangeListener(this);
+	}
+
+	@Override
+	public void processChange(ChangeEvent event) {
+		if (event != null && event.hasChanged(fieldDescriptor)) {
+			if (!isUpdating) {
+				isUpdating = true;
+				textField.setText(read(getFieldDescriptor()));
+				isUpdating = false;
+			}
+			oldValue = textField.getText();
+		}
+	}
 
 	public static enum ExpectedLength {
 		SHORT, NORMAL, LONG
@@ -75,59 +100,43 @@ public class TextOption extends AbstractOption<String> {
 	}
 
 	@Override
-	public JTextField getComponent(CommandManager manager) {
-		JTextField textField = new JTextField(getTitle(), 20);
+	public JComponent getComponent(CommandManager manager) {
+		textField = new JTextField(getTitle(), 20);
 		textField.setToolTipText(getToolTipText());
 		textField.setText(read(getFieldDescriptor()));
+		oldValue = textField.getText();
 
-		textField.getDocument().addDocumentListener(
-				new TextFieldDocumentListener(manager, textField));
+		textField.getDocument().addDocumentListener(this);
+
+		this.manager = manager;
+		manager.addChangeListener(this);
 
 		return textField;
 	}
 
-	/**
-	 * Document listener for the field, used to detect changes and modify the
-	 * value of the string using {@link ChangeEAdStringValueCommand}s.
-	 */
-	private class TextFieldDocumentListener implements DocumentListener {
+	@Override
+	public void changedUpdate(DocumentEvent arg0) {
+		update();
+	}
 
-		private CommandManager manager;
+	@Override
+	public void insertUpdate(DocumentEvent arg0) {
+		update();
+	}
 
-		/**
-		 * The actual JTextComponent, used to get the current value
-		 */
-		private JTextComponent textField;
+	@Override
+	public void removeUpdate(DocumentEvent arg0) {
+		update();
+	}
 
-		/**
-		 * @param element
-		 *            The {@link TextOption}
-		 * @param textField
-		 *            The JTextComponent
-		 */
-		public TextFieldDocumentListener(CommandManager manager,
-				JTextComponent textField) {
-			this.textField = textField;
+	private void update() {
+		if (isUpdating) {
+			return;
 		}
 
-		@Override
-		public void changedUpdate(DocumentEvent arg0) {
-		}
-
-		@Override
-		public void insertUpdate(DocumentEvent arg0) {
-			ChangeFieldValueCommand<String> changeFieldValueCommand;
-			changeFieldValueCommand = new ChangeFieldValueCommand<String>(
-					textField.getText(), getFieldDescriptor());
-			manager.performCommand(changeFieldValueCommand);
-		}
-
-		@Override
-		public void removeUpdate(DocumentEvent arg0) {
-			ChangeFieldValueCommand<String> changeFieldValueCommand;
-			changeFieldValueCommand = new ChangeFieldValueCommand<String>(
-					textField.getText(), getFieldDescriptor());
-			manager.performCommand(changeFieldValueCommand);
-		}
+		isUpdating = true;
+		manager.performCommand(new ChangeFieldValueCommand<String>(oldValue,
+				textField.getText(), getFieldDescriptor()));
+		isUpdating = false;
 	}
 }

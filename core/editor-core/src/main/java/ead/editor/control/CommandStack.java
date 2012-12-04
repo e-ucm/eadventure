@@ -37,13 +37,20 @@
 
 package ead.editor.control;
 
-import ead.editor.model.EditorModel;
 import java.util.Stack;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.control.commands.CombinedChangeEvent;
 
 /**
  * Stacks of performed and undone actions
  */
 public class CommandStack extends Command {
+
+	private static Logger logger = LoggerFactory.getLogger(CommandStack.class);
 
 	/**
 	 * Stack of performed actions
@@ -72,8 +79,8 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public boolean performCommand() {
-		return false;
+	public ChangeEvent performCommand() {
+		throw new UnsupportedOperationException("Cannot 'perform' whole stacks");
 	}
 
 	@Override
@@ -82,13 +89,20 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 		undone.clear();
+		CombinedChangeEvent cce = new CombinedChangeEvent();
 		while (!performed.isEmpty()) {
-			performed.peek().undoCommand();
+			ChangeEvent ce = performed.peek().undoCommand();
+			if (ce != null) {
+				cce.add(ce);
+			} else {
+				logger.error("Error redoing command-stack at {}", performed
+						.peek());
+			}
 			undone.push(performed.pop());
 		}
-		return true;
+		return cce;
 	}
 
 	@Override
@@ -102,13 +116,21 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
 		performed.clear();
+		CombinedChangeEvent cce = new CombinedChangeEvent();
 		while (!undone.isEmpty()) {
-			undone.peek().undoCommand();
+			ChangeEvent ce = undone.peek().undoCommand();
+			if (ce != null) {
+				cce.add(ce);
+			} else {
+				logger
+						.error("Error redoing command-stack at {}", undone
+								.peek());
+			}
 			performed.push(undone.pop());
 		}
-		return true;
+		return cce;
 	}
 
 	@Override
@@ -158,5 +180,4 @@ public class CommandStack extends Command {
 		performed.clear();
 		undone.clear();
 	}
-
 }

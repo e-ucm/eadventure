@@ -39,7 +39,6 @@ package ead.editor.view.generic;
 
 import ead.common.model.elements.EAdCondition;
 import ead.editor.control.CommandManager;
-import ead.editor.view.generic.FieldDescriptor;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -48,6 +47,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class EAdConditionOption extends AbstractOption<EAdCondition> {
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
 	public static enum View {
 		DETAILED, BASIC

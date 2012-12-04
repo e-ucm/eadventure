@@ -86,14 +86,15 @@ public class Video extends AbstractAssetDescriptor implements EAdVideo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ( ! super.equals(obj)) {
+		if (!super.equals(obj)) {
 			return false;
 		}
 		final Video other = (Video) obj;
 		if (this.stream != other.stream) {
 			return false;
 		}
-		if (this.uri != other.uri && (this.uri == null || !this.uri.equals(other.uri))) {
+		if (this.uri != other.uri
+				&& (this.uri == null || !this.uri.equals(other.uri))) {
 			return false;
 		}
 		return true;

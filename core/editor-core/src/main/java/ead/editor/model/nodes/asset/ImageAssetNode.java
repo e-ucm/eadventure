@@ -61,7 +61,7 @@ public class ImageAssetNode extends AssetNode {
 		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
 	}
 
-	private File getFile() {
+	public File getFile() {
 		String uri = ((Image) getDescriptor()).getUri().toString();
 		return new File(uri.replace("@", base.getAbsolutePath()
 				+ File.separator));

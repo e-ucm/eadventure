@@ -39,13 +39,15 @@ package ead.editor.control.commands;
 
 import ead.common.params.text.EAdString;
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.view.generic.FieldDescriptor;
 import ead.tools.StringHandler;
 
 /**
  * Command to change the value of a string in the {@link StringHandler}
  * 
  */
-public class ChangeEAdStringValueCommand extends Command {
+public class ChangeEAdStringValueCommand extends Command implements ChangeEvent {
 
 	/**
 	 * Current {@link StringHandler}
@@ -76,9 +78,15 @@ public class ChangeEAdStringValueCommand extends Command {
 	}
 
 	@Override
-	public boolean performCommand() {
+	public ChangeEvent performCommand() {
 		stringHandler.setString(key, value);
-		return false;
+		return this;
+	}
+
+	@Override
+	public boolean hasChanged(FieldDescriptor fd) {
+		return fd.getElement().equals(stringHandler)
+				&& fd.getFieldName().equals(key.toString());
 	}
 
 	@Override
@@ -87,9 +95,9 @@ public class ChangeEAdStringValueCommand extends Command {
 	}
 
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 		stringHandler.setString(key, oldValue);
-		return true;
+		return this;
 	}
 
 	@Override
@@ -98,9 +106,9 @@ public class ChangeEAdStringValueCommand extends Command {
 	}
 
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
 		stringHandler.setString(key, value);
-		return false;
+		return this;
 	}
 
 	@Override

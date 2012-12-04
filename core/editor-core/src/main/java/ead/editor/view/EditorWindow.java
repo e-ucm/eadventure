@@ -83,11 +83,13 @@ import java.io.IOException;
 import javax.swing.*;
 
 import ead.editor.model.nodes.asset.AssetsNode;
+import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.RunMenu;
 import ead.editor.view.menu.WindowMenu;
 import ead.editor.view.panel.AssetsPanel;
+import ead.editor.view.panel.ImageAssetPanel;
 
 /**
  * Default implementation of the main editor window
@@ -428,6 +430,7 @@ public class EditorWindow implements ViewController {
 		// Add your panel factories here
 		registerElementPanelFactory(CharacterNode.class, ActorPanel.class);
 		registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
+		registerElementPanelFactory(ImageAssetNode.class, ImageAssetPanel.class);
 		registerElementPanelFactory(AssetsNode.class, AssetsPanel.class);
 	}
 }

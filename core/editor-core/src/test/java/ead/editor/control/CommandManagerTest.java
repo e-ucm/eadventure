@@ -46,10 +46,9 @@ import org.mockito.MockitoAnnotations;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.view.generic.FieldDescriptor;
 
-import ead.editor.control.Command;
-import ead.editor.control.CommandManager;
-import ead.editor.control.CommandManagerImpl;
 import junit.framework.TestCase;
 
 /**
@@ -82,6 +81,12 @@ public class CommandManagerTest extends TestCase {
 	Command cantUndoCommand;
 
 	/**
+	 * Mock ChangeEvent that does not reply true to anything
+	 */
+	@Mock
+	ChangeEvent impassibleEvent;
+
+	/**
 	 * Guice injector
 	 */
 	private Injector injector;
@@ -101,13 +106,13 @@ public class CommandManagerTest extends TestCase {
 
 		MockitoAnnotations.initMocks(this);
 		when(mockCommand.canUndo()).thenReturn(Boolean.TRUE);
-		when(mockCommand.performCommand()).thenReturn(Boolean.TRUE);
-		when(mockCommand.undoCommand()).thenReturn(Boolean.TRUE);
+		when(mockCommand.performCommand()).thenReturn(impassibleEvent);
+		when(mockCommand.undoCommand()).thenReturn(impassibleEvent);
 		when(mockCommand.canRedo()).thenReturn(Boolean.TRUE);
 
 		when(cantUndoCommand.canUndo()).thenReturn(Boolean.FALSE);
-		when(cantUndoCommand.performCommand()).thenReturn(Boolean.TRUE);
-		when(cantUndoCommand.undoCommand()).thenReturn(Boolean.TRUE);
+		when(cantUndoCommand.performCommand()).thenReturn(impassibleEvent);
+		when(cantUndoCommand.undoCommand()).thenReturn(impassibleEvent);
 		when(cantUndoCommand.canRedo()).thenReturn(Boolean.TRUE);
 	}
 

@@ -43,11 +43,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Class that represents the generic command that uses introspection to change T values.
  */
-public class ChangeValueCommand<T> extends Command {
+public class ChangeValueCommand<T> extends Command implements ChangeEvent {
 
 	/**
 	 * The old value (T) to be changed.
@@ -145,7 +147,7 @@ public class ChangeValueCommand<T> extends Command {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean performCommand() {
+	public ChangeEvent performCommand() {
 
 		boolean done = false;
 		if (getGetMethod() != null && getSetMethod() != null) {
@@ -164,7 +166,12 @@ public class ChangeValueCommand<T> extends Command {
 						setName, e);
 			}
 		}
-		return done;
+		return done ? this : null;
+	}
+
+	@Override
+	public boolean hasChanged(FieldDescriptor fd) {
+		return fd.getElement() == data;
 	}
 
 	@Override
@@ -182,7 +189,7 @@ public class ChangeValueCommand<T> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
 
 		boolean done = false;
 		try {
@@ -191,7 +198,7 @@ public class ChangeValueCommand<T> extends Command {
 		} catch (Exception e) {
 			logger.error("Error at redoing Action");
 		}
-		return done;
+		return this;
 
 	}
 
@@ -219,7 +226,7 @@ public class ChangeValueCommand<T> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 
 		boolean done = false;
 		try {
@@ -228,7 +235,7 @@ public class ChangeValueCommand<T> extends Command {
 		} catch (Exception e) {
 			logger.error("Error at redoing Action");
 		}
-		return done;
+		return this;
 	}
 
 	/**
@@ -244,5 +251,4 @@ public class ChangeValueCommand<T> extends Command {
 	public T getNewValue() {
 		return newValue;
 	}
-
 }

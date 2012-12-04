@@ -45,6 +45,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
 import ead.editor.control.commands.CombineCommandList;
 import junit.framework.TestCase;
 
@@ -55,6 +56,10 @@ public class CombineCommandListTest extends TestCase {
 	 */
 	@Mock
 	private Command mockCommand1, mockCommand2, mockCommand3;
+
+	@Mock
+	private ChangeEvent changeEvent1, changeEvent2, changeEvent3;
+
 	/**
 	 * The command to combine the actions of a list of commands
 	 */
@@ -83,9 +88,9 @@ public class CombineCommandListTest extends TestCase {
 		verify(mockCommand2, never()).performCommand();
 		verify(mockCommand3, never()).performCommand();
 
-		when(mockCommand1.performCommand()).thenReturn(true);
-		when(mockCommand2.performCommand()).thenReturn(true);
-		when(mockCommand3.performCommand()).thenReturn(true);
+		when(mockCommand1.performCommand()).thenReturn(changeEvent1);
+		when(mockCommand2.performCommand()).thenReturn(changeEvent2);
+		when(mockCommand3.performCommand()).thenReturn(changeEvent3);
 
 		comm.performCommand();
 

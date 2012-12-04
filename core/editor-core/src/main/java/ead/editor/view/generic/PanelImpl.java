@@ -41,8 +41,6 @@ import ead.editor.control.CommandManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.editor.view.generic.InterfaceElement;
-import ead.editor.view.generic.Panel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -115,10 +113,11 @@ public class PanelImpl implements Panel {
 			c.weightx = 1.0;
 			c.gridy = 0;
 			c.weighty = 1.0;
-		} else if (getLayoutPolicy() == Panel.LayoutPolicy.FLOW)
+		} else if (getLayoutPolicy() == Panel.LayoutPolicy.FLOW) {
 			panel.setLayout(new java.awt.FlowLayout());
-		else
+		} else {
 			panel.setLayout(new java.awt.GridLayout(0, 1));
+		}
 
 		for (InterfaceElement newElement : getElements()) {
 			JComponent component = newElement.getComponent(manager);
@@ -135,6 +134,13 @@ public class PanelImpl implements Panel {
 		//mainPanel.doLayout();
 
 		return mainPanel;
+	}
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		for (InterfaceElement ie : elements) {
+			ie.cleanup(manager);
+		}
 	}
 
 	private class ScrollablePanel extends JPanel implements Scrollable {

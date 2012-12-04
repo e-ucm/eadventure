@@ -52,7 +52,6 @@ import com.google.inject.Provider;
 import ead.common.util.EAdURI;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
-import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 /**

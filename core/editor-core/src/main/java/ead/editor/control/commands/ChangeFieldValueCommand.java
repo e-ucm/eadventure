@@ -46,12 +46,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
 import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Class that represents the generic command that uses introspection to change T values.
  */
-public class ChangeFieldValueCommand<T> extends Command {
+public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
+
+	/**
+	 * The logger
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(ChangeFieldValueCommand.class);
 
 	/**
 	 * The old value (T) to be changed.
@@ -66,12 +73,6 @@ public class ChangeFieldValueCommand<T> extends Command {
 	protected FieldDescriptor<T> fieldDescriptor;
 
 	/**
-	 * The logger
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(ChangeFieldValueCommand.class);
-
-	/**
 	 * Constructor for the ChangeValueCommand class.
 	 *
 	 * @param newValue
@@ -79,8 +80,9 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 * @param fieldDescriptor
 	 *
 	 */
-	public ChangeFieldValueCommand(T newValue,
+	public ChangeFieldValueCommand(T oldValue, T newValue,
 			FieldDescriptor<T> fieldDescriptor) {
+		this.oldValue = oldValue;
 		this.newValue = newValue;
 		this.fieldDescriptor = fieldDescriptor;
 	}
@@ -90,9 +92,7 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean performCommand() {
-		boolean done = false;
-
+	public ChangeEvent performCommand() {
 		try {
 			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
 					.getElement().getClass(), fieldDescriptor.getFieldName());
@@ -103,28 +103,31 @@ public class ChangeFieldValueCommand<T> extends Command {
 					+ fieldDescriptor.getFieldName() + "\"", e);
 		}
 
-		if (newValue != null
-				&& oldValue == null
-				|| newValue == null
-				&& oldValue != null
+		if ((newValue != null && oldValue == null)
+				|| (newValue == null && oldValue != null)
 				|| (newValue != null && oldValue != null && !oldValue
 						.equals(newValue))) {
-			done = setValue(newValue);
+			return setValue(newValue);
 		}
 
-		return done;
+		return null;
 	}
 
-	private boolean setValue(T value) {
+	@Override
+	public boolean hasChanged(FieldDescriptor fd) {
+		return fd.equals(fieldDescriptor);
+	}
+
+	private ChangeEvent setValue(T value) {
 		try {
 			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
 					.getElement().getClass(), fieldDescriptor.getFieldName());
 			pd.getWriteMethod().invoke(fieldDescriptor.getElement(), value);
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field "
+			throw new RuntimeException("Error writing field "
 					+ fieldDescriptor.getFieldName(), e);
 		}
-		return true;
+		return this;
 	}
 
 	@Override
@@ -141,7 +144,8 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
+		logger.debug("Redoing: setting value to '{}'", newValue);
 		return setValue(newValue);
 	}
 
@@ -156,7 +160,7 @@ public class ChangeFieldValueCommand<T> extends Command {
 			if (fieldDescriptor.equals(cnt.fieldDescriptor)) {
 				newValue = cnt.newValue;
 				timeStamp = cnt.timeStamp;
-				logger.info("Combiened command");
+				logger.info("Combined command");
 				return true;
 			}
 		}
@@ -167,7 +171,8 @@ public class ChangeFieldValueCommand<T> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
+		logger.debug("Undoing: setting value to '{}'", oldValue);
 		return setValue(oldValue);
 	}
 
@@ -209,4 +214,9 @@ public class ChangeFieldValueCommand<T> extends Command {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "ChangeFieldValue: from '" + oldValue + "' to '" + newValue
+				+ "' in " + fieldDescriptor;
+	}
 }

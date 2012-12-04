@@ -37,42 +37,108 @@
 
 package ead.editor.view.generics;
 
-import ead.editor.view.generic.FieldDescriptor;
+import java.awt.BorderLayout;
 import ead.editor.view.generic.TextOption;
 import ead.editor.view.generic.FieldDescriptorImpl;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.WindowConstants;
 
-import static org.mockito.Mockito.*;
-
 import ead.editor.control.CommandManager;
-import ead.editor.control.FieldValueReader;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import ead.editor.control.CommandManagerImpl;
+import ead.editor.control.change.ChangeListener;
+import ead.utils.Log4jConfig;
 
 public class TextComponentProviderTest extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	private CommandManager commandManager;
+	private JButton undo, redo;
+
 	public static void main(String[] args) {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
+				new Object[] {});
+
 		(new TextComponentProviderTest()).test();
 	}
 
+	public void init() {
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setSize(400, 130);
+		setLocationRelativeTo(null);
+
+		commandManager = new CommandManagerImpl();
+		commandManager.addChangeListener(new ChangeListener() {
+			@Override
+			public void processChange(Object event) {
+				undo.setEnabled(commandManager.canUndo());
+				redo.setEnabled(commandManager.canRedo());
+			}
+		});
+
+		undo = new JButton(new AbstractAction("undo") {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				if (commandManager.canUndo()) {
+					commandManager.undoCommand();
+				}
+			}
+		});
+		redo = new JButton(new AbstractAction("redo") {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				if (commandManager.canRedo()) {
+					commandManager.redoCommand();
+				}
+			}
+		});
+		undo.setEnabled(false);
+		redo.setEnabled(false);
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(undo);
+		buttonPanel.add(redo);
+		add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	public static class ExampleClass {
+		public String name = "initialName";
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
+
 	public void test() {
-		setSize(400, 400);
+		init();
 
-		FieldDescriptor<String> fieldDescriptor = new FieldDescriptorImpl<String>(
-				null, "name");
-		FieldValueReader fieldValueReader = mock(FieldValueReader.class);
-		when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
-
-		CommandManager commandManager = mock(CommandManager.class);
-
-		setLayout(new FlowLayout());
-		TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
-		add(option.getComponent(commandManager));
+		JPanel jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+		Object model = new ExampleClass();
+		TextOption option1 = new TextOption("name1", "toolTip1",
+				new FieldDescriptorImpl<String>(model, "name"));
+		TextOption option2 = new TextOption("name2", "toolTip2",
+				new FieldDescriptorImpl<String>(model, "name"));
+		TextOption option3 = new TextOption("name2", "toolTip2",
+				new FieldDescriptorImpl<String>(model, "name"));
+		jp.add(option1.getComponent(commandManager), BorderLayout.NORTH);
+		jp.add(option2.getComponent(commandManager), BorderLayout.NORTH);
+		jp.add(option3.getComponent(commandManager), BorderLayout.NORTH);
+		add(jp, BorderLayout.CENTER);
 
 		setVisible(true);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 }

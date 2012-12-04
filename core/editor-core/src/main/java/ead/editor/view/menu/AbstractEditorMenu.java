@@ -195,8 +195,8 @@ public abstract class AbstractEditorMenu extends JMenu {
 	 * An abstract editor action.
 	 * Registers a 'ctrl
 	 */
-	public abstract class AbstractEditorAction extends AbstractAction implements
-			ChangeListener {
+	public abstract class AbstractEditorAction<E> extends AbstractAction
+			implements ChangeListener<E> {
 
 		/**
 		 * Creates an action without an accelerator
@@ -243,7 +243,7 @@ public abstract class AbstractEditorMenu extends JMenu {
 		}
 
 		@Override
-		public void processChange(Object event) {
+		public void processChange(E event) {
 			// default is to do nothing
 		}
 	}

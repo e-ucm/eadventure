@@ -39,7 +39,10 @@ package ead.editor.control;
 
 import java.util.Stack;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.inject.Singleton;
+import ead.editor.control.change.ChangeEvent;
 
 import ead.editor.control.change.ChangeNotifierImpl;
 
@@ -47,8 +50,14 @@ import ead.editor.control.change.ChangeNotifierImpl;
  * Default implementation of the {@link CommandManager}.
  */
 @Singleton
-public class CommandManagerImpl extends ChangeNotifierImpl implements
-		CommandManager {
+public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
+		implements CommandManager {
+
+	/**
+	 * Logger
+	 */
+	private static Logger logger = LoggerFactory
+			.getLogger(CommandManagerImpl.class);
 
 	/**
 	 * Action stacks
@@ -90,17 +99,21 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements
 
 	@Override
 	public void performCommand(Command action) {
+		logger.debug("performing action: {}", action);
 		CommandStack currentStack = stacks.peek();
-		if (action.performCommand()) {
+		ChangeEvent ce = action.performCommand();
+		if (ce != null) {
 			if (action.canUndo()) {
 				currentStack.getPerformed().push(action);
 			} else {
 				clearCommands();
 			}
+		} else {
+			logger.warn("action returned null: {}", action);
 		}
 		currentStack.increaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
-		notifyListeners(null);
+		notifyListeners(ce);
 	}
 
 	@Override
@@ -109,7 +122,8 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements
 			return;
 		}
 		CommandStack currentStack = stacks.peek();
-		if (currentStack.getPerformed().peek().undoCommand()) {
+		ChangeEvent ce = currentStack.getPerformed().peek().undoCommand();
+		if (ce != null) {
 			Command action = currentStack.getPerformed().pop();
 			if (action.canRedo()) {
 				currentStack.getUndone().push(action);
@@ -119,7 +133,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements
 		}
 		currentStack.decreaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
-		notifyListeners(null);
+		notifyListeners(ce);
 	}
 
 	@Override
@@ -128,7 +142,8 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements
 			return;
 		}
 		CommandStack currentStack = stacks.peek();
-		if (currentStack.getUndone().peek().redoCommand()) {
+		ChangeEvent ce = currentStack.getUndone().peek().redoCommand();
+		if (ce != null) {
 			Command action = currentStack.getUndone().pop();
 			if (action.canUndo()) {
 				currentStack.getPerformed().push(action);
@@ -138,7 +153,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements
 		}
 		currentStack.increaseActionHistory();
 		//TODO maybe it is worth optimizing so its only called when necessary
-		notifyListeners(null);
+		notifyListeners(ce);
 	}
 
 	@Override

@@ -40,7 +40,6 @@ package ead.editor.view.generic;
 import ead.common.params.text.EAdString;
 import ead.editor.control.CommandManager;
 import ead.editor.control.commands.ChangeEAdStringValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
 import ead.tools.StringHandler;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
@@ -49,13 +48,32 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.control.change.ChangeListener;
+
 /**
  * This provider uses a {@link StringHandler} to establish the value of a string
  * and where the new value is stored. The {@link EAdString} is only a key and
  * must not be modified.
  *
  */
-public class EAdStringOption extends AbstractOption<EAdString> {
+public class EAdStringOption extends AbstractOption<EAdString> implements
+		ChangeListener<ChangeEvent> {
+
+	private JTextComponent textField;
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		manager.removeChangeListener(this);
+	}
+
+	@Override
+	public void processChange(ChangeEvent event) {
+		if (event.hasChanged(fieldDescriptor)) {
+			textField.setText(stringHandler
+					.getString(read(getFieldDescriptor())));
+		}
+	}
 
 	public static enum ExpectedLength {
 		SHORT, NORMAL, LONG
@@ -99,7 +117,6 @@ public class EAdStringOption extends AbstractOption<EAdString> {
 	@Override
 	public JComponent getComponent(CommandManager manager) {
 		JComponent component = null;
-		JTextComponent textField;
 		switch (getExpectedLength()) {
 		case LONG:
 			textField = new JTextArea(getTitle());
@@ -120,6 +137,8 @@ public class EAdStringOption extends AbstractOption<EAdString> {
 		textField.getDocument().addDocumentListener(
 				new TextFieldDocumentListener(manager,
 						read(getFieldDescriptor()), textField));
+
+		manager.addChangeListener(this);
 
 		return component;
 	}

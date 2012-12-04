@@ -48,8 +48,8 @@ import java.util.ListIterator;
  * Default implementation for the {@link NavigationController}.
  */
 @Singleton
-public class NavigationControllerImpl extends ChangeNotifierImpl implements
-		NavigationController {
+public class NavigationControllerImpl extends ChangeNotifierImpl<String>
+		implements NavigationController<String> {
 
 	private Controller controller;
 	private LinkedList<String> viewStack = new LinkedList<String>();

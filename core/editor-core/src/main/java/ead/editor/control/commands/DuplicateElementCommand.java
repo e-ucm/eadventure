@@ -39,6 +39,8 @@ package ead.editor.control.commands;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Duplicate (if it extends {@link Copyable}) an element in a list.
@@ -46,7 +48,7 @@ import ead.editor.control.Command;
  * @param <P>
  *            The type of the element
  */
-public class DuplicateElementCommand<P> extends Command {
+public class DuplicateElementCommand<P> extends Command implements ChangeEvent {
 
 	/**
 	 * The list in which the duplicated elements will be placed.
@@ -83,9 +85,9 @@ public class DuplicateElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
 	 */
 	@Override
-	public boolean performCommand() {
+	public ChangeEvent performCommand() {
 		// TODO duplicate
-		return false;
+		return null;
 	}
 
 	/*
@@ -104,12 +106,12 @@ public class DuplicateElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 		if (elementList.contains(duplicatedElement)) {
 			elementList.remove(duplicatedElement);
-			return true;
+			return this;
 		}
-		return false;
+		return null;
 	}
 
 	/*
@@ -128,8 +130,8 @@ public class DuplicateElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
-	public boolean redoCommand() {
-		return performCommand();
+	public ChangeEvent redoCommand() {
+		return performCommand() != null ? this : null;
 	}
 
 	/*
@@ -144,4 +146,8 @@ public class DuplicateElementCommand<P> extends Command {
 		return false;
 	}
 
+	@Override
+	public boolean hasChanged(FieldDescriptor fd) {
+		return fd.getElement() == elementList;
+	}
 }

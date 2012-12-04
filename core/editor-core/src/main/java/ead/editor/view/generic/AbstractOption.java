@@ -67,6 +67,11 @@ public abstract class AbstractOption<S> implements Option<S> {
 	protected FieldDescriptor<S> fieldDescriptor;
 
 	/**
+	 * While updating, external updates will be ignored
+	 */
+	protected boolean isUpdating = false;
+
+	/**
 	 * @param label
 	 *            The label in the option (can be null)
 	 * @param toolTipText
@@ -79,7 +84,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 			FieldDescriptor<S> fieldDescriptor) {
 		this.label = label;
 		this.toolTipText = toolTipText;
-		if (toolTipText == null || toolTipText.equals(""))
+		if (toolTipText == null || toolTipText.isEmpty())
 			throw new RuntimeException(
 					"BALTAEXCEPTION: ToolTipTexts must be provided for all interface elements!");
 		this.fieldDescriptor = fieldDescriptor;
@@ -129,8 +134,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 					fieldDescriptor.getElement());
 			return value;
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field "
-					+ fieldDescriptor.getFieldName() + " in "
+			throw new RuntimeException("Error reading field '"
+					+ fieldDescriptor.getFieldName() + "' in "
 					+ fieldDescriptor.getElement().getClass(), e);
 		}
 	}

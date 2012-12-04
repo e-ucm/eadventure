@@ -132,4 +132,12 @@ public class AssetNode extends EditorNode {
 	public int getAssetSize() {
 		return 0;
 	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 }

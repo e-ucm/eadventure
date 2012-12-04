@@ -37,12 +37,13 @@
 
 package ead.editor.control;
 
+import ead.editor.control.change.ChangeEvent;
 import ead.editor.control.change.ChangeNotifier;
 
 /**
  * Interface for the management of Commands that modify the editor model.
  */
-public interface CommandManager extends ChangeNotifier {
+public interface CommandManager extends ChangeNotifier<ChangeEvent> {
 
 	/**
 	 * Perform an command over the game model

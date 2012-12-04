@@ -35,71 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.control.change;
 
-import ead.common.model.elements.extra.EAdList;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
- * Generic implementation of {@link EAdListFieldDescriptor}
- *
- * @param <S>
+ * An event that describes a change. 
+ * @author mfreire
  */
-public class EAdListFieldDescriptorImpl<S> extends
-		FieldDescriptorImpl<EAdList<S>> implements EAdListFieldDescriptor<S> {
+public interface ChangeEvent {
 
-	private EAdList<S> list;
-
-	/**
-	 * @param element
-	 *            The element where the value is stored
-	 * @param fieldName
-	 *            The name of the field
-	 * @param list
-	 */
-	public EAdListFieldDescriptorImpl(Object element, String fieldName,
-			EAdList<S> list) {
-		super(element, fieldName);
-		this.list = list;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
-	 */
-	@Override
-	public Object getElement() {
-		return element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
-	 */
-	@Override
-	public String getFieldName() {
-		return fieldName;
-	}
-
-	@Override
-	public int getCount() {
-		return list.size();
-	}
-
-	@Override
-	public S getElementAt(int pos) {
-		return list.get(pos);
-	}
-
-	@Override
-	public Panel getPanel(int pos, boolean selected) {
-		return null;
-	}
-
-	@Override
-	public EAdList<S> getList() {
-		return list;
-	}
+	public boolean hasChanged(FieldDescriptor fd);
 }

@@ -37,8 +37,6 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.FieldDescriptor;
-
 /**
  * Generic implementation of {@link FieldDescriptor}
  *
@@ -88,4 +86,33 @@ public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
 		return fieldName;
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 11 * hash
+				+ (this.fieldName != null ? this.fieldName.hashCode() : 0);
+		hash = 11 * hash + (this.element != null ? this.element.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final FieldDescriptorImpl<S> other = (FieldDescriptorImpl<S>) obj;
+		if ((this.fieldName == null) ? (other.fieldName != null)
+				: !this.fieldName.equals(other.fieldName)) {
+			return false;
+		}
+		if (this.element != other.element
+				&& (this.element == null || !this.element.equals(other.element))) {
+			return false;
+		}
+		return true;
+	}
 }

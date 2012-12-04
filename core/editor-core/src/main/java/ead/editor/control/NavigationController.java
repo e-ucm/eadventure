@@ -44,7 +44,7 @@ import ead.editor.control.change.ChangeNotifier;
  * The implementation should register itself with whatever actually creates the
  * screens, so that it will be notified when views are opened or visited.
  */
-public interface NavigationController extends ChangeNotifier {
+public interface NavigationController<E> extends ChangeNotifier<E> {
 
 	/**
 	 * Go forward in the screen history

@@ -39,12 +39,14 @@ package ead.editor.control.commands;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.editor.control.Command;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.view.generic.FieldDescriptor;
 
 /**
  * Class that represents the generic command that moves an element in an
  * {@link EAdList}.
  */
-public class MoveElementCommand<P> extends Command {
+public class MoveElementCommand<P> extends Command implements ChangeEvent {
 
 	/**
 	 * The list in which the specified elements will be moved.
@@ -89,14 +91,14 @@ public class MoveElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
 	 */
 	@Override
-	public boolean performCommand() {
+	public ChangeEvent performCommand() {
 		if (elementList.contains(anElement)) {
 			oldIndex = elementList.indexOf(anElement);
 			elementList.remove(anElement);
 			elementList.add(anElement, newIndex);
-			return true;
+			return this;
 		}
-		return false;
+		return null;
 	}
 
 	/*
@@ -115,12 +117,11 @@ public class MoveElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
-	public boolean undoCommand() {
+	public ChangeEvent undoCommand() {
 
 		elementList.remove(anElement);
 		elementList.add(anElement, oldIndex);
-		return true;
-
+		return this;
 	}
 
 	/*
@@ -139,15 +140,14 @@ public class MoveElementCommand<P> extends Command {
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
-	public boolean redoCommand() {
+	public ChangeEvent redoCommand() {
 		if (elementList.contains(anElement)) {
 			oldIndex = elementList.indexOf(anElement);
 			elementList.remove(anElement);
 			elementList.add(anElement, newIndex);
-			return true;
+			return this;
 		}
-		return false;
-
+		return null;
 	}
 
 	/*
@@ -186,4 +186,8 @@ public class MoveElementCommand<P> extends Command {
 		return oldIndex;
 	}
 
+	@Override
+	public boolean hasChanged(FieldDescriptor fd) {
+		return fd.getElement() == elementList;
+	}
 }
