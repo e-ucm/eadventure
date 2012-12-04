@@ -35,42 +35,31 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.model.nodes.asset;
 
-import java.util.ArrayList;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModelImpl;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.multimedia.Video;
+import ead.editor.R;
 
 /**
- * Synthetic node for i18n-susceptible game strings.
+ * Image asset node
  *
  * @author mfreire
  */
-public class AssetsNode extends EditorNode {
+public class VideoAssetNode extends AssetNode {
 
-	private ArrayList<DependencyNode> assetNodes = new ArrayList<DependencyNode>();
-
-	public AssetsNode(int id) {
+	public VideoAssetNode(int id) {
 		super(id);
 	}
 
-	public ArrayList<DependencyNode> getNodes(EditorModel m) {
-		assetNodes.clear();
-		for (DependencyNode n : ((EditorModelImpl) m).getNodesById().values()) {
-			if (n.getContent() instanceof AssetDescriptor) {
-				assetNodes.add(n);
-			}
-		}
-		return assetNodes;
+	@Override
+	public String getLinkText() {
+		String s = ((Video) getDescriptor()).getUri().toString();
+		return s.substring(s.lastIndexOf("video") + "video".length() + 1);
 	}
 
 	@Override
-	public String getTextualDescription(EditorModel m) {
-		StringBuilder sb = new StringBuilder();
-		for (DependencyNode n : getNodes(m)) {
-			sb.append(n.getTextualDescription(m));
-		}
-		return sb.toString();
+	public String getLinkIcon() {
+		return R.Drawable.assets__video_png;
 	}
 }

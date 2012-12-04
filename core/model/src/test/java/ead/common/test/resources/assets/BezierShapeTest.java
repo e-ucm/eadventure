@@ -1,5 +1,6 @@
 package ead.common.test.resources.assets;
 
+import ead.common.interfaces.features.Identified;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
@@ -19,6 +20,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		EAdPaint p2 = Paint.BLACK_ON_WHITE;
 		// Shape with the same object
 		BezierShape shape = new BezierShape();
+		shape.setId(null);
 		shape.moveTo(0, 0);
 		shape.lineTo(10, 20);
 		shape.lineTo(50, 60);
@@ -30,6 +32,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 
 		// Same shape, but not closed
 		shape = new BezierShape();
+		shape.setId(null);
 		shape.moveTo(0, 0);
 		shape.lineTo(10, 20);
 		shape.lineTo(50, 60);
@@ -41,6 +44,7 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 
 		// Same shape, but with another paint
 		shape = new BezierShape();
+		shape.setId(null);
 		shape.moveTo(0, 0);
 		shape.lineTo(10, 20);
 		shape.lineTo(50, 60);
@@ -63,9 +67,12 @@ public class BezierShapeTest extends EqualsHashCodeTest<EAdShape> {
 		 */
 		// Shape with rectangle
 		shapes.add(new RectangleShape(800, 600, p2));
+		((Identified) shapes.get(shapes.size() - 1)).setId(null);
 		shapes.add(new RectangleShape(800, 600, p2));
+		((Identified) shapes.get(shapes.size() - 1)).setId(null);
 
 		shape = new BezierShape();
+		shape.setId(null);
 		shape.moveTo(0, 0);
 		shape.lineTo(800, 0);
 		shape.lineTo(800, 600);

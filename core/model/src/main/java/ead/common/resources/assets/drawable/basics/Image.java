@@ -85,28 +85,29 @@ public class Image extends AbstractAssetDescriptor implements EAdImage {
 		this.uri = uri;
 	}
 
-	public boolean equals(Object o) {
-		if (o instanceof EAdImage) {
-			EAdURI uri = ((EAdImage) o).getUri();
-			if (uri == null && this.uri == null) {
-				return true;
-			}
-
-			if (uri != null && this.uri != null) {
-				return uri.equals(this.uri);
-			}
-
-			return false;
-		}
-		return false;
-	}
-
-	public int hashCode() {
-		return (uri != null ? uri.hashCode() : 0);
-	}
-
+	@Override
 	public String toString() {
 		return "Img:" + uri;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7 * super.hashCode();
+		hash = 37 * hash + (this.uri != null ? this.uri.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		final Image other = (Image) obj;
+		if (this.uri != other.uri
+				&& (this.uri == null || !this.uri.equals(other.uri))) {
+			return false;
+		}
+		return true;
 	}
 
 }

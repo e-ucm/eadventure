@@ -65,8 +65,8 @@ import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
-import ead.editor.model.nodes.AssetFactory;
-import ead.editor.model.nodes.AssetsNode;
+import ead.editor.model.nodes.asset.AssetFactory;
+import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
@@ -264,11 +264,18 @@ public class EditorModelLoader {
 					}
 					int cid = Integer.valueOf(idString);
 					logger.debug("\tadding child {}", cid);
-					editorNode.addChild(model.getNodesById().get(cid));
-					logger.debug("\tadding child {} [{}]", new Object[] {
-							cid,
-							model.getNodesById().get(cid)
-									.getTextualDescription(model) });
+					if (model.getNodesById().get(cid) == null) {
+						logger
+								.error(
+										"Cannot add child {} of editorNode {}: null child (id {} not registered)",
+										new Object[] { idString, id, idString });
+					} else {
+						editorNode.addChild(model.getNodesById().get(cid));
+						logger.debug("\tadding child {} [{}]", new Object[] {
+								cid,
+								model.getNodesById().get(cid)
+										.getTextualDescription(model) });
+					}
 				}
 				editorNode.restoreInner(e);
 				model.registerEditorNodeWithGraph(editorNode);
@@ -297,7 +304,7 @@ public class EditorModelLoader {
 		if (targetContent instanceof Identified) {
 			String oid = ((Identified) targetContent).getId();
 			int eid = model.getEditorId(targetContent);
-			if (eid != model.badElementId) {
+			if (eid != EditorModelImpl.badElementId) {
 				// content is eadElement, and has editor-id: unfreeze
 				logger.debug("Found existing eID marker in {}: {}",
 						targetContent.getClass().getSimpleName(), oid);
@@ -319,7 +326,6 @@ public class EditorModelLoader {
 				}
 			} else {
 				// content is eadElement, but has no editor-id: add it
-				String decorated = null;
 				if (isLoading) {
 					logger.error(
 							"Loaded EAdElement {} of type {} had no editor ID",
@@ -329,7 +335,8 @@ public class EditorModelLoader {
 							+ "no eid assigned to loaded objects");
 				} else {
 					eid = model.generateId(targetContent);
-					decorated = model.decorateIdWithEid(oid, eid);
+					String decorated = EditorModelImpl.decorateIdWithEid(oid,
+							eid);
 					logger.debug("Created eID marker for {}: {} ({})",
 							new Object[] { oid, eid, decorated });
 					((Identified) targetContent).setId(decorated);

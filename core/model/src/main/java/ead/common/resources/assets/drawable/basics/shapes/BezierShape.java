@@ -70,7 +70,7 @@ public class BezierShape extends AbstractShape {
 
 	/**
 	 * Resets the shape and sets the initial point to x and y
-	 * 
+	 *
 	 * @param x
 	 *            x coordinate
 	 * @param y
@@ -143,6 +143,7 @@ public class BezierShape extends AbstractShape {
 		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
 	}
 
+	@Override
 	public Object clone() {
 		BezierShape s = new BezierShape();
 		s.closed = closed;
@@ -153,10 +154,7 @@ public class BezierShape extends AbstractShape {
 		return s;
 	}
 
-	public int hashCode() {
-		return toString().hashCode();
-	}
-
+	@Override
 	public String toString() {
 		String pointsText = "";
 		for (Integer i : points) {
@@ -167,16 +165,26 @@ public class BezierShape extends AbstractShape {
 				+ pointsText;
 	}
 
-	public boolean equals(Object o) {
-		if (o instanceof BezierShape) {
-			BezierShape b = (BezierShape) o;
-			return this.toString().equals(b.toString());
-		}
-		return false;
-	}
-
 	public void setPoints(EAdList<Integer> points) {
 		this.points = points;
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 59 * hash + super.hashCode();
+		hash = 59 * hash + (this.closed ? 1 : 0);
+		hash = 59 * hash
+				+ (this.points != null ? this.points.toString().hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		final BezierShape other = (BezierShape) obj;
+		return other.toString().equals(toString());
+	}
 }

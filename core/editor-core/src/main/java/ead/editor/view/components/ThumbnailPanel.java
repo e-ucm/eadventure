@@ -45,33 +45,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceEvent;
-import java.awt.dnd.DragSourceListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
-import javax.activation.DataHandler;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.TransferHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,7 +129,7 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 			t.setSize(thumbImageSize, thumbImageSize);
 			add(t);
 
-			EditorLink e = EditorLinkFactory.createLink(node, null);
+			EditorLink e = EditorLinkFactory.createLink(node, controller);
 			e.setBounds(0, thumbImageSize, thumbWidth, (int) e
 					.getPreferredSize().getHeight());
 			e.setSize(thumbWidth, (int) e.getPreferredSize().getHeight());
@@ -155,17 +146,17 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 						if (!wasSelected) {
 							selected.add(node);
 						}
-						getParent().repaint();
 					} else {
 						if (!wasSelected) {
 							selected.add(node);
 						} else {
 							selected.remove(node);
 						}
-						getParent().repaint();
 					}
+					lastSelected = node;
 					ThumbnailPanel.this.firePropertyChange(
-							selectedPropertyName, null, null);
+							selectedPropertyName, null, node);
+					getParent().repaint();
 				}
 			});
 		}
@@ -288,9 +279,18 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 	public void setNodes(Collection<EditorNode> nodes) {
 		selected.clear();
 		inner.removeAll();
+		this.nodes.clear();
 		for (EditorNode n : nodes) {
+			this.nodes.add(n);
 			inner.add(new ThumbnailPanel.Thumbnail(n));
 		}
-		inner.validate();
+		inner.revalidate();
+		revalidate();
+	}
+
+	@Override
+	public void addNode(EditorNode node) {
+		nodes.add(node);
+		inner.add(new ThumbnailPanel.Thumbnail(node));
 	}
 }

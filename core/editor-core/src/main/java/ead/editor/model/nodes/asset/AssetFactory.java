@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.model.nodes.asset;
 
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -47,6 +47,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.model.EditorModelImpl;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.EditorNodeFactory;
+import ead.editor.model.nodes.EngineNode;
 import java.util.List;
 
 /**
@@ -75,7 +79,7 @@ public class AssetFactory implements EditorNodeFactory {
 			}
 
 			AssetDescriptor d = (AssetDescriptor) n.getContent();
-			EditorNode an = null;
+			EditorNode an;
 			if (d instanceof Frame) {
 				frames.add(n);
 				continue;
@@ -87,7 +91,6 @@ public class AssetFactory implements EditorNodeFactory {
 				an = new AssetNode(model.generateId(null));
 			}
 
-			new AssetNode(model.generateId(null));
 			n.setManager(an);
 			an.addChild(n);
 			newNodes.add(an);
@@ -95,7 +98,12 @@ public class AssetFactory implements EditorNodeFactory {
 
 		// now, register them
 		for (EditorNode en : newNodes) {
-			logger.info("Registered {} as an AssetNode", en.getId());
+			logger
+					.info(
+							"Registered {} as asset-node of type {} (first entry is {})",
+							new Object[] { en.getId(),
+									en.getClass().getSimpleName(),
+									en.getFirst().getId() });
 			model.registerEditorNodeWithGraph(en);
 		}
 

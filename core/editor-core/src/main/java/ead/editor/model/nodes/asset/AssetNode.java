@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.model.nodes.asset;
 
 import java.util.ArrayList;
 import ead.common.resources.assets.AssetDescriptor;
@@ -45,6 +45,7 @@ import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.editor.R;
+import ead.editor.model.nodes.EditorNode;
 import java.io.File;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

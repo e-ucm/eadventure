@@ -39,6 +39,7 @@ package ead.common.resources.assets;
 
 import com.gwtent.reflection.client.Reflectable;
 import ead.common.interfaces.Param;
+import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.BasicElement;
 
 /**
@@ -61,6 +62,7 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 	 *
 	 * @return the id
 	 */
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -68,7 +70,34 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 	/**
 	 * Set the element ID. The ID must be unique.
 	 */
+	@Override
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Should be called from all children. Performs ID comparison; null
+	 * IDs are admitted (and considered equal).
+	 */
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 11 * hash + (this.getId() != null ? this.getId().hashCode() : 0);
+		return hash;
+	}
+
+	/**
+	 * Should be called from all children. Compares by ID; null IDs
+	 * are admitted (and considered equal).
+	 * @param other
+	 * @return
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if ((other == null) || !other.getClass().equals(getClass())) {
+			return false;
+		}
+		String oid = ((Identified) other).getId();
+		return (oid == null && id == null) || oid.equals(id);
 	}
 }

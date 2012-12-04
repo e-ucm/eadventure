@@ -63,6 +63,7 @@ public class R {
 		public static String assets__animation_png;
 		public static String assets__bezier_png;
 		public static String assets__caption_png;
+		public static String assets__editor_png;
 		public static String assets__engine_png;
 		public static String assets__image_png;
 		public static String assets__query_png;
@@ -111,6 +112,7 @@ public class R {
 			files.add("assets/animation.png");
 			files.add("assets/bezier.png");
 			files.add("assets/caption.png");
+			files.add("assets/editor.png");
 			files.add("assets/engine.png");
 			files.add("assets/image.png");
 			files.add("assets/query.png");

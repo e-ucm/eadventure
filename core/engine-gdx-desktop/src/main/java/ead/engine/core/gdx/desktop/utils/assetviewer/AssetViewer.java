@@ -37,7 +37,6 @@
 
 package ead.engine.core.gdx.desktop.utils.assetviewer;
 
-import com.badlogic.gdx.Gdx;
 import java.awt.Canvas;
 import java.util.List;
 
@@ -47,16 +46,12 @@ import com.google.inject.Inject;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.engine.core.gdx.utils.assetviewer.AssetApplicationListener;
-import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
-import ead.tools.java.reflection.JavaReflectionProvider;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import org.slf4j.LoggerFactory;
 

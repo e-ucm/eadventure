@@ -42,7 +42,7 @@
 package ead.editor.view.components;
 
 import ead.editor.model.EditorModel;
-import ead.editor.model.nodes.AssetNode;
+import ead.editor.model.nodes.asset.AssetNode;
 import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -70,7 +70,6 @@ import org.jdesktop.swingx.JXTable;
 public class PropertiesTablePanel extends NodeBrowserPanel {
 
 	private EditorModel editorModel;
-	private ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
 
 	private JXTable table;
 	private SimpleTableModel tableModel;
@@ -80,16 +79,25 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		table = new JXTable(tableModel);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						selected.clear();
-						for (int row : table.getSelectedRows()) {
-							selected.add(nodes.get(row));
+			new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					// update "last-selected"
+					for (int row : table.getSelectedRows()) {
+						EditorNode node = nodes.get(row);
+						if (!selected.contains(node)) {
+							lastSelected = node;
+							break;
 						}
-						firePropertyChange(selectedPropertyName, null, null);
 					}
-				});
+					// update selection-list itself
+					selected.clear();
+					for (int row : table.getSelectedRows()) {
+						selected.add(nodes.get(row));
+					}
+					firePropertyChange(selectedPropertyName, null, lastSelected);
+				}
+			});
 		table.setColumnControlVisible(true);
 		table.setSortable(true);
 		table.setDefaultRenderer(BufferedImage.class, new ImageCellRenderer());
@@ -224,6 +232,12 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		this.nodes.clear();
 		this.nodes.addAll(nodes);
 		selected.clear();
+		tableModel.fireTableDataChanged();
+	}
+
+	@Override
+	public void addNode(EditorNode node) {
+		nodes.add(node);
 		tableModel.fireTableDataChanged();
 	}
 }
