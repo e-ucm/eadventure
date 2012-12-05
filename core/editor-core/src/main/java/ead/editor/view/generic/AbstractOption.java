@@ -149,7 +149,7 @@ public abstract class AbstractOption<S> implements Option<S>,
 	 * Subclasses should register as a listeners
 	 * to any changes in the model, and call update() when such changes occur.
 	 */
-	public abstract JComponent createControl();
+	protected abstract JComponent createControl();
 
 	/**
 	 * Creates and initializes the component
@@ -167,13 +167,13 @@ public abstract class AbstractOption<S> implements Option<S>,
 	 * Reads the value of the control.
 	 * @return 
 	 */
-	public abstract S getControlValue();
+	protected abstract S getControlValue();
 
 	/**
 	 * Writes the value of the control.
 	 * @return 
 	 */
-	public abstract void setControlValue(S newValue);
+	protected abstract void setControlValue(S newValue);
 
 	/**
 	 * Creates a Command that describes a change to the manager
@@ -217,6 +217,24 @@ public abstract class AbstractOption<S> implements Option<S>,
 	 */
 	public void valueUpdated(S oldValue) {
 		// by default, do nothing
+	}
+	
+	/**
+	 * Triggers a manual update. This should be indistinguishable from 
+	 * the user typing in stuff directly (if this were a typing-enabled control)
+	 * @param nextValue 
+	 */
+	public void updateValue(S nextValue) {
+		if (isUpdating || !isValid(nextValue)) {
+			return;
+		}
+
+		isUpdating = true;
+		setControlValue(nextValue);
+		manager.performCommand(createUpdateCommand());
+		valueUpdated(oldValue);
+		oldValue = getControlValue();
+		isUpdating = false;		
 	}
 
 	@Override

@@ -70,17 +70,17 @@ public class FileOption extends AbstractOption<File> {
 	}
 
 	@Override
-	public File getControlValue() {
+	protected File getControlValue() {
 		return new File(textField.getText());
 	}
 
 	@Override
-	public void setControlValue(File newValue) {
+	protected void setControlValue(File newValue) {
 		textField.setText(newValue.getPath());
 	}
 
 	@Override
-	public JComponent createControl() {
+	protected JComponent createControl() {
 		final JPanel controls = new JPanel(new BorderLayout(4, 0));
 		textField = new JTextField(getTitle(), 20);
 		textField.setToolTipText(getToolTipText());

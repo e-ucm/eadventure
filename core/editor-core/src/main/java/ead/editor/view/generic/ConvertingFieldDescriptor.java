@@ -35,69 +35,82 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes.asset;
-
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.editor.R;
-import ead.utils.i18n.Resource;
-import java.awt.image.BufferedImage;
-import java.io.File;
+package ead.editor.view.generic;
 
 /**
- * Image asset node
+ * Generic implementation of {@link FieldDescriptor}
  *
- * @author mfreire
+ * @param <S>
  */
-public class ImageAssetNode extends AssetNode {
+public abstract class ConvertingFieldDescriptor<A,B> implements FieldDescriptor<A> {
 
-	public ImageAssetNode(int id) {
-		super(id);
-	}
-
-	@Override
-	public String getLinkText() {
-		String s = ((Image) getDescriptor()).getUri().toString();
-		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
-	}
-
-	public File resolveUri(String uri) {
-		return new File(uri.replace("@", base.getAbsolutePath()
-				+ File.separator));		
-	}
+	private FieldDescriptor<B> inner;
 	
-	public File getFile() {
-		String uri = ((Image) getDescriptor()).getUri().toString();
-		return resolveUri(uri);
+	/**
+	 * @param element
+	 *            The element where the value is stored
+	 * @param fieldName
+	 *            The name of the field
+	 */
+	public ConvertingFieldDescriptor(FieldDescriptor<B> inner) {
+		this.inner = inner;
 	}
 
-	public File getSource() {
-		if (sources.isEmpty()) {
-			setSource(getFile());
-		}
-		return new File(sources.get(0));
-	}
+	public abstract A innerToOuter(B b);
 	
-	public void setSource(File file) {
-		if (sources.isEmpty()) {
-			sources.add(file.getPath());
-		} else {
-			sources.set(0, file.getPath());
-		}
-	}
+	public abstract B outerToInner(A a);
 	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
+	 */
 	@Override
-	public void updateThumbnail() {
-		BufferedImage fullImage = Resource.loadExternalImage(getFile());
-		setThumbnail(fullImage);
+	public Object getElement() {
+		return inner.getElement();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
+	 */
+	@Override
+	public String getFieldName() {
+		return inner.getFieldName();
 	}
 
 	@Override
-	public int getAssetSize() {
-		return (int) getFile().length();
+	public int hashCode() {
+		return inner.hashCode();
 	}
 
 	@Override
-	public String getLinkIcon() {
-		return R.Drawable.assets__image_png;
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		return inner.equals(obj);
+	}
+
+	/**
+	 * Writes the field
+	 */
+	@Override
+	public void write(A data) {
+		inner.write(outerToInner(data));
+	}
+
+	/**
+	 * Reads the field
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public A read() {
+		return innerToOuter(inner.read());
+	}
+
+	@Override
+	public String toString() {
+		return inner.toString();
 	}
 }

@@ -50,7 +50,7 @@ public class BooleanOption extends AbstractOption<Boolean> {
 	}
 
 	@Override
-	public JComponent createControl() {
+	protected JComponent createControl() {
 		checkBox = new JCheckBox(getTitle());
 		checkBox.setToolTipText(getToolTipText());
 		checkBox.setSelected(fieldDescriptor.read());
@@ -66,12 +66,12 @@ public class BooleanOption extends AbstractOption<Boolean> {
 	}
 
 	@Override
-	public Boolean getControlValue() {
+	protected Boolean getControlValue() {
 		return checkBox.isSelected();
 	}
 
 	@Override
-	public void setControlValue(Boolean newValue) {
+	protected void setControlValue(Boolean newValue) {
 		checkBox.setSelected(newValue);
 	}
 }

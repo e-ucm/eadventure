@@ -45,6 +45,8 @@ import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -52,6 +54,23 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.util.EAdURI;
+import ead.editor.control.CommandManager;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.control.change.ChangeListener;
+import ead.editor.control.commands.ChangeFieldValueCommand;
+import ead.editor.control.commands.ChangeFileValueCommand;
+import ead.editor.control.commands.FileCache;
+import ead.editor.view.generic.ConvertingFieldDescriptor;
+import ead.editor.view.generic.FieldDescriptorImpl;
+import ead.editor.view.generic.FileNameOption;
+import ead.editor.view.generic.FileOption;
+import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.PanelImpl;
+import ead.editor.view.generic.TextOption;
+import ead.utils.FileUtils;
 
 /**
  * A panel that displays all assets, by type. A preview is available
@@ -64,9 +83,14 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	private static final Logger logger = LoggerFactory
 			.getLogger("ImageAssetPanel");
 
+	private static FileCache fileCache;
+	
 	private ImageAssetNode imageAsset;
 	private File imageFile;
 	private ZoomableImagePanel jpCanvas;
+	
+	private Panel controlPanel;
+	
 	private FileDrop.Listener dropListener = new FileDrop.Listener() {
 
 		@Override
@@ -83,7 +107,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 		if (f != null
 				&& f.getName().toLowerCase().matches(".*[.](png|jpg|jpeg)")
 				&& f.exists()) {
-			jtfFileName.setText(f.getAbsolutePath());
+			fileOption.updateValue(f);
 			imageFile = f;
 			jpCanvas.refreshImage();
 		} else {
@@ -185,7 +209,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	private void initComponents() {
 		java.awt.GridBagConstraints gridBagConstraints;
 
-		jButton5 = new javax.swing.JButton();
+		jbZoomNative = new javax.swing.JButton();
 		jpView = new javax.swing.JPanel();
 		jlDescription = new javax.swing.JLabel();
 		jpViewControls = new javax.swing.JPanel();
@@ -194,17 +218,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 		jbResetZoom = new javax.swing.JButton();
 		jbZoomPixel = new javax.swing.JButton();
 		jpCanvasContainer = new javax.swing.JPanel();
-		jpConfigure = new javax.swing.JPanel();
-		jlName = new javax.swing.JLabel();
-		jlSource = new javax.swing.JLabel();
-		jlNotes = new javax.swing.JLabel();
-		jtfName = new javax.swing.JTextField();
-		jbOpenSource = new javax.swing.JButton();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jtaNotes = new javax.swing.JTextArea();
-		jtfFileName = new javax.swing.JTextField();
-
-		jButton5.setText("1:1");
+		jbZoomNative.setText("1:1");
 
 		setLayout(new java.awt.GridBagLayout());
 
@@ -220,6 +234,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 		jbOpenExt.setText("Open with");
 		jbOpenExt.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jbOpenExtActionPerformed(evt);
 			}
@@ -242,6 +257,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 		jbResetZoom.setText("Zoom to fit");
 		jbResetZoom.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jbResetZoomActionPerformed(evt);
 			}
@@ -250,6 +266,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 		jbZoomPixel.setText("Zoom 1:1");
 		jbZoomPixel.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jbZoomPixelActionPerformed(evt);
 			}
@@ -279,126 +296,11 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 		gridBagConstraints.weightx = 0.2;
 		gridBagConstraints.weighty = 0.2;
 		add(jpView, gridBagConstraints);
-
-		jpConfigure.setLayout(new java.awt.GridBagLayout());
-
-		jlName.setText("Name");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.ABOVE_BASELINE_TRAILING;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		jpConfigure.add(jlName, gridBagConstraints);
-
-		jlSource.setText("Source");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.ABOVE_BASELINE_TRAILING;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		jpConfigure.add(jlSource, gridBagConstraints);
-
-		jlNotes.setText("Notes");
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		jpConfigure.add(jlNotes, gridBagConstraints);
-
-		jtfName.setText("jTextField1");
-		jtfName.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jtfNameActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		jpConfigure.add(jtfName, gridBagConstraints);
-
-		jbOpenSource.setText("Choose...");
-		jbOpenSource.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jbOpenSourceActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-		jpConfigure.add(jbOpenSource, gridBagConstraints);
-
-		jtaNotes.setColumns(20);
-		jtaNotes.setRows(3);
-		jtaNotes.setMinimumSize(new java.awt.Dimension(232, 57));
-		jtaNotes
-				.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-					public void propertyChange(
-							java.beans.PropertyChangeEvent evt) {
-						jtaNotesPropertyChange(evt);
-					}
-				});
-		jScrollPane1.setViewportView(jtaNotes);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.weightx = 0.1;
-		gridBagConstraints.weighty = 0.1;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		jpConfigure.add(jScrollPane1, gridBagConstraints);
-
-		jtfFileName.setText("jTextField2");
-		jtfFileName.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jtfFileNameActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.weightx = 0.1;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
-		jpConfigure.add(jtfFileName, gridBagConstraints);
-
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		add(jpConfigure, gridBagConstraints);
 	}
 
 	private void jbOpenExtActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
 		openExt(jcbOpenWith.getSelectedItem());
-	}
-
-	private void jtfNameActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		nameChanged(jtfName.getText());
-	}
-
-	private void jtfFileNameActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		File f = new File(jtfFileName.getText());
-		if (f.exists()) {
-			setFile(f);
-		}
-	}
-
-	private void jbOpenSourceActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		chooseFile(this, "Choose file to open", true, JFileChooser.FILES_ONLY);
-	}
-
-	private void jtaNotesPropertyChange(java.beans.PropertyChangeEvent evt) {
-		// TODO add your handling code here:
-		setNotes(jtaNotes.getText());
 	}
 
 	private void jbResetZoomActionPerformed(java.awt.event.ActionEvent evt) {
@@ -411,38 +313,81 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	}
 
 	// Variables declaration - do not modify
-	private javax.swing.JButton jButton5;
-	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JButton jbZoomNative;
 	private javax.swing.JButton jbOpenExt;
-	private javax.swing.JButton jbOpenSource;
 	private javax.swing.JButton jbResetZoom;
 	private javax.swing.JButton jbZoomPixel;
 	private javax.swing.JComboBox jcbOpenWith;
 	private javax.swing.JLabel jlDescription;
-	private javax.swing.JLabel jlName;
-	private javax.swing.JLabel jlNotes;
-	private javax.swing.JLabel jlSource;
 	private javax.swing.JPanel jpCanvasContainer;
-	private javax.swing.JPanel jpConfigure;
 	private javax.swing.JPanel jpView;
 	private javax.swing.JPanel jpViewControls;
-	private javax.swing.JTextArea jtaNotes;
-	private javax.swing.JTextField jtfFileName;
-	private javax.swing.JTextField jtfName;
 
+	private FileOption fileOption;
+	
 	// End of variables declaration
 
 	@Override
 	protected void rebuild() {
 		imageAsset = (ImageAssetNode) target;
-		if (imageAsset.getNotes() != null) {
-			jtaNotes.setText(imageAsset.getNotes().trim());
+		Image image = (Image)imageAsset.getFirst().getContent();
+			
+		if (fileCache == null) {
+			try {
+				fileCache = new FileCache(FileUtils.createTempDir("ead", "cache"));
+			} catch (Exception e) {
+				logger.error("Could not initialize cache");
+			}
 		}
-		if (imageAsset.getSources() != null
-				&& imageAsset.getSources().size() > 0) {
-			// FIXME: jtfName.setText(imageAsset.getSources()[0].);
-		}
+		
+		if (controlPanel == null) {
+			controlPanel = new PanelImpl("Configuration", Panel.LayoutPolicy.VerticalBlocks, 4);
+			final FileNameOption fno = new FileNameOption("Name", "Asset Name", 
+					new ConvertingFieldDescriptor<String, EAdURI>(
+					new FieldDescriptorImpl<EAdURI>(image, "uri")) {
+						@Override
+						public String innerToOuter(EAdURI b) {
+							return b.toStringData();
+						}
+						@Override
+						public EAdURI outerToInner(String a) {
+							return new EAdURI(a);
+						}					
+					}, false);
+			fileOption = new FileOption("Source", "Asset source-file (.png or .jpg only)", "Choose...",
+					new FieldDescriptorImpl<File>(imageAsset, "source"), fileCache);
+			controlPanel.addElement(fno);
+			controlPanel.addElement(fileOption);
+			controlPanel.addElement(new TextOption("Notes", "Notes on this asset", 
+					new FieldDescriptorImpl<String>(imageAsset, "notes"), TextOption.ExpectedLength.LONG));
 
+			CommandManager manager = controller.getCommandManager();
+			GridBagConstraints gbc = new GridBagConstraints(0, 1, 1, 1, .1, .1, GridBagConstraints.CENTER, 
+					GridBagConstraints.HORIZONTAL, new Insets(4, 4, 4, 4), 0, 0);
+			add(controlPanel.getComponent(manager), gbc);
+			
+			manager.addChangeListener(new ChangeListener<ChangeEvent>() {
+				@Override
+				public void processChange(ChangeEvent event) {
+					if (event.hasChanged(fileOption.getFieldDescriptor())) {
+						// the source file has changed: overwrite target, view target
+						ChangeFileValueCommand c = (ChangeFileValueCommand) event;
+						c.writeFile(imageAsset.getFile());
+						setFile(imageAsset.getFile());
+					} else if (event.hasChanged(fno.getFieldDescriptor())) {
+						// the target has changed - remove old, switch to new
+						ChangeFieldValueCommand<String> c = (ChangeFieldValueCommand<String>) event;
+						String currentUri = fno.getFieldDescriptor().read();
+						File prev = currentUri.equals(c.getNewValue()) ? 
+								imageAsset.resolveUri(c.getOldValue())
+								: imageAsset.resolveUri(c.getNewValue());
+						File f = imageAsset.resolveUri(currentUri);
+						prev.renameTo(f);
+					}
+				}
+			});			
+		}
+		
 		// FIXE: should not be necessary, but button-press needed otherwise
 		new Thread(new Runnable() {
 			@Override
