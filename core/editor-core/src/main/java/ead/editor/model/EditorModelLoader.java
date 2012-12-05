@@ -215,7 +215,7 @@ public class EditorModelLoader {
 	}
 
 	/**
-	 * Reads the editor mappings to an editor.xml file.
+	 * Reads the editor mappings from an editor.xml file.
 	 *
 	 * @param source
 	 * @return number of mappings read
@@ -691,7 +691,7 @@ public class EditorModelLoader {
 		model.updateProgress(80, "Writing editor model ...");
 		int mappings = 0;
 		try {
-			mappings = readEditorNodes(target);
+			mappings = writeEditorNodes(target);
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}
