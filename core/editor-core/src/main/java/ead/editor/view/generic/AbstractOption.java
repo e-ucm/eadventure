@@ -218,7 +218,7 @@ public abstract class AbstractOption<S> implements Option<S>,
 	public void valueUpdated(S oldValue) {
 		// by default, do nothing
 	}
-	
+
 	/**
 	 * Triggers a manual update. This should be indistinguishable from 
 	 * the user typing in stuff directly (if this were a typing-enabled control)
@@ -234,7 +234,7 @@ public abstract class AbstractOption<S> implements Option<S>,
 		manager.performCommand(createUpdateCommand());
 		valueUpdated(oldValue);
 		oldValue = getControlValue();
-		isUpdating = false;		
+		isUpdating = false;
 	}
 
 	@Override

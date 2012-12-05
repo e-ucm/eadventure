@@ -42,10 +42,11 @@ package ead.editor.view.generic;
  *
  * @param <S>
  */
-public abstract class ConvertingFieldDescriptor<A,B> implements FieldDescriptor<A> {
+public abstract class ConvertingFieldDescriptor<A, B> implements
+		FieldDescriptor<A> {
 
 	private FieldDescriptor<B> inner;
-	
+
 	/**
 	 * @param element
 	 *            The element where the value is stored
@@ -57,9 +58,9 @@ public abstract class ConvertingFieldDescriptor<A,B> implements FieldDescriptor<
 	}
 
 	public abstract A innerToOuter(B b);
-	
+
 	public abstract B outerToInner(A a);
-	
+
 	/*
 	 * (non-Javadoc)
 	 *
