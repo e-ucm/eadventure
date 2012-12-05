@@ -39,7 +39,6 @@ package ead.common.resources.assets.drawable.basics.animation;
 
 import ead.common.interfaces.Param;
 import ead.common.resources.assets.AbstractAssetDescriptor;
-import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.resources.assets.drawable.basics.Image;
 

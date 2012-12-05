@@ -38,15 +38,11 @@
 package ead.engine.core.gameobjects.go;
 
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.input.InputAction;
 
-public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
-
-	/**
-	 * Initializes the effect game object
-	 */
-	void initialize();
+public interface EffectGO<P extends EAdEffect> extends SceneElementGO<EAdComplexSceneElement> {
 
 	/**
 	 * Returns the effect attached to this game object
@@ -54,6 +50,12 @@ public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 	 * @return the effect attached to this game object
 	 */
 	P getEffect();
+	
+	/**
+	 * Sets the effect
+	 * @param effect
+	 */
+	void setEffect( P effect );
 
 	/**
 	 * Sets the gui action that launched this effect
@@ -69,6 +71,16 @@ public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 	 * @param parent
 	 */
 	void setParent(EAdSceneElement parent);
+
+	/**
+	 * Initializes the effect game object
+	 */
+	void initialize();
+
+	/**
+	 * Updates the effect
+	 */
+	void update();
 
 	/**
 	 * 

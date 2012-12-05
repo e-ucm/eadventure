@@ -114,10 +114,8 @@ public class GdxDesktopGUI extends GdxGUI {
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = gameState.getValue(
-				SystemFields.FULLSCREEN);
-		cfg.forceExit = gameState.getValue(
-				SystemFields.EXIT_WHEN_CLOSE);
+		cfg.fullscreen = gameState.getValue(SystemFields.FULLSCREEN);
+		cfg.forceExit = gameState.getValue(SystemFields.EXIT_WHEN_CLOSE);
 
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);

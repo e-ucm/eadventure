@@ -158,14 +158,10 @@ public class MouseHandler {
 	private void updateDrag() {
 		if (this.draggingGameObject != null) {
 			EAdSceneElement e = draggingGameObject.getElement();
-			int mouseVirtualX = gameState.getValue(
-					SystemFields.MOUSE_SCENE_X);
-			int mouseVirtualY = gameState.getValue(
-					SystemFields.MOUSE_SCENE_Y);
-			gameState.setValue(e, SceneElement.VAR_X,
-					mouseVirtualX - diffX);
-			gameState.setValue(e, SceneElement.VAR_Y,
-					mouseVirtualY - diffY);
+			int mouseVirtualX = gameState.getValue(SystemFields.MOUSE_SCENE_X);
+			int mouseVirtualY = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
+			gameState.setValue(e, SceneElement.VAR_X, mouseVirtualX - diffX);
+			gameState.setValue(e, SceneElement.VAR_Y, mouseVirtualY - diffY);
 		}
 	}
 
@@ -288,35 +284,28 @@ public class MouseHandler {
 			draggingGameObject = dragElementGO;
 			EAdSceneElement sceneElement = dragElementGO.getElement();
 
-			initDragX = gameState.getValue(sceneElement,
-					SceneElement.VAR_X);
-			initDragY = gameState.getValue(sceneElement,
-					SceneElement.VAR_Y);
+			initDragX = gameState.getValue(sceneElement, SceneElement.VAR_X);
+			initDragY = gameState.getValue(sceneElement, SceneElement.VAR_Y);
 
-			int mouseVirtualX = gameState.getValue(
-					SystemFields.MOUSE_SCENE_X);
-			int mouseVirtualY = gameState.getValue(
-					SystemFields.MOUSE_SCENE_Y);
+			int mouseVirtualX = gameState.getValue(SystemFields.MOUSE_SCENE_X);
+			int mouseVirtualY = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
 			diffX = mouseVirtualX - initDragX;
 			diffY = mouseVirtualY - initDragY;
 
-			initZ = gameState.getValue(sceneElement,
-					SceneElement.VAR_Z);
+			initZ = gameState.getValue(sceneElement, SceneElement.VAR_Z);
 
-			gameState.setValue(sceneElement, SceneElement.VAR_Z,
-					DRAG_Z);
+			gameState.setValue(sceneElement, SceneElement.VAR_Z, DRAG_Z);
 
 		} else {
 			if (draggingGameObject != null) {
 				EAdSceneElement sceneElement = draggingGameObject.getElement();
-				gameState.setValue(sceneElement,
-						SceneElement.VAR_Z, initZ);
+				gameState.setValue(sceneElement, SceneElement.VAR_Z, initZ);
 				if (gameState.getValue(sceneElement,
 						SceneElement.VAR_RETURN_WHEN_DRAGGED)) {
-					gameState.setValue(sceneElement,
-							SceneElement.VAR_X, initDragX);
-					gameState.setValue(sceneElement,
-							SceneElement.VAR_Y, initDragY);
+					gameState.setValue(sceneElement, SceneElement.VAR_X,
+							initDragX);
+					gameState.setValue(sceneElement, SceneElement.VAR_Y,
+							initDragY);
 				}
 			}
 			draggingGameObject = null;
@@ -335,10 +324,8 @@ public class MouseHandler {
 			// Mouse
 			float mouse[] = initialTransformation.getMatrix()
 					.multiplyPointInverse(x, y, true);
-			gameState.setValue(SystemFields.MOUSE_X,
-					(int) mouse[0]);
-			gameState.setValue(SystemFields.MOUSE_Y,
-					(int) mouse[1]);
+			gameState.setValue(SystemFields.MOUSE_X, (int) mouse[0]);
+			gameState.setValue(SystemFields.MOUSE_Y, (int) mouse[1]);
 
 			if (gameState.getScene() != null) {
 				EAdTransformation t = gameState.getScene().getTransformation();
@@ -347,10 +334,8 @@ public class MouseHandler {
 				}
 			}
 
-			gameState.setValue(SystemFields.MOUSE_SCENE_X,
-					(int) mouse[0]);
-			gameState.setValue(SystemFields.MOUSE_SCENE_Y,
-					(int) mouse[1]);
+			gameState.setValue(SystemFields.MOUSE_SCENE_X, (int) mouse[0]);
+			gameState.setValue(SystemFields.MOUSE_SCENE_Y, (int) mouse[1]);
 		}
 
 		updateDrag();

@@ -51,7 +51,7 @@ import ead.tools.GenericInjector;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>>
+public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		implements GameObjectFactory<S, T> {
 
 	private static final Logger logger = LoggerFactory

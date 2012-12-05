@@ -125,8 +125,7 @@ public abstract class GdxAssetHandler extends AbstractAssetHandler {
 
 	public FileHandle getFileHandle(String path) {
 		String uri = path.substring(1);
-		String language = gameState.getValue(
-				SystemFields.LANGUAGE);
+		String language = gameState.getValue(SystemFields.LANGUAGE);
 		FileHandle fh = null;
 		if (language != null && !"".equals(language)) {
 			fh = getFileHandleLocalized(language + "/" + uri);

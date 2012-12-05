@@ -40,7 +40,9 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -52,14 +54,16 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 	@Inject
 	public WaitGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		time = element.getTime();
+		time = effect.getTime();
 	}
 
 	public void update() {
@@ -68,7 +72,7 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 
 	@Override
 	public boolean isVisualEffect() {
-		return false;
+		return effect.isBlocking();
 	}
 
 	@Override
@@ -78,6 +82,10 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 
 	public String toString() {
 		return "WaitEffect:  Time left " + time;
+	}
+	
+	public boolean contains( int x, int y ){
+		return effect.isBlocking();
 	}
 
 }

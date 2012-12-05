@@ -57,7 +57,6 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
-import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputAction;
@@ -111,8 +110,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private RuntimeDrawable<?, ?> currentDrawable;
 
-	protected ValueMap valueMap;
-
 	protected GameState gameState;
 
 	protected boolean mouseOver;
@@ -121,13 +118,13 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public SceneElementGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(sceneElementFactory, gui);
-		eventGOList = new ArrayList<EventGO<?>>();
+		super(sceneElementFactory, gui);		
 		this.eventFactory = eventFactory;
 		this.statesList = new ArrayList<String>();
-		this.valueMap = gameState;
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
+		
+		eventGOList = new ArrayList<EventGO<?>>();
 	}
 
 	@Override
@@ -188,15 +185,15 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		// Caution: this should be removed if we want to remember the element
 		// state when the scene changes
-		valueMap.remove(element);
+		gameState.remove(element);
 
-		valueMap.setValue(element.getDefinition(),
+		gameState.setValue(element.getDefinition(),
 				SceneElementDef.VAR_SCENE_ELEMENT, element);
-		valueMap.checkForUpdates(element.getDefinition());
+		gameState.checkForUpdates(element.getDefinition());
 
 		// Initial vars
 		// Bundle
-		valueMap.setValue(element, ResourcedElement.VAR_BUNDLE_ID, element
+		gameState.setValue(element, ResourcedElement.VAR_BUNDLE_ID, element
 				.getDefinition().getInitialBundle());
 
 		// Scene element events
@@ -231,24 +228,24 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	protected void updateVars() {
 
-		enable = valueMap.getValue(element, SceneElement.VAR_ENABLE);
-		visible = valueMap.getValue(element, SceneElement.VAR_VISIBLE);
-		rotation = valueMap.getValue(element, SceneElement.VAR_ROTATION);
-		scale = valueMap.getValue(element, SceneElement.VAR_SCALE);
-		scaleX = valueMap.getValue(element, SceneElement.VAR_SCALE_X);
-		scaleY = valueMap.getValue(element, SceneElement.VAR_SCALE_Y);
-		alpha = valueMap.getValue(element, SceneElement.VAR_ALPHA);
-		orientation = valueMap.getValue(element, SceneElement.VAR_ORIENTATION);
-		state = valueMap.getValue(element, SceneElement.VAR_STATE);
+		enable = gameState.getValue(element, SceneElement.VAR_ENABLE);
+		visible = gameState.getValue(element, SceneElement.VAR_VISIBLE);
+		rotation = gameState.getValue(element, SceneElement.VAR_ROTATION);
+		scale = gameState.getValue(element, SceneElement.VAR_SCALE);
+		scaleX = gameState.getValue(element, SceneElement.VAR_SCALE_X);
+		scaleY = gameState.getValue(element, SceneElement.VAR_SCALE_Y);
+		alpha = gameState.getValue(element, SceneElement.VAR_ALPHA);
+		orientation = gameState.getValue(element, SceneElement.VAR_ORIENTATION);
+		state = gameState.getValue(element, SceneElement.VAR_STATE);
 
 		statesList.clear();
 		statesList.add(state);
 		statesList.add(orientation.toString());
 
-		position.setX(valueMap.getValue(element, SceneElement.VAR_X));
-		position.setY(valueMap.getValue(element, SceneElement.VAR_Y));
-		position.setDispX(valueMap.getValue(element, SceneElement.VAR_DISP_X));
-		position.setDispY(valueMap.getValue(element, SceneElement.VAR_DISP_Y));
+		position.setX(gameState.getValue(element, SceneElement.VAR_X));
+		position.setY(gameState.getValue(element, SceneElement.VAR_Y));
+		position.setDispX(gameState.getValue(element, SceneElement.VAR_DISP_X));
+		position.setDispY(gameState.getValue(element, SceneElement.VAR_DISP_Y));
 
 		updateBundle();
 
@@ -256,10 +253,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private void updateBundle() {
 		// Bundle and mouse over update
-		EAdBundleId newBundle = valueMap.getValue(element,
+		EAdBundleId newBundle = gameState.getValue(element,
 				ResourcedElement.VAR_BUNDLE_ID);
 
-		boolean newMouseOver = valueMap.getValue(element,
+		boolean newMouseOver = gameState.getValue(element,
 				SceneElement.VAR_MOUSE_OVER);
 
 		if (currentBundle == null || !currentBundle.equals(newBundle)
@@ -303,12 +300,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		int scaleH = (int) (height * scale * scaleY);
 		int x = position.getJavaX(scaleW);
 		int y = position.getJavaY(scaleH);
-		valueMap.setValue(element, SceneElement.VAR_LEFT, x);
-		valueMap.setValue(element, SceneElement.VAR_RIGHT, x + scaleW);
-		valueMap.setValue(element, SceneElement.VAR_TOP, y);
-		valueMap.setValue(element, SceneElement.VAR_BOTTOM, y + scaleH);
-		valueMap.setValue(element, SceneElement.VAR_CENTER_X, x + scaleW / 2);
-		valueMap.setValue(element, SceneElement.VAR_CENTER_Y, y + scaleH / 2);
+		gameState.setValue(element, SceneElement.VAR_LEFT, x);
+		gameState.setValue(element, SceneElement.VAR_RIGHT, x + scaleW);
+		gameState.setValue(element, SceneElement.VAR_TOP, y);
+		gameState.setValue(element, SceneElement.VAR_BOTTOM, y + scaleH);
+		gameState.setValue(element, SceneElement.VAR_CENTER_X, x + scaleW / 2);
+		gameState.setValue(element, SceneElement.VAR_CENTER_Y, y + scaleH / 2);
 
 	}
 
@@ -352,19 +349,19 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			}
 		}
 
-		valueMap.setUpdateListEnable(false);
+		gameState.setUpdateListEnable(false);
 		timeDisplayed += gui.getSkippedMilliseconds();
-		valueMap.setValue(element, SceneElement.VAR_TIME_DISPLAYED,
+		gameState.setValue(element, SceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed);
-		valueMap.setUpdateListEnable(true);
+		gameState.setUpdateListEnable(true);
 
 		updateCurrentDawable();
-		if (valueMap.checkForUpdates(element)) {
-			valueMap.setUpdateListEnable(false);
+		if (gameState.checkForUpdates(element)) {
+			gameState.setUpdateListEnable(false);
 			updateVars();
 			setVars();
 			resetTransfromation();
-			valueMap.setUpdateListEnable(true);
+			gameState.setUpdateListEnable(true);
 		}
 
 	}
@@ -394,17 +391,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setPosition(EAdPosition position) {
-		valueMap.setValue(element, SceneElement.VAR_X, position.getX());
-		valueMap.setValue(element, SceneElement.VAR_Y, position.getY());
-		valueMap
+		gameState.setValue(element, SceneElement.VAR_X, position.getX());
+		gameState.setValue(element, SceneElement.VAR_Y, position.getY());
+		gameState
 				.setValue(element, SceneElement.VAR_DISP_X, position.getDispX());
-		valueMap
+		gameState
 				.setValue(element, SceneElement.VAR_DISP_Y, position.getDispY());
 	}
 
 	@Override
 	public void setOrientation(Orientation orientation) {
-		valueMap.setValue(element, SceneElement.VAR_ORIENTATION, orientation);
+		gameState.setValue(element, SceneElement.VAR_ORIENTATION, orientation);
 	}
 
 	@Override
@@ -420,7 +417,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			bundles.addAll(getElement().getDefinition().getResources()
 					.getBundles());
 		else
-			bundles.add(valueMap.getValue(element,
+			bundles.add(gameState.getValue(element,
 					ResourcedElement.VAR_BUNDLE_ID));
 
 		for (EAdBundleId bundle : bundles) {
@@ -444,17 +441,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		valueMap.setValue(element, SceneElement.VAR_SCALE, scale);
+		gameState.setValue(element, SceneElement.VAR_SCALE, scale);
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		valueMap.setValue(element, SceneElement.VAR_WIDTH, width);
+		gameState.setValue(element, SceneElement.VAR_WIDTH, width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		valueMap.setValue(element, SceneElement.VAR_HEIGHT, height);
+		gameState.setValue(element, SceneElement.VAR_HEIGHT, height);
 	}
 
 	@Override
@@ -494,21 +491,21 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	public void setX(int x) {
 		this.position.set(x, position.getY());
-		valueMap.setValue(element, SceneElement.VAR_X, x);
+		gameState.setValue(element, SceneElement.VAR_X, x);
 	}
 
 	public void setY(int y) {
 		this.position.set(position.getX(), y);
-		valueMap.setValue(element, SceneElement.VAR_Y, y);
+		gameState.setValue(element, SceneElement.VAR_Y, y);
 	}
 
 	public void setAlpha(float alpha) {
-		valueMap.setValue(element, SceneElement.VAR_ALPHA, alpha);
+		gameState.setValue(element, SceneElement.VAR_ALPHA, alpha);
 		this.alpha = alpha;
 	}
 
 	public void setEnabled(boolean enable) {
-		valueMap.setValue(element, SceneElement.VAR_ENABLE, enable);
+		gameState.setValue(element, SceneElement.VAR_ENABLE, enable);
 		this.enable = enable;
 	}
 
@@ -523,6 +520,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	public void setVisible(boolean visible) {
-		valueMap.setValue(element, SceneElement.VAR_VISIBLE, visible);
+		gameState.setValue(element, SceneElement.VAR_VISIBLE, visible);
 	}
 }

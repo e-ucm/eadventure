@@ -46,6 +46,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO.TransitionListener;
@@ -70,8 +71,9 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Inject
 	public ChangeSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, TransitionFactory transitionFactory) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory, TransitionFactory transitionFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		this.transitionFactory = transitionFactory;
 	}
 
@@ -81,14 +83,13 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		super.initialize();
 		end = false;
 		// If the effect is to a different scene
-		if (element.getNextScene() == null
-				|| element.getNextScene() != gameState.getScene().getElement()) {
-			transition = transitionFactory.get(element.getTransition());
+		if (effect.getNextScene() == null
+				|| effect.getNextScene() != gameState.getScene().getElement()) {
+			transition = transitionFactory.get(effect.getTransition());
 			transition.getTransitionListeners().add(this);
-			EAdElement e = element.getNextScene();
+			EAdElement e = effect.getNextScene();
 			if (e != null) {
-				Object finalElement = gameState.maybeDecodeField(
-						e);
+				Object finalElement = gameState.maybeDecodeField(e);
 				if (finalElement instanceof EAdScene) {
 					transition.setNext((EAdScene) finalElement);
 				} else {
@@ -105,11 +106,6 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 			// Execute post effects
 			end = true;
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	@Override

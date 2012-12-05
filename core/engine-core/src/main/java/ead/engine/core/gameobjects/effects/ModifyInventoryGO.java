@@ -44,6 +44,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.GUI;
@@ -60,28 +61,31 @@ import ead.engine.core.platform.assets.AssetHandler;
  * </p>
  * 
  */
-public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
+public class ModifyInventoryGO extends
+		AbstractEffectGO<ModifyInventoryEf> {
 
 	private InventoryHandler inventoryHandler;
 
 	@Inject
 	public ModifyInventoryGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, InventoryHandler inventoryHandler) {
-		super(gameObjectFactory, gui, gameState);
+			SceneElementGOFactory sceneElementGOFactory, GUI gui,
+			GameState gameState, InventoryHandler inventoryHandler,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementGOFactory, gui, gameState,
+				eventFactory);
 		this.inventoryHandler = inventoryHandler;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		switch (element.getModification()) {
+		switch (effect.getModification()) {
 		case ADD_TO_INVENTORY:
-			inventoryHandler.add(element.getSceneElementDef());
-			if (element.isRemoveFromScene()) {
-				EAdSceneElement sceneElement = gameState
-						.getValue(element.getSceneElementDef(),
-								SceneElementDef.VAR_SCENE_ELEMENT);
+			inventoryHandler.add(effect.getSceneElementDef());
+			if (effect.isRemoveFromScene()) {
+				EAdSceneElement sceneElement = gameState.getValue(
+						effect.getSceneElementDef(),
+						SceneElementDef.VAR_SCENE_ELEMENT);
 				if (sceneElement != null) {
 					gameState.setValue(sceneElement,
 							SceneElement.VAR_VISIBLE, false);
@@ -91,29 +95,9 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 			}
 			break;
 		case REMOVE_FROM_INVENTORY:
-			inventoryHandler.remove(element.getSceneElementDef());
+			inventoryHandler.remove(effect.getSceneElementDef());
 			break;
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.EffectGO#isVisualEffect()
-	 */
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.EffectGO#isFinished()
-	 */
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

@@ -99,10 +99,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	public void initialize(Game game, GameState gameState) {
 		this.game = game;
 		this.gameState = gameState;
-		eAdCanvas.setWidth(gameState.getValue(
-				SystemFields.GAME_WIDTH));
-		eAdCanvas.setHeight(gameState.getValue(
-				SystemFields.GAME_HEIGHT));
+		eAdCanvas.setWidth(gameState.getValue(SystemFields.GAME_WIDTH));
+		eAdCanvas.setHeight(gameState.getValue(SystemFields.GAME_HEIGHT));
 	}
 
 	/*
@@ -212,8 +210,8 @@ public abstract class AbstractGUI<T> implements GUI {
 			}
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction k = (KeyInputAction) action;
-			EAdSceneElement element = gameState.getValue(
-					SystemFields.ACTIVE_ELEMENT);
+			EAdSceneElement element = gameState
+					.getValue(SystemFields.ACTIVE_ELEMENT);
 			// only the active element gets a try to consume it
 			if (element != null) {
 				go = gameObjects.getGameObject(element);

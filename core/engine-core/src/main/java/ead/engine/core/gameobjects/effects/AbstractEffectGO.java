@@ -37,29 +37,25 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import java.util.List;
-
-import com.google.inject.Inject;
-
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.DrawableGameObjectImpl;
+import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		DrawableGameObjectImpl<P> implements EffectGO<P> {
+		ComplexSceneElementGOImpl<EAdComplexSceneElement> implements
+		EffectGO<P> {
 
-	private boolean stopped = false;
-
+	/**
+	 * The input action
+	 */
 	protected InputAction<?> action;
 
 	/**
@@ -67,39 +63,57 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	 */
 	protected EAdSceneElement parent;
 
+	/**
+	 * If the effect has been stopped
+	 */
+	private boolean stopped;
+
+	/**
+	 * The effect
+	 */
+	protected P effect;
+
+	/**
+	 * The game state
+	 */
 	protected GameState gameState;
 
-	@Inject
-	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(gameObjectFactory, gui);
-		this.gameState = gameState;
+	public AbstractEffectGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	public P getEffect() {
-		return element;
+		return effect;
+	}
+
+	public void setEffect(P effect) {
+		this.effect = effect;
 	}
 
 	@Override
 	public void initialize() {
 		stopped = false;
-		for (EAdEffect e : element.getPreviousEffects()) {
+		for (EAdEffect e : effect.getPreviousEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
 	}
 
 	public void update() {
-
+		if (this.isVisualEffect())
+			super.update();
 	}
 
 	@Override
 	public boolean isBlocking() {
-		return element.isBlocking();
+		return effect.isBlocking();
 	}
 
 	@Override
 	public boolean isQueueable() {
-		return element.isQueueable();
+		return effect.isQueueable();
 	}
 
 	@Override
@@ -113,7 +127,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	public void finish() {
 		stopped = true;
-		for (EAdEffect e : element.getNextEffects()) {
+		for (EAdEffect e : effect.getNextEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
 	}
@@ -126,50 +140,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		this.parent = parent;
 	}
 
-	@Override
-	public boolean contains(int x, int y) {
-		return element.isOpaque();
-	}
-
-	public EAdPosition getPosition() {
-		return null;
-	}
-
-	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		return null;
-	}
-
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-
-	}
-
-	@Override
-	public boolean isEnable() {
-		return true;
-	}
-
-	@Override
-	public List<AssetDescriptor> getAssets(
-			List<AssetDescriptor> assetList, boolean allAssets) {
-		return assetList;
-	}
-
-	public RuntimeDrawable<?, ?> getRuntimeDrawable() {
-		return null;
-	}
-
-	public int getWidth() {
-		return 1;
-	}
-
-	public int getHeight() {
-		return 1;
-	}
-
 	public boolean isVisualEffect() {
 		return false;
+	}
+
+	public boolean isFinished() {
+		return !effect.isQueueable();
 	}
 
 }

@@ -64,8 +64,7 @@ public class VariableMap extends ValueMapImpl {
 
 	@Inject
 	public VariableMap(ReflectionProvider reflectionProvider,
-			OperatorFactory operatorFactory,
-			StringHandler stringHandler) {
+			OperatorFactory operatorFactory, StringHandler stringHandler) {
 		super(reflectionProvider);
 		this.stringHandler = stringHandler;
 		this.operatorFactory = operatorFactory;
@@ -90,31 +89,26 @@ public class VariableMap extends ValueMapImpl {
 	 *            the text to be processed by the value map
 	 * @return the processed text
 	 */
-	public String processTextVars(String text,
-			EAdList<EAdOperation> operations) {
+	public String processTextVars(String text, EAdList<EAdOperation> operations) {
 		text = processConditionalExpressions(text, operations);
 		return processVars(text, operations);
 	}
 
-	private String processVars(String text,
-			EAdList<EAdOperation> operations) {
+	private String processVars(String text, EAdList<EAdOperation> operations) {
 		int i = 0;
 		boolean done = false;
 		while (i < text.length() && !done) {
 			i = text.indexOf(BEGIN_VAR_CHAR, i);
 			if (i != -1) {
-				int separatorIndex = text
-						.indexOf(END_VAR_CHAR, i + 1);
+				int separatorIndex = text.indexOf(END_VAR_CHAR, i + 1);
 				if (separatorIndex != -1) {
-					String varName = text.substring(i + 1,
-							separatorIndex);
+					String varName = text.substring(i + 1, separatorIndex);
 					Integer index = new Integer(varName);
-					Object o = operatorFactory.operate(Object.class,
-							operations.get(index));
+					Object o = operatorFactory.operate(Object.class, operations
+							.get(index));
 					if (o != null) {
 						String value = o instanceof EAdString ? stringHandler
-								.getString((EAdString) o) : o
-								.toString();
+								.getString((EAdString) o) : o.toString();
 						text = text.substring(0, i) + value
 								+ text.substring(separatorIndex + 1);
 					}
@@ -135,18 +129,15 @@ public class VariableMap extends ValueMapImpl {
 			int i = 0;
 			boolean finished = false;
 			while (!finished && i < text.length()) {
-				int beginCondition = text.indexOf(
-						BEGIN_CONDITION_CHAR, i);
+				int beginCondition = text.indexOf(BEGIN_CONDITION_CHAR, i);
 				int endCondition = text.indexOf(END_CONDITION_CHAR,
 						beginCondition);
 				if (beginCondition != -1 && endCondition != -1
 						&& endCondition > beginCondition) {
-					String condition = text.substring(
-							beginCondition + 1, endCondition);
-					String result = evaluateExpression(condition,
-							fields);
-					newText += text.substring(i, beginCondition)
-							+ result;
+					String condition = text.substring(beginCondition + 1,
+							endCondition);
+					String result = evaluateExpression(condition, fields);
+					newText += text.substring(i, beginCondition) + result;
 					i = endCondition + 1;
 				} else {
 					newText += text.substring(i);
@@ -170,10 +161,9 @@ public class VariableMap extends ValueMapImpl {
 			int questionMark = expression.indexOf('?');
 			int points = expression.indexOf(':');
 			String condition = expression.substring(0, questionMark);
-			String trueValue = expression.substring(questionMark + 1,
-					points);
-			String falseValue = expression.substring(points + 1,
-					expression.length());
+			String trueValue = expression.substring(questionMark + 1, points);
+			String falseValue = expression.substring(points + 1, expression
+					.length());
 
 			int beginVar = condition.indexOf(BEGIN_VAR_CHAR);
 			int endVar = condition.indexOf(END_VAR_CHAR);
@@ -182,8 +172,7 @@ public class VariableMap extends ValueMapImpl {
 				Integer indexCondition = 0;
 				String varName = "";
 				try {
-					varName = expression.substring(beginVar + 1,
-							endVar);
+					varName = expression.substring(beginVar + 1, endVar);
 					indexCondition = new Integer(varName);
 				} catch (NumberFormatException e) {
 					logger.warn(varName + " is not a valid index in "
@@ -192,8 +181,8 @@ public class VariableMap extends ValueMapImpl {
 							+ END_CONDITION_CHAR;
 				}
 
-				Object o = operatorFactory.operate(Object.class,
-						operations.get(indexCondition));
+				Object o = operatorFactory.operate(Object.class, operations
+						.get(indexCondition));
 
 				if (o != null && o instanceof Boolean) {
 					Boolean b = (Boolean) o;

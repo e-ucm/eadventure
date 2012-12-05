@@ -43,7 +43,9 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.RandomEf;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -53,21 +55,24 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 	@Inject
 	public RandomGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	public void initialize() {
 		super.initialize();
 
 		float totalProbability = 0.0f;
-		for (Float f : element.getEffects().values()) {
+		for (Float f : effect.getEffects().values()) {
 			totalProbability += f;
 		}
 
 		float random = (float) (Math.random() * totalProbability);
 		totalProbability = 0.0f;
-		for (Entry<EAdEffect, Float> entry : element.getEffects().entrySet()) {
+		for (Entry<EAdEffect, Float> entry : effect.getEffects()
+				.entrySet()) {
 			if (totalProbability < random
 					&& random < totalProbability + entry.getValue()) {
 				gameState.addEffect(entry.getKey());
@@ -75,16 +80,6 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 			}
 			totalProbability += entry.getValue();
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

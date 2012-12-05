@@ -173,10 +173,8 @@ public class AssetViewerModule extends AbstractModule {
 
 	public static class AssetVariableMap extends VariableMap {
 
-		public AssetVariableMap(
-				ReflectionProvider reflectionProvider,
-				OperatorFactory operatorFactory,
-				StringHandler stringHandler) {
+		public AssetVariableMap(ReflectionProvider reflectionProvider,
+				OperatorFactory operatorFactory, StringHandler stringHandler) {
 			super(reflectionProvider, operatorFactory, stringHandler);
 		}
 

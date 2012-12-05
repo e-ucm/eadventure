@@ -43,7 +43,9 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.platform.GUI;
@@ -55,8 +57,11 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 	@Inject
 	public TriggerMacroGO(AssetHandler assetHandler,
-			SceneElementGOFactory factory, GUI gui, GameState gameState) {
-		super(factory, gui, gameState);
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	@Override
@@ -65,10 +70,10 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 		EffectsMacro macro = null;
 
-		for (int i = 0; i < element.getMacros().size() && macro == null; i++) {
-			EAdCondition c = element.getConditions().get(i);
+		for (int i = 0; i < effect.getMacros().size() && macro == null; i++) {
+			EAdCondition c = effect.getConditions().get(i);
 			if (gameState.evaluate(c)) {
-				macro = element.getMacros().get(i);
+				macro = effect.getMacros().get(i);
 			}
 		}
 
@@ -79,11 +84,6 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 				effects[i++] = gameState.addEffect(e, action, parent);
 			}
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	@Override

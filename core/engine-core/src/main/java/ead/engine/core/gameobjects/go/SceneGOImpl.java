@@ -63,16 +63,14 @@ public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene> implements
 	public void setElement(EAdScene element) {
 		super.setElement(element);
 		sceneElements.add(0, sceneElementFactory.get(element.getBackground()));
-		gameState.setValue(element.getBackground(),
-				SceneElement.VAR_Z, Integer.MIN_VALUE);
+		gameState.setValue(element.getBackground(), SceneElement.VAR_Z,
+				Integer.MIN_VALUE);
 	}
 
 	@Override
 	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
-		int z1 = gameState.getValue(o1.getElement(),
-				SceneElement.VAR_Z);
-		int z2 = gameState.getValue(o2.getElement(),
-				SceneElement.VAR_Z);
+		int z1 = gameState.getValue(o1.getElement(), SceneElement.VAR_Z);
+		int z2 = gameState.getValue(o2.getElement(), SceneElement.VAR_Z);
 		return z1 - z2;
 	}
 

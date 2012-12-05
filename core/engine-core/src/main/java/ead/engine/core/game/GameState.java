@@ -85,9 +85,8 @@ public interface GameState extends ValueMap {
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	<T extends EAdOperation, S> S operate(Class<S> eAdVar,
-			T eAdOperation);
-	
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
+
 	/**
 	 * Sets the variable to the result value of the operation
 	 * 
@@ -95,7 +94,7 @@ public interface GameState extends ValueMap {
 	 * @param operation
 	 */
 	void setValue(EAdField<?> var, EAdOperation operation);
-	
+
 	/**
 	 * Sets the variable value for the given element
 	 * 

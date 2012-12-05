@@ -1,7 +1,6 @@
 package ead.common.resources.assets.drawable.basics.shapes;
 
 import ead.common.interfaces.Param;
-import ead.common.interfaces.features.Identified;
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdShape;

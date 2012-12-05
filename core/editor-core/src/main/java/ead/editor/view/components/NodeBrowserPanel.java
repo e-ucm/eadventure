@@ -76,7 +76,6 @@ public abstract class NodeBrowserPanel extends JPanel {
 
 	protected ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
 
-
 	public NodeBrowserPanel() {
 		setLayout(new BorderLayout());
 	}
@@ -93,7 +92,6 @@ public abstract class NodeBrowserPanel extends JPanel {
 		return lastSelected;
 	}
 
-
 	private int indexOf(EditorNode node) {
 		for (int i = 0; i < nodes.size(); i++) {
 			if (nodes.get(i) == node) {
@@ -105,7 +103,8 @@ public abstract class NodeBrowserPanel extends JPanel {
 
 	public EditorNode getPrevious() {
 		int count = nodes.size();
-		if (count == 0) return null;
+		if (count == 0)
+			return null;
 		int pos = (lastSelected == null) ? count - 1
 				: (indexOf(lastSelected) - 1 + count) % count;
 		lastSelected = nodes.get(pos);
@@ -114,7 +113,8 @@ public abstract class NodeBrowserPanel extends JPanel {
 
 	public EditorNode getNext() {
 		int count = nodes.size();
-		if (count == 0) return null;
+		if (count == 0)
+			return null;
 		int pos = (lastSelected == null) ? 0 : (indexOf(lastSelected) + 1)
 				% count;
 		lastSelected = nodes.get(pos);

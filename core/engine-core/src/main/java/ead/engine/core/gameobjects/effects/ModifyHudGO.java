@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
@@ -56,29 +57,20 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 	@Inject
 	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
 			SceneElementGOFactory sceneElementGOFactory, GUI gui,
-			GameState gameState) {
-		super(assetHandler, sceneElementGOFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementGOFactory, gui, gameState,
+				eventFactory);
 		this.basicHUD = null;
 	}
 
 	public void initialize() {
 		super.initialize();
 		SceneElementGO<?> drawable = this.sceneElementFactory.get(sceneElement);
-		if (element.getAdd()) {
+		if (effect.getAdd()) {
 			if (!basicHUD.getContainedDrawables().contains(drawable))
 				basicHUD.getContainedDrawables().add(drawable);
 		} else {
 			basicHUD.getContainedDrawables().remove(drawable);
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 }

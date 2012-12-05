@@ -42,6 +42,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -50,18 +51,18 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		extends AbstractEffectGO<T> {
 
 	protected EAdSceneElement sceneElement;
-
+	
 	public SceneElementEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
 	@Override
-	public void setElement(T element) {
-		super.setElement(element);
-		Object sceneElement = gameState.maybeDecodeField(
-				element.getSceneElement());
+	public void initialize() {
+		super.initialize();
+		Object sceneElement = gameState.maybeDecodeField(effect
+				.getSceneElement());
 
 		if (sceneElement instanceof EAdSceneElement) {
 			this.sceneElement = (EAdSceneElement) sceneElement;

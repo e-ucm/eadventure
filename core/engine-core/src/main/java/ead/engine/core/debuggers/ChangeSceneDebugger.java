@@ -175,8 +175,7 @@ public class ChangeSceneDebugger implements Debugger {
 			index = newIndex;
 			gameState.setValue(currentScene, index);
 			gameState.setValue(sceneField, scenes.get(index));
-			gameState.setValue(sceneIdField,
-					scenes.get(index).getId());
+			gameState.setValue(sceneIdField, scenes.get(index).getId());
 		}
 		return drawables;
 	}

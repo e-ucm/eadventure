@@ -43,6 +43,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ComplexBlockingEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -57,19 +58,20 @@ public class ComplexBlockingEffectGO extends
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	public void initialize() {
 		super.initialize();
-		for (EAdEffect e : element.getInitEffects()) {
+		for (EAdEffect e : effect.getInitEffects()) {
 			gameState.addEffect(e);
 		}
 	}
 
 	public DrawableGO<?> processAction(InputAction<?> action) {
-		if (element.isOpaque()) {
+		if (effect.isOpaque()) {
 			action.consume();
 			return this;
 		}
@@ -79,7 +81,7 @@ public class ComplexBlockingEffectGO extends
 
 	@Override
 	public void doLayout(EAdTransformation t) {
-		for (EAdSceneElement e : element.getComponents()) {
+		for (EAdSceneElement e : effect.getComponents()) {
 			SceneElementGO<?> go = sceneElementFactory.get(e);
 			gui.addElement(go, t);
 		}
@@ -93,26 +95,26 @@ public class ComplexBlockingEffectGO extends
 
 	@Override
 	public boolean isFinished() {
-		return gameState.evaluate(element.getEndCondition());
+		return gameState.evaluate(effect.getEndCondition());
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		for (EAdSceneElement e : element.getComponents()) {
+		for (EAdSceneElement e : effect.getComponents()) {
 			sceneElementFactory.get(e).update();
 		}
 	}
 
 	public void finish() {
 		super.finish();
-		for (EAdSceneElement e : element.getComponents()) {
+		for (EAdSceneElement e : effect.getComponents()) {
 			sceneElementFactory.remove(e);
 		}
 
 	}
 
 	public boolean contains(int x, int y) {
-		return element.isOpaque();
+		return effect.isOpaque();
 	}
 }

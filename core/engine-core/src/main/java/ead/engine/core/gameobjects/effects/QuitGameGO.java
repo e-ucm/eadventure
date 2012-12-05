@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.GUI;
@@ -51,7 +52,7 @@ import ead.engine.core.platform.assets.AssetHandler;
  * <p>
  * {@link GameObject} for the {@link QuitGameEf} effect
  * </p>
- *
+ * 
  */
 public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 
@@ -60,8 +61,10 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	@Inject
 	public QuitGameGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, Game gameController) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		this.game = gameController;
 	}
 
@@ -69,16 +72,6 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	public void initialize() {
 		super.initialize();
 		game.dispose();
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return false;
 	}
 
 }

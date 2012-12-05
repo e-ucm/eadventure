@@ -1,49 +1,39 @@
 package ead.engine.core.gameobjects.effects;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class VisualEffectGO<P extends EAdEffect> extends
 		AbstractEffectGO<P> {
 
+	public VisualEffectGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
+	}
+
 	protected SceneElementGO<?> visualRepresentation;
 
-	public VisualEffectGO(SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
-	}
+	protected abstract EAdComplexSceneElement getVisualRepresentation();
 
-	protected abstract EAdSceneElement getVisualRepresentation();
-
-	public void initialize() {
-		super.initialize();
-		EAdSceneElement e = getVisualRepresentation();
+	public void setEffect(P effect) {
+		super.setEffect(effect);
+		EAdComplexSceneElement e = getVisualRepresentation();
 		if (e != null) {
 			e.setId(e.getId() + "engine");
-			visualRepresentation = this.sceneElementFactory.get(e);
-		}
-	}
-
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-		if (visualRepresentation != null) {
-			gui.addElement(visualRepresentation, transformation);
+			setElement(e);
 		}
 	}
 
 	public boolean isVisualEffect() {
 		return true;
-	}
-
-	public void update() {
-		if (visualRepresentation != null) {
-			visualRepresentation.update();
-		}
 	}
 
 }

@@ -41,39 +41,33 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.SoundManager;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 
 	private SoundManager soundManager;
 
 	@Inject
-	public PlaySoundGO(SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, SoundManager soundManager) {
-		super(gameObjectFactory, gui, gameState);
+	public PlaySoundGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, SoundManager soundManager,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		this.soundManager = soundManager;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		if (element.isBackground()) {
-			soundManager.playBackgroundMusic(element.getSound());
+		if (effect.isBackground()) {
+			soundManager.playBackgroundMusic(effect.getSound());
 		} else {
-			soundManager.playSound(element.getSound());
+			soundManager.playSound(effect.getSound());
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

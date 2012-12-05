@@ -65,7 +65,6 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;

@@ -40,7 +40,9 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.platform.GUI;
@@ -56,8 +58,10 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	@Inject
 	public ShowSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	@Override
@@ -68,14 +72,9 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	@Override
 	public void initialize() {
 		super.initialize();
-		time = element.getTime();
-		sceneElement = sceneElementFactory.get(element.getSceneElement());
+		time = effect.getTime();
+		sceneElement = sceneElementFactory.get(effect.getSceneElement());
 
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return true;
 	}
 
 	@Override

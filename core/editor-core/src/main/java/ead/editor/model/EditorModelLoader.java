@@ -49,7 +49,6 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -61,24 +60,24 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.google.inject.Inject;
+
 import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
-import ead.editor.model.nodes.asset.AssetFactory;
-import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EditorNodeFactory;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.StringsNode;
+import ead.editor.model.nodes.asset.AssetFactory;
+import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.reader.adventure.AdventureReader;
-import ead.reader.properties.PropertiesReader;
 import ead.reader.strings.StringsReader;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
@@ -602,12 +601,6 @@ public class EditorModelLoader {
 			stringHandler.setStrings(sr.readStrings(strings));
 			logger.info("Read {} strings", stringHandler.getStrings().size());
 			model.setStringHandler(stringHandler);
-
-			PropertiesReader pr = new PropertiesReader();
-			HashMap<String, String> engineProperties = new HashMap<String, String>();
-			engineProperties.putAll(pr.readProperties(properties));
-			logger.info("Read {} engine properties", engineProperties.size());
-			model.setEngineProperties(engineProperties);
 		} catch (Exception e) {
 			logger.error("Could not load strings or properties", e);
 		}

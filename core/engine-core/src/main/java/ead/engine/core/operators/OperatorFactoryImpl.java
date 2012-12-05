@@ -51,8 +51,8 @@ import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
-		implements OperatorFactory {
+public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
+		OperatorFactory {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("Operator Factory");
@@ -62,19 +62,16 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>>
 		super(null, interfacesProvider);
 	}
 
-	public void init(ValueMap valueMap,
-			EvaluatorFactory evaluatorFactory) {
-		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory,
-				valueMap, reflectionProvider));
+	public void init(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
+		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory, valueMap,
+				reflectionProvider));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdOperation, S> S operate(Class<S> clazz,
-			T operation) {
+	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
-			logger.error(
-					"Null operation attempted: null returned as class {}",
+			logger.error("Null operation attempted: null returned as class {}",
 					clazz);
 			return null;
 		}

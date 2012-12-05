@@ -50,7 +50,7 @@ import ead.engine.core.gameobjects.go.GameObject;
  * of a given class.
  * </p>
  */
-public interface GameObjectFactory<S extends EAdElement, T extends GameObject<? extends S>> {
+public interface GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
 
 	/**
 	 * Returns a {@link GameObject} in the engine's runtime model for a

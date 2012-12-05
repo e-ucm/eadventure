@@ -14,9 +14,9 @@ public class BasicComplexSceneElementGO extends
 
 	@Inject
 	public BasicComplexSceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
 }

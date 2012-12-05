@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -60,24 +61,20 @@ public class HighlightSceneElementGO extends
 	@Inject
 	public HighlightSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		highLightElement = gameState.maybeDecodeField(
-				element.getSceneElement());
+		highLightElement = gameState.maybeDecodeField(effect
+				.getSceneElement());
 		oldScale = gameState.getValue(highLightElement,
 				SceneElement.VAR_SCALE);
-		time = element.getTime();
+		time = effect.getTime();
 		started = false;
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	public void update() {

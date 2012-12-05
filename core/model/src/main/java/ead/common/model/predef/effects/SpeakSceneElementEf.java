@@ -51,9 +51,9 @@ public class SpeakSceneElementEf extends SpeakEf {
 	public SpeakSceneElementEf() {
 		super();
 	}
-	
-	public SpeakSceneElementEf( EAdElement element, EAdString text ){
-		super( text );
+
+	public SpeakSceneElementEf(EAdElement element, EAdString text) {
+		super(text);
 		this.setElement(element);
 	}
 

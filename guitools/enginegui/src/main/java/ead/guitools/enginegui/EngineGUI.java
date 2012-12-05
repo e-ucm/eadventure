@@ -25,7 +25,6 @@ import ead.engine.core.debuggers.GhostElementDebugger;
 import ead.engine.core.debuggers.TrajectoryDebugger;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.guitools.enginegui.effects.loadgame.LoadGameEffect;
-import ead.guitools.enginegui.effects.loadgame.LoadGameGO;
 
 public class EngineGUI {
 
@@ -48,7 +47,6 @@ public class EngineGUI {
 		loadProperties();
 
 		DesktopGame engine = new DesktopGame();
-		addPlugins(engine);
 
 		boolean enableDebug = Boolean
 				.parseBoolean(getProperty("debug", "false"));
@@ -77,10 +75,7 @@ public class EngineGUI {
 				.load((EAdAdventureModel) adventure,
 						new HashMap<EAdString, String>(),
 						new HashMap<String, String>());
-	}
-
-	private static void addPlugins(DesktopGame engine) {
-		engine.addEffectPlugin(LoadGameEffect.class, LoadGameGO.class);
+		engine.start();
 	}
 
 	public static String getProperty(String key, String defaultValue) {

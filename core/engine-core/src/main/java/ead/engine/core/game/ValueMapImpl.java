@@ -59,8 +59,7 @@ public class ValueMapImpl implements ValueMap {
 
 	private ArrayList<Object> updateList;
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("Value Map");
+	protected static final Logger logger = LoggerFactory.getLogger("Value Map");
 
 	private ReflectionProvider reflectionProvider;
 
@@ -81,11 +80,10 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void setValue(Object element, EAdVarDef<?> varDef,
-			Object value) {
+	public void setValue(Object element, EAdVarDef<?> varDef, Object value) {
 		if (value == null
-				|| reflectionProvider.isAssignableFrom(
-						varDef.getType(), value.getClass())) {
+				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
+						.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = map
 					.get(maybeDecodeField(element));
@@ -109,8 +107,7 @@ public class ValueMapImpl implements ValueMap {
 		}
 	}
 
-	private void addInitVariables(Object o,
-			Map<EAdVarDef<?>, Object> initVars) {
+	private void addInitVariables(Object o, Map<EAdVarDef<?>, Object> initVars) {
 		if (o instanceof Variabled) {
 			initVars.putAll(((Variabled) o).getVars());
 		}
@@ -123,8 +120,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@SuppressWarnings("unchecked")
 	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = map
-				.get(maybeDecodeField(element));
+		Map<EAdVarDef<?>, Object> valMap = map.get(maybeDecodeField(element));
 
 		if (valMap == null) {
 			valMap = new HashMap<EAdVarDef<?>, Object>();

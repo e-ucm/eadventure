@@ -179,11 +179,12 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ( ! super.equals(obj)) {
+		if (!super.equals(obj)) {
 			return false;
 		}
 		final BasicFont other = (BasicFont) obj;
-		if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+		if ((this.name == null) ? (other.name != null) : !this.name
+				.equals(other.name)) {
 			return false;
 		}
 		if (Float.floatToIntBits(this.size) != Float.floatToIntBits(other.size)) {
@@ -192,7 +193,8 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 		if (this.style != other.style) {
 			return false;
 		}
-		if (this.uri != other.uri && (this.uri == null || !this.uri.equals(other.uri))) {
+		if (this.uri != other.uri
+				&& (this.uri == null || !this.uri.equals(other.uri))) {
 			return false;
 		}
 		return true;

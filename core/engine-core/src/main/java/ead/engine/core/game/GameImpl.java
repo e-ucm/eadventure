@@ -53,8 +53,6 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
@@ -165,8 +163,6 @@ public class GameImpl implements Game, TextHandler {
 
 	private TweenController tweenController;
 
-	private EAdList<EAdEffect> launchEffects;
-
 	private StringsReader stringsReader;
 
 	private String currentLanguage = "";
@@ -262,8 +258,7 @@ public class GameImpl implements Game, TextHandler {
 				for (Entry<String, String> e2 : e.getValue().entrySet()) {
 					VarDef<String> varDef = new VarDef<String>(e2.getKey(),
 							String.class, e2.getValue());
-					gameState.setValue(null, varDef,
-							e2.getValue());
+					gameState.setValue(null, varDef, e2.getValue());
 				}
 			} else if (type.equals("Integer")) {
 				for (Entry<String, String> e2 : e.getValue().entrySet()) {
@@ -356,8 +351,8 @@ public class GameImpl implements Game, TextHandler {
 		// We load some possible game
 		// gameLoader.step();
 
-		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
-				gui.getSkippedMilliseconds());
+		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
+				.getSkippedMilliseconds());
 
 		// Scene
 		if (!gameState.isPaused()) {
@@ -381,8 +376,7 @@ public class GameImpl implements Game, TextHandler {
 	}
 
 	private void updateLanguage() {
-		String newLanguage = gameState.getValue(
-				SystemFields.LANGUAGE);
+		String newLanguage = gameState.getValue(SystemFields.LANGUAGE);
 
 		if (newLanguage != null && !newLanguage.equals(currentLanguage)) {
 			currentLanguage = newLanguage;

@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.CancelEffectEf;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.platform.GUI;
@@ -51,22 +52,13 @@ public class CancelEffectGO extends AbstractEffectGO<CancelEffectEf> {
 	@Inject
 	public CancelEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
+			GameState gameState, EventGOFactory eventFactory ) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	public void update() {
-		if (element.cancelAll()) {
+		if (effect.cancelAll()) {
 			for (EffectGO<?> e : gameState.getEffects()) {
 				e.stop();
 			}

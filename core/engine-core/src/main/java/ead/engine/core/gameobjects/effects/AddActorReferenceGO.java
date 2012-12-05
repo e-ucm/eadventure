@@ -47,6 +47,7 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -56,8 +57,9 @@ public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 	@Inject
 	public AddActorReferenceGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 	}
 
 	@Override
@@ -65,27 +67,17 @@ public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 		super.initialize();
 		EAdScene scene = gameState.getScene().getElement();
 		if (scene != null) {
-			EAdSceneElementDef actor = element.getActor();
+			EAdSceneElementDef actor = effect.getActor();
 			SceneElement ref = new SceneElement(actor);
-			ref.setPosition(element.getPosition());
+			ref.setPosition(effect.getPosition());
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.FIRST_UPDATE, element
+			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect
 					.getInitialEffect());
-			((AbstractSceneElementEffect) element.getInitialEffect())
+			((AbstractSceneElementEffect) effect.getInitialEffect())
 					.setSceneElement(ref);
 			ref.getEvents().add(event);
 			scene.getSceneElements().add(ref, 0);
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

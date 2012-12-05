@@ -45,8 +45,8 @@ import aurelienribon.tweenengine.TweenManager;
 public interface TweenController {
 
 	TweenManager add(BaseTween<?> object);
-	
-	TweenManager getManager( );
+
+	TweenManager getManager();
 
 	boolean containsTarget(Object arg0, int arg1);
 

@@ -51,9 +51,11 @@ import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class InterpolationGO extends
 		AbstractEffectGO<InterpolationEf> implements TweenCallback {
@@ -63,10 +65,12 @@ public class InterpolationGO extends
 	private TweenController tweenController;
 
 	@Inject
-	public InterpolationGO(SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			TweenController tweenController) {
-		super(gameObjectFactory, gui, gameState);
+	public InterpolationGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, TweenController tweenController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		this.tweenController = tweenController;
 	}
 
@@ -75,7 +79,7 @@ public class InterpolationGO extends
 		super.initialize();
 		finished = 0;
 		TweenEquation eq = Linear.INOUT;
-		switch (element.getInterpolationType()) {
+		switch (effect.getInterpolationType()) {
 		case BOUNCE_END:
 			eq = Bounce.OUT;
 			break;
@@ -89,31 +93,30 @@ public class InterpolationGO extends
 		}
 
 		int i = 0;
-		for (EAdField<?> f : element.getFields()) {
-			EAdOperation op = element.getInitialValues().get(i);
+		for (EAdField<?> f : effect.getFields()) {
+			EAdOperation op = effect.getInitialValues().get(i);
 			Number n1 = gameState.operate(Number.class, op);
-			EAdOperation opR = element.getEndValues().get(i);
+			EAdOperation opR = effect.getEndValues().get(i);
 			Number n2 = gameState.operate(Number.class, opR);
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();
 				Tween t = Tween
-						.to(f, 0, element.getInterpolationTime())
-						.ease(eq).delay(element.getDelay());
+						.to(f, 0, effect.getInterpolationTime())
+						.ease(eq).delay(effect.getDelay());
 
-				switch (element.getLoopType()) {
+				switch (effect.getLoopType()) {
 				case RESTART:
-					t.repeat(element.getLoops(), element.getDelay());
+					t.repeat(effect.getLoops(), effect.getDelay());
 					break;
 				case REVERSE:
-					t.repeatYoyo(element.getLoops(),
-							element.getDelay());
+					t.repeatYoyo(effect.getLoops(), effect.getDelay());
 					break;
 				default:
 
 				}
 
-				if (element.isRelative()) {
+				if (effect.isRelative()) {
 					t.targetRelative(endValue - startValue);
 				} else {
 					Tween.set(f, 0).target(startValue);
@@ -127,11 +130,6 @@ public class InterpolationGO extends
 			i++;
 		}
 
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import ead.common.util.EAdURI;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.platform.GUI;
@@ -37,15 +38,14 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 	private GameLoader gameLoader;
 	private EAdAdventureModel model;
 	private boolean done;
-	private AssetHandler assetHandler;
 	private String resourcesPath;
 	private XMLParser xmlReader;
 
 	@Inject
 	public LoadGameGO(SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, GameLoader gameLoader,
-			AssetHandler assetHandler, XMLParser xmlReader) {
-		super(gameObjectFactory, gui, gameState);
+			AssetHandler assetHandler, XMLParser xmlReader, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		this.gameLoader = gameLoader;
 		this.assetHandler = assetHandler;
 		this.xmlReader = xmlReader;

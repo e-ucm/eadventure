@@ -11,14 +11,17 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
+public class UseTracesEffectGO extends
+		AbstractEffectGO<UseTracesEffect> {
 
 	private int currentEvent;
 
@@ -30,9 +33,12 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 			.getLogger("UseTracesEffect");
 
 	@Inject
-	public UseTracesEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, InputHandler inputHandler) {
-		super(gameObjectFactory, gui, gameState);
+	public UseTracesEffectGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, InputHandler inputHandler,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		this.inputHandler = inputHandler;
 	}
 
@@ -46,16 +52,17 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 	public void update() {
 		super.update();
 		elapsed += gui.getSkippedMilliseconds();
-		while (currentEvent < element.getTimestamps().size()
-				&& elapsed >= element.getTimestamps().get(currentEvent)) {
-			InputAction<?> inputAction = getInputAction(element
-					.getInputEvents().get(currentEvent), element.getPositions()
-					.get(currentEvent));
+		while (currentEvent < effect.getTimestamps().size()
+				&& elapsed >= effect.getTimestamps()
+						.get(currentEvent)) {
+			InputAction<?> inputAction = getInputAction(effect
+					.getInputEvents().get(currentEvent), effect
+					.getPositions().get(currentEvent));
 			if (inputAction != null) {
 				inputHandler.addAction(inputAction);
 				logger.info("Send " + inputAction);
 			}
-			elapsed -= element.getTimestamps().get(currentEvent);
+			elapsed -= effect.getTimestamps().get(currentEvent);
 			currentEvent++;
 		}
 	}
@@ -63,8 +70,8 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 	private InputAction<?> getInputAction(EAdGUIEvent event,
 			EAdPosition position) {
 		if (event instanceof MouseGEv) {
-			return new MouseInputAction((MouseGEv) event, position.getX(),
-					position.getY());
+			return new MouseInputAction((MouseGEv) event,
+					position.getX(), position.getY());
 		} else if (event instanceof KeyGEv) {
 			return new KeyInputAction((KeyGEv) event, new Character(
 					(char) position.getX()));
@@ -84,7 +91,7 @@ public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 
 	@Override
 	public boolean isFinished() {
-		return currentEvent >= element.getTimestamps().size() - 1;
+		return currentEvent >= effect.getTimestamps().size() - 1;
 	}
 
 }

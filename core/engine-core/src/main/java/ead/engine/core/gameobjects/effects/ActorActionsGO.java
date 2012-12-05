@@ -47,12 +47,14 @@ import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
@@ -60,6 +62,7 @@ import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 
@@ -68,10 +71,12 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 	private boolean finished;
 
 	@Inject
-	public ActorActionsGO(SceneElementGOFactory gameObjectFactory,
+	public ActorActionsGO(AssetHandler assetHandler,SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
-			TweenController tweenController) {
-		super(gameObjectFactory, gui, gameState);
+			TweenController tweenController,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		this.tweenController = tweenController;
 	}
 
@@ -91,12 +96,12 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected SceneElement getVisualRepresentation() {
+	protected EAdComplexSceneElement getVisualRepresentation() {
 		finished = false;
-		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
-			EAdSceneElementDef ref = element.getActionElement();
+		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
+			EAdSceneElementDef ref = effect.getActionElement();
 			if (ref != null) {
 				EAdList<EAdSceneElementDef> list = gameState
 						.getValue(ref, ActorActionsEf.VAR_ACTIONS);
@@ -162,11 +167,6 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 		}
 		return null;
 
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return true;
 	}
 
 	@Override

@@ -51,10 +51,10 @@ public class SceneViewer implements ApplicationListener {
 
 	private SceneGO<?> currentScene;
 
-	private int sceneWidth;
-	private int sceneHeight;
-	private int containerWidth;
-	private int containerHeight;
+//	private int sceneWidth;
+//	private int sceneHeight;
+//	private int containerWidth;
+//	private int containerHeight;
 
 	@Override
 	public void create() {

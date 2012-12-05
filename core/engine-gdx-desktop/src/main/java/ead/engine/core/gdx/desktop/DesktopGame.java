@@ -41,13 +41,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.text.EAdString;
 import ead.common.util.EAdURI;
@@ -56,8 +54,6 @@ import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoader;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EffectGOFactory;
-import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;

@@ -79,25 +79,26 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		table = new JXTable(tableModel);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.getSelectionModel().addListSelectionListener(
-			new ListSelectionListener() {
-				@Override
-				public void valueChanged(ListSelectionEvent e) {
-					// update "last-selected"
-					for (int row : table.getSelectedRows()) {
-						EditorNode node = nodes.get(row);
-						if (!selected.contains(node)) {
-							lastSelected = node;
-							break;
+				new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						// update "last-selected"
+						for (int row : table.getSelectedRows()) {
+							EditorNode node = nodes.get(row);
+							if (!selected.contains(node)) {
+								lastSelected = node;
+								break;
+							}
 						}
+						// update selection-list itself
+						selected.clear();
+						for (int row : table.getSelectedRows()) {
+							selected.add(nodes.get(row));
+						}
+						firePropertyChange(selectedPropertyName, null,
+								lastSelected);
 					}
-					// update selection-list itself
-					selected.clear();
-					for (int row : table.getSelectedRows()) {
-						selected.add(nodes.get(row));
-					}
-					firePropertyChange(selectedPropertyName, null, lastSelected);
-				}
-			});
+				});
 		table.setColumnControlVisible(true);
 		table.setSortable(true);
 		table.setDefaultRenderer(BufferedImage.class, new ImageCellRenderer());
