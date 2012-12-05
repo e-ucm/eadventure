@@ -59,4 +59,13 @@ public interface FieldDescriptor<S> {
 	 */
 	String getFieldName();
 
+	/**
+	 * Writes the field
+	 */
+	void write(S data);
+
+	/**
+	 * Reads the field
+	 */
+	S read();
 }

@@ -37,6 +37,11 @@
 
 package ead.editor.view.generic;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+
 /**
  * Generic implementation of {@link FieldDescriptor}
  *
@@ -114,5 +119,62 @@ public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Returns a PropertyDescriptor to get/set the property
+	 *
+	 * @param c
+	 * @param fieldName
+	 * @return
+	 */
+	private PropertyDescriptor getPropertyDescriptor() {
+		try {
+			for (PropertyDescriptor pd : Introspector.getBeanInfo(
+					element.getClass()).getPropertyDescriptors()) {
+				if (pd.getName().equals(fieldName)) {
+					return pd;
+				}
+			}
+		} catch (IntrospectionException e) {
+			throw new IllegalArgumentException(
+					"Could not find getters or setters for field " + fieldName
+							+ " in class "
+							+ element.getClass().getCanonicalName());
+		}
+		return null;
+	}
+
+	/**
+	 * Writes the field
+	 */
+	@Override
+	public void write(S data) {
+		try {
+			Method method = getPropertyDescriptor().getWriteMethod();
+			method.invoke(element, data);
+		} catch (Exception e) {
+			throw new RuntimeException("Error writing field " + fieldName, e);
+		}
+	}
+
+	/**
+	 * Reads the field
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public S read() {
+		try {
+			Method method = getPropertyDescriptor().getReadMethod();
+			return (S) method.invoke(element);
+		} catch (Exception e) {
+			throw new RuntimeException("Error reading field " + fieldName, e);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "FieldDescriptorImpl{" + "fieldName=" + fieldName + ", element="
+				+ element + '}';
 	}
 }

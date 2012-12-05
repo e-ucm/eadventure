@@ -36,9 +36,12 @@
  */
 package ead.editor.view.generic;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import javax.swing.JComponent;
+import ead.editor.control.Command;
+import ead.editor.control.CommandManager;
+import ead.editor.control.change.ChangeEvent;
+import ead.editor.control.change.ChangeListener;
+import ead.editor.control.commands.ChangeFieldValueCommand;
 
 /**
  * Abstract implementation for {@link Option}s
@@ -46,7 +49,8 @@ import java.beans.PropertyDescriptor;
  * @param <S>
  *            The type of the option element
  */
-public abstract class AbstractOption<S> implements Option<S> {
+public abstract class AbstractOption<S> implements Option<S>,
+		ChangeListener<ChangeEvent> {
 
 	/**
 	 * Label on the component
@@ -64,6 +68,14 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * While updating, external updates will be ignored
 	 */
 	protected boolean isUpdating = false;
+	/**
+	 * Keeps a copy of the old value
+	 */
+	protected S oldValue;
+	/**
+	 * Keeps a reference to the current commandManager
+	 */
+	protected CommandManager manager;
 
 	/**
 	 * @param label
@@ -80,9 +92,26 @@ public abstract class AbstractOption<S> implements Option<S> {
 		this.toolTipText = toolTipText;
 		if (toolTipText == null || toolTipText.isEmpty()) {
 			throw new RuntimeException(
-					"BALTAEXCEPTION: ToolTipTexts must be provided for all interface elements!");
+					"ToolTipTexts MUST be provided for all interface elements!");
 		}
 		this.fieldDescriptor = fieldDescriptor;
+	}
+
+	/**
+	 * Will be called when another command modifies this field.
+	 * @param event 
+	 */
+	@Override
+	public void processChange(ChangeEvent event) {
+		if (event != null && event.hasChanged(fieldDescriptor)) {
+			if (!isUpdating) {
+				isUpdating = true;
+				setControlValue(fieldDescriptor.read());
+				valueUpdated(oldValue);
+				isUpdating = false;
+			}
+			oldValue = getControlValue();
+		}
 	}
 
 	/*
@@ -116,46 +145,82 @@ public abstract class AbstractOption<S> implements Option<S> {
 	}
 
 	/**
-	 * reads the value of the model object that is being configured
-	 *
-	 * @return
+	 * Creates the control, setting the initial value. 
+	 * Subclasses should register as a listeners
+	 * to any changes in the model, and call update() when such changes occur.
 	 */
-	@SuppressWarnings("unchecked")
-	public static <S> S read(FieldDescriptor<S> fieldDescriptor) {
-		try {
-			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
-					.getElement().getClass(), fieldDescriptor.getFieldName());
-			S value = (S) pd.getReadMethod().invoke(
-					fieldDescriptor.getElement());
-			return value;
-		} catch (Exception e) {
-			throw new RuntimeException("Error reading field '"
-					+ fieldDescriptor.getFieldName() + "' in "
-					+ fieldDescriptor.getElement().getClass(), e);
-		}
+	public abstract JComponent createControl();
+
+	/**
+	 * Creates and initializes the component
+	 */
+	@Override
+	public JComponent getComponent(CommandManager manager) {
+		JComponent component = createControl();
+		oldValue = getControlValue();
+		this.manager = manager;
+		manager.addChangeListener(this);
+		return component;
 	}
 
 	/**
-	 * Utility method to find a property descriptor for a single property
-	 *
-	 * @param c
-	 * @param fieldName
-	 * @return
+	 * Reads the value of the control.
+	 * @return 
 	 */
-	private static PropertyDescriptor getPropertyDescriptor(Class<?> c,
-			String fieldName) {
-		try {
-			for (PropertyDescriptor pd : Introspector.getBeanInfo(c)
-					.getPropertyDescriptors()) {
-				if (pd.getName().equals(fieldName)) {
-					return pd;
-				}
-			}
-		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException(
-					"Could not find getters or setters for field " + fieldName
-							+ " in class " + c.getCanonicalName());
+	public abstract S getControlValue();
+
+	/**
+	 * Writes the value of the control.
+	 * @return 
+	 */
+	public abstract void setControlValue(S newValue);
+
+	/**
+	 * Creates a Command that describes a change to the manager
+	 * @return 
+	 */
+	protected Command createUpdateCommand() {
+		return new ChangeFieldValueCommand<S>(oldValue, getControlValue(),
+				getFieldDescriptor());
+	}
+
+	/**
+	 * Should return whether a value is valid or not. Invalid values will
+	 * not generate updates, and will therefore not affect either model or other
+	 * views.
+	 * @param value
+	 * @return whether it is valid or not; default is "always-true" 
+	 */
+	protected boolean isValid(S value) {
+		return true;
+	}
+
+	/**
+	 * Should be called when changes to the control are detected
+	 */
+	protected void update() {
+		if (isUpdating || !isValid(getControlValue())) {
+			return;
 		}
-		return null;
+
+		isUpdating = true;
+		manager.performCommand(createUpdateCommand());
+		valueUpdated(oldValue);
+		oldValue = getControlValue();
+		isUpdating = false;
+	}
+
+	/**
+	 * Called after the control value is updated. Intended to be used by 
+	 * subclasses; default implementation is to do nothing.
+	 * @param oldValue 
+	 */
+	public void valueUpdated(S oldValue) {
+		// by default, do nothing
+	}
+
+	@Override
+	public void cleanup(CommandManager manager) {
+		manager.removeChangeListener(this);
 	}
 }

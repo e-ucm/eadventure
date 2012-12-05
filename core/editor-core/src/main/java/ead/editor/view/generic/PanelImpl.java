@@ -50,8 +50,6 @@ import ead.editor.control.CommandManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -279,6 +277,7 @@ public class PanelImpl implements Panel {
 		public void prepareLabel() {
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weightx = 0;
+			gbc.anchor = GridBagConstraints.EAST;
 		}
 
 		@Override
@@ -305,6 +304,7 @@ public class PanelImpl implements Panel {
 		public void prepareLabel() {
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weighty = 0;
+			gbc.anchor = GridBagConstraints.SOUTH;
 		}
 
 		@Override

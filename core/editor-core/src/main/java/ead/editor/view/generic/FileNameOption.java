@@ -37,37 +37,37 @@
 
 package ead.editor.view.generic;
 
-import ead.common.model.EAdElement;
-import ead.editor.control.CommandManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.io.File;
 
-public class ElementOption<E extends EAdElement> extends AbstractOption<E> {
+public class FileNameOption extends TextOption {
 
-	public ElementOption(String title, String toolTipText,
-			FieldDescriptor<E> fieldDescriptor) {
-		super(title, toolTipText, fieldDescriptor);
+	private boolean fileMustExist = false;
+
+	/**
+	 * Resolves the actual file this field refers to.
+	 * @param value
+	 * @return a file built from this value
+	 */
+	public File resolveFile(String value) {
+		return new File(value);
 	}
 
-	@Override
-	public JButton getComponent(CommandManager manager) {
-		JButton button = new JButton(getTitle());
-		button.setToolTipText(getToolTipText());
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO change element in window
-			}
-
-		});
-
-		return button;
+	public FileNameOption(String title, String toolTipText,
+			FieldDescriptor<String> fieldDescriptor, boolean fileMustExist) {
+		super(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
+		this.fileMustExist = fileMustExist;
 	}
 
+	/**
+	 * Should return whether a value is valid or not. Invalid values will
+	 * not generate updates, and will therefore not affect either model or other
+	 * views.
+	 * @param value
+	 * @return whether it is valid or not; default is "always-true" 
+	 */
 	@Override
-	public void cleanup(CommandManager manager) {
-		throw new UnsupportedOperationException("Not supported yet.");
+	protected boolean isValid(String value) {
+		File f = resolveFile(value);
+		return (fileMustExist && f.exists()) || f.getParentFile().isDirectory();
 	}
 }

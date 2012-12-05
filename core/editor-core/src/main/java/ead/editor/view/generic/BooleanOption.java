@@ -37,15 +37,10 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.control.CommandManager;
-import ead.editor.control.commands.ChangeFieldValueCommand;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.change.ChangeListener;
-
-public class BooleanOption extends AbstractOption<Boolean> implements
-		ChangeListener<ChangeEvent> {
+public class BooleanOption extends AbstractOption<Boolean> {
 
 	private JCheckBox checkBox;
 
@@ -54,44 +49,29 @@ public class BooleanOption extends AbstractOption<Boolean> implements
 		super(title, toolTipText, fieldDescriptor);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.ComponentProvider#getComponent(es.eucm
-	 * .eadventure.editor.view.generics.InterfaceElement)
-	 */
 	@Override
-	public JCheckBox getComponent(final CommandManager manager) {
+	public JComponent createControl() {
 		checkBox = new JCheckBox(getTitle());
 		checkBox.setToolTipText(getToolTipText());
-		checkBox.setSelected(read(getFieldDescriptor()));
+		checkBox.setSelected(fieldDescriptor.read());
 		checkBox.addChangeListener(new javax.swing.event.ChangeListener() {
-
 			@Override
 			public void stateChanged(javax.swing.event.ChangeEvent change) {
-				ChangeFieldValueCommand<Boolean> changeFieldValueCommand;
-				changeFieldValueCommand = new ChangeFieldValueCommand<Boolean>(
-						!checkBox.isSelected(), checkBox.isSelected(),
-						getFieldDescriptor());
-				isUpdating = true;
-				manager.performCommand(changeFieldValueCommand);
-				isUpdating = false;
+				if (checkBox.isSelected() != oldValue) {
+					update();
+				}
 			}
-
 		});
 		return checkBox;
 	}
 
 	@Override
-	public void cleanup(CommandManager manager) {
-		manager.removeChangeListener(this);
+	public Boolean getControlValue() {
+		return checkBox.isSelected();
 	}
 
 	@Override
-	public void processChange(ChangeEvent event) {
-		if (!isUpdating && event.hasChanged(fieldDescriptor)) {
-			checkBox.setSelected(read(getFieldDescriptor()));
-		}
+	public void setControlValue(Boolean newValue) {
+		checkBox.setSelected(newValue);
 	}
 }

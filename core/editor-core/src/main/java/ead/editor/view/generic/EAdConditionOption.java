@@ -38,7 +38,6 @@
 package ead.editor.view.generic;
 
 import ead.common.model.elements.EAdCondition;
-import ead.editor.control.CommandManager;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -48,29 +47,14 @@ import javax.swing.JTextField;
 
 public class EAdConditionOption extends AbstractOption<EAdCondition> {
 
-	@Override
-	public void cleanup(CommandManager manager) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
 	public static enum View {
 		DETAILED, BASIC
 	}
 
 	private View view;
 
-	public EAdConditionOption(String title, String toolTipText,
-			FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
-		super(title, toolTipText, fieldDescriptor);
-		this.view = view;
-	}
-
-	public View getView() {
-		return view;
-	}
-
 	@Override
-	public JComponent getComponent(CommandManager manager) {
+	public JComponent createControl() {
 		if (getView() == EAdConditionOption.View.DETAILED) {
 			JPanel panel = new JPanel();
 			panel.setBorder(BorderFactory.createTitledBorder(getTitle()));
@@ -78,7 +62,7 @@ public class EAdConditionOption extends AbstractOption<EAdCondition> {
 
 			JTextField textField = new JTextField();
 			panel.add(textField, BorderLayout.CENTER);
-			EAdCondition condition = read(getFieldDescriptor());
+			EAdCondition condition = fieldDescriptor.read();
 			textField.setText(condition.toString());
 			textField.setEnabled(false);
 			//TODO should update field after condition edition
@@ -96,5 +80,25 @@ public class EAdConditionOption extends AbstractOption<EAdCondition> {
 
 			return button;
 		}
+	}
+
+	@Override
+	public EAdCondition getControlValue() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void setControlValue(EAdCondition newValue) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	public EAdConditionOption(String title, String toolTipText,
+			FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
+		super(title, toolTipText, fieldDescriptor);
+		this.view = view;
+	}
+
+	public View getView() {
+		return view;
 	}
 }

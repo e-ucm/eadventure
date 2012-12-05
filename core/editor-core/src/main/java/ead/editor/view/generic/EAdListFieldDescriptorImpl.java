@@ -56,10 +56,9 @@ public class EAdListFieldDescriptorImpl<S> extends
 	 *            The name of the field
 	 * @param list
 	 */
-	public EAdListFieldDescriptorImpl(Object element, String fieldName,
-			EAdList<S> list) {
+	public EAdListFieldDescriptorImpl(Object element, String fieldName) {
 		super(element, fieldName);
-		this.list = list;
+		this.list = read();
 	}
 
 	/*

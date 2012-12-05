@@ -71,24 +71,31 @@ public class FileCache {
 		try {
 			MessageDigest sha1Sun = MessageDigest.getInstance("SHA-1");
 			ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024);
-			fc = new RandomAccessFile(f, "r").getChannel();
-			while (fc.position() < fc.size()) {
-				fc.read(buffer);
-				buffer.flip();
-				sha1Sun.update(buffer.array(), 0, buffer.limit());
-				buffer.clear();
+			if (f != null) {
+				fc = new RandomAccessFile(f, "r").getChannel();
+				while (fc.position() < fc.size()) {
+					fc.read(buffer);
+					buffer.flip();
+					sha1Sun.update(buffer.array(), 0, buffer.limit());
+					buffer.clear();
+				}
 			}
 
 			byte[] sun = sha1Sun.digest();
 			sha1Sun.reset();
 			buffer.clear();
-			fc.close();
+			if (fc != null) {
+				fc.close();
+				fc = null;
+			}
 			return showBytes(sun);
 		} catch (Throwable e) {
 			throw new IOException("Error hashing" + f + "; see log", e);
 		} finally {
 			try {
-				fc.close();
+				if (fc != null) {
+					fc.close();
+				}
 			} catch (Exception e) {
 				logger.error("Error closing file-channel after hashing {}", f,
 						e);
@@ -99,20 +106,37 @@ public class FileCache {
 	private String showBytes(byte[] b) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < b.length; i++) {
-			sb.append(String.format("%x", b[i]));
+			sb.append(String.format("%02x", b[i]));
 		}
 		return sb.toString();
 	}
 
+	/**
+	 * Saves the file for later retrieval.
+	 * @param f file to save (can be null; an empty file is then saved)
+	 * @return the hash-key from which to retrieve it later. Lose the key, lose
+	 * the file.
+	 * @throws IOException 
+	 */
 	public String saveFile(File f) throws IOException {
 		String hash = hashFile(f);
 		File dest = new File(base, hash);
 		if (!dest.exists()) {
-			FileUtils.copyRecursive(f, null, dest);
+			if (f == null) {
+				dest.createNewFile();
+			} else {
+				FileUtils.copyRecursive(f, null, dest);
+			}
 		}
 		return hash;
 	}
 
+	/**
+	 * Restores a saved file.
+	 * @param hash returned when saving the file
+	 * @param dest File where the recovered bytes should be placed.
+	 * @throws IOException 
+	 */
 	public void restoreFile(String hash, File dest) throws IOException {
 		File source = new File(base, hash);
 		FileUtils.copyRecursive(source, null, dest);

@@ -38,8 +38,6 @@
 package ead.editor.view.generics;
 
 import java.awt.BorderLayout;
-import ead.editor.view.generic.TextOption;
-import ead.editor.view.generic.FieldDescriptorImpl;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -52,23 +50,12 @@ import javax.swing.JPanel;
 
 import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.change.ChangeListener;
-import ead.editor.view.generic.Panel;
-import ead.editor.view.generic.PanelImpl;
-import ead.utils.Log4jConfig;
 
-public class TextComponentProviderTest extends JFrame {
+public class AbstractOptionTest extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-
-	private CommandManager commandManager;
-	private JButton undo, redo, merge;
-
-	public static void main(String[] args) {
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
-				new Object[] {});
-
-		(new TextComponentProviderTest()).test();
-	}
+	protected CommandManager commandManager;
+	protected JButton undo, redo, dump;
+	protected Object model;
 
 	public void init() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -93,10 +80,10 @@ public class TextComponentProviderTest extends JFrame {
 				}
 			}
 		});
-		merge = new JButton(new AbstractAction("merge") {
+		dump = new JButton(new AbstractAction("show model") {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// not supported yet; would seek to compress actions
+				dump();
 			}
 		});
 		redo = new JButton(new AbstractAction("redo") {
@@ -112,60 +99,12 @@ public class TextComponentProviderTest extends JFrame {
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(undo);
+		buttonPanel.add(dump);
 		buttonPanel.add(redo);
 		add(buttonPanel, BorderLayout.SOUTH);
 	}
 
-	public static class ExampleClass {
-		public String name = "initial name";
-		public String description = "initial description";
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-
-	public void test() {
-		init();
-
-		Object model = new ExampleClass();
-
-		Panel p1 = new PanelImpl("Test", Panel.LayoutPolicy.VerticalBlocks, 4)
-				.addElement(
-						new TextOption("name1", "toolTip1",
-								new FieldDescriptorImpl<String>(model, "name"),
-								TextOption.ExpectedLength.SHORT))
-				.addElement(
-						new TextOption("name2", "toolTip2",
-								new FieldDescriptorImpl<String>(model, "name")))
-				.addElement(
-						new TextOption("name3", "toolTip3",
-								new FieldDescriptorImpl<String>(model, "name")))
-				.addElement(
-						new TextOption("description1",
-								"a longish description tooltip 1",
-								new FieldDescriptorImpl<String>(model,
-										"description"),
-								TextOption.ExpectedLength.LONG)).addElement(
-						new TextOption("description2",
-								"a longish description tooltip 2",
-								new FieldDescriptorImpl<String>(model,
-										"description"),
-								TextOption.ExpectedLength.LONG));
-		add(p1.getComponent(commandManager), BorderLayout.CENTER);
-
-		setVisible(true);
+	public void dump() {
+		System.err.println("------\n" + model.toString());
 	}
 }

@@ -37,6 +37,9 @@
 
 package ead.editor.control.commands;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,27 +48,27 @@ import ead.editor.control.change.ChangeEvent;
 import ead.editor.view.generic.FieldDescriptor;
 
 /**
- * Class that represents the generic command that uses introspection to change T values.
+ * Uses a file-cache to allow undo/redo actions on files.
  */
-public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
+public class ChangeFileValueCommand extends Command implements ChangeEvent {
 
 	/**
 	 * The logger
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger(ChangeFieldValueCommand.class.getSimpleName());
+			.getLogger(ChangeFileValueCommand.class.getSimpleName());
 
-	/**
-	 * The old value (T) to be changed.
-	 */
-	protected T oldValue;
+	protected File oldSource;
+	protected String oldSourceHash;
 
-	/**
-	 * The new value (T) to change.
-	 */
-	protected T newValue;
+	protected File newSource;
+	protected String newSourceHash;
 
-	protected FieldDescriptor<T> fieldDescriptor;
+	protected String currentHash;
+
+	protected FieldDescriptor<File> fieldDescriptor;
+
+	protected FileCache fileCache;
 
 	/**
 	 * Constructor for the ChangeValueCommand class.
@@ -75,11 +78,12 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	 * @param fieldDescriptor
 	 *
 	 */
-	public ChangeFieldValueCommand(T oldValue, T newValue,
-			FieldDescriptor<T> fieldDescriptor) {
-		this.oldValue = oldValue;
-		this.newValue = newValue;
+	public ChangeFileValueCommand(File oldSource, File newSource,
+			FieldDescriptor<File> fieldDescriptor, FileCache fileCache) {
+		this.oldSource = oldSource;
+		this.newSource = newSource;
 		this.fieldDescriptor = fieldDescriptor;
+		this.fileCache = fileCache;
 	}
 
 	/**
@@ -88,13 +92,24 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ChangeEvent performCommand() {
-		oldValue = fieldDescriptor.read();
+		oldSource = fieldDescriptor.read();
 
-		if ((newValue != null && oldValue == null)
-				|| (newValue == null && oldValue != null)
-				|| (newValue != null && oldValue != null && !oldValue
-						.equals(newValue))) {
-			return setValue(newValue);
+		if ((newSource != null && oldSource == null)
+				|| (newSource == null && oldSource != null)
+				|| (newSource != null && oldSource != null)) {
+			// Notice that we don't care if they are 'equals'
+			// -- because the FS may have changed; the fileCache will help us out here
+			try {
+				oldSourceHash = (oldSource != null && oldSource.exists()) ? fileCache
+						.saveFile(oldSource)
+						: fileCache.saveFile(null); // an empty file
+				newSourceHash = fileCache.saveFile(newSource);
+				currentHash = newSourceHash;
+				return setValue(newSource);
+			} catch (IOException ex) {
+				throw new RuntimeException("Error reading file \"" + newSource
+						+ "\"", ex);
+			}
 		}
 
 		return null;
@@ -105,8 +120,13 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 		return fd.equals(fieldDescriptor);
 	}
 
-	private ChangeEvent setValue(T value) {
-		fieldDescriptor.write(value);
+	private ChangeEvent setValue(File value) {
+		try {
+			fieldDescriptor.write(value);
+		} catch (Exception e) {
+			throw new RuntimeException("Error writing field "
+					+ fieldDescriptor.getFieldName(), e);
+		}
 		return this;
 	}
 
@@ -125,8 +145,10 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	 */
 	@Override
 	public ChangeEvent redoCommand() {
-		logger.debug("Redoing: setting value to '{}'", newValue);
-		return setValue(newValue);
+		logger.debug("Redoing: setting file to '{}' ({})", newSource,
+				newSourceHash);
+		currentHash = newSourceHash;
+		return setValue(newSource);
 	}
 
 	/* (non-Javadoc)
@@ -135,27 +157,7 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public boolean combine(Command other) {
-		if (other instanceof ChangeFieldValueCommand) {
-			ChangeFieldValueCommand<T> o = (ChangeFieldValueCommand) other;
-			if (fieldDescriptor.equals(o.fieldDescriptor)
-					&& likesToCombine(o.newValue)) {
-				newValue = o.newValue;
-				timeStamp = o.timeStamp;
-				logger.info("Combined command");
-				return true;
-			}
-		}
 		return false;
-	}
-
-	/**
-	 * Hook for subclasses, so they can decide if they want to combine with 
-	 * next-in-line or not.
-	 * @param nextValue value to combine to
-	 * @return true if combination is good, false otherwise
-	 */
-	public boolean likesToCombine(T nextValue) {
-		return true;
 	}
 
 	/* (non-Javadoc)
@@ -163,27 +165,23 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	 */
 	@Override
 	public ChangeEvent undoCommand() {
-		logger.debug("Undoing: setting value to '{}'", oldValue);
-		return setValue(oldValue);
+		logger.debug("Undoing: setting file to '{}' ({})", oldSource,
+				oldSourceHash);
+		currentHash = oldSourceHash;
+		return setValue(oldSource);
 	}
 
-	/**
-	 * Returns the old value
-	 */
-	public T getOldValue() {
-		return oldValue;
-	}
-
-	/**
-	 * Returns the new value
-	 */
-	public T getNewValue() {
-		return newValue;
+	public void writeFile(File target) {
+		try {
+			fileCache.restoreFile(currentHash, target);
+		} catch (IOException ex) {
+			logger.error("Could not write file to '{}'", target, ex);
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "ChangeFieldValue: from '" + oldValue + "' to '" + newValue
+		return "ChangeFile: from '" + oldSource + "' to '" + newSource
 				+ "' in " + fieldDescriptor;
 	}
 }

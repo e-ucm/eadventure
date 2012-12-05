@@ -40,46 +40,23 @@ package ead.editor.view.generic;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
-import ead.editor.control.CommandManager;
-import ead.editor.control.commands.ChangeFieldValueCommand;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.change.ChangeListener;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldValueCommand;
 
-public class TextOption extends AbstractOption<String> implements
-		ChangeListener<ChangeEvent>, DocumentListener {
-
-	private JTextComponent textField;
-	private String oldValue = "";
-
-	private CommandManager manager;
-
-	@Override
-	public void cleanup(CommandManager manager) {
-		manager.removeChangeListener(this);
-	}
-
-	@Override
-	public void processChange(ChangeEvent event) {
-		if (event != null && event.hasChanged(fieldDescriptor)) {
-			if (!isUpdating) {
-				isUpdating = true;
-				textField.setText(read(getFieldDescriptor()));
-				isUpdating = false;
-			}
-			oldValue = textField.getText();
-		}
-	}
+public class TextOption extends AbstractOption<String> {
 
 	public static enum ExpectedLength {
 		SHORT, NORMAL, LONG
 	}
 
 	private ExpectedLength expectedLength;
+
+	protected JTextComponent textField;
 
 	public TextOption(String title, String toolTipText,
 			FieldDescriptor<String> fieldDescriptor,
@@ -93,6 +70,16 @@ public class TextOption extends AbstractOption<String> implements
 		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
 	}
 
+	@Override
+	public String getControlValue() {
+		return textField.getText();
+	}
+
+	@Override
+	public void setControlValue(String newValue) {
+		textField.setText(newValue);
+	}
+
 	public ExpectedLength getExpectedLength() {
 		return expectedLength;
 	}
@@ -102,7 +89,7 @@ public class TextOption extends AbstractOption<String> implements
 	}
 
 	@Override
-	public JComponent getComponent(CommandManager manager) {
+	public JComponent createControl() {
 		switch (expectedLength) {
 		case SHORT:
 			textField = new JTextField(getTitle(), 10);
@@ -119,41 +106,31 @@ public class TextOption extends AbstractOption<String> implements
 					+ expectedLength);
 		}
 		textField.setToolTipText(getToolTipText());
-		textField.setText(read(getFieldDescriptor()));
-		oldValue = textField.getText();
+		textField.setText(fieldDescriptor.read());
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent de) {
+				update();
+			}
 
-		textField.getDocument().addDocumentListener(this);
+			@Override
+			public void removeUpdate(DocumentEvent de) {
+				update();
+			}
 
-		this.manager = manager;
-		manager.addChangeListener(this);
-
+			@Override
+			public void changedUpdate(DocumentEvent de) {
+				update();
+			}
+		});
 		return textField;
 	}
 
 	@Override
-	public void changedUpdate(DocumentEvent arg0) {
-		update();
-	}
-
-	@Override
-	public void insertUpdate(DocumentEvent arg0) {
-		update();
-	}
-
-	@Override
-	public void removeUpdate(DocumentEvent arg0) {
-		update();
-	}
-
-	private void update() {
-		if (isUpdating) {
-			return;
-		}
-
-		isUpdating = true;
-		manager.performCommand(new ChangeFieldValueCommand<String>(oldValue,
-				textField.getText(), getFieldDescriptor()) {
-
+	protected Command createUpdateCommand() {
+		// Users expect to undo/redo entire words, rather than character-by-character		
+		return new ChangeFieldValueCommand<String>(oldValue, getControlValue(),
+				getFieldDescriptor()) {
 			@Override
 			public boolean likesToCombine(String nextValue) {
 				return nextValue.startsWith(newValue)
@@ -161,8 +138,6 @@ public class TextOption extends AbstractOption<String> implements
 						&& !Character.isWhitespace(nextValue.charAt(nextValue
 								.length() - 1));
 			}
-
-		});
-		isUpdating = false;
+		};
 	}
 }
