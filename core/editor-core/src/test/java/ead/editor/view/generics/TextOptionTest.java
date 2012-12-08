@@ -98,7 +98,7 @@ public class TextOptionTest extends AbstractOptionTest {
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		AbstractOptionTest aot = new BooleanOptionTest();
+		AbstractOptionTest aot = new TextOptionTest();
 		aot.setVisible(true);
 	}
 }

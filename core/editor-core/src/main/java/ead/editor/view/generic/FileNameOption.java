@@ -62,6 +62,13 @@ public class FileNameOption extends TextOption {
 		this.fileMustExist = fileMustExist;
 	}
 
+	public FileNameOption(String title, String toolTipText, Object object,
+			String fieldName, boolean fileMustExist, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, ExpectedLength.NORMAL,
+				node);
+		this.fileMustExist = fileMustExist;
+	}
+
 	/**
 	 * Should return whether a value is valid or not. Invalid values will
 	 * not generate updates, and will therefore not affect either model or other

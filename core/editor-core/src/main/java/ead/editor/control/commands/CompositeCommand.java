@@ -57,7 +57,7 @@ import ead.editor.model.MergeableModelChange;
  * Commands will be executed in order of addition (first added first), and will
  * be undone in reverse order.
  */
-public class CombineCommandList extends Command {
+public class CompositeCommand extends Command {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("CombineCommandList");
@@ -72,7 +72,7 @@ public class CombineCommandList extends Command {
 	/**
 	 * @param list Command objects to be treated as a single one
 	 */
-	public CombineCommandList(List<Command> list) {
+	public CompositeCommand(List<Command> list) {
 		this.commandList = list;
 		commandName = generateName();
 	}
@@ -80,7 +80,7 @@ public class CombineCommandList extends Command {
 	/**
 	 * @param comms array of Command objects to be treated as a single one
 	 */
-	public CombineCommandList(Command... comms) {
+	public CompositeCommand(Command... comms) {
 		this.commandList = Arrays.asList(comms);
 		commandName = generateName();
 	}

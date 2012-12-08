@@ -39,7 +39,7 @@ package ead.editor.control.commands;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.editor.control.Command;
-import ead.editor.model.DefaultModelChange;
+import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
@@ -84,18 +84,18 @@ public abstract class ListCommand<P> extends Command {
 
 	protected ModelEvent add(EditorModel em, int position) {
 		elementList.add(anElement, position);
-		return new DefaultModelChange(commandName, this, null, null, listNode);
+		return new DefaultModelEvent(commandName, this, null, null, listNode);
 	}
 
 	protected ModelEvent remove(EditorModel em, int position) {
 		elementList.remove(position);
-		return new DefaultModelChange(commandName, this, null, null, listNode);
+		return new DefaultModelEvent(commandName, this, null, null, listNode);
 	}
 
 	protected ModelEvent reorder(EditorModel em, int from, int to) {
 		elementList.remove(from);
 		elementList.add(anElement, to);
-		return new DefaultModelChange(commandName, this, null, null, listNode);
+		return new DefaultModelEvent(commandName, this, null, null, listNode);
 	}
 
 	@Override

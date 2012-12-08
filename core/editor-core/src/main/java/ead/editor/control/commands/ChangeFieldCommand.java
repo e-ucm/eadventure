@@ -38,7 +38,7 @@
 package ead.editor.control.commands;
 
 import ead.editor.control.Command;
-import ead.editor.model.DefaultModelChange;
+import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
@@ -81,7 +81,7 @@ public class ChangeFieldCommand<T> extends Command {
 	/**
 	 * Node that will be passed in model-events returned by this command
 	 */
-	protected DependencyNode node;
+	protected DependencyNode[] changed;
 
 	/**
 	 * Simplified constructor
@@ -90,7 +90,7 @@ public class ChangeFieldCommand<T> extends Command {
 	 *
 	 */
 	public ChangeFieldCommand(T newValue, Object target, String fieldName,
-			DependencyNode node) {
+			DependencyNode... changed) {
 		this.newValue = newValue;
 		this.fieldDescriptor = new IntrospectingAccessor<T>(target, fieldName);
 		this.commandName = ChangeField;
@@ -102,11 +102,11 @@ public class ChangeFieldCommand<T> extends Command {
 	 * @param fieldDescriptor
 	 */
 	public ChangeFieldCommand(T newValue, Accessor<T> fieldDescriptor,
-			DependencyNode node) {
+			DependencyNode... changed) {
 		this.newValue = newValue;
 		this.fieldDescriptor = fieldDescriptor;
 		this.commandName = ChangeField;
-		this.node = node;
+		this.changed = changed;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class ChangeFieldCommand<T> extends Command {
 	 */
 	protected ModelEvent setValue(T value) {
 		fieldDescriptor.write(value);
-		return new DefaultModelChange(commandName, this, null, null, node);
+		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
 	@Override

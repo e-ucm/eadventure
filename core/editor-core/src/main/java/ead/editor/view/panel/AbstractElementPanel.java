@@ -45,12 +45,17 @@ import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.generic.OptionPanel;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ead.editor.model.ModelEventUtils;
+
 /**
- * An elementPanel that can display anything.
+ * An elementPanel that can display anything. Intended as the common base
+ * of all elementPanels. Panels should
+ * <ul>
+ * <li>register their OptionPanels in 'panels' during rebuild.
+ * </ul>
  *
  * @author mfreire
  */
@@ -61,6 +66,10 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 	protected Controller controller;
 	protected ArrayList<OptionPanel> panels = new ArrayList<OptionPanel>();
 
+	/**
+	 * Sets the target. Internally calls rebuild() (or cleanup & rebuild) 
+	 * as necessary.
+	 */
 	@Override
 	public void setTarget(T target) {
 		if (this.target == null) {
@@ -74,11 +83,18 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 		}
 	}
 
+	/**
+	 * Frees any resources and listeners used by this panel. Subclasses
+	 * that listen on anything but modelEvents should override this.
+	 */
 	@Override
 	public void cleanup() {
 		controller.getModel().removeModelListener(this);
 	}
 
+	/**
+	 * Sets the controller. Guaranteed to be called before setTarget.
+	 */
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
@@ -89,10 +105,20 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 		return target;
 	}
 
+	/**
+	 * Reacts to a model change. If requiresRebuild(), then a full rebuild()
+	 * is triggered. Otherwise, if requiresRefresh(), the event will be 
+	 * re-dispatched to all options. Finally, if requiresResurrection() 
+	 * returns true, then target has been erased from the model; it is up to
+	 * us to restore it.
+	 * @param event 
+	 */
 	@Override
 	public void modelChanged(ModelEvent event) {
 		if (requiresRebuild(event)) {
+			cleanup();
 			rebuild();
+			controller.getModel().addModelListener(this);
 		} else if (requiresRefresh(event)) {
 			for (OptionPanel p : panels) {
 				p.modelChanged(event);
@@ -107,34 +133,38 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 	}
 
 	/**
-	 * Checks if a change requires a rebuild of this view
+	 * Checks if a change requires a full rebuild of this view. Called from
+	 * modelChanged.
 	 * @param event describing the change
 	 * @return true if rebuild required
 	 */
 	protected boolean requiresRebuild(ModelEvent event) {
-		return Arrays.binarySearch(event.getChanged(), target) >= 0;
-	}
-
-	/**
-	 * Checks if a change requires a refresh of this view
-	 * @param event describing the change
-	 * @return true if refresh of fields required
-	 */
-	protected boolean requiresRefresh(ModelEvent event) {
 		return false;
 	}
 
 	/**
-	 * Checks if a change completely invalidates this view
+	 * Checks if a change requires a refresh of this view. Called from
+	 * modelChanged.
+	 * @param event describing the change
+	 * @return true if refresh of fields required
+	 */
+	protected boolean requiresRefresh(ModelEvent event) {
+		return ModelEventUtils.changes(event, target);
+	}
+
+	/**
+	 * Checks if a change completely invalidates this view. Called from
+	 * modelChanged.
 	 * @param event describing the change
 	 * @return true if resurrection required
 	 */
 	protected boolean requiresResurrection(ModelEvent event) {
-		return Arrays.binarySearch(event.getRemoved(), target) >= 0;
+		return ModelEventUtils.contains(event.getRemoved(), target);
 	}
 
 	/**
-	 * Rebuild contents after a change to the target
+	 * Rebuild contents after a (deep) change to the target. Smaller changes
+	 * should be managed automatically via ModelEvent dispatch from modelChanged().
 	 */
 	protected abstract void rebuild();
 }

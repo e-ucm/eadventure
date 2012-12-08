@@ -89,8 +89,8 @@ import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.RunMenu;
 import ead.editor.view.menu.WindowMenu;
-import ead.editor.view.panel.AssetsPanel;
-import ead.editor.view.panel.ImageAssetPanel;
+import ead.editor.view.panel.asset.AssetsPanel;
+import ead.editor.view.panel.asset.ImageAssetPanel;
 
 /**
  * Default implementation of the main editor window

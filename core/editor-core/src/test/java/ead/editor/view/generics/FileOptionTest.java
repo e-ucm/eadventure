@@ -36,13 +36,15 @@
  */
 package ead.editor.view.generics;
 
-import java.awt.BorderLayout;
 import java.io.File;
 
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
+import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
-import ead.editor.view.generic.accessors.IntrospectingAccessor;
 import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
 import ead.editor.view.generic.OptionPanel;
@@ -51,27 +53,64 @@ import ead.utils.Log4jConfig;
 
 public class FileOptionTest extends AbstractOptionTest {
 
+	private File target;
+
 	public FileOptionTest() {
 		model = new ExampleClass();
 		init();
 
-		FileCache fc = new FileCache(new File("/tmp/cache"));
+		final FileCache fc = new FileCache(new File("/tmp/cache"));
 		DependencyNode node1 = new EngineNode<String>(1, "test1");
 
-		final FileOption fo = new FileOption("dest1", "tipsy tool 1",
-				"Choose...", new IntrospectingAccessor<File>(model, "dest"),
-				fc, node1);
-		final FileNameOption fno = new FileNameOption("name1", "toolTip1",
-				new IntrospectingAccessor<String>(model, "name"), false, node1) {
+		FileOption fo = new FileOption("dest1", "tipsy tool 1", "Choose...",
+				model, "dest", fc, node1) {
+			@Override
+			public Command createUpdateCommand() {
+				return new ChangeFileCommand(getControlValue(),
+						getFieldDescriptor(), fc, changed) {
+					@Override
+					protected ModelEvent setValue(File value) {
+						ModelEvent me = super.setValue(value);
+						writeFile(target);
+						return me;
+					}
+				};
+			}
+		};
+
+		FileNameOption fno = new FileNameOption("name1", "toolTip1", model,
+				"name", false, node1) {
 			@Override
 			public File resolveFile(String value) {
 				return ExampleClass.resolveFile(value);
 			}
+
+			@Override
+			public Command createUpdateCommand() {
+				return new ChangeFieldCommand<String>(getControlValue(),
+						getFieldDescriptor(), changed) {
+					@Override
+					protected ModelEvent setValue(String value) {
+						File src = resolveFile(getFieldDescriptor().read());
+						ModelEvent me = super.setValue(value);
+						target = resolveFile(value);
+						if (!src.renameTo(target)) {
+							System.err.println("---- Could not rename " + src
+									+ " to " + target);
+						}
+						return me;
+					}
+				};
+			}
 		};
+		target = fno.resolveFile(fno.getFieldDescriptor().read());
 
 		OptionPanel p1 = new PanelImpl("Test",
-				OptionPanel.LayoutPolicy.VerticalBlocks, 4).add(fno).add(fo);
-		add(p1.getComponent(commandManager), BorderLayout.CENTER);
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		p1.add(fno).add(fo);
+
+		controller.getModel().addModelListener(p1);
+		childPanel.add(p1.getComponent(commandManager));
 	}
 
 	public static class ExampleClass {
@@ -108,7 +147,7 @@ public class FileOptionTest extends AbstractOptionTest {
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		AbstractOptionTest aot = new BooleanOptionTest();
+		AbstractOptionTest aot = new FileOptionTest();
 		aot.setVisible(true);
 	}
 }

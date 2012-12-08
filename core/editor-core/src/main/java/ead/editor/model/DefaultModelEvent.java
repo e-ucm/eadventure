@@ -47,7 +47,7 @@ import ead.editor.model.EditorModel.ModelEvent;
  *
  * @author mfreire
  */
-public class DefaultModelChange implements ModelEvent {
+public class DefaultModelEvent implements ModelEvent {
 
 	private static final DependencyNode[] emptyArray = new DependencyNode[0];
 
@@ -57,9 +57,8 @@ public class DefaultModelChange implements ModelEvent {
 	private DependencyNode[] changed;
 	private DependencyNode[] removed;
 
-	public DefaultModelChange(String name, Object cause,
-			DependencyNode[] added, DependencyNode[] removed,
-			DependencyNode... changed) {
+	public DefaultModelEvent(String name, Object cause, DependencyNode[] added,
+			DependencyNode[] removed, DependencyNode... changed) {
 		this.name = name;
 		this.cause = cause;
 		this.added = (added == null ? emptyArray : sorted(added));
@@ -110,54 +109,8 @@ public class DefaultModelChange implements ModelEvent {
 		removed = aux;
 	}
 
-	private static void append(StringBuilder sb, DependencyNode[] nodes) {
-		sb.append('[');
-		for (DependencyNode dn : nodes) {
-			sb.append(dn.getId()).append(' ');
-		}
-		sb.append(']');
-	}
-
 	@Override
 	public String toString() {
-		return "ModelChange{" + dump(this) + '}';
-	}
-
-	/**
-	 * Utility method to show an event in full glory
-	 */
-	public static String dump(ModelEvent me) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(me.getName()).append(" (cause=").append(me.getCause())
-				.append(")");
-		sb.append(" change=");
-		append(sb, me.getChanged());
-		sb.append(" add=");
-		append(sb, me.getAdded());
-		sb.append(" remove=");
-		append(sb, me.getAdded());
-		return sb.toString();
-	}
-
-	/**
-	 * Utility method to check whether a value is in an array. Note: uses
-	 * binary search to greatly speed this up if there are many values. 
-	 * Added, changed and removed must always be sorted.
-	 * @param nodes
-	 * @param value
-	 * @return 
-	 */
-	public static boolean contains(DependencyNode[] nodes, DependencyNode value) {
-		return Arrays.binarySearch(nodes, value) >= 0;
-	}
-
-	/**
-	 * Utility method to check whether a value is changed in an event.
-	 * @param e the ModelEvent to scourge
-	 * @param value
-	 * @return 
-	 */
-	public static boolean changes(ModelEvent e, DependencyNode value) {
-		return contains(e.getChanged(), value);
+		return "ModelChange{" + ModelEventUtils.dump(this) + '}';
 	}
 }

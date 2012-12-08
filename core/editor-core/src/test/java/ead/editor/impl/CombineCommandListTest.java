@@ -45,8 +45,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ead.editor.control.Command;
-import ead.editor.control.commands.CombineCommandList;
-import ead.editor.model.DefaultModelChange;
+import ead.editor.control.commands.CompositeCommand;
+import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModel.ModelEvent;
 import ead.utils.Log4jConfig;
@@ -68,7 +68,7 @@ public class CombineCommandListTest extends TestCase {
 	/**
 	 * The command to combine the actions of a list of commands
 	 */
-	private CombineCommandList comm;
+	private CompositeCommand comm;
 
 	/**
 	 * Method that initiates both the mock objects and the regular objects of 
@@ -81,10 +81,10 @@ public class CombineCommandListTest extends TestCase {
 				new Object[] {});
 
 		MockitoAnnotations.initMocks(this);
-		comm = new CombineCommandList(mockCommand1, mockCommand2, mockCommand3);
-		modelEvent1 = new DefaultModelChange("test1", "test1", null, null);
-		modelEvent2 = new DefaultModelChange("test2", "test2", null, null);
-		modelEvent3 = new DefaultModelChange("test3", "test3", null, null);
+		comm = new CompositeCommand(mockCommand1, mockCommand2, mockCommand3);
+		modelEvent1 = new DefaultModelEvent("test1", "test1", null, null);
+		modelEvent2 = new DefaultModelEvent("test2", "test2", null, null);
+		modelEvent3 = new DefaultModelEvent("test3", "test3", null, null);
 	}
 
 	/**

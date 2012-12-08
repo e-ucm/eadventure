@@ -78,8 +78,8 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 	 *
 	 */
 	public ChangeFileCommand(File newSource, Accessor<File> fieldDescriptor,
-			FileCache fileCache, DependencyNode node) {
-		super(newSource, fieldDescriptor, node);
+			FileCache fileCache, DependencyNode... changed) {
+		super(newSource, fieldDescriptor, changed);
 		this.fileCache = fileCache;
 		this.commandName = ChangeFile;
 	}

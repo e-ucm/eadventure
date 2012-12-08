@@ -35,59 +35,72 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ead.editor.view.asset;
+package ead.editor.model;
 
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
+import ead.editor.model.nodes.DependencyNode;
+import java.util.Arrays;
+
+import ead.editor.model.EditorModel.ModelEvent;
 
 /**
- * Utility class that performs asset-related functions.
+ * ModelEvent processing utilities.
  *
  * @author mfreire
  */
-public class AssetHelper {
+public class ModelEventUtils {
 
-	private File resourcePath;
-
-	public static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
-
-	public AssetHelper(File resourcePath) {
-		this.resourcePath = resourcePath;
-	}
-
-	public File getFile(AssetDescriptor d) {
-		String s = d.toString();
-		if (s.contains("@")) {
-			File f = new File(resourcePath.getAbsolutePath(), s.substring(s
-					.indexOf('@') + 1));
-			return f.exists() ? f : null;
+	public static void appendIds(StringBuilder sb, DependencyNode[] nodes) {
+		sb.append('[');
+		for (DependencyNode dn : nodes) {
+			sb.append(dn.getId()).append(' ');
 		}
-		return null;
+		sb.append(']');
 	}
 
-	public InputStream getEngineResource(AssetDescriptor d) throws IOException {
-		ClassLoader cl = AssetHelper.class.getClassLoader();
-		if (d instanceof EAdBasicDrawable) {
-			EAdBasicDrawable drawable = (EAdBasicDrawable) d;
+	/**
+	 * Utility method to show an event in full glory
+	 */
+	public static String dump(ModelEvent me) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(me.getName()).append(" (cause=").append(me.getCause())
+				.append(")");
+		sb.append(" change=");
+		appendIds(sb, me.getChanged());
+		sb.append(" add=");
+		appendIds(sb, me.getAdded());
+		sb.append(" remove=");
+		appendIds(sb, me.getAdded());
+		return sb.toString();
+	}
+
+	/**
+	 * Utility method to check whether a value is in an array. Note: uses
+	 * binary search to greatly speed this up if there are many values. 
+	 * Added, changed and removed must always be sorted.
+	 * @param nodes
+	 * @param value
+	 * @return 
+	 */
+	public static boolean contains(DependencyNode[] nodes,
+			DependencyNode... values) {
+		if (values == null) {
+			return false;
 		}
-		return null;
-	}
-
-	public boolean isEngineResource(AssetDescriptor d) {
+		for (DependencyNode node : values) {
+			if (Arrays.binarySearch(nodes, node) >= 0) {
+				return true;
+			}
+		}
 		return false;
 	}
 
-	public Image getThumbnail(AssetDescriptor d, File resourcePath) {
-		return null;
+	/**
+	 * Utility method to check whether a value is changed in an event.
+	 * @param e the ModelEvent to scourge
+	 * @param value
+	 * @return 
+	 */
+	public static boolean changes(ModelEvent e, DependencyNode... values) {
+		return contains(e.getChanged(), values);
 	}
 }

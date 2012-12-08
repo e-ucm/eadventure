@@ -65,8 +65,16 @@ public class FileOption extends AbstractOption<File> {
 
 	public FileOption(String title, String toolTipText, String buttonText,
 			Accessor<File> fieldDescriptor, FileCache fileCache,
-			DependencyNode node) {
-		super(title, toolTipText, fieldDescriptor, node);
+			DependencyNode... changed) {
+		super(title, toolTipText, fieldDescriptor, changed);
+		this.fileCache = fileCache;
+		this.buttonText = buttonText;
+	}
+
+	public FileOption(String title, String toolTipText, String buttonText,
+			Object object, String fieldName, FileCache fileCache,
+			DependencyNode... changed) {
+		super(title, toolTipText, object, fieldName, changed);
 		this.fileCache = fileCache;
 		this.buttonText = buttonText;
 	}
@@ -135,7 +143,7 @@ public class FileOption extends AbstractOption<File> {
 	@Override
 	protected Command createUpdateCommand() {
 		return new ChangeFileCommand(getControlValue(), getFieldDescriptor(),
-				fileCache, node);
+				fileCache, changed);
 	}
 
 	/**

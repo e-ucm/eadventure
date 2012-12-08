@@ -46,7 +46,8 @@ import javax.swing.JComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ead.editor.model.DefaultModelChange;
+import ead.editor.model.DefaultModelEvent;
+import ead.editor.model.ModelEventUtils;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
@@ -88,7 +89,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	/**
 	 * A reference to the node to include in 'changed' ModelEvents
 	 */
-	protected DependencyNode node;
+	protected DependencyNode[] changed;
 
 	/**
 	 * Common-case constructor
@@ -98,7 +99,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * @param fieldName fieldName to access
 	 */
 	public AbstractOption(String label, String toolTipText, Object object,
-			String fieldName, DependencyNode node) {
+			String fieldName, DependencyNode... changed) {
 		this.label = label;
 		this.toolTipText = toolTipText;
 		if (toolTipText == null || toolTipText.isEmpty()) {
@@ -106,7 +107,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 					"ToolTipTexts MUST be provided for all interface elements!");
 		}
 		this.fieldDescriptor = new IntrospectingAccessor<S>(object, fieldName);
-		this.node = node;
+		this.changed = changed == null ? new DependencyNode[0] : changed;
 	}
 
 	/**
@@ -117,7 +118,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 *    element to be displayed/edited
 	 */
 	public AbstractOption(String label, String toolTipText,
-			Accessor<S> fieldDescriptor, DependencyNode node) {
+			Accessor<S> fieldDescriptor, DependencyNode... changed) {
 		this.label = label;
 		this.toolTipText = toolTipText;
 		if (toolTipText == null || toolTipText.isEmpty()) {
@@ -125,7 +126,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 					"ToolTipTexts MUST be provided for all interface elements!");
 		}
 		this.fieldDescriptor = fieldDescriptor;
-		this.node = node;
+		this.changed = changed == null ? new DependencyNode[0] : changed;
 	}
 
 	/**
@@ -139,7 +140,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 		}
 
 		logger.debug("change at {}: {}", new Object[] { hashCode(), event });
-		if (DefaultModelChange.changes(event, node)) {
+		if (ModelEventUtils.changes(event, changed)) {
 			S nextValue = fieldDescriptor.read();
 			oldValue = getControlValue();
 			if (ChangeFieldCommand.defaultIsChange(oldValue, nextValue)) {
@@ -218,7 +219,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 */
 	protected Command createUpdateCommand() {
 		return new ChangeFieldCommand<S>(getControlValue(),
-				getFieldDescriptor(), node);
+				getFieldDescriptor(), changed);
 	}
 
 	/**

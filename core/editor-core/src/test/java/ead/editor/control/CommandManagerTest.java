@@ -48,7 +48,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModel.ModelEvent;
-import ead.editor.model.DefaultModelChange;
+import ead.editor.model.DefaultModelEvent;
 
 import junit.framework.TestCase;
 
@@ -111,7 +111,7 @@ public class CommandManagerTest extends TestCase {
 		commandManager.setController(controller);
 		when(controller.getModel()).thenReturn(editorModel);
 
-		completelyUnrelatedEvent = new DefaultModelChange("test", "test", null,
+		completelyUnrelatedEvent = new DefaultModelEvent("test", "test", null,
 				null);
 
 		when(mockCommand.performCommand(editorModel)).thenReturn(
