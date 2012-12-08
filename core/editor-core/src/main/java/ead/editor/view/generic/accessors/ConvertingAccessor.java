@@ -35,37 +35,76 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.view.generic.accessors;
 
 /**
- * Descriptor for the field of an element.
- * <p>
- * The field is identified by a name (used to infer the value though
- * introspection). The descriptor has a method to get the element for which the
- * field is defined.
- *
- * @param <S>
- *            The type of the field (e.g. String, Boolean, etc)
+ * An accessor that wraps an inner accessor, converting from outer to inner
+ * on-the-fly. This is useful in cases where a one-to-one mapping exist; for 
+ * example, from integers to strings or filenames to files.
  */
-public interface FieldDescriptor<S> {
+public abstract class ConvertingAccessor<A, B> implements Accessor<A> {
+
+	private Accessor<B> inner;
+	private Class<A> outer;
 
 	/**
-	 * @return the element for which the field is defined
+	 * @param element
+	 *            The element where the value is stored
+	 * @param fieldName
+	 *            The name of the field
 	 */
-	Object getElement();
+	public ConvertingAccessor(Class<A> outer, Accessor<B> inner) {
+		this.inner = inner;
+		this.outer = outer;
+	}
 
-	/**
-	 * @return the name of the field in the element (should be of type S)
-	 */
-	String getFieldName();
+	public abstract A innerToOuter(B b);
+
+	public abstract B outerToInner(A a);
 
 	/**
 	 * Writes the field
 	 */
-	void write(S data);
+	@Override
+	public void write(A data) {
+		inner.write(outerToInner(data));
+	}
 
 	/**
 	 * Reads the field
 	 */
-	S read();
+	@Override
+	@SuppressWarnings("unchecked")
+	public A read() {
+		return innerToOuter(inner.read());
+	}
+
+	@Override
+	public String toString() {
+		return "ConvFD [" + inner.toString() + "=>" + outer.getSimpleName();
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 71 * hash + (this.inner != null ? this.inner.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		@SuppressWarnings("unchecked")
+		final ConvertingAccessor<A, B> other = (ConvertingAccessor<A, B>) obj;
+		if (this.inner != other.inner
+				&& (this.inner == null || !this.inner.equals(other.inner))) {
+			return false;
+		}
+		return true;
+	}
 }

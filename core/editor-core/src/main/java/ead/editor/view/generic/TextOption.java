@@ -37,6 +37,10 @@
 
 package ead.editor.view.generic;
 
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.nodes.DependencyNode;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
@@ -44,9 +48,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
-
-import ead.editor.control.Command;
-import ead.editor.control.commands.ChangeFieldValueCommand;
 
 public class TextOption extends AbstractOption<String> {
 
@@ -58,16 +59,22 @@ public class TextOption extends AbstractOption<String> {
 
 	protected JTextComponent textField;
 
-	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor,
-			ExpectedLength expectedLength) {
-		super(title, toolTipText, fieldDescriptor);
+	public TextOption(String title, String toolTipText, Object object,
+			String fieldName, ExpectedLength expectedLength, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, node);
 		this.expectedLength = expectedLength;
 	}
 
 	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor) {
-		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
+			Accessor<String> fieldDescriptor, ExpectedLength expectedLength,
+			DependencyNode node) {
+		super(title, toolTipText, fieldDescriptor, node);
+		this.expectedLength = expectedLength;
+	}
+
+	public TextOption(String title, String toolTipText,
+			Accessor<String> fieldDescriptor, DependencyNode node) {
+		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL, node);
 	}
 
 	@Override
@@ -128,9 +135,9 @@ public class TextOption extends AbstractOption<String> {
 
 	@Override
 	protected Command createUpdateCommand() {
-		// Users expect to undo/redo entire words, rather than character-by-character		
-		return new ChangeFieldValueCommand<String>(oldValue, getControlValue(),
-				getFieldDescriptor()) {
+		// Users expect to undo/redo entire words, rather than character-by-character
+		return new ChangeFieldCommand<String>(getControlValue(),
+				getFieldDescriptor(), node) {
 			@Override
 			public boolean likesToCombine(String nextValue) {
 				return nextValue.startsWith(newValue)

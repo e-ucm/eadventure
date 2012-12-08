@@ -104,4 +104,62 @@ public interface EditorModel extends ModelAccessor {
 		 */
 		public void update(int progress, String text);
 	}
+
+	// -------- model changes (nodes added, changed, removed)
+
+	void addModelListener(ModelListener modelListener);
+
+	void removeModelListener(ModelListener modelListener);
+
+	/**
+	 * Delivers the modelEvent to all registered listeners. Any changes
+	 * described must already have been performed. Intended to be called
+	 * by Commands or similar change-encapsulating constructs.
+	 * @param event describing the changes.
+	 */
+	void fireModelEvent(ModelEvent event);
+
+	/**
+	 * A very simple interface for progress updates
+	 */
+	public static interface ModelListener {
+		/**
+		 * Called whenever parts of the model change.
+		 */
+		public void modelChanged(ModelEvent event);
+	}
+
+	/**
+	 * A model event
+	 */
+	public static interface ModelEvent {
+		/**
+		 * Name of the event. Typically supplied by whatever action
+		 * caused it.
+		 */
+		public String getName();
+
+		/**
+		 * @return Array (possibly empty; never null) of added dependency-nodes.
+		 * The array is guaranteed to be sorted-by-id
+		 */
+		public DependencyNode[] getAdded();
+
+		/**
+		 * @return Array (possibly empty; never null) of removed dependency-nodes
+		 * The array is guaranteed to be sorted-by-id
+		 */
+		public DependencyNode[] getRemoved();
+
+		/**
+		 * @return Array (possibly empty; never null) of removed dependency-nodes
+		 * The array is guaranteed to be sorted-by-id
+		 */
+		public DependencyNode[] getChanged();
+
+		/**
+		 * @return cause of this event; typically a Command. May be null.
+		 */
+		public Object getCause();
+	}
 }

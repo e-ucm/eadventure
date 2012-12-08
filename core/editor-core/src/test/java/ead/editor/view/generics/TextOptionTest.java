@@ -34,13 +34,12 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.editor.view.generics;
 
-import java.awt.BorderLayout;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.TextOption;
-import ead.editor.view.generic.FieldDescriptorImpl;
-import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
 import ead.utils.Log4jConfig;
 
@@ -50,32 +49,27 @@ public class TextOptionTest extends AbstractOptionTest {
 		model = new ExampleClass();
 		init();
 
-		Panel p1 = new PanelImpl("Test", Panel.LayoutPolicy.VerticalBlocks, 4)
-				.addElement(
-						new TextOption("name1", "toolTip1",
-								new FieldDescriptorImpl<String>(model, "name"),
-								TextOption.ExpectedLength.SHORT))
-				.addElement(
-						new TextOption("name2", "toolTip2",
-								new FieldDescriptorImpl<String>(model, "name")))
-				.addElement(
-						new TextOption("name3", "toolTip3",
-								new FieldDescriptorImpl<String>(model, "name")))
-				.addElement(
-						new TextOption("description1",
-								"a longish description tooltip 1",
-								new FieldDescriptorImpl<String>(model,
-										"description"),
-								TextOption.ExpectedLength.LONG)).addElement(
-						new TextOption("description2",
-								"a longish description tooltip 2",
-								new FieldDescriptorImpl<String>(model,
-										"description"),
-								TextOption.ExpectedLength.LONG));
-		add(p1.getComponent(commandManager), BorderLayout.CENTER);
+		DependencyNode node1 = new EngineNode<String>(1, "test1");
+
+		OptionPanel p1 = new PanelImpl("Test",
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		p1.add(new TextOption("name1", "toolTip1", model, "name",
+				TextOption.ExpectedLength.SHORT, node1));
+		p1.add(new TextOption("name2", "toolTip2", model, "name",
+				TextOption.ExpectedLength.SHORT, node1));
+		p1.add(new TextOption("name3", "toolTip3", model, "name",
+				TextOption.ExpectedLength.SHORT, node1));
+		p1.add(new TextOption("desc1", "toolTipDesc1", model, "description",
+				TextOption.ExpectedLength.LONG, node1));
+		p1.add(new TextOption("desc2", "toolTipDesc2", model, "description",
+				TextOption.ExpectedLength.LONG, node1));
+
+		controller.getModel().addModelListener(p1);
+		childPanel.add(p1.getComponent(commandManager));
 	}
 
 	public static class ExampleClass {
+
 		public String name = "initial name";
 		public String description = "initial description";
 
@@ -104,6 +98,7 @@ public class TextOptionTest extends AbstractOptionTest {
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		new TextOptionTest().setVisible(true);
+		AbstractOptionTest aot = new BooleanOptionTest();
+		aot.setVisible(true);
 	}
 }

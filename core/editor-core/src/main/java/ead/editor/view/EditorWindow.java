@@ -80,8 +80,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.*;
 
+import javax.swing.Action;
+import javax.swing.JSplitPane;
 import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.menu.AbstractEditorMenu;

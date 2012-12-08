@@ -38,24 +38,30 @@
 package ead.editor;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
 import com.google.inject.Singleton;
 import ead.common.params.text.EAdString;
-import ead.tools.StringHandlerImpl;
+import ead.tools.StringHandler;
 
 /**
  * A simple StringHandler, capable of managing language resolution.
  */
 @Singleton
-public class EditorStringHandler extends StringHandlerImpl {
+public class EditorStringHandler implements StringHandler {
 
 	/**
 	 * Map with all strings.
 	 * The first key is the language ("" stands for "default language").
 	 */
 	private TreeMap<String, Map<EAdString, String>> strings;
+
+	/**
+	 * Set with all keys (kept synchronized with strings);
+	 */
+	private HashSet<EAdString> usedKeys = new HashSet<EAdString>();
 
 	/**
 	 * Default language. Character-code of the default language.
@@ -108,6 +114,7 @@ public class EditorStringHandler extends StringHandlerImpl {
 
 	public void addStrings(Map<EAdString, String> stringsToSet, String lang) {
 		for (Map.Entry<EAdString, String> e : stringsToSet.entrySet()) {
+			usedKeys.add(e.getKey());
 			setString(e.getKey(), e.getValue(), lang);
 		}
 	}
@@ -147,5 +154,14 @@ public class EditorStringHandler extends StringHandlerImpl {
 
 	public void setDefaultLanguage(String defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
+	}
+
+	@Override
+	public EAdString generateNewString() {
+		EAdString key = EAdString.newRandomEAdString("generatedString");
+		while (usedKeys.contains(key)) {
+			key = EAdString.newRandomEAdString("generatedString");
+		}
+		return key;
 	}
 }

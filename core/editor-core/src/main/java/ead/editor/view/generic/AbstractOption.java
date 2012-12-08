@@ -36,12 +36,18 @@
  */
 package ead.editor.view.generic;
 
-import javax.swing.JComponent;
+import ead.editor.view.generic.accessors.Accessor;
 import ead.editor.control.Command;
 import ead.editor.control.CommandManager;
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.change.ChangeListener;
-import ead.editor.control.commands.ChangeFieldValueCommand;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.nodes.DependencyNode;
+import javax.swing.JComponent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ead.editor.model.DefaultModelChange;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
  * Abstract implementation for {@link Option}s
@@ -49,8 +55,10 @@ import ead.editor.control.commands.ChangeFieldValueCommand;
  * @param <S>
  *            The type of the option element
  */
-public abstract class AbstractOption<S> implements Option<S>,
-		ChangeListener<ChangeEvent> {
+public abstract class AbstractOption<S> implements Option<S> {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("AbstractOption");
 
 	/**
 	 * Label on the component
@@ -63,7 +71,7 @@ public abstract class AbstractOption<S> implements Option<S>,
 	/**
 	 * Descriptor of the field represented by this option
 	 */
-	protected FieldDescriptor<S> fieldDescriptor;
+	protected Accessor<S> fieldDescriptor;
 	/**
 	 * While updating, external updates will be ignored
 	 */
@@ -78,16 +86,38 @@ public abstract class AbstractOption<S> implements Option<S>,
 	protected CommandManager manager;
 
 	/**
-	 * @param label
-	 *            The label in the option (can be null)
-	 * @param toolTipText
-	 *            The toolTipText in the option (cannot be null)
-	 * @param fieldDescriptor
-	 *            The {@link FieldDescriptor} that describes the field in the
-	 *            element to be displayed/edited
+	 * A reference to the node to include in 'changed' ModelEvents
+	 */
+	protected DependencyNode node;
+
+	/**
+	 * Common-case constructor
+	 * @param label The label in the option (can be null)
+	 * @param toolTipText The toolTipText in the option (cannot be null)
+	 * @param object object to look into
+	 * @param fieldName fieldName to access
+	 */
+	public AbstractOption(String label, String toolTipText, Object object,
+			String fieldName, DependencyNode node) {
+		this.label = label;
+		this.toolTipText = toolTipText;
+		if (toolTipText == null || toolTipText.isEmpty()) {
+			throw new RuntimeException(
+					"ToolTipTexts MUST be provided for all interface elements!");
+		}
+		this.fieldDescriptor = new IntrospectingAccessor<S>(object, fieldName);
+		this.node = node;
+	}
+
+	/**
+	 * General constructor
+	 * @param label The label in the option (can be null)
+	 * @param toolTipText The toolTipText in the option (cannot be null)
+	 * @param fieldDescriptor The {@link Accessor} that describes the field in the
+	 *    element to be displayed/edited
 	 */
 	public AbstractOption(String label, String toolTipText,
-			FieldDescriptor<S> fieldDescriptor) {
+			Accessor<S> fieldDescriptor, DependencyNode node) {
 		this.label = label;
 		this.toolTipText = toolTipText;
 		if (toolTipText == null || toolTipText.isEmpty()) {
@@ -95,22 +125,29 @@ public abstract class AbstractOption<S> implements Option<S>,
 					"ToolTipTexts MUST be provided for all interface elements!");
 		}
 		this.fieldDescriptor = fieldDescriptor;
+		this.node = node;
 	}
 
 	/**
-	 * Will be called when another command modifies this field.
-	 * @param event 
+	 * Will be called when the model changes.
+	 * @param event
 	 */
 	@Override
-	public void processChange(ChangeEvent event) {
-		if (event != null && event.hasChanged(fieldDescriptor)) {
-			if (!isUpdating) {
+	public void modelChanged(ModelEvent event) {
+		if (isUpdating) {
+			return;
+		}
+
+		logger.debug("change at {}: {}", new Object[] { hashCode(), event });
+		if (DefaultModelChange.changes(event, node)) {
+			S nextValue = fieldDescriptor.read();
+			oldValue = getControlValue();
+			if (ChangeFieldCommand.defaultIsChange(oldValue, nextValue)) {
+				logger.debug("relevant and all - updating to {}", nextValue);
 				isUpdating = true;
-				setControlValue(fieldDescriptor.read());
-				valueUpdated(oldValue);
+				setControlValue(nextValue);
 				isUpdating = false;
 			}
-			oldValue = getControlValue();
 		}
 	}
 
@@ -140,12 +177,12 @@ public abstract class AbstractOption<S> implements Option<S>,
 	 * @see es.eucm.eadventure.editor.view.generics.Option#getFieldDescriptor()
 	 */
 	@Override
-	public FieldDescriptor<S> getFieldDescriptor() {
+	public Accessor<S> getFieldDescriptor() {
 		return fieldDescriptor;
 	}
 
 	/**
-	 * Creates the control, setting the initial value. 
+	 * Creates the control, setting the initial value.
 	 * Subclasses should register as a listeners
 	 * to any changes in the model, and call update() when such changes occur.
 	 */
@@ -159,29 +196,29 @@ public abstract class AbstractOption<S> implements Option<S>,
 		JComponent component = createControl();
 		oldValue = getControlValue();
 		this.manager = manager;
-		manager.addChangeListener(this);
 		return component;
 	}
 
 	/**
 	 * Reads the value of the control.
-	 * @return 
+	 * @return
 	 */
 	protected abstract S getControlValue();
 
 	/**
 	 * Writes the value of the control.
-	 * @return 
+	 * @return
 	 */
 	protected abstract void setControlValue(S newValue);
 
 	/**
-	 * Creates a Command that describes a change to the manager
+	 * Creates a Command that describes a change to the manager. 
+	 * No change should be described if no change exists.
 	 * @return 
 	 */
 	protected Command createUpdateCommand() {
-		return new ChangeFieldValueCommand<S>(oldValue, getControlValue(),
-				getFieldDescriptor());
+		return new ChangeFieldCommand<S>(getControlValue(),
+				getFieldDescriptor(), node);
 	}
 
 	/**
@@ -189,7 +226,7 @@ public abstract class AbstractOption<S> implements Option<S>,
 	 * not generate updates, and will therefore not affect either model or other
 	 * views.
 	 * @param value
-	 * @return whether it is valid or not; default is "always-true" 
+	 * @return whether it is valid or not; default is "always-true"
 	 */
 	protected boolean isValid(S value) {
 		return true;
@@ -199,30 +236,33 @@ public abstract class AbstractOption<S> implements Option<S>,
 	 * Should be called when changes to the control are detected
 	 */
 	protected void update() {
-		if (isUpdating || !isValid(getControlValue())) {
+		S nextValue = getControlValue();
+		if (isUpdating || !isValid(nextValue)) {
 			return;
 		}
+		logger.debug("Control triggering update at {} to {}", new Object[] {
+				hashCode(), nextValue });
 
 		isUpdating = true;
 		manager.performCommand(createUpdateCommand());
-		valueUpdated(oldValue);
-		oldValue = getControlValue();
+		valueUpdated(oldValue, nextValue);
+		oldValue = nextValue;
 		isUpdating = false;
 	}
 
 	/**
-	 * Called after the control value is updated. Intended to be used by 
+	 * Called after the control value is updated. Intended to be used by
 	 * subclasses; default implementation is to do nothing.
-	 * @param oldValue 
+	 * @param oldValue
 	 */
-	public void valueUpdated(S oldValue) {
+	public void valueUpdated(S oldValue, S newValue) {
 		// by default, do nothing
 	}
-	
+
 	/**
-	 * Triggers a manual update. This should be indistinguishable from 
+	 * Triggers a manual update. This should be indistinguishable from
 	 * the user typing in stuff directly (if this were a typing-enabled control)
-	 * @param nextValue 
+	 * @param nextValue
 	 */
 	public void updateValue(S nextValue) {
 		if (isUpdating || !isValid(nextValue)) {
@@ -232,13 +272,7 @@ public abstract class AbstractOption<S> implements Option<S>,
 		isUpdating = true;
 		setControlValue(nextValue);
 		manager.performCommand(createUpdateCommand());
-		valueUpdated(oldValue);
-		oldValue = getControlValue();
-		isUpdating = false;		
-	}
-
-	@Override
-	public void cleanup(CommandManager manager) {
-		manager.removeChangeListener(this);
+		valueUpdated(oldValue, nextValue);
+		isUpdating = false;
 	}
 }

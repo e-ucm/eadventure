@@ -47,7 +47,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import ead.editor.control.Controller;
-import ead.editor.control.change.ChangeListener;
 
 /**
  * Default file menu implementation
@@ -66,13 +65,14 @@ public class RunMenu extends AbstractEditorMenu {
 	 */
 	@Override
 	public void initialize() {
-		AbstractEditorAction[] as = new AbstractEditorAction[] {
+		@SuppressWarnings("unchecked")
+		AbstractEditorAction<String>[] as = new AbstractEditorAction[] {
 				new RunDesktopAction(Messages.run_menu_run_desktop,
 						KeyEvent.VK_R, 0),
 				new RunBrowserAction(Messages.run_menu_run_browser,
 						KeyEvent.VK_B, 0) };
 
-		for (AbstractEditorAction a : as) {
+		for (AbstractEditorAction<String> a : as) {
 			registerAction(a);
 			controller.getProjectController().addChangeListener(a);
 			a.processChange(null);
@@ -83,8 +83,7 @@ public class RunMenu extends AbstractEditorMenu {
 	 * File menu actions have access to the containing class, and are subscribed
 	 * to change events from the ProjectController
 	 */
-	public abstract class RunMenuAction extends AbstractEditorAction implements
-			ChangeListener {
+	public abstract class RunMenuAction extends AbstractEditorAction<String> {
 
 		public RunMenuAction(String name, int gkey, int gmask) {
 			super(name, gkey, gmask);
@@ -118,7 +117,7 @@ public class RunMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object event) {
+		public void processChange(String event) {
 			setEnabled(controller.getModel().getEngineModel() != null);
 		}
 	}

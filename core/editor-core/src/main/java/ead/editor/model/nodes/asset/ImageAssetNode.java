@@ -62,9 +62,9 @@ public class ImageAssetNode extends AssetNode {
 
 	public File resolveUri(String uri) {
 		return new File(uri.replace("@", base.getAbsolutePath()
-				+ File.separator));		
+				+ File.separator));
 	}
-	
+
 	public File getFile() {
 		String uri = ((Image) getDescriptor()).getUri().toString();
 		return resolveUri(uri);
@@ -76,7 +76,7 @@ public class ImageAssetNode extends AssetNode {
 		}
 		return new File(sources.get(0));
 	}
-	
+
 	public void setSource(File file) {
 		if (sources.isEmpty()) {
 			sources.add(file.getPath());
@@ -84,7 +84,7 @@ public class ImageAssetNode extends AssetNode {
 			sources.set(0, file.getPath());
 		}
 	}
-	
+
 	@Override
 	public void updateThumbnail() {
 		BufferedImage fullImage = Resource.loadExternalImage(getFile());

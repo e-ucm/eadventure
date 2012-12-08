@@ -37,6 +37,8 @@
 
 package ead.editor.view.generic;
 
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
@@ -44,9 +46,14 @@ public class BooleanOption extends AbstractOption<Boolean> {
 
 	private JCheckBox checkBox;
 
+	public BooleanOption(String title, String toolTipText, Object object,
+			String fieldName, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, node);
+	}
+
 	public BooleanOption(String title, String toolTipText,
-			FieldDescriptor<Boolean> fieldDescriptor) {
-		super(title, toolTipText, fieldDescriptor);
+			Accessor<Boolean> fieldDescriptor, DependencyNode node) {
+		super(title, toolTipText, fieldDescriptor, node);
 	}
 
 	@Override

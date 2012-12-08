@@ -37,13 +37,14 @@
 
 package ead.editor.control;
 
-import ead.editor.control.change.ChangeEvent;
 import ead.editor.control.change.ChangeNotifier;
 
 /**
  * Interface for the management of Commands that modify the editor model.
+ * Performing, undoing and redoing commands causes changes in the model,
+ * resulting in ModelEvents being delivered to registered ModelListeners
  */
-public interface CommandManager extends ChangeNotifier<ChangeEvent> {
+public interface CommandManager extends ChangeNotifier<String> {
 
 	/**
 	 * Perform an command over the game model
@@ -71,15 +72,17 @@ public interface CommandManager extends ChangeNotifier<ChangeEvent> {
 	public boolean canUndo();
 
 	/**
-	 * @return true if the game model was modified
+	 * @return true if the game model was modified (any action performed,
+	 * undone or redone after a setSaved).
 	 */
 	public boolean isChanged();
 
 	/**
-	 * Should be called to indicate that the model has been saved.
-	 * @param changed
+	 * Called to indicate that the model has been saved. Immediately
+	 * after this call, isChanged will return false. Any additional action will
+	 * return isChanged to its "always-false" mode.
 	 */
-	public void setChanged();
+	public void setSaved();
 
 	/**
 	 * Clear the list of commands performed
@@ -94,8 +97,13 @@ public interface CommandManager extends ChangeNotifier<ChangeEvent> {
 
 	/**
 	 * Remove command stack
-	 * 
+	 *
 	 * @param cancelChanges Cancel changes performed on the command stack
 	 */
 	void removeCommandStacks(boolean cancelChanges);
+
+	/*
+	 * Set the controller
+	 */
+	void setController(Controller controller);
 }

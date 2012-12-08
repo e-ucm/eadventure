@@ -38,25 +38,45 @@
 package ead.editor.view.panel;
 
 import ead.editor.control.Controller;
+import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ElementPanel;
+import ead.editor.view.generic.OptionPanel;
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * An elementPanel that can display anything, in a non-editable fashion.
+ * An elementPanel that can display anything.
  *
  * @author mfreire
  */
 public abstract class AbstractElementPanel<T extends DependencyNode> extends
-		JPanel implements ElementPanel<T> {
+		JPanel implements ElementPanel<T>, EditorModel.ModelListener {
 
 	protected T target;
 	protected Controller controller;
+	protected ArrayList<OptionPanel> panels = new ArrayList<OptionPanel>();
 
 	@Override
 	public void setTarget(T target) {
-		this.target = target;
-		rebuild();
+		if (this.target == null) {
+			this.target = target;
+			rebuild();
+		} else if (this.target.getId() != target.getId()) {
+			cleanup();
+			this.target = target;
+			rebuild();
+			controller.getModel().addModelListener(this);
+		}
+	}
+
+	@Override
+	public void cleanup() {
+		controller.getModel().removeModelListener(this);
 	}
 
 	@Override
@@ -69,8 +89,52 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 		return target;
 	}
 
+	@Override
+	public void modelChanged(ModelEvent event) {
+		if (requiresRebuild(event)) {
+			rebuild();
+		} else if (requiresRefresh(event)) {
+			for (OptionPanel p : panels) {
+				p.modelChanged(event);
+			}
+		} else if (requiresResurrection(event)) {
+			removeAll();
+			setLayout(new BorderLayout());
+			add(new JLabel("Sorry, this view has been erased externally"),
+					BorderLayout.CENTER);
+			cleanup();
+		}
+	}
+
 	/**
-	 * Rebuild the panels' contents after a change to the target
+	 * Checks if a change requires a rebuild of this view
+	 * @param event describing the change
+	 * @return true if rebuild required
+	 */
+	protected boolean requiresRebuild(ModelEvent event) {
+		return Arrays.binarySearch(event.getChanged(), target) >= 0;
+	}
+
+	/**
+	 * Checks if a change requires a refresh of this view
+	 * @param event describing the change
+	 * @return true if refresh of fields required
+	 */
+	protected boolean requiresRefresh(ModelEvent event) {
+		return false;
+	}
+
+	/**
+	 * Checks if a change completely invalidates this view
+	 * @param event describing the change
+	 * @return true if resurrection required
+	 */
+	protected boolean requiresResurrection(ModelEvent event) {
+		return Arrays.binarySearch(event.getRemoved(), target) >= 0;
+	}
+
+	/**
+	 * Rebuild contents after a change to the target
 	 */
 	protected abstract void rebuild();
 }

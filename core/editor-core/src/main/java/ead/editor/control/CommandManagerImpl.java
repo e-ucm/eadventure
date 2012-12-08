@@ -37,27 +37,26 @@
 
 package ead.editor.control;
 
+import java.util.ArrayList;
+import com.google.inject.Singleton;
+import ead.editor.control.change.ChangeNotifierImpl;
+import ead.editor.model.EditorModel.ModelEvent;
 import java.util.Stack;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.inject.Singleton;
-import ead.editor.control.change.ChangeEvent;
-
-import ead.editor.control.change.ChangeNotifierImpl;
 
 /**
  * Default implementation of the {@link CommandManager}.
  */
 @Singleton
-public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
-		implements CommandManager {
+public class CommandManagerImpl extends ChangeNotifierImpl<String> implements
+		CommandManager {
 
 	/**
 	 * Logger
 	 */
 	private static Logger logger = LoggerFactory
-			.getLogger(CommandManagerImpl.class);
+			.getLogger(CommandManagerImpl.class.getSimpleName());
 
 	/**
 	 * Action stacks
@@ -65,11 +64,30 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 	private Stack<CommandStack> stacks;
 
 	/**
+	 * Parent controller
+	 */
+	private Controller controller;
+
+	/**
+	 * When this says 'clean', then saving should be useless; queried via
+	 * setSaved and isChanged
+	 */
+	private DirtyTracker dirtyTracker = new DirtyTracker();
+
+	/**
 	 * Default constructor
 	 */
 	public CommandManagerImpl() {
 		stacks = new Stack<CommandStack>();
 		stacks.push(new CommandStack());
+	}
+
+	/*
+	 * Set the controller
+	 */
+	@Override
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 
 	@Override
@@ -81,7 +99,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 	@Override
 	public void removeCommandStacks(boolean cancelChanges) {
 		if (cancelChanges && stacks.peek().canUndo()) {
-			stacks.peek().undoCommand();
+			stacks.peek().undoCommand(controller.getModel());
 			stacks.pop();
 		} else {
 			CommandStack as = stacks.pop();
@@ -99,10 +117,10 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 
 	@Override
 	public void performCommand(Command action) {
-		logger.debug("performing action: {}", action);
+		logger.debug("performing: {}", action);
 		CommandStack currentStack = stacks.peek();
-		ChangeEvent ce = action.performCommand();
-		if (ce != null) {
+		ModelEvent me = action.performCommand(controller.getModel());
+		if (me != null) {
 			// once you do something, you can no longer redo what you had undone
 			currentStack.getUndone().clear();
 
@@ -114,12 +132,12 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 			} else {
 				clearCommands();
 			}
+			controller.getModel().fireModelEvent(me);
 		} else {
 			logger.warn("action returned null: {}", action);
 		}
 		currentStack.increaseActionHistory();
-		//TODO maybe it is worth optimizing so its only called when necessary
-		notifyListeners(ce);
+		notifyListeners("Performed: " + action.toString());
 	}
 
 	@Override
@@ -128,18 +146,22 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 			return;
 		}
 		CommandStack currentStack = stacks.peek();
-		ChangeEvent ce = currentStack.getPerformed().peek().undoCommand();
-		if (ce != null) {
-			Command action = currentStack.getPerformed().pop();
+		Command action = currentStack.getPerformed().peek();
+		logger.debug("undoing: {}", action);
+		ModelEvent me = action.undoCommand(controller.getModel());
+		if (me != null) {
+			action = currentStack.getPerformed().pop();
 			if (action.canRedo()) {
 				currentStack.getUndone().push(action);
 			} else {
 				currentStack.getUndone().clear();
 			}
+			controller.getModel().fireModelEvent(me);
+		} else {
+			logger.warn("action returned null: {}", action);
 		}
 		currentStack.decreaseActionHistory();
-		//TODO maybe it is worth optimizing so its only called when necessary
-		notifyListeners(ce);
+		notifyListeners("Undone: " + action.toString());
 	}
 
 	@Override
@@ -148,24 +170,28 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 			return;
 		}
 		CommandStack currentStack = stacks.peek();
-		ChangeEvent ce = currentStack.getUndone().peek().redoCommand();
-		if (ce != null) {
-			Command action = currentStack.getUndone().pop();
+		Command action = currentStack.getUndone().peek();
+		logger.debug("redoing: {}", action);
+		ModelEvent me = action.redoCommand(controller.getModel());
+		if (me != null) {
+			action = currentStack.getUndone().pop();
 			if (action.canUndo()) {
 				currentStack.getPerformed().push(action);
 			} else {
 				clearCommands();
 			}
+			controller.getModel().fireModelEvent(me);
+		} else {
+			logger.warn("action returned null: {}", action);
 		}
 		currentStack.increaseActionHistory();
-		//TODO maybe it is worth optimizing so its only called when necessary
-		notifyListeners(ce);
+		notifyListeners("Redone: " + action.toString());
 	}
 
 	@Override
 	public boolean canRedo() {
 		if (!stacks.peek().getUndone().empty()) {
-			return true;
+			return stacks.peek().getUndone().peek().canRedo();
 		}
 		return false;
 	}
@@ -173,24 +199,14 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 	@Override
 	public boolean canUndo() {
 		if (!stacks.peek().getPerformed().empty()) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean checkChanged() {
-		// FIXME - this should take into account setChanged()
-		for (CommandStack as : stacks) {
-			if (as.getActionHistory() != 0) {
-				return true;
-			}
+			return stacks.peek().getPerformed().peek().canUndo();
 		}
 		return false;
 	}
 
 	@Override
 	public boolean isChanged() {
-		return checkChanged();
+		return !dirtyTracker.isClean();
 	}
 
 	@Override
@@ -201,8 +217,41 @@ public class CommandManagerImpl extends ChangeNotifierImpl<ChangeEvent>
 	}
 
 	@Override
-	public void setChanged() {
-		// FIXME - does nothing
-		throw new IllegalArgumentException("Not yet implemented");
+	public void setSaved() {
+		dirtyTracker.reset();
+	}
+
+	private class DirtyTracker {
+		private boolean broken;
+		private ArrayList<Command> snapshot = new ArrayList<Command>();
+
+		void reset() {
+			broken = false;
+			snapshot.clear();
+			for (Command c : stacks.peek().getPerformed()) {
+				snapshot.add(c);
+			}
+		}
+
+		boolean isClean() {
+			if (broken) {
+				return false;
+			}
+			Stack<Command> performed = stacks.peek().getPerformed();
+			if (performed.size() != snapshot.size()) {
+				return false;
+			}
+			for (int i = 0; i < snapshot.size(); i++) {
+				if (!performed.get(i).equals(snapshot.get(i))) {
+					broken = true;
+					return false;
+				}
+			}
+			return true;
+		}
+
+		void setDirty() {
+			broken = true;
+		}
 	}
 }

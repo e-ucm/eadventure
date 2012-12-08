@@ -37,7 +37,9 @@
 
 package ead.editor.view.generic;
 
+import ead.editor.view.generic.accessors.Accessor;
 import ead.common.model.elements.EAdCondition;
+import ead.editor.model.nodes.DependencyNode;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -93,8 +95,9 @@ public class EAdConditionOption extends AbstractOption<EAdCondition> {
 	}
 
 	public EAdConditionOption(String title, String toolTipText,
-			FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
-		super(title, toolTipText, fieldDescriptor);
+			Accessor<EAdCondition> fieldDescriptor, View view,
+			DependencyNode node) {
+		super(title, toolTipText, fieldDescriptor, node);
 		this.view = view;
 	}
 

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.view.generic.accessors;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -43,82 +43,29 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
- * Generic implementation of {@link FieldDescriptor}
+ * Generic implementation of {@link Accessor}
  *
  * @param <S>
  */
-public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
+public class IntrospectingAccessor<S> implements Accessor<S> {
 
 	/**
-	 * Used for introspection
+	 * fieldName to introspect getters and setters for
 	 */
 	protected String fieldName;
 
 	/**
-	 * The element where the value is stored
+	 * element where the getters and setters live
 	 */
 	protected Object element;
 
 	/**
-	 * @param element
-	 *            The element where the value is stored
-	 * @param fieldName
-	 *            The name of the field
+	 * @param element The element where the value is stored
+	 * @param fieldName The name of the field
 	 */
-	public FieldDescriptorImpl(Object element, String fieldName) {
+	public IntrospectingAccessor(Object element, String fieldName) {
 		this.element = element;
 		this.fieldName = fieldName;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
-	 */
-	@Override
-	public Object getElement() {
-		return element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
-	 */
-	@Override
-	public String getFieldName() {
-		return fieldName;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 11 * hash
-				+ (this.fieldName != null ? this.fieldName.hashCode() : 0);
-		hash = 11 * hash + (this.element != null ? this.element.hashCode() : 0);
-		return hash;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final FieldDescriptorImpl<S> other = (FieldDescriptorImpl<S>) obj;
-		if ((this.fieldName == null) ? (other.fieldName != null)
-				: !this.fieldName.equals(other.fieldName)) {
-			return false;
-		}
-		if (this.element != other.element
-				&& (this.element == null || !this.element.equals(other.element))) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -173,8 +120,38 @@ public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
 	}
 
 	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 53 * hash
+				+ (this.fieldName != null ? this.fieldName.hashCode() : 0);
+		hash = 53 * hash + (this.element != null ? this.element.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		@SuppressWarnings("unchecked")
+		final IntrospectingAccessor<S> other = (IntrospectingAccessor<S>) obj;
+		if ((this.fieldName == null) ? (other.fieldName != null)
+				: !this.fieldName.equals(other.fieldName)) {
+			return false;
+		}
+		if (this.element != other.element
+				&& (this.element == null || !this.element.equals(other.element))) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return "FieldDescriptorImpl{" + "fieldName=" + fieldName + ", element="
-				+ element + '}';
+		return "IntroFD{" + element.getClass().getSimpleName() + "@"
+				+ element.hashCode() + "::" + element + '}';
 	}
 }

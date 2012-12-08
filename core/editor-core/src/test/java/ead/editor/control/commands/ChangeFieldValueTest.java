@@ -39,28 +39,29 @@ package ead.editor.control.commands;
 
 import org.junit.Test;
 
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 import junit.framework.TestCase;
 
 public class ChangeFieldValueTest extends TestCase {
 
-	FieldDescriptor<Boolean> fieldDescriptor;
+	Accessor<Boolean> fieldDescriptor;
 
 	TestClass testElement;
 
 	@Override
 	public void setUp() {
 		testElement = new TestClass();
-		fieldDescriptor = new FieldDescriptorImpl<Boolean>(testElement, "value");
+		fieldDescriptor = new IntrospectingAccessor<Boolean>(testElement,
+				"value");
 	}
 
 	@Test
 	public void testPerformAndUndoFailCommand() {
 		//		assert(!testElement.getValue());
-		//		ChangeFieldValueCommand<Boolean> command = new ChangeFieldValueCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
+		//		ChangeFieldCommand<Boolean> command = new ChangeFieldCommand<Boolean>(Boolean.TRUE, fieldDescriptor);
 		//		command.performCommand();
 		//		assert(testElement.getValue());
 		//		command.undoCommand();

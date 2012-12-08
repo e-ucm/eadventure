@@ -102,6 +102,7 @@ public class ControllerImpl implements Controller {
 		projectController.setController(this);
 		navigationController.setController(this);
 		viewController.setController(this);
+		commandManager.setController(this);
 	}
 
 	@Override

@@ -49,7 +49,7 @@ import java.util.ListIterator;
  */
 @Singleton
 public class NavigationControllerImpl extends ChangeNotifierImpl<String>
-		implements NavigationController<String> {
+		implements NavigationController {
 
 	private Controller controller;
 	private LinkedList<String> viewStack = new LinkedList<String>();

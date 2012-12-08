@@ -48,8 +48,23 @@ import ead.editor.control.CommandManager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import ead.editor.EditorGuiceModule;
 import ead.editor.control.CommandManagerImpl;
+import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
+import ead.editor.model.EditorModel;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
+import ead.tools.java.JavaToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
 
 public class AbstractOptionTest extends JFrame {
 
@@ -57,16 +72,43 @@ public class AbstractOptionTest extends JFrame {
 	protected JButton undo, redo, dump;
 	protected Object model;
 
-	public void init() {
+	protected JPanel childPanel;
+
+	@Mock
+	protected Controller controller;
+
+	public void prepareControllerAndModel() {
+		Injector injector = Guice.createInjector(new BaseImporterModule(),
+				new GdxDesktopModule(), new EditorGuiceModule(),
+				new JavaToolsModule());
+
+		// init reflection
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+
+		EditorModel editorModel = injector.getInstance(EditorModel.class);
+		MockitoAnnotations.initMocks(this);
+		when(controller.getModel()).thenReturn(editorModel);
+	}
+
+	public void createFrame() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setSize(400, 400);
 		setLocationRelativeTo(null);
+	}
 
+	public void init() {
+
+		createFrame();
+		prepareControllerAndModel();
 		commandManager = new CommandManagerImpl();
-		commandManager.addChangeListener(new ChangeListener() {
+		commandManager.setController(controller);
+
+		commandManager.addChangeListener(new ChangeListener<String>() {
 			@Override
-			public void processChange(Object event) {
+			public void processChange(String event) {
 				undo.setEnabled(commandManager.canUndo());
 				redo.setEnabled(commandManager.canRedo());
 			}
@@ -102,6 +144,9 @@ public class AbstractOptionTest extends JFrame {
 		buttonPanel.add(dump);
 		buttonPanel.add(redo);
 		add(buttonPanel, BorderLayout.SOUTH);
+
+		childPanel = new JPanel(new BorderLayout());
+		add(childPanel, BorderLayout.CENTER);
 	}
 
 	public void dump() {

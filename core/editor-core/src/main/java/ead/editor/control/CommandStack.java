@@ -37,20 +37,23 @@
 
 package ead.editor.control;
 
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.MergeableModelChange;
 import java.util.Stack;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.commands.CombinedChangeEvent;
+import ead.editor.model.EditorModel;
 
 /**
  * Stacks of performed and undone actions
  */
 public class CommandStack extends Command {
 
-	private static Logger logger = LoggerFactory.getLogger(CommandStack.class);
+	private static Logger logger = LoggerFactory.getLogger(CommandStack.class
+			.getSimpleName());
+
+	public static final String commandName = "CommandStack";
 
 	/**
 	 * Stack of performed actions
@@ -64,7 +67,7 @@ public class CommandStack extends Command {
 
 	/**
 	 * The number of actions performed successfully on the model.
-	 * Might differ from preformed.size() if there are actions that
+	 * Might differ from performed.size() if there are actions that
 	 * cannot be undone.
 	 */
 	private int actionHistory;
@@ -79,7 +82,7 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public ChangeEvent performCommand() {
+	public ModelEvent performCommand(EditorModel em) {
 		throw new UnsupportedOperationException("Cannot 'perform' whole stacks");
 	}
 
@@ -89,20 +92,21 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public ChangeEvent undoCommand() {
+	public ModelEvent undoCommand(EditorModel em) {
 		undone.clear();
-		CombinedChangeEvent cce = new CombinedChangeEvent();
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
 		while (!performed.isEmpty()) {
-			ChangeEvent ce = performed.peek().undoCommand();
-			if (ce != null) {
-				cce.add(ce);
+			Command action = performed.peek();
+			ModelEvent me = action.undoCommand(em);
+			if (me != null) {
+				mmc.merge(me);
 			} else {
-				logger.error("Error redoing command-stack at {}", performed
-						.peek());
+				logger.error("Error undoing command-stack at {}", action);
 			}
 			undone.push(performed.pop());
 		}
-		return cce;
+		mmc.commit();
+		return mmc;
 	}
 
 	@Override
@@ -116,21 +120,21 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public ChangeEvent redoCommand() {
+	public ModelEvent redoCommand(EditorModel em) {
 		performed.clear();
-		CombinedChangeEvent cce = new CombinedChangeEvent();
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
 		while (!undone.isEmpty()) {
-			ChangeEvent ce = undone.peek().undoCommand();
-			if (ce != null) {
-				cce.add(ce);
+			Command action = undone.peek();
+			ModelEvent me = action.redoCommand(em);
+			if (me != null) {
+				mmc.merge(me);
 			} else {
-				logger
-						.error("Error redoing command-stack at {}", undone
-								.peek());
+				logger.error("Error redoing command-stack at {}", action);
 			}
 			performed.push(undone.pop());
 		}
-		return cce;
+		mmc.commit();
+		return mmc;
 	}
 
 	@Override

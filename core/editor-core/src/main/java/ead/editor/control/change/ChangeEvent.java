@@ -37,7 +37,7 @@
 
 package ead.editor.control.change;
 
-import ead.editor.view.generic.FieldDescriptor;
+import ead.editor.view.generic.accessors.Accessor;
 
 /**
  * An event that describes a change. 
@@ -45,5 +45,5 @@ import ead.editor.view.generic.FieldDescriptor;
  */
 public interface ChangeEvent {
 
-	public boolean hasChanged(FieldDescriptor fd);
+	public boolean hasChanged(Accessor fd);
 }

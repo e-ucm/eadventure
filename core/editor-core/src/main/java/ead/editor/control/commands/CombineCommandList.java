@@ -42,13 +42,27 @@ import java.util.List;
 
 import ead.editor.control.Command;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Stack;
 
-import ead.editor.control.change.ChangeEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.MergeableModelChange;
 
 /**
- * Class that handles multiple commands in a list as a single one
+ * Class that handles multiple commands in a list as a single one.
+ * Commands will be executed in order of addition (first added first), and will
+ * be undone in reverse order.
  */
 public class CombineCommandList extends Command {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("CombineCommandList");
+
+	protected String commandName;
 
 	/**
 	 * The list of Command objects to be treated as a single one
@@ -56,26 +70,28 @@ public class CombineCommandList extends Command {
 	private List<Command> commandList;
 
 	/**
-	 * Constructor for the CombineCommand class.
-	 * 
-	 * @param list
-	 *            The list of Command objects to be treated as a single one
-	 * 
+	 * @param list Command objects to be treated as a single one
 	 */
 	public CombineCommandList(List<Command> list) {
 		this.commandList = list;
+		commandName = generateName();
 	}
 
 	/**
-	 * Constructor with variable number of arguments for the CombineCommand
-	 * class.
-	 * 
-	 * @param comms
-	 *            The array of Command objects to be treated as a single one
-	 * 
+	 * @param comms array of Command objects to be treated as a single one
 	 */
 	public CombineCommandList(Command... comms) {
 		this.commandList = Arrays.asList(comms);
+		commandName = generateName();
+	}
+
+	private String generateName() {
+		StringBuilder sb = new StringBuilder("Multiple[");
+		for (Command c : commandList) {
+			sb.append(c).append(' ');
+		}
+		sb.append("]");
+		return sb.toString();
 	}
 
 	/**
@@ -83,22 +99,24 @@ public class CombineCommandList extends Command {
 	 * undo of previously-completed list-commands.
 	 */
 	@Override
-	public ChangeEvent performCommand() {
-		ArrayList<Command> done = new ArrayList<Command>();
-		CombinedChangeEvent cce = new CombinedChangeEvent();
+	public ModelEvent performCommand(EditorModel em) {
+		Stack<Command> done = new Stack<Command>();
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
 		for (Command c : commandList) {
-			ChangeEvent ce = c.performCommand();
-			if (ce != null) {
-				done.add(c);
-				cce.add(ce);
+			ModelEvent me = c.performCommand(em);
+			if (me != null) {
+				done.push(c);
+				mmc.merge(me);
 			} else {
-				for (Command good : done) {
-					good.undoCommand();
+				// undo in reverse order
+				while (!done.empty()) {
+					done.pop().undoCommand(em);
 				}
 				return null;
 			}
 		}
-		return cce;
+		mmc.commit();
+		return mmc;
 	}
 
 	/**
@@ -119,23 +137,26 @@ public class CombineCommandList extends Command {
 	 * a redo of previously-completed undos.
 	 */
 	@Override
-	public ChangeEvent undoCommand() {
-		ArrayList<Command> undone = new ArrayList<Command>();
-		CombinedChangeEvent cce = new CombinedChangeEvent();
-
-		for (Command c : commandList) {
-			ChangeEvent ce = c.undoCommand();
-			if (ce != null) {
-				undone.add(c);
-				cce.add(ce);
+	public ModelEvent undoCommand(EditorModel em) {
+		Stack<Command> undone = new Stack<Command>();
+		// use reverse order (last-to-first)
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
+		for (Command c : new ListReverser<Command>(commandList)) {
+			ModelEvent me = c.undoCommand(em);
+			if (me != null) {
+				undone.push(c);
+				mmc.merge(me);
 			} else {
-				for (Command good : undone) {
-					good.redoCommand();
+				logger.warn("error undoing {}", c);
+				// redo in reverse order
+				while (!undone.empty()) {
+					undone.pop().undoCommand(em);
 				}
 				return null;
 			}
 		}
-		return cce;
+		mmc.commit();
+		return mmc;
 	}
 
 	/**
@@ -152,26 +173,27 @@ public class CombineCommandList extends Command {
 	}
 
 	/**
-	 * Repeats all commands in the list
+	 * Repeats all commands in this list. Failure to undo any triggers
+	 * a undo of previously-completed redos.
 	 */
 	@Override
-	public ChangeEvent redoCommand() {
+	public ModelEvent redoCommand(EditorModel em) {
 		ArrayList<Command> redone = new ArrayList<Command>();
-		CombinedChangeEvent cce = new CombinedChangeEvent();
-
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
 		for (Command c : commandList) {
-			ChangeEvent ce = c.redoCommand();
-			if (ce != null) {
-				redone.add(c);
-				cce.add(ce);
+			ModelEvent me = c.redoCommand(em);
+			if (me != null) {
+				mmc.merge(me);
 			} else {
+				logger.warn("error redoing {}", c);
 				for (Command good : redone) {
-					good.undoCommand();
+					good.redoCommand(em);
 				}
 				return null;
 			}
 		}
-		return cce;
+		mmc.commit();
+		return mmc;
 	}
 
 	/**
@@ -181,5 +203,33 @@ public class CombineCommandList extends Command {
 	@Override
 	public boolean combine(Command other) {
 		return false;
+	}
+
+	private static class ListReverser<T> implements Iterable<T> {
+		private ListIterator<T> listIterator;
+
+		public ListReverser(List<T> wrappedList) {
+			this.listIterator = wrappedList.listIterator(wrappedList.size());
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return new Iterator<T>() {
+				@Override
+				public boolean hasNext() {
+					return listIterator.hasPrevious();
+				}
+
+				@Override
+				public T next() {
+					return listIterator.previous();
+				}
+
+				@Override
+				public void remove() {
+					throw new UnsupportedOperationException("Not supported");
+				}
+			};
+		}
 	}
 }

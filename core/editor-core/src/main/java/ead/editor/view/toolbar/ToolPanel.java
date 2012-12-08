@@ -56,12 +56,17 @@ import ead.utils.swing.SwingUtilities;
 import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.*;
+
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 
 /**
  * Default implementation of the tool panel
  */
-public class ToolPanel implements ChangeListener {
+public class ToolPanel implements ChangeListener<String> {
 
 	/**
 	 * The pane where the tools are drawn
@@ -117,7 +122,7 @@ public class ToolPanel implements ChangeListener {
 	}
 
 	@Override
-	public final void processChange(Object o) {
+	public final void processChange(String s) {
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {

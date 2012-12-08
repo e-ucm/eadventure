@@ -37,23 +37,31 @@
 
 package ead.editor.control.commands;
 
+import ead.editor.control.Command;
+import ead.editor.model.DefaultModelChange;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.editor.control.Command;
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.view.generic.FieldDescriptor;
+import ead.editor.model.EditorModel;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
- * Class that represents the generic command that uses introspection to change T values.
+ * A command that changes a field-value. The most common case of command.
  */
-public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
+public class ChangeFieldCommand<T> extends Command {
 
 	/**
 	 * The logger
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger(ChangeFieldValueCommand.class.getSimpleName());
+			.getLogger(ChangeFieldCommand.class.getSimpleName());
+
+	public static final String ChangeField = "FieldValue";
+
+	protected String commandName;
 
 	/**
 	 * The old value (T) to be changed.
@@ -65,49 +73,85 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	 */
 	protected T newValue;
 
-	protected FieldDescriptor<T> fieldDescriptor;
+	/**
+	 * Read/write access to field to change
+	 */
+	protected Accessor<T> fieldDescriptor;
 
 	/**
-	 * Constructor for the ChangeValueCommand class.
-	 *
-	 * @param newValue
-	 *            The new value (T)
+	 * Node that will be passed in model-events returned by this command
+	 */
+	protected DependencyNode node;
+
+	/**
+	 * Simplified constructor
+	 * @param newValue The new value (T)
 	 * @param fieldDescriptor
 	 *
 	 */
-	public ChangeFieldValueCommand(T oldValue, T newValue,
-			FieldDescriptor<T> fieldDescriptor) {
-		this.oldValue = oldValue;
+	public ChangeFieldCommand(T newValue, Object target, String fieldName,
+			DependencyNode node) {
 		this.newValue = newValue;
-		this.fieldDescriptor = fieldDescriptor;
+		this.fieldDescriptor = new IntrospectingAccessor<T>(target, fieldName);
+		this.commandName = ChangeField;
 	}
 
 	/**
-	 * Method to perform a changing values command
+	 * General constructor
+	 * @param newValue The new value (T)
+	 * @param fieldDescriptor
+	 */
+	public ChangeFieldCommand(T newValue, Accessor<T> fieldDescriptor,
+			DependencyNode node) {
+		this.newValue = newValue;
+		this.fieldDescriptor = fieldDescriptor;
+		this.commandName = ChangeField;
+		this.node = node;
+	}
+
+	/**
+	 * Method to perform a changing values command. Not having any changes
+	 * is an error.
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public ChangeEvent performCommand() {
+	public ModelEvent performCommand(EditorModel em) {
 		oldValue = fieldDescriptor.read();
-
-		if ((newValue != null && oldValue == null)
-				|| (newValue == null && oldValue != null)
-				|| (newValue != null && oldValue != null && !oldValue
-						.equals(newValue))) {
-			return setValue(newValue);
+		if (!isChange(oldValue, newValue)) {
+			throw new IllegalArgumentException(
+					"Damn, same value man, whatyathinkin!");
+			// return null;
 		}
-
-		return null;
+		return setValue(newValue);
 	}
 
-	@Override
-	public boolean hasChanged(FieldDescriptor fd) {
-		return fd.equals(fieldDescriptor);
+	/**
+	 * @param one
+	 * @param another
+	 * @return true if any change fro one to another
+	 */
+	public static <T> boolean defaultIsChange(T one, T another) {
+		boolean validOne = (one != null);
+		boolean validAnother = (another != null);
+
+		logger.debug("{} vs {}", new Object[] { one, another });
+		return (validOne != validAnother)
+				|| (validOne && validAnother && (!one.equals(another)));
 	}
 
-	private ChangeEvent setValue(T value) {
+	protected boolean isChange(T one, T another) {
+		return defaultIsChange(one, another);
+	}
+
+	/**
+	 * Sets the value and returns a mode-event describing
+	 * what nodes have changed. Called by both undo() and redo().
+	 * @param value
+	 * @return 
+	 */
+	protected ModelEvent setValue(T value) {
 		fieldDescriptor.write(value);
-		return this;
+		return new DefaultModelChange(commandName, this, null, null, node);
 	}
 
 	@Override
@@ -120,23 +164,23 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
-	 */
 	@Override
-	public ChangeEvent redoCommand() {
+	public ModelEvent redoCommand(EditorModel em) {
 		logger.debug("Redoing: setting value to '{}'", newValue);
 		return setValue(newValue);
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
-	 */
+	@Override
+	public ModelEvent undoCommand(EditorModel em) {
+		logger.debug("Undoing: setting value to '{}'", oldValue);
+		return setValue(oldValue);
+	}
+
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public boolean combine(Command other) {
-		if (other instanceof ChangeFieldValueCommand) {
-			ChangeFieldValueCommand<T> o = (ChangeFieldValueCommand) other;
+		if (other instanceof ChangeFieldCommand) {
+			ChangeFieldCommand<T> o = (ChangeFieldCommand) other;
 			if (fieldDescriptor.equals(o.fieldDescriptor)
 					&& likesToCombine(o.newValue)) {
 				newValue = o.newValue;
@@ -149,22 +193,13 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 	}
 
 	/**
-	 * Hook for subclasses, so they can decide if they want to combine with 
+	 * Hook for subclasses, so they can decide if they want to combine with
 	 * next-in-line or not.
 	 * @param nextValue value to combine to
 	 * @return true if combination is good, false otherwise
 	 */
 	public boolean likesToCombine(T nextValue) {
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
-	 */
-	@Override
-	public ChangeEvent undoCommand() {
-		logger.debug("Undoing: setting value to '{}'", oldValue);
-		return setValue(oldValue);
 	}
 
 	/**
@@ -183,7 +218,7 @@ public class ChangeFieldValueCommand<T> extends Command implements ChangeEvent {
 
 	@Override
 	public String toString() {
-		return "ChangeFieldValue: from '" + oldValue + "' to '" + newValue
+		return commandName + ": from '" + oldValue + "' to '" + newValue
 				+ "' in " + fieldDescriptor;
 	}
 }

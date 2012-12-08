@@ -60,14 +60,14 @@ import ead.common.util.EAdURI;
 import ead.editor.control.CommandManager;
 import ead.editor.control.change.ChangeEvent;
 import ead.editor.control.change.ChangeListener;
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.control.commands.ChangeFileValueCommand;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
-import ead.editor.view.generic.ConvertingFieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+import ead.editor.view.generic.accessors.ConvertingAccessor;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
 import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
-import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
 import ead.editor.view.generic.TextOption;
 import ead.utils.FileUtils;
@@ -84,13 +84,13 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 			.getLogger("ImageAssetPanel");
 
 	private static FileCache fileCache;
-	
+
 	private ImageAssetNode imageAsset;
 	private File imageFile;
 	private ZoomableImagePanel jpCanvas;
-	
-	private Panel controlPanel;
-	
+
+	private OptionPanel controlPanel;
+
 	private FileDrop.Listener dropListener = new FileDrop.Listener() {
 
 		@Override
@@ -324,70 +324,78 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	private javax.swing.JPanel jpViewControls;
 
 	private FileOption fileOption;
-	
+
 	// End of variables declaration
 
 	@Override
 	protected void rebuild() {
 		imageAsset = (ImageAssetNode) target;
-		Image image = (Image)imageAsset.getFirst().getContent();
-			
+		Image image = (Image) imageAsset.getFirst().getContent();
+
 		if (fileCache == null) {
 			try {
-				fileCache = new FileCache(FileUtils.createTempDir("ead", "cache"));
+				fileCache = new FileCache(FileUtils.createTempDir("ead",
+						"cache"));
 			} catch (Exception e) {
 				logger.error("Could not initialize cache");
 			}
 		}
-		
-		if (controlPanel == null) {
-			controlPanel = new PanelImpl("Configuration", Panel.LayoutPolicy.VerticalBlocks, 4);
-			final FileNameOption fno = new FileNameOption("Name", "Asset Name", 
-					new ConvertingFieldDescriptor<String, EAdURI>(
-					new FieldDescriptorImpl<EAdURI>(image, "uri")) {
-						@Override
-						public String innerToOuter(EAdURI b) {
-							return b.toStringData();
-						}
-						@Override
-						public EAdURI outerToInner(String a) {
-							return new EAdURI(a);
-						}					
-					}, false);
-			fileOption = new FileOption("Source", "Asset source-file (.png or .jpg only)", "Choose...",
-					new FieldDescriptorImpl<File>(imageAsset, "source"), fileCache);
-			controlPanel.addElement(fno);
-			controlPanel.addElement(fileOption);
-			controlPanel.addElement(new TextOption("Notes", "Notes on this asset", 
-					new FieldDescriptorImpl<String>(imageAsset, "notes"), TextOption.ExpectedLength.LONG));
 
-			CommandManager manager = controller.getCommandManager();
-			GridBagConstraints gbc = new GridBagConstraints(0, 1, 1, 1, .1, .1, GridBagConstraints.CENTER, 
-					GridBagConstraints.HORIZONTAL, new Insets(4, 4, 4, 4), 0, 0);
-			add(controlPanel.getComponent(manager), gbc);
-			
-			manager.addChangeListener(new ChangeListener<ChangeEvent>() {
-				@Override
-				public void processChange(ChangeEvent event) {
-					if (event.hasChanged(fileOption.getFieldDescriptor())) {
-						// the source file has changed: overwrite target, view target
-						ChangeFileValueCommand c = (ChangeFileValueCommand) event;
-						c.writeFile(imageAsset.getFile());
-						setFile(imageAsset.getFile());
-					} else if (event.hasChanged(fno.getFieldDescriptor())) {
-						// the target has changed - remove old, switch to new
-						ChangeFieldValueCommand<String> c = (ChangeFieldValueCommand<String>) event;
-						String currentUri = fno.getFieldDescriptor().read();
-						File prev = currentUri.equals(c.getNewValue()) ? 
-								imageAsset.resolveUri(c.getOldValue())
-								: imageAsset.resolveUri(c.getNewValue());
-						File f = imageAsset.resolveUri(currentUri);
-						prev.renameTo(f);
-					}
-				}
-			});			
+		if (controlPanel == null) {
+			controlPanel = new PanelImpl("Configuration",
+					OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+			//			final FileNameOption fno = new FileNameOption("Name", "Asset Name",
+			//					new ConvertingAccessor<String, EAdURI>(
+			//							new IntrospectingAccessor<EAdURI>(image, "uri")) {
+			//						@Override
+			//						public String innerToOuter(EAdURI b) {
+			//							return b.toStringData();
+			//						}
+			//
+			//						@Override
+			//						public EAdURI outerToInner(String a) {
+			//							return new EAdURI(a);
+			//						}
+			//					}, false);
+			//			fileOption = new FileOption("Source",
+			//					"Asset source-file (.png or .jpg only)", "Choose...",
+			//					new IntrospectingAccessor<File>(imageAsset, "source"),
+			//					fileCache);
+			//			controlPanel.addElement(fno);
+			//			controlPanel.addElement(fileOption);
+			//			controlPanel.addElement(new TextOption("Notes",
+			//					"Notes on this asset", new IntrospectingAccessor<String>(
+			//							imageAsset, "notes"),
+			//					TextOption.ExpectedLength.LONG));
+			//
+			//			CommandManager manager = controller.getCommandManager();
+			//			GridBagConstraints gbc = new GridBagConstraints(0, 1, 1, 1, .1, .1,
+			//					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+			//					new Insets(4, 4, 4, 4), 0, 0);
+			//			add(controlPanel.getComponent(manager), gbc);
+			//
+			//			manager.addChangeListener(new ChangeListener<ChangeEvent>() {
+			//				@Override
+			//				public void processChange(ChangeEvent event) {
+			//					if (event.hasChanged(fileOption.getFieldDescriptor())) {
+			//						// the source file has changed: overwrite target, view target
+			//						ChangeFileCommand c = (ChangeFileCommand) event;
+			//						c.writeFile(imageAsset.getFile());
+			//						setFile(imageAsset.getFile());
+			//					} else if (event.hasChanged(fno.getFieldDescriptor())) {
+			//						// the target has changed - remove old, switch to new
+			//						ChangeFieldCommand<String> c = (ChangeFieldCommand<String>) event;
+			//						String currentUri = fno.getFieldDescriptor().read();
+			//						File prev = currentUri.equals(c.getNewValue()) ? imageAsset
+			//								.resolveUri(c.getOldValue())
+			//								: imageAsset.resolveUri(c.getNewValue());
+			//						File f = imageAsset.resolveUri(currentUri);
+			//						prev.renameTo(f);
+			//					}
+			//				}
+			//			});
 		}
-		
+
 		// FIXE: should not be necessary, but button-press needed otherwise
 		new Thread(new Runnable() {
 			@Override
