@@ -133,10 +133,12 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 		public void refreshImage() {
 			try {
-				logger.info(
-						"RefreshImage: setting max size reference to {}x{}",
-						new Object[] { jpCanvasContainer.getWidth(),
-								jpCanvasContainer.getHeight() });
+				logger
+						.info(
+								"RefreshImage at {}: setting max size reference to {}x{}",
+								new Object[] { ImageAssetPanel.this.hashCode(),
+										jpCanvasContainer.getWidth(),
+										jpCanvasContainer.getHeight() });
 				setMaxSizeReference(jpCanvasContainer);
 
 				image = ImageIO.read(imageFile);
@@ -399,6 +401,14 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 						}
 					};
 				}
+
+				@Override
+				public void valueUpdated(File oldValue, File newValue) {
+					logger.info("Updating the image-file internally at {}",
+							ImageAssetPanel.this.hashCode());
+					ImageAssetPanel.this.setFile(newValue);
+				}
+
 			};
 			controlPanel.add(fno);
 			controlPanel.add(fileOption);

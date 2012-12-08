@@ -72,15 +72,17 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 	 */
 	@Override
 	public void setTarget(T target) {
-		if (this.target == null) {
-			this.target = target;
-			rebuild();
-		} else if (this.target.getId() != target.getId()) {
-			cleanup();
-			this.target = target;
-			rebuild();
-			controller.getModel().addModelListener(this);
+		if (this.target != null) {
+			if (this.target.getId() == target.getId()) {
+				// same target - nothing to do;
+				return;
+			} else {
+				cleanup();
+			}
 		}
+		this.target = target;
+		rebuild();
+		controller.getModel().addModelListener(this);
 	}
 
 	/**

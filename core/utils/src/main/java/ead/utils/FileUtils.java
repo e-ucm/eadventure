@@ -257,6 +257,18 @@ public class FileUtils {
 	}
 
 	/**
+	 * Copy one file to another. If the files are actually directories, will
+	 * copy them over recursively. If you do not wish to copy recursively, then 
+	 * check your arguments first with isDirectory().
+	 * @param source
+	 * @param target
+	 * @throws IOException
+	 */
+	public static void copy(File source, File target) throws IOException {
+		copyRecursive(source, null, target);
+	}
+
+	/**
 	 * Uncompresses a zip file into a directory
 	 */
 	public static void expand(File source, File destDir) throws IOException {

@@ -46,7 +46,6 @@ import javax.swing.JComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.ModelEventUtils;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
@@ -147,6 +146,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 				logger.debug("relevant and all - updating to {}", nextValue);
 				isUpdating = true;
 				setControlValue(nextValue);
+				valueUpdated(oldValue, nextValue);
 				isUpdating = false;
 			}
 		}

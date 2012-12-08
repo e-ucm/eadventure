@@ -37,12 +37,13 @@
 
 package ead.editor.view.generic;
 
+import java.awt.Dimension;
 import ead.editor.view.generic.accessors.Accessor;
 import ead.editor.control.Command;
 import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.model.nodes.DependencyNode;
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -107,7 +108,8 @@ public class TextOption extends AbstractOption<String> {
 			break;
 		case LONG:
 			textField = new JTextArea(getTitle(), 3, 20);
-			textField.setBorder(BorderFactory.createEtchedBorder());
+			((JTextArea) textField).setLineWrap(true);
+			((JTextArea) textField).setWrapStyleWord(true);
 			break;
 		default:
 			throw new IllegalArgumentException("Not a valid length: "
@@ -131,7 +133,13 @@ public class TextOption extends AbstractOption<String> {
 				update();
 			}
 		});
-		return textField;
+		if (expectedLength.equals(ExpectedLength.LONG)) {
+			JScrollPane jsp = new JScrollPane(textField);
+			jsp.setMinimumSize(new Dimension(0, 40));
+			return jsp;
+		} else {
+			return textField;
+		}
 	}
 
 	@Override

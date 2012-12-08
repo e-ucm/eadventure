@@ -125,7 +125,7 @@ public class FileCache {
 			if (f == null) {
 				dest.createNewFile();
 			} else {
-				FileUtils.copyRecursive(f, null, dest);
+				FileUtils.copy(f, dest);
 			}
 		}
 		return hash;
@@ -139,6 +139,6 @@ public class FileCache {
 	 */
 	public void restoreFile(String hash, File dest) throws IOException {
 		File source = new File(base, hash);
-		FileUtils.copyRecursive(source, null, dest);
+		FileUtils.copy(source, dest);
 	}
 }

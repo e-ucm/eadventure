@@ -689,7 +689,7 @@ public class EditorModelLoader {
 					.updateProgress(10,
 							"Copying resources to new destination ...");
 			// works for zip-files as well as for whole folders
-			FileUtils.copyRecursive(saveDir, null, target);
+			FileUtils.copy(saveDir, target);
 		} else if (target == null && saveDir != null) {
 			target = saveDir;
 		} else {

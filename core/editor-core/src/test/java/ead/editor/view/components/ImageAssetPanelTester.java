@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- /**
+/**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
  *    <e-UCM> research group.
  *
@@ -37,72 +34,81 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.editor.view.components;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
+import ead.editor.view.panel.AbstractElementPanel;
+import ead.editor.view.panel.asset.ImageAssetPanel;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
-/**
- * A panel that displays thumbnails for a number of elements.
- * Element thumbnails can be selected (all or some), and have, as titles, the
- * EditorLinks.
- * @author mfreire
- */
-public class ThumbnailPanelTest extends JPanel {
+public class ImageAssetPanelTester extends AbstractPanelTester {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ImageAssetPanelTester");
+
+	private static File tmpDir;
+
+	private static ImageAssetNode target;
+
+	private File getDir() {
+		if (tmpDir == null) {
+			try {
+				tmpDir = FileUtils.createTempDir("ead", "asset-test");
+				File src = new File(
+						"../../demos/firstaidgame/src/main/resources/drawable");
+				FileUtils.copy(src, new File(tmpDir, "drawable"));
+			} catch (IOException ioe) {
+				logger.error("Could not create or initialize tmpDir {}",
+						tmpDir, ioe);
+			}
+		}
+		return tmpDir;
+	}
 
 	public static void main(String[] args) {
-
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info,
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
+		AbstractPanelTester apt = new ImageAssetPanelTester();
+		apt.init();
+		apt.setVisible(true);
+	}
 
-		final ArrayList<EditorNode> ians = new ArrayList<EditorNode>();
-		for (int i = 0; i < 100; i++) {
-			ImageAssetNode ian = new ImageAssetNode(i);
-			ian.addChild(new EngineNode<Image>(i + 100, new Image(
-					"@drawable/assets_animation_telefono.png")));
-			ian.setBase(new File(
-					"../../demos/firstaidgame/src/main/resources/",
-					GdxAssetHandler.PROJECT_INTERNAL_PATH));
-			ians.add(ian);
-		}
-		final ThumbnailPanel tnp = new ThumbnailPanel();
-
-		JButton jb = new JButton("click to add nodes");
-		jb.addActionListener(new ActionListener() {
+	@Override
+	AbstractElementPanel createPanel() {
+		return new ImageAssetPanel() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				tnp.setNodes(ians);
+			public void cleanup() {
+				super.cleanup();
+				try {
+					FileUtils.deleteRecursive(tmpDir);
+				} catch (IOException ex) {
+					System.err.println("Exception cleaning up");
+				}
 			}
-		});
 
-		PropertiesTablePanel ptp = new PropertiesTablePanel();
-		ptp.setNodes(ians);
+		};
+	}
 
-		JTabbedPane jtp = new JTabbedPane();
-		jtp.add("Icons", tnp);
-		jtp.add("Table", ptp);
-
-		JFrame jf = new JFrame();
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.add(jtp);
-		jf.add(jb, BorderLayout.SOUTH);
-		jf.setSize(800, 600);
-		jf.setLocationRelativeTo(null);
-		jf.setVisible(true);
+	@Override
+	DependencyNode getTarget() {
+		if (target == null) {
+			target = new ImageAssetNode(2);
+			target.addChild(new EngineNode<Image>(1, new Image(
+					"@drawable/assets_animation_telefono.png")));
+			target.setBase(new File(getDir(),
+					GdxAssetHandler.PROJECT_INTERNAL_PATH));
+		}
+		return target;
 	}
 }
