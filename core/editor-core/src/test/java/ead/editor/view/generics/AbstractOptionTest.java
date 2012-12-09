@@ -95,7 +95,7 @@ public class AbstractOptionTest extends JFrame {
 	public void createFrame() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		setSize(400, 400);
+		setSize(400, 500);
 		setLocationRelativeTo(null);
 	}
 

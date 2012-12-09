@@ -47,13 +47,13 @@ public class BooleanOption extends AbstractOption<Boolean> {
 	private JCheckBox checkBox;
 
 	public BooleanOption(String title, String toolTipText, Object object,
-			String fieldName, DependencyNode node) {
-		super(title, toolTipText, object, fieldName, node);
+			String fieldName, DependencyNode... changed) {
+		super(title, toolTipText, object, fieldName, changed);
 	}
 
 	public BooleanOption(String title, String toolTipText,
-			Accessor<Boolean> fieldDescriptor, DependencyNode node) {
-		super(title, toolTipText, fieldDescriptor, node);
+			Accessor<Boolean> fieldDescriptor, DependencyNode... changed) {
+		super(title, toolTipText, fieldDescriptor, changed);
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public abstract class ListCommand<P> extends Command {
 	 */
 	protected P anElement;
 
-	protected DependencyNode listNode;
+	protected DependencyNode[] changed;
 
 	protected int oldPos;
 	protected int newPos;
@@ -73,29 +73,29 @@ public abstract class ListCommand<P> extends Command {
 	 * @param list The EAdList in which the command is to be applied
 	 * @param e The P element to be added to a list by the command
 	 */
-	protected ListCommand(EAdList<P> list, P e, DependencyNode listNode,
-			int oldPos, int newPos) {
+	protected ListCommand(EAdList<P> list, P e, int oldPos, int newPos,
+			DependencyNode... changed) {
 		this.elementList = list;
 		this.anElement = e;
-		this.listNode = listNode;
 		this.oldPos = oldPos;
 		this.newPos = newPos;
+		this.changed = changed;
 	}
 
 	protected ModelEvent add(EditorModel em, int position) {
 		elementList.add(anElement, position);
-		return new DefaultModelEvent(commandName, this, null, null, listNode);
+		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
 	protected ModelEvent remove(EditorModel em, int position) {
 		elementList.remove(position);
-		return new DefaultModelEvent(commandName, this, null, null, listNode);
+		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
 	protected ModelEvent reorder(EditorModel em, int from, int to) {
 		elementList.remove(from);
 		elementList.add(anElement, to);
-		return new DefaultModelEvent(commandName, this, null, null, listNode);
+		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
 	@Override
@@ -125,13 +125,13 @@ public abstract class ListCommand<P> extends Command {
 	public static class AddToList<P> extends ListCommand<P> {
 
 		public AddToList(EAdList<P> list, P e, int newPos,
-				DependencyNode listNode) {
-			super(list, e, listNode, -1, newPos);
+				DependencyNode... changed) {
+			super(list, e, -1, newPos, changed);
 			commandName = "AddToList";
 		}
 
-		public AddToList(EAdList<P> list, P e, DependencyNode listNode) {
-			this(list, e, list.size(), listNode);
+		public AddToList(EAdList<P> list, P e, DependencyNode... changed) {
+			this(list, e, list.size(), changed);
 		}
 
 		@Override
@@ -155,8 +155,14 @@ public abstract class ListCommand<P> extends Command {
 	 */
 	public static class RemoveFromList<P> extends ListCommand<P> {
 
-		public RemoveFromList(EAdList<P> list, P e, DependencyNode listNode) {
-			super(list, e, listNode, -1, -1);
+		public RemoveFromList(EAdList<P> list, P e, DependencyNode... changed) {
+			super(list, e, -1, -1, changed);
+			commandName = "RemoveFromList";
+		}
+
+		public RemoveFromList(EAdList<P> list, P e, int from,
+				DependencyNode... changed) {
+			super(list, e, from, -1, changed);
 			commandName = "RemoveFromList";
 		}
 
@@ -172,7 +178,7 @@ public abstract class ListCommand<P> extends Command {
 
 		@Override
 		public ModelEvent redoCommand(EditorModel em) {
-			oldPos = elementList.indexOf(anElement);
+			oldPos = oldPos == -1 ? elementList.indexOf(anElement) : oldPos;
 			return remove(em, oldPos);
 		}
 	}
@@ -181,14 +187,14 @@ public abstract class ListCommand<P> extends Command {
 	public static class ReorderInList<P> extends ListCommand<P> {
 
 		public ReorderInList(EAdList<P> list, P e, int from, int to,
-				DependencyNode listNode) {
-			super(list, e, listNode, from, to);
+				DependencyNode... changed) {
+			super(list, e, from, to, changed);
 			commandName = "ReorderInList";
 		}
 
 		public ReorderInList(EAdList<P> list, P e, int to,
-				DependencyNode listNode) {
-			super(list, e, listNode, -1, to);
+				DependencyNode... changed) {
+			super(list, e, -1, to, changed);
 			commandName = "ReorderInList";
 		}
 

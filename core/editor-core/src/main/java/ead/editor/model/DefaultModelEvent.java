@@ -63,7 +63,7 @@ public class DefaultModelEvent implements ModelEvent {
 		this.cause = cause;
 		this.added = (added == null ? emptyArray : sorted(added));
 		this.removed = (removed == null ? emptyArray : sorted(removed));
-		this.changed = sorted(changed);
+		this.changed = (changed == null ? emptyArray : sorted(changed));
 	}
 
 	private DependencyNode[] sorted(DependencyNode[] nodes) {
