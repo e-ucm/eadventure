@@ -35,26 +35,17 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
-
-import ead.editor.view.generic.FieldDescriptor;
+package ead.editor.view.generic.accessors;
 
 /**
- * Generic implementation of {@link FieldDescriptor}
- *
- * @param <S>
+ * An accessor that wraps an inner accessor, converting from outer to inner
+ * on-the-fly. This is useful in cases where a one-to-one mapping exist; for 
+ * example, from integers to strings or filenames to files.
  */
-public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
+public abstract class ConvertingAccessor<A, B> implements Accessor<A> {
 
-	/**
-	 * Used for introspection
-	 */
-	protected String fieldName;
-
-	/**
-	 * The element where the value is stored
-	 */
-	protected Object element;
+	private Accessor<B> inner;
+	private Class<A> outer;
 
 	/**
 	 * @param element
@@ -62,30 +53,58 @@ public class FieldDescriptorImpl<S> implements FieldDescriptor<S> {
 	 * @param fieldName
 	 *            The name of the field
 	 */
-	public FieldDescriptorImpl(Object element, String fieldName) {
-		this.element = element;
-		this.fieldName = fieldName;
+	public ConvertingAccessor(Class<A> outer, Accessor<B> inner) {
+		this.inner = inner;
+		this.outer = outer;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
+	public abstract A innerToOuter(B b);
+
+	public abstract B outerToInner(A a);
+
+	/**
+	 * Writes the field
 	 */
 	@Override
-	public Object getElement() {
-		return element;
+	public void write(A data) {
+		inner.write(outerToInner(data));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
+	/**
+	 * Reads the field
 	 */
 	@Override
-	public String getFieldName() {
-		return fieldName;
+	@SuppressWarnings("unchecked")
+	public A read() {
+		return innerToOuter(inner.read());
 	}
 
+	@Override
+	public String toString() {
+		return "ConvFD [" + inner.toString() + "=>" + outer.getSimpleName();
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 71 * hash + (this.inner != null ? this.inner.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		@SuppressWarnings("unchecked")
+		final ConvertingAccessor<A, B> other = (ConvertingAccessor<A, B>) obj;
+		if (this.inner != other.inner
+				&& (this.inner == null || !this.inner.equals(other.inner))) {
+			return false;
+		}
+		return true;
+	}
 }

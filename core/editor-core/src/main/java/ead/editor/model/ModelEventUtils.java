@@ -35,58 +35,72 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.model;
 
-import java.util.List;
+import ead.editor.model.nodes.DependencyNode;
+import java.util.Arrays;
+
+import ead.editor.model.EditorModel.ModelEvent;
 
 /**
- * A panel interface element.
- * <p>
- * This element type allows for the display of several elements grouped in the
- * interface
+ * ModelEvent processing utilities.
+ *
+ * @author mfreire
  */
-public interface Panel extends InterfaceElement {
+public class ModelEventUtils {
 
-	/**
-	 * Available layout policies for the panel
-	 */
-	static enum LayoutPolicy {
-		/**
-		 * A policy where each element is placed following the next, minimizing the size of the panel
-		 */
-		FLOW,
-		/**
-		 * A policy where elements are placed next to each other, even if of different sizes
-		 */
-		HORIZONTAL,
-		/**
-		 * A policy where elements are placed on top of each other, even if of different sizes
-		 */
-		VERTICAL,
-		/**
-		 * A policy where elements are stacked on top of each other, each with the same height
-		 */
-		STRICT_VERTICAL
+	public static void appendIds(StringBuilder sb, DependencyNode[] nodes) {
+		sb.append('[');
+		for (DependencyNode dn : nodes) {
+			sb.append(dn.getId()).append(' ');
+		}
+		sb.append(']');
 	}
 
 	/**
-	 * @return The list of interface elements in the panel
+	 * Utility method to show an event in full glory
 	 */
-	List<InterfaceElement> getElements();
+	public static String dump(ModelEvent me) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(me.getName()).append(" (cause=").append(me.getCause())
+				.append(")");
+		sb.append(" change=");
+		appendIds(sb, me.getChanged());
+		sb.append(" add=");
+		appendIds(sb, me.getAdded());
+		sb.append(" remove=");
+		appendIds(sb, me.getAdded());
+		return sb.toString();
+	}
 
 	/**
-	 * @return The title of the panel (can be null)
+	 * Utility method to check whether a value is in an array. Note: uses
+	 * binary search to greatly speed this up if there are many values. 
+	 * Added, changed and removed must always be sorted.
+	 * @param nodes
+	 * @param value
+	 * @return 
 	 */
-	String getTitle();
+	public static boolean contains(DependencyNode[] nodes,
+			DependencyNode... values) {
+		if (values == null) {
+			return false;
+		}
+		for (DependencyNode node : values) {
+			if (Arrays.binarySearch(nodes, node) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
-	 * @param element The element to be added to the panel
+	 * Utility method to check whether a value is changed in an event.
+	 * @param e the ModelEvent to scourge
+	 * @param value
+	 * @return 
 	 */
-	void addElement(InterfaceElement element);
-
-	/**
-	 * @return the layout policy for this panel
-	 */
-	LayoutPolicy getLayoutPolicy();
-
+	public static boolean changes(ModelEvent e, DependencyNode... values) {
+		return contains(e.getChanged(), values);
+	}
 }

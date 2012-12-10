@@ -41,25 +41,25 @@ package ead.editor.control.change;
  * Change notifier. Classes that implement this interface
  * must notify the listener of changes in them so they are processed
  */
-public interface ChangeNotifier {
+public interface ChangeNotifier<E> {
 
 	/**
 	 * Add a new change listener
 	 * 
 	 * @param changeListener The change listener
 	 */
-	void addChangeListener(ChangeListener changeListener);
+	void addChangeListener(ChangeListener<E> changeListener);
 
 	/**
 	 * Remove a change listener
 	 * 
 	 * @param changeListener The change listener
 	 */
-	void removeChangeListener(ChangeListener changeListener);
+	void removeChangeListener(ChangeListener<E> changeListener);
 
 	/**
 	 * Call listeners to process changes described by event
 	 */
-	void notifyListeners(Object event);
+	void notifyListeners(E event);
 
 }

@@ -35,81 +35,82 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control.commands;
+package ead.editor.model;
 
-import ead.common.params.text.EAdString;
-import ead.editor.control.Command;
-import ead.tools.StringHandler;
+import ead.editor.model.nodes.DependencyNode;
+import java.util.Arrays;
+
+import ead.editor.model.EditorModel.ModelEvent;
 
 /**
- * Command to change the value of a string in the {@link StringHandler}
- * 
+ * An implementation of ModelEvent, heavy on the "ease of use" philosophy.
+ *
+ * @author mfreire
  */
-public class ChangeEAdStringValueCommand extends Command {
+public class DefaultModelEvent implements ModelEvent {
 
-	/**
-	 * Current {@link StringHandler}
-	 */
-	private StringHandler stringHandler;
+	private static final DependencyNode[] emptyArray = new DependencyNode[0];
 
-	/**
-	 * The string key (allowing for internationalization)
-	 */
-	private EAdString key;
+	private String name;
+	private Object cause;
+	private DependencyNode[] added;
+	private DependencyNode[] changed;
+	private DependencyNode[] removed;
 
-	/**
-	 * The string value
-	 */
-	private String value;
-
-	/**
-	 * The old value stored for the string
-	 */
-	private String oldValue;
-
-	public ChangeEAdStringValueCommand(EAdString key, String value,
-			StringHandler stringHandler) {
-		this.stringHandler = stringHandler;
-		this.key = key;
-		this.value = value;
-		oldValue = stringHandler.getString(key);
+	public DefaultModelEvent(String name, Object cause, DependencyNode[] added,
+			DependencyNode[] removed, DependencyNode... changed) {
+		this.name = name;
+		this.cause = cause;
+		this.added = (added == null ? emptyArray : sorted(added));
+		this.removed = (removed == null ? emptyArray : sorted(removed));
+		this.changed = (changed == null ? emptyArray : sorted(changed));
 	}
 
-	@Override
-	public boolean performCommand() {
-		stringHandler.setString(key, value);
-		return false;
-	}
-
-	@Override
-	public boolean canUndo() {
-		return true;
-	}
-
-	@Override
-	public boolean undoCommand() {
-		stringHandler.setString(key, oldValue);
-		return true;
-	}
-
-	@Override
-	public boolean canRedo() {
-		return true;
-	}
-
-	@Override
-	public boolean redoCommand() {
-		stringHandler.setString(key, value);
-		return false;
-	}
-
-	@Override
-	public boolean combine(Command other) {
-		if (other != null && other instanceof ChangeEAdStringValueCommand) {
-			oldValue = ((ChangeEAdStringValueCommand) other).oldValue;
-			return true;
+	private DependencyNode[] sorted(DependencyNode[] nodes) {
+		if (nodes.length > 0) {
+			Arrays.sort(nodes);
 		}
-		return false;
+		return nodes;
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public DependencyNode[] getAdded() {
+		return added;
+	}
+
+	@Override
+	public DependencyNode[] getRemoved() {
+		return removed;
+	}
+
+	@Override
+	public DependencyNode[] getChanged() {
+		return changed;
+	}
+
+	@Override
+	public Object getCause() {
+		return cause;
+	}
+
+	/**
+	 * Allows reuse of the same ModelChange for the original and the undo. 
+	 * Simply swaps 'added' and 'removed'
+	 */
+	public void flip() {
+		DependencyNode[] aux;
+		aux = added;
+		added = removed;
+		removed = aux;
+	}
+
+	@Override
+	public String toString() {
+		return "ModelChange{" + ModelEventUtils.dump(this) + '}';
+	}
 }

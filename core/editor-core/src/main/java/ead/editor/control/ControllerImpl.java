@@ -52,7 +52,6 @@ import com.google.inject.Provider;
 import ead.common.util.EAdURI;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
-import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 /**
@@ -103,6 +102,7 @@ public class ControllerImpl implements Controller {
 		projectController.setController(this);
 		navigationController.setController(this);
 		viewController.setController(this);
+		commandManager.setController(this);
 	}
 
 	@Override

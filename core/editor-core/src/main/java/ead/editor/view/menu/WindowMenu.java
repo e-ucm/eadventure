@@ -59,14 +59,15 @@ public class WindowMenu extends AbstractEditorMenu {
 	 */
 	@Override
 	public void initialize() {
-		AbstractEditorAction[] as = new AbstractEditorAction[] {
+		@SuppressWarnings("unchecked")
+		AbstractEditorAction<String>[] as = new AbstractEditorAction[] {
 				new PrevAction(Messages.window_menu_prev, KeyEvent.VK_P, 0,
 						R.Drawable.toolbar__backward_png),
 				new NextAction(Messages.window_menu_next, KeyEvent.VK_N, 0,
 						R.Drawable.toolbar__forward_png),
 				new ClearAction(Messages.window_menu_clear, KeyEvent.VK_C, 0), };
 
-		for (AbstractEditorAction a : as) {
+		for (AbstractEditorAction<String> a : as) {
 			if (a == null) {
 				addSeparator();
 				continue;
@@ -79,7 +80,7 @@ public class WindowMenu extends AbstractEditorMenu {
 		}
 	}
 
-	public class PrevAction extends AbstractEditorAction {
+	public class PrevAction extends AbstractEditorAction<String> {
 
 		public PrevAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);
@@ -91,12 +92,12 @@ public class WindowMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object o) {
+		public void processChange(String o) {
 			setEnabled(controller.getNavigationController().canGoBackward());
 		}
 	}
 
-	public class NextAction extends AbstractEditorAction {
+	public class NextAction extends AbstractEditorAction<String> {
 
 		public NextAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);
@@ -108,12 +109,12 @@ public class WindowMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object o) {
+		public void processChange(String o) {
 			setEnabled(controller.getNavigationController().canGoForward());
 		}
 	}
 
-	public class ClearAction extends AbstractEditorAction {
+	public class ClearAction extends AbstractEditorAction<String> {
 
 		public ClearAction(String name, int gkey, int gmask) {
 			super(name, gkey, gmask);

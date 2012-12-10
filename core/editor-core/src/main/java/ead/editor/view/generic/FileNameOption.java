@@ -37,22 +37,48 @@
 
 package ead.editor.view.generic;
 
-import ead.common.model.elements.extra.EAdList;
+import ead.editor.view.generic.accessors.Accessor;
+import java.io.File;
 
-/**
- * A general interface to edit element properties
- * @param <S>
- */
-public interface EAdListFieldDescriptor<S> extends FieldDescriptor<EAdList<S>> {
+import ead.editor.model.nodes.DependencyNode;
 
-	int getCount();
+public class FileNameOption extends TextOption {
 
-	S getElementAt(int pos);
+	private boolean fileMustExist = false;
 
-	Panel getPanel(int pos, boolean selected);
+	/**
+	 * Resolves the actual file this field refers to.
+	 * @param value
+	 * @return a file built from this value
+	 */
+	public File resolveFile(String value) {
+		return new File(value);
+	}
 
-	EAdList<S> getList();
+	public FileNameOption(String title, String toolTipText,
+			Accessor<String> fieldDescriptor, boolean fileMustExist,
+			DependencyNode node) {
+		super(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL, node);
+		this.fileMustExist = fileMustExist;
+	}
 
-	//TODO add, remove, etc.?
+	public FileNameOption(String title, String toolTipText, Object object,
+			String fieldName, boolean fileMustExist, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, ExpectedLength.NORMAL,
+				node);
+		this.fileMustExist = fileMustExist;
+	}
 
+	/**
+	 * Should return whether a value is valid or not. Invalid values will
+	 * not generate updates, and will therefore not affect either model or other
+	 * views.
+	 * @param value
+	 * @return whether it is valid or not; default is "always-true" 
+	 */
+	@Override
+	protected boolean isValid(String value) {
+		File f = resolveFile(value);
+		return (fileMustExist && f.exists()) || f.getParentFile().isDirectory();
+	}
 }

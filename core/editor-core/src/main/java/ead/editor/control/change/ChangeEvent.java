@@ -35,24 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
+package ead.editor.control.change;
 
-import ead.editor.view.generic.FieldDescriptor;
+import ead.editor.view.generic.accessors.Accessor;
 
 /**
- * Reader for the value of a field in an element.
- * <p>
- * This class should be extended and implemented for different platforms, and
- * injected through guice.
+ * An event that describes a change. 
+ * @author mfreire
  */
-public interface FieldValueReader {
+public interface ChangeEvent {
 
-	// TODO use generics?
-	/**
-	 * @param fieldDescriptor
-	 *            The descriptor of the field
-	 * @return The value of the field for the element described by it
-	 */
-	<S> S readValue(FieldDescriptor<S> fieldDescriptor);
-
+	public boolean hasChanged(Accessor fd);
 }

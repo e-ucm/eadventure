@@ -37,11 +37,18 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.FieldDescriptor;
-import ead.editor.view.generic.Option;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.control.Command;
+import ead.editor.control.CommandManager;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.nodes.DependencyNode;
+import javax.swing.JComponent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ead.editor.model.ModelEventUtils;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
  * Abstract implementation for {@link Option}s
@@ -51,38 +58,99 @@ import java.beans.PropertyDescriptor;
  */
 public abstract class AbstractOption<S> implements Option<S> {
 
+	private static final Logger logger = LoggerFactory
+			.getLogger("AbstractOption");
+
 	/**
 	 * Label on the component
 	 */
 	private String label;
-
 	/**
 	 * Tool tip text explanation
 	 */
 	private String toolTipText;
-
 	/**
 	 * Descriptor of the field represented by this option
 	 */
-	protected FieldDescriptor<S> fieldDescriptor;
+	protected Accessor<S> fieldDescriptor;
+	/**
+	 * While updating, external updates will be ignored
+	 */
+	protected boolean isUpdating = false;
+	/**
+	 * Keeps a copy of the old value
+	 */
+	protected S oldValue;
+	/**
+	 * Keeps a reference to the current commandManager
+	 */
+	protected CommandManager manager;
 
 	/**
-	 * @param label
-	 *            The label in the option (can be null)
-	 * @param toolTipText
-	 *            The toolTipText in the option (cannot be null)
-	 * @param fieldDescriptor
-	 *            The {@link FieldDescriptor} that describes the field in the
-	 *            element to be displayed/edited
+	 * A reference to the node to include in 'changed' ModelEvents
 	 */
-	public AbstractOption(String label, String toolTipText,
-			FieldDescriptor<S> fieldDescriptor) {
+	protected DependencyNode[] changed;
+
+	/**
+	 * Common-case constructor
+	 * @param label The label in the option (can be null)
+	 * @param toolTipText The toolTipText in the option (cannot be null)
+	 * @param object object to look into
+	 * @param fieldName fieldName to access
+	 */
+	public AbstractOption(String label, String toolTipText, Object object,
+			String fieldName, DependencyNode... changed) {
 		this.label = label;
 		this.toolTipText = toolTipText;
-		if (toolTipText == null || toolTipText.equals(""))
+		if (toolTipText == null || toolTipText.isEmpty()) {
 			throw new RuntimeException(
-					"BALTAEXCEPTION: ToolTipTexts must be provided for all interface elements!");
+					"ToolTipTexts MUST be provided for all interface elements!");
+		}
+		this.fieldDescriptor = new IntrospectingAccessor<S>(object, fieldName);
+		this.changed = changed == null ? new DependencyNode[0] : changed;
+	}
+
+	/**
+	 * General constructor
+	 * @param label The label in the option (can be null)
+	 * @param toolTipText The toolTipText in the option (cannot be null)
+	 * @param fieldDescriptor The {@link Accessor} that describes the field in the
+	 *    element to be displayed/edited
+	 */
+	public AbstractOption(String label, String toolTipText,
+			Accessor<S> fieldDescriptor, DependencyNode... changed) {
+		this.label = label;
+		this.toolTipText = toolTipText;
+		if (toolTipText == null || toolTipText.isEmpty()) {
+			throw new RuntimeException(
+					"ToolTipTexts MUST be provided for all interface elements!");
+		}
 		this.fieldDescriptor = fieldDescriptor;
+		this.changed = changed == null ? new DependencyNode[0] : changed;
+	}
+
+	/**
+	 * Will be called when the model changes.
+	 * @param event
+	 */
+	@Override
+	public void modelChanged(ModelEvent event) {
+		if (isUpdating) {
+			return;
+		}
+
+		logger.debug("change at {}: {}", new Object[] { hashCode(), event });
+		if (ModelEventUtils.changes(event, changed)) {
+			S nextValue = fieldDescriptor.read();
+			oldValue = getControlValue();
+			if (ChangeFieldCommand.defaultIsChange(oldValue, nextValue)) {
+				logger.debug("relevant and all - updating to {}", nextValue);
+				isUpdating = true;
+				setControlValue(nextValue);
+				valueUpdated(oldValue, nextValue);
+				isUpdating = false;
+			}
+		}
 	}
 
 	/*
@@ -111,51 +179,102 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * @see es.eucm.eadventure.editor.view.generics.Option#getFieldDescriptor()
 	 */
 	@Override
-	public FieldDescriptor<S> getFieldDescriptor() {
+	public Accessor<S> getFieldDescriptor() {
 		return fieldDescriptor;
 	}
 
 	/**
-	 * reads the value of the model object that is being configured
-	 *
-	 * @return
+	 * Creates the control, setting the initial value.
+	 * Subclasses should register as a listeners
+	 * to any changes in the model, and call update() when such changes occur.
 	 */
-	@SuppressWarnings("unchecked")
-	public static <S> S read(FieldDescriptor<S> fieldDescriptor) {
-		try {
-			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor
-					.getElement().getClass(), fieldDescriptor.getFieldName());
-			S value = (S) pd.getReadMethod().invoke(
-					fieldDescriptor.getElement());
-			return value;
-		} catch (Exception e) {
-			throw new RuntimeException("Error reading field "
-					+ fieldDescriptor.getFieldName() + " in "
-					+ fieldDescriptor.getElement().getClass(), e);
-		}
+	protected abstract JComponent createControl();
+
+	/**
+	 * Creates and initializes the component
+	 */
+	@Override
+	public JComponent getComponent(CommandManager manager) {
+		JComponent component = createControl();
+		oldValue = getControlValue();
+		this.manager = manager;
+		return component;
 	}
 
 	/**
-	 * Utility method to find a property descriptor for a single property
-	 *
-	 * @param c
-	 * @param fieldName
+	 * Reads the value of the control.
 	 * @return
 	 */
-	private static PropertyDescriptor getPropertyDescriptor(Class<?> c,
-			String fieldName) {
-		try {
-			for (PropertyDescriptor pd : Introspector.getBeanInfo(c)
-					.getPropertyDescriptors()) {
-				if (pd.getName().equals(fieldName)) {
-					return pd;
-				}
-			}
-		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException(
-					"Could not find getters or setters for field " + fieldName
-							+ " in class " + c.getCanonicalName());
+	protected abstract S getControlValue();
+
+	/**
+	 * Writes the value of the control.
+	 * @return
+	 */
+	protected abstract void setControlValue(S newValue);
+
+	/**
+	 * Creates a Command that describes a change to the manager. 
+	 * No change should be described if no change exists.
+	 * @return 
+	 */
+	protected Command createUpdateCommand() {
+		return new ChangeFieldCommand<S>(getControlValue(),
+				getFieldDescriptor(), changed);
+	}
+
+	/**
+	 * Should return whether a value is valid or not. Invalid values will
+	 * not generate updates, and will therefore not affect either model or other
+	 * views.
+	 * @param value
+	 * @return whether it is valid or not; default is "always-true"
+	 */
+	protected boolean isValid(S value) {
+		return true;
+	}
+
+	/**
+	 * Should be called when changes to the control are detected
+	 */
+	protected void update() {
+		S nextValue = getControlValue();
+		if (isUpdating || !isValid(nextValue)) {
+			return;
 		}
-		return null;
+		logger.debug("Control triggering update at {} to {}", new Object[] {
+				hashCode(), nextValue });
+
+		isUpdating = true;
+		manager.performCommand(createUpdateCommand());
+		valueUpdated(oldValue, nextValue);
+		oldValue = nextValue;
+		isUpdating = false;
+	}
+
+	/**
+	 * Called after the control value is updated. Intended to be used by
+	 * subclasses; default implementation is to do nothing.
+	 * @param oldValue
+	 */
+	public void valueUpdated(S oldValue, S newValue) {
+		// by default, do nothing
+	}
+
+	/**
+	 * Triggers a manual update. This should be indistinguishable from
+	 * the user typing in stuff directly (if this were a typing-enabled control)
+	 * @param nextValue
+	 */
+	public void updateValue(S nextValue) {
+		if (isUpdating || !isValid(nextValue)) {
+			return;
+		}
+
+		isUpdating = true;
+		setControlValue(nextValue);
+		manager.performCommand(createUpdateCommand());
+		valueUpdated(oldValue, nextValue);
+		isUpdating = false;
 	}
 }

@@ -39,8 +39,6 @@ package ead.editor.model.nodes;
 
 import ead.editor.R;
 import ead.editor.model.EditorModel;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import org.apache.lucene.document.Document;
 
 /**
@@ -50,7 +48,8 @@ import org.apache.lucene.document.Document;
  *
  * @author mfreire
  */
-public abstract class DependencyNode<T> {
+public abstract class DependencyNode<T> implements
+		Comparable<DependencyNode<T>> {
 	private int id;
 	protected T content;
 	private Document doc;
@@ -125,4 +124,14 @@ public abstract class DependencyNode<T> {
 	 * @return a human-readable description of this node
 	 */
 	public abstract String getTextualDescription(EditorModel m);
+
+	/**
+	 * Compares this node to another one, using IDs as a sorting key
+	 * @param other
+	 * @return
+	 */
+	@Override
+	public int compareTo(DependencyNode<T> other) {
+		return id - other.id;
+	}
 }

@@ -37,10 +37,14 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.control.CommandManager;
-import ead.editor.control.commands.ChangeEAdStringValueCommand;
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
+import java.awt.Dimension;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.nodes.DependencyNode;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -54,16 +58,35 @@ public class TextOption extends AbstractOption<String> {
 
 	private ExpectedLength expectedLength;
 
-	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor,
-			ExpectedLength expectedLength) {
-		super(title, toolTipText, fieldDescriptor);
+	protected JTextComponent textField;
+
+	public TextOption(String title, String toolTipText, Object object,
+			String fieldName, ExpectedLength expectedLength, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, node);
 		this.expectedLength = expectedLength;
 	}
 
 	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor) {
-		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
+			Accessor<String> fieldDescriptor, ExpectedLength expectedLength,
+			DependencyNode... changed) {
+		super(title, toolTipText, fieldDescriptor, changed);
+		this.expectedLength = expectedLength;
+	}
+
+	public TextOption(String title, String toolTipText,
+			Accessor<String> fieldDescriptor, DependencyNode... changed) {
+		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL,
+				changed);
+	}
+
+	@Override
+	public String getControlValue() {
+		return textField.getText();
+	}
+
+	@Override
+	public void setControlValue(String newValue) {
+		textField.setText(newValue);
 	}
 
 	public ExpectedLength getExpectedLength() {
@@ -75,59 +98,62 @@ public class TextOption extends AbstractOption<String> {
 	}
 
 	@Override
-	public JTextField getComponent(CommandManager manager) {
-		JTextField textField = new JTextField(getTitle(), 20);
+	public JComponent createControl() {
+		switch (expectedLength) {
+		case SHORT:
+			textField = new JTextField(getTitle(), 10);
+			break;
+		case NORMAL:
+			textField = new JTextField(getTitle(), 20);
+			break;
+		case LONG:
+			textField = new JTextArea(getTitle(), 3, 20);
+			((JTextArea) textField).setLineWrap(true);
+			((JTextArea) textField).setWrapStyleWord(true);
+			break;
+		default:
+			throw new IllegalArgumentException("Not a valid length: "
+					+ expectedLength);
+		}
 		textField.setToolTipText(getToolTipText());
-		textField.setText(read(getFieldDescriptor()));
+		textField.setText(fieldDescriptor.read());
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent de) {
+				update();
+			}
 
-		textField.getDocument().addDocumentListener(
-				new TextFieldDocumentListener(manager, textField));
+			@Override
+			public void removeUpdate(DocumentEvent de) {
+				update();
+			}
 
-		return textField;
+			@Override
+			public void changedUpdate(DocumentEvent de) {
+				update();
+			}
+		});
+		if (expectedLength.equals(ExpectedLength.LONG)) {
+			JScrollPane jsp = new JScrollPane(textField);
+			jsp.setMinimumSize(new Dimension(0, 40));
+			return jsp;
+		} else {
+			return textField;
+		}
 	}
 
-	/**
-	 * Document listener for the field, used to detect changes and modify the
-	 * value of the string using {@link ChangeEAdStringValueCommand}s.
-	 */
-	private class TextFieldDocumentListener implements DocumentListener {
-
-		private CommandManager manager;
-
-		/**
-		 * The actual JTextComponent, used to get the current value
-		 */
-		private JTextComponent textField;
-
-		/**
-		 * @param element
-		 *            The {@link TextOption}
-		 * @param textField
-		 *            The JTextComponent
-		 */
-		public TextFieldDocumentListener(CommandManager manager,
-				JTextComponent textField) {
-			this.textField = textField;
-		}
-
-		@Override
-		public void changedUpdate(DocumentEvent arg0) {
-		}
-
-		@Override
-		public void insertUpdate(DocumentEvent arg0) {
-			ChangeFieldValueCommand<String> changeFieldValueCommand;
-			changeFieldValueCommand = new ChangeFieldValueCommand<String>(
-					textField.getText(), getFieldDescriptor());
-			manager.performCommand(changeFieldValueCommand);
-		}
-
-		@Override
-		public void removeUpdate(DocumentEvent arg0) {
-			ChangeFieldValueCommand<String> changeFieldValueCommand;
-			changeFieldValueCommand = new ChangeFieldValueCommand<String>(
-					textField.getText(), getFieldDescriptor());
-			manager.performCommand(changeFieldValueCommand);
-		}
+	@Override
+	protected Command createUpdateCommand() {
+		// Users expect to undo/redo entire words, rather than character-by-character
+		return new ChangeFieldCommand<String>(getControlValue(),
+				getFieldDescriptor(), changed) {
+			@Override
+			public boolean likesToCombine(String nextValue) {
+				return nextValue.startsWith(newValue)
+						&& nextValue.length() == newValue.length() + 1
+						&& !Character.isWhitespace(nextValue.charAt(nextValue
+								.length() - 1));
+			}
+		};
 	}
 }

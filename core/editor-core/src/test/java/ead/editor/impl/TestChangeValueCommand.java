@@ -42,7 +42,20 @@ import org.junit.*;
 import org.mockito.*;
 import static org.mockito.Mockito.*;
 
-import ead.editor.control.commands.ChangeValueCommand;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import ead.editor.EditorGuiceModule;
+import ead.editor.control.Controller;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.EditorModel;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EngineNode;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
+import ead.tools.java.JavaToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
 
 /**
  * Class for testing the right functionality of ChangeValueActions that modify the game model.
@@ -52,19 +65,19 @@ public class TestChangeValueCommand extends TestCase {
 	/**
 	 * Actions for testing the changes of String values. 
 	 */
-	private ChangeValueCommand<String> actionS, mockActionS;
+	private ChangeFieldCommand<String> actionS, mockActionS;
 	/**
 	 * Actions for testing the changes of Integer values. 
 	 */
-	private ChangeValueCommand<Integer> actionI, actionIb, mockActionI;
+	private ChangeFieldCommand<Integer> actionI, actionIb, mockActionI;
 	/**
 	 * Actions for testing the changes of Boolean values. 
 	 */
-	private ChangeValueCommand<Boolean> actionB, mockActionB;
+	private ChangeFieldCommand<Boolean> actionB, mockActionB;
 	/**
 	 * Actions for testing the changes of String values. 
 	 */
-	private ChangeValueCommand<Object> actionO, actionOb, mockActionO;
+	private ChangeFieldCommand<Object> actionO, actionOb, mockActionO;
 	/**
 	 * Custom object for testing the changes made by the actions with.
 	 */
@@ -79,38 +92,63 @@ public class TestChangeValueCommand extends TestCase {
 	@Mock
 	private CommandTestObjects mockActionObject;
 
+	@Mock
+	private Controller controller;
+
+	private EditorModel editorModel;
+
+	/**
+	 * Must be called after mocks initialized
+	 */
+	public void prepareControllerAndModel() {
+		Injector injector = Guice.createInjector(new BaseImporterModule(),
+				new GdxDesktopModule(), new EditorGuiceModule(),
+				new JavaToolsModule());
+
+		// init reflection
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+
+		editorModel = injector.getInstance(EditorModel.class);
+
+		when(controller.getModel()).thenReturn(editorModel);
+	}
+
 	/**
 	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
 	 */
 	@Before
+	@Override
 	public void setUp() {
 
 		MockitoAnnotations.initMocks(this);
+		DependencyNode node1 = new EngineNode<String>(1, "test1");
 
 		actionObj = new CommandTestObjects("oh", 1, false, new Object());
 		obj = new Object();
+		Object obj2 = new Object();
 
-		actionS = new ChangeValueCommand<String>(actionObj, "test", "setS",
-				"getS");
-		actionI = new ChangeValueCommand<Integer>(actionObj, 100, "setI",
-				"getI");
-		actionIb = new ChangeValueCommand<Integer>(actionObj, 200, "setI",
-				"getI");
-		actionB = new ChangeValueCommand<Boolean>(actionObj, true, "setB",
-				"getB");
-		actionO = new ChangeValueCommand<Object>(actionObj, obj, "setO", "getO");
-		actionOb = new ChangeValueCommand<Object>(actionObj, new Object(),
-				"setO", "getO");
+		actionS = new ChangeFieldCommand<String>("test", actionObj, "s", node1);
 
-		mockActionS = new ChangeValueCommand<String>(mockActionObject, "test",
-				"setS", "getS");
-		mockActionI = new ChangeValueCommand<Integer>(mockActionObject, 100,
-				"setI", "getI");
-		mockActionB = new ChangeValueCommand<Boolean>(mockActionObject, true,
-				"setB", "getB");
-		mockActionO = new ChangeValueCommand<Object>(mockActionObject, obj,
-				"setO", "getO");
+		actionI = new ChangeFieldCommand<Integer>(100, actionObj, "i", node1);
+		actionIb = new ChangeFieldCommand<Integer>(200, actionObj, "i", node1);
 
+		actionB = new ChangeFieldCommand<Boolean>(true, actionObj, "b", node1);
+
+		actionO = new ChangeFieldCommand<Object>(obj, actionObj, "o", node1);
+		actionOb = new ChangeFieldCommand<Object>(obj2, actionObj, "o", node1);
+
+		mockActionS = new ChangeFieldCommand<String>("test", mockActionObject,
+				"s", node1);
+		mockActionI = new ChangeFieldCommand<Integer>(100, mockActionObject,
+				"i", node1);
+		mockActionO = new ChangeFieldCommand<Object>(obj, mockActionObject,
+				"o", node1);
+		mockActionB = new ChangeFieldCommand<Boolean>(true, mockActionObject,
+				"b", node1);
+
+		prepareControllerAndModel();
 	}
 
 	/**
@@ -124,20 +162,20 @@ public class TestChangeValueCommand extends TestCase {
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
 
-		actionS.performCommand();
-		actionI.performCommand();
-		actionB.performCommand();
-		actionO.performCommand();
+		actionS.performCommand(editorModel);
+		actionI.performCommand(editorModel);
+		actionB.performCommand(editorModel);
+		actionO.performCommand(editorModel);
 
 		assertEquals(true, (actionObj.getS()).equals("test"));
 		assertEquals(true, (actionObj.getI()).equals(100));
 		assertEquals(true, (actionObj.getB()).equals(true));
 		assertEquals(true, (actionObj.getO()).equals(obj));
 
-		mockActionS.performCommand();
-		mockActionI.performCommand();
-		mockActionB.performCommand();
-		mockActionO.performCommand();
+		mockActionS.performCommand(editorModel);
+		mockActionI.performCommand(editorModel);
+		mockActionB.performCommand(editorModel);
+		mockActionO.performCommand(editorModel);
 
 		verify(mockActionObject, times(1)).getS();
 		verify(mockActionObject, times(1)).setS("test");
@@ -161,20 +199,20 @@ public class TestChangeValueCommand extends TestCase {
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
 
-		actionS.redoCommand();
-		actionI.redoCommand();
-		actionB.redoCommand();
-		actionO.redoCommand();
+		actionS.redoCommand(editorModel);
+		actionI.redoCommand(editorModel);
+		actionB.redoCommand(editorModel);
+		actionO.redoCommand(editorModel);
 
 		assertEquals(true, (actionObj.getS()).equals("test"));
 		assertEquals(true, (actionObj.getI()).equals(100));
 		assertEquals(true, (actionObj.getB()).equals(true));
 		assertEquals(true, (actionObj.getO()).equals(obj));
 
-		mockActionS.redoCommand();
-		mockActionI.redoCommand();
-		mockActionB.redoCommand();
-		mockActionO.redoCommand();
+		mockActionS.redoCommand(editorModel);
+		mockActionI.redoCommand(editorModel);
+		mockActionB.redoCommand(editorModel);
+		mockActionO.redoCommand(editorModel);
 
 		verify(mockActionObject, times(1)).setS("test");
 		verify(mockActionObject, times(1)).setI(100);
@@ -194,30 +232,30 @@ public class TestChangeValueCommand extends TestCase {
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
 
-		actionS.performCommand();
-		actionI.performCommand();
-		actionB.performCommand();
-		actionO.performCommand();
+		actionS.performCommand(editorModel);
+		actionI.performCommand(editorModel);
+		actionB.performCommand(editorModel);
+		actionO.performCommand(editorModel);
 
 		assertEquals(true, (actionObj.getS()).equals("test"));
 		assertEquals(true, (actionObj.getI()).equals(100));
 		assertEquals(true, (actionObj.getB()).equals(true));
 		assertEquals(true, (actionObj.getO()).equals(obj));
 
-		actionS.undoCommand();
-		actionI.undoCommand();
-		actionB.undoCommand();
-		actionO.undoCommand();
+		actionS.undoCommand(editorModel);
+		actionI.undoCommand(editorModel);
+		actionB.undoCommand(editorModel);
+		actionO.undoCommand(editorModel);
 
 		assertEquals(false, (actionObj.getS()).equals("test"));
 		assertEquals(false, (actionObj.getI()).equals(100));
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
 
-		mockActionS.undoCommand();
-		mockActionI.undoCommand();
-		mockActionB.undoCommand();
-		mockActionO.undoCommand();
+		mockActionS.undoCommand(editorModel);
+		mockActionI.undoCommand(editorModel);
+		mockActionB.undoCommand(editorModel);
+		mockActionO.undoCommand(editorModel);
 
 		verify(mockActionObject, times(1)).setS(mockActionS.getOldValue());
 		verify(mockActionObject, times(1)).setI(mockActionI.getOldValue());
@@ -237,26 +275,22 @@ public class TestChangeValueCommand extends TestCase {
 		assertEquals(false, (actionObj.getB()).equals(true));
 		assertEquals(false, (actionObj.getO()).equals(obj));
 
-		actionS.performCommand();
-		actionI.performCommand();
-		actionB.performCommand();
-		actionO.performCommand();
+		actionS.performCommand(editorModel);
+		actionI.performCommand(editorModel);
+		actionB.performCommand(editorModel);
+		actionO.performCommand(editorModel);
 
 		assertEquals(true, (actionObj.getS()).equals("test"));
 		assertEquals(true, (actionObj.getI()).equals(100));
 		assertEquals(true, (actionObj.getB()).equals(true));
 		assertEquals(true, (actionObj.getO()).equals(obj));
 
-		actionS.combine(actionI);
-		actionB.combine(actionO);
-		actionI.combine(actionIb);
-		actionO.combine(actionOb);
+		assertEquals(false, actionS.combine(actionI));
+		assertEquals(false, actionB.combine(actionO));
 
-		assertEquals(true, (actionI.getNewValue()).equals(actionIb
-				.getNewValue()));
-		assertEquals(true, (actionO.getNewValue()).equals(actionOb
-				.getNewValue()));
-
+		assertEquals(true, actionI.combine(actionIb));
+		assertEquals(true, actionO.combine(actionOb));
+		assertEquals(actionIb.getNewValue(), actionI.getNewValue());
+		assertEquals(actionOb.getNewValue(), actionO.getNewValue());
 	}
-
 }

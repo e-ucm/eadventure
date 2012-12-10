@@ -127,6 +127,7 @@ public class StringHandlerImpl implements StringHandler {
 		return strings;
 	}
 
+	@Override
 	public EAdString generateNewString() {
 		EAdString s = EAdString.newRandomEAdString("generatedString");
 		while (strings.containsKey(s)) {

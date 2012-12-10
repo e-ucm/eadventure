@@ -81,6 +81,9 @@ public class R {
 		public static String duplicateNode_png;
 		public static String edit_png;
 		public static String information_png;
+		public static String interface__delete_png;
+		public static String interface__downArrow_png;
+		public static String interface__upArrow_png;
 		public static String loading_png;
 		public static String sidePanel__adaptationProfiles_png;
 		public static String sidePanel__advanced_png;
@@ -131,6 +134,9 @@ public class R {
 			files.add("edit.png");
 			files.add("es_ES/SplashScreenLogo.png");
 			files.add("information.png");
+			files.add("interface/delete.png");
+			files.add("interface/downArrow.png");
+			files.add("interface/upArrow.png");
 			files.add("loading.png");
 			files.add("sidePanel/adaptationProfiles.png");
 			files.add("sidePanel/advanced.png");

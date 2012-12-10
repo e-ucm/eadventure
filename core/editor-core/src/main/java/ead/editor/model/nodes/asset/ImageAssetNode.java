@@ -40,7 +40,6 @@ package ead.editor.model.nodes.asset;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.editor.R;
 import ead.utils.i18n.Resource;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -61,10 +60,29 @@ public class ImageAssetNode extends AssetNode {
 		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
 	}
 
-	private File getFile() {
-		String uri = ((Image) getDescriptor()).getUri().toString();
+	public File resolveUri(String uri) {
 		return new File(uri.replace("@", base.getAbsolutePath()
 				+ File.separator));
+	}
+
+	public File getFile() {
+		String uri = ((Image) getDescriptor()).getUri().toString();
+		return resolveUri(uri);
+	}
+
+	public File getSource() {
+		if (sources.isEmpty()) {
+			setSource(getFile());
+		}
+		return new File(sources.get(0));
+	}
+
+	public void setSource(File file) {
+		if (sources.isEmpty()) {
+			sources.add(file.getPath());
+		} else {
+			sources.set(0, file.getPath());
+		}
 	}
 
 	@Override

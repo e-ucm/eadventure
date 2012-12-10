@@ -37,13 +37,23 @@
 
 package ead.editor.control;
 
-import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.MergeableModelChange;
 import java.util.Stack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ead.editor.model.EditorModel;
 
 /**
  * Stacks of performed and undone actions
  */
 public class CommandStack extends Command {
+
+	private static Logger logger = LoggerFactory.getLogger(CommandStack.class
+			.getSimpleName());
+
+	public static final String commandName = "CommandStack";
 
 	/**
 	 * Stack of performed actions
@@ -57,7 +67,7 @@ public class CommandStack extends Command {
 
 	/**
 	 * The number of actions performed successfully on the model.
-	 * Might differ from preformed.size() if there are actions that
+	 * Might differ from performed.size() if there are actions that
 	 * cannot be undone.
 	 */
 	private int actionHistory;
@@ -72,8 +82,8 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public boolean performCommand() {
-		return false;
+	public ModelEvent performCommand(EditorModel em) {
+		throw new UnsupportedOperationException("Cannot 'perform' whole stacks");
 	}
 
 	@Override
@@ -82,13 +92,21 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public boolean undoCommand() {
+	public ModelEvent undoCommand(EditorModel em) {
 		undone.clear();
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
 		while (!performed.isEmpty()) {
-			performed.peek().undoCommand();
+			Command action = performed.peek();
+			ModelEvent me = action.undoCommand(em);
+			if (me != null) {
+				mmc.merge(me);
+			} else {
+				logger.error("Error undoing command-stack at {}", action);
+			}
 			undone.push(performed.pop());
 		}
-		return true;
+		mmc.commit();
+		return mmc;
 	}
 
 	@Override
@@ -102,13 +120,21 @@ public class CommandStack extends Command {
 	}
 
 	@Override
-	public boolean redoCommand() {
+	public ModelEvent redoCommand(EditorModel em) {
 		performed.clear();
+		MergeableModelChange mmc = new MergeableModelChange(commandName, this);
 		while (!undone.isEmpty()) {
-			undone.peek().undoCommand();
+			Command action = undone.peek();
+			ModelEvent me = action.redoCommand(em);
+			if (me != null) {
+				mmc.merge(me);
+			} else {
+				logger.error("Error redoing command-stack at {}", action);
+			}
 			performed.push(undone.pop());
 		}
-		return true;
+		mmc.commit();
+		return mmc;
 	}
 
 	@Override
@@ -158,5 +184,4 @@ public class CommandStack extends Command {
 		performed.clear();
 		undone.clear();
 	}
-
 }

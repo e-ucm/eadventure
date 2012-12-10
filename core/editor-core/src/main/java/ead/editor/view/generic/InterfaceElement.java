@@ -38,12 +38,18 @@
 package ead.editor.view.generic;
 
 import ead.editor.control.CommandManager;
+import ead.editor.model.EditorModel;
 import javax.swing.JComponent;
 
 /**
  * An element of the user interface.
  */
-public interface InterfaceElement {
+public interface InterfaceElement extends EditorModel.ModelListener {
+
+	/**
+	 * @return the title to be used in the interface (can be null)
+	 */
+	String getTitle();
 
 	/**
 	 * @return a component for this element

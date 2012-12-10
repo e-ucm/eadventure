@@ -60,7 +60,8 @@ public class EditMenu extends AbstractEditorMenu {
 	 */
 	@Override
 	public void initialize() {
-		AbstractEditorAction[] as = new AbstractEditorAction[] {
+		@SuppressWarnings("unchecked")
+		AbstractEditorAction<String>[] as = new AbstractEditorAction[] {
 				new UndoAction(Messages.edit_menu_undo, KeyEvent.VK_Z, 0,
 						R.Drawable.toolbar__undo_png),
 				new RedoAction(Messages.edit_menu_redo, KeyEvent.VK_U, 0,
@@ -101,7 +102,7 @@ public class EditMenu extends AbstractEditorMenu {
 						KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK,
 						R.Drawable.sidePanel__assessmentProfiles_png) };
 
-		for (AbstractEditorAction a : as) {
+		for (AbstractEditorAction<String> a : as) {
 			if (a == null) {
 				addSeparator();
 				continue;
@@ -119,7 +120,7 @@ public class EditMenu extends AbstractEditorMenu {
 		}
 	}
 
-	public class EditorAction extends AbstractEditorAction {
+	public class EditorAction extends AbstractEditorAction<String> {
 		public EditorAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);
 		}
@@ -131,12 +132,12 @@ public class EditMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object o) {
+		public void processChange(String o) {
 			setEnabled(controller.getModel().getEngineModel() != null);
 		}
 	}
 
-	public class UndoAction extends AbstractEditorAction {
+	public class UndoAction extends AbstractEditorAction<String> {
 
 		public UndoAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);
@@ -148,12 +149,12 @@ public class EditMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object o) {
+		public void processChange(String o) {
 			setEnabled(controller.getCommandManager().canUndo());
 		}
 	}
 
-	public class RedoAction extends AbstractEditorAction {
+	public class RedoAction extends AbstractEditorAction<String> {
 
 		public RedoAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);
@@ -165,7 +166,7 @@ public class EditMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object o) {
+		public void processChange(String o) {
 			setEnabled(controller.getCommandManager().canRedo());
 		}
 	}

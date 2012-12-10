@@ -43,7 +43,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import org.slf4j.Logger;
@@ -53,7 +52,7 @@ import org.slf4j.LoggerFactory;
  * Main class of the StructurePanel. A vertically-stacked panel of
  * buttons providing shortcuts to main views.
  */
-public class StructurePanel extends JPanel implements ChangeListener {
+public class StructurePanel extends JPanel implements ChangeListener<String> {
 
 	private static Logger logger = LoggerFactory
 			.getLogger(StructurePanel.class);
@@ -137,7 +136,7 @@ public class StructurePanel extends JPanel implements ChangeListener {
 	}
 
 	@Override
-	public void processChange(Object event) {
+	public void processChange(String event) {
 		boolean somethingLoaded = controller.getModel().getEngineModel() != null;
 		for (StructureElement e : elements) {
 			e.setEnabled(somethingLoaded);

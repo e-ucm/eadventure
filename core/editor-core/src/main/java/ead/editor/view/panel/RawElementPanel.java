@@ -97,9 +97,12 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 		setLayout(new BorderLayout());
 		inner = new JPanel();
 		inner.setLayout(new CheapVerticalLayout());
-		add(new JScrollPane(inner, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
-				BorderLayout.CENTER);
+		JScrollPane jsp = new JScrollPane(inner,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jsp.getVerticalScrollBar().setUnitIncrement(16);
+		add(jsp, BorderLayout.CENTER);
+
 		String st = target.getTextualDescription(controller.getModel());
 		logger.debug("preparing to render\n" + st);
 

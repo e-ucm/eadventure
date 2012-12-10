@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.view.generic.accessors;
 
 /**
  * Descriptor for the field of an element.
@@ -47,16 +47,14 @@ package ead.editor.view.generic;
  * @param <S>
  *            The type of the field (e.g. String, Boolean, etc)
  */
-public interface FieldDescriptor<S> {
+public interface Accessor<S> {
+	/**
+	 * Writes the field
+	 */
+	void write(S data);
 
 	/**
-	 * @return the element for which the field is defined
+	 * Reads the field
 	 */
-	Object getElement();
-
-	/**
-	 * @return the name of the field in the element (should be of type S)
-	 */
-	String getFieldName();
-
+	S read();
 }

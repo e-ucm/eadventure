@@ -38,26 +38,19 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.asset;
+package ead.editor.view.components;
 
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
-import ead.editor.view.components.PropertiesTablePanel;
-import ead.editor.view.components.ThumbnailPanel;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.utils.Log4jConfig;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;

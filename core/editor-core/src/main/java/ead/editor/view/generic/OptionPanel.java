@@ -37,60 +37,51 @@
 
 package ead.editor.view.generic;
 
-import ead.common.model.elements.EAdCondition;
-import ead.editor.control.CommandManager;
-import ead.editor.view.generic.FieldDescriptor;
-import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.util.List;
 
-public class EAdConditionOption extends AbstractOption<EAdCondition> {
+/**
+ * A panel interface element.
+ * <p>
+ * This element type allows for the display of several elements grouped in the
+ * interface
+ */
+public interface OptionPanel extends InterfaceElement {
 
-	public static enum View {
-		DETAILED, BASIC
+	/**
+	 * Available layout policies for the panel
+	 */
+	static enum LayoutPolicy {
+		/**
+		 * A policy where each element is placed following the next, minimizing the size of the panel
+		 */
+		Flow,
+		/**
+		 * A policy where elements are placed next to each other, even if of different sizes
+		 */
+		HorizontalBlocks,
+		/**
+		 * A policy where elements are placed on top of each other, even if of different sizes
+		 */
+		VerticalBlocks,
+		/**
+		 * A policy where elements are stacked on top of each other, each with the same height
+		 */
+		VerticalEquallySpaced
 	}
 
-	private View view;
+	/**
+	 * @return The list of interface elements in the panel
+	 */
+	List<InterfaceElement> getElements();
 
-	public EAdConditionOption(String title, String toolTipText,
-			FieldDescriptor<EAdCondition> fieldDescriptor, View view) {
-		super(title, toolTipText, fieldDescriptor);
-		this.view = view;
-	}
+	/**
+	 * @param element The element to be added to the panel
+	 */
+	OptionPanel add(InterfaceElement element);
 
-	public View getView() {
-		return view;
-	}
+	/**
+	 * @return the layout policy for this panel
+	 */
+	LayoutPolicy getLayoutPolicy();
 
-	@Override
-	public JComponent getComponent(CommandManager manager) {
-		if (getView() == EAdConditionOption.View.DETAILED) {
-			JPanel panel = new JPanel();
-			panel.setBorder(BorderFactory.createTitledBorder(getTitle()));
-			panel.setLayout(new BorderLayout());
-
-			JTextField textField = new JTextField();
-			panel.add(textField, BorderLayout.CENTER);
-			EAdCondition condition = read(getFieldDescriptor());
-			textField.setText(condition.toString());
-			textField.setEnabled(false);
-			//TODO should update field after condition edition
-
-			JButton button = new JButton("Edit");
-			button.setToolTipText(getToolTipText());
-			panel.add(button, BorderLayout.EAST);
-			//TODO should allow for the edition of conditions
-
-			return panel;
-		} else {
-			JButton button = new JButton(getTitle());
-			//TODO should allow for the edition of conditions
-			//TODO should show the icons
-
-			return button;
-		}
-	}
 }

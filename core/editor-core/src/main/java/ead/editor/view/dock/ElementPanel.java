@@ -41,14 +41,32 @@ import ead.editor.control.Controller;
 import ead.editor.model.nodes.DependencyNode;
 
 /**
- *
+ * Minimal interface for a panel that displays DependencyNodes.
  * @author mfreire
  */
 public interface ElementPanel<E extends DependencyNode> {
 
+	/**
+	 * Called before setTarget to establish the controller that manages this
+	 * elementPanel.
+	 */
 	void setController(Controller controller);
 
+	/**
+	 * Sets the target of this ElementPanel.
+	 * @param target to set. After setTarget, the interface should be
+	 * rebuilt from scratch. Any model listeners should be registered here.
+	 */
 	void setTarget(E target);
 
+	/**
+	 * @return the backing target of this ElementPanel.
+	 */
 	E getTarget();
+
+	/**
+	 * Called to release resources on target change or closing up.
+	 * This is specially important to prevent "listener pollution".
+	 */
+	void cleanup();
 }

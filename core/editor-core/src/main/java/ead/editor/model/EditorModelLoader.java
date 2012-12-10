@@ -79,6 +79,7 @@ import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.reader.adventure.AdventureReader;
 import ead.reader.strings.StringsReader;
+import ead.tools.StringHandler;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
 import ead.writer.DataPrettifier;
@@ -87,6 +88,16 @@ import ead.writer.StringWriter;
 
 /**
  * Loads an EditorModel.
+ * 
+ * EditorModels contain each 'Identified' element in the XML wrapped up in a
+ * DependencyNode (which hosts lookup information and dependencies). Non-identified
+ * elements (maps and lists) are provided transient, lookup-by-value DependencyNodes,
+ * as are 
+ * 
+ * Imported editorModels are passed through a series of factories to build 
+ * EditorNodes. Loaded models have these EditorNodes restored from their
+ * editor.xml file.
+ * 
  * @author mfreire
  */
 public class EditorModelLoader {
@@ -214,7 +225,7 @@ public class EditorModelLoader {
 	}
 
 	/**
-	 * Reads the editor mappings to an editor.xml file.
+	 * Reads the editor mappings from an editor.xml file.
 	 *
 	 * @param source
 	 * @return number of mappings read
@@ -461,10 +472,8 @@ public class EditorModelLoader {
 	 * Loads data from an EAdventure1.x game file. Saves this as an EAdventure
 	 * 2.x editor file.
 	 *
-	 * @param fin
-	 *            old-version file to import from
-	 * @param fout
-	 *            target folder to build into
+	 * @param fin old-version file to import from
+	 * @param fout target folder to build into
 	 */
 	public void loadFromImportFile(File fin, File fout) throws IOException {
 		logger.info(
@@ -601,6 +610,10 @@ public class EditorModelLoader {
 			stringHandler.setStrings(sr.readStrings(strings));
 			logger.info("Read {} strings", stringHandler.getStrings().size());
 			model.setStringHandler(stringHandler);
+			// stringNode retrievable via m.getNodeFor(m.getStringHandler());
+			DependencyNode stringsNode = new EngineNode<StringHandler>(model
+					.generateId(null), stringHandler);
+			model.getNodesByContent().put(stringHandler, stringsNode);
 		} catch (Exception e) {
 			logger.error("Could not load strings or properties", e);
 		}
@@ -668,7 +681,7 @@ public class EditorModelLoader {
 					.updateProgress(10,
 							"Copying resources to new destination ...");
 			// works for zip-files as well as for whole folders
-			FileUtils.copyRecursive(saveDir, null, target);
+			FileUtils.copy(saveDir, target);
 		} else if (target == null && saveDir != null) {
 			target = saveDir;
 		} else {
@@ -684,7 +697,7 @@ public class EditorModelLoader {
 		model.updateProgress(80, "Writing editor model ...");
 		int mappings = 0;
 		try {
-			mappings = readEditorNodes(target);
+			mappings = writeEditorNodes(target);
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}

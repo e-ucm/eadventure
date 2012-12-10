@@ -37,26 +37,30 @@
 
 package ead.editor.view.generic;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
 import ead.editor.control.CommandManager;
+import ead.editor.model.EditorModel.ModelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.editor.view.generic.InterfaceElement;
-import ead.editor.view.generic.Panel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PanelImpl implements Panel {
+public class PanelImpl implements OptionPanel {
 
-	private static final Logger log = LoggerFactory.getLogger("PanelOption");
+	private static final Logger logger = LoggerFactory.getLogger("PanelOption");
 
 	private List<InterfaceElement> elements;
 
@@ -64,10 +68,37 @@ public class PanelImpl implements Panel {
 
 	private LayoutPolicy layoutPolicy;
 
-	public PanelImpl(String title, LayoutPolicy layoutPolicy) {
+	private JPanel basePanel;
+
+	private int insets;
+
+	private LayoutBuilder builder;
+
+	public PanelImpl(String title, LayoutPolicy layoutPolicy, int insets) {
 		elements = new ArrayList<InterfaceElement>();
 		this.title = title;
 		this.layoutPolicy = layoutPolicy;
+		this.insets = insets;
+		switch (layoutPolicy) {
+		case Flow: {
+			builder = new FlowBuilder();
+			break;
+		}
+		case VerticalEquallySpaced: {
+			builder = new VerticalEquallySpacedBuilder();
+			break;
+		}
+		case HorizontalBlocks: {
+			builder = new HorizontalBlocksBuilder();
+			break;
+		}
+		case VerticalBlocks: {
+			builder = new VerticalBlocksBuilder();
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("No builder for " + layoutPolicy);
+		}
 	}
 
 	@Override
@@ -81,8 +112,9 @@ public class PanelImpl implements Panel {
 	}
 
 	@Override
-	public void addElement(InterfaceElement element) {
+	public PanelImpl add(InterfaceElement element) {
 		elements.add(element);
+		return this;
 	}
 
 	@Override
@@ -93,48 +125,25 @@ public class PanelImpl implements Panel {
 	//TODO Should support different element positioning policies
 	@Override
 	public JPanel getComponent(CommandManager manager) {
+		basePanel = new ScrollablePanel();
+		JScrollPane scrollPane = new JScrollPane(basePanel);
 		JPanel mainPanel = new JPanel();
-		if (getTitle() != null) {
-			mainPanel.setBorder(BorderFactory.createTitledBorder(getTitle()));
-		}
-
-		JPanel panel = new ScrollablePanel();
-		JScrollPane scrollPane = new JScrollPane(panel);
-
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
-
-		java.awt.GridBagConstraints c = null;
-
-		if (getLayoutPolicy() == Panel.LayoutPolicy.HORIZONTAL
-				|| getLayoutPolicy() == Panel.LayoutPolicy.VERTICAL) {
-			panel.setLayout(new java.awt.GridBagLayout());
-			c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.BOTH;
-			c.gridx = 0;
-			c.weightx = 1.0;
-			c.gridy = 0;
-			c.weighty = 1.0;
-		} else if (getLayoutPolicy() == Panel.LayoutPolicy.FLOW)
-			panel.setLayout(new java.awt.FlowLayout());
-		else
-			panel.setLayout(new java.awt.GridLayout(0, 1));
-
-		for (InterfaceElement newElement : getElements()) {
-			JComponent component = newElement.getComponent(manager);
-			if (getLayoutPolicy() == Panel.LayoutPolicy.VERTICAL) {
-				c.weighty = component.getMinimumSize().getHeight();
-				panel.add(component, c);
-				c.gridy++;
-			} else if (getLayoutPolicy() == Panel.LayoutPolicy.HORIZONTAL) {
-				panel.add(component, c);
-				c.gridx++;
-			}
+		builder.start();
+		for (InterfaceElement e : getElements()) {
+			builder.add(e, manager);
 		}
-
-		//mainPanel.doLayout();
-
+		builder.finish();
+		basePanel.revalidate();
 		return mainPanel;
+	}
+
+	@Override
+	public void modelChanged(ModelEvent event) {
+		for (InterfaceElement ie : elements) {
+			ie.modelChanged(event);
+		}
 	}
 
 	private class ScrollablePanel extends JPanel implements Scrollable {
@@ -145,9 +154,9 @@ public class PanelImpl implements Panel {
 		public Dimension getPreferredSize() {
 			Dimension preferred = super.getPreferredSize();
 			Dimension container = super.getParent().getParent().getSize();
-			return new Dimension((int) Math.max(preferred.getWidth(), container
-					.getWidth()), (int) Math.max(preferred.getHeight(),
-					container.getHeight()));
+			int w = Math.max(preferred.width, container.width);
+			int h = Math.max(preferred.height, container.height);
+			return new Dimension(w, h - 10);
 		}
 
 		@Override
@@ -158,8 +167,7 @@ public class PanelImpl implements Panel {
 		@Override
 		public int getScrollableBlockIncrement(Rectangle visibleRect,
 				int orientation, int direction) {
-			//TODO check
-			return 10;
+			return 16;
 		}
 
 		@Override
@@ -175,8 +183,147 @@ public class PanelImpl implements Panel {
 		@Override
 		public int getScrollableUnitIncrement(Rectangle visibleRect,
 				int orientation, int direction) {
-			//TODO check
-			return 1;
+			return 16;
 		}
+	}
+
+	// ----- layout builders here -----
+
+	public interface LayoutBuilder {
+		void start();
+
+		void add(InterfaceElement element, CommandManager manager);
+
+		void finish();
+	}
+
+	public abstract class SimpleBuilder implements LayoutBuilder {
+		public abstract LayoutManager getLayout();
+
+		@Override
+		public void start() {
+			basePanel.setLayout(getLayout());
+		}
+
+		@Override
+		public void add(InterfaceElement element, CommandManager manager) {
+			basePanel.add(element.getComponent(manager));
+		}
+
+		@Override
+		public void finish() {
+			// nothing to do.
+		}
+	}
+
+	public class FlowBuilder extends SimpleBuilder {
+		@Override
+		public LayoutManager getLayout() {
+			return new FlowLayout(FlowLayout.CENTER, insets, insets);
+		}
+	}
+
+	public class VerticalEquallySpacedBuilder extends SimpleBuilder {
+		@Override
+		public LayoutManager getLayout() {
+			return new GridLayout(0, 1, insets, insets);
+		}
+	}
+
+	public abstract class GridBuilder implements LayoutBuilder {
+		protected GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1,
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+				new Insets(insets, insets, insets, insets), 0, 0);
+
+		@Override
+		public void start() {
+			basePanel.setLayout(new GridBagLayout());
+		}
+
+		@Override
+		public void add(InterfaceElement element, CommandManager manager) {
+			if (element.getTitle() != null) {
+				JLabel label = new JLabel(element.getTitle());
+				prepareLabel();
+				basePanel.add(label, gbc);
+				endLabel();
+			}
+			prepareField();
+			basePanel.add(element.getComponent(manager), gbc);
+			endField();
+		}
+
+		public abstract void prepareLabel();
+
+		public abstract void endLabel();
+
+		public abstract void prepareField();
+
+		public abstract void endField();
+
+		@Override
+		public void finish() {
+			JPanel spacer = new JPanel();
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weightx = 1.0;
+			gbc.weighty = 1.0;
+			gbc.insets = new Insets(0, 0, 0, 0);
+			basePanel.add(spacer, gbc);
+		}
+	}
+
+	public class VerticalBlocksBuilder extends GridBuilder {
+
+		@Override
+		public void prepareLabel() {
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 0;
+			gbc.anchor = GridBagConstraints.EAST;
+		}
+
+		@Override
+		public void endLabel() {
+			gbc.gridx++;
+		}
+
+		@Override
+		public void prepareField() {
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 5.0;
+		}
+
+		@Override
+		public void endField() {
+			gbc.gridx = 0;
+			gbc.gridy++;
+		}
+	}
+
+	public class HorizontalBlocksBuilder extends GridBuilder {
+
+		@Override
+		public void prepareLabel() {
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weighty = 0;
+			gbc.anchor = GridBagConstraints.SOUTH;
+		}
+
+		@Override
+		public void endLabel() {
+			gbc.gridy++;
+		}
+
+		@Override
+		public void prepareField() {
+			gbc.fill = GridBagConstraints.VERTICAL;
+			gbc.weighty = 1.0;
+		}
+
+		@Override
+		public void endField() {
+			gbc.gridx++;
+			gbc.gridy = 0;
+		}
+
 	}
 }
