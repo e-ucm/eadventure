@@ -49,8 +49,8 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.MergeableModelChange;
+import ead.editor.model.ModelEvent;
 
 /**
  * Class that handles multiple commands in a list as a single one.
@@ -95,7 +95,7 @@ public class CompositeCommand extends Command {
 	}
 
 	/**
-	 * Performs this list of commands. Failure in any triggers an 
+	 * Performs this list of commands. Failure in any triggers an
 	 * undo of previously-completed list-commands.
 	 */
 	@Override

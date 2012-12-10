@@ -38,7 +38,7 @@
 package ead.editor.control;
 
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 
 /**
  * Actions define tasks that can be performed over the game model.

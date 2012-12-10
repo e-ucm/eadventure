@@ -37,7 +37,6 @@
 
 package ead.editor.control.commands;
 
-import ead.editor.impl.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import junit.framework.TestCase;
@@ -135,7 +134,7 @@ public class ElementCommandsTest extends TestCase {
 	private ListCommand.ReorderInList<EAdElement> moveComm, mockMove;
 
 	/**
-	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
+	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.
 	 */
 	@Before
 	@Override
@@ -166,7 +165,7 @@ public class ElementCommandsTest extends TestCase {
 	}
 
 	/**
-	 * Testing the correct functionality of the method for performing commands.  
+	 * Testing the correct functionality of the method for performing commands.
 	 */
 	@Test
 	public void testPerformCommands() {
@@ -189,7 +188,7 @@ public class ElementCommandsTest extends TestCase {
 	}
 
 	/**
-	 * Testing the correct functionality of the method for undoing commands.  
+	 * Testing the correct functionality of the method for undoing commands.
 	 */
 	@Test
 	public void testUndoCommands() {

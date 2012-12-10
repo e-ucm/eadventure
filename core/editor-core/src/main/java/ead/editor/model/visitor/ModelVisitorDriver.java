@@ -97,7 +97,7 @@ public class ModelVisitorDriver {
 	/**
 	 * Returns the correct driver to use for a given object.
 	 * @param o object to drive into.
-	 * @return 
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private VisitorDriver driverFor(Object o) {
@@ -166,7 +166,7 @@ public class ModelVisitorDriver {
 				// visit all children-values of this list
 				Object o = target.get(i);
 				if (o != null) {
-					driveInto(o, source, sourceName + "-list-" + i);
+					driveInto(o, source, sourceName + "-list");
 				}
 			}
 		}
@@ -182,9 +182,8 @@ public class ModelVisitorDriver {
 			int i = 0;
 			for (Map.Entry<?, ?> e : target.entrySet()) {
 				if (e.getKey() != null && e.getValue() != null) {
-					driveInto(e.getKey(), source, sourceName + "-map-key-" + i);
-					driveInto(e.getValue(), source, sourceName + "-map-value-"
-							+ i);
+					driveInto(e.getKey(), source, sourceName + "-map-key");
+					driveInto(e.getValue(), source, sourceName + "-map-value");
 				}
 				i++;
 			}

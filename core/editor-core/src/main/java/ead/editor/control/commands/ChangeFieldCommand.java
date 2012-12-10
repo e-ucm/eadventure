@@ -39,13 +39,13 @@ package ead.editor.control.commands;
 
 import ead.editor.control.Command;
 import ead.editor.model.DefaultModelEvent;
-import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.model.EditorModel;
+import ead.editor.model.ModelEvent;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
@@ -147,7 +147,7 @@ public class ChangeFieldCommand<T> extends Command {
 	 * Sets the value and returns a mode-event describing
 	 * what nodes have changed. Called by both undo() and redo().
 	 * @param value
-	 * @return 
+	 * @return
 	 */
 	protected ModelEvent setValue(T value) {
 		fieldDescriptor.write(value);

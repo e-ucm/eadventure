@@ -50,19 +50,20 @@ public class ModelQueryTest {
 
 	public void testParser(String queryString, boolean expectedValid,
 			String... expectedParts) {
-		if ( ! expectedValid) {
+		if (!expectedValid) {
 			assertFalse(ModelQuery.isValid(queryString));
 			return;
 		}
 
 		assertTrue(ModelQuery.isValid(queryString));
 
-		ArrayList<QueryPart> parts = new ModelQuery(queryString).getQueryParts();
-		for (int i = 0, j = 0; i<parts.size() && j < expectedParts.length; i++, j+=2) {
+		ArrayList<QueryPart> parts = new ModelQuery(queryString)
+				.getQueryParts();
+		for (int i = 0, j = 0; i < parts.size() && j < expectedParts.length; i++, j += 2) {
 			assertEquals(expectedParts[j], parts.get(i).getField());
-			assertEquals(expectedParts[j+1], parts.get(i).getValue());
+			assertEquals(expectedParts[j + 1], parts.get(i).getValue());
 		}
-		assertEquals(expectedParts.length, parts.size()*2);
+		assertEquals(expectedParts.length, parts.size() * 2);
 	}
 
 	@Test
@@ -76,8 +77,10 @@ public class ModelQueryTest {
 	public void testQuotedQueries() {
 		System.out.println("quotedQueries");
 		testParser("a \"simple\" test", true, "", "a", "", "simple", "", "test");
-		testParser("two \"three:four\":five", true, "", "two", "three:four", "five");
-		testParser("two \"three four\":\"five six\"", true, "", "two", "three four", "five six");
+		testParser("two \"three:four\":five", true, "", "two", "three:four",
+				"five");
+		testParser("two \"three four\":\"five six\"", true, "", "two",
+				"three four", "five six");
 	}
 
 	@Test

@@ -37,8 +37,6 @@
 
 package ead.editor.control.commands;
 
-import ead.editor.impl.*;
-
 /**
  * Class that represents the object which values are changed to test the
  * functionality of the changing values commands.

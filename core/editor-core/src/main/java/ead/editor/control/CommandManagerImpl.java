@@ -40,7 +40,7 @@ package ead.editor.control;
 import java.util.ArrayList;
 import com.google.inject.Singleton;
 import ead.editor.control.change.ChangeNotifierImpl;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

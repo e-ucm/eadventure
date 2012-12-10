@@ -47,13 +47,11 @@ import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.multimedia.Video;
-import ead.editor.model.nodes.asset.AssetNode;
 import ead.editor.model.nodes.EngineNode;
-import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.model.nodes.QueryNode;
+import ead.editor.model.nodes.asset.AssetNode;
+import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.model.nodes.asset.VideoAssetNode;
-import ead.editor.view.components.EditorLink;
-import ead.editor.view.components.EditorLinkFactory;
 import ead.utils.Log4jConfig;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -95,8 +93,7 @@ public class EditorLinkView extends JPanel {
 					new Video("@binary/assets_video_IniciarTos.AVIXVID.webm")));
 			els.add(EditorLinkFactory.createLink(an, null));
 		}
-		els.add(EditorLinkFactory.createLink(new QueryNode(els.size(),
-				"anybody home?"), null));
+		els.add(EditorLinkFactory.createLink(new QueryNode(els.size()), null));
 		els.add(EditorLinkFactory.createLink(new EngineNode<Object>(els.size(),
 				"guess not!"), null));
 

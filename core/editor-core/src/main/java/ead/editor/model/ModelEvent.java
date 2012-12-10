@@ -38,67 +38,39 @@
 package ead.editor.model;
 
 import ead.editor.model.nodes.DependencyNode;
-import java.util.Arrays;
 
 /**
- * ModelEvent processing utilities.
- *
+ * Describes changes to the model.
  * @author mfreire
  */
-public class ModelEventUtils {
-
-	public static void appendIds(StringBuilder sb, DependencyNode[] nodes) {
-		sb.append('[');
-		for (DependencyNode dn : nodes) {
-			sb.append(dn.getId()).append(' ');
-		}
-		sb.append(']');
-	}
+public interface ModelEvent {
 
 	/**
-	 * Utility method to show an event in full glory
+	 * Name of the event. Typically supplied by whatever action
+	 * caused it.
 	 */
-	public static String dump(ModelEvent me) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(me.getName()).append(" (cause=").append(me.getCause())
-				.append(")");
-		sb.append(" change=");
-		appendIds(sb, me.getChanged());
-		sb.append(" add=");
-		appendIds(sb, me.getAdded());
-		sb.append(" remove=");
-		appendIds(sb, me.getAdded());
-		return sb.toString();
-	}
+	String getName();
 
 	/**
-	 * Utility method to check whether a value is in an array. Note: uses
-	 * binary search to greatly speed this up if there are many values.
-	 * Added, changed and removed must always be sorted.
-	 * @param nodes
-	 * @param value
-	 * @return
+	 * @return cause of this event; typically a Command. May be null.
 	 */
-	public static boolean contains(DependencyNode[] nodes,
-			DependencyNode... values) {
-		if (values == null) {
-			return false;
-		}
-		for (DependencyNode node : values) {
-			if (Arrays.binarySearch(nodes, node) >= 0) {
-				return true;
-			}
-		}
-		return false;
-	}
+	Object getCause();
 
 	/**
-	 * Utility method to check whether a value is changed in an event.
-	 * @param e the ModelEvent to scourge
-	 * @param value
-	 * @return
+	 * @return Array (possibly empty; never null) of added dependency-nodes.
+	 * The array is guaranteed to be sorted-by-id
 	 */
-	public static boolean changes(ModelEvent e, DependencyNode... values) {
-		return contains(e.getChanged(), values);
-	}
+	DependencyNode[] getAdded();
+
+	/**
+	 * @return Array (possibly empty; never null) of removed dependency-nodes
+	 * The array is guaranteed to be sorted-by-id
+	 */
+	DependencyNode[] getChanged();
+
+	/**
+	 * @return Array (possibly empty; never null) of removed dependency-nodes
+	 * The array is guaranteed to be sorted-by-id
+	 */
+	DependencyNode[] getRemoved();
 }

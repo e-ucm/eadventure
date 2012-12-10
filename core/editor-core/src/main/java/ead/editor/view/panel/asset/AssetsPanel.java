@@ -48,7 +48,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.editor.control.Controller;
 import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
@@ -60,14 +59,13 @@ import ead.editor.view.panel.AbstractElementPanel;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 
 /**
  * A panel that displays all assets, by type. A preview is available
@@ -237,13 +235,13 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	}
 
 	/**
-	 * Determines if a modelChange affects this panel. Any change that 
+	 * Determines if a modelChange affects this panel. Any change that
 	 * adds or removes assets, or changes them, is interpreted to affect us.
-	 * 
+	 *
 	 * FIXME: this could be a lot more efficient, by making the ThumbnailPanels
 	 * (and their subpanels) responsive to changes.
-	 * 
-	 * @param event 
+	 *
+	 * @param event
 	 */
 	@Override
 	public void modelChanged(ModelEvent event) {

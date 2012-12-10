@@ -37,6 +37,7 @@
 
 package ead.editor.model;
 
+import ead.editor.model.ModelQuery.QueryPart;
 import ead.editor.model.nodes.DependencyNode;
 import java.io.IOException;
 import java.util.*;
@@ -75,6 +76,11 @@ public class ModelIndex {
 
 	private static final Logger logger = LoggerFactory.getLogger("ModelIndex");
 	public static final String editorIdFieldName = "editor-id";
+
+	public static final String editorIdQueryField = "eid";
+	public static final String hasContentClassQueryField = "has";
+	public static final String isClassQueryField = "eid";
+
 	/**
 	 * Lucene index
 	 */
@@ -196,12 +202,50 @@ public class ModelIndex {
 	}
 
 	/**
+	 * An individual node match for a query, with score and matched fields
+	 */
+	public static class Match implements Comparable<Match> {
+		private HashSet<String> fields = new HashSet<String>();
+		private double score;
+		private DependencyNode node;
+
+		private Match(DependencyNode node, double score, String field) {
+			this.node = node;
+			this.score = score;
+			if (field != null) {
+				fields.add(field);
+			}
+		}
+
+		private void merge(Match m) {
+			this.score += m.score;
+			this.fields.addAll(m.fields);
+		}
+
+		public HashSet<String> getFields() {
+			return fields;
+		}
+
+		public double getScore() {
+			return score;
+		}
+
+		public DependencyNode getNode() {
+			return node;
+		}
+
+		@Override
+		public int compareTo(Match o) {
+			return Double.compare(o.score, score);
+		}
+	}
+
+	/**
 	 * Represents query results
 	 */
 	public static class SearchResult {
 
-		private ArrayList<DependencyNode> matches = new ArrayList<DependencyNode>();
-		private TreeMap<Integer, ArrayList<String>> fieldMatches = new TreeMap<Integer, ArrayList<String>>();
+		private TreeMap<Integer, Match> matches = new TreeMap<Integer, Match>();
 
 		private static final Pattern fieldMatchPattern = Pattern
 				.compile("fieldWeight[(]([^:]+):");
@@ -210,7 +254,7 @@ public class ModelIndex {
 			// used for "empty" searches: no results
 		}
 
-		public SearchResult(IndexSearcher searcher, Query query,
+		public SearchResult(IndexSearcher searcher, Query query, boolean quick,
 				ScoreDoc[] hits, Map<Integer, DependencyNode> nodesById)
 				throws IOException {
 
@@ -221,44 +265,29 @@ public class ModelIndex {
 					logger.debug("Adding {}", nodeId);
 					DependencyNode node = nodesById.get(Integer
 							.parseInt(nodeId));
-					matches.add(node);
-					fieldMatches.put(node.getId(), new ArrayList<String>());
-					fillFieldsForExplanation(searcher.explain(query, hit.doc),
-							node.getId());
-				}
-				searcher.close();
-				if (logger.isDebugEnabled()) {
-					logger.debug("Found {} matches for query {}:",
-							new Object[] { matches.size(), query });
-					for (DependencyNode node : matches) {
-						logger.debug(" * node {}", node.getId());
-						if (fieldMatchesFor(node) != null) {
-							logger
-									.debug(
-											"    {} fields match",
-											new Object[] { fieldMatchesFor(node)
-													.size() });
-						} else {
-							logger.error("No field matches for match {} !! ",
-									node.getId());
-						}
+					Match m = new Match(node, hit.score, null);
+					matches.put(node.getId(), m);
+					if (!quick) {
+						fillFieldsForExplanation(searcher.explain(query,
+								hit.doc), m);
+					} else {
+						logger.debug("Not explaining results: quick requested");
 					}
 				}
+				searcher.close();
 			} catch (CorruptIndexException e) {
 				throw new IOException("Corrupt index", e);
 			}
 		}
 
-		public final void fillFieldsForExplanation(Explanation e, int nodeId) {
+		public final void fillFieldsForExplanation(Explanation e, Match match) {
 			String s = e.getDescription();
 			logger.debug("Reading explanation for {}: '{}'", new Object[] {
-					nodeId, s });
+					match.getNode().getId(), s });
 			Matcher m = fieldMatchPattern.matcher(s);
 			if (m.find()) {
-				logger.debug("Adding another match to {}: {}", new Object[] {
-						nodeId, m.group(1) });
-				ArrayList<String> ms = fieldMatches.get(nodeId);
-				ms.add(m.group(1));
+				logger.debug("Adding another match: {}", m.group(1));
+				match.getFields().add(m.group(1));
 			}
 
 			// recurse
@@ -266,75 +295,119 @@ public class ModelIndex {
 				return;
 			}
 			for (Explanation se : e.getDetails()) {
-				fillFieldsForExplanation(se, nodeId);
+				fillFieldsForExplanation(se, match);
 			}
 		}
 
-		public List<DependencyNode> getMatchedNodes() {
-			return matches;
+		public ArrayList<Match> getMatches() {
+			ArrayList<Match> all = new ArrayList<Match>(matches.values());
+			Collections.sort(all);
+			return all;
 		}
 
-		public List<String> fieldMatchesFor(DependencyNode node) {
-			return fieldMatches.get(node.getId());
+		public Match getMatchFor(int id) {
+			return matches.get(id);
+		}
+
+		public void merge(SearchResult other) {
+			for (Map.Entry<Integer, Match> e : other.matches.entrySet()) {
+				if (!matches.containsKey(e.getKey())) {
+					matches.put(e.getKey(), new Match(e.getValue().getNode(),
+							0, null));
+				}
+				matches.get(e.getKey()).merge(e.getValue());
+			}
 		}
 	}
 
 	/**
 	 * Get a (sorted) list of nodes that match a query
 	 */
-	public List<DependencyNode> searchAll(String queryText,
+	public SearchResult search(ModelQuery query,
 			Map<Integer, DependencyNode> nodesById) {
-		return searchAllDetailed(queryText, nodesById).getMatchedNodes();
+		logger.info("Querying for {}", query);
+		SearchResult r = new SearchResult();
+		for (QueryPart p : query.getQueryParts()) {
+			r.merge(search(p.getField(), p.getValue(), false, nodesById));
+		}
+		return r;
+	}
+
+	public SearchResult searchByClass(String queryText,
+			Map<Integer, DependencyNode> nodesById) {
+		SearchResult sr = new SearchResult();
+		for (DependencyNode n : nodesById.values()) {
+			if (n.getClass().getName().indexOf(queryText) != -1) {
+				sr.matches.put(n.getId(), new Match(n, 1, isClassQueryField));
+			}
+		}
+		return sr;
+	}
+
+	public SearchResult searchByContentClass(String queryText,
+			Map<Integer, DependencyNode> nodesById) {
+		SearchResult sr = new SearchResult();
+		for (DependencyNode n : nodesById.values()) {
+			if (n.getContent().getClass().getName().indexOf(queryText) != -1) {
+				sr.matches.put(n.getId(), new Match(n, 1,
+						hasContentClassQueryField));
+			}
+		}
+		return sr;
+	}
+
+	public SearchResult searchById(String queryText,
+			Map<Integer, DependencyNode> nodesById) {
+		SearchResult sr = new SearchResult();
+		int id = Integer.parseInt(queryText);
+		DependencyNode n = nodesById.get(id);
+		if (n != null) {
+			sr.matches.put(n.getId(), new Match(n, 10, editorIdFieldName));
+		} else {
+			logger.warn("No nodes with editor-id {}", queryText);
+		}
+		return sr;
 	}
 
 	/**
-	 * Get a (sorted) list of nodes that match a query
+	 * Query the index. The fields
+	 * "id", "is" and "has" are interpreted as follows:
+	 * <ul>
+	 * <li>eid - exact editor-id match
+	 * <li>is - node class-name match
+	 * <li>has - node contents class-name match
+	 * </ul>
 	 */
-	public SearchResult searchAllDetailed(String queryText,
+	public SearchResult search(String field, String queryText, boolean quick,
 			Map<Integer, DependencyNode> nodesById) {
+
+		// Short-circuited queries
+		if (field.equals(isClassQueryField)) {
+			return searchByClass(queryText, nodesById);
+		} else if (field.equals(editorIdQueryField)) {
+			return searchById(queryText, nodesById);
+		} else if (field.equals(hasContentClassQueryField)) {
+			return searchByContentClass(queryText, nodesById);
+		}
+
+		// normal queries
 		try {
 			IndexReader reader = IndexReader.open(searchIndex);
-			Query query = getQueryAllParser().parse(queryText);
-			IndexSearcher searcher = new IndexSearcher(reader);
-			TopScoreDocCollector collector = TopScoreDocCollector.create(
-					MAX_SEARCH_HITS, true);
-			searcher.search(query, collector);
-			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-			SearchResult sr = new SearchResult(searcher, query, hits, nodesById);
-			return sr;
-		} catch (Exception e) {
-			logger.error("Error parsing or looking up query '{}' in index",
-					queryText, e);
-		}
-		return new SearchResult();
-	}
-
-	/**
-	 * Get a (sorted) list of nodes that match a query
-	 */
-	public List<DependencyNode> search(String field, String queryText,
-			Map<Integer, DependencyNode> nodesById) {
-
-		ArrayList<DependencyNode> nodes = new ArrayList<DependencyNode>();
-		try {
-			IndexReader reader = IndexReader.open(searchIndex);
-			Query query = new QueryParser(Version.LUCENE_35, field,
+			Query query = (field.isEmpty()) ? getQueryAllParser().parse(
+					queryText) : new QueryParser(Version.LUCENE_35, field,
 					searchAnalyzer).parse(queryText);
 			IndexSearcher searcher = new IndexSearcher(reader);
 			TopScoreDocCollector collector = TopScoreDocCollector.create(
 					MAX_SEARCH_HITS, true);
 			searcher.search(query, collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-			for (ScoreDoc hit : hits) {
-				String nodeId = searcher.doc(hit.doc).get(editorIdFieldName);
-				nodes.add(nodesById.get(Integer.parseInt(nodeId)));
-			}
-			searcher.close();
+			SearchResult sr = new SearchResult(searcher, query, quick, hits,
+					nodesById);
+			return sr;
 		} catch (Exception e) {
 			logger.error("Error parsing or looking up query '{}' in index",
 					queryText, e);
 		}
-
-		return nodes;
+		return new SearchResult();
 	}
 }

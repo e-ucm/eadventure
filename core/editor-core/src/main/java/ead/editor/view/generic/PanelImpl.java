@@ -47,7 +47,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import ead.editor.control.CommandManager;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import java.util.ArrayList;
 import java.util.List;
 

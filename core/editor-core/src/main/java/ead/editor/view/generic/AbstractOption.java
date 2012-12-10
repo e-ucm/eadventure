@@ -39,7 +39,7 @@ package ead.editor.view.generic;
 
 import ead.editor.control.Command;
 import ead.editor.control.CommandManager;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.ModelEventUtils;
 import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JComponent;

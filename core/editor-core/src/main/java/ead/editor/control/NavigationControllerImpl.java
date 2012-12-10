@@ -39,7 +39,6 @@ package ead.editor.control;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.editor.control.change.ChangeNotifierImpl;
 import java.util.LinkedList;
 import java.util.ListIterator;

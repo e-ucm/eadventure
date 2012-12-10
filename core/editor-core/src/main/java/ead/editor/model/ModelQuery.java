@@ -69,7 +69,8 @@ public class ModelQuery {
 			parseQuery(queryString);
 		} catch (Exception e) {
 			logger.warn("Bad query {}", queryString, e);
-			throw new IllegalArgumentException("Illegal query string '" + queryString + "'", e);
+			throw new IllegalArgumentException("Illegal query string '"
+					+ queryString + "'", e);
 		}
 	}
 
@@ -105,62 +106,61 @@ public class ModelQuery {
 		for (int i = 0; i < q.length(); i++) {
 			char c = q.charAt(i);
 			switch (c) {
-				case '\\': {
-					if (!inEscape) {
-						inEscape = true;
-						ignored++;
-					} else {
-						sb.append(c);
-						inEscape = false;
-					}
-					break;
-				}
-				case '"': {
-					if (!inEscape) {
-						inQuote = !inQuote;
-						ignored++;
-					} else {
-						sb.append(c);
-						inEscape = false;
-					}
-					break;
-				}
-				case ' ': {
-					if (!inQuote && sb.length()>0) {
-						String f = (colonPos >= 0) ? sb.substring(0, colonPos)
-								: "";
-						String v = sb.substring(colonPos + 1);
-						queryParts.add(new QueryPart(f, v));
-						sb.delete(0, sb.length());
-						inEscape = false;
-						colonPos = -1;
-						// ignore extra spaces
-						while ((i+1 < q.length()) && (q.charAt(i+1) == ' ')) {
-							i++;
-						}
-						startPos = i + 1;
-					} else {
-						sb.append(c);
-						inEscape = false;
-					}
-					break;
-				}
-				case ':': {
-					if (!inQuote) {
-						if (colonPos != -1) {
-							throw new IllegalArgumentException(
-									"too many ':'s -- maximum is 1 per queryPart");
-						}
-						colonPos = (i - ignored - startPos);
-					}
-					sb.append(c);
-					inEscape = false;
-					break;
-				}
-				default: {
+			case '\\': {
+				if (!inEscape) {
+					inEscape = true;
+					ignored++;
+				} else {
 					sb.append(c);
 					inEscape = false;
 				}
+				break;
+			}
+			case '"': {
+				if (!inEscape) {
+					inQuote = !inQuote;
+					ignored++;
+				} else {
+					sb.append(c);
+					inEscape = false;
+				}
+				break;
+			}
+			case ' ': {
+				if (!inQuote && sb.length() > 0) {
+					String f = (colonPos >= 0) ? sb.substring(0, colonPos) : "";
+					String v = sb.substring(colonPos + 1);
+					queryParts.add(new QueryPart(f, v));
+					sb.delete(0, sb.length());
+					inEscape = false;
+					colonPos = -1;
+					// ignore extra spaces
+					while ((i + 1 < q.length()) && (q.charAt(i + 1) == ' ')) {
+						i++;
+					}
+					startPos = i + 1;
+				} else {
+					sb.append(c);
+					inEscape = false;
+				}
+				break;
+			}
+			case ':': {
+				if (!inQuote) {
+					if (colonPos != -1) {
+						throw new IllegalArgumentException(
+								"too many ':'s -- maximum is 1 per queryPart");
+					}
+					colonPos = (i - ignored - startPos);
+				}
+				sb.append(c);
+				inEscape = false;
+				break;
+			}
+			default: {
+				sb.append(c);
+				inEscape = false;
+			}
 			}
 		}
 		if (inQuote || inEscape) {

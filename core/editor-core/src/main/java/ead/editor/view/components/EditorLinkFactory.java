@@ -65,12 +65,12 @@ public class EditorLinkFactory {
 	public static EditorLink createLink(DependencyNode node,
 			Controller controller) {
 		if (node.isManaged()) {
-			logger.info("{} is managed! going upstream to {}", new Object[] {
+			logger.debug("{} is managed! going upstream to {}", new Object[] {
 					node.getId(), node.getManager().getId() });
 			return createLink(node.getManager(), controller);
 		}
 		ImageIcon icon = new ImageIcon(Resource.loadImage(node.getLinkIcon()));
-		logger.info("Creating link for id {} with icon {}", new Object[] {
+		logger.debug("Creating link for id {} with icon {}", new Object[] {
 				node.getId(), icon });
 		return new EditorLink(node.getLinkText(), "" + node.getId(), icon,
 				controller);

@@ -41,8 +41,6 @@ import ead.common.model.elements.extra.EAdList;
 import ead.editor.R;
 import ead.editor.control.Command;
 import ead.editor.control.commands.ListCommand;
-import ead.editor.model.EditorModel.ModelEvent;
-import ead.editor.model.ModelEventUtils;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
 import ead.utils.i18n.Resource;

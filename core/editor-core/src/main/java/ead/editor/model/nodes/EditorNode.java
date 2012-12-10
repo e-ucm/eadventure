@@ -170,7 +170,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 			for (String cid : contentIdStrings) {
 				instance.getContents().add(em.getNode(Integer.parseInt(cid)));
 			}
-			instance.restoreInner(element);
+			instance.restoreInner(element, em);
 		} catch (Exception e) {
 			logger.error("Could not restore editorNode for class {}",
 					className, e);
@@ -178,7 +178,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		return instance;
 	}
 
-	public void restoreInner(Element element) {
+	public void restoreInner(Element element, EditorModel em) {
 		// by default, nothing to restore
 	}
 

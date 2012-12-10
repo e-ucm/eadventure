@@ -37,7 +37,6 @@
 
 package ead.editor.model;
 
-import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +47,7 @@ import java.util.Arrays;
  *
  * @author mfreire
  */
-public class MergeableModelChange implements EditorModel.ModelEvent {
+public class MergeableModelChange implements ModelEvent {
 
 	private static final DependencyNode[] emptyArray = new DependencyNode[0];
 

@@ -65,7 +65,7 @@ import ead.editor.control.Command;
 import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
 import ead.editor.view.generic.OptionPanel;
