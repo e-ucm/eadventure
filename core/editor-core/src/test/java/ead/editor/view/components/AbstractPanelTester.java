@@ -82,7 +82,7 @@ public abstract class AbstractPanelTester extends JFrame {
 	@Mock
 	protected Controller controller;
 
-	abstract AbstractElementPanel createPanel();
+	abstract AbstractElementPanel<? extends DependencyNode> createPanel();
 
 	abstract DependencyNode getTarget();
 

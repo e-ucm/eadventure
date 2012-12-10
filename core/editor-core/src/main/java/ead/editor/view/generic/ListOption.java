@@ -37,18 +37,24 @@
 
 package ead.editor.view.generic;
 
+import ead.common.model.elements.extra.EAdList;
+import ead.editor.R;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ListCommand;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEventUtils;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.utils.i18n.Resource;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import ead.editor.view.generic.accessors.Accessor;
-import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -58,18 +64,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
 import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ead.common.model.elements.extra.EAdList;
-import ead.editor.R;
-import ead.editor.control.Command;
-import ead.editor.control.commands.ChangeFieldCommand;
-import ead.editor.control.commands.ListCommand;
-import ead.editor.model.EditorModel.ModelEvent;
-import ead.editor.model.ModelEventUtils;
-import ead.utils.i18n.Resource;
 
 public class ListOption<T> extends AbstractOption<EAdList<T>> {
 
@@ -94,7 +91,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 
 	/**
 	 * Allows easier customization of classes
-	 * @param <T> 
+	 * @param <T>
 	 */
 	public static class ColumnSpec<T> {
 		private String name;
@@ -180,7 +177,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 		private JButton downButton = createMinimalButton(R.Drawable.interface__downArrow_png);
 		private JPanel fillerPanel = new JPanel();
 		private JPanel buttonPanel = new JPanel(new BorderLayout());
-		private Object v; // whatever was last set for editing		
+		private Object v; // whatever was last set for editing
 		private int editPos;
 
 		public MoveButtonWidget() {
@@ -230,7 +227,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 		private JButton deleteButton = createMinimalButton(R.Drawable.interface__delete_png);
 		private JPanel fillerPanel = new JPanel();
 		private JPanel buttonPanel = new JPanel(new BorderLayout());
-		private Object v; // whatever was last set for editing		
+		private Object v; // whatever was last set for editing
 		private int deletePos;
 
 		public DeleteButtonWidget() {
@@ -266,8 +263,8 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	}
 
 	/**
-	 * Called to get settings for the "meat" columns. 
-	 * @return 
+	 * Called to get settings for the "meat" columns.
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public ColumnSpec<T>[] getExtraColumns() {
@@ -276,7 +273,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	}
 
 	/**
-	 * Model used to represent the list. Looks directly at oldValue; which 
+	 * Model used to represent the list. Looks directly at oldValue; which
 	 * must always be updated.
 	 */
 	private class ListTableModel extends AbstractTableModel {
@@ -293,7 +290,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 			upDown.setEditor(new MoveButtonWidget());
 			upDown.setRenderer(new MoveButtonWidget());
 			ColumnSpec<T> delete = new ColumnSpec<T>("", DeleteIt.class, true,
-					16) {
+					20) {
 				@Override
 				public void setValue(T o, Object value) {
 					// do nothing; unchangeable values
@@ -409,7 +406,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
-	 * @param o 
+	 * @param o
 	 */
 	protected void remove(T o, int index) {
 		logger.info("Removing {} (at {})", new Object[] { o, index });
@@ -419,7 +416,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 
 	/**
 	 * Allows user to choose from available elements to add one to the list
-	 * @return 
+	 * @return
 	 */
 	protected T chooseElementToAdd() {
 		logger.info("User wants to CHOOSE something to ADD! Madness!!");
@@ -429,7 +426,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	/**
 	 * Adds an object to the list. Triggered either externally or via
 	 * button-click.
-	 * @param o 
+	 * @param o
 	 */
 	protected void add(T o) {
 		logger.info("Adding {}", o);
@@ -438,7 +435,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	/**
 	 * Moves an object one position up. Triggered either externally or via
 	 * button-click.
-	 * @param o 
+	 * @param o
 	 */
 	protected void moveUp(T o, int index) {
 		logger.info("MovingUp {} (at {})", new Object[] { o, index });
@@ -454,7 +451,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
-	 * @param o 
+	 * @param o
 	 */
 	protected void moveDown(T o, int index) {
 		logger.info("MovingDown {} (at {})", new Object[] { o, index });

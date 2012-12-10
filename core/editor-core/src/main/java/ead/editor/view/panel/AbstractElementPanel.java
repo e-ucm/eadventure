@@ -40,6 +40,7 @@ package ead.editor.view.panel;
 import ead.editor.control.Controller;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEventUtils;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.generic.OptionPanel;
@@ -47,8 +48,6 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import ead.editor.model.ModelEventUtils;
 
 /**
  * An elementPanel that can display anything. Intended as the common base
@@ -67,7 +66,7 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 	protected ArrayList<OptionPanel> panels = new ArrayList<OptionPanel>();
 
 	/**
-	 * Sets the target. Internally calls rebuild() (or cleanup & rebuild) 
+	 * Sets the target. Internally calls rebuild() (or cleanup & rebuild)
 	 * as necessary.
 	 */
 	@Override
@@ -109,11 +108,11 @@ public abstract class AbstractElementPanel<T extends DependencyNode> extends
 
 	/**
 	 * Reacts to a model change. If requiresRebuild(), then a full rebuild()
-	 * is triggered. Otherwise, if requiresRefresh(), the event will be 
-	 * re-dispatched to all options. Finally, if requiresResurrection() 
+	 * is triggered. Otherwise, if requiresRefresh(), the event will be
+	 * re-dispatched to all options. Finally, if requiresResurrection()
 	 * returns true, then target has been erased from the model; it is up to
 	 * us to restore it.
-	 * @param event 
+	 * @param event
 	 */
 	@Override
 	public void modelChanged(ModelEvent event) {
