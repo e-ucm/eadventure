@@ -35,8 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.impl;
+package ead.editor.control.commands;
 
+import ead.editor.impl.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import junit.framework.TestCase;
