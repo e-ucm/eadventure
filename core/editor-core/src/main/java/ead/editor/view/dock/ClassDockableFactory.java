@@ -39,6 +39,8 @@ package ead.editor.view.dock;
 
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
+import bibliothek.gui.dock.common.event.CVetoClosingEvent;
+import bibliothek.gui.dock.common.event.CVetoClosingListener;
 import ead.editor.control.Controller;
 import ead.editor.model.nodes.DependencyNode;
 import java.awt.Component;
@@ -94,8 +96,8 @@ public class ClassDockableFactory implements
 	 * @param id
 	 * @return
 	 */
-	public DefaultMultipleCDockable createDockable(String id) {
-		ElementPanel ep = getPanelFor(id);
+	public DefaultMultipleCDockable createDockable(final String id) {
+		final ElementPanel ep = getPanelFor(id);
 		DefaultMultipleCDockable d = new DefaultMultipleCDockable(this);
 		d.setCloseable(true);
 		d.setExternalizable(false);
@@ -103,6 +105,18 @@ public class ClassDockableFactory implements
 				+ ep.getTarget().getId());
 		d.setRemoveOnClose(true);
 		d.add((Component) ep);
+		d.addVetoClosingListener(new CVetoClosingListener() {
+			@Override
+			public void closing(CVetoClosingEvent cvce) {
+				// not actually interested in vetoing anything
+			}
+
+			@Override
+			public void closed(CVetoClosingEvent cvce) {
+				logger.info("Cleaning up after ElementPanel with ID {}", id);
+				ep.cleanup();
+			}
+		});
 		return d;
 	}
 
