@@ -36,66 +36,81 @@
  */
 package ead.editor.view.generics;
 
-import java.awt.BorderLayout;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.change.ChangeListener;
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.control.commands.ChangeFileValueCommand;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
-import ead.editor.view.generic.FieldDescriptorImpl;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
-import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
-import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
 public class FileOptionTest extends AbstractOptionTest {
+
+	private File target;
 
 	public FileOptionTest() {
 		model = new ExampleClass();
 		init();
 
-		FileCache fc = new FileCache(new File("/tmp/cache"));
+		final FileCache fc = new FileCache(new File("/tmp/cache"));
+		DependencyNode node1 = new EngineNode<String>(1, "test1");
 
-		final FileOption fo = new FileOption("dest1", "tippsy tool 1",
-				"Choose...", new FieldDescriptorImpl<File>(model, "dest"), fc);
-		final FileNameOption fno = new FileNameOption("name1", "toolTip1",
-				new FieldDescriptorImpl<String>(model, "name"), false) {
+		FileOption fo = new FileOption("dest1", "tipsy tool 1", "Choose...",
+				model, "dest", fc, node1) {
+			@Override
+			public Command createUpdateCommand() {
+				return new ChangeFileCommand(getControlValue(),
+						getFieldDescriptor(), fc, changed) {
+					@Override
+					protected ModelEvent setValue(File value) {
+						ModelEvent me = super.setValue(value);
+						writeFile(target);
+						return me;
+					}
+				};
+			}
+		};
+
+		FileNameOption fno = new FileNameOption("name1", "toolTip1", model,
+				"name", false, node1) {
 			@Override
 			public File resolveFile(String value) {
 				return ExampleClass.resolveFile(value);
 			}
-		};
 
-		Panel p1 = new PanelImpl("Test", Panel.LayoutPolicy.VerticalBlocks, 4)
-				.addElement(fno).addElement(fo);
-		add(p1.getComponent(commandManager), BorderLayout.CENTER);
-
-		commandManager.addChangeListener(new ChangeListener<ChangeEvent>() {
 			@Override
-			public void processChange(ChangeEvent event) {
-				ExampleClass m = (ExampleClass) model;
-				if (event.hasChanged(fo.getFieldDescriptor())) {
-					// the source file has changed: overwrite target
-					ChangeFileValueCommand c = (ChangeFileValueCommand) event;
-					c.writeFile(ExampleClass.resolveFile(m.getName()));
-				} else if (event.hasChanged(fno.getFieldDescriptor())) {
-					// the target has changed - remove old, switch to new
-					ChangeFieldValueCommand<String> c = (ChangeFieldValueCommand<String>) event;
-					File prev = m.getName().equals(c.getNewValue()) ? ExampleClass
-							.resolveFile(c.getOldValue())
-							: ExampleClass.resolveFile(c.getNewValue());
-					File f = ExampleClass.resolveFile(m.getName());
-					prev.renameTo(f);
-				}
+			public Command createUpdateCommand() {
+				return new ChangeFieldCommand<String>(getControlValue(),
+						getFieldDescriptor(), changed) {
+					@Override
+					protected ModelEvent setValue(String value) {
+						File src = resolveFile(getFieldDescriptor().read());
+						ModelEvent me = super.setValue(value);
+						target = resolveFile(value);
+						if (!src.renameTo(target)) {
+							System.err.println("---- Could not rename " + src
+									+ " to " + target);
+						}
+						return me;
+					}
+				};
 			}
-		});
+		};
+		target = fno.resolveFile(fno.getFieldDescriptor().read());
+
+		OptionPanel p1 = new PanelImpl("Test",
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		p1.add(fno).add(fo);
+
+		controller.getModel().addModelListener(p1);
+		childPanel.add(p1.getComponent(commandManager));
 	}
 
 	public static class ExampleClass {
@@ -132,6 +147,7 @@ public class FileOptionTest extends AbstractOptionTest {
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		new FileOptionTest().setVisible(true);
+		AbstractOptionTest aot = new FileOptionTest();
+		aot.setVisible(true);
 	}
 }

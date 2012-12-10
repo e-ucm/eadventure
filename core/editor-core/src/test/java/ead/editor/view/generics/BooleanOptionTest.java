@@ -34,14 +34,12 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.editor.view.generics;
 
-import java.awt.BorderLayout;
-
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.BooleanOption;
-import ead.editor.view.generic.FieldDescriptorImpl;
-import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
 import ead.utils.Log4jConfig;
 
@@ -51,34 +49,29 @@ public class BooleanOptionTest extends AbstractOptionTest {
 		model = new ExampleClass();
 		init();
 
-		Panel p1 = new PanelImpl("Test", Panel.LayoutPolicy.VerticalBlocks, 4)
-				.addElement(
-						new BooleanOption("name1", "toolTip1",
-								new FieldDescriptorImpl<Boolean>(model, "a")))
-				.addElement(
-						new BooleanOption("name2", "toolTip2",
-								new FieldDescriptorImpl<Boolean>(model, "b")))
-				.addElement(
-						new BooleanOption("name3", "toolTip3",
-								new FieldDescriptorImpl<Boolean>(model, "c")));
-		Panel p2 = new PanelImpl("Test", Panel.LayoutPolicy.Flow, 4)
-				.addElement(
-						new BooleanOption("name1", "toolTip1",
-								new FieldDescriptorImpl<Boolean>(model, "a")))
-				.addElement(
-						new BooleanOption("name2", "toolTip2",
-								new FieldDescriptorImpl<Boolean>(model, "b")))
-				.addElement(
-						new BooleanOption("name3", "toolTip3",
-								new FieldDescriptorImpl<Boolean>(model, "c")));
-		Panel p3 = new PanelImpl("Test0",
-				Panel.LayoutPolicy.VerticalEquallySpaced, 4);
-		p3.addElement(p1);
-		p3.addElement(p2);
-		add(p3.getComponent(commandManager), BorderLayout.CENTER);
+		DependencyNode node1 = new EngineNode<String>(1, "test1");
+		DependencyNode node2 = new EngineNode<String>(2, "test2");
+
+		OptionPanel p1 = new PanelImpl("Test",
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		p1.add(new BooleanOption("name1", "toolTip1", model, "a", node1));
+		p1.add(new BooleanOption("name2", "toolTip2", model, "b", node1));
+		p1.add(new BooleanOption("name3", "toolTip3", model, "c", node1));
+		OptionPanel p2 = new PanelImpl("Test",
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		p2.add(new BooleanOption("name1", "toolTip1", model, "a", node1));
+		p2.add(new BooleanOption("name2", "toolTip2", model, "b", node1));
+		p2.add(new BooleanOption("name3", "toolTip3", model, "c", node1));
+		OptionPanel p3 = new PanelImpl("Test0",
+				OptionPanel.LayoutPolicy.VerticalEquallySpaced, 4);
+		p3.add(p1);
+		p3.add(p2);
+		controller.getModel().addModelListener(p3);
+		childPanel.add(p3.getComponent(commandManager));
 	}
 
 	public static class ExampleClass {
+
 		public boolean a, b, c;
 
 		public boolean isA() {
@@ -107,13 +100,14 @@ public class BooleanOptionTest extends AbstractOptionTest {
 
 		@Override
 		public String toString() {
-			return "a: " + a + "\n" + "b: " + b + "\n" + "c: " + c;
+			return "a: " + a + "; " + "b: " + b + "; " + "c: " + c;
 		}
 	}
 
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		new BooleanOptionTest().setVisible(true);
+		AbstractOptionTest aot = new BooleanOptionTest();
+		aot.setVisible(true);
 	}
 }

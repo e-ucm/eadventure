@@ -47,6 +47,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import ead.editor.control.CommandManager;
+import ead.editor.model.EditorModel.ModelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,9 +58,9 @@ import javax.swing.Scrollable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PanelImpl implements Panel {
+public class PanelImpl implements OptionPanel {
 
-	private static final Logger log = LoggerFactory.getLogger("PanelOption");
+	private static final Logger logger = LoggerFactory.getLogger("PanelOption");
 
 	private List<InterfaceElement> elements;
 
@@ -111,7 +112,7 @@ public class PanelImpl implements Panel {
 	}
 
 	@Override
-	public PanelImpl addElement(InterfaceElement element) {
+	public PanelImpl add(InterfaceElement element) {
 		elements.add(element);
 		return this;
 	}
@@ -139,9 +140,9 @@ public class PanelImpl implements Panel {
 	}
 
 	@Override
-	public void cleanup(CommandManager manager) {
+	public void modelChanged(ModelEvent event) {
 		for (InterfaceElement ie : elements) {
-			ie.cleanup(manager);
+			ie.modelChanged(event);
 		}
 	}
 

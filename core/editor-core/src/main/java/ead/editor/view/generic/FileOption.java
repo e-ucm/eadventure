@@ -36,6 +36,12 @@
  */
 package ead.editor.view.generic;
 
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFileCommand;
+import ead.editor.control.commands.FileCache;
+import ead.editor.model.nodes.DependencyNode;
+import ead.utils.i18n.I18N;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -50,11 +56,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import ead.editor.control.Command;
-import ead.editor.control.commands.ChangeFileValueCommand;
-import ead.editor.control.commands.FileCache;
-import ead.utils.i18n.I18N;
-
 public class FileOption extends AbstractOption<File> {
 
 	private JTextField textField;
@@ -63,8 +64,17 @@ public class FileOption extends AbstractOption<File> {
 	private String buttonText;
 
 	public FileOption(String title, String toolTipText, String buttonText,
-			FieldDescriptor<File> fieldDescriptor, FileCache fileCache) {
-		super(title, toolTipText, fieldDescriptor);
+			Accessor<File> fieldDescriptor, FileCache fileCache,
+			DependencyNode... changed) {
+		super(title, toolTipText, fieldDescriptor, changed);
+		this.fileCache = fileCache;
+		this.buttonText = buttonText;
+	}
+
+	public FileOption(String title, String toolTipText, String buttonText,
+			Object object, String fieldName, FileCache fileCache,
+			DependencyNode... changed) {
+		super(title, toolTipText, object, fieldName, changed);
 		this.fileCache = fileCache;
 		this.buttonText = buttonText;
 	}
@@ -123,7 +133,7 @@ public class FileOption extends AbstractOption<File> {
 	 * not generate updates, and will therefore not affect either model or other
 	 * views.
 	 * @param value
-	 * @return whether it is valid or not; default is "always-true" 
+	 * @return whether it is valid or not; default is "always-true"
 	 */
 	@Override
 	protected boolean isValid(File value) {
@@ -132,10 +142,20 @@ public class FileOption extends AbstractOption<File> {
 
 	@Override
 	protected Command createUpdateCommand() {
-		return new ChangeFileValueCommand(oldValue, getControlValue(),
-				getFieldDescriptor(), fileCache);
+		return new ChangeFileCommand(getControlValue(), getFieldDescriptor(),
+				fileCache, changed);
 	}
 
+	/**
+	 * A simple file-chooser - launched when the button is pressed.
+	 * @param p
+	 * @param message
+	 * @param toOpen
+	 * @param fileType
+	 * @param errorTitle
+	 * @param errorTemplate
+	 * @return 
+	 */
 	public static File chooseFile(Component p, String message, boolean toOpen,
 			int fileType, String errorTitle, String errorTemplate) {
 		JFileChooser jfc = new JFileChooser();

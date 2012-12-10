@@ -37,16 +37,18 @@
 
 package ead.editor.view.generic;
 
-import javax.swing.BorderFactory;
+import java.awt.Dimension;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
-
-import ead.editor.control.Command;
-import ead.editor.control.commands.ChangeFieldValueCommand;
 
 public class TextOption extends AbstractOption<String> {
 
@@ -58,16 +60,23 @@ public class TextOption extends AbstractOption<String> {
 
 	protected JTextComponent textField;
 
-	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor,
-			ExpectedLength expectedLength) {
-		super(title, toolTipText, fieldDescriptor);
+	public TextOption(String title, String toolTipText, Object object,
+			String fieldName, ExpectedLength expectedLength, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, node);
 		this.expectedLength = expectedLength;
 	}
 
 	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor) {
-		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
+			Accessor<String> fieldDescriptor, ExpectedLength expectedLength,
+			DependencyNode... changed) {
+		super(title, toolTipText, fieldDescriptor, changed);
+		this.expectedLength = expectedLength;
+	}
+
+	public TextOption(String title, String toolTipText,
+			Accessor<String> fieldDescriptor, DependencyNode... changed) {
+		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL,
+				changed);
 	}
 
 	@Override
@@ -99,7 +108,8 @@ public class TextOption extends AbstractOption<String> {
 			break;
 		case LONG:
 			textField = new JTextArea(getTitle(), 3, 20);
-			textField.setBorder(BorderFactory.createEtchedBorder());
+			((JTextArea) textField).setLineWrap(true);
+			((JTextArea) textField).setWrapStyleWord(true);
 			break;
 		default:
 			throw new IllegalArgumentException("Not a valid length: "
@@ -123,14 +133,20 @@ public class TextOption extends AbstractOption<String> {
 				update();
 			}
 		});
-		return textField;
+		if (expectedLength.equals(ExpectedLength.LONG)) {
+			JScrollPane jsp = new JScrollPane(textField);
+			jsp.setMinimumSize(new Dimension(0, 40));
+			return jsp;
+		} else {
+			return textField;
+		}
 	}
 
 	@Override
 	protected Command createUpdateCommand() {
-		// Users expect to undo/redo entire words, rather than character-by-character		
-		return new ChangeFieldValueCommand<String>(oldValue, getControlValue(),
-				getFieldDescriptor()) {
+		// Users expect to undo/redo entire words, rather than character-by-character
+		return new ChangeFieldCommand<String>(getControlValue(),
+				getFieldDescriptor(), changed) {
 			@Override
 			public boolean likesToCombine(String nextValue) {
 				return nextValue.startsWith(newValue)

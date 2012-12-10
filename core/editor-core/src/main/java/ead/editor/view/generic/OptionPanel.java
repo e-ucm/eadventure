@@ -37,22 +37,51 @@
 
 package ead.editor.view.generic;
 
-import ead.common.model.elements.extra.EAdList;
+import java.util.List;
 
 /**
- * A general interface to edit element properties
- * @param <S>
+ * A panel interface element.
+ * <p>
+ * This element type allows for the display of several elements grouped in the
+ * interface
  */
-public interface EAdListFieldDescriptor<S> extends FieldDescriptor<EAdList<S>> {
+public interface OptionPanel extends InterfaceElement {
 
-	int getCount();
+	/**
+	 * Available layout policies for the panel
+	 */
+	static enum LayoutPolicy {
+		/**
+		 * A policy where each element is placed following the next, minimizing the size of the panel
+		 */
+		Flow,
+		/**
+		 * A policy where elements are placed next to each other, even if of different sizes
+		 */
+		HorizontalBlocks,
+		/**
+		 * A policy where elements are placed on top of each other, even if of different sizes
+		 */
+		VerticalBlocks,
+		/**
+		 * A policy where elements are stacked on top of each other, each with the same height
+		 */
+		VerticalEquallySpaced
+	}
 
-	S getElementAt(int pos);
+	/**
+	 * @return The list of interface elements in the panel
+	 */
+	List<InterfaceElement> getElements();
 
-	Panel getPanel(int pos, boolean selected);
+	/**
+	 * @param element The element to be added to the panel
+	 */
+	OptionPanel add(InterfaceElement element);
 
-	EAdList<S> getList();
-
-	//TODO add, remove, etc.?
+	/**
+	 * @return the layout policy for this panel
+	 */
+	LayoutPolicy getLayoutPolicy();
 
 }

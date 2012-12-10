@@ -35,83 +35,82 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.model;
+
+import ead.editor.model.nodes.DependencyNode;
+import java.util.Arrays;
+
+import ead.editor.model.EditorModel.ModelEvent;
 
 /**
- * Generic implementation of {@link FieldDescriptor}
+ * An implementation of ModelEvent, heavy on the "ease of use" philosophy.
  *
- * @param <S>
+ * @author mfreire
  */
-public abstract class ConvertingFieldDescriptor<A, B> implements
-		FieldDescriptor<A> {
+public class DefaultModelEvent implements ModelEvent {
 
-	private FieldDescriptor<B> inner;
+	private static final DependencyNode[] emptyArray = new DependencyNode[0];
 
-	/**
-	 * @param element
-	 *            The element where the value is stored
-	 * @param fieldName
-	 *            The name of the field
-	 */
-	public ConvertingFieldDescriptor(FieldDescriptor<B> inner) {
-		this.inner = inner;
+	private String name;
+	private Object cause;
+	private DependencyNode[] added;
+	private DependencyNode[] changed;
+	private DependencyNode[] removed;
+
+	public DefaultModelEvent(String name, Object cause, DependencyNode[] added,
+			DependencyNode[] removed, DependencyNode... changed) {
+		this.name = name;
+		this.cause = cause;
+		this.added = (added == null ? emptyArray : sorted(added));
+		this.removed = (removed == null ? emptyArray : sorted(removed));
+		this.changed = (changed == null ? emptyArray : sorted(changed));
 	}
 
-	public abstract A innerToOuter(B b);
-
-	public abstract B outerToInner(A a);
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.editor.view.generics.FieldDescriptor#getElement()
-	 */
-	@Override
-	public Object getElement() {
-		return inner.getElement();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.generics.FieldDescriptor#getFieldName()
-	 */
-	@Override
-	public String getFieldName() {
-		return inner.getFieldName();
+	private DependencyNode[] sorted(DependencyNode[] nodes) {
+		if (nodes.length > 0) {
+			Arrays.sort(nodes);
+		}
+		return nodes;
 	}
 
 	@Override
-	public int hashCode() {
-		return inner.hashCode();
+	public String getName() {
+		return name;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		return inner.equals(obj);
+	public DependencyNode[] getAdded() {
+		return added;
 	}
 
-	/**
-	 * Writes the field
-	 */
 	@Override
-	public void write(A data) {
-		inner.write(outerToInner(data));
+	public DependencyNode[] getRemoved() {
+		return removed;
+	}
+
+	@Override
+	public DependencyNode[] getChanged() {
+		return changed;
+	}
+
+	@Override
+	public Object getCause() {
+		return cause;
 	}
 
 	/**
-	 * Reads the field
+	 * Allows reuse of the same ModelChange for the original and the undo. 
+	 * Simply swaps 'added' and 'removed'
 	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public A read() {
-		return innerToOuter(inner.read());
+	public void flip() {
+		DependencyNode[] aux;
+		aux = added;
+		added = removed;
+		removed = aux;
 	}
 
 	@Override
 	public String toString() {
-		return inner.toString();
+		return "ModelChange{" + ModelEventUtils.dump(this) + '}';
 	}
 }

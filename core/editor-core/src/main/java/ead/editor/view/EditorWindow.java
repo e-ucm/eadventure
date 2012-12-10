@@ -80,16 +80,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.*;
 
+import javax.swing.Action;
+import javax.swing.JSplitPane;
 import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
 import ead.editor.view.menu.RunMenu;
 import ead.editor.view.menu.WindowMenu;
-import ead.editor.view.panel.AssetsPanel;
-import ead.editor.view.panel.ImageAssetPanel;
+import ead.editor.view.panel.asset.AssetsPanel;
+import ead.editor.view.panel.asset.ImageAssetPanel;
 
 /**
  * Default implementation of the main editor window

@@ -59,7 +59,7 @@ import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.QueryNode;
 import java.lang.reflect.Constructor;
-import java.util.logging.Level;
+import java.util.NoSuchElementException;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
@@ -144,6 +144,11 @@ public class EditorModelImpl implements EditorModel {
 	private ArrayList<ModelProgressListener> progressListeners = new ArrayList<ModelProgressListener>();
 
 	/**
+	 * Listeners for model changes
+	 */
+	private ArrayList<ModelListener> modelListeners = new ArrayList<ModelListener>();
+
+	/**
 	 * Constructor. Does not do much beyond initializing fields.
 	 *
 	 * @param reader
@@ -214,8 +219,8 @@ public class EditorModelImpl implements EditorModel {
 	/**
 	 * Returns the editor-id of the object
 	 * @param o
-	 * @return  editorId if it is an eAdElement and has a
-	 * valid editorId, or badElementId otherwise.
+	 * @return  editorId if the object has a valid editorId (Identified or 
+	 * the StringHandler) - or badElementId otherwise.
 	 */
 	@Override
 	public int getEditorId(Object o) {
@@ -232,7 +237,7 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	/**
-	 * Returns the editorNode for an object that is wrapped in an editorNode.
+	 * Returns the DependencyNode for an object that is wrapped in an editorNode.
 	 * This works in two ways. First, if it has an editor-id tag, it is used.
 	 * Otherwise, it must have been an unmarked object (list, map, resource, ...);
 	 * and it the unpersisted-to-editorNode map is used instead.
@@ -504,7 +509,25 @@ public class EditorModelImpl implements EditorModel {
 		}
 	}
 
-	public boolean initialized() {
-		return engineModel != null;
+	// ----- progress -----
+
+	@Override
+	public void addModelListener(ModelListener modelListener) {
+		modelListeners.add(modelListener);
+	}
+
+	@Override
+	public void removeModelListener(ModelListener modelListener) {
+		modelListeners.remove(modelListener);
+	}
+
+	@Override
+	public void fireModelEvent(ModelEvent event) {
+		logger.info("{} listeners for model-event: {}", new Object[] {
+				modelListeners.size(), event });
+		for (ModelListener l : modelListeners) {
+			logger.info("--> now delivering to {}", l);
+			l.modelChanged(event);
+		}
 	}
 }

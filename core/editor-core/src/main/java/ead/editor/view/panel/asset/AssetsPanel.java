@@ -34,8 +34,7 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package ead.editor.view.panel;
+package ead.editor.view.panel.asset;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -56,6 +55,7 @@ import ead.editor.model.nodes.asset.AssetNode;
 import ead.editor.view.components.EditorLinkFactory;
 import ead.editor.view.components.NodeBrowserPanel;
 import ead.editor.view.components.ThumbnailPanel;
+import ead.editor.view.panel.AbstractElementPanel;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import java.awt.Dimension;
@@ -66,6 +66,8 @@ import java.util.HashMap;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
+import ead.editor.model.EditorModel.ModelEvent;
+
 /**
  * A panel that displays all assets, by type. A preview is available
  * on the left-hand side.
@@ -75,16 +77,15 @@ import javax.swing.JTabbedPane;
 public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 
 	private static final Logger logger = LoggerFactory.getLogger("AssetsPanel");
-
 	private AssetsNode assetsNode;
-
 	private JSplitPane split;
 	private JTabbedPane tabs;
 	private AssetPreviewer previewer;
-	private HashMap<String, ThumbnailPanel> panels = new HashMap<String, ThumbnailPanel>();
+	private HashMap<String, ThumbnailPanel> thumbPanels;
 	private AssetViewer rootAssetViewer;
 
 	public AssetsPanel() {
+		thumbPanels = new HashMap<String, ThumbnailPanel>();
 		tabs = new JTabbedPane();
 		previewer = new AssetPreviewer();
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabs, previewer);
@@ -94,7 +95,11 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		add(split, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Internal class that previews individual assets
+	 */
 	private class AssetPreviewer extends JPanel {
+
 		private JButton prev = new JButton("<");
 		private JPanel current = new JPanel();
 		private JButton next = new JButton(">");
@@ -197,7 +202,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		for (AssetNode n : assetsNode.getNodes(controller.getModel())) {
 
 			String cn = n.getFirst().getContent().getClass().getName();
-			ThumbnailPanel tp = panels.get(cn);
+			ThumbnailPanel tp = thumbPanels.get(cn);
 			ArrayList<EditorNode> al = nodesByCategory.get(cn);
 			if (tp == null) {
 				tp = new ThumbnailPanel();
@@ -213,7 +218,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 							}
 						});
 				tabs.add(cn.substring(cn.lastIndexOf('.') + 1), tp);
-				panels.put(cn, tp);
+				thumbPanels.put(cn, tp);
 
 				al = new ArrayList<EditorNode>();
 				nodesByCategory.put(cn, al);
@@ -221,12 +226,39 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			}
 			al.add((EditorNode) n);
 		}
-		for (String s : panels.keySet()) {
+		for (String s : thumbPanels.keySet()) {
 			logger.info("Setting {} nodes for category {}", new Object[] {
 					nodesByCategory.get(s).size(), s });
-			panels.get(s).setNodes(nodesByCategory.get(s));
+			thumbPanels.get(s).setNodes(nodesByCategory.get(s));
 		}
 		tabs.revalidate();
 		previewer.revalidate();
+	}
+
+	/**
+	 * Determines if a modelChange affects this panel. Any change that 
+	 * adds or removes assets, or changes them, is interpreted to affect us.
+	 * 
+	 * FIXME: this could be a lot more efficient, by making the ThumbnailPanels
+	 * (and their subpanels) responsive to changes.
+	 * 
+	 * @param event 
+	 */
+	@Override
+	public void modelChanged(ModelEvent event) {
+		boolean mustRebuild = false;
+		for (DependencyNode[] array : new DependencyNode[][] {
+				event.getAdded(), event.getRemoved(), event.getChanged() }) {
+			if (!mustRebuild) {
+				for (DependencyNode n : array) {
+					if (n instanceof AssetNode) {
+						mustRebuild = true;
+					}
+				}
+			}
+		}
+		if (mustRebuild) {
+			rebuild();
+		}
 	}
 }

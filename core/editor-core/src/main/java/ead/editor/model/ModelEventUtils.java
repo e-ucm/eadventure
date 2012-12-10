@@ -35,37 +35,72 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.model;
+
+import ead.editor.model.nodes.DependencyNode;
+import java.util.Arrays;
+
+import ead.editor.model.EditorModel.ModelEvent;
 
 /**
- * Descriptor for the field of an element.
- * <p>
- * The field is identified by a name (used to infer the value though
- * introspection). The descriptor has a method to get the element for which the
- * field is defined.
+ * ModelEvent processing utilities.
  *
- * @param <S>
- *            The type of the field (e.g. String, Boolean, etc)
+ * @author mfreire
  */
-public interface FieldDescriptor<S> {
+public class ModelEventUtils {
+
+	public static void appendIds(StringBuilder sb, DependencyNode[] nodes) {
+		sb.append('[');
+		for (DependencyNode dn : nodes) {
+			sb.append(dn.getId()).append(' ');
+		}
+		sb.append(']');
+	}
 
 	/**
-	 * @return the element for which the field is defined
+	 * Utility method to show an event in full glory
 	 */
-	Object getElement();
+	public static String dump(ModelEvent me) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(me.getName()).append(" (cause=").append(me.getCause())
+				.append(")");
+		sb.append(" change=");
+		appendIds(sb, me.getChanged());
+		sb.append(" add=");
+		appendIds(sb, me.getAdded());
+		sb.append(" remove=");
+		appendIds(sb, me.getAdded());
+		return sb.toString();
+	}
 
 	/**
-	 * @return the name of the field in the element (should be of type S)
+	 * Utility method to check whether a value is in an array. Note: uses
+	 * binary search to greatly speed this up if there are many values. 
+	 * Added, changed and removed must always be sorted.
+	 * @param nodes
+	 * @param value
+	 * @return 
 	 */
-	String getFieldName();
+	public static boolean contains(DependencyNode[] nodes,
+			DependencyNode... values) {
+		if (values == null) {
+			return false;
+		}
+		for (DependencyNode node : values) {
+			if (Arrays.binarySearch(nodes, node) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
-	 * Writes the field
+	 * Utility method to check whether a value is changed in an event.
+	 * @param e the ModelEvent to scourge
+	 * @param value
+	 * @return 
 	 */
-	void write(S data);
-
-	/**
-	 * Reads the field
-	 */
-	S read();
+	public static boolean changes(ModelEvent e, DependencyNode... values) {
+		return contains(e.getChanged(), values);
+	}
 }

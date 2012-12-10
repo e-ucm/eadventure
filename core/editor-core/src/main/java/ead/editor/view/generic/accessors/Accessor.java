@@ -35,24 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
-
-import ead.editor.view.generic.FieldDescriptor;
+package ead.editor.view.generic.accessors;
 
 /**
- * Reader for the value of a field in an element.
+ * Descriptor for the field of an element.
  * <p>
- * This class should be extended and implemented for different platforms, and
- * injected through guice.
+ * The field is identified by a name (used to infer the value though
+ * introspection). The descriptor has a method to get the element for which the
+ * field is defined.
+ *
+ * @param <S>
+ *            The type of the field (e.g. String, Boolean, etc)
  */
-public interface FieldValueReader {
-
-	// TODO use generics?
+public interface Accessor<S> {
 	/**
-	 * @param fieldDescriptor
-	 *            The descriptor of the field
-	 * @return The value of the field for the element described by it
+	 * Writes the field
 	 */
-	<S> S readValue(FieldDescriptor<S> fieldDescriptor);
+	void write(S data);
 
+	/**
+	 * Reads the field
+	 */
+	S read();
 }

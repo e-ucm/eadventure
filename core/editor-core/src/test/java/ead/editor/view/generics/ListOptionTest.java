@@ -36,16 +36,22 @@
  */
 package ead.editor.view.generics;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JComponent;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.extra.EAdListImpl;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
+import ead.editor.view.generic.ListOption;
 import ead.editor.view.generic.TextOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
 import ead.utils.Log4jConfig;
 
-public class TextOptionTest extends AbstractOptionTest {
+public class ListOptionTest extends AbstractOptionTest {
 
-	public TextOptionTest() {
+	public ListOptionTest() {
 		model = new ExampleClass();
 		init();
 
@@ -57,21 +63,32 @@ public class TextOptionTest extends AbstractOptionTest {
 				TextOption.ExpectedLength.SHORT, node1));
 		p1.add(new TextOption("name2", "toolTip2", model, "name",
 				TextOption.ExpectedLength.SHORT, node1));
-		p1.add(new TextOption("name3", "toolTip3", model, "name",
-				TextOption.ExpectedLength.SHORT, node1));
-		p1.add(new TextOption("desc1", "toolTipDesc1", model, "description",
-				TextOption.ExpectedLength.LONG, node1));
-		p1.add(new TextOption("desc2", "toolTipDesc2", model, "description",
-				TextOption.ExpectedLength.LONG, node1));
+		p1
+				.add(new ListOption<String>("list1", "toolTip3", model, "list",
+						node1));
+		p1
+				.add(new ListOption<String>("list2", "toolTip4", model, "list",
+						node1));
 
 		controller.getModel().addModelListener(p1);
-		childPanel.add(p1.getComponent(commandManager));
+		JComponent internal = p1.getComponent(commandManager);
+		System.err.println("Internal size demanded: "
+				+ internal.getPreferredSize());
+		childPanel.add(internal, BorderLayout.CENTER);
+		System.err.println("Total size demanded: "
+				+ childPanel.getPreferredSize());
 	}
 
 	public static class ExampleClass {
 
 		public String name = "initial name";
-		public String description = "initial description";
+		public EAdList<String> list = new EAdListImpl<String>(String.class);
+
+		public ExampleClass() {
+			list.add("hola");
+			list.add("buenos");
+			list.add("días");
+		}
 
 		public String getName() {
 			return name;
@@ -81,24 +98,24 @@ public class TextOptionTest extends AbstractOptionTest {
 			this.name = name;
 		}
 
-		public String getDescription() {
-			return description;
+		public EAdList<String> getList() {
+			return list;
 		}
 
-		public void setDescription(String description) {
-			this.description = description;
+		public void setList(EAdList<String> list) {
+			this.list = list;
 		}
 
 		@Override
 		public String toString() {
-			return "name: " + name + "\n" + "description: " + description;
+			return "name: " + name + "\n" + "list: " + list;
 		}
 	}
 
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		AbstractOptionTest aot = new TextOptionTest();
+		AbstractOptionTest aot = new ListOptionTest();
 		aot.setVisible(true);
 	}
 }

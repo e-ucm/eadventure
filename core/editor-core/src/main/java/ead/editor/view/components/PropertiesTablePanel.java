@@ -49,7 +49,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

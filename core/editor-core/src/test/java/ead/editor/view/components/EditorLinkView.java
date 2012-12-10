@@ -38,7 +38,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.asset;
+package ead.editor.view.components;
 
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.Caption;

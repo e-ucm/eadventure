@@ -35,59 +35,76 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ead.editor.view.asset;
-
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
+package ead.editor.view.generic.accessors;
 
 /**
- * Utility class that performs asset-related functions.
- *
- * @author mfreire
+ * An accessor that wraps an inner accessor, converting from outer to inner
+ * on-the-fly. This is useful in cases where a one-to-one mapping exist; for 
+ * example, from integers to strings or filenames to files.
  */
-public class AssetHelper {
+public abstract class ConvertingAccessor<A, B> implements Accessor<A> {
 
-	private File resourcePath;
+	private Accessor<B> inner;
+	private Class<A> outer;
 
-	public static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
-
-	public AssetHelper(File resourcePath) {
-		this.resourcePath = resourcePath;
+	/**
+	 * @param element
+	 *            The element where the value is stored
+	 * @param fieldName
+	 *            The name of the field
+	 */
+	public ConvertingAccessor(Class<A> outer, Accessor<B> inner) {
+		this.inner = inner;
+		this.outer = outer;
 	}
 
-	public File getFile(AssetDescriptor d) {
-		String s = d.toString();
-		if (s.contains("@")) {
-			File f = new File(resourcePath.getAbsolutePath(), s.substring(s
-					.indexOf('@') + 1));
-			return f.exists() ? f : null;
+	public abstract A innerToOuter(B b);
+
+	public abstract B outerToInner(A a);
+
+	/**
+	 * Writes the field
+	 */
+	@Override
+	public void write(A data) {
+		inner.write(outerToInner(data));
+	}
+
+	/**
+	 * Reads the field
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public A read() {
+		return innerToOuter(inner.read());
+	}
+
+	@Override
+	public String toString() {
+		return "ConvFD [" + inner.toString() + "=>" + outer.getSimpleName();
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 71 * hash + (this.inner != null ? this.inner.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
 		}
-		return null;
-	}
-
-	public InputStream getEngineResource(AssetDescriptor d) throws IOException {
-		ClassLoader cl = AssetHelper.class.getClassLoader();
-		if (d instanceof EAdBasicDrawable) {
-			EAdBasicDrawable drawable = (EAdBasicDrawable) d;
+		if (getClass() != obj.getClass()) {
+			return false;
 		}
-		return null;
-	}
-
-	public boolean isEngineResource(AssetDescriptor d) {
-		return false;
-	}
-
-	public Image getThumbnail(AssetDescriptor d, File resourcePath) {
-		return null;
+		@SuppressWarnings("unchecked")
+		final ConvertingAccessor<A, B> other = (ConvertingAccessor<A, B>) obj;
+		if (this.inner != other.inner
+				&& (this.inner == null || !this.inner.equals(other.inner))) {
+			return false;
+		}
+		return true;
 	}
 }

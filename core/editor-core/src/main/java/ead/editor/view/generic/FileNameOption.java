@@ -37,7 +37,10 @@
 
 package ead.editor.view.generic;
 
+import ead.editor.view.generic.accessors.Accessor;
 import java.io.File;
+
+import ead.editor.model.nodes.DependencyNode;
 
 public class FileNameOption extends TextOption {
 
@@ -53,8 +56,16 @@ public class FileNameOption extends TextOption {
 	}
 
 	public FileNameOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor, boolean fileMustExist) {
-		super(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
+			Accessor<String> fieldDescriptor, boolean fileMustExist,
+			DependencyNode node) {
+		super(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL, node);
+		this.fileMustExist = fileMustExist;
+	}
+
+	public FileNameOption(String title, String toolTipText, Object object,
+			String fieldName, boolean fileMustExist, DependencyNode node) {
+		super(title, toolTipText, object, fieldName, ExpectedLength.NORMAL,
+				node);
 		this.fileMustExist = fileMustExist;
 	}
 

@@ -34,71 +34,81 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ead.editor.view.generics;
+package ead.editor.view.components;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
-import ead.editor.view.generic.TextOption;
-import ead.editor.view.generic.OptionPanel;
-import ead.editor.view.generic.PanelImpl;
+import ead.editor.model.nodes.asset.ImageAssetNode;
+import ead.editor.view.panel.AbstractElementPanel;
+import ead.editor.view.panel.asset.ImageAssetPanel;
+import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
-public class TextOptionTest extends AbstractOptionTest {
+public class ImageAssetPanelTester extends AbstractPanelTester {
 
-	public TextOptionTest() {
-		model = new ExampleClass();
-		init();
+	private static final Logger logger = LoggerFactory
+			.getLogger("ImageAssetPanelTester");
 
-		DependencyNode node1 = new EngineNode<String>(1, "test1");
+	private static File tmpDir;
 
-		OptionPanel p1 = new PanelImpl("Test",
-				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
-		p1.add(new TextOption("name1", "toolTip1", model, "name",
-				TextOption.ExpectedLength.SHORT, node1));
-		p1.add(new TextOption("name2", "toolTip2", model, "name",
-				TextOption.ExpectedLength.SHORT, node1));
-		p1.add(new TextOption("name3", "toolTip3", model, "name",
-				TextOption.ExpectedLength.SHORT, node1));
-		p1.add(new TextOption("desc1", "toolTipDesc1", model, "description",
-				TextOption.ExpectedLength.LONG, node1));
-		p1.add(new TextOption("desc2", "toolTipDesc2", model, "description",
-				TextOption.ExpectedLength.LONG, node1));
+	private static ImageAssetNode target;
 
-		controller.getModel().addModelListener(p1);
-		childPanel.add(p1.getComponent(commandManager));
-	}
-
-	public static class ExampleClass {
-
-		public String name = "initial name";
-		public String description = "initial description";
-
-		public String getName() {
-			return name;
+	private File getDir() {
+		if (tmpDir == null) {
+			try {
+				tmpDir = FileUtils.createTempDir("ead", "asset-test");
+				File src = new File(
+						"../../demos/firstaidgame/src/main/resources/drawable");
+				FileUtils.copy(src, new File(tmpDir, "drawable"));
+			} catch (IOException ioe) {
+				logger.error("Could not create or initialize tmpDir {}",
+						tmpDir, ioe);
+			}
 		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		@Override
-		public String toString() {
-			return "name: " + name + "\n" + "description: " + description;
-		}
+		return tmpDir;
 	}
 
 	public static void main(String[] args) {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
 				new Object[] {});
-		AbstractOptionTest aot = new TextOptionTest();
-		aot.setVisible(true);
+		AbstractPanelTester apt = new ImageAssetPanelTester();
+		apt.init();
+		apt.setVisible(true);
+	}
+
+	@Override
+	AbstractElementPanel createPanel() {
+		return new ImageAssetPanel() {
+
+			@Override
+			public void cleanup() {
+				super.cleanup();
+				try {
+					FileUtils.deleteRecursive(tmpDir);
+				} catch (IOException ex) {
+					System.err.println("Exception cleaning up");
+				}
+			}
+
+		};
+	}
+
+	@Override
+	DependencyNode getTarget() {
+		if (target == null) {
+			target = new ImageAssetNode(2);
+			target.addChild(new EngineNode<Image>(1, new Image(
+					"@drawable/assets_animation_telefono.png")));
+			target.setBase(new File(getDir(),
+					GdxAssetHandler.PROJECT_INTERNAL_PATH));
+		}
+		return target;
 	}
 }

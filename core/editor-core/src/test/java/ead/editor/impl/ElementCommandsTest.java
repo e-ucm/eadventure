@@ -46,12 +46,25 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.editor.control.commands.AddElementCommand;
-import ead.editor.control.commands.MoveElementCommand;
-import ead.editor.control.commands.RemoveElementCommand;
+import ead.editor.EditorGuiceModule;
+import ead.editor.control.Controller;
+import ead.editor.control.commands.ListCommand;
+import ead.editor.model.EditorModel;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EngineNode;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import ead.importer.BaseImporterModule;
+import ead.reader.adventure.ObjectFactory;
+import ead.tools.java.JavaToolsModule;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Class for testing the right functionality of generic Commands to modify the lists of EAdElement instances in the game model.
@@ -83,38 +96,72 @@ public class ElementCommandsTest extends TestCase {
 	 */
 	@Mock
 	private EAdElement element;
+
+	@Mock
+	private Controller controller;
+
+	private EditorModel editorModel;
+
+	/**
+	 * Must be called after mocks initialized
+	 */
+	public void prepareControllerAndModel() {
+		Injector injector = Guice.createInjector(new BaseImporterModule(),
+				new GdxDesktopModule(), new EditorGuiceModule(),
+				new JavaToolsModule());
+
+		// init reflection
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
+
+		editorModel = injector.getInstance(EditorModel.class);
+
+		when(controller.getModel()).thenReturn(editorModel);
+	}
+
 	/**
 	 * The Command to add elements to a list
 	 */
-	private AddElementCommand<EAdElement> addComm, mockAdd;
+	private ListCommand.AddToList<EAdElement> addComm, mockAdd;
 	/**
 	 * The Command to remove elements from a list
 	 */
-	private RemoveElementCommand<EAdElement> removeComm, mockRemove;
+	private ListCommand.RemoveFromList<EAdElement> removeComm, mockRemove;
 	/**
 	 * The Command to move elements in a list
 	 */
-	private MoveElementCommand<EAdElement> moveComm, mockMove;
+	private ListCommand.ReorderInList<EAdElement> moveComm, mockMove;
 
 	/**
 	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
 	 */
 	@Before
+	@Override
 	public void setUp() {
+
+		DependencyNode node1 = new EngineNode<String>(1, "test1");
 
 		MockitoAnnotations.initMocks(this);
 
 		elemList = new EAdListImpl<EAdElement>(EAdElement.class);
 		elemList.add(pelement);
 
-		addComm = new AddElementCommand<EAdElement>(elemList, element);
-		removeComm = new RemoveElementCommand<EAdElement>(elemList, element);
-		moveComm = new MoveElementCommand<EAdElement>(elemList, element, 0);
+		addComm = new ListCommand.AddToList<EAdElement>(elemList, element,
+				node1);
+		removeComm = new ListCommand.RemoveFromList<EAdElement>(elemList,
+				element, node1);
+		moveComm = new ListCommand.ReorderInList<EAdElement>(elemList, element,
+				0, node1);
 
-		mockAdd = new AddElementCommand<EAdElement>(mockList, mockElement);
-		mockRemove = new RemoveElementCommand<EAdElement>(mockList, mockElement);
-		mockMove = new MoveElementCommand<EAdElement>(mockList, mockElement, 0);
+		mockAdd = new ListCommand.AddToList<EAdElement>(mockList, mockElement,
+				node1);
+		mockRemove = new ListCommand.RemoveFromList<EAdElement>(mockList,
+				mockElement, node1);
+		mockMove = new ListCommand.ReorderInList<EAdElement>(mockList,
+				mockElement, 0, node1);
 
+		prepareControllerAndModel();
 	}
 
 	/**
@@ -125,23 +172,19 @@ public class ElementCommandsTest extends TestCase {
 
 		assertEquals(0, elemList.indexOf(pelement));
 		assertEquals(false, elemList.contains(element));
-		addComm.performCommand();
+		addComm.performCommand(editorModel);
 		assertEquals(true, elemList.contains(element));
 		assertEquals(1, elemList.indexOf(element));
 
-		removeComm.performCommand();
+		removeComm.performCommand(editorModel);
 		assertEquals(false, elemList.contains(element));
-		addComm.performCommand();
+		addComm.performCommand(editorModel);
 		assertEquals(true, elemList.contains(element));
 		assertEquals(1, elemList.indexOf(element));
 
-		moveComm.performCommand();
+		moveComm.performCommand(editorModel);
 		assertEquals(0, elemList.indexOf(element));
 		assertEquals(1, elemList.indexOf(pelement));
-
-		mockAdd.performCommand();
-		verify(mockList, times(1)).add(mockElement);
-
 	}
 
 	/**
@@ -150,41 +193,23 @@ public class ElementCommandsTest extends TestCase {
 	@Test
 	public void testUndoCommands() {
 
-		addComm.performCommand();
+		addComm.performCommand(editorModel);
 		assertEquals(true, elemList.contains(element));
-		addComm.undoCommand();
+		addComm.undoCommand(editorModel);
 		assertEquals(false, elemList.contains(element));
 
-		addComm.performCommand();
+		addComm.performCommand(editorModel);
 		assertEquals(true, elemList.contains(element));
-		removeComm.performCommand();
+		removeComm.performCommand(editorModel);
 		assertEquals(false, elemList.contains(element));
-		removeComm.undoCommand();
+		removeComm.undoCommand(editorModel);
 		assertEquals(true, elemList.contains(element));
 
-		moveComm.performCommand();
+		moveComm.performCommand(editorModel);
 		assertEquals(0, elemList.indexOf(element));
 		assertEquals(1, elemList.indexOf(pelement));
-		moveComm.undoCommand();
+		moveComm.undoCommand(editorModel);
 		assertEquals(1, elemList.indexOf(element));
 		assertEquals(0, elemList.indexOf(pelement));
-
-		mockAdd.performCommand();
-		verify(mockList, times(1)).add(mockElement);
-		mockAdd.undoCommand();
-		verify(mockList, times(1)).remove(mockElement);
-
-		mockAdd.performCommand();
-		mockRemove.performCommand();
-		verify(mockList, times(1)).remove(mockElement);
-		mockRemove.undoCommand();
-		verify(mockList, times(1)).add(mockElement, mockRemove.getIndex());
-
-		mockMove.performCommand();
-		mockMove.undoCommand();
-		verify(mockList, times(2)).remove(mockElement);
-		verify(mockList, times(2)).add(mockElement, 0);
-
 	}
-
 }

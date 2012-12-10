@@ -43,7 +43,7 @@ import ead.editor.control.change.ChangeNotifier;
  * Interface for the controller of the system. This controller is in charge of
  * keeping the project in scope.
  */
-public interface ProjectController extends ChangeNotifier {
+public interface ProjectController extends ChangeNotifier<String> {
 
 	/**
 	 * Load a project from an URL

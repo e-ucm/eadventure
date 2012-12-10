@@ -34,8 +34,7 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package ead.editor.view.panel;
+package ead.editor.view.panel.asset;
 
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.components.FileDrop;
@@ -50,26 +49,31 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdURI;
-import ead.editor.control.CommandManager;
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.change.ChangeListener;
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.control.commands.ChangeFileValueCommand;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
-import ead.editor.view.generic.ConvertingFieldDescriptor;
-import ead.editor.view.generic.FieldDescriptorImpl;
+import ead.editor.model.EditorModel.ModelEvent;
 import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
-import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
 import ead.editor.view.generic.TextOption;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.view.generic.accessors.ConvertingAccessor;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
+import ead.editor.view.panel.AbstractElementPanel;
 import ead.utils.FileUtils;
 
 /**
@@ -82,17 +86,12 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ImageAssetPanel");
-
 	private static FileCache fileCache;
-
 	private ImageAssetNode imageAsset;
 	private File imageFile;
 	private ZoomableImagePanel jpCanvas;
-
-	private Panel controlPanel;
-
+	private OptionPanel controlPanel;
 	private FileDrop.Listener dropListener = new FileDrop.Listener() {
-
 		@Override
 		public void filesDropped(File[] files) {
 			if (files.length != 1 || !files[0].exists() || !files[0].isFile()) {
@@ -125,6 +124,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	}
 
 	private class ZoomableImagePanel extends ZoomablePanel {
+
 		private BufferedImage image;
 
 		public ZoomableImagePanel() {
@@ -133,10 +133,12 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 		public void refreshImage() {
 			try {
-				logger.info(
-						"RefreshImage: setting max size reference to {}x{}",
-						new Object[] { jpCanvasContainer.getWidth(),
-								jpCanvasContainer.getHeight() });
+				logger
+						.info(
+								"RefreshImage at {}: setting max size reference to {}x{}",
+								new Object[] { ImageAssetPanel.this.hashCode(),
+										jpCanvasContainer.getWidth(),
+										jpCanvasContainer.getHeight() });
 				setMaxSizeReference(jpCanvasContainer);
 
 				image = ImageIO.read(imageFile);
@@ -313,24 +315,22 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	}
 
 	// Variables declaration - do not modify
-	private javax.swing.JButton jbZoomNative;
-	private javax.swing.JButton jbOpenExt;
-	private javax.swing.JButton jbResetZoom;
-	private javax.swing.JButton jbZoomPixel;
-	private javax.swing.JComboBox jcbOpenWith;
-	private javax.swing.JLabel jlDescription;
-	private javax.swing.JPanel jpCanvasContainer;
-	private javax.swing.JPanel jpView;
-	private javax.swing.JPanel jpViewControls;
-
+	private JButton jbZoomNative;
+	private JButton jbOpenExt;
+	private JButton jbResetZoom;
+	private JButton jbZoomPixel;
+	private JComboBox jcbOpenWith;
+	private JLabel jlDescription;
+	private JPanel jpCanvasContainer;
+	private JPanel jpView;
+	private JPanel jpViewControls;
 	private FileOption fileOption;
 
 	// End of variables declaration
-
 	@Override
 	protected void rebuild() {
 		imageAsset = (ImageAssetNode) target;
-		Image image = (Image) imageAsset.getFirst().getContent();
+		final Image image = (Image) imageAsset.getFirst().getContent();
 
 		if (fileCache == null) {
 			try {
@@ -343,57 +343,85 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
 		if (controlPanel == null) {
 			controlPanel = new PanelImpl("Configuration",
-					Panel.LayoutPolicy.VerticalBlocks, 4);
-			final FileNameOption fno = new FileNameOption("Name", "Asset Name",
-					new ConvertingFieldDescriptor<String, EAdURI>(
-							new FieldDescriptorImpl<EAdURI>(image, "uri")) {
-						@Override
-						public String innerToOuter(EAdURI b) {
-							return b.toStringData();
-						}
+					OptionPanel.LayoutPolicy.VerticalBlocks, 4);
 
+			final Accessor<String> uriAccessor = new ConvertingAccessor<String, EAdURI>(
+					String.class, new IntrospectingAccessor<EAdURI>(image,
+							"uri")) {
+				@Override
+				public String innerToOuter(EAdURI b) {
+					return b.toStringData();
+				}
+
+				@Override
+				public EAdURI outerToInner(String a) {
+					return new EAdURI(a);
+				}
+			};
+
+			FileNameOption fno = new FileNameOption("Name",
+					"Internal name of asset (should be unique)", uriAccessor,
+					false, imageAsset) {
+				@Override
+				public File resolveFile(String value) {
+					return imageAsset.resolveUri(value);
+				}
+
+				@Override
+				public Command createUpdateCommand() {
+					return new ChangeFieldCommand<String>(getControlValue(),
+							getFieldDescriptor(), imageAsset) {
 						@Override
-						public EAdURI outerToInner(String a) {
-							return new EAdURI(a);
+						protected ModelEvent setValue(String value) {
+							File src = resolveFile(getFieldDescriptor().read());
+							ModelEvent me = super.setValue(value);
+							imageFile = resolveFile(value);
+							if (!src.renameTo(imageFile)) {
+								logger.warn("---- Could not rename {} --> {}",
+										new Object[] { src, target });
+							}
+							return me;
 						}
-					}, false);
+					};
+				}
+			};
+
 			fileOption = new FileOption("Source",
 					"Asset source-file (.png or .jpg only)", "Choose...",
-					new FieldDescriptorImpl<File>(imageAsset, "source"),
-					fileCache);
-			controlPanel.addElement(fno);
-			controlPanel.addElement(fileOption);
-			controlPanel.addElement(new TextOption("Notes",
-					"Notes on this asset", new FieldDescriptorImpl<String>(
-							imageAsset, "notes"),
-					TextOption.ExpectedLength.LONG));
+					imageAsset, "source", fileCache, imageAsset) {
+				@Override
+				public Command createUpdateCommand() {
+					return new ChangeFileCommand(getControlValue(),
+							getFieldDescriptor(), fileCache, imageAsset) {
+						@Override
+						protected ModelEvent setValue(File value) {
+							ModelEvent me = super.setValue(value);
+							writeFile(imageAsset.resolveUri(uriAccessor.read()));
+							return me;
+						}
+					};
+				}
 
-			CommandManager manager = controller.getCommandManager();
+				@Override
+				public void valueUpdated(File oldValue, File newValue) {
+					logger.info("Updating the image-file internally at {}",
+							ImageAssetPanel.this.hashCode());
+					ImageAssetPanel.this.setFile(newValue);
+				}
+
+			};
+			controlPanel.add(fno);
+			controlPanel.add(fileOption);
+			controlPanel.add(new TextOption("Notes", "Notes on this asset",
+					imageAsset, "notes", TextOption.ExpectedLength.LONG,
+					imageAsset));
+
+			panels.add(controlPanel);
+
 			GridBagConstraints gbc = new GridBagConstraints(0, 1, 1, 1, .1, .1,
 					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
 					new Insets(4, 4, 4, 4), 0, 0);
-			add(controlPanel.getComponent(manager), gbc);
-
-			manager.addChangeListener(new ChangeListener<ChangeEvent>() {
-				@Override
-				public void processChange(ChangeEvent event) {
-					if (event.hasChanged(fileOption.getFieldDescriptor())) {
-						// the source file has changed: overwrite target, view target
-						ChangeFileValueCommand c = (ChangeFileValueCommand) event;
-						c.writeFile(imageAsset.getFile());
-						setFile(imageAsset.getFile());
-					} else if (event.hasChanged(fno.getFieldDescriptor())) {
-						// the target has changed - remove old, switch to new
-						ChangeFieldValueCommand<String> c = (ChangeFieldValueCommand<String>) event;
-						String currentUri = fno.getFieldDescriptor().read();
-						File prev = currentUri.equals(c.getNewValue()) ? imageAsset
-								.resolveUri(c.getOldValue())
-								: imageAsset.resolveUri(c.getNewValue());
-						File f = imageAsset.resolveUri(currentUri);
-						prev.renameTo(f);
-					}
-				}
-			});
+			add(controlPanel.getComponent(controller.getCommandManager()), gbc);
 		}
 
 		// FIXE: should not be necessary, but button-press needed otherwise

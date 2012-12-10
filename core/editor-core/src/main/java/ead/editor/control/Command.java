@@ -37,8 +37,8 @@
 
 package ead.editor.control;
 
-import ead.editor.control.change.ChangeEvent;
 import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModel.ModelEvent;
 
 /**
  * Actions define tasks that can be performed over the game model.
@@ -54,7 +54,7 @@ public abstract class Command {
 
 	/**
 	 * Get the time when the action was created
-	 * 
+	 *
 	 * @return The time when the action was created
 	 */
 	public long getTimeStamp() {
@@ -64,14 +64,14 @@ public abstract class Command {
 	/**
 	 * Do the actual work. Returns a ChangeEvent if it could be performed,
 	 * null in other case.
-	 * 
+	 *
 	 * @return True if the action was performed correctly
 	 */
-	public abstract ChangeEvent performCommand();
+	public abstract ModelEvent performCommand(EditorModel em);
 
 	/**
 	 * Returns true if the action can be undone
-	 * 
+	 *
 	 * @return True if the action can be undone
 	 */
 	public abstract boolean canUndo();
@@ -79,32 +79,32 @@ public abstract class Command {
 	/**
 	 * Undo the work done by the action. Returns true if it could be undone,
 	 * false in other case.
-	 * 
+	 *
 	 * @return a ChangeEvent if it could be performed,
 	 * null in other case.
 	 */
-	public abstract ChangeEvent undoCommand();
+	public abstract ModelEvent undoCommand(EditorModel em);
 
 	/**
 	 * Returns true if the action can be redone
-	 * 
+	 *
 	 * @return True if the action can be redone
 	 */
 	public abstract boolean canRedo();
 
 	/**
 	 * Re-do the work done by the action before it was undone.
-	 * 
+	 *
 	 * @return a ChangeEvent if it could be performed,
 	 * null in other case.
 	 */
-	public abstract ChangeEvent redoCommand();
+	public abstract ModelEvent redoCommand(EditorModel em);
 
 	/**
 	 * Combines this action with other similar action (if possible).
 	 * Useful for combining simple changes such as characters typed in the
 	 * same field.
-	 * 
+	 *
 	 * @param other The other action with which this action can
 	 * be combined if possible
 	 * @return true if the actions were combined

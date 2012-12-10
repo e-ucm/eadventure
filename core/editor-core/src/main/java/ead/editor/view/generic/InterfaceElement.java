@@ -38,12 +38,13 @@
 package ead.editor.view.generic;
 
 import ead.editor.control.CommandManager;
+import ead.editor.model.EditorModel;
 import javax.swing.JComponent;
 
 /**
  * An element of the user interface.
  */
-public interface InterfaceElement {
+public interface InterfaceElement extends EditorModel.ModelListener {
 
 	/**
 	 * @return the title to be used in the interface (can be null)
@@ -54,10 +55,4 @@ public interface InterfaceElement {
 	 * @return a component for this element
 	 */
 	JComponent getComponent(CommandManager manager);
-
-	/**
-	 * De-registers this component from the CommandManager, so that
-	 * no listeners are left behind
-	 */
-	void cleanup(CommandManager manager);
 }

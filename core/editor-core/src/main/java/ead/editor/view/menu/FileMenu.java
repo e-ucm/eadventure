@@ -90,7 +90,8 @@ public class FileMenu extends AbstractEditorMenu {
 	 */
 	@Override
 	public void initialize() {
-		AbstractEditorAction[] as = new AbstractEditorAction[] {
+		@SuppressWarnings("unchecked")
+		AbstractEditorAction<String>[] as = new AbstractEditorAction[] {
 
 				new OpenAction(Messages.file_menu_open, KeyEvent.VK_O, 0),
 				new ImportAction(Messages.file_menu_import, KeyEvent.VK_I,
@@ -104,7 +105,7 @@ public class FileMenu extends AbstractEditorMenu {
 				new ExitAction(Messages.file_menu_exit, KeyEvent.VK_Q,
 						KeyEvent.ALT_DOWN_MASK), };
 
-		for (AbstractEditorAction a : as) {
+		for (AbstractEditorAction<String> a : as) {
 			registerAction(a);
 			controller.getProjectController().addChangeListener(a);
 			a.processChange(null);
@@ -115,7 +116,7 @@ public class FileMenu extends AbstractEditorMenu {
 	 * File menu actions have access to the containing class, and are subscribed
 	 * to change events from the ProjectController
 	 */
-	public abstract class FileMenuAction extends AbstractEditorAction {
+	public abstract class FileMenuAction extends AbstractEditorAction<String> {
 
 		public FileMenuAction(String name, int gkey, int gmask) {
 			super(name, gkey, gmask);
@@ -302,7 +303,7 @@ public class FileMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object event) {
+		public void processChange(String event) {
 			setEnabled(controller.getModel().getEngineModel() != null);
 		}
 	}
@@ -344,7 +345,7 @@ public class FileMenu extends AbstractEditorMenu {
 		}
 
 		@Override
-		public void processChange(Object event) {
+		public void processChange(String event) {
 			setEnabled(controller.getModel().getEngineModel() != null);
 		}
 	}

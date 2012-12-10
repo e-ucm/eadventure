@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generics;
+package ead.editor.view.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -52,6 +52,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 
+import javax.swing.JSplitPane;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import ead.editor.EditorGuiceModule;
@@ -59,6 +60,8 @@ import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.EditorModel;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.panel.AbstractElementPanel;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
@@ -66,16 +69,22 @@ import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 
-public class AbstractOptionTest extends JFrame {
+public abstract class AbstractPanelTester extends JFrame {
 
 	protected CommandManager commandManager;
 	protected JButton undo, redo, dump;
-	protected Object model;
 
-	protected JPanel childPanel;
+	protected AbstractElementPanel one;
+	protected AbstractElementPanel two;
+
+	private JSplitPane splitPane;
 
 	@Mock
 	protected Controller controller;
+
+	abstract AbstractElementPanel createPanel();
+
+	abstract DependencyNode getTarget();
 
 	public void prepareControllerAndModel() {
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
@@ -95,7 +104,8 @@ public class AbstractOptionTest extends JFrame {
 	public void createFrame() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		setSize(400, 500);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		add(splitPane, BorderLayout.CENTER);
 		setLocationRelativeTo(null);
 	}
 
@@ -105,6 +115,7 @@ public class AbstractOptionTest extends JFrame {
 		prepareControllerAndModel();
 		commandManager = new CommandManagerImpl();
 		commandManager.setController(controller);
+		when(controller.getCommandManager()).thenReturn(commandManager);
 
 		commandManager.addChangeListener(new ChangeListener<String>() {
 			@Override
@@ -122,12 +133,6 @@ public class AbstractOptionTest extends JFrame {
 				}
 			}
 		});
-		dump = new JButton(new AbstractAction("show model") {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				dump();
-			}
-		});
 		redo = new JButton(new AbstractAction("redo") {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -141,15 +146,20 @@ public class AbstractOptionTest extends JFrame {
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(undo);
-		buttonPanel.add(dump);
 		buttonPanel.add(redo);
 		add(buttonPanel, BorderLayout.SOUTH);
 
-		childPanel = new JPanel(new BorderLayout());
-		add(childPanel, BorderLayout.CENTER);
-	}
+		one = createPanel();
+		one.setController(controller);
+		one.setTarget(getTarget());
+		splitPane.setLeftComponent(one);
 
-	public void dump() {
-		System.err.println("------\n" + model.toString());
+		two = createPanel();
+		two.setController(controller);
+		two.setTarget(getTarget());
+		splitPane.setRightComponent(two);
+
+		setSize(1000, 500);
+		splitPane.setDividerLocation(500);
 	}
 }

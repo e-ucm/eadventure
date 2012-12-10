@@ -45,8 +45,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ead.editor.control.Command;
-import ead.editor.control.change.ChangeEvent;
-import ead.editor.control.commands.CombineCommandList;
+import ead.editor.control.commands.CompositeCommand;
+import ead.editor.model.DefaultModelEvent;
+import ead.editor.model.EditorModel;
+import ead.editor.model.EditorModel.ModelEvent;
+import ead.utils.Log4jConfig;
 import junit.framework.TestCase;
 
 public class CombineCommandListTest extends TestCase {
@@ -57,23 +60,31 @@ public class CombineCommandListTest extends TestCase {
 	@Mock
 	private Command mockCommand1, mockCommand2, mockCommand3;
 
+	private ModelEvent modelEvent1, modelEvent2, modelEvent3;
+
 	@Mock
-	private ChangeEvent changeEvent1, changeEvent2, changeEvent3;
+	private EditorModel editorModel;
 
 	/**
 	 * The command to combine the actions of a list of commands
 	 */
-	private CombineCommandList comm;
+	private CompositeCommand comm;
 
 	/**
-	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
+	 * Method that initiates both the mock objects and the regular objects of 
+	 * the class, works similar to a constructor.   
 	 */
 	@Before
+	@Override
 	public void setUp() {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug,
+				new Object[] {});
 
 		MockitoAnnotations.initMocks(this);
-		comm = new CombineCommandList(mockCommand1, mockCommand2, mockCommand3);
-
+		comm = new CompositeCommand(mockCommand1, mockCommand2, mockCommand3);
+		modelEvent1 = new DefaultModelEvent("test1", "test1", null, null);
+		modelEvent2 = new DefaultModelEvent("test2", "test2", null, null);
+		modelEvent3 = new DefaultModelEvent("test3", "test3", null, null);
 	}
 
 	/**
@@ -82,21 +93,21 @@ public class CombineCommandListTest extends TestCase {
 	@Test
 	public void testPerformCommands() {
 
-		comm.performCommand();
+		comm.performCommand(editorModel);
 
-		verify(mockCommand1).performCommand();
-		verify(mockCommand2, never()).performCommand();
-		verify(mockCommand3, never()).performCommand();
+		verify(mockCommand1).performCommand(editorModel); // returns null; aborts rest
+		verify(mockCommand2, never()).performCommand(editorModel);
+		verify(mockCommand3, never()).performCommand(editorModel);
 
-		when(mockCommand1.performCommand()).thenReturn(changeEvent1);
-		when(mockCommand2.performCommand()).thenReturn(changeEvent2);
-		when(mockCommand3.performCommand()).thenReturn(changeEvent3);
+		when(mockCommand1.performCommand(editorModel)).thenReturn(modelEvent1);
+		when(mockCommand2.performCommand(editorModel)).thenReturn(modelEvent2);
+		when(mockCommand3.performCommand(editorModel)).thenReturn(modelEvent3);
 
-		comm.performCommand();
+		comm.performCommand(editorModel);
 
-		verify(mockCommand1, times(2)).performCommand();
-		verify(mockCommand2).performCommand();
-		verify(mockCommand3).performCommand();
+		verify(mockCommand1, times(2)).performCommand(editorModel);
+		verify(mockCommand2).performCommand(editorModel);
+		verify(mockCommand3).performCommand(editorModel);
 
 	}
 
@@ -106,21 +117,21 @@ public class CombineCommandListTest extends TestCase {
 	@Test
 	public void testUndoCommands() {
 
-		comm.undoCommand();
+		comm.undoCommand(editorModel);
 
-		verify(mockCommand1).undoCommand();
-		verify(mockCommand2, never()).undoCommand();
-		verify(mockCommand3, never()).undoCommand();
+		verify(mockCommand3).undoCommand(editorModel); // returns null; aborts rest
+		verify(mockCommand2, never()).undoCommand(editorModel);
+		verify(mockCommand1, never()).undoCommand(editorModel);
 
-		when(mockCommand1.undoCommand()).thenReturn(changeEvent1);
-		when(mockCommand2.undoCommand()).thenReturn(changeEvent1);
-		when(mockCommand3.undoCommand()).thenReturn(changeEvent1);
+		when(mockCommand3.undoCommand(editorModel)).thenReturn(modelEvent3);
+		when(mockCommand2.undoCommand(editorModel)).thenReturn(modelEvent2);
+		when(mockCommand1.undoCommand(editorModel)).thenReturn(modelEvent1);
 
-		comm.undoCommand();
+		comm.undoCommand(editorModel);
 
-		verify(mockCommand1, times(2)).undoCommand();
-		verify(mockCommand2).undoCommand();
-		verify(mockCommand3).undoCommand();
+		verify(mockCommand3, times(2)).undoCommand(editorModel);
+		verify(mockCommand2).undoCommand(editorModel);
+		verify(mockCommand1).undoCommand(editorModel);
 	}
 
 	/**
@@ -129,21 +140,21 @@ public class CombineCommandListTest extends TestCase {
 	@Test
 	public void testRedoCommands() {
 
-		comm.redoCommand();
+		comm.redoCommand(editorModel);
 
-		verify(mockCommand1).redoCommand();
-		verify(mockCommand2, never()).redoCommand();
-		verify(mockCommand3, never()).redoCommand();
+		verify(mockCommand1).redoCommand(editorModel); // returns null; aborts rest
+		verify(mockCommand2, never()).redoCommand(editorModel);
+		verify(mockCommand3, never()).redoCommand(editorModel);
 
-		when(mockCommand1.redoCommand()).thenReturn(changeEvent1);
-		when(mockCommand2.redoCommand()).thenReturn(changeEvent1);
-		when(mockCommand3.redoCommand()).thenReturn(changeEvent1);
+		when(mockCommand1.redoCommand(editorModel)).thenReturn(modelEvent1);
+		when(mockCommand2.redoCommand(editorModel)).thenReturn(modelEvent2);
+		when(mockCommand3.redoCommand(editorModel)).thenReturn(modelEvent3);
 
-		comm.redoCommand();
+		comm.redoCommand(editorModel);
 
-		verify(mockCommand1, times(2)).redoCommand();
-		verify(mockCommand2).redoCommand();
-		verify(mockCommand3).redoCommand();
+		verify(mockCommand1, times(2)).redoCommand(editorModel);
+		verify(mockCommand2).redoCommand(editorModel);
+		verify(mockCommand3).redoCommand(editorModel);
 	}
 
 }
