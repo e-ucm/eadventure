@@ -92,7 +92,7 @@ public abstract class DefaultAbstractOption<S> extends AbstractOption<S> {
 	 * @return
 	 */
 	@Override
-	protected S readModelValue() {
+	public S readModelValue() {
 		return fieldDescriptor.read();
 	}
 

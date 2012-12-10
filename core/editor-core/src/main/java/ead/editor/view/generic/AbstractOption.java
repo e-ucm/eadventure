@@ -127,7 +127,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * Reads model value.
 	 * @return
 	 */
-	protected abstract S readModelValue();
+	public abstract S readModelValue();
 
 	/**
 	 * Queried within modelChanged before considering a change to

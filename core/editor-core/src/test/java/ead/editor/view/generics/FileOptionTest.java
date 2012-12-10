@@ -104,7 +104,7 @@ public class FileOptionTest extends AbstractOptionTest {
 				};
 			}
 		};
-		target = fno.resolveFile(fno.getFieldDescriptor().read());
+		target = fno.resolveFile(fno.readModelValue());
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
