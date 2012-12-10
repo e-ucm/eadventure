@@ -68,7 +68,12 @@ import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ListOption<T> extends AbstractOption<EAdList<T>> {
+/**
+ * An option that allows a list of elements to be manipulated.
+ * @author mfreire
+ * @param <T>
+ */
+public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	private static final Logger logger = LoggerFactory.getLogger("ListOption");
 
@@ -465,23 +470,15 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> {
 	}
 
 	/**
-	 * Will be called when the model changes.
-	 * @param event
+	 * Consider contents to have changed, even if the list-reference
+	 * does not change.
+	 * @param oldValue
+	 * @param newValue
+	 * @return
 	 */
 	@Override
-	public void modelChanged(ModelEvent event) {
-		if (isUpdating) {
-			return;
-		}
-
-		if (ModelEventUtils.changes(event, changed)) {
-			logger
-					.debug("change at {}: {}",
-							new Object[] { hashCode(), event });
-			isUpdating = true;
-			tableModel.fireTableDataChanged();
-			valueUpdated(oldValue, oldValue);
-			isUpdating = false;
-		}
+	protected boolean changeConsideredRelevant(EAdList<T> oldValue,
+			EAdList<T> newValue) {
+		return true;
 	}
 }

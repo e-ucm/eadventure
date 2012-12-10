@@ -37,18 +37,14 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.accessors.Accessor;
 import ead.editor.control.Command;
 import ead.editor.control.CommandManager;
-import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEventUtils;
 import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JComponent;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ead.editor.model.ModelEventUtils;
-import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
  * Abstract implementation for {@link Option}s
@@ -58,8 +54,7 @@ import ead.editor.view.generic.accessors.IntrospectingAccessor;
  */
 public abstract class AbstractOption<S> implements Option<S> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("AbstractOption");
+	private static final Logger logger = LoggerFactory.getLogger("AOption");
 
 	/**
 	 * Label on the component
@@ -69,10 +64,6 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * Tool tip text explanation
 	 */
 	private String toolTipText;
-	/**
-	 * Descriptor of the field represented by this option
-	 */
-	protected Accessor<S> fieldDescriptor;
 	/**
 	 * While updating, external updates will be ignored
 	 */
@@ -92,40 +83,18 @@ public abstract class AbstractOption<S> implements Option<S> {
 	protected DependencyNode[] changed;
 
 	/**
-	 * Common-case constructor
 	 * @param label The label in the option (can be null)
 	 * @param toolTipText The toolTipText in the option (cannot be null)
-	 * @param object object to look into
 	 * @param fieldName fieldName to access
 	 */
-	public AbstractOption(String label, String toolTipText, Object object,
-			String fieldName, DependencyNode... changed) {
-		this.label = label;
-		this.toolTipText = toolTipText;
-		if (toolTipText == null || toolTipText.isEmpty()) {
-			throw new RuntimeException(
-					"ToolTipTexts MUST be provided for all interface elements!");
-		}
-		this.fieldDescriptor = new IntrospectingAccessor<S>(object, fieldName);
-		this.changed = changed == null ? new DependencyNode[0] : changed;
-	}
-
-	/**
-	 * General constructor
-	 * @param label The label in the option (can be null)
-	 * @param toolTipText The toolTipText in the option (cannot be null)
-	 * @param fieldDescriptor The {@link Accessor} that describes the field in the
-	 *    element to be displayed/edited
-	 */
 	public AbstractOption(String label, String toolTipText,
-			Accessor<S> fieldDescriptor, DependencyNode... changed) {
+			DependencyNode... changed) {
 		this.label = label;
 		this.toolTipText = toolTipText;
 		if (toolTipText == null || toolTipText.isEmpty()) {
 			throw new RuntimeException(
 					"ToolTipTexts MUST be provided for all interface elements!");
 		}
-		this.fieldDescriptor = fieldDescriptor;
 		this.changed = changed == null ? new DependencyNode[0] : changed;
 	}
 
@@ -141,10 +110,11 @@ public abstract class AbstractOption<S> implements Option<S> {
 
 		logger.debug("change at {}: {}", new Object[] { hashCode(), event });
 		if (ModelEventUtils.changes(event, changed)) {
-			S nextValue = fieldDescriptor.read();
+			S nextValue = readModelValue();
 			oldValue = getControlValue();
-			if (ChangeFieldCommand.defaultIsChange(oldValue, nextValue)) {
-				logger.debug("relevant and all - updating to {}", nextValue);
+			if (changeConsideredRelevant(oldValue, nextValue)) {
+				logger.debug("change considered relevant - updating to {}",
+						nextValue);
 				isUpdating = true;
 				setControlValue(nextValue);
 				valueUpdated(oldValue, nextValue);
@@ -153,8 +123,21 @@ public abstract class AbstractOption<S> implements Option<S> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Reads model value.
+	 * @return
+	 */
+	protected abstract S readModelValue();
+
+	/**
+	 * Queried within modelChanged before considering a change to
+	 * have occurred.
+	 * @return
+	 */
+	protected abstract boolean changeConsideredRelevant(S oldValue, S newValue);
+
+	/**
+	 * Retrieves title (used for label).
 	 *
 	 * @see es.eucm.eadventure.editor.view.generics.Option#getTitle()
 	 */
@@ -163,8 +146,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 		return label;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Retrieves tooltip-text (used for tooltips)
 	 *
 	 * @see es.eucm.eadventure.editor.view.generics.Option#getToolTipText()
 	 */
@@ -173,20 +156,10 @@ public abstract class AbstractOption<S> implements Option<S> {
 		return toolTipText;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.editor.view.generics.Option#getFieldDescriptor()
-	 */
-	@Override
-	public Accessor<S> getFieldDescriptor() {
-		return fieldDescriptor;
-	}
-
 	/**
 	 * Creates the control, setting the initial value.
-	 * Subclasses should register as a listeners
-	 * to any changes in the model, and call update() when such changes occur.
+	 * Subclasses should register as listeners to any changes in the control,
+	 * and call update() when such changes occur.
 	 */
 	protected abstract JComponent createControl();
 
@@ -214,14 +187,11 @@ public abstract class AbstractOption<S> implements Option<S> {
 	protected abstract void setControlValue(S newValue);
 
 	/**
-	 * Creates a Command that describes a change to the manager. 
+	 * Creates a Command that describes a change to the manager.
 	 * No change should be described if no change exists.
-	 * @return 
+	 * @return
 	 */
-	protected Command createUpdateCommand() {
-		return new ChangeFieldCommand<S>(getControlValue(),
-				getFieldDescriptor(), changed);
-	}
+	protected abstract Command createUpdateCommand();
 
 	/**
 	 * Should return whether a value is valid or not. Invalid values will

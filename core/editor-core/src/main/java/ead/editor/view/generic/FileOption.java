@@ -57,7 +57,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class FileOption extends AbstractOption<File> {
+public class FileOption extends DefaultAbstractOption<File> {
 
 	private JTextField textField;
 	private JButton chooserButton;
@@ -155,7 +155,7 @@ public class FileOption extends AbstractOption<File> {
 	 * @param fileType
 	 * @param errorTitle
 	 * @param errorTemplate
-	 * @return 
+	 * @return
 	 */
 	public static File chooseFile(Component p, String message, boolean toOpen,
 			int fileType, String errorTitle, String errorTemplate) {

@@ -50,7 +50,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-public class TextOption extends AbstractOption<String> {
+public class TextOption extends DefaultAbstractOption<String> {
 
 	public static enum ExpectedLength {
 		SHORT, NORMAL, LONG
