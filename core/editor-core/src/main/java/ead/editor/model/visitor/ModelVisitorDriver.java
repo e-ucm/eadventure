@@ -53,13 +53,15 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
+import ead.common.params.text.EAdString;
 import ead.common.resources.BasicAssetBundle;
 import ead.common.resources.BasicResources;
 import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdAssetDescriptor;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.editor.EditorStringHandler;
+import ead.tools.StringHandler;
 
 public class ModelVisitorDriver {
 
@@ -74,6 +76,8 @@ public class ModelVisitorDriver {
 	private AssetDriver assetDriver = new AssetDriver();
 	private ResourceDriver resourceDriver = new ResourceDriver();
 
+	private EditorStringHandler esh;
+
 	private ModelVisitor v = null;
 
 	/**
@@ -84,9 +88,10 @@ public class ModelVisitorDriver {
 	 * @param data model to visit
 	 * @param v visitor
 	 */
-	public void visit(EAdAdventureModel data, ModelVisitor v) {
+	public void visit(EAdAdventureModel data, ModelVisitor v, EditorStringHandler esh) {
+		this.v = v;
+		this.esh = esh;
 		try {
-			this.v = v;
 			// visit the root element, and continue from there
 			driveInto(data, null, null);
 		} catch (Exception e) {
@@ -201,11 +206,14 @@ public class ModelVisitorDriver {
 			if (target == null) {
 				logger.warn("Null data");
 			} else {
-				if (target instanceof EAdParam) {
-					String value = ((EAdParam) target).toStringData();
+				if (target instanceof EAdString) {
+					String value = esh.getString((EAdString) target);
 					v.visitProperty(source, sourceName, value);
 				} else if (target instanceof Class) {
 					String value = ((Class<?>) target).getName();
+					v.visitProperty(source, sourceName, value);
+				} else if (target instanceof EAdParam) {
+					String value = ((EAdParam) target).toStringData();
 					v.visitProperty(source, sourceName, value);
 				} else {
 					v.visitProperty(source, sourceName, target.toString());
