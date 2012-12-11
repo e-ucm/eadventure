@@ -65,7 +65,7 @@ public class NavigationControllerImpl extends ChangeNotifierImpl<String>
 
 	@Override
 	public void goForward() {
-		if (current < list.size()-1) {
+		if (current < list.size() - 1) {
 			String next = list.get(++current);
 			updating = true;
 			controller.getViewController().addView("", next, true);
@@ -87,7 +87,7 @@ public class NavigationControllerImpl extends ChangeNotifierImpl<String>
 
 	@Override
 	public boolean canGoForward() {
-		return current < list.size()-1;
+		return current < list.size() - 1;
 	}
 
 	@Override
@@ -118,20 +118,21 @@ public class NavigationControllerImpl extends ChangeNotifierImpl<String>
 			return;
 		}
 
-		String id = ClassDockableFactory.getDockableId((DefaultMultipleCDockable)dockable);
+		String id = ClassDockableFactory
+				.getDockableId((DefaultMultipleCDockable) dockable);
 
 		// move all "future" elements to start
 		ArrayList<String> nextList = new ArrayList<String>();
 		if (canGoForward()) {
-			for (String s : list.subList(current+1, list.size())) {
-				if ( ! s.equals(id)) {
+			for (String s : list.subList(current + 1, list.size())) {
+				if (!s.equals(id)) {
 					nextList.add(s);
 				}
 			}
 		}
 		// copy "past" elements after the "future" ones
-		for (String s : list.subList(0, current+1)) {
-			if ( ! s.equals(id)) {
+		for (String s : list.subList(0, current + 1)) {
+			if (!s.equals(id)) {
 				nextList.add(s);
 			}
 		}
