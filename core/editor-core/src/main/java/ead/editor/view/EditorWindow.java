@@ -60,6 +60,7 @@ import bibliothek.gui.dock.common.MultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import bibliothek.gui.dock.common.intern.CDockable;
 import bibliothek.gui.dock.common.intern.CommonDockable;
+import bibliothek.gui.dock.common.mode.ExtendedMode;
 
 import com.google.inject.Singleton;
 
@@ -220,7 +221,10 @@ public class EditorWindow implements ViewController {
 	private void createNewView(String id) {
 		logger.info("opening view for #{}...", id);
 		if (dockController.getMultipleDockable(id) != null) {
-			logger.info("Learn how to make visible here!");
+			MultipleCDockable d = dockController.getMultipleDockable(id);
+			d.setVisible(true);
+			d.setExtendedMode(ExtendedMode.MAXIMIZED);
+			logger.info("Expect dockable {} to be visible now!", id);
 		} else {
 			DependencyNode node = controller.getModel().getElement(id);
 

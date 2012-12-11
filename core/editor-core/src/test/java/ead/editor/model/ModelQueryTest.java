@@ -71,6 +71,7 @@ public class ModelQueryTest {
 		System.out.println("simpleQueries");
 		testParser("a simple test", true, "", "a", "", "simple", "", "test");
 		testParser("one:two three:four", true, "one", "two", "three", "four");
+		testParser(ModelIndex.editorIdQueryField + ":222 three:four", true, "eid", "222", "three", "four");
 	}
 
 	@Test
@@ -87,6 +88,7 @@ public class ModelQueryTest {
 	public void testInvalidQueries() {
 		System.out.println("invalidQueries");
 		testParser("", false);
+		testParser(ModelIndex.editorIdQueryField + ":notANumber", false);
 		testParser("a simple \"test", false);
 		testParser("one:two three:four:five", false);
 	}

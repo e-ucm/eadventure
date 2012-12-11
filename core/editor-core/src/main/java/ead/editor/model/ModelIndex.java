@@ -79,7 +79,7 @@ public class ModelIndex {
 
 	public static final String editorIdQueryField = "eid";
 	public static final String hasContentClassQueryField = "has";
-	public static final String isClassQueryField = "eid";
+	public static final String isClassQueryField = "is";
 
 	/**
 	 * Lucene index
@@ -362,7 +362,7 @@ public class ModelIndex {
 		int id = Integer.parseInt(queryText);
 		DependencyNode n = nodesById.get(id);
 		if (n != null) {
-			sr.matches.put(n.getId(), new Match(n, 10, editorIdFieldName));
+			sr.matches.put(n.getId(), new Match(n, 10, editorIdQueryField));
 		} else {
 			logger.warn("No nodes with editor-id {}", queryText);
 		}

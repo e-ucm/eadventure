@@ -62,7 +62,7 @@ public interface NavigationController extends ChangeNotifier<String> {
 	boolean canGoForward();
 
 	/**
-	 * @return true if there are is a screen backward in the history 
+	 * @return true if there are is a screen backward in the history
 	 */
 	boolean canGoBackward();
 

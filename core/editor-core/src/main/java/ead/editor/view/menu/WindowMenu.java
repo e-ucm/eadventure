@@ -88,7 +88,7 @@ public class WindowMenu extends AbstractEditorMenu {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			controller.getNavigationController().goForward();
+			controller.getNavigationController().goBackward();
 		}
 
 		@Override

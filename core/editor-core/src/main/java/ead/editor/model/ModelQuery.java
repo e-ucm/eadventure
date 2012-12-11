@@ -196,6 +196,14 @@ public class ModelQuery {
 		public QueryPart(String field, String value) {
 			this.field = field;
 			this.value = value;
+			if (field != null && field.equals(ModelIndex.editorIdQueryField)) {
+				try {
+					Integer.parseInt(value);
+				} catch (NumberFormatException nfe) {
+					throw new IllegalArgumentException(
+							"Direct ID queries can only be performed on integers", nfe);
+				}
+			}
 		}
 
 		public String getField() {

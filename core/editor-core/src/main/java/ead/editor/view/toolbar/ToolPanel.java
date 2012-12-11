@@ -50,8 +50,10 @@ import ead.editor.R;
 
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
+import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModelImpl;
+import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.QueryNode;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.Messages;
@@ -65,11 +67,15 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of the tool panel
  */
 public class ToolPanel implements ChangeListener<String> {
+
+	private static final Logger logger = LoggerFactory.getLogger("ToolPanel");
 
 	/**
 	 * The pane where the tools are drawn
@@ -187,6 +193,9 @@ public class ToolPanel implements ChangeListener<String> {
 				qn.setModel((EditorModelImpl) m);
 				qn.setQueryString(query);
 				((EditorModelImpl) m).getNodesById().put(qn.getId(), qn);
+				((EditorModelImpl) m).fireModelEvent(new DefaultModelEvent("AddQuery", this,
+						new DependencyNode[]{qn}, null));
+				logger.info("Added query node with ID {}", qn.getId());
 				controller.getViewController().addView("query",
 						"" + qn.getId(), false);
 			}
