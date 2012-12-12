@@ -42,6 +42,8 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -61,7 +63,8 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.editor.EditorStringHandler;
-import ead.tools.StringHandler;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
 
 public class ModelVisitorDriver {
 
@@ -75,6 +78,8 @@ public class ModelVisitorDriver {
 	private ParamDriver paramDriver = new ParamDriver();
 	private AssetDriver assetDriver = new AssetDriver();
 	private ResourceDriver resourceDriver = new ResourceDriver();
+	private EditorNodeDriver editorNodeDriver = new EditorNodeDriver();
+	private DependencyNodeDriver dependencyNodeDriver = new DependencyNodeDriver();
 
 	private EditorStringHandler esh;
 
@@ -101,13 +106,33 @@ public class ModelVisitorDriver {
 	}
 
 	/**
+	 * Re-index a part of the model.
+	 * @param o
+	 * @param v
+	 * @param esh 
+	 */
+	public void visit(DependencyNode o, ModelVisitor v,
+			EditorStringHandler esh) {
+		this.v = v;
+		this.esh = esh;
+		try {
+			// visit the root element, and continue from there
+			driveInto(o, null, null);
+		} catch (Exception e) {
+			logger.error("Error visiting model", e);
+		}
+	}	
+	
+	/**
 	 * Returns the correct driver to use for a given object.
 	 * @param o object to drive into.
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private VisitorDriver driverFor(Object o) {
-		if (o instanceof EAdElement) {
+		if (o instanceof EditorNode) {
+			return editorNodeDriver;
+		} else if (o instanceof EAdElement) {
 			return elementDriver;
 		} else if (o instanceof EAdList) {
 			return listDriver;
@@ -150,7 +175,69 @@ public class ModelVisitorDriver {
 	}
 
 	/**
-	 * visits an element.
+	 * visits a DependencyNode.
+	 */
+	private class DependencyNodeDriver implements VisitorDriver<DependencyNode> {
+
+		@Override
+		public void drive(DependencyNode target, Object source, String sourceName) {
+			Object o = target.getContent();
+			driverFor(o).drive(o, target, "content");
+		}
+	}
+	
+	/**
+	 * visits an EditorNode.
+	 */
+	private class EditorNodeDriver implements VisitorDriver<EditorNode> {
+
+		@Override
+		public void drive(EditorNode target, Object source, String sourceName) {
+
+			Class<?> c = target.getClass();
+			for (String f : target.getIndexedFields()) {
+				try {
+					PropertyDescriptor pd = getPropertyDescriptor(c, f);
+					if (pd == null) {
+						logger.error("Missing descriptor for {} in {} ",
+								f, c);
+						continue;
+					}
+					Method method = pd.getReadMethod();
+					if (method == null) {
+						logger.error("Missing read-method for {} in {} ",
+								f, c);
+						continue;
+					}
+					logger.debug("\t invoking {}", method.getName());
+					Object o = method.invoke(target);
+					if (!isEmpty(o)) {
+						logger.debug("\t'{}' has a '{}' property!",
+								new Object[] { target, pd.getName() });
+						if (o instanceof List) {
+							// explicitly allow lists
+							List<?> list = (List<?>)o;
+							for (Object lo : list) {
+								v.visitProperty(target, f, lo.toString());
+							}
+						} else if (o instanceof Collection) {
+							// we do not like any other type of collections
+							throw new IllegalArgumentException(
+									"Only lists and stringifiables are "
+									+ "acceptable EditorNode indexed-fields");							
+					    } else {
+							v.visitProperty(target, f, o.toString());
+						}
+					}
+				} catch (Exception e) {
+					logger.error("Error accessing field {} in {}", new Object[]{f, c}, e);
+				}
+			}		
+		}
+	}	
+	
+	/**
+	 * visits an EAdElement.
 	 */
 	private class ElementDriver implements VisitorDriver<EAdElement> {
 
@@ -164,10 +251,10 @@ public class ModelVisitorDriver {
 	 * visits a list - either by adding it all as attributes, or some other
 	 * method.
 	 */
-	private class ListDriver implements VisitorDriver<EAdList<?>> {
+	private class ListDriver implements VisitorDriver<List<?>> {
 
 		@Override
-		public void drive(EAdList<?> target, Object source, String sourceName) {
+		public void drive(List<?> target, Object source, String sourceName) {
 			for (int i = 0; i < target.size(); i++) {
 				// visit all children-values of this list
 				Object o = target.get(i);

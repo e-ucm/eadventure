@@ -63,9 +63,28 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
 	protected BufferedImage thumbnail;
 
-	public EditorNode(int id) {
+	/**
+	 * A list of indexed fields.
+	 */
+	protected String[] indexedFields;
+	
+	/**
+	 * Builds a new editor-node.
+	 * @param id
+	 * @param indexedFields 
+	 */
+	public EditorNode(int id, String ... indexedFields) {
 		super(id, new HashSet<DependencyNode<?>>());
+		this.indexedFields = indexedFields;
 	}
+
+	/**
+	 * Returns all fields that should be visited to fully re-index this node.
+	 * @return 
+	 */
+	public String[] getIndexedFields() {
+		return indexedFields;
+	}	
 
 	public HashSet<DependencyNode<?>> getContents() {
 		return content;

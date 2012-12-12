@@ -117,7 +117,9 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 				public void actionPerformed(ActionEvent e) {
 					ThumbnailPanel selectedPane = (ThumbnailPanel) tabs
 							.getSelectedComponent();
-					setNode(selectedPane.getPrevious());
+					if (selectedPane.getPrevious() != null) {
+						setNode(selectedPane.getPrevious());
+					}
 				}
 			});
 			next.addActionListener(new ActionListener() {
@@ -125,7 +127,9 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 				public void actionPerformed(ActionEvent e) {
 					ThumbnailPanel selectedPane = (ThumbnailPanel) tabs
 							.getSelectedComponent();
-					setNode(selectedPane.getNext());
+					if (selectedPane.getNext() != null) {
+						setNode(selectedPane.getNext());
+					}
 				}
 			});
 		}

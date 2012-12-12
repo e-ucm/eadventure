@@ -411,6 +411,7 @@ public class EditorModelImpl implements EditorModel {
 	@Override
 	public EditorModelLoader getLoader() {
 		loader.setModel(this);
+		nodeIndex.setModel(this);		
 		return loader;
 	}
 
@@ -440,7 +441,7 @@ public class EditorModelImpl implements EditorModel {
 	 */
 	@Override
 	public ModelIndex.SearchResult search(ModelQuery query) {
-		return nodeIndex.search(query, nodesById);
+		return nodeIndex.search(query);
 	}
 
 	/**

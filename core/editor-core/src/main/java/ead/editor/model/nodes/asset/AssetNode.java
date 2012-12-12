@@ -62,8 +62,11 @@ public class AssetNode extends EditorNode {
 	protected String notes;
 	protected File base;
 
+	private static final String[] indexed = 
+			new String[] {"notes", "base", "sources"};
+	
 	public AssetNode(int id) {
-		super(id);
+		super(id, indexed);
 	}
 
 	public void setBase(File base) {

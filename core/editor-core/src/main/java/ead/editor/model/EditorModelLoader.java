@@ -422,7 +422,7 @@ public class EditorModelLoader {
 
 			if (e != null) {
 				model.getNodeIndex().addProperty(e,
-						ModelIndex.editorIdFieldName, "" + e.getId(), true);
+						ModelIndex.editorIdFieldName, "" + e.getId(), false);
 				return true;
 			} else {
 				// already exists in graph; in this case, do not drill deeper
