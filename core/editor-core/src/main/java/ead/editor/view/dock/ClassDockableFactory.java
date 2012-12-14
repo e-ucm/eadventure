@@ -39,7 +39,11 @@ package ead.editor.view.dock;
 
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
+import bibliothek.gui.dock.common.event.CFocusListener;
+import bibliothek.gui.dock.common.event.CVetoClosingEvent;
+import bibliothek.gui.dock.common.event.CVetoClosingListener;
 import ead.editor.control.Controller;
+import ead.editor.control.NavigationControllerImpl;
 import ead.editor.model.nodes.DependencyNode;
 import java.awt.Component;
 import org.slf4j.Logger;
@@ -94,15 +98,30 @@ public class ClassDockableFactory implements
 	 * @param id
 	 * @return
 	 */
-	public DefaultMultipleCDockable createDockable(String id) {
-		ElementPanel ep = getPanelFor(id);
-		DefaultMultipleCDockable d = new DefaultMultipleCDockable(this);
+	public DefaultMultipleCDockable createDockable(final String id) {
+		final ElementPanel ep = getPanelFor(id);
+		final DefaultMultipleCDockable d = new DefaultMultipleCDockable(this);
+
 		d.setCloseable(true);
 		d.setExternalizable(false);
 		d.setTitleText(ep.getTarget().getClass().getSimpleName() + " "
 				+ ep.getTarget().getId());
 		d.setRemoveOnClose(true);
 		d.add((Component) ep);
+		d.addFocusListener((CFocusListener)controller.getNavigationController());
+
+		d.addVetoClosingListener(new CVetoClosingListener() {
+			@Override
+			public void closing(CVetoClosingEvent cvce) {
+				// not actually interested in vetoing anything
+			}
+
+			@Override
+			public void closed(CVetoClosingEvent cvce) {
+				logger.info("Cleaning up after ElementPanel with ID {}", id);
+				ep.cleanup();
+			}
+		});
 		return d;
 	}
 
@@ -111,7 +130,7 @@ public class ClassDockableFactory implements
 	 * @param d the dockable, created with this factory
 	 * @return the corresponding DependencyNode's ID
 	 */
-	public String getDockableId(DefaultMultipleCDockable d) {
+	public static String getDockableId(DefaultMultipleCDockable d) {
 		return ""
 				+ ((ElementPanel) d.getContentPane().getComponent(0))
 						.getTarget().getId();

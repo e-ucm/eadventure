@@ -45,6 +45,7 @@ import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.editor.R;
+import ead.editor.model.EditorModel;
 import ead.editor.model.nodes.EditorNode;
 import java.io.File;
 import org.w3c.dom.Element;
@@ -91,7 +92,7 @@ public class AssetNode extends EditorNode {
 	}
 
 	@Override
-	public void restoreInner(Element element) {
+	public void restoreInner(Element element, EditorModel model) {
 		sources.clear();
 		NodeList sourceList = element.getElementsByTagName("source");
 		for (int i = 0; i < sourceList.getLength(); i++) {

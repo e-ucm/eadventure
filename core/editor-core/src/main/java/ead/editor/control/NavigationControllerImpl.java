@@ -37,57 +37,68 @@
 
 package ead.editor.control;
 
+import bibliothek.gui.dock.common.DefaultMultipleCDockable;
+import bibliothek.gui.dock.common.event.CFocusListener;
+import bibliothek.gui.dock.common.intern.CDockable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.editor.control.change.ChangeNotifierImpl;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import ead.editor.view.dock.ClassDockableFactory;
+import java.util.ArrayList;
 
 /**
  * Default implementation for the {@link NavigationController}.
  */
 @Singleton
 public class NavigationControllerImpl extends ChangeNotifierImpl<String>
-		implements NavigationController {
+		implements NavigationController, CFocusListener {
 
 	private Controller controller;
-	private LinkedList<String> viewStack = new LinkedList<String>();
-	private ListIterator<String> current;
+	private ArrayList<String> list = new ArrayList<String>();
+	private int current;
+	private boolean updating = false;
 
 	@Inject
 	NavigationControllerImpl() {
-		current = viewStack.listIterator();
+		current = -1;
 	}
 
 	@Override
 	public void goForward() {
-		if (canGoForward()) {
-			notifyListeners(current.next());
+		if (current < list.size()-1) {
+			String next = list.get(++current);
+			updating = true;
+			controller.getViewController().addView("", next, true);
+			updating = false;
+			notifyListeners(next);
 		}
 	}
 
 	@Override
 	public void goBackward() {
-		if (canGoBackward()) {
-			notifyListeners(current.previous());
+		if (current > 0) {
+			String previous = list.get(--current);
+			updating = true;
+			controller.getViewController().addView("", previous, true);
+			updating = false;
+			notifyListeners(previous);
 		}
 	}
 
 	@Override
 	public boolean canGoForward() {
-		return current.hasNext();
+		return current < list.size()-1;
 	}
 
 	@Override
 	public boolean canGoBackward() {
-		return current.hasPrevious();
+		return current > 0;
 	}
 
 	@Override
 	public void clearHistory() {
-		viewStack.clear();
-		current = viewStack.listIterator();
+		list.clear();
+		current = -1;
 	}
 
 	/**
@@ -98,5 +109,42 @@ public class NavigationControllerImpl extends ChangeNotifierImpl<String>
 	@Override
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+
+	@Override
+	public void focusGained(CDockable dockable) {
+		if (updating) {
+			// do not trigger for focus-gained due to goForward or goBackward
+			return;
+		}
+
+		String id = ClassDockableFactory.getDockableId((DefaultMultipleCDockable)dockable);
+
+		// move all "future" elements to start
+		ArrayList<String> nextList = new ArrayList<String>();
+		if (canGoForward()) {
+			for (String s : list.subList(current+1, list.size())) {
+				if ( ! s.equals(id)) {
+					nextList.add(s);
+				}
+			}
+		}
+		// copy "past" elements after the "future" ones
+		for (String s : list.subList(0, current+1)) {
+			if ( ! s.equals(id)) {
+				nextList.add(s);
+			}
+		}
+		list = nextList;
+
+		// add id as last element
+		current = list.size();
+		list.add(id);
+		notifyListeners(id);
+	}
+
+	@Override
+	public void focusLost(CDockable dockable) {
+		// not interested
 	}
 }

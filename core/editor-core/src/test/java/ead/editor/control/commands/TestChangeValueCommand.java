@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.impl;
+package ead.editor.control.commands;
 
 import junit.framework.TestCase;
 import org.junit.*;
@@ -63,19 +63,19 @@ import ead.tools.reflection.ReflectionProvider;
 public class TestChangeValueCommand extends TestCase {
 
 	/**
-	 * Actions for testing the changes of String values. 
+	 * Actions for testing the changes of String values.
 	 */
 	private ChangeFieldCommand<String> actionS, mockActionS;
 	/**
-	 * Actions for testing the changes of Integer values. 
+	 * Actions for testing the changes of Integer values.
 	 */
 	private ChangeFieldCommand<Integer> actionI, actionIb, mockActionI;
 	/**
-	 * Actions for testing the changes of Boolean values. 
+	 * Actions for testing the changes of Boolean values.
 	 */
 	private ChangeFieldCommand<Boolean> actionB, mockActionB;
 	/**
-	 * Actions for testing the changes of String values. 
+	 * Actions for testing the changes of String values.
 	 */
 	private ChangeFieldCommand<Object> actionO, actionOb, mockActionO;
 	/**
@@ -83,11 +83,11 @@ public class TestChangeValueCommand extends TestCase {
 	 */
 	private CommandTestObjects actionObj;
 	/**
-	 * Simple object for testing the actions that modify members of the Object class.  
+	 * Simple object for testing the actions that modify members of the Object class.
 	 */
 	private Object obj;
 	/**
-	 * Custom mock object for testing the interaction between methods in the actions.  
+	 * Custom mock object for testing the interaction between methods in the actions.
 	 */
 	@Mock
 	private CommandTestObjects mockActionObject;
@@ -116,7 +116,7 @@ public class TestChangeValueCommand extends TestCase {
 	}
 
 	/**
-	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
+	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.
 	 */
 	@Before
 	@Override
@@ -152,7 +152,7 @@ public class TestChangeValueCommand extends TestCase {
 	}
 
 	/**
-	 * Method for testing the right functionality of the action's method for performing actions.  
+	 * Method for testing the right functionality of the action's method for performing actions.
 	 */
 	@Test
 	public void testPerformAction() {
@@ -189,7 +189,7 @@ public class TestChangeValueCommand extends TestCase {
 	}
 
 	/**
-	 * Method for testing the right functionality of the action's method for redoing actions.  
+	 * Method for testing the right functionality of the action's method for redoing actions.
 	 */
 	@Test
 	public void testRedoAction() {
@@ -222,7 +222,7 @@ public class TestChangeValueCommand extends TestCase {
 	}
 
 	/**
-	 * Method for testing the right functionality of the action's method for undoing actions.  
+	 * Method for testing the right functionality of the action's method for undoing actions.
 	 */
 	@Test
 	public void testUndoAction() {
@@ -265,7 +265,7 @@ public class TestChangeValueCommand extends TestCase {
 	}
 
 	/**
-	 * Method for testing the right functionality of the action's method for combining actions.  
+	 * Method for testing the right functionality of the action's method for combining actions.
 	 */
 	@Test
 	public void testCombineAction() {

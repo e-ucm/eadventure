@@ -44,12 +44,14 @@ package ead.editor.model.nodes;
 import ead.editor.R;
 import ead.editor.model.EditorModel;
 import ead.editor.model.EditorModelImpl;
+import ead.editor.model.ModelIndex;
+import ead.editor.model.ModelIndex.Match;
+import ead.editor.model.ModelIndex.SearchResult;
+import ead.editor.model.ModelQuery;
+import java.awt.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
-
-import ead.editor.model.ModelIndex.SearchResult;
-import java.awt.Image;
 
 /**
  * This node represents a query.
@@ -63,11 +65,24 @@ public class QueryNode extends EditorNode {
 	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
 	private String queryString;
 	private SearchResult result;
+	private EditorModelImpl model;
 
-	public QueryNode(int id, String queryString) {
+	public QueryNode(int id) {
 		super(id);
-		this.queryString = queryString;
 		logger.debug("Query node for '{}'", queryString);
+	}
+
+	public void setModel(EditorModelImpl model) {
+		this.model = model;
+	}
+
+	public String getQueryString() {
+		return queryString;
+	}
+
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+		result = model.search(new ModelQuery(queryString));
 	}
 
 	@Override
@@ -85,51 +100,6 @@ public class QueryNode extends EditorNode {
 		return R.Drawable.assets__query_png;
 	}
 
-	public void executeQuery(EditorModelImpl m) {
-		if (queryString.charAt(0) != ':') {
-			result = m.searchAllDetailed(queryString);
-
-			for (DependencyNode d : result.getMatchedNodes()) {
-				logger.debug("\tadding query match: {}", d.getId());
-				this.addChild(d);
-			}
-		} else {
-			if (queryString.length() < 3) {
-				logger.warn("Illegal query : '{}'", queryString);
-				return;
-			}
-
-			String q = queryString.substring(2);
-			switch (queryString.charAt(1)) {
-			case 'n': {
-				for (DependencyNode n : m.getGraph().vertexSet()) {
-					if (n.getClass().getName().indexOf(q) != -1) {
-						this.addChild(n);
-					}
-				}
-				break;
-			}
-			case 'e': {
-				DependencyNode n = m.getElement(q);
-				if (n != null) {
-					this.addChild(n);
-				}
-				break;
-			}
-			case 'o': {
-				for (DependencyNode n : m.getGraph().vertexSet()) {
-					if (n.getContent().getClass().getName().indexOf(q) != -1) {
-						this.addChild(n);
-					}
-				}
-				break;
-			}
-			default:
-				logger.warn("Illegal query : '{}'", queryString);
-			}
-		}
-	}
-
 	/**
 	 * Writes inner contents to an XML snippet.
 	 * @param sb
@@ -144,8 +114,27 @@ public class QueryNode extends EditorNode {
 	 * @param e
 	 */
 	@Override
-	public void restoreInner(Element e) {
-		this.queryString = e.getChildNodes().item(0).getTextContent();
+	public void restoreInner(Element e, EditorModel em) {
+		setModel((EditorModelImpl) em);
+		setQueryString(e.getElementsByTagName("queryString").item(0)
+				.getTextContent().trim());
+	}
+
+	private static String fieldValue(String field, DependencyNode n) {
+		if (field.equals(ModelIndex.isClassQueryField)) {
+			return n.getClass().getSimpleName();
+		} else if (field.equals(ModelIndex.editorIdQueryField)) {
+			return "" + n.getId();
+		} else if (field.equals(ModelIndex.hasContentClassQueryField)) {
+			return n.getContent().getClass().getSimpleName();
+		}
+
+		if (n.getDoc().getValues(field).length == 0) {
+			logger.warn("No field {} in {}", new Object[] { field, n.getId() });
+			return "??";
+		} else {
+			return n.getDoc().getValues(field)[0];
+		}
 	}
 
 	/**
@@ -157,16 +146,16 @@ public class QueryNode extends EditorNode {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Query: '").append(queryString).append("'\n");
 		int i = 0;
-		for (DependencyNode n : getContents()) {
+		for (Match match : result.getMatches()) {
+			DependencyNode n = match.getNode();
 			sb.append("\n-- Match ").append(++i).append("--\n");
 			sb.append("   ").append(n.getContent().getClass().getSimpleName())
 					.append(" (").append(n.getId()).append(")");
-			if (result != null) {
-				sb.append(": matches in\n");
-				for (String s : result.fieldMatchesFor(n)) {
-					sb.append("     ").append(s).append(": ").append(
-							n.getDoc().getValues(s)[0]);
-				}
+			sb.append(": ").append(match.getScore()).append(
+					" matches in " + match.getFields().size() + " fields\n");
+			for (String s : match.getFields()) {
+				sb.append("     ").append(s).append(": ").append(
+						fieldValue(s, n));
 			}
 		}
 		return sb.toString();

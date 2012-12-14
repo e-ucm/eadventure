@@ -39,15 +39,14 @@ package ead.editor.control;
 
 import com.google.inject.Singleton;
 import ead.editor.control.change.ChangeListener;
+import ead.editor.model.EditorModel;
+import ead.engine.core.game.GameLoader;
 import ead.utils.swing.SwingUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ead.editor.model.EditorModel;
-import ead.engine.core.game.GameLoader;
 
 /**
  * Default implementation for the {@link ProjectController}.

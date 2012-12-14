@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.impl;
+package ead.editor.control.commands;
 
 import static org.mockito.Mockito.*;
 
@@ -48,7 +48,7 @@ import ead.editor.control.Command;
 import ead.editor.control.commands.CompositeCommand;
 import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.utils.Log4jConfig;
 import junit.framework.TestCase;
 
@@ -71,8 +71,8 @@ public class CombineCommandListTest extends TestCase {
 	private CompositeCommand comm;
 
 	/**
-	 * Method that initiates both the mock objects and the regular objects of 
-	 * the class, works similar to a constructor.   
+	 * Method that initiates both the mock objects and the regular objects of
+	 * the class, works similar to a constructor.
 	 */
 	@Before
 	@Override
@@ -88,7 +88,7 @@ public class CombineCommandListTest extends TestCase {
 	}
 
 	/**
-	 * Testing the correct functionality of the method for performing commands.  
+	 * Testing the correct functionality of the method for performing commands.
 	 */
 	@Test
 	public void testPerformCommands() {
@@ -112,7 +112,7 @@ public class CombineCommandListTest extends TestCase {
 	}
 
 	/**
-	 * Testing the correct functionality of the method for undoing commands.  
+	 * Testing the correct functionality of the method for undoing commands.
 	 */
 	@Test
 	public void testUndoCommands() {
@@ -135,7 +135,7 @@ public class CombineCommandListTest extends TestCase {
 	}
 
 	/**
-	 * Testing the correct functionality of the method for redoing commands.  
+	 * Testing the correct functionality of the method for redoing commands.
 	 */
 	@Test
 	public void testRedoCommands() {

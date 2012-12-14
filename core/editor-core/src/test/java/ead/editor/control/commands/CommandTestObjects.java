@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.impl;
+package ead.editor.control.commands;
 
 /**
  * Class that represents the object which values are changed to test the

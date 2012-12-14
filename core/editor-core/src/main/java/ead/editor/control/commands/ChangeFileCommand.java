@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import ead.editor.control.Command;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
 
@@ -96,7 +96,7 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 
 		return (validOne != validAnother) || (validOne && validAnother);
 		// Notice that we don't care if they are 'equals'
-		// -- because the FS may have changed; the fileCache will help us out here		
+		// -- because the FS may have changed; the fileCache will help us out here
 	}
 
 	/**
@@ -151,9 +151,9 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 	}
 
 	/**
-	 * To be called by interested (or subclasses). 
+	 * To be called by interested (or subclasses).
 	 * Causes the last version of the file to be written out into the target.
-	 * @param target 
+	 * @param target
 	 */
 	public void writeFile(File target) {
 		try {

@@ -39,7 +39,7 @@ package ead.editor.view.panel;
 
 import ead.editor.control.Controller;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.ModelEventUtils;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ElementPanel;

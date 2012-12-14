@@ -35,24 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generic;
+package ead.editor.model;
 
-import ead.editor.control.CommandManager;
-import ead.editor.model.EditorModel;
-import javax.swing.JComponent;
+import ead.editor.model.nodes.DependencyNode;
 
 /**
- * An element of the user interface.
+ * Describes changes to the model.
+ * @author mfreire
  */
-public interface InterfaceElement extends EditorModel.ModelListener {
+public interface ModelEvent {
 
 	/**
-	 * @return the title to be used in the interface (can be null)
+	 * Name of the event. Typically supplied by whatever action
+	 * caused it.
 	 */
-	String getTitle();
+	String getName();
 
 	/**
-	 * @return a component for this element
+	 * @return cause of this event; typically a Command. May be null.
 	 */
-	JComponent getComponent(CommandManager manager);
+	Object getCause();
+
+	/**
+	 * @return Array (possibly empty; never null) of added dependency-nodes.
+	 * The array is guaranteed to be sorted-by-id
+	 */
+	DependencyNode[] getAdded();
+
+	/**
+	 * @return Array (possibly empty; never null) of removed dependency-nodes
+	 * The array is guaranteed to be sorted-by-id
+	 */
+	DependencyNode[] getChanged();
+
+	/**
+	 * @return Array (possibly empty; never null) of removed dependency-nodes
+	 * The array is guaranteed to be sorted-by-id
+	 */
+	DependencyNode[] getRemoved();
 }

@@ -38,21 +38,19 @@
 package ead.editor.control;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import ead.editor.model.EditorModel;
-import java.io.File;
-import java.util.HashMap;
-import javax.swing.Action;
-
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
-import java.util.Collection;
-
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import ead.common.util.EAdURI;
+import ead.editor.model.EditorModel;
+import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.DesktopGame;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.platform.assets.AssetHandler;
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import javax.swing.Action;
 
 /**
  * Default implementation for the {@link Controller}.

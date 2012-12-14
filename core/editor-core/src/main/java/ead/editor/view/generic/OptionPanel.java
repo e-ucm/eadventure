@@ -45,7 +45,7 @@ import java.util.List;
  * This element type allows for the display of several elements grouped in the
  * interface
  */
-public interface OptionPanel extends InterfaceElement {
+public interface OptionPanel extends Option {
 
 	/**
 	 * Available layout policies for the panel
@@ -72,12 +72,12 @@ public interface OptionPanel extends InterfaceElement {
 	/**
 	 * @return The list of interface elements in the panel
 	 */
-	List<InterfaceElement> getElements();
+	List<Option> getElements();
 
 	/**
 	 * @param element The element to be added to the panel
 	 */
-	OptionPanel add(InterfaceElement element);
+	OptionPanel add(Option element);
 
 	/**
 	 * @return the layout policy for this panel

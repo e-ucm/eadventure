@@ -41,12 +41,12 @@ import ead.common.model.elements.extra.EAdList;
 import ead.editor.control.Command;
 import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 
 /**
  * Contains subclasses for adding to, removing from, and reordering elements in lists.
- * 
+ *
  * FIXME: currently does not update graph dependencies.
  */
 public abstract class ListCommand<P> extends Command {
@@ -119,8 +119,8 @@ public abstract class ListCommand<P> extends Command {
 				+ "'";
 	}
 
-	/** 
-	 * adds the element (element must NOT exist; position argument optional) 
+	/**
+	 * adds the element (element must NOT exist; position argument optional)
 	 */
 	public static class AddToList<P> extends ListCommand<P> {
 
@@ -150,8 +150,8 @@ public abstract class ListCommand<P> extends Command {
 		}
 	}
 
-	/** 
-	 * removes the element (element MUST exist) 
+	/**
+	 * removes the element (element MUST exist)
 	 */
 	public static class RemoveFromList<P> extends ListCommand<P> {
 

@@ -219,7 +219,7 @@ public class EditorModelImpl implements EditorModel {
 	/**
 	 * Returns the editor-id of the object
 	 * @param o
-	 * @return  editorId if the object has a valid editorId (Identified or 
+	 * @return  editorId if the object has a valid editorId (Identified or
 	 * the StringHandler) - or badElementId otherwise.
 	 */
 	@Override
@@ -346,27 +346,8 @@ public class EditorModelImpl implements EditorModel {
 			return null;
 		}
 
-		char c = id.charAt(0);
-		if (Character.isLetter(c)) {
-			switch (c) {
-			case 'q':
-				QueryNode qn = new QueryNode(generateId(null), id.substring(1));
-				qn.executeQuery(this);
-				return qn;
-			case 't': // type query
-			case 'f': // field query
-				throw new IllegalArgumentException("Not yet implemented");
-			default:
-				throw new IllegalArgumentException(
-						"Expected number or q*,t*,f* queries");
-			}
-		} else if (Character.isDigit(c)) {
-			int eid = Integer.parseInt(id);
-			return getNode(eid);
-		} else {
-			throw new IllegalArgumentException(
-					"Expected number or q*,t*,f* queries");
-		}
+		int eid = Integer.parseInt(id);
+		return getNode(eid);
 	}
 
 	@Override
@@ -449,16 +430,6 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	// ---- search-related functions API ----
-	/**
-	 * Queries all fields in all nodes for the provided text.
-	 *
-	 * @param queryText
-	 * @return a list of all matching nodes, ranked by relevance
-	 */
-	@Override
-	public List<DependencyNode> searchAll(String queryText) {
-		return nodeIndex.searchAll(queryText, nodesById);
-	}
 
 	/**
 	 * Queries all fields in all nodes for the provided text. This
@@ -468,19 +439,8 @@ public class EditorModelImpl implements EditorModel {
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
 	@Override
-	public ModelIndex.SearchResult searchAllDetailed(String queryText) {
-		return nodeIndex.searchAllDetailed(queryText, nodesById);
-	}
-
-	/**
-	 * Queries a given field in all nodes for the provided text.
-	 *
-	 * @param queryText
-	 * @return a list of all matching nodes, ranked by relevance
-	 */
-	@Override
-	public List<DependencyNode> search(String field, String queryText) {
-		return nodeIndex.search(field, queryText, nodesById);
+	public ModelIndex.SearchResult search(ModelQuery query) {
+		return nodeIndex.search(query, nodesById);
 	}
 
 	/**

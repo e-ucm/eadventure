@@ -47,7 +47,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import ead.editor.model.EditorModel;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.DefaultModelEvent;
 
 import junit.framework.TestCase;
@@ -255,7 +255,7 @@ public class CommandManagerTest extends TestCase {
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(cantUndoCommand);
 
-		// performed a bad command - ignored & nothing changed (can still undo first)		
+		// performed a bad command - ignored & nothing changed (can still undo first)
 		assertEquals(true, commandManager.canUndo());
 
 		commandManager.performCommand(mockCommand);

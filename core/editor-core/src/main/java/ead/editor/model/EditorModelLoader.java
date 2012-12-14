@@ -88,16 +88,16 @@ import ead.writer.StringWriter;
 
 /**
  * Loads an EditorModel.
- * 
+ *
  * EditorModels contain each 'Identified' element in the XML wrapped up in a
  * DependencyNode (which hosts lookup information and dependencies). Non-identified
  * elements (maps and lists) are provided transient, lookup-by-value DependencyNodes,
- * as are 
- * 
- * Imported editorModels are passed through a series of factories to build 
+ * as are
+ *
+ * Imported editorModels are passed through a series of factories to build
  * EditorNodes. Loaded models have these EditorNodes restored from their
  * editor.xml file.
- * 
+ *
  * @author mfreire
  */
 public class EditorModelLoader {
@@ -287,7 +287,7 @@ public class EditorModelLoader {
 										.getTextualDescription(model) });
 					}
 				}
-				editorNode.restoreInner(e);
+				editorNode.restoreInner(e, model);
 				model.registerEditorNodeWithGraph(editorNode);
 				read++;
 			}
@@ -502,7 +502,7 @@ public class EditorModelLoader {
 				.updateProgress(55,
 						"Converting engine model into editor model...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(model.getEngineModel(), new EditorModelVisitor());
+		driver.visit(model.getEngineModel(), new EditorModelVisitor(), model.getStringHandler());
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
 
 		// add editor high-level data
@@ -557,20 +557,20 @@ public class EditorModelLoader {
 						"Converting engine model into editor model...");
 		isLoading = true;
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(model.getEngineModel(), new EditorModelVisitor());
+		driver.visit(model.getEngineModel(), new EditorModelVisitor(), model.getStringHandler());
 		isLoading = false;
 		bumpLastElementNodeId();
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
 
-		// add editor high-level data
+		// index
+		model.updateProgress(70, "Indexing model ...");
+		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
+		model.updateProgress(80, "... load complete.");
+
+		// add editor high-level data & finish
 		model.updateProgress(70, "Creating high-level editor elements...");
 		readEditorNodes(sourceDir);
 		bumpLastElementNodeId();
-
-		// index  & finish
-		model.updateProgress(90, "Indexing model ...");
-		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
-		model.updateProgress(100, "... load complete.");
 
 		logger.info("Editor model loaded: {} nodes, {} edges, {} seconds",
 				new Object[] { model.getGraph().vertexSet().size(),

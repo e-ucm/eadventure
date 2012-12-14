@@ -71,11 +71,7 @@ public interface EditorModel extends ModelAccessor {
 
 	// -------- search
 
-	ModelIndex.SearchResult searchAllDetailed(String queryText);
-
-	List<DependencyNode> searchAll(String queryText);
-
-	List<DependencyNode> search(String field, String queryText);
+	ModelIndex.SearchResult search(ModelQuery query);
 
 	// -------- saving, loading, and engine access
 
@@ -127,39 +123,5 @@ public interface EditorModel extends ModelAccessor {
 		 * Called whenever parts of the model change.
 		 */
 		public void modelChanged(ModelEvent event);
-	}
-
-	/**
-	 * A model event
-	 */
-	public static interface ModelEvent {
-		/**
-		 * Name of the event. Typically supplied by whatever action
-		 * caused it.
-		 */
-		public String getName();
-
-		/**
-		 * @return Array (possibly empty; never null) of added dependency-nodes.
-		 * The array is guaranteed to be sorted-by-id
-		 */
-		public DependencyNode[] getAdded();
-
-		/**
-		 * @return Array (possibly empty; never null) of removed dependency-nodes
-		 * The array is guaranteed to be sorted-by-id
-		 */
-		public DependencyNode[] getRemoved();
-
-		/**
-		 * @return Array (possibly empty; never null) of removed dependency-nodes
-		 * The array is guaranteed to be sorted-by-id
-		 */
-		public DependencyNode[] getChanged();
-
-		/**
-		 * @return cause of this event; typically a Command. May be null.
-		 */
-		public Object getCause();
 	}
 }

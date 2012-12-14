@@ -42,7 +42,7 @@ import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
-public class BooleanOption extends AbstractOption<Boolean> {
+public class BooleanOption extends DefaultAbstractOption<Boolean> {
 
 	private JCheckBox checkBox;
 

@@ -43,7 +43,7 @@ import ead.editor.control.Command;
 import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.FileNameOption;
@@ -104,7 +104,7 @@ public class FileOptionTest extends AbstractOptionTest {
 				};
 			}
 		};
-		target = fno.resolveFile(fno.getFieldDescriptor().read());
+		target = fno.resolveFile(fno.readModelValue());
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);

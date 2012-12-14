@@ -40,8 +40,6 @@ package ead.editor.model;
 import ead.editor.model.nodes.DependencyNode;
 import java.util.Arrays;
 
-import ead.editor.model.EditorModel.ModelEvent;
-
 /**
  * An implementation of ModelEvent, heavy on the "ease of use" philosophy.
  *
@@ -99,7 +97,7 @@ public class DefaultModelEvent implements ModelEvent {
 	}
 
 	/**
-	 * Allows reuse of the same ModelChange for the original and the undo. 
+	 * Allows reuse of the same ModelChange for the original and the undo.
 	 * Simply swaps 'added' and 'removed'
 	 */
 	public void flip() {

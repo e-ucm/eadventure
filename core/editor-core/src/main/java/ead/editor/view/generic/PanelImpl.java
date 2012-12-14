@@ -47,7 +47,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import ead.editor.control.CommandManager;
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +60,9 @@ import org.slf4j.LoggerFactory;
 
 public class PanelImpl implements OptionPanel {
 
-	private static final Logger logger = LoggerFactory.getLogger("PanelOption");
+	private static final Logger logger = LoggerFactory.getLogger("OPanel");
 
-	private List<InterfaceElement> elements;
+	private List<Option> elements;
 
 	private String title;
 
@@ -75,7 +75,7 @@ public class PanelImpl implements OptionPanel {
 	private LayoutBuilder builder;
 
 	public PanelImpl(String title, LayoutPolicy layoutPolicy, int insets) {
-		elements = new ArrayList<InterfaceElement>();
+		elements = new ArrayList<Option>();
 		this.title = title;
 		this.layoutPolicy = layoutPolicy;
 		this.insets = insets;
@@ -102,7 +102,7 @@ public class PanelImpl implements OptionPanel {
 	}
 
 	@Override
-	public List<InterfaceElement> getElements() {
+	public List<Option> getElements() {
 		return elements;
 	}
 
@@ -112,7 +112,7 @@ public class PanelImpl implements OptionPanel {
 	}
 
 	@Override
-	public PanelImpl add(InterfaceElement element) {
+	public PanelImpl add(Option element) {
 		elements.add(element);
 		return this;
 	}
@@ -131,7 +131,7 @@ public class PanelImpl implements OptionPanel {
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		builder.start();
-		for (InterfaceElement e : getElements()) {
+		for (Option e : getElements()) {
 			builder.add(e, manager);
 		}
 		builder.finish();
@@ -141,9 +141,14 @@ public class PanelImpl implements OptionPanel {
 
 	@Override
 	public void modelChanged(ModelEvent event) {
-		for (InterfaceElement ie : elements) {
+		for (Option ie : elements) {
 			ie.modelChanged(event);
 		}
+	}
+
+	@Override
+	public String getToolTipText() {
+		return null;
 	}
 
 	private class ScrollablePanel extends JPanel implements Scrollable {
@@ -192,7 +197,7 @@ public class PanelImpl implements OptionPanel {
 	public interface LayoutBuilder {
 		void start();
 
-		void add(InterfaceElement element, CommandManager manager);
+		void add(Option element, CommandManager manager);
 
 		void finish();
 	}
@@ -206,7 +211,7 @@ public class PanelImpl implements OptionPanel {
 		}
 
 		@Override
-		public void add(InterfaceElement element, CommandManager manager) {
+		public void add(Option element, CommandManager manager) {
 			basePanel.add(element.getComponent(manager));
 		}
 
@@ -241,7 +246,7 @@ public class PanelImpl implements OptionPanel {
 		}
 
 		@Override
-		public void add(InterfaceElement element, CommandManager manager) {
+		public void add(Option element, CommandManager manager) {
 			if (element.getTitle() != null) {
 				JLabel label = new JLabel(element.getTitle());
 				prepareLabel();

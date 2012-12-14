@@ -37,6 +37,8 @@
 
 package ead.editor.view;
 
+import bibliothek.gui.DockStation;
+import bibliothek.gui.Dockable;
 import ead.editor.view.toolbar.ToolPanel;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -57,6 +59,8 @@ import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import bibliothek.gui.dock.common.intern.CDockable;
+import bibliothek.gui.dock.common.intern.CommonDockable;
+import bibliothek.gui.dock.common.mode.ExtendedMode;
 
 import com.google.inject.Singleton;
 
@@ -157,7 +161,7 @@ public class EditorWindow implements ViewController {
 	@Override
 	public void restoreViews() {
 		File f = controller.getModel().getLoader().relativeFile("views.xml");
-		if (f.exists() && f.canRead()) {
+		if (f.exists() && f.canRead() && f.length() > 0) {
 			try {
 				dockController.readXML(f);
 			} catch (IOException ex) {
@@ -169,9 +173,25 @@ public class EditorWindow implements ViewController {
 
 	@Override
 	public void clearViews() {
-		for (int i = 0; i < dockController.getCDockableCount(); i++) {
-			CDockable c = dockController.getCDockable(i);
-			dockController.remove((MultipleCDockable) c);
+		while (dockController.getCDockableCount() > 0) {
+			CDockable c = dockController.getCDockable(0);
+			// We need to access the Core API to find out which other Dockables exist.
+			DockStation parent = c.intern().getDockParent();
+
+			// Closing a Dockable may remove the parent DockStation;
+			// first save a list, then delete it
+			Dockable[] children = new Dockable[parent.getDockableCount()];
+			for (int i = 0; i < children.length; i++) {
+				children[i] = parent.getDockable(i);
+			}
+			for (Dockable child : children) {
+				// Avoids closing stacks
+				if (child instanceof CommonDockable) {
+					CDockable cChild = ((CommonDockable) child).getDockable();
+					cChild.setVisible(false);
+				}
+			}
+			logger.info("Cleared one round");
 		}
 	}
 
@@ -201,7 +221,10 @@ public class EditorWindow implements ViewController {
 	private void createNewView(String id) {
 		logger.info("opening view for #{}...", id);
 		if (dockController.getMultipleDockable(id) != null) {
-			logger.info("Learn how to make visible here!");
+			MultipleCDockable d = dockController.getMultipleDockable(id);
+			d.setVisible(true);
+			d.setExtendedMode(ExtendedMode.MAXIMIZED);
+			logger.info("Expect dockable {} to be visible now!", id);
 		} else {
 			DependencyNode node = controller.getModel().getElement(id);
 
@@ -226,12 +249,12 @@ public class EditorWindow implements ViewController {
 
 	@Override
 	public void showWindow() {
-		setSizeAndPosition();
 		SwingUtilities.doInEDT(new Runnable() {
 
 			@Override
 			public void run() {
 				editorWindow.setVisible(true);
+				setSizeAndPosition();
 			}
 		});
 	}
@@ -275,7 +298,6 @@ public class EditorWindow implements ViewController {
 	 * Create the main window of the editor
 	 */
 	private void createMainWindow() {
-		editorWindow = new JFrame();
 		editorWindow.setTitle(Messages.main_window_title);
 		editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -421,7 +443,8 @@ public class EditorWindow implements ViewController {
 
 		// left panel, right panel, and the splitPane
 		leftPanel = new StructurePanel();
-		dockController = new CControl();
+		editorWindow = new JFrame();
+		dockController = new CControl(editorWindow);
 		createMainWindow();
 		initializeStructurePanel();
 

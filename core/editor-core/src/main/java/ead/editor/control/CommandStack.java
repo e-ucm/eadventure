@@ -37,7 +37,7 @@
 
 package ead.editor.control;
 
-import ead.editor.model.EditorModel.ModelEvent;
+import ead.editor.model.ModelEvent;
 import ead.editor.model.MergeableModelChange;
 import java.util.Stack;
 import org.slf4j.Logger;

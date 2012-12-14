@@ -40,8 +40,6 @@ package ead.editor.model;
 import ead.editor.model.nodes.DependencyNode;
 import java.util.Arrays;
 
-import ead.editor.model.EditorModel.ModelEvent;
-
 /**
  * ModelEvent processing utilities.
  *
@@ -75,11 +73,11 @@ public class ModelEventUtils {
 
 	/**
 	 * Utility method to check whether a value is in an array. Note: uses
-	 * binary search to greatly speed this up if there are many values. 
+	 * binary search to greatly speed this up if there are many values.
 	 * Added, changed and removed must always be sorted.
 	 * @param nodes
 	 * @param value
-	 * @return 
+	 * @return
 	 */
 	public static boolean contains(DependencyNode[] nodes,
 			DependencyNode... values) {
@@ -98,7 +96,7 @@ public class ModelEventUtils {
 	 * Utility method to check whether a value is changed in an event.
 	 * @param e the ModelEvent to scourge
 	 * @param value
-	 * @return 
+	 * @return
 	 */
 	public static boolean changes(ModelEvent e, DependencyNode... values) {
 		return contains(e.getChanged(), values);
