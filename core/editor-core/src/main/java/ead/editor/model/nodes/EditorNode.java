@@ -67,11 +67,11 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	 * A list of indexed fields.
 	 */
 	protected String[] indexedFields;
-	
+
 	/**
 	 * Builds a new editor-node.
 	 * @param id
-	 * @param indexedFields 
+	 * @param indexedFields
 	 */
 	public EditorNode(int id, String ... indexedFields) {
 		super(id, new HashSet<DependencyNode<?>>());
@@ -80,11 +80,11 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
 	/**
 	 * Returns all fields that should be visited to fully re-index this node.
-	 * @return 
+	 * @return
 	 */
 	public String[] getIndexedFields() {
 		return indexedFields;
-	}	
+	}
 
 	public HashSet<DependencyNode<?>> getContents() {
 		return content;

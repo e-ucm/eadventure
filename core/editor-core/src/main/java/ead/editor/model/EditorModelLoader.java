@@ -298,106 +298,6 @@ public class EditorModelLoader {
 		return read;
 	}
 
-	/**
-	 * Wraps a targetContent in an DependencyNode. If the content is of a type
-	 * that has extra editor data associated (a subclass of EAdElement), and
-	 * this editor data is available, it is used; otherwise, a new
-	 * DependencyNode is created.
-	 *
-	 * @param targetContent
-	 *            to wrap
-	 * @return a new or old editorNode to wrap that content
-	 */
-	@SuppressWarnings("unchecked")
-	private DependencyNode createOrUnfreezeNode(Object targetContent) {
-
-		DependencyNode node;
-		if (targetContent instanceof Identified) {
-			String oid = ((Identified) targetContent).getId();
-			int eid = model.getEditorId(targetContent);
-			if (eid != EditorModelImpl.badElementId) {
-				// content is eadElement, and has editor-id: unfreeze
-				logger.debug("Found existing eID marker in {}: {}",
-						targetContent.getClass().getSimpleName(), oid);
-				node = model.getNodesById().get(eid);
-				if (node == null) {
-					node = new EngineNode(eid, targetContent);
-					model.getNodesById().put(eid, node);
-				} else {
-					if (!node.getContent().equals(targetContent)) {
-						logger
-								.error(
-										"Corrupted save-file: eid {} assigned to {} AND {}",
-										new Object[] { eid,
-												targetContent.toString(),
-												node.getContent().toString() });
-						throw new IllegalStateException("Corrupted save-file: "
-								+ "same eid assigned to two objects");
-					}
-				}
-			} else {
-				// content is eadElement, but has no editor-id: add it
-				if (isLoading) {
-					logger.error(
-							"Loaded EAdElement {} of type {} had no editor ID",
-							new String[] { oid,
-									targetContent.getClass().getSimpleName() });
-					throw new IllegalStateException("Corrupted save-file: "
-							+ "no eid assigned to loaded objects");
-				} else {
-					eid = model.generateId(targetContent);
-					String decorated = EditorModelImpl.decorateIdWithEid(oid,
-							eid);
-					logger.debug("Created eID marker for {}: {} ({})",
-							new Object[] { oid, eid, decorated });
-					((Identified) targetContent).setId(decorated);
-					node = new EngineNode(eid, targetContent);
-					model.getNodesById().put(eid, node);
-				}
-			}
-		} else {
-			// content cannot have true editor-id at all (it is transient)
-			int eid = model.generateId(targetContent);
-			logger.debug("Created eID for non-persited {}: {}", new Object[] {
-					targetContent.getClass().getSimpleName(), eid });
-			node = new EngineNode(eid, targetContent);
-			model.getNodesById().put(eid, node);
-			model.getNodesByContent().put(targetContent, node);
-		}
-		return node;
-	}
-
-	/**
-	 * Attempts to add a new node-and-edge to the graph; use only during initial
-	 * model-building. The source may be null (for the root).
-	 *
-	 * @return the new node if added, or null if already existing (and
-	 *         therefore, it makes no sense to continue adding recursively from
-	 *         there on).
-	 */
-	private DependencyNode addNode(DependencyNode source, String type,
-			Object targetContent) {
-		DependencyNode target = model.getNodeFor(targetContent);
-		boolean alreadyKnown = (target != null);
-
-		if (!alreadyKnown) {
-			target = createOrUnfreezeNode(targetContent);
-			model.getGraph().addVertex(target);
-		}
-
-		if (source != null) {
-			model.getGraph().addEdge(source, target, new DependencyEdge(type));
-		} else {
-			model.setRoot(target);
-		}
-
-		if (!alreadyKnown) {
-			return target;
-		} else {
-			return null;
-		}
-	}
-
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
 		 * Visits a node
@@ -413,12 +313,12 @@ public class EditorModelLoader {
 			// source is only null for root node
 			if (source == null) {
 				// should keep on drilling, but otherwise nothing to do here
-				addNode(null, null, target);
+				model.addNode(null, null, target);
 				return true;
 			}
 
 			DependencyNode sourceNode = model.getNodeFor(source);
-			DependencyNode e = addNode(sourceNode, sourceName, target);
+			DependencyNode e = model.addNode(sourceNode, sourceName, target);
 
 			if (e != null) {
 				model.getNodeIndex().addProperty(e,
