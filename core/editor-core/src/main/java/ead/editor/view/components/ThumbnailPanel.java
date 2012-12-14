@@ -40,7 +40,6 @@
 
 package ead.editor.view.components;
 
-import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -61,10 +60,18 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
+import java.util.HashMap;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.editor.model.ModelEvent;
+import ead.editor.model.ModelEventUtils;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
 
 /**
  * A panel that displays thumbnails for a number of elements.
@@ -88,6 +95,8 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 
 	private NodeTransferHandler transferHandler = new NodeTransferHandler();
 
+	private HashMap<Integer, Thumbnail> thumbMap = new HashMap<Integer, Thumbnail>();
+
 	public ThumbnailPanel() {
 		inner = new JPanel();
 		dgl = new DynamicGridLayout();
@@ -100,11 +109,25 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 		add(scroll, BorderLayout.CENTER);
 	}
 
+	@Override
+	public void modelChanged(ModelEvent event) {
+		for (DependencyNode n : nodes) {
+			if (ModelEventUtils.changes(event, n)) {
+				int pos = thumbMap.get(n.getId()).index;
+				inner.remove(pos);
+				thumbMap.put(n.getId(), new Thumbnail((EditorNode)n, pos));
+				inner.add(thumbMap.get(n.getId()), pos);
+			}
+		}
+	}
+
 	private class Thumbnail extends JPanel {
 		private final EditorNode node;
+		private final int index;
 
-		public Thumbnail(EditorNode node) {
+		public Thumbnail(EditorNode node, int index) {
 			this.node = node;
+			this.index = index;
 			setLayout(null);
 
 			DragSource.getDefaultDragSource()
@@ -281,8 +304,7 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 		inner.removeAll();
 		this.nodes.clear();
 		for (EditorNode n : nodes) {
-			this.nodes.add(n);
-			inner.add(new ThumbnailPanel.Thumbnail(n));
+			addNode(n);
 		}
 		inner.revalidate();
 		revalidate();
@@ -291,6 +313,8 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 	@Override
 	public void addNode(EditorNode node) {
 		nodes.add(node);
-		inner.add(new ThumbnailPanel.Thumbnail(node));
+		Thumbnail t = new ThumbnailPanel.Thumbnail(node, inner.getComponentCount());
+		thumbMap.put(node.getId(), t);
+		inner.add(t);
 	}
 }

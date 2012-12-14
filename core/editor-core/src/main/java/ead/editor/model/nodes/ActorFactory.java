@@ -84,7 +84,7 @@ public class ActorFactory implements EditorNodeFactory {
 			} else if (notes.contains("actor.npc")) {
 				an = new AtrezzoNode(model.generateId(null));
 			} else if (notes.contains("actor.item")) {
-				an = new AtrezzoNode(model.generateId(null));
+				an = new ItemNode(model.generateId(null));
 			} else {
 				logger.warn("Bad annotations on actor-node");
 			}

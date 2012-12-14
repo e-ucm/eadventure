@@ -118,13 +118,20 @@ public class ModelIndex implements ModelListener {
 	 * Upstream model; listened to, queried occasionally to resolve IDs
 	 */
 	private EditorModelImpl model;
-	
+
 	private UpdatePropertiesVisitor updateVisitor = new UpdatePropertiesVisitor();
-	
+
 	/**
 	 * Configure Lucene indexing
 	 */
 	public ModelIndex() {
+		clear();
+	}
+
+	/**
+	 * Purges the contents of this modelIndex
+	 */
+	public void clear() {
 		try {
 			searchIndex = new RAMDirectory();
 			// use a very simple analyzer; no fancy stopwords, stemming, ...
@@ -154,10 +161,10 @@ public class ModelIndex implements ModelListener {
 				new Field(field, value, Store.YES, searchable ? Index.ANALYZED
 						: Index.NO));
 	}
-	
+
 	/**
-	 * Changes the model indexed by this indexer. Also resets the 
-	 * @param model 
+	 * Changes the model indexed by this indexer. Also resets the
+	 * @param model
 	 */
 	void setModel(EditorModelImpl model) {
 		if (model != null && this.model == model) {
@@ -174,18 +181,18 @@ public class ModelIndex implements ModelListener {
 	public void modelChanged(ModelEvent event) {
 		updateNodes(event.getChanged());
 	}
-	
+
 	/**
-	 * Updates the index regarding a set of nodes. The node documents are 
+	 * Updates the index regarding a set of nodes. The node documents are
 	 * re-indexed by visiting them anew.
-	 * @param nodes 
+	 * @param nodes
 	 */
-	public void updateNodes(DependencyNode ...nodes) {
+	public void updateNodes(DependencyNode... nodes) {
 		DependencyNode last = null;
 		try {
 			for (DependencyNode e : nodes) {
 				last = e;
-				Term q = new Term(editorIdFieldName, ""+e.getId());
+				Term q = new Term(editorIdFieldName, "" + e.getId());
 				indexWriter.deleteDocuments(q);
 				ModelVisitorDriver mvd = new ModelVisitorDriver();
 				mvd.visit(e, updateVisitor, model.getStringHandler());
@@ -199,9 +206,9 @@ public class ModelIndex implements ModelListener {
 			indexWriter.commit();
 		} catch (Exception ex) {
 			logger.error("Error commiting search information", ex);
-		}		
+		}
 	}
-	
+
 	/**
 	 * Index an DependencyNode for later search
 	 */
@@ -462,7 +469,7 @@ public class ModelIndex implements ModelListener {
 					MAX_SEARCH_HITS, true);
 			searcher.search(query, collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-			SearchResult sr = new SearchResult(searcher, query, quick, hits, 
+			SearchResult sr = new SearchResult(searcher, query, quick, hits,
 					model.getNodesById());
 			return sr;
 		} catch (Exception e) {
@@ -471,17 +478,19 @@ public class ModelIndex implements ModelListener {
 		}
 		return new SearchResult();
 	}
-	
-	private class UpdatePropertiesVisitor implements ModelVisitor {				
-		
+
+	private class UpdatePropertiesVisitor implements ModelVisitor {
+
 		@Override
-		public boolean visitObject(Object target, Object source, String sourceName) {
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
 			// not interested in visiting nodes, as these are indexed separately
 			return false;
 		}
 
 		@Override
-		public void visitProperty(Object target, String propertyName, String textValue) {
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
 			logger.debug("Visiting property: '{}' :: '{}' = '{}'",
 					new Object[] { target, propertyName, textValue });
 			DependencyNode targetNode = model.getNodeFor(target);

@@ -37,11 +37,12 @@
 
 package ead.editor.model.nodes.asset;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.editor.R;
 import ead.utils.i18n.Resource;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 /**
  * Image asset node

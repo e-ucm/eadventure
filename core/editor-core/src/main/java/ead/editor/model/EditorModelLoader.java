@@ -61,13 +61,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.google.inject.Inject;
-import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
 import ead.editor.model.nodes.asset.AssetFactory;
 import ead.editor.model.nodes.asset.AssetsNode;
-import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EditorNodeFactory;
@@ -313,12 +311,13 @@ public class EditorModelLoader {
 			// source is only null for root node
 			if (source == null) {
 				// should keep on drilling, but otherwise nothing to do here
-				model.addNode(null, null, target);
+				model.addNode(null, null, target, isLoading);
 				return true;
 			}
 
 			DependencyNode sourceNode = model.getNodeFor(source);
-			DependencyNode e = model.addNode(sourceNode, sourceName, target);
+			DependencyNode e = model.addNode(sourceNode, sourceName, target,
+					isLoading);
 
 			if (e != null) {
 				model.getNodeIndex().addProperty(e,

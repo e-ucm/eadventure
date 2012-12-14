@@ -121,7 +121,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 		jpCanvas = new ZoomableImagePanel();
 		ZoomablePanelHolder holder = new ZoomablePanelHolder(jpCanvas);
 		jpCanvasContainer.add(holder, BorderLayout.CENTER);
-		new FileDrop(null, this, true, dropListener);
+		FileDrop fd = new FileDrop(null, this, true, dropListener);
 	}
 
 	private class ZoomableImagePanel extends ZoomablePanel {

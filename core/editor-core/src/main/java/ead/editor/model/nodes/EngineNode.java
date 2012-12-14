@@ -51,6 +51,7 @@ import ead.common.resources.EAdResources;
 import ead.editor.model.EditorModel;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -217,6 +218,10 @@ public class EngineNode<T> extends DependencyNode<T> {
 		while (clazz != null) {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {
+				if (Modifier.isStatic(field.getModifiers())) {
+					// ignore static fields
+					continue;
+				}
 				Object v = ModelVisitorDriver.readProperty(o, field.getName());
 				if (!ModelVisitorDriver.isEmpty(v)) {
 					sb.append(indent).append(field.getName()).append(" --> ");

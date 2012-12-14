@@ -133,8 +133,7 @@ public class FileMenu extends AbstractEditorMenu {
 				int rc = JOptionPane.showConfirmDialog(null, message,
 						Messages.file_menu_confirm_destructive_op,
 						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE
-				);
+						JOptionPane.WARNING_MESSAGE);
 				if (rc == JOptionPane.CANCEL_OPTION) {
 					return false;
 				} else if (rc == JOptionPane.OK_OPTION) {

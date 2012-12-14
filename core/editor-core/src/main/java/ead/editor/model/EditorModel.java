@@ -71,10 +71,8 @@ public interface EditorModel extends ModelAccessor {
 	List<DependencyNode> outgoingDependencies(DependencyNode node);
 
 	/**
-	 * Updates incoming and outgoing dependencies for a node. Added nodes
-	 * must already have had their dependencies updated. Removed nodes must have
-	 * been removed already.
-	 * @param node
+	 * Updates incoming and outgoing dependencies for a set of nodes.
+	 * @param nodes to update
 	 * @param changed existing nodes that have had their edges changed
 	 *     are placed here.
 	 * @param added nodes that have been added (discovered through edge-traversal)
@@ -85,8 +83,8 @@ public interface EditorModel extends ModelAccessor {
 	 * that is to be created and [-] one that is to be deleted, then
 	 * updateDependencies(a) would return {b, c}
 	 */
-	void updateDependencies(DependencyNode node,
-				Set<DependencyNode> changed, Set<DependencyNode> added);
+	void updateDependencies(Set<DependencyNode> changed,
+			Set<DependencyNode> added, DependencyNode... nodes);
 
 	// -------- search
 

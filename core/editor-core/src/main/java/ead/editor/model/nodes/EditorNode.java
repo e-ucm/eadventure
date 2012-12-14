@@ -73,7 +73,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 	 * @param id
 	 * @param indexedFields
 	 */
-	public EditorNode(int id, String ... indexedFields) {
+	public EditorNode(int id, String... indexedFields) {
 		super(id, new HashSet<DependencyNode<?>>());
 		this.indexedFields = indexedFields;
 	}

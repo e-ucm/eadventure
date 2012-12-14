@@ -275,42 +275,50 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	@Override
-	public void updateDependencies(DependencyNode node,
-				Set<DependencyNode> changed, Set<DependencyNode> added) {
-
-		// make copies of old dependencies
-		HashSet<DependencyEdge> oldIncoming
-				= new HashSet<DependencyEdge>(g.incomingEdgesOf(node));
-		HashSet<DependencyEdge> oldOutgoing
-				= new HashSet<DependencyEdge>(g.outgoingEdgesOf(node));
+	public void updateDependencies(Set<DependencyNode> changed,
+			Set<DependencyNode> added, DependencyNode... nodes) {
 
 		ModelVisitorDriver mvd = new ModelVisitorDriver();
 
-		// update incoming
-		for (DependencyEdge e : oldIncoming) {
-			LinkStillThereVisitor lstv = new LinkStillThereVisitor(e);
-			mvd.visit(g.getEdgeSource(e), lstv, stringHandler);
-			if ( ! lstv.isEdgeStillThere()) {
-				changed.add(g.getEdgeSource(e));
+		// first pass
+		for (DependencyNode node : nodes) {
+			// make copies of old dependencies
+			HashSet<DependencyEdge> oldIncoming = new HashSet<DependencyEdge>(g
+					.incomingEdgesOf(node));
+			HashSet<DependencyEdge> oldOutgoing = new HashSet<DependencyEdge>(g
+					.outgoingEdgesOf(node));
+
+			// update incoming
+			for (DependencyEdge e : oldIncoming) {
+				LinkStillThereVisitor lstv = new LinkStillThereVisitor(e);
+				mvd.visit(g.getEdgeSource(e), lstv, stringHandler);
+				if (!lstv.isEdgeStillThere()) {
+					changed.add(g.getEdgeSource(e));
+					g.removeEdge(e);
+				}
+			}
+			// remove old-outgoing
+			for (DependencyEdge e : oldOutgoing) {
 				g.removeEdge(e);
 			}
 		}
-		// remove old-outgoing
-		for (DependencyEdge e : oldOutgoing) {
-			g.removeEdge(e);
-		}
-		// add new-outgoing
-		if (node instanceof EngineNode) {
-			UpdateOutgoingLinksVisitor uolv = new UpdateOutgoingLinksVisitor(node, added, changed);
-			mvd.visit(node, uolv, stringHandler);
-		} else if (node instanceof EditorNode) {
-			// editor nodes have no outgoing to worry about
-		} else {
-			logger.error("Expected editorNode or engineNode; "
-					+ "{} (id {}) is neither", node.getClass(), node.getId());
+
+		// second pass
+		for (DependencyNode node : nodes) {
+			// add new-outgoing
+			if (node instanceof EngineNode) {
+				UpdateOutgoingLinksVisitor uolv = new UpdateOutgoingLinksVisitor(
+						node, added, changed);
+				mvd.visit(node, uolv, stringHandler);
+			} else if (node instanceof EditorNode) {
+				// editor nodes have no outgoing to worry about
+			} else {
+				logger.error("Expected editorNode or engineNode; "
+						+ "{} (id {}) is neither", node.getClass(), node
+						.getId());
+			}
 		}
 	}
-
 
 	private class LinkStillThereVisitor implements ModelVisitor {
 
@@ -318,6 +326,7 @@ public class EditorModelImpl implements EditorModel {
 		private int targetId;
 		private String type;
 		private boolean found = false;
+
 		public LinkStillThereVisitor(DependencyEdge e) {
 			this.sourceId = g.getEdgeSource(e).getId();
 			this.targetId = g.getEdgeTarget(e).getId();
@@ -325,8 +334,9 @@ public class EditorModelImpl implements EditorModel {
 		}
 
 		@Override
-		public boolean visitObject(Object target, Object source, String sourceName) {
-			if ( ! found && sourceName.equals(this.type)) {
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
+			if (!found && sourceName.equals(this.type)) {
 				DependencyNode sourceNode = getNodeFor(source);
 				DependencyNode targetNode = getNodeFor(target);
 				if (sourceNode != null && targetNode != null
@@ -344,7 +354,8 @@ public class EditorModelImpl implements EditorModel {
 		}
 
 		@Override
-		public void visitProperty(Object target, String propertyName, String textValue) {
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
 			// not interested in indexing properties; the index takes care of itself
 		}
 	}
@@ -354,6 +365,7 @@ public class EditorModelImpl implements EditorModel {
 		private Set<DependencyNode> changed;
 		private Set<DependencyNode> added;
 		private DependencyNode sourceNode;
+
 		private UpdateOutgoingLinksVisitor(DependencyNode sourceNode,
 				Set<DependencyNode> added, Set<DependencyNode> changed) {
 			this.sourceNode = sourceNode;
@@ -362,9 +374,10 @@ public class EditorModelImpl implements EditorModel {
 		}
 
 		@Override
-		public boolean visitObject(Object target, Object source, String sourceName) {
-			Set<DependencyEdge> edges = g.getAllEdges(
-					getNodeFor(source), getNodeFor(target));
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
+			Set<DependencyEdge> edges = g.getAllEdges(getNodeFor(source),
+					getNodeFor(target));
 			boolean found = false;
 			for (DependencyEdge e : edges) {
 				if (e.getType().equals(sourceName)) {
@@ -372,10 +385,10 @@ public class EditorModelImpl implements EditorModel {
 					break;
 				}
 			}
-			if ( ! found) {
+			if (!found) {
 				// add edge, and possibly target node
-				DependencyNode targetNode = addNode(
-						sourceNode, sourceName, target, false);
+				DependencyNode targetNode = addNode(sourceNode, sourceName,
+						target, false);
 				if (targetNode != null) {
 					// new node! keep on going, then!
 					added.add(targetNode);
@@ -391,12 +404,13 @@ public class EditorModelImpl implements EditorModel {
 		}
 
 		@Override
-		public void visitProperty(Object target, String propertyName, String textValue) {
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
 			// not interested in indexing properties; the index takes care of itself
 		}
 	}
 
-/**
+	/**
 	 * Attempts to add a new node-and-edge to the graph.
 	 * The source may be null (for the root).
 	 *
@@ -427,7 +441,6 @@ public class EditorModelImpl implements EditorModel {
 		}
 	}
 
-
 	/**
 	 * Wraps a targetContent in an DependencyNode. If the content is of a type
 	 * that has extra editor data associated (a subclass of Identified), and
@@ -438,7 +451,8 @@ public class EditorModelImpl implements EditorModel {
 	 * @return a new or old editorNode to wrap that content
 	 */
 	@SuppressWarnings("unchecked")
-	private DependencyNode createOrUnfreezeNode(Object targetContent, boolean isLoading) {
+	private DependencyNode createOrUnfreezeNode(Object targetContent,
+			boolean isLoading) {
 
 		DependencyNode node;
 		if (targetContent instanceof Identified) {
@@ -503,7 +517,7 @@ public class EditorModelImpl implements EditorModel {
 		lastTransientNodeId = intermediateIDPoint;
 		nodesById.clear();
 		nodesByContent.clear();
-		nodeIndex = new ModelIndex();
+		nodeIndex.clear();
 		g.removeAllEdges(new HashSet<DependencyEdge>(g.edgeSet()));
 		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));
 		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
@@ -697,11 +711,13 @@ public class EditorModelImpl implements EditorModel {
 
 	@Override
 	public void addModelListener(ModelListener modelListener) {
+		logger.info("--> [+] registered new ModelListener {}", modelListener);
 		modelListeners.add(modelListener);
 	}
 
 	@Override
 	public void removeModelListener(ModelListener modelListener) {
+		logger.info("--> [-] removed ModelListener {}", modelListener);
 		modelListeners.remove(modelListener);
 	}
 
