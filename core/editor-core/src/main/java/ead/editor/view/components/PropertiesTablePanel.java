@@ -41,15 +41,13 @@
  */
 package ead.editor.view.components;
 
-import ead.editor.model.EditorModel;
-import ead.editor.model.nodes.asset.AssetNode;
-import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -59,7 +57,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+
 import org.jdesktop.swingx.JXTable;
+
+import ead.editor.model.EditorModel;
+import ead.editor.model.ModelEvent;
+import ead.editor.model.ModelEventUtils;
+import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.asset.AssetNode;
 
 /**
  * A panel that can be collapsed or expanded by clicking on a button.
@@ -113,6 +118,16 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		tcm.getColumn(4).setMaxWidth(50);
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
+	}
+
+	@Override
+	public void modelChanged(ModelEvent event) {
+		for (int i=0; i<tableModel.getRowCount(); i++) {
+			EditorNode node = nodes.get(i);
+			if (ModelEventUtils.changes(event, node)) {
+				tableModel.fireTableRowsUpdated(i, i);
+			}
+		}
 	}
 
 	private static class ImageCellRenderer implements TableCellRenderer {
