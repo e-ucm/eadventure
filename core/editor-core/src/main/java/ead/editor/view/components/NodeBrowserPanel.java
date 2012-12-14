@@ -63,7 +63,8 @@ import ead.editor.model.nodes.EditorNode;
  * drag & drop (or at least drag), and selections.
  * @author mfreire
  */
-public abstract class NodeBrowserPanel extends JPanel implements EditorModel.ModelListener {
+public abstract class NodeBrowserPanel extends JPanel implements
+		EditorModel.ModelListener {
 
 	protected TreeSet<EditorNode> selected = new TreeSet<EditorNode>(
 			new IdComparator());

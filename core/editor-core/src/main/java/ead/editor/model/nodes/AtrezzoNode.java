@@ -45,6 +45,6 @@ package ead.editor.model.nodes;
 public class AtrezzoNode extends EditorNode {
 
 	public AtrezzoNode(int id) {
-		super(id, new String[]{});
+		super(id, new String[] {});
 	}
 }

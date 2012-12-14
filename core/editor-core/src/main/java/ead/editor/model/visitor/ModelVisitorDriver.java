@@ -412,8 +412,8 @@ public class ModelVisitorDriver {
 			}
 			if (pd == null) {
 				Exception e = new Exception();
-				logger.error("Missing descriptor for {} -- trace follows",
-						c + "." + fieldName, e);
+				logger.error("Missing descriptor for {} -- trace follows", c
+						+ "." + fieldName, e);
 				return null;
 			}
 			Method method = pd.getReadMethod();

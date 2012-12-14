@@ -491,7 +491,7 @@ public class EditorModelImpl implements EditorModel {
 					eid = generateId(targetContent);
 					String decorated = EditorModelImpl.decorateIdWithEid(oid,
 							eid);
-					logger.error("Created eID marker for {}: {} ({})",
+					logger.debug("Created eID marker for {}: {} ({})",
 							new Object[] { oid, eid, decorated });
 					((Identified) targetContent).setId(decorated);
 					node = new EngineNode(eid, targetContent);

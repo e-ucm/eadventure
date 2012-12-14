@@ -37,23 +37,30 @@
 
 package ead.editor.view;
 
-import bibliothek.gui.DockStation;
-import bibliothek.gui.Dockable;
-import ead.editor.view.toolbar.ToolPanel;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Singleton;
+
+import bibliothek.gui.DockStation;
+import bibliothek.gui.Dockable;
 import bibliothek.gui.dock.common.CControl;
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockable;
@@ -62,8 +69,6 @@ import bibliothek.gui.dock.common.intern.CDockable;
 import bibliothek.gui.dock.common.intern.CommonDockable;
 import bibliothek.gui.dock.common.mode.ExtendedMode;
 
-import com.google.inject.Singleton;
-
 import ead.editor.R;
 import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
@@ -71,30 +76,24 @@ import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.ViewController;
 import ead.editor.model.nodes.CharacterNode;
 import ead.editor.model.nodes.DependencyNode;
-import ead.editor.view.dock.ClassDockableFactory;
-import ead.editor.view.dock.ElementPanel;
-import ead.editor.view.menu.FileMenu;
-import ead.editor.view.panel.ActorPanel;
-import ead.editor.view.panel.RawElementPanel;
-import ead.editor.view.structure.StructureElement;
-import ead.editor.view.structure.StructurePanel;
-import ead.utils.i18n.Resource;
-import ead.utils.swing.SwingUtilities;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.Action;
-import javax.swing.JSplitPane;
 import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
+import ead.editor.view.dock.ClassDockableFactory;
+import ead.editor.view.dock.ElementPanel;
 import ead.editor.view.menu.AbstractEditorMenu;
 import ead.editor.view.menu.EditMenu;
+import ead.editor.view.menu.FileMenu;
 import ead.editor.view.menu.RunMenu;
 import ead.editor.view.menu.WindowMenu;
+import ead.editor.view.panel.ActorPanel;
+import ead.editor.view.panel.RawElementPanel;
 import ead.editor.view.panel.asset.AssetsPanel;
 import ead.editor.view.panel.asset.ImageAssetPanel;
+import ead.editor.view.structure.StructureElement;
+import ead.editor.view.structure.StructurePanel;
+import ead.editor.view.toolbar.ToolPanel;
+import ead.utils.i18n.Resource;
+import ead.utils.swing.SwingUtilities;
 
 /**
  * Default implementation of the main editor window
@@ -164,7 +163,7 @@ public class EditorWindow implements ViewController {
 		if (f.exists() && f.canRead() && f.length() > 0) {
 			try {
 				dockController.readXML(f);
-			} catch (IOException ex) {
+			} catch (Exception ex) {
 				logger.error("Could not restore views from {}", f, ex);
 				clearViews();
 			}
@@ -191,8 +190,11 @@ public class EditorWindow implements ViewController {
 					cChild.setVisible(false);
 				}
 			}
-			logger.info("Cleared one round");
+			logger.debug("Cleared one round");
 		}
+		File f = controller.getModel().getLoader().relativeFile("views.xml");
+		f.delete();
+		logger.info("Cleared views");
 	}
 
 	@Override

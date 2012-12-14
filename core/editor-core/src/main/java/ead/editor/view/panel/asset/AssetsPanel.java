@@ -34,11 +34,11 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.editor.view.panel.asset;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -52,6 +52,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
+import org.jdesktop.swingx.JXRadioGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +64,7 @@ import ead.editor.model.nodes.asset.AssetNode;
 import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.view.components.EditorLinkFactory;
 import ead.editor.view.components.NodeBrowserPanel;
+import ead.editor.view.components.PropertiesTablePanel;
 import ead.editor.view.components.ThumbnailPanel;
 import ead.editor.view.panel.AbstractElementPanel;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
@@ -81,16 +83,59 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	private JSplitPane split;
 	private JTabbedPane tabs;
 	private AssetPreviewer previewer;
-	private HashMap<String, ThumbnailPanel> thumbPanels;
+	private HashMap<String, NodeBrowserPanel> thumbPanels;
 	private AssetViewer rootAssetViewer;
 	private HashMap<String, ArrayList<EditorNode>> nodesByCategory
 			= new HashMap<String, ArrayList<EditorNode>>();
+	private Class<? extends NodeBrowserPanel> nodeBrowserClass;
 
+	private void setNodeBrowserClass(Class<? extends NodeBrowserPanel> nodeBrowserClass) {
+		this.nodeBrowserClass = nodeBrowserClass;
+		rebuild();
+	}
+
+	private NodeBrowserPanel createNodeBrowserPanel() {
+		try {
+			return nodeBrowserClass.newInstance();
+		} catch (Exception e) {
+			throw new IllegalArgumentException("unable to instantiate " 
+					+ nodeBrowserClass, e);
+		}
+	}
+
+	private String iconBrowserButtonName = "Icons";
+	private String detailedBrowserButtonName = "Details";
+	
 	public AssetsPanel() {
-		thumbPanels = new HashMap<String, ThumbnailPanel>();
+		
+		final JXRadioGroup<String> jxrg = new JXRadioGroup<String>(new String[] {
+			detailedBrowserButtonName, iconBrowserButtonName
+		});
+		jxrg.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				Class<? extends NodeBrowserPanel> next = 
+					jxrg.getSelectedValue().equals(detailedBrowserButtonName) ?
+					PropertiesTablePanel.class : ThumbnailPanel.class;
+				if (nodeBrowserClass == null) {
+					nodeBrowserClass = next;
+				} else if ( ! next.equals(nodeBrowserClass)) {
+					setNodeBrowserClass(next);
+				}
+			}
+		});
+		jxrg.setSelectedValue(detailedBrowserButtonName);
+		
+		JPanel radioHolder = new JPanel(new FlowLayout());				
+		radioHolder.add(jxrg);
+		
+		thumbPanels = new HashMap<String, NodeBrowserPanel>();
 		tabs = new JTabbedPane();
+		JPanel tabsHolder = new JPanel(new BorderLayout());
+		tabsHolder.add(tabs, BorderLayout.CENTER);
+		tabsHolder.add(radioHolder, BorderLayout.SOUTH);
 		previewer = new AssetPreviewer();
-		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabs, previewer);
+		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabsHolder, previewer);
 		split.setDividerLocation(500);
 
 		setLayout(new BorderLayout());
@@ -103,7 +148,6 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	private class AssetPreviewer extends JPanel {
 
 		private EditorNode previewedNode;
-
 		private JButton prev = new JButton("<");
 		private JPanel current = new JPanel();
 		private JButton next = new JButton(">");
@@ -120,7 +164,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			prev.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ThumbnailPanel selectedPane = (ThumbnailPanel) tabs
+					NodeBrowserPanel selectedPane = (NodeBrowserPanel) tabs
 							.getSelectedComponent();
 					EditorNode prev = selectedPane.getPrevious();
 					if (prev != null) {
@@ -131,7 +175,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			next.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ThumbnailPanel selectedPane = (ThumbnailPanel) tabs
+					NodeBrowserPanel selectedPane = (NodeBrowserPanel) tabs
 							.getSelectedComponent();
 					EditorNode next = selectedPane.getNext();
 					if (next != null) {
@@ -166,7 +210,7 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 				return;
 			}
 
-			previewedNode= node;
+			previewedNode = node;
 
 			if (rootAssetViewer == null) {
 				rootAssetViewer = controller.createAssetViewer();
@@ -206,32 +250,32 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	}
 
 	private void addThumbnailPanel(String fullClassName) {
-		ThumbnailPanel tp = new ThumbnailPanel();
+		NodeBrowserPanel tp = createNodeBrowserPanel();
 		tp.setController(controller);
-		tp.addPropertyChangeListener(
-				NodeBrowserPanel.selectedPropertyName,
+		tp.addPropertyChangeListener(NodeBrowserPanel.selectedPropertyName,
 				new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						EditorNode node = ((NodeBrowserPanel) evt
-								.getSource()).getLastSelected();
+						EditorNode node = ((NodeBrowserPanel) evt.getSource())
+								.getLastSelected();
 						previewer.setNode(node);
 					}
 				});
-		tabs.add(fullClassName.substring(fullClassName.lastIndexOf('.') + 1), tp);
+		tabs.add(fullClassName.substring(fullClassName.lastIndexOf('.') + 1),
+				tp);
 		thumbPanels.put(fullClassName, tp);
 	}
 
 	@Override
 	protected void rebuild() {
-		this.assetsNode = (AssetsNode) target;
+		this.assetsNode = target;
 		tabs.removeAll();
 		thumbPanels.clear();
 		nodesByCategory.clear();
 		for (AssetNode n : assetsNode.getNodes(controller.getModel())) {
 
 			String cn = n.getFirst().getContent().getClass().getName();
-			ThumbnailPanel tp = thumbPanels.get(cn);
+			NodeBrowserPanel tp = thumbPanels.get(cn);
 			ArrayList<EditorNode> al = nodesByCategory.get(cn);
 			if (tp == null) {
 				addThumbnailPanel(cn);
@@ -242,8 +286,8 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			al.add((EditorNode) n);
 		}
 		for (String s : thumbPanels.keySet()) {
-			logger.info("Setting {} nodes for category {}", new Object[] {
-					nodesByCategory.get(s).size(), s });
+			logger.info("Setting {} nodes for category {}", new Object[]{
+						nodesByCategory.get(s).size(), s});
 			thumbPanels.get(s).setNodes(nodesByCategory.get(s));
 		}
 		tabs.revalidate();
@@ -260,18 +304,18 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	public void modelChanged(ModelEvent event) {
 		HashSet<String> toRefresh = new HashSet<String>();
 
-		for (DependencyNode[] array : new DependencyNode[][] {
-				event.getAdded(), event.getRemoved(), event.getChanged() }) {
+		for (DependencyNode[] array : new DependencyNode[][]{
+					event.getAdded(), event.getRemoved(), event.getChanged()}) {
 			for (DependencyNode n : array) {
 				if (n instanceof AssetNode) {
-					AssetNode an = (AssetNode)n;
+					AssetNode an = (AssetNode) n;
 					String cn = an.getFirst().getContent().getClass().getName();
 					if (nodesByCategory.get(cn) == null) {
 						ArrayList<EditorNode> al = new ArrayList<EditorNode>();
 						nodesByCategory.put(cn, al);
 						al.add(an);
 						toRefresh.add(cn);
-					} else if ( ! nodesByCategory.get(cn).contains(an)) {
+					} else if (!nodesByCategory.get(cn).contains(an)) {
 						nodesByCategory.get(cn).add(an);
 						toRefresh.add(cn);
 					} else {

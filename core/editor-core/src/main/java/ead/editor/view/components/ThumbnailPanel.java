@@ -115,7 +115,7 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 			if (ModelEventUtils.changes(event, n)) {
 				int pos = thumbMap.get(n.getId()).index;
 				inner.remove(pos);
-				thumbMap.put(n.getId(), new Thumbnail((EditorNode)n, pos));
+				thumbMap.put(n.getId(), new Thumbnail((EditorNode) n, pos));
 				inner.add(thumbMap.get(n.getId()), pos);
 			}
 		}
@@ -313,7 +313,8 @@ public class ThumbnailPanel extends NodeBrowserPanel {
 	@Override
 	public void addNode(EditorNode node) {
 		nodes.add(node);
-		Thumbnail t = new ThumbnailPanel.Thumbnail(node, inner.getComponentCount());
+		Thumbnail t = new ThumbnailPanel.Thumbnail(node, inner
+				.getComponentCount());
 		thumbMap.put(node.getId(), t);
 		inner.add(t);
 	}

@@ -37,11 +37,6 @@
 
 package ead.editor.view.panel.asset;
 
-import ead.editor.model.nodes.asset.ImageAssetNode;
-import ead.editor.view.components.FileDrop;
-import ead.editor.view.components.ZoomablePanel;
-import ead.editor.view.components.ZoomablePanelHolder;
-import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -49,6 +44,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
+
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,6 +52,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +63,10 @@ import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
 import ead.editor.model.ModelEvent;
+import ead.editor.model.nodes.asset.ImageAssetNode;
+import ead.editor.view.components.FileDrop;
+import ead.editor.view.components.ZoomablePanel;
+import ead.editor.view.components.ZoomablePanelHolder;
 import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
 import ead.editor.view.generic.OptionPanel;
@@ -76,6 +77,7 @@ import ead.editor.view.generic.accessors.ConvertingAccessor;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 import ead.editor.view.panel.AbstractElementPanel;
 import ead.utils.FileUtils;
+import ead.utils.swing.SwingUtilities;
 
 /**
  * A panel that displays all assets, by type. A preview is available
@@ -330,7 +332,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 	// End of variables declaration
 	@Override
 	protected void rebuild() {
-		imageAsset = (ImageAssetNode) target;
+		imageAsset = target;
 		final Image image = (Image) imageAsset.getFirst().getContent();
 
 		if (fileCache == null) {

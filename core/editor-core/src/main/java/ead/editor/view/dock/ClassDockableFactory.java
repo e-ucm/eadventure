@@ -37,17 +37,19 @@
 
 package ead.editor.view.dock;
 
+import java.awt.Component;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import bibliothek.gui.dock.common.event.CFocusListener;
 import bibliothek.gui.dock.common.event.CVetoClosingEvent;
 import bibliothek.gui.dock.common.event.CVetoClosingListener;
+
 import ead.editor.control.Controller;
-import ead.editor.control.NavigationControllerImpl;
 import ead.editor.model.nodes.DependencyNode;
-import java.awt.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A multi-dockable factory that wraps a DependencyNode within a panel.
@@ -78,8 +80,18 @@ public class ClassDockableFactory implements
 	 */
 	@SuppressWarnings("unchecked")
 	public ElementPanel getPanelFor(String id) {
-		DependencyNode e = (id != null) ? controller.getModel().getElement(id)
-				: controller.getModel().createElement(modelClass);
+		if (id == null || controller.getModel().getElement(id) == null) {
+			logger.warn("Unable to create panel with id {}: unknown", id);
+			return null;
+		}
+		
+		DependencyNode e = controller.getModel().getElement(id);
+		if ( ! modelClass.isInstance(e)) {
+			logger.warn("Unable to create panel with id {}: node class is {}, "
+					+ "expected {}", new Object[] {id, e.getClass(), modelClass});
+			return null;
+		}
+		
 		ElementPanel ep;
 		try {
 			ep = (ElementPanel) controlClass.newInstance();
