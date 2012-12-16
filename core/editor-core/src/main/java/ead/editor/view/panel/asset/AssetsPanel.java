@@ -85,11 +85,11 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	private AssetPreviewer previewer;
 	private HashMap<String, NodeBrowserPanel> thumbPanels;
 	private AssetViewer rootAssetViewer;
-	private HashMap<String, ArrayList<EditorNode>> nodesByCategory
-			= new HashMap<String, ArrayList<EditorNode>>();
+	private HashMap<String, ArrayList<EditorNode>> nodesByCategory = new HashMap<String, ArrayList<EditorNode>>();
 	private Class<? extends NodeBrowserPanel> nodeBrowserClass;
 
-	private void setNodeBrowserClass(Class<? extends NodeBrowserPanel> nodeBrowserClass) {
+	private void setNodeBrowserClass(
+			Class<? extends NodeBrowserPanel> nodeBrowserClass) {
 		this.nodeBrowserClass = nodeBrowserClass;
 		rebuild();
 	}
@@ -98,44 +98,44 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		try {
 			return nodeBrowserClass.newInstance();
 		} catch (Exception e) {
-			throw new IllegalArgumentException("unable to instantiate " 
+			throw new IllegalArgumentException("unable to instantiate "
 					+ nodeBrowserClass, e);
 		}
 	}
 
 	private String iconBrowserButtonName = "Icons";
 	private String detailedBrowserButtonName = "Details";
-	
+
 	public AssetsPanel() {
-		
-		final JXRadioGroup<String> jxrg = new JXRadioGroup<String>(new String[] {
-			detailedBrowserButtonName, iconBrowserButtonName
-		});
+
+		final JXRadioGroup<String> jxrg = new JXRadioGroup<String>(
+				new String[] { detailedBrowserButtonName, iconBrowserButtonName });
 		jxrg.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				Class<? extends NodeBrowserPanel> next = 
-					jxrg.getSelectedValue().equals(detailedBrowserButtonName) ?
-					PropertiesTablePanel.class : ThumbnailPanel.class;
+				Class<? extends NodeBrowserPanel> next = jxrg
+						.getSelectedValue().equals(detailedBrowserButtonName) ? PropertiesTablePanel.class
+						: ThumbnailPanel.class;
 				if (nodeBrowserClass == null) {
 					nodeBrowserClass = next;
-				} else if ( ! next.equals(nodeBrowserClass)) {
+				} else if (!next.equals(nodeBrowserClass)) {
 					setNodeBrowserClass(next);
 				}
 			}
 		});
 		jxrg.setSelectedValue(detailedBrowserButtonName);
-		
-		JPanel radioHolder = new JPanel(new FlowLayout());				
+
+		JPanel radioHolder = new JPanel(new FlowLayout());
 		radioHolder.add(jxrg);
-		
+
 		thumbPanels = new HashMap<String, NodeBrowserPanel>();
 		tabs = new JTabbedPane();
 		JPanel tabsHolder = new JPanel(new BorderLayout());
 		tabsHolder.add(tabs, BorderLayout.CENTER);
 		tabsHolder.add(radioHolder, BorderLayout.SOUTH);
 		previewer = new AssetPreviewer();
-		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabsHolder, previewer);
+		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabsHolder,
+				previewer);
 		split.setDividerLocation(500);
 
 		setLayout(new BorderLayout());
@@ -286,8 +286,8 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			al.add((EditorNode) n);
 		}
 		for (String s : thumbPanels.keySet()) {
-			logger.info("Setting {} nodes for category {}", new Object[]{
-						nodesByCategory.get(s).size(), s});
+			logger.info("Setting {} nodes for category {}", new Object[] {
+					nodesByCategory.get(s).size(), s });
 			thumbPanels.get(s).setNodes(nodesByCategory.get(s));
 		}
 		tabs.revalidate();
@@ -304,8 +304,8 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 	public void modelChanged(ModelEvent event) {
 		HashSet<String> toRefresh = new HashSet<String>();
 
-		for (DependencyNode[] array : new DependencyNode[][]{
-					event.getAdded(), event.getRemoved(), event.getChanged()}) {
+		for (DependencyNode[] array : new DependencyNode[][] {
+				event.getAdded(), event.getRemoved(), event.getChanged() }) {
 			for (DependencyNode n : array) {
 				if (n instanceof AssetNode) {
 					AssetNode an = (AssetNode) n;

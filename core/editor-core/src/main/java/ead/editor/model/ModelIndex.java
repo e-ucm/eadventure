@@ -37,8 +37,6 @@
 
 package ead.editor.model;
 
-import ead.editor.model.ModelQuery.QueryPart;
-import ead.editor.model.nodes.DependencyNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +48,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -75,6 +74,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.editor.model.EditorModel.ModelListener;
+import ead.editor.model.ModelQuery.QueryPart;
+import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 
@@ -118,8 +119,6 @@ public class ModelIndex implements ModelListener {
 	 * Upstream model; listened to, queried occasionally to resolve IDs
 	 */
 	private EditorModelImpl model;
-
-	private UpdatePropertiesVisitor updateVisitor = new UpdatePropertiesVisitor();
 
 	/**
 	 * Configure Lucene indexing
@@ -191,11 +190,13 @@ public class ModelIndex implements ModelListener {
 		DependencyNode last = null;
 		try {
 			for (DependencyNode e : nodes) {
+				logger.info("updating {}", e.getId());
 				last = e;
 				Term q = new Term(editorIdFieldName, "" + e.getId());
 				indexWriter.deleteDocuments(q);
 				ModelVisitorDriver mvd = new ModelVisitorDriver();
-				mvd.visit(e, updateVisitor, model.getStringHandler());
+				mvd.visit(e, new UpdatePropertiesVisitor(e),
+						model.getStringHandler());
 				indexWriter.addDocument(e.getDoc());
 			}
 		} catch (Exception ex) {
@@ -480,20 +481,24 @@ public class ModelIndex implements ModelListener {
 	}
 
 	private class UpdatePropertiesVisitor implements ModelVisitor {
-
+		private Object toUpdate;
+		private UpdatePropertiesVisitor(Object toUpdate) {
+			this.toUpdate = toUpdate;
+		}
+		
 		@Override
 		public boolean visitObject(Object target, Object source,
 				String sourceName) {
 			// not interested in visiting nodes, as these are indexed separately
-			return false;
+			return target == toUpdate;
 		}
 
 		@Override
 		public void visitProperty(Object target, String propertyName,
 				String textValue) {
-			logger.debug("Visiting property: '{}' :: '{}' = '{}'",
+			logger.info("Visiting property for update: '{}' :: '{}' = '{}'",
 					new Object[] { target, propertyName, textValue });
-			DependencyNode targetNode = model.getNodeFor(target);
+			DependencyNode targetNode = (DependencyNode)target;
 			model.getNodeIndex().addProperty(targetNode, propertyName,
 					textValue, true);
 		}

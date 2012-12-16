@@ -84,14 +84,15 @@ public class ClassDockableFactory implements
 			logger.warn("Unable to create panel with id {}: unknown", id);
 			return null;
 		}
-		
+
 		DependencyNode e = controller.getModel().getElement(id);
-		if ( ! modelClass.isInstance(e)) {
+		if (!modelClass.isInstance(e)) {
 			logger.warn("Unable to create panel with id {}: node class is {}, "
-					+ "expected {}", new Object[] {id, e.getClass(), modelClass});
+					+ "expected {}", new Object[] { id, e.getClass(),
+					modelClass });
 			return null;
 		}
-		
+
 		ElementPanel ep;
 		try {
 			ep = (ElementPanel) controlClass.newInstance();

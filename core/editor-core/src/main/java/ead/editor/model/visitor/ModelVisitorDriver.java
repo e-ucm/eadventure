@@ -41,7 +41,6 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -214,13 +213,14 @@ public class ModelVisitorDriver {
 		@Override
 		public void drive(EditorNode target, Object source, String sourceName) {
 
+			logger.info("Driving into an EditorNode! Wow!");
 			for (String f : target.getIndexedFields()) {
 				Object o = readProperty(target, f);
 				if (!isEmpty(o)) {
-					logger.debug("\t'{}' has a '{}' property!", new Object[] {
+					logger.info("\t'{}' has a '{}' property!", new Object[] {
 							target, f });
 					if (o instanceof List) {
-						driveInto(o, source, f);
+						driveInto(o, target, f);
 					} else {
 						v.visitProperty(target, f, o.toString());
 					}
