@@ -193,8 +193,8 @@ public class ToolPanel implements ChangeListener<String> {
 				qn.setModel((EditorModelImpl) m);
 				qn.setQueryString(query);
 				((EditorModelImpl) m).getNodesById().put(qn.getId(), qn);
-				((EditorModelImpl) m).fireModelEvent(new DefaultModelEvent("AddQuery", this,
-						new DependencyNode[]{qn}, null));
+				((EditorModelImpl) m).fireModelEvent(new DefaultModelEvent(
+						"AddQuery", this, new DependencyNode[] { qn }, null));
 				logger.info("Added query node with ID {}", qn.getId());
 				controller.getViewController().addView("query",
 						"" + qn.getId(), false);

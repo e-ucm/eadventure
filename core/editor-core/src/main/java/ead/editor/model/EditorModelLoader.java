@@ -503,7 +503,8 @@ public class EditorModelLoader {
 				.updateProgress(55,
 						"Converting engine model into editor model...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(model.getEngineModel(), new EditorModelVisitor(), model.getStringHandler());
+		driver.visit(model.getEngineModel(), new EditorModelVisitor(), model
+				.getStringHandler());
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
 
 		// add editor high-level data
@@ -558,7 +559,8 @@ public class EditorModelLoader {
 						"Converting engine model into editor model...");
 		isLoading = true;
 		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(model.getEngineModel(), new EditorModelVisitor(), model.getStringHandler());
+		driver.visit(model.getEngineModel(), new EditorModelVisitor(), model
+				.getStringHandler());
 		isLoading = false;
 		bumpLastElementNodeId();
 		model.setRoot(model.getNodeFor(model.getEngineModel()));
