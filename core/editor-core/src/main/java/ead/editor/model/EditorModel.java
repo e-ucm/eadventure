@@ -71,11 +71,7 @@ public interface EditorModel extends ModelAccessor {
 
 	// -------- search
 
-	ModelIndex.SearchResult searchAllDetailed(String queryText);
-
-	List<DependencyNode> searchAll(String queryText);
-
-	List<DependencyNode> search(String field, String queryText);
+	ModelIndex.SearchResult search(ModelQuery query);
 
 	// -------- saving, loading, and engine access
 
@@ -103,5 +99,29 @@ public interface EditorModel extends ModelAccessor {
 		 * @param text to display regarding progress
 		 */
 		public void update(int progress, String text);
+	}
+
+	// -------- model changes (nodes added, changed, removed)
+
+	void addModelListener(ModelListener modelListener);
+
+	void removeModelListener(ModelListener modelListener);
+
+	/**
+	 * Delivers the modelEvent to all registered listeners. Any changes
+	 * described must already have been performed. Intended to be called
+	 * by Commands or similar change-encapsulating constructs.
+	 * @param event describing the changes.
+	 */
+	void fireModelEvent(ModelEvent event);
+
+	/**
+	 * A very simple interface for progress updates
+	 */
+	public static interface ModelListener {
+		/**
+		 * Called whenever parts of the model change.
+		 */
+		public void modelChanged(ModelEvent event);
 	}
 }

@@ -44,7 +44,7 @@ import ead.editor.control.change.ChangeNotifier;
  * The implementation should register itself with whatever actually creates the
  * screens, so that it will be notified when views are opened or visited.
  */
-public interface NavigationController extends ChangeNotifier {
+public interface NavigationController extends ChangeNotifier<String> {
 
 	/**
 	 * Go forward in the screen history
@@ -62,7 +62,7 @@ public interface NavigationController extends ChangeNotifier {
 	boolean canGoForward();
 
 	/**
-	 * @return true if there are is a screen backward in the history 
+	 * @return true if there are is a screen backward in the history
 	 */
 	boolean canGoBackward();
 

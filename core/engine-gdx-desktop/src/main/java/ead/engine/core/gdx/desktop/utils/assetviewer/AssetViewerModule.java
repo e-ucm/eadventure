@@ -46,6 +46,7 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
@@ -65,7 +66,8 @@ public class AssetViewerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
-		bind(AssetHandler.class).to(GdxAssetHandler.class).in(Singleton.class);
+		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class).in(
+				Singleton.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);

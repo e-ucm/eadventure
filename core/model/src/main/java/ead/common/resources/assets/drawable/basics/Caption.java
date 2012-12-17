@@ -45,16 +45,17 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.params.text.EAdString;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 
 /**
- * A caption asset. It's represented by a text, and a bubble 
+ * A caption asset. It's represented by a text, and a bubble
  *
  */
-public class Caption implements EAdCaption {
+public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 
 	/**
 	 * Default padding for bubbles
@@ -176,10 +177,10 @@ public class Caption implements EAdCaption {
 	/**
 	 * Sets preferred width for this text. Could be a positive number or
 	 * {@link EAdCaption#AUTO_SIZE} or {@link EAdCaption#SCREEN_SIZE}
-	 * 
+	 *
 	 * @param maxWidth
 	 *            the width
-	 * 
+	 *
 	 */
 	public void setPreferredWidth(int maxWidth) {
 		this.preferredWidth = maxWidth;
@@ -188,7 +189,7 @@ public class Caption implements EAdCaption {
 	/**
 	 * Sets preferred height for this text. Could be a positive number or
 	 * {@link EAdCaption#AUTO_SIZE} or {@link EAdCaption#SCREEN_SIZE}
-	 * 
+	 *
 	 * @param maxHeight
 	 *            the height
 	 */

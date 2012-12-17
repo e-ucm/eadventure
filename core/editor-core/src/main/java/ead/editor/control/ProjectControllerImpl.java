@@ -39,16 +39,14 @@ package ead.editor.control;
 
 import com.google.inject.Singleton;
 import ead.editor.control.change.ChangeListener;
+import ead.editor.model.EditorModel;
+import ead.engine.core.game.GameLoader;
 import ead.utils.swing.SwingUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ead.common.util.EAdURI;
-import ead.editor.model.EditorModel;
-import ead.engine.core.game.GameLoader;
 
 /**
  * Default implementation for the {@link ProjectController}.
@@ -59,7 +57,7 @@ public class ProjectControllerImpl implements ProjectController {
 	private static final Logger logger = LoggerFactory.getLogger("FileMenu");
 
 	private Controller controller;
-	private ArrayList<ChangeListener> listeners = new ArrayList<ChangeListener>();
+	private ArrayList<ChangeListener<String>> listeners = new ArrayList<ChangeListener<String>>();
 
 	//	private GameLoader desktopLoader;
 	//
@@ -147,18 +145,18 @@ public class ProjectControllerImpl implements ProjectController {
 	}
 
 	@Override
-	public void addChangeListener(ChangeListener changeListener) {
+	public void addChangeListener(ChangeListener<String> changeListener) {
 		listeners.add(changeListener);
 	}
 
 	@Override
-	public void removeChangeListener(ChangeListener changeListener) {
+	public void removeChangeListener(ChangeListener<String> changeListener) {
 		listeners.remove(changeListener);
 	}
 
 	@Override
-	public void notifyListeners(Object event) {
-		for (ChangeListener l : listeners) {
+	public void notifyListeners(String event) {
+		for (ChangeListener<String> l : listeners) {
 			l.processChange(event);
 		}
 	}

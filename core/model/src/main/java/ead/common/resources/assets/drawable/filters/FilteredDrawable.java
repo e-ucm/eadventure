@@ -1,11 +1,13 @@
 package ead.common.resources.assets.drawable.filters;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 
-public class FilteredDrawable implements EAdFilteredDrawable {
+public class FilteredDrawable extends AbstractAssetDescriptor implements
+		EAdFilteredDrawable {
 
 	@Param("drawable")
 	private EAdDrawable drawable;

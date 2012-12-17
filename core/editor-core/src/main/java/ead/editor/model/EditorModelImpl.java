@@ -51,13 +51,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import ead.common.model.EAdElement;
+import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.QueryNode;
+import java.lang.reflect.Constructor;
+import java.util.NoSuchElementException;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
@@ -142,6 +144,11 @@ public class EditorModelImpl implements EditorModel {
 	private ArrayList<ModelProgressListener> progressListeners = new ArrayList<ModelProgressListener>();
 
 	/**
+	 * Listeners for model changes
+	 */
+	private ArrayList<ModelListener> modelListeners = new ArrayList<ModelListener>();
+
+	/**
 	 * Constructor. Does not do much beyond initializing fields.
 	 *
 	 * @param reader
@@ -158,7 +165,7 @@ public class EditorModelImpl implements EditorModel {
 		this.loader = loader;
 	}
 
-	// ----- nodes 
+	// ----- nodes
 
 	@Override
 	public DependencyNode getNode(int id) {
@@ -177,7 +184,7 @@ public class EditorModelImpl implements EditorModel {
 	@Override
 	public int generateId(Object targetObject) {
 
-		int assigned = (targetObject == null || targetObject instanceof EAdElement) ? lastElementNodeId++
+		int assigned = (targetObject == null || targetObject instanceof Identified) ? lastElementNodeId++
 				: lastTransientNodeId++;
 
 		if (nodesById.containsKey(assigned)) {
@@ -212,15 +219,15 @@ public class EditorModelImpl implements EditorModel {
 	/**
 	 * Returns the editor-id of the object
 	 * @param o
-	 * @return  editorId if it is an eAdElement and has a
-	 * valid editorId, or badElementId otherwise.
+	 * @return  editorId if the object has a valid editorId (Identified or
+	 * the StringHandler) - or badElementId otherwise.
 	 */
 	@Override
 	public int getEditorId(Object o) {
-		if (o instanceof EAdElement) {
-			EAdElement e = (EAdElement) o;
+		if (o instanceof Identified) {
+			Identified i = (Identified) o;
 
-			Matcher m = editorIdPattern.matcher(e.getId());
+			Matcher m = editorIdPattern.matcher(i.getId());
 			if (m.find()) {
 				return Integer.parseInt(m.group(1));
 			}
@@ -230,7 +237,7 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	/**
-	 * Returns the editorNode for an object that is wrapped in an editorNode.
+	 * Returns the DependencyNode for an object that is wrapped in an editorNode.
 	 * This works in two ways. First, if it has an editor-id tag, it is used.
 	 * Otherwise, it must have been an unmarked object (list, map, resource, ...);
 	 * and it the unpersisted-to-editorNode map is used instead.
@@ -324,6 +331,43 @@ public class EditorModelImpl implements EditorModel {
 		this.engineProperties = engineProperties;
 	}
 
+	// ----- ModelAccessor
+
+	/**
+	 * Gets the model element with id 'id'. Also generates synthetic nodes
+	 * on-demand
+	 * @throws NoSuchElementException if not found.
+	 * @param id of element (assigned by editor when project is imported)
+	 * @return element with id as its editor-id
+	 */
+	@Override
+	public DependencyNode getElement(String id) {
+		if (id == null || id.isEmpty()) {
+			return null;
+		}
+
+		int eid = Integer.parseInt(id);
+		return getNode(eid);
+	}
+
+	@Override
+	public DependencyNode createElement(Class<? extends DependencyNode> type) {
+		DependencyNode node = null;
+		try {
+			Constructor c = type.getConstructor(Integer.TYPE);
+			node = (DependencyNode) c.newInstance(generateId(null));
+		} catch (Exception e) {
+			logger.error("Cannot create EditorNode of class {}",
+					type.getName(), e);
+		}
+		return node;
+	}
+
+	@Override
+	public DependencyNode copyElement(DependencyNode e) {
+		throw new UnsupportedOperationException("Not yet supported");
+	}
+
 	// ----- EditorNode manipulation
 
 	/**
@@ -337,16 +381,6 @@ public class EditorModelImpl implements EditorModel {
 			logger.debug("\ttarget is {}", n.getTextualDescription(this));
 			g.addEdge(e, n, new DependencyEdge(e.getClass().getName()));
 		}
-	}
-
-	@Override
-	public DependencyNode createElement(Class<? extends DependencyNode> type) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public DependencyNode copyElement(DependencyNode e) {
-		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	/**
@@ -396,16 +430,6 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	// ---- search-related functions API ----
-	/**
-	 * Queries all fields in all nodes for the provided text.
-	 *
-	 * @param queryText
-	 * @return a list of all matching nodes, ranked by relevance
-	 */
-	@Override
-	public List<DependencyNode> searchAll(String queryText) {
-		return nodeIndex.searchAll(queryText, nodesById);
-	}
 
 	/**
 	 * Queries all fields in all nodes for the provided text. This
@@ -415,19 +439,8 @@ public class EditorModelImpl implements EditorModel {
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
 	@Override
-	public ModelIndex.SearchResult searchAllDetailed(String queryText) {
-		return nodeIndex.searchAllDetailed(queryText, nodesById);
-	}
-
-	/**
-	 * Queries a given field in all nodes for the provided text.
-	 *
-	 * @param queryText
-	 * @return a list of all matching nodes, ranked by relevance
-	 */
-	@Override
-	public List<DependencyNode> search(String field, String queryText) {
-		return nodeIndex.search(field, queryText, nodesById);
+	public ModelIndex.SearchResult search(ModelQuery query) {
+		return nodeIndex.search(query, nodesById);
 	}
 
 	/**
@@ -435,33 +448,6 @@ public class EditorModelImpl implements EditorModel {
 	 */
 	public List<String> getAllSearchableFields() {
 		return nodeIndex.getIndexedFieldNames();
-	}
-
-	@Override
-	public DependencyNode getElement(String id) {
-		if (id == null || id.isEmpty()) {
-			return null;
-		}
-
-		char c = id.charAt(0);
-		if (Character.isLetter(c)) {
-			switch (c) {
-			case 'q':
-				return new QueryNode(this, id.substring(1));
-			case 't': // type query
-			case 'f': // field query
-				throw new IllegalArgumentException("Not yet implemented");
-			default:
-				throw new IllegalArgumentException(
-						"Expected number or q*,t*,f* queries");
-			}
-		} else if (Character.isDigit(c)) {
-			int eid = Integer.parseInt(id);
-			return getNode(eid);
-		} else {
-			throw new IllegalArgumentException(
-					"Expected number or q*,t*,f* queries");
-		}
 	}
 
 	// ----- progress -----
@@ -483,7 +469,25 @@ public class EditorModelImpl implements EditorModel {
 		}
 	}
 
-	public boolean initialized() {
-		return engineModel != null;
+	// ----- progress -----
+
+	@Override
+	public void addModelListener(ModelListener modelListener) {
+		modelListeners.add(modelListener);
+	}
+
+	@Override
+	public void removeModelListener(ModelListener modelListener) {
+		modelListeners.remove(modelListener);
+	}
+
+	@Override
+	public void fireModelEvent(ModelEvent event) {
+		logger.info("{} listeners for model-event: {}", new Object[] {
+				modelListeners.size(), event });
+		for (ModelListener l : modelListeners) {
+			logger.info("--> now delivering to {}", l);
+			l.modelChanged(event);
+		}
 	}
 }

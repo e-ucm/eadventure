@@ -46,10 +46,10 @@ import org.mockito.MockitoAnnotations;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import ead.editor.model.EditorModel;
+import ead.editor.model.ModelEvent;
+import ead.editor.model.DefaultModelEvent;
 
-import ead.editor.control.Command;
-import ead.editor.control.CommandManager;
-import ead.editor.control.CommandManagerImpl;
 import junit.framework.TestCase;
 
 /**
@@ -81,6 +81,12 @@ public class CommandManagerTest extends TestCase {
 	@Mock
 	Command cantUndoCommand;
 
+	@Mock
+	EditorModel editorModel;
+
+	@Mock
+	Controller controller;
+
 	/**
 	 * Guice injector
 	 */
@@ -91,24 +97,34 @@ public class CommandManagerTest extends TestCase {
 	 */
 	private CommandManager commandManager;
 
+	ModelEvent completelyUnrelatedEvent;
+
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
 	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+
 		injector = Guice.createInjector(new TestModule());
 		commandManager = injector.getInstance(CommandManager.class);
+		commandManager.setController(controller);
+		when(controller.getModel()).thenReturn(editorModel);
 
-		MockitoAnnotations.initMocks(this);
+		completelyUnrelatedEvent = new DefaultModelEvent("test", "test", null,
+				null);
+
+		when(mockCommand.performCommand(editorModel)).thenReturn(
+				completelyUnrelatedEvent);
 		when(mockCommand.canUndo()).thenReturn(Boolean.TRUE);
-		when(mockCommand.performCommand()).thenReturn(Boolean.TRUE);
-		when(mockCommand.undoCommand()).thenReturn(Boolean.TRUE);
+		when(mockCommand.undoCommand(editorModel)).thenReturn(
+				completelyUnrelatedEvent);
 		when(mockCommand.canRedo()).thenReturn(Boolean.TRUE);
+		when(mockCommand.redoCommand(editorModel)).thenReturn(
+				completelyUnrelatedEvent);
 
 		when(cantUndoCommand.canUndo()).thenReturn(Boolean.FALSE);
-		when(cantUndoCommand.performCommand()).thenReturn(Boolean.TRUE);
-		when(cantUndoCommand.undoCommand()).thenReturn(Boolean.TRUE);
-		when(cantUndoCommand.canRedo()).thenReturn(Boolean.TRUE);
+		when(cantUndoCommand.performCommand(editorModel)).thenReturn(null);
 	}
 
 	/**
@@ -125,23 +141,25 @@ public class CommandManagerTest extends TestCase {
 		commandManager.undoCommand();
 		assertEquals(false, commandManager.isChanged());
 
-		verify(mockCommand, times(1)).performCommand();
-		verify(mockCommand, times(1)).undoCommand();
+		verify(mockCommand, times(1)).performCommand(editorModel);
+		verify(mockCommand, times(1)).undoCommand(editorModel);
 	}
 
 	/**
 	 * Perform an command that can't be undone, then check
-	 * if there are changes in the acitonManager.
+	 * if there are changes in the actionManager.
 	 */
 	@Test
 	public void testPerformAndUndoFailCommand() {
 		assertEquals(false, commandManager.isChanged());
 
 		commandManager.performCommand(cantUndoCommand);
-		assertEquals(true, commandManager.isChanged());
+		assertEquals(false, commandManager.isChanged());
 
+		// actually, it will short-circuit and not even attempt to undo the command...
 		commandManager.undoCommand();
-		assertEquals(true, commandManager.isChanged());
+		assertEquals(false, commandManager.isChanged());
+		verify(cantUndoCommand, never()).undoCommand(editorModel);
 	}
 
 	/**
@@ -164,8 +182,8 @@ public class CommandManagerTest extends TestCase {
 		commandManager.undoCommand();
 		assertEquals(false, commandManager.isChanged());
 
-		verify(mockCommand, times(2)).performCommand();
-		verify(mockCommand, times(2)).undoCommand();
+		verify(mockCommand, times(2)).performCommand(editorModel);
+		verify(mockCommand, times(2)).undoCommand(editorModel);
 
 	}
 
@@ -174,7 +192,6 @@ public class CommandManagerTest extends TestCase {
 		assertEquals(false, commandManager.isChanged());
 
 		commandManager.performCommand(mockCommand);
-
 		assertEquals(true, commandManager.isChanged());
 
 		commandManager.undoCommand();
@@ -183,9 +200,9 @@ public class CommandManagerTest extends TestCase {
 		commandManager.redoCommand();
 		assertEquals(true, commandManager.isChanged());
 
-		verify(mockCommand, times(1)).performCommand();
-		verify(mockCommand, times(1)).undoCommand();
-		verify(mockCommand, times(1)).redoCommand();
+		verify(mockCommand, times(1)).performCommand(editorModel);
+		verify(mockCommand, times(1)).undoCommand(editorModel);
+		verify(mockCommand, times(1)).redoCommand(editorModel);
 	}
 
 	@Test
@@ -206,8 +223,8 @@ public class CommandManagerTest extends TestCase {
 		commandManager.undoCommand();
 		assertEquals(false, commandManager.isChanged());
 
-		verify(mockCommand, times(4)).performCommand();
-		verify(mockCommand, times(4)).undoCommand();
+		verify(mockCommand, times(4)).performCommand(editorModel);
+		verify(mockCommand, times(4)).undoCommand(editorModel);
 	}
 
 	@Test
@@ -225,8 +242,8 @@ public class CommandManagerTest extends TestCase {
 
 		assertEquals(false, commandManager.isChanged());
 
-		verify(mockCommand, times(4)).performCommand();
-		verify(mockCommand, times(4)).undoCommand();
+		verify(mockCommand, times(4)).performCommand(editorModel);
+		verify(mockCommand, times(4)).undoCommand(editorModel);
 	}
 
 	@Test
@@ -238,14 +255,18 @@ public class CommandManagerTest extends TestCase {
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(cantUndoCommand);
 
-		assertEquals(false, commandManager.canUndo());
+		// performed a bad command - ignored & nothing changed (can still undo first)
+		assertEquals(true, commandManager.canUndo());
 
 		commandManager.performCommand(mockCommand);
 		commandManager.performCommand(mockCommand);
+
+		assertEquals(true, commandManager.isChanged());
 
 		commandManager.removeCommandStacks(true);
 
-		assertEquals(true, commandManager.isChanged());
-	}
+		// now, all 3 instances should have been undone; so we are back to the start
 
+		assertEquals(false, commandManager.isChanged());
+	}
 }

@@ -38,7 +38,7 @@
 package ead.editor.control;
 
 import ead.common.model.EAdElement;
-import ead.editor.view.generic.Panel;
+import ead.editor.view.generic.OptionPanel;
 
 /**
  * Controller for a specific element in the model
@@ -69,5 +69,5 @@ public interface ElementController<S extends EAdElement> {
 	 * @param current view in the editor
 	 * @return The panel for the corresponding {@link View}
 	 */
-	Panel getPanel(LevelOfDetail level);
+	OptionPanel getPanel(LevelOfDetail level);
 }

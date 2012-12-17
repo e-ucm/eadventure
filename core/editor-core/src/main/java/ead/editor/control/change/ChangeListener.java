@@ -42,11 +42,10 @@ import java.util.EventListener;
 /**
  * Change listener - our specific type of event listener
  */
-public interface ChangeListener extends EventListener {
+public interface ChangeListener<E> extends EventListener {
 
 	/**
 	 * Process the changes described by 'event'
 	 */
-	void processChange(Object event);
-
+	void processChange(E event);
 }

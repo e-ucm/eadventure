@@ -37,7 +37,11 @@
 
 package ead.editor.model.nodes;
 
+import ead.editor.R;
 import ead.editor.model.EditorModel;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,12 +57,59 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
 	private static final Logger logger = LoggerFactory.getLogger("EditorNode");
 
+	public static final int THUMBNAIL_SIZE = 128;
+	private static final BufferedImage defaultThumbnail = new BufferedImage(
+			THUMBNAIL_SIZE, 128, BufferedImage.TYPE_INT_ARGB);
+
+	protected BufferedImage thumbnail;
+
 	public EditorNode(int id) {
 		super(id, new HashSet<DependencyNode<?>>());
 	}
 
 	public HashSet<DependencyNode<?>> getContents() {
 		return content;
+	}
+
+	@Override
+	public String getLinkIcon() {
+		return R.Drawable.assets__editor_png;
+	}
+
+	/**
+	 * Subclasses should update their thumbnail when this is called.
+	 * It may be called more than necessary, so subclasses should check if the
+	 * update is really required...
+	 */
+	protected void updateThumbnail() {
+		// by default, do nothing
+	}
+
+	/**
+	 * Sets an image as a thumbnail. The image is rescaled and centered as
+	 * necessary.
+	 * @param image
+	 */
+	public void setThumbnail(BufferedImage image) {
+		int fw = image.getWidth();
+		int fh = image.getHeight();
+		double s = Math.min(THUMBNAIL_SIZE * 1.0 / fw, THUMBNAIL_SIZE * 1.0
+				/ fh);
+
+		thumbnail = new BufferedImage(THUMBNAIL_SIZE, THUMBNAIL_SIZE,
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics g = thumbnail.getGraphics();
+		int tw = (int) (s * fw);
+		int th = (int) (s * fh);
+		g.drawImage(image, (THUMBNAIL_SIZE - tw) / 2,
+				(THUMBNAIL_SIZE - th) / 2, tw, th, null);
+	}
+
+	public Image getThumbnail() {
+		if (thumbnail == null) {
+			updateThumbnail();
+		}
+		return thumbnail != null ? thumbnail : defaultThumbnail;
 	}
 
 	/**
@@ -119,7 +170,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 			for (String cid : contentIdStrings) {
 				instance.getContents().add(em.getNode(Integer.parseInt(cid)));
 			}
-			instance.restoreInner(element);
+			instance.restoreInner(element, em);
 		} catch (Exception e) {
 			logger.error("Could not restore editorNode for class {}",
 					className, e);
@@ -127,7 +178,7 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		return instance;
 	}
 
-	public void restoreInner(Element element) {
+	public void restoreInner(Element element, EditorModel em) {
 		// by default, nothing to restore
 	}
 

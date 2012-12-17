@@ -67,21 +67,24 @@ public class CircleShape extends AbstractShape {
 		this.radius = radius;
 	}
 
-	public int hashCode() {
-		return (radius + "" + getPaint() + "").hashCode();
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof CircleShape) {
-			CircleShape c = (CircleShape) o;
-			return c.radius == radius && getPaint() != null
-					&& getPaint().equals(c.getPaint());
-		}
-		return false;
-	}
-
+	@Override
 	public Object clone() {
 		return new CircleShape(radius, getPaint());
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 67 * hash + this.radius;
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		final CircleShape other = (CircleShape) obj;
+		return true;
+	}
 }

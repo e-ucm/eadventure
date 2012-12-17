@@ -43,15 +43,17 @@ import java.util.Set;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
 /**
  * Basic implementation for a {@link EAdStateDrawable}
- * 
+ *
  * @author anserran
- * 
+ *
  */
-public class StateDrawable implements EAdStateDrawable {
+public class StateDrawable extends AbstractAssetDescriptor implements
+		EAdStateDrawable {
 
 	@Param("drawables")
 	private EAdMap<String, EAdDrawable> drawables;

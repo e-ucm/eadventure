@@ -38,9 +38,10 @@
 package ead.common.resources.assets.multimedia;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.util.EAdURI;
 
-public class Video implements EAdVideo {
+public class Video extends AbstractAssetDescriptor implements EAdVideo {
 
 	@Param("stream")
 	private boolean stream;
@@ -61,10 +62,12 @@ public class Video implements EAdVideo {
 		return uri;
 	}
 
+	@Override
 	public void setUri(EAdURI uri) {
 		this.uri = uri;
 	}
 
+	@Override
 	public boolean isStream() {
 		return stream;
 	}
@@ -73,17 +76,27 @@ public class Video implements EAdVideo {
 		this.stream = stream;
 	}
 
+	@Override
 	public int hashCode() {
-		return uri.hashCode() + (stream ? 1 : 0);
+		int hash = 7 * super.hashCode();
+		hash = 53 * hash + (this.stream ? 1 : 0);
+		hash = 53 * hash + (this.uri != null ? this.uri.hashCode() : 0);
+		return hash;
 	}
 
-	public boolean equals(Object o) {
-		if (o instanceof Video) {
-			Video v = (Video) o;
-			if (v.uri == uri || uri != null && uri.equals(v.uri))
-				return v.stream == stream;
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
 		}
-		return false;
+		final Video other = (Video) obj;
+		if (this.stream != other.stream) {
+			return false;
+		}
+		if (this.uri != other.uri
+				&& (this.uri == null || !this.uri.equals(other.uri))) {
+			return false;
+		}
+		return true;
 	}
-
 }

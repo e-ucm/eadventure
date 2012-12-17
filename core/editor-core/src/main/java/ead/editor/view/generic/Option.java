@@ -38,18 +38,20 @@
 package ead.editor.view.generic;
 
 import ead.editor.control.CommandManager;
+import ead.editor.model.EditorModel;
+import ead.editor.view.generic.accessors.Accessor;
 import javax.swing.JComponent;
 
 /**
  * An option in the user interface.
  * <p>
  * This type of interface element allows for the display and modification of the
- * value of a field though the use of a {@link FieldDescriptor}. Optionally a
+ * value of a field though the use of a {@link Accessor}. Optionally a
  * title and tooltiptext can be defined for the element.
  *
  * @param <S>
  */
-public interface Option<S> extends InterfaceElement {
+public interface Option<S> extends EditorModel.ModelListener {
 
 	/**
 	 * @return the title to be used in the interface (can be null)
@@ -57,14 +59,13 @@ public interface Option<S> extends InterfaceElement {
 	String getTitle();
 
 	/**
+	 * @return a component for this element
+	 */
+	JComponent getComponent(CommandManager manager);
+
+	/**
 	 * @return the tooltiptext for the interface, to help users (should not be
 	 *         left null)
 	 */
 	String getToolTipText();
-
-	/**
-	 * @return the {@link FieldDescriptor} for the field that is displayed and
-	 *         modified by this option element
-	 */
-	FieldDescriptor<S> getFieldDescriptor();
 }

@@ -38,16 +38,17 @@
 package ead.common.resources.assets.drawable.basics.animation;
 
 import ead.common.interfaces.Param;
+import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.resources.assets.drawable.basics.Image;
 
 /**
- * 
+ *
  * Represents a frame within a {@link FramesAnimation}
- * 
+ *
  */
-public class Frame implements AssetDescriptor {
+public class Frame extends AbstractAssetDescriptor {
 
 	/**
 	 * Default frame time in milliseconds, with a value of 300 ms
@@ -70,7 +71,7 @@ public class Frame implements AssetDescriptor {
 	/**
 	 * Constructs a frame with the given image. Sets the frame time to
 	 * {@link Frame#DEFAULT_FRAME_TIME}
-	 * 
+	 *
 	 * @param uri
 	 *            the uri to the image for the frame
 	 */
@@ -80,7 +81,7 @@ public class Frame implements AssetDescriptor {
 
 	/**
 	 * Constructs a frame with the given image and time.
-	 * 
+	 *
 	 * @param uri
 	 *            the uri to the image for the frame
 	 * @param time
@@ -97,7 +98,7 @@ public class Frame implements AssetDescriptor {
 
 	/**
 	 * Sets the time for this frame (in milliseconds)
-	 * 
+	 *
 	 * @param time
 	 *            the time for this frame (in milliseconds)
 	 */
@@ -107,7 +108,7 @@ public class Frame implements AssetDescriptor {
 
 	/**
 	 * Returns the time for this frame
-	 * 
+	 *
 	 * @return the time for this frame
 	 */
 	public int getTime() {
@@ -118,19 +119,40 @@ public class Frame implements AssetDescriptor {
 		return drawable;
 	}
 
-	@Override
-	public int hashCode() {
-		return 61 * super.hashCode() + this.time;
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof Frame) {
-			return super.equals(o) && ((Frame) o).time == time;
-		}
-		return false;
-	}
-
 	public void setDrawable(EAdBasicDrawable drawable) {
 		this.drawable = drawable;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 31 * hash + this.getId().hashCode();
+		hash = 31 * hash + this.time;
+		hash = 31 * hash
+				+ (this.drawable != null ? this.drawable.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Frame other = (Frame) obj;
+		if (!this.getId().equals(other.getId())) {
+			return false;
+		}
+		if (this.time != other.time) {
+			return false;
+		}
+		if (this.drawable != other.drawable
+				&& (this.drawable == null || !this.drawable
+						.equals(other.drawable))) {
+			return false;
+		}
+		return true;
 	}
 }

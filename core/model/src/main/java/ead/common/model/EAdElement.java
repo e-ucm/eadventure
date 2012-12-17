@@ -38,27 +38,11 @@
 package ead.common.model;
 
 import com.gwtent.reflection.client.Reflectable;
+import ead.common.interfaces.features.Identified;
 
 /**
  * Base interface for eAdventure's game model objects.
  */
 @Reflectable
-public interface EAdElement {
-
-	/**
-	 * Get an id of the element. Keep in mind that it's not an unique id. It's
-	 * just a name used for debugging purposes
-	 * 
-	 * @return
-	 */
-	String getId();
-
-	/**
-	 * Set an id of the element. Keep in mind that it's not an unique id. It's
-	 * just a name used for debugging purposes
-	 * 
-	 * @return
-	 */
-	void setId(String id);
-
+public interface EAdElement extends Identified {
 }

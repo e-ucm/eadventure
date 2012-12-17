@@ -55,6 +55,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import ead.common.model.EAdElement;
 import ead.editor.EditorGuiceModule;
+import ead.editor.model.ModelIndex.Match;
 import ead.editor.model.nodes.DependencyNode;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
@@ -164,7 +165,8 @@ public class EditorModelTest {
 		testLoad();
 		String s = "disp_x";
 		int matches = 0;
-		for (DependencyNode e : model.searchAll(s)) {
+		for (Match m : model.search(new ModelQuery(s)).getMatches()) {
+			DependencyNode e = m.getNode();
 			logger.info("found: "
 					+ e.getId()
 					+ " "

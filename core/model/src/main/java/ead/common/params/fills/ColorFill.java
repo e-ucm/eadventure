@@ -44,7 +44,7 @@ import ead.common.params.paint.EAdFill;
  * <p>
  * This class represents a basic color in the eAdventure model.
  * </p>
- * 
+ *
  */
 public class ColorFill extends AbstractParam implements EAdFill {
 
@@ -157,7 +157,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Create a new color with the given RGB values
-	 * 
+	 *
 	 * @param red
 	 *            The red value
 	 * @param green
@@ -171,7 +171,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Create a new color with the given RGBA values
-	 * 
+	 *
 	 * @param red
 	 *            The red value
 	 * @param green
@@ -191,10 +191,10 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	/**
 	 * Parse the value of a color from a string in the hexadecimal form
 	 * {@code 0xRRGGBBAA}.
-	 * 
+	 *
 	 * @param string
 	 *            The string with the color value
-	 * 
+	 *
 	 */
 	public ColorFill(String data) {
 		parse(data);
@@ -203,7 +203,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	/**
 	 * Sets the red, green, blue, alpha color components. Values are normalized
 	 * to be set between 0 and 255
-	 * 
+	 *
 	 * @param red
 	 * @param green
 	 * @param blue
@@ -219,7 +219,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	 * Sets the red, green, blue color components, leaving the alpha as it is.
 	 * Same effect as calling {@link ColorFill#setRGBA(int, int, int, int)} with
 	 * {@link ColorFill#getAlpha()} as fourth parameter
-	 * 
+	 *
 	 * @param red
 	 * @param green
 	 * @param blue
@@ -230,7 +230,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Returns the red value
-	 * 
+	 *
 	 * @return the red value
 	 */
 	public int getRed() {
@@ -239,7 +239,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Sets the red value
-	 * 
+	 *
 	 * @param red
 	 *            the red value of the color
 	 */
@@ -249,7 +249,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Returns the green value
-	 * 
+	 *
 	 * @return the green value of the color
 	 */
 	public int getGreen() {
@@ -258,7 +258,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Sets the green value
-	 * 
+	 *
 	 * @param green
 	 *            the green value of the color
 	 */
@@ -268,7 +268,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Returns the blue value
-	 * 
+	 *
 	 * @return the blue value of the color
 	 */
 	public int getBlue() {
@@ -277,7 +277,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Sets the blue value
-	 * 
+	 *
 	 * @param blue
 	 *            the blue value of the color
 	 */
@@ -287,7 +287,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Returns the alpha value
-	 * 
+	 *
 	 * @return the alpha value of the color
 	 */
 	public int getAlpha() {
@@ -296,7 +296,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	/**
 	 * Sets the alpha value of the color
-	 * 
+	 *
 	 * @param alpha
 	 *            the alpha value of the color
 	 */
@@ -305,12 +305,13 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	}
 
 	private int normalize(int value) {
-		if (value < 0)
+		if (value < 0) {
 			return 0;
-		else if (value > 255)
+		} else if (value > 255) {
 			return 255;
-		else
+		} else {
 			return value;
+		}
 	}
 
 	@Override
@@ -319,20 +320,13 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	}
 
 	private String valueToString(int value) {
-		String temp = Integer.toHexString(value);
-		if (temp.length() < 2)
-			temp = "00" + temp;
-		return temp.substring(temp.length() - 2);
+		return Integer.toHexString(256 + value).substring(1);
 	}
 
 	@Override
 	public String toStringData() {
-		String color = "0x";
-		color += valueToString(red);
-		color += valueToString(green);
-		color += valueToString(blue);
-		color += valueToString(alpha);
-		return color;
+		return "0x" + valueToString(red) + valueToString(green)
+				+ valueToString(blue) + valueToString(alpha);
 	}
 
 	@Override
@@ -375,13 +369,24 @@ public class ColorFill extends AbstractParam implements EAdFill {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || !(object instanceof ColorFill))
+		if (object == null || !(object instanceof ColorFill)) {
 			return false;
+		}
 		ColorFill paint = (ColorFill) object;
 		if (paint.alpha == alpha && paint.blue == blue && paint.green == green
-				&& paint.red == red)
+				&& paint.red == red) {
 			return true;
+		}
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + this.red;
+		hash = 31 * hash + this.green;
+		hash = 31 * hash + this.blue;
+		hash = 31 * hash + this.alpha;
+		return hash;
+	}
 }

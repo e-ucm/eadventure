@@ -34,7 +34,6 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ead.common.resources.assets.drawable.basics.shapes;
 
 import ead.common.interfaces.features.enums.Orientation;
@@ -46,7 +45,6 @@ public class BalloonShape extends BezierShape {
 	private static int CORNER_RADIUS = 10;
 
 	public BalloonShape() {
-
 	}
 
 	public BalloonShape(int left, int top, int right, int bottom,
@@ -63,9 +61,10 @@ public class BalloonShape extends BezierShape {
 			BalloonType ballonType, boolean hasOrigin, int xOrigin, int yOrigin) {
 
 		Orientation originSide = null;
-		if (hasOrigin)
+		if (hasOrigin) {
 			originSide = getOriginLocation(left, top, right, bottom, xOrigin,
 					yOrigin);
+		}
 
 		hasOrigin = hasOrigin && originSide != null;
 
@@ -128,26 +127,29 @@ public class BalloonShape extends BezierShape {
 			switch (side) {
 			case N:
 			case S:
-				if (hasOrigin && originSide == side)
+				if (hasOrigin && originSide == side) {
 					stroke.addHorizontal(this, x1, x2, y1, xOrigin, yOrigin);
-				else
+				} else {
 					stroke.addHorizontal(this, x1, x2, y1);
+				}
 				break;
 			case E:
 			case W:
-				if (hasOrigin && originSide == side)
+				if (hasOrigin && originSide == side) {
 					stroke.addVertical(this, x1, y1, y2, xOrigin, yOrigin);
-				else
+				} else {
 					stroke.addVertical(this, x1, y1, y2);
+				}
 				break;
 			case NW:
 			case SW:
 			case NE:
 			case SE:
-				if (hasOrigin && originSide == side)
+				if (hasOrigin && originSide == side) {
 					stroke.addDiagonal(this, x1, x2, y1, y2, xOrigin, yOrigin);
-				else
+				} else {
 					stroke.addDiagonal(this, x1, x2, y1, y2);
+				}
 				break;
 
 			}
@@ -158,25 +160,27 @@ public class BalloonShape extends BezierShape {
 	public static Orientation getOriginLocation(int left, int top, int right,
 			int bottom, int xOrigin, int yOrigin) {
 		if (xOrigin < left) {
-			if (yOrigin < top)
+			if (yOrigin < top) {
 				return Orientation.NW;
-			else if (yOrigin > bottom)
+			} else if (yOrigin > bottom) {
 				return Orientation.SW;
-			else
+			} else {
 				return Orientation.W;
+			}
 		} else if (xOrigin > right) {
-			if (yOrigin < top)
+			if (yOrigin < top) {
 				return Orientation.NE;
-			else if (yOrigin > bottom)
+			} else if (yOrigin > bottom) {
 				return Orientation.SE;
-			else
+			} else {
 				return Orientation.E;
+			}
 		} else if (yOrigin < top) {
 			return Orientation.N;
 		} else if (yOrigin > bottom) {
 			return Orientation.S;
-		} else
+		} else {
 			return null;
+		}
 	}
-
 }

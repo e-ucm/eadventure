@@ -38,15 +38,15 @@
 package ead.editor.view.panel;
 
 import ead.editor.model.nodes.DependencyNode;
-import ead.editor.view.EditorWindow;
-import ead.editor.view.dock.ElementPanel;
-import ead.editor.view.CheapVerticalLayout;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import ead.editor.view.components.CheapVerticalLayout;
+import ead.editor.view.components.EditorLink;
+import ead.editor.view.components.EditorLinkFactory;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -91,28 +91,18 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 		row.add(jl);
 	}
 
-	private void addButtonToRow(JPanel row, String text, String id) {
-		logger.debug("   appending button for id: " + id);
-		JButton jb = new JButton(htmlize(id));
-		jb.setForeground(Color.blue);
-		jb.setBorderPainted(false);
-		jb.setMargin(new Insets(0, 0, 0, 0));
-		jb.setContentAreaFilled(false);
-		jb.addActionListener(new OpenLinkAction(id));
-
-		jb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		row.add(jb);
-	}
-
 	@Override
 	protected void rebuild() {
 		removeAll();
 		setLayout(new BorderLayout());
 		inner = new JPanel();
 		inner.setLayout(new CheapVerticalLayout());
-		add(new JScrollPane(inner, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
-				BorderLayout.CENTER);
+		JScrollPane jsp = new JScrollPane(inner,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jsp.getVerticalScrollBar().setUnitIncrement(16);
+		add(jsp, BorderLayout.CENTER);
+
 		String st = target.getTextualDescription(controller.getModel());
 		logger.debug("preparing to render\n" + st);
 
@@ -127,30 +117,13 @@ public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 			} else {
 				addLabelToRow(row, st.substring(offset, m.start()));
 				String id = st.substring(m.start(1), m.end(1));
-				addButtonToRow(row, id, id);
+				row.add(EditorLinkFactory.createLink(Integer.parseInt(id),
+						controller));
 			}
 			offset = m.end();
 		}
 		addLabelToRow(row, st.substring(offset));
 
 		revalidate();
-	}
-
-	private String htmlize(String s) {
-		return "<html>" + s + "</html>";
-	}
-
-	class OpenLinkAction implements ActionListener {
-
-		String id;
-
-		private OpenLinkAction(String id) {
-			this.id = id;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			controller.getViewController().addView("", id, true);
-		}
 	}
 }

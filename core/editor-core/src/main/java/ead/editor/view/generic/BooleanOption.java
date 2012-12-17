@@ -37,43 +37,48 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.control.CommandManager;
-import ead.editor.control.commands.ChangeFieldValueCommand;
-import ead.editor.view.generic.FieldDescriptor;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JCheckBox;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.JComponent;
 
-public class BooleanOption extends AbstractOption<Boolean> {
+public class BooleanOption extends DefaultAbstractOption<Boolean> {
 
-	public BooleanOption(String title, String toolTipText,
-			FieldDescriptor<Boolean> fieldDescriptor) {
-		super(title, toolTipText, fieldDescriptor);
+	private JCheckBox checkBox;
+
+	public BooleanOption(String title, String toolTipText, Object object,
+			String fieldName, DependencyNode... changed) {
+		super(title, toolTipText, object, fieldName, changed);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * es.eucm.eadventure.editor.view.ComponentProvider#getComponent(es.eucm
-	 * .eadventure.editor.view.generics.InterfaceElement)
-	 */
+	public BooleanOption(String title, String toolTipText,
+			Accessor<Boolean> fieldDescriptor, DependencyNode... changed) {
+		super(title, toolTipText, fieldDescriptor, changed);
+	}
+
 	@Override
-	public JCheckBox getComponent(final CommandManager manager) {
-		final JCheckBox checkBox = new JCheckBox(getTitle());
+	protected JComponent createControl() {
+		checkBox = new JCheckBox(getTitle());
 		checkBox.setToolTipText(getToolTipText());
-		checkBox.setSelected(read(getFieldDescriptor()));
-		checkBox.addChangeListener(new ChangeListener() {
-
+		checkBox.setSelected(fieldDescriptor.read());
+		checkBox.addChangeListener(new javax.swing.event.ChangeListener() {
 			@Override
-			public void stateChanged(ChangeEvent arg0) {
-				ChangeFieldValueCommand<Boolean> changeFieldValueCommand;
-				changeFieldValueCommand = new ChangeFieldValueCommand<Boolean>(
-						checkBox.isSelected(), getFieldDescriptor());
-				manager.performCommand(changeFieldValueCommand);
+			public void stateChanged(javax.swing.event.ChangeEvent change) {
+				if (checkBox.isSelected() != oldValue) {
+					update();
+				}
 			}
-
 		});
 		return checkBox;
+	}
+
+	@Override
+	protected Boolean getControlValue() {
+		return checkBox.isSelected();
+	}
+
+	@Override
+	protected void setControlValue(Boolean newValue) {
+		checkBox.setSelected(newValue);
 	}
 }
