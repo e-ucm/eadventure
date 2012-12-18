@@ -62,8 +62,7 @@ public class AssetNode extends EditorNode {
 	protected String notes;
 	protected File base;
 
-	private static final String[] indexed = new String[] { "notes", "base",
-			"sources" };
+	private static final String[] indexed = new String[] { "notes", "sources" };
 
 	public AssetNode(int id) {
 		super(id, indexed);
@@ -124,8 +123,6 @@ public class AssetNode extends EditorNode {
 			return R.Drawable.assets__animation_png;
 		} else if (d instanceof RectangleShape) {
 			return R.Drawable.assets__rectangle_png;
-		} else if (d instanceof Caption) {
-			return R.Drawable.assets__caption_png;
 		} else if (d instanceof BezierShape) {
 			return R.Drawable.assets__bezier_png;
 		} else {

@@ -411,14 +411,14 @@ public class ModelVisitorDriver {
 				}
 			}
 			if (pd == null) {
-				Exception e = new Exception();
 				logger.error("Missing descriptor for {} -- trace follows", c
-						+ "." + fieldName, e);
+						+ "." + fieldName, new Exception());
 				return null;
 			}
 			Method method = pd.getReadMethod();
 			if (method == null) {
 				logger.error("Missing read-method for {} in {} ", fieldName, c);
+				logger.error("Read-method fail from ", new Exception());
 				return null;
 			}
 			logger.debug("\t invoking {}", fieldName);

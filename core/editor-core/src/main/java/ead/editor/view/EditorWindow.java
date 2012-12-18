@@ -77,6 +77,7 @@ import ead.editor.control.ViewController;
 import ead.editor.model.nodes.CharacterNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.asset.AssetsNode;
+import ead.editor.model.nodes.asset.CaptionAssetNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.dock.ClassDockableFactory;
 import ead.editor.view.dock.ElementPanel;
@@ -88,6 +89,7 @@ import ead.editor.view.menu.WindowMenu;
 import ead.editor.view.panel.ActorPanel;
 import ead.editor.view.panel.RawElementPanel;
 import ead.editor.view.panel.asset.AssetsPanel;
+import ead.editor.view.panel.asset.CaptionAssetPanel;
 import ead.editor.view.panel.asset.ImageAssetPanel;
 import ead.editor.view.structure.StructureElement;
 import ead.editor.view.structure.StructurePanel;
@@ -457,6 +459,8 @@ public class EditorWindow implements ViewController {
 		registerElementPanelFactory(CharacterNode.class, ActorPanel.class);
 		registerElementPanelFactory(DependencyNode.class, RawElementPanel.class);
 		registerElementPanelFactory(ImageAssetNode.class, ImageAssetPanel.class);
+		registerElementPanelFactory(CaptionAssetNode.class,
+				CaptionAssetPanel.class);
 		registerElementPanelFactory(AssetsNode.class, AssetsPanel.class);
 	}
 }

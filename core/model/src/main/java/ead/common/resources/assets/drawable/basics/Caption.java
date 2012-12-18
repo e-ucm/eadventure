@@ -46,7 +46,6 @@ import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.AbstractAssetDescriptor;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
@@ -182,6 +181,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	 *            the width
 	 *
 	 */
+	@Override
 	public void setPreferredWidth(int maxWidth) {
 		this.preferredWidth = maxWidth;
 	}
@@ -193,6 +193,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	 * @param maxHeight
 	 *            the height
 	 */
+	@Override
 	public void setPreferredHeight(int maxHeight) {
 		this.preferredHeight = maxHeight;
 	}
@@ -206,6 +207,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 		return padding;
 	}
 
+	@Override
 	public void setPadding(int padding) {
 		this.padding = padding;
 	}

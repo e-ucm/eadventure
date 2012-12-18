@@ -61,16 +61,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.google.inject.Inject;
+
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
-import ead.editor.model.nodes.asset.AssetFactory;
-import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EditorNodeFactory;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.StringsNode;
+import ead.editor.model.nodes.asset.AssetFactory;
+import ead.editor.model.nodes.asset.AssetsNode;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.importer.EAdventureImporter;
@@ -258,6 +259,7 @@ public class EditorModelLoader {
 				model.getNodesById().put(id, editorNode);
 			}
 			// initialize
+			DependencyNode[] changed = new DependencyNode[nodes.getLength()];
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Element e = (Element) nodes.item(i);
 				int id = Integer.valueOf(e.getAttribute("id"));
@@ -288,8 +290,11 @@ public class EditorModelLoader {
 				}
 				editorNode.restoreInner(e, model);
 				model.registerEditorNodeWithGraph(editorNode);
-				read++;
+				changed[read++] = editorNode;
 			}
+			// update index
+			model.fireModelEvent(new DefaultModelEvent("editor-load", this,
+					null, null, changed));
 		} catch (Exception e) {
 			logger.error("Error reading mappings from file {}", source, e);
 		}

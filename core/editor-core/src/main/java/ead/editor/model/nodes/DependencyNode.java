@@ -37,9 +37,11 @@
 
 package ead.editor.model.nodes;
 
+import org.apache.lucene.document.Document;
+
 import ead.editor.R;
 import ead.editor.model.EditorModel;
-import org.apache.lucene.document.Document;
+import ead.editor.model.ModelIndex;
 
 /**
  * The editor uses these nodes to encapsulate actual model objects, be they
@@ -87,6 +89,15 @@ public abstract class DependencyNode<T> implements
 
 	public Document getDoc() {
 		return doc;
+	}
+
+	/**
+	 * clears all fields except editor-id
+	 */
+	public void clearDoc() {
+		doc = new Document();
+		ModelIndex.addProperty(this, ModelIndex.editorIdFieldName, "" + id,
+				false);
 	}
 
 	public void setContent(T content) {

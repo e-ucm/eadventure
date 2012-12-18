@@ -153,8 +153,8 @@ public class ModelIndex implements ModelListener {
 	 * @param searchable if this field is to be indexed and used in "anywhere"
 	 * searches
 	 */
-	public void addProperty(DependencyNode e, String field, String value,
-			boolean searchable) {
+	public static void addProperty(DependencyNode e, String field,
+			String value, boolean searchable) {
 
 		e.getDoc().add(
 				new Field(field, value, Store.YES, searchable ? Index.ANALYZED
@@ -194,9 +194,10 @@ public class ModelIndex implements ModelListener {
 				last = e;
 				Term q = new Term(editorIdFieldName, "" + e.getId());
 				indexWriter.deleteDocuments(q);
+				e.clearDoc();
 				ModelVisitorDriver mvd = new ModelVisitorDriver();
-				mvd.visit(e, new UpdatePropertiesVisitor(e),
-						model.getStringHandler());
+				mvd.visit(e, new UpdatePropertiesVisitor(e), model
+						.getStringHandler());
 				indexWriter.addDocument(e.getDoc());
 			}
 		} catch (Exception ex) {
@@ -482,10 +483,11 @@ public class ModelIndex implements ModelListener {
 
 	private class UpdatePropertiesVisitor implements ModelVisitor {
 		private Object toUpdate;
+
 		private UpdatePropertiesVisitor(Object toUpdate) {
 			this.toUpdate = toUpdate;
 		}
-		
+
 		@Override
 		public boolean visitObject(Object target, Object source,
 				String sourceName) {
@@ -498,7 +500,7 @@ public class ModelIndex implements ModelListener {
 				String textValue) {
 			logger.info("Visiting property for update: '{}' :: '{}' = '{}'",
 					new Object[] { target, propertyName, textValue });
-			DependencyNode targetNode = (DependencyNode)target;
+			DependencyNode targetNode = (DependencyNode) target;
 			model.getNodeIndex().addProperty(targetNode, propertyName,
 					textValue, true);
 		}

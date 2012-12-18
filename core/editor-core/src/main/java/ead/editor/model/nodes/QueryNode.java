@@ -49,6 +49,7 @@ import ead.editor.model.ModelIndex.Match;
 import ead.editor.model.ModelIndex.SearchResult;
 import ead.editor.model.ModelQuery;
 import java.awt.Image;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -133,7 +134,7 @@ public class QueryNode extends EditorNode {
 			logger.warn("No field {} in {}", new Object[] { field, n.getId() });
 			return "??";
 		} else {
-			return n.getDoc().getValues(field)[0];
+			return Arrays.toString(n.getDoc().getValues(field));
 		}
 	}
 
