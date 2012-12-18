@@ -47,7 +47,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
@@ -56,13 +55,13 @@ import java.util.TreeSet;
 //TODO This class should be called for any project that has
 //     resources upon building
 /**
- * Automatically creates and updates R.java (for resources) and Messages.java 
+ * Automatically creates and updates R.java (for resources) and Messages.java
  * (for internationalized strings) files used for internationalization (I18N).
  * The R classes contain generated maps of all available resources in the
  * classpath, and should be regenerated as part of the release process. This
- * method is much quicker than scanning jar-files at execution time. Messages.java
- * files have a similar structure and workflow.
- *
+ * method is much quicker than scanning jar-files at execution time.
+ * Messages.java files have a similar structure and workflow.
+ * 
  * R.java files imitate a similar mechanism developed for Android applications;
  * you can read more about it at
  * http://developer.android.com/guide/topics/resources/accessing-resources.html
@@ -72,10 +71,13 @@ public class ResourceCreator {
 	private static String eol = System.getProperty("line.separator");
 
 	/**
-	 * Generate the R.java file with the 'R' class for the given project and package
-	 *
-	 * @param args projecteURL: the location of the project for which the R file must be generated
-	 * packageName: the name of the main package in the project
+	 * Generate the R.java file with the 'R' class for the given project and
+	 * package
+	 * 
+	 * @param args
+	 *            projecteURL: the location of the project for which the R file
+	 *            must be generated packageName: the name of the main package in
+	 *            the project
 	 */
 	public static void main(String[] args) throws IOException {
 
@@ -129,7 +131,8 @@ public class ResourceCreator {
 			out.close();
 		}
 
-		// find each Messages.properties file, and generate a mirror Messages.java file
+		// find each Messages.properties file, and generate a mirror
+		// Messages.java file
 		System.err.println("\tProcessing messages...");
 		for (File propsFile : new FileFinder(resources, "Messages.properties")) {
 			String p = propsFile.getPath();
@@ -251,22 +254,19 @@ public class ResourceCreator {
 	}
 
 	/**
-	 * Write resource-list into R class.
-	 * Notice that "qualifiers" (-something extensions in the leading directories) 
-	 * are ignored, to allow for internationalization. Examples:
-	 * drawable/EditorIcon16x16_bw.png becomes 
-	 *		EditorIcon16x16_bw_png
-	 * drawable/SplashScreenLogo.png becomes 
-	 *		SplashScreenLogo.png
-	 * drawable-es_ES/SplashScreenLogo.png becomes 
-	 *		es_ES/SplashScreenLogo_png
-	 * drawable/conditions/vars.png becomes 
-	 *		conditions__vars_png
-	 * drawable-es_ES/SplashScreenLogo.png becomes 
-	 *		es_ES/conditions__vars_png
-	 *
-	 * @param location the location of the resources
-	 * @param className the name of the new class
+	 * Write resource-list into R class. Notice that "qualifiers" (-something
+	 * extensions in the leading directories) are ignored, to allow for
+	 * internationalization. Examples: drawable/EditorIcon16x16_bw.png becomes
+	 * EditorIcon16x16_bw_png drawable/SplashScreenLogo.png becomes
+	 * SplashScreenLogo.png drawable-es_ES/SplashScreenLogo.png becomes
+	 * es_ES/SplashScreenLogo_png drawable/conditions/vars.png becomes
+	 * conditions__vars_png drawable-es_ES/SplashScreenLogo.png becomes
+	 * es_ES/conditions__vars_png
+	 * 
+	 * @param location
+	 *            the location of the resources
+	 * @param className
+	 *            the name of the new class
 	 * @return A string with the full definition of the sub-class
 	 */
 	private static String createResourceContents(File location,
@@ -342,11 +342,13 @@ public class ResourceCreator {
 	}
 
 	/**
-	 * Write message-list into Messages class.
-	 * Only messages that exist in the default language are included. 
-	 *
-	 * @param location the location of the source .properties file
-	 * @param className the name of the new class
+	 * Write message-list into Messages class. Only messages that exist in the
+	 * default language are included.
+	 * 
+	 * @param location
+	 *            the location of the source .properties file
+	 * @param className
+	 *            the name of the new class
 	 * @return A string with the full definition of the sub-class
 	 */
 	private static String createMessageContents(File location) {
@@ -384,7 +386,7 @@ public class ResourceCreator {
 
 	/**
 	 * Recursive method to visit all the sub-folders in the resource structure.
-	 *
+	 * 
 	 * @param files
 	 * @param currentPath
 	 * @param currentDir

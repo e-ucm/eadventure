@@ -70,8 +70,8 @@ public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 			ref.setPosition(element.getPosition());
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.FIRST_UPDATE, element
-					.getInitialEffect());
-			((AbstractSceneElementEffect) element.getInitialEffect())
+					.getEffect());
+			((AbstractSceneElementEffect) element.getEffect())
 					.setSceneElement(ref);
 			ref.getEvents().add(event);
 			scene.getSceneElements().add(ref, 0);

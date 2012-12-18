@@ -53,8 +53,6 @@ public class GdxFont extends BasicRuntimeFont {
 	private static final String defaultFont = "@font/droid-12.fnt";
 	private static final String defaultFontPng = "@font/droid-12.png";
 
-	private int length;
-
 	@Inject
 	public GdxFont(AssetHandler assetHandler) {
 		super(assetHandler);
@@ -87,9 +85,6 @@ public class GdxFont extends BasicRuntimeFont {
 		if (fntHandle.exists() && pngHandle.exists()) {
 			fontData = fileName + ".fnt";
 			fontPng = fileName + ".png";
-			length = (int) (fntHandle.length() + pngHandle.length());
-		} else {
-			length = 0;
 		}
 		bitmapFont = new BitmapFont(ah.getFileHandle(fontData), ah
 				.getFileHandle(fontPng), true);
