@@ -71,6 +71,18 @@ public class AddActorReferenceEf extends AbstractEffect {
 		this.effect = effect;
 	}
 
+	public void setEffect(AbstractSceneElementEffect effect) {
+		this.effect = effect;
+	}
+
+	public void setActor(EAdSceneElementDef actor) {
+		this.actor = actor;
+	}
+
+	public void setPosition(EAdPosition position) {
+		this.position = position;
+	}
+
 	public EAdSceneElementDef getActor() {
 		return actor;
 	}
@@ -79,7 +91,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 		return position;
 	}
 
-	public AbstractSceneElementEffect getInitialEffect() {
+	public AbstractSceneElementEffect getEffect() {
 		return effect;
 	}
 

@@ -88,7 +88,8 @@ public class ModelVisitorDriver {
 	 * @param data model to visit
 	 * @param v visitor
 	 */
-	public void visit(EAdAdventureModel data, ModelVisitor v, EditorStringHandler esh) {
+	public void visit(EAdAdventureModel data, ModelVisitor v,
+			EditorStringHandler esh) {
 		this.v = v;
 		this.esh = esh;
 		try {

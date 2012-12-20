@@ -201,7 +201,8 @@ public class ModelQuery {
 					Integer.parseInt(value);
 				} catch (NumberFormatException nfe) {
 					throw new IllegalArgumentException(
-							"Direct ID queries can only be performed on integers", nfe);
+							"Direct ID queries can only be performed on integers",
+							nfe);
 				}
 			}
 		}

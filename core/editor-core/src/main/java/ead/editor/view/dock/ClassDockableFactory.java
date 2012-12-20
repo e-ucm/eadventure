@@ -108,7 +108,8 @@ public class ClassDockableFactory implements
 				+ ep.getTarget().getId());
 		d.setRemoveOnClose(true);
 		d.add((Component) ep);
-		d.addFocusListener((CFocusListener)controller.getNavigationController());
+		d.addFocusListener((CFocusListener) controller
+				.getNavigationController());
 
 		d.addVetoClosingListener(new CVetoClosingListener() {
 			@Override

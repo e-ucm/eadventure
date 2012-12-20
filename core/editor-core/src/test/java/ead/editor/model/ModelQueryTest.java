@@ -71,7 +71,8 @@ public class ModelQueryTest {
 		System.out.println("simpleQueries");
 		testParser("a simple test", true, "", "a", "", "simple", "", "test");
 		testParser("one:two three:four", true, "one", "two", "three", "four");
-		testParser(ModelIndex.editorIdQueryField + ":222 three:four", true, "eid", "222", "three", "four");
+		testParser(ModelIndex.editorIdQueryField + ":222 three:four", true,
+				"eid", "222", "three", "four");
 	}
 
 	@Test

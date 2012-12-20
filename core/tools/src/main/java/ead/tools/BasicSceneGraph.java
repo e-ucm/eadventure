@@ -274,7 +274,7 @@ public class BasicSceneGraph implements SceneGraph {
 			checkChangeField((ChangeFieldEf) effect);
 		} else if (effect instanceof AddActorReferenceEf) {
 			AddActorReferenceEf addActor = (AddActorReferenceEf) effect;
-			lookForConnections(currentScene, addActor.getInitialEffect());
+			lookForConnections(currentScene, addActor.getEffect());
 			lookForConnections(currentScene, addActor.getActor().getBehavior());
 			lookForConnectionsEvents(currentScene, addActor.getActor()
 					.getEvents());
