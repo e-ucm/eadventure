@@ -39,11 +39,17 @@ package ead.editor.view.generics;
 
 import java.awt.Color;
 
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.paint.EAdFill;
+import ead.common.params.paint.EAdPaint;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.ColorOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
+import ead.editor.view.generic.accessors.ConvertingAccessor;
+import ead.editor.view.generic.accessors.IntrospectingAccessor;
 import ead.utils.Log4jConfig;
 
 public class ColorOptionTest extends AbstractOptionTest {
@@ -59,20 +65,78 @@ public class ColorOptionTest extends AbstractOptionTest {
 		p1.add(new ColorOption("name1", "toolTip1", model, "a", node1));
 		p1.add(new ColorOption("name2", "toolTip1", model, "b", node1));
 		p1.add(new ColorOption("name3", "toolTip1", model, "c", node1));
+
 		OptionPanel p2 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
-		p1.add(new ColorOption("name1", "toolTip1", model, "a", node1));
-		p1.add(new ColorOption("name2", "toolTip1", model, "b", node1));
-		p1.add(new ColorOption("name3", "toolTip1", model, "c", node1));
+		p2.add(new ColorOption("name1", "toolTip1", model, "a", node1));
+		p2.add(new ColorOption("name2", "toolTip1", model, "b", node1));
+		p2.add(new ColorOption("name3", "toolTip1", model, "c", node1));
+
+		OptionPanel pX = new PanelImpl("pX",
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		pX.add(new ColorOption("name4", "toolTip4", new ColorToFillConverter(
+				model, "simpleFill"), node1));
+		pX.add(new ColorOption("name4", "toolTip4", new ColorToFillConverter(
+				model, "complexFill"), node1));
+
 		OptionPanel p3 = new PanelImpl("Test0",
 				OptionPanel.LayoutPolicy.VerticalEquallySpaced, 4);
 		p3.add(p1);
 		p3.add(p2);
+		p3.add(pX);
 		controller.getModel().addModelListener(p3);
 		childPanel.add(p3.getComponent(commandManager));
 	}
 
+	private static class ColorToFillConverter extends
+			ConvertingAccessor<Color, EAdFill> {
+		private ColorToFillConverter(Object element, String fieldName) {
+			super(Color.class, new IntrospectingAccessor<EAdFill>(element,
+					fieldName));
+		}
+
+		@Override
+		public Color innerToOuter(EAdFill b) {
+			if (b instanceof ColorFill) {
+				ColorFill f = (ColorFill) b;
+				return new Color(f.getRed(), f.getGreen(), f.getAlpha());
+			} else if (b instanceof LinearGradientFill) {
+				// warn user right about here
+				ColorFill f = ((LinearGradientFill) b).getColor1();
+				return new Color(f.getRed(), f.getGreen(), f.getAlpha());
+			} else {
+				throw new IllegalArgumentException();
+			}
+		}
+
+		@Override
+		public EAdFill outerToInner(Color a) {
+			return new ColorFill(a.getRed(), a.getGreen(), a.getBlue());
+		}
+
+	}
+
 	public static class ExampleClass {
+
+		public EAdFill getSimpleFill() {
+			return simpleFill;
+		}
+
+		public void setSimpleFill(EAdFill simpleFill) {
+			this.simpleFill = simpleFill;
+		}
+
+		public EAdFill getComplexFill() {
+			return complexFill;
+		}
+
+		public void setComplexFill(EAdFill complexFill) {
+			this.complexFill = complexFill;
+		}
+
+		public EAdFill simpleFill = new ColorFill(100, 20, 30);
+		public EAdFill complexFill = new LinearGradientFill(ColorFill.RED,
+				ColorFill.BLUE, 10, 20);
 
 		public Color a = Color.red, b = Color.blue, c = Color.green;
 
