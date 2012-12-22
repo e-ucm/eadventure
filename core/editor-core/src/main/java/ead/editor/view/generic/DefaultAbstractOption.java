@@ -37,13 +37,14 @@
 
 package ead.editor.view.generic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.editor.control.Command;
 import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract implementation for {@link Option}s

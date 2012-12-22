@@ -55,9 +55,9 @@ import ead.editor.view.generic.accessors.Accessor;
 public class ColorOption extends DefaultAbstractOption<Color> {
 
 	private static JColorChooser jcc = new JColorChooser();
+	private Color controlValue = null;
 
 	private JButton colorButton;
-	private Color controlColor;
 	private BufferedImage colorImage = new BufferedImage(32, 32,
 			BufferedImage.TYPE_INT_ARGB);
 
@@ -86,20 +86,20 @@ public class ColorOption extends DefaultAbstractOption<Color> {
 	@Override
 	protected JComponent createControl() {
 		colorButton = new JButton();
-		setControlValue(readModelValue());
+		oldValue = readModelValue();
+		setControlValue(oldValue);
 		colorButton.setToolTipText(getToolTipText());
 
 		colorButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				controlColor = readModelValue();
-				jcc.setColor(controlColor);
-				JOptionPane.showInputDialog(colorButton.getParent(), jcc,
+				setControlValue(readModelValue());
+				jcc.setColor(controlValue);
+				JOptionPane.showMessageDialog(colorButton.getParent(), jcc,
 						"Select a color", JOptionPane.QUESTION_MESSAGE);
-				if (!controlColor.equals(jcc.getColor())
+				if (!controlValue.equals(jcc.getColor())
 						&& jcc.getColor() != null) {
-					controlColor = jcc.getColor();
-					setControlValue(controlColor);
+					setControlValue(jcc.getColor());
 					update();
 				}
 			}
@@ -109,13 +109,13 @@ public class ColorOption extends DefaultAbstractOption<Color> {
 
 	@Override
 	protected Color getControlValue() {
-		return controlColor;
+		return controlValue;
 	}
 
 	@Override
 	protected void setControlValue(Color newValue) {
-		controlColor = newValue;
-		paintIcon(controlColor);
+		paintIcon(newValue);
 		colorButton.setIcon(new ImageIcon(colorImage));
+		controlValue = newValue;
 	}
 }

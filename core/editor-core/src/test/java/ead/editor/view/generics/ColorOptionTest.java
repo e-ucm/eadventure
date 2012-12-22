@@ -1,3 +1,5 @@
+package ead.editor.view.generics;
+
 /**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
  *    <e-UCM> research group.
@@ -36,14 +38,12 @@
  */
 
 import java.awt.Color;
+
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
-import ead.editor.view.generic.BooleanOption;
 import ead.editor.view.generic.ColorOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
-import ead.editor.view.generics.AbstractOptionTest;
-import ead.editor.view.generics.BooleanOptionTest;
 import ead.utils.Log4jConfig;
 
 public class ColorOptionTest extends AbstractOptionTest {

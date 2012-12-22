@@ -37,10 +37,10 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.accessors.Accessor;
 import java.io.File;
 
 import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
 
 public class FileNameOption extends TextOption {
 
@@ -74,7 +74,7 @@ public class FileNameOption extends TextOption {
 	 * not generate updates, and will therefore not affect either model or other
 	 * views.
 	 * @param value
-	 * @return whether it is valid or not; default is "always-true" 
+	 * @return whether it is valid or not; default is "always-true"
 	 */
 	@Override
 	protected boolean isValid(String value) {

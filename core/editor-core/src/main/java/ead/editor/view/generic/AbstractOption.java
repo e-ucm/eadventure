@@ -37,14 +37,16 @@
 
 package ead.editor.view.generic;
 
+import javax.swing.JComponent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.editor.control.Command;
 import ead.editor.control.CommandManager;
 import ead.editor.model.ModelEvent;
 import ead.editor.model.ModelEventUtils;
 import ead.editor.model.nodes.DependencyNode;
-import javax.swing.JComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract implementation for {@link Option}s
@@ -69,7 +71,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 */
 	protected boolean isUpdating = false;
 	/**
-	 * Keeps a copy of the old value
+	 * A copy of the old value. Used when creating change events / commands,
+	 * and generally updated by the AbstractAction itself.
 	 */
 	protected S oldValue;
 	/**
@@ -83,6 +86,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	protected DependencyNode[] changed;
 
 	/**
+	 * Creates an AbstractAction.
 	 * @param label The label in the option (can be null)
 	 * @param toolTipText The toolTipText in the option (cannot be null)
 	 * @param fieldName fieldName to access
@@ -99,7 +103,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 	}
 
 	/**
-	 * Will be called when the model changes.
+	 * Will be called when the model changes. Uses changeConsideredRelevant
+	 * to avoid acting on non-changes.
 	 * @param event
 	 */
 	@Override
@@ -118,6 +123,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 				isUpdating = true;
 				setControlValue(nextValue);
 				valueUpdated(oldValue, nextValue);
+				oldValue = nextValue;
 				isUpdating = false;
 			}
 		}
@@ -164,7 +170,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 	protected abstract JComponent createControl();
 
 	/**
-	 * Creates and initializes the component
+	 * Creates and initializes the component.
+	 * Also sets oldValue for the first time.
 	 */
 	@Override
 	public JComponent getComponent(CommandManager manager) {
@@ -205,14 +212,15 @@ public abstract class AbstractOption<S> implements Option<S> {
 	}
 
 	/**
-	 * Should be called when changes to the control are detected
+	 * Should be called when changes to the control are detected.
+	 * Updates oldValue after informing all interested parties.
 	 */
 	protected void update() {
 		S nextValue = getControlValue();
 		if (isUpdating || !isValid(nextValue)) {
 			return;
 		}
-		logger.debug("Control triggering update at {} to {}", new Object[] {
+		logger.debug("Control-triggered update at {} to {}", new Object[] {
 				hashCode(), nextValue });
 
 		isUpdating = true;
@@ -234,17 +242,20 @@ public abstract class AbstractOption<S> implements Option<S> {
 	/**
 	 * Triggers a manual update. This should be indistinguishable from
 	 * the user typing in stuff directly (if this were a typing-enabled control)
-	 * @param nextValue
+	 * @param nextValue value to set the control to, prior to firing an update
 	 */
 	public void updateValue(S nextValue) {
 		if (isUpdating || !isValid(nextValue)) {
 			return;
 		}
+		logger.debug("Non-local update at {} to {}", new Object[] { hashCode(),
+				nextValue });
 
 		isUpdating = true;
 		setControlValue(nextValue);
 		manager.performCommand(createUpdateCommand());
 		valueUpdated(oldValue, nextValue);
+		oldValue = nextValue;
 		isUpdating = false;
 	}
 }

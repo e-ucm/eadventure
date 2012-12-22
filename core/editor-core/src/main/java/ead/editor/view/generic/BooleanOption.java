@@ -37,10 +37,11 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.accessors.Accessor;
-import ead.editor.model.nodes.DependencyNode;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
 
 public class BooleanOption extends DefaultAbstractOption<Boolean> {
 
