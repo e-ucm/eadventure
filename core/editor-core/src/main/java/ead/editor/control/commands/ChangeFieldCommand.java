@@ -111,16 +111,17 @@ public class ChangeFieldCommand<T> extends Command {
 
 	/**
 	 * Method to perform a changing values command. Not having any changes
-	 * is an error.
+	 * is wasteful, but hardly an error.
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ModelEvent performCommand(EditorModel em) {
 		oldValue = fieldDescriptor.read();
 		if (!isChange(oldValue, newValue)) {
-			throw new IllegalArgumentException(
-					"Damn, same value man, whatyathinkin!");
-			// return null;
+			logger
+					.warn(
+							"Unnecessary change triggered by {} {}->{}; short-circuited",
+							new Object[] { commandName, oldValue, newValue });
 		}
 		return setValue(newValue);
 	}
