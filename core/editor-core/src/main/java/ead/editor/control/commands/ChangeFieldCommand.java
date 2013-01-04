@@ -130,7 +130,7 @@ public class ChangeFieldCommand<T> extends Command {
 	/**
 	 * @param one
 	 * @param another
-	 * @return true if any change fro one to another
+	 * @return true if any change from one to another
 	 */
 	public static <T> boolean defaultIsChange(T one, T another) {
 		boolean validOne = (one != null);
