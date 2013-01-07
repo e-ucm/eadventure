@@ -110,18 +110,22 @@ public class SceneElementDef extends ResourcedElement implements
 		return actions;
 	}
 
+	@Override
 	public void setName(EAdString name) {
 		setVarInitialValue(VAR_DOC_NAME, name);
 	}
 
+	@Override
 	public void setDesc(EAdString description) {
 		setVarInitialValue(VAR_DOC_DESC, description);
 	}
 
+	@Override
 	public void setDetailDesc(EAdString detailedDescription) {
 		setVarInitialValue(VAR_DOC_DETAILED_DESC, detailedDescription);
 	}
 
+	@Override
 	public void setDoc(EAdString documentation) {
 		setVarInitialValue(VAR_DOCUMENTATION, documentation);
 	}
@@ -133,22 +137,24 @@ public class SceneElementDef extends ResourcedElement implements
 
 	/**
 	 * Sets the initial appearance for the scene element
-	 * 
+	 *
 	 * @param appearance
 	 *            the initial appearance
 	 */
+	@Override
 	public void setAppearance(EAdDrawable appearance) {
 		setAppearance(getInitialBundle(), appearance);
 	}
 
 	/**
 	 * Sets the appearance in the given bundle
-	 * 
+	 *
 	 * @param bundle
 	 *            the bundle id
 	 * @param appearance
 	 *            the appearance
 	 */
+	@Override
 	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
 		EAdResources resources = getResources();
 		if (!resources.getBundles().contains(bundle)) {

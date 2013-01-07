@@ -48,13 +48,13 @@ import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.importer.BaseImporterModule;
 import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
+import ead.utils.Log4jConfig.Slf4jLevel;
 
 /**
  * eAdventure editor launcher. This class has a main method.
@@ -89,22 +89,22 @@ public class EAdventureEditor implements Launcher {
 		// Locale.setDefault(new Locale("es", "ES"));
 
 		// Initialize logging
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[] {
+		Log4jConfig.configForConsole(Slf4jLevel.Info, new Object[] {
 
-				//            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
-				"EditorModel",
-				Log4jConfig.Slf4jLevel.Debug,
-				//				"EditorModelLoader",
-				//				Log4jConfig.Slf4jLevel.Debug,
+		//"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
+				//"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+				//"EditorModelLoader", Log4jConfig.Slf4jLevel.Debug,
 
-				//            "ModelIndex", Log4jConfig.Slf4jLevel.Debug,
+				// "ModelIndex", Slf4jLevel.Debug,
+				// "EditorModelLoader", Slf4jLevel.Debug,
+				// "ModelVisitorDriver", Slf4jLevel.Debug,
 
-				"EditorAnnotator", Log4jConfig.Slf4jLevel.Debug,
-				"EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
-				"EWindowImpl", Log4jConfig.Slf4jLevel.Info, "ActorFactory",
-				Log4jConfig.Slf4jLevel.Debug,
+				// "EditorAnnotator", Slf4jLevel.Debug,
+				// "EAdventureImporter", Slf4jLevel.Debug,
+				// "EWindowImpl", Slf4jLevel.Info,
+				// "ActorFactory", Slf4jLevel.Debug,
 
-		//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
+				//            "QueryNode", Log4jConfig.Slf4jLevel.Debug,
 				//			Writer
 				//            "DOMWriter", Log4jConfig.Slf4jLevel.Debug,
 				//			Reader

@@ -37,12 +37,18 @@
 
 package ead.editor.model;
 
-import ead.editor.model.ModelQuery.QueryPart;
-import ead.editor.model.nodes.DependencyNode;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -53,6 +59,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Explanation;
@@ -66,13 +73,19 @@ import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.editor.model.EditorModel.ModelListener;
+import ead.editor.model.ModelQuery.QueryPart;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.visitor.ModelVisitor;
+import ead.editor.model.visitor.ModelVisitorDriver;
+
 /**
  * Allows easy search operations on the model. Uses Lucene for indexing and
  * retrieval.
  *
  * @author mfreire
  */
-public class ModelIndex {
+public class ModelIndex implements ModelListener {
 
 	private static final Logger logger = LoggerFactory.getLogger("ModelIndex");
 	public static final String editorIdFieldName = "editor-id";
@@ -103,9 +116,21 @@ public class ModelIndex {
 	private Analyzer searchAnalyzer;
 
 	/**
+	 * Upstream model; listened to, queried occasionally to resolve IDs
+	 */
+	private EditorModelImpl model;
+
+	/**
 	 * Configure Lucene indexing
 	 */
 	public ModelIndex() {
+		clear();
+	}
+
+	/**
+	 * Purges the contents of this modelIndex
+	 */
+	public void clear() {
 		try {
 			searchIndex = new RAMDirectory();
 			// use a very simple analyzer; no fancy stopwords, stemming, ...
@@ -128,12 +153,62 @@ public class ModelIndex {
 	 * @param searchable if this field is to be indexed and used in "anywhere"
 	 * searches
 	 */
-	public void addProperty(DependencyNode e, String field, String value,
-			boolean searchable) {
+	public static void addProperty(DependencyNode e, String field,
+			String value, boolean searchable) {
 
 		e.getDoc().add(
 				new Field(field, value, Store.YES, searchable ? Index.ANALYZED
 						: Index.NO));
+	}
+
+	/**
+	 * Changes the model indexed by this indexer. Also resets the
+	 * @param model
+	 */
+	void setModel(EditorModelImpl model) {
+		if (model != null && this.model == model) {
+			// do nothing
+		} else if (this.model != null) {
+			model.removeModelListener(this);
+		} else {
+			this.model = model;
+			model.addModelListener(this);
+		}
+	}
+
+	@Override
+	public void modelChanged(ModelEvent event) {
+		updateNodes(event.getChanged());
+	}
+
+	/**
+	 * Updates the index regarding a set of nodes. The node documents are
+	 * re-indexed by visiting them anew.
+	 * @param nodes
+	 */
+	public void updateNodes(DependencyNode... nodes) {
+		DependencyNode last = null;
+		try {
+			for (DependencyNode e : nodes) {
+				logger.info("updating {}", e.getId());
+				last = e;
+				Term q = new Term(editorIdFieldName, "" + e.getId());
+				indexWriter.deleteDocuments(q);
+				e.clearDoc();
+				ModelVisitorDriver mvd = new ModelVisitorDriver();
+				mvd.visit(e, new UpdatePropertiesVisitor(e), model
+						.getStringHandler());
+				indexWriter.addDocument(e.getDoc());
+			}
+		} catch (Exception ex) {
+			logger.error("Error adding search information for node {}", last
+					.getId(), ex);
+		}
+		try {
+			indexWriter.commit();
+		} catch (Exception ex) {
+			logger.error("Error commiting search information", ex);
+		}
 	}
 
 	/**
@@ -323,20 +398,18 @@ public class ModelIndex {
 	/**
 	 * Get a (sorted) list of nodes that match a query
 	 */
-	public SearchResult search(ModelQuery query,
-			Map<Integer, DependencyNode> nodesById) {
+	public SearchResult search(ModelQuery query) {
 		logger.info("Querying for {}", query);
 		SearchResult r = new SearchResult();
 		for (QueryPart p : query.getQueryParts()) {
-			r.merge(search(p.getField(), p.getValue(), false, nodesById));
+			r.merge(search(p.getField(), p.getValue(), false));
 		}
 		return r;
 	}
 
-	public SearchResult searchByClass(String queryText,
-			Map<Integer, DependencyNode> nodesById) {
+	public SearchResult searchByClass(String queryText) {
 		SearchResult sr = new SearchResult();
-		for (DependencyNode n : nodesById.values()) {
+		for (DependencyNode n : model.getNodesById().values()) {
 			if (n.getClass().getName().indexOf(queryText) != -1) {
 				sr.matches.put(n.getId(), new Match(n, 1, isClassQueryField));
 			}
@@ -344,10 +417,9 @@ public class ModelIndex {
 		return sr;
 	}
 
-	public SearchResult searchByContentClass(String queryText,
-			Map<Integer, DependencyNode> nodesById) {
+	public SearchResult searchByContentClass(String queryText) {
 		SearchResult sr = new SearchResult();
-		for (DependencyNode n : nodesById.values()) {
+		for (DependencyNode n : model.getNodesById().values()) {
 			if (n.getContent().getClass().getName().indexOf(queryText) != -1) {
 				sr.matches.put(n.getId(), new Match(n, 1,
 						hasContentClassQueryField));
@@ -356,11 +428,10 @@ public class ModelIndex {
 		return sr;
 	}
 
-	public SearchResult searchById(String queryText,
-			Map<Integer, DependencyNode> nodesById) {
+	public SearchResult searchById(String queryText) {
 		SearchResult sr = new SearchResult();
 		int id = Integer.parseInt(queryText);
-		DependencyNode n = nodesById.get(id);
+		DependencyNode n = model.getNodesById().get(id);
 		if (n != null) {
 			sr.matches.put(n.getId(), new Match(n, 10, editorIdQueryField));
 		} else {
@@ -378,16 +449,15 @@ public class ModelIndex {
 	 * <li>has - node contents class-name match
 	 * </ul>
 	 */
-	public SearchResult search(String field, String queryText, boolean quick,
-			Map<Integer, DependencyNode> nodesById) {
+	public SearchResult search(String field, String queryText, boolean quick) {
 
 		// Short-circuited queries
 		if (field.equals(isClassQueryField)) {
-			return searchByClass(queryText, nodesById);
+			return searchByClass(queryText);
 		} else if (field.equals(editorIdQueryField)) {
-			return searchById(queryText, nodesById);
+			return searchById(queryText);
 		} else if (field.equals(hasContentClassQueryField)) {
-			return searchByContentClass(queryText, nodesById);
+			return searchByContentClass(queryText);
 		}
 
 		// normal queries
@@ -402,12 +472,37 @@ public class ModelIndex {
 			searcher.search(query, collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 			SearchResult sr = new SearchResult(searcher, query, quick, hits,
-					nodesById);
+					model.getNodesById());
 			return sr;
 		} catch (Exception e) {
 			logger.error("Error parsing or looking up query '{}' in index",
 					queryText, e);
 		}
 		return new SearchResult();
+	}
+
+	private class UpdatePropertiesVisitor implements ModelVisitor {
+		private Object toUpdate;
+
+		private UpdatePropertiesVisitor(Object toUpdate) {
+			this.toUpdate = toUpdate;
+		}
+
+		@Override
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
+			// not interested in visiting nodes, as these are indexed separately
+			return target == toUpdate;
+		}
+
+		@Override
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
+			logger.info("Visiting property for update: '{}' :: '{}' = '{}'",
+					new Object[] { target, propertyName, textValue });
+			DependencyNode targetNode = (DependencyNode) target;
+			model.getNodeIndex().addProperty(targetNode, propertyName,
+					textValue, true);
+		}
 	}
 }

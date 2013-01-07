@@ -37,7 +37,8 @@
 
 package ead.editor.model.nodes.asset;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import java.io.File;
+
 import ead.common.resources.assets.multimedia.Video;
 import ead.editor.R;
 
@@ -56,6 +57,21 @@ public class VideoAssetNode extends AssetNode {
 	public String getLinkText() {
 		String s = ((Video) getDescriptor()).getUri().toString();
 		return s.substring(s.lastIndexOf("video") + "video".length() + 1);
+	}
+
+	public File resolveUri(String uri) {
+		return new File(uri.replace("@", base.getAbsolutePath()
+				+ File.separator));
+	}
+
+	public File getFile() {
+		String uri = ((Video) getDescriptor()).getUri().toString();
+		return resolveUri(uri);
+	}
+
+	@Override
+	public int getAssetSize() {
+		return (int) getFile().length();
 	}
 
 	@Override

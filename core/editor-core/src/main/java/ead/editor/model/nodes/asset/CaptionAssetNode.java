@@ -37,68 +37,32 @@
 
 package ead.editor.model.nodes.asset;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.multimedia.Video;
 import ead.editor.R;
-import ead.utils.i18n.Resource;
 
 /**
  * Image asset node
  *
  * @author mfreire
  */
-public class ImageAssetNode extends AssetNode {
+public class CaptionAssetNode extends AssetNode {
 
-	public ImageAssetNode(int id) {
+	public CaptionAssetNode(int id) {
 		super(id);
 	}
 
 	@Override
 	public String getLinkText() {
-		String s = ((Image) getDescriptor()).getUri().toString();
-		return s.substring(s.lastIndexOf("drawable") + "drawable".length() + 1);
-	}
-
-	public File resolveUri(String uri) {
-		return new File(uri.replace("@", base.getAbsolutePath()
-				+ File.separator));
-	}
-
-	public File getFile() {
-		String uri = ((Image) getDescriptor()).getUri().toString();
-		return resolveUri(uri);
-	}
-
-	public File getSource() {
-		if (sources.isEmpty()) {
-			setSource(getFile());
-		}
-		return new File(sources.get(0));
-	}
-
-	public void setSource(File file) {
-		if (sources.isEmpty()) {
-			sources.add(file.getPath());
-		} else {
-			sources.set(0, file.getPath());
-		}
-	}
-
-	@Override
-	public void updateThumbnail() {
-		BufferedImage fullImage = Resource.loadExternalImage(getFile());
-		setThumbnail(fullImage);
-	}
-
-	@Override
-	public int getAssetSize() {
-		return (int) getFile().length();
+		String s = ((Caption) getFirst().getContent()).getLabel()
+				.toStringData();
+		return s;
 	}
 
 	@Override
 	public String getLinkIcon() {
-		return R.Drawable.assets__image_png;
+		return R.Drawable.assets__caption_png;
 	}
 }

@@ -41,8 +41,6 @@
  */
 package ead.editor.view.components;
 
-import ead.editor.control.Controller;
-import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -50,17 +48,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeSet;
+
 import javax.activation.DataHandler;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
+
+import ead.editor.control.Controller;
+import ead.editor.model.EditorModel;
+import ead.editor.model.nodes.EditorNode;
 
 /**
  * An abstract panel that shows collections of nodes. Supports
  * drag & drop (or at least drag), and selections.
  * @author mfreire
  */
-public abstract class NodeBrowserPanel extends JPanel {
+public abstract class NodeBrowserPanel extends JPanel implements
+		EditorModel.ModelListener {
 
 	protected TreeSet<EditorNode> selected = new TreeSet<EditorNode>(
 			new IdComparator());

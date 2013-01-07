@@ -41,15 +41,13 @@
  */
 package ead.editor.view.components;
 
-import ead.editor.model.EditorModel;
-import ead.editor.model.nodes.asset.AssetNode;
-import ead.editor.model.nodes.EditorNode;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -59,7 +57,13 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+
 import org.jdesktop.swingx.JXTable;
+
+import ead.editor.model.ModelEvent;
+import ead.editor.model.ModelEventUtils;
+import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.asset.AssetNode;
 
 /**
  * A panel that can be collapsed or expanded by clicking on a button.
@@ -67,8 +71,6 @@ import org.jdesktop.swingx.JXTable;
  * @author mfreire
  */
 public class PropertiesTablePanel extends NodeBrowserPanel {
-
-	private EditorModel editorModel;
 
 	private JXTable table;
 	private SimpleTableModel tableModel;
@@ -83,7 +85,8 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 					public void valueChanged(ListSelectionEvent e) {
 						// update "last-selected"
 						for (int row : table.getSelectedRows()) {
-							EditorNode node = nodes.get(row);
+							int r = table.convertRowIndexToModel(row);
+							EditorNode node = nodes.get(r);
 							if (!selected.contains(node)) {
 								lastSelected = node;
 								break;
@@ -92,7 +95,8 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 						// update selection-list itself
 						selected.clear();
 						for (int row : table.getSelectedRows()) {
-							selected.add(nodes.get(row));
+							int r = table.convertRowIndexToModel(row);
+							selected.add(nodes.get(r));
 						}
 						firePropertyChange(selectedPropertyName, null,
 								lastSelected);
@@ -113,6 +117,16 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 		tcm.getColumn(4).setMaxWidth(50);
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
+	}
+
+	@Override
+	public void modelChanged(ModelEvent event) {
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
+			EditorNode node = nodes.get(i);
+			if (ModelEventUtils.changes(event, node)) {
+				tableModel.fireTableRowsUpdated(i, i);
+			}
+		}
 	}
 
 	private static class ImageCellRenderer implements TableCellRenderer {
@@ -209,12 +223,10 @@ public class PropertiesTablePanel extends NodeBrowserPanel {
 						.getAssetSize() : 0;
 			}
 			case 3: {
-				return (editorModel != null) ? editorModel
-						.incomingDependencies(node) : -1;
+				return controller.getModel().incomingDependencies(node).size();
 			}
 			case 4: {
-				return (editorModel != null) ? editorModel
-						.outgoingDependencies(node) : -1;
+				return controller.getModel().outgoingDependencies(node).size();
 			}
 			default:
 				throw new IllegalArgumentException();

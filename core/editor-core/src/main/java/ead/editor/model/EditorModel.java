@@ -39,6 +39,7 @@ package ead.editor.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
@@ -69,11 +70,27 @@ public interface EditorModel extends ModelAccessor {
 
 	List<DependencyNode> outgoingDependencies(DependencyNode node);
 
+	/**
+	 * Updates incoming and outgoing dependencies for a set of nodes.
+	 * @param nodes to update
+	 * @param changed existing nodes that have had their edges changed
+	 *     are placed here.
+	 * @param added nodes that have been added (discovered through edge-traversal)
+	 *	   are placed here.
+	 * @return the set of additional nodes affected by this change, excluding the
+	 * original node. For example, if incomingDependencies(a) = (d-->a, c-[-]->a)
+	 * and outgoingDependencies(a) = (a-[+]->b, a-->d), where [+] indicates an edge
+	 * that is to be created and [-] one that is to be deleted, then
+	 * updateDependencies(a) would return {b, c}
+	 */
+	void updateDependencies(Set<DependencyNode> changed,
+			Set<DependencyNode> added, DependencyNode... nodes);
+
 	// -------- search
 
 	ModelIndex.SearchResult search(ModelQuery query);
 
-	// -------- saving, loading, and engine access
+	// -------- saving, loading, and engine-model access
 
 	EAdAdventureModel getEngineModel();
 
@@ -81,6 +98,10 @@ public interface EditorModel extends ModelAccessor {
 
 	HashMap<String, String> getEngineProperties();
 
+	/**
+	 * The loader is in charge of importing, loading and saving games.
+	 * @return
+	 */
 	EditorModelLoader getLoader();
 
 	// -------- progress updates (when saving, loading, ...)
