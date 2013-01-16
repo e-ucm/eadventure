@@ -47,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
+import ead.editor.model.ModelIndex;
+
 /**
  * A pattern-node allows editing a set of "engine-model" EditorNodes as a unit.
  * There can be several pattern-nodes for a single editor-node (corresponding
@@ -63,8 +65,29 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
 	protected BufferedImage thumbnail;
 
-	public EditorNode(int id) {
+	/**
+	 * A list of indexed fields.
+	 */
+	protected String[] indexedFields;
+
+	/**
+	 * Builds a new editor-node.
+	 * @param id
+	 * @param indexedFields
+	 */
+	public EditorNode(int id, String... indexedFields) {
 		super(id, new HashSet<DependencyNode<?>>());
+		this.indexedFields = indexedFields;
+		ModelIndex.addProperty(this, ModelIndex.editorIdFieldName, "" + id,
+				false);
+	}
+
+	/**
+	 * Returns all fields that should be visited to fully re-index this node.
+	 * @return
+	 */
+	public String[] getIndexedFields() {
+		return indexedFields;
 	}
 
 	public HashSet<DependencyNode<?>> getContents() {

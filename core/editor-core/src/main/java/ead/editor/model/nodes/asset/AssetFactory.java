@@ -37,21 +37,23 @@
 
 package ead.editor.model.nodes.asset;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.multimedia.Video;
 import ead.editor.model.EditorAnnotator;
-import java.util.ArrayList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.editor.model.EditorModelImpl;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EditorNodeFactory;
 import ead.editor.model.nodes.EngineNode;
-import java.util.List;
 
 /**
  * A factory that creates asset nodes
@@ -87,6 +89,8 @@ public class AssetFactory implements EditorNodeFactory {
 				an = new ImageAssetNode(model.generateId(null));
 			} else if (d instanceof Video) {
 				an = new VideoAssetNode(model.generateId(null));
+			} else if (d instanceof Caption) {
+				an = new CaptionAssetNode(model.generateId(null));
 			} else {
 				an = new AssetNode(model.generateId(null));
 			}

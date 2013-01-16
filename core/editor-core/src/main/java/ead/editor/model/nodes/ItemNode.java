@@ -45,6 +45,6 @@ package ead.editor.model.nodes;
 public class ItemNode extends EditorNode {
 
 	public ItemNode(int id) {
-		super(id);
+		super(id, new String[] {});
 	}
 }

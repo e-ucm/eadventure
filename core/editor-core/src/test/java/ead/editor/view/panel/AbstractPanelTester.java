@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.components;
+package ead.editor.view.panel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

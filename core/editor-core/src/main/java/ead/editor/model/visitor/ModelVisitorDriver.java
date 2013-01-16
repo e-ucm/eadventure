@@ -37,11 +37,12 @@
 
 package ead.editor.model.visitor;
 
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -61,8 +62,19 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.editor.EditorStringHandler;
-import ead.tools.StringHandler;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.model.nodes.EditorNode;
+import ead.editor.model.nodes.EngineNode;
 
+/**
+ * Visits parts of the model. Given a ModelVisitor and a start, the visitor
+ * is driven throught the model in a recursive depth-first fashion. Visitors
+ * are expected to say when to stop, and to take notes of anything they like
+ * during the way. They will be called once per visited node, and once per
+ * discovered searchable property.
+ *
+ * @author mfreire
+ */
 public class ModelVisitorDriver {
 
 	private static final Logger logger = LoggerFactory
@@ -75,6 +87,8 @@ public class ModelVisitorDriver {
 	private ParamDriver paramDriver = new ParamDriver();
 	private AssetDriver assetDriver = new AssetDriver();
 	private ResourceDriver resourceDriver = new ResourceDriver();
+	private EditorNodeDriver editorNodeDriver = new EditorNodeDriver();
+	private EngineNodeDriver engineNodeDriver = new EngineNodeDriver();
 
 	private EditorStringHandler esh;
 
@@ -101,13 +115,38 @@ public class ModelVisitorDriver {
 	}
 
 	/**
+	 * Re-visit a part of the model. The visitor should not return 'true'
+	 * visitObject queries which should not be pursued.
+	 * @param o
+	 * @param v
+	 * @param esh
+	 */
+	public void visit(DependencyNode node, ModelVisitor v,
+			EditorStringHandler esh) {
+		this.v = v;
+		this.esh = esh;
+		try {
+			// visit the initial node;
+			// - if EditorNode, then visit only properties
+			// - if general
+			driveInto(node, null, null);
+		} catch (Exception e) {
+			logger.error("Error visiting model", e);
+		}
+	}
+
+	/**
 	 * Returns the correct driver to use for a given object.
 	 * @param o object to drive into.
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private VisitorDriver driverFor(Object o) {
-		if (o instanceof EAdElement) {
+		if (o instanceof EditorNode) {
+			return editorNodeDriver;
+		} else if (o instanceof EngineNode) {
+			return engineNodeDriver;
+		} else if (o instanceof EAdElement) {
 			return elementDriver;
 		} else if (o instanceof EAdList) {
 			return listDriver;
@@ -139,18 +178,59 @@ public class ModelVisitorDriver {
 			throw new IllegalStateException("No visitor defined. End of visit.");
 		}
 
-		if (driverFor(o) instanceof ParamDriver) {
-			((ParamDriver) driverFor(o)).drive(o, source, sourceName);
+		VisitorDriver d = driverFor(o);
+		if (d instanceof ParamDriver || d instanceof MapDriver
+				|| d instanceof ListDriver || d instanceof ResourceDriver) {
+			logger.debug("auto-driving into {} of type {} with a {}",
+					new Object[] { o.toString(), o.getClass().getSimpleName(),
+							d.getClass().getSimpleName() });
+			d.drive(o, source, sourceName);
 		} else if (v.visitObject(o, source, sourceName)) {
 			logger.debug("driving into {} of type {} with a {}", new Object[] {
 					o.toString(), o.getClass().getSimpleName(),
-					driverFor(o).getClass().getSimpleName() });
-			driverFor(o).drive(o, source, sourceName);
+					d.getClass().getSimpleName() });
+			d.drive(o, source, sourceName);
 		}
 	}
 
 	/**
-	 * visits an element.
+	 * visits a DependencyNode.
+	 */
+	private class EngineNodeDriver implements VisitorDriver<EngineNode> {
+
+		@Override
+		public void drive(EngineNode target, Object source, String sourceName) {
+			Object o = target.getContent();
+			driverFor(o).drive(o, target, "content");
+		}
+	}
+
+	/**
+	 * visits an EditorNode.
+	 */
+	private class EditorNodeDriver implements VisitorDriver<EditorNode> {
+
+		@Override
+		public void drive(EditorNode target, Object source, String sourceName) {
+
+			logger.info("Driving into an EditorNode! Wow!");
+			for (String f : target.getIndexedFields()) {
+				Object o = readProperty(target, f);
+				if (!isEmpty(o)) {
+					logger.info("\t'{}' has a '{}' property!", new Object[] {
+							target, f });
+					if (o instanceof List) {
+						driveInto(o, target, f);
+					} else {
+						v.visitProperty(target, f, o.toString());
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * visits an EAdElement.
 	 */
 	private class ElementDriver implements VisitorDriver<EAdElement> {
 
@@ -159,6 +239,8 @@ public class ModelVisitorDriver {
 			processParams(target);
 		}
 	}
+
+	public static final String listSuffix = "-list";
 
 	/**
 	 * visits a list - either by adding it all as attributes, or some other
@@ -172,11 +254,14 @@ public class ModelVisitorDriver {
 				// visit all children-values of this list
 				Object o = target.get(i);
 				if (o != null) {
-					driveInto(o, source, sourceName + "-list");
+					driveInto(o, source, sourceName + listSuffix);
 				}
 			}
 		}
 	}
+
+	public static final String mapKeySuffix = "-map-key";
+	public static final String mapValueSuffix = "-map-value";
 
 	/**
 	 * visits a map (keys and values).
@@ -188,8 +273,8 @@ public class ModelVisitorDriver {
 			int i = 0;
 			for (Map.Entry<?, ?> e : target.entrySet()) {
 				if (e.getKey() != null && e.getValue() != null) {
-					driveInto(e.getKey(), source, sourceName + "-map-key");
-					driveInto(e.getValue(), source, sourceName + "-map-value");
+					driveInto(e.getKey(), source, sourceName + mapKeySuffix);
+					driveInto(e.getValue(), source, sourceName + mapValueSuffix);
 				}
 				i++;
 			}
@@ -223,6 +308,9 @@ public class ModelVisitorDriver {
 		}
 	}
 
+	public static final String resourceAssetSuffix = "-inner-asset";
+	public static final String resourceBundleSuffix = "-inner-bundle-id";
+
 	/**
 	 * visits a resource.
 	 */
@@ -230,30 +318,27 @@ public class ModelVisitorDriver {
 
 		@Override
 		public void drive(EAdResources target, Object source, String sourceName) {
-			if (target.getInitialBundle() != null) {
-				v.visitProperty(target, "initial-bundle-id", target
-						.getInitialBundle().getBundleId());
-			}
 
-			int i = 0;
+			// recurse into its non-bundled resources
 			for (String assetId : ((BasicAssetBundle) target).getIds()) {
 				AssetDescriptor asset = ((BasicAssetBundle) target)
 						.getAsset(assetId);
-				driveInto(asset, target, "inner-asset-" + i);
-				i++;
+				driveInto(asset, source, sourceName + resourceAssetSuffix);
 			}
 
 			for (EAdBundleId bundleId : ((BasicResources) target)
 					.getBundleIds()) {
 				EAdAssetBundle bundle = ((BasicResources) target)
 						.getBundle(bundleId);
+				// tag the bundle ID as a property
+				v.visitProperty(source, sourceName + resourceBundleSuffix,
+						bundleId.getBundleId());
 
-				int j = 0;
+				// recurse into its resources
 				for (String assetId : ((BasicAssetBundle) bundle).getIds()) {
 					AssetDescriptor asset = ((BasicAssetBundle) bundle)
 							.getAsset(assetId);
-					driveInto(asset, target, "inner-asset-" + j);
-					j++;
+					driveInto(asset, source, sourceName + resourceAssetSuffix);
 				}
 			}
 		}
@@ -267,7 +352,6 @@ public class ModelVisitorDriver {
 		@Override
 		public void drive(AssetDescriptor target, Object source,
 				String sourceName) {
-			v.visitProperty(target, "asset-class", target.getClass().getName());
 			processParams(target);
 		}
 	}
@@ -289,26 +373,13 @@ public class ModelVisitorDriver {
 			for (Field field : fields) {
 				try {
 					Param param = field.getAnnotation(Param.class);
+					String fieldName = field.getName();
 					if (param != null) {
-						PropertyDescriptor pd = getPropertyDescriptor(data
-								.getClass(), field.getName());
-						if (pd == null) {
-							logger.error("Missing descriptor for {} in {} ",
-									field.getName(), data.getClass());
-							continue;
-						}
-						Method method = pd.getReadMethod();
-						if (method == null) {
-							logger.error("Missing read-method for {} in {} ",
-									field.getName(), data.getClass());
-							continue;
-						}
-						logger.debug("\t invoking {}", field.getName());
-						Object o = method.invoke(data);
+						Object o = readProperty(data, fieldName);
 						if (!isEmpty(o)) {
 							logger.debug("\t'{}' has a '{}' property!",
-									new Object[] { data, pd.getName() });
-							driveInto(o, data, pd.getName());
+									new Object[] { data, fieldName });
+							driveInto(o, data, fieldName);
 						}
 					}
 				} catch (Exception e) {
@@ -329,21 +400,34 @@ public class ModelVisitorDriver {
 	 * @param fieldName
 	 * @return
 	 */
-	public static PropertyDescriptor getPropertyDescriptor(Class<?> c,
-			String fieldName) {
+	public static Object readProperty(Object object, String fieldName) {
+		Class<?> c = object.getClass();
 		try {
-			for (PropertyDescriptor pd : Introspector.getBeanInfo(c)
+			PropertyDescriptor pd = null;
+			for (PropertyDescriptor d : Introspector.getBeanInfo(c)
 					.getPropertyDescriptors()) {
-				if (pd.getName().equals(fieldName)) {
-					return pd;
+				if (d.getName().equals(fieldName)) {
+					pd = d;
 				}
 			}
-		} catch (IntrospectionException e) {
-			logger.error("Could not find getters or setters for "
-					+ "field {} in class {} ", new Object[] { fieldName,
-					c.getCanonicalName(), e });
+			if (pd == null) {
+				logger.error("Missing descriptor for {} -- trace follows", c
+						+ "." + fieldName, new Exception());
+				return null;
+			}
+			Method method = pd.getReadMethod();
+			if (method == null) {
+				logger.error("Missing read-method for {} in {} ", fieldName, c);
+				logger.error("Read-method fail from ", new Exception());
+				return null;
+			}
+			logger.debug("\t invoking {}", fieldName);
+			return method.invoke(object);
+		} catch (Exception e) {
+			logger.error("Error calling getter for " + "field {} in class {} ",
+					new Object[] { fieldName, c }, e);
+			return null;
 		}
-		return null;
 	}
 
 	/**
@@ -355,6 +439,7 @@ public class ModelVisitorDriver {
 	 */
 	public static boolean isEmpty(Object o) {
 		return ((o == null)
+				|| (o instanceof Collection && ((Collection<?>) o).isEmpty())
 				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0)
 				|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) || (o instanceof EAdResources && ((EAdResources) o)
 				.isEmpty()));

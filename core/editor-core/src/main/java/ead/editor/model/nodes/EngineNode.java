@@ -41,7 +41,6 @@
  */
 package ead.editor.model.nodes;
 
-import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
@@ -51,9 +50,8 @@ import ead.common.resources.EAdAssetDescriptor;
 import ead.common.resources.EAdResources;
 import ead.editor.model.EditorModel;
 import ead.editor.model.visitor.ModelVisitorDriver;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -220,29 +218,15 @@ public class EngineNode<T> extends DependencyNode<T> {
 		while (clazz != null) {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {
-				try {
-					Param param = field.getAnnotation(Param.class);
-					if (param != null) {
-						PropertyDescriptor pd = ModelVisitorDriver
-								.getPropertyDescriptor(o.getClass(), field
-										.getName());
-						if (pd == null) {
-							continue;
-						}
-						Method method = pd.getReadMethod();
-						if (method == null) {
-							continue;
-						}
-						Object v = method.invoke(o);
-						if (!ModelVisitorDriver.isEmpty(v)) {
-							sb.append(indent + pd.getName() + " --> ");
-							appendDescription(m, v, sb, depth + 1, maxDepth);
-							sb.append("\n");
-						}
-					}
-				} catch (Exception e) {
-					log.warn("Error looking up params for {} of class {}", o,
-							clazz);
+				if (Modifier.isStatic(field.getModifiers())) {
+					// ignore static fields
+					continue;
+				}
+				Object v = ModelVisitorDriver.readProperty(o, field.getName());
+				if (!ModelVisitorDriver.isEmpty(v)) {
+					sb.append(indent).append(field.getName()).append(" --> ");
+					appendDescription(m, v, sb, depth + 1, maxDepth);
+					sb.append("\n");
 				}
 			}
 			clazz = clazz.getSuperclass();

@@ -38,10 +38,13 @@
 package ead.editor.model;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,15 +54,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+
 import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
-import ead.editor.model.nodes.QueryNode;
-import java.lang.reflect.Constructor;
-import java.util.NoSuchElementException;
+import ead.editor.model.nodes.EngineNode;
+import ead.editor.model.visitor.ModelVisitor;
+import ead.editor.model.visitor.ModelVisitorDriver;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
@@ -270,6 +274,239 @@ public class EditorModelImpl implements EditorModel {
 		return ns;
 	}
 
+	@Override
+	public void updateDependencies(Set<DependencyNode> changed,
+			Set<DependencyNode> added, DependencyNode... nodes) {
+
+		ModelVisitorDriver mvd = new ModelVisitorDriver();
+
+		// first pass
+		for (DependencyNode node : nodes) {
+			// make copies of old dependencies
+			HashSet<DependencyEdge> oldIncoming = new HashSet<DependencyEdge>(g
+					.incomingEdgesOf(node));
+			HashSet<DependencyEdge> oldOutgoing = new HashSet<DependencyEdge>(g
+					.outgoingEdgesOf(node));
+
+			// update incoming
+			for (DependencyEdge e : oldIncoming) {
+				LinkStillThereVisitor lstv = new LinkStillThereVisitor(e);
+				mvd.visit(g.getEdgeSource(e), lstv, stringHandler);
+				if (!lstv.isEdgeStillThere()) {
+					changed.add(g.getEdgeSource(e));
+					g.removeEdge(e);
+				}
+			}
+			// remove old-outgoing
+			for (DependencyEdge e : oldOutgoing) {
+				g.removeEdge(e);
+			}
+		}
+
+		// second pass
+		for (DependencyNode node : nodes) {
+			// add new-outgoing
+			if (node instanceof EngineNode) {
+				UpdateOutgoingLinksVisitor uolv = new UpdateOutgoingLinksVisitor(
+						node, added, changed);
+				mvd.visit(node, uolv, stringHandler);
+			} else if (node instanceof EditorNode) {
+				// editor nodes have no outgoing to worry about
+			} else {
+				logger.error("Expected editorNode or engineNode; "
+						+ "{} (id {}) is neither", node.getClass(), node
+						.getId());
+			}
+		}
+	}
+
+	private class LinkStillThereVisitor implements ModelVisitor {
+
+		private int sourceId;
+		private int targetId;
+		private String type;
+		private boolean found = false;
+
+		public LinkStillThereVisitor(DependencyEdge e) {
+			this.sourceId = g.getEdgeSource(e).getId();
+			this.targetId = g.getEdgeTarget(e).getId();
+			this.type = e.getType();
+		}
+
+		@Override
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
+			if (!found && sourceName.equals(this.type)) {
+				DependencyNode sourceNode = getNodeFor(source);
+				DependencyNode targetNode = getNodeFor(target);
+				if (sourceNode != null && targetNode != null
+						&& sourceNode.getId() == sourceId
+						&& targetNode.getId() == targetId) {
+					found = true;
+				}
+			}
+			// never recurse
+			return false;
+		}
+
+		public boolean isEdgeStillThere() {
+			return found;
+		}
+
+		@Override
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
+			// not interested in indexing properties; the index takes care of itself
+		}
+	}
+
+	private class UpdateOutgoingLinksVisitor implements ModelVisitor {
+
+		private Set<DependencyNode> changed;
+		private Set<DependencyNode> added;
+		private DependencyNode sourceNode;
+
+		private UpdateOutgoingLinksVisitor(DependencyNode sourceNode,
+				Set<DependencyNode> added, Set<DependencyNode> changed) {
+			this.sourceNode = sourceNode;
+			this.changed = changed;
+			this.added = added;
+		}
+
+		@Override
+		public boolean visitObject(Object target, Object source,
+				String sourceName) {
+			Set<DependencyEdge> edges = g.getAllEdges(getNodeFor(source),
+					getNodeFor(target));
+			boolean found = false;
+			for (DependencyEdge e : edges) {
+				if (e.getType().equals(sourceName)) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				// add edge, and possibly target node
+				DependencyNode targetNode = addNode(sourceNode, sourceName,
+						target, false);
+				if (targetNode != null) {
+					// new node! keep on going, then!
+					added.add(targetNode);
+					return true;
+				} else {
+					changed.add(targetNode);
+					return false;
+				}
+			} else {
+				// found: do not recurse
+				return false;
+			}
+		}
+
+		@Override
+		public void visitProperty(Object target, String propertyName,
+				String textValue) {
+			// not interested in indexing properties; the index takes care of itself
+		}
+	}
+
+	/**
+	 * Attempts to add a new node-and-edge to the graph.
+	 * The source may be null (for the root).
+	 *
+	 * @return the new node if added, or null if already existing (and
+	 *         therefore, it makes no sense to continue adding recursively from
+	 *         there on).
+	 */
+	public DependencyNode addNode(DependencyNode source, String type,
+			Object targetContent, boolean isLoading) {
+		DependencyNode target = getNodeFor(targetContent);
+		boolean alreadyKnown = (target != null);
+
+		if (!alreadyKnown) {
+			target = createOrUnfreezeNode(targetContent, isLoading);
+			getGraph().addVertex(target);
+		}
+
+		if (source != null) {
+			getGraph().addEdge(source, target, new DependencyEdge(type));
+		} else {
+			setRoot(target);
+		}
+
+		if (!alreadyKnown) {
+			return target;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Wraps a targetContent in an DependencyNode. If the content is of a type
+	 * that has extra editor data associated (a subclass of Identified), and
+	 * this editor data is available, it is used; otherwise, a new
+	 * DependencyNode is created.
+	 *
+	 * @param targetContent to wrap
+	 * @return a new or old editorNode to wrap that content
+	 */
+	@SuppressWarnings("unchecked")
+	private DependencyNode createOrUnfreezeNode(Object targetContent,
+			boolean isLoading) {
+
+		DependencyNode node;
+		if (targetContent instanceof Identified) {
+			String oid = ((Identified) targetContent).getId();
+			int eid = getEditorId(targetContent);
+			if (eid != EditorModelImpl.badElementId) {
+				// content is eadElement, and has editor-id: unfreeze
+				logger.debug("Found existing eID marker in {}: {}",
+						targetContent.getClass().getSimpleName(), oid);
+				node = getNodesById().get(eid);
+				if (node == null) {
+					node = new EngineNode(eid, targetContent);
+					getNodesById().put(eid, node);
+				} else {
+					if (!node.getContent().equals(targetContent)) {
+						logger
+								.error(
+										"Corrupted save-file: eid {} assigned to {} AND {}",
+										new Object[] { eid,
+												targetContent.toString(),
+												node.getContent().toString() });
+						throw new IllegalStateException("Corrupted save-file: "
+								+ "same eid assigned to two objects");
+					}
+				}
+			} else {
+				// content is eadElement, but has no editor-id: add it
+				if (isLoading) {
+					logger.error(
+							"Loaded EAdElement {} of type {} had no editor ID",
+							new String[] { oid,
+									targetContent.getClass().getSimpleName() });
+					throw new IllegalStateException("Corrupted save-file: "
+							+ "no eid assigned to loaded objects");
+				} else {
+					eid = generateId(targetContent);
+					String decorated = EditorModelImpl.decorateIdWithEid(oid,
+							eid);
+					logger.debug("Created eID marker for {}: {} ({})",
+							new Object[] { oid, eid, decorated });
+					((Identified) targetContent).setId(decorated);
+					node = new EngineNode(eid, targetContent);
+					getNodesById().put(eid, node);
+				}
+			}
+		} else {
+			logger.error(
+					"Tried to wrap non-Identified of type {} in an editorID",
+					new String[] { targetContent.getClass().getSimpleName() });
+			throw new IllegalStateException("Cannot continue load or import");
+		}
+		return node;
+	}
+
 	// ----- Internal access (mostly for loading & saving)
 
 	/**
@@ -280,7 +517,7 @@ public class EditorModelImpl implements EditorModel {
 		lastTransientNodeId = intermediateIDPoint;
 		nodesById.clear();
 		nodesByContent.clear();
-		nodeIndex = new ModelIndex();
+		nodeIndex.clear();
 		g.removeAllEdges(new HashSet<DependencyEdge>(g.edgeSet()));
 		g.removeAllVertices(new HashSet<DependencyNode>(g.vertexSet()));
 		g = new ListenableDirectedGraph<DependencyNode, DependencyEdge>(
@@ -411,6 +648,7 @@ public class EditorModelImpl implements EditorModel {
 	@Override
 	public EditorModelLoader getLoader() {
 		loader.setModel(this);
+		nodeIndex.setModel(this);
 		return loader;
 	}
 
@@ -440,7 +678,7 @@ public class EditorModelImpl implements EditorModel {
 	 */
 	@Override
 	public ModelIndex.SearchResult search(ModelQuery query) {
-		return nodeIndex.search(query, nodesById);
+		return nodeIndex.search(query);
 	}
 
 	/**
@@ -473,11 +711,13 @@ public class EditorModelImpl implements EditorModel {
 
 	@Override
 	public void addModelListener(ModelListener modelListener) {
+		logger.info("--> [+] registered new ModelListener {}", modelListener);
 		modelListeners.add(modelListener);
 	}
 
 	@Override
 	public void removeModelListener(ModelListener modelListener) {
+		logger.info("--> [-] removed ModelListener {}", modelListener);
 		modelListeners.remove(modelListener);
 	}
 

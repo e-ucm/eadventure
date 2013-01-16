@@ -38,12 +38,15 @@
 package ead.editor.control;
 
 import java.util.ArrayList;
-import com.google.inject.Singleton;
-import ead.editor.control.change.ChangeNotifierImpl;
-import ead.editor.model.ModelEvent;
 import java.util.Stack;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Singleton;
+
+import ead.editor.control.change.ChangeNotifierImpl;
+import ead.editor.model.ModelEvent;
 
 /**
  * Default implementation of the {@link CommandManager}.
@@ -121,7 +124,15 @@ public class CommandManagerImpl extends ChangeNotifierImpl<String> implements
 		CommandStack currentStack = stacks.peek();
 		ModelEvent me = action.performCommand(controller.getModel());
 		if (me != null) {
+
+			//
 			// once you do something, you can no longer redo what you had undone
+			// FIXME: add tree-undo here?
+			//  - mutableTreeNode with a command in it
+			//  - do action = add child to current
+			//  - undo/redo = traverse graph (redo can choose among possibilities)
+			//  - keep up to X nodes in graph (LRU-leaf cache?)
+			//
 			currentStack.getUndone().clear();
 
 			if (action.canUndo()) {

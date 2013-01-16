@@ -38,6 +38,7 @@
 package ead.common.resources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -63,10 +64,10 @@ public class BasicAssetBundle implements EAdAssetBundle {
 	}
 
 	public BasicAssetBundle(EAdAssetDescriptor... descriptors) {
-		for (EAdAssetDescriptor descriptor : descriptors)
-			this.descriptors.add(descriptor);
+		this.descriptors.addAll(Arrays.asList(descriptors));
 	}
 
+	@Override
 	public AssetDescriptor getAsset(String id) {
 		// This code striclty checks for the validty of the asset, but should be used only on the editor
 		//		for ( EAdAssetDescriptor d : descriptors ) {
@@ -82,6 +83,7 @@ public class BasicAssetBundle implements EAdAssetBundle {
 		//		return null;
 	}
 
+	@Override
 	public boolean addAsset(String id, AssetDescriptor asset) {
 		/*		This code striclty checks for the validty of the asset, but should be used only on the editor
 		 EAdAssetDescriptor descriptor = getDescriptor( id );
@@ -101,11 +103,14 @@ public class BasicAssetBundle implements EAdAssetBundle {
 		return true;
 	}
 
+	@Override
 	public EAdAssetDescriptor getDescriptor(String id) {
 		EAdAssetDescriptor descriptor = null;
-		for (EAdAssetDescriptor d : descriptors)
-			if (d.getAssetId().equals(id))
+		for (EAdAssetDescriptor d : descriptors) {
+			if (d.getAssetId().equals(id)) {
 				descriptor = d;
+			}
+		}
 		return descriptor;
 	}
 

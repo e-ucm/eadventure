@@ -35,69 +35,65 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.model.nodes;
+package ead.editor.view.panel.asset;
 
-import ead.common.model.EAdElement;
-import ead.editor.model.EditorAnnotator;
-import java.util.ArrayList;
+import java.awt.BorderLayout;
+
+import javax.swing.SpinnerNumberModel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.editor.model.EditorModelImpl;
-import java.util.HashSet;
+import ead.common.params.text.EAdString;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.editor.model.nodes.asset.CaptionAssetNode;
+import ead.editor.view.generic.BooleanOption;
+import ead.editor.view.generic.IntegerOption;
+import ead.editor.view.generic.OptionPanel;
+import ead.editor.view.generic.PanelImpl;
+import ead.editor.view.generic.TextOption;
+import ead.editor.view.generic.accessors.MapAccessor;
+import ead.editor.view.panel.AbstractElementPanel;
 
 /**
- * A factory that recognizes attrezzo-nodes
+ * A panel that displays all assets, by type. A preview is available
+ * on the left-hand side.
+ *
  * @author mfreire
  */
-public class ActorFactory implements EditorNodeFactory {
+public class CaptionAssetPanel extends AbstractElementPanel<CaptionAssetNode> {
+
 	private static final Logger logger = LoggerFactory
-			.getLogger("ActorFactory");
+			.getLogger("ImageAssetPanel");
+	private Caption caption;
 
-	/**
-	 * Find and create EditorNodes for actors
-	 * @param annotator annotations for nodes (by ID)
-	 * @param model where the nodes should be inserted, via registerEditorNode
-	 */
+	public CaptionAssetPanel() {
+		setLayout(new BorderLayout());
+
+		OptionPanel panel = new PanelImpl("CaptionAsset",
+				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
+		panel.add(new TextOption("Label", "Internationalized label",
+				new MapAccessor<EAdString, String>(controller.getModel()
+						.getStringHandler(), "strings", caption.getLabel()),
+				target));
+		panel.add(new BooleanOption("Bubbled",
+				"Should the label be shown in a bubble?", caption, "hasBubble",
+				target));
+		panel
+				.add(new IntegerOption("Padding", "Internal padding to apply",
+						caption, "padding", target, new SpinnerNumberModel(0,
+								0, 32, 1)));
+
+		panels.add(panel);
+	}
+
 	@Override
-	public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
+	public void setTarget(CaptionAssetNode target) {
+		caption = (Caption) target.getFirst().getContent();
+		super.setTarget(target);
+	}
 
-		ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
-
-		for (DependencyNode n : model.getNodesById().values()) {
-			if (!(n instanceof EngineNode)
-					|| !(n.getContent() instanceof EAdElement)) {
-				continue;
-			}
-			EAdElement e = (EAdElement) n.getContent();
-			HashSet<String> notes = annotator.get(e, "actor");
-			if (notes.isEmpty()) {
-				continue;
-			}
-			for (EAdElement child : annotator.getChildren(e)) {
-				logger.debug("Child: {}", child);
-			}
-
-			EditorNode an = null;
-			if (notes.contains("actor.player") || notes.contains("actor.npc")) {
-				an = new CharacterNode(model.generateId(null));
-			} else if (notes.contains("actor.npc")) {
-				an = new AtrezzoNode(model.generateId(null));
-			} else if (notes.contains("actor.item")) {
-				an = new ItemNode(model.generateId(null));
-			} else {
-				logger.warn("Bad annotations on actor-node");
-			}
-
-			if (an != null) {
-				an.addChild(n);
-				newNodes.add(an);
-			}
-		}
-
-		// now, register them
-		for (EditorNode en : newNodes) {
-			model.registerEditorNodeWithGraph(en);
-		}
+	@Override
+	protected void rebuild() {
 	}
 }
