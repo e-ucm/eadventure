@@ -120,10 +120,10 @@ public class DefaultTrackerSelector implements TrackerSelector {
 
 	@Override
 	public boolean accept(EffectGO<?> effect) {
-		Class<?> c = effect.getEffect().getClass();
+		Class<?> c = effect.getElement().getClass();
 		if (effectsAccepted.contains(c)) {
-			if (effect.getEffect() instanceof ChangeFieldEf) {
-				ChangeFieldEf cf = (ChangeFieldEf) effect.getEffect();
+			if (effect.getElement() instanceof ChangeFieldEf) {
+				ChangeFieldEf cf = (ChangeFieldEf) effect.getElement();
 				for (EAdField<?> f : cf.getFields()) {
 					if (varsAccepted.contains(f.getVarDef().getName())) {
 						return true;

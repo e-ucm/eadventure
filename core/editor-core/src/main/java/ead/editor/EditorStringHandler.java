@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.google.inject.Singleton;
+
 import ead.common.params.text.EAdString;
 import ead.tools.StringHandler;
 
@@ -163,5 +164,17 @@ public class EditorStringHandler implements StringHandler {
 			key = EAdString.newRandomEAdString("generatedString");
 		}
 		return key;
+	}
+
+	@Override
+	public void addLanguage(String language) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLanguage(String language) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -56,17 +56,13 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDef;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
-public class GdxPhysicsEffectGO extends
-		AbstractEffectGO<PhysicsEffect> {
+public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	public static float WORLD_SCALE = 15.0f;
 
@@ -85,11 +81,8 @@ public class GdxPhysicsEffectGO extends
 			"ph_world", World.class, null);
 
 	@Inject
-	public GdxPhysicsEffectGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+	public GdxPhysicsEffectGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
@@ -123,9 +116,8 @@ public class GdxPhysicsEffectGO extends
 			EAdSceneElement e2 = effect.getJoints().get(i + 1);
 			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
 			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
-			jd.initialize(b2, b1,
-					new Vector2(b1.getPosition().x,
-							b1.getPosition().y));
+			jd.initialize(b2, b1, new Vector2(b1.getPosition().x, b1
+					.getPosition().y));
 			world.createJoint(jd);
 		}
 
@@ -134,7 +126,7 @@ public class GdxPhysicsEffectGO extends
 	@Override
 	public void update() {
 		super.update();
-		timeStep = 1.0f / gui.getTicksPerSecond();
+		timeStep = 1.0f / gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		world.step(timeStep, velocityIterations, positionIterations);
 
 		EAdScene scene = gameState.getScene().getElement();
@@ -145,26 +137,17 @@ public class GdxPhysicsEffectGO extends
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 
-					valueMap.setValue(
-							e,
-							SceneElement.VAR_X,
-							(int) (b.getWorldCenter().x * WORLD_SCALE));
-					valueMap.setValue(
-							e,
-							SceneElement.VAR_Y,
-							(int) (b.getWorldCenter().y * WORLD_SCALE));
-					valueMap.setValue(e, SceneElement.VAR_ROTATION,
-							b.getAngle());
+					valueMap.setValue(e, SceneElement.VAR_X, (int) (b
+							.getWorldCenter().x * WORLD_SCALE));
+					valueMap.setValue(e, SceneElement.VAR_Y, (int) (b
+							.getWorldCenter().y * WORLD_SCALE));
+					valueMap.setValue(e, SceneElement.VAR_ROTATION, b
+							.getAngle());
 				}
 			}
 		} else {
 			stop();
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	@Override
@@ -174,20 +157,16 @@ public class GdxPhysicsEffectGO extends
 
 	public static void createBody(World world, EAdSceneElement e,
 			ValueMap valueMap) {
-		float x = valueMap.getValue(e, SceneElement.VAR_X)
-				/ WORLD_SCALE;
-		float y = valueMap.getValue(e, SceneElement.VAR_Y)
-				/ WORLD_SCALE;
+		float x = valueMap.getValue(e, SceneElement.VAR_X) / WORLD_SCALE;
+		float y = valueMap.getValue(e, SceneElement.VAR_Y) / WORLD_SCALE;
 		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH)
 				/ WORLD_SCALE;
 		float height = valueMap.getValue(e, SceneElement.VAR_HEIGHT)
 				/ WORLD_SCALE;
 
 		// TODO what if corner is not center?
-		PhType phType = valueMap.getValue(e,
-				PhysicsEffect.VAR_PH_TYPE);
-		PhShape phShape = valueMap.getValue(e,
-				PhysicsEffect.VAR_PH_SHAPE);
+		PhType phType = valueMap.getValue(e, PhysicsEffect.VAR_PH_TYPE);
+		PhShape phShape = valueMap.getValue(e, PhysicsEffect.VAR_PH_SHAPE);
 
 		Shape s = null;
 		switch (phShape) {
@@ -217,10 +196,8 @@ public class GdxPhysicsEffectGO extends
 
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = s;
-		fixture.density = valueMap.getValue(e,
-				PhysicsEffect.VAR_PH_DENSITY);
-		fixture.friction = valueMap.getValue(e,
-				PhysicsEffect.VAR_PH_FRICTION);
+		fixture.density = valueMap.getValue(e, PhysicsEffect.VAR_PH_DENSITY);
+		fixture.friction = valueMap.getValue(e, PhysicsEffect.VAR_PH_FRICTION);
 		fixture.restitution = valueMap.getValue(e,
 				PhysicsEffect.VAR_PH_RESTITUTION);
 

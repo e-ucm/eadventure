@@ -42,19 +42,12 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
 	@Inject
-	public ChangeFieldGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState,
-				eventFactory);
+	public ChangeFieldGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
@@ -63,8 +56,8 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 			gameState.setValue(v, effect.getOperation());
 		}
 		if (effect.getParentVar() != null && parent != null) {
-			gameState.setValue(parent, effect.getParentVar(),
-					effect.getOperation());
+			gameState.setValue(parent, effect.getParentVar(), effect
+					.getOperation());
 		}
 	}
 

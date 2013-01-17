@@ -42,8 +42,7 @@ import java.util.Map.Entry;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.effects.ComplexBlockingEffect;
+import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
@@ -54,8 +53,8 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -73,7 +72,7 @@ import ead.common.resources.assets.text.EAdFont;
  * 
  */
 @Element
-public class ShowQuestionEf extends ComplexBlockingEffect {
+public class ShowQuestionEf extends AbstractEffect {
 
 	/**
 	 * System field to control questions
@@ -112,15 +111,15 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		ChangeFieldEf initEffect = new ChangeFieldEf();
 		initEffect.addField(ANSWER_SELECTED);
 		initEffect.setOperation(BooleanOp.FALSE_OP);
-		getInitEffects().add(initEffect);
+//		getInitEffects().add(initEffect);
 
-		endCondition = new OperationCond(ANSWER_SELECTED);
+//		endCondition = new OperationCond(ANSWER_SELECTED);
 
 		ChangeFieldEf selectEffect = new ChangeFieldEf();
 		selectEffect.addField(ANSWER_SELECTED);
 		selectEffect.setOperation(BooleanOp.TRUE_OP);
 
-		components.clear();
+//		components.clear();
 
 		y = 10;
 
@@ -159,9 +158,9 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		setAlpha.setOperation(new ValueOp(0.0f));
 		setAlpha.addField(new BasicField<Float>(questionElement,
 				SceneElement.VAR_ALPHA));
-		getInitEffects().add(setAlpha);
+//		getInitEffects().add(setAlpha);
 
-		components.add(questionElement);
+//		components.add(questionElement);
 		SceneElementEv event = new SceneElementEv();
 
 		InterpolationEf interpolation = new InterpolationEf(questionElement,
@@ -200,7 +199,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 
 		answerElement.getEvents().add(event);
 
-		components.add(answerElement);
+//		components.add(answerElement);
 	}
 
 	public EAdMap<EAdString, EAdEffect> getAnswers() {

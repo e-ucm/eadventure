@@ -40,9 +40,7 @@ package ead.engine.core.factorymapproviders;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.AddActorReferenceEf;
-import ead.common.model.elements.effects.CancelEffectEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.ComplexBlockingEffect;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.effects.PlaySoundEf;
@@ -51,7 +49,6 @@ import ead.common.model.elements.effects.RandomEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
@@ -59,10 +56,8 @@ import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
-import ead.engine.core.gameobjects.effects.CancelEffectGO;
 import ead.engine.core.gameobjects.effects.ChangeFieldGO;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
-import ead.engine.core.gameobjects.effects.ComplexBlockingEffectGO;
 import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
 import ead.engine.core.gameobjects.effects.InterpolationGO;
 import ead.engine.core.gameobjects.effects.ModifyHudGO;
@@ -83,14 +78,11 @@ public class EffectGameObjectFactoryConfigurator
 
 	public EffectGameObjectFactoryConfigurator() {
 		factoryMap.put(ShowSceneElementEf.class, ShowSceneElementGO.class);
-		factoryMap.put(ComplexBlockingEffect.class,
-				ComplexBlockingEffectGO.class);
 		factoryMap.put(ChangeSceneEf.class, ChangeSceneGO.class);
 		factoryMap.put(MoveSceneElementEf.class, MoveSceneElementGO.class);
 		factoryMap.put(HighlightSceneElementEf.class,
 				HighlightSceneElementGO.class);
 		factoryMap.put(WaitEf.class, WaitGO.class);
-		factoryMap.put(CancelEffectEf.class, CancelEffectGO.class);
 		factoryMap.put(ChangeFieldEf.class, ChangeFieldGO.class);
 		factoryMap.put(ActorActionsEf.class, ActorActionsGO.class);
 		factoryMap.put(QuitGameEf.class, QuitGameGO.class);
@@ -100,7 +92,6 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(SpeakEf.class, SpeakGO.class);
 		factoryMap.put(PlaySoundEf.class, PlaySoundGO.class);
 		factoryMap.put(AddActorReferenceEf.class, AddActorReferenceGO.class);
-		factoryMap.put(ShowQuestionEf.class, ComplexBlockingEffectGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
 		factoryMap.put(RandomEf.class, RandomGO.class);
 	}

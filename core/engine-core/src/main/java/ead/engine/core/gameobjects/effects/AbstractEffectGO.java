@@ -38,20 +38,18 @@
 package ead.engine.core.gameobjects.effects;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
-public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		ComplexSceneElementGOImpl<EAdComplexSceneElement> implements
+public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		EffectGO<P> {
+	
+	/**
+	 * The game state
+	 */
+	protected GameState gameState;
 
 	/**
 	 * The input action
@@ -73,37 +71,28 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	 */
 	protected P effect;
 
-	/**
-	 * The game state
-	 */
-	protected GameState gameState;
-
-	public AbstractEffectGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+	public AbstractEffectGO(GameState gameState) {
+		this.gameState = gameState;
 	}
-
-	public P getEffect() {
+	
+	public P getElement(){
 		return effect;
 	}
 
-	public void setEffect(P effect) {
+	public void setElement(P effect) {
 		this.effect = effect;
 	}
 
 	@Override
 	public void initialize() {
 		stopped = false;
-		for (EAdEffect e : effect.getPreviousEffects()) {
+		for (EAdEffect e : effect.getSimultaneousEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
 	}
 
 	public void update() {
-		if (this.isVisualEffect())
-			super.update();
+
 	}
 
 	@Override
@@ -138,10 +127,6 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	public void setParent(EAdSceneElement parent) {
 		this.parent = parent;
-	}
-
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	public boolean isFinished() {

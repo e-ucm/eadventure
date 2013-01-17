@@ -53,14 +53,16 @@ import ead.tools.StringHandler;
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 
 	private TopBasicHUDImpl basicHUD;
+	
+	private SceneElementGOFactory sceneElementFactory;
 
 	@Inject
 	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
-			SceneElementGOFactory sceneElementGOFactory, GUI gui,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementGOFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 		this.basicHUD = null;
+		this.sceneElementFactory = sceneElementFactory;
 	}
 
 	public void initialize() {

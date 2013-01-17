@@ -52,11 +52,11 @@ public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 	private SoundManager soundManager;
 
 	@Inject
-	public PlaySoundGO(AssetHandler assetHandler, SceneElementGOFactory gameObjectFactory, GUI gui,
+	public PlaySoundGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, SoundManager soundManager,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 		this.soundManager = soundManager;
 	}
 

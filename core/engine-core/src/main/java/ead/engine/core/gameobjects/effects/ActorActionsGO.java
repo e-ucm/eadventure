@@ -71,27 +71,24 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 	private boolean finished;
 
 	@Inject
-	public ActorActionsGO(AssetHandler assetHandler,SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			TweenController tweenController,
+	public ActorActionsGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, TweenController tweenController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		this.tweenController = tweenController;
 	}
 
-	@Override
+
 	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (action instanceof MouseInputAction) {
 			MouseInputAction m = (MouseInputAction) action;
 			if (m.getGUIEvent().equals(MouseGEv.MOUSE_LEFT_PRESSED)
-					|| m.getGUIEvent().equals(
-							MouseGEv.MOUSE_RIGHT_PRESSED)) {
+					|| m.getGUIEvent().equals(MouseGEv.MOUSE_RIGHT_PRESSED)) {
 				finished = true;
 				action.consume();
-				DrawableGO<?> go = visualRepresentation
-						.processAction(action);
-				return go == null ? this : go;
+				DrawableGO<?> go = visualRepresentation.processAction(action);
+				return null;
 			}
 		}
 		return null;
@@ -103,21 +100,17 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElementDef ref = effect.getActionElement();
 			if (ref != null) {
-				EAdList<EAdSceneElementDef> list = gameState
-						.getValue(ref, ActorActionsEf.VAR_ACTIONS);
+				EAdList<EAdSceneElementDef> list = gameState.getValue(ref,
+						ActorActionsEf.VAR_ACTIONS);
 				if (list != null) {
-					int x = gameState
-							.getValue(SystemFields.MOUSE_SCENE_X);
-					int y = gameState
-							.getValue(SystemFields.MOUSE_SCENE_Y);
-					int gameWidth = gameState
-							.getValue(SystemFields.GAME_WIDTH);
+					int x = gameState.getValue(SystemFields.MOUSE_SCENE_X);
+					int y = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
+					int gameWidth = gameState.getValue(SystemFields.GAME_WIDTH);
 					int gameHeight = gameState
 							.getValue(SystemFields.GAME_HEIGHT);
 					float radius = gameHeight / 8;
 					int maxRadius = gameWidth - x < gameHeight - y ? gameWidth
-							- x
-							: gameHeight - y;
+							- x : gameHeight - y;
 					maxRadius = x < maxRadius ? x : maxRadius;
 					maxRadius = y < maxRadius ? y : maxRadius;
 					radius = Math.min(maxRadius, radius);
@@ -145,17 +138,15 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 						Tween.to(
 								new BasicField<Integer>(element,
 										SceneElement.VAR_X),
-								TweenControllerImpl.DEFAULT, 5000.0f)
-								.ease(Linear.INOUT)
-								.targetRelative(targetX)
-								.start(tweenController.getManager());
+								TweenControllerImpl.DEFAULT, 5000.0f).ease(
+								Linear.INOUT).targetRelative(targetX).start(
+								tweenController.getManager());
 						Tween.to(
 								new BasicField<Integer>(element,
 										SceneElement.VAR_Y),
-								TweenControllerImpl.DEFAULT, 500.0f)
-								.ease(Linear.INOUT)
-								.targetRelative(targetY)
-								.start(tweenController.getManager());
+								TweenControllerImpl.DEFAULT, 500.0f).ease(
+								Linear.INOUT).targetRelative(targetY).start(
+								tweenController.getManager());
 						hud.getSceneElements().add(element);
 						accAngle += angle;
 					}

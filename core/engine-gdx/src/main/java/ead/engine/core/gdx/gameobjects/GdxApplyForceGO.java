@@ -50,18 +50,12 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 
 	@Inject
-	public GdxApplyForceGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+	public GdxApplyForceGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
@@ -97,11 +91,6 @@ public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	@Override

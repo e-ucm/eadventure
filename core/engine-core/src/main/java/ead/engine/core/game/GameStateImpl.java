@@ -216,7 +216,7 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void clearEffects(boolean clearPersistents) {
 		for (EffectGO<?> effect : this.getEffects()) {
-			if (!effect.getEffect().isPersistent() || clearPersistents) {
+			if (!effect.getElement().isPersistent() || clearPersistents) {
 				effect.stop();
 			}
 		}
@@ -277,7 +277,7 @@ public class GameStateImpl implements GameState {
 	public void saveState() {
 		ArrayList<EAdEffect> effectsList = new ArrayList<EAdEffect>();
 		for (EffectGO<?> effGO : effects) {
-			effectsList.add(effGO.getEffect());
+			effectsList.add(effGO.getElement());
 		}
 
 		Stack<EAdScene> stack = new Stack<EAdScene>();

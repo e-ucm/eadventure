@@ -57,8 +57,7 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, Game gameController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 	}
 
 	public void initialize() {
@@ -71,8 +70,7 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 
 		float random = (float) (Math.random() * totalProbability);
 		totalProbability = 0.0f;
-		for (Entry<EAdEffect, Float> entry : effect.getEffects()
-				.entrySet()) {
+		for (Entry<EAdEffect, Float> entry : effect.getEffects().entrySet()) {
 			if (totalProbability < random
 					&& random < totalProbability + entry.getValue()) {
 				gameState.addEffect(entry.getKey());

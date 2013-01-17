@@ -34,18 +34,22 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 	private static boolean initialize = false;
 	private static JFileChooser chooser = null;
 	private static EAdventureImporter importer = null;
+	private AssetHandler assetHandler;
 
 	private GameLoader gameLoader;
 	private EAdAdventureModel model;
 	private boolean done;
 	private String resourcesPath;
+	private GUI gui;
 	private XMLParser xmlReader;
 
 	@Inject
 	public LoadGameGO(SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, GameLoader gameLoader,
-			AssetHandler assetHandler, XMLParser xmlReader, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			AssetHandler assetHandler, XMLParser xmlReader,
+			EventGOFactory eventFactory) {
+		super(gameState);
+		this.gui = gui;
 		this.gameLoader = gameLoader;
 		this.assetHandler = assetHandler;
 		this.xmlReader = xmlReader;
@@ -99,11 +103,6 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 		Injector i = Guice.createInjector(new ImporterModule(),
 				new JavaToolsModule());
 		importer = i.getInstance(EAdventureImporter.class);
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	public void finish() {

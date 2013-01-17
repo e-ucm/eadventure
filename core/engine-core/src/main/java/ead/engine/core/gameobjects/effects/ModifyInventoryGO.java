@@ -61,8 +61,7 @@ import ead.engine.core.platform.assets.AssetHandler;
  * </p>
  * 
  */
-public class ModifyInventoryGO extends
-		AbstractEffectGO<ModifyInventoryEf> {
+public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 
 	private InventoryHandler inventoryHandler;
 
@@ -71,8 +70,7 @@ public class ModifyInventoryGO extends
 			SceneElementGOFactory sceneElementGOFactory, GUI gui,
 			GameState gameState, InventoryHandler inventoryHandler,
 			EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementGOFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 		this.inventoryHandler = inventoryHandler;
 	}
 
@@ -83,14 +81,14 @@ public class ModifyInventoryGO extends
 		case ADD_TO_INVENTORY:
 			inventoryHandler.add(effect.getSceneElementDef());
 			if (effect.isRemoveFromScene()) {
-				EAdSceneElement sceneElement = gameState.getValue(
-						effect.getSceneElementDef(),
+				EAdSceneElement sceneElement = gameState.getValue(effect
+						.getSceneElementDef(),
 						SceneElementDef.VAR_SCENE_ELEMENT);
 				if (sceneElement != null) {
-					gameState.setValue(sceneElement,
-							SceneElement.VAR_VISIBLE, false);
-					gameState.setValue(sceneElement,
-							SceneElement.VAR_ENABLE, true);
+					gameState.setValue(sceneElement, SceneElement.VAR_VISIBLE,
+							false);
+					gameState.setValue(sceneElement, SceneElement.VAR_ENABLE,
+							true);
 				}
 			}
 			break;

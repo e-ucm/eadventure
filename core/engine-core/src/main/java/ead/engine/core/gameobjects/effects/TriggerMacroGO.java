@@ -60,8 +60,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, Game gameController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 	}
 
 	@Override

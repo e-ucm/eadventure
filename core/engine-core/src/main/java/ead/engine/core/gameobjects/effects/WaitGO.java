@@ -40,6 +40,7 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
+import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -56,8 +57,7 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, Game gameController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 	}
 
 	@Override
@@ -67,10 +67,9 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 	}
 
 	public void update() {
-		time -= gui.getSkippedMilliseconds();
+		time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 	}
 
-	@Override
 	public boolean isVisualEffect() {
 		return effect.isBlocking();
 	}
@@ -83,8 +82,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 	public String toString() {
 		return "WaitEffect:  Time left " + time;
 	}
-	
-	public boolean contains( int x, int y ){
+
+	public boolean contains(int x, int y) {
 		return effect.isBlocking();
 	}
 

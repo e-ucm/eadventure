@@ -112,7 +112,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 					Sound.class);
 			if (s != null) {
 				PlaySoundEf playSound = new PlaySoundEf(s);
-				effect.getPreviousEffects().add(playSound);
+				effect.getSimultaneousEffects().add(playSound);
 			}
 		}
 	}

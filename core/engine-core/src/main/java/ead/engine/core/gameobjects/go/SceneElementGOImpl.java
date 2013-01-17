@@ -118,12 +118,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public SceneElementGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(sceneElementFactory, gui);		
+		super(sceneElementFactory, gui);
 		this.eventFactory = eventFactory;
 		this.statesList = new ArrayList<String>();
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
-		
+
 		eventGOList = new ArrayList<EventGO<?>>();
 	}
 
@@ -393,10 +393,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void setPosition(EAdPosition position) {
 		gameState.setValue(element, SceneElement.VAR_X, position.getX());
 		gameState.setValue(element, SceneElement.VAR_Y, position.getY());
-		gameState
-				.setValue(element, SceneElement.VAR_DISP_X, position.getDispX());
-		gameState
-				.setValue(element, SceneElement.VAR_DISP_Y, position.getDispY());
+		gameState.setValue(element, SceneElement.VAR_DISP_X, position
+				.getDispX());
+		gameState.setValue(element, SceneElement.VAR_DISP_Y, position
+				.getDispY());
 	}
 
 	@Override

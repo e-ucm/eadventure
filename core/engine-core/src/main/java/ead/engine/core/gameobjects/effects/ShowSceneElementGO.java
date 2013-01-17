@@ -60,20 +60,19 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, Game gameController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 	}
 
-	@Override
+
 	public void doLayout(EAdTransformation t) {
-		gui.addElement(sceneElement, t);
+//		gui.addElement(sceneElement, t);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
 		time = effect.getTime();
-		sceneElement = sceneElementFactory.get(effect.getSceneElement());
+//		sceneElement = sceneElementFactory.get(effect.getSceneElement());
 
 	}
 
@@ -85,7 +84,7 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	public void update() {
 		super.update();
 		sceneElement.update();
-		time -= gui.getSkippedMilliseconds();
+//		time -= gui.getSkippedMilliseconds();
 
 	}
 

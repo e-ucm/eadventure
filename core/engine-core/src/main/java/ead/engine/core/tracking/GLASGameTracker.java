@@ -255,14 +255,14 @@ public class GLASGameTracker extends AbstractGameTracker {
 		LogicTrace trace = new LogicTrace();
 		trace.setTimeStamp(System.currentTimeMillis() - initTimeStamp);
 		trace.setType("unkown");
-		if (effect.getEffect() instanceof ChangeSceneEf) {
+		if (effect.getElement() instanceof ChangeSceneEf) {
 			trace.setType("ChangeScene");
-			ChangeSceneEf changeScene = (ChangeSceneEf) effect.getEffect();
+			ChangeSceneEf changeScene = (ChangeSceneEf) effect.getElement();
 			if (changeScene.getNextScene() != null) {
 				trace.setArg1(changeScene.getNextScene().getId());
 			}
-		} else if (effect.getEffect() instanceof ChangeFieldEf) {
-			ChangeFieldEf changeField = (ChangeFieldEf) effect.getEffect();
+		} else if (effect.getElement() instanceof ChangeFieldEf) {
+			ChangeFieldEf changeField = (ChangeFieldEf) effect.getElement();
 			String vars = "";
 			String value = null;
 			for (EAdField<?> f : changeField.getFields()) {

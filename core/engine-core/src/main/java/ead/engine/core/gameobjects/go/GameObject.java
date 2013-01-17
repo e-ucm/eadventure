@@ -53,15 +53,15 @@ public interface GameObject<T> {
 	void setElement(T element);
 
 	/**
-	 * Updates game object
-	 */
-	void update();
-
-	/**
 	 * Returns the represented element by this game object
 	 * 
 	 * @return the represented element by this game object
 	 */
 	T getElement();
+	
+	/**
+	 * Updates game object
+	 */
+	void update();
 
 }

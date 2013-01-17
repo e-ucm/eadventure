@@ -84,11 +84,11 @@ public interface EAdEffect extends EAdElement, Conditioned {
 	EAdList<EAdEffect> getNextEffects();
 
 	/**
-	 * Returns the effects to be launched before this event is launched
+	 * Returns the effects to be launched when this effect is launched
 	 * 
 	 * @return
 	 */
-	EAdList<EAdEffect> getPreviousEffects();
+	EAdList<EAdEffect> getSimultaneousEffects();
 
 	/**
 	 * Sets if the effects in the next effects list are launched even when the

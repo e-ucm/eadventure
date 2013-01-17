@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -62,17 +63,14 @@ public class HighlightSceneElementGO extends
 	public HighlightSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		highLightElement = gameState.maybeDecodeField(effect
-				.getSceneElement());
-		oldScale = gameState.getValue(highLightElement,
-				SceneElement.VAR_SCALE);
+		highLightElement = gameState.maybeDecodeField(effect.getSceneElement());
+		oldScale = gameState.getValue(highLightElement, SceneElement.VAR_SCALE);
 		time = effect.getTime();
 		started = false;
 	}
@@ -80,14 +78,14 @@ public class HighlightSceneElementGO extends
 	public void update() {
 		if (time > 0) {
 			if (!started) {
-				gameState.setValue(highLightElement,
-						SceneElement.VAR_SCALE, oldScale * 2);
+				gameState.setValue(highLightElement, SceneElement.VAR_SCALE,
+						oldScale * 2);
 				started = true;
 			}
-			time -= gui.getSkippedMilliseconds();
+			time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 			if (time <= 0) {
-				gameState.setValue(highLightElement,
-						SceneElement.VAR_SCALE, oldScale);
+				gameState.setValue(highLightElement, SceneElement.VAR_SCALE,
+						oldScale);
 			}
 		}
 	}

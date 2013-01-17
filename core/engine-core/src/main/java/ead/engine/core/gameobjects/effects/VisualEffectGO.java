@@ -15,8 +15,7 @@ public abstract class VisualEffectGO<P extends EAdEffect> extends
 	public VisualEffectGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 	}
 
 	protected SceneElementGO<?> visualRepresentation;
@@ -24,11 +23,11 @@ public abstract class VisualEffectGO<P extends EAdEffect> extends
 	protected abstract EAdComplexSceneElement getVisualRepresentation();
 
 	public void setEffect(P effect) {
-		super.setEffect(effect);
+//		super.setEffect(effect);
 		EAdComplexSceneElement e = getVisualRepresentation();
 		if (e != null) {
 			e.setId(e.getId() + "engine");
-			setElement(e);
+//			setElement(e);
 		}
 	}
 

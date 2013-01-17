@@ -77,8 +77,8 @@ import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.reader.adventure.AdventureReader;
-import ead.reader.properties.PropertiesReader;
 import ead.reader.strings.StringsReader;
+import ead.tools.PropertiesReader;
 import ead.tools.StringHandler;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
@@ -525,7 +525,7 @@ public class EditorModelLoader {
 
 			PropertiesReader pr = new PropertiesReader();
 			HashMap<String, String> engineProperties = new HashMap<String, String>();
-			engineProperties.putAll(pr.readProperties(properties));
+			//engineProperties.putAll(pr.readProperties(properties));
 			logger.info("Read {} engine properties", engineProperties.size());
 			model.setEngineProperties(engineProperties);
 		} catch (Exception e) {

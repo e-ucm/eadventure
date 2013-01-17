@@ -57,8 +57,8 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class InterpolationGO extends
-		AbstractEffectGO<InterpolationEf> implements TweenCallback {
+public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
+		implements TweenCallback {
 
 	private int finished;
 
@@ -69,8 +69,7 @@ public class InterpolationGO extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, TweenController tweenController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 		this.tweenController = tweenController;
 	}
 
@@ -101,8 +100,7 @@ public class InterpolationGO extends
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();
-				Tween t = Tween
-						.to(f, 0, effect.getInterpolationTime())
+				Tween t = Tween.to(f, 0, effect.getInterpolationTime())
 						.ease(eq).delay(effect.getDelay());
 
 				switch (effect.getLoopType()) {

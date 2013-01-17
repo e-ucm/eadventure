@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
@@ -20,8 +21,7 @@ import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class UseTracesEffectGO extends
-		AbstractEffectGO<UseTracesEffect> {
+public class UseTracesEffectGO extends AbstractEffectGO<UseTracesEffect> {
 
 	private int currentEvent;
 
@@ -37,8 +37,7 @@ public class UseTracesEffectGO extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, InputHandler inputHandler,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+		super(gameState);
 		this.inputHandler = inputHandler;
 	}
 
@@ -51,13 +50,11 @@ public class UseTracesEffectGO extends
 
 	public void update() {
 		super.update();
-		elapsed += gui.getSkippedMilliseconds();
+		elapsed += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		while (currentEvent < effect.getTimestamps().size()
-				&& elapsed >= effect.getTimestamps()
-						.get(currentEvent)) {
-			InputAction<?> inputAction = getInputAction(effect
-					.getInputEvents().get(currentEvent), effect
-					.getPositions().get(currentEvent));
+				&& elapsed >= effect.getTimestamps().get(currentEvent)) {
+			InputAction<?> inputAction = getInputAction(effect.getInputEvents()
+					.get(currentEvent), effect.getPositions().get(currentEvent));
 			if (inputAction != null) {
 				inputHandler.addAction(inputAction);
 				logger.info("Send " + inputAction);
@@ -70,18 +67,13 @@ public class UseTracesEffectGO extends
 	private InputAction<?> getInputAction(EAdGUIEvent event,
 			EAdPosition position) {
 		if (event instanceof MouseGEv) {
-			return new MouseInputAction((MouseGEv) event,
-					position.getX(), position.getY());
+			return new MouseInputAction((MouseGEv) event, position.getX(),
+					position.getY());
 		} else if (event instanceof KeyGEv) {
 			return new KeyInputAction((KeyGEv) event, new Character(
 					(char) position.getX()));
 		}
 		return null;
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
 	}
 
 	public void finish() {

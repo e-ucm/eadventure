@@ -52,16 +52,14 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.util.EAdPosition;
 import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.trajectories.Path;
 import ead.engine.core.trajectories.PathSide;
 import ead.engine.core.trajectories.SimplePathImpl;
@@ -85,6 +83,8 @@ public class MoveSceneElementGO extends
 	private static final int PIXELS_PER_SECOND = 250;
 
 	private TrajectoryFactory trajectoryFactory;
+	
+	private SceneElementGOFactory sceneElementFactory;
 
 	private boolean finishedSide = false;
 
@@ -115,13 +115,11 @@ public class MoveSceneElementGO extends
 	private int currentTime;
 
 	@Inject
-	public MoveSceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory,
-			TrajectoryFactory trajectoryFactory, GUI gui, GameState gameState,
-			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+	public MoveSceneElementGO(GameState gameState, SceneElementGOFactory sceneElementFactory,
+			TrajectoryFactory trajectoryFactory) {
+		super(gameState);
 		this.trajectoryFactory = trajectoryFactory;
+		this.sceneElementFactory = sceneElementFactory;
 	}
 
 	@Override
@@ -134,8 +132,8 @@ public class MoveSceneElementGO extends
 		int endY = gameState.operate(Integer.class, effect.getyTarget());
 
 		EAdSceneElement target = effect.getTarget() != null ? valueMap
-				.getValue(effect.getTarget(),
-						SceneElementDef.VAR_SCENE_ELEMENT) : null;
+				.getValue(effect.getTarget(), SceneElementDef.VAR_SCENE_ELEMENT)
+				: null;
 
 		EAdTrajectoryDefinition d = valueMap.getValue(gameState.getScene()
 				.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
@@ -239,7 +237,7 @@ public class MoveSceneElementGO extends
 
 	@Override
 	public void update() {
-		currentTime += gui.getSkippedMilliseconds();
+		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		if (!finished) {
 			super.update();
 			if (firstUpdate) {

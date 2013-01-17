@@ -42,20 +42,14 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		extends AbstractEffectGO<T> {
 
 	protected EAdSceneElement sceneElement;
-	
-	public SceneElementEffectGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+
+	public SceneElementEffectGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override

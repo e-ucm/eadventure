@@ -95,9 +95,9 @@ public class EffectsHUD extends AbstractHUD {
 		boolean block = false;
 		while (i < effects.size() && !block) {
 			EffectGO<?> e = effects.get(i);
-			if (e.isVisualEffect()) {
-				gui.addElement(e, transformation);
-			}
+//			if (e.isVisualEffect()) {
+//				gui.addElement(e, transformation);
+//			}
 			block = e.isBlocking();
 			i++;
 		}
@@ -107,7 +107,7 @@ public class EffectsHUD extends AbstractHUD {
 		int i = 0;
 		DrawableGO<?> go = null;
 		while (!action.isConsumed() && i < gameState.getEffects().size()) {
-			go = gameState.getEffects().get(i).processAction(action);
+//			go = gameState.getEffects().get(i).processAction(action);
 			i++;
 		}
 		return go;
@@ -149,8 +149,8 @@ public class EffectsHUD extends AbstractHUD {
 			boolean visualEffect = false;
 			int index = 0;
 			while (!visualEffect && index < gameState.getEffects().size()) {
-				visualEffect = gameState.getEffects().get(index++)
-						.isVisualEffect();
+//				visualEffect = gameState.getEffects().get(index++)
+//						.isVisualEffect();
 			}
 			setVisible(visualEffect);
 			super.update();
@@ -161,7 +161,7 @@ public class EffectsHUD extends AbstractHUD {
 		boolean contains = false;
 		int i = 0;
 		while (!contains && i < gameState.getEffects().size()) {
-			contains = gameState.getEffects().get(i).contains(x, y);
+//			contains = gameState.getEffects().get(i).contains(x, y);
 			i++;
 		}
 		return contains;
