@@ -32,9 +32,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 	public Identified read(XMLNode node) {
 		Identified element = null;
 
-		if (node.getChildNodes().getLength() == 1
-				&& !node.getChildNodes().item(0).hasChildNodes()
-				&& node.getNodeText() != null) {
+		if (node.getAttributes().getLength() < 2) {
 			if (asset) {
 				element = elementsFactory.getAsset(node.getNodeText());
 			} else {
@@ -45,36 +43,39 @@ public class ObjectReader extends AbstractReader<Identified> {
 
 		} else {
 			Class<?> clazz = this.getNodeClass(node);
-			element = (Identified) elementsFactory.createObject(clazz);
-			String id = node.getAttributes().getValue(DOMTags.ID_AT);
-			id = id != null && !asset ? id : asset ? "asset" + idGenerator++
-					: "element" + idGenerator++;
-			element.setId(id);
+			if (clazz != null) {
+				element = (Identified) elementsFactory.createObject(clazz);
+				String id = node.getAttributes().getValue(DOMTags.ID_AT);
+				id = id != null && !asset ? id : asset ? "asset"
+						+ idGenerator++ : "element" + idGenerator++;
+				element.setId(id);
 
-			String uniqueId = node.getAttributes().getValue(
-					DOMTags.UNIQUE_ID_AT);
-			if (uniqueId != null) {
-				if (asset) {
-					elementsFactory.putAsset(uniqueId, element);
-				} else {
-					elementsFactory.putEAdElement(uniqueId, element);
+				String uniqueId = node.getAttributes().getValue(
+						DOMTags.UNIQUE_ID_AT);
+				if (uniqueId != null) {
+					if (asset) {
+						elementsFactory.putAsset(uniqueId, element);
+					} else {
+						elementsFactory.putEAdElement(uniqueId, element);
+					}
 				}
-			}
 
-			XMLNodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				XMLNode child = children.item(i);
-				String fieldName = child.getAttributes().getValue(
-						DOMTags.PARAM_AT);
-				ReflectionField field = getField(clazz, fieldName);
+				XMLNodeList children = node.getChildNodes();
+				for (int i = 0; i < children.getLength(); i++) {
+					XMLNode child = children.item(i);
+					String fieldName = child.getAttributes().getValue(
+							DOMTags.PARAM_AT);
+					ReflectionField field = getField(clazz, fieldName);
 
-				if (field != null) {
-					xmlVisitor.loadElement(child, new ObjectVisitorListener(
-							element, field));
-				} else {
-					logger.warn(
-							"{} param is not present in {}. It'll be ignored",
-							new Object[] { fieldName, clazz });
+					if (field != null) {
+						xmlVisitor.loadElement(child,
+								new ObjectVisitorListener(element, field));
+					} else {
+						logger
+								.warn(
+										"{} param is not present in {}. It'll be ignored",
+										new Object[] { fieldName, clazz });
+					}
 				}
 			}
 			return element;
@@ -110,7 +111,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 		}
 
 		@Override
-		public void loaded(Object object) {
+		public void loaded(XMLNode node, Object object) {
 			field.setFieldValue(parent, object);
 		}
 

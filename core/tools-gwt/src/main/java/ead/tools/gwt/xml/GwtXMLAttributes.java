@@ -59,4 +59,9 @@ public class GwtXMLAttributes implements XMLAttributes {
 		return null;
 	}
 
+	@Override
+	public int getLength() {
+		return map.getLength();
+	}
+
 }

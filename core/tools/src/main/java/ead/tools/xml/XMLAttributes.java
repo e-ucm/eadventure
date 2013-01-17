@@ -51,4 +51,6 @@ public interface XMLAttributes {
 	 * @return
 	 */
 	String getValue(String atttributeName);
+
+	int getLength();
 }

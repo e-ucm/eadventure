@@ -43,12 +43,18 @@ public class MapReader extends AbstractReader<EAdMap> {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void loaded(Object object) {
+		public void loaded(XMLNode node, Object object) {
 			if (key == null) {
 				key = object;
 			} else {
-				map.put(key, object);
-				key = null;
+				try {
+					map.put(key, object);
+				} catch (Exception e) {
+					// The key is not prepared to generate a valid hash. Let's wait until it is
+					xmlVisitor.addMapKeyValue(map, key, object);
+				} finally {
+					key = null;
+				}
 			}
 
 		}

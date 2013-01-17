@@ -37,7 +37,7 @@ public class ListReader extends AbstractReader<EAdList> {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void loaded(Object object) {
+		public void loaded(XMLNode node, Object object) {
 			list.add(object);
 		}
 

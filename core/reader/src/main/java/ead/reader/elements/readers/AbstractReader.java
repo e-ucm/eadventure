@@ -29,12 +29,12 @@ public abstract class AbstractReader<T> implements ElementReader<T> {
 	 */
 	public Class<?> getNodeClass(XMLNode node) {
 		String clazz = node.getAttributes().getValue(DOMTags.CLASS_AT);
-		return getNodeClass(clazz);
+		return clazz == null ? null : getNodeClass(clazz);
 	}
 
 	public Class<?> getNodeClass(String clazz) {
 		clazz = translateClass(clazz);
-		Class<?> c = Object.class;
+		Class<?> c = null;
 		try {
 			c = elementsFactory.getClassFromName(clazz);
 		} catch (NullPointerException e) {

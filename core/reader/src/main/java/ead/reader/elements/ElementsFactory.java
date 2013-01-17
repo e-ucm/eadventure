@@ -12,6 +12,8 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
+import ead.common.util.BasicMatrix;
+import ead.common.util.EAdMatrix;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.common.util.EAdURI;
@@ -103,6 +105,8 @@ public class ElementsFactory {
 		} else if (clazz.isEnum()) {
 			Class<? extends Enum> enumClass = (Class<? extends Enum>) clazz;
 			return Enum.valueOf(enumClass, value);
+		} else if (clazz == EAdMatrix.class || clazz == BasicMatrix.class) {
+			return BasicMatrix.parse(value);
 		}
 		return null;
 	}
@@ -169,6 +173,10 @@ public class ElementsFactory {
 
 	public Identified getEAdElement(String uniqueId) {
 		return elementsMap.get(uniqueId);
+	}
+
+	public EAdParam getParam(String nodeText) {
+		return paramsMap.get(nodeText);
 	}
 
 }

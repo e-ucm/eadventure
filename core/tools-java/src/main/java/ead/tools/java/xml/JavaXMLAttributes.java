@@ -59,4 +59,9 @@ public class JavaXMLAttributes implements XMLAttributes {
 		return null;
 	}
 
+	@Override
+	public int getLength() {
+		return map.getLength();
+	}
+
 }

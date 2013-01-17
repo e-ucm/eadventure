@@ -82,7 +82,7 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 		if (map == null) {
 			map = new EAdMapImpl<String, AssetDescriptor>(String.class,
 					AssetDescriptor.class);
-			resources.put(id, map);
+			resources.put(bundleId, map);
 		}
 		map.put(id, a);
 	}

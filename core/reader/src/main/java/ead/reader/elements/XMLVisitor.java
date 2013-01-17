@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.extra.EAdMap;
 import ead.reader.adventure.DOMTags;
 import ead.reader.elements.readers.ListReader;
 import ead.reader.elements.readers.MapReader;
@@ -19,6 +20,8 @@ public class XMLVisitor {
 	private static final Logger logger = LoggerFactory.getLogger("XMLVisitor");
 
 	private List<VisitorStep> stepsQueue;
+
+	private List<MapKeyValue> mapKeysValues;
 
 	private List<ClassTranslator> translators;
 
@@ -34,6 +37,7 @@ public class XMLVisitor {
 
 	public XMLVisitor() {
 		stepsQueue = new ArrayList<VisitorStep>();
+		mapKeysValues = new ArrayList<MapKeyValue>();
 		translators = new ArrayList<ClassTranslator>();
 		elementsFactory = new ElementsFactory();
 		paramReader = new ParamReader(elementsFactory, this);
@@ -71,6 +75,7 @@ public class XMLVisitor {
 		XMLNode node = step.getNode();
 		VisitorListener listener = step.getListener();
 		Object result = null;
+		boolean error = false;
 		if (node.getNodeName().equals(DOMTags.PARAM_AT)) {
 			result = paramReader.read(node);
 		} else if (node.getNodeName().equals(DOMTags.LIST_TAG)) {
@@ -86,19 +91,39 @@ public class XMLVisitor {
 		} else {
 			logger.warn(" could not read node {} with name {}", node
 					.getNodeName());
-			listener.loaded(null);
+			error = true;
 		}
 
-		if (result == null) {
+		// Sometimes we can't generate elements reference because the original
+		// object didn't appear yet. When that happens, we obtain a null result.
+		// We send the step to the end of the queue, for later
+		if (result == null && !error) {
 			stepsQueue.add(step);
 		}
+
+		if (result != null) {
+			listener.loaded(node, result);
+		}
+
 		System.out.println(stepsQueue.size());
-		return stepsQueue.isEmpty();
+		if (stepsQueue.isEmpty()) {
+			// We assign the pending keys and values to their maps
+			for (MapKeyValue mkv : mapKeysValues) {
+				mkv.execute();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void addMapKeyValue(EAdMap map, Object key, Object value) {
+		mapKeysValues.add(new MapKeyValue(map, key, value));
 	}
 
 	public static interface VisitorListener {
 
-		void loaded(Object object);
+		void loaded(XMLNode node, Object object);
 	}
 
 	public static class VisitorStep {
@@ -116,6 +141,24 @@ public class XMLVisitor {
 
 		public VisitorListener getListener() {
 			return listener;
+		}
+	}
+
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	public static class MapKeyValue {
+		private EAdMap map;
+		private Object key;
+		private Object value;
+
+		public MapKeyValue(EAdMap map, Object key, Object value) {
+			super();
+			this.map = map;
+			this.key = key;
+			this.value = value;
+		}
+
+		void execute() {
+			map.put(key, value);
 		}
 	}
 
