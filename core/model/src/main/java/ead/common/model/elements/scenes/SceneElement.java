@@ -42,6 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.AbstractElementWithBehavior;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.extra.EAdMap;
@@ -50,7 +51,6 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -64,6 +64,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public static final EAdVarDef<String> VAR_STATE = new VarDef<String>(
 			"state", String.class, CommonStates.EAD_STATE_DEFAULT.toString());
+
+	public static final EAdVarDef<String> VAR_BUNDLE_ID = new VarDef<String>(
+			"bundleId", String.class, ResourcedElement.INITIAL_BUNDLE);
 
 	public static final EAdVarDef<Float> VAR_SCALE = new VarDef<Float>("scale",
 			Float.class, 1.0f);
@@ -269,18 +272,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	 */
 	public void setAppearance(EAdDrawable appearance) {
 		getDefinition().setAppearance(appearance);
-	}
-
-	/**
-	 * Sets the appearance in the given bundle
-	 * 
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
-		getDefinition().setAppearance(bundle, appearance);
 	}
 
 	public void setInitialEnable(boolean enable) {

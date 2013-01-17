@@ -45,10 +45,6 @@ import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.EAdResources;
-import ead.common.resources.annotation.Asset;
-import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
@@ -74,12 +70,8 @@ public class SceneElementDef extends ResourcedElement implements
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Bundled
-	@Asset( { EAdDrawable.class })
 	public static final String appearance = "appearance";
 
-	@Bundled
-	@Asset( { EAdDrawable.class })
 	public static final String overAppearance = "overAppearance";
 
 	public SceneElementDef() {
@@ -90,14 +82,12 @@ public class SceneElementDef extends ResourcedElement implements
 
 	public SceneElementDef(AssetDescriptor appearance) {
 		this();
-		getResources().addAsset(getInitialBundle(), SceneElementDef.appearance,
-				appearance);
+		addAsset(SceneElementDef.appearance, appearance);
 	}
 
 	public SceneElementDef(EAdDrawable appearance, EAdDrawable overAppearance) {
 		this(appearance);
-		getResources().addAsset(getInitialBundle(),
-				SceneElementDef.overAppearance, overAppearance);
+		addAsset(SceneElementDef.overAppearance, overAppearance);
 	}
 
 	@Override
@@ -120,49 +110,20 @@ public class SceneElementDef extends ResourcedElement implements
 		setVarInitialValue(VAR_DOCUMENTATION, documentation);
 	}
 
-	public void setInitialAppearance(EAdDrawable d) {
-		this.getResources().addAsset(this.getInitialBundle(),
-				SceneElementDef.appearance, d);
-	}
-
 	/**
 	 * Sets the initial appearance for the scene element
-	 *
+	 * 
 	 * @param appearance
 	 *            the initial appearance
 	 */
 	@Override
-	public void setAppearance(EAdDrawable appearance) {
-		setAppearance(getInitialBundle(), appearance);
-	}
-
-	/**
-	 * Sets the appearance in the given bundle
-	 *
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	@Override
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
-		EAdResources resources = getResources();
-		if (!resources.getBundles().contains(bundle)) {
-			resources.addBundle(bundle);
-		}
-		resources.addAsset(bundle, SceneElementDef.appearance, appearance);
+	public void setAppearance(EAdDrawable d) {
+		addAsset(SceneElementDef.appearance, d);
 	}
 
 	@Override
 	public EAdDrawable getAppearance() {
-		return (EAdDrawable) getResources().getAsset(getInitialBundle(),
-				SceneElementDef.appearance);
-	}
-
-	@Override
-	public EAdDrawable getAppearance(EAdBundleId bundle) {
-		return (EAdDrawable) getResources().getAsset(bundle,
-				SceneElementDef.appearance);
+		return (EAdDrawable) getResources().get(SceneElementDef.appearance);
 	}
 
 	@Override
@@ -174,4 +135,9 @@ public class SceneElementDef extends ResourcedElement implements
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
 	}
+
+	public EAdDrawable getAppearance(String currentBundle) {
+		return (EAdDrawable) getAsset(currentBundle, SceneElementDef.appearance);
+	}
+
 }

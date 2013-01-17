@@ -63,9 +63,8 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 		super();
 		logger.info("New instance of LoadingScreen");
 
-		getBackground().getDefinition().getResources().addAsset(
-				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, new Image("@drawable/loading.png"));
+		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
+				new Image("@drawable/loading.png"));
 		EAdEvent event = new SystemEv();
 		effect = new ChangeSceneEf();
 		event.addEffect(SystemEvType.GAME_LOADED, effect);

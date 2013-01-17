@@ -53,7 +53,6 @@ import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.multimedia.Sound;
@@ -63,7 +62,7 @@ import ead.demos.elementfactories.StringFactory.StringType;
 public class EffectFactory {
 
 	public ChangeAppearanceEf getChangeAppearance(EAdElement element,
-			EAdBundleId bundle) {
+			String bundle) {
 		ChangeAppearanceEf effect = new ChangeAppearanceEf(element, bundle);
 		return effect;
 	}

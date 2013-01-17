@@ -148,9 +148,8 @@ public class FieldsDebugger implements Debugger {
 					vars = new SceneElement();
 					vars.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 					vars.setPosition(10, 10);
-					vars.getDefinition().getResources().addAsset(
-							vars.getDefinition().getInitialBundle(),
-							SceneElementDef.appearance, d);
+					vars.getDefinition()
+							.addAsset(SceneElementDef.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
 				}

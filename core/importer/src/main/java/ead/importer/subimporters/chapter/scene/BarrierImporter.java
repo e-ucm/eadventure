@@ -114,9 +114,7 @@ public class BarrierImporter implements
 		} else {
 			rectangle.setPaint(Paint.TRANSPARENT);
 		}
-		barrier.getDefinition().getResources().addAsset(
-				barrier.getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, rectangle);
+		barrier.getDefinition().addAsset(SceneElementDef.appearance, rectangle);
 		barrier.setPosition(new EAdPosition(Corner.TOP_LEFT, oldObject.getX(),
 				oldObject.getY()));
 

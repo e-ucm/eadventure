@@ -83,7 +83,6 @@ import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.params.fills.ColorFill;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
@@ -192,9 +191,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		AssetDescriptor background = resourceImporter.getAssetDescritptor(
 				oldObject.getResources().get(0).getAssetPath(
 						Book.RESOURCE_TYPE_BACKGROUND), Image.class);
-		book.getBackground().getDefinition().getResources().addAsset(
-				book.getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, background);
+		book.getBackground().getDefinition().addAsset(
+
+		SceneElementDef.appearance, background);
 
 		ChangeFieldEf showInventory = new ChangeFieldEf(
 				SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
@@ -511,20 +510,17 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 
 		AssetDescriptor overAsset = getArrowAsset(book, over);
-		arrow.getDefinition().getResources().addAsset(
-				arrow.getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, normalAsset);
+		arrow.getDefinition().addAsset(SceneElementDef.appearance, normalAsset);
 
-		EAdBundleId bundle = new EAdBundleId("over");
-		arrow.getDefinition().getResources().addBundle(bundle);
-		arrow.getDefinition().getResources().addAsset(bundle,
-				SceneElementDef.appearance, overAsset);
+		String bundle = "over";
+		arrow.getDefinition().addAsset(bundle, SceneElementDef.appearance,
+				overAsset);
 
 		ChangeAppearanceEf change1 = new ChangeAppearanceEf(arrow, bundle);
 		arrow.addBehavior(MouseGEv.MOUSE_ENTERED, change1);
 
-		ChangeAppearanceEf change2 = new ChangeAppearanceEf(arrow, arrow
-				.getDefinition().getInitialBundle());
+		ChangeAppearanceEf change2 = new ChangeAppearanceEf(arrow,
+				SceneElementDef.INITIAL_BUNDLE);
 		arrow.addBehavior(MouseGEv.MOUSE_EXITED, change2);
 
 	}

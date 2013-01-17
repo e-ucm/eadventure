@@ -102,7 +102,7 @@ public class PhysicsScene extends EmptyScene {
 
 		addCanyon(effect);
 		addWalls(effect);
-		//		addPendulum(effect);
+		// addPendulum(effect);
 		addSea();
 	}
 
@@ -245,8 +245,8 @@ public class PhysicsScene extends EmptyScene {
 
 	private void addSky() {
 		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
-		backgroundDef.getResources().addAsset(backgroundDef.getInitialBundle(),
-				SceneElementDef.appearance, new Image("@drawable/sky.png"));
+		backgroundDef.addAsset(SceneElementDef.appearance, new Image(
+				"@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 

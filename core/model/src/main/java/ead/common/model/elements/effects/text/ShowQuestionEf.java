@@ -111,15 +111,15 @@ public class ShowQuestionEf extends AbstractEffect {
 		ChangeFieldEf initEffect = new ChangeFieldEf();
 		initEffect.addField(ANSWER_SELECTED);
 		initEffect.setOperation(BooleanOp.FALSE_OP);
-//		getInitEffects().add(initEffect);
+		//		getInitEffects().add(initEffect);
 
-//		endCondition = new OperationCond(ANSWER_SELECTED);
+		//		endCondition = new OperationCond(ANSWER_SELECTED);
 
 		ChangeFieldEf selectEffect = new ChangeFieldEf();
 		selectEffect.addField(ANSWER_SELECTED);
 		selectEffect.setOperation(BooleanOp.TRUE_OP);
 
-//		components.clear();
+		//		components.clear();
 
 		y = 10;
 
@@ -158,9 +158,9 @@ public class ShowQuestionEf extends AbstractEffect {
 		setAlpha.setOperation(new ValueOp(0.0f));
 		setAlpha.addField(new BasicField<Float>(questionElement,
 				SceneElement.VAR_ALPHA));
-//		getInitEffects().add(setAlpha);
+		//		getInitEffects().add(setAlpha);
 
-//		components.add(questionElement);
+		//		components.add(questionElement);
 		SceneElementEv event = new SceneElementEv();
 
 		InterpolationEf interpolation = new InterpolationEf(questionElement,
@@ -199,7 +199,7 @@ public class ShowQuestionEf extends AbstractEffect {
 
 		answerElement.getEvents().add(event);
 
-//		components.add(answerElement);
+		//		components.add(answerElement);
 	}
 
 	public EAdMap<EAdString, EAdEffect> getAnswers() {

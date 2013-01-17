@@ -9,14 +9,15 @@ import ead.reader.elements.XMLVisitor;
 import ead.tools.xml.XMLNode;
 
 public abstract class AbstractReader<T> implements ElementReader<T> {
-	
-	protected static final Logger logger = LoggerFactory.getLogger("ElementReader");
-	
+
+	protected static final Logger logger = LoggerFactory
+			.getLogger("ElementReader");
+
 	protected ElementsFactory elementsFactory;
-	
+
 	protected XMLVisitor xmlVisitor;
-	
-	public AbstractReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor){
+
+	public AbstractReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		this.elementsFactory = elementsFactory;
 		this.xmlVisitor = xmlVisitor;
 	}
@@ -26,12 +27,12 @@ public abstract class AbstractReader<T> implements ElementReader<T> {
 	 * @param node
 	 * @return
 	 */
-	public Class<?> getNodeClass(XMLNode node){
+	public Class<?> getNodeClass(XMLNode node) {
 		String clazz = node.getAttributes().getValue(DOMTags.CLASS_AT);
 		return getNodeClass(clazz);
 	}
-	
-	public Class<?> getNodeClass(String clazz){
+
+	public Class<?> getNodeClass(String clazz) {
 		clazz = translateClass(clazz);
 		Class<?> c = Object.class;
 		try {
@@ -41,13 +42,13 @@ public abstract class AbstractReader<T> implements ElementReader<T> {
 		}
 		return c;
 	}
-	
+
 	/**
 	 * Translate the class into its complete name
 	 * @param clazz
 	 * @return
 	 */
-	public String translateClass( String clazz ){
+	public String translateClass(String clazz) {
 		return xmlVisitor.translate(clazz);
 	}
 

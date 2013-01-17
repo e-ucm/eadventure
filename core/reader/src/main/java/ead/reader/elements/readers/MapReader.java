@@ -10,7 +10,7 @@ import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
 
 @SuppressWarnings("rawtypes")
-public class MapReader extends AbstractReader<EAdMap>{
+public class MapReader extends AbstractReader<EAdMap> {
 
 	public MapReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
@@ -19,42 +19,40 @@ public class MapReader extends AbstractReader<EAdMap>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public EAdMap read(XMLNode node) {
-		Class<?> keyClass = super.getNodeClass(node.getAttributes().getValue(DOMTags.KEY_CLASS_AT));
-		Class<?> valueClass = super.getNodeClass(node.getAttributes().getValue(DOMTags.VALUE_CLASS_AT));
+		Class<?> keyClass = super.getNodeClass(node.getAttributes().getValue(
+				DOMTags.KEY_CLASS_AT));
+		Class<?> valueClass = super.getNodeClass(node.getAttributes().getValue(
+				DOMTags.VALUE_CLASS_AT));
 		EAdMap map = new EAdMapImpl(keyClass, valueClass);
 		MapVisitorListener listener = new MapVisitorListener(map);
 		XMLNodeList childNodes = node.getChildNodes();
-		for ( int i = 0; i < childNodes.getLength(); i++){
+		for (int i = 0; i < childNodes.getLength(); i++) {
 			xmlVisitor.loadElement(childNodes.item(i), listener);
 		}
 		return map;
 	}
-	
+
 	public class MapVisitorListener implements VisitorListener {
 		private EAdMap map;
-		
+
 		private Object key;
-		
-		public MapVisitorListener(EAdMap map){
+
+		public MapVisitorListener(EAdMap map) {
 			this.map = map;
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void loaded(Object object) {
-			if ( key == null ){
+			if (key == null) {
 				key = object;
-			}
-			else {
+			} else {
 				map.put(key, object);
 				key = null;
 			}
-			
+
 		}
-		
-		
+
 	}
-	
-	
 
 }

@@ -47,9 +47,7 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class PositionScene extends EmptyScene {
 
 	public PositionScene() {
-		getBackground().getDefinition().getResources().addAsset(
-				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance,
+		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
 				new Image("@drawable/centerbackground.png"));
 
 		NgCommon.init();

@@ -41,7 +41,6 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
 import ead.demos.elementfactories.EAdElementsFactory;
@@ -76,17 +75,15 @@ public class SceneElementFactory {
 	public SceneElement createSceneElement(EAdDrawable appearance1,
 			EAdDrawable appearance2, int x, int y) {
 		SceneElement sceneElement = createSceneElement(appearance1, x, y);
-		EAdBundleId bundle = new EAdBundleId("bundle2");
-		sceneElement.getDefinition().getResources().addBundle(bundle);
-		sceneElement.getDefinition().getResources().addAsset(bundle,
+		String bundle = "bundle2";
+		sceneElement.getDefinition().addAsset(bundle,
 				SceneElementDef.appearance, appearance2);
 		sceneElement.addBehavior(MouseGEv.MOUSE_ENTERED, EAdElementsFactory
 				.getInstance().getEffectFactory().getChangeAppearance(
 						sceneElement, bundle));
 		sceneElement.addBehavior(MouseGEv.MOUSE_EXITED, EAdElementsFactory
 				.getInstance().getEffectFactory().getChangeAppearance(
-						sceneElement,
-						sceneElement.getDefinition().getInitialBundle()));
+						sceneElement, SceneElementDef.INITIAL_BUNDLE));
 		return sceneElement;
 	}
 

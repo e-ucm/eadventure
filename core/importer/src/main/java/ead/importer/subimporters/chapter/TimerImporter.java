@@ -306,9 +306,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		stringHandler.setString(text.getLabel(), oldTimer.getDisplayName()
 				+ " [0]");
 		text.getFields().add(timeOperation);
-		timer.getDefinition().getResources().addAsset(
-				timer.getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, text);
+		timer.getDefinition().addAsset(SceneElementDef.appearance, text);
 
 	}
 }

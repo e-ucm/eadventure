@@ -126,7 +126,8 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	@Override
 	public void update() {
 		super.update();
-		timeStep = 1.0f / gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+		timeStep = 1.0f / gameState
+				.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		world.step(timeStep, velocityIterations, positionIterations);
 
 		EAdScene scene = gameState.getScene().getElement();

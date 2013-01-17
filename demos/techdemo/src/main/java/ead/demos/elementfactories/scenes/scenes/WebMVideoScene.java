@@ -45,8 +45,7 @@ public class WebMVideoScene extends VideoScene {
 	public WebMVideoScene() {
 		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
 		video.setStream(true);
-		getDefinition().getResources().addAsset(
-				getDefinition().getInitialBundle(), VideoScene.video, video);
+		getDefinition().addAsset(VideoScene.video, video);
 	}
 
 	public String getSceneDescription() {

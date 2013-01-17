@@ -45,7 +45,7 @@ public class NgWindow extends VideoScene {
 	public NgWindow() {
 		super();
 		EAdVideo video = new Video("@binary/eAdventure.webm");
-		getDefinition().getResources().addAsset(VideoScene.video, video);
+		getDefinition().addAsset(VideoScene.video, video);
 	}
 
 	public String getSceneDescription() {

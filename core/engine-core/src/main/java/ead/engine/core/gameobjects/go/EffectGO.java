@@ -41,7 +41,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.input.InputAction;
 
-public interface EffectGO<P extends EAdEffect> extends GameObject<P>{
+public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 
 	/**
 	 * Sets the gui action that launched this effect

@@ -39,32 +39,26 @@ package ead.common.model.elements;
 
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Resourced;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.EAdResources;
-import ead.common.resources.BasicResources;
+import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.resources.assets.AssetDescriptor;
 
 /**
- * Abstract {@link ead.common.model.EAdElement} implementation,
- * with resources and events
+ * Abstract {@link ead.common.model.EAdElement} implementation, with resources
+ * and events
  */
 public abstract class ResourcedElement extends AbstractElementWithBehavior
 		implements Resourced {
 
-	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new VarDef<EAdBundleId>(
-			"bundle_id", EAdBundleId.class, null);
-
+	public static final String INITIAL_BUNDLE = "initialBundle";
 	/**
 	 * Resources of the eAdElement
 	 */
 	@Param("resources")
-	private EAdResources resources;
+	private EAdMap<String, EAdMap<String, AssetDescriptor>> resources;
 
 	/**
-	 * Constructs a {@link ResourcedElement} with the specified parent
-	 * element.
+	 * Constructs a {@link ResourcedElement} with the specified parent element.
 	 * 
 	 * @param id
 	 *            id of the element
@@ -73,7 +67,24 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	 */
 	public ResourcedElement() {
 		super();
-		resources = new BasicResources(getClass());
+		resources = new EAdMapImpl<String, EAdMap<String, AssetDescriptor>>(
+				String.class, AssetDescriptor.class);
+	}
+
+	@Override
+	public void addAsset(String id, AssetDescriptor a) {
+		addAsset(INITIAL_BUNDLE, id, a);
+	}
+
+	@Override
+	public void addAsset(String bundleId, String id, AssetDescriptor a) {
+		EAdMap<String, AssetDescriptor> map = resources.get(bundleId);
+		if (map == null) {
+			map = new EAdMapImpl<String, AssetDescriptor>(String.class,
+					AssetDescriptor.class);
+			resources.put(id, map);
+		}
+		map.put(id, a);
 	}
 
 	/*
@@ -82,7 +93,7 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	 * @see es.eucm.eadventure.common.model.EAdElement#getResources()
 	 */
 	@Override
-	public EAdResources getResources() {
+	public EAdMap<String, EAdMap<String, AssetDescriptor>> getResources() {
 		return resources;
 	}
 
@@ -94,33 +105,16 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	 */
 	@Override
 	public AssetDescriptor getAsset(String id) {
-		return resources.getAsset(id);
+		return getAsset(INITIAL_BUNDLE, id);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.common.model.EAdElement#getAsset(es.eucm.eadventure
-	 * .common.resources.EAdBundleId, java.lang.String)
-	 */
 	@Override
-	public AssetDescriptor getAsset(EAdBundleId bundleId, String id) {
-		return resources.getAsset(bundleId, id);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.EAdElement#getInitialBundle()
-	 */
-	@Override
-	public EAdBundleId getInitialBundle() {
-		return resources.getInitialBundle();
-	}
-
-	public void setInitialBundle(EAdBundleId temp) {
-		resources.setInitialBundle(temp);
+	public AssetDescriptor getAsset(String bundleId, String id) {
+		EAdMap<String, AssetDescriptor> map = resources.get(bundleId);
+		if (map != null) {
+			return map.get(id);
+		}
+		return null;
 	}
 
 }

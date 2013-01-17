@@ -50,8 +50,6 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdResources;
 import ead.reader.adventure.DOMTags;
 
 public abstract class FieldParamWriter<T> extends DOMWriter<T> {
@@ -173,8 +171,6 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 		// had to make exception for EAdStrings, which when empty should not be saved
 		return (!d.equals("") && newNode.getTextContent().equals(d))
 				|| (o instanceof EAdString && newNode.getTextContent()
-						.equals(d))
-				|| (o instanceof EAdAssetBundle && newNode.getTextContent()
 						.equals(d));
 	}
 
@@ -189,7 +185,6 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	public boolean isEmpty(Object o) {
 		return (o == null)
 				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0)
-				|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty())
-				|| (o instanceof EAdResources && ((EAdResources) o).isEmpty());
+				|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty());
 	}
 }

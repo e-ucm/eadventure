@@ -58,7 +58,7 @@ public interface GameObject<T> {
 	 * @return the represented element by this game object
 	 */
 	T getElement();
-	
+
 	/**
 	 * Updates game object
 	 */

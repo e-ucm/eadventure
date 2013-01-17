@@ -45,7 +45,7 @@ import ead.engine.core.input.InputAction;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		EffectGO<P> {
-	
+
 	/**
 	 * The game state
 	 */
@@ -74,8 +74,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	public AbstractEffectGO(GameState gameState) {
 		this.gameState = gameState;
 	}
-	
-	public P getElement(){
+
+	public P getElement() {
 		return effect;
 	}
 

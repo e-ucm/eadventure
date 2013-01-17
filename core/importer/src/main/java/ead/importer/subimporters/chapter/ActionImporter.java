@@ -230,12 +230,10 @@ public class ActionImporter implements
 		// If it's a standard action
 		if (oldObject.getType() != Action.CUSTOM
 				&& oldObject.getType() != Action.CUSTOM_INTERACT) {
-			action.getResources().addAsset(action.getInitialBundle(),
-					SceneElementDef.appearance,
-					new Image(getDrawablePath(oldObject.getType())));
-			action.getResources().addAsset(action.getInitialBundle(),
-					SceneElementDef.overAppearance,
-					new Image(getHighlightDrawablePath(oldObject.getType())));
+			action.addAsset(SceneElementDef.appearance, new Image(
+					getDrawablePath(oldObject.getType())));
+			action.addAsset(SceneElementDef.overAppearance, new Image(
+					getHighlightDrawablePath(oldObject.getType())));
 		} else {
 			Map<String, String> resourcesStrings = new LinkedHashMap<String, String>();
 			Map<String, Object> resourcesClasses = new LinkedHashMap<String, Object>();
@@ -369,10 +367,9 @@ public class ActionImporter implements
 		examineAction.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		// Appearance
-		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
-				SceneElementDef.appearance, examineImage);
-		examineAction.getResources().addAsset(examineAction.getInitialBundle(),
-				SceneElementDef.overAppearance, examineOverImage);
+		examineAction.addAsset(SceneElementDef.appearance, examineImage);
+		examineAction
+				.addAsset(SceneElementDef.overAppearance, examineOverImage);
 
 		EAdList list = (EAdList) actor.getVars()
 				.get(ActorActionsEf.VAR_ACTIONS);

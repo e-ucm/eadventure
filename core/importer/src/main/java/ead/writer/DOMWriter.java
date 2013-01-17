@@ -38,27 +38,25 @@
 package ead.writer;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
-import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.reader.adventure.DOMTags;
-
-import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract implementation of a DOMWriter
@@ -143,8 +141,6 @@ public abstract class DOMWriter<T> {
 			return new MapDOMWriter();
 		} else if (o instanceof EAdParam) {
 			return new ParamDOMWriter();
-		} else if (o instanceof EAdResources) {
-			return new ResourcesDOMWriter();
 		} else if (o instanceof AssetDescriptor) {
 			return new AssetDOMWriter();
 		} else {

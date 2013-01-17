@@ -79,7 +79,6 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 		this.tweenController = tweenController;
 	}
 
-
 	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (action instanceof MouseInputAction) {
 			MouseInputAction m = (MouseInputAction) action;

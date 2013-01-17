@@ -41,7 +41,6 @@ import java.util.List;
 
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdURI;
@@ -81,7 +80,7 @@ public interface AssetHandler {
 	 * @return The platform-independent runtime asset
 	 * @see RuntimeAsset
 	 */
-	RuntimeAsset<?> getRuntimeAsset(Resourced element, EAdBundleId bundleId,
+	RuntimeAsset<?> getRuntimeAsset(Resourced element, String bundleId,
 			String id);
 
 	/**

@@ -41,21 +41,22 @@
  */
 package ead.editor.model.nodes;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.EAdParam;
-import ead.common.resources.EAdAssetDescriptor;
-import ead.common.resources.EAdResources;
+import ead.common.resources.assets.AssetDescriptor;
 import ead.editor.model.EditorModel;
 import ead.editor.model.visitor.ModelVisitorDriver;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An engine-model node. Used as a base for the dependency-tracking mechanism
@@ -182,12 +183,9 @@ public class EngineNode<T> extends DependencyNode<T> {
 			}
 		} else if (o instanceof EAdParam) {
 			sb.append(indent + ((EAdParam) o).toStringData());
-		} else if (o instanceof EAdResources) {
-			sb.append(indent + "resource" + " (" + id + "): x"
-					+ ((EAdResources) o).getBundles().size() + "\n");
-		} else if (o instanceof EAdAssetDescriptor) {
+		} else if (o instanceof AssetDescriptor) {
 			sb.append(indent + "asset" + " (" + id + "): "
-					+ ((EAdAssetDescriptor) o).getAssetId() + "\n");
+					+ ((AssetDescriptor) o).getId() + "\n");
 			appendParams(m, o, sb, depth, maxDepth);
 			if (depth != maxDepth) {
 				appendDependencies(this, m, sb);

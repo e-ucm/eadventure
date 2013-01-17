@@ -60,13 +60,13 @@ import com.google.inject.Singleton;
 
 import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
@@ -231,15 +231,14 @@ public class ResourceImporterImpl implements ResourceImporter {
 		int i = 0;
 		// We iterate for the resources. Each resource is associated to some
 		// conditions.
-		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
+		List<String> bundles = new ArrayList<String>();
 		List<EAdCondition> conditions = new ArrayList<EAdCondition>();
 		for (Resources r : resources) {
-			EAdBundleId bundleId;
+			String bundleId;
 			if (i == 0) {
-				bundleId = element.getInitialBundle();
+				bundleId = ResourcedElement.INITIAL_BUNDLE;
 			} else {
-				bundleId = new EAdBundleId("bundle_" + i);
-				element.getResources().addBundle(bundleId);
+				bundleId = "bundle_" + i;
 			}
 			bundles.add(bundleId);
 			EAdCondition c = conditionsImporter.init(r.getConditions());
@@ -260,8 +259,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 				if (asset != null) {
 					String propertyName = resourcesStrings.get(resourceType);
-					element.getResources().addAsset(bundleId, propertyName,
-							asset);
+					element.addAsset(bundleId, propertyName, asset);
 				}
 
 			}
@@ -275,11 +273,11 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	public static void setBundlesEvent(ResourcedEvented element,
-			List<EAdCondition> conditions, List<EAdBundleId> bundles) {
+			List<EAdCondition> conditions, List<String> bundles) {
 		if ((conditions.size() == 1 || EmptyCond.TRUE_EMPTY_CONDITION
 				.equals(conditions.get(0)))
 				&& bundles.size() >= 1) {
-			element.setInitialBundle(bundles.get(0));
+			return;
 		} else {
 			int i = 0;
 			TriggerMacroEf changeBundle = new TriggerMacroEf();

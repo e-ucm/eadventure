@@ -53,7 +53,7 @@ import ead.tools.StringHandler;
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 
 	private TopBasicHUDImpl basicHUD;
-	
+
 	private SceneElementGOFactory sceneElementFactory;
 
 	@Inject

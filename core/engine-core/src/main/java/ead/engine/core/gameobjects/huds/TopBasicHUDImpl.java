@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
@@ -54,7 +53,6 @@ import ead.common.model.predef.events.ChaseMouseEv;
 import ead.common.model.predef.events.StayInBoundsEv;
 import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -103,7 +101,7 @@ public class TopBasicHUDImpl extends AbstractHUD {
 
 	private EAdDrawable cursor;
 
-	private EAdBundleId mouseBundle = new EAdBundleId("mouse2");
+	private String mouseBundle = "mouse2";
 
 	private int i = 0;
 
@@ -190,9 +188,9 @@ public class TopBasicHUDImpl extends AbstractHUD {
 			if (cursor != null) {
 				RuntimeDrawable<EAdDrawable, ?> rAsset = (RuntimeDrawable<EAdDrawable, ?>) assetHandler
 						.getRuntimeAsset(cursor);
-				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition()
-						.getInitialBundle() : mouseBundle;
-				mouse.getDefinition().getResources().addAsset(bundle,
+				String bundle = i++ % 2 == 1 ? SceneElementDef.INITIAL_BUNDLE
+						: mouseBundle;
+				mouse.getDefinition().addAsset(bundle,
 						SceneElementDef.appearance, cursor);
 				float scale = 1.0f;
 				if (rAsset.getWidth() > 0 && rAsset.getHeight() > 0) {
@@ -203,8 +201,7 @@ public class TopBasicHUDImpl extends AbstractHUD {
 
 				}
 				gameState.setValue(mouse, SceneElement.VAR_SCALE, scale);
-				gameState.setValue(mouse, ResourcedElement.VAR_BUNDLE_ID,
-						bundle);
+				gameState.setValue(mouse, SceneElement.VAR_BUNDLE_ID, bundle);
 			}
 
 		}

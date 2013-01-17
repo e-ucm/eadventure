@@ -202,8 +202,7 @@ public class TrajectoryDebugger implements Debugger {
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
 			EAdSceneElementDef def = e.getDefinition();
-			EAdShape s = (EAdShape) def.getAsset(def.getInitialBundle(),
-					SceneElementDef.appearance);
+			EAdShape s = (EAdShape) def.getAsset(SceneElementDef.appearance);
 			EAdShape barrier = (EAdShape) s.clone();
 			barrier.setPaint(ColorFill.YELLOW);
 			barriers.add(barrier);

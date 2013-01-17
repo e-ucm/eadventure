@@ -169,12 +169,12 @@ public class EditorStringHandler implements StringHandler {
 	@Override
 	public void addLanguage(String language) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setLanguage(String language) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -16,8 +16,8 @@ public class ParamReader extends AbstractReader<Object> {
 
 	@Override
 	public Object read(XMLNode node) {
-		Class<?> clazz = getNodeClass( node );
-		return elementsFactory.getParam( node.getNodeText(), clazz );
+		Class<?> clazz = getNodeClass(node);
+		return elementsFactory.getParam(node.getNodeText(), clazz);
 	}
 
 }

@@ -50,7 +50,6 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.BasicMatrix;
 import ead.common.util.EAdMatrix;
@@ -97,8 +96,6 @@ public class ObjectFactory {
 			return Float.parseFloat(value);
 		} else if (fieldType == Character.class || fieldType == char.class) {
 			return new Character(value.charAt(0));
-		} else if (fieldType == EAdBundleId.class) {
-			return new EAdBundleId(value);
 		} else if (fieldType == EAdMatrix.class
 				|| fieldType == BasicMatrix.class) {
 			return BasicMatrix.parse(value);

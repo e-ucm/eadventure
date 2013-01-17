@@ -62,11 +62,11 @@ import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.tools.reflection.ReflectionProvider;
 
@@ -178,7 +178,10 @@ public class BasicSceneGraph implements SceneGraph {
 		lookForConnections(currentScene, element.getBehavior());
 		lookForConnections(currentScene, element.getDefinition().getBehavior());
 
-		addAssets(currentScene, element.getDefinition().getResources());
+		for (EAdMap<String, AssetDescriptor> map : element.getDefinition()
+				.getResources().values()) {
+			addAssets(currentScene, map);
+		}
 
 		// Events
 		lookForConnectionsEvents(currentScene, element.getEvents());
@@ -191,8 +194,9 @@ public class BasicSceneGraph implements SceneGraph {
 		lookForConnectionsActions(currentScene, list);
 	}
 
-	private void addAssets(EAdScene currentScene, EAdResources resources) {
-		sceneAssets.get(currentScene).addAll(resources.getAllAssets());
+	private void addAssets(EAdScene currentScene,
+			EAdMap<String, AssetDescriptor> resources) {
+		sceneAssets.get(currentScene).addAll(resources.values());
 	}
 
 	private void lookForConnectionsActions(EAdScene currentScene,

@@ -24,9 +24,9 @@ public class ElementsFactory {
 			.getLogger("ElementsFactory");
 
 	private Map<String, EAdParam> paramsMap;
-	
+
 	private Map<String, Identified> elementsMap;
-	
+
 	private Map<String, Identified> assetsMap;
 
 	public ElementsFactory() {
@@ -86,7 +86,7 @@ public class ElementsFactory {
 		return p;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	private Object constructSimpleParam(String value, Class<?> clazz) {
 		if (clazz == String.class) {
 			return value;
@@ -154,21 +154,20 @@ public class ElementsFactory {
 		}
 		return null;
 	}
-	
-	public void putAsset( String uniqueId, Identified assetDescriptor ){
+
+	public void putAsset(String uniqueId, Identified assetDescriptor) {
 		assetsMap.put(uniqueId, assetDescriptor);
 	}
-	
-	public void putEAdElement( String uniqueId, Identified eadElement ){
+
+	public void putEAdElement(String uniqueId, Identified eadElement) {
 		elementsMap.put(uniqueId, eadElement);
 	}
-	
-	
-	public Identified getAsset( String uniqueId ){
+
+	public Identified getAsset(String uniqueId) {
 		return assetsMap.get(uniqueId);
 	}
-	
-	public Identified getEAdElement( String uniqueId ){
+
+	public Identified getEAdElement(String uniqueId) {
 		return elementsMap.get(uniqueId);
 	}
 

@@ -50,7 +50,6 @@ import com.google.inject.Injector;
 
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdURI;
@@ -225,8 +224,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 * es.eucm.eadventure.common.resources.EAdBundleId, java.lang.String)
 	 */
 	@Override
-	public RuntimeAsset<?> getRuntimeAsset(Resourced element,
-			EAdBundleId bundleId, String id) {
+	public RuntimeAsset<?> getRuntimeAsset(Resourced element, String bundleId,
+			String id) {
 		AssetDescriptor descriptor = element.getAsset(bundleId, id);
 		if (descriptor == null) {
 			descriptor = element.getAsset(id);

@@ -58,9 +58,8 @@ public class EmptyScene extends BasicScene {
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
 				ColorFill.WHITE, 800, 600));
-		getBackground().getDefinition().getResources().addAsset(
-				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, rectangle);
+		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
+				rectangle);
 	}
 
 	public void setBackgroundFill(EAdFill fill) {

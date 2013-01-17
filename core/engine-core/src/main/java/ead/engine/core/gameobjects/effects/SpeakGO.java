@@ -89,7 +89,6 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
-	
 	public DrawableGO<?> processAction(InputAction<?> action) {
 		if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
@@ -103,9 +102,9 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 					else
 						caption.goForward(1);
 				}
-//			return this;
+			//			return this;
 		}
-//		return super.processAction(action);
+		//		return super.processAction(action);
 		return null;
 	}
 
@@ -174,7 +173,7 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.getSceneElements().add(textSE);
 
-//		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
+		//		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
 		caption.reset();
 
 		complex.setInitialEnable(false);
@@ -190,7 +189,7 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		super.update();
 
 		if (finished) {
-//			alpha -= 0.003f * gui.getSkippedMilliseconds();
+			//			alpha -= 0.003f * gui.getSkippedMilliseconds();
 			if (alpha <= 0.0f) {
 				alpha = 0.0f;
 				gone = true;
@@ -199,14 +198,14 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 			if (alpha >= 1.0f) {
 				finished = finished || caption.getTimesRead() > 0;
 			} else {
-//				alpha += 0.003f * gui.getSkippedMilliseconds();
+				//				alpha += 0.003f * gui.getSkippedMilliseconds();
 				if (alpha > 1.0f) {
 					alpha = 1.0f;
 				}
 			}
 		}
 
-//		transformation.setAlpha(alpha);
+		//		transformation.setAlpha(alpha);
 	}
 
 	public boolean contains(int x, int y) {

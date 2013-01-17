@@ -45,14 +45,9 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.params.text.EAdString;
-import ead.common.resources.annotation.Asset;
-import ead.common.resources.annotation.Bundled;
-import ead.common.resources.assets.multimedia.EAdSound;
 
 public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 
-	@Bundled
-	@Asset( { EAdSound.class })
 	final static String music = "music";
 
 	/**

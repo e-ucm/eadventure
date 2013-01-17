@@ -38,8 +38,7 @@
 package ead.common.interfaces.features;
 
 import ead.common.model.EAdElement;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.EAdResources;
+import ead.common.model.elements.extra.EAdMap;
 import ead.common.resources.assets.AssetDescriptor;
 
 /**
@@ -48,7 +47,7 @@ import ead.common.resources.assets.AssetDescriptor;
  */
 public interface Resourced {
 	/**
-	 * Get the asset for the given id.
+	 * Get the asset for the given id in the initial bundle.
 	 * 
 	 * @param id
 	 *            The id of the asset
@@ -57,34 +56,17 @@ public interface Resourced {
 	AssetDescriptor getAsset(String id);
 
 	/**
-	 * Get the asset for the given id in the given bundle
+	 * Get the asset in the given bundleId for the given id
 	 * 
 	 * @param bundleId
-	 *            the bundle in which look for the asset
 	 * @param id
-	 *            the asset's id
-	 * @return the asset
+	 * @return
 	 */
-	AssetDescriptor getAsset(EAdBundleId bundleId, String id);
+	AssetDescriptor getAsset(String bundleId, String id);
 
-	/**
-	 * Get the bundle {@link EAdBunldeId} initially selected for the element.
-	 * The initial or default bundle of the element is a parameter set during
-	 * edition.
-	 * 
-	 * 
-	 * @return The initial bundle of assets. Initial bundle could be null for
-	 *         elements with no initial bundle.
-	 */
-	EAdBundleId getInitialBundle();
+	void addAsset(String id, AssetDescriptor a);
 
-	/**
-	 * Sets the initial bundle for the element
-	 * 
-	 * @param bundleId
-	 *            the initial bundle
-	 */
-	void setInitialBundle(EAdBundleId bundleId);
+	void addAsset(String bundleId, String id, AssetDescriptor a);
 
 	/**
 	 * Get the resources {@link EAdResources} of this element.
@@ -92,5 +74,5 @@ public interface Resourced {
 	 * @return The resources associated with the element. Resources should never
 	 *         be null.
 	 */
-	EAdResources getResources();
+	EAdMap<String, EAdMap<String, AssetDescriptor>> getResources();
 }

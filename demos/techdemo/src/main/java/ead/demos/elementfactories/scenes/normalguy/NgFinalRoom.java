@@ -162,6 +162,7 @@ public class NgFinalRoom extends EmptyScene {
 
 	/**
 	 * Moves ng to x & y coordinates
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
@@ -175,8 +176,8 @@ public class NgFinalRoom extends EmptyScene {
 
 	private void addSky() {
 		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
-		backgroundDef.getResources().addAsset(backgroundDef.getInitialBundle(),
-				SceneElementDef.appearance, new Image("@drawable/sky.png"));
+		backgroundDef.addAsset(SceneElementDef.appearance, new Image(
+				"@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 
@@ -192,6 +193,7 @@ public class NgFinalRoom extends EmptyScene {
 
 	/**
 	 * Creates and adds the scene's ground
+	 * 
 	 * @param effect
 	 */
 	protected void addGround(PhysicsEffect effect) {

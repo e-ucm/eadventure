@@ -73,8 +73,8 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene 
 
 	private void initButtonActor() {
 		buttonActor = new SceneElementDef();
-		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
-				SceneElementDef.appearance, new Image("@drawable/start.png"));
+		buttonActor.addAsset(SceneElementDef.appearance, new Image(
+				"@drawable/start.png"));
 		EAdString s = stringHandler.generateNewString();
 		buttonActor.setName(s);
 		stringHandler.setString(s, "Start game");
@@ -90,9 +90,8 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene 
 
 	private void initButtonActor2() {
 		buttonActor2 = new SceneElement();
-		buttonActor2.getDefinition().getResources().addAsset(
-				buttonActor2.getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, new Image("@drawable/start.png"));
+		buttonActor2.getDefinition().addAsset(SceneElementDef.appearance,
+				new Image("@drawable/start.png"));
 
 		WaitEf waitEffect = new WaitEf(60 + 1);
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);

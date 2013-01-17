@@ -23,11 +23,11 @@ public abstract class VisualEffectGO<P extends EAdEffect> extends
 	protected abstract EAdComplexSceneElement getVisualRepresentation();
 
 	public void setEffect(P effect) {
-//		super.setEffect(effect);
+		//		super.setEffect(effect);
 		EAdComplexSceneElement e = getVisualRepresentation();
 		if (e != null) {
 			e.setId(e.getId() + "engine");
-//			setElement(e);
+			//			setElement(e);
 		}
 	}
 

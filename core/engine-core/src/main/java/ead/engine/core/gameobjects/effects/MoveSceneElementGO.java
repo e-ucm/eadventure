@@ -83,7 +83,7 @@ public class MoveSceneElementGO extends
 	private static final int PIXELS_PER_SECOND = 250;
 
 	private TrajectoryFactory trajectoryFactory;
-	
+
 	private SceneElementGOFactory sceneElementFactory;
 
 	private boolean finishedSide = false;
@@ -115,7 +115,8 @@ public class MoveSceneElementGO extends
 	private int currentTime;
 
 	@Inject
-	public MoveSceneElementGO(GameState gameState, SceneElementGOFactory sceneElementFactory,
+	public MoveSceneElementGO(GameState gameState,
+			SceneElementGOFactory sceneElementFactory,
 			TrajectoryFactory trajectoryFactory) {
 		super(gameState);
 		this.trajectoryFactory = trajectoryFactory;

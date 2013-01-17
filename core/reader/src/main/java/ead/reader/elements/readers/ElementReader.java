@@ -8,12 +8,12 @@ import ead.tools.xml.XMLNode;
  * @param <T>
  */
 public interface ElementReader<T> {
-	
+
 	/**
 	 * Reads the element contained by the node
 	 * @param node
 	 * @return
 	 */
-	T read( XMLNode node );
+	T read(XMLNode node);
 
 }

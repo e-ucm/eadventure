@@ -46,8 +46,7 @@ public class VideoSceneDemo extends VideoScene {
 	public VideoSceneDemo() {
 		super();
 		EAdVideo video = new Video("@binary/eAdventure.webm");
-		getDefinition().getResources().addAsset(
-				getDefinition().getInitialBundle(), VideoScene.video, video);
+		getDefinition().addAsset(VideoScene.video, video);
 	}
 
 	public String getSceneDescription() {

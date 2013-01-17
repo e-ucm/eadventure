@@ -48,12 +48,10 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
@@ -102,7 +100,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private ArrayList<EventGO<?>> eventGOList;
 
-	protected EAdBundleId currentBundle;
+	protected String currentBundle;
 
 	private List<String> statesList;
 
@@ -193,8 +191,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		// Initial vars
 		// Bundle
-		gameState.setValue(element, ResourcedElement.VAR_BUNDLE_ID, element
-				.getDefinition().getInitialBundle());
+		gameState.setValue(element, SceneElement.VAR_BUNDLE_ID,
+				SceneElementDef.INITIAL_BUNDLE);
 
 		// Scene element events
 		if (element.getEvents() != null) {
@@ -253,8 +251,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private void updateBundle() {
 		// Bundle and mouse over update
-		EAdBundleId newBundle = gameState.getValue(element,
-				ResourcedElement.VAR_BUNDLE_ID);
+		String newBundle = gameState.getValue(element,
+				SceneElement.VAR_BUNDLE_ID);
 
 		boolean newMouseOver = gameState.getValue(element,
 				SceneElement.VAR_MOUSE_OVER);
@@ -263,11 +261,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				|| newMouseOver != mouseOver) {
 			currentBundle = newBundle;
 			mouseOver = newMouseOver;
-			AssetDescriptor a = element.getDefinition().getResources()
-					.getAsset(
-							currentBundle,
-							mouseOver ? SceneElementDef.overAppearance
-									: SceneElementDef.appearance);
+			AssetDescriptor a = element.getDefinition().getAsset(
+					currentBundle,
+					mouseOver ? SceneElementDef.overAppearance
+							: SceneElementDef.appearance);
 			if (a == null) {
 				a = element.getDefinition().getAppearance(currentBundle);
 			}
@@ -412,17 +409,19 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
-		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
+		List<String> bundles = new ArrayList<String>();
 		if (allAssets)
-			bundles.addAll(getElement().getDefinition().getResources()
-					.getBundles());
+			bundles
+					.addAll(getElement().getDefinition().getResources()
+							.keySet());
 		else
-			bundles.add(gameState.getValue(element,
-					ResourcedElement.VAR_BUNDLE_ID));
+			bundles
+					.add(gameState
+							.getValue(element, SceneElement.VAR_BUNDLE_ID));
 
-		for (EAdBundleId bundle : bundles) {
-			AssetDescriptor a = getElement().getDefinition().getResources()
-					.getAsset(bundle, SceneElementDef.appearance);
+		for (String bundle : bundles) {
+			AssetDescriptor a = getElement().getDefinition().getAsset(bundle,
+					SceneElementDef.appearance);
 			assetList.add(a);
 		}
 

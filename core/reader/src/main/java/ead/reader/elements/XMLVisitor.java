@@ -84,12 +84,12 @@ public class XMLVisitor {
 		} else if (node.getNodeName().equals(DOMTags.MAP_TAG)) {
 			result = mapReader.read(node);
 		} else {
-			logger.warn(" could not read node {} with name {}",
-					node.getNodeName());
+			logger.warn(" could not read node {} with name {}", node
+					.getNodeName());
 			listener.loaded(null);
 		}
-		
-		if ( result == null ){
+
+		if (result == null) {
 			stepsQueue.add(step);
 		}
 		System.out.println(stepsQueue.size());

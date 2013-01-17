@@ -80,14 +80,13 @@ public class BVSScene extends EmptyScene {
 			"@drawable/tos incorrecta 3_02.jpg" };
 
 	public BVSScene() {
-		//NgCommon.init();
+		// NgCommon.init();
 		EAdSceneElementDef background = getBackground().getDefinition();
 
 		Image drawable = new Image("@drawable/backgroundSVB.jpg");
-		background.getResources().addAsset(background.getInitialBundle(),
-				SceneElementDef.appearance, drawable);
+		background.addAsset(SceneElementDef.appearance, drawable);
 
-		//250 x 200
+		// 250 x 200
 
 		SceneElement b = getButton(optionUris);
 		b.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 75, 575));
@@ -110,8 +109,7 @@ public class BVSScene extends EmptyScene {
 		caption.setFont(new BasicFont(45.0f));
 		caption.setTextPaint(new Paint(ColorFill.GREEN, ColorFill.WHITE));
 		EAdSceneElementDef title = new SceneElementDef();
-		title.getResources().addAsset(title.getInitialBundle(),
-				SceneElementDef.appearance, caption);
+		title.addAsset(SceneElementDef.appearance, caption);
 		SceneElement titleRef = new SceneElement(title);
 		titleRef.setPosition(20, 20);
 		getSceneElements().add(titleRef);
@@ -131,8 +129,7 @@ public class BVSScene extends EmptyScene {
 
 	private SceneElement getButton(String[] frames) {
 		EAdSceneElementDef button = new SceneElementDef();
-		button.getResources().addAsset(button.getInitialBundle(),
-				SceneElementDef.appearance, getAnimation(frames));
+		button.addAsset(SceneElementDef.appearance, getAnimation(frames));
 		SceneElement buttonRef = new SceneElement(button);
 		buttonRef.setPosition(20, 20);
 

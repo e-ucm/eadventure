@@ -75,10 +75,8 @@ public class Button extends ComplexSceneElement {
 		buttonBgOver.setPaint(new Paint(new LinearGradientFill(lightGray,
 				ColorFill.WHITE, 0, 20), ColorFill.BLACK));
 
-		definition.getResources().addAsset(definition.getInitialBundle(),
-				SceneElementDef.appearance, buttonBgNormal);
-		definition.getResources().addAsset(definition.getInitialBundle(),
-				SceneElementDef.overAppearance, buttonBgOver);
+		definition.addAsset(SceneElementDef.appearance, buttonBgNormal);
+		definition.addAsset(SceneElementDef.overAppearance, buttonBgOver);
 
 		setPosition(Corner.CENTER, 0, 0);
 	}

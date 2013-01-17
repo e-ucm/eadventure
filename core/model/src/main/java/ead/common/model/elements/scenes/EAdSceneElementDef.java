@@ -42,7 +42,6 @@ import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.EAdElement;
 import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
 /**
@@ -51,16 +50,6 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  */
 public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 		WithBehavior, Variabled {
-
-	/**
-	 * Sets the appearance in the given bundle
-	 *
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
 
 	/**
 	 * Sets the initial appearance for the scene element
@@ -77,13 +66,7 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	 */
 	EAdDrawable getAppearance();
 
-	/**
-	 * Returns the appearance for the given bundle
-	 *
-	 * @param bundle
-	 * @return
-	 */
-	EAdDrawable getAppearance(EAdBundleId bundle);
+	EAdDrawable getAppearance(String bundleId);
 
 	void setName(EAdString name);
 
