@@ -84,7 +84,6 @@ public class CircleShape extends AbstractShape {
 		if (!super.equals(obj)) {
 			return false;
 		}
-		final CircleShape other = (CircleShape) obj;
 		return true;
 	}
 }

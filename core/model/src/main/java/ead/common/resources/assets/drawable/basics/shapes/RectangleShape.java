@@ -104,7 +104,6 @@ public class RectangleShape extends AbstractShape {
 		if (!super.equals(obj)) {
 			return false;
 		}
-		final RectangleShape other = (RectangleShape) obj;
 		return true;
 	}
 }
