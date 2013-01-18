@@ -38,8 +38,7 @@
 package ead.engine.core.input;
 
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -108,7 +107,7 @@ public interface InputHandler {
 	 * 
 	 * @return the element under the pointer
 	 */
-	DrawableGO<?> getGameObjectUnderPointer();
+	SceneElementGO<?> getGameObjectUnderPointer();
 
 	SceneElementGO<?> getDraggingGameObject();
 

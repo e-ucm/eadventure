@@ -61,6 +61,7 @@ import ead.common.model.elements.variables.VarDef;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import ead.engine.core.platform.GUI;
 
 public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
@@ -74,6 +75,8 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	private int positionIterations;
 
+	private GUI gui;
+
 	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDef<Body>(
 			"ph_body", Body.class, null);
 
@@ -81,8 +84,9 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 			"ph_world", World.class, null);
 
 	@Inject
-	public GdxPhysicsEffectGO(GameState gameState) {
+	public GdxPhysicsEffectGO(GameState gameState, GUI gui) {
 		super(gameState);
+		this.gui = gui;
 	}
 
 	@Override
@@ -130,7 +134,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 				.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		world.step(timeStep, velocityIterations, positionIterations);
 
-		EAdScene scene = gameState.getScene().getElement();
+		EAdScene scene = (EAdScene) gui.getScene().getElement();
 
 		if (scene != null) {
 			for (EAdSceneElement e : scene.getSceneElements()) {

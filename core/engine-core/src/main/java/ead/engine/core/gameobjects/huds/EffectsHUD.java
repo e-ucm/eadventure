@@ -43,16 +43,13 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 
 /**
  * <p>
@@ -63,54 +60,28 @@ import ead.engine.core.util.EAdTransformation;
 @Singleton
 public class EffectsHUD extends AbstractHUD {
 
+	public static final String ID = "EffectsHUD";
+
 	/**
 	 * List of current {@link EffectGO}
 	 */
 	private List<EffectGO<?>> effects;
 
-	// Auxiliary variable, to avoid new every time
+	// Auxiliary variable, to avoid new every loop
 	private ArrayList<EffectGO<?>> finishedEffects;
 
 	@Inject
 	public EffectsHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 10);
+		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, 10);
 	}
 
 	@Override
 	public void init() {
 		finishedEffects = new ArrayList<EffectGO<?>>();
-		this.setElement(new ComplexSceneElement());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
-	 */
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-		int i = 0;
-		boolean block = false;
-		while (i < effects.size() && !block) {
-			EffectGO<?> e = effects.get(i);
-			//			if (e.isVisualEffect()) {
-			//				gui.addElement(e, transformation);
-			//			}
-			block = e.isBlocking();
-			i++;
-		}
-	}
-
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		int i = 0;
-		DrawableGO<?> go = null;
-		while (!action.isConsumed() && i < gameState.getEffects().size()) {
-			//			go = gameState.getEffects().get(i).processAction(action);
-			i++;
-		}
-		return go;
+		this.setElement(new GroupElement());
 	}
 
 	public void update() {
@@ -145,26 +116,8 @@ public class EffectsHUD extends AbstractHUD {
 				// logger.info("Finished or discarded effect {}", e.getClass());
 				gameState.getEffects().remove(e);
 			}
-
-			boolean visualEffect = false;
-			int index = 0;
-			while (!visualEffect && index < gameState.getEffects().size()) {
-				//				visualEffect = gameState.getEffects().get(index++)
-				//						.isVisualEffect();
-			}
-			setVisible(visualEffect);
 			super.update();
 		}
-	}
-
-	public boolean contains(int x, int y) {
-		boolean contains = false;
-		int i = 0;
-		while (!contains && i < gameState.getEffects().size()) {
-			//			contains = gameState.getEffects().get(i).contains(x, y);
-			i++;
-		}
-		return contains;
 	}
 
 }

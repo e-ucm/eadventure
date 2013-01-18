@@ -46,8 +46,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.gameobjects.go.SceneGO;
+import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.operators.Operator;
 
@@ -145,34 +144,6 @@ public interface GameState extends ValueMap {
 	 *            sets if persistent effects should also be deleted
 	 */
 	void clearEffects(boolean persistent);
-
-	/**
-	 * <p>
-	 * Sets the current {@link SceneGO} of the game.
-	 * </p>
-	 * <p>
-	 * Implementation should check if the scene is stackable (not all scenes
-	 * are, such as video scenes, cutscenes, loading screens) and stack it if
-	 * necessary.
-	 * </p>
-	 * 
-	 * @param screen
-	 *            the current {@link SceneGO}.
-	 */
-	void setScene(SceneGO<?> scene);
-
-	/**
-	 * Returns the current game screen object. The {@link SceneGO} element is
-	 * the root of all what is drawn to the screen.
-	 * 
-	 * @return a {@link SceneGO} object
-	 */
-	SceneGO<?> getScene();
-
-	/**
-	 * @return the {@link EAdScene} previously visible in the game
-	 */
-	EAdScene getPreviousScene();
 
 	/**
 	 * @return true if the game loop is paused

@@ -35,41 +35,33 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.effects;
+package ead.engine.core.gameobjects;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdComplexSceneElement;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+/**
+ * A game object
+ * 
+ * @param <T>
+ *            The type of element represented by the game object
+ */
+public interface GameObject<T> {
 
-public abstract class VisualEffectGO<P extends EAdEffect> extends
-		AbstractEffectGO<P> {
+	/**
+	 * Set the element of the game object
+	 * 
+	 * @param element
+	 */
+	void setElement(T element);
 
-	public VisualEffectGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(gameState);
-	}
+	/**
+	 * Returns the represented element by this game object
+	 * 
+	 * @return the represented element by this game object
+	 */
+	T getElement();
 
-	protected SceneElementGO<?> visualRepresentation;
-
-	protected abstract EAdComplexSceneElement getVisualRepresentation();
-
-	public void setEffect(P effect) {
-		//		super.setEffect(effect);
-		EAdComplexSceneElement e = getVisualRepresentation();
-		if (e != null) {
-			e.setId(e.getId() + "engine");
-			//			setElement(e);
-		}
-	}
-
-	public boolean isVisualEffect() {
-		return true;
-	}
+	/**
+	 * Updates game object
+	 */
+	void update();
 
 }

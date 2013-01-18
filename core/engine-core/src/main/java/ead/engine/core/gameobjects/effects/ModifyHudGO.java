@@ -44,8 +44,8 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.StringHandler;
@@ -69,10 +69,10 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 		super.initialize();
 		SceneElementGO<?> drawable = this.sceneElementFactory.get(sceneElement);
 		if (effect.getAdd()) {
-			if (!basicHUD.getContainedDrawables().contains(drawable))
-				basicHUD.getContainedDrawables().add(drawable);
+			if (!basicHUD.getChildren().contains(drawable))
+				basicHUD.getChildren().add(drawable);
 		} else {
-			basicHUD.getContainedDrawables().remove(drawable);
+			basicHUD.getChildren().remove(drawable);
 		}
 	}
 }

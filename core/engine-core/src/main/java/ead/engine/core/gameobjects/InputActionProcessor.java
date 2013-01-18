@@ -35,17 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
+package ead.engine.core.gameobjects;
 
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.engine.core.gameobjects.factories.GameObjectFactory;
-import ead.engine.core.gameobjects.go.transitions.TransitionGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.input.InputAction;
 
-/**
- * Factory to provide the actual TransitionGO (which are platform dependent),
- * configured according to the {@link EAdTransition} and the capabilities of the
- * platform.
- */
-public interface TransitionFactory extends
-		GameObjectFactory<EAdTransition, TransitionGO<? extends EAdTransition>> {
+public interface InputActionProcessor {
+
+	/**
+	 * Process the action in the graphic interface (click, etc.)
+	 * 
+	 * @param action
+	 *            the action to process
+	 * @return the object that processed the action. {@code null} if no one
+	 *         processed it
+	 */
+	SceneElementGO<?> processAction(InputAction<?> action);
+
 }

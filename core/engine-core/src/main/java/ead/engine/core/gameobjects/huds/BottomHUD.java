@@ -43,7 +43,7 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -56,15 +56,18 @@ import ead.engine.core.platform.assets.AssetHandler;
  */
 public class BottomHUD extends AbstractHUD {
 
+	public static final String ID = "BottomHUD";
+
 	@Inject
 	public BottomHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 0);
+		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, 0);
 	}
 
 	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
+	public SceneElementGO<?> processAction(InputAction<?> action) {
 		if (gameState.getValue(SystemFields.BASIC_HUD_OPAQUE)) {
 			action.consume();
 			return this;

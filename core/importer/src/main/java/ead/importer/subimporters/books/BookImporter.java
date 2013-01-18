@@ -71,7 +71,7 @@ import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
@@ -226,9 +226,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		return book;
 	}
 
-	private void addArrowsParagraphs(ComplexSceneElement book,
-			SceneElement content, Book oldObject, EAdField<Integer> xField,
-			EAdEffect showInventory) {
+	private void addArrowsParagraphs(GroupElement book, SceneElement content,
+			Book oldObject, EAdField<Integer> xField, EAdEffect showInventory) {
 		content.setPosition(Corner.TOP_LEFT, 0, 0);
 
 		SceneElementEv event = new SceneElementEv();

@@ -35,70 +35,56 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements;
 
-import java.util.List;
+import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.ComposedScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.elements.scenes.EAdGhostElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.params.fills.Paint;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 
-public class ComposedSceneGOImpl extends
-		ComplexSceneElementGOImpl<ComposedScene> implements
-		ComplexSceneElementGO<ComposedScene> {
+public class GhostElementGO extends SceneElementGOImpl {
 
-	private EAdScene currentScene;
+	private RuntimeDrawable<?, ?> interactionArea;
 
-	public ComposedSceneGOImpl(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
+	private EAdGhostElement ghostElement;
+
+	@Inject
+	public GhostElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-	}
-
-	public void doLayout(EAdTransformation transformation) {
-		if (currentScene == null)
-			updateScene();
-		sceneElementFactory.get(currentScene).doLayout(transformation);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
 	@Override
-	public void update() {
-		updateScene();
-		sceneElementFactory.get(currentScene).update();
-	}
+	public void setElement(EAdSceneElement element) {
+		super.setElement(element);
+		this.ghostElement = (EAdGhostElement) element;
+		EAdDrawable interactionAreaDrawable = ghostElement.getInteractionArea();
 
-	@Override
-	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets) {
-		if (currentScene == null)
-			updateScene();
-		if (!allAssets) {
-			assetList = sceneElementFactory.get(currentScene).getAssets(
-					assetList, allAssets);
-		} else {
-			for (EAdScene scene : element.getScenes())
-				assetList = sceneElementFactory.get(scene).getAssets(assetList,
-						allAssets);
+		if (interactionAreaDrawable != null) {
+			interactionArea = assetHandler
+					.getDrawableAsset(interactionAreaDrawable);
+			RectangleShape area = new RectangleShape(
+					interactionArea.getWidth(), interactionArea.getHeight(),
+					Paint.TRANSPARENT);
+			ghostElement.getDefinition().setAppearance(area);
 		}
-		return assetList;
-	}
-
-	private void updateScene() {
-		int currentSceneIndex = gameState.getValue(element,
-				ComposedScene.VAR_CURRENT_SCENE);
-		if (currentSceneIndex < element.getScenes().size())
-			currentScene = element.getScenes().get(currentSceneIndex);
 	}
 
 	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		return null;
+	public boolean contains(int x, int y) {
+		return ghostElement.isCatchAll()
+				|| (interactionArea != null && isVisible() && interactionArea
+						.contains(x, y));
 	}
+
 }

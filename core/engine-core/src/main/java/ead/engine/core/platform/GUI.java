@@ -39,12 +39,15 @@ package ead.engine.core.platform;
 
 import java.util.List;
 
+import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.input.InputHandler;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -59,7 +62,8 @@ public interface GUI {
 	 * @param the
 	 *            game
 	 */
-	void initialize(Game game, GameState gameState);
+	void initialize(Game game, GameState gameState,
+			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler);
 
 	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is
@@ -83,17 +87,6 @@ public interface GUI {
 	int getTicksPerSecond();
 
 	/**
-	 * Add an element to the scene. The order of the elements is used during
-	 * painting.
-	 * 
-	 * @param go
-	 *            the game object
-	 * @param parentTransformation
-	 *            parent transformation
-	 */
-	void addElement(DrawableGO<?> go, EAdTransformation parentTransformation);
-
-	/**
 	 * Adds a hud to the GUI
 	 * 
 	 * 
@@ -114,7 +107,7 @@ public interface GUI {
 	 * 
 	 * @return
 	 */
-	List<HudGO> getHUDs();
+	List<SceneElementGO<?>> getHUDs();
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
@@ -160,7 +153,7 @@ public interface GUI {
 	 *            the action
 	 * @return the game object that consumed the action
 	 */
-	DrawableGO<?> processAction(InputAction<?> action);
+	SceneElementGO<?> processAction(InputAction<?> action);
 
 	/**
 	 * Returns the first object that contains the given coordinates
@@ -170,5 +163,45 @@ public interface GUI {
 	 * @return
 	 */
 	SceneElementGO<?> getGameObjectIn(int x, int y);
+
+	/**
+	 * Returns the hud with the given id
+	 * @param id the hud id
+	 * @return
+	 */
+	SceneElementGO<?> getHUD(String id);
+
+	/**
+	 * <p>
+	 * Sets the current {@link SceneGO} of the game.
+	 * </p>
+	 * <p>
+	 * Implementation should check if the scene is stackable (not all scenes
+	 * are, such as video scenes, cutscenes, loading screens) and stack it if
+	 * necessary.
+	 * </p>
+	 * 
+	 * @param screen
+	 *            the current {@link SceneGO}.
+	 */
+	void setScene(SceneGO scene);
+
+	/**
+	 * Returns the current game screen object. The {@link SceneGO} element is
+	 * the root of all what is drawn to the screen.
+	 * 
+	 * @return a {@link SceneGO} object
+	 */
+	SceneGO getScene();
+
+	/**
+	 * @return the {@link EAdScene} previously visible in the game
+	 */
+	EAdScene getPreviousScene();
+
+	/**
+	 * Updates one tick the gui
+	 */
+	void update();
 
 }

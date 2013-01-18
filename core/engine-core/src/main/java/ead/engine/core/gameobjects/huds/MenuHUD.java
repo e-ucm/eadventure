@@ -85,8 +85,8 @@ public class MenuHUD extends AbstractHUD implements
 	public MenuHUD(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				100);
+		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, 100);
 	}
 
 	public void init() {

@@ -42,26 +42,35 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
-import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.EAdComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.scenes.EAdGroupElement;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.util.EAdPosition;
-import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.huds.EffectsHUD;
+import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 
-public class SpeakGO extends VisualEffectGO<SpeakEf> {
+public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
+		InputActionProcessor {
+
+	private GUI gui;
+
+	private SceneElementGOFactory sceneElementFactory;
+
+	private AssetHandler assetHandler;
 
 	private static final int MARGIN_PROPORTION = 35;
 
@@ -81,15 +90,21 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 
 	private String previousState;
 
+	private SceneElementGO<?> bubbleDialog;
+
+	private HudGO effectsHud;
+
 	@Inject
-	public SpeakGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, Game gameController,
-			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+	public SpeakGO(GameState gameState, GUI gui,
+			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
+		super(gameState);
+		this.gui = gui;
+		this.sceneElementFactory = sceneElementFactory;
+		this.assetHandler = assetHandler;
 	}
 
-	public DrawableGO<?> processAction(InputAction<?> action) {
+	@Override
+	public SceneElementGO<?> processAction(InputAction<?> action) {
 		if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			action.consume();
@@ -102,9 +117,8 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 					else
 						caption.goForward(1);
 				}
-			//			return this;
+			return bubbleDialog;
 		}
-		//		return super.processAction(action);
 		return null;
 	}
 
@@ -119,9 +133,13 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		finished = false;
 		alpha = 0.0f;
 		gone = false;
+		effectsHud = (HudGO) gui.getHUD(EffectsHUD.ID);
+		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
+		bubbleDialog.setInputProcessor(this);
+		effectsHud.addSceneElement(bubbleDialog);
 	}
 
-	protected EAdComplexSceneElement getVisualRepresentation() {
+	protected EAdGroupElement getVisualRepresentation() {
 		int width = gameState.getValue(SystemFields.GAME_WIDTH);
 		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
@@ -134,13 +152,12 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		EAdShape rectangle = null;
 
 		if (effect.getX() != null && effect.getY() != null) {
-			EAdPosition p = gameState.getScene().getPosition();
 
 			Integer xOrigin = gameState.operate(Integer.class, effect.getX());
 			Integer yOrigin = gameState.operate(Integer.class, effect.getY());
 
-			xOrigin += p.getX();
-			yOrigin += p.getY();
+			xOrigin += effectsHud.getX();
+			yOrigin += effectsHud.getY();
 
 			if (yOrigin < height / 2) {
 				bottom = height - verticalMargin;
@@ -170,10 +187,14 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		textSE.setPosition(new EAdPosition(left, top));
 		textSE.setInitialEnable(false);
 
-		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
+		GroupElement complex = new GroupElement(rectangle);
+		// To capture clicks all over the screen
+		GhostElement bg = new GhostElement();
+		bg.setCatchAll(true);
+		complex.getSceneElements().add(bg);
 		complex.getSceneElements().add(textSE);
 
-		//		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
+		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
 		caption.reset();
 
 		complex.setInitialEnable(false);
@@ -189,7 +210,7 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		super.update();
 
 		if (finished) {
-			//			alpha -= 0.003f * gui.getSkippedMilliseconds();
+			alpha -= 0.003f * gui.getSkippedMilliseconds();
 			if (alpha <= 0.0f) {
 				alpha = 0.0f;
 				gone = true;
@@ -198,18 +219,14 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 			if (alpha >= 1.0f) {
 				finished = finished || caption.getTimesRead() > 0;
 			} else {
-				//				alpha += 0.003f * gui.getSkippedMilliseconds();
+				alpha += 0.003f * gui.getSkippedMilliseconds();
 				if (alpha > 1.0f) {
 					alpha = 1.0f;
 				}
 			}
 		}
 
-		//		transformation.setAlpha(alpha);
-	}
-
-	public boolean contains(int x, int y) {
-		return true;
+		bubbleDialog.setAlpha(alpha);
 	}
 
 	@Override
@@ -217,6 +234,7 @@ public class SpeakGO extends VisualEffectGO<SpeakEf> {
 		if (effect.getStateField() != null) {
 			gameState.setValue(effect.getStateField(), previousState);
 		}
+		effectsHud.removeSceneElement(bubbleDialog);
 		super.finish();
 	}
 

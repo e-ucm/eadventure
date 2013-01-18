@@ -44,7 +44,7 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
@@ -61,7 +61,7 @@ public class ComplexElementScene extends EmptyScene {
 	public ComplexElementScene() {
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaint(Paint.BLACK_ON_WHITE);
-		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
+		GroupElement complex = new GroupElement(rectangle);
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 

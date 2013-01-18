@@ -35,28 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.common.model.elements.scenes;
 
-import com.google.inject.Inject;
+import ead.common.model.elements.extra.EAdList;
 
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+/**
+ * Represents an element composed by other elements
+ * 
+ * 
+ * 
+ */
+public interface EAdGroupElement extends EAdSceneElement {
 
-public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
-
-	@Inject
-	public BasicTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
-	}
+	/**
+	 * @return the {@link EAdSceneElement}s that make up the scene
+	 */
+	EAdList<EAdSceneElement> getSceneElements();
 
 }

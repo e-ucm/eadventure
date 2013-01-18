@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.factories;
 
 import ead.common.model.EAdElement;
-import ead.engine.core.gameobjects.go.GameObject;
+import ead.engine.core.gameobjects.GameObject;
 
 /**
  * <p>

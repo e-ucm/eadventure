@@ -38,21 +38,25 @@
 package ead.engine.core.factorymapproviders;
 
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.ComposedScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.VideoScene;
+import ead.common.model.elements.transitions.DisplaceTransition;
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.widgets.TextArea;
-import ead.engine.core.gameobjects.go.BasicComplexSceneElementGO;
-import ead.engine.core.gameobjects.go.BasicSceneElementGO;
-import ead.engine.core.gameobjects.go.ComposedSceneGOImpl;
-import ead.engine.core.gameobjects.go.GhostElementGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.go.SceneGOImpl;
-import ead.engine.core.gameobjects.go.VideoSceneGO;
+import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
+import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
+import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.platform.LoadingScreen;
 
@@ -61,16 +65,18 @@ public class ElementGameObjectFactoryConfigurator
 		AbstractMapProvider<Class<? extends EAdSceneElement>, Class<? extends SceneElementGO<? extends EAdSceneElement>>> {
 
 	public ElementGameObjectFactoryConfigurator() {
-		factoryMap.put(SceneElement.class, BasicSceneElementGO.class);
+		factoryMap.put(SceneElement.class, SceneElementGOImpl.class);
 		factoryMap.put(GhostElement.class, GhostElementGO.class);
-		factoryMap.put(ComplexSceneElement.class,
-				BasicComplexSceneElementGO.class);
-		factoryMap.put(EAdScene.class, SceneGOImpl.class);
-		factoryMap.put(BasicScene.class, SceneGOImpl.class);
-		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
-		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
+		factoryMap.put(GroupElement.class, GroupElementGO.class);
+		factoryMap.put(EAdScene.class, SceneGO.class);
+		factoryMap.put(BasicScene.class, SceneGO.class);
+		factoryMap.put(LoadingScreen.class, SceneGO.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(TextArea.class, TextAreaGO.class);
+		// Transitions
+		factoryMap.put(EmptyTransition.class, BasicTransitionGO.class);
+		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
+		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
 
 	}
 }

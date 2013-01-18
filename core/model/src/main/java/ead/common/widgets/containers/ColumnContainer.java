@@ -41,13 +41,13 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.util.EAdPosition.Corner;
 
-public class ColumnContainer extends ComplexSceneElement {
+public class ColumnContainer extends GroupElement {
 
 	private EAdSceneElement lastAdded;
 

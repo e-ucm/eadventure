@@ -44,8 +44,9 @@ import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
+import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.AbstractGUI;
 
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
@@ -53,9 +54,8 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	protected GdxEngine engine;
 
 	@Inject
-	public GdxGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
-			GdxEngine engine) {
-		super(gameObjectManager, canvas);
+	public GdxGUI(GdxCanvas canvas, GdxEngine engine) {
+		super(canvas);
 		this.engine = engine;
 	}
 
@@ -76,8 +76,9 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	}
 
 	@Override
-	public void initialize(Game g, GameState gameState) {
-		super.initialize(g, gameState);
+	public void initialize(Game game, GameState gameState,
+			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
+		super.initialize(game, gameState, sceneElementFactory, inputHandler);
 		engine.setGame(game);
 	}
 

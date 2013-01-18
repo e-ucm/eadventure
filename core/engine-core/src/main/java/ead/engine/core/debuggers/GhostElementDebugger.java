@@ -50,7 +50,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 public class GhostElementDebugger implements Debugger {
 
@@ -58,7 +58,7 @@ public class GhostElementDebugger implements Debugger {
 
 	private EAdScene currentScene;
 
-	private List<DrawableGO<?>> drawables;
+	private List<SceneElementGO<?>> drawables;
 
 	private SceneElementGOFactory factory;
 
@@ -67,12 +67,13 @@ public class GhostElementDebugger implements Debugger {
 			SceneElementGOFactory factory) {
 		this.gameState = gameState;
 		this.factory = factory;
-		drawables = new ArrayList<DrawableGO<?>>();
+		drawables = new ArrayList<SceneElementGO<?>>();
 	}
 
 	@Override
-	public List<DrawableGO<?>> getGameObjects() {
-		EAdScene newScene = gameState.getScene().getElement();
+	public List<SceneElementGO<?>> getGameObjects() {
+		//		EAdScene newScene = gameState.getScene().getElement();
+		EAdScene newScene = null;
 		if (currentScene != newScene) {
 			currentScene = newScene;
 			drawables.clear();
@@ -81,7 +82,7 @@ public class GhostElementDebugger implements Debugger {
 					SceneElement area = new SceneElement(((EAdGhostElement) e)
 							.getInteractionArea());
 					area.setInitialEnable(false);
-					DrawableGO<?> go = factory.get(e);
+					SceneElementGO<?> go = factory.get(e);
 					area.setPosition(new EAdPosition(go.getPosition()));
 					drawables.add(factory.get(area));
 				}

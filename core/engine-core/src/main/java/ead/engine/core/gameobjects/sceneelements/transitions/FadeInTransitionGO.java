@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.engine.core.gameobjects.sceneelements.transitions;
 
 import com.google.inject.Inject;
 
@@ -44,11 +44,10 @@ import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 
 public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
 
@@ -81,23 +80,14 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
 				sceneAlpha = 0.0f;
 			}
 
-			if (currentTime - startTime >= element.getTime()) {
+			if (currentTime - startTime >= transition.getTime()) {
 				finished = true;
 			} else {
 				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
-						- startTime, element.getTime(), 1.0f));
+						- startTime, transition.getTime(), 1.0f));
 			}
 		}
-	}
-
-	public void doLayout(EAdTransformation t) {
-		if (this.isLoadedNextScene()) {
-			gui.addElement(previousScene, t);
-			transformation.setAlpha(sceneAlpha);
-			gui.addElement(nextSceneGO, transformation);
-		} else {
-			super.doLayout(t);
-		}
+		transformation.setAlpha(sceneAlpha);
 	}
 
 	public boolean isFinished() {

@@ -60,4 +60,17 @@ public interface EAdGhostElement extends EAdSceneElement {
 	 */
 	void setInteractionArea(EAdDrawable drawable);
 
+	/**
+	 * 
+	 * @return if captures all input event, ignoring the interaction area
+	 */
+	boolean isCatchAll();
+
+	/**
+	 * 
+	 * @param catchAll
+	 *            if captures all input event, ignoring the interaction area
+	 */
+	void setCatchAll(boolean catchAll);
+
 }

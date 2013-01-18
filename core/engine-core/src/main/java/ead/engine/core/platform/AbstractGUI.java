@@ -38,27 +38,36 @@
 package ead.engine.core.platform;
 
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.factories.GameObjectFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.util.EAdTransformationImpl;
 
 /**
  * <p>
@@ -77,11 +86,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
 
-	/**
-	 * Game object manager
-	 */
-	protected GameObjectManager gameObjects;
-
 	@SuppressWarnings("rawtypes")
 	protected GenericCanvas eAdCanvas;
 
@@ -89,86 +93,110 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameState gameState;
 
-	public AbstractGUI(GameObjectManager gameObjectManager,
-			GenericCanvas<T> canvas) {
-		this.gameObjects = gameObjectManager;
-		this.eAdCanvas = canvas;
+	protected SceneElementGO<?> root;
+
+	protected SceneElementGO<?> hudRoot;
+
+	protected SceneElementGO<?> sceneRoot;
+
+	/**
+	 * Stack with all visited scenes
+	 */
+	private Stack<EAdScene> previousSceneStack;
+
+	/**
+	 * Current scene
+	 */
+	private SceneGO scene;
+
+	private EAdScene loadingScreen;
+
+	private EAdTransformation initialTransformation;
+
+	private GameObjectFactory<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>> sceneElementFactory;
+
+	public AbstractGUI(GenericCanvas<T> canvas) {
 		logger.info("Created abstract GUI");
+		this.eAdCanvas = canvas;
+		previousSceneStack = new Stack<EAdScene>();
 	}
 
-	public void initialize(Game game, GameState gameState) {
+	public void initialize(Game game, GameState gameState,
+			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
+		this.loadingScreen = new LoadingScreen();
 		this.game = game;
 		this.gameState = gameState;
+		this.sceneElementFactory = sceneElementFactory;
+
 		eAdCanvas.setWidth(gameState.getValue(SystemFields.GAME_WIDTH));
 		eAdCanvas.setHeight(gameState.getValue(SystemFields.GAME_HEIGHT));
+		root = sceneElementFactory.get(new GroupElement());
+		hudRoot = sceneElementFactory.get(new GroupElement());
+		sceneRoot = sceneElementFactory.get(new GroupElement());
+
+		root.addSceneElement(hudRoot);
+		root.addSceneElement(sceneRoot);
+		updateInitialTransformation();
+		inputHandler.setInitialTransformation(initialTransformation);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GUI#addElement(es.eucm.eadventure
-	 * .engine.core.gameobjects.GameObject)
-	 * 
-	 * The element should not be offset as it is being dragged in the scene
-	 */
 	@Override
-	public void addElement(DrawableGO<?> element,
-			EAdTransformation parentTransformation) {
-		EAdTransformation t = element.getTransformation();
-
-		if (t != null) {
-
-			if (!t.isValidated() || !parentTransformation.isValidated()) {
-				element.resetTransfromation();
-				addTransformation(t, parentTransformation);
-			}
-			if (t.isVisible()) {
-				gameObjects.add(element, t);
-				element.doLayout(t);
-			}
-		}
+	public EAdScene getPreviousScene() {
+		return previousSceneStack.pop();
 	}
 
 	@Override
 	public void addHud(HudGO hud) {
-		gameObjects.addHUD(hud);
-
+		hudRoot.addSceneElement(hud);
 	}
 
 	@Override
 	public void removeHUD(HudGO hud) {
-		gameObjects.removeHud(hud);
-
+		hudRoot.removeSceneElement(hud);
 	}
 
 	@Override
-	public List<HudGO> getHUDs() {
-		return gameObjects.getHUDs();
+	public List<SceneElementGO<?>> getHUDs() {
+		return hudRoot.getChildren();
+	}
+
+	public SceneElementGO<?> getHUD(String id) {
+		for (SceneElementGO<?> hud : hudRoot.getChildren()) {
+			if (hud.getElement().getId().equals(id)) {
+				return hud;
+			}
+		}
+		logger.warn("Hud with id {} is not present", id);
+		return null;
 	}
 
 	/**
 	 * Render the game objects into the graphic context
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	public void commit() {
-		for (DrawableGO<?> go : gameObjects.getGameObjects()) {
-			if (go != null) {
-				EAdTransformation t = go.getTransformation();
-				t.setValidated(true);
-				eAdCanvas.setTransformation(t);
-				RuntimeDrawable<?, ?> r = go.getRuntimeDrawable();
-				if (r != null) {
-					go.getRuntimeDrawable().render(eAdCanvas);
-				} else {
-					eAdCanvas.setPaint(ColorFill.MAGENTA);
-					eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
-				}
-			}
+		commit(root);
+	}
 
+	@SuppressWarnings("unchecked")
+	public void commit(SceneElementGO<?> go) {
+		EAdTransformation t = go.getTransformation();
+		t.setValidated(true);
+		eAdCanvas.setTransformation(t);
+		RuntimeDrawable<?, ?> r = go.getDrawable();
+		if (r != null) {
+			go.getDrawable().render(eAdCanvas);
+		} else {
+			eAdCanvas.setPaint(ColorFill.MAGENTA);
+			eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
 		}
-		gameObjects.getGameObjects().clear();
+		for (SceneElementGO<?> g : go.getChildren()) {
+			commit(g);
+		}
+	}
+
+	public void update() {
+		root.update();
 	}
 
 	@Override
@@ -200,13 +228,13 @@ public abstract class AbstractGUI<T> implements GUI {
 		return t1;
 	}
 
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		DrawableGO<?> go = null;
+	public SceneElementGO<?> processAction(InputAction<?> action) {
+		SceneElementGO<?> go = null;
 		if (action instanceof MouseInputAction) {
 			MouseInputAction m = (MouseInputAction) action;
-			go = hudProcess(m);
-			if (go == null) {
-				go = gameState.getScene().processAction(action);
+			go = root.getFirstGOIn(m.getVirtualX(), m.getVirtualY());
+			if (go != null) {
+				go.processAction(action);
 			}
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction k = (KeyInputAction) action;
@@ -214,7 +242,7 @@ public abstract class AbstractGUI<T> implements GUI {
 					.getValue(SystemFields.ACTIVE_ELEMENT);
 			// only the active element gets a try to consume it
 			if (element != null) {
-				go = gameObjects.getGameObject(element);
+				go = root.getChild(element);
 				if (go != null) {
 					go.processAction(k);
 				}
@@ -225,30 +253,75 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	public SceneElementGO<?> getGameObjectIn(int x, int y) {
-		SceneElementGO<?> go = null;
-		int i = getHUDs().size() - 1;
-		while (go == null && i >= 0) {
-			HudGO hud = getHUDs().get(i--);
-			if (hud.contains(x, y)) {
-				go = hud.getFirstGOIn(x, y);
-			}
-		}
-		if (go == null) {
-			return gameState.getScene().getFirstGOIn(x, y);
-		}
-		return go;
+		return root.getFirstGOIn(x, y);
 	}
 
-	private DrawableGO<?> hudProcess(MouseInputAction a) {
-		DrawableGO<?> go = null;
-		int i = getHUDs().size() - 1;
-		while (!a.isConsumed() && i >= 0) {
-			HudGO hud = getHUDs().get(i--);
-			if (hud.contains(a.getVirtualX(), a.getVirtualY())) {
-				go = hud.processAction(a);
+	@Override
+	public SceneGO getScene() {
+		if (scene == null) {
+			logger.debug("null scene, Loading screen: "
+					+ (loadingScreen != null));
+			this.scene = (SceneGO) sceneElementFactory.get(loadingScreen);
+			previousSceneStack.push(loadingScreen);
+		}
+		return scene;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.GameState#setScene(es.eucm.eadventure.
+	 * engine.core.gameobjects.SceneGO)
+	 */
+	@Override
+	public void setScene(SceneGO newScene) {
+		if (this.scene != null && this.scene.getElement() != null) {
+			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
+					Boolean.FALSE);
+			if (scene.getReturnable()) {
+				previousSceneStack.push((EAdScene) scene.getElement());
 			}
 		}
-		return go;
+		this.scene = newScene;
+		if (this.scene != null && this.scene.getElement() != null) {
+			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
+					Boolean.TRUE);
+			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
+					.entrySet()) {
+				gameState
+						.setValue(scene.getElement(), e.getKey(), e.getValue());
+			}
+		}
+	}
+
+	private void updateInitialTransformation() {
+		if (initialTransformation != null) {
+			initialTransformation.setValidated(true);
+		}
+
+		// currentWidth = gameState.getValue(
+		// SystemFields.GAME_WIDTH);
+		// currentWidth = gameState.getValue(
+		// SystemFields.GAME_HEIGHT);
+		//
+		// float scaleX = currentWidth
+		// / (float) adventure.getGameWidth();
+		// float scaleY = currentHeight
+		// / (float) adventure.getGameHeight();
+		//
+		// float scale = scaleX < scaleY ? scaleX : scaleY;
+		// float dispX = Math.abs(adventure.getGameWidth() * scaleX
+		// - adventure.getGameWidth() * scale) / 2;
+		// float dispY = Math.abs(adventure.getGameHeight() * scaleY
+		// - adventure.getGameHeight() * scale) / 2;
+		//
+		initialTransformation = new EAdTransformationImpl();
+		// initialTransformation.getMatrix().translate(dispX, dispY,
+		// true);
+		// initialTransformation.getMatrix().scale(scale, scale, true);
+		initialTransformation.setValidated(false);
+
 	}
 
 }

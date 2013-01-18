@@ -44,7 +44,7 @@ import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.engine.core.factorymapproviders.TrajectoryFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;
 

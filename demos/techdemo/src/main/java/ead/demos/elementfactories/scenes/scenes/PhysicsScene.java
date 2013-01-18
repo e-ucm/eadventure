@@ -54,7 +54,7 @@ import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -263,7 +263,7 @@ public class PhysicsScene extends EmptyScene {
 	private void addSea() {
 		SceneElement wave1 = new SceneElement(new Image("@drawable/wave1.png"));
 		SceneElement wave2 = new SceneElement(new Image("@drawable/wave2.png"));
-		ComplexSceneElement waves = new ComplexSceneElement();
+		GroupElement waves = new GroupElement();
 		waves.getSceneElements().add(wave1);
 		addGoal(waves);
 		waves.getSceneElements().add(wave2);
@@ -273,7 +273,7 @@ public class PhysicsScene extends EmptyScene {
 
 	}
 
-	private void addGoal(ComplexSceneElement waves) {
+	private void addGoal(GroupElement waves) {
 		BezierShape shape = new BezierShape();
 		shape.moveTo(0, 0);
 		shape.lineTo(40, 0);

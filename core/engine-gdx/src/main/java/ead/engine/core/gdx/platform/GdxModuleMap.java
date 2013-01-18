@@ -49,17 +49,14 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.GameStateImpl;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.game.VariableMap;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.GameObjectManagerImpl;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.factories.EffectGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.EventGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
-import ead.engine.core.gameobjects.factories.TransitionFactoryImpl;
-import ead.engine.core.gameobjects.go.transitions.sceneloaders.GraphSceneLoader;
-import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.GraphSceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.GdxEngineImpl;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
@@ -72,7 +69,6 @@ import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.SoundManager;
-import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -108,14 +104,9 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(ValueMap.class, VariableMap.class);
 
-		binds.put(GameObjectManager.class, GameObjectManagerImpl.class);
-
 		binds.put(DebuggerHandler.class, DebuggerHandlerImpl.class);
 
 		binds.put(InventoryHandler.class, InventoryHandlerImpl.class);
-		binds.put(TransitionFactory.class, TransitionFactoryImpl.class);
-
-		binds.put(GameObjectManager.class, GameObjectManagerImpl.class);
 
 		binds.put(InputHandler.class, InputHandlerImpl.class);
 

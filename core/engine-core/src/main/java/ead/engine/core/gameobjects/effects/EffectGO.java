@@ -35,61 +35,76 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.effects;
 
-import java.util.List;
-
-import ead.common.interfaces.features.Oriented;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.util.EAdPosition;
+import ead.engine.core.gameobjects.GameObject;
+import ead.engine.core.input.InputAction;
 
-/**
- * 
- */
-public interface SceneElementGO<T extends EAdSceneElement> extends
-		DrawableGO<T>, Oriented {
-
-	void setPosition(EAdPosition position);
-
-	void setScale(float scale);
-
-	int getWidth();
-
-	int getHeight();
+public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 
 	/**
-	 * Returns the x coordinate of scene element center, using the scale
+	 * Sets the gui action that launched this effect
+	 * 
+	 * @param gui
+	 *            the gui action
+	 */
+	void setGUIAction(InputAction<?> gui);
+
+	/**
+	 * Sets the element launching the effect
+	 * 
+	 * @param parent
+	 */
+	void setParent(EAdSceneElement parent);
+
+	/**
+	 * Initializes the effect game object
+	 */
+	void initialize();
+
+	/**
+	 * Returns {@code true} when the effect is finished
+	 * 
+	 * @return {@code true} when the effect is finished
+	 */
+	boolean isFinished();
+
+	/**
+	 * Returns {@code true} if this effect blocks the next effects until this
+	 * one is finished
+	 * 
+	 * @return {@code true} if this effect blocks the next effects until this
+	 *         one is finished
+	 */
+	boolean isBlocking();
+
+	/**
+	 * Ends the effect normally
+	 */
+	void finish();
+
+	/**
+	 * Stops the effect. Right after calling this method,
+	 * {@link EffectGO#isStopped()} will return {@code true}. Use this method to
+	 * end the effect in abnormal circumstances (to avoid the execution of the
+	 * final effects, for example)
+	 */
+	void stop();
+
+	/**
+	 * Returns if the effect has been stopped by an external element
 	 * 
 	 * @return
 	 */
-	int getCenterX();
+	boolean isStopped();
 
 	/**
-	 * Returns the x coordinate of scene element center, using the scale
+	 * Returns if this effects takes more than one tick to execute
 	 * 
 	 * @return
 	 */
-	int getCenterY();
-
-	/**
-	 * Returns the current scale of the element
-	 * 
-	 * @return
-	 */
-	float getScale();
-
-	void setX(int x);
-
-	void setY(int y);
-
-	void setAlpha(float alpha);
-
-	void setEnabled(boolean b);
-
-	void collectSceneElements(List<EAdSceneElement> elements);
-
-	boolean isVisible();
-
-	void setVisible(boolean visible);
+	boolean isQueueable();
 
 }

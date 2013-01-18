@@ -50,8 +50,8 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.variables.EAdField;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.gameobjects.effects.EffectGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 
 @Singleton
@@ -114,7 +114,7 @@ public class DefaultTrackerSelector implements TrackerSelector {
 	}
 
 	@Override
-	public boolean accept(InputAction<?> action, DrawableGO<?> target) {
+	public boolean accept(InputAction<?> action, SceneElementGO<?> target) {
 		return actionsAccepted.contains(action.getGUIEvent());
 	}
 

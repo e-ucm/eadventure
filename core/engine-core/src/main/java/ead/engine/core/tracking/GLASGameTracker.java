@@ -47,8 +47,8 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.DragGEv;
 import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.gameobjects.effects.EffectGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.DragInputAction;
 import ead.engine.core.input.actions.KeyInputAction;
@@ -119,13 +119,13 @@ public class GLASGameTracker extends AbstractGameTracker {
 	}
 
 	@Override
-	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
+	protected void trackImpl(InputAction<?> action, SceneElementGO<?> target) {
 		ActionTrace t = convertToTrace(action, target);
 		tracker.track(t);
 	}
 
 	private ActionTrace convertToTrace(InputAction<?> action,
-			DrawableGO<?> target) {
+			SceneElementGO<?> target) {
 		ActionTrace trace = new ActionTrace();
 		if (target.getElement() != null) {
 			trace.setTarget(((EAdElement) target.getElement()).getId());

@@ -46,47 +46,35 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.transitions.TransitionGO;
-import ead.engine.core.gameobjects.go.transitions.TransitionGO.TransitionListener;
+import ead.engine.core.gameobjects.sceneelements.transitions.AbstractTransitionGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.TransitionFactory;
-import ead.engine.core.platform.assets.AssetHandler;
 
-public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
-		TransitionListener {
+public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
+
+	private GUI gui;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ChangeSceneGO");
 
-	private TransitionFactory transitionFactory;
-
-	private TransitionGO<?> transition;
-
-	private boolean end;
-
-	private boolean firstFinish;
+	private SceneElementGOFactory transitionFactory;
 
 	@Inject
-	public ChangeSceneGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			TransitionFactory transitionFactory) {
+	public ChangeSceneGO(GUI gui, GameState gameState,
+			SceneElementGOFactory transitionFactory) {
 		super(gameState);
+		this.gui = gui;
 		this.transitionFactory = transitionFactory;
 	}
 
 	@Override
 	public void initialize() {
-		firstFinish = true;
 		super.initialize();
-		end = false;
 		// If the effect is to a different scene
 		if (effect.getNextScene() == null
-				|| effect.getNextScene() != gameState.getScene().getElement()) {
-			transition = transitionFactory.get(effect.getTransition());
-			transition.getTransitionListeners().add(this);
+				|| effect.getNextScene() != gui.getScene().getElement()) {
+			AbstractTransitionGO<?> transition = (AbstractTransitionGO<?>) transitionFactory
+					.get(effect.getTransition());
 			EAdElement e = effect.getNextScene();
 			if (e != null) {
 				Object finalElement = gameState.maybeDecodeField(e);
@@ -95,39 +83,13 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 				} else {
 					logger
 							.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
-					transition.setNext(gameState.getPreviousScene());
+					transition.setNext(gui.getPreviousScene());
 				}
 			} else {
-				transition.setNext(gameState.getPreviousScene());
+				transition.setNext(gui.getPreviousScene());
 			}
-			transition.setPrevious(gameState.getScene());
-			gameState.setScene(transition);
-		} else {
-			// Execute post effects
-			end = true;
-		}
-	}
-
-	@Override
-	public boolean isFinished() {
-		return end;
-	}
-
-	@Override
-	public void transitionBegins() {
-
-	}
-
-	@Override
-	public void transitionEnds() {
-		end = true;
-		finish();
-	}
-
-	public void finish() {
-		if (firstFinish) {
-			firstFinish = false;
-			super.finish();
+			transition.setPrevious(gui.getScene());
+			gui.setScene(transition);
 		}
 	}
 

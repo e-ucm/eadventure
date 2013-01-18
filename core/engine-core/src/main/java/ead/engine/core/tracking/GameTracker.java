@@ -38,8 +38,8 @@
 package ead.engine.core.tracking;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.gameobjects.effects.EffectGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 
 /**
@@ -73,7 +73,7 @@ public interface GameTracker {
 	 * @param target
 	 *            the game object receiving the action
 	 */
-	void track(InputAction<?> action, DrawableGO<?> target);
+	void track(InputAction<?> action, SceneElementGO<?> target);
 
 	/**
 	 * Tracks a launched effect

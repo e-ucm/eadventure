@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.effects;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> implements

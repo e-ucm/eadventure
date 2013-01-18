@@ -35,25 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.factorymapproviders;
+package ead.engine.core.gameobjects.events;
 
-import ead.common.model.elements.transitions.DisplaceTransition;
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.engine.core.gameobjects.go.transitions.BasicTransitionGO;
-import ead.engine.core.gameobjects.go.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.go.transitions.FadeInTransitionGO;
-import ead.engine.core.gameobjects.go.transitions.TransitionGO;
+import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.gameobjects.GameObject;
 
-public class TransitionFactoryMapProvider
-		extends
-		AbstractMapProvider<Class<? extends EAdTransition>, Class<? extends TransitionGO<? extends EAdTransition>>> {
+public interface EventGO<T extends EAdEvent> extends GameObject<T> {
 
-	public TransitionFactoryMapProvider() {
-		factoryMap.put(EmptyTransition.class, BasicTransitionGO.class);
-		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
-		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
-	}
+	void initialize();
+
+	void setParent(EAdSceneElement element);
 
 }

@@ -35,20 +35,47 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements;
 
-import ead.engine.core.input.InputAction;
+import java.util.Comparator;
 
-public interface InputActionProcessor {
+import com.google.inject.Inject;
 
-	/**
-	 * Process the action in the graphic interface (click, etc.)
-	 * 
-	 * @param action
-	 *            the action to process
-	 * @return the object that processed the action. {@code null} if no one
-	 *         processed it
-	 */
-	DrawableGO<?> processAction(InputAction<?> action);
+import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
+
+public class SceneGO extends SceneElementGOImpl implements
+		Comparator<SceneElementGO<?>> {
+
+	@Inject
+	public SceneGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		setComparator(this);
+	}
+
+	public void setElement(EAdScene element) {
+		super.setElement(element);
+		sceneElements.add(0, sceneElementFactory.get(element.getBackground()));
+		gameState.setValue(element.getBackground(), SceneElement.VAR_Z,
+				Integer.MIN_VALUE);
+	}
+
+	@Override
+	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
+		int z1 = gameState.getValue(o1.getElement(), SceneElement.VAR_Z);
+		int z2 = gameState.getValue(o2.getElement(), SceneElement.VAR_Z);
+		return z1 - z2;
+	}
+
+	public boolean getReturnable() {
+		return ((EAdScene) element).getReturnable();
+	}
 
 }

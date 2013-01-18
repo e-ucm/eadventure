@@ -59,6 +59,9 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 	@Param("interactionArea")
 	private EAdDrawable interactionArea;
 
+	@Param("catchAll")
+	private boolean catchAll;
+
 	public GhostElement() {
 
 	}
@@ -88,6 +91,14 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 	@Override
 	public void setInteractionArea(EAdDrawable drawable) {
 		this.interactionArea = drawable;
+	}
+
+	public boolean isCatchAll() {
+		return catchAll;
+	}
+
+	public void setCatchAll(boolean catchAll) {
+		this.catchAll = catchAll;
 	}
 
 }

@@ -37,7 +37,7 @@
 
 package ead.common.model.predef.sceneelements;
 
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -50,7 +50,7 @@ import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition.Corner;
 
-public class Button extends ComplexSceneElement {
+public class Button extends GroupElement {
 
 	public Button(EAdString string) {
 		super();

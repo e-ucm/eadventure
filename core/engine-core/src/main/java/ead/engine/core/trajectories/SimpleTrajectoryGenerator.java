@@ -47,7 +47,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 public class SimpleTrajectoryGenerator implements
 		TrajectoryGenerator<SimpleTrajectoryDefinition> {

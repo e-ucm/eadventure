@@ -35,38 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.engine.core.gameobjects.sceneelements.transitions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneGO;
-import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 
 public abstract class AbstractTransitionGO<T extends EAdTransition> extends
-		ComplexSceneElementGOImpl<T> implements TransitionGO<T> {
+		SceneGO implements SceneLoaderListener {
 
 	protected InputHandler inputHandler;
 
 	protected T transition;
 
-	protected SceneGO<?> previousScene;
+	protected SceneGO previousScene;
 
 	protected EAdScene nextScene;
 
-	protected SceneGO<?> nextSceneGO;
+	protected SceneGO nextSceneGO;
 
 	protected SceneLoader sceneLoader;
 
@@ -91,32 +91,58 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	}
 
-	public void setPrevious(SceneGO<?> scene) {
+	@SuppressWarnings("unchecked")
+	public void setElement(EAdSceneElement e) {
+		super.setElement(e);
+		transition = (T) e;
+	}
+
+	/**
+	 * Set the previous scene for the transition
+	 * 
+	 * @param scene
+	 *            the previous scene
+	 */
+	public void setPrevious(SceneGO scene) {
 		this.previousScene = scene;
 		firstUpdatePrevious = true;
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();
 		}
+		addSceneElement(scene);
 	}
 
-	@Override
-	public void sceneLoaded(SceneGO<?> sceneGO) {
+	public void sceneLoaded(SceneGO sceneGO) {
 		nextSceneGO = sceneGO;
 		loaded = true;
 		loading = false;
+		addSceneElement(sceneGO);
 	}
 
-	@Override
+	/**
+	 * Returns if the next scene is loaded
+	 * 
+	 * @return
+	 */
 	public boolean isLoadedNextScene() {
 		return loaded;
 	}
 
-	@Override
+	/**
+	 * Returns if the transition is finished
+	 * 
+	 * @return
+	 */
 	public boolean isFinished() {
 		return loaded;
 	}
 
-	@Override
+	/**
+	 * Sets the next scene for the transition
+	 * 
+	 * @param scene
+	 *            the next scene for the transition
+	 */
 	public void setNext(EAdScene scene) {
 		nextScene = scene;
 		loading = false;
@@ -150,30 +176,42 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 		if (isFinished()) {
 			sceneLoader.freeUnusedAssets(nextSceneGO, previousScene);
-			gameState.setScene(nextSceneGO);
+			gui.setScene(nextSceneGO);
 			for (TransitionListener l : this.getTransitionListeners()) {
 				l.transitionEnds();
 			}
 		}
 	}
 
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-		if (!isFinished())
-			gui.addElement(previousScene, transformation);
-	}
-
+	/**
+	 * Returns the list of TransitionListener. You can add or remove your
+	 * transition listeners in this list
+	 */
 	public List<TransitionListener> getTransitionListeners() {
 		return listeners;
 	}
 
-	public SceneGO<?> getNextSceneGO() {
+	public SceneGO getNextSceneGO() {
 		return nextSceneGO;
 	}
 
 	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
+	public SceneElementGO<?> processAction(InputAction<?> action) {
 		return this;
+	}
+
+	public interface TransitionListener {
+
+		/**
+		 * Method called when transition begins
+		 */
+		void transitionBegins();
+
+		/**
+		 * Method called when transition ends
+		 */
+		void transitionEnds();
+
 	}
 
 }

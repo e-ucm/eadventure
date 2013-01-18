@@ -42,7 +42,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdEvent;
 import ead.engine.core.factorymapproviders.EventGameObjectFactoryConfigurator;
-import ead.engine.core.gameobjects.go.EventGO;
+import ead.engine.core.gameobjects.events.EventGO;
 import ead.tools.GenericInjector;
 import ead.tools.reflection.ReflectionProvider;
 

@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
@@ -63,7 +63,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
@@ -78,6 +78,8 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
  */
 @Singleton
 public class TopBasicHUDImpl extends AbstractHUD {
+
+	public static final String ID = "TopBasicHUD";
 
 	/**
 	 * The logger
@@ -97,7 +99,7 @@ public class TopBasicHUDImpl extends AbstractHUD {
 	// Mouse
 	private SceneElement mouse;
 
-	private DrawableGO<?> mouseGO;
+	private SceneElementGO<?> mouseGO;
 
 	private EAdDrawable cursor;
 
@@ -109,8 +111,8 @@ public class TopBasicHUDImpl extends AbstractHUD {
 	public TopBasicHUDImpl(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				1000);
+		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, 1000);
 	}
 
 	@Override
@@ -121,7 +123,7 @@ public class TopBasicHUDImpl extends AbstractHUD {
 	public void init() {
 		initContextual();
 		initMouse();
-		ComplexSceneElement element = new ComplexSceneElement();
+		GroupElement element = new GroupElement();
 		element.getSceneElements().add(contextual);
 		element.getSceneElements().add(mouse);
 		setElement(element);

@@ -43,10 +43,10 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.SystemEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
+import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
-import ead.engine.core.gameobjects.go.EventGO;
 
 public class EventGameObjectFactoryConfigurator
 		extends

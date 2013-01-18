@@ -35,15 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.debuggers;
 
-import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import com.google.inject.Inject;
 
-public interface EventGO<T extends EAdEvent> extends GameObject<T> {
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.huds.AbstractHUD;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-	void initialize();
+public class DebuggerHUD extends AbstractHUD {
 
-	void setParent(EAdSceneElement element);
+	private static final String ID = "debuggerHud";
+
+	@Inject
+	public DebuggerHUD(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory, int priority) {
+		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, priority);
+	}
+
+	@Override
+	public void init() {
+
+	}
 
 }

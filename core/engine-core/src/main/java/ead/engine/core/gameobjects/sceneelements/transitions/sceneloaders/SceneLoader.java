@@ -35,68 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders;
 
-import java.util.List;
+import ead.common.model.elements.scenes.EAdScene;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
-import ead.common.model.EAdElement;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdPosition;
-import ead.engine.core.platform.assets.RuntimeDrawable;
-
-public interface DrawableGO<T extends EAdElement> extends GameObject<T>,
-		Renderable {
+/**
+ * Implemented by those classes loading scenes assets
+ * 
+ */
+public interface SceneLoader {
 
 	/**
-	 * The the draggable element
+	 * Loads the scene assets.
 	 * 
-	 * @return The game object that is draggable
+	 * @param scene
+	 *            The scene to load
+	 * @param listener
+	 *            the listener will be notices when the load is complete
 	 */
-	SceneElementGO<?> getDraggableElement();
+	void loadScene(EAdScene scene, SceneLoaderListener listener);
 
 	/**
-	 * Resets the current transformation, deleting any parent's transformation
-	 * effect
+	 * Frees all the assets contained by the scene, and not used by the
+	 * currentScene
+	 * @param currentScene
+	 *            the current scene
 	 */
-	void resetTransfromation();
+	void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene);
 
 	/**
-	 * Returns if this game object is enable for user interactions
-	 * 
-	 * @return if this game object is enable for user interactions
+	 * The scene loader gets permission to one more step in its loading process
 	 */
-	boolean isEnable();
-
-	/**
-	 * <p>
-	 * Adds the assets used by this game object to the list and returns it
-	 * </p>
-	 * <p>
-	 * This method is used to manage memory consumed by assets, allowing the
-	 * releasing or pre-caching of assets as required.
-	 * </p>
-	 * 
-	 * @param assetList
-	 *            The list where to add the assets
-	 * @param allAssets
-	 *            If true all assets are added, if false only required ones are
-	 * @return The list of assets with the ones of this game object added
-	 */
-	List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets);
-
-	/**
-	 * Returns the position for the drawable. Changing this position dosen't
-	 * change the drawable position
-	 * 
-	 * @return
-	 */
-	EAdPosition getPosition();
-
-	RuntimeDrawable<?, ?> getRuntimeDrawable();
-
-	int getWidth();
-
-	int getHeight();
+	void step();
 
 }

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions;
+package ead.engine.core.gameobjects.sceneelements.transitions;
 
 import com.google.inject.Inject;
 
@@ -45,12 +45,11 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
 
 public class DisplaceTransitionGO extends
 		AbstractTransitionGO<DisplaceTransition> {
@@ -79,38 +78,34 @@ public class DisplaceTransitionGO extends
 		finished = false;
 		width = gameState.getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValue(SystemFields.GAME_HEIGHT);
-		transformation = new EAdTransformationImpl();
 		currentTime = 0;
-	}
-
-	public void doLayout(EAdTransformation t) {
-		super.doLayout(t);
-
-		if (this.isLoadedNextScene() && startTime != -1) {
-			// transformation.setClip(0, 0, width, height);
-			transformation.getMatrix().setIdentity();
-			transformation.getMatrix().translate(x2, y2, false);
-			gui.addElement(nextSceneGO, gui
-					.addTransformation(transformation, t));
-			if (!isFinished()) {
-				// transformation.setClip(0, 0, width, height);
-				transformation.getMatrix().setIdentity();
-				transformation.getMatrix().translate(x1, y1, false);
-				gui.addElement(previousScene, gui.addTransformation(
-						transformation, t));
-			}
-		}
 	}
 
 	public void update() {
 		super.update();
+		if (this.isLoadedNextScene() && startTime != -1) {
+			// transformation.setClip(0, 0, width, height);
+			transformation.getMatrix().setIdentity();
+			transformation.getMatrix().translate(x2, y2, false);
+
+			//			gui.addElement(nextSceneGO, gui
+			//					.addTransformation(transformation, parent.getTransformation()));
+			if (!isFinished()) {
+				// transformation.setClip(0, 0, width, height);
+				transformation.getMatrix().setIdentity();
+				transformation.getMatrix().translate(x1, y1, false);
+				//				gui.addElement(previousScene, gui.addTransformation(
+				//						transformation, parent.getTransformation()));
+			}
+		}
+
 		if (isLoadedNextScene()) {
 			currentTime += gui.getSkippedMilliseconds();
 			if (startTime == -1) {
 				startTime = currentTime;
 			}
 
-			if (currentTime - startTime >= element.getTime()) {
+			if (currentTime - startTime >= transition.getTime()) {
 				finished = true;
 			} else {
 				float dispX = getDisp(true, currentTime - startTime);
@@ -119,7 +114,7 @@ public class DisplaceTransitionGO extends
 				if (dispX != 0.0f) {
 					x1 = ((int) (dispX * -width));
 					x2 = ((int) ((1 - dispX) * width));
-					if (element.getForward()) {
+					if (transition.getForward()) {
 						x1 = -x1;
 						x2 = (int) (dispX * width) - width;
 					}
@@ -129,7 +124,7 @@ public class DisplaceTransitionGO extends
 					y1 = ((int) (dispY * -height));
 					y2 = ((int) ((1 - dispY) * height));
 
-					if (element.getForward()) {
+					if (transition.getForward()) {
 						y1 = -y1;
 						y2 = (int) (dispY * height) - height;
 					}
@@ -145,9 +140,9 @@ public class DisplaceTransitionGO extends
 	}
 
 	private float getDisp(boolean horizontal, int currentTime) {
-		if ((horizontal && element.getType() == DisplaceTransitionType.HORIZONTAL)
-				|| (!horizontal && element.getType() == DisplaceTransitionType.VERTICAL)) {
-			float value = (float) currentTime / (float) element.getTime();
+		if ((horizontal && transition.getType() == DisplaceTransitionType.HORIZONTAL)
+				|| (!horizontal && transition.getType() == DisplaceTransitionType.VERTICAL)) {
+			float value = (float) currentTime / (float) transition.getTime();
 			return value;
 
 		} else

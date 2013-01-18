@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions.sceneloaders;
+package ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.assets.AssetHandler;
 
 @Singleton
@@ -74,11 +74,11 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	private EAdScene scene;
 
-	protected SceneGO<?> sceneGO;
+	protected SceneGO sceneGO;
 
-	protected SceneGO<?> currentSceneGO;
+	protected SceneGO currentSceneGO;
 
-	protected SceneGO<?> oldSceneGO;
+	protected SceneGO oldSceneGO;
 
 	@Inject
 	public DefaultSceneLoader(AssetHandler assetHandler,
@@ -101,7 +101,7 @@ public class DefaultSceneLoader implements SceneLoader {
 	}
 
 	protected void loadScene() {
-		sceneGO = (SceneGO<?>) sceneElementFactory.get(scene);
+		sceneGO = (SceneGO) sceneElementFactory.get(scene);
 		assetsList.clear();
 
 		assetsList = sceneGO.getAssets(assetsList, false);
@@ -113,7 +113,7 @@ public class DefaultSceneLoader implements SceneLoader {
 		}
 	}
 
-	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene) {
+	public void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene) {
 		this.currentSceneGO = currentScene;
 		this.oldSceneGO = oldScene;
 		logger.info("Freeing unused assets...");

@@ -45,9 +45,8 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.EAdComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
@@ -56,15 +55,12 @@ import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
+public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 
 	private TweenController tweenController;
 
@@ -75,26 +71,12 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, TweenController tweenController,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		super(gameState);
 		this.tweenController = tweenController;
 	}
 
-	public DrawableGO<?> processAction(InputAction<?> action) {
-		if (action instanceof MouseInputAction) {
-			MouseInputAction m = (MouseInputAction) action;
-			if (m.getGUIEvent().equals(MouseGEv.MOUSE_LEFT_PRESSED)
-					|| m.getGUIEvent().equals(MouseGEv.MOUSE_RIGHT_PRESSED)) {
-				finished = true;
-				action.consume();
-				DrawableGO<?> go = visualRepresentation.processAction(action);
-				return null;
-			}
-		}
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
-	protected EAdComplexSceneElement getVisualRepresentation() {
+	protected EAdGroupElement getVisualRepresentation() {
 		finished = false;
 		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElementDef ref = effect.getActionElement();
@@ -126,7 +108,7 @@ public class ActorActionsGO extends VisualEffectGO<ActorActionsEf> {
 
 					float angle = (float) (Math.PI / 4.5) * signum;
 
-					ComplexSceneElement hud = new ComplexSceneElement();
+					GroupElement hud = new GroupElement();
 					for (EAdSceneElementDef a : list) {
 						SceneElement element = new SceneElement(a);
 						element.setId(element.getId() + "engine");

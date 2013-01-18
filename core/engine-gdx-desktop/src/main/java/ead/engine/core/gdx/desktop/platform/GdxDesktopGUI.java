@@ -61,10 +61,11 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
+import ead.engine.core.input.InputHandler;
 import ead.utils.swing.SwingUtilities;
 
 @Singleton
@@ -77,14 +78,14 @@ public class GdxDesktopGUI extends GdxGUI {
 	private Component component;
 
 	@Inject
-	public GdxDesktopGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
-			GdxEngine engine) {
-		super(gameObjectManager, canvas, engine);
+	public GdxDesktopGUI(GdxCanvas canvas, GdxEngine engine) {
+		super(canvas, engine);
 	}
 
 	@Override
-	public void initialize(Game game, GameState gameState) {
-		super.initialize(game, gameState);
+	public void initialize(Game game, GameState gameState,
+			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
+		super.initialize(game, gameState, sceneElementFactory, inputHandler);
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)

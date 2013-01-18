@@ -39,7 +39,7 @@ package ead.engine.core.gdx.utils.goviewer;
 
 import com.badlogic.gdx.ApplicationListener;
 
-import ead.engine.core.gameobjects.go.SceneGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
@@ -49,7 +49,7 @@ public class SceneViewer implements ApplicationListener {
 
 	private GUI gui;
 
-	private SceneGO<?> currentScene;
+	private SceneGO currentScene;
 
 	//	private int sceneWidth;
 	//	private int sceneHeight;
@@ -74,7 +74,7 @@ public class SceneViewer implements ApplicationListener {
 	@Override
 	public void render() {
 		currentScene.update();
-		gui.addElement(currentScene, initialTransformation);
+		//		gui.addElement(currentScene, initialTransformation);
 		gui.commit();
 	}
 

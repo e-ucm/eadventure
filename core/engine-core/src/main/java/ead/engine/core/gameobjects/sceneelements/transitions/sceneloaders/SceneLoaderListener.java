@@ -35,43 +35,23 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders;
 
-import java.util.Comparator;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
-import com.google.inject.Inject;
+/**
+ * 
+ * Implemented by elements interested in knowing when a scene is loaded by a
+ * {@link SceneLoader}
+ * 
+ */
+public interface SceneLoaderListener {
 
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-
-public class SceneGOImpl extends ComplexSceneElementGOImpl<EAdScene> implements
-		Comparator<SceneElementGO<?>>, SceneGO<EAdScene> {
-
-	@Inject
-	public SceneGOImpl(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		setComparator(this);
-	}
-
-	public void setElement(EAdScene element) {
-		super.setElement(element);
-		sceneElements.add(0, sceneElementFactory.get(element.getBackground()));
-		gameState.setValue(element.getBackground(), SceneElement.VAR_Z,
-				Integer.MIN_VALUE);
-	}
-
-	@Override
-	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
-		int z1 = gameState.getValue(o1.getElement(), SceneElement.VAR_Z);
-		int z2 = gameState.getValue(o2.getElement(), SceneElement.VAR_Z);
-		return z1 - z2;
-	}
-
+	/**
+	 * Triggers when the scene is loaded
+	 * 
+	 * @param sceneGO
+	 *            the game object for the loaded scene
+	 */
+	void sceneLoaded(SceneGO sceneGO);
 }

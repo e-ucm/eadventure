@@ -43,7 +43,7 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
-import ead.common.model.elements.scenes.ComplexSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
@@ -61,8 +61,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.MouseInputAction;
@@ -70,11 +69,12 @@ import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryItem;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 import ead.tools.StringHandler;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD {
+
+	public static final String ID = "InventoryHUD";
 
 	private static final int TIME_TO_SHOW = 500;
 
@@ -84,7 +84,7 @@ public class InventoryHUDImpl extends AbstractHUD {
 
 	private static final int INVENTORY_HEIGHT = 60;
 
-	private ComplexSceneElement inventory;
+	private GroupElement inventory;
 
 	private ValueMap valueMap;
 
@@ -119,17 +119,11 @@ public class InventoryHUDImpl extends AbstractHUD {
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EvaluatorFactory evaluatorFactory,
 			EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, 6);
+		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, 6);
 		valueMap = gameState;
 		isShowing = true;
 		height = valueMap.getValue(SystemFields.GAME_HEIGHT);
-	}
-
-	@Override
-	public void doLayout(EAdTransformation t) {
-		if (isShowing) {
-			super.doLayout(t);
-		}
 	}
 
 	@Override
@@ -151,7 +145,7 @@ public class InventoryHUDImpl extends AbstractHUD {
 		RectangleShape rectangle = new RectangleShape(width, INVENTORY_HEIGHT);
 		rectangle.setPaint(new ColorFill(200, 200, 200, 100));
 
-		inventory = new ComplexSceneElement(rectangle);
+		inventory = new GroupElement(rectangle);
 
 		inventoryDispY = 0.0f;
 		inventoryDispYField = new BasicField<Float>(inventory,
@@ -281,7 +275,7 @@ public class InventoryHUDImpl extends AbstractHUD {
 	}
 
 	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
+	public SceneElementGO<?> processAction(InputAction<?> action) {
 		if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 

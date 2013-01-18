@@ -60,6 +60,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.trajectories.Path;
 import ead.engine.core.trajectories.PathSide;
 import ead.engine.core.trajectories.SimplePathImpl;
@@ -114,13 +115,16 @@ public class MoveSceneElementGO extends
 
 	private int currentTime;
 
+	private GUI gui;
+
 	@Inject
 	public MoveSceneElementGO(GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			TrajectoryFactory trajectoryFactory) {
+			TrajectoryFactory trajectoryFactory, GUI gui) {
 		super(gameState);
 		this.trajectoryFactory = trajectoryFactory;
 		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
 	}
 
 	@Override
@@ -136,8 +140,9 @@ public class MoveSceneElementGO extends
 				.getValue(effect.getTarget(), SceneElementDef.VAR_SCENE_ELEMENT)
 				: null;
 
-		EAdTrajectoryDefinition d = valueMap.getValue(gameState.getScene()
+		EAdTrajectoryDefinition d = valueMap.getValue(gui.getScene()
 				.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
+
 		if (d != null && effect.isUseTrajectory()) {
 			if (target == null)
 				path = trajectoryFactory.getTrajectory(d, sceneElement, endX,
@@ -190,7 +195,7 @@ public class MoveSceneElementGO extends
 					* side.getSpeedFactor();
 
 			// TODO should be more generic...
-			EAdTrajectoryDefinition d = gameState.getValue(gameState.getScene()
+			EAdTrajectoryDefinition d = gameState.getValue(gui.getScene()
 					.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
 			if (d != null && effect.isUseTrajectory()
 					&& side instanceof DijkstraPathSide) {

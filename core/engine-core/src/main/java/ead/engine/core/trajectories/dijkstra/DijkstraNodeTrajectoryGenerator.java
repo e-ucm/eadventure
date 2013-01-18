@@ -57,7 +57,7 @@ import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.trajectories.Path;
 import ead.engine.core.trajectories.TrajectoryGenerator;
 

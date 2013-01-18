@@ -59,9 +59,9 @@ import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.GameObject;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputHandler;
 import ead.tools.StringHandler;
 
@@ -76,7 +76,7 @@ public class FieldsDebugger implements Debugger {
 
 	private InputHandler inputHandler;
 
-	private List<DrawableGO<?>> gos;
+	private List<SceneElementGO<?>> gos;
 
 	private GameState gameState;
 
@@ -101,12 +101,12 @@ public class FieldsDebugger implements Debugger {
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
 		this.game = game;
-		gos = new ArrayList<DrawableGO<?>>();
+		gos = new ArrayList<SceneElementGO<?>>();
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
-	public List<DrawableGO<?>> getGameObjects() {
+	public List<SceneElementGO<?>> getGameObjects() {
 		GameObject<?> newGO = inputHandler.getGameObjectUnderPointer();
 		EAdSceneElement newElement = (EAdSceneElement) (newGO != null ? newGO
 				.getElement() : game.getCurrentChapter());

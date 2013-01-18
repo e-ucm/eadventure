@@ -44,8 +44,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.huds.AbstractHUD;
+import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 import ead.tools.GenericInjector;
 
@@ -58,10 +64,14 @@ public class DebuggerHandlerImpl implements DebuggerHandler {
 
 	private EAdAdventureModel model;
 
+	private SceneElementGOFactory sceneElementFactory;
+
 	@Inject
-	public DebuggerHandlerImpl(GenericInjector injector) {
+	public DebuggerHandlerImpl(GenericInjector injector,
+			SceneElementGOFactory sceneElementFactory) {
 		this.injector = injector;
 		debuggers = new ArrayList<Debugger>();
+		this.sceneElementFactory = sceneElementFactory;
 	}
 
 	public void add(Class<? extends Debugger> clazz) {
@@ -73,9 +83,9 @@ public class DebuggerHandlerImpl implements DebuggerHandler {
 	@Override
 	public void doLayout(GUI gui, EAdTransformation transformation) {
 		for (Debugger debugger : debuggers) {
-			for (DrawableGO<?> go : debugger.getGameObjects()) {
+			for (SceneElementGO<?> go : debugger.getGameObjects()) {
 				go.update();
-				gui.addElement(go, transformation);
+				//				gui.addElement(go, transformation);
 			}
 		}
 	}
@@ -86,6 +96,7 @@ public class DebuggerHandlerImpl implements DebuggerHandler {
 		for (Debugger debugger : debuggers) {
 			debugger.setUp(model);
 		}
+		//		HudGO hud = new HudGO();
 	}
 
 }

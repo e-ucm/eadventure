@@ -35,23 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go.transitions.sceneloaders;
+package ead.engine.core.gameobjects;
 
-import ead.engine.core.gameobjects.go.SceneGO;
+import ead.common.model.EAdElement;
 
 /**
+ * Basic game object implementation for eAdventure elements
  * 
- * Implemented by elements interested in knowing when a scene is loaded by a
- * {@link SceneLoader}
  * 
+ * @param <T>
+ *            the class of the eAdventure element contained by this game object
  */
-public interface SceneLoaderListener {
+public abstract class GameObjectImpl<T extends EAdElement> implements
+		GameObject<T> {
 
-	/**
-	 * Triggers when the scene is loaded
-	 * 
-	 * @param sceneGO
-	 *            the game object for the loaded scene
-	 */
-	void sceneLoaded(SceneGO<?> sceneGO);
+	protected T element;
+
+	@Override
+	public void setElement(T element) {
+		this.element = element;
+	}
+
+	@Override
+	public T getElement() {
+		return element;
+	}
+
+	@Override
+	public String toString() {
+		return element + "";
+	}
+
 }

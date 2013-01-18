@@ -40,7 +40,7 @@ package ead.engine.core.debuggers;
 import java.util.List;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 /**
  * General interface for eAdventure debuggers. The debugger is intended to help
@@ -54,7 +54,7 @@ public interface Debugger {
 	 * 
 	 * @return
 	 */
-	public List<DrawableGO<?>> getGameObjects();
+	public List<SceneElementGO<?>> getGameObjects();
 
 	/**
 	 * Set ups the debugger with the model of the current game

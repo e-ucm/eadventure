@@ -53,8 +53,7 @@ import ead.common.resources.assets.drawable.EAdDrawable;
  * 
  */
 @Element
-public class ComplexSceneElement extends SceneElement implements
-		EAdComplexSceneElement {
+public class GroupElement extends SceneElement implements EAdGroupElement {
 
 	/**
 	 * A variable defining if this container must update its width to the
@@ -79,17 +78,17 @@ public class ComplexSceneElement extends SceneElement implements
 	 * @param id
 	 *            the id for the element
 	 */
-	public ComplexSceneElement() {
+	public GroupElement() {
 		super();
 		sceneElements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 	}
 
-	public ComplexSceneElement(EAdSceneElementDef definition) {
+	public GroupElement(EAdSceneElementDef definition) {
 		this();
 		this.setDefinition(definition);
 	}
 
-	public ComplexSceneElement(EAdDrawable asset) {
+	public GroupElement(EAdDrawable asset) {
 		this(new SceneElementDef(asset));
 	}
 

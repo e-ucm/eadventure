@@ -43,35 +43,37 @@ import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.platform.GUI;
 
 public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 
+	private SceneElementGOFactory sceneElementFactory;
+
+	private GUI gui;
+
 	@Inject
-	public AddActorReferenceGO(GameState gameState) {
+	public AddActorReferenceGO(SceneElementGOFactory sceneElementFactory,
+			GUI gui, GameState gameState) {
 		super(gameState);
+		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		EAdScene scene = gameState.getScene().getElement();
-		if (scene != null) {
-			EAdSceneElementDef actor = effect.getActor();
-			SceneElement ref = new SceneElement(actor);
-			ref.setPosition(effect.getPosition());
-			SceneElementEv event = new SceneElementEv();
-			event
-					.addEffect(SceneElementEvType.FIRST_UPDATE, effect
-							.getEffect());
-			((AbstractSceneElementEffect) effect.getEffect())
-					.setSceneElement(ref);
-			ref.getEvents().add(event);
-			scene.getSceneElements().add(ref, 0);
-		}
+		EAdSceneElementDef actor = effect.getActor();
+		SceneElement ref = new SceneElement(actor);
+		ref.setPosition(effect.getPosition());
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect.getEffect());
+		((AbstractSceneElementEffect) effect.getEffect()).setSceneElement(ref);
+		ref.getEvents().add(event);
+		gui.getScene().addSceneElement(sceneElementFactory.get(ref));
 	}
 
 }

@@ -35,35 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements.transitions;
 
-import ead.common.model.EAdElement;
+import com.google.inject.Inject;
 
-/**
- * Basic game object implementation for eAdventure elements
- * 
- * 
- * @param <T>
- *            the class of the eAdventure element contained by this game object
- */
-public abstract class GameObjectImpl<T extends EAdElement> implements
-		GameObject<T> {
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-	protected T element;
+public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
 
-	@Override
-	public void setElement(T element) {
-		this.element = element;
-	}
-
-	@Override
-	public T getElement() {
-		return element;
-	}
-
-	@Override
-	public String toString() {
-		return element + "";
+	@Inject
+	public BasicTransitionGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory,
+			SceneLoader sceneLoader, InputHandler inputHandler) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				sceneLoader, inputHandler);
 	}
 
 }

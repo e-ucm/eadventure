@@ -42,9 +42,9 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 

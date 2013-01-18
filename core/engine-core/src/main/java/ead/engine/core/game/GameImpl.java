@@ -60,12 +60,12 @@ import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineStringFilter;
 import ead.engine.core.game.enginefilters.HudsCreationFilter;
-import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.EventGO;
-import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.GUI;
@@ -75,8 +75,6 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.AssetHandler.TextHandler;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
-import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
 import ead.reader.strings.StringsReader;
 import ead.tools.PropertiesReader;
 import ead.tools.SceneGraph;
@@ -149,8 +147,6 @@ public class GameImpl implements Game, TextHandler {
 
 	private InventoryHandler inventoryHandler;
 
-	private EAdTransformation initialTransformation;
-
 	private EventGOFactory eventFactory;
 
 	private List<EventGO<?>> events;
@@ -171,11 +167,11 @@ public class GameImpl implements Game, TextHandler {
 	public GameImpl(GUI gui, StringHandler stringHandler,
 			InputHandler inputHandler, PluginHandler pluginHandler,
 			GameState gameState, SceneElementGOFactory sceneElementFactory,
-			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			DebuggerHandler debugger, ValueMap valueMap,
-			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			GameTracker tracker, SceneGraph sceneGraph,
-			TweenController tweenController, StringsReader stringsReader) {
+			AssetHandler assetHandler, DebuggerHandler debugger,
+			ValueMap valueMap, InventoryHandler inventoryHandler,
+			EventGOFactory eventFactory, GameTracker tracker,
+			SceneGraph sceneGraph, TweenController tweenController,
+			StringsReader stringsReader) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.inputHandler = inputHandler;
@@ -224,15 +220,12 @@ public class GameImpl implements Game, TextHandler {
 			gui.addHud(h);
 		}
 
-		for (HudGO hud : gui.getHUDs()) {
-			hud.init();
+		for (SceneElementGO<?> hud : gui.getHUDs()) {
+			((HudGO) hud).init();
 		}
 
-		updateInitialTransformation();
-		inputHandler.setInitialTransformation(initialTransformation);
-
 		LoadingScreen loadingScreen = new LoadingScreen();
-		gameState.setScene((SceneGO<?>) sceneElementFactory.get(loadingScreen));
+		gui.setScene((SceneGO) sceneElementFactory.get(loadingScreen));
 
 		setGame();
 	}
@@ -246,7 +239,7 @@ public class GameImpl implements Game, TextHandler {
 		processProperties(text);
 		// It is necessary to load the default properties before set up
 		// GUI initialization
-		gui.initialize(this, gameState);
+		gui.initialize(this, gameState, sceneElementFactory, inputHandler);
 	}
 
 	private void processProperties(String text) {
@@ -343,7 +336,7 @@ public class GameImpl implements Game, TextHandler {
 	public void update() {
 		inputHandler.processActions();
 
-		// Update language. Update this every loop is probably too much
+		// Update language. Check this every loop is probably too much
 		updateLanguage();
 
 		// We load one possible asset in the background
@@ -357,21 +350,9 @@ public class GameImpl implements Game, TextHandler {
 		// Scene
 		if (!gameState.isPaused()) {
 			updateGameEvents();
-			gameState.getScene().update();
+			gui.update();
 			tweenController.update(gui.getSkippedMilliseconds());
 		}
-
-		gui.addElement(gameState.getScene(), initialTransformation);
-
-		// HUDs
-		for (HudGO hud : gui.getHUDs()) {
-			hud.update();
-			if (hud.isVisible()) {
-				gui.addElement(hud, initialTransformation);
-			}
-		}
-
-		// updateDebuggers();
 
 	}
 
@@ -384,12 +365,6 @@ public class GameImpl implements Game, TextHandler {
 			assetHandler.refresh();
 		}
 
-	}
-
-	private void updateDebuggers() {
-		if (debuggerHandler != null) {
-			debuggerHandler.doLayout(gui, initialTransformation);
-		}
 	}
 
 	private void updateGameEvents() {
@@ -414,9 +389,9 @@ public class GameImpl implements Game, TextHandler {
 
 	private void setGame() {
 		if (adventure != null) {
-			SceneGO<?> scene = (SceneGO<?>) sceneElementFactory.get(adventure
+			SceneGO scene = (SceneGO) sceneElementFactory.get(adventure
 					.getChapters().get(0).getInitialScene());
-			gameState.setScene(scene);
+			gui.setScene(scene);
 		}
 		// logger.info("Setting the game");
 		// gameState.setValue(SystemFields.GAME_WIDTH,
@@ -463,35 +438,6 @@ public class GameImpl implements Game, TextHandler {
 		if (debuggerHandler != null) {
 			debuggerHandler.setUp(model);
 		}
-	}
-
-	private void updateInitialTransformation() {
-		if (initialTransformation != null) {
-			initialTransformation.setValidated(true);
-		}
-
-		// currentWidth = gameState.getValue(
-		// SystemFields.GAME_WIDTH);
-		// currentWidth = gameState.getValue(
-		// SystemFields.GAME_HEIGHT);
-		//
-		// float scaleX = currentWidth
-		// / (float) adventure.getGameWidth();
-		// float scaleY = currentHeight
-		// / (float) adventure.getGameHeight();
-		//
-		// float scale = scaleX < scaleY ? scaleX : scaleY;
-		// float dispX = Math.abs(adventure.getGameWidth() * scaleX
-		// - adventure.getGameWidth() * scale) / 2;
-		// float dispY = Math.abs(adventure.getGameHeight() * scaleY
-		// - adventure.getGameHeight() * scale) / 2;
-		//
-		initialTransformation = new EAdTransformationImpl();
-		// initialTransformation.getMatrix().translate(dispX, dispY,
-		// true);
-		// initialTransformation.getMatrix().scale(scale, scale, true);
-		initialTransformation.setValidated(false);
-
 	}
 
 	@Override

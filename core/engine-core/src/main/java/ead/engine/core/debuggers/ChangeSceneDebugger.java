@@ -61,7 +61,7 @@ import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 @Singleton
 public class ChangeSceneDebugger implements Debugger {
@@ -72,7 +72,7 @@ public class ChangeSceneDebugger implements Debugger {
 
 	private List<EAdScene> scenes;
 
-	private List<DrawableGO<?>> drawables;
+	private List<SceneElementGO<?>> drawables;
 
 	private EAdField<Integer> currentScene;
 
@@ -94,7 +94,7 @@ public class ChangeSceneDebugger implements Debugger {
 		this.factory = factory;
 		this.gameState = gameState;
 		scenes = new ArrayList<EAdScene>();
-		drawables = new ArrayList<DrawableGO<?>>();
+		drawables = new ArrayList<SceneElementGO<?>>();
 		index = 0;
 		initGOButton();
 		initArrows();
@@ -169,7 +169,7 @@ public class ChangeSceneDebugger implements Debugger {
 	}
 
 	@Override
-	public List<DrawableGO<?>> getGameObjects() {
+	public List<SceneElementGO<?>> getGameObjects() {
 		int newIndex = gameState.getValue(currentScene);
 		if (index != newIndex) {
 			index = newIndex;

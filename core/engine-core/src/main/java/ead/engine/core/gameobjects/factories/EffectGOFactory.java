@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.factories;
 
 import ead.common.model.elements.EAdEffect;
-import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.gameobjects.effects.EffectGO;
 
 public interface EffectGOFactory extends
 		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {

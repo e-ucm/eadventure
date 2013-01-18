@@ -37,27 +37,32 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.ComplexSceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public abstract class AbstractHUD extends
-		ComplexSceneElementGOImpl<ComplexSceneElement> implements HudGO {
+public abstract class AbstractHUD extends SceneElementGOImpl implements HudGO {
 
 	/**
 	 * HUD priority
 	 */
 	private int priority;
 
-	public AbstractHUD(AssetHandler assetHandler,
+	private String id;
+
+	public AbstractHUD(String id, AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory, int priority) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		this.setPriority(priority);
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	@Override

@@ -41,25 +41,23 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.widgets.TextArea;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.go.SceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 import ead.tools.StringHandler;
 
-public class TextAreaGO extends SceneElementGOImpl<TextArea> {
+public class TextAreaGO extends SceneElementGOImpl {
 
 	private String currentText;
 
@@ -79,7 +77,7 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 	}
 
 	@Override
-	public void setElement(TextArea element) {
+	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
 		textCaption = new Caption(stringHandler.generateNewString());
 		textCaption.setPreferredHeight(this.getHeight());
@@ -89,7 +87,7 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 	}
 
 	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
+	public SceneElementGO<?> processAction(InputAction<?> action) {
 		super.processAction(action);
 		if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
@@ -125,12 +123,6 @@ public class TextAreaGO extends SceneElementGOImpl<TextArea> {
 	public void update() {
 		super.update();
 		textElement.update();
-	}
-
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-		super.doLayout(transformation);
-		gui.addElement(textElement, transformation);
 	}
 
 }

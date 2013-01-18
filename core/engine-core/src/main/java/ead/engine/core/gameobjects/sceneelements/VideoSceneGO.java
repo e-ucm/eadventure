@@ -35,13 +35,14 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.game.GameState;
@@ -51,10 +52,8 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
-import ead.engine.core.util.EAdTransformation;
 
-public class VideoSceneGO extends ComplexSceneElementGOImpl<VideoScene>
-		implements ComplexSceneElementGO<VideoScene> {
+public class VideoSceneGO extends SceneElementGOImpl {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("VideoScreenGOImpl");
@@ -64,6 +63,10 @@ public class VideoSceneGO extends ComplexSceneElementGOImpl<VideoScene>
 	private Object component;
 
 	private boolean error;
+
+	boolean toStart = false;
+
+	private VideoScene videoScene;
 
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -76,11 +79,10 @@ public class VideoSceneGO extends ComplexSceneElementGOImpl<VideoScene>
 		this.error = false;
 	}
 
-	public void doLayout(EAdTransformation transformation) {
-		// Do nothing
+	public void setElement(EAdSceneElement element) {
+		super.setElement(element);
+		this.videoScene = (VideoScene) element;
 	}
-
-	boolean toStart = false;
 
 	@Override
 	public void update() {
@@ -113,12 +115,12 @@ public class VideoSceneGO extends ComplexSceneElementGOImpl<VideoScene>
 	private void removeVideoComponent() {
 		component = null;
 
-		if (element.getFinalEffects().size() == 0) {
+		if (videoScene.getFinalEffects().size() == 0) {
 			ChangeSceneEf ef = new ChangeSceneEf();
 			gameState.addEffect(ef);
 
 		} else {
-			for (EAdEffect e : element.getFinalEffects()) {
+			for (EAdEffect e : videoScene.getFinalEffects()) {
 				gameState.addEffect(e);
 			}
 		}
@@ -131,7 +133,7 @@ public class VideoSceneGO extends ComplexSceneElementGOImpl<VideoScene>
 	}
 
 	@Override
-	public DrawableGO<?> processAction(InputAction<?> action) {
+	public SceneElementGO<?> processAction(InputAction<?> action) {
 		return null;
 	}
 

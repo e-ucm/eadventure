@@ -39,7 +39,7 @@ package ead.engine.core.trajectories;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 /**
  * General interface for trajectories generators. Trajectories are build from a

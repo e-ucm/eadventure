@@ -35,33 +35,33 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.sceneelements;
 
-import ead.engine.core.util.EAdTransformation;
+import com.google.inject.Inject;
 
-public interface Renderable extends InputActionProcessor {
+import ead.common.model.elements.scenes.EAdGroupElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-	/**
-	 * Layout out the child game objects of this game objects
-	 * 
-	 * @param transformation
-	 *            the transformation accumulated by this game object container
-	 */
-	void doLayout(EAdTransformation transformation);
+public class GroupElementGO extends SceneElementGOImpl {
 
-	/**
-	 * Updates the element
-	 */
-	void update();
+	@Inject
+	public GroupElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+	}
 
-	boolean contains(int x, int y);
-
-	/**
-	 * Returns the transformation (translation, rotation, scale, etc.) of this
-	 * game object
-	 * 
-	 * @return the transformation
-	 */
-	EAdTransformation getTransformation();
-
+	public void setElement(EAdSceneElement element) {
+		super.setElement(element);
+		EAdGroupElement group = (EAdGroupElement) element;
+		for (EAdSceneElement sceneElement : group.getSceneElements()) {
+			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
+			this.addSceneElement(go);
+		}
+	}
 }

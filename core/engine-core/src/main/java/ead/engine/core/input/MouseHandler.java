@@ -48,9 +48,10 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.MouseState;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
 @Singleton
@@ -130,9 +131,12 @@ public class MouseHandler {
 	 */
 	private int initZ;
 
-	public MouseHandler(GameState gameState) {
+	private GUI gui;
+
+	public MouseHandler(GameState gameState, GUI gui) {
 		mouseEvents = new LinkedList<MouseInputAction>();
 		this.gameState = gameState;
+		this.gui = gui;
 	}
 
 	/**
@@ -327,8 +331,8 @@ public class MouseHandler {
 			gameState.setValue(SystemFields.MOUSE_X, (int) mouse[0]);
 			gameState.setValue(SystemFields.MOUSE_Y, (int) mouse[1]);
 
-			if (gameState.getScene() != null) {
-				EAdTransformation t = gameState.getScene().getTransformation();
+			if (gui.getScene() != null) {
+				EAdTransformation t = gui.getScene().getTransformation();
 				if (t != null) {
 					mouse = t.getMatrix().multiplyPointInverse(x, y, true);
 				}

@@ -58,6 +58,7 @@ import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
 import ead.engine.core.gameobjects.effects.ChangeFieldGO;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
+import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
 import ead.engine.core.gameobjects.effects.InterpolationGO;
 import ead.engine.core.gameobjects.effects.ModifyHudGO;
@@ -70,7 +71,6 @@ import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
-import ead.engine.core.gameobjects.go.EffectGO;
 
 public class EffectGameObjectFactoryConfigurator
 		extends

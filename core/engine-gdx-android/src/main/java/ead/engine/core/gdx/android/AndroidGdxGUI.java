@@ -39,7 +39,6 @@ package ead.engine.core.gdx.android;
 
 import com.google.inject.Singleton;
 
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
@@ -47,9 +46,8 @@ import ead.engine.core.gdx.platform.GdxGUI;
 @Singleton
 public class AndroidGdxGUI extends GdxGUI {
 
-	public AndroidGdxGUI(GameObjectManager gameObjectManager, GdxCanvas canvas,
-			GdxEngine engine) {
-		super(gameObjectManager, canvas, engine);
+	public AndroidGdxGUI(GdxCanvas canvas, GdxEngine engine) {
+		super(canvas, engine);
 	}
 
 	@Override

@@ -37,19 +37,27 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.engine.core.gameobjects.go.ComplexSceneElementGO;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 /**
  * Classes that implement this interface represent a HUD element of the
  * eAdventure game.
  */
-public interface HudGO extends ComplexSceneElementGO<ComplexSceneElement> {
+public interface HudGO extends SceneElementGO<EAdSceneElement> {
+
+	/**
+	 * Return the id for the HUD
+	 * 
+	 * @return
+	 */
+	String getId();
 
 	/**
 	 * It is called when the graphic context has been created. HUDs graphics
 	 * components (buttons, labels...) should be created here. The method
-	 * {@link ComplexSceneElementGO#setElement(Object)} with an appropriate
+	 * {@link GroupElementGO#setElement(Object)} with an appropriate
 	 * element is usually called here
 	 */
 	void init();
