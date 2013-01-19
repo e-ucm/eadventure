@@ -114,7 +114,8 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * 
 	 * @param x
 	 * @param y
-	 * @param list TODO
+	 * @param list
+	 *            TODO
 	 */
 	void getAllGOIn(int x, int y, List<SceneElementGO<?>> list);
 
@@ -183,6 +184,18 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setScale(float scale);
 
 	/**
+	 * Sets scale for x axis
+	 * @param scaleX
+	 */
+	void setScaleX(float scaleX);
+
+	/**
+	 * Sets scale for y axis
+	 * @param scaleY
+	 */
+	void setScaleY(float scaleY);
+
+	/**
 	 * Returns the current scale of the element
 	 * 
 	 * @return
@@ -202,6 +215,12 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * @return
 	 */
 	int getHeight();
+
+	/**
+	 * Sets the rotation for the element
+	 * @param r
+	 */
+	void setRotation(float r);
 
 	/**
 	 * Sets the alpha for this element
@@ -233,6 +252,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	/**
 	 * Sets if this element is visible
+	 * 
 	 * @param visible
 	 */
 	void setVisible(boolean visible);
@@ -257,7 +277,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * Resets the current transformation, deleting any parent's transformation
 	 * effect
 	 */
-	void resetTransfromation();
+	void resetTransformation();
 
 	/**
 	 * Returns if this game object is enable for user interactions
@@ -286,6 +306,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	/**
 	 * Returns the drawable that represents this element
+	 * 
 	 * @return
 	 */
 	RuntimeDrawable<?, ?> getDrawable();
@@ -306,5 +327,10 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * @return the transformation
 	 */
 	EAdTransformation getTransformation();
+
+	/**
+	 * Invalidates the transformation hierarchy
+	 */
+	void invalidate();
 
 }

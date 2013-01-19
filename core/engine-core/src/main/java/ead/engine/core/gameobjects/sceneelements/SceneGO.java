@@ -42,6 +42,7 @@ import java.util.Comparator;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -49,7 +50,7 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class SceneGO extends SceneElementGOImpl implements
+public class SceneGO extends GroupElementGO implements
 		Comparator<SceneElementGO<?>> {
 
 	@Inject
@@ -60,11 +61,11 @@ public class SceneGO extends SceneElementGOImpl implements
 		setComparator(this);
 	}
 
-	public void setElement(EAdScene element) {
+	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
-		sceneElements.add(0, sceneElementFactory.get(element.getBackground()));
-		gameState.setValue(element.getBackground(), SceneElement.VAR_Z,
-				Integer.MIN_VALUE);
+		EAdSceneElement bg = ((EAdScene) element).getBackground();
+		addSceneElement(sceneElementFactory.get(bg));
+		gameState.setValue(bg, SceneElement.VAR_Z, Integer.MIN_VALUE);
 	}
 
 	@Override

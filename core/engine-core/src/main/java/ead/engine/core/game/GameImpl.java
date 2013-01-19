@@ -217,7 +217,7 @@ public class GameImpl implements Game, TextHandler {
 				assetHandler, sceneElementFactory, gui, gameState,
 				eventFactory, this });
 		for (HudGO h : huds) {
-			gui.addHud(h);
+			//			gui.addHud(h);
 		}
 
 		for (SceneElementGO<?> hud : gui.getHUDs()) {

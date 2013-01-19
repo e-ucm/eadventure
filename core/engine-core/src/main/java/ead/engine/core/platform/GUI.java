@@ -48,7 +48,6 @@ import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.util.EAdTransformation;
 
 /**
  * This interface is implemented by the class that implements the high level
@@ -92,7 +91,7 @@ public interface GUI {
 	 * 
 	 * @param hud
 	 */
-	void addHud(HudGO hud);
+	void addHud(SceneElementGO<?> hud);
 
 	/**
 	 * Removes a HUD to the GUI. This method shouldn't be used to control HUDs
@@ -131,19 +130,6 @@ public interface GUI {
 	 * 
 	 */
 	void commit();
-
-	/**
-	 * Adds to transformation t1 transformation t2. Can be used externally for
-	 * those interested
-	 * 
-	 * @param t1
-	 *            transformation 1
-	 * @param t2
-	 *            transformation 2
-	 * @returns t1
-	 */
-	EAdTransformation addTransformation(EAdTransformation t1,
-			EAdTransformation t2);
 
 	/**
 	 * Processes the given action. The GUI deals with finding the target for the

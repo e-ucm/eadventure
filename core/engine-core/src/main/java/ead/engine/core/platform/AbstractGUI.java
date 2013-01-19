@@ -50,8 +50,6 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.fills.ColorFill;
-import ead.common.util.EAdRectangle;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
@@ -131,8 +129,11 @@ public abstract class AbstractGUI<T> implements GUI {
 		eAdCanvas.setWidth(gameState.getValue(SystemFields.GAME_WIDTH));
 		eAdCanvas.setHeight(gameState.getValue(SystemFields.GAME_HEIGHT));
 		root = sceneElementFactory.get(new GroupElement());
+		root.getElement().setId("#engine.root");
 		hudRoot = sceneElementFactory.get(new GroupElement());
+		hudRoot.getElement().setId("#engine.huds");
 		sceneRoot = sceneElementFactory.get(new GroupElement());
+		sceneRoot.getElement().setId("#engine.sceneContainer");
 
 		root.addSceneElement(hudRoot);
 		root.addSceneElement(sceneRoot);
@@ -146,7 +147,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	@Override
-	public void addHud(HudGO hud) {
+	public void addHud(SceneElementGO<?> hud) {
 		hudRoot.addSceneElement(hud);
 	}
 
@@ -181,14 +182,10 @@ public abstract class AbstractGUI<T> implements GUI {
 	@SuppressWarnings("unchecked")
 	public void commit(SceneElementGO<?> go) {
 		EAdTransformation t = go.getTransformation();
-		t.setValidated(true);
 		eAdCanvas.setTransformation(t);
 		RuntimeDrawable<?, ?> r = go.getDrawable();
 		if (r != null) {
 			go.getDrawable().render(eAdCanvas);
-		} else {
-			eAdCanvas.setPaint(ColorFill.MAGENTA);
-			eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
 		}
 		for (SceneElementGO<?> g : go.getChildren()) {
 			commit(g);
@@ -197,35 +194,6 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	public void update() {
 		root.update();
-	}
-
-	@Override
-	public EAdTransformation addTransformation(EAdTransformation t1,
-			EAdTransformation t2) {
-		float alpha = t1.getAlpha() * t2.getAlpha();
-		boolean visible = t1.isVisible() && t2.isVisible();
-
-		t1.setAlpha(alpha);
-		t1.setVisible(visible);
-		t1.getMatrix().multiply(t2.getMatrix().getFlatMatrix(), false);
-
-		EAdRectangle clip1 = t1.getClip();
-		EAdRectangle clip2 = t2.getClip();
-		EAdRectangle newclip = new EAdRectangle(0, 0, 0, 0);
-
-		// FIXME multiply for matrix to know where the clip actually is
-		if (clip1 == null) {
-			newclip = clip2;
-		} else if (clip2 == null) {
-			newclip = clip1;
-		} else if (clip1 != null && clip2 != null) {
-			newclip = clip2;
-		}
-
-		if (newclip != null)
-			t1.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
-
-		return t1;
 	}
 
 	public SceneElementGO<?> processAction(InputAction<?> action) {
@@ -283,6 +251,8 @@ public abstract class AbstractGUI<T> implements GUI {
 				previousSceneStack.push((EAdScene) scene.getElement());
 			}
 		}
+		// Remove old scene
+		sceneRoot.removeSceneElement(scene);
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null) {
 			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
@@ -293,6 +263,8 @@ public abstract class AbstractGUI<T> implements GUI {
 						.setValue(scene.getElement(), e.getKey(), e.getValue());
 			}
 		}
+		// Add new scene
+		sceneRoot.addSceneElement(scene);
 	}
 
 	private void updateInitialTransformation() {

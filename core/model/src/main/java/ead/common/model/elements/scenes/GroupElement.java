@@ -72,12 +72,6 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 	@Param("sceneElements")
 	protected EAdList<EAdSceneElement> sceneElements;
 
-	/**
-	 * Creates an empty complex scene element
-	 * 
-	 * @param id
-	 *            the id for the element
-	 */
 	public GroupElement() {
 		super();
 		sceneElements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);

@@ -56,6 +56,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
+import ead.common.util.EAdRectangle;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.events.EventGO;
@@ -74,84 +75,176 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	protected static final Logger logger = LoggerFactory
 			.getLogger("SceneElementGOImpl");
 
-	private EventGOFactory eventFactory;
-
-	protected AssetHandler assetHandler;
-
-	protected EAdPosition position;
-
-	protected SceneElementGO<?> parent;
-
-	protected float scale;
-
-	protected float scaleX;
-
-	protected float scaleY;
-
-	protected Orientation orientation;
-
-	protected String state;
-
-	protected float rotation;
-
-	private int width;
-
-	private int height;
-
-	private int timeDisplayed;
-
-	protected float alpha;
-
-	protected boolean visible;
-
-	private ArrayList<EventGO<?>> eventGOList;
-
-	protected String currentBundle;
-
-	private List<String> statesList;
-
-	private RuntimeCompoundDrawable<?> runtimeDrawable;
-
-	private RuntimeDrawable<?, ?> currentDrawable;
-
-	protected GameState gameState;
-
-	protected boolean mouseOver;
-
-	protected InputActionProcessor inputProcessor;
-
-	protected List<SceneElementGO<?>> sceneElements;
-
-	protected SceneElementGOFactory sceneElementFactory;
+	// Engine components
 
 	/**
-	 * The game's asset handler
+	 * GUI
 	 */
-
 	protected GUI gui;
 
-	protected EAdTransformation transformation;
+	/**
+	 * Events factory
+	 */
+	protected EventGOFactory eventFactory;
 
-	protected boolean enable;
+	/**
+	 * Asset handler
+	 */
+	protected AssetHandler assetHandler;
 
-	protected EAdSceneElement element;
+	/**
+	 * Game state
+	 */
+	protected GameState gameState;
+
+	/**
+	 * Scene element factory
+	 */
+	protected SceneElementGOFactory sceneElementFactory;
+
+	// Scene element properties
+
+	/**
+	 * Scene element parent
+	 */
+	protected SceneElementGO<?> parent;
+
+	/**
+	 * Children scene elements
+	 */
+	protected List<SceneElementGO<?>> children;
 
 	/**
 	 * Comparator to order the scene elements
 	 */
 	private Comparator<SceneElementGO<?>> comparator;
 
+	/**
+	 * Scene element
+	 */
+	protected EAdSceneElement element;
+
+	/**
+	 * Current position
+	 */
+	protected EAdPosition position;
+
+	/**
+	 * Global scale
+	 */
+	protected float scale;
+
+	/**
+	 * Scale in x axis
+	 */
+	protected float scaleX;
+
+	/**
+	 * Scale in y axis
+	 */
+	protected float scaleY;
+
+	/**
+	 * Element orientation
+	 */
+	protected Orientation orientation;
+
+	/**
+	 * Current state
+	 */
+	protected String state;
+
+	/**
+	 * Current rotation
+	 */
+	protected float rotation;
+
+	/**
+	 * Element with in the screen
+	 */
+	private int width;
+
+	/**
+	 * Element height in the screen
+	 */
+	private int height;
+
+	/**
+	 * Time since element is displayed
+	 */
+	private int timeDisplayed;
+
+	/**
+	 * Element alpha
+	 */
+	protected float alpha;
+
+	/**
+	 * If the element is visible
+	 */
+	protected boolean visible;
+
+	/**
+	 * Current asset bundle
+	 */
+	protected String currentBundle;
+
+	/**
+	 * Current transformation
+	 */
+	protected EAdTransformation transformation;
+
+	/**
+	 * If the element receives input actions
+	 */
+	protected boolean enable;
+
+	/**
+	 * If the mouse is over the element
+	 */
+	protected boolean mouseOver;
+
+	/**
+	 * Current input processor that process all input actions (could be
+	 * {@code null})
+	 */
+	protected InputActionProcessor inputProcessor;
+
+	/**
+	 * Current compound asset
+	 */
+	private RuntimeCompoundDrawable<?> runtimeDrawable;
+
+	/**
+	 * Current drawable (contained in {@link SceneElementGOImpl#runtimeDrawable}
+	 * ) drawn
+	 */
+	private RuntimeDrawable<?, ?> currentDrawable;
+
+	// Additional attributes
+
+	/**
+	 * List with the events of this element
+	 */
+	private ArrayList<EventGO<?>> eventGOList;
+
+	/**
+	 * List with the states of this element
+	 */
+	private List<String> statesList;
+
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		this.eventFactory = eventFactory;
-		this.statesList = new ArrayList<String>();
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
-		sceneElements = new ArrayList<SceneElementGO<?>>();
+
+		statesList = new ArrayList<String>();
+		children = new ArrayList<SceneElementGO<?>>();
 		eventGOList = new ArrayList<EventGO<?>>();
 	}
 
@@ -164,7 +257,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	}
 
 	public List<SceneElementGO<?>> getChildren() {
-		return sceneElements;
+		return children;
 	}
 
 	@Override
@@ -219,15 +312,11 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	}
 
 	/**
-	 * Sets a comparator to automatically reorder the scene elements (modifies
-	 * drawing order)
+	 * Launches a list of effects
 	 * 
-	 * @param comparator
+	 * @param list
+	 * @param action
 	 */
-	public void setComparator(Comparator<SceneElementGO<?>> comparator) {
-		this.comparator = comparator;
-	}
-
 	private void addEffects(EAdList<EAdEffect> list, InputAction<?> action) {
 		if (list != null && list.size() > 0) {
 			action.consume();
@@ -238,16 +327,16 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets a comparator to automatically reorder the scene elements (modifies
+	 * drawing order)
 	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#setElement
-	 * (es.eucm.eadventure.common.model.EAdElement)
-	 * 
-	 * Should be implemented to get position, scale, orientation and other
-	 * values
+	 * @param comparator
 	 */
+	public void setComparator(Comparator<SceneElementGO<?>> comparator) {
+		this.comparator = comparator;
+	}
+
 	@Override
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
@@ -267,30 +356,26 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 				SceneElementDef.INITIAL_BUNDLE);
 
 		// Scene element events
-		if (element.getEvents() != null) {
-			for (EAdEvent event : element.getEvents()) {
-				EventGO<?> eventGO = eventFactory.get(event);
-				eventGO.setParent(element);
-				eventGO.initialize();
-				eventGOList.add(eventGO);
-			}
-		}
-
+		initEvents(element.getEvents());
 		// Definition events
-		if (element.getEvents() != null) {
-			for (EAdEvent event : element.getDefinition().getEvents()) {
-				EventGO<?> eventGO = eventFactory.get(event);
-				eventGO.setParent(element);
-				eventGO.initialize();
-				eventGOList.add(eventGO);
-			}
-
-		}
+		initEvents(element.getDefinition().getEvents());
 
 		position = new EAdPosition(0, 0);
 		updateVars();
-		setVars();
-		resetTransfromation();
+		setExtraVars();
+		resetTransformation();
+	}
+
+	private void initEvents(EAdList<EAdEvent> events) {
+		if (element.getEvents() != null) {
+			for (EAdEvent event : events) {
+				EventGO<?> eventGO = eventFactory.get(event);
+				eventGO.setParent(element);
+				eventGO.initialize();
+				eventGOList.add(eventGO);
+			}
+
+		}
 	}
 
 	/**
@@ -299,14 +384,16 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	protected void updateVars() {
 
 		enable = gameState.getValue(element, SceneElement.VAR_ENABLE);
-		visible = gameState.getValue(element, SceneElement.VAR_VISIBLE);
-		rotation = gameState.getValue(element, SceneElement.VAR_ROTATION);
-		scale = gameState.getValue(element, SceneElement.VAR_SCALE);
-		scaleX = gameState.getValue(element, SceneElement.VAR_SCALE_X);
-		scaleY = gameState.getValue(element, SceneElement.VAR_SCALE_Y);
-		alpha = gameState.getValue(element, SceneElement.VAR_ALPHA);
 		orientation = gameState.getValue(element, SceneElement.VAR_ORIENTATION);
 		state = gameState.getValue(element, SceneElement.VAR_STATE);
+
+		// Transformation
+		setVisible(gameState.getValue(element, SceneElement.VAR_VISIBLE));
+		setRotation(gameState.getValue(element, SceneElement.VAR_ROTATION));
+		setScale(gameState.getValue(element, SceneElement.VAR_SCALE));
+		setScaleX(gameState.getValue(element, SceneElement.VAR_SCALE_X));
+		setScaleY(gameState.getValue(element, SceneElement.VAR_SCALE_Y));
+		setAlpha(gameState.getValue(element, SceneElement.VAR_ALPHA));
 
 		statesList.clear();
 		statesList.add(state);
@@ -364,7 +451,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	/**
 	 * Sets some variables
 	 */
-	protected void setVars() {
+	protected void setExtraVars() {
 		int scaleW = (int) (width * scale * scaleX);
 		int scaleH = (int) (height * scale * scaleY);
 		int x = position.getJavaX(scaleW);
@@ -378,7 +465,16 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	}
 
-	public void resetTransfromation() {
+	public void invalidate() {
+		if (transformation.isValidated()) {
+			transformation.setValidated(false);
+			for (SceneElementGO<?> go : children) {
+				go.invalidate();
+			}
+		}
+	}
+
+	public void resetTransformation() {
 		transformation.setAlpha(alpha);
 		transformation.setVisible(visible);
 		transformation.getMatrix().setIdentity();
@@ -393,6 +489,47 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		transformation.getMatrix().scale(scale * scaleX, scale * scaleY, true);
 		transformation.getMatrix().translate(-deltaX, -deltaY, true);
 
+		if (parent != null) {
+			addTransformation(transformation, parent.getTransformation());
+		}
+		transformation.setValidated(true);
+	}
+
+	/**
+	 * Adds to transformation t1 transformation t2.
+	 * 
+	 * @param t1
+	 *            transformation 1
+	 * @param t2
+	 *            transformation 2
+	 * @returns t1
+	 */
+	public EAdTransformation addTransformation(EAdTransformation t1,
+			EAdTransformation t2) {
+		float alpha = t1.getAlpha() * t2.getAlpha();
+		boolean visible = t1.isVisible() && t2.isVisible();
+
+		t1.setAlpha(alpha);
+		t1.setVisible(visible);
+		t1.getMatrix().multiply(t2.getMatrix().getFlatMatrix(), false);
+
+		EAdRectangle clip1 = t1.getClip();
+		EAdRectangle clip2 = t2.getClip();
+		EAdRectangle newclip = new EAdRectangle(0, 0, 0, 0);
+
+		// FIXME multiply for matrix to know where the clip actually is
+		if (clip1 == null) {
+			newclip = clip2;
+		} else if (clip2 == null) {
+			newclip = clip1;
+		} else if (clip1 != null && clip2 != null) {
+			newclip = clip2;
+		}
+
+		if (newclip != null)
+			t1.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
+
+		return t1;
 	}
 
 	@Override
@@ -411,14 +548,13 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	 */
 	@Override
 	public void update() {
-
-		for (SceneElementGO<?> go : this.sceneElements) {
-			go.update();
-		}
-
 		// Reorder list
 		if (comparator != null) {
-			Collections.sort(sceneElements, comparator);
+			Collections.sort(children, comparator);
+		}
+
+		for (SceneElementGO<?> go : this.children) {
+			go.update();
 		}
 
 		if (eventGOList != null) {
@@ -437,9 +573,12 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		if (gameState.checkForUpdates(element)) {
 			gameState.setUpdateListEnable(false);
 			updateVars();
-			setVars();
-			resetTransfromation();
+			setExtraVars();
 			gameState.setUpdateListEnable(true);
+		}
+
+		if (!transformation.isValidated()) {
+			resetTransformation();
 		}
 
 	}
@@ -469,12 +608,14 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	@Override
 	public void setPosition(EAdPosition position) {
+		this.position = position;
 		gameState.setValue(element, SceneElement.VAR_X, position.getX());
 		gameState.setValue(element, SceneElement.VAR_Y, position.getY());
 		gameState.setValue(element, SceneElement.VAR_DISP_X, position
 				.getDispX());
 		gameState.setValue(element, SceneElement.VAR_DISP_Y, position
 				.getDispY());
+		this.invalidate();
 	}
 
 	@Override
@@ -521,17 +662,43 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	@Override
 	public void setScale(float scale) {
+		this.scale = scale;
 		gameState.setValue(element, SceneElement.VAR_SCALE, scale);
+		invalidate();
 	}
 
-	public void setWidth(int width) {
+	public void setScaleX(float scaleX) {
+		this.scaleX = scaleX;
+		gameState.setValue(element, SceneElement.VAR_SCALE_X, scaleX);
+		invalidate();
+	}
+
+	public void setScaleY(float scaleY) {
+		this.scaleY = scaleY;
+		gameState.setValue(element, SceneElement.VAR_SCALE_Y, scaleY);
+		invalidate();
+	}
+
+	/**
+	 * Sets the width of the element. It can't be used from outside this class
+	 * 
+	 * @param width
+	 */
+	protected void setWidth(int width) {
 		this.width = width;
 		gameState.setValue(element, SceneElement.VAR_WIDTH, width);
+		invalidate();
 	}
 
-	public void setHeight(int height) {
+	/**
+	 * Sets the height of the element. It can't be used from outside this class
+	 * 
+	 * @param height
+	 */
+	protected void setHeight(int height) {
 		this.height = height;
 		gameState.setValue(element, SceneElement.VAR_HEIGHT, height);
+		invalidate();
 	}
 
 	@Override
@@ -567,11 +734,19 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	public void setX(int x) {
 		this.position.set(x, position.getY());
 		gameState.setValue(element, SceneElement.VAR_X, x);
+		invalidate();
 	}
 
 	public void setY(int y) {
 		this.position.set(position.getX(), y);
 		gameState.setValue(element, SceneElement.VAR_Y, y);
+		invalidate();
+	}
+
+	public void setRotation(float r) {
+		this.rotation = r;
+		gameState.setValue(element, SceneElement.VAR_ROTATION, r);
+		invalidate();
 	}
 
 	public int getX() {
@@ -585,6 +760,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	public void setAlpha(float alpha) {
 		gameState.setValue(element, SceneElement.VAR_ALPHA, alpha);
 		this.alpha = alpha;
+		invalidate();
 	}
 
 	public void setEnabled(boolean enable) {
@@ -596,6 +772,9 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	public void collectSceneElements(List<EAdSceneElement> elements) {
 		if (getElement() != null)
 			elements.add(getElement());
+		for (SceneElementGO<?> s : children) {
+			s.collectSceneElements(elements);
+		}
 	}
 
 	public boolean isVisible() {
@@ -603,7 +782,9 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	}
 
 	public void setVisible(boolean visible) {
+		this.visible = visible;
 		gameState.setValue(element, SceneElement.VAR_VISIBLE, visible);
+		invalidate();
 	}
 
 	public SceneElementGO<?> getChild(EAdSceneElement sceneElement) {
@@ -623,19 +804,21 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	@Override
 	public void addSceneElement(SceneElementGO<?> sceneElement) {
-		this.sceneElements.add(sceneElement);
+		this.children.add(sceneElement);
+		sceneElement.getTransformation().setValidated(false);
 		sceneElement.setParent(this);
 	}
 
 	@Override
 	public void removeSceneElement(SceneElementGO<?> sceneElement) {
-		this.sceneElements.remove(sceneElement);
+		this.children.remove(sceneElement);
 	}
 
 	@Override
 	public SceneElementGO<?> getFirstGOIn(int x, int y) {
 		SceneElementGO<?> result = null;
-		for (SceneElementGO<?> e : sceneElements) {
+		for (int i = children.size() - 1; i >= 0; i--) {
+			SceneElementGO<?> e = children.get(i);
 			result = e.getFirstGOIn(x, y);
 			if (result != null) {
 				break;
@@ -652,9 +835,14 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		if (this.contains(x, y)) {
 			list.add(this);
 		}
-		for (SceneElementGO<?> e : sceneElements) {
+		for (int i = children.size() - 1; i >= 0; i--) {
+			SceneElementGO<?> e = children.get(i);
 			e.getAllGOIn(x, y, list);
 		}
+	}
+
+	public String toString() {
+		return this.element + "";
 	}
 
 }

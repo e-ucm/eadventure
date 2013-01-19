@@ -286,4 +286,8 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		return new BasicField<T>(this, varDef);
 	}
 
+	public String toString() {
+		return getId();
+	}
+
 }

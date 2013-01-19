@@ -60,7 +60,6 @@ import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 import ead.tools.BasicSceneGraph;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
@@ -110,7 +109,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void addHud(HudGO hud) {
+		public void addHud(SceneElementGO<?> hud) {
 			// TODO Auto-generated method stub
 
 		}
@@ -132,13 +131,6 @@ public class AssetViewerModule extends AbstractModule {
 		public void commit() {
 			// TODO Auto-generated method stub
 
-		}
-
-		@Override
-		public EAdTransformation addTransformation(EAdTransformation t1,
-				EAdTransformation t2) {
-			// TODO Auto-generated method stub
-			return null;
 		}
 
 		@Override
