@@ -37,26 +37,25 @@
 
 package ead.engine.core.gameobjects.sceneelements.transitions;
 
-import com.google.inject.Inject;
-
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
-import ead.engine.core.input.InputHandler;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
+public class BasicTransitionGO extends TransitionGO<EmptyTransition> {
 
-	@Inject
 	public BasicTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+	}
+
+	@Override
+	public void transition(SceneGO scene) {
+		gui.setScene(scene);
 	}
 
 }

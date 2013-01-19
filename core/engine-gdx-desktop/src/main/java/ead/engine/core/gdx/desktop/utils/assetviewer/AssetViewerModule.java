@@ -115,7 +115,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void removeHUD(HudGO hud) {
+		public void removeHUD(SceneElementGO<?> hud) {
 			// TODO Auto-generated method stub
 
 		}
@@ -185,6 +185,12 @@ public class AssetViewerModule extends AbstractModule {
 
 		@Override
 		public void update() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void setUp() {
 			// TODO Auto-generated method stub
 
 		}

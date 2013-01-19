@@ -42,9 +42,9 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
-import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.GhostElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
@@ -55,7 +55,6 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.huds.EffectsHUD;
-import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.MouseInputAction;
@@ -92,7 +91,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 
 	private SceneElementGO<?> bubbleDialog;
 
-	private HudGO effectsHud;
+	private SceneElementGO<?> effectsHud;
 
 	@Inject
 	public SpeakGO(GameState gameState, GUI gui,
@@ -133,7 +132,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		finished = false;
 		alpha = 0.0f;
 		gone = false;
-		effectsHud = (HudGO) gui.getHUD(EffectsHUD.ID);
+		effectsHud = gui.getHUD(EffectsHUD.ID);
 		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
 		bubbleDialog.setInputProcessor(this);
 		effectsHud.addSceneElement(bubbleDialog);

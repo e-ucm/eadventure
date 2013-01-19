@@ -47,50 +47,84 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.sceneelements.transitions.AbstractTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.TransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
 import ead.engine.core.platform.GUI;
 
-public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
+public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
+		SceneLoaderListener {
 
 	private GUI gui;
+
+	private SceneLoader sceneLoader;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ChangeSceneGO");
 
 	private SceneElementGOFactory transitionFactory;
 
+	private boolean finished;
+
+	private TransitionGO<?> transition;
+
 	@Inject
 	public ChangeSceneGO(GUI gui, GameState gameState,
-			SceneElementGOFactory transitionFactory) {
+			SceneElementGOFactory sceneElementFactory, SceneLoader sceneLoader) {
 		super(gameState);
+		this.sceneLoader = sceneLoader;
 		this.gui = gui;
-		this.transitionFactory = transitionFactory;
+		this.transitionFactory = sceneElementFactory;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
+		finished = false;
 		// If the effect is to a different scene
 		if (effect.getNextScene() == null
 				|| effect.getNextScene() != gui.getScene().getElement()) {
-			AbstractTransitionGO<?> transition = (AbstractTransitionGO<?>) transitionFactory
-					.get(effect.getTransition());
+			transition = (TransitionGO<?>) transitionFactory.get(effect
+					.getTransition());
+			transition.setPreviousScene(gui.getScene());
 			EAdElement e = effect.getNextScene();
 			if (e != null) {
 				Object finalElement = gameState.maybeDecodeField(e);
 				if (finalElement instanceof EAdScene) {
-					transition.setNext((EAdScene) finalElement);
+					sceneLoader.loadScene((EAdScene) finalElement, this);
 				} else {
 					logger
 							.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
-					transition.setNext(gui.getPreviousScene());
+
 				}
 			} else {
-				transition.setNext(gui.getPreviousScene());
+
 			}
-			transition.setPrevious(gui.getScene());
 			gui.setScene(transition);
 		}
+	}
+
+	@Override
+	public void sceneLoaded(SceneGO sceneGO) {
+		transition.transition(sceneGO);
+		finished = true;
+	}
+
+	public void update() {
+		sceneLoader.step();
+	}
+
+	public boolean isQueuable() {
+		return true;
+	}
+
+	public boolean isBlocking() {
+		return true;
+	}
+
+	public boolean isFinished() {
+		return finished;
 	}
 
 }

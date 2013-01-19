@@ -55,7 +55,7 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.EventGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
-import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.GraphSceneLoader;
+import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.GdxEngineImpl;
@@ -124,7 +124,7 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(GameTracker.class, DefaultGameTracker.class);
 		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);
 
-		binds.put(SceneLoader.class, GraphSceneLoader.class);
+		binds.put(SceneLoader.class, DefaultSceneLoader.class);
 
 		binds.put(SceneGraph.class, BasicSceneGraph.class);
 

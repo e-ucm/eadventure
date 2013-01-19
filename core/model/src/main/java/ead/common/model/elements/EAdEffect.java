@@ -52,31 +52,6 @@ import ead.common.model.elements.extra.EAdList;
 public interface EAdEffect extends EAdElement, Conditioned {
 
 	/**
-	 * If returns {@code true} means no subsequent effects will be triggered
-	 * until this effect is finished. If returns {@code false}, other effects
-	 * can be executed in parallel with this one
-	 * 
-	 * @return
-	 */
-	boolean isBlocking();
-
-	/**
-	 * If returns {@code true} means that GUI events will be only processed for
-	 * this effect or those which are over it
-	 * 
-	 * @return
-	 */
-	boolean isOpaque();
-
-	boolean isQueueable();
-
-	void setQueueable(boolean queueable);
-
-	void setBlocking(boolean blocking);
-
-	void setOpaque(boolean opaque);
-
-	/**
 	 * Returns the effects to be launched when this effect ends
 	 * 
 	 * @return

@@ -204,6 +204,7 @@ public class GameImpl implements Game, TextHandler {
 		addFilters();
 
 		assetHandler.initialize();
+		gui.setUp();
 
 		// Load strings
 		loadStrings();
@@ -221,7 +222,7 @@ public class GameImpl implements Game, TextHandler {
 		}
 
 		for (SceneElementGO<?> hud : gui.getHUDs()) {
-			((HudGO) hud).init();
+			//			((HudGO) hud).init();
 		}
 
 		LoadingScreen loadingScreen = new LoadingScreen();

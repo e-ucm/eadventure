@@ -355,7 +355,6 @@ public class NgRoom1 extends EmptyScene {
 		ChangeFieldEf up = new ChangeFieldEf(darknessAlpha, op1);
 		ChangeFieldEf down = new ChangeFieldEf(darknessAlpha, op2);
 		WaitEf wait = new WaitEf();
-		wait.setBlocking(false);
 		wait.setTime(50);
 
 		up.getNextEffects().add(wait);

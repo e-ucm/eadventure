@@ -58,13 +58,13 @@ public class SceneGO extends GroupElementGO implements
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		setComparator(this);
+		//		setComparator(this);
 	}
 
 	public void setElement(EAdSceneElement element) {
-		super.setElement(element);
 		EAdSceneElement bg = ((EAdScene) element).getBackground();
 		addSceneElement(sceneElementFactory.get(bg));
+		super.setElement(element);
 		gameState.setValue(bg, SceneElement.VAR_Z, Integer.MIN_VALUE);
 	}
 

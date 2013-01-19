@@ -79,8 +79,6 @@ public class PhysicsEffect extends AbstractEffect {
 		super();
 		elements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		joints = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
-		setBlocking(false);
-		setQueueable(true);
 	}
 
 	public void addSceneElement(EAdSceneElement element) {

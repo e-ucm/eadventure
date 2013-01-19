@@ -94,14 +94,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 
 	}
 
-	@Override
-	public boolean isBlocking() {
-		return effect.isBlocking();
+	public boolean isQueueable() {
+		return false;
 	}
 
-	@Override
-	public boolean isQueueable() {
-		return effect.isQueueable();
+	public boolean isBlocking() {
+		return false;
 	}
 
 	@Override
@@ -129,7 +127,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	}
 
 	public boolean isFinished() {
-		return !effect.isQueueable();
+		return !isQueueable();
 	}
 
 }

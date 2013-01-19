@@ -43,7 +43,6 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.input.InputAction;
@@ -99,7 +98,7 @@ public interface GUI {
 	 * 
 	 * @param hud
 	 */
-	void removeHUD(HudGO hud);
+	void removeHUD(SceneElementGO<?> hud);
 
 	/**
 	 * Return a list of HUDs added to the GUI
@@ -189,5 +188,7 @@ public interface GUI {
 	 * Updates one tick the gui
 	 */
 	void update();
+
+	void setUp();
 
 }

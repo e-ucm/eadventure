@@ -44,6 +44,7 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -55,7 +56,6 @@ import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.GameObjectFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.input.InputAction;
@@ -135,10 +135,16 @@ public abstract class AbstractGUI<T> implements GUI {
 		sceneRoot = sceneElementFactory.get(new GroupElement());
 		sceneRoot.getElement().setId("#engine.sceneContainer");
 
-		root.addSceneElement(hudRoot);
 		root.addSceneElement(sceneRoot);
+		root.addSceneElement(hudRoot);
 		updateInitialTransformation();
 		inputHandler.setInitialTransformation(initialTransformation);
+
+	}
+
+	public void setUp() {
+		// Add huds
+		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
 	}
 
 	@Override
@@ -152,7 +158,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	@Override
-	public void removeHUD(HudGO hud) {
+	public void removeHUD(SceneElementGO<?> hud) {
 		hudRoot.removeSceneElement(hud);
 	}
 

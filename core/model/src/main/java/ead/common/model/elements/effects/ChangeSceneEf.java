@@ -82,7 +82,6 @@ public class ChangeSceneEf extends AbstractEffect {
 		super();
 		this.nextScene = nextScene;
 		this.transition = transition;
-		this.setQueueable(true);
 	}
 
 	public ChangeSceneEf(EAdScene scene) {

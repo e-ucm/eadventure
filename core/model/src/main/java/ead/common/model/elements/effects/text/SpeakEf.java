@@ -96,8 +96,6 @@ public class SpeakEf extends AbstractEffect {
 		caption.setTextPaint(ColorFill.BLACK);
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
-		setQueueable(true);
-		setOpaque(true);
 	}
 
 	public SpeakEf() {

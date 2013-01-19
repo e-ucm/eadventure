@@ -44,54 +44,65 @@ import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
-import ead.engine.core.input.InputHandler;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition> {
-
-	private boolean finished;
-
-	private int startTime = -1;
+public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 
 	private float sceneAlpha;
 
 	private int currentTime;
 
+	private SceneGO nextScene;
+
+	private boolean first;
+
 	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
-		finished = false;
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		currentTime = 0;
 	}
 
-	public void update() {
-		super.update();
-		if (isLoadedNextScene()) {
-
-			currentTime += gui.getSkippedMilliseconds();
-			if (startTime == -1) {
-				startTime = currentTime;
-				sceneAlpha = 0.0f;
-			}
-
-			if (currentTime - startTime >= transition.getTime()) {
-				finished = true;
-			} else {
-				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime
-						- startTime, transition.getTime(), 1.0f));
-			}
-		}
-		transformation.setAlpha(sceneAlpha);
+	@Override
+	public void setPreviousScene(SceneGO scene) {
+		super.setPreviousScene(scene);
+		currentTime = 0;
+		sceneAlpha = 0;
+		nextScene = null;
+		first = true;
 	}
 
-	public boolean isFinished() {
-		return finished;
+	public void update() {
+		if (nextScene != null) {
+
+			if (first) {
+				nextScene.setAlpha(0);
+				nextScene.setX(0);
+				nextScene.setY(0);
+				addSceneElement(nextScene);
+				first = false;
+			}
+
+			currentTime += gui.getSkippedMilliseconds();
+			sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime,
+					transition.getTime(), 1.0f));
+			nextScene.setAlpha(sceneAlpha);
+		}
+
+		if (currentTime >= transition.getTime()) {
+			gui.setScene(nextScene);
+			nextScene.update();
+		} else {
+			super.update();
+		}
+	}
+
+	@Override
+	public void transition(SceneGO nextScene) {
+		this.nextScene = nextScene;
 	}
 
 }

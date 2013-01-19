@@ -74,7 +74,7 @@ public class Interpolator {
 	 */
 	public float interpolate(float currentTime, float totalTime,
 			float totalLength) {
-		float v = currentTime / totalTime;
+		float v = Math.min(1, currentTime / totalTime);
 		float r = 0;
 		for (int i = 0; i < polynomial.length; i++) {
 			r += Math.pow(v, i) * polynomial[i];

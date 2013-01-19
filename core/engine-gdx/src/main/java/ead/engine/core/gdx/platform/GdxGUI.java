@@ -78,8 +78,8 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	@Override
 	public void initialize(Game game, GameState gameState,
 			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
-		super.initialize(game, gameState, sceneElementFactory, inputHandler);
 		engine.setGame(game);
+		super.initialize(game, gameState, sceneElementFactory, inputHandler);
 	}
 
 	@Override

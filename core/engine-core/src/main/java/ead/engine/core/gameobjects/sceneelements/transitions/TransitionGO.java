@@ -35,54 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.effects.physics;
+package ead.engine.core.gameobjects.sceneelements.transitions;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import java.util.List;
+
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.operations.MathOp;
+import ead.common.model.elements.transitions.EAdTransition;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
+import ead.engine.core.input.InputAction;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-@Element
-public class PhApplyImpulseEf extends AbstractSceneElementEffect {
+public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 
-	@Param("xForce")
-	private MathOp xForce;
+	protected T transition;
 
-	@Param("yForce")
-	private MathOp yForce;
+	protected SceneGO previousScene;
 
-	public PhApplyImpulseEf() {
-		this(null, null, null);
+	public TransitionGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
-	public PhApplyImpulseEf(EAdSceneElement element, MathOp xForce,
-			MathOp yForce) {
-		super();
-		this.xForce = xForce;
-		this.yForce = yForce;
-		this.setSceneElement(element);
+	@SuppressWarnings("unchecked")
+	public void setElement(EAdSceneElement e) {
+		super.setElement(e);
+		transition = (T) e;
 	}
 
-	public MathOp getxForce() {
-		return xForce;
+	public abstract void transition(SceneGO nextScene);
+
+	@Override
+	public void getAllGOIn(int x, int y, List<SceneElementGO<?>> list) {
+		list.add(this);
 	}
 
-	public MathOp getyForce() {
-		return yForce;
+	@Override
+	public SceneElementGO<?> getFirstGOIn(int x, int y) {
+		return this;
 	}
 
-	public void setxForce(MathOp xForce) {
-		this.xForce = xForce;
+	@Override
+	public SceneElementGO<?> processAction(InputAction<?> action) {
+		action.consume();
+		return this;
 	}
 
-	public void setyForce(MathOp yForce) {
-		this.yForce = yForce;
-	}
-
-	public void setForce(MathOp xForce, MathOp yForce) {
-		this.xForce = xForce;
-		this.yForce = yForce;
+	public void setPreviousScene(SceneGO scene) {
+		children.clear();
+		this.previousScene = scene;
+		addSceneElement(scene);
 	}
 
 }

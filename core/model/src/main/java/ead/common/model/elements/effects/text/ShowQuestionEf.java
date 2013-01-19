@@ -93,7 +93,6 @@ public class ShowQuestionEf extends AbstractEffect {
 		super();
 		answers = new EAdMapImpl<EAdString, EAdEffect>(EAdString.class,
 				EAdEffect.class);
-		setOpaque(true);
 	}
 
 	public void addAnswer(EAdString string, EAdEffect effect) {

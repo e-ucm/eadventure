@@ -45,14 +45,11 @@ import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
-import ead.engine.core.input.InputHandler;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 
-public class DisplaceTransitionGO extends
-		AbstractTransitionGO<DisplaceTransition> {
+public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
 	private boolean finished;
 
@@ -60,79 +57,81 @@ public class DisplaceTransitionGO extends
 
 	private int height;
 
-	private int startTime = -1;
-
 	private int x1, x2, y1, y2;
 
-	private EAdTransformation transformation;
-
 	private int currentTime;
+
+	protected SceneGO nextScene;
+
+	private boolean first;
 
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader, InputHandler inputHandler) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				sceneLoader, inputHandler);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		finished = false;
 		width = gameState.getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		currentTime = 0;
 	}
 
+	@Override
+	public void setPreviousScene(SceneGO scene) {
+		super.setPreviousScene(scene);
+		currentTime = 0;
+		nextScene = null;
+		finished = false;
+		x1 = x2 = y1 = y2 = 0;
+		first = true;
+	}
+
 	public void update() {
-		super.update();
-		if (this.isLoadedNextScene() && startTime != -1) {
-			// transformation.setClip(0, 0, width, height);
-			transformation.getMatrix().setIdentity();
-			transformation.getMatrix().translate(x2, y2, false);
+		if (nextScene != null) {
 
-			//			gui.addElement(nextSceneGO, gui
-			//					.addTransformation(transformation, parent.getTransformation()));
-			if (!isFinished()) {
-				// transformation.setClip(0, 0, width, height);
-				transformation.getMatrix().setIdentity();
-				transformation.getMatrix().translate(x1, y1, false);
-				//				gui.addElement(previousScene, gui.addTransformation(
-				//						transformation, parent.getTransformation()));
+			if (first) {
+				addSceneElement(nextScene);
+				first = false;
 			}
-		}
 
-		if (isLoadedNextScene()) {
 			currentTime += gui.getSkippedMilliseconds();
-			if (startTime == -1) {
-				startTime = currentTime;
+
+			float dispX = getDisp(true, currentTime);
+			float dispY = getDisp(false, currentTime);
+
+			if (dispX != 0.0f) {
+				x1 = ((int) (dispX * -width));
+				x2 = ((int) ((1 - dispX) * width));
+				if (transition.getForward()) {
+					x1 = -x1;
+					x2 = (int) (dispX * width) - width;
+				}
 			}
 
-			if (currentTime - startTime >= transition.getTime()) {
-				finished = true;
-			} else {
-				float dispX = getDisp(true, currentTime - startTime);
-				float dispY = getDisp(false, currentTime - startTime);
+			if (dispY != 0.0f) {
+				y1 = ((int) (dispY * -height));
+				y2 = ((int) ((1 - dispY) * height));
 
-				if (dispX != 0.0f) {
-					x1 = ((int) (dispX * -width));
-					x2 = ((int) ((1 - dispX) * width));
-					if (transition.getForward()) {
-						x1 = -x1;
-						x2 = (int) (dispX * width) - width;
-					}
+				if (transition.getForward()) {
+					y1 = -y1;
+					y2 = (int) (dispY * height) - height;
 				}
-
-				if (dispY != 0.0f) {
-					y1 = ((int) (dispY * -height));
-					y2 = ((int) ((1 - dispY) * height));
-
-					if (transition.getForward()) {
-						y1 = -y1;
-						y2 = (int) (dispY * height) - height;
-					}
-				}
-
 			}
+
+			nextScene.setX(x2);
+			nextScene.setY(y2);
+			previousScene.setX(x1);
+			previousScene.setY(y1);
 		}
 
+		if (currentTime >= transition.getTime()) {
+			nextScene.setX(0);
+			nextScene.setY(0);
+			gui.setScene(nextScene);
+			nextScene.update();
+		} else {
+			super.update();
+		}
 	}
 
 	public boolean isFinished() {
@@ -148,5 +147,10 @@ public class DisplaceTransitionGO extends
 		} else
 			return 0;
 
+	}
+
+	@Override
+	public void transition(SceneGO nextScene) {
+		this.nextScene = nextScene;
 	}
 }

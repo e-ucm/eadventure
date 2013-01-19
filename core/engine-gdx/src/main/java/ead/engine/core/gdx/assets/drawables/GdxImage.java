@@ -82,7 +82,7 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 		Texture texture = new Texture(pixmap);
 		textureRegion = new TextureRegion(texture);
 		textureRegion.flip(false, true);
-		return false;
+		return true;
 	}
 
 	@Override

@@ -97,12 +97,9 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene 
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);
 
 		WaitEf waitEffect2 = new WaitEf(60 + 1);
-		waitEffect2.setOpaque(false);
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect2);
 
 		WaitEf waitEffect3 = new WaitEf(60 + 1);
-		waitEffect3.setOpaque(false);
-		waitEffect3.setBlocking(false);
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect3);
 
 		buttonActor2.setPosition(new EAdPosition(

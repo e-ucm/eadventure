@@ -127,7 +127,6 @@ public class InterpolationEf extends AbstractEffect {
 
 	public InterpolationEf() {
 		super();
-		setQueueable(true);
 		fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 		initialValues = new EAdListImpl<EAdOperation>(EAdOperation.class);
 		endValues = new EAdListImpl<EAdOperation>(EAdOperation.class);

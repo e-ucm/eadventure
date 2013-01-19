@@ -54,25 +54,6 @@ public abstract class AbstractEffect extends ConditionedElement implements
 		EAdEffect {
 
 	/**
-	 * Indicates that this effect blocks the effect queue until finished
-	 */
-	@Param(value = "blocking", defaultValue = "false")
-	private boolean blocking;
-
-	/**
-	 * Indicates that this effect is opaque and captures the interactions in the
-	 * screen
-	 */
-	@Param(value = "opaque", defaultValue = "false")
-	private boolean opaque;
-
-	/**
-	 * Indicates that this effect is queued and can be blocked
-	 */
-	@Param(value = "queueable", defaultValue = "false")
-	private boolean queueable;
-
-	/**
 	 * Sets if the effect must be conserved when the scene changes and the
 	 * effects is still running
 	 */
@@ -99,63 +80,9 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	 */
 	public AbstractEffect() {
 		super();
-		blocking = false;
-		opaque = false;
-		queueable = false;
 		nextEffectsAlways = false;
 		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 		simultaneousEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-	}
-
-	/**
-	 * Sets blocking property for this effect. {@code true} means no subsequent
-	 * effects will be triggered until this effect is finished. By default, this
-	 * value is set to {@code false}
-	 * 
-	 * @param blocking
-	 */
-	public void setBlocking(boolean blocking) {
-		this.blocking = blocking;
-	}
-
-	/**
-	 * Sets opaque property for this effect. {@code true} means that GUI events
-	 * will be only processed for this effect and those which were over it. By
-	 * default, this value is set to {@code true}
-	 * 
-	 * @param opaque
-	 */
-	public void setOpaque(boolean opaque) {
-		this.opaque = opaque;
-	}
-
-	public void setQueueable(boolean queueable) {
-		this.queueable = queueable;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.effects.EAdEffect#isBlocking()
-	 */
-	@Override
-	public boolean isBlocking() {
-		return blocking;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.effects.EAdEffect#isOpaque()
-	 */
-	@Override
-	public boolean isOpaque() {
-		return opaque;
-	}
-
-	@Override
-	public boolean isQueueable() {
-		return queueable;
 	}
 
 	public EAdList<EAdEffect> getNextEffects() {

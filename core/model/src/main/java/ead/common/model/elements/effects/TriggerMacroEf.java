@@ -61,7 +61,6 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 		super();
 		macros = new EAdListImpl<EffectsMacro>(EffectsMacro.class);
 		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
-		setQueueable(true);
 	}
 
 	public void putMacro(EffectsMacro macro, EAdCondition condition) {

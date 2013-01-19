@@ -106,7 +106,6 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 			EAdOperation yTarget, MovementSpeed speed) {
 		super();
 		setSceneElement(element);
-		setQueueable(true);
 		this.xTarget = xTarget;
 		this.yTarget = yTarget;
 		this.speed = speed;

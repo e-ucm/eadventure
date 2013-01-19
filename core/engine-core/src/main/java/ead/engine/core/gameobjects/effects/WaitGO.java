@@ -70,10 +70,6 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 		time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 	}
 
-	public boolean isVisualEffect() {
-		return effect.isBlocking();
-	}
-
 	@Override
 	public boolean isFinished() {
 		return time <= 0;
@@ -81,10 +77,6 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 
 	public String toString() {
 		return "WaitEffect:  Time left " + time;
-	}
-
-	public boolean contains(int x, int y) {
-		return effect.isBlocking();
 	}
 
 }

@@ -466,11 +466,9 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	}
 
 	public void invalidate() {
-		if (transformation.isValidated()) {
-			transformation.setValidated(false);
-			for (SceneElementGO<?> go : children) {
-				go.invalidate();
-			}
+		transformation.setValidated(false);
+		for (SceneElementGO<?> go : children) {
+			go.invalidate();
 		}
 	}
 
@@ -553,10 +551,6 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 			Collections.sort(children, comparator);
 		}
 
-		for (SceneElementGO<?> go : this.children) {
-			go.update();
-		}
-
 		if (eventGOList != null) {
 			for (EventGO<?> eventGO : eventGOList) {
 				eventGO.update();
@@ -579,6 +573,10 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 		if (!transformation.isValidated()) {
 			resetTransformation();
+		}
+
+		for (SceneElementGO<?> go : this.children) {
+			go.update();
 		}
 
 	}

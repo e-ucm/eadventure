@@ -81,7 +81,6 @@ public class MoveNPCEffectImporter extends
 				(EAdSceneElementDef) factory.getElementById(oldObject
 						.getTargetId()), oldObject.getX(), oldObject.getY(),
 				MovementSpeed.NORMAL);
-		moveEffect.setBlocking(true);
 		macro.getEffects().add(moveEffect);
 
 		return effect;

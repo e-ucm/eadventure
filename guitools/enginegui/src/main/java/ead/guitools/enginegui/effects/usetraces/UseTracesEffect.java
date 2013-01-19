@@ -27,7 +27,6 @@ public class UseTracesEffect extends AbstractEffect {
 		inputEvents = new EAdListImpl<EAdGUIEvent>(EAdGUIEvent.class);
 		positions = new EAdListImpl<EAdPosition>(EAdPosition.class);
 		timestamps = new EAdListImpl<Integer>(Integer.class);
-		setQueueable(true);
 		setPersistent(true);
 	}
 

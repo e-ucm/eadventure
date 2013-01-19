@@ -60,14 +60,12 @@ public class ActorActionsEf extends AbstractEffect {
 
 	public ActorActionsEf() {
 		super();
-		this.setQueueable(true);
 	}
 
 	public ActorActionsEf(EAdSceneElementDef actionElement) {
 		super();
 		this.actionElement = actionElement;
 		this.change = ChangeActorActions.SHOW_ACTIONS;
-		this.setQueueable(true);
 	}
 
 	public ActorActionsEf(EAdSceneElementDef actionElement,
@@ -75,7 +73,6 @@ public class ActorActionsEf extends AbstractEffect {
 		super();
 		this.actionElement = actionElement;
 		this.change = change;
-		this.setQueueable(true);
 	}
 
 	public EAdSceneElementDef getActionElement() {

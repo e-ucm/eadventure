@@ -100,8 +100,6 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	public SpeakEf convert(T oldObject, Object object) {
 		SpeakEf showText = super.convert(oldObject, object);
-		showText.setBlocking(true);
-		showText.setOpaque(true);
 		showText.setFont(DEFAULT_FONT);
 		return showText;
 	}
