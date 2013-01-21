@@ -54,7 +54,7 @@ public class EmptyScene extends BasicScene {
 
 	public EmptyScene() {
 		super();
-		setId("EmptyScene");
+		this.setId("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
 				ColorFill.WHITE, 800, 600));

@@ -37,6 +37,7 @@
 
 package ead.reader.elements.readers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import ead.common.interfaces.Param;
@@ -57,8 +58,11 @@ public class ObjectReader extends AbstractReader<Identified> {
 
 	private static int idGenerator = 0;
 
+	private ArrayList<String> ids;
+
 	public ObjectReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
+		ids = new ArrayList<String>();
 	}
 
 	public void setAsset(boolean asset) {
@@ -83,9 +87,18 @@ public class ObjectReader extends AbstractReader<Identified> {
 			if (clazz != null) {
 				element = (Identified) elementsFactory.createObject(clazz);
 				String id = node.getAttributes().getValue(DOMTags.ID_AT);
+
 				id = id != null && !asset ? id : asset ? "asset"
 						+ idGenerator++ : "element" + idGenerator++;
 				element.setId(id);
+				if (ids.contains(id)) {
+					logger
+							.warn(
+									"Id {} is duplicated. Game won't work properly",
+									id);
+				} else {
+					ids.add(id);
+				}
 
 				String uniqueId = node.getAttributes().getValue(
 						DOMTags.UNIQUE_ID_AT);
@@ -148,11 +161,13 @@ public class ObjectReader extends AbstractReader<Identified> {
 		}
 
 		@Override
-		public boolean loaded(XMLNode node, Object object) {
-			if (object != null) {
+		public boolean loaded(XMLNode node, Object object,
+				boolean isNullInOrigin) {
+			if (object != null || isNullInOrigin) {
 				field.setFieldValue(parent, object);
+				return true;
 			}
-			return object != null;
+			return false;
 		}
 
 	}

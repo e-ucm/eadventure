@@ -50,43 +50,43 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 	@Override
 	public Element buildNode(EAdList<?> list, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.LIST_TAG);
-		node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass()
-				.getName()));
+		if (list != null) {
+			node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass()
+					.getName()));
 
-		if (EAdElement.class.isAssignableFrom(list.getValueClass()))
-			depthManager.addList((EAdList<Object>) list);
+			if (EAdElement.class.isAssignableFrom(list.getValueClass()))
+				depthManager.addList((EAdList<Object>) list);
 
-		if (list.getValueClass() == Integer.class
-				|| list.getValueClass() == Float.class
-				|| list.getValueClass() == EAdPosition.class
-				|| list.getValueClass() == EAdPosition.class) {
-			String value = null;
-			for (Object o : list) {
-				if (o != null) {
-					if (value == null) {
-						value = o.toString();
-					} else {
-						value += "|" + o.toString();
+			if (list.getValueClass() == Integer.class
+					|| list.getValueClass() == Float.class
+					|| list.getValueClass() == EAdPosition.class) {
+				String value = null;
+				for (Object o : list) {
+					if (o != null) {
+						if (value == null) {
+							value = o.toString();
+						} else {
+							value += "|" + o.toString();
+						}
 					}
 				}
-			}
-			node.setTextContent(value);
-		} else {
-			DOMWriter.depthManager.levelUp();
+				node.setTextContent(value);
+			} else {
+				DOMWriter.depthManager.levelUp();
 
-			for (int i = 0; i < list.size(); i++) {
-				Object o = list.get(i);
-				if (o != null) {
+				for (int i = 0; i < list.size(); i++) {
+					Object o = list.get(i);
 					Element newNode = super.initNode(o, list.getValueClass());
 					doc.adoptNode(newNode);
 					node.appendChild(newNode);
+
 				}
+
+				DOMWriter.depthManager.levelDown();
 			}
 
-			DOMWriter.depthManager.levelDown();
+			depthManager.removeList((EAdList<Object>) list);
 		}
-
-		depthManager.removeList((EAdList<Object>) list);
 
 		return node;
 	}

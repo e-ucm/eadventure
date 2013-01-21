@@ -40,9 +40,6 @@ package ead.engine.core.debuggers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.Inject;
-
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
@@ -68,49 +65,40 @@ import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.GameState;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * 
  * A debugger showing representations of the trajectories in the game
  * 
  */
-public class TrajectoryDebugger implements Debugger {
-
-	private GameState gameState;
-
-	private SceneElementGOFactory sceneElementFactory;
-
-	private ValueMap valueMap;
+public class TrajectoryDebugger extends SceneElementGOImpl {
 
 	private EAdScene currentScene;
 
 	private EAdTrajectoryDefinition currentTrajectory;
 
-	private List<SceneElementGO<?>> gameObjects;
-
 	private List<EAdShape> barriers;
 
-	@Inject
-	public TrajectoryDebugger(GameState gameState,
-			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
+	public TrajectoryDebugger(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.gameState = gameState;
-		this.sceneElementFactory = gameObjectFactory;
-		this.valueMap = valueMap;
-		gameObjects = new ArrayList<SceneElementGO<?>>();
 		barriers = new ArrayList<EAdShape>();
-
 	}
 
-	@Override
-	public List<SceneElementGO<?>> getGameObjects() {
-		//		if (currentScene != gameState.getScene().getElement()
-		//				|| valueMap.getValue(currentScene,
-		//						BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
-		//			createTrajectory();
-		//		}
+	public void update() {
+		if (currentScene != gui.getScene().getElement()
+				|| gameState.getValue(currentScene,
+						BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
+			createTrajectory();
+		}
 
 		if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 			int i = 0;
@@ -119,7 +107,7 @@ public class TrajectoryDebugger implements Debugger {
 				barriers
 						.get(i)
 						.setPaint(
-								valueMap
+								gameState
 										.getValue(
 												e,
 												NodeTrajectoryDefinition.VAR_BARRIER_ON) ? ColorFill.YELLOW
@@ -127,22 +115,20 @@ public class TrajectoryDebugger implements Debugger {
 				i++;
 			}
 		}
-
-		return gameObjects;
 	}
 
 	private void createTrajectory() {
-		gameObjects.clear();
-		//		currentScene = gameState.getScene().getElement();
+
+		currentScene = (EAdScene) gui.getScene().getElement();
 
 		if (currentScene != null) {
-			currentTrajectory = valueMap.getValue(currentScene,
+			currentTrajectory = gameState.getValue(currentScene,
 					BasicScene.VAR_TRAJECTORY_DEFINITION);
-
+			getChildren().clear();
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
-				//				addInfluenceAreas(gameState.getScene().getElement()
-				//						.getSceneElements());
+				addInfluenceAreas(((EAdScene) gui.getScene().getElement())
+						.getSceneElements());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
 				SceneElement area = new SceneElement(new RectangleShape(def
@@ -150,9 +136,11 @@ public class TrajectoryDebugger implements Debugger {
 						- def.getLeft(), def.getBottom() - def.getTop(),
 						new ColorFill(0, 200, 0, 100)));
 				area.setPosition(def.getLeft(), def.getTop());
-				gameObjects.add(sceneElementFactory.get(area));
+				addSceneElement(sceneElementFactory.get(area));
 			}
 		}
+
+		setEnabled(false);
 
 	}
 
@@ -169,7 +157,7 @@ public class TrajectoryDebugger implements Debugger {
 				SceneElement area = new SceneElement(shape);
 				area.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 				area.setPosition(rectangle.getX(), rectangle.getY());
-				gameObjects.add(sceneElementFactory.get(area));
+				addSceneElement(sceneElementFactory.get(area));
 			}
 		}
 	}
@@ -194,7 +182,7 @@ public class TrajectoryDebugger implements Debugger {
 					: ColorFill.BLUE;
 
 			circle.setPaint(new Paint(color, ColorFill.BLACK, 2));
-			map.addDrawable(circle);
+			map.addDrawable(circle, n.getX() - 20, n.getY() - 20);
 		}
 
 		SceneElement mapElement = new GhostElement(map, null);
@@ -211,12 +199,7 @@ public class TrajectoryDebugger implements Debugger {
 			map.addDrawable(barrier, p.getX(), p.getY());
 		}
 
-		gameObjects.add(sceneElementFactory.get(mapElement));
-
-	}
-
-	@Override
-	public void setUp(EAdAdventureModel model) {
+		addSceneElement(sceneElementFactory.get(mapElement));
 
 	}
 

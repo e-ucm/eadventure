@@ -59,6 +59,7 @@ import ead.demos.elementfactories.EAdElementsFactory;
 public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
+		this.setId("ComplexElementScene");
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaint(Paint.BLACK_ON_WHITE);
 		GroupElement complex = new GroupElement(rectangle);
@@ -114,15 +115,6 @@ public class ComplexElementScene extends EmptyScene {
 
 		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect3);
 
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene a show complex elements with some animaitons.";
-	}
-
-	public String getDemoName() {
-		return "Complex Element Scene";
 	}
 
 }

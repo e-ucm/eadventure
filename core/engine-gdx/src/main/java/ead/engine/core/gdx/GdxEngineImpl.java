@@ -49,6 +49,7 @@ import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxInputHandler;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
 import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.GUI;
 
 @Singleton
 public class GdxEngineImpl implements GdxEngine {
@@ -63,11 +64,14 @@ public class GdxEngineImpl implements GdxEngine {
 
 	private InputHandler inputHandler;
 
+	private GUI gui;
+
 	@Inject
-	public GdxEngineImpl(GdxCanvas canvas, InputHandler inputHandler) {
+	public GdxEngineImpl(GdxCanvas canvas, InputHandler inputHandler, GUI gui) {
 		ShaderProgram.pedantic = false;
 		this.canvas = canvas;
 		this.inputHandler = inputHandler;
+		this.gui = gui;
 	}
 
 	@Override
@@ -92,13 +96,12 @@ public class GdxEngineImpl implements GdxEngine {
 
 		Gdx.input.setInputProcessor(new GdxInputHandler(inputHandler, c));
 
-		game.setUp();
-
+		gui.setUp();
 	}
 
 	@Override
 	public void dispose() {
-
+		game.dispose();
 	}
 
 	public void setGame(Game game) {

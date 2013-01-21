@@ -37,20 +37,22 @@
 
 package ead.editor.control;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+
+import javax.swing.Action;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
 import ead.common.util.EAdURI;
 import ead.editor.model.EditorModel;
-import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.platform.assets.AssetHandler;
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import javax.swing.Action;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -160,20 +162,6 @@ public class ControllerImpl implements Controller {
 	@Override
 	public void putAction(String name, Action action) {
 		actionMap.put(name, action);
-	}
-
-	/**
-	 * Provides GameLoaders on request
-	 */
-	@Override
-	public GameLoader createGameLoader() {
-		if (game != null) {
-			game.exit();
-		}
-		game = new DesktopGame(false);
-		game.setResourcesLocation(editorModel.getLoader().getSaveDir()
-				.getPath());
-		return game.getPreparedLoader();
 	}
 
 	/**

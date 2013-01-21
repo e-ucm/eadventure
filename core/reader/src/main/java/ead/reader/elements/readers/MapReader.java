@@ -72,6 +72,8 @@ public class MapReader extends AbstractReader<EAdMap> {
 	public class MapVisitorListener implements VisitorListener {
 		private EAdMap map;
 
+		private boolean waitingKey;
+
 		private Object key;
 
 		private boolean keyReference, valueReference;
@@ -79,24 +81,27 @@ public class MapReader extends AbstractReader<EAdMap> {
 		public MapVisitorListener(EAdMap map) {
 			this.map = map;
 			this.keyReference = valueReference = false;
+			this.waitingKey = true;
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public boolean loaded(XMLNode node, Object object) {
+		public boolean loaded(XMLNode node, Object object,
+				boolean isNullInOrigin) {
 			// If object is null, element is pending to be loaded, it's
 			// a reference
-			if (object == null) {
+			if (object == null && !isNullInOrigin) {
 				object = node.getNodeText();
-				if (key == null) {
+				if (waitingKey) {
 					keyReference = true;
 				} else {
 					valueReference = true;
 				}
 			}
 
-			if (key == null) {
+			if (waitingKey) {
 				key = object;
+				waitingKey = false;
 			} else {
 				try {
 					if (keyReference || valueReference) {
@@ -116,6 +121,7 @@ public class MapReader extends AbstractReader<EAdMap> {
 					key = null;
 					keyReference = false;
 					valueReference = false;
+					waitingKey = true;
 				}
 			}
 

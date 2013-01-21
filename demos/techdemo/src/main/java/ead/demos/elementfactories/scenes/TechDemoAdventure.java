@@ -44,7 +44,6 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.demos.elementfactories.scenes.normalguy.NgMainScreen;
-import ead.demos.elementfactories.scenes.scenes.BVSScene;
 import ead.demos.elementfactories.scenes.scenes.CharacterScene;
 import ead.demos.elementfactories.scenes.scenes.ComplexElementScene;
 import ead.demos.elementfactories.scenes.scenes.DepthZScene;
@@ -98,7 +97,6 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		//		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen(null));
 		//		sceneDemos.add(new NgRoom1());
-		sceneDemos.add(new BVSScene());
 	}
 
 	public List<EAdScene> getScenes() {

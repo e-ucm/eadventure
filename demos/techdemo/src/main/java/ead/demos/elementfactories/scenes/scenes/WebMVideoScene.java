@@ -43,17 +43,10 @@ import ead.common.resources.assets.multimedia.Video;
 public class WebMVideoScene extends VideoScene {
 
 	public WebMVideoScene() {
+		this.setId("WebMVideoScene");
 		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
 		video.setStream(true);
 		getDefinition().addAsset(VideoScene.video, video);
-	}
-
-	public String getSceneDescription() {
-		return "A scene playing a YouTube video.";
-	}
-
-	public String getDemoName() {
-		return "YouTube video Scene";
 	}
 
 }

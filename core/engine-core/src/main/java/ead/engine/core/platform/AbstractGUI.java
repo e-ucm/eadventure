@@ -44,16 +44,22 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.debuggers.DebuggersHandler;
+import ead.engine.core.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.factories.GameObjectFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -120,7 +126,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	public void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
+			SceneElementGOFactory sceneElementFactory,
+			InputHandler inputHandler, final DebuggersHandler debuggerHandler) {
 		this.loadingScreen = new LoadingScreen();
 		this.game = game;
 		this.gameState = gameState;
@@ -136,13 +143,38 @@ public abstract class AbstractGUI<T> implements GUI {
 		sceneRoot.getElement().setId("#engine.sceneContainer");
 
 		root.addSceneElement(sceneRoot);
+		root.setInputProcessor(new InputActionProcessor() {
+
+			@Override
+			public SceneElementGO<?> processAction(InputAction<?> action) {
+				if (action instanceof KeyInputAction) {
+					KeyInputAction k = (KeyInputAction) action;
+					if (k.getKeyCode().equals(KeyGEvCode.F1)
+							&& k.getType().equals(KeyEventType.KEY_PRESSED)) {
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
+					}
+					action.consume();
+					return root;
+				}
+				return null;
+			}
+
+		});
 		root.addSceneElement(hudRoot);
 		updateInitialTransformation();
 		inputHandler.setInitialTransformation(initialTransformation);
-
 	}
 
 	public void setUp() {
+		// Effects hud
+		SceneElement effectsHud = new SceneElement();
+		effectsHud.setId(GUI.EFFECTS_HUD_ID);
+		hudRoot.addSceneElement(sceneElementFactory.get(effectsHud));
+		// Debugger hud
+		SceneElement debuggerHud = new SceneElement();
+		debuggerHud.setId(GUI.DEBBUGERS_HUD_ID);
+		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
 		// Add huds
 		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
 	}
@@ -214,15 +246,37 @@ public abstract class AbstractGUI<T> implements GUI {
 			KeyInputAction k = (KeyInputAction) action;
 			EAdSceneElement element = gameState
 					.getValue(SystemFields.ACTIVE_ELEMENT);
-			// only the active element gets a try to consume it
+			// The active element gets a try to consume it
 			if (element != null) {
 				go = root.getChild(element);
 				if (go != null) {
 					go.processAction(k);
 				}
 			}
+
+			if (!k.isConsumed()) {
+				processKeyAction(k, root);
+			}
+
 		}
 		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action, null);
+		return go;
+	}
+
+	public SceneElementGO<?> processKeyAction(KeyInputAction k,
+			SceneElementGO<?> sceneElement) {
+		SceneElementGO<?> go = null;
+		sceneElement.processAction(k);
+		if (!k.isConsumed()) {
+			for (SceneElementGO<?> s : sceneElement.getChildren()) {
+				go = processKeyAction(k, s);
+				if (go != null) {
+					break;
+				}
+			}
+		} else {
+			go = sceneElement;
+		}
 		return go;
 	}
 
@@ -300,6 +354,10 @@ public abstract class AbstractGUI<T> implements GUI {
 		// initialTransformation.getMatrix().scale(scale, scale, true);
 		initialTransformation.setValidated(false);
 
+	}
+
+	public SceneElementGO<?> getSceneElement(EAdSceneElement element) {
+		return root.getChild(element);
 	}
 
 }

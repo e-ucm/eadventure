@@ -59,6 +59,7 @@ import ead.demos.elementfactories.EAdElementsFactory;
 public class DrawablesScene extends EmptyScene {
 
 	public DrawablesScene() {
+		this.setId("DrawablesScene");
 		setBackgroundFill(new ColorFill(240, 255, 255));
 		int margin = 50;
 		int x = margin;
@@ -207,14 +208,5 @@ public class DrawablesScene extends EmptyScene {
 		paniel.setInitialScale(0.8f);
 		getSceneElements().add(paniel);
 
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene showing some drawables of eAdventure";
-	}
-
-	public String getDemoName() {
-		return "Drawables Scene";
 	}
 }

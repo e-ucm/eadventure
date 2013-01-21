@@ -40,7 +40,6 @@ package ead.engine.core.debuggers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
@@ -60,11 +59,14 @@ import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 @Singleton
-public class ChangeSceneDebugger implements Debugger {
+public class ChangeSceneDebugger extends SceneElementGOImpl {
 
 	private static final int MARGIN_TOP = 20;
 
@@ -72,29 +74,22 @@ public class ChangeSceneDebugger implements Debugger {
 
 	private List<EAdScene> scenes;
 
-	private List<SceneElementGO<?>> drawables;
-
 	private EAdField<Integer> currentScene;
 
 	private EAdField<Integer> totalScenes;
-
-	private SceneElementGOFactory factory;
 
 	private EAdField<EAdScene> sceneField;
 
 	private EAdField<String> sceneIdField;
 
-	private GameState gameState;
-
 	private int index;
 
-	@Inject
-	public ChangeSceneDebugger(SceneElementGOFactory factory,
-			GameState gameState) {
-		this.factory = factory;
+	public ChangeSceneDebugger(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.gameState = gameState;
 		scenes = new ArrayList<EAdScene>();
-		drawables = new ArrayList<SceneElementGO<?>>();
 		index = 0;
 		initGOButton();
 		initArrows();
@@ -121,7 +116,7 @@ public class ChangeSceneDebugger implements Debugger {
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setNextScene(sceneField);
 		button.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
-		drawables.add(factory.get(button));
+		addSceneElement(sceneElementFactory.get(button));
 	}
 
 	private void initArrows() {
@@ -149,8 +144,8 @@ public class ChangeSceneDebugger implements Debugger {
 		rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goUp);
 		leftArrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goDown);
 
-		drawables.add(factory.get(rightArrow));
-		drawables.add(factory.get(leftArrow));
+		addSceneElement(sceneElementFactory.get(rightArrow));
+		addSceneElement(sceneElementFactory.get(leftArrow));
 	}
 
 	private void initSceneId() {
@@ -165,11 +160,12 @@ public class ChangeSceneDebugger implements Debugger {
 		SceneElement sceneIdText = new SceneElement(text);
 		sceneIdText
 				.setPosition(new EAdPosition(margin, MARGIN_TOP, 0.0f, 0.5f));
-		drawables.add(factory.get(sceneIdText));
+		addSceneElement(sceneElementFactory.get(sceneIdText));
 	}
 
 	@Override
-	public List<SceneElementGO<?>> getGameObjects() {
+	public void update() {
+		super.update();
 		int newIndex = gameState.getValue(currentScene);
 		if (index != newIndex) {
 			index = newIndex;
@@ -177,17 +173,14 @@ public class ChangeSceneDebugger implements Debugger {
 			gameState.setValue(sceneField, scenes.get(index));
 			gameState.setValue(sceneIdField, scenes.get(index).getId());
 		}
-		return drawables;
 	}
 
-	@Override
 	public void setUp(EAdAdventureModel model) {
 		for (EAdChapter c : model.getChapters()) {
 			for (EAdScene s : c.getScenes()) {
 				scenes.add(s);
 			}
 		}
-
 		gameState.setValue(sceneField, scenes.get(0));
 		gameState.setValue(totalScenes, scenes.size());
 	}

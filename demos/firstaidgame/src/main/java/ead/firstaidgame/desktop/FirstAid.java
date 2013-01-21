@@ -9,7 +9,7 @@ public class FirstAid {
 		String strings = "@strings.xml";
 		String properties = "@ead.properties";
 		DesktopGame game = new DesktopGame();
-		game.load(data, strings, properties);
+		game.setResourcesLocation(null);
 
 	}
 

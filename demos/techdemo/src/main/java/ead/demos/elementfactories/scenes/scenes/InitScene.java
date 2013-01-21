@@ -76,6 +76,7 @@ public class InitScene extends EmptyScene {
 	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
 
 	public InitScene() {
+		this.setId("InitScene");
 		this.setBackground(new SceneElement(new Image(
 				"@drawable/techdemo-bg.png")));
 		initList();

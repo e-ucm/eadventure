@@ -49,10 +49,14 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
-public class GhostElementDebugger implements Debugger {
+public class GhostElementDebugger extends SceneElementGOImpl {
 
 	private GameState gameState;
 
@@ -62,15 +66,15 @@ public class GhostElementDebugger implements Debugger {
 
 	private SceneElementGOFactory factory;
 
-	@Inject
-	public GhostElementDebugger(GameState gameState,
-			SceneElementGOFactory factory) {
+	public GhostElementDebugger(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.gameState = gameState;
 		this.factory = factory;
 		drawables = new ArrayList<SceneElementGO<?>>();
 	}
 
-	@Override
 	public List<SceneElementGO<?>> getGameObjects() {
 		//		EAdScene newScene = gameState.getScene().getElement();
 		EAdScene newScene = null;
@@ -89,11 +93,6 @@ public class GhostElementDebugger implements Debugger {
 			}
 		}
 		return drawables;
-	}
-
-	@Override
-	public void setUp(EAdAdventureModel model) {
-
 	}
 
 }

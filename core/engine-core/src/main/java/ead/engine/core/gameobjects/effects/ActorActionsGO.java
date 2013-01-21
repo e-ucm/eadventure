@@ -45,39 +45,58 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.model.elements.scenes.GhostElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
+import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
-import ead.engine.core.platform.assets.AssetHandler;
 
-public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
+public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
+		InputActionProcessor {
+
+	private SceneElementGOFactory sceneElementFactory;
 
 	private TweenController tweenController;
 
-	private boolean finished;
+	private GUI gui;
+
+	private SceneElementGO<?> effectsHUD;
+
+	private SceneElementGO<?> actions;
 
 	@Inject
-	public ActorActionsGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, TweenController tweenController,
-			EventGOFactory eventFactory) {
+	public ActorActionsGO(SceneElementGOFactory sceneElementFactory,
+			GameState gameState, TweenController tweenController, GUI gui) {
 		super(gameState);
 		this.tweenController = tweenController;
+		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
+	}
+
+	public void initialize() {
+		actions = sceneElementFactory.get(getVisualRepresentation());
+		actions.setInputProcessor(this);
+		for (SceneElementGO<?> child : actions.getChildren()) {
+			child.setInputProcessor(this);
+		}
+		effectsHUD = gui.getHUD(GUI.EFFECTS_HUD_ID);
+		effectsHUD.addSceneElement(actions);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected EAdGroupElement getVisualRepresentation() {
-		finished = false;
 		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElementDef ref = effect.getActionElement();
 			if (ref != null) {
@@ -109,6 +128,10 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 					float angle = (float) (Math.PI / 4.5) * signum;
 
 					GroupElement hud = new GroupElement();
+
+					GhostElement bg = new GhostElement();
+					bg.setCatchAll(true);
+					hud.getSceneElements().add(bg);
 					for (EAdSceneElementDef a : list) {
 						SceneElement element = new SceneElement(a);
 						element.setId(element.getId() + "engine");
@@ -142,12 +165,12 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
 	}
 
 	@Override
-	public boolean isFinished() {
-		return finished;
-	}
-
-	public boolean contains(int x, int y) {
-		return true;
+	public SceneElementGO<?> processAction(InputAction<?> action) {
+		if (action.getGUIEvent().equals(MouseGEv.MOUSE_LEFT_PRESSED)
+				|| action.getGUIEvent().equals(MouseGEv.MOUSE_RIGHT_PRESSED)) {
+			effectsHUD.removeSceneElement(actions);
+		}
+		return null;
 	}
 
 }

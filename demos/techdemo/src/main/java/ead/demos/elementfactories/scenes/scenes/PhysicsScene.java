@@ -78,6 +78,7 @@ import ead.demos.elementfactories.EAdElementsFactory;
 public class PhysicsScene extends EmptyScene {
 
 	public PhysicsScene() {
+		this.setId("PhysicsScene");
 		init();
 	}
 

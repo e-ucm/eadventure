@@ -45,19 +45,15 @@ import java.util.Map;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.text.EAdString;
-import ead.common.util.EAdURI;
-import ead.engine.core.debuggers.Debugger;
-import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GameLoader;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.java.JavaToolsModule;
+import ead.tools.java.reflection.JavaReflectionClassLoader;
+import ead.tools.reflection.ReflectionClassLoader;
 
 public class DesktopGame {
 
@@ -67,95 +63,37 @@ public class DesktopGame {
 
 	private Map<Class<?>, Class<?>> binds;
 
-	private List<Class<? extends Debugger>> debuggers;
+	private List<Class<? extends SceneElementGO<?>>> debuggers;
 
 	private String resourcesLocation;
-
-	private GameLoader loader;
-
-	private EAdAdventureModel model;
 
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
-		debuggers = new ArrayList<Class<? extends Debugger>>();
+		debuggers = new ArrayList<Class<? extends SceneElementGO<?>>>();
 	}
 
-	public void setModel(EAdAdventureModel model) {
-		this.model = model;
+	public void setModel(String path) {
+		this.resourcesLocation = path;
 	}
 
 	public void start() {
 		injector = Guice.createInjector(new GdxDesktopModule(binds),
 				new JavaToolsModule());
 		Game g = injector.getInstance(Game.class);
-		g.setAdventureModel(model);
+		GameState gameState = injector.getInstance(GameState.class);
+		gameState.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
+		g.setResourcesLocation(resourcesLocation);
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 		g.initialize();
-	}
-
-	public <T> void setBind(Class<T> clazz, Class<? extends T> implementation) {
-		binds.put(clazz, implementation);
-	}
-
-	public GameLoader getPreparedLoader() {
-		prepare();
-		return loader;
-	}
-
-	private void prepare() {
-		if (injector == null) {
-			injector = Guice.createInjector(new GdxDesktopModule(binds),
-					new JavaToolsModule());
-			GameState g = injector.getInstance(GameState.class);
-			g.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
-			injector.getInstance(AssetHandler.class).setResourcesLocation(
-					new EAdURI(resourcesLocation));
-			if (debuggers.size() > 0) {
-				DebuggerHandler debuggerHandler = injector
-						.getInstance(DebuggerHandler.class);
-				for (Class<? extends Debugger> d : debuggers) {
-					debuggerHandler.add(d);
-				}
-			}
-
-			loader = injector.getInstance(GameLoader.class);
-		}
 	}
 
 	public DesktopGame() {
 		this(true);
 	}
 
-	public void addDebugger(Class<? extends Debugger> debuggerClass) {
+	public void addDebugger(Class<? extends SceneElementGO<?>> debuggerClass) {
 		debuggers.add(debuggerClass);
-	}
-
-	public void load(String dataFile, String stringsFile, String propertiesFile) {
-		prepare();
-		loader.loadGameFromFiles(dataFile, stringsFile, propertiesFile);
-	}
-
-	/**
-	 * Loads a game from its model, with strings and properties.
-	 * 
-	 * @param model
-	 *            the model
-	 * @param strings
-	 *            the game strings. It can be {@code null}
-	 * @param properties
-	 *            the game properties. It can be {@code null}
-	 */
-	public void load(EAdAdventureModel model, Map<EAdString, String> strings,
-			Map<String, String> properties) {
-		prepare();
-		if (strings == null) {
-			strings = new HashMap<EAdString, String>();
-		}
-
-		if (properties == null) {
-			properties = new HashMap<String, String>();
-		}
-		loader.loadGame(model, strings, properties);
 	}
 
 	public void setResourcesLocation(String path) {

@@ -37,12 +37,13 @@
 
 package ead.editor.control;
 
+import java.util.Collection;
+
+import javax.swing.Action;
+
 import ead.editor.model.EditorModel;
-import ead.engine.core.game.GameLoader;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.platform.assets.AssetHandler;
-import java.util.Collection;
-import javax.swing.Action;
 
 /**
  * Game editor controller. The main controller provides access to delegate
@@ -117,8 +118,4 @@ public interface Controller {
 	 */
 	AssetViewer createAssetViewer();
 
-	/**
-	 * Provides GameLoaders on request
-	 */
-	GameLoader createGameLoader();
 }

@@ -295,4 +295,8 @@ public class MoveSceneElementGO extends
 		gameState.setValue(sceneElement, SceneElement.VAR_STATE, oldState);
 	}
 
+	public boolean isQueueable() {
+		return true;
+	}
+
 }

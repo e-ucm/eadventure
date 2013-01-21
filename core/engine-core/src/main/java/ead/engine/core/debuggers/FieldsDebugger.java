@@ -60,9 +60,13 @@ import ead.common.resources.assets.text.EAdFont;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObject;
+import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.StringHandler;
 
 /**
@@ -70,7 +74,7 @@ import ead.tools.StringHandler;
  * pointer
  * 
  */
-public class FieldsDebugger implements Debugger {
+public class FieldsDebugger extends SceneElementGOImpl {
 
 	private EAdSceneElement element;
 
@@ -92,10 +96,10 @@ public class FieldsDebugger implements Debugger {
 
 	private ColorFill color = new ColorFill(120, 120, 120, 50);
 
-	@Inject
-	public FieldsDebugger(InputHandler inputHandler, GameState gameState,
-			StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, Game game) {
+	public FieldsDebugger(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.inputHandler = inputHandler;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
@@ -105,7 +109,6 @@ public class FieldsDebugger implements Debugger {
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
-	@Override
 	public List<SceneElementGO<?>> getGameObjects() {
 		GameObject<?> newGO = inputHandler.getGameObjectUnderPointer();
 		EAdSceneElement newElement = (EAdSceneElement) (newGO != null ? newGO
@@ -162,11 +165,6 @@ public class FieldsDebugger implements Debugger {
 			go.update();
 		}
 		return gos;
-	}
-
-	@Override
-	public void setUp(EAdAdventureModel model) {
-
 	}
 
 }

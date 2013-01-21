@@ -56,6 +56,7 @@ import ead.common.util.EAdPosition.Corner;
 public class SharingEffectsScene extends EmptyScene {
 
 	public SharingEffectsScene() {
+		this.setId("SharingEffectsScene");
 		SceneElement b = new SceneElement(new RectangleShape(50, 50,
 				ColorFill.RED));
 

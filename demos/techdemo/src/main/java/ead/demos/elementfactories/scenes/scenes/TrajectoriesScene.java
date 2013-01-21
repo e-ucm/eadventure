@@ -41,10 +41,7 @@ import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
@@ -57,6 +54,7 @@ import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
@@ -64,6 +62,7 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
+		this.setId("TrajectoriesScene");
 		NgCommon.init();
 		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
 				ColorFill.LIGHT_GRAY, 800, 600, true));
@@ -97,9 +96,9 @@ public class TrajectoriesScene extends EmptyScene {
 		move.setUseTrajectory(true);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		createTrajectory1(changeSide);
-		createTrajectory2(changeSide);
-		createTrajectory3(changeSide);
+		createTrajectory1();
+		createTrajectory2();
+		createTrajectory3();
 
 	}
 
@@ -107,7 +106,7 @@ public class TrajectoriesScene extends EmptyScene {
 		return "" + (max * i + j);
 	}
 
-	private void createTrajectory1(ChangeFieldEf changeSide) {
+	private void createTrajectory1() {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		trajectory.addNode("0", 50, 300, 3.0f);
 		trajectory.addNode("1", 750, 300, 1.0f);
@@ -118,15 +117,15 @@ public class TrajectoriesScene extends EmptyScene {
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_1), effect);
-
-		effect.getNextEffects().add(changeSide);
-
+		Caption c = new Caption("techDemo.TrajectoriesScene.1");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement change = new SceneElement(c);
+		change.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		setTrajectoryDefinition(trajectory);
+		this.getSceneElements().add(change);
 	}
 
-	private void createTrajectory2(ChangeFieldEf changeSide) {
+	private void createTrajectory2() {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		int margin = 60;
 		for (int i = 0; i < 4; i++)
@@ -169,13 +168,15 @@ public class TrajectoriesScene extends EmptyScene {
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
-		effect.getNextEffects().add(changeSide);
-
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_2), effect);
+		Caption c = new Caption("techDemo.TrajectoriesScene.2");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement change = new SceneElement(c);
+		change.setPosition(50, 0);
+		change.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+		this.getSceneElements().add(change);
 	}
 
-	private void createTrajectory3(ChangeFieldEf changeSide) {
+	private void createTrajectory3() {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		trajectory.addNode("0", 50, 200, 3.0f);
 		trajectory.addNode("1", 750, 200, 1.0f);
@@ -188,19 +189,14 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
-		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_3), effect);
-	}
+		Caption c = new Caption("techDemo.TrajectoriesScene.3");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement change = new SceneElement(c);
+		change.setPosition(100, 0);
+		change.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
-	@Override
-	public String getSceneDescription() {
-		return "Scene te test some trajectories";
-	}
-
-	public String getDemoName() {
-		return "Trajectories scene";
+		this.getSceneElements().add(change);
 	}
 
 }

@@ -60,6 +60,7 @@ import ead.common.util.EAdPosition.Corner;
 public class PhysicsScene2 extends PhysicsScene {
 
 	public PhysicsScene2() {
+		this.setId("PhysicsScene2");
 		setBackgroundFill(new LinearGradientFill(ColorFill.YELLOW,
 				ColorFill.ORANGE, 800, 600));
 	}

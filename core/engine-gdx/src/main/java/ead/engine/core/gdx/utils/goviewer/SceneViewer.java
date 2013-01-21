@@ -41,11 +41,8 @@ import com.badlogic.gdx.ApplicationListener;
 
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.util.EAdTransformation;
 
 public class SceneViewer implements ApplicationListener {
-
-	private EAdTransformation initialTransformation;
 
 	private GUI gui;
 

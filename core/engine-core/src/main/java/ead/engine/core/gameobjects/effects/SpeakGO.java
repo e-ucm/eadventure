@@ -54,7 +54,6 @@ import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.huds.EffectsHUD;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.MouseInputAction;
@@ -132,7 +131,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		finished = false;
 		alpha = 0.0f;
 		gone = false;
-		effectsHud = gui.getHUD(EffectsHUD.ID);
+		effectsHud = gui.getHUD(GUI.EFFECTS_HUD_ID);
 		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
 		bubbleDialog.setInputProcessor(this);
 		effectsHud.addSceneElement(bubbleDialog);
@@ -184,7 +183,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 
 		textSE = new SceneElement(text);
 		textSE.setPosition(new EAdPosition(left, top));
-		textSE.setInitialEnable(false);
 
 		GroupElement complex = new GroupElement(rectangle);
 		// To capture clicks all over the screen
@@ -196,7 +194,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
 		caption.reset();
 
-		complex.setInitialEnable(false);
 		return complex;
 	}
 
@@ -235,6 +232,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		}
 		effectsHud.removeSceneElement(bubbleDialog);
 		super.finish();
+	}
+
+	public boolean isQueueable() {
+		return true;
 	}
 
 }

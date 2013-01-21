@@ -40,41 +40,37 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.demos.elementfactories.EAdElementsFactory;
-import ead.demos.elementfactories.StringFactory;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.text.EAdString;
+import ead.common.resources.assets.drawable.basics.Caption;
 
 public class ShowQuestionScene extends EmptyScene {
 
 	public ShowQuestionScene() {
-		SceneElement element = EAdElementsFactory.getInstance()
-				.getSceneElementFactory().createSceneElement(
-						"Launch show question", 10, 10);
+		this.setId("ShowQuestionScene");
+
+		Caption c = new Caption("techDemo.ShowQuestionScene.launchquestion");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+
+		SceneElement element = new SceneElement(c);
+		element.setPosition(10, 10);
 
 		getSceneElements().add(element);
 
-		StringFactory stringFactory = EAdElementsFactory.getInstance()
-				.getStringFactory();
-
 		ShowQuestionEf effect = new ShowQuestionEf();
-		stringFactory.setString(effect.getQuestion(),
-				"A question has been made");
-
-		effect.addAnswer(stringFactory.getString("Answer 1"), effect);
-		effect.addAnswer(stringFactory.getString("Answer 2"), null);
-		effect.addAnswer(stringFactory.getString("Answer 3"), null);
-
-		effect.setUpNewInstance();
+		effect
+				.setQuestion(new EAdString(
+						"techDemo.ShowQuestionScene.question"));
+		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer1"),
+				effect);
+		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer2"),
+				null);
+		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer3"),
+				null);
+		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer4"),
+				null);
 
 		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene to test show question effect";
-	}
-
-	public String getDemoName() {
-		return "Show Question Scene";
 	}
 
 }

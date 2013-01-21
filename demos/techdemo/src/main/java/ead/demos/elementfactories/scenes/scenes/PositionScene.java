@@ -47,6 +47,7 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class PositionScene extends EmptyScene {
 
 	public PositionScene() {
+		this.setId("PositionScene");
 		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
 				new Image("@drawable/centerbackground.png"));
 
@@ -56,14 +57,5 @@ public class PositionScene extends EmptyScene {
 		e.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 
 		this.getSceneElements().add(e);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene to tests coners in EAdPositionImpl";
-	}
-
-	public String getDemoName() {
-		return "Positions Scene";
 	}
 }

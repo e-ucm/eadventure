@@ -40,8 +40,11 @@ package ead.engine.core.platform;
 import java.util.List;
 
 import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
@@ -52,16 +55,35 @@ import ead.engine.core.input.InputHandler;
  * This interface is implemented by the class that implements the high level
  * drawing commands for a specific platform.
  */
-public interface GUI {
+public interface GUI extends InputActionProcessor {
+
+	/**
+	 * Id for the effects hud. Huds can be accessed via
+	 * {@link GUI#getHUD(String)}
+	 */
+	public static final String EFFECTS_HUD_ID = "#engine.huds.effects";
+
+	/**
+	 * Id for the debuggers hud. Huds can be accessed via
+	 * {@link GUI#getHUD(String)}
+	 */
+	public static final String DEBBUGERS_HUD_ID = "#engine.huds.debugger";
 
 	/**
 	 * Initialize the GUI. Creates the graphic context and and shows it.
-	 * 
+	 * @param debuggerHandler TODO
 	 * @param the
 	 *            game
 	 */
 	void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler);
+			SceneElementGOFactory sceneElementFactory,
+			InputHandler inputHandler, DebuggersHandler debuggerHandler);
+
+	/**
+	 * Initialization after the graphic context has been created. In this
+	 * method, for example, huds are created
+	 */
+	void setUp();
 
 	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is
@@ -151,7 +173,9 @@ public interface GUI {
 
 	/**
 	 * Returns the hud with the given id
-	 * @param id the hud id
+	 * 
+	 * @param id
+	 *            the hud id
 	 * @return
 	 */
 	SceneElementGO<?> getHUD(String id);
@@ -189,6 +213,11 @@ public interface GUI {
 	 */
 	void update();
 
-	void setUp();
+	/**
+	 * Returns the scene element representing the given model element
+	 * @param element
+	 * @return
+	 */
+	SceneElementGO<?> getSceneElement(EAdSceneElement element);
 
 }

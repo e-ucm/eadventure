@@ -59,6 +59,7 @@ import ead.common.util.EAdPosition.Corner;
 public class DepthZScene extends EmptyScene {
 
 	public DepthZScene() {
+		this.setId("DepthZScene");
 		int totalTime = 2000;
 
 		SceneElement e1 = new SceneElement(new RectangleShape(50, 500,
@@ -100,15 +101,6 @@ public class DepthZScene extends EmptyScene {
 
 		e2.getEvents().add(event);
 
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene showing z depth";
-	}
-
-	public String getDemoName() {
-		return "Depth Z Scene";
 	}
 
 }

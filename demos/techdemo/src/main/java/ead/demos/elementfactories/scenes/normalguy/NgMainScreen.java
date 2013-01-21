@@ -53,6 +53,7 @@ import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 public class NgMainScreen extends EmptyScene {
 
 	public NgMainScreen(EAdScene initScene) {
+		this.setId("NgMainScreen");
 		setBackground(new SceneElement(new Image(
 				"@drawable/ng_mainscreen_bg.png")));
 		SceneElement spiral = new SceneElement(new Image(
@@ -86,15 +87,6 @@ public class NgMainScreen extends EmptyScene {
 
 		logo.getEvents().add(e);
 
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A game showing the eAdventure 2.0 features";
-	}
-
-	public String getDemoName() {
-		return "Normal Guy";
 	}
 
 }

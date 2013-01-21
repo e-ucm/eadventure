@@ -59,6 +59,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -84,8 +85,10 @@ public class GdxDesktopGUI extends GdxGUI {
 
 	@Override
 	public void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
-		super.initialize(game, gameState, sceneElementFactory, inputHandler);
+			SceneElementGOFactory sceneElementFactory,
+			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
+		super.initialize(game, gameState, sceneElementFactory, inputHandler,
+				debuggerHandler);
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)

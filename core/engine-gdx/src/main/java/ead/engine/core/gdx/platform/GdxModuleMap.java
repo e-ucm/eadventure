@@ -37,14 +37,12 @@
 
 package ead.engine.core.gdx.platform;
 
-import ead.engine.core.debuggers.DebuggerHandler;
-import ead.engine.core.debuggers.DebuggerHandlerImpl;
+import ead.engine.core.debuggers.DebuggersHandler;
+import ead.engine.core.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.evaluators.EvaluatorFactoryImpl;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameImpl;
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.game.GameLoaderImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.GameStateImpl;
 import ead.engine.core.game.ValueMap;
@@ -99,12 +97,11 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(AssetHandler.class, GdxAssetHandler.class);
 		binds.put(FontHandler.class, FontHandlerImpl.class);
+		binds.put(DebuggersHandler.class, DebuggersHandlerImpl.class);
 
 		binds.put(GenericCanvas.class, GdxCanvas.class);
 
 		binds.put(ValueMap.class, VariableMap.class);
-
-		binds.put(DebuggerHandler.class, DebuggerHandlerImpl.class);
 
 		binds.put(InventoryHandler.class, InventoryHandlerImpl.class);
 
@@ -128,7 +125,6 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(SceneGraph.class, BasicSceneGraph.class);
 
-		binds.put(GameLoader.class, GameLoaderImpl.class);
 		binds.put(GdxEngine.class, GdxEngineImpl.class);
 
 		binds.put(TweenController.class, TweenControllerImpl.class);

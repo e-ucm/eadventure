@@ -72,7 +72,7 @@ public class LaunchGameInstanceTest {
 					game.exit();
 				}
 				game = new DesktopGame(false);
-				game.load(model, null, null);
+				game.start();
 			}
 
 		});

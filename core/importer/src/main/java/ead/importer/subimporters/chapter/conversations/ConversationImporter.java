@@ -128,7 +128,6 @@ public class ConversationImporter implements
 					currentNodeEffect.addAnswer(string, nodes.get(node
 							.getChild(i)));
 				}
-				currentNodeEffect.setUpNewInstance();
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());

@@ -48,6 +48,7 @@ import ead.common.util.EAdPosition.Corner;
 public class FiltersDemo extends EmptyScene {
 
 	public FiltersDemo() {
+		this.setId("FiltersDemo");
 		BasicMatrix m = new BasicMatrix();
 		m.scale(-1.0f, 1.0f, true);
 		Image i = new Image("@drawable/ng_key.png");
@@ -62,15 +63,6 @@ public class FiltersDemo extends EmptyScene {
 		e2.setInitialScale(0.8f);
 		getSceneElements().add(e2);
 		getSceneElements().add(e);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "An scene showing filters.";
-	}
-
-	public String getDemoName() {
-		return "Filters Scene";
 	}
 
 }

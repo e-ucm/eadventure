@@ -55,6 +55,7 @@ import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
+		this.setId("ScrollScene");
 		setBounds(1000, 1213);
 		setBackground(new SceneElement(new Image("@drawable/scrollbg.png")));
 
@@ -89,15 +90,6 @@ public class ScrollScene extends EmptyScene {
 		move.setSceneElement(character);
 		move.setUseTrajectory(true);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene scrolling with the character";
-	}
-
-	public String getDemoName() {
-		return "Scroll Scene";
 	}
 
 }

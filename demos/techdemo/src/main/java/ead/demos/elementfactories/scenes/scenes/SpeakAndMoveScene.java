@@ -105,6 +105,8 @@ public class SpeakAndMoveScene extends EmptyScene {
 		SceneElementDef action = new SceneElementDef();
 		action.addAsset(SceneElementDef.appearance, new Image(
 				"@drawable/examine-normal.png"));
+		action.addAsset(SceneElementDef.overAppearance, new Image(
+				"@drawable/examine-pressed.png"));
 
 		SpeakEf speak = new SpeakEf();
 

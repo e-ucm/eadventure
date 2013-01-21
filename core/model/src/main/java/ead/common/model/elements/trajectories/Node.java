@@ -75,10 +75,6 @@ public class Node extends BasicElement {
 		this.nodeId = nodeId;
 	}
 
-	public String getId() {
-		return super.getId();
-	}
-
 	public Node(Node n) {
 		this.nodeId = n.nodeId;
 		this.x = n.x;

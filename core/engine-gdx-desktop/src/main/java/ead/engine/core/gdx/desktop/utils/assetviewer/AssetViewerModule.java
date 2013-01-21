@@ -44,7 +44,9 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.EAdOperation;
+import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.VariableMap;
@@ -154,7 +156,7 @@ public class AssetViewerModule extends AbstractModule {
 		@Override
 		public void initialize(Game game, GameState gameState,
 				SceneElementGOFactory sceneElementFactory,
-				InputHandler inputHandler) {
+				InputHandler inputHandler, DebuggersHandler debuggerHandler) {
 			// TODO Auto-generated method stub
 
 		}
@@ -193,6 +195,12 @@ public class AssetViewerModule extends AbstractModule {
 		public void setUp() {
 			// TODO Auto-generated method stub
 
+		}
+
+		@Override
+		public SceneElementGO<?> getSceneElement(EAdSceneElement element) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

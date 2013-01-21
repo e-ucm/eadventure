@@ -14,7 +14,7 @@ public class TechDemoMain {
 		BasicChapter chapter = new BasicChapter(scene);
 		EAdAdventureModel model = new BasicAdventureModel();
 		model.getChapters().add(chapter);
-		g.setModel(model);
+		g.setModel(null);
 		g.start();
 	}
 

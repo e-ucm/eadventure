@@ -14,7 +14,7 @@ public class TechDemoMain2 {
 		BasicScene scene = new BasicScene();
 		chapter.setInitialScene(scene);
 		adventure.getChapters().add(chapter);
-		game.setModel(adventure);
+		game.setModel(null);
 		game.start();
 
 	}

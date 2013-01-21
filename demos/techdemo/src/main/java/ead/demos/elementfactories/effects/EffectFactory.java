@@ -109,7 +109,6 @@ public class EffectFactory {
 					.getStringFactory().getString(StringType.values()[ordinal]);
 			effect.addAnswer(answerString, new SpeakEf());
 		}
-		effect.setUpNewInstance();
 		return effect;
 
 	}

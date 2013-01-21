@@ -39,6 +39,7 @@ package ead.reader.elements.readers;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
+import ead.common.util.EAdPosition;
 import ead.reader.elements.ElementsFactory;
 import ead.reader.elements.XMLVisitor;
 import ead.reader.elements.XMLVisitor.VisitorListener;
@@ -57,10 +58,39 @@ public class ListReader extends AbstractReader<EAdList> {
 	public EAdList read(XMLNode node) {
 		Class<?> clazz = this.getNodeClass(node);
 		EAdList list = new EAdListImpl(clazz);
-		XMLNodeList children = node.getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			xmlVisitor.loadElement(children.item(i), new ListVisitorListener(
-					list));
+		if (clazz == Integer.class || clazz == Float.class
+				|| clazz == EAdPosition.class) {
+			String values[] = node.getNodeText().split("\\|");
+			for (String v : values) {
+				Object o = null;
+				try {
+					if (clazz == Integer.class) {
+						o = Integer.parseInt(v);
+					} else if (clazz == Float.class) {
+						o = Float.parseFloat(v);
+					} else {
+						o = new EAdPosition(v);
+					}
+				} catch (Exception e) {
+
+				}
+
+				if (o == null) {
+					logger
+							.warn(
+									"Value for list not admitted {}. This might causes problems",
+									v);
+				} else {
+					list.add(o);
+				}
+			}
+
+		} else {
+			XMLNodeList children = node.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				xmlVisitor.loadElement(children.item(i),
+						new ListVisitorListener(list));
+			}
 		}
 		return list;
 	}
@@ -74,11 +104,13 @@ public class ListReader extends AbstractReader<EAdList> {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public boolean loaded(XMLNode node, Object object) {
-			if (object != null) {
+		public boolean loaded(XMLNode node, Object object,
+				boolean isNullInOrigin) {
+			if (object != null || isNullInOrigin) {
 				list.add(object);
+				return true;
 			}
-			return object != null;
+			return false;
 		}
 
 	}

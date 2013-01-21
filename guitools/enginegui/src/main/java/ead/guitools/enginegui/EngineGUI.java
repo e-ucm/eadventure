@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.swing.UIManager;
@@ -13,12 +12,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.debuggers.GhostElementDebugger;
@@ -71,10 +68,10 @@ public class EngineGUI {
 		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new LoadGameEffect());
 		BasicAdventureModel adventure = new BasicAdventureModel();
 		adventure.getChapters().add(new BasicChapter(scene));
-		engine
-				.load((EAdAdventureModel) adventure,
-						new HashMap<EAdString, String>(),
-						new HashMap<String, String>());
+		//		engine
+		//				.load((EAdAdventureModel) adventure,
+		//						new HashMap<EAdString, String>(),
+		//						new HashMap<String, String>());
 		engine.start();
 	}
 

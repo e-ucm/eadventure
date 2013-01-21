@@ -46,9 +46,11 @@ import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.RandomEf;
+import ead.common.model.elements.effects.RemoveEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
@@ -67,6 +69,8 @@ import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomGO;
+import ead.engine.core.gameobjects.effects.RemoveGO;
+import ead.engine.core.gameobjects.effects.ShowQuestionGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
@@ -94,6 +98,8 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(AddActorReferenceEf.class, AddActorReferenceGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
 		factoryMap.put(RandomEf.class, RandomGO.class);
+		factoryMap.put(RemoveEf.class, RemoveGO.class);
+		factoryMap.put(ShowQuestionEf.class, ShowQuestionGO.class);
 	}
 
 }

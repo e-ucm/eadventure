@@ -42,6 +42,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
+import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -77,9 +78,11 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 
 	@Override
 	public void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory, InputHandler inputHandler) {
+			SceneElementGOFactory sceneElementFactory,
+			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
 		engine.setGame(game);
-		super.initialize(game, gameState, sceneElementFactory, inputHandler);
+		super.initialize(game, gameState, sceneElementFactory, inputHandler,
+				debuggerHandler);
 	}
 
 	@Override

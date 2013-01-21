@@ -111,31 +111,40 @@ public class XMLVisitor {
 		VisitorStep step = stepsQueue.remove(0);
 		XMLNode node = step.getNode();
 		VisitorListener listener = step.getListener();
-		Object result = null;
-		boolean error = false;
-		if (node.getNodeName().equals(DOMTags.PARAM_AT)) {
-			result = paramReader.read(node);
-		} else if (node.getNodeName().equals(DOMTags.LIST_TAG)) {
-			result = listReader.read(node);
-		} else if (node.getNodeName().equals(DOMTags.ASSET_AT)) {
-			objectReader.setAsset(true);
-			result = objectReader.read(node);
-		} else if (node.getNodeName().equals(DOMTags.ELEMENT_AT)) {
-			objectReader.setAsset(false);
-			result = objectReader.read(node);
-		} else if (node.getNodeName().equals(DOMTags.MAP_TAG)) {
-			result = mapReader.read(node);
-		} else {
-			logger.warn(" could not read node {} with name {}", node
-					.getNodeName());
-			error = true;
-		}
 
-		// Sometimes we can't generate elements reference because the original
-		// object didn't appear yet. When that happens, we obtain a null result.
-		// We send the step to the end of the queue, for later
-		if (!listener.loaded(node, result) && !error) {
-			stepsQueue.add(step);
+		// First look for null in the node
+		// <p/> or <e/> or <a/> symbolizes null element
+		if (!node.hasChildNodes() && node.getAttributes().getLength() == 0) {
+			listener.loaded(node, null, true);
+		} else {
+			Object result = null;
+			boolean error = false;
+			if (node.getNodeName().equals(DOMTags.PARAM_AT)) {
+				result = paramReader.read(node);
+			} else if (node.getNodeName().equals(DOMTags.LIST_TAG)) {
+				result = listReader.read(node);
+			} else if (node.getNodeName().equals(DOMTags.ASSET_AT)) {
+				objectReader.setAsset(true);
+				result = objectReader.read(node);
+			} else if (node.getNodeName().equals(DOMTags.ELEMENT_AT)) {
+				objectReader.setAsset(false);
+				result = objectReader.read(node);
+			} else if (node.getNodeName().equals(DOMTags.MAP_TAG)) {
+				result = mapReader.read(node);
+			} else {
+				logger.warn(" could not read node {} with name {}", node
+						.getNodeName());
+				error = true;
+			}
+
+			// Sometimes we can't generate elements reference because the
+			// original
+			// object didn't appear yet. When that happens, we obtain a null
+			// result.
+			// We send the step to the end of the queue, for later
+			if (!listener.loaded(node, result, false) && !error) {
+				stepsQueue.add(step);
+			}
 		}
 
 		if (stepsQueue.isEmpty()) {
@@ -145,6 +154,7 @@ public class XMLVisitor {
 			}
 			return true;
 		}
+		logger.debug("XML Visitor steps: " + this.stepsQueue.size());
 		return false;
 	}
 
@@ -162,9 +172,12 @@ public class XMLVisitor {
 		 * 
 		 * @param node
 		 * @param object
+		 * @param isNullInOrigin
+		 *            Says if the object is null because data.xml says so, not
+		 *            beacuse it is not still loaded
 		 * @return
 		 */
-		boolean loaded(XMLNode node, Object object);
+		boolean loaded(XMLNode node, Object object, boolean isNullInOrigin);
 	}
 
 	public static class VisitorStep {

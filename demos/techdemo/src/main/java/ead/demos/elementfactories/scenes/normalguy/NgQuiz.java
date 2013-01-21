@@ -87,8 +87,6 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(a3), getAnswer1(false,
 				stringFactory));
 
-		effect.setUpNewInstance();
-
 		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		return element;
 	}
@@ -115,8 +113,6 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(b3), getAnswer2(false,
 				stringFactory));
 
-		effect.setUpNewInstance();
-
 		return effect;
 	}
 
@@ -142,8 +138,6 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(b3), getAnswer3andClose(true,
 				stringFactory));
 
-		effect.setUpNewInstance();
-
 		return effect;
 	}
 
@@ -160,8 +154,6 @@ public class NgQuiz extends EmptyScene {
 			stringFactory.setString(effect.getQuestion(), questionWr);
 		}
 		effect.addAnswer(stringFactory.getString(finalQ), null);
-
-		effect.setUpNewInstance();
 
 		return effect;
 	}

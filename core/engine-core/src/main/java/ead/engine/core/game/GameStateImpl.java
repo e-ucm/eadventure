@@ -111,6 +111,9 @@ public class GameStateImpl implements GameState {
 	 */
 	private boolean paused;
 
+	// Auxiliary variable, to avoid new every loop
+	private ArrayList<EffectGO<?>> finishedEffects;
+
 	private GameStateData gameStateData;
 
 	@Inject
@@ -130,6 +133,7 @@ public class GameStateImpl implements GameState {
 		this.evaluatorFactory.init(this, operatorFactory);
 
 		effects = new ArrayList<EffectGO<?>>();
+		finishedEffects = new ArrayList<EffectGO<?>>();
 	}
 
 	@Override
@@ -202,6 +206,41 @@ public class GameStateImpl implements GameState {
 
 	}
 
+	public void update() {
+		if (!isPaused()) {
+			effects = getEffects();
+			finishedEffects.clear();
+			boolean block = false;
+			int i = 0;
+			while (i < getEffects().size()) {
+				EffectGO<?> effectGO = effects.get(i);
+				i++;
+
+				if (block)
+					continue;
+
+				if (effectGO.isStopped() || effectGO.isFinished()) {
+					finishedEffects.add(effectGO);
+					if (effectGO.isFinished())
+						effectGO.finish();
+				} else {
+					if (effectGO.isBlocking())
+						// If effect is blocking, get out of the loop
+						block = true;
+
+					effectGO.update();
+				}
+
+			}
+
+			// Delete finished effects
+			for (EffectGO<?> e : finishedEffects) {
+				// logger.info("Finished or discarded effect {}", e.getClass());
+				getEffects().remove(e);
+			}
+		}
+	}
+
 	@Override
 	public boolean isPaused() {
 		return paused;
@@ -218,15 +257,15 @@ public class GameStateImpl implements GameState {
 			effectsList.add(effGO.getElement());
 		}
 
-		Stack<EAdScene> stack = new Stack<EAdScene>();
+		//		Stack<EAdScene> stack = new Stack<EAdScene>();
 
-		Map<EAdVarDef<?>, Object> systemVars = new HashMap<EAdVarDef<?>, Object>();
+		//		Map<EAdVarDef<?>, Object> systemVars = new HashMap<EAdVarDef<?>, Object>();
 		// systemVars.putAll(valueMap.getSystemVars());
 
 		// Map<Variabled, Map<EAdVarDef<?>, Object>> originalElementVars =
 		// valueMap
 		// .getElementVars();
-		Map<Variabled, Map<EAdVarDef<?>, Object>> elementVars = new HashMap<Variabled, Map<EAdVarDef<?>, Object>>();
+		//		Map<Variabled, Map<EAdVarDef<?>, Object>> elementVars = new HashMap<Variabled, Map<EAdVarDef<?>, Object>>();
 		// for (Entry<Variabled, Map<EAdVarDef<?>, Object>> entry :
 		// originalElementVars
 		// .entrySet()) {
@@ -235,7 +274,7 @@ public class GameStateImpl implements GameState {
 		// elementVars.put(entry.getKey(), map);
 		// }
 
-		ArrayList<Variabled> updateList = new ArrayList<Variabled>();
+		//		ArrayList<Variabled> updateList = new ArrayList<Variabled>();
 		// updateList.addAll(valueMap.getUpdateList());
 
 	}

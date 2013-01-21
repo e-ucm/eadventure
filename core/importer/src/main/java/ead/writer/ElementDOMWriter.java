@@ -47,65 +47,70 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 	@Override
 	public Element buildNode(EAdElement element, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.ELEMENT_AT);
-		try {
-			// Check if the element is new
-			if (!elementMap.containsKey(element)) {
-				elementMap.put(element, DOMTags.ELEMENT_AT
-						+ DOMWriter.convertToCode("e", mappedElement.size()));
-				mappedElement.add(element);
+		if (element != null) {
+			try {
+				// Check if the element is new
+				if (!elementMap.containsKey(element)) {
+					elementMap.put(element, DOMTags.ELEMENT_AT
+							+ DOMWriter
+									.convertToCode("e", mappedElement.size()));
+					mappedElement.add(element);
 
-				if (depthManager.isStored(element)) {
-					EAdElement conflicting = depthManager
-							.getInstanceOfElement(element);
-					logger
-							.error(
-									"Type {} has differing equals and hashcodes ({}_{} != {})",
-									new Object[] { element.getClass(),
-											element.equals(conflicting),
-											conflicting.hashCode(),
-											element.hashCode() });
+					if (depthManager.isStored(element)) {
+						EAdElement conflicting = depthManager
+								.getInstanceOfElement(element);
+						logger
+								.error(
+										"Type {} has differing equals and hashcodes ({}_{} != {})",
+										new Object[] { element.getClass(),
+												element.equals(conflicting),
+												conflicting.hashCode(),
+												element.hashCode() });
+					}
 				}
-			}
 
-			if (depthManager.inPreviousList(element)
-					|| depthManager.isStored(element)) {
-				// write a reference instead of the node
-				node.setTextContent(elementMap.get(element));
-				return node;
-			}
-			depthManager.setStored(element);
-
-			// Set id and unique id
-			node.setAttribute(DOMTags.ID_AT, element.getId());
-			node.setAttribute(DOMTags.UNIQUE_ID_AT, elementMap.get(element));
-
-			// Look for Element annotation
-			Class<?> clazz = element.getClass();
-			ead.common.interfaces.Element annotation = null;
-			while (clazz != null) {
-				annotation = clazz
-						.getAnnotation(ead.common.interfaces.Element.class);
-				if (annotation != null) {
-					break;
+				if (depthManager.inPreviousList(element)
+						|| depthManager.isStored(element)) {
+					// write a reference instead of the node
+					node.setTextContent(elementMap.get(element));
+					return node;
 				}
-				clazz = clazz.getSuperclass();
-			}
+				depthManager.setStored(element);
 
-			if (annotation != null) {
+				// Set id and unique id
+				node.setAttribute(DOMTags.ID_AT, element.getId());
 				node
-						.setAttribute(DOMTags.CLASS_AT, shortClass(clazz
-								.getName()));
+						.setAttribute(DOMTags.UNIQUE_ID_AT, elementMap
+								.get(element));
 
-				// Add Param fields
-				super.processParams(node, element);
-			} else {
-				logger.error("No Element annotation in class {}", element
-						.getClass());
+				// Look for Element annotation
+				Class<?> clazz = element.getClass();
+				ead.common.interfaces.Element annotation = null;
+				while (clazz != null) {
+					annotation = clazz
+							.getAnnotation(ead.common.interfaces.Element.class);
+					if (annotation != null) {
+						break;
+					}
+					clazz = clazz.getSuperclass();
+				}
+
+				if (annotation != null) {
+					node.setAttribute(DOMTags.CLASS_AT, shortClass(clazz
+							.getName()));
+
+					// Add Param fields
+					super.processParams(node, element);
+				} else {
+					logger.error("No Element annotation in class {}", element
+							.getClass());
+				}
+
+			} catch (Exception e) {
+				logger.error("Exception writing element {}",
+						element.getClass(), e);
+				error = true;
 			}
-
-		} catch (Exception e) {
-			logger.error("Exception writing element {}", element.getClass(), e);
-			error = true;
 		}
 
 		return node;

@@ -69,16 +69,39 @@ public interface Game {
 	public static final String EXIT_WHEN_CLOSE = "exit_when_close";
 
 	/**
-	 * Initialize the whole engine, loading default properties, string, creating
-	 * the GUI...
+	 * 
+	 * Sets the current adventure game model ({@link EAdAdventureModel})
+	 * 
+	 * @param path
+	 *            the asset root path. It can be {@code null}
+	 * 
+	 * @return The adventure game model
 	 */
-	void initialize();
+	void setResourcesLocation(String path);
 
 	/**
-	 * This method is called once the underlying context is created, and runs in
-	 * the game thread
+	 * Returns the current adventure game model ({@link EAdAdventureModel})
+	 * 
+	 * @return The adventure game model
 	 */
-	void setUp();
+	EAdAdventureModel getAdventureModel();
+
+	/**
+	 * Returns the current chapter
+	 * 
+	 * @return
+	 */
+	EAdChapter getCurrentChapter();
+
+	/**
+	 * Initialize the whole engine, loading default properties, string, creating
+	 * the GUI.
+	 * 
+	 * This method first read ead.properties, and then create the game context
+	 * with its data. After that, it reads the strings (from strings.xml, or any
+	 * of its i18n), and then reads the model (from data.xml).
+	 */
+	void initialize();
 
 	/**
 	 * Updates the game state
@@ -92,33 +115,26 @@ public interface Game {
 	void render();
 
 	/**
-	 * Returns the current adventure game model ({@link EAdAdventureModel})
-	 * 
-	 * @return The adventure game model
-	 */
-	EAdAdventureModel getAdventureModel();
-
-	/**
-	 * Sets the current adventure game model ({@link EAdAdventureModel})
-	 * 
-	 * @return The adventure game model
-	 */
-	void setAdventureModel(EAdAdventureModel model);
-
-	/**
-	 * Returns the current chapter
-	 * 
-	 * @return
-	 */
-	EAdChapter getCurrentChapter();
-
-	/**
 	 * Disposes all the resources allocated by the engine and destroys the GUI
 	 */
 	void dispose();
 
+	/**
+	 * Adds an engine filter to the given filter name
+	 * 
+	 * @param filterName
+	 * @param filter
+	 */
 	void addFilter(String filterName, EngineFilter<?> filter);
 
+	/**
+	 * Applies filters
+	 * 
+	 * @param filterName
+	 * @param o
+	 * @param params
+	 * @return
+	 */
 	<T> T applyFilters(String filterName, T o, Object[] params);
 
 }

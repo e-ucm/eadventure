@@ -62,7 +62,6 @@ public class Side extends BasicElement {
 	}
 
 	public Side(Node idStart, Node idEnd) {
-
 		this.idStart = idStart;
 		this.idEnd = idEnd;
 	}

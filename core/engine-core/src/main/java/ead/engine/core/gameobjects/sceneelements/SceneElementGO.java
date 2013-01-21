@@ -333,4 +333,15 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 */
 	void invalidate();
 
+	/**
+	 * Removes the element from its hierarchy
+	 */
+	void remove();
+
+	/**
+	 * Returns if this elements has been removed
+	 * @return
+	 */
+	boolean isRemoved();
+
 }

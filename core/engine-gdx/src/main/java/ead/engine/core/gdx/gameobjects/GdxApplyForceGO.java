@@ -93,9 +93,4 @@ public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 		}
 	}
 
-	@Override
-	public boolean isFinished() {
-		return true;
-	}
-
 }

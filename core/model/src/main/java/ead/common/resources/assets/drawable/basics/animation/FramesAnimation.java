@@ -53,8 +53,6 @@ public class FramesAnimation extends AbstractAssetDescriptor implements
 	@Param("frames")
 	private EAdList<Frame> frames;
 
-	private int totalTime = 0;
-
 	/**
 	 * Constructs an empty animation
 	 */
@@ -69,7 +67,6 @@ public class FramesAnimation extends AbstractAssetDescriptor implements
 	 */
 	public void addFrame(Frame frame) {
 		frames.add(frame);
-		totalTime += frame.getTime();
 	}
 
 	/**
@@ -90,24 +87,6 @@ public class FramesAnimation extends AbstractAssetDescriptor implements
 	 */
 	public int getFrameCount() {
 		return frames.size();
-	}
-
-	public Frame getFrameFromTime(int timeDisplayed) {
-		int i = this.getFrameIndexFromTime(timeDisplayed);
-		return frames.get(i);
-	}
-
-	public int getFrameIndexFromTime(int timeDisplayed) {
-		if (totalTime > 0) {
-			long time = timeDisplayed % totalTime;
-			int i = 0;
-			while (time > getFrame(i).getTime()) {
-				time -= getFrame(i).getTime();
-				i++;
-			}
-			return i;
-		}
-		return 0;
 	}
 
 	public EAdList<Frame> getFrames() {

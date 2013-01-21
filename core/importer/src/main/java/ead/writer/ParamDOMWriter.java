@@ -42,25 +42,19 @@ import org.w3c.dom.Element;
 import ead.common.params.EAdParam;
 import ead.reader.adventure.DOMTags;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Writer for {@link EAdParam}
  * 
  */
 public class ParamDOMWriter extends DOMWriter<Object> {
 
-	private static final Logger logger = LoggerFactory.getLogger("DOMWriter");
-
 	@Override
 	public Element buildNode(Object data, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.PARAM_AT);
 
-		String value = null;
-		if (data == null)
-			logger.warn("Null data");
-		else {
+		if (data != null) {
+			String value = null;
+
 			if (data instanceof EAdParam) {
 				value = ((EAdParam) data).toStringData();
 			} else if (data instanceof Class) {
@@ -68,27 +62,27 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 			} else {
 				value = data.toString();
 			}
-		}
 
-		String compressedValue = paramsMap.get(data);
-		if (compressedValue == null) {
-			if (DOMWriter.USE_PARAM_IDS) {
-				String key = DOMTags.PARAM_AT
-						+ DOMWriter.convertToCode("p", paramsMap.keySet()
-								.size());
-				if (key.length() < value.length()) {
-					paramsMap.put(data, key);
-					node.setAttribute(DOMTags.UNIQUE_ID_AT, key);
+			String compressedValue = paramsMap.get(data);
+			if (compressedValue == null) {
+				if (DOMWriter.USE_PARAM_IDS) {
+					String key = DOMTags.PARAM_AT
+							+ DOMWriter.convertToCode("p", paramsMap.keySet()
+									.size());
+					if (key.length() < value.length()) {
+						paramsMap.put(data, key);
+						node.setAttribute(DOMTags.UNIQUE_ID_AT, key);
+					}
 				}
+			} else {
+				value = compressedValue;
 			}
-		} else {
-			value = compressedValue;
+
+			node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass()
+					.getName()));
+
+			node.setTextContent(value);
 		}
-
-		node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass()
-				.getName()));
-
-		node.setTextContent(value);
 		return node;
 	}
 

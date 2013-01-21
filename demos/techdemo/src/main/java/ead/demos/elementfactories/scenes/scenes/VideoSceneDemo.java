@@ -45,16 +45,9 @@ public class VideoSceneDemo extends VideoScene {
 
 	public VideoSceneDemo() {
 		super();
+		this.setId("VideoSceneDemo");
 		EAdVideo video = new Video("@binary/eAdventure.webm");
 		getDefinition().addAsset(VideoScene.video, video);
-	}
-
-	public String getSceneDescription() {
-		return "A scene showing a video";
-	}
-
-	public String getDemoName() {
-		return "Video Scene";
 	}
 
 }

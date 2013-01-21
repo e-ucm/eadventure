@@ -41,7 +41,6 @@ import java.util.List;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
@@ -156,6 +155,11 @@ public interface GameState extends ValueMap {
 	 * @param paused
 	 */
 	void setPaused(boolean paused);
+
+	/**
+	 * Updates the game state
+	 */
+	void update();
 
 	void saveState();
 

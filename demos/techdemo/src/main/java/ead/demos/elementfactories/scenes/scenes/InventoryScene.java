@@ -57,6 +57,7 @@ public class InventoryScene extends EmptyScene {
 
 	public InventoryScene() {
 		super();
+		this.setId("InventoryScene");
 		SceneElementDef item = new SceneElementDef(new Image(
 				"@drawable/ng_key.png"));
 
@@ -87,15 +88,6 @@ public class InventoryScene extends EmptyScene {
 		key.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 
 		getSceneElements().add(key);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene with inventory.";
-	}
-
-	public String getDemoName() {
-		return "Inventory Scene";
 	}
 
 }

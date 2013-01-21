@@ -130,8 +130,7 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	@Override
 	public void update() {
 		super.update();
-		timeStep = 1.0f / gameState
-				.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+		timeStep = gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE) / 1000.0f;
 		world.step(timeStep, velocityIterations, positionIterations);
 
 		EAdScene scene = (EAdScene) gui.getScene().getElement();
@@ -153,6 +152,10 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		} else {
 			stop();
 		}
+	}
+
+	public boolean isQueueable() {
+		return true;
 	}
 
 	@Override

@@ -228,10 +228,15 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	 */
 	private ArrayList<EventGO<?>> eventGOList;
 
+	// Auxiliary list to store removed children
+	private ArrayList<SceneElementGO<?>> removedChildren;
+
 	/**
 	 * List with the states of this element
 	 */
 	private List<String> statesList;
+
+	private boolean removed;
 
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
@@ -246,6 +251,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		statesList = new ArrayList<String>();
 		children = new ArrayList<SceneElementGO<?>>();
 		eventGOList = new ArrayList<EventGO<?>>();
+		removedChildren = new ArrayList<SceneElementGO<?>>();
 	}
 
 	public SceneElementGO<?> getParent() {
@@ -262,7 +268,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	@Override
 	public boolean contains(int x, int y) {
-		if (isVisible()) {
+		if (isVisible() && isEnable()) {
 			float[] mouse = transformation.getMatrix().multiplyPointInverse(x,
 					y, true);
 			x = (int) mouse[0];
@@ -340,6 +346,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	@Override
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
+		this.removed = false;
 		transformation = new EAdTransformationImpl();
 
 		// Caution: this should be removed if we want to remember the element
@@ -575,6 +582,18 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 			resetTransformation();
 		}
 
+		// Check elements removed
+		removedChildren.clear();
+		for (SceneElementGO<?> go : this.children) {
+			if (go.isRemoved()) {
+				removedChildren.add(go);
+			}
+		}
+
+		for (SceneElementGO<?> go : removedChildren) {
+			this.removeSceneElement(go);
+		}
+
 		for (SceneElementGO<?> go : this.children) {
 			go.update();
 		}
@@ -786,14 +805,18 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	}
 
 	public SceneElementGO<?> getChild(EAdSceneElement sceneElement) {
+		SceneElementGO<?> go = null;
 		if (sceneElement == this.element) {
 			return this;
 		} else {
 			for (SceneElementGO<?> s : getChildren()) {
-				return s.getChild(sceneElement);
+				go = s.getChild(sceneElement);
+				if (go != null) {
+					break;
+				}
 			}
 		}
-		return null;
+		return go;
 	}
 
 	public EAdTransformation getTransformation() {
@@ -803,6 +826,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	@Override
 	public void addSceneElement(SceneElementGO<?> sceneElement) {
 		this.children.add(sceneElement);
+		this.removed = false;
 		sceneElement.getTransformation().setValidated(false);
 		sceneElement.setParent(this);
 	}
@@ -814,6 +838,9 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	@Override
 	public SceneElementGO<?> getFirstGOIn(int x, int y) {
+		if (!this.isEnable()) {
+			return null;
+		}
 		SceneElementGO<?> result = null;
 		for (int i = children.size() - 1; i >= 0; i--) {
 			SceneElementGO<?> e = children.get(i);
@@ -837,6 +864,14 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 			SceneElementGO<?> e = children.get(i);
 			e.getAllGOIn(x, y, list);
 		}
+	}
+
+	public void remove() {
+		removed = true;
+	}
+
+	public boolean isRemoved() {
+		return removed;
 	}
 
 	public String toString() {

@@ -12,7 +12,6 @@ import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.util.EAdURI;
-import ead.engine.core.game.GameLoader;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -36,7 +35,6 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 	private static EAdventureImporter importer = null;
 	private AssetHandler assetHandler;
 
-	private GameLoader gameLoader;
 	private EAdAdventureModel model;
 	private boolean done;
 	private String resourcesPath;
@@ -45,12 +43,10 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 
 	@Inject
 	public LoadGameGO(SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, GameLoader gameLoader,
-			AssetHandler assetHandler, XMLParser xmlReader,
-			EventGOFactory eventFactory) {
+			GameState gameState, AssetHandler assetHandler,
+			XMLParser xmlReader, EventGOFactory eventFactory) {
 		super(gameState);
 		this.gui = gui;
-		this.gameLoader = gameLoader;
 		this.assetHandler = assetHandler;
 		this.xmlReader = xmlReader;
 	}
@@ -83,7 +79,7 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 						XMLDocument document = xmlReader.parse(FileUtils
 								.getText(tracesFile));
 						effect.loadFromXML(document);
-						gameLoader.getInitialEffects().add(effect);
+						//						gameLoader.getInitialEffects().add(effect);
 					}
 					done = true;
 				}
@@ -108,7 +104,7 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEffect> {
 	public void finish() {
 		super.finish();
 		assetHandler.setResourcesLocation(new EAdURI(resourcesPath));
-		gameLoader.loadGame(model, importer.getStrings(), null);
+		//		gameLoader.loadGame(model, importer.getStrings(), null);
 	}
 
 	@Override

@@ -55,6 +55,10 @@ public class RuntimeFramesAnimation extends
 
 	private List<RuntimeDrawable<?, ?>> frames;
 
+	private List<Integer> times;
+
+	private int totalTime;
+
 	@Inject
 	public RuntimeFramesAnimation(AssetHandler assetHandler) {
 		super(assetHandler);
@@ -64,10 +68,13 @@ public class RuntimeFramesAnimation extends
 	public boolean loadAsset() {
 		super.loadAsset();
 		frames = new ArrayList<RuntimeDrawable<?, ?>>();
+		times = new ArrayList<Integer>();
 		for (Frame f : descriptor.getFrames()) {
 			RuntimeDrawable<?, ?> d = (RuntimeDrawable<?, ?>) assetHandler
 					.getRuntimeAsset(f.getDrawable(), true);
 			frames.add(d);
+			totalTime += f.getTime();
+			times.add(totalTime);
 		}
 		return true;
 	}
@@ -85,7 +92,11 @@ public class RuntimeFramesAnimation extends
 	@Override
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
 			int level) {
-		int index = descriptor.getFrameIndexFromTime(time);
+		int realTime = time % totalTime;
+		int index = 0;
+		while (realTime > times.get(index)) {
+			index++;
+		}
 		return frames.get(index);
 	}
 
