@@ -67,13 +67,6 @@ public interface EAdFont extends AssetDescriptor, HasURI {
 	float getSize();
 
 	/**
-	 * Returns whether the font is a True Type Font
-	 * 
-	 * @return
-	 */
-	boolean isTTF();
-
-	/**
 	 * @param size
 	 *            the size to set
 	 */

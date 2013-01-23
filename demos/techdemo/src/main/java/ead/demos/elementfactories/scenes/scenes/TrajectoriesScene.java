@@ -44,8 +44,8 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectory;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
@@ -85,7 +85,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
 		changeSide.addField(new BasicField<Side>(element,
-				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+				NodeTrajectory.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp(null));
 
 		// Sets up character's movement
@@ -107,13 +107,13 @@ public class TrajectoriesScene extends EmptyScene {
 	}
 
 	private void createTrajectory1() {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		NodeTrajectory trajectory = new NodeTrajectory();
 		trajectory.addNode("0", 50, 300, 3.0f);
 		trajectory.addNode("1", 750, 300, 1.0f);
 		trajectory.addSide("0", "1", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+		effect.addField(new BasicField<EAdTrajectory>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
@@ -126,7 +126,7 @@ public class TrajectoriesScene extends EmptyScene {
 	}
 
 	private void createTrajectory2() {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		NodeTrajectory trajectory = new NodeTrajectory();
 		int margin = 60;
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 6; j++)
@@ -164,7 +164,7 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.setInitial("0");
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+		effect.addField(new BasicField<EAdTrajectory>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
@@ -177,7 +177,7 @@ public class TrajectoriesScene extends EmptyScene {
 	}
 
 	private void createTrajectory3() {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		NodeTrajectory trajectory = new NodeTrajectory();
 		trajectory.addNode("0", 50, 200, 3.0f);
 		trajectory.addNode("1", 750, 200, 1.0f);
 		trajectory.addNode("2", 350, 400, 1.0f);
@@ -186,7 +186,7 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("1", "0", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+		effect.addField(new BasicField<EAdTrajectory>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 

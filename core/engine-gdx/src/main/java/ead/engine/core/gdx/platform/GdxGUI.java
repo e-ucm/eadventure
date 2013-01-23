@@ -43,9 +43,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
 import ead.engine.core.debuggers.DebuggersHandler;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.AbstractGUI;

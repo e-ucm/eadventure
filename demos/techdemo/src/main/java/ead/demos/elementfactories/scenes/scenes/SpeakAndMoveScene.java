@@ -41,19 +41,27 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectory;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
+import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
@@ -62,6 +70,9 @@ import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class SpeakAndMoveScene extends EmptyScene {
+
+	private int dispY = 0;
+	private BasicField<EAdTrajectory> trajectoryField;
 
 	public SpeakAndMoveScene() {
 		this.setId("SpeakAndMoveScene");
@@ -92,11 +103,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
 		character.getEvents().add(event);
 
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
-		d.setLimits(0, 0, 800, 600);
-		setTrajectoryDefinition(d);
-
-		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+		addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementToMouseEf());
 
 		SceneElement actionsObject = new SceneElement(new Image(
@@ -138,6 +145,60 @@ public class SpeakAndMoveScene extends EmptyScene {
 				.getDefinition());
 		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
 		getSceneElements().add(actionsObject);
+
+		// Trajectories
+
+		trajectoryField = new BasicField<EAdTrajectory>(this,
+				BasicScene.VAR_TRAJECTORY_DEFINITION);
+
+		SimpleTrajectory freeWalk = new SimpleTrajectory();
+		setTrajectoryDefinition(freeWalk);
+
+		getSceneElements().add(
+				getChangeTrajectory(freeWalk,
+						"techDemo.SpeakAndMoveScene.freewalk"));
+
+		SimpleTrajectory onlyHorizontal = new SimpleTrajectory();
+		onlyHorizontal.setOnlyHorizontal(true);
+
+		getSceneElements().add(
+				getChangeTrajectory(onlyHorizontal,
+						"techDemo.SpeakAndMoveScene.onlyhorizontal"));
+
+		SimpleTrajectory onlyHorizontalWithLimits = new SimpleTrajectory();
+		onlyHorizontalWithLimits.setOnlyHorizontal(true);
+		onlyHorizontalWithLimits.setFreeWalk(false);
+		onlyHorizontalWithLimits.setLeft(40);
+		onlyHorizontalWithLimits.setRight(400);
+
+		getSceneElements().add(
+				getChangeTrajectory(onlyHorizontalWithLimits,
+						"techDemo.SpeakAndMoveScene.onlyhorizontallimits"));
+
+		SimpleTrajectory rectangleTrajectory = new SimpleTrajectory();
+		rectangleTrajectory.setOnlyHorizontal(false);
+		rectangleTrajectory.setFreeWalk(false);
+		rectangleTrajectory.setTop(50);
+		rectangleTrajectory.setBottom(400);
+		rectangleTrajectory.setLeft(40);
+		rectangleTrajectory.setRight(500);
+
+		getSceneElements().add(
+				getChangeTrajectory(rectangleTrajectory,
+						"techDemo.SpeakAndMoveScene.rectangle"));
+	}
+
+	private EAdSceneElement getChangeTrajectory(SimpleTrajectory freeWalk,
+			String string) {
+		dispY += 50;
+		Caption c = new Caption(string);
+		c.setBubblePaint(Paint.BLACK_ON_WHITE);
+		c.setPadding(5);
+		SceneElement e = new SceneElement(c);
+		e.setPosition(10, dispY);
+		e.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeFieldEf(
+				trajectoryField, new ValueOp(freeWalk)));
+		return e;
 	}
 
 }

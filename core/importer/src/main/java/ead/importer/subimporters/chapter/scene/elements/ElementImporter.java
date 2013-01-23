@@ -46,7 +46,7 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.BooleanOp;
@@ -117,8 +117,8 @@ public abstract class ElementImporter<T> implements
 					- INFLUENCE_MARGIN, bounds.getWidth() + INFLUENCE_MARGIN
 					* 2, bounds.getHeight() + INFLUENCE_MARGIN * 2);
 		}
-		sceneElement.setVarInitialValue(
-				NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, rect);
+		sceneElement
+				.setVarInitialValue(NodeTrajectory.VAR_INFLUENCE_AREA, rect);
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,

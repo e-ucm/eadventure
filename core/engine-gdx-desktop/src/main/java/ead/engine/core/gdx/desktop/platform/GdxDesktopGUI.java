@@ -60,9 +60,9 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.debuggers.DebuggersHandler;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
@@ -149,6 +149,7 @@ public class GdxDesktopGUI extends GdxGUI {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
+					canvas.setCursor(java.awt.Cursor.getDefaultCursor());
 					canvas.setVisible(true);
 					if (component != null) {
 						frame.remove((Component) component);
@@ -162,6 +163,7 @@ public class GdxDesktopGUI extends GdxGUI {
 				@Override
 				public void run() {
 					canvas.setVisible(false);
+					canvas.setCursor(null);
 
 					frame.getContentPane().setFocusable(true);
 

@@ -61,6 +61,7 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 	@Inject
 	public LoadingScreen() {
 		super();
+		this.setId("#engine.LoadingScreen");
 		logger.info("New instance of LoadingScreen");
 
 		getBackground().getDefinition().addAsset(SceneElementDef.appearance,

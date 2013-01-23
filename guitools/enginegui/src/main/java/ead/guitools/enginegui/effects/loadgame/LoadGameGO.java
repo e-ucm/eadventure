@@ -12,10 +12,10 @@ import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.util.EAdURI;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;

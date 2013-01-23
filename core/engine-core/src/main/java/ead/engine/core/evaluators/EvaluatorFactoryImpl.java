@@ -40,7 +40,7 @@ package ead.engine.core.evaluators;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ead.common.model.elements.EAdCondition;
-import ead.engine.core.factorymapproviders.EvaluatorFactoryMapProvider;
+import ead.engine.core.factories.mapproviders.EvaluatorsMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
 import ead.tools.AbstractFactory;
@@ -64,7 +64,7 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>>
 
 	@Override
 	public void init(ValueMap valueMap, OperatorFactory operatorFactory) {
-		setMap(new EvaluatorFactoryMapProvider(valueMap, this, operatorFactory));
+		setMap(new EvaluatorsMapProvider(valueMap, this, operatorFactory));
 	}
 
 	@SuppressWarnings("unchecked")

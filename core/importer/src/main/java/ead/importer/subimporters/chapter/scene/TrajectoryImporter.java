@@ -38,7 +38,7 @@
 package ead.importer.subimporters.chapter.scene;
 
 import com.google.inject.Inject;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.data.chapter.Trajectory.Node;
 import es.eucm.eadventure.common.data.chapter.Trajectory.Side;
 
 public class TrajectoryImporter implements
-		EAdElementImporter<Trajectory, NodeTrajectoryDefinition> {
+		EAdElementImporter<Trajectory, NodeTrajectory> {
 
 	protected ImportAnnotator annotator;
 
@@ -56,14 +56,13 @@ public class TrajectoryImporter implements
 	}
 
 	@Override
-	public NodeTrajectoryDefinition init(Trajectory oldObject) {
-		return new NodeTrajectoryDefinition();
+	public NodeTrajectory init(Trajectory oldObject) {
+		return new NodeTrajectory();
 	}
 
 	@Override
-	public NodeTrajectoryDefinition convert(Trajectory oldObject,
-			Object newElement) {
-		NodeTrajectoryDefinition trajectory = (NodeTrajectoryDefinition) newElement;
+	public NodeTrajectory convert(Trajectory oldObject, Object newElement) {
+		NodeTrajectory trajectory = (NodeTrajectory) newElement;
 
 		oldObject.deleteUnconnectedNodes();
 

@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
@@ -78,7 +78,7 @@ public class NgRoom3 extends EmptyScene {
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		// Area where the character can walk
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(145, 495, 750, 550);
 		setTrajectoryDefinition(d);
 

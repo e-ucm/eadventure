@@ -61,7 +61,7 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -108,7 +108,7 @@ public class NgRoom1 extends EmptyScene {
 		ng.setPosition(Corner.BOTTOM_CENTER, 200, 400);
 		ng.setInitialScale(0.8f);
 
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(150, 380, 800, 600);
 		setTrajectoryDefinition(d);
 

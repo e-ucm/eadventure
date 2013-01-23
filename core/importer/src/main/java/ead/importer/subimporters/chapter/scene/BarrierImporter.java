@@ -47,7 +47,7 @@ import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
@@ -96,7 +96,7 @@ public class BarrierImporter implements
 			ConditionedEv event = new ConditionedEv();
 			event.setCondition(condition);
 			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
-					NodeTrajectoryDefinition.VAR_BARRIER_ON);
+					NodeTrajectory.VAR_BARRIER_ON);
 			event.addEffect(ConditionedEvType.CONDITIONS_MET,
 					new ChangeFieldEf(barrierOn, BooleanOp.TRUE_OP));
 			event.addEffect(ConditionedEvType.CONDITIONS_UNMET,

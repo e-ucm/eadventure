@@ -37,8 +37,6 @@
 
 package ead.common.interfaces.features;
 
-import ead.common.model.elements.EAdCondition;
-
 /**
  * Implemented by draggable elements
  * 
@@ -46,18 +44,10 @@ import ead.common.model.elements.EAdCondition;
 public interface Draggable {
 
 	/**
-	 * Returns the condition making this element draggable
+	 * Returns if the element is draggable
 	 * 
 	 * @return
 	 */
-	EAdCondition getDragCond();
-
-	/**
-	 * Sets the drag condition
-	 * 
-	 * @param condition
-	 *            the drag condition
-	 */
-	void setDragCond(EAdCondition condition);
+	void setInitialDraggable(boolean draggable);
 
 }

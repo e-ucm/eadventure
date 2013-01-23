@@ -50,9 +50,9 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -133,6 +133,10 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 	@Override
 	public boolean isFinished() {
 		return finished == 0;
+	}
+
+	public boolean isQueueable() {
+		return true;
 	}
 
 	@Override

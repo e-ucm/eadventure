@@ -48,9 +48,9 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.EAdPosition;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.platform.GUI;
@@ -87,7 +87,8 @@ public class GhostElementDebugger extends SceneElementGOImpl {
 							.getInteractionArea());
 					area.setInitialEnable(false);
 					SceneElementGO<?> go = factory.get(e);
-					area.setPosition(new EAdPosition(go.getPosition()));
+					area.setPosition(new EAdPosition(go.getX(), go.getY(), go
+							.getDispX(), go.getDispY()));
 					drawables.add(factory.get(area));
 				}
 			}

@@ -47,7 +47,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.scenes.EAdScene;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.SceneGraph;

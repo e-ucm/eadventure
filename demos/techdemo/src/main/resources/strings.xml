@@ -60,4 +60,8 @@
 	<string name="techDemo.InventoryScene.description">A scene with inventory</string>
 	<string name="techDemo.NgMainScreen">Normal guy game</string>
 	<string name="techDemo.NgMainScreen.description">Normal guy game</string>
+	<string name="techDemo.SpeakAndMoveScene.freewalk">Free walk</string>
+	<string name="techDemo.SpeakAndMoveScene.onlyhorizontal">Only horizontal</string>
+	<string name="techDemo.SpeakAndMoveScene.onlyhorizontallimits">Only horizontal with limits</string>
+	<string name="techDemo.SpeakAndMoveScene.rectangle">Rectangle</string>
 </resources>

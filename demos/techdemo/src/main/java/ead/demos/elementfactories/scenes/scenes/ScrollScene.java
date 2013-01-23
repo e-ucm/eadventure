@@ -42,7 +42,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
@@ -78,8 +78,7 @@ public class ScrollScene extends EmptyScene {
 
 		this.getEvents().add(new ScrollWithSceneElementEv(this, character));
 
-		SimpleTrajectoryDefinition trajectory = new SimpleTrajectoryDefinition(
-				false);
+		SimpleTrajectory trajectory = new SimpleTrajectory(false);
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 

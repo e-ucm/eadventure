@@ -57,11 +57,11 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.events.EventGO;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -128,6 +128,11 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	 * Current position
 	 */
 	protected EAdPosition position;
+
+	/**
+	 * Current z
+	 */
+	private int z;
 
 	/**
 	 * Global scale
@@ -200,6 +205,11 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	protected boolean enable;
 
 	/**
+	 * If the element is draggable
+	 */
+	protected boolean draggable;
+
+	/**
 	 * If the mouse is over the element
 	 */
 	protected boolean mouseOver;
@@ -237,6 +247,8 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	private List<String> statesList;
 
 	private boolean removed;
+
+	private boolean reorder;
 
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
@@ -393,6 +405,8 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		enable = gameState.getValue(element, SceneElement.VAR_ENABLE);
 		orientation = gameState.getValue(element, SceneElement.VAR_ORIENTATION);
 		state = gameState.getValue(element, SceneElement.VAR_STATE);
+		draggable = gameState.getValue(element, SceneElement.VAR_DRAGGABLE);
+		setZ(gameState.getValue(element, SceneElement.VAR_Z));
 
 		// Transformation
 		setVisible(gameState.getValue(element, SceneElement.VAR_VISIBLE));
@@ -537,11 +551,6 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		return t1;
 	}
 
-	@Override
-	public SceneElementGO<?> getDraggableElement() {
-		return null;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -554,8 +563,11 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	@Override
 	public void update() {
 		// Reorder list
-		if (comparator != null) {
-			Collections.sort(children, comparator);
+		if (reorder) {
+			if (comparator != null) {
+				Collections.sort(children, comparator);
+			}
+			reorder = false;
 		}
 
 		if (eventGOList != null) {
@@ -766,12 +778,39 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		invalidate();
 	}
 
+	public float getDispX() {
+		return position.getDispX();
+	}
+
+	public float getDispY() {
+		return position.getDispY();
+	}
+
 	public int getX() {
 		return position.getX();
 	}
 
 	public int getY() {
 		return position.getY();
+	}
+
+	public int getZ() {
+		return z;
+	}
+
+	/**
+	 * Sets the z order for this element
+	 * 
+	 * @param z
+	 */
+	public void setZ(int z) {
+		if (this.z != z) {
+			gameState.setValue(element, SceneElement.VAR_Z, z);
+			this.z = z;
+			if (parent != null) {
+				this.parent.invalidateOrder();
+			}
+		}
 	}
 
 	public void setAlpha(float alpha) {
@@ -783,6 +822,13 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	public void setEnabled(boolean enable) {
 		gameState.setValue(element, SceneElement.VAR_ENABLE, enable);
 		this.enable = enable;
+	}
+
+	public void setState(String state) {
+		if (!this.state.equals(state)) {
+			this.state = state;
+			gameState.setValue(element, SceneElement.VAR_STATE, state);
+		}
 	}
 
 	@Override
@@ -829,6 +875,9 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		this.removed = false;
 		sceneElement.getTransformation().setValidated(false);
 		sceneElement.setParent(this);
+		if (parent != null) {
+			parent.invalidateOrder();
+		}
 	}
 
 	@Override
@@ -866,8 +915,16 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		}
 	}
 
+	public boolean isDraggable() {
+		return draggable;
+	}
+
 	public void remove() {
 		removed = true;
+	}
+
+	public void invalidateOrder() {
+		this.reorder = true;
 	}
 
 	public boolean isRemoved() {

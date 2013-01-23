@@ -43,10 +43,9 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
@@ -58,21 +57,20 @@ public class SceneGO extends GroupElementGO implements
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		//		setComparator(this);
+		setComparator(this);
 	}
 
 	public void setElement(EAdSceneElement element) {
-		EAdSceneElement bg = ((EAdScene) element).getBackground();
-		addSceneElement(sceneElementFactory.get(bg));
 		super.setElement(element);
-		gameState.setValue(bg, SceneElement.VAR_Z, Integer.MIN_VALUE);
+		EAdSceneElement bg = ((EAdScene) element).getBackground();
+		SceneElementGO<?> bgGO = sceneElementFactory.get(bg);
+		addSceneElement(bgGO);
+		bgGO.setZ(Integer.MIN_VALUE / 2);
 	}
 
 	@Override
 	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
-		int z1 = gameState.getValue(o1.getElement(), SceneElement.VAR_Z);
-		int z2 = gameState.getValue(o2.getElement(), SceneElement.VAR_Z);
-		return z1 - z2;
+		return (int) Math.signum(o1.getZ() - o2.getZ());
 	}
 
 	public boolean getReturnable() {

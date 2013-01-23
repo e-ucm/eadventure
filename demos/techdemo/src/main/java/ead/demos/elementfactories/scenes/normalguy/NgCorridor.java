@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.BasicField;
@@ -80,7 +80,7 @@ public class NgCorridor extends EmptyScene {
 		// Star form node trajectory
 		ChangeFieldEf changeSide = new ChangeFieldEf();
 		changeSide.addField(new BasicField<Side>(ng,
-				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+				NodeTrajectory.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp(null));
 		createNodeTrajectory(changeSide);
 
@@ -110,7 +110,7 @@ public class NgCorridor extends EmptyScene {
 	 * @param changeSide
 	 */
 	private void createNodeTrajectory(ChangeFieldEf changeSide) {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		NodeTrajectory trajectory = new NodeTrajectory();
 		// 5 nodes
 		trajectory.addNode("0", 175, 495, 0.8f);
 		trajectory.addNode("1", 255, 360, 0.8f);

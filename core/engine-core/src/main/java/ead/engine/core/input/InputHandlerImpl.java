@@ -344,7 +344,10 @@ public class InputHandlerImpl implements InputHandler {
 				int i = 0;
 				while (!dragFound && i < goList.size()) {
 					SceneElementGO<?> go = goList.get(i);
-					SceneElementGO<?> draggedGO = go.getDraggableElement();
+					SceneElementGO<?> draggedGO = null;
+					if (go.isDraggable()) {
+						draggedGO = go;
+					}
 					if (draggedGO != null) {
 						mouseHandler.setDraggingGameObject(draggedGO);
 						MouseInputAction action = new MouseInputAction(

@@ -45,7 +45,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.factorymapproviders.OperatorFactoryMapProvider;
+import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;
@@ -63,7 +63,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	}
 
 	public void init(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
-		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory, valueMap,
+		setMap(new OperatorsMapProvider(this, evaluatorFactory, valueMap,
 				reflectionProvider));
 	}
 

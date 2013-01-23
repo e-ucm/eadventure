@@ -40,20 +40,22 @@ package ead.engine.core.gameobjects.sceneelements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
-public class VideoSceneGO extends SceneElementGOImpl {
+public class VideoSceneGO extends SceneGO {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("VideoScreenGOImpl");
@@ -68,6 +70,7 @@ public class VideoSceneGO extends SceneElementGOImpl {
 
 	private VideoScene videoScene;
 
+	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,

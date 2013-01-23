@@ -52,7 +52,7 @@ import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
@@ -257,9 +257,8 @@ public class BaseImporterModule extends AbstractModule {
 		}).to(TimerImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Timer.class, TimerImporter.class);
 
-		bind(
-				new TypeLiteral<EAdElementImporter<Trajectory, NodeTrajectoryDefinition>>() {
-				}).to(TrajectoryImporter.class);
+		bind(new TypeLiteral<EAdElementImporter<Trajectory, NodeTrajectory>>() {
+		}).to(TrajectoryImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Trajectory.class,
 				TrajectoryImporter.class);
 

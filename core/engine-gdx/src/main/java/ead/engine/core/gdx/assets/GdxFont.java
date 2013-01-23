@@ -60,20 +60,26 @@ public class GdxFont extends BasicRuntimeFont {
 
 	public boolean loadAsset() {
 		super.loadAsset();
-		int size = Math.round(descriptor.getSize());
-		String modifier = "";
-		switch (descriptor.getStyle()) {
-		case BOLD:
-			modifier = "bold";
-			break;
-		case ITALIC:
-			modifier = "italic";
-			break;
-		default:
-			modifier = "";
+		String fileName = null;
+		if (descriptor.getUri() != null) {
+			fileName = descriptor.getUri().getPath();
+		} else {
+			int size = Math.round(descriptor.getSize());
+			String modifier = "";
+			switch (descriptor.getStyle()) {
+			case BOLD:
+				modifier = "bold";
+				break;
+			case ITALIC:
+				modifier = "italic";
+				break;
+			default:
+				modifier = "";
+			}
+
+			fileName = "@font/droid-" + size
+					+ (modifier.equals("") ? "" : "-" + modifier);
 		}
-		String fileName = "@font/droid-" + size
-				+ (modifier.equals("") ? "" : "-" + modifier);
 
 		String fontData = defaultFont;
 		String fontPng = defaultFontPng;

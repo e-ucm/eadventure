@@ -239,6 +239,8 @@
 						<exclude>**/*.xml</exclude>
 						<exclude>**/*.properties</exclude>
 						<exclude>**/resources/**</exclude>
+						<exclude>**/poly2tri/**</exclude>
+						<exclude>**/AStar.java</exclude>
 						<!-- ignore android-generated java files -->
 						<exclude>**/R.java</exclude>
 						<!-- ignore gwt base website and generated files -->

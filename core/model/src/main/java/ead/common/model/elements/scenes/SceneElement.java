@@ -44,13 +44,17 @@ import ead.common.model.elements.AbstractElementWithBehavior;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
+import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -134,6 +138,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Boolean> VAR_MOUSE_OVER = new VarDef<Boolean>(
 			"mouse_over", Boolean.class, Boolean.FALSE);
 
+	public static final EAdVarDef<Boolean> VAR_DRAGGABLE = new VarDef<Boolean>(
+			"draggable", Boolean.class, Boolean.FALSE);
+
 	/**
 	 * Flag to indicate that the element will return to its initial position
 	 * after being released from a drag action
@@ -147,12 +154,8 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	@Param("definition")
 	protected EAdSceneElementDef definition;
 
-	@Param("dragCond")
-	protected EAdCondition dragCond;
-
 	public SceneElement() {
 		super();
-		dragCond = EmptyCond.FALSE_EMPTY_CONDITION;
 		definition = new SceneElementDef();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
@@ -236,12 +239,17 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setDragCond(EAdCondition c) {
-		this.dragCond = c;
-	}
+		if (c.equals(EmptyCond.TRUE_EMPTY_CONDITION)) {
+			this.setInitialDraggable(true);
+		} else if (c.equals(EmptyCond.FALSE_EMPTY_CONDITION)) {
+			this.setInitialDraggable(false);
+		} else {
 
-	@Override
-	public EAdCondition getDragCond() {
-		return dragCond;
+			ChangeFieldEf effect = new ChangeFieldEf(new BasicField<Boolean>(
+					this, SceneElement.VAR_DRAGGABLE), new BooleanOp(c));
+			SceneElementEv event = new SceneElementEv();
+			event.addEffect(SceneElementEvType.ALWAYS, effect);
+		}
 	}
 
 	public void setInitialAlpha(float f) {
@@ -284,6 +292,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public <T> EAdField<T> getField(EAdVarDef<T> varDef) {
 		return new BasicField<T>(this, varDef);
+	}
+
+	public void setInitialDraggable(boolean draggable) {
+		setVarInitialValue(SceneElement.VAR_DRAGGABLE, draggable);
 	}
 
 	public String toString() {

@@ -57,7 +57,7 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
@@ -105,7 +105,7 @@ public class NgRoom2 extends EmptyScene {
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		// Area where the character can walk
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(445, 490, 800, 600);
 		setTrajectoryDefinition(d);
 

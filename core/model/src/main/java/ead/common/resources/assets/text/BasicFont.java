@@ -103,11 +103,6 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	}
 
 	@Override
-	public boolean isTTF() {
-		return uri != null;
-	}
-
-	@Override
 	public EAdURI getUri() {
 		return uri;
 	}
@@ -124,6 +119,10 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 		setName(name);
 		setSize(size);
 		setStyle(style);
+	}
+
+	public BasicFont(EAdURI uri) {
+		this.uri = uri;
 	}
 
 	@Override

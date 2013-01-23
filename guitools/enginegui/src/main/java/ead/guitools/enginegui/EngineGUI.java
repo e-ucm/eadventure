@@ -19,7 +19,7 @@ import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.debuggers.GhostElementDebugger;
-import ead.engine.core.debuggers.TrajectoryDebugger;
+import ead.engine.core.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.guitools.enginegui.effects.loadgame.LoadGameEffect;
 
@@ -53,7 +53,7 @@ public class EngineGUI {
 					"false"));
 
 			if (trajectories) {
-				engine.addDebugger(TrajectoryDebugger.class);
+				engine.addDebugger(TrajectoryDebuggerGO.class);
 			}
 
 			engine.addDebugger(GhostElementDebugger.class);

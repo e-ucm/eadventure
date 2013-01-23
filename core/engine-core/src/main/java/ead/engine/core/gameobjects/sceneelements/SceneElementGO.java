@@ -127,14 +127,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setPosition(EAdPosition position);
 
 	/**
-	 * Returns the position for the drawable. Changing this position dosen't
-	 * change the drawable position
-	 * 
-	 * @return
-	 */
-	EAdPosition getPosition();
-
-	/**
 	 * Sets x position for this element
 	 * 
 	 * @param x
@@ -156,11 +148,39 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	int getX();
 
 	/**
+	 * Returns displacement proportion in x coordination
+	 * 
+	 * @return
+	 */
+	float getDispX();
+
+	/**
+	 * Returns displacement proportion in x coordination
+	 * 
+	 * @return
+	 */
+	float getDispY();
+
+	/**
 	 * Returns y position for this element
 	 * 
 	 * @return
 	 */
 	int getY();
+
+	/**
+	 * Return the z order for this element
+	 * 
+	 * @return
+	 */
+	int getZ();
+
+	/**
+	 * Sets the z order for this element
+	 * 
+	 * @param z
+	 */
+	void setZ(int z);
 
 	/**
 	 * Returns the x coordinate of scene element center, using the scale
@@ -185,12 +205,14 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	/**
 	 * Sets scale for x axis
+	 * 
 	 * @param scaleX
 	 */
 	void setScaleX(float scaleX);
 
 	/**
 	 * Sets scale for y axis
+	 * 
 	 * @param scaleY
 	 */
 	void setScaleY(float scaleY);
@@ -218,6 +240,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	/**
 	 * Sets the rotation for the element
+	 * 
 	 * @param r
 	 */
 	void setRotation(float r);
@@ -267,11 +290,10 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setInputProcessor(InputActionProcessor processor);
 
 	/**
-	 * The the draggable element
+	 * Returns if this element is draggable
 	 * 
-	 * @return The game object that is draggable
 	 */
-	SceneElementGO<?> getDraggableElement();
+	boolean isDraggable();
 
 	/**
 	 * Resets the current transformation, deleting any parent's transformation
@@ -334,14 +356,26 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void invalidate();
 
 	/**
+	 * Invalidates the order of this element's children
+	 */
+	void invalidateOrder();
+
+	/**
 	 * Removes the element from its hierarchy
 	 */
 	void remove();
 
 	/**
 	 * Returns if this elements has been removed
+	 * 
 	 * @return
 	 */
 	boolean isRemoved();
+
+	/**
+	 * Sets the state for this element
+	 * @param string
+	 */
+	void setState(String state);
 
 }

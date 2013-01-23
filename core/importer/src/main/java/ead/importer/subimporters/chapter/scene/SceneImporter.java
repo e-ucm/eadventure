@@ -72,8 +72,8 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
@@ -131,7 +131,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	/**
 	 * Trajectory importer
 	 */
-	private EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter;
+	private EAdElementImporter<Trajectory, NodeTrajectory> trajectoryImporter;
 
 	/**
 	 * Barrier importer
@@ -152,7 +152,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			EAdElementImporter<ElementReference, EAdSceneElement> referencesImporter,
 			EAdElementFactory factory,
 			EAdElementImporter<Exit, EAdSceneElement> exitsImporter,
-			EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter,
+			EAdElementImporter<Trajectory, NodeTrajectory> trajectoryImporter,
 			EAdElementImporter<Barrier, EAdSceneElement> barrierImporter,
 			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
@@ -245,10 +245,9 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	private void importTrajectory(BasicScene scene, Trajectory trajectory,
 			List<Barrier> barriers, SceneElement playerReference) {
 		if (trajectory == null) {
-			scene.setTrajectoryDefinition(new SimpleTrajectoryDefinition(true));
+			scene.setTrajectoryDefinition(new SimpleTrajectory(true));
 		} else {
-			NodeTrajectoryDefinition nodeDef = trajectoryImporter
-					.init(trajectory);
+			NodeTrajectory nodeDef = trajectoryImporter.init(trajectory);
 			nodeDef = trajectoryImporter.convert(trajectory, nodeDef);
 			scene.setTrajectoryDefinition(nodeDef);
 

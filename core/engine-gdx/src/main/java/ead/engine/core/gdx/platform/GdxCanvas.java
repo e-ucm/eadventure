@@ -124,9 +124,9 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 		// Border
 		if (paint.getBorder() instanceof ColorFill) {
 			ColorFill c = (ColorFill) paint.getBorder();
-			font.getBitmapFont()
-					.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-							c.getBlue() / 255.0f, g.getColor().a);
+			font.getBitmapFont().setColor(c.getRed() / 255.0f,
+					c.getGreen() / 255.0f, c.getBlue() / 255.0f,
+					g.getColor().a * c.getAlpha() / 255.0f);
 			font.getBitmapFont().draw(g, text, x, y);
 			font.getBitmapFont().draw(g, text, x + 1, y + 1);
 			font.getBitmapFont().draw(g, text, x - 1, y + 1);
@@ -136,9 +136,9 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 
 		if (paint.getFill() instanceof ColorFill) {
 			ColorFill c = (ColorFill) paint.getFill();
-			font.getBitmapFont()
-					.setColor(c.getRed() / 255.0f, c.getGreen() / 255.0f,
-							c.getBlue() / 255.0f, g.getColor().a);
+			font.getBitmapFont().setColor(c.getRed() / 255.0f,
+					c.getGreen() / 255.0f, c.getBlue() / 255.0f,
+					g.getColor().a * c.getAlpha() / 255.0f);
 			font.getBitmapFont().draw(g, text, x, y);
 		}
 	}

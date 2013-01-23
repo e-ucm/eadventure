@@ -46,9 +46,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.gameobjects.factories.EffectGOFactory;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.factories.EffectGOFactory;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.PropertiesReader;
 import ead.tools.reflection.ReflectionProvider;
