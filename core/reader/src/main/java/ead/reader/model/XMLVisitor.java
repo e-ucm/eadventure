@@ -43,13 +43,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.params.variables.VarDef;
 import ead.reader.DOMTags;
 import ead.reader.model.readers.ListReader;
 import ead.reader.model.readers.MapReader;
 import ead.reader.model.readers.ObjectReader;
 import ead.reader.model.readers.ParamReader;
 import ead.reader.model.translators.ClassTranslator;
+import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLNode;
 
 public class XMLVisitor {
@@ -72,11 +73,11 @@ public class XMLVisitor {
 
 	private ObjectReader objectReader;
 
-	public XMLVisitor() {
+	public XMLVisitor(ReflectionProvider reflectionProvider) {
 		stepsQueue = new ArrayList<VisitorStep>();
 		mapKeysValues = new ArrayList<MapKeyValue>();
 		translators = new ArrayList<ClassTranslator>();
-		elementsFactory = new ObjectsFactory();
+		elementsFactory = new ObjectsFactory(reflectionProvider, this);
 		paramReader = new ParamReader(elementsFactory, this);
 		listReader = new ListReader(elementsFactory, this);
 		mapReader = new MapReader(elementsFactory, this);
@@ -119,14 +120,14 @@ public class XMLVisitor {
 		} else {
 			Object result = null;
 			boolean error = false;
-			if (node.getNodeName().equals(DOMTags.PARAM_AT)) {
+			if (node.getNodeName().equals(DOMTags.PARAM_TAG)) {
 				result = paramReader.read(node);
 			} else if (node.getNodeName().equals(DOMTags.LIST_TAG)) {
 				result = listReader.read(node);
-			} else if (node.getNodeName().equals(DOMTags.ASSET_AT)) {
+			} else if (node.getNodeName().equals(DOMTags.ASSET_TAG)) {
 				objectReader.setAsset(true);
 				result = objectReader.read(node);
-			} else if (node.getNodeName().equals(DOMTags.ELEMENT_AT)) {
+			} else if (node.getNodeName().equals(DOMTags.ELEMENT_TAG)) {
 				objectReader.setAsset(false);
 				result = objectReader.read(node);
 			} else if (node.getNodeName().equals(DOMTags.MAP_TAG)) {
@@ -156,13 +157,6 @@ public class XMLVisitor {
 		}
 		logger.debug("XML Visitor steps: " + this.stepsQueue.size());
 		return false;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void addMapKeyValue(EAdMap map, Object key, Object value,
-			boolean keyReference, boolean valueReference) {
-		mapKeysValues.add(new MapKeyValue(map, key, value, keyReference,
-				valueReference));
 	}
 
 	public static interface VisitorListener {
@@ -200,29 +194,21 @@ public class XMLVisitor {
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	public class MapKeyValue {
-		private EAdMap map;
-		private Object key;
-		private Object value;
-		private boolean keyReference;
-		private boolean valueReference;
+		private VarDef var;
+		private String value;
 
-		public MapKeyValue(EAdMap map, Object key, Object value,
-				boolean keyReference, boolean valueReference) {
-			super();
-			this.map = map;
-			this.key = key;
+		public MapKeyValue(VarDef var, String value) {
+			this.var = var;
 			this.value = value;
-			this.keyReference = keyReference;
-			this.valueReference = valueReference;
 		}
 
 		void execute() {
-			Object key = keyReference ? elementsFactory
-					.getReferencedElement(this.key) : this.key;
-			Object value = valueReference ? elementsFactory
-					.getReferencedElement(this.value) : this.value;
-
-			map.put(key, value);
+			Object o = elementsFactory.getObject(value, var.getType());
+			if (o == null) {
+				logger.warn("{} not found while setting as initial value",
+						value);
+			}
+			var.setInitialValue(o);
 		}
 	}
 
@@ -242,6 +228,11 @@ public class XMLVisitor {
 		mapKeysValues.clear();
 		stepsQueue.clear();
 		objectReader.clear();
+	}
+
+	public void addLoadInitalValue(VarDef<?> v, String value) {
+		mapKeysValues.add(new MapKeyValue(v, value));
+
 	}
 
 }

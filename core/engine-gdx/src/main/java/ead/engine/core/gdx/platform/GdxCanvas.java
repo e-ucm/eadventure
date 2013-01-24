@@ -44,11 +44,11 @@ import com.badlogic.gdx.math.Matrix4;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdMatrix;
-import ead.common.util.EAdRectangle;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.text.EAdFont;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.EAdMatrix;
+import ead.common.model.params.util.EAdRectangle;
 import ead.engine.core.gdx.assets.GdxFont;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;

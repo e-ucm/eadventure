@@ -37,7 +37,7 @@
 
 package ead.common.interfaces;
 
-import ead.common.util.EAdURI;
+import ead.common.model.params.util.EAdURI;
 
 /**
  * Implemented by those elements which has an URI

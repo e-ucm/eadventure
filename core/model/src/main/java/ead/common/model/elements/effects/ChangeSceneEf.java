@@ -39,7 +39,7 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
@@ -54,10 +54,10 @@ import ead.common.model.elements.transitions.EmptyTransition;
 @Element
 public class ChangeSceneEf extends AbstractEffect {
 
-	@Param("nextScene")
+	@Param
 	private EAdElement nextScene;
 
-	@Param("transition")
+	@Param
 	private EAdTransition transition;
 
 	/**

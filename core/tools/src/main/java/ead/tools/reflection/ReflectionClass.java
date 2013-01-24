@@ -37,6 +37,7 @@
 
 package ead.tools.reflection;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 
 public interface ReflectionClass<T> {
@@ -60,9 +61,18 @@ public interface ReflectionClass<T> {
 	ReflectionClass<?> getSuperclass();
 
 	/**
-	 * Return the class contained by this reflectin class
+	 * Return the class contained by this reflection class
+	 * 
 	 * @return
 	 */
 	Class<?> getType();
+
+	/**
+	 * Returns true if this class is annotated with the given annotation
+	 * 
+	 * @param annotation
+	 * @return
+	 */
+	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
 
 }

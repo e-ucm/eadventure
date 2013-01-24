@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.guievents.EAdGUIEvent;
-import ead.common.params.guievents.KeyGEv;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.KeyGEv;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

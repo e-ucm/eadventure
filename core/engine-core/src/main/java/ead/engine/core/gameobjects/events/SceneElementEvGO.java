@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.platform.GUI;
 

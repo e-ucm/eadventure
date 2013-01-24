@@ -45,11 +45,11 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.paint.EAdPaint;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class GdxBezierShape extends GdxShape<BezierShape> {

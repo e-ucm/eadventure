@@ -39,9 +39,10 @@ package ead.engine.core.gdx.desktop.platform.assets;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.common.resources.assets.multimedia.Video;
-import ead.common.util.EAdURI;
+
+import ead.common.model.assets.multimedia.EAdVideo;
+import ead.common.model.assets.multimedia.Video;
+import ead.common.model.params.util.EAdURI;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
 import ead.engine.core.platform.assets.AssetHandler;

@@ -38,7 +38,8 @@
 package ead.editor.model;
 
 import com.google.inject.Singleton;
-import ead.common.model.EAdElement;
+
+import ead.common.model.elements.EAdElement;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.annotation.ImportAnnotator.Type;
 import java.util.ArrayList;

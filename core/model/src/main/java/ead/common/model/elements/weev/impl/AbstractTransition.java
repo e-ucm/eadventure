@@ -43,10 +43,10 @@ import ead.common.model.weev.Transition;
 public class AbstractTransition<S> extends AbstractPositionedWEEVElement
 		implements Transition<S> {
 
-	@Param(value = "start")
+	@Param
 	private S start;
 
-	@Param(value = "end")
+	@Param
 	private S end;
 
 	@Override

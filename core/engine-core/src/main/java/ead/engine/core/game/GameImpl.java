@@ -54,10 +54,10 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.params.text.EAdString;
-import ead.common.util.EAdURI;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.EAdURI;
+import ead.common.model.params.variables.SystemFields;
+import ead.common.model.params.variables.VarDef;
 import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -75,7 +75,6 @@ import ead.engine.core.platform.assets.AssetHandler.TextHandler;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.reader.AdventureReader;
-import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.reader.strings.StringsReader;
 import ead.tools.PropertiesReader;
@@ -481,9 +480,9 @@ public class GameImpl implements Game, VisitorListener {
 	}
 
 	private void readModel() {
+		reader.readXML(assetHandler.getTextFile("@data.xml"), this);
 		firstUpdate = true;
 		reading = true;
-		reader.readXML(assetHandler.getTextFile("@data.xml"), this);
 	}
 
 }

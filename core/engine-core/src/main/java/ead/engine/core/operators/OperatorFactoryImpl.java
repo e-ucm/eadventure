@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.variables.EAdOperation;
+import ead.common.model.elements.operations.EAdOperation;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
 import ead.engine.core.game.ValueMap;

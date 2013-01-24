@@ -49,12 +49,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.EAdElement;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.params.EAdParam;
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.params.EAdParam;
+import ead.common.model.params.variables.VarDef;
 import ead.editor.model.EditorModel;
 import ead.editor.model.visitor.ModelVisitorDriver;
 
@@ -128,9 +128,8 @@ public class EngineNode<T> extends DependencyNode<T> {
 		if (o instanceof EAdElement) {
 			if (o instanceof VarDef) {
 				VarDef<?> v = ((VarDef) o);
-				sb.append(indent + "(" + v.getId() + ") - "
-						+ v.getType().getSimpleName() + " " + v.getName()
-						+ " = " + v.getInitialValue() + "\n");
+				sb.append(indent + v.getType().getSimpleName() + " "
+						+ v.getName() + " = " + v.getInitialValue() + "\n");
 				if (depth != maxDepth) {
 					appendDependencies(this, m, sb);
 				}

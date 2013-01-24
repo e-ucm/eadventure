@@ -41,9 +41,9 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.operations.ValueOp;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.ValueOp;
 
 /**
  * Condition comparing the values of two variables
@@ -55,13 +55,13 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	public static final ValueOp TRUE = new ValueOp(Boolean.TRUE);
 	public static final ValueOp FALSE = new ValueOp(Boolean.FALSE);
 
-	@Param("op1")
+	@Param
 	private EAdOperation op1;
 
-	@Param("op2")
+	@Param
 	private EAdOperation op2;
 
-	@Param("operator")
+	@Param
 	private Comparator operator;
 
 	public OperationCond(EAdOperation op1, EAdOperation op2, Comparator operator) {

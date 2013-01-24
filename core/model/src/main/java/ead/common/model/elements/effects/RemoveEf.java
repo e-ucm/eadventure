@@ -46,7 +46,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
  */
 public class RemoveEf extends AbstractEffect {
 
-	@Param("element")
+	@Param
 	private EAdSceneElement element;
 
 	public RemoveEf() {

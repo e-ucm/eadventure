@@ -37,7 +37,7 @@
 
 package ead.engine.core.gameobjects;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 
 /**
  * Basic game object implementation for eAdventure elements

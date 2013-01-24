@@ -39,13 +39,13 @@ package ead.common.model.elements.scenes;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.trajectories.EAdTrajectory;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 /**
  * <p>
@@ -62,14 +62,14 @@ public class BasicScene extends GroupElement implements EAdScene {
 	public static final EAdVarDef<EAdTrajectory> VAR_TRAJECTORY_DEFINITION = new VarDef<EAdTrajectory>(
 			"trajectory_generator", EAdTrajectory.class, null);
 
-	@Param("background")
+	@Param
 	protected EAdSceneElement background;
 
 	/**
 	 * This property indicates if the game can return to this scene after a
 	 * cutscene or similiar
 	 */
-	@Param(value = "returnable", defaultValue = "true")
+	@Param
 	protected Boolean returnable;
 
 	/**

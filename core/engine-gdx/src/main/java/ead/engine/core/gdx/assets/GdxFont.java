@@ -42,7 +42,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.google.inject.Inject;
 
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.EAdRectangle;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.text.BasicRuntimeFont;
 

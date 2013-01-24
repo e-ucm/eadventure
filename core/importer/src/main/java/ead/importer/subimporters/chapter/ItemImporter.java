@@ -41,10 +41,10 @@ import java.util.LinkedHashMap;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.assets.drawable.basics.Image;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

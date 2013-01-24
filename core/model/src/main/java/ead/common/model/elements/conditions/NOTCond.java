@@ -45,7 +45,7 @@ import ead.common.model.elements.ResourcedElement;
 @Element
 public class NOTCond extends ResourcedElement implements EAdCondition {
 
-	@Param("condition")
+	@Param
 	private EAdCondition condition;
 
 	public NOTCond() {

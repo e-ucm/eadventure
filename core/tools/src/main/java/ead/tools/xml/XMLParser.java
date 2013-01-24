@@ -54,10 +54,16 @@ public interface XMLParser {
 	XMLDocument parse(String xml);
 
 	/**
-	 * Creates a node with the given tag name
-	 * @param tagName
+	 * Creates an xml document
 	 * @return
 	 */
-	XMLNode newNode(String tagName);
+	XMLDocument createDocument();
+
+	/**
+	 * Writes the document to the given file
+	 * @param document
+	 * @param file
+	 */
+	void writeToFile(XMLDocument document, String file);
 
 }

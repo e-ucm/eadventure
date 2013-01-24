@@ -40,7 +40,7 @@ package ead.engine.core.operators;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.model.elements.operations.BooleanOp;
 import ead.engine.core.evaluators.EvaluatorFactory;
 
 @Singleton

@@ -37,12 +37,12 @@
 
 package ead.demos.elementfactories.sceneelements;
 
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class SceneElementFactory {

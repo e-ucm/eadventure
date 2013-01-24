@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.params.text.EAdString;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.params.text.EAdString;
 import ead.engine.core.operators.OperatorFactory;
 import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;

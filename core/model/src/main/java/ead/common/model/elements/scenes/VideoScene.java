@@ -41,8 +41,8 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class VideoScene extends BasicScene implements EAdScene {
@@ -55,7 +55,7 @@ public class VideoScene extends BasicScene implements EAdScene {
 
 	public static final String video = "video";
 
-	@Param("finalEffects")
+	@Param
 	private EAdList<EAdEffect> finalEffects;
 
 	public VideoScene() {

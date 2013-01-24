@@ -48,7 +48,7 @@ import ead.common.model.elements.EAdCondition;
 public abstract class ConditionedElement extends BasicElement implements
 		Conditioned {
 
-	@Param("condition")
+	@Param
 	private EAdCondition condition;
 
 	public ConditionedElement() {

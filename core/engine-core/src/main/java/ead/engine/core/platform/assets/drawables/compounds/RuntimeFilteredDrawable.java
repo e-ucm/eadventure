@@ -41,7 +41,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
+import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;

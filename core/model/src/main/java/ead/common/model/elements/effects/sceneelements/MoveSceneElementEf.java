@@ -41,10 +41,10 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.MovementSpeed;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.model.elements.variables.operations.ValueOp;
 
 /**
  * 
@@ -58,25 +58,25 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	/**
 	 * Target coordinates
 	 */
-	@Param("xTarget")
+	@Param
 	private EAdOperation xTarget;
 
-	@Param("yTarget")
+	@Param
 	private EAdOperation yTarget;
 
 	/**
 	 * Movement speed
 	 */
-	@Param("speed")
+	@Param
 	private MovementSpeed speed;
 
-	@Param("speedFactor")
+	@Param
 	private float speedFactor;
 
-	@Param("boolean")
+	@Param
 	private boolean useTrajectory;
 
-	@Param("target")
+	@Param
 	private EAdSceneElementDef target;
 
 	/**
@@ -85,7 +85,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * 
 	 */
 	public MoveSceneElementEf() {
-		this(null);
+
 	}
 
 	public MoveSceneElementEf(EAdSceneElementDef element) {

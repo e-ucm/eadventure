@@ -41,9 +41,9 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * Effect for changing a field value
@@ -55,17 +55,17 @@ public class ChangeFieldEf extends AbstractEffect {
 	/**
 	 * Fields to be changed
 	 */
-	@Param("fields")
+	@Param
 	private EAdList<EAdField<?>> fields;
 
-	@Param("varDef")
+	@Param
 	private EAdVarDef<?> varDef;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
 	 * the variable
 	 */
-	@Param("operation")
+	@Param
 	private EAdOperation operation;
 
 	/**

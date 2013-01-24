@@ -38,14 +38,14 @@
 package ead.common.model.elements.weev.story.element.impl;
 
 import ead.common.interfaces.Param;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Abstract extension of {@link AbstractNode} with a name {@link EAdString} field
  */
 public abstract class AbstractNamedNode extends AbstractNode {
 
-	@Param(value = "name")
+	@Param
 	private EAdString name;
 
 	public AbstractNamedNode() {

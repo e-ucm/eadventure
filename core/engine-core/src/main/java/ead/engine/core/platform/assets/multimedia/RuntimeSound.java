@@ -39,7 +39,7 @@ package ead.engine.core.platform.assets.multimedia;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.EAdSound;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 

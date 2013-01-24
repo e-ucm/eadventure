@@ -38,7 +38,7 @@
 package ead.importer.test.effects.variables;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.model.elements.operations.BooleanOp;
 import ead.importer.subimporters.effects.variables.ActivateFlagImporter;
 import ead.importer.test.effects.EffectTest;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;

@@ -37,23 +37,23 @@
 
 package ead.importer.subimporters.chapter.scene.elements;
 
+import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.BooleanOp;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.params.fills.Paint;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdRectangle;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

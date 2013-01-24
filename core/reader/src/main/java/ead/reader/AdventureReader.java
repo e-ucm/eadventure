@@ -47,6 +47,7 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.reader.model.translators.MapClassTranslator;
+import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
@@ -60,9 +61,10 @@ public class AdventureReader implements VisitorListener {
 	private EAdAdventureModel model;
 
 	@Inject
-	public AdventureReader(XMLParser parser) {
+	public AdventureReader(XMLParser parser,
+			ReflectionProvider reflectionProvider) {
 		this.xmlParser = parser;
-		this.visitor = new XMLVisitor();
+		this.visitor = new XMLVisitor(reflectionProvider);
 	}
 
 	public EAdAdventureModel readXML(String xml) {
@@ -81,19 +83,16 @@ public class AdventureReader implements VisitorListener {
 		// Load classes keys
 		Map<String, String> classes = new HashMap<String, String>();
 		XMLNode node = document.getFirstChild();
-		XMLNode keyMap = node.getChildNodes().item(1);
+		XMLNode keyMap = node.getChildNodes().item(0);
 		XMLNodeList entries = keyMap.getChildNodes();
-		String packages = node.getAttributes().getValue("package");
 		for (int i = 0; i < entries.getLength(); i++) {
 			XMLNode n = entries.item(i);
-			String className = n.getAttributes().getValue("value");
-			classes.put(n.getAttributes().getValue("key"),
-					className.charAt(0) == '.' ? packages + className
-							: className);
+			String className = n.getAttributes().getValue(DOMTags.VALUE_AT);
+			classes.put(n.getAttributes().getValue(DOMTags.KEY_AT), className);
 		}
 		visitor.addTranslator(new MapClassTranslator(classes));
 
-		XMLNode adventure = document.getFirstChild().getFirstChild();
+		XMLNode adventure = node.getChildNodes().item(1);
 		visitor.loadElement(adventure, listener);
 	}
 

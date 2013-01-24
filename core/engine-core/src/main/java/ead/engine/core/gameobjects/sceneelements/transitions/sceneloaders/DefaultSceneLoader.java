@@ -46,9 +46,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.assets.AssetHandler;

@@ -39,10 +39,15 @@ package ead.tools.java.reflection;
 
 import com.google.inject.Singleton;
 
+import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class JavaReflectionProvider implements ReflectionProvider {
+
+	public JavaReflectionProvider() {
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+	}
 
 	@Override
 	public Class<?>[] getInterfaces(Class<?> object) {

@@ -37,21 +37,21 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCorridor extends EmptyScene {

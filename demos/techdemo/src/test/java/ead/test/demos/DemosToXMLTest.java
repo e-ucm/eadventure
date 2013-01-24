@@ -8,7 +8,9 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.demos.elementfactories.scenes.scenes.InitScene;
-import ead.writer.EAdAdventureModelWriter;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.java.xml.JavaXMLParser;
+import ead.writer.AdventureWriter;
 
 public class DemosToXMLTest {
 
@@ -27,7 +29,8 @@ public class DemosToXMLTest {
 		model.getChapters().add(chapter);
 
 		logger.debug("Writing demo model to src/main/resources/data.xml");
-		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
+		AdventureWriter writer = new AdventureWriter(
+				new JavaReflectionProvider(), new JavaXMLParser());
 		writer.write(model, "src/main/resources/data.xml");
 
 		//		AdventureReader reader = new AdventureReader(new JavaXMLParser());

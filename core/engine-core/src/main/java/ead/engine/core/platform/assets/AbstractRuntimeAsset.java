@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform.assets;
 
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.assets.AssetDescriptor;
 
 public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
 		implements RuntimeAsset<T> {

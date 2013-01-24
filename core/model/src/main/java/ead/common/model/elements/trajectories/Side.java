@@ -39,22 +39,22 @@ package ead.common.model.elements.trajectories;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdElement;
 
 @Element
 public class Side extends BasicElement {
 
-	@Param("idStart")
+	@Param
 	private Node idStart;
 
-	@Param("idEnd")
+	@Param
 	private Node idEnd;
 
-	@Param("length")
+	@Param
 	private float length = 1;
 
-	@Param("realLength")
+	@Param
 	private float realLength = 1;
 
 	public Side() {

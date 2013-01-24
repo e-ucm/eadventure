@@ -48,10 +48,10 @@ import ead.common.model.elements.extra.EAdList;
 public abstract class ListedCond extends ResourcedElement implements
 		EAdCondition {
 
-	@Param("conditions")
+	@Param
 	private EAdList<EAdCondition> conditions;
 
-	@Param("operator")
+	@Param
 	private ConditionOperator operator;
 
 	public ListedCond() {

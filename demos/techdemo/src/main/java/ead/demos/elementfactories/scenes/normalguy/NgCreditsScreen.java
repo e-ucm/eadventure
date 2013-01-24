@@ -37,6 +37,7 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
@@ -45,9 +46,8 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCreditsScreen extends EmptyScene {

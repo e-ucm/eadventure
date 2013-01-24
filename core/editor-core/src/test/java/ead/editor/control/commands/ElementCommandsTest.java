@@ -48,7 +48,7 @@ import org.mockito.MockitoAnnotations;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;

@@ -46,6 +46,7 @@ import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 import com.gwtent.reflection.client.ReflectionRequiredException;
 
+import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
@@ -53,6 +54,10 @@ public class GwtReflectionProvider implements ReflectionProvider {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ReflectionProvider");
+
+	public GwtReflectionProvider() {
+		ReflectionClassLoader.init(new GwtReflectionClassLoader());
+	}
 
 	@Override
 	public Class<?>[] getInterfaces(Class<?> object) {

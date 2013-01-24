@@ -40,9 +40,8 @@ package ead.common.model.elements;
 import java.util.Map;
 
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Interface for an eAdventure game static model.

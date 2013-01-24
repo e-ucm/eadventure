@@ -41,10 +41,10 @@ import java.util.List;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.operators.Operator;

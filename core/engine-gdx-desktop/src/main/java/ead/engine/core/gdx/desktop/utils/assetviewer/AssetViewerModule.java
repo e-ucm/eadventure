@@ -43,9 +43,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;

@@ -61,7 +61,7 @@ public class StoryImpl extends AbstractWEEVElement implements Story {
 
 	EAdList<StorySection> storySections;
 
-	@Param(value = "initialNode")
+	@Param
 	Node initialNode;
 
 	public StoryImpl() {

@@ -46,15 +46,15 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdRectangle;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

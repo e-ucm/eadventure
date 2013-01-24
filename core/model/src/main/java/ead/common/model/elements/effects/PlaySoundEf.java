@@ -39,7 +39,7 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.EAdSound;
 
 /**
  * An effect that plays a sound
@@ -49,10 +49,10 @@ import ead.common.resources.assets.multimedia.EAdSound;
 @Element
 public class PlaySoundEf extends AbstractEffect {
 
-	@Param("sound")
+	@Param
 	private EAdSound sound;
 
-	@Param("background")
+	@Param
 	private boolean background;
 
 	/**

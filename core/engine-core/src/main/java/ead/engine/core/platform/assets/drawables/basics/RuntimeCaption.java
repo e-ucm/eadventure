@@ -42,10 +42,10 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdRectangle;
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.GUI;

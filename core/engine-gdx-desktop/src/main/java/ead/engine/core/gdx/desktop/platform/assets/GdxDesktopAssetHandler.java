@@ -54,7 +54,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.util.EAdURI;
+import ead.common.model.params.util.EAdURI;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.tools.GenericInjector;
 

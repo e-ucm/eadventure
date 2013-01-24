@@ -37,6 +37,8 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
@@ -48,6 +50,7 @@ import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
@@ -55,15 +58,12 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 /**

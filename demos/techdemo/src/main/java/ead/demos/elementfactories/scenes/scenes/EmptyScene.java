@@ -37,12 +37,12 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.paint.EAdFill;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.paint.EAdFill;
 
 /**
  * An empty scene

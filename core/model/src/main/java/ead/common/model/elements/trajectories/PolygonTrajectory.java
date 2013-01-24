@@ -41,12 +41,12 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition;
 
 @Element
 public class PolygonTrajectory extends BasicElement implements EAdTrajectory {
 
-	@Param("points")
+	@Param
 	private EAdList<EAdPosition> points;
 
 	public PolygonTrajectory() {

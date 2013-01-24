@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * <p>
@@ -53,10 +53,10 @@ import ead.common.params.text.EAdString;
 @Element
 public class ShowQuestionEf extends AbstractEffect {
 
-	@Param("question")
+	@Param
 	private EAdString question;
 
-	@Param("answers")
+	@Param
 	private EAdMap<EAdString, EAdEffect> answers;
 
 	public ShowQuestionEf() {

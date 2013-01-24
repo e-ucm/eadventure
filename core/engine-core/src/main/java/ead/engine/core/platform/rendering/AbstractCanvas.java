@@ -42,8 +42,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
+import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
+import ead.common.model.params.paint.EAdPaint;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.filters.FilterFactory;

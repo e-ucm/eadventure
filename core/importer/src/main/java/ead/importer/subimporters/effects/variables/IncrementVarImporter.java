@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.MathOp;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.MathOp;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

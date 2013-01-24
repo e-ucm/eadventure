@@ -44,42 +44,68 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.features.Identified;
-import ead.common.params.EAdParam;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.guievents.DragGEv;
-import ead.common.params.guievents.KeyGEv;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.params.text.EAdString;
-import ead.common.util.BasicMatrix;
-import ead.common.util.EAdMatrix;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdRectangle;
-import ead.common.util.EAdURI;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.params.EAdParam;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.KeyGEv;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.BasicMatrix;
+import ead.common.model.params.util.EAdMatrix;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.EAdURI;
+import ead.common.model.params.variables.VarDef;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionProvider;
 
 public class ObjectsFactory {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ElementsFactory");
 
-	private Map<String, EAdParam> paramsMap;
+	private Map<Class<?>, Map<String, Object>> paramsMap;
 
 	private Map<String, Identified> elementsMap;
 
 	private Map<String, Identified> assetsMap;
 
-	public ObjectsFactory() {
-		paramsMap = new HashMap<String, EAdParam>();
+	private ReflectionProvider reflectionProvider;
+
+	private XMLVisitor xmlVisitor;
+
+	public ObjectsFactory(ReflectionProvider reflectionProvider,
+			XMLVisitor xmlVisitor) {
+		this.xmlVisitor = xmlVisitor;
+		this.reflectionProvider = reflectionProvider;
+		paramsMap = new HashMap<Class<?>, Map<String, Object>>();
 		elementsMap = new HashMap<String, Identified>();
 		assetsMap = new HashMap<String, Identified>();
 	}
 
 	public Object getParam(String textValue, Class<?> clazz) {
-		// Check for a EAdParam
-		Object result = constructEAdParam(textValue, clazz);
+		Object result = null;
+
+		Map<String, Object> map = paramsMap.get(clazz);
+		if (map == null) {
+			map = new HashMap<String, Object>();
+			paramsMap.put(clazz, map);
+		} else {
+			result = map.get(textValue);
+		}
+
+		if (result == null) {
+			// Check for a EAdParam
+			result = constructEAdParam(textValue, clazz);
+		}
+
 		// Check for a simple type
 		if (result == null) {
 			result = constructSimpleParam(textValue, clazz);
@@ -87,6 +113,34 @@ public class ObjectsFactory {
 
 		if (result == null) {
 			logger.warn("No constructor for parameter class {}", clazz);
+		} else {
+			map.put(textValue, result);
+		}
+
+		return result;
+	}
+
+	public Object getObject(String value, Class<?> c) {
+		Object result = null;
+		if (reflectionProvider.isAssignableFrom(EAdElement.class, c)) {
+			result = elementsMap.get(value);
+
+		} else if (reflectionProvider
+				.isAssignableFrom(AssetDescriptor.class, c)) {
+			result = assetsMap.get(value);
+		} else if (reflectionProvider.isAssignableFrom(EAdList.class, c)) {
+			result = new EAdList();
+			// XXX
+			logger.warn("OMG, a list! This needs implementation");
+		} else if (reflectionProvider.isAssignableFrom(EAdMap.class, c)) {
+			result = new EAdMap();
+			// XXX
+			logger.warn("OMG, a map! This needs implementation");
+		} else {
+			result = getParam(value, c);
+			if (result == null) {
+				logger.warn("Not possible to parse initial value: {}", value);
+			}
 		}
 		return result;
 	}
@@ -100,12 +154,9 @@ public class ObjectsFactory {
 	 *            the parameter class
 	 * @return
 	 */
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	private EAdParam constructEAdParam(String value, Class<?> clazz) {
-		EAdParam p = paramsMap.get(value);
-		if (p != null) {
-			return p;
-		}
-
+		EAdParam p = null;
 		if (clazz.equals(EAdString.class)) {
 			p = new EAdString(value);
 		} else if (clazz.equals(ColorFill.class)) {
@@ -126,10 +177,26 @@ public class ObjectsFactory {
 			p = new KeyGEv(value);
 		} else if (clazz.equals(DragGEv.class)) {
 			p = new DragGEv(value);
-		}
+		} else if (clazz.equals(VarDef.class)) {
+			try {
+				Object initialValue = null;
+				String values[] = value.split(";");
+				Class<?> c = getClassFromName(values[1]);
 
-		if (p != null) {
-			paramsMap.put(value, p);
+				boolean forLater = false;
+				if (values.length == 3) {
+					initialValue = this.getObject(values[2], c);
+					forLater = initialValue == null;
+				}
+				p = new VarDef(values[0], c, initialValue);
+				if (forLater) {
+					xmlVisitor.addLoadInitalValue((VarDef) p, values[3]);
+				}
+			} catch (Exception e) {
+				logger.warn("VarDef with representation {} poorly parsed",
+						value);
+			}
+
 		}
 		return p;
 	}
@@ -221,10 +288,6 @@ public class ObjectsFactory {
 		return elementsMap.get(uniqueId);
 	}
 
-	public EAdParam getParam(String nodeText) {
-		return paramsMap.get(nodeText);
-	}
-
 	public Object getReferencedElement(Object value) {
 		Object result = this.getAsset(value.toString());
 		if (result == null) {
@@ -237,7 +300,6 @@ public class ObjectsFactory {
 		assetsMap.clear();
 		elementsMap.clear();
 		paramsMap.clear();
-		// Params are not deleted, because they're immutable
 	}
 
 }

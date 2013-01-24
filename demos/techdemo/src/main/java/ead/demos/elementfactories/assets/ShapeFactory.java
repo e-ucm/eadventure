@@ -37,12 +37,12 @@
 
 package ead.demos.elementfactories.assets;
 
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.CircleShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.util.EAdPosition;
 
 public class ShapeFactory {
 

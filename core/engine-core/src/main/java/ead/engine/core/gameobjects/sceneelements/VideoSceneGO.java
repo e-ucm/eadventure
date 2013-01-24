@@ -42,11 +42,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.VideoScene;
-import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

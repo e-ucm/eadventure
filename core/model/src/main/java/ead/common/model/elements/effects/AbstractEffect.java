@@ -56,16 +56,16 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	 * Sets if the effect must be conserved when the scene changes and the
 	 * effects is still running
 	 */
-	@Param(value = "persistent", defaultValue = "false")
+	@Param
 	private boolean persistent;
 
-	@Param("nextEffects")
+	@Param
 	private EAdList<EAdEffect> nextEffects;
 
-	@Param("simultaneousEffects")
+	@Param
 	private EAdList<EAdEffect> simultaneousEffects;
 
-	@Param(value = "nextEffectsAlways", defaultValue = "false")
+	@Param
 	private boolean nextEffectsAlways;
 
 	/**

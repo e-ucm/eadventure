@@ -48,8 +48,8 @@ import aurelienribon.tweenengine.equations.Linear;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

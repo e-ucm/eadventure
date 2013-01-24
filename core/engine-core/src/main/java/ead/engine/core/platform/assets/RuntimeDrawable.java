@@ -39,7 +39,7 @@ package ead.engine.core.platform.assets;
 
 import java.util.List;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**

@@ -37,17 +37,17 @@
 
 package ead.common.model.elements.huds;
 
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.variables.SystemFields;
 
 public class MouseHud extends GroupElement {
 

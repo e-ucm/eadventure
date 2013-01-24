@@ -52,9 +52,9 @@ import org.junit.Before;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.util.EAdURI;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.params.util.EAdURI;
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;

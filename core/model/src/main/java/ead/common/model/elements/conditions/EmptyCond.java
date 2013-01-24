@@ -50,7 +50,7 @@ public class EmptyCond extends AbstractCondition {
 	public static EmptyCond FALSE_EMPTY_CONDITION = new EmptyCond(
 			EmptyCondValue.FALSE);
 
-	@Param("value")
+	@Param
 	private EmptyCondValue value;
 
 	public EmptyCond() {

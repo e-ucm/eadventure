@@ -37,6 +37,7 @@
 
 package ead.tools.java.xml;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import ead.tools.xml.XMLAttributes;
@@ -55,6 +56,10 @@ public class JavaXMLNode implements XMLNode {
 		this.node = node;
 		attributes = new JavaXMLAttributes(node.getAttributes());
 		childNodes = new JavaXMLNodeList(node.getChildNodes());
+	}
+
+	public Node getElement() {
+		return node;
 	}
 
 	@Override
@@ -90,6 +95,23 @@ public class JavaXMLNode implements XMLNode {
 			return null;
 		}
 
+	}
+
+	@Override
+	public void setText(String text) {
+		node.setTextContent(text);
+
+	}
+
+	@Override
+	public void setAttribute(String key, String value) {
+		((Element) node).setAttribute(key, value);
+
+	}
+
+	@Override
+	public void append(XMLNode node) {
+		this.node.appendChild(((JavaXMLNode) node).getElement());
 	}
 
 }

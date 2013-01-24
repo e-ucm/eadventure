@@ -1,8 +1,8 @@
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.widgets.Label;
-import ead.common.widgets.TextArea;
-import ead.common.widgets.containers.ColumnContainer;
+import ead.common.model.elements.widgets.Label;
+import ead.common.model.elements.widgets.TextArea;
+import ead.common.model.elements.widgets.containers.ColumnContainer;
 
 public class WidgetsScene extends EmptyScene {
 

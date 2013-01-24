@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.operations.EAdField;
 import ead.engine.core.game.GameState;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {

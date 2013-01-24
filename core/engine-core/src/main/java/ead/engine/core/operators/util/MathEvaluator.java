@@ -38,7 +38,7 @@
 package ead.engine.core.operators.util;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.operations.EAdField;
 import ead.engine.core.game.ValueMap;
 
 /************************************************************************

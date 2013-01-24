@@ -42,7 +42,8 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ead.common.resources.assets.drawable.basics.Image;
+
+import ead.common.model.assets.drawable.basics.Image;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;

@@ -43,11 +43,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.multimedia.Video;
 import ead.editor.model.EditorAnnotator;
 import ead.editor.model.EditorModelImpl;
 import ead.editor.model.nodes.DependencyNode;

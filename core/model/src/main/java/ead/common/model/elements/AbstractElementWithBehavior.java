@@ -42,7 +42,7 @@ import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Evented;
 import ead.common.model.elements.behaviors.Behavior;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.EAdGUIEvent;
 
 /**
  * An abstract element with behavior, resources and events
@@ -51,13 +51,13 @@ import ead.common.params.guievents.EAdGUIEvent;
 public abstract class AbstractElementWithBehavior extends BasicElement
 		implements Evented, WithBehavior {
 
-	@Param("behavior")
+	@Param
 	protected EAdBehavior behavior;
 
 	/**
 	 * Events associated with this element
 	 */
-	@Param("events")
+	@Param
 	protected EAdList<EAdEvent> events;
 
 	public AbstractElementWithBehavior() {

@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.EAdDrawable;
 
 /**
  * A ghost element is an invisible element which can received events

@@ -38,12 +38,13 @@
 package ead.editor.model.nodes.asset;
 
 import java.util.ArrayList;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.multimedia.Sound;
+
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.assets.multimedia.Sound;
 import ead.editor.R;
 import ead.editor.model.EditorModel;
 import ead.editor.model.nodes.EditorNode;

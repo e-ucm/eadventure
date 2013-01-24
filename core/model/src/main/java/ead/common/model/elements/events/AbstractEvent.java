@@ -55,7 +55,7 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 	/**
 	 * List of effects
 	 */
-	@Param("effects")
+	@Param
 	private EAdMap<Enum<?>, EAdList<EAdEffect>> effects;
 
 	/**

@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.huds;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

@@ -37,11 +37,11 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class PositionScene extends EmptyScene {

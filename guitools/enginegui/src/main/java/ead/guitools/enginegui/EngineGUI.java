@@ -10,14 +10,14 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.engine.core.debuggers.GhostElementDebugger;
 import ead.engine.core.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gdx.desktop.DesktopGame;

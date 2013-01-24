@@ -46,7 +46,7 @@ import ead.common.model.elements.extra.EAdList;
 @Element
 public class EffectsMacro extends BasicElement {
 
-	@Param("effects")
+	@Param
 	protected EAdList<EAdEffect> effects;
 
 	public EffectsMacro() {

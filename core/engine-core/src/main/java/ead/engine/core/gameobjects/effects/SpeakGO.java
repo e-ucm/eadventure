@@ -39,18 +39,18 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.guievents.enums.MouseGEvType;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.guievents.enums.MouseGEvType;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.InputActionProcessor;

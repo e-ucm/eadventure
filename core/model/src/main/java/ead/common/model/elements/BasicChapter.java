@@ -44,8 +44,8 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * Model of the eAdventure chapter.
@@ -57,25 +57,25 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	/**
 	 * Scenes of the game
 	 */
-	@Param("scenes")
+	@Param
 	private EAdList<EAdScene> scenes;
 
 	/**
 	 * Actors of the game
 	 */
-	@Param("actors")
+	@Param
 	private EAdList<EAdSceneElementDef> actors;
 
-	@Param("title")
+	@Param
 	private EAdString title;
 
-	@Param("description")
+	@Param
 	private EAdString description;
 
-	@Param("initialScene")
+	@Param
 	private EAdScene initialScene;
 
-	@Param("vars")
+	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	/**

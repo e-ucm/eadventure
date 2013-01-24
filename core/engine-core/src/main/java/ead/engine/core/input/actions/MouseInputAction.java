@@ -37,9 +37,9 @@
 
 package ead.engine.core.input.actions;
 
-import ead.common.params.guievents.MouseGEv;
-import ead.common.params.guievents.enums.MouseGEvButtonType;
-import ead.common.params.guievents.enums.MouseGEvType;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.guievents.enums.MouseGEvButtonType;
+import ead.common.model.params.guievents.enums.MouseGEvType;
 
 public class MouseInputAction extends AbstractInputAction<MouseGEv> {
 

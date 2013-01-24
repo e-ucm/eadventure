@@ -37,8 +37,8 @@
 
 package ead.common.model.weev.story.section;
 
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.story.elements.Node;
-import ead.common.params.text.EAdString;
 
 /**
  * A {@link Node} that marks a possible end point for a {@link StorySection}

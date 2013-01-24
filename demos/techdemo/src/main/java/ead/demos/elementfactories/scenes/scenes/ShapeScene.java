@@ -37,20 +37,20 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.assets.ShapeFactory;
 

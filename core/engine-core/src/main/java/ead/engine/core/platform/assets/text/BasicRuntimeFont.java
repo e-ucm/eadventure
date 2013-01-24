@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform.assets.text;
 
-import ead.common.resources.assets.text.EAdFont;
+import ead.common.model.assets.text.EAdFont;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeFont;

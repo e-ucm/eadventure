@@ -38,7 +38,6 @@
 package ead.reader.model.readers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
@@ -55,8 +54,6 @@ import ead.tools.xml.XMLNodeList;
 public class ObjectReader extends AbstractReader<Identified> {
 
 	public boolean asset;
-
-	private static int idGenerator = 0;
 
 	private ArrayList<String> ids;
 
@@ -87,9 +84,6 @@ public class ObjectReader extends AbstractReader<Identified> {
 			if (clazz != null) {
 				element = (Identified) elementsFactory.createObject(clazz);
 				String id = node.getAttributes().getValue(DOMTags.ID_AT);
-
-				id = id != null && !asset ? id : asset ? "asset"
-						+ idGenerator++ : "element" + idGenerator++;
 				element.setId(id);
 				if (ids.contains(id)) {
 					logger
@@ -100,21 +94,17 @@ public class ObjectReader extends AbstractReader<Identified> {
 					ids.add(id);
 				}
 
-				String uniqueId = node.getAttributes().getValue(
-						DOMTags.UNIQUE_ID_AT);
-				if (uniqueId != null) {
-					if (asset) {
-						elementsFactory.putAsset(uniqueId, element);
-					} else {
-						elementsFactory.putEAdElement(uniqueId, element);
-					}
+				if (asset) {
+					elementsFactory.putAsset(id, element);
+				} else {
+					elementsFactory.putEAdElement(id, element);
 				}
 
 				XMLNodeList children = node.getChildNodes();
 				for (int i = 0; i < children.getLength(); i++) {
 					XMLNode child = children.item(i);
 					String fieldName = child.getAttributes().getValue(
-							DOMTags.PARAM_AT);
+							DOMTags.FIELD_AT);
 					ReflectionField field = getField(clazz, fieldName);
 
 					if (field != null) {
@@ -137,10 +127,10 @@ public class ObjectReader extends AbstractReader<Identified> {
 		ReflectionClass<?> reflectionClass = ReflectionClassLoader
 				.getReflectionClass(clazz);
 		while (reflectionClass != null) {
-			Collection<ReflectionField> fields = reflectionClass.getFields();
-			for (ReflectionField f : fields) {
+			ReflectionField f = reflectionClass.getField(fieldName);
+			if (f != null) {
 				Param p = f.getAnnotation(Param.class);
-				if (p != null && p.value().equals(fieldName)) {
+				if (p != null) {
 					return f;
 				}
 			}
@@ -173,7 +163,6 @@ public class ObjectReader extends AbstractReader<Identified> {
 	}
 
 	public void clear() {
-		idGenerator = 0;
 		asset = false;
 		ids.clear();
 	}

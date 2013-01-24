@@ -42,8 +42,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.shapes.AbstractShape;
+import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
+import ead.common.model.params.fills.ColorFill;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 import ead.engine.core.platform.rendering.GenericCanvas;

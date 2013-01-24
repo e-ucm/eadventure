@@ -39,11 +39,11 @@ package ead.common.model.elements;
 
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Resourced;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.resources.assets.AssetDescriptor;
 
 /**
- * Abstract {@link ead.common.model.EAdElement} implementation, with resources
+ * Abstract {@link ead.common.model.elements.EAdElement} implementation, with resources
  * and events
  */
 public abstract class ResourcedElement extends AbstractElementWithBehavior
@@ -53,7 +53,7 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	/**
 	 * Resources of the eAdElement
 	 */
-	@Param("resources")
+	@Param
 	private EAdMap<String, EAdMap<String, AssetDescriptor>> resources;
 
 	/**

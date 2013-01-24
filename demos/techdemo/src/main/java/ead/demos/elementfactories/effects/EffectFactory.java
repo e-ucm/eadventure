@@ -37,7 +37,10 @@
 
 package ead.demos.elementfactories.effects;
 
-import ead.common.model.EAdElement;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.assets.multimedia.Sound;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
@@ -47,15 +50,12 @@ import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.predef.effects.ChangeAppearanceEf;
-import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.multimedia.Sound;
+import ead.common.model.params.text.EAdString;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory.StringType;
 

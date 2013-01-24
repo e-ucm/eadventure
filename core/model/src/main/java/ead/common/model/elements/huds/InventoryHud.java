@@ -39,17 +39,17 @@ package ead.common.model.elements.huds;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.scenes.GroupElement;
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.EAdPosition.Corner;
 
 @Element
 public class InventoryHud extends GroupElement {
 
 	public static final String ID = "#engine.InventoryHud";
 
-	@Param("height")
+	@Param
 	private int height;
 
 	/***

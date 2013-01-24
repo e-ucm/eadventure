@@ -53,7 +53,7 @@ public class WaitEf extends AbstractEffect {
 	/**
 	 * Time to wait for this effect, in milliseconds
 	 */
-	@Param("time")
+	@Param
 	private int time;
 
 	/**

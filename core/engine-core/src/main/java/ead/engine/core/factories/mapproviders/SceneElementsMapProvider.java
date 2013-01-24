@@ -49,7 +49,7 @@ import ead.common.model.elements.scenes.VideoScene;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.widgets.TextArea;
+import ead.common.model.elements.widgets.TextArea;
 import ead.engine.core.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.huds.InventoryHUDGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;

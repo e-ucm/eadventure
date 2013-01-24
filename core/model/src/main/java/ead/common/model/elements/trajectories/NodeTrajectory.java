@@ -42,9 +42,9 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 /**
  * 
@@ -69,16 +69,16 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 	public static final EAdVarDef<Side> VAR_CURRENT_SIDE = new VarDef<Side>(
 			"currentSide", Side.class, null);
 
-	@Param("nodes")
+	@Param
 	private EAdList<Node> nodes;
 
-	@Param("sides")
+	@Param
 	private EAdList<Side> sides;
 
-	@Param("barriers")
+	@Param
 	private EAdList<EAdSceneElement> barriers;
 
-	@Param("initial")
+	@Param
 	private Node initial;
 
 	public NodeTrajectory() {

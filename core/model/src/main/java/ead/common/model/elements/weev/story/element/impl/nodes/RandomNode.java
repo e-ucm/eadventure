@@ -75,7 +75,7 @@ public class RandomNode extends AbstractNode implements Node {
 	@Element
 	public static class ChanceNode extends AbstractNode {
 
-		@Param(value = "chance")
+		@Param
 		private Integer chance;
 
 		public ChanceNode(Integer chance) {

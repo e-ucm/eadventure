@@ -37,8 +37,8 @@
 
 package ead.common.model.weev.story.elements;
 
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.WEEVElement;
-import ead.common.params.text.EAdString;
 
 /**
  * A hint, to help the player during the game.<p>

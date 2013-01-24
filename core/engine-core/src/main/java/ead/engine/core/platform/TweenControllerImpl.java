@@ -47,8 +47,8 @@ import aurelienribon.tweenengine.TweenManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
 import ead.engine.core.game.ValueMap;
 
 @Singleton

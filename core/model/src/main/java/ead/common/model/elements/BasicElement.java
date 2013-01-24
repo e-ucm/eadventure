@@ -37,7 +37,6 @@
 
 package ead.common.model.elements;
 
-import ead.common.model.EAdElement;
 
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements

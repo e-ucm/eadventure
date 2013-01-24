@@ -45,13 +45,13 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 @Element
 public class ModifyInventoryEf extends AbstractEffect {
 
-	@Param("modification")
+	@Param
 	private InventoryEffectAction modification;
 
-	@Param("sceneElement")
+	@Param
 	private EAdSceneElementDef sceneElementDef;
 
-	@Param("boolean")
+	@Param
 	private boolean removeFromScene;
 
 	public ModifyInventoryEf() {

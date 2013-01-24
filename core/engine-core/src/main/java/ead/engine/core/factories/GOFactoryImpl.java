@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.engine.core.gameobjects.GameObject;
 import ead.tools.GenericInjector;
 import ead.tools.reflection.ReflectionProvider;

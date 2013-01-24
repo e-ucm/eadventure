@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import ead.common.interfaces.features.ResourcedEvented;
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.assets.AssetDescriptor;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 

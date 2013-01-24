@@ -39,16 +39,16 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.model.elements.variables.operations.ValueOp;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * Effect that performs an interpolation between two values in an {@link EAdVar}
@@ -59,31 +59,31 @@ import ead.common.model.elements.variables.operations.ValueOp;
 @Element
 public class InterpolationEf extends AbstractEffect {
 
-	@Param("fields")
+	@Param
 	private EAdList<EAdField<?>> fields;
 
-	@Param("initialValues")
+	@Param
 	private EAdList<EAdOperation> initialValues;
 
-	@Param("endValues")
+	@Param
 	private EAdList<EAdOperation> endValues;
 
-	@Param("time")
+	@Param
 	private int interpolationTime;
 
-	@Param("delay")
+	@Param
 	private int delay;
 
-	@Param("loopType")
+	@Param
 	private InterpolationLoopType loopType;
 
-	@Param("loops")
+	@Param
 	private int loops;
 
-	@Param("interpolation")
+	@Param
 	private InterpolationType interpolationType;
 
-	@Param("relative")
+	@Param
 	private boolean relative;
 
 	/**

@@ -40,9 +40,9 @@ package ead.engine.core.gameobjects.sceneelements;
 import java.util.List;
 
 import ead.common.interfaces.features.Oriented;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition;
 import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.platform.assets.RuntimeDrawable;

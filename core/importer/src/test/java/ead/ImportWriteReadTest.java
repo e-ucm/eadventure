@@ -55,14 +55,15 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
 import ead.reader.AdventureReader;
+import ead.tools.java.DataPrettifier;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.java.reflection.JavaReflectionClassLoader;
+import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
-import ead.writer.DataPrettifier;
-import ead.writer.EAdAdventureModelWriter;
+import ead.writer.AdventureWriter;
 
 public class ImportWriteReadTest {
 
@@ -71,7 +72,7 @@ public class ImportWriteReadTest {
 
 	private EAdventureImporter importer;
 	private AdventureReader reader;
-	private EAdAdventureModelWriter writer;
+	private AdventureWriter writer;
 
 	public ImportWriteReadTest() {
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, null);
@@ -83,8 +84,10 @@ public class ImportWriteReadTest {
 				new JavaToolsModule());
 
 		importer = i.getInstance(EAdventureImporter.class);
-		reader = new AdventureReader(new JavaXMLParser());
-		writer = new EAdAdventureModelWriter();
+		reader = new AdventureReader(new JavaXMLParser(),
+				new JavaReflectionProvider());
+		writer = new AdventureWriter(new JavaReflectionProvider(),
+				new JavaXMLParser());
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 	}
 

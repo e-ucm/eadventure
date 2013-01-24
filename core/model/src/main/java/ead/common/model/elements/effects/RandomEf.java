@@ -53,7 +53,7 @@ public class RandomEf extends AbstractEffect {
 	/**
 	 * Effect's list
 	 */
-	@Param("effects")
+	@Param
 	private EAdMap<EAdEffect, Float> effects;
 
 	public RandomEf() {

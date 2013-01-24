@@ -38,21 +38,36 @@
 package ead.tools.java.xml;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
 
 public class JavaXMLDocument implements XMLDocument {
 
-	private XMLNode firstChild;
+	private Document document;
 
 	public JavaXMLDocument(Document document) {
-		this.firstChild = new JavaXMLNode(document.getFirstChild());
+		this.document = document;
 	}
 
 	@Override
 	public XMLNode getFirstChild() {
-		return firstChild;
+		return new JavaXMLNode(document.getFirstChild());
+	}
+
+	@Override
+	public XMLNode newNode(String tag) {
+		Element n = document.createElement(tag);
+		return new JavaXMLNode(n);
+	}
+
+	public Document getDocument() {
+		return document;
+	}
+
+	public void appendChild(XMLNode node) {
+		document.appendChild(((JavaXMLNode) node).getElement());
 	}
 
 }

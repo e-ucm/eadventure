@@ -42,8 +42,8 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;

@@ -42,8 +42,8 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class ActorActionsEf extends AbstractEffect {
@@ -52,10 +52,10 @@ public class ActorActionsEf extends AbstractEffect {
 	public static final EAdVarDef<EAdList> VAR_ACTIONS = new VarDef<EAdList>(
 			"actions", EAdList.class, null);
 
-	@Param("actionElement")
+	@Param
 	private EAdSceneElementDef actionElement;
 
-	@Param("change")
+	@Param
 	private ChangeActorActions change;
 
 	public ActorActionsEf() {

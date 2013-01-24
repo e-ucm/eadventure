@@ -48,8 +48,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton

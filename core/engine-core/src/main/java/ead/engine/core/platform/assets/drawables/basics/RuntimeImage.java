@@ -41,7 +41,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.Image;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;

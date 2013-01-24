@@ -51,7 +51,7 @@ public class ChangeAppearanceEffect extends AbstractEffect {
 	/**
 	 * The {@link Resourced} element whose appearance can be changed
 	 */
-	@Param(value = "element")
+	@Param
 	private Resourced element;
 
 	/**

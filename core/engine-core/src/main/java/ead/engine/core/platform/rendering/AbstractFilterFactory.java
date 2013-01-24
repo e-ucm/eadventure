@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform.rendering;
 
-import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
+import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;

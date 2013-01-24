@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform.assets;
 
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.assets.AssetDescriptor;
 
 /**
  * A platform-independent description of an asset in the runtime environment

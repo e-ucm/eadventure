@@ -37,9 +37,9 @@
 
 package ead.common.test.model.elements.guievents;
 
-import ead.common.params.guievents.MouseGEv;
-import ead.common.params.guievents.enums.MouseGEvButtonType;
-import ead.common.params.guievents.enums.MouseGEvType;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.guievents.enums.MouseGEvButtonType;
+import ead.common.model.params.guievents.enums.MouseGEvType;
 import ead.common.test.EqualsHashCodeTest;
 
 public class MouseGEvTest extends EqualsHashCodeTest<MouseGEv> {

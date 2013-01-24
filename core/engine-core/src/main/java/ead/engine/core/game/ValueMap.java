@@ -39,9 +39,9 @@ package ead.engine.core.game;
 
 import java.util.Map;
 
-import ead.common.model.EAdElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * The value map interfaces allows for the definition of key-value pairs of

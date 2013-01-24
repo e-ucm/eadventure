@@ -40,6 +40,7 @@ package ead.common.model.elements.scenes;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.enums.Orientation;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.AbstractElementWithBehavior;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.ResourcedElement;
@@ -49,14 +50,13 @@ import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.BooleanOp;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class SceneElement extends AbstractElementWithBehavior implements
@@ -147,10 +147,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Boolean> VAR_RETURN_WHEN_DRAGGED = new VarDef<Boolean>(
 			"returnWhenDragged", Boolean.class, Boolean.FALSE);
 
-	@Param("vars")
+	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Param("definition")
+	@Param
 	protected EAdSceneElementDef definition;
 
 	public SceneElement() {

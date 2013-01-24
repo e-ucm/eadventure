@@ -37,13 +37,13 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
+import ead.common.model.assets.drawable.filters.FilteredDrawable;
+import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.MatrixFilter;
-import ead.common.util.BasicMatrix;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.util.BasicMatrix;
+import ead.common.model.params.util.EAdPosition.Corner;
 
 public class FiltersDemo extends EmptyScene {
 

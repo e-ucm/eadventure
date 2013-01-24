@@ -37,6 +37,9 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.shapes.CircleShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
@@ -44,18 +47,15 @@ import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
 
 public class PhysicsScene2 extends PhysicsScene {
 

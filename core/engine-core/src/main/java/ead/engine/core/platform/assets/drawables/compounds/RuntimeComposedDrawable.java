@@ -45,10 +45,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.util.EAdPosition;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
+import ead.common.model.assets.drawable.compounds.EAdComposedDrawable;
+import ead.common.model.params.util.EAdPosition;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;

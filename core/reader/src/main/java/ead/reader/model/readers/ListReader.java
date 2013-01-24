@@ -38,7 +38,6 @@
 package ead.reader.model.readers;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.util.EAdPosition;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
@@ -52,51 +51,15 @@ public class ListReader extends AbstractReader<EAdList> {
 		super(elementsFactory, visitor);
 	}
 
-	@SuppressWarnings( { "unchecked" })
 	@Override
 	public EAdList read(XMLNode node) {
-		Class<?> clazz = this.getNodeClass(node);
 		EAdList list = new EAdList();
-		if (clazz == Integer.class || clazz == Float.class
-				|| clazz == EAdPosition.class) {
-			readSimpleList(list, node.getNodeText(), clazz);
-		} else {
-			XMLNodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				xmlVisitor.loadElement(children.item(i),
-						new ListVisitorListener(list));
-			}
+		XMLNodeList children = node.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			xmlVisitor.loadElement(children.item(i), new ListVisitorListener(
+					list));
 		}
 		return list;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void readSimpleList(EAdList list, String nodeText, Class<?> clazz) {
-		String values[] = nodeText.split("\\|");
-		for (String v : values) {
-			Object o = null;
-			try {
-				if (clazz == Integer.class) {
-					o = Integer.parseInt(v);
-				} else if (clazz == Float.class) {
-					o = Float.parseFloat(v);
-				} else {
-					o = new EAdPosition(v);
-				}
-			} catch (Exception e) {
-
-			}
-
-			if (o == null) {
-				logger
-						.warn(
-								"Value for list not admitted {}. This might causes problems",
-								v);
-			} else {
-				list.add(o);
-			}
-		}
-
 	}
 
 	public static class ListVisitorListener implements VisitorListener {

@@ -41,7 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition;
 
 /**
  * Effect that adds an actor reference to the current scene
@@ -51,13 +51,13 @@ import ead.common.util.EAdPosition;
 @Element
 public class AddActorReferenceEf extends AbstractEffect {
 
-	@Param("actor")
+	@Param
 	private EAdSceneElementDef actor;
 
-	@Param("position")
+	@Param
 	private EAdPosition position;
 
-	@Param("initialEffect")
+	@Param
 	private AbstractSceneElementEffect effect;
 
 	public AddActorReferenceEf() {

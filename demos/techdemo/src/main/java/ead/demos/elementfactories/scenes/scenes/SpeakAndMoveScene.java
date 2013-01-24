@@ -37,6 +37,9 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.text.BasicFont;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.InterpolationEf;
@@ -45,6 +48,11 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
@@ -52,19 +60,11 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.fills.Paint;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 

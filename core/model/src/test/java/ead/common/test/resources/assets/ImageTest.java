@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.Image;
 
 public class ImageTest {
 

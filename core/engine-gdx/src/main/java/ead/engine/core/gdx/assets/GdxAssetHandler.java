@@ -47,7 +47,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;

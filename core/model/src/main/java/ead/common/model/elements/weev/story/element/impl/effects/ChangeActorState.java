@@ -58,14 +58,14 @@ public class ChangeActorState extends AbstractEffect {
 	 * The change or {@link ModifyInventoryEf.InventoryEffectAction} to be applied to
 	 * the {@link Actor}
 	 */
-	@Param(value = "modification")
+	@Param
 	//TODO should probably use an enum with more values...
 	private InventoryEffectAction modification;
 
 	/**
 	 * The {@link Actor} where to apply the change
 	 */
-	@Param(value = "actor")
+	@Param
 	private Actor actor;
 
 	/**

@@ -39,10 +39,10 @@ package ead.importer.subimporters.chapter.scene;
 
 import java.awt.Point;
 
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdRectangle;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.params.util.EAdRectangle;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 
 public class ShapedElementImporter {

@@ -37,7 +37,7 @@
 
 package ead.common.test.params;
 
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition;
 
 public class PositionTest extends ParamsTest<EAdPosition> {
 

@@ -44,8 +44,8 @@ import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class PhysicsEffect extends AbstractEffect {
@@ -68,10 +68,10 @@ public class PhysicsEffect extends AbstractEffect {
 	/**
 	 * Elements that are affect by the physics
 	 */
-	@Param("elements")
+	@Param
 	private EAdList<EAdSceneElement> elements;
 
-	@Param("joints")
+	@Param
 	private EAdList<EAdSceneElement> joints;
 
 	public PhysicsEffect() {

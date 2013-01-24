@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.util.EAdURI;
+import ead.common.model.params.util.EAdURI;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

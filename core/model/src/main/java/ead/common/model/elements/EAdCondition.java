@@ -37,7 +37,6 @@
 
 package ead.common.model.elements;
 
-import ead.common.model.EAdElement;
 
 /**
  * A condition in the eAdventure model

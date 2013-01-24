@@ -42,7 +42,7 @@ import java.util.Map;
 
 import com.google.inject.AbstractModule;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 import ead.tools.StringHandler;
 
 public class CommonTestModule extends AbstractModule {

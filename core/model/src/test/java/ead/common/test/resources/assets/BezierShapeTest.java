@@ -1,12 +1,12 @@
 package ead.common.test.resources.assets;
 
 import ead.common.interfaces.features.Identified;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.paint.EAdPaint;
 import ead.common.test.EqualsHashCodeTest;
 import java.util.ArrayList;
 

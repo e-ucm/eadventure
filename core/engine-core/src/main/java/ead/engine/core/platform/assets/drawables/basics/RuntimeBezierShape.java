@@ -42,7 +42,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.resources.assets.drawable.basics.shapes.AbstractShape;
+import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;

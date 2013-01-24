@@ -37,8 +37,8 @@
 
 package ead.common.model.weev.world;
 
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.Transition;
-import ead.common.params.text.EAdString;
 
 /**
  * A link between two different {@link Space}s, which has a name and orientation

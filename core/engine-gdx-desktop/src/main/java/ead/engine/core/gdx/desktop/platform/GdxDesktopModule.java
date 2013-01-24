@@ -45,8 +45,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.gdx.desktop.platform.assets.VLCDesktopVideoRenderer;
 import ead.engine.core.gdx.platform.GdxModuleMap;

@@ -40,11 +40,17 @@ package ead.tools.java.reflection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionField;
 
 public class JavaReflectionField implements ReflectionField {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ReflectionField");
 
 	private Field field;
 
@@ -72,10 +78,8 @@ public class JavaReflectionField implements ReflectionField {
 	public Object getFieldValue(Object object) {
 		try {
 			return field.get(object);
-		} catch (IllegalArgumentException e) {
-
-		} catch (IllegalAccessException e) {
-
+		} catch (Exception e) {
+			logger.error("{}", e);
 		}
 		return null;
 	}
@@ -84,10 +88,8 @@ public class JavaReflectionField implements ReflectionField {
 	public void setFieldValue(Object object, Object value) {
 		try {
 			field.set(object, value);
-		} catch (IllegalArgumentException e) {
-
-		} catch (IllegalAccessException e) {
-
+		} catch (Exception e) {
+			logger.error("{}", e);
 		}
 	}
 

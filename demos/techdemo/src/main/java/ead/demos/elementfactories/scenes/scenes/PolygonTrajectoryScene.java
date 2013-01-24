@@ -1,15 +1,15 @@
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.PolygonTrajectory;
-import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class PolygonTrajectoryScene extends EmptyScene {

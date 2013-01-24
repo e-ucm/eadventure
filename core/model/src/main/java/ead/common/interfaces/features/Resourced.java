@@ -37,9 +37,9 @@
 
 package ead.common.interfaces.features;
 
-import ead.common.model.EAdElement;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.resources.assets.AssetDescriptor;
 
 /**
  * Represents an {@link EAdElement} with resources associated

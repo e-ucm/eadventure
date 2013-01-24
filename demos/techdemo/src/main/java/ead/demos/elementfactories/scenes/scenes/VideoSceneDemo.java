@@ -37,9 +37,9 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.multimedia.EAdVideo;
+import ead.common.model.assets.multimedia.Video;
 import ead.common.model.elements.scenes.VideoScene;
-import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.common.resources.assets.multimedia.Video;
 
 public class VideoSceneDemo extends VideoScene {
 

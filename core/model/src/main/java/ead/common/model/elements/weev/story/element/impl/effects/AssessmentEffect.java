@@ -40,7 +40,7 @@ package ead.common.model.elements.weev.story.element.impl.effects;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.weev.story.element.impl.AbstractEffect;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Assessment of player effect.
@@ -59,20 +59,20 @@ public class AssessmentEffect extends AbstractEffect {
 	 * The value (i.e. increment or decrement of points to the player) of the
 	 * effect
 	 */
-	@Param(value = "value")
+	@Param
 	private Integer value;
 
 	/**
 	 * The message in the log for the effect, the justification for the
 	 * assessment
 	 */
-	@Param(value = "message")
+	@Param
 	private EAdString message;
 
 	/**
 	 * The {@link Type} of this effect
 	 */
-	@Param(value = "type")
+	@Param
 	private Type type;
 
 	/**

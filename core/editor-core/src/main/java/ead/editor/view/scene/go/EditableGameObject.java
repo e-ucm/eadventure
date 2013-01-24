@@ -48,8 +48,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;

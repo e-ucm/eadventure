@@ -41,9 +41,9 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.weev.impl.AbstractWEEVElement;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.adaptation.AdaptationProfile;
 import ead.common.model.weev.adaptation.AdaptationStructure;
-import ead.common.params.text.EAdString;
 
 /**
  * Default {@link AdaptationStructure} implementation
@@ -54,7 +54,7 @@ public class AdaptationStructureImpl extends AbstractWEEVElement implements
 
 	private EAdList<AdaptationProfile> profiles;
 
-	@Param(value = "name")
+	@Param
 	private EAdString name;
 
 	public AdaptationStructureImpl() {

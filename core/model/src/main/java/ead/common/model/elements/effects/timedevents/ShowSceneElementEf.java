@@ -39,6 +39,7 @@ package ead.common.model.elements.effects.timedevents;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.effects.InterpolationEf;
@@ -46,11 +47,10 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.ShowTextAnimation;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition;
 
 /**
  * <p>
@@ -61,10 +61,10 @@ import ead.common.util.EAdPosition;
 @Element
 public class ShowSceneElementEf extends AbstractEffect {
 
-	@Param("time")
+	@Param
 	private int time;
 
-	@Param("sceneElement")
+	@Param
 	private EAdSceneElement sceneElement;
 
 	public ShowSceneElementEf() {

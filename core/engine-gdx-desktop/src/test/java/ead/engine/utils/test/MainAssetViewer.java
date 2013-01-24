@@ -49,13 +49,14 @@ import javax.swing.JPanel;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.util.EAdURI;
+
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
+import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.EAdURI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;

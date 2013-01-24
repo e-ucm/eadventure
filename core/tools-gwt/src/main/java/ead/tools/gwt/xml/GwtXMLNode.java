@@ -37,6 +37,7 @@
 
 package ead.tools.gwt.xml;
 
+import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
@@ -56,6 +57,10 @@ public class GwtXMLNode implements XMLNode {
 		this.node = node;
 		attributes = new GwtXMLAttributes(node.getAttributes());
 		childNodes = new GwtXMLNodeList(node.getChildNodes());
+	}
+
+	public Node getElement() {
+		return node;
 	}
 
 	@Override
@@ -104,6 +109,23 @@ public class GwtXMLNode implements XMLNode {
 			return null;
 		}
 
+	}
+
+	@Override
+	public void setText(String text) {
+		node.setNodeValue(text);
+	}
+
+	@Override
+	public void setAttribute(String key, String value) {
+		((Element) node).setAttribute(key, value);
+
+	}
+
+	@Override
+	public void append(XMLNode node) {
+		Node child = ((GwtXMLNode) node).getElement();
+		this.node.appendChild(child);
 	}
 
 }

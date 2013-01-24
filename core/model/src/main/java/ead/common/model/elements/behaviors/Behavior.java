@@ -44,7 +44,7 @@ import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.EAdGUIEvent;
 
 /**
  * 
@@ -63,7 +63,7 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	/**
 	 * All behaviors contained by this bundle, associated with its events
 	 */
-	@Param("behavior")
+	@Param
 	protected EAdMap<EAdGUIEvent, EAdList<EAdEffect>> behavior;
 
 	/**

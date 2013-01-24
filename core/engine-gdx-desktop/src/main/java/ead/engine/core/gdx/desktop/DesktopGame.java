@@ -45,7 +45,7 @@ import java.util.Map;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

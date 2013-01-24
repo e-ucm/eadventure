@@ -50,10 +50,10 @@ import ead.common.model.elements.extra.EAdList;
 @Element
 public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 
-	@Param("macros")
+	@Param
 	private EAdList<EffectsMacro> macros;
 
-	@Param("conditions")
+	@Param
 	private EAdList<EAdCondition> conditions;
 
 	public TriggerMacroEf() {

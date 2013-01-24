@@ -51,7 +51,7 @@ import ead.common.model.weev.story.section.StorySectionStart;
 public class StorySectionStartImpl extends AbstractNode implements
 		StorySectionStart {
 
-	@Param(value = "adaptationProfile")
+	@Param
 	private AdaptationProfile adaptationProfile;
 
 	@Override

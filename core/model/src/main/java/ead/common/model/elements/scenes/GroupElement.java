@@ -39,10 +39,10 @@ package ead.common.model.elements.scenes;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 /**
  * Represents an scene element that is compound with other scene elements. This
@@ -68,7 +68,7 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 	public static final EAdVarDef<Boolean> VAR_AUTO_SIZE_VERTICAL = new VarDef<Boolean>(
 			"autoSizeV", Boolean.class, Boolean.TRUE);
 
-	@Param("sceneElements")
+	@Param
 	protected EAdList<EAdSceneElement> sceneElements;
 
 	public GroupElement() {

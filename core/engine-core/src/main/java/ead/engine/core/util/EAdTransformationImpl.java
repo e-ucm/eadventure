@@ -37,9 +37,9 @@
 
 package ead.engine.core.util;
 
-import ead.common.util.EAdMatrix;
-import ead.common.util.BasicMatrix;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.BasicMatrix;
+import ead.common.model.params.util.EAdMatrix;
+import ead.common.model.params.util.EAdRectangle;
 import ead.engine.core.util.EAdTransformation;
 
 public class EAdTransformationImpl implements EAdTransformation {

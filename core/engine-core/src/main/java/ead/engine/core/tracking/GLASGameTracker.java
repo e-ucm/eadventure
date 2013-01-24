@@ -40,12 +40,12 @@ package ead.engine.core.tracking;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.params.guievents.DragGEv;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.guievents.DragGEv;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

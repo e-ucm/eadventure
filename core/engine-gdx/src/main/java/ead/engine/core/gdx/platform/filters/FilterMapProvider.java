@@ -42,7 +42,7 @@ import java.util.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import ead.common.resources.assets.drawable.filters.MatrixFilter;
+import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 import ead.tools.MapProvider;
 

@@ -37,6 +37,7 @@
 
 package ead.tools.gwt.reflection;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -116,6 +117,11 @@ public class GwtReflectionClass<T> implements ReflectionClass<T> {
 	@Override
 	public Class<?> getType() {
 		return clazz.getDeclaringClass();
+	}
+
+	@Override
+	public <S extends Annotation> boolean hasAnnotation(Class<S> annotation) {
+		return clazz.getAnnotation(annotation) != null;
 	}
 
 }

@@ -58,7 +58,7 @@ public class WorldImpl extends AbstractWEEVElement implements World {
 
 	private EAdList<ActorPlacement> actorPlacements;
 
-	@Param(value = "initialSpace")
+	@Param
 	private Space initialSpace;
 
 	public WorldImpl() {

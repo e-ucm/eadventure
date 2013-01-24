@@ -47,7 +47,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import ead.common.util.EAdURI;
+import ead.common.model.params.util.EAdURI;
 import ead.editor.model.EditorModel;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;

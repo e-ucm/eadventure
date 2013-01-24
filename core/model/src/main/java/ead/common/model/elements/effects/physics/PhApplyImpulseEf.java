@@ -40,16 +40,16 @@ package ead.common.model.elements.effects.physics;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.operations.MathOp;
 
 @Element
 public class PhApplyImpulseEf extends AbstractSceneElementEffect {
 
-	@Param("xForce")
+	@Param
 	private MathOp xForce;
 
-	@Param("yForce")
+	@Param
 	private MathOp yForce;
 
 	public PhApplyImpulseEf() {

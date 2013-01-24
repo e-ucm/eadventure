@@ -37,15 +37,15 @@
 
 package ead.demos.elementfactories.assets;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdFill;
-import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdURI;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.assets.text.EAdFont;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.paint.EAdFill;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.util.EAdURI;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class CaptionFactory {

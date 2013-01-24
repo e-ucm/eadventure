@@ -48,10 +48,10 @@ import ead.common.model.weev.world.Space;
 @Element
 public class SpaceImpl extends BasicScene implements Space {
 
-	@Param(value = "x")
+	@Param
 	private int x;
 
-	@Param(value = "y")
+	@Param
 	private int y;
 
 	public SpaceImpl() {

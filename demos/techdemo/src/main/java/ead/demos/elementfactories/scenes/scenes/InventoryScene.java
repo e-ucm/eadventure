@@ -37,6 +37,8 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.EAdInventory;
 import ead.common.model.elements.effects.ActorActionsEf;
@@ -45,12 +47,10 @@ import ead.common.model.elements.effects.enums.InventoryEffectAction;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.params.guievents.enums.MouseGEvButtonType;
-import ead.common.params.guievents.enums.MouseGEvType;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.guievents.enums.MouseGEvButtonType;
+import ead.common.model.params.guievents.enums.MouseGEvType;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class InventoryScene extends EmptyScene {

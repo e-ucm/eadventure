@@ -37,8 +37,8 @@
 
 package ead.engine.core.util;
 
-import ead.common.util.EAdMatrix;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.EAdMatrix;
+import ead.common.model.params.util.EAdRectangle;
 
 /**
  * Transformation applicable to the graphic context.

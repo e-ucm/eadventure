@@ -38,10 +38,10 @@
 package ead.common.model.elements.effects.sceneelements;
 
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.AbstractEffect;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdField;
 
 /**
  * An abstract effect requiring a scene element
@@ -50,7 +50,7 @@ import ead.common.model.elements.variables.EAdField;
  */
 public abstract class AbstractSceneElementEffect extends AbstractEffect {
 
-	@Param("element")
+	@Param
 	private EAdElement element;
 
 	public AbstractSceneElementEffect() {

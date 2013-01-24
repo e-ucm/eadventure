@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.factories.SceneElementGOFactory;

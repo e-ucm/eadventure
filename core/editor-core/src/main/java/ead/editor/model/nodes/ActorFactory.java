@@ -37,7 +37,7 @@
 
 package ead.editor.model.nodes;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.editor.model.EditorAnnotator;
 import java.util.ArrayList;
 import org.slf4j.Logger;

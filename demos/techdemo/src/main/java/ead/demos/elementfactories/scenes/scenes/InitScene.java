@@ -40,8 +40,12 @@ package ead.demos.elementfactories.scenes.scenes;
 import java.util.ArrayList;
 import java.util.List;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.predef.sceneelements.Button;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
@@ -49,16 +53,12 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
-import ead.common.model.predef.sceneelements.Button;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.params.paint.EAdFill;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.paint.EAdFill;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.EAdPosition.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgMainScreen;
 
 public class InitScene extends EmptyScene {

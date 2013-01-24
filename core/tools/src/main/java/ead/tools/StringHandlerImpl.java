@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 public class StringHandlerImpl implements StringHandler {
 

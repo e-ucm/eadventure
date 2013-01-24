@@ -40,9 +40,9 @@ package ead.common.model.elements.scenes;
 import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.EAdElement;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Scene element definition in the eAdventure model. Definition for scene

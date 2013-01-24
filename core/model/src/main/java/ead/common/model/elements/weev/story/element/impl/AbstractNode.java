@@ -48,7 +48,7 @@ import ead.common.model.weev.story.elements.StoryList;
  */
 public abstract class AbstractNode extends AbstractStoryElement implements Node {
 
-	@Param(value = "hintList")
+	@Param
 	private StoryList<Hint> hintList;
 
 	@Override

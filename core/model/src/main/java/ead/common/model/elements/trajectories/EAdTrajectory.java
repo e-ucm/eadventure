@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.trajectories;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 
 /**
  * General interface for trajectory definitions. 

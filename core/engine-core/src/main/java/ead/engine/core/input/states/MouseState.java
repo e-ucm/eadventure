@@ -37,7 +37,7 @@
 
 package ead.engine.core.input.states;
 
-import ead.common.params.guievents.enums.MouseGEvButtonType;
+import ead.common.model.params.guievents.enums.MouseGEvButtonType;
 import ead.engine.core.input.InputState;
 
 public class MouseState implements InputState {

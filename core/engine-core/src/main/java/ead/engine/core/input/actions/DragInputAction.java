@@ -38,8 +38,8 @@
 package ead.engine.core.input.actions;
 
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.params.guievents.DragGEv;
-import ead.common.params.guievents.enums.DragGEvType;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.enums.DragGEvType;
 
 public class DragInputAction extends AbstractInputAction<DragGEv> {
 

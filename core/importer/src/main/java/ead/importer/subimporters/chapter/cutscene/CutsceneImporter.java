@@ -49,7 +49,7 @@ import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

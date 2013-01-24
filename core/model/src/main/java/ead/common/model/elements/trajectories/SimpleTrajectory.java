@@ -49,22 +49,22 @@ import ead.common.model.elements.BasicElement;
 @Element
 public class SimpleTrajectory extends BasicElement implements EAdTrajectory {
 
-	@Param("onlyHorizontal")
+	@Param
 	private boolean onlyHorizontal;
 
-	@Param("freeWalk")
+	@Param
 	private boolean freeWalk;
 
-	@Param("top")
+	@Param
 	private int top;
 
-	@Param("bottom")
+	@Param
 	private int bottom;
 
-	@Param("left")
+	@Param
 	private int left;
 
-	@Param("right")
+	@Param
 	private int right;
 
 	public SimpleTrajectory() {

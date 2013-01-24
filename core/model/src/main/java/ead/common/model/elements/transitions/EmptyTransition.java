@@ -50,7 +50,7 @@ public class EmptyTransition extends BasicScene implements EAdTransition {
 
 	private static final EmptyTransition transition = new EmptyTransition(0);
 
-	@Param("time")
+	@Param
 	private int time;
 
 	public EmptyTransition() {

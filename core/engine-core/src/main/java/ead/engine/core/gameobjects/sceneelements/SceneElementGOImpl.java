@@ -48,15 +48,15 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdRectangle;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

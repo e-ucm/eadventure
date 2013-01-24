@@ -38,7 +38,7 @@
 package ead.common.interfaces.features;
 
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * 

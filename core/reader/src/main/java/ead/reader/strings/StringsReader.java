@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNodeList;
 import ead.tools.xml.XMLParser;

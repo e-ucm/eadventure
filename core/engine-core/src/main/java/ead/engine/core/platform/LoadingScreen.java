@@ -40,6 +40,7 @@ package ead.engine.core.platform;
 import com.google.inject.Inject;
 
 import ead.common.interfaces.Param;
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.events.SystemEv;
@@ -47,7 +48,6 @@ import ead.common.model.elements.events.enums.SystemEvType;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.resources.assets.drawable.basics.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,7 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 
 	private Logger logger = LoggerFactory.getLogger("LoadingScreen");
 
-	@Param("effect")
+	@Param
 	private ChangeSceneEf effect;
 
 	@Inject

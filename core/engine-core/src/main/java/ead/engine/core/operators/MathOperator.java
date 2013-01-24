@@ -40,7 +40,7 @@ package ead.engine.core.operators;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.variables.operations.MathOp;
+import ead.common.model.elements.operations.MathOp;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operators.util.MathEvaluator;
 

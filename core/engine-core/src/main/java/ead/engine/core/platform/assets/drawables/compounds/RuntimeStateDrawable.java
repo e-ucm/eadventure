@@ -43,8 +43,8 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;

@@ -37,23 +37,23 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.guievents.DragGEv;
-import ead.common.params.guievents.enums.DragGEvType;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.enums.DragGEvType;
+import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition.Corner;
 
 public class DragDropScene extends EmptyScene {
 

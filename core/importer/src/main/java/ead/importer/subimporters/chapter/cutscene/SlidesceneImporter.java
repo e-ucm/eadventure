@@ -43,6 +43,8 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
@@ -55,16 +57,14 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
+import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.params.guievents.MouseGEv;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.variables.SystemFields;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -250,7 +250,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 				}
 			}
 		} else {
-			for (ead.common.resources.assets.drawable.basics.animation.Frame f : frames
+			for (ead.common.model.assets.drawable.basics.animation.Frame f : frames
 					.getFrames()) {
 				times.add(f.getTime());
 			}

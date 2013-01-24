@@ -40,7 +40,7 @@ package ead.engine.core.gdx.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.EAdSound;
 import ead.engine.core.platform.SoundManager;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.multimedia.RuntimeSound;

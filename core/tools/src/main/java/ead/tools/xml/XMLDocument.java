@@ -48,4 +48,17 @@ public interface XMLDocument {
 	 */
 	XMLNode getFirstChild();
 
+	/**
+	 * Creates a node with the given tag
+	 * @param tag
+	 * @return
+	 */
+	XMLNode newNode(String tag);
+
+	/**
+	 * Appends a child to the document
+	 * @param node
+	 */
+	void appendChild(XMLNode node);
+
 }

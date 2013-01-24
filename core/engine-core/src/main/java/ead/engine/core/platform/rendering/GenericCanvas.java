@@ -37,12 +37,12 @@
 
 package ead.engine.core.platform.rendering;
 
-import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdMatrix;
-import ead.common.util.EAdRectangle;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
+import ead.common.model.assets.text.EAdFont;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.util.EAdMatrix;
+import ead.common.model.params.util.EAdRectangle;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
 

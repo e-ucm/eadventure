@@ -40,7 +40,7 @@
 
 package ead.editor.view.components;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.Image;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;

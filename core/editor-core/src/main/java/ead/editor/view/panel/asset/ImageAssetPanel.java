@@ -56,8 +56,8 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdURI;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.params.util.EAdURI;
 import ead.editor.control.Command;
 import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.control.commands.ChangeFileCommand;

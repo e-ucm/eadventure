@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.editor.EditorGuiceModule;
 import ead.editor.model.ModelIndex.Match;
 import ead.editor.model.nodes.DependencyNode;

@@ -42,11 +42,10 @@ import java.util.Map;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * The eAdventure game model.
@@ -55,28 +54,28 @@ import ead.common.params.text.EAdString;
 public class BasicAdventureModel extends BasicElement implements
 		EAdAdventureModel {
 
-	@Param("description")
+	@Param
 	public EAdString description;
 
-	@Param("title")
+	@Param
 	private EAdString title;
 
-	@Param("chapters")
+	@Param
 	private EAdList<EAdChapter> chapters;
 
-	@Param("vars")
+	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Param("inventory")
+	@Param
 	private EAdInventory inventory;
 
-	@Param("width")
+	@Param
 	private int gameWidth;
 
-	@Param("height")
+	@Param
 	private int gameHeight;
 
-	@Param("depthControlList")
+	@Param
 	private EAdList<EAdElement> depthControlList;
 
 	// This map is fulfilled with the values in ead.properties. That's why it

@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.sceneelements.transitions;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.util.Interpolator;
+import ead.common.model.params.util.Interpolator;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;

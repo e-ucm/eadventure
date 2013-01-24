@@ -41,8 +41,8 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class BasicInventory extends BasicElement implements EAdInventory {
@@ -50,7 +50,7 @@ public class BasicInventory extends BasicElement implements EAdInventory {
 	public static final EAdVarDef<Boolean> VAR_IN_INVENTORY = new VarDef<Boolean>(
 			"in_inventory", Boolean.class, false);
 
-	@Param("initialItems")
+	@Param
 	private EAdList<EAdSceneElementDef> initialItems;
 
 	public BasicInventory() {

@@ -37,27 +37,27 @@
 
 package ead.common.test;
 
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.enums.Alignment;
+import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
+import ead.common.model.assets.drawable.basics.shapes.CircleShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.model.assets.drawable.compounds.ComposedDrawable;
+import ead.common.model.assets.drawable.compounds.StateDrawable;
+import ead.common.model.assets.drawable.filters.FilteredDrawable;
+import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
+import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.enums.Alignment;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.MatrixFilter;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.text.EAdString;
 
 /**
  * A complete model containing all possibles eAdventure elements. 

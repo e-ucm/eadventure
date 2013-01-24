@@ -41,8 +41,8 @@ import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Draggable;
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.EAdElement;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.params.util.EAdPosition.Corner;
 
 /**
  * 

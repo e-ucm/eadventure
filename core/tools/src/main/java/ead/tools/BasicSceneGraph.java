@@ -49,9 +49,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.AddActorReferenceEf;
@@ -63,11 +64,10 @@ import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.resources.assets.AssetDescriptor;
 import ead.tools.reflection.ReflectionProvider;
 
 public class BasicSceneGraph implements SceneGraph {

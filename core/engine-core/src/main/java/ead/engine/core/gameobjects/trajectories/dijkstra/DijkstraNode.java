@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.trajectories.dijkstra;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.EAdPosition;
 
 /**
  * A node in the representation of the trajectory used to find the best path

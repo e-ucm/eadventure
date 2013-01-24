@@ -49,10 +49,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import ead.common.interfaces.features.Resourced;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdURI;
+import ead.common.model.params.util.EAdURI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.RuntimeDrawable;

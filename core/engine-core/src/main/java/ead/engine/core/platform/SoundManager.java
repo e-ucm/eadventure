@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform;
 
-import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.EAdSound;
 
 /**
  * General interface for managing sound

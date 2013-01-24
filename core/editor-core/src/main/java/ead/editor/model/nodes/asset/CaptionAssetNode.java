@@ -39,8 +39,8 @@ package ead.editor.model.nodes.asset;
 
 import java.io.File;
 
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.multimedia.Video;
 import ead.editor.R;
 
 /**

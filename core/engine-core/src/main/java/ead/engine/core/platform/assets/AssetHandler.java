@@ -40,10 +40,10 @@ package ead.engine.core.platform.assets;
 import java.util.List;
 
 import ead.common.interfaces.features.Resourced;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdURI;
+import ead.common.model.params.util.EAdURI;
 
 /**
  * <p>

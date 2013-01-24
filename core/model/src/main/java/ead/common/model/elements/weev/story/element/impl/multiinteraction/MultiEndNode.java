@@ -53,7 +53,7 @@ public class MultiEndNode extends AbstractNode {
 	/**
 	 * The {@link MultiInteractionNode} of this multi end node.
 	 */
-	@Param(value = "multiInteracitonNode")
+	@Param
 	private MultiInteractionNode multiInteractionNode;
 
 	/**

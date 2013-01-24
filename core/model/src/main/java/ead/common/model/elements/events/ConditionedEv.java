@@ -46,10 +46,10 @@ import ead.common.model.elements.conditions.EmptyCond;
 @Element
 public class ConditionedEv extends AbstractEvent implements Conditioned {
 
-	@Param("condition")
+	@Param
 	private EAdCondition condition;
 
-	@Param("runNotMetConditions")
+	@Param
 	private boolean runNotMetConditions;
 
 	public ConditionedEv() {

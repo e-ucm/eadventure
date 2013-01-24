@@ -41,10 +41,10 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

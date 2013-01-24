@@ -42,10 +42,10 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.multimedia.Video;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.VideoScene;
-import ead.common.resources.assets.multimedia.Video;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.EffectsImporterFactory;

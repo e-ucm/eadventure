@@ -49,13 +49,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.params.EAdParam;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.params.EAdParam;
+import ead.common.model.params.text.EAdString;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
