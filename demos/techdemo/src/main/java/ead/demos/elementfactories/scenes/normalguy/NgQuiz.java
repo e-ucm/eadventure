@@ -38,8 +38,8 @@ package ead.demos.elementfactories.scenes.normalguy;
  */
 
 import ead.common.model.elements.effects.text.ShowQuestionEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;

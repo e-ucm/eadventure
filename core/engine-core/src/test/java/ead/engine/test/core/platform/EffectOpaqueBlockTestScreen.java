@@ -40,11 +40,11 @@ package ead.engine.test.core.platform;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;

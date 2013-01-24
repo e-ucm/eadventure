@@ -35,17 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.guievents;
+package ead.common.params.guievents;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.guievents.EAdGUIEvent;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
-import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.params.AbstractParam;
+import ead.common.params.guievents.enums.KeyEventType;
+import ead.common.params.guievents.enums.KeyGEvCode;
 
 @Element
-public class KeyGEv extends BasicElement implements EAdGUIEvent {
+public class KeyGEv extends AbstractParam implements EAdGUIEvent {
 
 	public static final KeyGEv KEY_ARROW_DOWN = new KeyGEv(
 			KeyEventType.KEY_PRESSED, KeyGEvCode.DOWN);
@@ -63,6 +62,14 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 
 	@Param("keyCode")
 	private KeyGEvCode keyCode;
+
+	/**
+	 * Builds a key event from its string representation
+	 * @param data
+	 */
+	public KeyGEv(String data) {
+		parse(data);
+	}
 
 	public KeyGEv() {
 
@@ -91,7 +98,7 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 	}
 
 	public String toString() {
-		return type.toString() + "_" + keyCode.toString();
+		return type.toString() + ";" + keyCode.toString();
 	}
 
 	public int hashCode() {
@@ -100,6 +107,26 @@ public class KeyGEv extends BasicElement implements EAdGUIEvent {
 
 	public boolean equals(Object o) {
 		return o instanceof KeyGEv && toString().equals(o.toString());
+	}
+
+	@Override
+	public String toStringData() {
+		return toString();
+	}
+
+	@Override
+	public boolean parse(String data) {
+		String[] values = data.split(";");
+		if (values.length == 2) {
+			try {
+				this.type = KeyEventType.valueOf(values[0]);
+				this.keyCode = KeyGEvCode.valueOf(values[1]);
+				return true;
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 }

@@ -54,11 +54,9 @@ import com.google.inject.Injector;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
-import ead.reader.adventure.AdventureReader;
-import ead.reader.adventure.ObjectFactory;
+import ead.reader.AdventureReader;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.java.reflection.JavaReflectionClassLoader;
-import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.utils.FileUtils;
@@ -87,7 +85,6 @@ public class ImportWriteReadTest {
 		importer = i.getInstance(EAdventureImporter.class);
 		reader = new AdventureReader(new JavaXMLParser());
 		writer = new EAdAdventureModelWriter();
-		ObjectFactory.init(new JavaReflectionProvider());
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 	}
 
@@ -126,6 +123,8 @@ public class ImportWriteReadTest {
 			if (!FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
 				errors = true;
 				logger.error("model-file != model-file-after-read");
+				logger.error("diff " + tmpDir + "/pretty-data.xml " + tmpDir
+						+ "/pretty-afterRead.xml");
 			}
 
 		} finally {

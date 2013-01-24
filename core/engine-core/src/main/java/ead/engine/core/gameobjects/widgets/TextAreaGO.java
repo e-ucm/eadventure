@@ -39,11 +39,11 @@ package ead.engine.core.gameobjects.widgets;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.params.guievents.enums.KeyEventType;
+import ead.common.params.guievents.enums.MouseGEvType;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

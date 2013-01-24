@@ -39,7 +39,7 @@ package ead.reader.elements.readers;
 
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
-import ead.reader.adventure.DOMTags;
+import ead.reader.elements.DOMTags;
 import ead.reader.elements.ElementsFactory;
 import ead.reader.elements.XMLVisitor;
 import ead.reader.elements.XMLVisitor.VisitorListener;

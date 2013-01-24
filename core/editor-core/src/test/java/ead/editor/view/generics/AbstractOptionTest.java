@@ -37,34 +37,33 @@
 
 package ead.editor.view.generics;
 
+import static org.mockito.Mockito.when;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.WindowConstants;
-
-import ead.editor.control.CommandManager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import static org.mockito.Mockito.*;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import ead.editor.EditorGuiceModule;
+import ead.editor.control.CommandManager;
 import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.EditorModel;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
-import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
 
 public class AbstractOptionTest extends JFrame {
 
@@ -85,7 +84,6 @@ public class AbstractOptionTest extends JFrame {
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
-		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		EditorModel editorModel = injector.getInstance(EditorModel.class);
 		MockitoAnnotations.initMocks(this);

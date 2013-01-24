@@ -44,7 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.model.elements.extra.EAdMap;
-import ead.reader.adventure.DOMTags;
 import ead.reader.elements.readers.ListReader;
 import ead.reader.elements.readers.MapReader;
 import ead.reader.elements.readers.ObjectReader;
@@ -234,6 +233,13 @@ public class XMLVisitor {
 			}
 		}
 		return clazz;
+	}
+
+	public void init() {
+		translators.clear();
+		elementsFactory.clear();
+		mapKeysValues.clear();
+		stepsQueue.clear();
 	}
 
 }

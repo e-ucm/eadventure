@@ -39,8 +39,6 @@ package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.DragGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
@@ -49,6 +47,8 @@ import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
+import ead.common.params.guievents.DragGEv;
+import ead.common.params.guievents.enums.DragGEvType;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
@@ -113,10 +113,10 @@ public class DragDropScene extends EmptyScene {
 				SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		ChangeFieldEf changeScale2 = new ChangeFieldEf(scale, new ValueOp(1.0f));
-		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.ENTERED),
-				changeScale1);
-		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.EXITED),
-				changeScale2);
+		e2.addBehavior(new DragGEv(e1.getDefinition().getId(),
+				DragGEvType.ENTERED), changeScale1);
+		e2.addBehavior(new DragGEv(e1.getDefinition().getId(),
+				DragGEvType.EXITED), changeScale2);
 
 		//		BasicField<Integer> fieldX = new BasicField<Integer>(e1,
 		//				SceneElement.VAR_X);

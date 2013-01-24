@@ -65,9 +65,6 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.guievents.DragGEv;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -75,6 +72,9 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
+import ead.common.params.guievents.DragGEv;
+import ead.common.params.guievents.MouseGEv;
+import ead.common.params.guievents.enums.DragGEvType;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
@@ -608,7 +608,7 @@ public class ActionImporter implements
 
 		for (Entry<EAdSceneElementDef, EAdSceneElementDef> e : targets
 				.entrySet()) {
-			DragGEv dragEvent = new DragGEv(actor, DragGEvType.DROP);
+			DragGEv dragEvent = new DragGEv(actor.getId(), DragGEvType.DROP);
 			TriggerMacroEf trigger = effectsTriggers.get(e.getKey());
 			e.getValue().addBehavior(dragEvent, trigger);
 		}

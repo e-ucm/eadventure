@@ -40,7 +40,7 @@ package ead.reader.elements.readers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.reader.adventure.DOMTags;
+import ead.reader.elements.DOMTags;
 import ead.reader.elements.ElementsFactory;
 import ead.reader.elements.XMLVisitor;
 import ead.tools.xml.XMLNode;

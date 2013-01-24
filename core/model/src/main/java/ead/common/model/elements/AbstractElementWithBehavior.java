@@ -46,7 +46,7 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.behaviors.Behavior;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.params.guievents.EAdGUIEvent;
 
 /**
  * An abstract element with behavior, resources and events

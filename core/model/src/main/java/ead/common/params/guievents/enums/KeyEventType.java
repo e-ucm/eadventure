@@ -35,59 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.guievents;
+package ead.common.params.guievents.enums;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.guievents.enums.DragGEvType;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
+import com.gwtent.reflection.client.Reflectable;
 
-@Element
-public class DragGEv extends BasicElement implements EAdGUIEvent {
-
-	@Param("carryElement")
-	private EAdSceneElementDef carryElement;
-
-	@Param("action")
-	private DragGEvType action;
-
-	public DragGEv() {
-
-	}
-
-	public DragGEv(EAdSceneElementDef object, DragGEvType action) {
-		super();
-		this.carryElement = object;
-		this.action = action;
-	}
-
-	public EAdSceneElementDef getCarryElement() {
-		return carryElement;
-	}
-
-	public DragGEvType getAction() {
-		return action;
-	}
-
-	public void setCarryElement(EAdSceneElementDef carryElement) {
-		this.carryElement = carryElement;
-	}
-
-	public void setAction(DragGEvType action) {
-		this.action = action;
-	}
-
-	public String toString() {
-		return carryElement.getId() + "_" + action;
-	}
-
-	public int hashCode() {
-		return toString().hashCode();
-	}
-
-	public boolean equals(Object o) {
-		return o instanceof DragGEv && toString().equals(o.toString());
-	}
-
+/**
+ * 
+ * Key action type
+ * 
+ */
+@Reflectable
+public enum KeyEventType {
+	KEY_PRESSED, KEY_RELEASED, KEY_TYPED
 }

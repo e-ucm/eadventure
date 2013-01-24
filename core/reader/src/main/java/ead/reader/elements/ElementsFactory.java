@@ -224,4 +224,11 @@ public class ElementsFactory {
 		return result;
 	}
 
+	public void clear() {
+		assetsMap.clear();
+		elementsMap.clear();
+		paramsMap.clear();
+		// Params are not deleted, because they're immutable
+	}
+
 }

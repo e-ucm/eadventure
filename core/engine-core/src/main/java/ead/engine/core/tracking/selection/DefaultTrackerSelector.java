@@ -47,9 +47,9 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.EAdGUIEvent;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.variables.EAdField;
+import ead.common.params.guievents.EAdGUIEvent;
+import ead.common.params.guievents.MouseGEv;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.InputAction;

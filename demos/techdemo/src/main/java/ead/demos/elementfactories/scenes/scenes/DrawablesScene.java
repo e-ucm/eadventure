@@ -38,13 +38,13 @@
 package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.params.paint.EAdFill;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;

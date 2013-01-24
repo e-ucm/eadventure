@@ -12,10 +12,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.debuggers.GhostElementDebugger;

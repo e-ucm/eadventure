@@ -42,7 +42,6 @@ import java.util.List;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
@@ -53,6 +52,7 @@ import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.sceneelements.Button;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;

@@ -91,7 +91,7 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 
 	public Node addNode(String id, int x, int y, float scale) {
 
-		Node node = new Node(this.getId() + id, x, y, scale);
+		Node node = new Node(id, x, y, scale);
 		if (nodes.contains(node)) {
 			node = nodes.get(nodes.indexOf(node));
 		} else {

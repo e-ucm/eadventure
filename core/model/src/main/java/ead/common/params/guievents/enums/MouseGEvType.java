@@ -35,38 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.adventure.visitors;
+package ead.common.params.guievents.enums;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.gwtent.reflection.client.Reflectable;
 
-public class VisitorFactory {
+@Reflectable
+public enum MouseGEvType {
 
-	private Map<String, NodeVisitor<?>> map;
+	PRESSED, RELEASED, CLICK, DOUBLE_CLICK, ENTERED, EXITED, MOVED, START_DRAG, DRAG, DROP, SWIPE_RIGHT, SWIPE_LEFT;
 
-	private static VisitorFactory instance;
-
-	private VisitorFactory() {
-		map = new LinkedHashMap<String, NodeVisitor<?>>();
-		addVisitor(new AssetNodeVisitor());
-		addVisitor(new ElementNodeVisitor());
-		addVisitor(new ListNodeVisitor());
-		addVisitor(new MapNodeVisitor());
-		addVisitor(new ParamNodeVisitor());
-	}
-
-	private void addVisitor(NodeVisitor<?> nodeVisitor) {
-		map.put(nodeVisitor.getNodeType(), nodeVisitor);
-	}
-
-	static public NodeVisitor<?> getVisitor(String key) {
-		if (instance == null) {
-			instance = new VisitorFactory();
-		}
-		NodeVisitor<?> visitor = instance.map.get(key);
-		if (visitor == null) {
-			throw new RuntimeException("missing visitor " + key);
-		}
-		return visitor;
-	}
 }

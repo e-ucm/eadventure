@@ -35,76 +35,87 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.adventure;
+package ead.common.params.guievents;
 
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.extra.EAdList;
-import ead.tools.reflection.ReflectionField;
+import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
+import ead.common.params.AbstractParam;
+import ead.common.params.guievents.enums.DragGEvType;
 
-/**
- * Represents a field that cannot be filled until its reference is resolved.
- */
-public class ProxyElement extends BasicElement {
+@Element
+public class DragGEv extends AbstractParam implements EAdGUIEvent {
 
-	/**
-	 * Object for which the field should be set
-	 */
-	private Object parent;
+	@Param("carryElement")
+	private String carryElement;
 
-	/**
-	 * Field to set
-	 */
-	private ReflectionField field;
+	@Param("action")
+	private DragGEvType action;
 
 	/**
-	 * Reference value that is still unresolved
+	 * Constructs a drag event from its string representation
+	 * 
+	 * @param data
 	 */
-	private String value;
-
-	/**
-	 * (If list-reference) list that should be set
-	 */
-	private EAdList<Object> list;
-
-	/**
-	 * Index in list to set
-	 */
-	private int listPos;
-
-	public ProxyElement(String value) {
-		this.value = value;
+	public DragGEv(String data) {
+		parse(data);
 	}
 
-	public String getValue() {
-		return value;
+	public DragGEv() {
+
 	}
 
-	public void setParent(Object parent) {
-		this.parent = parent;
+	public DragGEv(String carryElement, DragGEvType action) {
+		super();
+		this.carryElement = carryElement;
+		this.action = action;
 	}
 
-	public void setField(ReflectionField field) {
-		this.field = field;
+	public String getCarryElement() {
+		return carryElement;
 	}
 
-	public ReflectionField getField() {
-		return field;
+	public DragGEvType getAction() {
+		return action;
 	}
 
-	public Object getParent() {
-		return parent;
+	public void setCarryElement(String carryElement) {
+		this.carryElement = carryElement;
 	}
 
-	public void setList(EAdList<Object> list, int i) {
-		this.list = list;
-		this.listPos = i;
+	public void setAction(DragGEvType action) {
+		this.action = action;
 	}
 
-	public EAdList<Object> getList() {
-		return list;
+	public String toString() {
+		return carryElement + ";" + action;
 	}
 
-	public int getListPos() {
-		return listPos;
+	public int hashCode() {
+		return toString().hashCode();
 	}
+
+	public boolean equals(Object o) {
+		return o instanceof DragGEv && toString().equals(o.toString());
+	}
+
+	@Override
+	public boolean parse(String data) {
+		String[] values = data.split(";");
+		if (values.length == 2) {
+			try {
+				this.carryElement = values[0];
+				this.action = DragGEvType.valueOf(values[1]);
+				return true;
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String toStringData() {
+		return toString();
+	}
+
 }

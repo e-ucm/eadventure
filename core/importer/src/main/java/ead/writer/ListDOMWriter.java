@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.util.EAdPosition;
-import ead.reader.adventure.DOMTags;
+import ead.reader.elements.DOMTags;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 

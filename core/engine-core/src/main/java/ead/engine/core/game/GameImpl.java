@@ -74,16 +74,14 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.AssetHandler.TextHandler;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
+import ead.reader.AdventureReader;
 import ead.reader.elements.XMLVisitor;
 import ead.reader.elements.XMLVisitor.VisitorListener;
-import ead.reader.elements.translators.MapClassTranslator;
 import ead.reader.strings.StringsReader;
 import ead.tools.PropertiesReader;
 import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
-import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
 import ead.tools.xml.XMLParser;
 
 @Singleton
@@ -150,7 +148,7 @@ public class GameImpl implements Game, VisitorListener {
 	 */
 	private GameTracker tracker;
 
-	private XMLVisitor reader;
+	private AdventureReader reader;
 
 	/**
 	 * Tween controller
@@ -194,7 +192,7 @@ public class GameImpl implements Game, VisitorListener {
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			GameTracker tracker, SceneGraph sceneGraph,
 			TweenController tweenController, StringsReader stringsReader,
-			XMLVisitor reader, XMLParser xmlReader,
+			AdventureReader reader, XMLParser xmlReader,
 			DebuggersHandler debuggersHandler) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
@@ -483,29 +481,9 @@ public class GameImpl implements Game, VisitorListener {
 	}
 
 	private void readModel() {
-		XMLDocument document = xmlReader.parse(assetHandler
-				.getTextFile("@data.xml"));
-
-		// Load classes keys
-		Map<String, String> classes = new HashMap<String, String>();
-		XMLNode node = document.getFirstChild();
-		XMLNode keyMap = node.getChildNodes().item(1);
-		XMLNodeList entries = keyMap.getChildNodes();
-		String packages = node.getAttributes().getValue("package");
-		for (int i = 0; i < entries.getLength(); i++) {
-			XMLNode n = entries.item(i);
-			String className = n.getAttributes().getValue("value");
-			classes.put(n.getAttributes().getValue("key"),
-					className.charAt(0) == '.' ? packages + className
-							: className);
-		}
-
-		reader.addTranslator(new MapClassTranslator(classes));
-
-		XMLNode adventure = document.getFirstChild().getFirstChild();
-		reader.loadElement(adventure, this);
 		firstUpdate = true;
 		reading = true;
+		reader.readXML(assetHandler.getTextFile("@data.xml"), this);
 	}
 
 }

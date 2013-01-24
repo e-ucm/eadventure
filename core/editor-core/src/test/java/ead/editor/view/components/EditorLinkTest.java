@@ -41,26 +41,22 @@
  */
 package ead.editor.view.components;
 
+import java.awt.Component;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
+
+import org.junit.BeforeClass;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import ead.editor.EditorGuiceModule;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
-import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.JFrame;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -87,7 +83,6 @@ public class EditorLinkTest {
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
-		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 	}
 

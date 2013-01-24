@@ -37,7 +37,7 @@
 
 package ead.engine.core.input;
 
-import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.params.guievents.EAdGUIEvent;
 
 /**
  * <p>

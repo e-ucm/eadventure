@@ -42,11 +42,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
-import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
+import ead.common.params.guievents.MouseGEv;
+import ead.common.params.guievents.enums.KeyEventType;
+import ead.common.params.guievents.enums.KeyGEvCode;
+import ead.common.params.guievents.enums.MouseGEvButtonType;
+import ead.common.params.guievents.enums.MouseGEvType;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;

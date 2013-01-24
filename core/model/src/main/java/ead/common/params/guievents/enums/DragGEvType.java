@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.guievents.enums;
+package ead.common.params.guievents.enums;
 
 import com.gwtent.reflection.client.Reflectable;
 

@@ -37,9 +37,9 @@
 
 package ead.engine.core.input.actions;
 
-import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
+import ead.common.params.guievents.KeyGEv;
+import ead.common.params.guievents.enums.KeyEventType;
+import ead.common.params.guievents.enums.KeyGEvCode;
 
 public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 

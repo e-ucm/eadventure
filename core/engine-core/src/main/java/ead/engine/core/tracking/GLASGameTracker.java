@@ -44,8 +44,8 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.DragGEv;
 import ead.common.model.elements.variables.EAdField;
+import ead.common.params.guievents.DragGEv;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -217,7 +217,7 @@ public class GLASGameTracker extends AbstractGameTracker {
 			trace.setAction(a.ordinal());
 			trace.setValue1(dragAction.getVirtualX());
 			trace.setValue2(dragAction.getVirtualY());
-			trace.setExtra(ev.getCarryElement().getId());
+			trace.setExtra(ev.getCarryElement());
 		} else if (action instanceof KeyInputAction) {
 			KeyInputAction keyAction = (KeyInputAction) action;
 			trace.setDevice(Device.KEYBOARD.ordinal());

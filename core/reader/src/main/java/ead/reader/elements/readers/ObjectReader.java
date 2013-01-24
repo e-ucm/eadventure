@@ -42,7 +42,7 @@ import java.util.Collection;
 
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
-import ead.reader.adventure.DOMTags;
+import ead.reader.elements.DOMTags;
 import ead.reader.elements.ElementsFactory;
 import ead.reader.elements.XMLVisitor;
 import ead.reader.elements.XMLVisitor.VisitorListener;

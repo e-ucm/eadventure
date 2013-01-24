@@ -48,8 +48,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.junit.Before;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.util.EAdURI;
@@ -59,10 +61,8 @@ import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.importer.BaseImporterModule;
-import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
 import ead.utils.swing.SwingUtilities;
 
@@ -105,7 +105,6 @@ public class MainAssetViewer {
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
-		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		// init sample resource root
 		File root = new File("../../demos/techdemo/src/main/resources/");

@@ -56,9 +56,6 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.guievents.DragGEv;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
@@ -70,6 +67,9 @@ import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.params.guievents.DragGEv;
+import ead.common.params.guievents.MouseGEv;
+import ead.common.params.guievents.enums.DragGEvType;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
@@ -249,8 +249,8 @@ public class NgRoom1 extends EmptyScene {
 	private void setDoor(EAdScene corridor) {
 		// Principal character moving to the door
 		MoveSceneElementEf move = moveNg(662, 235);
-		door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP),
-				move);
+		door.addBehavior(new DragGEv(key.getDefinition().getId(),
+				DragGEvType.DROP), move);
 
 		// Define next scene, add next behavior
 		ChangeSceneEf corridorScene = new ChangeSceneEf();

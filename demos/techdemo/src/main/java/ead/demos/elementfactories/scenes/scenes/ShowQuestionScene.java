@@ -38,9 +38,9 @@
 package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.elements.effects.text.ShowQuestionEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 

@@ -35,17 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.guievents;
+package ead.common.params.guievents;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.guievents.EAdGUIEvent;
-import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
+import ead.common.params.AbstractParam;
+import ead.common.params.guievents.enums.MouseGEvButtonType;
+import ead.common.params.guievents.enums.MouseGEvType;
 
 @Element
-public class MouseGEv extends BasicElement implements EAdGUIEvent {
+public class MouseGEv extends AbstractParam implements EAdGUIEvent {
 
 	public static final MouseGEv MOUSE_RIGHT_CLICK = new MouseGEv(
 			MouseGEvType.CLICK, MouseGEvButtonType.BUTTON_3);
@@ -81,6 +80,15 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 
 	@Param("button")
 	private MouseGEvButtonType button;
+
+	/**
+	 * Constructs a mouse event from its string representation
+	 * 
+	 * @param data
+	 */
+	public MouseGEv(String data) {
+		parse(data);
+	}
 
 	public MouseGEv() {
 
@@ -175,6 +183,26 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 
 	public void setButton(MouseGEvButtonType button) {
 		this.button = button;
+	}
+
+	@Override
+	public String toStringData() {
+		return toString();
+	}
+
+	@Override
+	public boolean parse(String data) {
+		String[] values = data.split(";");
+		if (values.length == 2) {
+			try {
+				this.type = MouseGEvType.valueOf(values[0]);
+				this.button = MouseGEvButtonType.valueOf(values[1]);
+				return true;
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 }

@@ -35,15 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.guievents;
+package ead.common.params.guievents;
 
-import ead.common.model.EAdElement;
+import ead.common.params.EAdParam;
 
 /**
  * Implemented by all classes that represents the data contained in a GUI event.
  * Inherited classes will only contain static information about the event, the
  * minimal information required to completely describe it.
  */
-public interface EAdGUIEvent extends EAdElement {
+public interface EAdGUIEvent extends EAdParam {
 
 }

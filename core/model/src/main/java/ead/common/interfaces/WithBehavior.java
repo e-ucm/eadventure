@@ -40,7 +40,7 @@ package ead.common.interfaces;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.params.guievents.EAdGUIEvent;
 
 /**
  * Implemented by all classes with effects to GUI events.

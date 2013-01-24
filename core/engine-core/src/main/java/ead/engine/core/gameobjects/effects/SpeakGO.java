@@ -41,12 +41,12 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.params.guievents.enums.MouseGEvType;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;

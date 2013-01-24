@@ -46,13 +46,13 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.params.guievents.MouseGEv;
+import ead.common.params.guievents.enums.DragGEvType;
+import ead.common.params.guievents.enums.MouseGEvType;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.actions.DragInputAction;

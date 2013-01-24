@@ -76,7 +76,7 @@ import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
-import ead.reader.adventure.AdventureReader;
+import ead.reader.AdventureReader;
 import ead.reader.strings.StringsReader;
 import ead.tools.PropertiesReader;
 import ead.tools.StringHandler;

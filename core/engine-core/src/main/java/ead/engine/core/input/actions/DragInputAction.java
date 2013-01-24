@@ -37,9 +37,9 @@
 
 package ead.engine.core.input.actions;
 
-import ead.common.model.elements.guievents.DragGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.params.guievents.DragGEv;
+import ead.common.params.guievents.enums.DragGEvType;
 
 public class DragInputAction extends AbstractInputAction<DragGEv> {
 
@@ -55,7 +55,7 @@ public class DragInputAction extends AbstractInputAction<DragGEv> {
 
 	public DragInputAction(EAdSceneElementDef draggingElement,
 			DragGEvType action, int virtualX, int virtualY) {
-		super(new DragGEv(draggingElement, action));
+		super(new DragGEv(draggingElement.getId(), action));
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
 	}

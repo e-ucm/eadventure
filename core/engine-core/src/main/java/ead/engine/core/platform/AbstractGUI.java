@@ -44,8 +44,6 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
@@ -54,6 +52,8 @@ import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.params.guievents.enums.KeyEventType;
+import ead.common.params.guievents.enums.KeyGEvCode;
 import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.factories.GameObjectFactory;

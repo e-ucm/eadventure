@@ -42,11 +42,11 @@ import java.util.Queue;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.params.guievents.enums.MouseGEvButtonType;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.input.actions.MouseInputAction;

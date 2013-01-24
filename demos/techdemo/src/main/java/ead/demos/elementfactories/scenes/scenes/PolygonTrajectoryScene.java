@@ -2,11 +2,11 @@ package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.PolygonTrajectory;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;

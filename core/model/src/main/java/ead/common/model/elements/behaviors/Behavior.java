@@ -46,7 +46,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
-import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.params.guievents.EAdGUIEvent;
 
 /**
  * 

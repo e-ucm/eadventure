@@ -80,7 +80,6 @@ public class VLCDesktopVideoRendererTest {
 	/**
 	 * Test of getVLCComponent method, of class VLCDesktopVideoRenderer.
 	 */
-	@Test
 	public void testGetVLCComponent() {
 		System.out.println("getVLCComponent");
 		EAdVideo asset = null;

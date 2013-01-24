@@ -40,7 +40,7 @@ package ead.writer;
 import org.w3c.dom.Element;
 
 import ead.common.model.EAdElement;
-import ead.reader.adventure.DOMTags;
+import ead.reader.elements.DOMTags;
 
 public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 

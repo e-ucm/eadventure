@@ -50,7 +50,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.text.EAdString;
-import ead.reader.adventure.DOMTags;
+import ead.reader.elements.DOMTags;
 
 public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 

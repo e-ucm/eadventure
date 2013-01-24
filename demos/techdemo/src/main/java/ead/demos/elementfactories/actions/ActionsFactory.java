@@ -38,8 +38,8 @@
 package ead.demos.elementfactories.actions;
 
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.demos.elementfactories.EAdElementsFactory;
 

@@ -38,9 +38,9 @@
 package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.multimedia.Sound;
 

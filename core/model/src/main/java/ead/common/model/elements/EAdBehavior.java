@@ -39,7 +39,7 @@ package ead.common.model.elements;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.params.guievents.EAdGUIEvent;
 
 /**
  * In eAdventure, we call behavior to effects lists associated with GUI events

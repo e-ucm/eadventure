@@ -49,10 +49,8 @@ import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
-import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
 import ead.utils.Log4jConfig;
 import ead.utils.Log4jConfig.Slf4jLevel;
 
@@ -129,7 +127,6 @@ public class EAdventureEditor implements Launcher {
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
-		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		// launch
 		Launcher launcher = injector.getInstance(Launcher.class);
