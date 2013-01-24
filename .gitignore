@@ -59,6 +59,9 @@ core/engine-gdx-html/war/WEB-INF/classes*
 # jvm error files
 **/hs_err*.log
 
+# Logs
+*.log
+
 # android-compilation generated files and output; also, special lint.xml rules
 core/engine-android/gen/
 core/engine-android/bin/
