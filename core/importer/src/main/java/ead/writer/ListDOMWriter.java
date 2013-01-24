@@ -39,10 +39,8 @@ package ead.writer;
 
 import org.w3c.dom.Element;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.util.EAdPosition;
-import ead.reader.elements.DOMTags;
+import ead.reader.DOMTags;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 
@@ -51,39 +49,20 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 	public Element buildNode(EAdList<?> list, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.LIST_TAG);
 		if (list != null) {
-			node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass()
-					.getName()));
 
-			if (EAdElement.class.isAssignableFrom(list.getValueClass()))
-				depthManager.addList((EAdList<Object>) list);
+			depthManager.addList((EAdList<Object>) list);
 
-			if (list.getValueClass() == Integer.class
-					|| list.getValueClass() == Float.class
-					|| list.getValueClass() == EAdPosition.class) {
-				String value = null;
-				for (Object o : list) {
-					if (o != null) {
-						if (value == null) {
-							value = o.toString();
-						} else {
-							value += "|" + o.toString();
-						}
-					}
-				}
-				node.setTextContent(value);
-			} else {
-				DOMWriter.depthManager.levelUp();
+			DOMWriter.depthManager.levelUp();
 
-				for (int i = 0; i < list.size(); i++) {
-					Object o = list.get(i);
-					Element newNode = super.initNode(o, list.getValueClass());
-					doc.adoptNode(newNode);
-					node.appendChild(newNode);
+			for (int i = 0; i < list.size(); i++) {
+				Object o = list.get(i);
+				Element newNode = super.initNode(o, null);
+				doc.adoptNode(newNode);
+				node.appendChild(newNode);
 
-				}
-
-				DOMWriter.depthManager.levelDown();
 			}
+
+			DOMWriter.depthManager.levelDown();
 
 			depthManager.removeList((EAdList<Object>) list);
 		}

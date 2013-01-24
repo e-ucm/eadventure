@@ -39,10 +39,9 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 @Element
 public class EffectsMacro extends BasicElement {
@@ -52,7 +51,7 @@ public class EffectsMacro extends BasicElement {
 
 	public EffectsMacro() {
 		super();
-		this.effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+		this.effects = new EAdList<EAdEffect>();
 	}
 
 	public EffectsMacro(EAdEffect effect) {

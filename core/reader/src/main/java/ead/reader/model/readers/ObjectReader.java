@@ -35,17 +35,17 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements.readers;
+package ead.reader.model.readers;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
-import ead.reader.elements.DOMTags;
-import ead.reader.elements.ElementsFactory;
-import ead.reader.elements.XMLVisitor;
-import ead.reader.elements.XMLVisitor.VisitorListener;
+import ead.reader.DOMTags;
+import ead.reader.model.ObjectsFactory;
+import ead.reader.model.XMLVisitor;
+import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionField;
@@ -60,7 +60,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 
 	private ArrayList<String> ids;
 
-	public ObjectReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor) {
+	public ObjectReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
 		ids = new ArrayList<String>();
 	}
@@ -170,6 +170,12 @@ public class ObjectReader extends AbstractReader<Identified> {
 			return false;
 		}
 
+	}
+
+	public void clear() {
+		idGenerator = 0;
+		asset = false;
+		ids.clear();
 	}
 
 }

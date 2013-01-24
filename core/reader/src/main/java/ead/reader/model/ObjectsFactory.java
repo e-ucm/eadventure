@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements;
+package ead.reader.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +48,9 @@ import ead.common.params.EAdParam;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
+import ead.common.params.guievents.DragGEv;
+import ead.common.params.guievents.KeyGEv;
+import ead.common.params.guievents.MouseGEv;
 import ead.common.params.text.EAdString;
 import ead.common.util.BasicMatrix;
 import ead.common.util.EAdMatrix;
@@ -57,7 +60,7 @@ import ead.common.util.EAdURI;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 
-public class ElementsFactory {
+public class ObjectsFactory {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ElementsFactory");
@@ -68,7 +71,7 @@ public class ElementsFactory {
 
 	private Map<String, Identified> assetsMap;
 
-	public ElementsFactory() {
+	public ObjectsFactory() {
 		paramsMap = new HashMap<String, EAdParam>();
 		elementsMap = new HashMap<String, Identified>();
 		assetsMap = new HashMap<String, Identified>();
@@ -117,6 +120,12 @@ public class ElementsFactory {
 			p = new EAdRectangle(value);
 		} else if (clazz.equals(EAdURI.class)) {
 			p = new EAdURI(value);
+		} else if (clazz.equals(MouseGEv.class)) {
+			p = new MouseGEv(value);
+		} else if (clazz.equals(KeyGEv.class)) {
+			p = new KeyGEv(value);
+		} else if (clazz.equals(DragGEv.class)) {
+			p = new DragGEv(value);
 		}
 
 		if (p != null) {

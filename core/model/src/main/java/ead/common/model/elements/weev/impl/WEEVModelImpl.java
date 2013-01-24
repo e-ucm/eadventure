@@ -40,7 +40,6 @@ package ead.common.model.elements.weev.impl;
 import ead.common.interfaces.Element;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.weev.Actor;
 import ead.common.model.weev.WEEVModel;
 import ead.common.model.weev.adaptation.AdaptationStructure;
@@ -60,7 +59,7 @@ public class WEEVModelImpl extends BasicElement implements WEEVModel {
 	private AdaptationStructure adaptationStructure;
 
 	public WEEVModelImpl() {
-		actors = new EAdListImpl<Actor>(Actor.class);
+		actors = new EAdList<Actor>();
 	}
 
 	@Override

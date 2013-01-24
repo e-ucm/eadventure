@@ -44,7 +44,6 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 public abstract class ListedCond extends ResourcedElement implements
 		EAdCondition {
@@ -65,7 +64,7 @@ public abstract class ListedCond extends ResourcedElement implements
 
 	public ListedCond(ConditionOperator operator, EAdCondition... condition) {
 		super();
-		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
+		conditions = new EAdList<EAdCondition>();
 		for (int i = 0; i < condition.length; i++)
 			if (condition[i] != null)
 				conditions.add(condition[i]);

@@ -41,7 +41,6 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
@@ -76,8 +75,7 @@ public class SceneElementDef extends ResourcedElement implements
 
 	public SceneElementDef() {
 		super();
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
+		vars = new EAdMap<EAdVarDef<?>, Object>();
 	}
 
 	public SceneElementDef(AssetDescriptor appearance) {

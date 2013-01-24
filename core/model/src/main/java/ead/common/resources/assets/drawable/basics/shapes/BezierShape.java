@@ -39,7 +39,6 @@ package ead.common.resources.assets.drawable.basics.shapes;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.util.EAdPosition;
@@ -53,7 +52,7 @@ public class BezierShape extends AbstractShape {
 	private EAdList<Integer> points;
 
 	public BezierShape() {
-		points = new EAdListImpl<Integer>(Integer.class);
+		points = new EAdList<Integer>();
 		this.setPaint(Paint.TRANSPARENT);
 		closed = false;
 	}

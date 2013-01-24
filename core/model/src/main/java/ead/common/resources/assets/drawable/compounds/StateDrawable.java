@@ -42,7 +42,6 @@ import java.util.Set;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
@@ -62,8 +61,7 @@ public class StateDrawable extends AbstractAssetDescriptor implements
 	 * Constructs an empty bundle of drawables
 	 */
 	public StateDrawable() {
-		drawables = new EAdMapImpl<String, EAdDrawable>(String.class,
-				EAdDrawable.class);
+		drawables = new EAdMap<String, EAdDrawable>();
 	}
 
 	public EAdMap<String, EAdDrawable> getDrawables() {

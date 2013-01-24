@@ -41,7 +41,6 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.ConditionedElement;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 /**
  * <p>
@@ -81,8 +80,8 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	public AbstractEffect() {
 		super();
 		nextEffectsAlways = false;
-		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		simultaneousEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+		nextEffects = new EAdList<EAdEffect>();
+		simultaneousEffects = new EAdList<EAdEffect>();
 	}
 
 	public EAdList<EAdEffect> getNextEffects() {

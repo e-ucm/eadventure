@@ -45,8 +45,9 @@ import ead.editor.model.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 
 /**
- * Contains subclasses for adding to, removing from, and reordering elements in lists.
- *
+ * Contains subclasses for adding to, removing from, and reordering elements in
+ * lists.
+ * 
  * FIXME: currently does not update graph dependencies.
  */
 public abstract class ListCommand<P> extends Command {
@@ -70,8 +71,11 @@ public abstract class ListCommand<P> extends Command {
 
 	/**
 	 * Constructor for the ListCommand class.
-	 * @param list The EAdList in which the command is to be applied
-	 * @param e The P element to be added to a list by the command
+	 * 
+	 * @param list
+	 *            The EAdList in which the command is to be applied
+	 * @param e
+	 *            The P element to be added to a list by the command
 	 */
 	protected ListCommand(EAdList<P> list, P e, int oldPos, int newPos,
 			DependencyNode... changed) {
@@ -83,7 +87,7 @@ public abstract class ListCommand<P> extends Command {
 	}
 
 	protected ModelEvent add(EditorModel em, int position) {
-		elementList.add(anElement, position);
+		elementList.add(position, anElement);
 		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
@@ -94,7 +98,7 @@ public abstract class ListCommand<P> extends Command {
 
 	protected ModelEvent reorder(EditorModel em, int from, int to) {
 		elementList.remove(from);
-		elementList.add(anElement, to);
+		elementList.add(to, anElement);
 		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 

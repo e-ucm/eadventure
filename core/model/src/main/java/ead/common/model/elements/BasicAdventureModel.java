@@ -44,9 +44,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.params.text.EAdString;
 
@@ -89,14 +87,13 @@ public class BasicAdventureModel extends BasicElement implements
 	 * Constructs a {@link BasicAdventureModel}.
 	 */
 	public BasicAdventureModel() {
-		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
+		chapters = new EAdList<EAdChapter>();
+		vars = new EAdMap<EAdVarDef<?>, Object>();
 		description = EAdString.newRandomEAdString("desc");
 		title = EAdString.newRandomEAdString("title");
 		gameWidth = DEFAULT_WIDTH;
 		gameHeight = DEFAULT_HEIGHT;
-		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
+		depthControlList = new EAdList<EAdElement>();
 		properties = new LinkedHashMap<String, String>();
 	}
 

@@ -35,58 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements.readers;
+package ead.reader.model.translators;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
 
-import ead.reader.elements.DOMTags;
-import ead.reader.elements.ElementsFactory;
-import ead.reader.elements.XMLVisitor;
-import ead.tools.xml.XMLNode;
+public class MapClassTranslator implements ClassTranslator {
 
-public abstract class AbstractReader<T> implements ElementReader<T> {
+	private Map<String, String> translations;
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("ElementReader");
-
-	protected ElementsFactory elementsFactory;
-
-	protected XMLVisitor xmlVisitor;
-
-	public AbstractReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor) {
-		this.elementsFactory = elementsFactory;
-		this.xmlVisitor = xmlVisitor;
+	public MapClassTranslator(Map<String, String> translations) {
+		this.translations = translations;
 	}
 
-	/**
-	 * Returns the class for the element contained in the given node
-	 * @param node
-	 * @return
-	 */
-	public Class<?> getNodeClass(XMLNode node) {
-		String clazz = node.getAttributes().getValue(DOMTags.CLASS_AT);
-		return clazz == null ? null : getNodeClass(clazz);
-	}
-
-	public Class<?> getNodeClass(String clazz) {
-		clazz = translateClass(clazz);
-		Class<?> c = null;
-		try {
-			c = elementsFactory.getClassFromName(clazz);
-		} catch (NullPointerException e) {
-			logger.error("Error resolving class {}", clazz, e);
-		}
-		return c;
-	}
-
-	/**
-	 * Translate the class into its complete name
-	 * @param clazz
-	 * @return
-	 */
-	public String translateClass(String clazz) {
-		return xmlVisitor.translate(clazz);
+	@Override
+	public String translate(String clazz) {
+		return translations.get(clazz);
 	}
 
 }

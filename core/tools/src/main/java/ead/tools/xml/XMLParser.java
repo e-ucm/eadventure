@@ -53,4 +53,11 @@ public interface XMLParser {
 	 */
 	XMLDocument parse(String xml);
 
+	/**
+	 * Creates a node with the given tag name
+	 * @param tagName
+	 * @return
+	 */
+	XMLNode newNode(String tagName);
+
 }

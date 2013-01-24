@@ -50,7 +50,6 @@ import com.google.inject.Injector;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;
 import ead.editor.model.EditorModel;
@@ -138,7 +137,7 @@ public class ElementCommandsTest extends TestCase {
 
 		MockitoAnnotations.initMocks(this);
 
-		elemList = new EAdListImpl<EAdElement>(EAdElement.class);
+		elemList = new EAdList<EAdElement>();
 		elemList.add(pelement);
 
 		addComm = new ListCommand.AddToList<EAdElement>(elemList, element,

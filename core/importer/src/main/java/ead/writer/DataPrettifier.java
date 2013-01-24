@@ -67,7 +67,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
-import ead.reader.elements.DOMTags;
+import ead.reader.DOMTags;
 
 /**
  * Utility class that prettifies data.xml files so that they become easier to

@@ -94,7 +94,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		SceneElement b = new SceneElement(circle);
 		b.setPosition(new EAdPosition(Corner.CENTER, 500, 0));
-		getSceneElements().add(b, 0);
+		getSceneElements().add(0, b);
 		effect.addSceneElement(b);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,

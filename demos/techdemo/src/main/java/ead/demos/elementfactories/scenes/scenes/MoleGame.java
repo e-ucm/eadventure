@@ -45,7 +45,6 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
@@ -93,8 +92,7 @@ public class MoleGame extends EmptyScene {
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));
 		mole.addFrame(new Frame("@drawable/mole2.png", 500));
 
-		EAdList<EAdSceneElement> list = new EAdListImpl<EAdSceneElement>(
-				EAdSceneElement.class);
+		EAdList<EAdSceneElement> list = new EAdList<EAdSceneElement>();
 
 		int row = 7;
 		int col = row;

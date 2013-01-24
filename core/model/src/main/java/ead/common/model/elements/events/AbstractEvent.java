@@ -38,13 +38,11 @@
 package ead.common.model.elements.events;
 
 import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 
 /**
  * <p>
@@ -68,8 +66,7 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 
 	public AbstractEvent() {
 		super();
-		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>(Enum.class,
-				EAdList.class);
+		effects = new EAdMap<Enum<?>, EAdList<EAdEffect>>();
 	}
 
 	/*
@@ -93,7 +90,7 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 	public void addEffect(Enum<?> event, EAdEffect effect) {
 		EAdList<EAdEffect> effects = this.effects.get(event);
 		if (effects == null) {
-			effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			effects = new EAdList<EAdEffect>();
 			this.effects.put(event, effects);
 		}
 		effects.add(effect);
@@ -105,7 +102,7 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 
 	public EAdList<EAdEffect> getAllEffects() {
 		if (allEffects == null) {
-			allEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			allEffects = new EAdList<EAdEffect>();
 			for (EAdList<EAdEffect> l : effects.values()) {
 				allEffects.addAll(l);
 			}

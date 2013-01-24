@@ -40,7 +40,7 @@ package ead.writer;
 import org.w3c.dom.Element;
 
 import ead.common.params.EAdParam;
-import ead.reader.elements.DOMTags;
+import ead.reader.DOMTags;
 
 /**
  * Writer for {@link EAdParam}

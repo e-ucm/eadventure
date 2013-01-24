@@ -40,12 +40,8 @@ package ead.common.model.elements;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Evented;
-import ead.common.model.elements.EAdBehavior;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.behaviors.Behavior;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.params.guievents.EAdGUIEvent;
 
 /**
@@ -67,7 +63,7 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	public AbstractElementWithBehavior() {
 		super();
 		this.behavior = new Behavior();
-		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
+		this.events = new EAdList<EAdEvent>();
 	}
 
 	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {

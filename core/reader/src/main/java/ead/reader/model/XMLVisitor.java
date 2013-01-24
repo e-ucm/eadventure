@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements;
+package ead.reader.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +44,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.model.elements.extra.EAdMap;
-import ead.reader.elements.readers.ListReader;
-import ead.reader.elements.readers.MapReader;
-import ead.reader.elements.readers.ObjectReader;
-import ead.reader.elements.readers.ParamReader;
-import ead.reader.elements.translators.ClassTranslator;
+import ead.reader.DOMTags;
+import ead.reader.model.readers.ListReader;
+import ead.reader.model.readers.MapReader;
+import ead.reader.model.readers.ObjectReader;
+import ead.reader.model.readers.ParamReader;
+import ead.reader.model.translators.ClassTranslator;
 import ead.tools.xml.XMLNode;
 
 public class XMLVisitor {
@@ -61,7 +62,7 @@ public class XMLVisitor {
 
 	private List<ClassTranslator> translators;
 
-	private ElementsFactory elementsFactory;
+	private ObjectsFactory elementsFactory;
 
 	private ParamReader paramReader;
 
@@ -75,7 +76,7 @@ public class XMLVisitor {
 		stepsQueue = new ArrayList<VisitorStep>();
 		mapKeysValues = new ArrayList<MapKeyValue>();
 		translators = new ArrayList<ClassTranslator>();
-		elementsFactory = new ElementsFactory();
+		elementsFactory = new ObjectsFactory();
 		paramReader = new ParamReader(elementsFactory, this);
 		listReader = new ListReader(elementsFactory, this);
 		mapReader = new MapReader(elementsFactory, this);
@@ -173,7 +174,7 @@ public class XMLVisitor {
 		 * @param object
 		 * @param isNullInOrigin
 		 *            Says if the object is null because data.xml says so, not
-		 *            beacuse it is not still loaded
+		 *            because it is not still loaded
 		 * @return
 		 */
 		boolean loaded(XMLNode node, Object object, boolean isNullInOrigin);
@@ -240,6 +241,7 @@ public class XMLVisitor {
 		elementsFactory.clear();
 		mapKeysValues.clear();
 		stepsQueue.clear();
+		objectReader.clear();
 	}
 
 }

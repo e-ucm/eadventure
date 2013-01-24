@@ -123,8 +123,20 @@ public class ImportWriteReadTest {
 			if (!FileUtils.isFileBinaryEqual(modelFile, modelFileAfterRead)) {
 				errors = true;
 				logger.error("model-file != model-file-after-read");
-				logger.error("diff " + tmpDir + "/pretty-data.xml " + tmpDir
-						+ "/pretty-afterRead.xml");
+				logger.error("kdiff3 " + tmpDir + "/pretty-modelFile.xml "
+						+ tmpDir + "/pretty-afterRead.xml");
+			}
+
+			File modelFileAfterRead2 = new File(tmpDir, "afterRead-2.xml");
+			model = reader.readXML(FileUtils.loadFileToString(modelFile));
+			writer.write(model, modelFileAfterRead2.getAbsolutePath());
+			if (!FileUtils.isFileBinaryEqual(modelFileAfterRead2,
+					modelFileAfterRead)) {
+				errors = true;
+				logger
+						.error("model-file-after-read != model-file-after-read-2");
+				logger.error("kdiff3 " + tmpDir + "/pretty-afterRead-2.xml "
+						+ tmpDir + "/pretty-afterRead.xml");
 			}
 
 		} finally {

@@ -39,7 +39,6 @@ package ead.common.resources.assets.drawable.basics.animation;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
 
@@ -57,7 +56,7 @@ public class FramesAnimation extends AbstractAssetDescriptor implements
 	 * Constructs an empty animation
 	 */
 	public FramesAnimation() {
-		frames = new EAdListImpl<Frame>(Frame.class);
+		frames = new EAdList<Frame>();
 	}
 
 	/**

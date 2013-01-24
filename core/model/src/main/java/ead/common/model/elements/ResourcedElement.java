@@ -40,7 +40,6 @@ package ead.common.model.elements;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.resources.assets.AssetDescriptor;
 
 /**
@@ -67,8 +66,7 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	 */
 	public ResourcedElement() {
 		super();
-		resources = new EAdMapImpl<String, EAdMap<String, AssetDescriptor>>(
-				String.class, AssetDescriptor.class);
+		resources = new EAdMap<String, EAdMap<String, AssetDescriptor>>();
 	}
 
 	@Override
@@ -80,8 +78,7 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	public void addAsset(String bundleId, String id, AssetDescriptor a) {
 		EAdMap<String, AssetDescriptor> map = resources.get(bundleId);
 		if (map == null) {
-			map = new EAdMapImpl<String, AssetDescriptor>(String.class,
-					AssetDescriptor.class);
+			map = new EAdMap<String, AssetDescriptor>();
 			resources.put(bundleId, map);
 		}
 		map.put(id, a);

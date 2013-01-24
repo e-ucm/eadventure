@@ -41,7 +41,6 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 
 /**
  * An effect that launches a random effect from a list of effects
@@ -59,7 +58,7 @@ public class RandomEf extends AbstractEffect {
 
 	public RandomEf() {
 		super();
-		effects = new EAdMapImpl<EAdEffect, Float>(EAdEffect.class, Float.class);
+		effects = new EAdMap<EAdEffect, Float>();
 	}
 
 	/**

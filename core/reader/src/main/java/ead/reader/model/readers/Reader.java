@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements.readers;
+package ead.reader.model.readers;
 
 import ead.tools.xml.XMLNode;
 
@@ -44,7 +44,7 @@ import ead.tools.xml.XMLNode;
  *
  * @param <T>
  */
-public interface ElementReader<T> {
+public interface Reader<T> {
 
 	/**
 	 * Reads the element contained by the node

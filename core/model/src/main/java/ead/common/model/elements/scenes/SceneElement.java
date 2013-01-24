@@ -49,7 +49,6 @@ import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -157,8 +156,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public SceneElement() {
 		super();
 		definition = new SceneElementDef();
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
+		vars = new EAdMap<EAdVarDef<?>, Object>();
 		this.setPosition(Corner.TOP_LEFT, 0, 0);
 	}
 

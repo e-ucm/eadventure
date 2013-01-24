@@ -77,4 +77,23 @@ public interface XMLNode {
 	 */
 	XMLNode getFirstChild();
 
+	/**
+	 * Sets the contained text in this node
+	 * @param text
+	 */
+	void setText(String text);
+
+	/**
+	 * Sets the value for the attribute
+	 * @param key
+	 * @param value
+	 */
+	void setAttribute(String key, String value);
+
+	/**
+	 * Appends a child to this node
+	 * @param node
+	 */
+	void append(XMLNode node);
+
 }

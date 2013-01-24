@@ -37,23 +37,16 @@
 
 package ead.common.model.elements.extra;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * Interface for all maps in the eAdventure game model
  */
-public interface EAdMap<T, S> extends Map<T, S> {
+public class EAdMap<T, S> extends LinkedHashMap<T, S> {
 
 	/**
-	 * Returns the class for the key elements
-	 * @return
+	 * 
 	 */
-	Class<?> getKeyClass();
-
-	/**
-	 * Returns the class for the value elements
-	 * @return
-	 */
-	Class<?> getValueClass();
+	private static final long serialVersionUID = -5238161921791743523L;
 
 }

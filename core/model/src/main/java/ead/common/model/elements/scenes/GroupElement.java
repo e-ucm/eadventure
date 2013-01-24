@@ -40,7 +40,6 @@ package ead.common.model.elements.scenes;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.resources.assets.drawable.EAdDrawable;
@@ -74,7 +73,7 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 
 	public GroupElement() {
 		super();
-		sceneElements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
+		sceneElements = new EAdList<EAdSceneElement>();
 	}
 
 	public GroupElement(EAdSceneElementDef definition) {

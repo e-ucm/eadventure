@@ -40,7 +40,7 @@ package ead.writer;
 import org.w3c.dom.Element;
 
 import ead.common.model.elements.extra.EAdMap;
-import ead.reader.elements.DOMTags;
+import ead.reader.DOMTags;
 
 public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 
@@ -50,19 +50,14 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 
 		if (map != null) {
 
-			node.setAttribute(DOMTags.KEY_CLASS_AT, shortClass(map
-					.getKeyClass().getName()));
-			node.setAttribute(DOMTags.VALUE_CLASS_AT, shortClass(map
-					.getValueClass().getName()));
-
 			DOMWriter.depthManager.levelDown();
 
 			for (Object o : map.keySet()) {
-				Element key = super.initNode(o, map.getKeyClass());
+				Element key = super.initNode(o, null);
 				doc.adoptNode(key);
 				node.appendChild(key);
 
-				Element value = super.initNode(map.get(o), map.getValueClass());
+				Element value = super.initNode(map.get(o), null);
 				doc.adoptNode(value);
 				node.appendChild(value);
 			}

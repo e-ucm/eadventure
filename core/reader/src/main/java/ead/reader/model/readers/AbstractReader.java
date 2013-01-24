@@ -35,32 +35,58 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader;
+package ead.reader.model.readers;
 
-import ead.common.model.elements.EAdAdventureModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Interface to listen reader events
- * 
- */
-public interface ReaderCallback {
+import ead.reader.DOMTags;
+import ead.reader.model.ObjectsFactory;
+import ead.reader.model.XMLVisitor;
+import ead.tools.xml.XMLNode;
+
+public abstract class AbstractReader<T> implements Reader<T> {
+
+	protected static final Logger logger = LoggerFactory
+			.getLogger("ElementReader");
+
+	protected ObjectsFactory elementsFactory;
+
+	protected XMLVisitor xmlVisitor;
+
+	public AbstractReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
+		this.elementsFactory = elementsFactory;
+		this.xmlVisitor = xmlVisitor;
+	}
 
 	/**
-	 * Call when the model is completely read
-	 * 
-	 * @param model
-	 *            the read model
+	 * Returns the class for the element contained in the given node
+	 * @param node
+	 * @return
 	 */
-	void readCompleted(EAdAdventureModel model);
+	public Class<?> getNodeClass(XMLNode node) {
+		String clazz = node.getAttributes().getValue(DOMTags.CLASS_AT);
+		return clazz == null ? null : getNodeClass(clazz);
+	}
+
+	public Class<?> getNodeClass(String clazz) {
+		clazz = translateClass(clazz);
+		Class<?> c = null;
+		try {
+			c = elementsFactory.getClassFromName(clazz);
+		} catch (NullPointerException e) {
+			logger.error("Error resolving class {}", clazz, e);
+		}
+		return c;
+	}
 
 	/**
-	 * Call with any update progress
-	 * 
-	 * @param message
-	 *            the update message
-	 * @param progress
-	 *            the progress percentage (0 <= progress <= 100)
+	 * Translate the class into its complete name
+	 * @param clazz
+	 * @return
 	 */
-	void updateProgress(String message, int progress);
+	public String translateClass(String clazz) {
+		return xmlVisitor.translate(clazz);
+	}
 
 }

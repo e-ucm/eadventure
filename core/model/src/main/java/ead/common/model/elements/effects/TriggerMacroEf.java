@@ -42,7 +42,6 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 /**
  * Effect to trigger the effects contained in a macro. It only trigger the first
@@ -59,8 +58,8 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 
 	public TriggerMacroEf() {
 		super();
-		macros = new EAdListImpl<EffectsMacro>(EffectsMacro.class);
-		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
+		macros = new EAdList<EffectsMacro>();
+		conditions = new EAdList<EAdCondition>();
 	}
 
 	public void putMacro(EffectsMacro macro, EAdCondition condition) {

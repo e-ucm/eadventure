@@ -35,21 +35,20 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements.readers;
+package ead.reader.model.readers;
 
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
-import ead.reader.elements.DOMTags;
-import ead.reader.elements.ElementsFactory;
-import ead.reader.elements.XMLVisitor;
-import ead.reader.elements.XMLVisitor.VisitorListener;
+import ead.reader.DOMTags;
+import ead.reader.model.ObjectsFactory;
+import ead.reader.model.XMLVisitor;
+import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
 
 @SuppressWarnings("rawtypes")
 public class MapReader extends AbstractReader<EAdMap> {
 
-	public MapReader(ElementsFactory elementsFactory, XMLVisitor xmlVisitor) {
+	public MapReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
 	}
 
@@ -60,7 +59,7 @@ public class MapReader extends AbstractReader<EAdMap> {
 				DOMTags.KEY_CLASS_AT));
 		Class<?> valueClass = super.getNodeClass(node.getAttributes().getValue(
 				DOMTags.VALUE_CLASS_AT));
-		EAdMap map = new EAdMapImpl(keyClass, valueClass);
+		EAdMap map = new EAdMap();
 		MapVisitorListener listener = new MapVisitorListener(map);
 		XMLNodeList childNodes = node.getChildNodes();
 		for (int i = 0; i < childNodes.getLength(); i++) {

@@ -64,7 +64,6 @@ import ead.common.model.elements.effects.enums.InventoryEffectAction;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
@@ -210,7 +209,7 @@ public class ActionImporter implements
 			if (macro == null) {
 				macro = new EffectsMacro();
 			}
-			macro.getEffects().add(defaultEffect, 0);
+			macro.getEffects().add(0, defaultEffect);
 		}
 
 		// Add conditions and get to
@@ -374,7 +373,7 @@ public class ActionImporter implements
 		EAdList list = (EAdList) actor.getVars()
 				.get(ActorActionsEf.VAR_ACTIONS);
 		if (list == null) {
-			list = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
+			list = new EAdList<EAdSceneElementDef>();
 			actor.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, list);
 		}
 
@@ -462,7 +461,7 @@ public class ActionImporter implements
 		EAdList list = (EAdList) actor.getVars()
 				.get(ActorActionsEf.VAR_ACTIONS);
 		if (list == null) {
-			list = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
+			list = new EAdList<EAdSceneElementDef>();
 			actor.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, list);
 		}
 

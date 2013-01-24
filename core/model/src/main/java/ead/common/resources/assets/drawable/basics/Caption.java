@@ -39,7 +39,6 @@ package ead.common.resources.assets.drawable.basics;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
@@ -113,7 +112,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 		preferredWidth = AUTO_SIZE;
 		padding = DEFAULT_PADDING;
 		alignment = Alignment.CENTER;
-		fields = new EAdListImpl<EAdOperation>(EAdOperation.class);
+		fields = new EAdList<EAdOperation>();
 	}
 
 	/**

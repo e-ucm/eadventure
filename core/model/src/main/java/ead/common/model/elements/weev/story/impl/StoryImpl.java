@@ -40,7 +40,6 @@ package ead.common.model.elements.weev.story.impl;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.weev.impl.AbstractWEEVElement;
 import ead.common.model.weev.story.Story;
 import ead.common.model.weev.story.elements.Comment;
@@ -66,10 +65,10 @@ public class StoryImpl extends AbstractWEEVElement implements Story {
 	Node initialNode;
 
 	public StoryImpl() {
-		nodes = new EAdListImpl<Node>(Node.class);
-		transitions = new EAdListImpl<StoryTransition>(StoryTransition.class);
-		comments = new EAdListImpl<Comment>(Comment.class);
-		storySections = new EAdListImpl<StorySection>(StorySection.class);
+		nodes = new EAdList<Node>();
+		transitions = new EAdList<StoryTransition>();
+		comments = new EAdList<Comment>();
+		storySections = new EAdList<StorySection>();
 	}
 
 	@Override

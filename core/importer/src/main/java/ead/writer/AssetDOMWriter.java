@@ -40,7 +40,7 @@ package ead.writer;
 import org.w3c.dom.Element;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.reader.elements.DOMTags;
+import ead.reader.DOMTags;
 
 public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 

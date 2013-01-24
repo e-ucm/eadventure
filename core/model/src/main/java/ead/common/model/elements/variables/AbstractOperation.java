@@ -40,7 +40,6 @@ package ead.common.model.elements.variables;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 public abstract class AbstractOperation extends BasicElement implements
 		EAdOperation {
@@ -53,7 +52,7 @@ public abstract class AbstractOperation extends BasicElement implements
 
 	public AbstractOperation() {
 		super();
-		varList = new EAdListImpl<EAdField<?>>(EAdField.class);
+		varList = new EAdList<EAdField<?>>();
 	}
 
 	public EAdList<EAdField<?>> getVarList() {

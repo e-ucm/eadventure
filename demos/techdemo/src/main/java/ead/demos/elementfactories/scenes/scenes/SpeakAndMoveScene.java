@@ -45,7 +45,6 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
@@ -131,8 +130,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		action.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		EAdList<EAdSceneElementDef> actions = new EAdListImpl<EAdSceneElementDef>(
-				EAdSceneElementDef.class);
+		EAdList<EAdSceneElementDef> actions = new EAdList<EAdSceneElementDef>();
 
 		actions.add(action);
 

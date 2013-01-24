@@ -44,9 +44,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.reader.elements.XMLVisitor;
-import ead.reader.elements.XMLVisitor.VisitorListener;
-import ead.reader.elements.translators.MapClassTranslator;
+import ead.reader.model.XMLVisitor;
+import ead.reader.model.XMLVisitor.VisitorListener;
+import ead.reader.model.translators.MapClassTranslator;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;

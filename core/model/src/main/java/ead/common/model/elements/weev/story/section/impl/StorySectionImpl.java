@@ -40,7 +40,6 @@ package ead.common.model.elements.weev.story.section.impl;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.weev.story.impl.AbstractStoryElement;
 import ead.common.model.weev.story.section.StorySection;
 import ead.common.model.weev.story.section.StorySectionStart;
@@ -60,8 +59,7 @@ public class StorySectionImpl extends AbstractStoryElement implements
 
 	public StorySectionImpl() {
 		name = EAdString.newRandomEAdString("name");
-		sectionStarts = new EAdListImpl<StorySectionStart>(
-				StorySectionStart.class);
+		sectionStarts = new EAdList<StorySectionStart>();
 	}
 
 	@Override

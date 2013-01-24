@@ -41,7 +41,6 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -91,7 +90,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 */
 	public ChangeFieldEf(EAdField<?> field, EAdOperation operation) {
 		super();
-		this.fields = new EAdListImpl<EAdField<?>>(EAdField.class);
+		this.fields = new EAdList<EAdField<?>>();
 		if (field != null)
 			fields.add(field);
 		this.operation = operation;

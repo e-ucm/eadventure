@@ -35,16 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.elements.translators;
+package ead.reader.model.readers;
 
-public interface ClassTranslator {
+import ead.reader.model.ObjectsFactory;
+import ead.reader.model.XMLVisitor;
+import ead.tools.xml.XMLNode;
 
-	/**
-	 * Translate a short clazz name to its complete name
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	String translate(String clazz);
+/**
+ * Parameters can be any type of object. Nodes with parameters have no children.
+ * 
+ */
+public class ParamReader extends AbstractReader<Object> {
+
+	public ParamReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
+		super(elementsFactory, xmlVisitor);
+	}
+
+	@Override
+	public Object read(XMLNode node) {
+		Class<?> clazz = getNodeClass(node);
+		if (clazz == null) {
+			return elementsFactory.getParam(node.getNodeText());
+		}
+		return elementsFactory.getParam(node.getNodeText(), clazz);
+	}
 
 }

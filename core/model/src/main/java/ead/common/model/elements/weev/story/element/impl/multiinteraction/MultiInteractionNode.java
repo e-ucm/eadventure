@@ -39,7 +39,6 @@ package ead.common.model.elements.weev.story.element.impl.multiinteraction;
 
 import ead.common.interfaces.Element;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.weev.story.element.impl.AbstractAreaNode;
 import ead.common.model.weev.story.elements.Node;
 
@@ -65,8 +64,8 @@ public class MultiInteractionNode extends AbstractAreaNode implements Node {
 	private EAdList<MultiEndNode> multiEndNodes;
 
 	public MultiInteractionNode() {
-		this.startNodes = new EAdListImpl<StartNode>(StartNode.class);
-		this.multiEndNodes = new EAdListImpl<MultiEndNode>(MultiEndNode.class);
+		this.startNodes = new EAdList<StartNode>();
+		this.multiEndNodes = new EAdList<MultiEndNode>();
 	}
 
 	public EAdList<StartNode> getStartNodes() {

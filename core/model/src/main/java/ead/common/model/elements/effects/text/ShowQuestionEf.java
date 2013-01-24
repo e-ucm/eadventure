@@ -42,7 +42,6 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.params.text.EAdString;
 
 /**
@@ -62,8 +61,7 @@ public class ShowQuestionEf extends AbstractEffect {
 
 	public ShowQuestionEf() {
 		super();
-		answers = new EAdMapImpl<EAdString, EAdEffect>(EAdString.class,
-				EAdEffect.class);
+		answers = new EAdMap<EAdString, EAdEffect>();
 	}
 
 	public void addAnswer(EAdString string, EAdEffect effect) {

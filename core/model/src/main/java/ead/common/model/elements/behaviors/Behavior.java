@@ -43,9 +43,7 @@ import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.params.guievents.EAdGUIEvent;
 
 /**
@@ -84,8 +82,7 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	 */
 	public Behavior() {
 		super();
-		behavior = new EAdMapImpl<EAdGUIEvent, EAdList<EAdEffect>>(
-				String.class, EAdList.class);
+		behavior = new EAdMap<EAdGUIEvent, EAdList<EAdEffect>>();
 	}
 
 	/*
@@ -100,7 +97,7 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	public void addBehavior(EAdGUIEvent event, EAdEffect effect) {
 		EAdList<EAdEffect> list = behavior.get(event);
 		if (list == null) {
-			list = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			list = new EAdList<EAdEffect>();
 			behavior.put(event, list);
 		}
 		list.add(effect);
@@ -131,7 +128,7 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	@Override
 	public EAdList<EAdEffect> getAllEffects() {
 		if (allEffects == null) {
-			allEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			allEffects = new EAdList<EAdEffect>();
 		}
 		allEffects.clear();
 		for (EAdList<EAdEffect> l : behavior.values()) {

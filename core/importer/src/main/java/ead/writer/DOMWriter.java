@@ -56,7 +56,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.reader.elements.DOMTags;
+import ead.reader.DOMTags;
 
 /**
  * Abstract implementation of a DOMWriter

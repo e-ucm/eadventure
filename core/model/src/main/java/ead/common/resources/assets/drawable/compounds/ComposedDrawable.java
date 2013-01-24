@@ -39,7 +39,6 @@ package ead.common.resources.assets.drawable.compounds;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.resources.assets.AbstractAssetDescriptor;
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.util.EAdPosition;
@@ -54,8 +53,8 @@ public class ComposedDrawable extends AbstractAssetDescriptor implements
 	private EAdList<EAdPosition> positions;
 
 	public ComposedDrawable() {
-		assetList = new EAdListImpl<EAdBasicDrawable>(EAdBasicDrawable.class);
-		positions = new EAdListImpl<EAdPosition>(EAdPosition.class);
+		assetList = new EAdList<EAdBasicDrawable>();
+		positions = new EAdList<EAdPosition>();
 	}
 
 	@Override

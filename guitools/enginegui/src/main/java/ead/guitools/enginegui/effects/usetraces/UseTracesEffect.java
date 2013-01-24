@@ -2,7 +2,6 @@ package ead.guitools.enginegui.effects.usetraces;
 
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.params.guievents.EAdGUIEvent;
 import ead.common.params.guievents.KeyGEv;
 import ead.common.params.guievents.MouseGEv;
@@ -24,9 +23,9 @@ public class UseTracesEffect extends AbstractEffect {
 	private EAdList<Integer> timestamps;
 
 	public UseTracesEffect() {
-		inputEvents = new EAdListImpl<EAdGUIEvent>(EAdGUIEvent.class);
-		positions = new EAdListImpl<EAdPosition>(EAdPosition.class);
-		timestamps = new EAdListImpl<Integer>(Integer.class);
+		inputEvents = new EAdList<EAdGUIEvent>();
+		positions = new EAdList<EAdPosition>();
+		timestamps = new EAdList<Integer>();
 		setPersistent(true);
 	}
 

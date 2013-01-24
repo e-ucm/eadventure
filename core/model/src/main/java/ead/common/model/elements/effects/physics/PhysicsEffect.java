@@ -43,7 +43,6 @@ import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
@@ -77,8 +76,8 @@ public class PhysicsEffect extends AbstractEffect {
 
 	public PhysicsEffect() {
 		super();
-		elements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
-		joints = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
+		elements = new EAdList<EAdSceneElement>();
+		joints = new EAdList<EAdSceneElement>();
 	}
 
 	public void addSceneElement(EAdSceneElement element) {

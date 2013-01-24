@@ -41,9 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Evented;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -88,13 +86,12 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	 */
 	public BasicChapter() {
 		super();
-		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
-		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
-		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
+		scenes = new EAdList<EAdScene>();
+		actors = new EAdList<EAdSceneElementDef>();
+		events = new EAdList<EAdEvent>();
 		title = EAdString.newRandomEAdString("title");
 		description = EAdString.newRandomEAdString("desc");
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
+		vars = new EAdMap<EAdVarDef<?>, Object>();
 
 	}
 

@@ -41,7 +41,6 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
@@ -83,9 +82,9 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 	private Node initial;
 
 	public NodeTrajectory() {
-		nodes = new EAdListImpl<Node>(Node.class);
-		sides = new EAdListImpl<Side>(Side.class);
-		barriers = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
+		nodes = new EAdList<Node>();
+		sides = new EAdList<Side>();
+		barriers = new EAdList<EAdSceneElement>();
 		initial = null;
 	}
 
