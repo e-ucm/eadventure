@@ -49,4 +49,18 @@ public class EAdList<P> extends ArrayList<P> {
 	 */
 	private static final long serialVersionUID = 1047298649363665837L;
 
+	public String toString() {
+		String s = "[";
+		for (P o : this) {
+			if (o != null) {
+				s += o;
+			}
+			if (iterator().hasNext()) {
+				s += ",";
+			}
+		}
+		s += "]";
+		return s;
+	}
+
 }

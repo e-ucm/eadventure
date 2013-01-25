@@ -120,6 +120,7 @@ public class ObjectsFactory {
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object getObject(String value, Class<?> c) {
 		Object result = null;
 		if (reflectionProvider.isAssignableFrom(EAdElement.class, c)) {
@@ -129,9 +130,18 @@ public class ObjectsFactory {
 				.isAssignableFrom(AssetDescriptor.class, c)) {
 			result = assetsMap.get(value);
 		} else if (reflectionProvider.isAssignableFrom(EAdList.class, c)) {
-			result = new EAdList();
+			EAdList list = new EAdList();
+			// Remove [ and final ]
 			// XXX
-			logger.warn("OMG, a list! This needs implementation");
+			String[] elements = value.substring(1, value.length() - 2).split(
+					",");
+			for (String e : elements) {
+				if (e.length() > 0) {
+
+				} else {
+				}
+			}
+			result = list;
 		} else if (reflectionProvider.isAssignableFrom(EAdMap.class, c)) {
 			result = new EAdMap();
 			// XXX
