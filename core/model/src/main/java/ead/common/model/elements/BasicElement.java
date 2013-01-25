@@ -37,7 +37,6 @@
 
 package ead.common.model.elements;
 
-
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements
  * inherits from this basis class

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.test.model.elements.guievents;
+package ead.common.test.params;
 
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.guievents.enums.MouseGEvButtonType;

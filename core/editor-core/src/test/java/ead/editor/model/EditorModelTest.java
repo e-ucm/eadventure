@@ -57,6 +57,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.enums.CommonStates;
 import ead.editor.EditorGuiceModule;
 import ead.editor.model.ModelIndex.Match;
 import ead.editor.model.nodes.DependencyNode;
@@ -162,7 +163,7 @@ public class EditorModelTest {
 	@Test
 	public void testSimpleSearch() throws Exception {
 		testLoad();
-		String s = "disp_x";
+		String s = CommonStates.EAD_STATE_DEFAULT.toString();
 		int matches = 0;
 		for (Match m : model.search(new ModelQuery(s)).getMatches()) {
 			DependencyNode e = m.getNode();
@@ -177,7 +178,7 @@ public class EditorModelTest {
 							.getContent()).getId() : "??"));
 			matches++;
 		}
-		Assert.assertEquals(1, matches);
+		Assert.assertEquals(10, matches);
 	}
 
 	// --- non-automated tests ---

@@ -118,6 +118,8 @@ public class ImportWriteReadTest {
 			if (!FileUtils.isFileBinaryEqual(modelFile, modelFile2)) {
 				errors = true;
 				logger.error("model-file != model-file2");
+				logger.error("kdiff3 " + tmpDir + "/modelFile.xml " + tmpDir
+						+ "/modelFile2.xml");
 			}
 
 			model = reader.readXML(FileUtils.loadFileToString(modelFile));
