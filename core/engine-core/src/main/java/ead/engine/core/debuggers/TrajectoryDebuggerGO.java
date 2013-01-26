@@ -117,6 +117,7 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 		if (currentScene != newScene || newTrajectory != currentTrajectory) {
 			currentTrajectory = newTrajectory;
 			currentScene = newScene;
+			getChildren().clear();
 			if (currentTrajectory != null && currentScene != null) {
 				createTrajectory();
 			}
@@ -138,7 +139,6 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 	}
 
 	private void createTrajectory() {
-		getChildren().clear();
 		if (currentTrajectory instanceof SimpleTrajectory) {
 			SceneElementGO<?> representation = getSimpleTrajectory((SimpleTrajectory) currentTrajectory);
 			addSceneElement(representation);

@@ -51,6 +51,7 @@ public class MoveActiveElementToMouseEf extends MoveSceneElementEf {
 		setSceneElement(SystemFields.ACTIVE_ELEMENT);
 		setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
 				SystemFields.MOUSE_SCENE_Y);
+		setUseTrajectory(true);
 	}
 
 }

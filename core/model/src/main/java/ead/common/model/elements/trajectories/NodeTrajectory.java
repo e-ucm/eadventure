@@ -106,8 +106,8 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 
 		if (idStart.equals(idEnd))
 			return null;
-		Node a = getNodeForId(this.getId() + idStart);
-		Node b = getNodeForId(this.getId() + idEnd);
+		Node a = getNodeForId(idStart);
+		Node b = getNodeForId(idEnd);
 		Side side = new Side(a, b);
 		if (a != null && b != null) {
 			int x = a.getX() - b.getX();
