@@ -107,6 +107,7 @@ public class PolygonTrajectoryGO extends
 		int startX = movingElement.getX();
 		int startY = movingElement.getY();
 		path = pathFinder.getPath(startX, startY, destinyX, destinyY);
+		currentPath = path;
 		currentTarget = 0;
 		updateEnd = true;
 	}

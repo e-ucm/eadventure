@@ -79,6 +79,7 @@ import ead.engine.core.factories.TrajectoryFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -99,6 +100,14 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 
 	private List<EAdShape> barriers;
 
+	private List<Integer> currentPath;
+
+	private String currentPathString;
+
+	private TrajectoryGO<? extends EAdTrajectory> trajectoryGO;
+
+	private SceneElementGO<?> currentPathGO;
+
 	@Inject
 	public TrajectoryDebuggerGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
@@ -107,6 +116,12 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.trajectoryFactory = trajectoryFactory;
 		barriers = new ArrayList<EAdShape>();
+	}
+
+	public void setElement(EAdSceneElement element) {
+		super.setElement(element);
+		SceneElement e = new SceneElement();
+		currentPathGO = sceneElementFactory.get(e);
 	}
 
 	public void update() {
@@ -118,8 +133,11 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 			currentTrajectory = newTrajectory;
 			currentScene = newScene;
 			getChildren().clear();
+			trajectoryGO = null;
 			if (currentTrajectory != null && currentScene != null) {
 				createTrajectory();
+				addSceneElement(currentPathGO);
+				trajectoryGO = trajectoryFactory.get(currentTrajectory);
 			}
 		}
 
@@ -134,6 +152,32 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 										NodeTrajectory.VAR_BARRIER_ON) ? ColorFill.YELLOW
 										: ColorFill.TRANSPARENT);
 				i++;
+			}
+		}
+
+		// Update current path
+		if (trajectoryGO != null) {
+			currentPath = trajectoryGO.getCurrentPath();
+			if (currentPathString == null
+					|| (!currentPath.toString().equals(currentPathString))) {
+				currentPathString = currentPath.toString();
+				currentPathGO.getChildren().clear();
+				if (currentPath.size() > 0) {
+					int lastX = currentPath.get(0);
+					int lastY = currentPath.get(1);
+					ComposedDrawable pathDrawable = new ComposedDrawable();
+					for (int i = 2; i < currentPath.size(); i += 2) {
+						int x = currentPath.get(i);
+						int y = currentPath.get(i + 1);
+						LineShape l = new LineShape(lastX, lastY, x, y, 3);
+						l.setPaint(Paint.BLACK_ON_WHITE);
+						pathDrawable.addDrawable(l);
+						lastX = x;
+						lastY = y;
+					}
+					currentPathGO
+							.addSceneElement(new SceneElement(pathDrawable));
+				}
 			}
 		}
 	}

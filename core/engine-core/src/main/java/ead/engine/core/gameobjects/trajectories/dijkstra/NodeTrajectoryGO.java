@@ -106,6 +106,12 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		path = generator.getTrajectory(this.trajectory, movingElement
 				.getElement(), destinyX, destinyY);
 
+		currentPath.clear();
+		for (PathSide side : path.getSides()) {
+			currentPath.add(side.getEndNode().getPosition().getX());
+			currentPath.add(side.getEndNode().getPosition().getY());
+		}
+
 		currentSide = 0;
 		targetX = destinyX;
 		targetY = destinyY;
@@ -159,8 +165,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		if (finished) {
 			movingElement.setState(CommonStates.EAD_STATE_DEFAULT.toString());
 
-			//			if (path.isGetsTo() || effect.getTarget() == null)
-			//				super.finish();
+			// if (path.isGetsTo() || effect.getTarget() == null)
+			// super.finish();
 		}
 	}
 

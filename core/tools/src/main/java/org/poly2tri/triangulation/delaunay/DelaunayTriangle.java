@@ -620,4 +620,15 @@ public class DelaunayTriangle {
 		//return INTERSECTING;
 		return true;
 	}
+
+	public TriangulationPoint nearest(float lastX, float lastY) {
+		float dist1 = (lastX - points[0].getXf()) * (lastX - points[0].getXf())
+				+ (lastY - points[0].getYf()) * (lastY - points[0].getYf());
+		float dist2 = (lastX - points[1].getXf()) * (lastX - points[1].getXf())
+				+ (lastY - points[1].getYf()) * (lastY - points[1].getYf());
+		float dist3 = (lastX - points[2].getXf()) * (lastX - points[2].getXf())
+				+ (lastY - points[2].getYf()) * (lastY - points[2].getYf());
+		return dist1 < dist2 ? (dist1 < dist3 ? points[0] : points[2])
+				: (dist2 < dist3 ? points[1] : points[2]);
+	}
 }

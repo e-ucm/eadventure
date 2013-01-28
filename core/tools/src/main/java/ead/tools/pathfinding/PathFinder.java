@@ -44,6 +44,7 @@ import java.util.Map;
 
 import org.poly2tri.Poly2Tri;
 import org.poly2tri.geometry.polygon.Polygon;
+import org.poly2tri.triangulation.TriangulationPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 import org.poly2tri.triangulation.point.TPoint;
 
@@ -90,17 +91,33 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 
 	public List<Integer> getPath(int startX, int startY, int endX, int endY) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(startX);
+		list.add(startY);
 
 		if (!isPossibleStraightLine(startX, startY, endX, endY)) {
 			DelaunayTriangle startNode = getTriangleIn(startX, startY);
 			endNode = getTriangleIn(endX, endY);
+			// Point out of trajectory
+			if (endNode == null) {
+				TriangulationPoint p = getNearestPoint(endX, endY);
+				endNode = getTriangleIn(p.getXf(), p.getYf());
+				endX = (int) p.getXf();
+				endY = (int) p.getYf();
+			}
 			if (startNode != null && endNode != null) {
 				if (startNode != endNode
 						&& !isPossibleStraightLine(startX, startY, endX, endY)) {
 					List<DelaunayTriangle> path = super.compute(startNode);
+					path.remove(0);
+					path.remove(0);
+					float lastX = startX;
+					float lastY = startY;
 					for (DelaunayTriangle t : path) {
-						list.add((int) t.centroid().getX());
-						list.add((int) t.centroid().getY());
+						TriangulationPoint p = t.nearest(lastX, lastY);
+						list.add((int) p.getX());
+						list.add((int) p.getY());
+						lastX = p.getXf();
+						lastY = p.getYf();
 					}
 				}
 			}
@@ -108,6 +125,21 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 		list.add(endX);
 		list.add(endY);
 		return list;
+	}
+
+	private TriangulationPoint getNearestPoint(int endX, int endY) {
+		TriangulationPoint p = null;
+		float dist = 0;
+		for (DelaunayTriangle t : polygon.getTriangles()) {
+			TriangulationPoint p1 = t.nearest(endX, endY);
+			float dist1 = (endX - p1.getXf()) * (endX - p1.getXf())
+					+ (endY - p1.getYf()) * (endY - p1.getYf());
+			if (p == null || dist1 < dist) {
+				p = p1;
+				dist = dist1;
+			}
+		}
+		return p;
 	}
 
 	/**
@@ -125,7 +157,7 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 		return true;
 	}
 
-	public DelaunayTriangle getTriangleIn(int x, int y) {
+	public DelaunayTriangle getTriangleIn(float x, float y) {
 		TPoint p = new TPoint(x, y);
 		for (DelaunayTriangle t : polygon.getTriangles()) {
 			if (t.inside(p)) {

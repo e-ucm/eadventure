@@ -41,8 +41,10 @@ import java.util.List;
 
 import ead.common.interfaces.features.Oriented;
 import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.platform.assets.RuntimeDrawable;
@@ -90,6 +92,13 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * @param sceneElement
 	 */
 	void addSceneElement(SceneElementGO<?> sceneElement);
+
+	/**
+	 * Adds an scene element as a child of this element
+	 * 
+	 * @param sceneElement
+	 */
+	void addSceneElement(EAdSceneElement element);
 
 	/**
 	 * Remove the scene element from this element
@@ -377,5 +386,11 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * @param string
 	 */
 	void setState(String state);
+
+	/**
+	 * Returns the field for this variable of this element
+	 * @param var
+	 */
+	<S> EAdField<S> getField(EAdVarDef<S> var);
 
 }

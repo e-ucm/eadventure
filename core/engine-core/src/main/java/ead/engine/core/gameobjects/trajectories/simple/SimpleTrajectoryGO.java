@@ -112,6 +112,12 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 				}
 			}
 		}
+
+		currentPath.clear();
+		currentPath.add(startX);
+		currentPath.add(startY);
+		currentPath.add(this.destinyX);
+		currentPath.add(this.destinyY);
 	}
 
 	@Override

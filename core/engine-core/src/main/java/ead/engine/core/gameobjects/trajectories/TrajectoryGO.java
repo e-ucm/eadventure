@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.trajectories;
 
+import java.util.List;
+
 import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -72,5 +74,11 @@ public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
 	 * @return
 	 */
 	boolean isDone();
+
+	/**
+	 * Returns the current calculated path
+	 * @return
+	 */
+	List<Integer> getCurrentPath();
 
 }

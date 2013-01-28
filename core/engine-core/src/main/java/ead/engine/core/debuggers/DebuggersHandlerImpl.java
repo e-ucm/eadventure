@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.debuggers.FieldsDebugger;
 import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.scenes.SceneElement;
@@ -62,6 +63,8 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 	public static final String TRAJECTORY_DEBUGGER = "trajectory_debugger";
 
 	public static final String GHOST_DEBUGGER = "ghost_debugger";
+
+	public static final String FIELDS_DEBUGGER = "fields_debugger";
 
 	private GUI gui;
 
@@ -108,6 +111,8 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 			e = new TrajectoryDebugger();
 		} else if (id.equals(GHOST_DEBUGGER)) {
 			e = new GhostDebugger();
+		} else if (id.equals(FIELDS_DEBUGGER)) {
+			e = new FieldsDebugger();
 		}
 		e.setId(id);
 		return sceneElementFactory.get(e);

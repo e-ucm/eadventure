@@ -37,6 +37,9 @@
 
 package ead.engine.core.gameobjects.trajectories;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -56,8 +59,11 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected SceneElementGO<?> target;
 
+	protected List<Integer> currentPath;
+
 	public AbstractTrajectoryGO(GameState gameState) {
 		this.gameState = gameState;
+		this.currentPath = new ArrayList<Integer>();
 	}
 
 	public void setElement(T transition) {
@@ -75,6 +81,10 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 		this.destinyX = destinyX;
 		this.destinyY = destinyY;
 		this.target = target;
+	}
+
+	public List<Integer> getCurrentPath() {
+		return currentPath;
 	}
 
 }

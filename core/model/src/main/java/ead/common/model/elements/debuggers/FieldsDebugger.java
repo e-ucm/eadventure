@@ -35,47 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.widgets;
+package ead.common.model.elements.debuggers;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.text.BasicFont;
+import ead.common.interfaces.Element;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.text.EAdString;
 
-public class Label extends SceneElement {
+@Element
+public class FieldsDebugger extends SceneElement {
 
-	private Caption c;
-
-	public Label(String string) {
-		this(new EAdString(string));
-	}
-
-	public Label(EAdString string) {
-		c = new Caption(string);
-		c.setTextPaint(ColorFill.BLACK);
-		c.setPadding(0);
-		c.setBubblePaint(ColorFill.TRANSPARENT);
-		c.setHasBubble(false);
-		c.setFont(BasicFont.REGULAR);
-		setAppearance(c);
-	}
-
-	public void setFontSize(float size) {
-		c.getFont().setSize(size);
-	}
-
-	public void setColor(ColorFill color) {
-		c.setTextPaint(color);
-	}
-
-	public void setBgColor(ColorFill color) {
-		c.setHasBubble(true);
-		c.setBubblePaint(color);
-	}
-
-	public Caption getCaption() {
-		return c;
+	public FieldsDebugger() {
+		this.setInitialEnable(false);
 	}
 
 }

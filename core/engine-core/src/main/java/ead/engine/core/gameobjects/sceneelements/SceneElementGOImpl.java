@@ -52,11 +52,14 @@ import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.util.EAdPosition;
 import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
@@ -880,6 +883,11 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		}
 	}
 
+	public void addSceneElement(EAdSceneElement element) {
+		SceneElementGO<?> s = sceneElementFactory.get(element);
+		addSceneElement(s);
+	}
+
 	@Override
 	public void removeSceneElement(SceneElementGO<?> sceneElement) {
 		this.children.remove(sceneElement);
@@ -933,6 +941,12 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	public String toString() {
 		return this.element + "";
+	}
+
+	@Override
+	public <S> EAdField<S> getField(EAdVarDef<S> var) {
+		// XXX Avoid new creation
+		return new BasicField<S>(this.getElement(), var);
 	}
 
 }

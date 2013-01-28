@@ -158,6 +158,10 @@ public abstract class AbstractGUI<T> implements GUI {
 							debuggerHandler
 									.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
 							break;
+						case F3:
+							debuggerHandler
+									.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
+							break;
 						default:
 							break;
 						}

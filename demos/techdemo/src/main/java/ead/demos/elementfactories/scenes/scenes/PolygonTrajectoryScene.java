@@ -23,6 +23,7 @@ public class PolygonTrajectoryScene extends EmptyScene {
 		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 
 		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 520, 300));
+		element.setInitialScale(0.5f, 0.5f);
 
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 

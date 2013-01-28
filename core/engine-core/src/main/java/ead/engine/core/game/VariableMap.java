@@ -113,7 +113,7 @@ public class VariableMap extends ValueMapImpl {
 								+ text.substring(separatorIndex + 1);
 					}
 				}
-				i = separatorIndex + 1;
+				i = separatorIndex;
 
 			} else {
 				done = true;
