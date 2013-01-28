@@ -183,11 +183,9 @@ public class EAdventureImporter {
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 
-		if (destination != null) {
-			updateProgress(90, "Creating " + destination);
-			createGameFile(model, destinationFolder.getAbsolutePath(),
-					destination, "." + format, "Imported version", zipped);
-		}
+		updateProgress(90, "Creating " + destination);
+		createGameFile(model, destinationFolder.getAbsolutePath(), destination,
+				"." + format, "Imported version", zipped);
 
 		updateProgress(100, "Done.");
 

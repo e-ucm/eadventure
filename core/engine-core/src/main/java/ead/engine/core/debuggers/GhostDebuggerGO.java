@@ -42,58 +42,60 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.scenes.EAdGhostElement;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.EAdPosition;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class GhostElementDebugger extends SceneElementGOImpl {
+public class GhostDebuggerGO extends SceneElementGOImpl {
 
-	private GameState gameState;
+	private SceneGO currentScene;
 
-	private EAdScene currentScene;
+	private List<SceneElementGO<?>> currentSceneElements;
 
-	private List<SceneElementGO<?>> drawables;
-
-	private SceneElementGOFactory factory;
-
-	public GhostElementDebugger(AssetHandler assetHandler,
+	@Inject
+	public GhostDebuggerGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
-		this.gameState = gameState;
-		this.factory = factory;
-		drawables = new ArrayList<SceneElementGO<?>>();
+		currentSceneElements = new ArrayList<SceneElementGO<?>>();
 	}
 
-	public List<SceneElementGO<?>> getGameObjects() {
-		//		EAdScene newScene = gameState.getScene().getElement();
-		EAdScene newScene = null;
-		if (currentScene != newScene) {
-			currentScene = newScene;
-			drawables.clear();
-			for (EAdSceneElement e : currentScene.getSceneElements()) {
-				if (e instanceof EAdGhostElement) {
-					SceneElement area = new SceneElement(((EAdGhostElement) e)
-							.getInteractionArea());
-					area.setInitialEnable(false);
-					SceneElementGO<?> go = factory.get(e);
-					area.setPosition(new EAdPosition(go.getX(), go.getY(), go
-							.getDispX(), go.getDispY()));
-					drawables.add(factory.get(area));
+	public void update() {
+		if (this.currentScene != gui.getScene()) {
+			currentScene = gui.getScene();
+			for (SceneElementGO<?> go : currentSceneElements) {
+				go.remove();
+			}
+			if (currentScene != null) {
+				for (SceneElementGO<?> go : currentScene.getChildren()) {
+					if (go instanceof GhostElementGO) {
+						GhostElementGO ghost = (GhostElementGO) go;
+						GhostElement ghostElement = (GhostElement) ghost
+								.getElement();
+						EAdDrawable interactionArea = ghostElement
+								.getInteractionArea();
+						if (interactionArea != null) {
+							SceneElement element = new SceneElement(
+									interactionArea);
+							element.setInitialEnable(false);
+							SceneElementGO<?> elementGO = sceneElementFactory
+									.get(element);
+							ghost.addSceneElement(elementGO);
+							currentSceneElements.add(elementGO);
+						}
+					}
 				}
 			}
 		}
-		return drawables;
 	}
 
 }

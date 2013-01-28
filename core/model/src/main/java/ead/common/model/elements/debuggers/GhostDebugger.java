@@ -35,30 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.sceneelements.transitions;
+package ead.common.model.elements.debuggers;
 
-import com.google.inject.Inject;
+import ead.common.interfaces.Element;
+import ead.common.model.elements.scenes.SceneElement;
 
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+@Element
+public class GhostDebugger extends SceneElement {
 
-public class BasicTransitionGO extends TransitionGO<EmptyTransition> {
-
-	@Inject
-	public BasicTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-	}
-
-	@Override
-	public void transition(SceneGO scene) {
-		gui.setScene(scene);
+	public GhostDebugger() {
+		this.setInitialEnable(false);
 	}
 
 }

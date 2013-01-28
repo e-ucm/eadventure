@@ -37,12 +37,16 @@
 
 package ead.engine.core.debuggers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -57,19 +61,22 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 
 	public static final String TRAJECTORY_DEBUGGER = "trajectory_debugger";
 
-	private SceneElementGO<?> trajectoryDebugger;
+	public static final String GHOST_DEBUGGER = "ghost_debugger";
 
-	private SceneElementGO<?> debuggersHud;
+	private GUI gui;
 
 	private SceneElementGOFactory sceneElementFactory;
 
-	private GUI gui;
+	private SceneElementGO<?> debuggersHud;
+
+	private Map<String, SceneElementGO<?>> debuggers;
 
 	@Inject
 	public DebuggersHandlerImpl(SceneElementGOFactory sceneElementFactory,
 			GUI gui) {
 		this.gui = gui;
 		this.sceneElementFactory = sceneElementFactory;
+		this.debuggers = new HashMap<String, SceneElementGO<?>>();
 	}
 
 	@Override
@@ -81,20 +88,28 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 			debuggersHud = gui.getHUD(GUI.DEBBUGERS_HUD_ID);
 		}
 
-		if (debuggerId.equals(TRAJECTORY_DEBUGGER)) {
-			if (trajectoryDebugger == null) {
-				trajectoryDebugger = sceneElementFactory
-						.get(new TrajectoryDebugger());
-				SceneElement e = new SceneElement();
-				e.setId(TRAJECTORY_DEBUGGER);
-			}
-
-			if (debuggersHud.getChildren().contains(trajectoryDebugger)) {
-				debuggersHud.removeSceneElement(trajectoryDebugger);
-			} else {
-				debuggersHud.addSceneElement(trajectoryDebugger);
-			}
+		SceneElementGO<?> d = debuggers.get(debuggerId);
+		if (d == null) {
+			d = createDebugger(debuggerId);
+			debuggers.put(debuggerId, d);
 		}
+
+		if (debuggersHud.getChildren().contains(d)) {
+			debuggersHud.removeSceneElement(d);
+		} else {
+			debuggersHud.addSceneElement(d);
+		}
+
 	}
 
+	private SceneElementGO<?> createDebugger(String id) {
+		SceneElement e = null;
+		if (id.equals(TRAJECTORY_DEBUGGER)) {
+			e = new TrajectoryDebugger();
+		} else if (id.equals(GHOST_DEBUGGER)) {
+			e = new GhostDebugger();
+		}
+		e.setId(id);
+		return sceneElementFactory.get(e);
+	}
 }

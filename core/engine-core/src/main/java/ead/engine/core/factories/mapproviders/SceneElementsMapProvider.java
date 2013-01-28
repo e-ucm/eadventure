@@ -37,6 +37,7 @@
 
 package ead.engine.core.factories.mapproviders;
 
+import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.huds.InventoryHud;
 import ead.common.model.elements.scenes.BasicScene;
@@ -50,6 +51,7 @@ import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.widgets.TextArea;
+import ead.engine.core.debuggers.GhostDebuggerGO;
 import ead.engine.core.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.huds.InventoryHUDGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
@@ -58,7 +60,7 @@ import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
-import ead.engine.core.gameobjects.sceneelements.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.EmptyTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
@@ -78,12 +80,13 @@ public class SceneElementsMapProvider
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(TextArea.class, TextAreaGO.class);
 		// Transitions
-		factoryMap.put(EmptyTransition.class, BasicTransitionGO.class);
+		factoryMap.put(EmptyTransition.class, EmptyTransitionGO.class);
 		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
 		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
 		// Huds
 		factoryMap.put(InventoryHud.class, InventoryHUDGO.class);
 		// Debuggers
 		factoryMap.put(TrajectoryDebugger.class, TrajectoryDebuggerGO.class);
+		factoryMap.put(GhostDebugger.class, GhostDebuggerGO.class);
 	}
 }

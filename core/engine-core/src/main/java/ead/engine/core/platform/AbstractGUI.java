@@ -51,7 +51,6 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.guievents.enums.KeyEventType;
-import ead.common.model.params.guievents.enums.KeyGEvCode;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.debuggers.DebuggersHandler;
@@ -149,13 +148,22 @@ public abstract class AbstractGUI<T> implements GUI {
 			public SceneElementGO<?> processAction(InputAction<?> action) {
 				if (action instanceof KeyInputAction) {
 					KeyInputAction k = (KeyInputAction) action;
-					if (k.getKeyCode().equals(KeyGEvCode.F1)
-							&& k.getType().equals(KeyEventType.KEY_PRESSED)) {
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
+					if (k.getType().equals(KeyEventType.KEY_PRESSED)) {
+						switch (k.getKeyCode()) {
+						case F1:
+							debuggerHandler
+									.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
+							break;
+						case F2:
+							debuggerHandler
+									.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
+							break;
+						default:
+							break;
+						}
+						action.consume();
+						return root;
 					}
-					action.consume();
-					return root;
 				}
 				return null;
 			}
