@@ -1,78 +1,130 @@
 package ead.guitools.enginegui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
+import java.util.zip.ZipFile;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition.Corner;
-import ead.engine.core.debuggers.GhostElementDebugger;
-import ead.engine.core.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gdx.desktop.DesktopGame;
-import ead.guitools.enginegui.effects.loadgame.LoadGameEffect;
+import ead.importer.AdventureImporter;
+import ead.utils.FileUtils;
 
 public class EngineGUI {
 
 	private static Properties properties;
 
 	public static void main(String args[]) {
-		try {
-
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-
-		} catch (InstantiationException e) {
-
-		} catch (IllegalAccessException e) {
-
-		} catch (UnsupportedLookAndFeelException e) {
-
-		}
-
 		loadProperties();
+		final JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileFilter() {
 
-		DesktopGame engine = new DesktopGame();
-
-		boolean enableDebug = Boolean
-				.parseBoolean(getProperty("debug", "false"));
-
-		if (enableDebug) {
-			boolean trajectories = Boolean.parseBoolean(getProperty("dtraj",
-					"false"));
-
-			if (trajectories) {
-				engine.addDebugger(TrajectoryDebuggerGO.class);
+			@Override
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().endsWith(".zip")
+						|| f.getName().endsWith(".ead");
 			}
 
-			engine.addDebugger(GhostElementDebugger.class);
-		}
+			@Override
+			public String getDescription() {
+				return "eAdventure games";
+			}
 
-		SceneElement element = new SceneElement(new RectangleShape(100, 100,
-				ColorFill.BLACK));
-		BasicScene scene = new BasicScene(new RectangleShape(800, 600,
-				ColorFill.WHITE));
-		element.setPosition(Corner.CENTER, 400, 300);
-		scene.add(element);
-		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new LoadGameEffect());
-		BasicAdventureModel adventure = new BasicAdventureModel();
-		adventure.getChapters().add(new BasicChapter(scene));
-		//		engine
-		//				.load((EAdAdventureModel) adventure,
-		//						new HashMap<EAdString, String>(),
-		//						new HashMap<String, String>());
-		engine.start();
+		});
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		fileChooser.setSelectedFile(new File(getProperty("file", ".")));
+		final JFrame frame = new JFrame("eAdventure Engine");
+		final AdventureImporter importer = new AdventureImporter();
+		JButton open = new JButton("Open");
+		open.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent a) {
+				if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+					setProperty("file", fileChooser.getSelectedFile()
+							.getAbsolutePath());
+					File f = fileChooser.getSelectedFile();
+					boolean valid = false;
+					boolean needImport = false;
+					if (f.isDirectory()) {
+						// File of 2.0 games
+						File data = new File(f, "data.xml");
+						// File of older games
+						File oldData = new File(f, "chapter1.xml");
+						if (data.exists()) {
+							valid = true;
+						} else if (oldData.exists()) {
+							valid = true;
+							needImport = true;
+						}
+					} else {
+						ZipFile zip = null;
+						try {
+							zip = new ZipFile(f);
+							InputStream is = FileUtils.readEntryFromZip(zip,
+									"data.xml");
+							if (is != null) {
+								valid = true;
+							}
+						} catch (IOException e) {
+
+						} finally {
+							if (!valid) {
+								try {
+									InputStream is = FileUtils
+											.readEntryFromZip(zip,
+													"chapter1.xml");
+									if (is != null) {
+										valid = true;
+										needImport = true;
+									}
+								} catch (IOException e) {
+
+								}
+							}
+
+							if (zip != null) {
+								try {
+									zip.close();
+								} catch (IOException e) {
+
+								}
+							}
+						}
+					}
+
+					if (valid) {
+						String folder = f.getAbsolutePath();
+						if (needImport)
+							folder = importer.importInTemp(fileChooser
+									.getSelectedFile().getAbsolutePath());
+						DesktopGame game = new DesktopGame(true);
+						game.setModel(folder);
+						game.start();
+					} else {
+						JOptionPane.showMessageDialog(frame,
+								"Invalid eAdventure game.");
+					}
+				}
+			}
+
+		});
+		frame.getContentPane().add(open);
+
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 	public static String getProperty(String key, String defaultValue) {

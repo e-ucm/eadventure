@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.zip.ZipFile;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -234,7 +235,8 @@ public class EditorModelLoader {
 	private int readEditorNodes(File source) throws IOException {
 		InputStream input;
 		if (source.isFile()) {
-			input = FileUtils.readEntryFromZip(source, editorModelFile);
+			ZipFile zip = new ZipFile(source);
+			input = FileUtils.readEntryFromZip(zip, editorModelFile);
 		} else {
 			input = new BufferedInputStream(new FileInputStream(new File(
 					source, editorModelFile)));

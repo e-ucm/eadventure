@@ -37,12 +37,10 @@
 
 package ead.utils;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -51,6 +49,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.zip.ZipFile;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
@@ -92,7 +97,8 @@ public class FileUtilsTest {
 		System.out.println("readEntryFromZip");
 		File zipFile = getFile("ead/utils/sample.zip");
 		String entryName = "META-INF/MANIFEST.MF";
-		InputStream result = FileUtils.readEntryFromZip(zipFile, entryName);
+		InputStream result = FileUtils.readEntryFromZip(new ZipFile(zipFile),
+				entryName);
 		BufferedReader r = new BufferedReader(new InputStreamReader(result));
 		assertEquals("Manifest-Version: 1.0", r.readLine());
 	}
@@ -146,7 +152,8 @@ public class FileUtilsTest {
 					new ByteArrayInputStream(testContents.getBytes()));
 			assertTrue(FileUtils.zipContainsEntry(tmp, entryName));
 
-			InputStream result = FileUtils.readEntryFromZip(tmp, entryName);
+			InputStream result = FileUtils.readEntryFromZip(new ZipFile(tmp),
+					entryName);
 			BufferedReader r = new BufferedReader(new InputStreamReader(result));
 			assertEquals(testContents, r.readLine());
 		} finally {
@@ -279,7 +286,8 @@ public class FileUtilsTest {
 		try {
 			FileUtils.expand(zipFile, tmp);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			FileUtils.copy(FileUtils.readEntryFromZip(zipFile, path), bos);
+			FileUtils.copy(FileUtils.readEntryFromZip(new ZipFile(zipFile),
+					path), bos);
 			byte[] one = bos.toByteArray();
 			File temp = new File(tmp, "temp");
 			FileUtils.writeToFile(new ByteArrayInputStream(one), temp);

@@ -52,7 +52,7 @@ public interface EAdElementFactory {
 
 	/**
 	 * Returns the element with the given id from the current chapter
-	 *
+	 * 
 	 * @param id
 	 *            the id
 	 * @return the element with the given id from the current chapter
@@ -61,21 +61,21 @@ public interface EAdElementFactory {
 
 	/**
 	 * Returns the currently chapter being imported
-	 *
+	 * 
 	 * @return currently chapter being imported
 	 */
 	EAdChapter getCurrentChapterModel();
 
 	/**
 	 * Returns the old model from the chapter being imported
-	 *
+	 * 
 	 * @return the old model from the chapter being imported
 	 */
 	Chapter getCurrentOldChapterModel();
 
 	/**
 	 * Sets the current chapter model imported
-	 *
+	 * 
 	 * @param chapter
 	 *            the new model for the chapter
 	 * @param oldChapter
@@ -85,14 +85,14 @@ public interface EAdElementFactory {
 
 	/**
 	 * Returns whether the game imported is first person
-	 *
+	 * 
 	 * @return whether the game imported is first person
 	 */
 	boolean isFirstPerson();
 
 	/**
 	 * Sets the old data model
-	 *
+	 * 
 	 * @param data
 	 *            the old data model
 	 */
@@ -100,7 +100,7 @@ public interface EAdElementFactory {
 
 	/**
 	 * Returns the variable's reference linked to the given id
-	 *
+	 * 
 	 * @param id
 	 *            variables's id
 	 * @param varibles
@@ -115,7 +115,7 @@ public interface EAdElementFactory {
 	/**
 	 * Returns the conditions associated with the global state represented by
 	 * the given id
-	 *
+	 * 
 	 * @param globalStateId
 	 *            the global state's id
 	 * @return the conditions representing the global state
@@ -130,7 +130,9 @@ public interface EAdElementFactory {
 
 	/**
 	 * Returns the image for the default cursor
-	 * @param type the type of the cursor
+	 * 
+	 * @param type
+	 *            the type of the cursor
 	 * @return the image for the cursor
 	 */
 	EAdImage getDefaultCursor(String type);

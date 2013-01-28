@@ -1,2 +1,1 @@
 [effects]
-ead.guitools.enginegui.effects.loadgame.LoadGameEffect=ead.guitools.enginegui.effects.loadgame.LoadGameGO

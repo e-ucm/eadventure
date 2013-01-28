@@ -82,9 +82,8 @@ public class FileUtils {
 	 * @throws IOException
 	 *             on error
 	 */
-	public static InputStream readEntryFromZip(File zipFile, String entryName)
+	public static InputStream readEntryFromZip(ZipFile zip, String entryName)
 			throws IOException {
-		ZipFile zip = new ZipFile(zipFile);
 		return zip.getInputStream(zip.getEntry(entryName));
 	}
 
@@ -464,8 +463,9 @@ public class FileUtils {
 		StringBuilder sb = new StringBuilder();
 		BufferedReader r = null;
 		try {
-			r = new BufferedReader(new InputStreamReader(
-					readEntryFromZip(f, e), Charset.forName("UTF-8")));
+			ZipFile zip = new ZipFile(f);
+			r = new BufferedReader(new InputStreamReader(readEntryFromZip(zip,
+					e), Charset.forName("UTF-8")));
 			String line;
 			while ((line = r.readLine()) != null) {
 				sb.append(line);

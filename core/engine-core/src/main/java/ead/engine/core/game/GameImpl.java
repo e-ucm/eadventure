@@ -179,8 +179,6 @@ public class GameImpl implements Game, VisitorListener {
 
 	private boolean firstUpdate;
 
-	private XMLParser xmlReader;
-
 	private DebuggersHandler debuggersHandler;
 
 	@Inject
@@ -208,7 +206,6 @@ public class GameImpl implements Game, VisitorListener {
 		events = new ArrayList<EventGO<?>>();
 		this.tweenController = tweenController;
 		this.reader = reader;
-		this.xmlReader = xmlReader;
 
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		this.debuggersHandler = debuggersHandler;
