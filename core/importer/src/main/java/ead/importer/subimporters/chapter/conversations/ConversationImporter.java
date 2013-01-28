@@ -43,11 +43,11 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.text.ShowQuestionEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.variables.SystemFields;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
@@ -80,11 +80,12 @@ public class ConversationImporter implements
 
 	@Override
 	public EAdEffect init(Conversation oldObject) {
-		return null;
+		return new TriggerMacroEf();
 	}
 
 	@Override
 	public EAdEffect convert(Conversation oldObject, Object object) {
+		TriggerMacroEf result = (TriggerMacroEf) object;
 		nodes.clear();
 
 		annotator.annotate(ImportAnnotator.Type.Entry,
@@ -131,12 +132,10 @@ public class ConversationImporter implements
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
-		ChangeFieldEf changeField = new ChangeFieldEf(
-				SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP);
-		changeField.getNextEffects().add(initialEffect);
-
+		EffectsMacro macro = new EffectsMacro();
+		macro.getEffects().add(initialEffect);
+		result.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 		annotator.annotate(ImportAnnotator.Type.Close, oldObject.getId());
-
-		return changeField;
+		return result;
 	}
 }
