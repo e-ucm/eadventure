@@ -51,12 +51,16 @@ import ead.common.model.params.variables.SystemFields;
 
 public class MouseHud extends GroupElement {
 
-	private static final String CURSOR_ID = "#engine.cursor";
+	public static final String CURSOR_ID = "#engine.cursor";
+
+	public static final String TAKE_CURSOR = "take";
 
 	public MouseHud() {
 		this.setId("#predefined.hud.mouse");
 		EAdDrawable cursor = new Image("@drawable/default_cursor.png");
+		EAdDrawable takeCursor = new Image("@drawable/take_cursor.png");
 		SceneElement mouse = new GhostElement(cursor, null);
+		mouse.setAppearance(TAKE_CURSOR, takeCursor);
 		mouse.setId(CURSOR_ID);
 		mouse.setInitialEnable(false);
 		mouse.setPosition(Corner.TOP_LEFT, 0, 0);

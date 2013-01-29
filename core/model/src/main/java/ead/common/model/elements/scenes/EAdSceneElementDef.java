@@ -57,7 +57,9 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	 * @param appearance
 	 *            the initial appearance
 	 */
-	public void setAppearance(EAdDrawable appearance);
+	void setAppearance(EAdDrawable appearance);
+
+	void setAppearance(String bundle, EAdDrawable drawable);
 
 	/**
 	 * Returns the default appearance for this definition

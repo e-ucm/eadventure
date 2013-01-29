@@ -82,9 +82,19 @@ public class GhostElementGO extends SceneElementGOImpl {
 
 	@Override
 	public boolean contains(int x, int y) {
-		return ghostElement.isCatchAll()
-				|| (interactionArea != null && isVisible() && interactionArea
-						.contains(x, y));
+		if (ghostElement.isCatchAll()) {
+			return true;
+		}
+		if (isVisible() && isEnable()) {
+			float[] mouse = transformation.getMatrix().multiplyPointInverse(x,
+					y, true);
+			x = (int) mouse[0];
+			y = (int) mouse[1];
+			if (this.interactionArea != null) {
+				return this.interactionArea.contains(x, y);
+			}
+		}
+		return false;
 	}
 
 }

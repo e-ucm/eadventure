@@ -78,6 +78,10 @@ public class SceneElementDef extends ResourcedElement implements
 		vars = new EAdMap<EAdVarDef<?>, Object>();
 	}
 
+	public void setAppearance(String bundle, EAdDrawable drawable) {
+		addAsset(bundle, SceneElementDef.appearance, drawable);
+	}
+
 	public SceneElementDef(AssetDescriptor appearance) {
 		this();
 		addAsset(SceneElementDef.appearance, appearance);

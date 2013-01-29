@@ -275,6 +275,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	public void setParent(SceneElementGO<?> parent) {
 		this.parent = parent;
+		this.removed = false;
 	}
 
 	public List<SceneElementGO<?>> getChildren() {
@@ -875,7 +876,6 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	@Override
 	public void addSceneElement(SceneElementGO<?> sceneElement) {
 		this.children.add(sceneElement);
-		this.removed = false;
 		sceneElement.getTransformation().setValidated(false);
 		sceneElement.setParent(this);
 		if (parent != null) {

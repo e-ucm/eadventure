@@ -300,4 +300,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		return getId();
 	}
 
+	public void setAppearance(String bundle, EAdDrawable drawable) {
+		getDefinition().setAppearance(bundle, drawable);
+
+	}
+
 }

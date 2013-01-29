@@ -98,4 +98,13 @@ public class GhostDebuggerGO extends SceneElementGOImpl {
 		}
 	}
 
+	public void remove() {
+		super.remove();
+		for (SceneElementGO<?> go : currentSceneElements) {
+			go.remove();
+		}
+		currentScene = null;
+		currentSceneElements.clear();
+	}
+
 }

@@ -98,7 +98,7 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 		}
 
 		if (debuggersHud.getChildren().contains(d)) {
-			debuggersHud.removeSceneElement(d);
+			d.remove();
 		} else {
 			debuggersHud.addSceneElement(d);
 		}
