@@ -40,7 +40,6 @@ package ead.engine.core.gdx.html.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
@@ -51,8 +50,8 @@ public class GdxGWTGUI extends GdxGUI {
 	private GWTVideoRenderer renderer;
 
 	@Inject
-	public GdxGWTGUI(GdxCanvas canvas, GdxEngine engine) {
-		super(canvas, engine);
+	public GdxGWTGUI(GdxCanvas canvas) {
+		super(canvas);
 	}
 
 	@Override

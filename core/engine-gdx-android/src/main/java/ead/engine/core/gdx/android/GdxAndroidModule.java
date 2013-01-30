@@ -40,12 +40,9 @@ package ead.engine.core.gdx.android;
 import java.util.Map.Entry;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
 
-import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.LoadingScreen;
 
 public class GdxAndroidModule extends AbstractModule {
 
@@ -54,15 +51,12 @@ public class GdxAndroidModule extends AbstractModule {
 	protected void configure() {
 
 		GdxModuleMap map = new GdxModuleMap();
+		map.getBinds().put(GUI.class, AndroidGdxGUI.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();
 			bind(c1).to(c2);
 		}
-
-		bind(GUI.class).to(AndroidGdxGUI.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
-				LoadingScreen.class).asEagerSingleton();
 	}
 
 }

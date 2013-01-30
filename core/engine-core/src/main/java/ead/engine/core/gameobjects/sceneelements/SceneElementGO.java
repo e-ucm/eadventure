@@ -340,7 +340,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * 
 	 * @return
 	 */
-	RuntimeDrawable<?, ?> getDrawable();
+	RuntimeDrawable<?> getDrawable();
 
 	/**
 	 * Returns if this renderable contains coordinate x and y

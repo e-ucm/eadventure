@@ -45,10 +45,4 @@ import ead.engine.core.platform.GUI;
 
 public interface GdxEngine extends ApplicationListener {
 
-	void setGame(Game game);
-
-	void setInputHandler(InputHandler inputHandler);
-
-	void setGUI(GUI gui);
-
 }

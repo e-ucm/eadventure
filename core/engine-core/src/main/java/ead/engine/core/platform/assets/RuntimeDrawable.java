@@ -50,7 +50,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
  * @param <T>
  *            The class of the {@link EAdDrawable} object
  */
-public interface RuntimeDrawable<T extends EAdDrawable, GraphicContext> extends
+public interface RuntimeDrawable<T extends EAdDrawable> extends
 		RuntimeAsset<T>, RuntimeCompoundDrawable<T> {
 
 	/**
@@ -74,7 +74,7 @@ public interface RuntimeDrawable<T extends EAdDrawable, GraphicContext> extends
 	 * @param c
 	 *            The canvas where to render the asset
 	 */
-	void render(GenericCanvas<GraphicContext> c);
+	void render(GenericCanvas c);
 
 	/**
 	 * Returns if this asset contains the given coordinates
@@ -87,6 +87,6 @@ public interface RuntimeDrawable<T extends EAdDrawable, GraphicContext> extends
 	 */
 	boolean contains(int x, int y);
 
-	RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level);
+	RuntimeDrawable<?> getDrawable(int time, List<String> states, int level);
 
 }

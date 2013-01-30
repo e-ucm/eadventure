@@ -56,9 +56,8 @@ import ead.engine.core.platform.assets.RuntimeFont;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.tools.StringHandler;
 
-public class RuntimeCaption<GraphicContext> extends
-		AbstractRuntimeAsset<EAdCaption> implements
-		RuntimeDrawable<EAdCaption, GraphicContext> {
+public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
+		RuntimeDrawable<EAdCaption> {
 
 	/**
 	 * Average time used to read one word, in milliseconds
@@ -448,8 +447,7 @@ public class RuntimeCaption<GraphicContext> extends
 		return font;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void render(GenericCanvas<GraphicContext> c) {
+	public void render(GenericCanvas c) {
 		if (shape != null) {
 			shape.render(c);
 		}
@@ -495,7 +493,7 @@ public class RuntimeCaption<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
 		// FIXME man, fix this
 		update();

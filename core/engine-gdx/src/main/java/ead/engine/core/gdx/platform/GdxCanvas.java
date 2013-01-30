@@ -57,11 +57,13 @@ import ead.engine.core.util.EAdTransformation;
 import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
+public class GdxCanvas extends AbstractCanvas {
 
 	private Stack<Matrix4> matrixes;
 
 	private GdxFont font;
+
+	private SpriteBatch batch;
 
 	@Inject
 	public GdxCanvas(FontHandler fontHandler, ReflectionProvider provider) {
@@ -69,16 +71,21 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 		matrixes = new Stack<Matrix4>();
 	}
 
+	public void setGraphicContext(Object g) {
+		super.setGraphicContext(g);
+		batch = (SpriteBatch) g;
+	}
+
 	@Override
 	public void setTransformation(EAdTransformation t) {
-		g.setColor(1, 1, 1, t.getAlpha());
+		batch.setColor(1, 1, 1, t.getAlpha());
 		setMatrix(t.getMatrix());
 
 	}
 
 	@Override
 	public void setMatrix(EAdMatrix m) {
-		g.setTransformMatrix(convertMatrix(m));
+		batch.setTransformMatrix(convertMatrix(m));
 	}
 
 	/**
@@ -113,7 +120,7 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 	}
 
 	@Override
-	public void drawShape(RuntimeDrawable<? extends EAdShape, SpriteBatch> shape) {
+	public void drawShape(RuntimeDrawable<? extends EAdShape> shape) {
 		shape.render(this);
 	}
 
@@ -126,20 +133,20 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 			ColorFill c = (ColorFill) paint.getBorder();
 			font.getBitmapFont().setColor(c.getRed() / 255.0f,
 					c.getGreen() / 255.0f, c.getBlue() / 255.0f,
-					g.getColor().a * c.getAlpha() / 255.0f);
-			font.getBitmapFont().draw(g, text, x, y);
-			font.getBitmapFont().draw(g, text, x + 1, y + 1);
-			font.getBitmapFont().draw(g, text, x - 1, y + 1);
-			font.getBitmapFont().draw(g, text, x + 1, y - 1);
-			font.getBitmapFont().draw(g, text, x - 1, y - 1);
+					batch.getColor().a * c.getAlpha() / 255.0f);
+			font.getBitmapFont().draw(batch, text, x, y);
+			font.getBitmapFont().draw(batch, text, x + 1, y + 1);
+			font.getBitmapFont().draw(batch, text, x - 1, y + 1);
+			font.getBitmapFont().draw(batch, text, x + 1, y - 1);
+			font.getBitmapFont().draw(batch, text, x - 1, y - 1);
 		}
 
 		if (paint.getFill() instanceof ColorFill) {
 			ColorFill c = (ColorFill) paint.getFill();
 			font.getBitmapFont().setColor(c.getRed() / 255.0f,
 					c.getGreen() / 255.0f, c.getBlue() / 255.0f,
-					g.getColor().a * c.getAlpha() / 255.0f);
-			font.getBitmapFont().draw(g, text, x, y);
+					batch.getColor().a * c.getAlpha() / 255.0f);
+			font.getBitmapFont().draw(batch, text, x, y);
 		}
 	}
 
@@ -157,36 +164,42 @@ public class GdxCanvas extends AbstractCanvas<SpriteBatch> {
 
 	@Override
 	public void save() {
-		matrixes.push(g.getTransformMatrix().cpy());
+		matrixes.push(batch.getTransformMatrix().cpy());
 	}
 
 	@Override
 	public void restore() {
 		Matrix4 m = matrixes.pop();
-		g.setTransformMatrix(m);
+		batch.setTransformMatrix(m);
 	}
 
 	@Override
 	public void translate(int x, int y) {
-		g.setTransformMatrix(g.getTransformMatrix().translate(x, y, 0));
+		batch.setTransformMatrix(batch.getTransformMatrix().translate(x, y, 0));
 
 	}
 
 	@Override
 	public void scale(float scaleX, float scaleY) {
-		g.setTransformMatrix(g.getTransformMatrix().scale(scaleX, scaleY, 1));
+		batch.setTransformMatrix(batch.getTransformMatrix().scale(scaleX,
+				scaleY, 1));
 
 	}
 
 	@Override
 	public void rotate(float angle) {
-		g.setTransformMatrix(g.getTransformMatrix().rotate(0, 0, 1, angle));
+		batch.setTransformMatrix(batch.getTransformMatrix().rotate(0, 0, 1,
+				angle));
 	}
 
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public SpriteBatch getSpriteBatch() {
+		return batch;
 	}
 
 }

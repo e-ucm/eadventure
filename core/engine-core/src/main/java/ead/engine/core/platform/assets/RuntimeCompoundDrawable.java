@@ -44,6 +44,6 @@ import ead.common.model.assets.drawable.EAdDrawable;
 public interface RuntimeCompoundDrawable<T extends EAdDrawable> extends
 		RuntimeAsset<T> {
 
-	RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level);
+	RuntimeDrawable<?> getDrawable(int time, List<String> states, int level);
 
 }

@@ -40,6 +40,7 @@ package ead.tools.gwt;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 
+import ead.tools.GenericInjector;
 import ead.tools.StringHandler;
 import ead.tools.StringHandlerImpl;
 import ead.tools.gwt.reflection.GwtReflectionClassLoader;
@@ -57,6 +58,7 @@ public class GWTToolsModule extends AbstractGinModule {
 				Singleton.class);
 		bind(ReflectionProvider.class).to(GwtReflectionProvider.class).in(
 				Singleton.class);
+		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
 		bind(XMLParser.class).to(GwtXMLParser.class).in(Singleton.class);
 		bind(ReflectionClassLoader.class).to(GwtReflectionClassLoader.class)
 				.in(Singleton.class);

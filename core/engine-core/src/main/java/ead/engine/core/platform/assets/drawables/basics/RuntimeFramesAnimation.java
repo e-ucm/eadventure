@@ -53,7 +53,7 @@ public class RuntimeFramesAnimation extends
 		AbstractRuntimeAsset<FramesAnimation> implements
 		RuntimeCompoundDrawable<FramesAnimation> {
 
-	private List<RuntimeDrawable<?, ?>> frames;
+	private List<RuntimeDrawable<?>> frames;
 
 	private List<Integer> times;
 
@@ -67,10 +67,10 @@ public class RuntimeFramesAnimation extends
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		frames = new ArrayList<RuntimeDrawable<?, ?>>();
+		frames = new ArrayList<RuntimeDrawable<?>>();
 		times = new ArrayList<Integer>();
 		for (Frame f : descriptor.getFrames()) {
-			RuntimeDrawable<?, ?> d = (RuntimeDrawable<?, ?>) assetHandler
+			RuntimeDrawable<?> d = (RuntimeDrawable<?>) assetHandler
 					.getRuntimeAsset(f.getDrawable(), true);
 			frames.add(d);
 			totalTime += f.getTime();
@@ -82,7 +82,7 @@ public class RuntimeFramesAnimation extends
 	@Override
 	public void freeMemory() {
 		super.freeMemory();
-		for (RuntimeDrawable<?, ?> d : frames) {
+		for (RuntimeDrawable<?> d : frames) {
 			d.freeMemory();
 		}
 		frames.clear();
@@ -90,7 +90,7 @@ public class RuntimeFramesAnimation extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
 		int realTime = time % totalTime;
 		int index = 0;
@@ -102,7 +102,7 @@ public class RuntimeFramesAnimation extends
 
 	@Override
 	public void refresh() {
-		for (RuntimeDrawable<?, ?> d : this.frames) {
+		for (RuntimeDrawable<?> d : this.frames) {
 			d.refresh();
 		}
 	}

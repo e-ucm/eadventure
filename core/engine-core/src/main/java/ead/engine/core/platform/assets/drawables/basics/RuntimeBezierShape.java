@@ -49,8 +49,7 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext>
-		extends AbstractRuntimeAsset<T> implements
-		RuntimeDrawable<T, GraphicContext> {
+		extends AbstractRuntimeAsset<T> implements RuntimeDrawable<T> {
 
 	protected final static Logger logger = LoggerFactory
 			.getLogger("RuntimeBezierShape");
@@ -81,13 +80,13 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 		return height;
 	}
 
-	public void render(GenericCanvas<GraphicContext> c) {
+	public void render(GenericCanvas c) {
 		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
 		return this;
 	}

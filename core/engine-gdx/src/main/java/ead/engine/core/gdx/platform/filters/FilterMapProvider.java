@@ -40,18 +40,16 @@ package ead.engine.core.gdx.platform.filters;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 import ead.tools.MapProvider;
 
 public class FilterMapProvider implements
-		MapProvider<Class<?>, RuntimeFilter<?, SpriteBatch>> {
+		MapProvider<Class<?>, RuntimeFilter<?>> {
 
 	@Override
-	public Map<Class<?>, RuntimeFilter<?, SpriteBatch>> getMap() {
-		Map<Class<?>, RuntimeFilter<?, SpriteBatch>> map = new HashMap<Class<?>, RuntimeFilter<?, SpriteBatch>>();
+	public Map<Class<?>, RuntimeFilter<?>> getMap() {
+		Map<Class<?>, RuntimeFilter<?>> map = new HashMap<Class<?>, RuntimeFilter<?>>();
 		map.put(MatrixFilter.class, new MatrixRuntimeFilter());
 		return map;
 	}

@@ -48,30 +48,29 @@ import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 
-public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
+public abstract class AbstractCanvas implements GenericCanvas {
 
 	protected static final Logger logger = LoggerFactory.getLogger("EAdCanvas");
 
-	protected T g;
+	protected Object g;
 
 	protected EAdPaint paint;
 
 	protected FontHandler fontHandler;
 
-	protected FilterFactory<T> filterFactory;
+	protected FilterFactory filterFactory;
 
 	private int width;
 
 	private int height;
 
 	@Inject
-	public AbstractCanvas(FontHandler fontHandler,
-			FilterFactory<T> filterFactory) {
+	public AbstractCanvas(FontHandler fontHandler, FilterFactory filterFactory) {
 		this.fontHandler = fontHandler;
 		this.filterFactory = filterFactory;
 	}
 
-	public void setGraphicContext(T g) {
+	public void setGraphicContext(Object g) {
 		this.g = g;
 	}
 
@@ -84,12 +83,11 @@ public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 	}
 
 	@Override
-	public T getNativeGraphicContext() {
+	public Object getNativeGraphicContext() {
 		return g;
 	}
 
-	public void setFilter(RuntimeDrawable<?, T> drawable,
-			EAdDrawableFilter filter) {
+	public void setFilter(RuntimeDrawable<?> drawable, EAdDrawableFilter filter) {
 		if (filterFactory != null) {
 			filterFactory.applyFilter(drawable, filter, this);
 		}

@@ -123,7 +123,7 @@ public interface AssetHandler {
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
 			boolean load);
 
-	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T, GraphicContext> getDrawableAsset(
+	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T> getDrawableAsset(
 			T descriptor);
 
 	/**
@@ -217,5 +217,11 @@ public interface AssetHandler {
 	 * @param assetDescriptor
 	 */
 	void remove(AssetDescriptor assetDescriptor);
+
+	/**
+	 * Sets the current language
+	 * @param currentLanguage
+	 */
+	void setLanguage(String currentLanguage);
 
 }

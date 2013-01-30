@@ -47,23 +47,22 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public class RuntimeFilteredDrawable<GraphicContext> extends
+public class RuntimeFilteredDrawable extends
 		AbstractRuntimeAsset<EAdFilteredDrawable> implements
-		RuntimeDrawable<EAdFilteredDrawable, GraphicContext> {
+		RuntimeDrawable<EAdFilteredDrawable> {
 
-	private RuntimeDrawable<?, GraphicContext> drawable;
+	private RuntimeDrawable<?> drawable;
 
 	@Inject
 	public RuntimeFilteredDrawable(AssetHandler assetHandler) {
 		super(assetHandler);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		drawable = (RuntimeDrawable<?, GraphicContext>) assetHandler
-				.getRuntimeAsset(descriptor.getDrawable(), true);
+		drawable = (RuntimeDrawable<?>) assetHandler.getRuntimeAsset(descriptor
+				.getDrawable(), true);
 
 		return true;
 	}
@@ -89,7 +88,7 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public void render(GenericCanvas<GraphicContext> c) {
+	public void render(GenericCanvas c) {
 		c.save();
 		c.setFilter(drawable, descriptor.getFilter());
 		drawable.render(c);
@@ -103,7 +102,7 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
 		return this;
 	}

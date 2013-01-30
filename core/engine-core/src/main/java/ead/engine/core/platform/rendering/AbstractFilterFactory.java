@@ -39,19 +39,17 @@ package ead.engine.core.platform.rendering;
 
 import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 import ead.tools.AbstractFactory;
 import ead.tools.MapProvider;
 import ead.tools.reflection.ReflectionProvider;
 
-public class AbstractFilterFactory<GraphicContext> extends
-		AbstractFactory<RuntimeFilter<?, GraphicContext>> implements
-		FilterFactory<GraphicContext> {
+public class AbstractFilterFactory extends AbstractFactory<RuntimeFilter<?>>
+		implements FilterFactory {
 
 	public AbstractFilterFactory(
-			MapProvider<Class<?>, RuntimeFilter<?, GraphicContext>> mapProvider,
+			MapProvider<Class<?>, RuntimeFilter<?>> mapProvider,
 			ReflectionProvider interfacesProvider) {
 		super(mapProvider, interfacesProvider);
 	}
@@ -59,10 +57,8 @@ public class AbstractFilterFactory<GraphicContext> extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EAdDrawableFilter> void applyFilter(
-			RuntimeDrawable<?, GraphicContext> drawable, T filter,
-			GenericCanvas<GraphicContext> c) {
-		RuntimeFilter<T, GraphicContext> rf = (RuntimeFilter<T, GraphicContext>) this
-				.get(filter.getClass());
+			RuntimeDrawable<?> drawable, T filter, GenericCanvas c) {
+		RuntimeFilter<T> rf = (RuntimeFilter<T>) this.get(filter.getClass());
 		if (rf != null)
 			rf.applyFilter(drawable, filter, c);
 	}

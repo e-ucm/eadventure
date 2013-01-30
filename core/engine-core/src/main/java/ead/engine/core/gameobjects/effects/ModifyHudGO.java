@@ -44,15 +44,11 @@ import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
-import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.tools.StringHandler;
 
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
-
-	private TopBasicHUDImpl basicHUD;
 
 	private SceneElementGOFactory sceneElementFactory;
 
@@ -61,18 +57,12 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(gameState);
-		this.basicHUD = null;
+
 		this.sceneElementFactory = sceneElementFactory;
 	}
 
 	public void initialize() {
 		super.initialize();
-		SceneElementGO<?> drawable = this.sceneElementFactory.get(sceneElement);
-		if (effect.getAdd()) {
-			if (!basicHUD.getChildren().contains(drawable))
-				basicHUD.getChildren().add(drawable);
-		} else {
-			basicHUD.getChildren().remove(drawable);
-		}
+		//XXX
 	}
 }

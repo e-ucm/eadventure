@@ -43,6 +43,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 
+import ead.engine.core.game.Game;
 import ead.engine.core.gdx.GdxEngine;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
@@ -58,10 +59,10 @@ public class MainActivity extends AndroidApplication {
 		JavaInjector injector = new JavaInjector(Guice.createInjector(
 				new GdxAndroidModule(), new JavaToolsModule()));
 
+		Game g = injector.getInstance(Game.class);
+		g.initialize();
+
 		GdxEngine engine = injector.getInstance(GdxEngine.class);
 		initialize(engine, cfg);
-		//		GameLoader gameLoader = injector.getInstance(GameLoader.class);
-		//		gameLoader.loadGameFromFiles("@data.xml", "@strings.xml",
-		//				"@ead.properties");
 	}
 }

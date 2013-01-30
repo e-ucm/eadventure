@@ -39,15 +39,14 @@ package ead.engine.core.gdx.android;
 
 import com.google.inject.Singleton;
 
-import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
 
 @Singleton
 public class AndroidGdxGUI extends GdxGUI {
 
-	public AndroidGdxGUI(GdxCanvas canvas, GdxEngine engine) {
-		super(canvas, engine);
+	public AndroidGdxGUI(GdxCanvas canvas) {
+		super(canvas);
 	}
 
 	@Override

@@ -165,7 +165,7 @@ public class ApkExporter implements Exporter {
 		request.setPom(pomFile);
 
 		// Execute maven
-		request.setLoggingLevel(org.codehaus.plexus.logging.Logger.LEVEL_ERROR);
+		request.setLoggingLevel(org.codehaus.plexus.logging.Logger.LEVEL_DEBUG);
 
 		MavenExecutionResult result = maven.execute(request);
 		for (Throwable e : result.getExceptions()) {

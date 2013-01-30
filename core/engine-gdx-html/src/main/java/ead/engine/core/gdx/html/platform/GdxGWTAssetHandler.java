@@ -37,9 +37,8 @@
 
 package ead.engine.core.gdx.html.platform;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -48,86 +47,24 @@ import com.google.gwt.http.client.Response;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.VariableMap;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
-import ead.engine.core.gdx.assets.GdxFont;
-import ead.engine.core.gdx.assets.GdxSound;
-import ead.engine.core.gdx.assets.drawables.GdxBezierShape;
-import ead.engine.core.gdx.assets.drawables.GdxCircleShape;
-import ead.engine.core.gdx.assets.drawables.GdxImage;
-import ead.engine.core.gdx.assets.drawables.GdxRectangleShape;
-import ead.engine.core.gdx.platform.GdxCanvas;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.RuntimeAsset;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
+import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
-import ead.tools.StringHandler;
+import ead.tools.SceneGraph;
 
 @Singleton
 public class GdxGWTAssetHandler extends GdxAssetHandler {
 
-	private Logger logger = LoggerFactory.getLogger("GdxGWTAssetHandler");
-
-	private VariableMap valueMap;
-
-	private StringHandler stringHandler;
-
-	private GUI gui;
-
 	@Inject
-	public GdxGWTAssetHandler(GenericInjector injector, VariableMap valueMap,
-			StringHandler stringHandler, GUI gui) {
-		super(injector);
-		this.valueMap = valueMap;
-		this.stringHandler = stringHandler;
-		this.gui = gui;
+	public GdxGWTAssetHandler(GenericInjector injector,
+			FontHandler fontHandler, SceneGraph sceneGraph) {
+		super(injector, fontHandler, sceneGraph);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
 		setLoaded(true);
-	}
-
-	@Override
-	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
-
-		// FIXME: it is ugly to discard all these generics; find another way to
-		// get clean builds
-		@SuppressWarnings("rawtypes")
-		RuntimeAsset r = null;
-		if (clazz == GdxImage.class)
-			r = new GdxImage(this);
-		else if (clazz == GdxBezierShape.class)
-			r = new GdxBezierShape(this);
-		else if (clazz == GdxRectangleShape.class)
-			r = new GdxRectangleShape(this);
-		else if (clazz == GdxCircleShape.class)
-			r = new GdxCircleShape(this);
-		else if (clazz == (Object) RuntimeCaption.class)
-			r = new RuntimeCaption<GdxCanvas>(gui, fontHandler, valueMap,
-					stringHandler, this);
-		else if (clazz == GdxSound.class)
-			r = new GdxSound(this);
-		else if (clazz == (Object) RuntimeComposedDrawable.class)
-			r = new RuntimeComposedDrawable<GdxCanvas>(this);
-		else if (clazz == (Object) RuntimeFilteredDrawable.class)
-			r = new RuntimeFilteredDrawable<GdxCanvas>(this);
-		else if (clazz == (Object) RuntimeFramesAnimation.class)
-			r = new RuntimeFramesAnimation(this);
-		else if (clazz == (Object) RuntimeStateDrawable.class)
-			r = new RuntimeStateDrawable(this);
-		else if (clazz == (Object) GdxFont.class) {
-			r = new GdxFont(this);
-		} else {
-			logger.error("No instance for runtime asset: {}", clazz);
-		}
-
-		return (RuntimeAsset<?>) r;
 	}
 
 	@Override
@@ -162,6 +99,10 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 			textHandler.handle(null);
 		}
 
+	}
+
+	public FileHandle getProjectFileHandle(String uri) {
+		return Gdx.files.internal(this.resourcesUri.getPath() + "/" + uri);
 	}
 
 }

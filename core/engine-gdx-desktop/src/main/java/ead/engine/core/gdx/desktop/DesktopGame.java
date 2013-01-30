@@ -42,6 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -49,6 +51,8 @@ import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gdx.GdxEngine;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.platform.GUI;
 import ead.tools.java.JavaToolsModule;
@@ -80,12 +84,28 @@ public class DesktopGame {
 	public void start() {
 		injector = Guice.createInjector(new GdxDesktopModule(binds),
 				new JavaToolsModule());
-		Game g = injector.getInstance(Game.class);
+
 		GameState gameState = injector.getInstance(GameState.class);
 		gameState.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
+		Game g = injector.getInstance(Game.class);
 		g.setResourcesLocation(resourcesLocation);
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
-		g.initialize();
+		GdxEngine engine = injector.getInstance(GdxEngine.class);
+
+		// Prepare Gdx configuration
+		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.title = "ead-engine";
+		cfg.useGL20 = true;
+		cfg.width = width;
+		cfg.height = height;
+		cfg.fullscreen = gameState.getValue(SystemFields.FULLSCREEN);
+		cfg.forceExit = gameState.getValue(SystemFields.EXIT_WHEN_CLOSE);
+
+		GdxDesktopGUI gui = (GdxDesktopGUI) injector.getInstance(GUI.class);
+		gui.create(width, height);
+		new LwjglApplication(engine, cfg, gui.getCanvas());
 	}
 
 	public DesktopGame() {

@@ -45,9 +45,8 @@ import ead.engine.core.platform.rendering.GenericCanvas;
  * A runtime filter 
  * 
  */
-public interface RuntimeFilter<T extends EAdDrawableFilter, GraphicContext> {
+public interface RuntimeFilter<T extends EAdDrawableFilter> {
 
-	void applyFilter(RuntimeDrawable<?, GraphicContext> drawable, T filter,
-			GenericCanvas<GraphicContext> c);
+	void applyFilter(RuntimeDrawable<?> drawable, T filter, GenericCanvas c);
 
 }

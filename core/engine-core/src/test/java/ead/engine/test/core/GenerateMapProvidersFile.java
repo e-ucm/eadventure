@@ -64,7 +64,8 @@ public class GenerateMapProvidersFile {
 
 		for (Entry<Class<?>, Class<?>> e : map.entrySet()) {
 			System.out.println("else if ( clazz == "
-					+ e.getKey().getSimpleName() + ".class ) o = ginjector.get"
+					+ e.getValue().getSimpleName()
+					+ ".class ) o = ginjector.get"
 					+ e.getValue().getSimpleName() + "();");
 		}
 	}

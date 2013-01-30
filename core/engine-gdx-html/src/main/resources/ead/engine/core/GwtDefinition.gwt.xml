@@ -24,7 +24,7 @@
 	<entry-point class='ead.engine.core.gdx.html.GwtLauncher' />
 
 	<set-configuration-property name="gdx.assetpath"
-		value="core/engine-core/src/main/resources/" />
+		value="resources/engineassets/" />
 	<set-configuration-property name="gdx.assetoutputpath"
 		value="core/engine-gdx-html/src/main/webapp/" />
 </module>

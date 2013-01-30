@@ -76,7 +76,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 
 	private static final int MARGIN = 30;
 
-	private RuntimeCaption<?> caption;
+	private RuntimeCaption caption;
 
 	private boolean finished;
 
@@ -191,7 +191,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		complex.getSceneElements().add(bg);
 		complex.getSceneElements().add(textSE);
 
-		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
+		caption = (RuntimeCaption) assetHandler.getRuntimeAsset(text);
 		caption.reset();
 
 		return complex;

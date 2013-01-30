@@ -42,22 +42,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
 
-import ead.engine.core.debuggers.DebuggersHandler;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gdx.GdxEngine;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.AbstractGUI;
 
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 
-	protected GdxEngine engine;
-
 	@Inject
-	public GdxGUI(GdxCanvas canvas, GdxEngine engine) {
+	public GdxGUI(GdxCanvas canvas) {
 		super(canvas);
-		this.engine = engine;
 	}
 
 	@Override
@@ -74,17 +65,6 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 	public void commit() {
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.commit();
-	}
-
-	@Override
-	public void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
-		engine.setGame(game);
-		engine.setInputHandler(inputHandler);
-		engine.setGUI(this);
-		super.initialize(game, gameState, sceneElementFactory, inputHandler,
-				debuggerHandler);
 	}
 
 	@Override

@@ -50,9 +50,8 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
  *
  */
-public abstract class RuntimeImage<GraphicContext> extends
-		AbstractRuntimeAsset<Image> implements
-		RuntimeDrawable<Image, GraphicContext> {
+public abstract class RuntimeImage extends AbstractRuntimeAsset<Image>
+		implements RuntimeDrawable<Image> {
 
 	@Inject
 	public RuntimeImage(AssetHandler assetHandler) {
@@ -65,7 +64,7 @@ public abstract class RuntimeImage<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
 		return this;
 	}

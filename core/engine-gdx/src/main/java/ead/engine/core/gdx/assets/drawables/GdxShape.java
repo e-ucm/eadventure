@@ -90,8 +90,8 @@ public abstract class GdxShape<T extends AbstractShape> extends
 	}
 
 	@Override
-	public void render(GenericCanvas<SpriteBatch> c) {
-		render(c.getNativeGraphicContext());
+	public void render(GenericCanvas c) {
+		render((SpriteBatch) c.getNativeGraphicContext());
 	}
 
 	public void render(SpriteBatch batch) {

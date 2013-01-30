@@ -232,7 +232,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 	 * Current drawable (contained in {@link SceneElementGOImpl#runtimeDrawable}
 	 * ) drawn
 	 */
-	private RuntimeDrawable<?, ?> currentDrawable;
+	private RuntimeDrawable<?> currentDrawable;
 
 	// Additional attributes
 
@@ -760,7 +760,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		return enable;
 	}
 
-	public RuntimeDrawable<?, ?> getDrawable() {
+	public RuntimeDrawable<?> getDrawable() {
 		return currentDrawable;
 	}
 

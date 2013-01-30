@@ -56,7 +56,9 @@ import com.google.inject.Singleton;
 
 import ead.common.model.params.util.EAdURI;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
+import ead.tools.SceneGraph;
 
 @Singleton
 public class GdxDesktopAssetHandler extends GdxAssetHandler {
@@ -68,8 +70,9 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 	private Map<String, String> tempFiles;
 
 	@Inject
-	public GdxDesktopAssetHandler(GenericInjector injector) {
-		super(injector);
+	public GdxDesktopAssetHandler(GenericInjector injector,
+			FontHandler fontHandler, SceneGraph sceneGraph) {
+		super(injector, fontHandler, sceneGraph);
 		zipped = false;
 		tempFiles = new HashMap<String, String>();
 	}

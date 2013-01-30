@@ -42,7 +42,10 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.google.gwt.core.client.GWT;
 
-import ead.engine.core.gdx.html.platform.GwtGinInjector;
+import ead.engine.core.gdx.html.platform.injection.GwtGinInjector;
+import ead.engine.core.gdx.html.platform.injection.InjectorHelper;
+import ead.tools.GenericInjector;
+import ead.tools.gwt.GwtInjector;
 
 public class GwtLauncher extends GwtApplication {
 	@Override
@@ -55,6 +58,11 @@ public class GwtLauncher extends GwtApplication {
 	@Override
 	public ApplicationListener getApplicationListener() {
 		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
+
+		InjectorHelper helper = new InjectorHelper(injector);
+		GenericInjector i = injector.getGenericInjector();
+		((GwtInjector) i).setInjector(helper);
+
 		return injector.getEngine();
 	}
 }

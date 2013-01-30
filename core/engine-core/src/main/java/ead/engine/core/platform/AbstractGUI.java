@@ -89,7 +89,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
 
-	@SuppressWarnings("rawtypes")
 	protected GenericCanvas eAdCanvas;
 
 	protected Game game;
@@ -118,7 +117,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	private GameObjectFactory<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>> sceneElementFactory;
 
-	public AbstractGUI(GenericCanvas<T> canvas) {
+	public AbstractGUI(GenericCanvas canvas) {
 		logger.info("Created abstract GUI");
 		this.eAdCanvas = canvas;
 		previousSceneStack = new Stack<EAdScene>();
@@ -176,9 +175,10 @@ public abstract class AbstractGUI<T> implements GUI {
 		root.addSceneElement(hudRoot);
 		updateInitialTransformation();
 		inputHandler.setInitialTransformation(initialTransformation);
+		addHuds();
 	}
 
-	public void setUp() {
+	public void addHuds() {
 		// Effects hud
 		SceneElement effectsHud = new SceneElement();
 		effectsHud.setId(GUI.EFFECTS_HUD_ID);
@@ -229,11 +229,10 @@ public abstract class AbstractGUI<T> implements GUI {
 		commit(root);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void commit(SceneElementGO<?> go) {
 		EAdTransformation t = go.getTransformation();
 		eAdCanvas.setTransformation(t);
-		RuntimeDrawable<?, ?> r = go.getDrawable();
+		RuntimeDrawable<?> r = go.getDrawable();
 		if (r != null) {
 			r.render(eAdCanvas);
 		}

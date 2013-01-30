@@ -53,17 +53,13 @@ import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.platform.GdxGUI;
 import ead.engine.core.input.InputHandler;
@@ -79,25 +75,17 @@ public class GdxDesktopGUI extends GdxGUI {
 	private Component component;
 
 	@Inject
-	public GdxDesktopGUI(GdxCanvas canvas, GdxEngine engine) {
-		super(canvas, engine);
+	public GdxDesktopGUI(GdxCanvas canvas) {
+		super(canvas);
 	}
 
-	@Override
-	public void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
-		super.initialize(game, gameState, sceneElementFactory, inputHandler,
-				debuggerHandler);
+	public void create(int width, int height) {
 		frame = new JFrame();
 
 		// Sets a null cursor (so the in-game one is used)
 		frame.setCursor(frame.getToolkit().createCustomCursor(
 				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
 				new Point(0, 0), "null"));
-
-		int width = gameState.getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		canvas = new Canvas();
 		canvas.setSize(width, height);
 		frame.add(canvas);
@@ -112,18 +100,16 @@ public class GdxDesktopGUI extends GdxGUI {
 			}
 		});
 
-		// Prepare Gdx configuration
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "ead-engine";
-		cfg.useGL20 = true;
-		cfg.width = width;
-		cfg.height = height;
-		cfg.fullscreen = gameState.getValue(SystemFields.FULLSCREEN);
-		cfg.forceExit = gameState.getValue(SystemFields.EXIT_WHEN_CLOSE);
-
 		// Frame needs to be visible so Gdx can create the right context
 		frame.setVisible(true);
-		new LwjglApplication(engine, cfg, canvas);
+	}
+
+	@Override
+	public void initialize(Game game, GameState gameState,
+			SceneElementGOFactory sceneElementFactory,
+			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
+		super.initialize(game, gameState, sceneElementFactory, inputHandler,
+				debuggerHandler);
 
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {
@@ -204,5 +190,9 @@ public class GdxDesktopGUI extends GdxGUI {
 	 */
 	public JFrame getFrame() {
 		return frame;
+	}
+
+	public Canvas getCanvas() {
+		return canvas;
 	}
 }

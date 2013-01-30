@@ -68,7 +68,7 @@ public class GhostElementGO extends SceneElementGOImpl {
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable() {
+	public RuntimeDrawable<?> getDrawable() {
 		if (visible) {
 			return super.getDrawable();
 		} else {

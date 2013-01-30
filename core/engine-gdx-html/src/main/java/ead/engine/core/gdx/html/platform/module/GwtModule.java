@@ -47,13 +47,11 @@ import com.google.inject.TypeLiteral;
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.engine.core.gdx.html.platform.GdxGWTAssetHandler;
 import ead.engine.core.gdx.html.platform.GdxGWTGUI;
-import ead.engine.core.gdx.html.platform.GwtInjector;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
-import ead.tools.GenericInjector;
 
 public class GwtModule extends AbstractGinModule {
 
@@ -62,7 +60,6 @@ public class GwtModule extends AbstractGinModule {
 	protected void configure() {
 		GdxModuleMap map = new GdxModuleMap();
 		map.getBinds().put(AssetHandler.class, GdxGWTAssetHandler.class);
-		map.getBinds().put(GenericInjector.class, GwtInjector.class);
 		map.getBinds().put(GUI.class, GdxGWTGUI.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();

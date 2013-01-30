@@ -192,12 +192,6 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void setUp() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public SceneElementGO<?> getSceneElement(EAdSceneElement element) {
 			// TODO Auto-generated method stub
 			return null;

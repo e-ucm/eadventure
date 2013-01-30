@@ -80,12 +80,6 @@ public interface GUI extends InputActionProcessor {
 			InputHandler inputHandler, DebuggersHandler debuggerHandler);
 
 	/**
-	 * Initialization after the graphic context has been created. In this
-	 * method, for example, huds are created
-	 */
-	void setUp();
-
-	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is
 	 * called, the engine is unable to load more games
 	 */

@@ -47,21 +47,20 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 
-public class MatrixRuntimeFilter implements
-		RuntimeFilter<MatrixFilter, SpriteBatch> {
+public class MatrixRuntimeFilter implements RuntimeFilter<MatrixFilter> {
 
 	@Override
-	public void applyFilter(RuntimeDrawable<?, SpriteBatch> drawable,
-			MatrixFilter filter, GenericCanvas<SpriteBatch> c) {
+	public void applyFilter(RuntimeDrawable<?> drawable, MatrixFilter filter,
+			GenericCanvas c) {
 		EAdMatrix matrix = filter.getMatrix();
 		GdxCanvas c2 = (GdxCanvas) c;
 		float deltaX = filter.getOriginX() * drawable.getWidth();
 		float deltaY = filter.getOriginY() * drawable.getHeight();
 		Matrix4 m = c2.convertMatrix(matrix);
+		SpriteBatch spriteBatch = c2.getSpriteBatch();
 
-		c2.getNativeGraphicContext().setTransformMatrix(
-				c2.getNativeGraphicContext().getTransformMatrix().trn(deltaX,
-						deltaY, 0).mul(m));
+		spriteBatch.setTransformMatrix(spriteBatch.getTransformMatrix().trn(
+				deltaX, deltaY, 0).mul(m));
 
 	}
 

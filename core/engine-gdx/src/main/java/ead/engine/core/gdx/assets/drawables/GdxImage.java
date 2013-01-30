@@ -52,7 +52,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public class GdxImage extends RuntimeImage<SpriteBatch> {
+public class GdxImage extends RuntimeImage {
 
 	private static final Logger logger = LoggerFactory.getLogger("GdxImage");
 
@@ -114,8 +114,8 @@ public class GdxImage extends RuntimeImage<SpriteBatch> {
 	}
 
 	@Override
-	public void render(GenericCanvas<SpriteBatch> c) {
-		render(c.getNativeGraphicContext());
+	public void render(GenericCanvas c) {
+		render((SpriteBatch) c.getNativeGraphicContext());
 	}
 
 	public void render(SpriteBatch batch) {

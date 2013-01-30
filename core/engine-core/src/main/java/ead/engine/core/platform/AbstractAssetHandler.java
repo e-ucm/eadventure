@@ -80,7 +80,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	/**
 	 * A cache of the runtime assets for each asset descriptor
 	 */
-	final protected Map<AssetDescriptor, RuntimeAsset<?>> cache;
+	final private Map<AssetDescriptor, RuntimeAsset<?>> cache;
 	/**
 	 * A class map of the asset descriptor classes and their corresponding
 	 * runtime assets
@@ -92,6 +92,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private boolean cacheEnabled;
 	private ArrayList<AssetDescriptor> assetsQueue;
 	private SceneGraph sceneGraph;
+	protected String currentLanguage;
 
 	/**
 	 * Default constructor, values are supplied by injection
@@ -170,7 +171,9 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 		RuntimeAsset<T> temp = null;
 		if (cacheEnabled) {
-			temp = (RuntimeAsset<T>) cache.get(descriptor);
+			synchronized (cache) {
+				temp = (RuntimeAsset<T>) cache.get(descriptor);
+			}
 		}
 
 		if (temp == null) {
@@ -205,11 +208,10 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		return runtimeAsset;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdDrawable, GraphicContext> RuntimeDrawable<T, GraphicContext> getDrawableAsset(
+	public <T extends EAdDrawable, GraphicContext> RuntimeDrawable<T> getDrawableAsset(
 			T descriptor) {
-		return (RuntimeDrawable<T, GraphicContext>) getRuntimeAsset(descriptor);
+		return (RuntimeDrawable<T>) getRuntimeAsset(descriptor);
 	}
 
 	public abstract RuntimeAsset<?> getInstance(
@@ -302,15 +304,28 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		this.cacheEnabled = enable;
 	}
 
+	public void setLanguage(String currentLanguage) {
+		if (this.currentLanguage == null
+				|| !this.currentLanguage.equals(currentLanguage)) {
+			this.currentLanguage = currentLanguage;
+			refresh();
+		}
+	}
+
 	@Override
 	public void refresh() {
-		for (RuntimeAsset<?> r : cache.values()) {
-			r.refresh();
+		synchronized (cache) {
+			for (RuntimeAsset<?> r : cache.values()) {
+				r.refresh();
+			}
 		}
 	}
 
 	public void remove(AssetDescriptor assetDescriptor) {
-		RuntimeAsset<?> asset = cache.remove(assetDescriptor);
+		RuntimeAsset<?> asset = null;
+		synchronized (cache) {
+			asset = cache.remove(assetDescriptor);
+		}
 		if (asset != null && asset.isLoaded()) {
 			asset.freeMemory();
 		}

@@ -71,7 +71,6 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.AssetHandler.TextHandler;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.reader.AdventureReader;
@@ -234,25 +233,19 @@ public class GameImpl implements Game, VisitorListener {
 		// Adds filters
 		addFilters();
 		// Load game properties
-		assetHandler.getTextfileAsync(DEFAULT_PROPERTIES, new TextHandler() {
+		processProperties(assetHandler.getTextFile(DEFAULT_PROPERTIES));
 
-			@Override
-			public void handle(String text) {
-				processProperties(text);
+		// It is necessary to load the default properties before set up
+		// GUI initialization
+		gui.initialize(GameImpl.this, gameState, sceneElementFactory,
+				inputHandler, debuggersHandler);
 
-				// It is necessary to load the default properties before set up
-				// GUI initialization
-				gui.initialize(GameImpl.this, gameState, sceneElementFactory,
-						inputHandler, debuggersHandler);
-
-				// Load strings
-				loadStrings();
-				// Read model
-				readModel();
-				assetHandler.initialize();
-				pluginHandler.initialize();
-			}
-		});
+		// Load strings
+		loadStrings();
+		// Read model
+		readModel();
+		assetHandler.initialize();
+		pluginHandler.initialize();
 	}
 
 	@Override
@@ -308,7 +301,7 @@ public class GameImpl implements Game, VisitorListener {
 		if (newLanguage != null && !newLanguage.equals(currentLanguage)) {
 			currentLanguage = newLanguage;
 			stringHandler.setLanguage(currentLanguage);
-			assetHandler.refresh();
+			assetHandler.setLanguage(currentLanguage);
 		}
 
 	}

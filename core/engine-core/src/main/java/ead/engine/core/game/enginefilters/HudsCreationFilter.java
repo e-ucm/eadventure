@@ -48,7 +48,6 @@ import ead.engine.core.gameobjects.huds.BottomHUD;
 import ead.engine.core.gameobjects.huds.EffectsHUD;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.huds.MenuHUD;
-import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
@@ -83,9 +82,6 @@ public class HudsCreationFilter extends AbstractEngineFilter<List<HudGO>> {
 				sceneElementFactory, gui, gameState, eventFactory);
 		o.add(effectHUD);
 
-		TopBasicHUDImpl topBasicHUD = new TopBasicHUDImpl(assetHandler,
-				sceneElementFactory, gui, gameState, eventFactory);
-		o.add(topBasicHUD);
 		return o;
 	}
 

@@ -54,13 +54,13 @@ import ead.engine.core.util.EAdTransformation;
  * 
  * @param <S>
  */
-public interface GenericCanvas<S> {
+public interface GenericCanvas {
 
 	/**
 	 * @param g
 	 *            The graphic context where elements are rendered
 	 */
-	void setGraphicContext(S g);
+	void setGraphicContext(Object g);
 
 	/**
 	 * @param t
@@ -81,7 +81,7 @@ public interface GenericCanvas<S> {
 	 *            configured through
 	 *            {@code setTransformation(EAdTransformation t)} are applied)
 	 */
-	void drawShape(RuntimeDrawable<? extends EAdShape, S> shape);
+	void drawShape(RuntimeDrawable<? extends EAdShape> shape);
 
 	/**
 	 * Draws the text in 0, 0. Same result can be accomplished calling
@@ -144,7 +144,7 @@ public interface GenericCanvas<S> {
 	/**
 	 * @return the current graphic context of this canvas
 	 */
-	S getNativeGraphicContext();
+	Object getNativeGraphicContext();
 
 	/**
 	 * Apply a translate transformation to the current transform of the canvas
@@ -186,7 +186,7 @@ public interface GenericCanvas<S> {
 	 * @param filter
 	 *            the filter. {@code null} if no filter must be applied
 	 */
-	void setFilter(RuntimeDrawable<?, S> drawable, EAdDrawableFilter filter);
+	void setFilter(RuntimeDrawable<?> drawable, EAdDrawableFilter filter);
 
 	int getWidth();
 
