@@ -47,9 +47,6 @@ public abstract class TriangulationContext<A extends TriangulationDebugContext> 
 	protected Triangulatable _triUnit;
 
 	private boolean _terminated = false;
-	private boolean _waitUntilNotified;
-
-	private int _stepTime = -1;
 	private int _stepCount = 0;
 
 	public int getStepCount() {
@@ -88,26 +85,6 @@ public abstract class TriangulationContext<A extends TriangulationDebugContext> 
 	}
 
 	public synchronized void update(String message) {
-		if (_debugEnabled) {
-			try {
-				synchronized (this) {
-					_stepCount++;
-					if (_stepTime > 0) {
-						wait((int) _stepTime);
-						/** Can we resume execution or are we expected to wait? */
-						if (_waitUntilNotified) {
-							wait();
-						}
-					} else {
-						wait();
-					}
-					// We have been notified
-					_waitUntilNotified = false;
-				}
-			} catch (InterruptedException e) {
-				update("Triangulation was interrupted");
-			}
-		}
 		if (_terminated) {
 			throw new RuntimeException(
 					"Triangulation process terminated before completion");
@@ -125,10 +102,6 @@ public abstract class TriangulationContext<A extends TriangulationDebugContext> 
 
 	public TriangulationMode getTriangulationMode() {
 		return _triangulationMode;
-	}
-
-	public synchronized void waitUntilNotified(boolean b) {
-		_waitUntilNotified = b;
 	}
 
 	public void terminateTriangulation() {

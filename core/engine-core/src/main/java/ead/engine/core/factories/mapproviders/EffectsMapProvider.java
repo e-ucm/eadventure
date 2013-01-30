@@ -40,6 +40,7 @@ package ead.engine.core.factories.mapproviders;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.AddActorReferenceEf;
+import ead.common.model.elements.effects.AddChildEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.ModifyInventoryEf;
@@ -58,6 +59,7 @@ import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
+import ead.engine.core.gameobjects.effects.AddChildGO;
 import ead.engine.core.gameobjects.effects.ChangeFieldGO;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 import ead.engine.core.gameobjects.effects.EffectGO;
@@ -100,6 +102,7 @@ public class EffectsMapProvider
 		factoryMap.put(RandomEf.class, RandomGO.class);
 		factoryMap.put(RemoveEf.class, RemoveGO.class);
 		factoryMap.put(ShowQuestionEf.class, ShowQuestionGO.class);
+		factoryMap.put(AddChildEf.class, AddChildGO.class);
 	}
 
 }

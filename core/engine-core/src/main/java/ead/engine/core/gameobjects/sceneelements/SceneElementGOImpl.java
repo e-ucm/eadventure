@@ -616,7 +616,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 
 	}
 
-	private void updateCurrentDawable() {
+	protected void updateCurrentDawable() {
 		if (runtimeDrawable != null) {
 			currentDrawable = runtimeDrawable.getDrawable(timeDisplayed,
 					statesList, 0);

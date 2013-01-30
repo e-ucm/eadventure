@@ -145,7 +145,7 @@ public class TopBasicHUDImpl extends AbstractHUD {
 
 	// Mouse
 	private void initMouse() {
-		mouse = new GhostElement(cursor, null);
+		mouse = new GhostElement(cursor);
 		mouse.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 		mouse.setInitialEnable(false);
 		mouseGO = sceneElementFactory.get(mouse);

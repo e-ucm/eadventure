@@ -43,7 +43,6 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.EAdPosition.Corner;
@@ -51,19 +50,25 @@ import ead.common.model.params.variables.SystemFields;
 
 public class MouseHud extends GroupElement {
 
+	public static final String MOUSE_HUD_ID = "#predefined.hud.mouse";
+
 	public static final String CURSOR_ID = "#engine.cursor";
 
 	public static final String TAKE_CURSOR = "take";
+	public static final String EXAMINE_CURSOR = "examine";
 
 	public MouseHud() {
-		this.setId("#predefined.hud.mouse");
+		this.setId(MOUSE_HUD_ID);
 		EAdDrawable cursor = new Image("@drawable/default_cursor.png");
 		EAdDrawable takeCursor = new Image("@drawable/take_cursor.png");
-		SceneElement mouse = new GhostElement(cursor, null);
+		EAdDrawable examineCursor = new Image("@drawable/examine_cursor.png");
+		SceneElement mouse = new SceneElement(cursor);
 		mouse.setAppearance(TAKE_CURSOR, takeCursor);
+		mouse.setAppearance(EXAMINE_CURSOR, examineCursor);
 		mouse.setId(CURSOR_ID);
 		mouse.setInitialEnable(false);
 		mouse.setPosition(Corner.TOP_LEFT, 0, 0);
+		mouse.setVarInitialValue(SceneElement.VAR_Z, 10000);
 
 		SceneElementEv followMouseEvent = new SceneElementEv();
 		followMouseEvent.addEffect(SceneElementEvType.ALWAYS,

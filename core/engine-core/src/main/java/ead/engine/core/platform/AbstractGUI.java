@@ -235,7 +235,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		eAdCanvas.setTransformation(t);
 		RuntimeDrawable<?, ?> r = go.getDrawable();
 		if (r != null) {
-			go.getDrawable().render(eAdCanvas);
+			r.render(eAdCanvas);
 		}
 		for (SceneElementGO<?> g : go.getChildren()) {
 			commit(g);

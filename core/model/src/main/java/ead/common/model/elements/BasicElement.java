@@ -80,12 +80,12 @@ public abstract class BasicElement implements EAdElement {
 	}
 
 	public boolean equals(Object o) {
-		return o != null && getClass().equals(o.getClass())
-				&& getId().equals(((EAdElement) o).getId());
+		return (o instanceof EAdElement && ((EAdElement) o).getId().equals(
+				getId()));
 	}
 
 	public int hashCode() {
-		return getId().hashCode() * 43 ^ getClass().hashCode();
+		return getId().hashCode();
 	}
 
 	/**

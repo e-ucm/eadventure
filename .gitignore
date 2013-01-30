@@ -44,9 +44,6 @@ test/resources/result*
 **/R.java
 
 # gwt settings, output and support
-core/engine-playn/.gwt/
-core/engine-playn/gwt-unitCache*
-core/engine-playn/war/eadengine*
 
 core/engine-gdx-html/.gwt/
 core/engine-gdx-html/gwt-unitCache*

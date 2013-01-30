@@ -92,9 +92,18 @@ public class MoveSceneElementGO extends
 	public void initialize() {
 		super.initialize();
 		ValueMap valueMap = gameState;
+		int endX = 0;
+		int endY = 0;
 
-		int endX = gameState.operate(Integer.class, effect.getxTarget());
-		int endY = gameState.operate(Integer.class, effect.getyTarget());
+		if (effect.getxTarget() != null && effect.getyTarget() != null) {
+			endX = gameState.operate(Integer.class, effect.getxTarget());
+			endY = gameState.operate(Integer.class, effect.getyTarget());
+		} else if (effect.getTargetSceneElement() != null) {
+			endX = gameState.getValue(effect.getTargetSceneElement(),
+					SceneElement.VAR_X);
+			endY = gameState.getValue(effect.getTargetSceneElement(),
+					SceneElement.VAR_Y);
+		}
 
 		EAdSceneElement target = effect.getTarget() != null ? valueMap
 				.getValue(effect.getTarget(), SceneElementDef.VAR_SCENE_ELEMENT)

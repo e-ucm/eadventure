@@ -81,6 +81,8 @@ public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 			SceneElementGOFactory sceneElementFactory,
 			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
 		engine.setGame(game);
+		engine.setInputHandler(inputHandler);
+		engine.setGUI(this);
 		super.initialize(game, gameState, sceneElementFactory, inputHandler,
 				debuggerHandler);
 	}

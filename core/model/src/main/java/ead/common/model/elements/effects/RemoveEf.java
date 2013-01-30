@@ -37,6 +37,7 @@
 
 package ead.common.model.elements.effects;
 
+import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.scenes.EAdSceneElement;
 
@@ -44,6 +45,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
  * Removes an scene element from the scene
  *
  */
+@Element
 public class RemoveEf extends AbstractEffect {
 
 	@Param
@@ -51,6 +53,10 @@ public class RemoveEf extends AbstractEffect {
 
 	public RemoveEf() {
 
+	}
+
+	public RemoveEf(EAdSceneElement element) {
+		this.element = element;
 	}
 
 	public EAdSceneElement getElement() {

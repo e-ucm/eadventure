@@ -114,12 +114,12 @@
 
 	<properties>
 		<gwt.module>ead.engine.core.GwtDefinition</gwt.module>
-		<gwt.version>2.4.0</gwt.version>
+		<gwt.version>2.5.0</gwt.version>
 		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
 		<!--
-			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output
+			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output-->
 				<gwt.logLevel>DEBUG</gwt.logLevel> 
-		-->
+		<gwt.style>PRETTY</gwt.style>
 	</properties>
 
 	<profiles>
@@ -181,16 +181,10 @@
 			<version>${gwt.version}</version>
 			<scope>compile</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-assisted-inject</artifactId>
-			<version>3.0</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gwtent</groupId>
@@ -202,29 +196,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-tracker-gwt</artifactId>
-		</dependency>
-
-		<!-- FIXME: Source are required in order to make gwt compilation. There's 
-		probably another way to do this, since the code is already in the above jar -->
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-tracker-gwt</artifactId>
-			<classifier>sources</classifier>
-		</dependency>
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-model</artifactId>
-			<classifier>sources</classifier>
-		</dependency>
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-tracker</artifactId>
-			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>

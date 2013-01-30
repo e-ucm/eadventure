@@ -41,7 +41,6 @@ import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.elements.scenes.GroupElement;
-import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.fills.ColorFill;
@@ -58,7 +57,7 @@ public class Button extends GroupElement {
 		caption.setFont(new BasicFont(12));
 		caption.setTextPaint(ColorFill.BLACK);
 
-		SceneElement text = new GhostElement(caption, null);
+		SceneElement text = new SceneElement(caption);
 		text.setPosition(Corner.CENTER, 100, 15);
 		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 

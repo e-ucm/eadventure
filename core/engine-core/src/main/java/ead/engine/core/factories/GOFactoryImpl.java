@@ -63,7 +63,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 
 	private boolean useCache;
 
-	private Map<S, T> cache;
+	protected Map<S, T> cache;
 
 	private Map<Class<? extends S>, Class<? extends T>> classMap;
 

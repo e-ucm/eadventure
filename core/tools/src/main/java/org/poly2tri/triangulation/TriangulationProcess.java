@@ -30,7 +30,6 @@
  */
 package org.poly2tri.triangulation;
 
-import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,14 +50,11 @@ public class TriangulationProcess implements Runnable {
 	private final static Logger logger = LoggerFactory
 			.getLogger(TriangulationProcess.class);
 
-	private final TriangulationAlgorithm _algorithm;
-
 	private TriangulationContext<?> _tcx;
-	private Thread _thread;
+	private TriangulationProcess _thread;
 	private boolean _isTerminated = false;
 	private int _pointCount = 0;
 	private long _timestamp = 0;
-	private double _triangulationTime = 0;
 
 	private boolean _awaitingTermination;
 	private boolean _restart = false;
@@ -98,7 +94,7 @@ public class TriangulationProcess implements Runnable {
 	}
 
 	public double getTriangulationTime() {
-		return _triangulationTime;
+		return 0;
 	}
 
 	/**
@@ -110,7 +106,7 @@ public class TriangulationProcess implements Runnable {
 	}
 
 	public TriangulationProcess(TriangulationAlgorithm algorithm) {
-		_algorithm = algorithm;
+		//_algorithm = algorithm;
 		_tcx = Poly2Tri.createContext(algorithm);
 	}
 
@@ -181,11 +177,12 @@ public class TriangulationProcess implements Runnable {
 	}
 
 	private void start() {
-		if (_thread == null || _thread.getState() == State.TERMINATED) {
+		if (_thread == null /*|| _thread.getState() == State.TERMINATED*/) {
 			_isTerminated = false;
-			_thread = new Thread(this, _algorithm.name() + "."
-					+ _tcx.getTriangulationMode());
-			_thread.start();
+			//			_thread = new Thread(this, _algorithm.name() + "."
+			//					+ _tcx.getTriangulationMode());
+			_thread = this;
+			_thread.run();
 			sendEvent(TriangulationProcessEvent.Started);
 		} else {
 			// Triangulation already running. Terminate it so we can start a new
@@ -195,7 +192,7 @@ public class TriangulationProcess implements Runnable {
 	}
 
 	public boolean isWaiting() {
-		if (_thread != null && _thread.getState() == State.WAITING) {
+		if (_thread != null) {
 			return true;
 		}
 		return false;
@@ -204,22 +201,17 @@ public class TriangulationProcess implements Runnable {
 	public void run() {
 		_pointCount = 0;
 		try {
-			long time = System.nanoTime();
 			for (Triangulatable t : _triangulations) {
 				_tcx.clear();
 				_tcx.prepareTriangulation(t);
 				_pointCount += _tcx._points.size();
 				Poly2Tri.triangulate(_tcx);
 			}
-			_triangulationTime = (System.nanoTime() - time) / 1e6;
-			logger.info("Triangulation of {} points [{}ms]", _pointCount,
-					_triangulationTime);
 			sendEvent(TriangulationProcessEvent.Done);
 		} catch (RuntimeException e) {
 			if (_awaitingTermination) {
 				_awaitingTermination = false;
-				logger.info("Thread[{}] : {}", _thread.getName(), e
-						.getMessage());
+				logger.info("Thread[{}] : {}", _thread, e.getMessage());
 				sendEvent(TriangulationProcessEvent.Aborted);
 			} else {
 				e.printStackTrace();
@@ -245,13 +237,13 @@ public class TriangulationProcess implements Runnable {
 	public void resume() {
 		if (_thread != null) {
 			// Only force a resume when process is waiting for a notification
-			if (_thread.getState() == State.WAITING) {
+			/*if (_thread.getState() == State.WAITING) {
 				synchronized (_tcx) {
 					_tcx.notify();
 				}
 			} else if (_thread.getState() == State.TIMED_WAITING) {
 				_tcx.waitUntilNotified(false);
-			}
+			}*/
 		}
 	}
 
@@ -270,7 +262,7 @@ public class TriangulationProcess implements Runnable {
 	}
 
 	public void requestRead() {
-		_tcx.waitUntilNotified(true);
+		//_tcx.waitUntilNotified(true);
 	}
 
 	public boolean isReadable() {
@@ -278,13 +270,13 @@ public class TriangulationProcess implements Runnable {
 			return true;
 		} else {
 			synchronized (_thread) {
-				if (_thread.getState() == State.WAITING) {
+				/*if (_thread.getState() == State.WAITING) {
 					return true;
 				} else if (_thread.getState() == State.TIMED_WAITING) {
 					// Make sure that it stays readable
-					_tcx.waitUntilNotified(true);
+					//_tcx.waitUntilNotified(true);
 					return true;
-				}
+				}*/
 				return false;
 			}
 		}

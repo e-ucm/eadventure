@@ -44,6 +44,7 @@ import ead.common.model.elements.effects.enums.MovementSpeed;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 
 /**
@@ -77,7 +78,10 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	private boolean useTrajectory;
 
 	@Param
-	private EAdSceneElementDef target;
+	private EAdSceneElementDef targetDefinition;
+
+	@Param
+	private EAdSceneElement targetSceneElement;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -185,11 +189,15 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	}
 
 	public void setTarget(EAdSceneElementDef sceneElementDef) {
-		this.target = sceneElementDef;
+		setTargetDefinition(sceneElementDef);
+	}
+
+	public void setTarget(EAdSceneElement sceneElement) {
+		setTargetSceneElement(sceneElement);
 	}
 
 	public EAdSceneElementDef getTarget() {
-		return target;
+		return targetDefinition;
 	}
 
 	public void setxTarget(EAdOperation xTarget) {
@@ -198,6 +206,22 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 
 	public void setyTarget(EAdOperation yTarget) {
 		this.yTarget = yTarget;
+	}
+
+	public EAdSceneElementDef getTargetDefinition() {
+		return targetDefinition;
+	}
+
+	public void setTargetDefinition(EAdSceneElementDef targetDefinition) {
+		this.targetDefinition = targetDefinition;
+	}
+
+	public EAdSceneElement getTargetSceneElement() {
+		return targetSceneElement;
+	}
+
+	public void setTargetSceneElement(EAdSceneElement targetSceneElement) {
+		this.targetSceneElement = targetSceneElement;
 	}
 
 }

@@ -39,11 +39,8 @@ package ead.engine.core.gameobjects.sceneelements;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.scenes.EAdGhostElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.fills.Paint;
+import ead.common.model.elements.scenes.GhostElement;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
@@ -53,9 +50,9 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
 
 public class GhostElementGO extends SceneElementGOImpl {
 
-	private RuntimeDrawable<?, ?> interactionArea;
+	private boolean catchAll;
 
-	private EAdGhostElement ghostElement;
+	public boolean visible;
 
 	@Inject
 	public GhostElementGO(AssetHandler assetHandler,
@@ -64,37 +61,27 @@ public class GhostElementGO extends SceneElementGOImpl {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
-	@Override
-	public void setElement(EAdSceneElement element) {
-		super.setElement(element);
-		this.ghostElement = (EAdGhostElement) element;
-		EAdDrawable interactionAreaDrawable = ghostElement.getInteractionArea();
-
-		if (interactionAreaDrawable != null) {
-			interactionArea = assetHandler
-					.getDrawableAsset(interactionAreaDrawable);
-			RectangleShape area = new RectangleShape(
-					interactionArea.getWidth(), interactionArea.getHeight(),
-					Paint.TRANSPARENT);
-			ghostElement.getDefinition().setAppearance(area);
-		}
+	public void setElement(EAdSceneElement e) {
+		super.setElement(e);
+		catchAll = ((GhostElement) e).isCatchAll();
+		visible = false;
 	}
 
 	@Override
+	public RuntimeDrawable<?, ?> getDrawable() {
+		if (visible) {
+			return super.getDrawable();
+		} else {
+			return null;
+		}
+	}
+
+	public void setInteractionAreaVisible(boolean visible) {
+		this.visible = visible;
+	}
+
 	public boolean contains(int x, int y) {
-		if (ghostElement.isCatchAll()) {
-			return true;
-		}
-		if (isVisible() && isEnable()) {
-			float[] mouse = transformation.getMatrix().multiplyPointInverse(x,
-					y, true);
-			x = (int) mouse[0];
-			y = (int) mouse[1];
-			if (this.interactionArea != null) {
-				return this.interactionArea.contains(x, y);
-			}
-		}
-		return false;
+		return catchAll || super.contains(x, y);
 	}
 
 }

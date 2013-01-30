@@ -30,7 +30,7 @@
  */
 package org.poly2tri.triangulation.delaunay.sweep;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import org.poly2tri.triangulation.Triangulatable;
@@ -92,19 +92,19 @@ public class DTSweepContext extends TriangulationContext<DTSweepDebugContext> {
 	protected void meshClean(DelaunayTriangle triangle) {
 		DelaunayTriangle t1, t2;
 		if (triangle != null) {
-			ArrayDeque<DelaunayTriangle> deque = new ArrayDeque<DelaunayTriangle>();
-			deque.addFirst(triangle);
+			ArrayList<DelaunayTriangle> deque = new ArrayList<DelaunayTriangle>();
+			deque.add(0, triangle);
 			triangle.isInterior(true);
 
 			while (!deque.isEmpty()) {
-				t1 = deque.removeFirst();
+				t1 = deque.remove(0);
 				_triUnit.addTriangle(t1);
 				for (int i = 0; i < 3; ++i) {
 					if (!t1.cEdge[i]) {
 						t2 = t1.neighbors[i];
 						if (t2 != null && !t2.isInterior()) {
 							t2.isInterior(true);
-							deque.addLast(t2);
+							deque.add(t2);
 						}
 					}
 				}

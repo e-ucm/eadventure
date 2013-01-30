@@ -67,11 +67,9 @@ public class GdxEngineImpl implements GdxEngine {
 	private GUI gui;
 
 	@Inject
-	public GdxEngineImpl(GdxCanvas canvas, InputHandler inputHandler, GUI gui) {
+	public GdxEngineImpl(GdxCanvas canvas) {
 		ShaderProgram.pedantic = false;
 		this.canvas = canvas;
-		this.inputHandler = inputHandler;
-		this.gui = gui;
 	}
 
 	@Override
@@ -128,6 +126,15 @@ public class GdxEngineImpl implements GdxEngine {
 
 	@Override
 	public void resume() {
+	}
+
+	@Override
+	public void setInputHandler(InputHandler inputHandler) {
+		this.inputHandler = inputHandler;
+	}
+
+	public void setGUI(GUI gui) {
+		this.gui = gui;
 	}
 
 }

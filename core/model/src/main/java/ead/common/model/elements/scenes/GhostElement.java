@@ -57,9 +57,6 @@ import ead.common.model.assets.drawable.EAdDrawable;
 public class GhostElement extends SceneElement implements EAdGhostElement {
 
 	@Param
-	private EAdDrawable interactionArea;
-
-	@Param
 	private boolean catchAll;
 
 	public GhostElement() {
@@ -74,23 +71,8 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 	 * @param interactionArea
 	 *            the interaction area. Could be {@code null}
 	 */
-	public GhostElement(EAdDrawable appearance, EAdDrawable interactionArea) {
-		super(appearance);
-		this.interactionArea = interactionArea;
-	}
-
 	public GhostElement(EAdDrawable interactionArea) {
-		this.interactionArea = interactionArea;
-	}
-
-	@Override
-	public EAdDrawable getInteractionArea() {
-		return interactionArea;
-	}
-
-	@Override
-	public void setInteractionArea(EAdDrawable drawable) {
-		this.interactionArea = drawable;
+		super(interactionArea);
 	}
 
 	public boolean isCatchAll() {

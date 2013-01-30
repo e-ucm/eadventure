@@ -40,9 +40,15 @@ package ead.engine.core.gdx;
 import com.badlogic.gdx.ApplicationListener;
 
 import ead.engine.core.game.Game;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.GUI;
 
 public interface GdxEngine extends ApplicationListener {
 
-	public void setGame(Game game);
+	void setGame(Game game);
+
+	void setInputHandler(InputHandler inputHandler);
+
+	void setGUI(GUI gui);
 
 }

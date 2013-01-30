@@ -40,7 +40,6 @@ package ead.engine.core.factories.mapproviders;
 import ead.common.model.elements.debuggers.FieldsDebugger;
 import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
-import ead.common.model.elements.huds.InventoryHud;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -55,7 +54,6 @@ import ead.common.model.elements.widgets.TextArea;
 import ead.engine.core.debuggers.FieldsDebuggerGO;
 import ead.engine.core.debuggers.GhostDebuggerGO;
 import ead.engine.core.debuggers.TrajectoryDebuggerGO;
-import ead.engine.core.gameobjects.huds.InventoryHUDGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -86,7 +84,7 @@ public class SceneElementsMapProvider
 		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
 		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
 		// Huds
-		factoryMap.put(InventoryHud.class, InventoryHUDGO.class);
+
 		// Debuggers
 		factoryMap.put(TrajectoryDebugger.class, TrajectoryDebuggerGO.class);
 		factoryMap.put(GhostDebugger.class, GhostDebuggerGO.class);

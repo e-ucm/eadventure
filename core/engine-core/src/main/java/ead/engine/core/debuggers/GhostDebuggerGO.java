@@ -42,9 +42,6 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.elements.scenes.GhostElement;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
@@ -59,49 +56,43 @@ public class GhostDebuggerGO extends SceneElementGOImpl {
 
 	private SceneGO currentScene;
 
-	private List<SceneElementGO<?>> currentSceneElements;
+	private List<GhostElementGO> currentSceneElements;
 
 	@Inject
 	public GhostDebuggerGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
-		currentSceneElements = new ArrayList<SceneElementGO<?>>();
+		currentSceneElements = new ArrayList<GhostElementGO>();
 	}
 
 	public void update() {
 		if (this.currentScene != gui.getScene()) {
 			currentScene = gui.getScene();
-			for (SceneElementGO<?> go : currentSceneElements) {
-				go.remove();
-			}
 			if (currentScene != null) {
-				for (SceneElementGO<?> go : currentScene.getChildren()) {
-					if (go instanceof GhostElementGO) {
-						GhostElementGO ghost = (GhostElementGO) go;
-						GhostElement ghostElement = (GhostElement) ghost
-								.getElement();
-						EAdDrawable interactionArea = ghostElement
-								.getInteractionArea();
-						if (interactionArea != null) {
-							SceneElement element = new SceneElement(
-									interactionArea);
-							element.setInitialEnable(false);
-							SceneElementGO<?> elementGO = sceneElementFactory
-									.get(element);
-							ghost.addSceneElement(elementGO);
-							currentSceneElements.add(elementGO);
-						}
-					}
+				for (GhostElementGO g : currentSceneElements) {
+					g.setInteractionAreaVisible(false);
 				}
+				currentSceneElements.clear();
+				collect(currentScene);
 			}
+		}
+	}
+
+	public void collect(SceneElementGO<?> e) {
+		for (SceneElementGO<?> go : e.getChildren()) {
+			if (go instanceof GhostElementGO) {
+				currentSceneElements.add((GhostElementGO) go);
+				((GhostElementGO) go).setInteractionAreaVisible(true);
+			}
+			collect(e);
 		}
 	}
 
 	public void remove() {
 		super.remove();
-		for (SceneElementGO<?> go : currentSceneElements) {
-			go.remove();
+		for (GhostElementGO g : currentSceneElements) {
+			g.setInteractionAreaVisible(false);
 		}
 		currentScene = null;
 		currentSceneElements.clear();

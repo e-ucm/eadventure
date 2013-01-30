@@ -170,7 +170,6 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	public int hashCode() {
 		int hash = 3 * super.hashCode();
 		hash = 89 * hash + (this.name != null ? this.name.hashCode() : 0);
-		hash = 89 * hash + Float.floatToIntBits(this.size);
 		hash = 89 * hash + (this.style != null ? this.style.hashCode() : 0);
 		hash = 89 * hash + (this.uri != null ? this.uri.hashCode() : 0);
 		return hash;
@@ -186,9 +185,7 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 				.equals(other.name)) {
 			return false;
 		}
-		if (Float.floatToIntBits(this.size) != Float.floatToIntBits(other.size)) {
-			return false;
-		}
+
 		if (this.style != other.style) {
 			return false;
 		}

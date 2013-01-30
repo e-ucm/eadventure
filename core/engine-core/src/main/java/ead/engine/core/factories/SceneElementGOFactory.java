@@ -45,6 +45,14 @@ public interface SceneElementGOFactory
 		GameObjectFactory<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>> {
 
 	/**
+	 * Gets and element represented by the given id, if the element is already
+	 * contained in the cache. Returns null if there is no element with such id
+	 * 
+	 * @param id
+	 */
+	SceneElementGO<?> get(String id);
+
+	/**
 	 * Removes an element from the cache
 	 * 
 	 * @param element

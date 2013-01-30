@@ -75,7 +75,6 @@ import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.NodeTrajectory;
@@ -365,7 +364,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				applyForegroundMask(image.getUri().getPath(), foregroundPath,
 						backgroundPath);
 
-				SceneElement foreground = new GhostElement(image, null);
+				SceneElement foreground = new SceneElement(image);
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
 				foreground.setInitialEnable(false);

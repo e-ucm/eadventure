@@ -70,4 +70,14 @@ public class SceneElementGOFactoryImpl
 		super.remove(element);
 	}
 
+	@Override
+	public SceneElementGO<?> get(String id) {
+		for (EAdSceneElement key : cache.keySet()) {
+			if (key.getId().equals(id)) {
+				return cache.get(key);
+			}
+		}
+		return null;
+	}
+
 }

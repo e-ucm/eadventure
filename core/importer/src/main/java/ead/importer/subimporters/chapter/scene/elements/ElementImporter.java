@@ -131,7 +131,7 @@ public abstract class ElementImporter<T> implements
 		EAdShape shape = ShapedElementImporter.importShape(exit);
 		shape.setPaint(p);
 		sceneElement.setPosition(exit.getX(), exit.getY());
-		sceneElement.setInteractionArea(shape);
+		sceneElement.setAppearance(shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {

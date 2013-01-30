@@ -75,8 +75,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 		return time <= 0;
 	}
 
-	public String toString() {
-		return "WaitEffect:  Time left " + time;
+	public boolean isQueueable() {
+		return true;
 	}
 
 }

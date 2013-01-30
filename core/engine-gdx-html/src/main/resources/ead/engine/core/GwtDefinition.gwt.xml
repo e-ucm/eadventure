@@ -7,15 +7,13 @@
 	<inherits name='ead.common.model' />
 	<inherits name='ead.engine.enginecore' />
 	<inherits name='ead.tools.gwttools' />
-	<inherits name='ead.reader.reader' /><inherits name='aurelienribon.tweenengine' />
+	<inherits name='ead.reader.reader' />
 	<inherits name='java.util.lib' />
 	<inherits name='org.slf4j.slf4j' />
+	<inherits name='org.poly2tri.poly2tri' />
 	<inherits name='com.gwtent.GwtEnt' />
 	<inherits name='com.google.gwt.logging.Logging' />
 	<inherits name='com.google.gwt.xml.XML' />
-
-	<!-- GLAS -->
-	<inherits name="es.eucm.glas.tracker.Gwttracker" />
 
 	<!-- Inherit the GIN (guice for gwt) module -->
 	<inherits name='com.google.gwt.inject.Inject' />

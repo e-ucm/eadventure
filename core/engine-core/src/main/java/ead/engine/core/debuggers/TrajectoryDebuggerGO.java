@@ -60,7 +60,6 @@ import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectory;
@@ -347,7 +346,7 @@ public class TrajectoryDebuggerGO extends SceneElementGOImpl {
 			map.addDrawable(circle, n.getX() - 20, n.getY() - 20);
 		}
 
-		SceneElement mapElement = new GhostElement(map, null);
+		SceneElement mapElement = new SceneElement(map);
 		mapElement.setInitialEnable(false);
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
