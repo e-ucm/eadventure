@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
+import ead.common.model.elements.BasicElement;
 import ead.reader.DOMTags;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
@@ -113,6 +114,14 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 									object.getClass());
 					return node;
 				} else {
+					// When an element is defined with BasicElement, it is a
+					// reference to another element, so its real content is
+					// stored somewhere else.
+					// We proceed as if the element was already in the cache
+					if (c.getType() == BasicElement.class) {
+						node.setText(id);
+						return node;
+					}
 					elements.add(id);
 					clazz = c;
 				}

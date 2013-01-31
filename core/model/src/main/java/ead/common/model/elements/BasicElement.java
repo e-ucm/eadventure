@@ -37,13 +37,16 @@
 
 package ead.common.model.elements;
 
+import ead.common.interfaces.Element;
+
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements
- * inherits from this basis class
+ * inherits from this basis class.
  * 
- * 
+ * They can also be used as reference of other elements
  */
-public abstract class BasicElement implements EAdElement {
+@Element
+public class BasicElement implements EAdElement {
 
 	private String id;
 
@@ -55,6 +58,14 @@ public abstract class BasicElement implements EAdElement {
 
 	public static String randomSuffix() {
 		return "" + lastId++;
+	}
+
+	/**
+	 * Creates a reference to an element
+	 * @param reference
+	 */
+	public BasicElement(String reference) {
+		this.id = reference;
 	}
 
 	public BasicElement() {

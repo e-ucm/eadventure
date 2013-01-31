@@ -193,6 +193,9 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	@Override
 	public EAdScene getPreviousScene() {
+		if (previousSceneStack.isEmpty()) {
+			return null;
+		}
 		return previousSceneStack.pop();
 	}
 

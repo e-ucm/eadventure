@@ -43,6 +43,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.elements.BasicElement;
 import ead.common.model.params.variables.VarDef;
 import ead.reader.DOMTags;
 import ead.reader.model.readers.ListReader;
@@ -56,6 +57,8 @@ import ead.tools.xml.XMLNode;
 public class XMLVisitor {
 
 	private static final Logger logger = LoggerFactory.getLogger("XMLVisitor");
+
+	private static final int MAX_LOOPS_WITH_SAME_SIZE = 50;
 
 	private List<VisitorStep> stepsQueue;
 
@@ -72,6 +75,10 @@ public class XMLVisitor {
 	private MapReader mapReader;
 
 	private ObjectReader objectReader;
+
+	private int lastSize = 0;
+
+	private int loopsWithSameSize = 0;
 
 	public XMLVisitor(ReflectionProvider reflectionProvider) {
 		stepsQueue = new ArrayList<VisitorStep>();
@@ -156,6 +163,36 @@ public class XMLVisitor {
 			return true;
 		}
 		logger.debug("XML Visitor steps: " + this.stepsQueue.size());
+		// We check queue size, looking for elements impossible to read
+		// (usually, references to ids not defined)
+		int newSize = stepsQueue.size();
+		if (newSize == lastSize) {
+			loopsWithSameSize++;
+		} else {
+			lastSize = newSize;
+			loopsWithSameSize = 0;
+		}
+
+		// If we've been to much loops with the same size, we end the reading
+		// and report the remaining nodes
+		if (loopsWithSameSize >= MAX_LOOPS_WITH_SAME_SIZE) {
+			for (VisitorStep s : stepsQueue) {
+				XMLNode n = s.getNode();
+				// If it's a reference, we create a BasicElement with the id.
+				if (n.getAttributes().getLength() < 2) {
+					String id = n.getNodeText();
+					if (id != null) {
+						s.getListener().loaded(n, new BasicElement(id), false);
+						logger
+								.warn(
+										"{} is not present in the model. A BasicElement reference was generated",
+										n.getNodeText());
+					}
+				}
+
+			}
+			return true;
+		}
 		return false;
 	}
 

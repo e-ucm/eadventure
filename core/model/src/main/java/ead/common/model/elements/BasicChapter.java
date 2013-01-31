@@ -186,4 +186,16 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 		this.description = description;
 	}
 
+	public EAdScene getSceneById(String nextSceneId) {
+		if (nextSceneId == null) {
+			return null;
+		}
+		for (EAdScene s : scenes) {
+			if (s.getId().equals(nextSceneId)) {
+				return s;
+			}
+		}
+		return null;
+	}
+
 }
