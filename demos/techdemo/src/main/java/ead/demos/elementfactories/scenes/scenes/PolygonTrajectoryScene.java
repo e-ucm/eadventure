@@ -8,8 +8,8 @@ import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.PolygonTrajectory;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class PolygonTrajectoryScene extends EmptyScene {
@@ -22,7 +22,7 @@ public class PolygonTrajectoryScene extends EmptyScene {
 				new Image("@drawable/polygon.png"));
 		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 
-		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 520, 300));
+		element.setPosition(new Position(Corner.BOTTOM_CENTER, 520, 300));
 		element.setInitialScale(0.5f, 0.5f);
 
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);

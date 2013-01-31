@@ -42,7 +42,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class SceneElementFactory {
@@ -58,7 +58,7 @@ public class SceneElementFactory {
 	 */
 	public SceneElement createSceneElement(EAdDrawable appearance, int x, int y) {
 		SceneElement sceneElement = new SceneElement(appearance);
-		sceneElement.setPosition(new EAdPosition(x, y));
+		sceneElement.setPosition(new Position(x, y));
 		return sceneElement;
 	}
 

@@ -50,7 +50,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.assets.ShapeFactory;
 

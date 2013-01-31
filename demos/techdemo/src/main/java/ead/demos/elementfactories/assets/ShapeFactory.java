@@ -42,7 +42,7 @@ import ead.common.model.assets.drawable.basics.shapes.BezierShape;
 import ead.common.model.assets.drawable.basics.shapes.CircleShape;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.params.fills.Paint;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 public class ShapeFactory {
 
@@ -85,8 +85,8 @@ public class ShapeFactory {
 
 	public BezierShape createTriangle(int width, int height) {
 		BezierShape triangle = new BezierShape(width / 2, 0);
-		triangle.lineTo(new EAdPosition(width, height));
-		triangle.lineTo(new EAdPosition(0, height));
+		triangle.lineTo(new Position(width, height));
+		triangle.lineTo(new Position(0, height));
 		triangle.setClosed(true);
 		return triangle;
 	}
@@ -97,7 +97,7 @@ public class ShapeFactory {
 		for (int i = 0; i < nPoints; i++) {
 			int x = (int) (Math.random() * width);
 			int y = (int) (Math.random() * height);
-			shape.lineTo(new EAdPosition(x, y));
+			shape.lineTo(new Position(x, y));
 		}
 
 		shape.setClosed(true);
@@ -106,11 +106,11 @@ public class ShapeFactory {
 
 	public BezierShape createIrregularShape1(int width, int height) {
 		BezierShape shape = new BezierShape(width / 5, 0);
-		shape.lineTo(new EAdPosition(width - width / 5, 0));
-		shape.lineTo(new EAdPosition(width, height));
-		shape.lineTo(new EAdPosition(width - width / 5, height));
-		shape.lineTo(new EAdPosition(width / 2, height / 2));
-		shape.lineTo(new EAdPosition(width / 5, height));
+		shape.lineTo(new Position(width - width / 5, 0));
+		shape.lineTo(new Position(width, height));
+		shape.lineTo(new Position(width - width / 5, height));
+		shape.lineTo(new Position(width / 2, height / 2));
+		shape.lineTo(new Position(width / 5, height));
 		shape.setClosed(true);
 		return shape;
 	}

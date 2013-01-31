@@ -48,10 +48,10 @@ import ead.common.model.assets.multimedia.EAdVideo;
 import ead.engine.core.gdx.html.platform.GdxGWTAssetHandler;
 import ead.engine.core.gdx.html.platform.GdxGWTGUI;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
-import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
+import ead.engine.core.platform.gdx.GdxModuleMap;
 
 public class GwtModule extends AbstractGinModule {
 

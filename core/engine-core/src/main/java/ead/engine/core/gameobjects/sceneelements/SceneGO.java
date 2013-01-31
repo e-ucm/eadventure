@@ -50,7 +50,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class SceneGO extends GroupElementGO implements
-		Comparator<SceneElementGO<?>> {
+		Comparator<SceneElementGO> {
 
 	@Inject
 	public SceneGO(AssetHandler assetHandler,
@@ -63,13 +63,13 @@ public class SceneGO extends GroupElementGO implements
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
 		EAdSceneElement bg = ((EAdScene) element).getBackground();
-		SceneElementGO<?> bgGO = sceneElementFactory.get(bg);
-		addSceneElement(bgGO);
+		SceneElementGO bgGO = sceneElementFactory.get(bg);
+		addActor(bgGO);
 		bgGO.setZ(Integer.MIN_VALUE / 2);
 	}
 
 	@Override
-	public int compare(SceneElementGO<?> o1, SceneElementGO<?> o2) {
+	public int compare(SceneElementGO o1, SceneElementGO o2) {
 		return (int) Math.signum(o1.getZ() - o2.getZ());
 	}
 

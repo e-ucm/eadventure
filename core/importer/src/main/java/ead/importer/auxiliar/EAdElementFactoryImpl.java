@@ -52,15 +52,14 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.params.variables.SystemFields;
 import ead.common.model.params.variables.VarDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.GenericImporter;
 import ead.importer.interfaces.EAdElementFactory;
-import ead.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -254,29 +253,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	}
 
 	@Override
-	public EAdImage getDefaultCursor(String type) {
-		EAdImage cursor = defaultCursors.get(type);
-
-		if (cursor == null) {
-			String path = model.getCursorPath(type);
-			if (path != null) {
-				cursor = (EAdImage) injector
-						.getInstance(ResourceImporter.class)
-						.getAssetDescritptor(path, Image.class);
-
-			} else {
-				// FIXME Use more cursors...
-				if (type.equals(AdventureData.EXIT_CURSOR))
-					cursor = new Image("@drawable/exit.png");
-				else
-					cursor = SystemFields.DEFAULT_MOUSE;
-			}
-			defaultCursors.put(type, cursor);
-		}
-		return cursor;
-	}
-
-	@Override
 	public void addDraggableActor(EAdSceneElementDef actor) {
 		if (!draggableActors.contains(actor)) {
 			draggableActors.add(actor);
@@ -301,6 +277,18 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		this.elements.clear();
 		this.model = null;
 		this.oldType.clear();
+	}
+
+	@Override
+	public String createCursor(Image image) {
+		//XXX Add image as bundle of mouse element
+		return MouseHud.DEFAULT_CURSOR;
+	}
+
+	@Override
+	public String getDefaultCursor(String cursor) {
+		//XXX
+		return MouseHud.DEFAULT_CURSOR;
 	}
 
 }

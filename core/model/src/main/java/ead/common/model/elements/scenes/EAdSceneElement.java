@@ -37,12 +37,12 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Draggable;
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Variabled;
+import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.elements.EAdElement;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 
 /**
  * 
@@ -70,6 +70,6 @@ public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
 	 * @param y
 	 *            y coordiante
 	 */
-	void setPosition(Corner topLeft, int i, int j);
+	void setPosition(Corner topLeft, float i, float j);
 
 }

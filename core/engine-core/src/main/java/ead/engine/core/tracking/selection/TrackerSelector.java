@@ -39,9 +39,10 @@ package ead.engine.core.tracking.selection;
 
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.input.InputAction;
 
 /**
  * 
@@ -58,7 +59,7 @@ public interface TrackerSelector {
 	 * @param target
 	 * @return
 	 */
-	boolean accept(InputAction<?> action, SceneElementGO<?> target);
+	boolean accept(Event action, SceneElementGO target);
 
 	/**
 	 * Returns if the given effect must be selected to be sent to the game

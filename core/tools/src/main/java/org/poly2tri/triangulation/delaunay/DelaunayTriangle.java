@@ -565,7 +565,7 @@ public class DelaunayTriangle {
 		return z1 * z2;
 	}
 
-	public boolean intersects(int x1, int y1, int x2, int y2) {
+	public boolean intersects(float x1, float y1, float x2, float y2) {
 		/* Check whether segment is outside one of the three half-planes
 		 * delimited by the triangle. */
 		float f1 = side(x1, y1, points[2].getXf(), points[2].getYf(), points[0]

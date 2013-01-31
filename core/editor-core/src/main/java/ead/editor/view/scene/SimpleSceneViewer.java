@@ -55,13 +55,13 @@ import com.google.inject.Injector;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.editor.view.scene.go.EditableGameObject;
 import ead.editor.view.scene.listener.LoggerSceneListener;
 import ead.editor.view.scene.listener.SceneViewerInputProcessor;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.gdx.utils.InvOrtographicCamera;
+import ead.engine.core.platform.gdx.GdxCanvas;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {
@@ -76,7 +76,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 	private Texture circle;
 	private Texture hLine;
 	private Texture vLine;
-	private EAdRectangle selectionRectangle;
+	private Rectangle selectionRectangle;
 	private List<EditableGameObject> selection;
 	private Matrix4 selectionMatrix = new Matrix4();
 
@@ -85,7 +85,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		gameObjects = new ArrayList<EditableGameObject>();
 		injector = Guice.createInjector(new AssetViewerModule());
 		canvas = injector.getInstance(GdxCanvas.class);
-		selectionRectangle = new EAdRectangle();
+		selectionRectangle = new Rectangle();
 		selection = new ArrayList<EditableGameObject>();
 	}
 
@@ -232,7 +232,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		int minY = Integer.MAX_VALUE;
 		int maxY = Integer.MIN_VALUE;
 		for (EditableGameObject go : selection) {
-			EAdRectangle bounds = go.getBounds();
+			Rectangle bounds = go.getBounds();
 			minX = bounds.x < minX ? bounds.x : minX;
 			minY = bounds.y < minY ? bounds.y : minY;
 			maxX = bounds.x + bounds.width > maxX ? bounds.x + bounds.width

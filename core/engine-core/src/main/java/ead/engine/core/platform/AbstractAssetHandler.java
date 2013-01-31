@@ -52,7 +52,6 @@ import ead.common.interfaces.features.Resourced;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.params.util.EAdURI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.RuntimeDrawable;
@@ -88,7 +87,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap;
 	private boolean loaded = false;
 	protected FontHandler fontHandler;
-	protected EAdURI resourcesUri;
+	protected String resourcesUri;
 	private boolean cacheEnabled;
 	private ArrayList<AssetDescriptor> assetsQueue;
 	private SceneGraph sceneGraph;
@@ -295,7 +294,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	}
 
 	@Override
-	public void setResourcesLocation(EAdURI uri) {
+	public void setResourcesLocation(String uri) {
 		this.resourcesUri = uri;
 	}
 

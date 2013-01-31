@@ -42,14 +42,14 @@ import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.model.assets.drawable.filters.FilteredDrawable;
 import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.BasicMatrix;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Matrix;
+import ead.common.model.params.util.Position.Corner;
 
 public class FiltersDemo extends EmptyScene {
 
 	public FiltersDemo() {
 		this.setId("FiltersDemo");
-		BasicMatrix m = new BasicMatrix();
+		Matrix m = new Matrix();
 		m.scale(-1.0f, 1.0f, true);
 		Image i = new Image("@drawable/ng_key.png");
 		EAdFilteredDrawable d = new FilteredDrawable(i, new MatrixFilter(m,

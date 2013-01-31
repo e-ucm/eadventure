@@ -51,19 +51,19 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected T trajectory;
 
-	protected SceneElementGO<?> movingElement;
+	protected SceneElementGO movingElement;
 
-	protected int destinyX;
+	protected float destinyX;
 
-	protected int destinyY;
+	protected float destinyY;
 
-	protected SceneElementGO<?> target;
+	protected SceneElementGO target;
 
-	protected List<Integer> currentPath;
+	protected List<Float> currentPath;
 
 	public AbstractTrajectoryGO(GameState gameState) {
 		this.gameState = gameState;
-		this.currentPath = new ArrayList<Integer>();
+		this.currentPath = new ArrayList<Float>();
 	}
 
 	public void setElement(T transition) {
@@ -75,15 +75,15 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 	}
 
 	@Override
-	public void set(SceneElementGO<?> movingElement, int destinyX,
-			int destinyY, SceneElementGO<?> target) {
+	public void set(SceneElementGO movingElement, float destinyX,
+			float destinyY, SceneElementGO target) {
 		this.movingElement = movingElement;
 		this.destinyX = destinyX;
 		this.destinyY = destinyY;
 		this.target = target;
 	}
 
-	public List<Integer> getCurrentPath() {
+	public List<Float> getCurrentPath() {
 		return currentPath;
 	}
 

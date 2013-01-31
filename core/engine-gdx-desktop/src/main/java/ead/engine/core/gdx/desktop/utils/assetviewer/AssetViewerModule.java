@@ -37,8 +37,6 @@
 
 package ead.engine.core.gdx.desktop.utils.assetviewer;
 
-import java.util.List;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
@@ -46,17 +44,14 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.VariableMap;
-import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
@@ -111,13 +106,13 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void addHud(SceneElementGO<?> hud) {
+		public void addHud(SceneElementGO hud) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void removeHUD(SceneElementGO<?> hud) {
+		public void removeHUD(SceneElementGO hud) {
 			// TODO Auto-generated method stub
 
 		}
@@ -130,25 +125,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void commit() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public SceneElementGO<?> processAction(InputAction<?> action) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public SceneElementGO<?> getGameObjectIn(int x, int y) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public HudGO getHUD(String id) {
+		public SceneElementGO getGameObjectIn(int x, int y) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -156,15 +133,9 @@ public class AssetViewerModule extends AbstractModule {
 		@Override
 		public void initialize(Game game, GameState gameState,
 				SceneElementGOFactory sceneElementFactory,
-				InputHandler inputHandler, DebuggersHandler debuggerHandler) {
+				DebuggersHandler debuggerHandler) {
 			// TODO Auto-generated method stub
 
-		}
-
-		@Override
-		public List<SceneElementGO<?>> getHUDs() {
-			// TODO Auto-generated method stub
-			return null;
 		}
 
 		@Override
@@ -186,13 +157,25 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void update() {
+		public SceneElementGO getSceneElement(EAdSceneElement element) {
 			// TODO Auto-generated method stub
-
+			return null;
 		}
 
 		@Override
-		public SceneElementGO<?> getSceneElement(EAdSceneElement element) {
+		public SceneElementGO getHUD(String id) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SceneElementGO getRoot() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SceneElementGO getGameObjectUnderPointer() {
 			// TODO Auto-generated method stub
 			return null;
 		}

@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,7 +53,6 @@ import ead.common.model.params.guievents.EAdGUIEvent;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.input.InputAction;
 
 @Singleton
 public class DefaultTrackerSelector implements TrackerSelector {
@@ -114,8 +114,9 @@ public class DefaultTrackerSelector implements TrackerSelector {
 	}
 
 	@Override
-	public boolean accept(InputAction<?> action, SceneElementGO<?> target) {
-		return actionsAccepted.contains(action.getGUIEvent());
+	public boolean accept(Event action, SceneElementGO target) {
+		//		return actionsAccepted.contains(action.getGUIEvent());
+		return true;
 	}
 
 	@Override

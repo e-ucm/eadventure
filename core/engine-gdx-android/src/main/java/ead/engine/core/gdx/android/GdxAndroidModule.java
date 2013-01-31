@@ -41,8 +41,8 @@ import java.util.Map.Entry;
 
 import com.google.inject.AbstractModule;
 
-import ead.engine.core.gdx.platform.GdxModuleMap;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.gdx.GdxModuleMap;
 
 public class GdxAndroidModule extends AbstractModule {
 

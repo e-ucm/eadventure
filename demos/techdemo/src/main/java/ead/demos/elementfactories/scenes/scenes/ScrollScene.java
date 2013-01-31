@@ -47,7 +47,7 @@ import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;

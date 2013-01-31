@@ -37,24 +37,16 @@
 
 package ead.engine.core.gdx.desktop.platform.assets;
 
+import java.io.File;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.assets.multimedia.Video;
-import ead.common.model.params.util.EAdURI;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.utils.Log4jConfig;
-import java.awt.Component;
-import java.io.File;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Tests video rendering
@@ -74,8 +66,8 @@ public class VLCDesktopVideoRendererTest {
 		Injector i = Guice.createInjector(new AssetViewerModule());
 		ah = i.getInstance(AssetHandler.class);
 		ah.setCacheEnabled(false);
-		ah.setResourcesLocation(new EAdURI(new File(
-				"../../demos/firstaidgame/src/main/resources/").getPath()));
+		ah.setResourcesLocation(new File(
+				"../../demos/firstaidgame/src/main/resources/").getPath());
 	}
 
 	/**

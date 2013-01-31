@@ -51,7 +51,6 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.platform.assets.AssetHandler;
 
 @Singleton
 public class DefaultSceneLoader implements SceneLoader {
@@ -59,10 +58,6 @@ public class DefaultSceneLoader implements SceneLoader {
 	private static final Logger logger = LoggerFactory.getLogger("SceneLoader");
 
 	private SceneElementGOFactory sceneElementFactory;
-
-	private AssetHandler assetHandler;
-
-	private List<AssetDescriptor> assetsList;
 
 	private List<AssetDescriptor> currentAssets;
 
@@ -81,11 +76,8 @@ public class DefaultSceneLoader implements SceneLoader {
 	protected SceneGO oldSceneGO;
 
 	@Inject
-	public DefaultSceneLoader(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory) {
+	public DefaultSceneLoader(SceneElementGOFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
-		this.assetHandler = assetHandler;
-		assetsList = new ArrayList<AssetDescriptor>();
 		currentAssets = new ArrayList<AssetDescriptor>();
 		goList = new ArrayList<EAdSceneElement>();
 		currentGoList = new ArrayList<EAdSceneElement>();
@@ -102,15 +94,6 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	protected void loadScene() {
 		sceneGO = (SceneGO) sceneElementFactory.get(scene);
-		assetsList.clear();
-
-		assetsList = sceneGO.getAssets(assetsList, false);
-
-		for (AssetDescriptor asset : assetsList) {
-			if (asset != null) {
-				assetHandler.getRuntimeAsset(asset, true);
-			}
-		}
 	}
 
 	public void freeUnusedAssets(SceneGO currentScene, SceneGO oldScene) {
@@ -128,9 +111,6 @@ public class DefaultSceneLoader implements SceneLoader {
 
 		goList.clear();
 		currentGoList.clear();
-
-		sceneGO.collectSceneElements(currentGoList);
-		oldSceneGO.collectSceneElements(goList);
 
 		int i = 0;
 		for (EAdSceneElement e : goList) {

@@ -39,7 +39,7 @@ package ead.engine.test.core.platform;
 
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.assets.RuntimeFont;
 
@@ -65,8 +65,8 @@ public class TestFontCache extends FontHandlerImpl {
 			}
 
 			@Override
-			public EAdRectangle stringBounds(String string) {
-				return new EAdRectangle(0, -1, string.length(), 1);
+			public Rectangle stringBounds(String string) {
+				return new Rectangle(0, -1, string.length(), 1);
 			}
 
 			@Override

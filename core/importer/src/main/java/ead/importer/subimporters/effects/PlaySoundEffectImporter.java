@@ -71,9 +71,9 @@ public class PlaySoundEffectImporter extends
 	public PlaySoundEf convert(PlaySoundEffect oldObject, Object object) {
 		PlaySoundEf effect = super.convert(oldObject, object);
 
-		String newURI = resourceImporter.getURI(oldObject.getPath());
+		String newString = resourceImporter.getString(oldObject.getPath());
 
-		effect.setSound(new Sound(newURI));
+		effect.setSound(new Sound(newString));
 		return effect;
 	}
 

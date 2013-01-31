@@ -55,17 +55,15 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdURI;
 import ead.common.model.params.variables.SystemFields;
 import ead.common.model.params.variables.VarDef;
-import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineStringFilter;
+import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;
@@ -105,11 +103,6 @@ public class GameImpl implements Game, VisitorListener {
 	 * String handler
 	 */
 	private StringHandler stringHandler;
-
-	/**
-	 * Input handler
-	 */
-	private InputHandler inputHandler;
 
 	/**
 	 * Plugin handler
@@ -182,8 +175,8 @@ public class GameImpl implements Game, VisitorListener {
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
-			InputHandler inputHandler, PluginHandler pluginHandler,
-			GameState gameState, SceneElementGOFactory sceneElementFactory,
+			PluginHandler pluginHandler, GameState gameState,
+			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, ValueMap valueMap,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			GameTracker tracker, SceneGraph sceneGraph,
@@ -192,7 +185,6 @@ public class GameImpl implements Game, VisitorListener {
 			DebuggersHandler debuggersHandler) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
-		this.inputHandler = inputHandler;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
@@ -229,7 +221,7 @@ public class GameImpl implements Game, VisitorListener {
 	@Override
 	public void initialize() {
 		// Set assets root
-		assetHandler.setResourcesLocation(new EAdURI(path));
+		assetHandler.setResourcesLocation(path);
 		// Adds filters
 		addFilters();
 		// Load game properties
@@ -238,7 +230,7 @@ public class GameImpl implements Game, VisitorListener {
 		// It is necessary to load the default properties before set up
 		// GUI initialization
 		gui.initialize(GameImpl.this, gameState, sceneElementFactory,
-				inputHandler, debuggersHandler);
+				debuggersHandler);
 
 		// Load strings
 		loadStrings();
@@ -255,7 +247,7 @@ public class GameImpl implements Game, VisitorListener {
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		if (reading) {
 			if (firstUpdate) {
 				LoadingScreen loadingScreen = new LoadingScreen();
@@ -273,8 +265,7 @@ public class GameImpl implements Game, VisitorListener {
 				reading = false;
 			}
 		} else {
-			gameState.update();
-			inputHandler.processActions();
+			gameState.update(delta);
 
 			// Update language. Check this every loop is probably too much
 			updateLanguage();
@@ -287,8 +278,7 @@ public class GameImpl implements Game, VisitorListener {
 
 			// Scene
 			if (!gameState.isPaused()) {
-				updateGameEvents();
-				gui.update();
+				updateGameEvents(delta);
 				tweenController.update(gui.getSkippedMilliseconds());
 			}
 		}
@@ -306,19 +296,14 @@ public class GameImpl implements Game, VisitorListener {
 
 	}
 
-	private void updateGameEvents() {
+	private void updateGameEvents(float delta) {
 		Long l = gameState.getValue(SystemFields.GAME_TIME);
 		l += gui.getSkippedMilliseconds();
 		gameState.setValue(SystemFields.GAME_TIME, l);
 
 		for (EventGO<?> e : events) {
-			e.update();
+			e.act(delta);
 		}
-	}
-
-	@Override
-	public void render() {
-		gui.commit();
 	}
 
 	private void setGame() {

@@ -37,6 +37,7 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -48,7 +49,7 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 
-public class GhostElementGO extends SceneElementGOImpl {
+public class GhostElementGO extends SceneElementGO {
 
 	private boolean catchAll;
 
@@ -58,7 +59,8 @@ public class GhostElementGO extends SceneElementGOImpl {
 	public GhostElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory,
+				null);
 	}
 
 	public void setElement(EAdSceneElement e) {
@@ -80,8 +82,8 @@ public class GhostElementGO extends SceneElementGOImpl {
 		this.visible = visible;
 	}
 
-	public boolean contains(int x, int y) {
-		return catchAll || super.contains(x, y);
+	public Actor hit(int x, int y, boolean touchable) {
+		return catchAll ? this : super.hit(x, y, touchable);
 	}
 
 }

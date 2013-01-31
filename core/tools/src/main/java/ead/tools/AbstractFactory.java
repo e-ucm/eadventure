@@ -42,7 +42,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.interfaces.EAdRuntimeException;
 import ead.tools.reflection.ReflectionProvider;
 
 /**
@@ -101,7 +100,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 					}
 				}
 			}
-			throw new EAdRuntimeException(
+			throw new IllegalArgumentException(
 					"No element in factory for object (or for any of its interfaces) "
 							+ object);
 		}

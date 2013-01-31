@@ -50,7 +50,6 @@ import ead.common.model.elements.scenes.VideoScene;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
@@ -88,8 +87,8 @@ public class VideoSceneGO extends SceneGO {
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void act(float delta) {
+		super.act(delta);
 		if (component == null) {
 			try {
 				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
@@ -128,16 +127,6 @@ public class VideoSceneGO extends SceneGO {
 			}
 		}
 
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		return false;
-	}
-
-	@Override
-	public SceneElementGO<?> processAction(InputAction<?> action) {
-		return null;
 	}
 
 }

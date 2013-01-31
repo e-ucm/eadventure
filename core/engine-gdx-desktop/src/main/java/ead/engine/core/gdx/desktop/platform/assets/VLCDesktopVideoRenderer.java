@@ -197,9 +197,9 @@ public class VLCDesktopVideoRenderer implements
 				.addMediaPlayerEventListener(new VLCMediaPlayerEventListener(
 						this, asset.isStream() ? -1 : 1));
 
-		path = asset.getUri().getPath();
+		path = asset.getUri();
 		if (assetHandler != null && !asset.isStream()) {
-			path = assetHandler.getTempFilePath(asset.getUri().getPath());
+			path = assetHandler.getTempFilePath(asset.getUri());
 		}
 
 		if (asset.isStream()) {

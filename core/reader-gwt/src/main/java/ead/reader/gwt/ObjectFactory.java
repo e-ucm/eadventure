@@ -60,7 +60,7 @@ import ead.common.util.BasicMatrix;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
-import ead.common.util.EAdURI;
+import ead.common.util.EAdString;
 import ead.tools.gwt.reflection.GwtReflectionProvider;
 
 /**
@@ -174,8 +174,8 @@ public class ObjectFactory {
 			return new EAdPosition(value);
 		if (clazz.equals(EAdRectangle.class))
 			return new EAdRectangle(value);
-		if (clazz.equals(EAdURI.class))
-			return new EAdURI(value);
+		if (clazz.equals(EAdString.class))
+			return new EAdString(value);
 
 		logger.error("Param class {} needs an explicitly defined constructor",
 				clazz);

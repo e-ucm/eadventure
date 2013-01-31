@@ -54,8 +54,8 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.importer.EAdElementImporter;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
@@ -115,7 +115,7 @@ public class BarrierImporter implements
 			rectangle.setPaint(Paint.TRANSPARENT);
 		}
 		barrier.getDefinition().addAsset(SceneElementDef.appearance, rectangle);
-		barrier.setPosition(new EAdPosition(Corner.TOP_LEFT, oldObject.getX(),
+		barrier.setPosition(new Position(Corner.TOP_LEFT, oldObject.getX(),
 				oldObject.getY()));
 
 		return barrier;

@@ -86,7 +86,7 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 		first = true;
 	}
 
-	public void update() {
+	public void act(float delta) {
 		if (nextScene != null) {
 
 			if (first) {
@@ -128,9 +128,9 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 			nextScene.setX(0);
 			nextScene.setY(0);
 			gui.setScene(nextScene);
-			nextScene.update();
+			nextScene.act(delta);
 		} else {
-			super.update();
+			super.act(delta);
 		}
 	}
 

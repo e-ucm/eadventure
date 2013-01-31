@@ -65,9 +65,9 @@ public class StayInBoundsEv extends SceneElementEv {
 		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
 		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
-		EAdField<Integer> x = new BasicField<Integer>(e, SceneElement.VAR_X);
+		EAdField<Float> x = new BasicField<Float>(e, SceneElement.VAR_X);
 
-		EAdField<Integer> y = new BasicField<Integer>(e, SceneElement.VAR_Y);
+		EAdField<Float> y = new BasicField<Float>(e, SceneElement.VAR_Y);
 
 		EAdField<Integer> left = new BasicField<Integer>(e,
 				SceneElement.VAR_LEFT);

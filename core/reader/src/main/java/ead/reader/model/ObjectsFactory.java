@@ -56,11 +56,9 @@ import ead.common.model.params.guievents.DragGEv;
 import ead.common.model.params.guievents.KeyGEv;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.BasicMatrix;
-import ead.common.model.params.util.EAdMatrix;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdRectangle;
-import ead.common.model.params.util.EAdURI;
+import ead.common.model.params.util.Matrix;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.VarDef;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
@@ -175,12 +173,10 @@ public class ObjectsFactory {
 			p = new LinearGradientFill(value);
 		} else if (clazz.equals(Paint.class)) {
 			p = new Paint(value);
-		} else if (clazz.equals(EAdPosition.class)) {
-			p = new EAdPosition(value);
-		} else if (clazz.equals(EAdRectangle.class)) {
-			p = new EAdRectangle(value);
-		} else if (clazz.equals(EAdURI.class)) {
-			p = new EAdURI(value);
+		} else if (clazz.equals(Position.class)) {
+			p = new Position(value);
+		} else if (clazz.equals(Rectangle.class)) {
+			p = new Rectangle(value);
 		} else if (clazz.equals(MouseGEv.class)) {
 			p = new MouseGEv(value);
 		} else if (clazz.equals(KeyGEv.class)) {
@@ -228,8 +224,8 @@ public class ObjectsFactory {
 		} else if (clazz.isEnum()) {
 			Class<? extends Enum> enumClass = (Class<? extends Enum>) clazz;
 			return Enum.valueOf(enumClass, value);
-		} else if (clazz == EAdMatrix.class || clazz == BasicMatrix.class) {
-			return BasicMatrix.parse(value);
+		} else if (clazz == Matrix.class) {
+			return new Matrix(value);
 		}
 		return null;
 	}

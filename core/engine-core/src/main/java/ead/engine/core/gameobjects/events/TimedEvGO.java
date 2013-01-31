@@ -66,7 +66,7 @@ public class TimedEvGO extends AbstractEventGO<TimedEv> {
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		if (repeats != 0) {
 			if (elapsedTime == 0) {
 				this.runEffects(element

@@ -64,6 +64,7 @@ import ead.common.model.assets.drawable.compounds.ComposedDrawable;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.assets.text.enums.FontStyle;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
@@ -78,22 +79,22 @@ import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.huds.InventoryHud;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
-import ead.common.model.params.variables.SystemFields;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.ResourceImporter;
@@ -183,7 +184,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	public EAdScene convert(Book oldObject, Object newElement) {
 		BasicScene book = (BasicScene) newElement;
 		ChangeFieldEf hideInventory = new ChangeFieldEf(
-				SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP);
+				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
+						SceneElement.VAR_VISIBLE), BooleanOp.FALSE_OP);
 		SceneElementEv hideEvent = new SceneElementEv();
 		hideEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		book.getEvents().add(hideEvent);
@@ -196,7 +198,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		SceneElementDef.appearance, background);
 
 		ChangeFieldEf showInventory = new ChangeFieldEf(
-				SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
+				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
+						SceneElement.VAR_VISIBLE), BooleanOp.TRUE_OP);
 
 		EAdDrawable image = null;
 		// Create content
@@ -210,7 +213,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		SceneElement content = new SceneElement(image);
 
-		EAdField<Integer> xField = new BasicField<Integer>(content,
+		EAdField<Float> xField = new BasicField<Float>(content,
 				SceneElement.VAR_X);
 		// Event to restart the x variable
 		SceneElementEv xEvent = new SceneElementEv();
@@ -227,7 +230,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	}
 
 	private void addArrowsParagraphs(GroupElement book, SceneElement content,
-			Book oldObject, EAdField<Integer> xField, EAdEffect showInventory) {
+			Book oldObject, EAdField<Float> xField, EAdEffect showInventory) {
 		content.setPosition(Corner.TOP_LEFT, 0, 0);
 
 		SceneElementEv event = new SceneElementEv();
@@ -265,7 +268,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			c = Corner.TOP_LEFT;
 		}
 
-		rightArrow.setPosition(new EAdPosition(c, x, y));
+		rightArrow.setPosition(new Position(c, x, y));
 
 		EAdCondition endCondition = new OperationCond(xField,
 				-(((paragraphColumn / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
@@ -398,7 +401,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		SceneElement arrow = new SceneElement();
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
-		EAdField<Integer> xVar = new BasicField<Integer>(content,
+		EAdField<Float> xVar = new BasicField<Float>(content,
 				SceneElement.VAR_X);
 
 		EAdField<Boolean> visibleVar = new BasicField<Boolean>(arrow,

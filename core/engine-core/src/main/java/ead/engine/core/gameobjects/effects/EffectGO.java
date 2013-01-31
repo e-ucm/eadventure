@@ -37,10 +37,11 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.GameObject;
-import ead.engine.core.input.InputAction;
 
 public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 
@@ -50,7 +51,7 @@ public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 	 * @param gui
 	 *            the gui action
 	 */
-	void setGUIAction(InputAction<?> gui);
+	void setGUIAction(Event gui);
 
 	/**
 	 * Sets the element launching the effect

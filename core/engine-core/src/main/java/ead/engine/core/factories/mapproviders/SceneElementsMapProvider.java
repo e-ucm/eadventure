@@ -51,13 +51,12 @@ import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.widgets.TextArea;
-import ead.engine.core.debuggers.FieldsDebuggerGO;
-import ead.engine.core.debuggers.GhostDebuggerGO;
-import ead.engine.core.debuggers.TrajectoryDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
@@ -68,10 +67,10 @@ import ead.engine.core.platform.LoadingScreen;
 
 public class SceneElementsMapProvider
 		extends
-		AbstractMapProvider<Class<? extends EAdSceneElement>, Class<? extends SceneElementGO<? extends EAdSceneElement>>> {
+		AbstractMapProvider<Class<? extends EAdSceneElement>, Class<? extends SceneElementGO>> {
 
 	public SceneElementsMapProvider() {
-		factoryMap.put(SceneElement.class, SceneElementGOImpl.class);
+		factoryMap.put(SceneElement.class, SceneElementGO.class);
 		factoryMap.put(GhostElement.class, GhostElementGO.class);
 		factoryMap.put(GroupElement.class, GroupElementGO.class);
 		factoryMap.put(EAdScene.class, SceneGO.class);

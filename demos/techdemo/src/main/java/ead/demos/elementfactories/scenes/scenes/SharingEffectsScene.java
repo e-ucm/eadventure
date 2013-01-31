@@ -49,8 +49,8 @@ import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 
 public class SharingEffectsScene extends EmptyScene {
@@ -86,7 +86,7 @@ public class SharingEffectsScene extends EmptyScene {
 			for (int j = 0; j < 4; j++) {
 				SceneElement e = new SceneElement(new RectangleShape(30, 30,
 						ColorFill.BLUE));
-				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 40,
+				e.setPosition(new Position(Corner.CENTER, i * 60 + 40,
 						j * 60 + 100));
 				MakeActiveElementEf ef = new MakeActiveElementEf(e);
 				e.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, ef);

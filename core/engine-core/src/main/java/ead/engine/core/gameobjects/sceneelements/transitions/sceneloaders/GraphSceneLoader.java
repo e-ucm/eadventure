@@ -118,7 +118,7 @@ public class GraphSceneLoader implements SceneLoader {
 	public void step() {
 		if (!assetHandler.loadStep()) {
 			SceneGO sceneGO = (SceneGO) factory.get(scene);
-			sceneGO.update();
+			sceneGO.act(0);
 			// Add the next scenes, so they load in the background
 			for (EAdScene s : sceneRemainingToBeLoad) {
 				assetHandler.queueSceneToLoad(s);

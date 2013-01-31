@@ -105,14 +105,9 @@ public interface Game {
 
 	/**
 	 * Updates the game state
+	 * @param delta TODO
 	 */
-	void update();
-
-	/**
-	 * Renders the game to the screen.
-	 * 
-	 */
-	void render();
+	void act(float delta);
 
 	/**
 	 * Disposes all the resources allocated by the engine and destroys the GUI

@@ -41,27 +41,27 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 @Element
 public class PolygonTrajectory extends BasicElement implements EAdTrajectory {
 
 	@Param
-	private EAdList<EAdPosition> points;
+	private EAdList<Position> points;
 
 	public PolygonTrajectory() {
-		points = new EAdList<EAdPosition>();
+		points = new EAdList<Position>();
 	}
 
 	public void addPoint(int x, int y) {
-		points.add(new EAdPosition(x, y));
+		points.add(new Position(x, y));
 	}
 
-	public EAdList<EAdPosition> getPoints() {
+	public EAdList<Position> getPoints() {
 		return points;
 	}
 
-	public void setPoints(EAdList<EAdPosition> points) {
+	public void setPoints(EAdList<Position> points) {
 		this.points = points;
 	}
 

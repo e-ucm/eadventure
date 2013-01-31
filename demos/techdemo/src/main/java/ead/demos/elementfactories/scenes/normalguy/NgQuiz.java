@@ -41,8 +41,8 @@ import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
@@ -67,7 +67,7 @@ public class NgQuiz extends EmptyScene {
 
 		SceneElement element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(intro, 10, 10);
-		element.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
+		element.setPosition(new Position(Corner.CENTER, 400, 575));
 
 		String q = "Question 1";
 		String a1 = "Answer 1 true";

@@ -48,7 +48,7 @@ import com.google.inject.Inject;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.model.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
@@ -126,7 +126,7 @@ public class RuntimeComposedDrawable extends
 	public void render(GenericCanvas c) {
 		int i = 0;
 		for (RuntimeDrawable<?> d : getAssets()) {
-			EAdPosition p = descriptor.getPositions().get(i);
+			Position p = descriptor.getPositions().get(i);
 			int dispX = p.getJavaX(d.getWidth());
 			int dispY = p.getJavaY(d.getHeight());
 			c.save();
@@ -141,7 +141,7 @@ public class RuntimeComposedDrawable extends
 	public boolean contains(int x, int y) {
 		int i = 0;
 		for (RuntimeDrawable<?> d : getAssets()) {
-			EAdPosition p = descriptor.getPositions().get(i);
+			Position p = descriptor.getPositions().get(i);
 			int dispX = p.getJavaX(d.getWidth());
 			int dispY = p.getJavaY(d.getHeight());
 			if (d.contains(x - dispX, y - dispY)) {

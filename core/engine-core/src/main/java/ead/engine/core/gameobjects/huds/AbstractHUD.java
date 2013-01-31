@@ -40,39 +40,17 @@ package ead.engine.core.gameobjects.huds;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public abstract class AbstractHUD extends SceneElementGOImpl implements HudGO {
-
-	/**
-	 * HUD priority
-	 */
-	private int priority;
-
-	private String id;
+public abstract class AbstractHUD extends SceneElementGO {
 
 	public AbstractHUD(String id, AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory, int priority) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		this.setPriority(priority);
-		this.id = id;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
-
-	@Override
-	public int getPriority() {
-		return priority;
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				null);
 	}
 
 }

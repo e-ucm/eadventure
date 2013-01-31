@@ -50,8 +50,8 @@ import com.google.inject.Injector;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
+import ead.engine.core.game.GdxEngine;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.platform.GUI;
@@ -67,14 +67,14 @@ public class DesktopGame {
 
 	private Map<Class<?>, Class<?>> binds;
 
-	private List<Class<? extends SceneElementGO<?>>> debuggers;
+	private List<Class<? extends SceneElementGO>> debuggers;
 
 	private String resourcesLocation;
 
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
-		debuggers = new ArrayList<Class<? extends SceneElementGO<?>>>();
+		debuggers = new ArrayList<Class<? extends SceneElementGO>>();
 	}
 
 	public void setModel(String path) {
@@ -112,7 +112,7 @@ public class DesktopGame {
 		this(true);
 	}
 
-	public void addDebugger(Class<? extends SceneElementGO<?>> debuggerClass) {
+	public void addDebugger(Class<? extends SceneElementGO> debuggerClass) {
 		debuggers.add(debuggerClass);
 	}
 

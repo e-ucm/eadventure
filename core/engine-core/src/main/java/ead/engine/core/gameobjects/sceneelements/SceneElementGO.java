@@ -37,257 +37,449 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.google.inject.Inject;
+
 import ead.common.interfaces.features.Oriented;
+import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.Position;
 import ead.common.model.params.variables.EAdVarDef;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObject;
-import ead.engine.core.gameobjects.InputActionProcessor;
+import ead.engine.core.gameobjects.events.EventGO;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * 
  */
-public interface SceneElementGO<T extends EAdSceneElement> extends
-		GameObject<T>, Oriented, InputActionProcessor {
+public class SceneElementGO extends Group implements
+		GameObject<EAdSceneElement>, Oriented, EventListener {
+
+	protected static final Logger logger = LoggerFactory
+			.getLogger("SceneElementGO");
 
 	/**
-	 * Returns the parent of the element
-	 * 
-	 * @return
+	 * Scene element factory
 	 */
-	SceneElementGO<?> getParent();
+	protected SceneElementGOFactory sceneElementFactory;
 
 	/**
-	 * Sets the parent for the scene element
-	 * 
-	 * @param parent
-	 *            the parent
+	 * Game state
 	 */
-	void setParent(SceneElementGO<?> parent);
+	protected GameState gameState;
 
 	/**
-	 * Returns the children of this scene element
-	 * 
-	 * @return
+	 * GUI
 	 */
-	List<SceneElementGO<?>> getChildren();
+	protected GUI gui;
 
 	/**
-	 * Returns the child for the given element
-	 * 
-	 * @param element
-	 * @return
+	 * Asset handler
 	 */
-	SceneElementGO<?> getChild(EAdSceneElement element);
+	protected AssetHandler assetHandler;
+
+	/**
+	 * Event factory
+	 */
+	private EventGOFactory eventFactory;
+
+	/**
+	 * Canvas
+	 */
+	private GenericCanvas canvas;
+
+	/**
+	 * Scene element
+	 */
+	protected EAdSceneElement element;
+
+	/**
+	 * Displacement in x coordinate
+	 */
+	private float dispX;
+
+	/**
+	 * Displacement in y coordinate
+	 */
+	private float dispY;
+
+	/**
+	 * Current z
+	 */
+	private int z;
+
+	/**
+	 * Global scale
+	 */
+	protected float scale;
+
+	/**
+	 * Element orientation
+	 */
+	protected Orientation orientation;
+
+	/**
+	 * Current state
+	 */
+	protected String state;
+
+	/**
+	 * Time since element is displayed
+	 */
+	private int timeDisplayed;
+
+	/**
+	 * Current asset bundle
+	 */
+	protected String currentBundle;
+
+	/**
+	 * If the element is draggable
+	 */
+	protected boolean draggable;
+
+	/**
+	 * If the mouse is over the element
+	 */
+	protected boolean mouseOver;
+
+	/**
+	 * Current input processor that process all input actions (could be
+	 * {@code null})
+	 */
+	protected EventListener inputProcessor;
+
+	/**
+	 * Current compound asset
+	 */
+	private RuntimeCompoundDrawable<?> runtimeDrawable;
+
+	/**
+	 * Current drawable (contained in {@link SceneElementGO#runtimeDrawable} )
+	 * drawn
+	 */
+	private RuntimeDrawable<?> currentDrawable;
+
+	// Additional attributes
+
+	/**
+	 * List with the events of this element
+	 */
+	private ArrayList<EventGO<?>> eventGOList;
+
+	/**
+	 * List with the states of this element
+	 */
+	private List<String> statesList;
+
+	/**
+	 * If the children must be z reordered
+	 */
+	private boolean reorder;
+
+	private Comparator<SceneElementGO> comparator;
+
+	@Inject
+	public SceneElementGO(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory,
+			GenericCanvas canvas) {
+		this.eventFactory = eventFactory;
+		this.gameState = gameState;
+		this.assetHandler = assetHandler;
+		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
+		this.canvas = canvas;
+
+		statesList = new ArrayList<String>();
+		eventGOList = new ArrayList<EventGO<?>>();
+	}
+
+	@Override
+	public void setElement(EAdSceneElement element) {
+		this.element = element;
+
+		// Caution: this should be removed if we want to remember the element
+		// state when the scene changes
+		gameState.remove(element);
+
+		gameState.setValue(element.getDefinition(),
+				SceneElementDef.VAR_SCENE_ELEMENT, element);
+		gameState.checkForUpdates(element.getDefinition());
+
+		// Initial vars
+		// Bundle
+		gameState.setValue(element, SceneElement.VAR_BUNDLE_ID,
+				SceneElementDef.INITIAL_BUNDLE);
+
+		// Scene element events
+		initEvents(element.getEvents());
+		// Definition events
+		initEvents(element.getDefinition().getEvents());
+
+		updateVars();
+		setExtraVars();
+	}
+
+	private void initEvents(EAdList<EAdEvent> events) {
+		if (element.getEvents() != null) {
+			for (EAdEvent event : events) {
+				EventGO<?> eventGO = eventFactory.get(event);
+				eventGO.setParent(element);
+				eventGO.initialize();
+				eventGOList.add(eventGO);
+			}
+		}
+	}
+
+	/**
+	 * Read vars values
+	 */
+	protected void updateVars() {
+
+		boolean enable = gameState.getValue(element, SceneElement.VAR_ENABLE);
+		this.setTouchable(enable ? Touchable.enabled : Touchable.disabled);
+
+		orientation = gameState.getValue(element, SceneElement.VAR_ORIENTATION);
+		state = gameState.getValue(element, SceneElement.VAR_STATE);
+		draggable = gameState.getValue(element, SceneElement.VAR_DRAGGABLE);
+		setZ(gameState.getValue(element, SceneElement.VAR_Z));
+
+		// Transformation
+		setVisible(gameState.getValue(element, SceneElement.VAR_VISIBLE));
+		setRotation(gameState.getValue(element, SceneElement.VAR_ROTATION));
+		setScale(gameState.getValue(element, SceneElement.VAR_SCALE));
+		setScaleX(gameState.getValue(element, SceneElement.VAR_SCALE_X));
+		setScaleY(gameState.getValue(element, SceneElement.VAR_SCALE_Y));
+		setAlpha(gameState.getValue(element, SceneElement.VAR_ALPHA));
+
+		statesList.clear();
+		statesList.add(state);
+		statesList.add(orientation.toString());
+
+		setX(gameState.getValue(element, SceneElement.VAR_X));
+		setY(gameState.getValue(element, SceneElement.VAR_Y));
+		setDispX(gameState.getValue(element, SceneElement.VAR_DISP_X));
+		setDispY(gameState.getValue(element, SceneElement.VAR_DISP_Y));
+
+		updateBundle();
+
+	}
+
+	private void updateBundle() {
+		// Bundle and mouse over update
+		String newBundle = gameState.getValue(element,
+				SceneElement.VAR_BUNDLE_ID);
+
+		boolean newMouseOver = gameState.getValue(element,
+				SceneElement.VAR_MOUSE_OVER);
+
+		if (currentBundle == null || !currentBundle.equals(newBundle)
+				|| newMouseOver != mouseOver) {
+			currentBundle = newBundle;
+			mouseOver = newMouseOver;
+			AssetDescriptor a = element.getDefinition().getAsset(
+					currentBundle,
+					mouseOver ? SceneElementDef.overAppearance
+							: SceneElementDef.appearance);
+			if (a == null) {
+				a = element.getDefinition().getAppearance(currentBundle);
+			}
+
+			if (a != null) {
+				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
+						.getRuntimeAsset(a, true);
+				if (runtimeDrawable != null) {
+					currentDrawable = runtimeDrawable.getDrawable(
+							timeDisplayed, statesList, 0);
+					if (currentDrawable != null) {
+						if (currentDrawable.getWidth() != this.getWidth()) {
+							setWidth(currentDrawable.getWidth());
+						}
+						if (currentDrawable.getHeight() != this.getHeight()) {
+							setHeight(currentDrawable.getHeight());
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	/**
+	 * Sets some variables
+	 */
+	protected void setExtraVars() {
+		int scaleW = (int) (this.getWidth() * scale * this.getScaleX());
+		int scaleH = (int) (this.getHeight() * scale * this.getScaleY());
+		int x = (int) (this.getX() + dispX * this.getWidth());
+		int y = (int) (this.getY() + dispY * this.getHeight());
+		gameState.setValue(element, SceneElement.VAR_LEFT, x);
+		gameState.setValue(element, SceneElement.VAR_RIGHT, x + scaleW);
+		gameState.setValue(element, SceneElement.VAR_TOP, y);
+		gameState.setValue(element, SceneElement.VAR_BOTTOM, y + scaleH);
+		gameState.setValue(element, SceneElement.VAR_CENTER_X, x + scaleW / 2);
+		gameState.setValue(element, SceneElement.VAR_CENTER_Y, y + scaleH / 2);
+
+	}
+
+	@Override
+	public EAdSceneElement getElement() {
+		return element;
+	}
 
 	/**
 	 * Adds an scene element as a child of this element
 	 * 
 	 * @param sceneElement
 	 */
-	void addSceneElement(SceneElementGO<?> sceneElement);
-
-	/**
-	 * Adds an scene element as a child of this element
-	 * 
-	 * @param sceneElement
-	 */
-	void addSceneElement(EAdSceneElement element);
-
-	/**
-	 * Remove the scene element from this element
-	 * 
-	 * @param sceneElement
-	 */
-	void removeSceneElement(SceneElementGO<?> sceneElement);
-
-	/**
-	 * Returns the game object in the given relative coordinates
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	SceneElementGO<?> getFirstGOIn(int x, int y);
-
-	/**
-	 * Returns a list with all the game objects in the given relative
-	 * coordinates. The returned list shouldn't be modified nor expected to be
-	 * consistent for more than update
-	 * 
-	 * @param x
-	 * @param y
-	 * @param list
-	 *            TODO
-	 */
-	void getAllGOIn(int x, int y, List<SceneElementGO<?>> list);
+	public void addSceneElement(EAdSceneElement element) {
+		SceneElementGO go = sceneElementFactory.get(element);
+		super.addActor(go);
+	}
 
 	/**
 	 * Sets position for this element
 	 * 
 	 * @param position
 	 */
-	void setPosition(EAdPosition position);
+	public void setPosition(Position position) {
+		setX(position.getX());
+		setY(position.getY());
+		setDispX(position.getDispX());
+		setDispY(position.getDispY());
+	}
 
 	/**
 	 * Sets x position for this element
 	 * 
 	 * @param x
 	 */
-	void setX(int x);
+	public void setX(float x) {
+		super.setX(x);
+		gameState.setValue(getElement(), SceneElement.VAR_X, x);
+	}
 
 	/**
 	 * Sets y position for this element
 	 * 
 	 * @param y
 	 */
-	void setY(int y);
+	public void setY(float y) {
+		super.setY(y);
+		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
+	}
 
-	/**
-	 * Returns x position for this element
-	 * 
-	 * @return
-	 */
-	int getX();
+	public void setDispX(float dispX) {
+		this.dispX = dispX;
+		gameState.setValue(getElement(), SceneElement.VAR_DISP_X, dispX);
+	}
+
+	public void setDispY(float dispY) {
+		this.dispY = dispY;
+		gameState.setValue(getElement(), SceneElement.VAR_DISP_Y, dispY);
+	}
 
 	/**
 	 * Returns displacement proportion in x coordination
 	 * 
 	 * @return
 	 */
-	float getDispX();
+	public float getDispX() {
+		return dispX;
+	}
 
 	/**
 	 * Returns displacement proportion in x coordination
 	 * 
 	 * @return
 	 */
-	float getDispY();
-
-	/**
-	 * Returns y position for this element
-	 * 
-	 * @return
-	 */
-	int getY();
+	public float getDispY() {
+		return dispY;
+	}
 
 	/**
 	 * Return the z order for this element
 	 * 
 	 * @return
 	 */
-	int getZ();
+	public int getZ() {
+		return z;
+	}
 
 	/**
 	 * Sets the z order for this element
 	 * 
 	 * @param z
 	 */
-	void setZ(int z);
-
-	/**
-	 * Returns the x coordinate of scene element center, using the scale
-	 * 
-	 * @return
-	 */
-	int getCenterX();
-
-	/**
-	 * Returns the x coordinate of scene element center, using the scale
-	 * 
-	 * @return
-	 */
-	int getCenterY();
+	public void setZ(int z) {
+		if (this.z != z) {
+			gameState.setValue(element, SceneElement.VAR_Z, z);
+			this.z = z;
+			if (getParent() != null) {
+				((SceneElementGO) getParent()).invalidateOrder();
+			}
+		}
+	}
 
 	/**
 	 * Sets scale for this element
 	 * 
 	 * @param scale
 	 */
-	void setScale(float scale);
-
-	/**
-	 * Sets scale for x axis
-	 * 
-	 * @param scaleX
-	 */
-	void setScaleX(float scaleX);
-
-	/**
-	 * Sets scale for y axis
-	 * 
-	 * @param scaleY
-	 */
-	void setScaleY(float scaleY);
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
 
 	/**
 	 * Returns the current scale of the element
 	 * 
 	 * @return
 	 */
-	float getScale();
-
-	/**
-	 * Returns the width of this element
-	 * 
-	 * @return
-	 */
-	int getWidth();
-
-	/**
-	 * Returns the height of this element
-	 * 
-	 * @return
-	 */
-	int getHeight();
-
-	/**
-	 * Sets the rotation for the element
-	 * 
-	 * @param r
-	 */
-	void setRotation(float r);
+	public float getScale() {
+		return scale;
+	}
 
 	/**
 	 * Sets the alpha for this element
 	 * 
 	 * @param alpha
 	 */
-	void setAlpha(float alpha);
-
-	/**
-	 * Sets if this element is enabled to receive interactions
-	 * 
-	 * @param b
-	 */
-	void setEnabled(boolean b);
-
-	/**
-	 * Collects all scene elements contained by this element
-	 * 
-	 * @param elements
-	 */
-	void collectSceneElements(List<EAdSceneElement> elements);
-
-	/**
-	 * Returns if this element is visible
-	 * 
-	 * @return
-	 */
-	boolean isVisible();
-
-	/**
-	 * Sets if this element is visible
-	 * 
-	 * @param visible
-	 */
-	void setVisible(boolean visible);
+	public void setAlpha(float alpha) {
+		getColor().a = alpha;
+	}
 
 	/**
 	 * Sets an input processor for this element. This processor will process the
@@ -296,101 +488,246 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * 
 	 * @param processor
 	 */
-	void setInputProcessor(InputActionProcessor processor);
+	public void setInputProcessor(EventListener processor) {
+		this.inputProcessor = processor;
+	}
 
 	/**
 	 * Returns if this element is draggable
 	 * 
 	 */
-	boolean isDraggable();
-
-	/**
-	 * Resets the current transformation, deleting any parent's transformation
-	 * effect
-	 */
-	void resetTransformation();
-
-	/**
-	 * Returns if this game object is enable for user interactions
-	 * 
-	 * @return if this game object is enable for user interactions
-	 */
-	boolean isEnable();
-
-	/**
-	 * <p>
-	 * Adds the assets used by this game object to the list and returns it
-	 * </p>
-	 * <p>
-	 * This method is used to manage memory consumed by assets, allowing the
-	 * releasing or pre-caching of assets as required.
-	 * </p>
-	 * 
-	 * @param assetList
-	 *            The list where to add the assets
-	 * @param allAssets
-	 *            If true all assets are added, if false only required ones are
-	 * @return The list of assets with the ones of this game object added
-	 */
-	List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets);
+	public boolean isDraggable() {
+		return draggable;
+	}
 
 	/**
 	 * Returns the drawable that represents this element
 	 * 
 	 * @return
 	 */
-	RuntimeDrawable<?> getDrawable();
-
-	/**
-	 * Returns if this renderable contains coordinate x and y
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	boolean contains(int x, int y);
-
-	/**
-	 * Returns the transformation (translation, rotation, scale, etc.) of this
-	 * game object
-	 * 
-	 * @return the transformation
-	 */
-	EAdTransformation getTransformation();
-
-	/**
-	 * Invalidates the transformation hierarchy
-	 */
-	void invalidate();
-
-	/**
-	 * Invalidates the order of this element's children
-	 */
-	void invalidateOrder();
-
-	/**
-	 * Removes the element from its hierarchy
-	 */
-	void remove();
-
-	/**
-	 * Returns if this elements has been removed
-	 * 
-	 * @return
-	 */
-	boolean isRemoved();
+	public RuntimeDrawable<?> getDrawable() {
+		return currentDrawable;
+	}
 
 	/**
 	 * Sets the state for this element
+	 * 
 	 * @param string
 	 */
-	void setState(String state);
+	public void setState(String state) {
+		this.state = state;
+		gameState.setValue(getElement(), SceneElement.VAR_STATE, state);
+	}
 
 	/**
 	 * Returns the field for this variable of this element
+	 * 
 	 * @param var
 	 */
-	<S> EAdField<S> getField(EAdVarDef<S> var);
+	public <S> EAdField<S> getField(EAdVarDef<S> var) {
+		return new BasicField<S>(getElement(), var);
+	}
+
+	@Override
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	@Override
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+		gameState.setValue(getElement(), SceneElement.VAR_ORIENTATION,
+				orientation);
+	}
+
+	public void addSceneElement(SceneElementGO e) {
+		this.addActor(e);
+	}
+
+	public SceneElementGO getChild(EAdSceneElement e) {
+		return (SceneElementGO) super.findActor(e.getId());
+	}
+
+	public SceneElementGO getFirstGOIn(int virtualX, int virtualY) {
+		return (SceneElementGO) this.hit(virtualX, virtualY, true);
+	}
+
+	/**
+	 * Sets a comparator to automatically reorder the scene elements (modifies
+	 * drawing order)
+	 * 
+	 * @param comparator
+	 */
+	public void setComparator(Comparator<SceneElementGO> comparator) {
+		this.comparator = comparator;
+	}
+
+	/**
+	 * Launches a list of effects
+	 * 
+	 * @param list
+	 * @param action
+	 */
+	private void addEffects(EAdList<EAdEffect> list, Event action) {
+		if (list != null && list.size() > 0) {
+			action.cancel();
+			for (EAdEffect e : list) {
+				logger.debug("GUI Action: '{}' effect '{}'", action, e);
+				gameState.addEffect(e, action, element);
+			}
+		}
+	}
+
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	@Override
+	public void act(float delta) {
+		// Reorder list
+		if (reorder) {
+			if (comparator != null) {
+				List l = new ArrayList();
+				for (Actor a : this.getChildren()) {
+					l.add(a);
+				}
+				getChildren().clear();
+				Collections.sort(l, comparator);
+				for (Object a : l) {
+					getChildren().add((Actor) a);
+				}
+			}
+			reorder = false;
+		}
+
+		if (eventGOList != null) {
+			for (EventGO<?> eventGO : eventGOList) {
+				eventGO.act(delta);
+			}
+		}
+
+		gameState.setUpdateListEnable(false);
+		timeDisplayed += gui.getSkippedMilliseconds();
+		gameState.setValue(element, SceneElement.VAR_TIME_DISPLAYED,
+				timeDisplayed);
+		gameState.setUpdateListEnable(true);
+
+		updateCurrentDawable();
+		if (gameState.checkForUpdates(element)) {
+			gameState.setUpdateListEnable(false);
+			updateVars();
+			setExtraVars();
+			gameState.setUpdateListEnable(true);
+		}
+
+		super.act(delta);
+
+	}
+
+	protected void updateCurrentDawable() {
+		if (runtimeDrawable != null) {
+			currentDrawable = runtimeDrawable.getDrawable(timeDisplayed,
+					statesList, 0);
+			if (currentDrawable != null) {
+				if (!currentDrawable.isLoaded()) {
+					currentDrawable.loadAsset();
+				}
+				if (currentDrawable.getWidth() != getWidth()) {
+					setWidth(currentDrawable.getWidth());
+				}
+				if (currentDrawable.getHeight() != getWidth()) {
+					setHeight(currentDrawable.getHeight());
+				}
+			}
+		}
+	}
+
+	public void invalidateOrder() {
+		this.reorder = true;
+	}
+
+	public String toString() {
+		return this.element + "";
+	}
+
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		if (currentDrawable != null) {
+			currentDrawable.render(canvas);
+		}
+		super.draw(batch, parentAlpha);
+	}
+
+	@Override
+	public boolean handle(Event event) {
+		if (inputProcessor != null) {
+			inputProcessor.handle(event);
+		}
+
+		if (!event.isCancelled()) {
+			if (this.getTouchable() == Touchable.enabled) {
+				// Effects in the scene element instance
+				EAdList<EAdEffect> list = element
+						.getEffects(getGUIEvent(event));
+				int size = list == null ? 0 : list.size();
+				addEffects(list, event);
+
+				// Effects in the definition
+				list = element.getDefinition().getEffects(getGUIEvent(event));
+				size += list == null ? 0 : list.size();
+				if (size > 0) {
+					event.cancel();
+				}
+				addEffects(list, event);
+			}
+		}
+
+		return event.isCancelled();
+	}
+
+	public EAdGUIEvent getGUIEvent(Event e) {
+		EAdGUIEvent guiEvent = null;
+		if (e instanceof InputEvent) {
+			InputEvent i = (InputEvent) e;
+			switch (i.getType()) {
+			case mouseMoved:
+				guiEvent = MouseGEv.MOUSE_MOVED;
+				break;
+			case touchDown:
+				switch (i.getButton()) {
+				case Input.Buttons.LEFT:
+					guiEvent = MouseGEv.MOUSE_LEFT_PRESSED;
+					break;
+				case Input.Buttons.RIGHT:
+					guiEvent = MouseGEv.MOUSE_RIGHT_PRESSED;
+					break;
+				case Input.Buttons.MIDDLE:
+					guiEvent = MouseGEv.MOUSE_MIDDLE_PRESSED;
+					break;
+				}
+				break;
+			case touchUp:
+				switch (i.getButton()) {
+				case Input.Buttons.LEFT:
+					guiEvent = MouseGEv.MOUSE_LEFT_RELEASED;
+					break;
+				case Input.Buttons.RIGHT:
+					guiEvent = MouseGEv.MOUSE_RIGHT_RELEASED;
+					break;
+				case Input.Buttons.MIDDLE:
+					guiEvent = MouseGEv.MOUSE_MIDDLE_RELEASED;
+					break;
+				}
+				break;
+			case enter:
+				guiEvent = MouseGEv.MOUSE_ENTERED;
+				break;
+			case exit:
+				guiEvent = MouseGEv.MOUSE_EXITED;
+				break;
+			default:
+				break;
+			}
+		}
+		return guiEvent;
+
+	}
 
 }

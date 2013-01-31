@@ -58,7 +58,7 @@ import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.paint.EAdFill;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgMainScreen;
 
 public class InitScene extends EmptyScene {

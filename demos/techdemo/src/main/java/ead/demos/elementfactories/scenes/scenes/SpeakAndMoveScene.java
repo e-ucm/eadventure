@@ -63,8 +63,8 @@ import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
@@ -83,7 +83,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		NgCommon.init();
 		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setInitialAlpha(0.5f);
-		character.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 400));
+		character.setPosition(new Position(Corner.BOTTOM_CENTER, 400, 400));
 
 		SpeakEf effect = new SpeakSceneElementEf(character, new EAdString(
 				"techDemo.SpeakAndMoveScene.longText"));

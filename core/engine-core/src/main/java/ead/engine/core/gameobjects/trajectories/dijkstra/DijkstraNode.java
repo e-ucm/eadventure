@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.trajectories.dijkstra;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 /**
  * A node in the representation of the trajectory used to find the best path
@@ -48,7 +48,7 @@ import ead.common.model.params.util.EAdPosition;
  */
 public class DijkstraNode {
 
-	private EAdPosition position;
+	private Position position;
 
 	private int goalDistance;
 
@@ -62,18 +62,18 @@ public class DijkstraNode {
 
 	private float scale;
 
-	public DijkstraNode(EAdPosition position) {
+	public DijkstraNode(Position position) {
 		this.position = position;
 		this.sides = new ArrayList<PathSide>();
 	}
 
-	public DijkstraNode(EAdPosition position, float linePosition) {
+	public DijkstraNode(Position position, float linePosition) {
 		this.position = position;
 		this.sides = new ArrayList<PathSide>();
 		this.linePosition = linePosition;
 	}
 
-	public void calculateGoalDistance(int toX, int toY) {
+	public void calculateGoalDistance(float toX, float toY) {
 		goalDistance = (int) Math.sqrt(Math.pow(toX - position.getX(), 2)
 				+ Math.pow(toY - position.getY(), 2));
 	}
@@ -97,7 +97,7 @@ public class DijkstraNode {
 		return breakNode;
 	}
 
-	public EAdPosition getPosition() {
+	public Position getPosition() {
 		return position;
 	}
 

@@ -38,7 +38,7 @@
 package ead.engine.core.platform.assets;
 
 import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 
 /**
  * Represents a runtime font. Unlike {@link EAdFont}, which only contains static
@@ -83,6 +83,6 @@ public interface RuntimeFont extends RuntimeAsset<EAdFont> {
 	 *            string to be measured
 	 * @return the string bounds
 	 */
-	EAdRectangle stringBounds(String string);
+	Rectangle stringBounds(String string);
 
 }

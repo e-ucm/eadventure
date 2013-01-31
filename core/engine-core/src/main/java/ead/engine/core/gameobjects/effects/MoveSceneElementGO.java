@@ -92,8 +92,8 @@ public class MoveSceneElementGO extends
 	public void initialize() {
 		super.initialize();
 		ValueMap valueMap = gameState;
-		int endX = 0;
-		int endY = 0;
+		float endX = 0;
+		float endY = 0;
 
 		if (effect.getxTarget() != null && effect.getyTarget() != null) {
 			endX = gameState.operate(Integer.class, effect.getxTarget());
@@ -140,8 +140,8 @@ public class MoveSceneElementGO extends
 	}
 
 	@Override
-	public void update() {
-		trajectory.update();
+	public void act(float delta) {
+		trajectory.act(delta);
 	}
 
 	public void finish() {

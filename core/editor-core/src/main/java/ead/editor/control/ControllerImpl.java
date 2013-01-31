@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import ead.common.model.params.util.EAdURI;
 import ead.editor.model.EditorModel;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
@@ -176,8 +175,8 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public AssetHandler getAssetHandler() {
-		assetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader()
-				.getSaveDir().getPath()));
+		assetHandler.setResourcesLocation(editorModel.getLoader().getSaveDir()
+				.getAbsolutePath());
 		assetHandler.setCacheEnabled(false);
 		return assetHandler;
 	}

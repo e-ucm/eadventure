@@ -52,8 +52,8 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class ComplexElementScene extends EmptyScene {
@@ -64,7 +64,7 @@ public class ComplexElementScene extends EmptyScene {
 		rectangle.setPaint(Paint.BLACK_ON_WHITE);
 		GroupElement complex = new GroupElement(rectangle);
 		complex.setBounds(400, 400);
-		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
+		complex.setPosition(new Position(Corner.CENTER, 400, 300));
 
 		RectangleShape r1 = new RectangleShape(400, 400, ColorFill.BLUE);
 		RectangleShape r2 = new RectangleShape(400, 400, ColorFill.RED);
@@ -73,7 +73,7 @@ public class ComplexElementScene extends EmptyScene {
 
 		e.setInitialScale(0.1f);
 		e.setVarInitialValue(SceneElement.VAR_ROTATION, (float) Math.PI / 6);
-		e.setPosition(new EAdPosition(Corner.CENTER, 50, 50));
+		e.setPosition(new Position(Corner.CENTER, 50, 50));
 
 		complex.getSceneElements().add(e);
 

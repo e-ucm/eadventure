@@ -44,7 +44,7 @@ import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.utils.swing.SwingUtilities;
 
 public class SimpleSceneViewerTest {

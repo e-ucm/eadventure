@@ -39,7 +39,6 @@ package ead.common.model.assets.multimedia;
 
 import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.params.util.EAdURI;
 
 /**
  * Basic sound implementation
@@ -48,29 +47,29 @@ import ead.common.model.params.util.EAdURI;
 public class Sound extends AbstractAssetDescriptor implements EAdSound {
 
 	@Param
-	private EAdURI uri;
+	private String uri;
 
 	public Sound() {
 
 	}
 
 	/**
-	 * Creates a sound asset with the given URI
+	 * Creates a sound asset with the given String
 	 *
 	 * @param uri
-	 *            the URI
+	 *            the String
 	 */
 	public Sound(String uri) {
-		this.uri = new EAdURI(uri);
+		this.uri = uri;
 	}
 
 	@Override
-	public EAdURI getUri() {
+	public String getUri() {
 		return uri;
 	}
 
 	@Override
-	public void setUri(EAdURI uri) {
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 

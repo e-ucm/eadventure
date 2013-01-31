@@ -112,7 +112,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	private String newAdventurePath;
 
 	/**
-	 * Stores correspondences between URIs at old adventure project and URIS at
+	 * Stores correspondences between Strings at old adventure project and StringS at
 	 * new adventure project
 	 */
 	private Map<String, String> urisCorrespondences;
@@ -154,43 +154,43 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	@Override
-	public String getURI(String oldURI) {
-		String newURI = urisCorrespondences.get(oldURI);
-		if (newURI == null) {
+	public String getString(String oldString) {
+		String newString = urisCorrespondences.get(oldString);
+		if (newString == null) {
 
-			String folder = getFolder(oldURI);
+			String folder = getFolder(oldString);
 
-			String fileName = oldURI.replace("/", "_");
-			newURI = folder + "/" + fileName;
+			String fileName = oldString.replace("/", "_");
+			newString = folder + "/" + fileName;
 
-			if (!copyFile(oldURI, newURI)) {
-				logger.error("Missing resource: {}", oldURI);
+			if (!copyFile(oldString, newString)) {
+				logger.error("Missing resource: {}", oldString);
 				return null;
 			}
 
-			newURI = "@" + newURI;
-			urisCorrespondences.put(oldURI, newURI);
+			newString = "@" + newString;
+			urisCorrespondences.put(oldString, newString);
 		}
-		return newURI;
+		return newString;
 	}
 
-	private String getFolder(String oldURI) {
-		if (oldURI.endsWith(".png") || oldURI.endsWith(".jpg"))
+	private String getFolder(String oldString) {
+		if (oldString.endsWith(".png") || oldString.endsWith(".jpg"))
 			return DRAWABLE;
 		else
 			return BINARY;
 	}
 
 	@Override
-	public boolean copyFile(String oldURI, String newURI) {
+	public boolean copyFile(String oldString, String newString) {
 
-		File toResourceFile = new File(newAdventurePath, newURI);
+		File toResourceFile = new File(newAdventurePath, newString);
 		InputStream in = null;
 		OutputStream out = null;
 		boolean success = false;
 
 		try {
-			in = inputStreamCreator.buildInputStream(oldURI);
+			in = inputStreamCreator.buildInputStream(oldString);
 			if (in != null) {
 				out = new FileOutputStream(toResourceFile);
 				byte[] buf = new byte[1024];
@@ -202,13 +202,13 @@ public class ResourceImporterImpl implements ResourceImporter {
 			}
 
 		} catch (Exception e) {
-			logger.error("Error copying '{}' to '{}'", oldURI, newURI);
+			logger.error("Error copying '{}' to '{}'", oldString, newString);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					logger.error("Error accesing '{}'", oldURI);
+					logger.error("Error accesing '{}'", oldString);
 				}
 			}
 
@@ -216,7 +216,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 				try {
 					out.close();
 				} catch (IOException e) {
-					logger.error("Error accesing '{}'", newURI);
+					logger.error("Error accesing '{}'", newString);
 				}
 			}
 		}
@@ -308,7 +308,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		// Special case
 		if (assetPath.startsWith("assets/special/EmptyAnimation")) {
 			if (assetPath.endsWith("_01.png")) {
-				String uri = this.getURI(assetPath);
+				String uri = this.getString(assetPath);
 				return new Image(uri);
 			} else if (!(assetPath.endsWith(".eaa") || assetPath
 					.endsWith("_01.png")))
@@ -336,7 +336,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 				asset = importImagesAnimation(assetPath);
 			}
 		} else {
-			String newAssetPath = getURI(assetPath);
+			String newAssetPath = getString(assetPath);
 
 			try {
 				asset = (AssetDescriptor) clazz.getConstructor(String.class)
@@ -373,7 +373,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		int frameTime = 500;
 		String oldPath = assetPath + "_0" + frame++ + fileExtension;
 		while (fileExists(oldPath)) {
-			String newPath = getURI(oldPath);
+			String newPath = getString(oldPath);
 			frames.addFrame(new Frame(newPath, frameTime));
 			oldPath = assetPath + "_0" + frame++ + fileExtension;
 		}
@@ -402,9 +402,9 @@ public class ResourceImporterImpl implements ResourceImporter {
 		return newAdventurePath;
 	}
 
-	public boolean fileExists(String oldURI) {
+	public boolean fileExists(String oldString) {
 		boolean exists = false;
-		InputStream is = inputStreamCreator.buildInputStream(oldURI);
+		InputStream is = inputStreamCreator.buildInputStream(oldString);
 		if (is != null) {
 			exists = true;
 			try {
@@ -440,8 +440,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	@Override
-	public Dimension getDimensionsForNewImage(String newURI) {
-		BufferedImage image = this.getNewImage(newURI);
+	public Dimension getDimensionsForNewImage(String newString) {
+		BufferedImage image = this.getNewImage(newString);
 		if (image != null) {
 			return new Dimension(image.getWidth(), image.getHeight());
 		} else {
@@ -455,21 +455,22 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	@Override
-	public BufferedImage getNewImage(String newURI) {
-		File toResourceFile = new File(newAdventurePath, newURI.substring(1));
+	public BufferedImage getNewImage(String newString) {
+		File toResourceFile = new File(newAdventurePath, newString.substring(1));
 		FileInputStream inputStream = null;
 		BufferedImage image = null;
 		try {
 			inputStream = new FileInputStream(toResourceFile);
 			image = ImageIO.read(inputStream);
 		} catch (Exception e) {
-			logger.error("Error loading {}", newURI);
+			logger.error("Error loading {}", newString);
 		} finally {
 			if (inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (IOException e) {
-					logger.error("Error closing input stream from {}", newURI);
+					logger.error("Error closing input stream from {}",
+							newString);
 				}
 			}
 		}

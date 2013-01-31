@@ -40,9 +40,8 @@ package ead.engine.core.factories;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
-public interface SceneElementGOFactory
-		extends
-		GameObjectFactory<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>> {
+public interface SceneElementGOFactory extends
+		GameObjectFactory<EAdSceneElement, SceneElementGO> {
 
 	/**
 	 * Gets and element represented by the given id, if the element is already
@@ -50,7 +49,7 @@ public interface SceneElementGOFactory
 	 * 
 	 * @param id
 	 */
-	SceneElementGO<?> get(String id);
+	SceneElementGO get(String id);
 
 	/**
 	 * Removes an element from the cache

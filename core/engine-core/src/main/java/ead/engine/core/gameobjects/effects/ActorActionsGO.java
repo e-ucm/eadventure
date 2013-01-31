@@ -40,6 +40,11 @@ package ead.engine.core.gameobjects.effects;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Linear;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.ActorActionsEf;
@@ -51,20 +56,17 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.TweenControllerImpl;
 
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
-		InputActionProcessor {
+		EventListener {
 
 	private SceneElementGOFactory sceneElementFactory;
 
@@ -72,9 +74,9 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 
 	private GUI gui;
 
-	private SceneElementGO<?> effectsHUD;
+	private SceneElementGO effectsHUD;
 
-	private SceneElementGO<?> actions;
+	private SceneElementGO actions;
 
 	@Inject
 	public ActorActionsGO(SceneElementGOFactory sceneElementFactory,
@@ -88,8 +90,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	public void initialize() {
 		actions = sceneElementFactory.get(getVisualRepresentation());
 		actions.setInputProcessor(this);
-		for (SceneElementGO<?> child : actions.getChildren()) {
-			child.setInputProcessor(this);
+		for (Actor child : actions.getChildren()) {
+			((SceneElementGO) child).setInputProcessor(this);
 		}
 		effectsHUD = gui.getHUD(GUI.EFFECTS_HUD_ID);
 		effectsHUD.addSceneElement(actions);
@@ -103,14 +105,15 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 				EAdList<EAdSceneElementDef> list = gameState.getValue(ref,
 						ActorActionsEf.VAR_ACTIONS);
 				if (list != null) {
-					int x = gameState.getValue(SystemFields.MOUSE_SCENE_X);
-					int y = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
+					float x = gameState.getValue(SystemFields.MOUSE_SCENE_X);
+					float y = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
 					int gameWidth = gameState.getValue(SystemFields.GAME_WIDTH);
 					int gameHeight = gameState
 							.getValue(SystemFields.GAME_HEIGHT);
 					float radius = gameHeight / 8;
-					int maxRadius = gameWidth - x < gameHeight - y ? gameWidth
-							- x : gameHeight - y;
+					float maxRadius = gameWidth - x < gameHeight - y ? gameWidth
+							- x
+							: gameHeight - y;
 					maxRadius = x < maxRadius ? x : maxRadius;
 					maxRadius = y < maxRadius ? y : maxRadius;
 					radius = Math.min(maxRadius, radius);
@@ -140,13 +143,13 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 						int targetY = (int) (Math.sin(accAngle) * radius);
 
 						Tween.to(
-								new BasicField<Integer>(element,
+								new BasicField<Float>(element,
 										SceneElement.VAR_X),
 								TweenControllerImpl.DEFAULT, 5000.0f).ease(
 								Linear.INOUT).targetRelative(targetX).start(
 								tweenController.getManager());
 						Tween.to(
-								new BasicField<Integer>(element,
+								new BasicField<Float>(element,
 										SceneElement.VAR_Y),
 								TweenControllerImpl.DEFAULT, 500.0f).ease(
 								Linear.INOUT).targetRelative(targetY).start(
@@ -165,12 +168,15 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	}
 
 	@Override
-	public SceneElementGO<?> processAction(InputAction<?> action) {
-		if (action.getGUIEvent().equals(MouseGEv.MOUSE_LEFT_PRESSED)
-				|| action.getGUIEvent().equals(MouseGEv.MOUSE_RIGHT_PRESSED)) {
-			effectsHUD.removeSceneElement(actions);
+	public boolean handle(Event event) {
+		if (event instanceof InputEvent) {
+			InputEvent e = (InputEvent) event;
+			if (e.getType() == InputEvent.Type.touchDown
+					&& e.getButton() == Input.Buttons.LEFT) {
+				actions.remove();
+			}
 		}
-		return null;
+		return false;
 	}
 
 }

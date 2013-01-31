@@ -54,15 +54,15 @@ public interface ResourceImporter {
 	public static final String BINARY = "binary";
 
 	/**
-	 * Returns the new URI for an old resource situated in oldURI. It also
+	 * Returns the new String for an old resource situated in oldString. It also
 	 * copies the old resource to its new location
 	 * 
-	 * @param oldURI
-	 *            the old URI
-	 * @return the new URI for the resource. {@code null} it there was any
+	 * @param oldString
+	 *            the old String
+	 * @return the new String for the resource. {@code null} it there was any
 	 *         problem with the import
 	 */
-	String getURI(String oldURI);
+	String getString(String oldString);
 
 	/**
 	 * Set the path for the resources importer
@@ -76,7 +76,7 @@ public interface ResourceImporter {
 			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectsClasses);
 
-	boolean copyFile(String oldURI, String newURI);
+	boolean copyFile(String oldString, String newString);
 
 	/**
 	 * Returns an asset descriptor for an old asset path and the class in the

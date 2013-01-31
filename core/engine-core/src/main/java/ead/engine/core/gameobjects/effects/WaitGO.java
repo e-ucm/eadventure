@@ -66,7 +66,7 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 		time = effect.getTime();
 	}
 
-	public void update() {
+	public void act(float delta) {
 		time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 	}
 

@@ -48,8 +48,7 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.trajectories.PolygonTrajectory;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.Interpolator;
+import ead.common.model.params.util.Position;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -63,13 +62,13 @@ public class PolygonTrajectoryGO extends
 
 	private PathFinder pathFinder = new PathFinder();
 
-	private List<Integer> path;
+	private List<Float> path;
 
 	private int currentTarget;
 
-	private int endX;
+	private float endX;
 
-	private int endY;
+	private float endY;
 
 	private float totalTime;
 
@@ -77,13 +76,13 @@ public class PolygonTrajectoryGO extends
 
 	private boolean updateEnd;
 
-	private int diffX;
+	private float diffX;
 
-	private int diffY;
+	private float diffY;
 
-	private int startX;
+	private float startX;
 
-	private int startY;
+	private float startY;
 
 	@Inject
 	public PolygonTrajectoryGO(GameState gameState) {
@@ -93,7 +92,7 @@ public class PolygonTrajectoryGO extends
 	public void setElement(PolygonTrajectory trajectory) {
 		super.setElement(trajectory);
 		List<PolygonPoint> points = new ArrayList<PolygonPoint>();
-		for (EAdPosition p : trajectory.getPoints()) {
+		for (Position p : trajectory.getPoints()) {
 			points.add(new PolygonPoint(p.getX(), p.getY()));
 		}
 		Polygon polygon = new Polygon(points);
@@ -101,11 +100,11 @@ public class PolygonTrajectoryGO extends
 	}
 
 	@Override
-	public void set(SceneElementGO<?> movingElement, int destinyX,
-			int destinyY, SceneElementGO<?> target) {
+	public void set(SceneElementGO movingElement, float destinyX,
+			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
-		int startX = movingElement.getX();
-		int startY = movingElement.getY();
+		float startX = movingElement.getX();
+		float startY = movingElement.getY();
 		path = pathFinder.getPath(startX, startY, destinyX, destinyY);
 		currentPath = path;
 		currentTarget = 0;
@@ -113,7 +112,7 @@ public class PolygonTrajectoryGO extends
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		if (updateEnd) {
 			updateEnd = false;
@@ -151,10 +150,8 @@ public class PolygonTrajectoryGO extends
 		if (!isDone()) {
 			currentTime += gameState
 					.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
-			float x = Interpolator.LINEAR.interpolate(currentTime, totalTime,
-					diffX);
-			float y = Interpolator.LINEAR.interpolate(currentTime, totalTime,
-					diffY);
+			float x = (currentTime / totalTime) * diffX;
+			float y = (currentTime / totalTime) * diffY;
 			movingElement.setX((int) (startX + x));
 			movingElement.setY((int) (startY + y));
 			if (currentTime >= totalTime) {

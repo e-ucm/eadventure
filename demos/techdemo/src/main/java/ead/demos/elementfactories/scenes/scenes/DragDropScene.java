@@ -52,8 +52,8 @@ import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.DragGEv;
 import ead.common.model.params.guievents.enums.DragGEvType;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 
 public class DragDropScene extends EmptyScene {
 
@@ -70,18 +70,18 @@ public class DragDropScene extends EmptyScene {
 
 		SceneElement e1 = new SceneElement(def);
 		e1.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		e1.setPosition(new EAdPosition(Corner.CENTER, 600, 300));
+		e1.setPosition(new Position(Corner.CENTER, 600, 300));
 		e1.setVarInitialValue(SceneElement.VAR_Z, 0);
 
 		SceneElement e4 = new SceneElement(def);
 		e4.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		e4.setPosition(new EAdPosition(Corner.TOP_LEFT, 20, 20));
+		e4.setPosition(new Position(Corner.TOP_LEFT, 20, 20));
 		e4.setInitialScale(0.5f);
 		e4.setVarInitialValue(SceneElement.VAR_Z, 1);
 
 		SceneElement e5 = new SceneElement(def);
 		e5.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		e5.setPosition(new EAdPosition(Corner.TOP_RIGHT, 500, 10));
+		e5.setPosition(new Position(Corner.TOP_RIGHT, 500, 10));
 		e5.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
 		e5.setInitialScale(1.5f);
 		e5.setVarInitialValue(SceneElement.VAR_Z, 2);
@@ -92,10 +92,10 @@ public class DragDropScene extends EmptyScene {
 				BalloonType.ROUNDED_RECTANGLE);
 		shape2.setPaint(Paint.BLACK_ON_WHITE);
 		SceneElement e2 = new SceneElement(shape2);
-		e2.setPosition(new EAdPosition(Corner.CENTER, 100, 300));
+		e2.setPosition(new Position(Corner.CENTER, 100, 300));
 
 		SceneElement e3 = new SceneElement(shape2);
-		e3.setPosition(new EAdPosition(Corner.CENTER, 300, 300));
+		e3.setPosition(new Position(Corner.CENTER, 300, 300));
 
 		addBehaviors(e2, e1);
 		addBehaviors(e3, e1);

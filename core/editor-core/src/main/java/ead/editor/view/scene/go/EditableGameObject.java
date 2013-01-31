@@ -48,12 +48,12 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.EAdVarDef;
-import ead.engine.core.gdx.platform.GdxCanvas;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.engine.core.platform.assets.RuntimeDrawable;
+import ead.engine.core.platform.gdx.GdxCanvas;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {
@@ -88,7 +88,7 @@ public class EditableGameObject {
 	private float height;
 
 	// Bounds
-	private EAdRectangle bounds;
+	private Rectangle bounds;
 
 	// Alpha
 	private float alpha;
@@ -126,7 +126,7 @@ public class EditableGameObject {
 		this.states = new ArrayList<String>();
 		xT = x - dispX * width;
 		yL = y - dispY * height;
-		this.bounds = new EAdRectangle((int) xT, (int) yL, (int) width,
+		this.bounds = new Rectangle((int) xT, (int) yL, (int) width,
 				(int) height);
 	}
 
@@ -208,7 +208,7 @@ public class EditableGameObject {
 		return tmp.x >= 0 && tmp.x < width && tmp.y >= 0 && tmp.y < height;
 	}
 
-	public EAdRectangle getBounds() {
+	public Rectangle getBounds() {
 		return bounds;
 	}
 

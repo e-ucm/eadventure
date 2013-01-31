@@ -102,7 +102,7 @@ public class GdxGWTAssetHandler extends GdxAssetHandler {
 	}
 
 	public FileHandle getProjectFileHandle(String uri) {
-		return Gdx.files.internal(this.resourcesUri.getPath() + "/" + uri);
+		return Gdx.files.internal(this.resourcesUri + "/" + uri);
 	}
 
 }

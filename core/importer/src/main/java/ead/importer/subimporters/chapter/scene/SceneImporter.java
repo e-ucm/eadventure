@@ -81,8 +81,8 @@ import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -205,8 +205,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			EAdSceneElementDef player = (EAdSceneElementDef) factory
 					.getElementById(Player.IDENTIFIER);
 			SceneElement playerReference = new SceneElement(player);
-			EAdPosition p = new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
-					oldScene.getPositionX(), oldScene.getPositionY());
+			Position p = new Position(Position.Corner.BOTTOM_CENTER, oldScene
+					.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
 			playerReference.setInitialScale(oldScene.getPlayerScale());
 
@@ -258,7 +258,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				scene.getSceneElements().add(barrier);
 			}
 
-			playerReference.setPosition(new EAdPosition(Corner.BOTTOM_CENTER,
+			playerReference.setPosition(new Position(Corner.BOTTOM_CENTER,
 					nodeDef.getInitial().getX(), nodeDef.getInitial().getY()));
 			playerReference.setInitialScale(nodeDef.getInitial().getScale());
 		}
@@ -271,8 +271,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		for (ActiveArea a : list) {
 			SceneElement activeArea = (SceneElement) factory.getElementById(a
 					.getId());
-			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT,
-					a.getX(), a.getY()));
+			activeArea.setPosition(new Position(Position.Corner.TOP_LEFT, a
+					.getX(), a.getY()));
 			activeArea.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE
 					- substract - i);
 			i++;
@@ -353,7 +353,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				Image image = (Image) resourceImporter.getAssetDescritptor(
 						foregroundPath, Image.class);
 
-				String path = image.getUri().getPath();
+				String path = image.getUri();
 				if (path.endsWith(".jpg") || path.endsWith(".JPG")) {
 					image = new Image(path.substring(0, path.length() - 3)
 							+ "png");
@@ -361,7 +361,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 				String backgroundPath = r
 						.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
-				applyForegroundMask(image.getUri().getPath(), foregroundPath,
+				applyForegroundMask(image.getUri(), foregroundPath,
 						backgroundPath);
 
 				SceneElement foreground = new SceneElement(image);
@@ -444,7 +444,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		BufferedImage result = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
 		result.getRaster().setDataElements(0, 0, width, height, resultPixels);
-		String newUri = resourceImporter.getURI(foregroundPath);
+		String newUri = resourceImporter.getString(foregroundPath);
 
 		try {
 			ImageIO.write(result, "png", new File(resourceImporter

@@ -68,8 +68,8 @@ import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.common.model.params.variables.VarDef;
 import ead.demos.elementfactories.EAdElementsFactory;
@@ -163,9 +163,9 @@ public class NgRoom2 extends EmptyScene {
 				new VarDef<Integer>("integer", Integer.class, 0));
 		EAdField<Integer> mouseY = new BasicField<Integer>(null,
 				new VarDef<Integer>("integer", Integer.class, 0));
-		EAdField<Integer> canyonX = new BasicField<Integer>(topFan,
+		EAdField<Float> canyonX = new BasicField<Float>(topFan,
 				SceneElement.VAR_X);
-		EAdField<Integer> canyonY = new BasicField<Integer>(topFan,
+		EAdField<Float> canyonY = new BasicField<Float>(topFan,
 				SceneElement.VAR_Y);
 
 		// Bullet generation
@@ -179,7 +179,7 @@ public class NgRoom2 extends EmptyScene {
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1])", mouseY, canyonY));
 		AddActorReferenceEf addEffect = new AddActorReferenceEf(bullet,
-				new EAdPosition(Corner.CENTER, 552, height), applyForce);
+				new Position(Corner.CENTER, 552, height), applyForce);
 
 		//interpolation.getNextEffects().add(addEffect);
 		topFan.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, addEffect);
@@ -244,8 +244,8 @@ public class NgRoom2 extends EmptyScene {
 			desp += 20;
 			for (int j = 0; j < 10; j++) {
 				SceneElement e = new SceneElement(circle);
-				e.setPosition(new EAdPosition(Corner.CENTER, spotX + i * 20
-						+ desp, spotY + j * 20));
+				e.setPosition(new Position(Corner.CENTER,
+						spotX + i * 20 + desp, spotY + j * 20));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
@@ -276,7 +276,7 @@ public class NgRoom2 extends EmptyScene {
 		groundS.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT,
 				ColorFill.TRANSPARENT, 799, 1));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
+		ground.setPosition(new Position(Corner.CENTER, 400, 575));
 
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);

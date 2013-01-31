@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.trajectories.dijkstra;
 
 import ead.common.model.elements.trajectories.Side;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 /**
  * A side in the representation of the trajectory used to find the best path
@@ -69,7 +69,7 @@ public class PathSide {
 	/**
 	 * The end position of the side, dependent on the direction
 	 */
-	private EAdPosition endPosition;
+	private Position endPosition;
 
 	/**
 	 * The model side of which this is part
@@ -107,7 +107,7 @@ public class PathSide {
 		return start;
 	}
 
-	public EAdPosition getEndPosition(boolean last) {
+	public Position getEndPosition(boolean last) {
 		return endPosition;
 	}
 
@@ -119,7 +119,7 @@ public class PathSide {
 		return start;
 	}
 
-	public void setEndPosition(EAdPosition position) {
+	public void setEndPosition(Position position) {
 		this.endPosition = position;
 	}
 

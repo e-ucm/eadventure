@@ -50,7 +50,7 @@ import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 

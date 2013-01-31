@@ -40,10 +40,11 @@ package ead.engine.core.gdx.html.platform.injection;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-import ead.engine.core.debuggers.FieldsDebuggerGO;
-import ead.engine.core.debuggers.GhostDebuggerGO;
-import ead.engine.core.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GdxEngine;
+import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
 import ead.engine.core.gameobjects.effects.AddChildGO;
@@ -69,7 +70,7 @@ import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
@@ -79,7 +80,6 @@ import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
-import ead.engine.core.gdx.GdxEngine;
 import ead.engine.core.gdx.assets.GdxFont;
 import ead.engine.core.gdx.assets.GdxSound;
 import ead.engine.core.gdx.assets.drawables.GdxBezierShape;
@@ -157,7 +157,7 @@ public interface GwtGinInjector extends Ginjector {
 
 	GhostDebuggerGO getGhostDebuggerGO();
 
-	SceneElementGOImpl getSceneElementGOImpl();
+	SceneElementGO getSceneElementGO();
 
 	EmptyTransitionGO getEmptyTransitionGO();
 

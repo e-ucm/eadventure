@@ -37,26 +37,26 @@
 
 package ead.common.test.params;
 
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 
-public class RectangleTest extends ParamsTest<EAdRectangle> {
+public class RectangleTest extends ParamsTest<Rectangle> {
 
 	@Override
-	public EAdRectangle buildParam(String data) {
-		return new EAdRectangle(data);
+	public Rectangle buildParam(String data) {
+		return new Rectangle(data);
 	}
 
 	@Override
-	public EAdRectangle defaultValue() {
-		return new EAdRectangle();
+	public Rectangle defaultValue() {
+		return new Rectangle();
 	}
 
 	@Override
-	public EAdRectangle[] getObjects() {
-		EAdRectangle[] rectangles = new EAdRectangle[20];
+	public Rectangle[] getObjects() {
+		Rectangle[] rectangles = new Rectangle[20];
 		for (int i = 0; i < rectangles.length; i += 2) {
-			rectangles[i] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
-			rectangles[i + 1] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
+			rectangles[i] = new Rectangle(i - 2, i * 50, i * 7, i * 9);
+			rectangles[i + 1] = new Rectangle(i - 2, i * 50, i * 7, i * 9);
 		}
 		return rectangles;
 	}

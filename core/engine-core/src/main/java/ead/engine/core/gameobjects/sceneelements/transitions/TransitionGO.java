@@ -37,16 +37,15 @@
 
 package ead.engine.core.gameobjects.sceneelements.transitions;
 
-import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
@@ -71,25 +70,19 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 	public abstract void transition(SceneGO nextScene);
 
 	@Override
-	public void getAllGOIn(int x, int y, List<SceneElementGO<?>> list) {
-		list.add(this);
+	public boolean handle(Event action) {
+		action.cancel();
+		return true;
 	}
 
-	@Override
-	public SceneElementGO<?> getFirstGOIn(int x, int y) {
-		return this;
-	}
-
-	@Override
-	public SceneElementGO<?> processAction(InputAction<?> action) {
-		action.consume();
+	public Actor hit(float x, float y, boolean touchable) {
 		return this;
 	}
 
 	public void setPreviousScene(SceneGO scene) {
-		children.clear();
+		getChildren().clear();
 		this.previousScene = scene;
-		addSceneElement(scene);
+		addActor(scene);
 	}
 
 }

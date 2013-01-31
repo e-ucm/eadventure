@@ -75,7 +75,7 @@ public class HighlightSceneElementGO extends
 		started = false;
 	}
 
-	public void update() {
+	public void act(float delta) {
 		if (time > 0) {
 			if (!started) {
 				gameState.setValue(highLightElement, SceneElement.VAR_SCALE,

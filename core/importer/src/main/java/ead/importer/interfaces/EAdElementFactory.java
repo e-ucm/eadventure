@@ -39,7 +39,7 @@ package ead.importer.interfaces;
 
 import java.util.Map;
 
-import ead.common.model.assets.drawable.basics.EAdImage;
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdElement;
@@ -128,15 +128,6 @@ public interface EAdElementFactory {
 
 	AdventureData getOldDataModel();
 
-	/**
-	 * Returns the image for the default cursor
-	 * 
-	 * @param type
-	 *            the type of the cursor
-	 * @return the image for the cursor
-	 */
-	EAdImage getDefaultCursor(String type);
-
 	Map<String, EAdElement> getChapterElements();
 
 	void addDraggableActor(EAdSceneElementDef actor);
@@ -144,5 +135,9 @@ public interface EAdElementFactory {
 	boolean isDraggableActor(EAdSceneElementDef actor);
 
 	void init();
+
+	String createCursor(Image assetDescritptor);
+
+	String getDefaultCursor(String cursor);
 
 }

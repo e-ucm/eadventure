@@ -37,9 +37,9 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.interfaces.features.Variabled;
+import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.params.text.EAdString;

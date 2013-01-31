@@ -61,8 +61,8 @@ import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
@@ -181,7 +181,7 @@ public class NgFinalRoom extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new BasicField<Integer>(
+		InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
 				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
@@ -201,7 +201,7 @@ public class NgFinalRoom extends EmptyScene {
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 799, 50));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
+		ground.setPosition(new Position(Corner.CENTER, 400, 575));
 
 		// Moves ng over the ground
 		MoveSceneElementEf move = new MoveSceneElementEf();

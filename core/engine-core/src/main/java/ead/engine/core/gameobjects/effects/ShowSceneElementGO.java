@@ -47,11 +47,10 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
 
 public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 
-	private SceneElementGO<?> sceneElement;
+	private SceneElementGO sceneElement;
 
 	private int time;
 
@@ -61,10 +60,6 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 			GameState gameState, Game gameController,
 			EventGOFactory eventFactory) {
 		super(gameState);
-	}
-
-	public void doLayout(EAdTransformation t) {
-		//		gui.addElement(sceneElement, t);
 	}
 
 	@Override
@@ -80,9 +75,9 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 		return time <= 0;
 	}
 
-	public void update() {
-		super.update();
-		sceneElement.update();
+	public void act(float delta) {
+		super.act(delta);
+		sceneElement.act(delta);
 		//		time -= gui.getSkippedMilliseconds();
 
 	}

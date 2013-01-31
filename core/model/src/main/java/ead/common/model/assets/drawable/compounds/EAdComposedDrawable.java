@@ -39,7 +39,7 @@ package ead.common.model.assets.drawable.compounds;
 
 import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 /**
  * <p>
@@ -63,7 +63,7 @@ public interface EAdComposedDrawable extends EAdBasicDrawable {
 	 * 
 	 * @return
 	 */
-	EAdList<EAdPosition> getPositions();
+	EAdList<Position> getPositions();
 
 	/**
 	 * Adds a drawable to this composed drawable with the given offset

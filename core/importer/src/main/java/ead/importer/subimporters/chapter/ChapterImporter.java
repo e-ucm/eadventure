@@ -41,11 +41,12 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.BasicChapter;
+import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.predef.effects.ChangeCursorEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.importer.EAdElementImporter;
@@ -53,7 +54,6 @@ import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.HasId;
-import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
@@ -164,8 +164,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	private void setAdventureCursor(Chapter oldChapter) {
 
-		ChangeCursorEf changeCursor = new ChangeCursorEf(elementFactory
-				.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
+		ChangeCursorEf changeCursor = new ChangeCursorEf(MouseHud.CURSOR_ID);
 		EAdScene scene = (EAdScene) elementFactory.getElementById(oldChapter
 				.getInitialGeneralScene().getId());
 

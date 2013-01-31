@@ -37,35 +37,9 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.effects.QuitGameEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.widgets.containers.ColumnContainer;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.guievents.EAdGUIEvent;
-import ead.common.model.params.guievents.KeyGEv;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.guievents.enums.KeyEventType;
-import ead.common.model.params.guievents.enums.KeyGEvCode;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.game.enginefilters.EngineFilter;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
@@ -75,105 +49,112 @@ import ead.engine.core.platform.assets.AssetHandler;
  * </p>
  * 
  */
-public class MenuHUD extends AbstractHUD implements
-		EngineFilter<InputAction<?>> {
+public class MenuHUD extends AbstractHUD {
 
-	private static final EAdGUIEvent MENU_EVENT = new KeyGEv(
-			KeyEventType.KEY_PRESSED, KeyGEvCode.ESCAPE);
-	public static String ID = "Hud.Menu";
-
-	public MenuHUD(AssetHandler assetHandler,
+	public MenuHUD(String id, AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(ID, assetHandler, gameObjectFactory, gui, gameState,
-				eventFactory, 100);
+			GameState gameState, EventGOFactory eventFactory, int priority) {
+		super(id, assetHandler, gameObjectFactory, gui, gameState,
+				eventFactory, priority);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void init() {
-
-		ColumnContainer menu = new ColumnContainer();
-		menu.setId(ID);
-		menu.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 400, 300));
-
-		EAdString exitString = new EAdString("engine.Exit");
-
-		menu.add(createMenuButton(exitString, new QuitGameEf()));
-
-		// Languages
-		String languagesProperty = gameState.getValue(SystemFields.LANGUAGES);
-
-		EAdString defaultLanguage = new EAdString("engine.language");
-
-		menu.add(createMenuButton(defaultLanguage, new ChangeFieldEf(
-				SystemFields.LANGUAGE, new ValueOp(""))));
-
-		String[] languages = languagesProperty.split(",");
-		for (String language : languages) {
-			EAdString languageString = new EAdString("engine.language."
-					+ language);
-
-			menu.add(createMenuButton(languageString, new ChangeFieldEf(
-					SystemFields.LANGUAGE, new ValueOp(language))));
-		}
-
-		BasicField<Boolean> visibleField = new BasicField<Boolean>(menu,
-				SceneElement.VAR_VISIBLE);
-
-		EAdString resumeString = new EAdString("engine.Resume");
-
-		menu.add(createMenuButton(resumeString, new ChangeFieldEf(visibleField,
-				BooleanOp.FALSE_OP)));
-
-		menu.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
-
-		setElement(menu);
-
-		BasicField<Boolean> field = new BasicField<Boolean>(this.getElement(),
-				SceneElement.VAR_VISIBLE);
-
-		menu.addBehavior(MENU_EVENT, new ChangeFieldEf(field, new BooleanOp(
-				new NOTCond(new OperationCond(field)))));
-	}
-
-	public EAdSceneElement createMenuButton(EAdString string, EAdEffect effect) {
-		Caption c1 = new Caption(string);
-		Caption c2 = new Caption(string);
-
-		SceneElement button = new SceneElement(c1, c2);
-		button.setId(string.toString());
-
-		c1.setBubblePaint(new Paint(new LinearGradientFill(ColorFill.ORANGE,
-				new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
-		c1.setPadding(10);
-		c1.setFont(new BasicFont(18));
-
-		c2
-				.setBubblePaint(new Paint(new LinearGradientFill(new ColorFill(
-						255, 200, 0), new ColorFill(255, 150, 0), 0, 40),
-						ColorFill.BLACK, 3));
-		c2.setPadding(11);
-		c2.setFont(new BasicFont(18));
-
-		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
-		return button;
-	}
-
-	public void update() {
-		super.update();
-		gameState.setPaused(isVisible());
-	}
-
-	@Override
-	public int compareTo(EngineFilter<?> o) {
-		return this.getPriority() - o.getPriority();
-	}
-
-	@Override
-	public InputAction<?> filter(InputAction<?> o, Object[] params) {
-		if (MENU_EVENT.equals(o.getGUIEvent())) {
-			processAction(o);
-		}
-		return o;
-	}
+	//	private static final EAdGUIEvent MENU_EVENT = new KeyGEv(
+	//			KeyEventType.KEY_PRESSED, KeyGEvCode.ESCAPE);
+	//	public static String ID = "Hud.Menu";
+	//
+	//	public MenuHUD(AssetHandler assetHandler,
+	//			SceneElementGOFactory gameObjectFactory, GUI gui,
+	//			GameState gameState, EventGOFactory eventFactory) {
+	//		super(ID, assetHandler, gameObjectFactory, gui, gameState,
+	//				eventFactory, 100);
+	//	}
+	//
+	//	public void init() {
+	//
+	//		ColumnContainer menu = new ColumnContainer();
+	//		menu.setId(ID);
+	//		menu.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 400, 300));
+	//
+	//		EAdString exitString = new EAdString("engine.Exit");
+	//
+	//		menu.add(createMenuButton(exitString, new QuitGameEf()));
+	//
+	//		// Languages
+	//		String languagesProperty = gameState.getValue(SystemFields.LANGUAGES);
+	//
+	//		EAdString defaultLanguage = new EAdString("engine.language");
+	//
+	//		menu.add(createMenuButton(defaultLanguage, new ChangeFieldEf(
+	//				SystemFields.LANGUAGE, new ValueOp(""))));
+	//
+	//		String[] languages = languagesProperty.split(",");
+	//		for (String language : languages) {
+	//			EAdString languageString = new EAdString("engine.language."
+	//					+ language);
+	//
+	//			menu.add(createMenuButton(languageString, new ChangeFieldEf(
+	//					SystemFields.LANGUAGE, new ValueOp(language))));
+	//		}
+	//
+	//		BasicField<Boolean> visibleField = new BasicField<Boolean>(menu,
+	//				SceneElement.VAR_VISIBLE);
+	//
+	//		EAdString resumeString = new EAdString("engine.Resume");
+	//
+	//		menu.add(createMenuButton(resumeString, new ChangeFieldEf(visibleField,
+	//				BooleanOp.FALSE_OP)));
+	//
+	//		menu.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
+	//
+	//		setElement(menu);
+	//
+	//		BasicField<Boolean> field = new BasicField<Boolean>(this.getElement(),
+	//				SceneElement.VAR_VISIBLE);
+	//
+	//		menu.addBehavior(MENU_EVENT, new ChangeFieldEf(field, new BooleanOp(
+	//				new NOTCond(new OperationCond(field)))));
+	//	}
+	//
+	//	public EAdSceneElement createMenuButton(EAdString string, EAdEffect effect) {
+	//		Caption c1 = new Caption(string);
+	//		Caption c2 = new Caption(string);
+	//
+	//		SceneElement button = new SceneElement(c1, c2);
+	//		button.setId(string.toString());
+	//
+	//		c1.setBubblePaint(new Paint(new LinearGradientFill(ColorFill.ORANGE,
+	//				new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
+	//		c1.setPadding(10);
+	//		c1.setFont(new BasicFont(18));
+	//
+	//		c2
+	//				.setBubblePaint(new Paint(new LinearGradientFill(new ColorFill(
+	//						255, 200, 0), new ColorFill(255, 150, 0), 0, 40),
+	//						ColorFill.BLACK, 3));
+	//		c2.setPadding(11);
+	//		c2.setFont(new BasicFont(18));
+	//
+	//		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+	//		return button;
+	//	}
+	//
+	//	public void update() {
+	//		super.update();
+	//		gameState.setPaused(isVisible());
+	//	}
+	//
+	//	@Override
+	//	public int compareTo(EngineFilter<?> o) {
+	//		return this.getPriority() - o.getPriority();
+	//	}
+	//
+	//	@Override
+	//	public InputAction<?> filter(InputAction<?> o, Object[] params) {
+	//		if (MENU_EVENT.equals(o.getGUIEvent())) {
+	//			processAction(o);
+	//		}
+	//		return o;
+	//	}
 
 }

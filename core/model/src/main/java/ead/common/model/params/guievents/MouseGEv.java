@@ -68,12 +68,18 @@ public class MouseGEv extends AbstractParam implements EAdGUIEvent {
 			MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_1);
 	public static final MouseGEv MOUSE_LEFT_RELEASED = new MouseGEv(
 			MouseGEvType.RELEASED, MouseGEvButtonType.BUTTON_1);
+	public static final MouseGEv MOUSE_RIGHT_RELEASED = new MouseGEv(
+			MouseGEvType.RELEASED, MouseGEvButtonType.BUTTON_3);
+	public static final MouseGEv MOUSE_MIDDLE_RELEASED = new MouseGEv(
+			MouseGEvType.RELEASED, MouseGEvButtonType.BUTTON_2);
 	public static final MouseGEv MOUSE_DROP = new MouseGEv(MouseGEvType.DROP,
 			MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_SWIPE_RIGHT = new MouseGEv(
 			MouseGEvType.SWIPE_RIGHT, MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_SWIPE_LEFT = new MouseGEv(
 			MouseGEvType.SWIPE_LEFT, MouseGEvButtonType.NO_BUTTON);
+	public static final EAdGUIEvent MOUSE_MIDDLE_PRESSED = new MouseGEv(
+			MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_2);
 
 	@Param
 	private MouseGEvType type;

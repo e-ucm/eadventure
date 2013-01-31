@@ -41,7 +41,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 public class ComposedDrawable extends AbstractAssetDescriptor implements
 		EAdComposedDrawable {
@@ -50,11 +50,11 @@ public class ComposedDrawable extends AbstractAssetDescriptor implements
 	private EAdList<EAdBasicDrawable> assetList;
 
 	@Param
-	private EAdList<EAdPosition> positions;
+	private EAdList<Position> positions;
 
 	public ComposedDrawable() {
 		assetList = new EAdList<EAdBasicDrawable>();
-		positions = new EAdList<EAdPosition>();
+		positions = new EAdList<Position>();
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class ComposedDrawable extends AbstractAssetDescriptor implements
 	@Override
 	public void addDrawable(EAdBasicDrawable drawable, int xOffset, int yOffset) {
 		assetList.add(drawable);
-		positions.add(new EAdPosition(xOffset, yOffset));
+		positions.add(new Position(xOffset, yOffset));
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class ComposedDrawable extends AbstractAssetDescriptor implements
 	}
 
 	@Override
-	public EAdList<EAdPosition> getPositions() {
+	public EAdList<Position> getPositions() {
 		return positions;
 	}
 

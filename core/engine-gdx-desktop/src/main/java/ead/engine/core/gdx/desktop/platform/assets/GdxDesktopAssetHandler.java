@@ -54,7 +54,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.params.util.EAdURI;
 import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.tools.GenericInjector;
@@ -78,11 +77,11 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 	}
 
 	@Override
-	public void setResourcesLocation(EAdURI uri) {
+	public void setResourcesLocation(String uri) {
 		super.setResourcesLocation(uri);
-		if (uri != null && uri.getPath() != null) {
+		if (uri != null && uri != null) {
 			try {
-				zipFile = new ZipFile(new File(uri.getPath()));
+				zipFile = new ZipFile(new File(uri));
 				zipped = true;
 			} catch (ZipException e) {
 				zipped = false;

@@ -61,7 +61,8 @@ public interface GameObject<T> {
 
 	/**
 	 * Updates game object
+	 * @param delta TODO
 	 */
-	void update();
+	void act(float delta);
 
 }

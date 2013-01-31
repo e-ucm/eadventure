@@ -68,7 +68,7 @@ import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.DragGEv;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.guievents.enums.DragGEvType;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.SystemFields;
 import ead.common.model.params.variables.VarDef;
@@ -225,10 +225,10 @@ public class NgRoom1 extends EmptyScene {
 	 */
 	private void setDarkness(SceneElement ng) {
 		SceneElementEv event = new SceneElementEv();
-		ChangeFieldEf changeX = new ChangeFieldEf(new BasicField<Integer>(
+		ChangeFieldEf changeX = new ChangeFieldEf(new BasicField<Float>(
 				darkness, SceneElement.VAR_X), new BasicField<Integer>(ng,
 				SceneElement.VAR_CENTER_X));
-		ChangeFieldEf changeY = new ChangeFieldEf(new BasicField<Integer>(
+		ChangeFieldEf changeY = new ChangeFieldEf(new BasicField<Float>(
 				darkness, SceneElement.VAR_Y), new BasicField<Integer>(ng,
 				SceneElement.VAR_CENTER_Y));
 		event.addEffect(SceneElementEvType.ALWAYS, changeX);
@@ -293,7 +293,7 @@ public class NgRoom1 extends EmptyScene {
 
 		OperationCond cond = new OperationCond(timesField, 4, Comparator.EQUAL);
 		InterpolationEf portraitGoDown = new InterpolationEf(
-				new BasicField<Integer>(portrait, SceneElement.VAR_Y), 0, 80,
+				new BasicField<Float>(portrait, SceneElement.VAR_Y), 0, 80,
 				200, InterpolationLoopType.NO_LOOP,
 				InterpolationType.BOUNCE_END);
 

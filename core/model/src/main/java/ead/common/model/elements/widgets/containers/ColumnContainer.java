@@ -45,7 +45,7 @@ import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 
 public class ColumnContainer extends GroupElement {
 
@@ -60,7 +60,7 @@ public class ColumnContainer extends GroupElement {
 		if (lastAdded != null) {
 			BasicField<Integer> fieldBottom = new BasicField<Integer>(
 					lastAdded, SceneElement.VAR_BOTTOM);
-			BasicField<Integer> fieldY = new BasicField<Integer>(element,
+			BasicField<Float> fieldY = new BasicField<Float>(element,
 					SceneElement.VAR_Y);
 
 			SceneElementEv event = new SceneElementEv();

@@ -57,7 +57,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.params.util.EAdURI;
 import ead.editor.control.Command;
 import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.control.commands.ChangeFileCommand;
@@ -348,17 +347,17 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 			controlPanel = new PanelImpl("Configuration",
 					OptionPanel.LayoutPolicy.VerticalBlocks, 4);
 
-			final Accessor<String> uriAccessor = new ConvertingAccessor<String, EAdURI>(
-					String.class, new IntrospectingAccessor<EAdURI>(image,
+			final Accessor<String> uriAccessor = new ConvertingAccessor<String, String>(
+					String.class, new IntrospectingAccessor<String>(image,
 							"uri")) {
 				@Override
-				public String innerToOuter(EAdURI b) {
-					return b.toStringData();
+				public String innerToOuter(String b) {
+					return b;
 				}
 
 				@Override
-				public EAdURI outerToInner(String a) {
-					return new EAdURI(a);
+				public String outerToInner(String a) {
+					return a;
 				}
 			};
 

@@ -51,8 +51,8 @@ import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 
 public class DepthZScene extends EmptyScene {
 
@@ -63,18 +63,17 @@ public class DepthZScene extends EmptyScene {
 
 		SceneElement e1 = new SceneElement(new RectangleShape(50, 500,
 				new Paint(ColorFill.RED, ColorFill.BLACK)));
-		e1.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
+		e1.setPosition(new Position(Corner.CENTER, 400, 300));
 		getSceneElements().add(e1);
 		e1.setId("WallZ");
 
 		SceneElement e2 = new SceneElement(new CircleShape(20, new Paint(
 				ColorFill.GREEN, ColorFill.BLACK)));
-		e2.setPosition(new EAdPosition(Corner.CENTER, 10, 300));
+		e2.setPosition(new Position(Corner.CENTER, 10, 300));
 		getSceneElements().add(e2);
 		e2.setId("BallZ");
 
-		EAdField<Integer> xField = new BasicField<Integer>(e2,
-				SceneElement.VAR_X);
+		EAdField<Float> xField = new BasicField<Float>(e2, SceneElement.VAR_X);
 		EAdField<Integer> zField = new BasicField<Integer>(e2,
 				SceneElement.VAR_Z);
 		EAdField<Float> scaleField = new BasicField<Float>(e2,

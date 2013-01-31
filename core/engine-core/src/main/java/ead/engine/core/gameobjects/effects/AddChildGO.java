@@ -57,7 +57,7 @@ public class AddChildGO extends AbstractEffectGO<AddChildEf> {
 
 	public void initialize() {
 		super.initialize();
-		SceneElementGO<?> go = sceneElementFactory.get(effect.getParentId());
+		SceneElementGO go = sceneElementFactory.get(effect.getParentId());
 		if (go != null) {
 			go.addSceneElement(effect.getElementToAdd());
 		}

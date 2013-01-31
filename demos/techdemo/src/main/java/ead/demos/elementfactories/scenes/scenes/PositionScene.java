@@ -40,8 +40,8 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class PositionScene extends EmptyScene {
@@ -54,7 +54,7 @@ public class PositionScene extends EmptyScene {
 		NgCommon.init();
 		SceneElement e = new SceneElement(NgCommon.getMainCharacter());
 		e.setInitialScale(0.5f);
-		e.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
+		e.setPosition(new Position(Corner.CENTER, 400, 300));
 
 		this.getSceneElements().add(e);
 	}

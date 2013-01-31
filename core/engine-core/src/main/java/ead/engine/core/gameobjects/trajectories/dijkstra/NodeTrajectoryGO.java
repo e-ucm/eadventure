@@ -44,8 +44,7 @@ import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.Interpolator;
+import ead.common.model.params.util.Position;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
@@ -66,15 +65,15 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 	private boolean firstUpdate = true;
 
-	private Integer initX;
+	private Float initX;
 
-	private Integer initY;
+	private Float initY;
 
 	private Float initScale;
 
-	private Integer targetX;
+	private Float targetX;
 
-	private Integer targetY;
+	private Float targetY;
 
 	private Float targetScale;
 
@@ -97,8 +96,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	}
 
 	@Override
-	public void set(SceneElementGO<?> movingElement, int destinyX,
-			int destinyY, SceneElementGO<?> target) {
+	public void set(SceneElementGO movingElement, float destinyX,
+			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
 		this.sceneElement = (SceneElement) movingElement.getElement();
 		currentTime = 0;
@@ -127,7 +126,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		if (!finished) {
 			if (firstUpdate) {
@@ -142,22 +141,16 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 			if (currentTime <= totalTime) {
 				gameState.setValue(sceneElement, SceneElement.VAR_X, initX
-						+ (int) Interpolator.LINEAR.interpolate(currentTime,
-								totalTime, targetX - initX));
+						+ (currentTime / totalTime) * (targetX - initX));
 				gameState.setValue(sceneElement, SceneElement.VAR_Y, initY
-						+ (int) Interpolator.LINEAR.interpolate(currentTime,
-								totalTime, targetY - initY));
+						+ (currentTime / totalTime) * (targetY - initY));
 				gameState.setValue(sceneElement, SceneElement.VAR_SCALE,
-						initScale
-								+ (float) Interpolator.LINEAR.interpolate(
-										currentTime, totalTime, targetScale
-												- initScale));
+						initScale + (currentTime / totalTime)
+								* (targetScale - initScale));
 
 			} else {
-				gameState.setValue(sceneElement, SceneElement.VAR_X,
-						(int) targetX);
-				gameState.setValue(sceneElement, SceneElement.VAR_Y,
-						(int) targetY);
+				gameState.setValue(sceneElement, SceneElement.VAR_X, targetX);
+				gameState.setValue(sceneElement, SceneElement.VAR_Y, targetY);
 				finishedSide = true;
 			}
 		}
@@ -181,7 +174,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 			initScale = gameState.getValue(movingElement.getElement(),
 					SceneElement.VAR_SCALE);
 
-			EAdPosition p = side.getEndPosition(currentSide == path.getSides()
+			Position p = side.getEndPosition(currentSide == path.getSides()
 					.size() - 1);
 			targetX = p.getX();
 			targetY = p.getY();

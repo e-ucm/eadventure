@@ -47,21 +47,22 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class GroupElementGO extends SceneElementGOImpl {
+public class GroupElementGO extends SceneElementGO {
 
 	@Inject
 	public GroupElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				null);
 	}
 
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
 		EAdGroupElement group = (EAdGroupElement) element;
 		for (EAdSceneElement sceneElement : group.getSceneElements()) {
-			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
-			this.addSceneElement(go);
+			SceneElementGO go = sceneElementFactory.get(sceneElement);
+			addActor(go);
 		}
 	}
 }

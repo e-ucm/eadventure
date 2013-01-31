@@ -54,7 +54,6 @@ import com.google.inject.Injector;
 
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.params.util.EAdURI;
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
@@ -116,7 +115,7 @@ public class MainAssetViewer {
 		controller = injector.getInstance(Controller.class);
 		AssetHandler ah = injector.getInstance(AssetHandler.class);
 		ah.setCacheEnabled(false);
-		ah.setResourcesLocation(new EAdURI(root.getPath()));
+		ah.setResourcesLocation(root.getAbsolutePath());
 	}
 
 	public JPanel showSampleAsset() {

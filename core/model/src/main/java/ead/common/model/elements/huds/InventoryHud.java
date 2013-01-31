@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 
 @Element
 public class InventoryHud extends GroupElement {

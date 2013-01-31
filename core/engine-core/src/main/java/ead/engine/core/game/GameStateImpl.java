@@ -47,6 +47,7 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -62,7 +63,6 @@ import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.effects.EffectGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.tracking.GameTracker;
 
@@ -176,7 +176,7 @@ public class GameStateImpl implements GameState {
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
 	@Override
-	public EffectGO<?> addEffect(EAdEffect e, InputAction<?> action,
+	public EffectGO<?> addEffect(EAdEffect e, Event action,
 			EAdSceneElement parent) {
 		if (e != null) {
 			if (evaluatorFactory.evaluate(e.getCondition())) {
@@ -192,7 +192,6 @@ public class GameStateImpl implements GameState {
 					tracker.track(effectGO);
 					effects.add(effectGO);
 				} else {
-					effectGO.update();
 					effectGO.finish();
 					tracker.track(effectGO);
 				}
@@ -206,7 +205,7 @@ public class GameStateImpl implements GameState {
 
 	}
 
-	public void update() {
+	public void update(float delta) {
 		if (!isPaused()) {
 			effects = getEffects();
 			finishedEffects.clear();
@@ -228,7 +227,7 @@ public class GameStateImpl implements GameState {
 						// If effect is blocking, get out of the loop
 						block = true;
 
-					effectGO.update();
+					effectGO.act(delta);
 				}
 
 			}

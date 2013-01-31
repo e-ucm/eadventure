@@ -47,7 +47,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 import ead.tools.StringHandler;
 
 public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene {
@@ -84,8 +84,8 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene 
 		// buttonActor.setBehavior(b);
 
 		buttonReference = new SceneElement(buttonActor);
-		buttonReference.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 200, 200));
+		buttonReference.setPosition(new Position(Position.Corner.BOTTOM_CENTER,
+				200, 200));
 	}
 
 	private void initButtonActor2() {
@@ -102,8 +102,8 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene 
 		WaitEf waitEffect3 = new WaitEf(60 + 1);
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect3);
 
-		buttonActor2.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 10, 10));
+		buttonActor2.setPosition(new Position(Position.Corner.BOTTOM_CENTER,
+				10, 10));
 	}
 
 }

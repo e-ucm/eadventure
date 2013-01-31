@@ -70,8 +70,8 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.EAdElementsFactory;
 
@@ -117,15 +117,15 @@ public class PhysicsScene extends EmptyScene {
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 750, 50));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 545));
+		ground.setPosition(new Position(Corner.CENTER, 400, 545));
 
 		SceneElement wall = new SceneElement(groundS);
-		wall.setPosition(new EAdPosition(Corner.CENTER, 775, 300));
+		wall.setPosition(new Position(Corner.CENTER, 775, 300));
 		wall.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
 		SceneElement wall2 = new SceneElement(groundS);
-		wall2.setPosition(new EAdPosition(Corner.CENTER, 25, 300));
+		wall2.setPosition(new Position(Corner.CENTER, 25, 300));
 		wall2.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
@@ -151,8 +151,8 @@ public class PhysicsScene extends EmptyScene {
 		SceneElement canyonSupport = new SceneElement(new Image(
 				"@drawable/canyonbottom.png"));
 
-		canyon.setPosition(new EAdPosition(Corner.CENTER, 130, height));
-		canyonSupport.setPosition(new EAdPosition(100, height));
+		canyon.setPosition(new Position(Corner.CENTER, 130, height));
+		canyonSupport.setPosition(new Position(100, height));
 
 		ComposedDrawable composed = new ComposedDrawable();
 		composed.addDrawable(new RectangleShape(80, 600,
@@ -171,12 +171,12 @@ public class PhysicsScene extends EmptyScene {
 
 		ChangeFieldEf followMouse = new ChangeFieldEf();
 
-		EAdField<Integer> mouseX = SystemFields.MOUSE_X;
-		EAdField<Integer> mouseY = SystemFields.MOUSE_Y;
-		EAdField<Integer> canyonX = new BasicField<Integer>(canyon,
+		EAdField<Float> mouseX = SystemFields.MOUSE_X;
+		EAdField<Float> mouseY = SystemFields.MOUSE_Y;
+		EAdField<Float> canyonX = new BasicField<Float>(canyon,
 				SceneElement.VAR_X);
 
-		EAdField<Integer> canyonY = new BasicField<Integer>(canyon,
+		EAdField<Float> canyonY = new BasicField<Float>(canyon,
 				SceneElement.VAR_Y);
 
 		String expression = "- acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )";
@@ -185,9 +185,9 @@ public class PhysicsScene extends EmptyScene {
 		followMouse.addField(rotationField);
 		OperationCond c1 = new OperationCond(mouseX, 0,
 				Comparator.GREATER_EQUAL);
-		OperationCond c2 = new OperationCond(mouseY, new BasicField<Integer>(
+		OperationCond c2 = new OperationCond(mouseY, new BasicField<Float>(
 				canyon, SceneElement.VAR_Y), Comparator.LESS_EQUAL);
-		OperationCond c3 = new OperationCond(mouseX, new BasicField<Integer>(
+		OperationCond c3 = new OperationCond(mouseX, new BasicField<Float>(
 				canyon, SceneElement.VAR_X), Comparator.GREATER_EQUAL);
 		followMouse.setCondition(new ANDCond(c1, c2, c3));
 
@@ -209,7 +209,7 @@ public class PhysicsScene extends EmptyScene {
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1]) * 500", mouseY, canyonY));
 		AddActorReferenceEf addEffect = new AddActorReferenceEf(bullet,
-				new EAdPosition(Corner.CENTER, 140, height - 5), applyForce);
+				new Position(Corner.CENTER, 140, height - 5), applyForce);
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, addEffect);
 
@@ -229,12 +229,12 @@ public class PhysicsScene extends EmptyScene {
 		SceneElement holder = new SceneElement(new RectangleShape(100, 10,
 				new LinearGradientFill(ColorFill.DARK_BROWN,
 						ColorFill.LIGHT_BROWN, 100, 10)));
-		holder.setPosition(new EAdPosition(Corner.CENTER, 400, 50));
+		holder.setPosition(new Position(Corner.CENTER, 400, 50));
 
 		SceneElement rope = new SceneElement(new RectangleShape(150, 10,
 				new LinearGradientFill(ColorFill.YELLOW, ColorFill.LIGHT_BROWN,
 						150, 10)));
-		rope.setPosition(new EAdPosition(Corner.CENTER, 450, 50));
+		rope.setPosition(new Position(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_FRICTION, 0.7f);
 		getSceneElements().add(rope);
@@ -251,7 +251,7 @@ public class PhysicsScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new BasicField<Integer>(
+		InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
 				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
@@ -268,7 +268,7 @@ public class PhysicsScene extends EmptyScene {
 		waves.getSceneElements().add(wave1);
 		addGoal(waves);
 		waves.getSceneElements().add(wave2);
-		waves.setPosition(EAdPosition.Corner.BOTTOM_LEFT, -50, 600);
+		waves.setPosition(Position.Corner.BOTTOM_LEFT, -50, 600);
 
 		this.getSceneElements().add(waves);
 

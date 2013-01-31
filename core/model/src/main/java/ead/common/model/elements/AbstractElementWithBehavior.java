@@ -38,8 +38,8 @@
 package ead.common.model.elements;
 
 import ead.common.interfaces.Param;
-import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Evented;
+import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.elements.behaviors.Behavior;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.params.guievents.EAdGUIEvent;

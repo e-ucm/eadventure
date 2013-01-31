@@ -37,6 +37,9 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.EAdCaption;
@@ -48,21 +51,16 @@ import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.guievents.enums.MouseGEvType;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.InputActionProcessor;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 
-public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
-		InputActionProcessor {
+public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener {
 
 	private GUI gui;
 
@@ -88,9 +86,9 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 
 	private String previousState;
 
-	private SceneElementGO<?> bubbleDialog;
+	private SceneElementGO bubbleDialog;
 
-	private SceneElementGO<?> effectsHud;
+	private SceneElementGO effectsHud;
 
 	@Inject
 	public SpeakGO(GameState gameState, GUI gui,
@@ -99,25 +97,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		this.gui = gui;
 		this.sceneElementFactory = sceneElementFactory;
 		this.assetHandler = assetHandler;
-	}
-
-	@Override
-	public SceneElementGO<?> processAction(InputAction<?> action) {
-		if (action instanceof MouseInputAction) {
-			MouseInputAction mouseAction = (MouseInputAction) action;
-			action.consume();
-			if (!finished)
-				if (mouseAction.getType() == MouseGEvType.PRESSED) {
-					if (caption.getTimesRead() >= 1
-							|| caption.getCurrentPart() == caption
-									.getTotalParts() - 1)
-						finished = true;
-					else
-						caption.goForward(1);
-				}
-			return bubbleDialog;
-		}
-		return null;
 	}
 
 	@Override
@@ -154,8 +133,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 			Integer xOrigin = gameState.operate(Integer.class, effect.getX());
 			Integer yOrigin = gameState.operate(Integer.class, effect.getY());
 
-			xOrigin += effectsHud.getX();
-			yOrigin += effectsHud.getY();
+			xOrigin += (int) effectsHud.getX();
+			yOrigin += (int) effectsHud.getY();
 
 			if (yOrigin < height / 2) {
 				bottom = height - verticalMargin;
@@ -182,7 +161,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		text.setPreferredHeight(bottom - top);
 
 		textSE = new SceneElement(text);
-		textSE.setPosition(new EAdPosition(left, top));
+		textSE.setPosition(new Position(left, top));
 
 		GroupElement complex = new GroupElement(rectangle);
 		// To capture clicks all over the screen
@@ -202,8 +181,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		return finished && gone;
 	}
 
-	public void update() {
-		super.update();
+	public void act(float delta) {
+		super.act(delta);
 
 		if (finished) {
 			alpha -= 0.003f * gui.getSkippedMilliseconds();
@@ -230,12 +209,31 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements
 		if (effect.getStateField() != null) {
 			gameState.setValue(effect.getStateField(), previousState);
 		}
-		effectsHud.removeSceneElement(bubbleDialog);
+		bubbleDialog.remove();
 		super.finish();
 	}
 
 	public boolean isQueueable() {
 		return true;
+	}
+
+	@Override
+	public boolean handle(Event event) {
+		if (event instanceof InputEvent) {
+			InputEvent i = (InputEvent) event;
+			event.cancel();
+			if (!finished)
+				if (i.getType() == InputEvent.Type.touchDown) {
+					if (caption.getTimesRead() >= 1
+							|| caption.getCurrentPart() == caption
+									.getTotalParts() - 1)
+						finished = true;
+					else
+						caption.goForward(1);
+				}
+			return true;
+		}
+		return false;
 	}
 
 }

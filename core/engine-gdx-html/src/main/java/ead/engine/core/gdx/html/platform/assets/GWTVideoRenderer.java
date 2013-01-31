@@ -57,7 +57,7 @@ public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> 
 	@Override
 	public Object getComponent(EAdVideo asset) {
 		isStream = asset.isStream();
-		source = asset.getUri().getPath();
+		source = asset.getUri();
 		return this;
 	}
 

@@ -84,9 +84,7 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 	 */
 	@Override
 	public int hashCode() {
-		int hash = 7;
-		hash = 11 * hash + (this.getId() != null ? this.getId().hashCode() : 0);
-		return hash;
+		return this.getId().hashCode() ^ this.getClass().hashCode();
 	}
 
 	/**

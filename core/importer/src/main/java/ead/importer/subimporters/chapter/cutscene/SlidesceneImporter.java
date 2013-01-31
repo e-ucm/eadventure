@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
@@ -57,14 +58,16 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
+import ead.common.model.elements.huds.InventoryHud;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.BooleanOp;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.variables.SystemFields;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -97,6 +100,9 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 	private FramesAnimation frames;
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+
+	private static final EAdField<Boolean> SHOW_INVENTORY = new BasicField<Boolean>(
+			new BasicElement(InventoryHud.ID), SceneElement.VAR_VISIBLE);
 
 	@Inject
 	public SlidesceneImporter(EffectsImporterFactory effectsImporter,
@@ -188,7 +194,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			// Adjust scene background to 800x600 (restriction from old
 			// model)
 			Dimension d = resourceImporter.getDimensionsForNewImage(drawable
-					.getUri().getPath());
+					.getUri());
 			float scaleX = 800.0f / d.width;
 			float scaleY = 600.0f / d.height;
 			background.setInitialScale(scaleX, scaleY);
@@ -201,8 +207,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			EAdEffect effect = null;
 			if (i == scenes.length - 1) {
 				effect = changeNextScene;
-				ChangeFieldEf showInventory = new ChangeFieldEf(
-						SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
+				ChangeFieldEf showInventory = new ChangeFieldEf(SHOW_INVENTORY,
+						BooleanOp.TRUE_OP);
 				effect.getNextEffects().add(showInventory);
 			} else {
 				effect = new ChangeSceneEf();
@@ -282,7 +288,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 		ArrayList<Image> images = new ArrayList<Image>();
 		if (animation != null) {
 			for (Frame f : animation.getFrames()) {
-				String uri = resourceImporter.getURI(f.getUri());
+				String uri = resourceImporter.getString(f.getUri());
 				images.add(new Image(uri));
 			}
 		} else {
@@ -294,8 +300,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 	}
 
 	private void addHideInventoryEvent(EAdScene cutscene) {
-		ChangeFieldEf hideInventory = new ChangeFieldEf(
-				SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP);
+		ChangeFieldEf hideInventory = new ChangeFieldEf(SHOW_INVENTORY,
+				BooleanOp.FALSE_OP);
 		SceneElementEv bgEvent = new SceneElementEv();
 		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		cutscene.getEvents().add(bgEvent);

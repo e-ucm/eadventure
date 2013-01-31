@@ -38,6 +38,7 @@
 package ead.engine.utils.test;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,13 +57,11 @@ import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.util.EAdURI;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.utils.swing.SwingUtilities;
-import java.awt.FlowLayout;
 
 public class MainAssetViewer implements Runnable {
 
@@ -85,8 +84,8 @@ public class MainAssetViewer implements Runnable {
 		Injector i = Guice.createInjector(new AssetViewerModule());
 		AssetHandler ah = i.getInstance(AssetHandler.class);
 		ah.setCacheEnabled(false);
-		ah.setResourcesLocation(new EAdURI(new File(
-				"../../demos/techdemo/src/main/resources/").getPath()));
+		ah.setResourcesLocation(new File(
+				"../../demos/techdemo/src/main/resources/").getPath());
 
 		AssetViewer viewer1 = i.getInstance(AssetViewer.class);
 		AssetViewer viewer8 = i.getInstance(AssetViewer.class);

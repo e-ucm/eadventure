@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.FontHandler;
@@ -77,7 +77,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 
 	protected RuntimeFont font;
 
-	protected EAdRectangle bounds;
+	protected Rectangle bounds;
 
 	protected float alpha;
 
@@ -223,7 +223,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		lines.clear();
 		widths.clear();
 		totalParts = 0;
-		bounds = new EAdRectangle(0, 0, 0, 0);
+		bounds = new Rectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
 
 		int preferredWidth = 0;
@@ -435,7 +435,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		return descriptor;
 	}
 
-	public EAdRectangle getBounds() {
+	public Rectangle getBounds() {
 		return bounds;
 	}
 

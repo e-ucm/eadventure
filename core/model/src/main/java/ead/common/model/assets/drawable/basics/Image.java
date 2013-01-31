@@ -39,7 +39,6 @@ package ead.common.model.assets.drawable.basics;
 
 import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.params.util.EAdURI;
 
 /**
  * An image asset
@@ -48,7 +47,7 @@ import ead.common.model.params.util.EAdURI;
 public class Image extends AbstractAssetDescriptor implements EAdImage {
 
 	@Param
-	private EAdURI uri;
+	private String uri;
 
 	/**
 	 * Constructs an empty
@@ -58,30 +57,22 @@ public class Image extends AbstractAssetDescriptor implements EAdImage {
 	}
 
 	/**
-	 * Constructs an image with the given URI
+	 * Constructs an image with the given String
 	 *
 	 * @param uri
-	 *            the image's URI
+	 *            the image's String
 	 */
 	public Image(String uri) {
-		this.uri = new EAdURI(uri);
-	}
-
-	/**
-	 * Constructs an image with the given URI
-	 * @param uri the URI
-	 */
-	public Image(EAdURI uri) {
 		this.uri = uri;
 	}
 
 	@Override
-	public EAdURI getUri() {
+	public String getUri() {
 		return uri;
 	}
 
 	@Override
-	public void setUri(EAdURI uri) {
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 

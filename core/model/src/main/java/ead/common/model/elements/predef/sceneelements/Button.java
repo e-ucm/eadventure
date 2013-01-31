@@ -47,7 +47,7 @@ import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 
 public class Button extends GroupElement {
 

@@ -40,9 +40,9 @@ package ead.engine.core.gdx.html.platform.injection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.engine.core.debuggers.FieldsDebuggerGO;
-import ead.engine.core.debuggers.GhostDebuggerGO;
-import ead.engine.core.debuggers.TrajectoryDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
 import ead.engine.core.gameobjects.effects.AddChildGO;
@@ -68,7 +68,7 @@ import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
@@ -180,8 +180,8 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getGroupElementGO();
 		else if (clazz == SceneGO.class)
 			o = ginjector.getSceneGO();
-		else if (clazz == SceneElementGOImpl.class)
-			o = ginjector.getSceneElementGOImpl();
+		else if (clazz == SceneElementGO.class)
+			o = ginjector.getSceneElementGO();
 		else if (clazz == GhostDebuggerGO.class)
 			o = ginjector.getGhostDebuggerGO();
 		else if (clazz == SimpleTrajectoryGO.class)

@@ -39,7 +39,6 @@ package ead.common.model.assets.multimedia;
 
 import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.params.util.EAdURI;
 
 public class Video extends AbstractAssetDescriptor implements EAdVideo {
 
@@ -47,23 +46,23 @@ public class Video extends AbstractAssetDescriptor implements EAdVideo {
 	private boolean stream;
 
 	@Param
-	private EAdURI uri;
+	private String uri;
 
 	public Video() {
 		this(null);
 	}
 
 	public Video(String uri) {
-		this.uri = new EAdURI(uri);
+		this.uri = uri;
 	}
 
 	@Override
-	public EAdURI getUri() {
+	public String getUri() {
 		return uri;
 	}
 
 	@Override
-	public void setUri(EAdURI uri) {
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 

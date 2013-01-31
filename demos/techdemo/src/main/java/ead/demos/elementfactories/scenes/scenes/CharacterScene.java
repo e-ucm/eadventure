@@ -53,7 +53,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.guievents.KeyGEv;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 

@@ -54,8 +54,8 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 
 public class PhysicsScene2 extends PhysicsScene {
 
@@ -71,7 +71,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		SceneElement e2 = new SceneElement(rShape);
 		getSceneElements().add(e2);
-		e2.setPosition(new EAdPosition(Corner.CENTER, 500, 200));
+		e2.setPosition(new Position(Corner.CENTER, 500, 200));
 		e2
 				.setVarInitialValue(SceneElement.VAR_ROTATION,
 						(float) Math.PI / 4.0f);
@@ -81,7 +81,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		SceneElement e3 = new SceneElement(rShape);
 		getSceneElements().add(e3);
-		e3.setPosition(new EAdPosition(Corner.CENTER, 200, 100));
+		e3.setPosition(new Position(Corner.CENTER, 200, 100));
 		e3
 				.setVarInitialValue(SceneElement.VAR_ROTATION,
 						(float) Math.PI / 2.0f);
@@ -93,7 +93,7 @@ public class PhysicsScene2 extends PhysicsScene {
 				0, 100, 0), 40, 40));
 
 		SceneElement b = new SceneElement(circle);
-		b.setPosition(new EAdPosition(Corner.CENTER, 500, 0));
+		b.setPosition(new Position(Corner.CENTER, 500, 0));
 		getSceneElements().add(0, b);
 		effect.addSceneElement(b);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
@@ -105,7 +105,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
 				SceneElement e = new SceneElement(circle);
-				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 200,
+				e.setPosition(new Position(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);

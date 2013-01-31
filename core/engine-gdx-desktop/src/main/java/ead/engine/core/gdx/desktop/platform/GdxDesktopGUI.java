@@ -56,13 +56,12 @@ import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gdx.platform.GdxCanvas;
-import ead.engine.core.gdx.platform.GdxGUI;
-import ead.engine.core.input.InputHandler;
+import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
+import ead.engine.core.platform.gdx.GdxCanvas;
+import ead.engine.core.platform.gdx.GdxGUI;
 import ead.utils.swing.SwingUtilities;
 
 @Singleton
@@ -107,9 +106,8 @@ public class GdxDesktopGUI extends GdxGUI {
 	@Override
 	public void initialize(Game game, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			InputHandler inputHandler, DebuggersHandler debuggerHandler) {
-		super.initialize(game, gameState, sceneElementFactory, inputHandler,
-				debuggerHandler);
+			DebuggersHandler debuggerHandler) {
+		super.initialize(game, gameState, sceneElementFactory, debuggerHandler);
 
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {

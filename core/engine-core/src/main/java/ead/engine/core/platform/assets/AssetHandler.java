@@ -43,7 +43,6 @@ import ead.common.interfaces.features.Resourced;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.params.util.EAdURI;
 
 /**
  * <p>
@@ -148,7 +147,7 @@ public interface AssetHandler {
 	 * @param uri
 	 *            uri point to the resources locatin root
 	 */
-	void setResourcesLocation(EAdURI uri);
+	void setResourcesLocation(String uri);
 
 	/**
 	 * Returns a set of strings containing the text file in the given path.

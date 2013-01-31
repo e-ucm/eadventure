@@ -63,7 +63,7 @@ public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 		this.nextScene = scene;
 	}
 
-	public void update() {
+	public void act(float delta) {
 		gui.setScene(nextScene);
 	}
 

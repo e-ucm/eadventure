@@ -65,8 +65,8 @@ public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
 	 * @param target
 	 *            the target element trying to reach (it could be {@code null}
 	 */
-	void set(SceneElementGO<?> movingElement, int destinyX, int destinyY,
-			SceneElementGO<?> target);
+	void set(SceneElementGO movingElement, float destinyX, float destinyY,
+			SceneElementGO target);
 
 	/**
 	 * Returns true when the trajectory is completed
@@ -79,6 +79,6 @@ public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
 	 * Returns the current calculated path
 	 * @return
 	 */
-	List<Integer> getCurrentPath();
+	List<Float> getCurrentPath();
 
 }

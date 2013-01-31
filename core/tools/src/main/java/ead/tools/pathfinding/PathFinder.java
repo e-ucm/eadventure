@@ -89,8 +89,9 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 		}
 	}
 
-	public List<Integer> getPath(int startX, int startY, int endX, int endY) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
+	public List<Float> getPath(float startX, float startY, float endX,
+			float endY) {
+		ArrayList<Float> list = new ArrayList<Float>();
 		list.add(startX);
 		list.add(startY);
 
@@ -114,8 +115,8 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 					float lastY = startY;
 					for (DelaunayTriangle t : path) {
 						TriangulationPoint p = t.nearest(lastX, lastY);
-						list.add((int) p.getX());
-						list.add((int) p.getY());
+						list.add((float) p.getX());
+						list.add((float) p.getY());
 						lastX = p.getXf();
 						lastY = p.getYf();
 					}
@@ -127,7 +128,7 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 		return list;
 	}
 
-	private TriangulationPoint getNearestPoint(int endX, int endY) {
+	private TriangulationPoint getNearestPoint(float endX, float endY) {
 		TriangulationPoint p = null;
 		float dist = 0;
 		for (DelaunayTriangle t : polygon.getTriangles()) {
@@ -147,8 +148,8 @@ public class PathFinder extends AStar<DelaunayTriangle> {
 	 * 
 	 * @return
 	 */
-	private boolean isPossibleStraightLine(int startX, int startY, int endX,
-			int endY) {
+	private boolean isPossibleStraightLine(float startX, float startY,
+			float endX, float endY) {
 		for (DelaunayTriangle t : allTriangles) {
 			if (!t.isInterior() && t.intersects(startX, startY, endX, endY)) {
 				return false;

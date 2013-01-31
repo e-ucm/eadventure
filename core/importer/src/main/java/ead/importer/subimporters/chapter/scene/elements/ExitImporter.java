@@ -50,6 +50,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.predef.effects.ChangeCursorEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -170,17 +171,18 @@ public class ExitImporter extends ElementImporter<Exit> {
 				SceneElementDef.VAR_DOC_NAME, name);
 
 		// Change cursor
-		EAdImage cursor = null;
+		String cursor = null;
 		if (exitLook.getCursorPath() == null)
 			// Default
 			cursor = factory.getDefaultCursor(AdventureData.EXIT_CURSOR);
 		else
-			cursor = (Image) resourceImporter.getAssetDescritptor(exitLook
-					.getCursorPath(), Image.class);
+			cursor = factory
+					.createCursor((Image) resourceImporter.getAssetDescritptor(
+							exitLook.getCursorPath(), Image.class));
 
 		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
-		ChangeCursorEf changeCursorBack = new ChangeCursorEf(factory
-				.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
+		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
+				MouseHud.DEFAULT_CURSOR);
 
 		newExit.addBehavior(MouseGEv.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);

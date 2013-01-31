@@ -41,7 +41,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 public class BezierShape extends AbstractShape {
 
@@ -81,11 +81,11 @@ public class BezierShape extends AbstractShape {
 		closed = false;
 	}
 
-	public void lineTo(EAdPosition p) {
+	public void lineTo(Position p) {
 		checkMoveTo();
 		points.add(1);
-		points.add(p.getX());
-		points.add(p.getY());
+		points.add((int) p.getX());
+		points.add((int) p.getY());
 	}
 
 	private void checkMoveTo() {
@@ -96,22 +96,22 @@ public class BezierShape extends AbstractShape {
 	}
 
 	public void lineTo(int x, int y) {
-		this.lineTo(new EAdPosition(x, y));
+		this.lineTo(new Position(x, y));
 	}
 
-	public void quadTo(EAdPosition p1, EAdPosition p2) {
+	public void quadTo(Position p1, Position p2) {
 		checkMoveTo();
 		points.add(2);
-		points.add(p1.getX());
-		points.add(p1.getY());
-		points.add(p2.getX());
-		points.add(p2.getY());
+		points.add((int) p1.getX());
+		points.add((int) p1.getY());
+		points.add((int) p2.getX());
+		points.add((int) p2.getY());
 
 	}
 
-	public void curveTo(EAdPosition p1, EAdPosition p2, EAdPosition p3) {
-		curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3
-				.getY());
+	public void curveTo(Position p1, Position p2, Position p3) {
+		curveTo((int) p1.getX(), (int) p1.getY(), (int) p2.getX(), (int) p2
+				.getY(), (int) p3.getX(), (int) p3.getY());
 	}
 
 	public void curveTo(int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -139,7 +139,7 @@ public class BezierShape extends AbstractShape {
 
 	public void quadTo(int x1, int y1, int x2, int y2) {
 		checkMoveTo();
-		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
+		quadTo(new Position(x1, y1), new Position(x2, y2));
 	}
 
 	@Override

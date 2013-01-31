@@ -39,6 +39,8 @@ package ead.engine.core.game;
 
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.operations.EAdField;
@@ -46,7 +48,6 @@ import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.gameobjects.effects.EffectGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.operators.Operator;
 
 /**
@@ -133,8 +134,7 @@ public interface GameState extends ValueMap {
 	 *            scene element who launched the effect
 	 * @return the effect game object create from the effect element
 	 */
-	EffectGO<?> addEffect(EAdEffect e, InputAction<?> action,
-			EAdSceneElement parent);
+	EffectGO<?> addEffect(EAdEffect e, Event action, EAdSceneElement parent);
 
 	/**
 	 * Clears all the current effects
@@ -158,8 +158,9 @@ public interface GameState extends ValueMap {
 
 	/**
 	 * Updates the game state
+	 * @param delta TODO
 	 */
-	void update();
+	void update(float delta);
 
 	void saveState();
 

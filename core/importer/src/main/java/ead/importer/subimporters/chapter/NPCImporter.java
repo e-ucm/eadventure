@@ -56,7 +56,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.util.BasicMatrix;
+import ead.common.model.params.util.Matrix;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -201,7 +201,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 		FramesAnimation mirror = new FramesAnimation();
 
 		for (Frame f : a.getFrames()) {
-			BasicMatrix m = new BasicMatrix();
+			Matrix m = new Matrix();
 			m.scale(-1.0f, 1.0f, true);
 			EAdBasicDrawable d = new FilteredDrawable(f.getDrawable(),
 					new MatrixFilter(m, 1.0f, 0.0f));

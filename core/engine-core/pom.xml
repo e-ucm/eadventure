@@ -34,6 +34,10 @@
 			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.badlogic.gdx</groupId>
+			<artifactId>gdx</artifactId>
+		</dependency>
 
 		<!-- external -->
 		<dependency>

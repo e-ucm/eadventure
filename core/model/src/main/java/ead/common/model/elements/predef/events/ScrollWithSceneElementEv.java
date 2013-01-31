@@ -51,13 +51,13 @@ import ead.common.model.params.variables.SystemFields;
 public class ScrollWithSceneElementEv extends SceneElementEv {
 
 	public ScrollWithSceneElementEv(EAdElement scene, EAdElement character) {
-		EAdField<Integer> xElement = new BasicField<Integer>(character,
+		EAdField<Float> xElement = new BasicField<Float>(character,
 				SceneElement.VAR_X);
-		EAdField<Integer> yElement = new BasicField<Integer>(character,
+		EAdField<Float> yElement = new BasicField<Float>(character,
 				SceneElement.VAR_Y);
-		EAdField<Integer> xScene = new BasicField<Integer>(scene,
+		EAdField<Float> xScene = new BasicField<Float>(scene,
 				SceneElement.VAR_X);
-		EAdField<Integer> yScene = new BasicField<Integer>(scene,
+		EAdField<Float> yScene = new BasicField<Float>(scene,
 				SceneElement.VAR_Y);
 		EAdField<Integer> widthScene = new BasicField<Integer>(scene,
 				SceneElement.VAR_WIDTH);

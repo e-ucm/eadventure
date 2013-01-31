@@ -68,7 +68,7 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		Long currentTime = gameState.getValue(SystemFields.GAME_TIME);
 		if (timeLastUpdate == -1
 				|| currentTime - timeLastUpdate > gui.getSkippedMilliseconds() * 2) {

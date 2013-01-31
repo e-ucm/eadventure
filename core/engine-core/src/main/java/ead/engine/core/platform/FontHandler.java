@@ -38,7 +38,7 @@
 package ead.engine.core.platform;
 
 import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeFont;
 
@@ -100,7 +100,7 @@ public interface FontHandler {
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
-	public EAdRectangle stringBounds(String string, EAdFont font);
+	public Rectangle stringBounds(String string, EAdFont font);
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given

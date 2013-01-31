@@ -41,10 +41,8 @@ import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.util.EAdMatrix;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.util.EAdTransformation;
 
 /**
  * <p>
@@ -61,19 +59,6 @@ public interface GenericCanvas {
 	 *            The graphic context where elements are rendered
 	 */
 	void setGraphicContext(Object g);
-
-	/**
-	 * @param t
-	 *            The transformation to be applied to elements rendered in the
-	 *            canvas
-	 */
-	void setTransformation(EAdTransformation t);
-
-	/**
-	 * Sets a transformation matrix for the canvas
-	 * @param m the matrix
-	 */
-	void setMatrix(EAdMatrix m);
 
 	/**
 	 * @param shape
@@ -128,7 +113,7 @@ public interface GenericCanvas {
 	 * @param rectangle
 	 */
 	// TODO clip with shapes to
-	void setClip(EAdRectangle rectangle);
+	void setClip(Rectangle rectangle);
 
 	/**
 	 * Save the configuration and parameters of the graphic context in a stack

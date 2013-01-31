@@ -37,12 +37,15 @@
 
 package ead.engine.core.platform;
 
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.BasicScene;
@@ -50,27 +53,17 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.guievents.enums.KeyEventType;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.SystemFields;
-import ead.engine.core.debuggers.DebuggersHandler;
-import ead.engine.core.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.factories.GameObjectFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.InputActionProcessor;
+import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
+import ead.engine.core.gameobjects.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.input.actions.KeyInputAction;
-import ead.engine.core.input.actions.MouseInputAction;
-import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
-import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
 
 /**
  * <p>
@@ -95,11 +88,11 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameState gameState;
 
-	protected SceneElementGO<?> root;
+	protected SceneElementGO root;
 
-	protected SceneElementGO<?> hudRoot;
+	protected SceneElementGO hudRoot;
 
-	protected SceneElementGO<?> sceneRoot;
+	protected SceneElementGO sceneRoot;
 
 	/**
 	 * Stack with all visited scenes
@@ -113,9 +106,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	private EAdScene loadingScreen;
 
-	private EAdTransformation initialTransformation;
-
-	private GameObjectFactory<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>> sceneElementFactory;
+	private GameObjectFactory<EAdSceneElement, SceneElementGO> sceneElementFactory;
 
 	public AbstractGUI(GenericCanvas canvas) {
 		logger.info("Created abstract GUI");
@@ -125,7 +116,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	public void initialize(Game game, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			InputHandler inputHandler, final DebuggersHandler debuggerHandler) {
+			final DebuggersHandler debuggerHandler) {
 		this.loadingScreen = new LoadingScreen();
 		this.game = game;
 		this.gameState = gameState;
@@ -141,40 +132,33 @@ public abstract class AbstractGUI<T> implements GUI {
 		sceneRoot.getElement().setId("#engine.sceneContainer");
 
 		root.addSceneElement(sceneRoot);
-		root.setInputProcessor(new InputActionProcessor() {
+		root.setInputProcessor(new InputListener() {
 
 			@Override
-			public SceneElementGO<?> processAction(InputAction<?> action) {
-				if (action instanceof KeyInputAction) {
-					KeyInputAction k = (KeyInputAction) action;
-					if (k.getType().equals(KeyEventType.KEY_PRESSED)) {
-						switch (k.getKeyCode()) {
-						case F1:
-							debuggerHandler
-									.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
-							break;
-						case F2:
-							debuggerHandler
-									.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
-							break;
-						case F3:
-							debuggerHandler
-									.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
-							break;
-						default:
-							break;
-						}
-						action.consume();
-						return root;
-					}
+			public boolean keyDown(InputEvent event, int keycode) {
+
+				switch (keycode) {
+				case Input.Keys.F1:
+					debuggerHandler
+							.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
+					break;
+				case Input.Keys.F2:
+					debuggerHandler
+							.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
+					break;
+				case Input.Keys.F3:
+					debuggerHandler
+							.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
+					break;
+				default:
+					break;
 				}
-				return null;
+
+				return true;
 			}
 
 		});
 		root.addSceneElement(hudRoot);
-		updateInitialTransformation();
-		inputHandler.setInitialTransformation(initialTransformation);
 		addHuds();
 	}
 
@@ -200,101 +184,24 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	@Override
-	public void addHud(SceneElementGO<?> hud) {
+	public void addHud(SceneElementGO hud) {
 		hudRoot.addSceneElement(hud);
 	}
 
 	@Override
-	public void removeHUD(SceneElementGO<?> hud) {
-		hudRoot.removeSceneElement(hud);
+	public void removeHUD(SceneElementGO hud) {
+		hud.remove();
 	}
 
-	@Override
-	public List<SceneElementGO<?>> getHUDs() {
-		return hudRoot.getChildren();
-	}
-
-	public SceneElementGO<?> getHUD(String id) {
-		for (SceneElementGO<?> hud : hudRoot.getChildren()) {
-			if (hud.getElement().getId().equals(id)) {
-				return hud;
-			}
+	public SceneElementGO getHUD(String id) {
+		SceneElementGO a = (SceneElementGO) hudRoot.findActor(id);
+		if (a == null) {
+			logger.warn("Hud with id {} is not present", id);
 		}
-		logger.warn("Hud with id {} is not present", id);
-		return null;
+		return a;
 	}
 
-	/**
-	 * Render the game objects into the graphic context
-	 * 
-	 */
-	public void commit() {
-		commit(root);
-	}
-
-	public void commit(SceneElementGO<?> go) {
-		EAdTransformation t = go.getTransformation();
-		eAdCanvas.setTransformation(t);
-		RuntimeDrawable<?> r = go.getDrawable();
-		if (r != null) {
-			r.render(eAdCanvas);
-		}
-		for (SceneElementGO<?> g : go.getChildren()) {
-			commit(g);
-		}
-	}
-
-	public void update() {
-		root.update();
-	}
-
-	public SceneElementGO<?> processAction(InputAction<?> action) {
-		SceneElementGO<?> go = null;
-		if (action instanceof MouseInputAction) {
-			MouseInputAction m = (MouseInputAction) action;
-			go = root.getFirstGOIn(m.getVirtualX(), m.getVirtualY());
-			if (go != null) {
-				go.processAction(action);
-			}
-		} else if (action instanceof KeyInputAction) {
-			KeyInputAction k = (KeyInputAction) action;
-			EAdSceneElement element = gameState
-					.getValue(SystemFields.ACTIVE_ELEMENT);
-			// The active element gets a try to consume it
-			if (element != null) {
-				go = root.getChild(element);
-				if (go != null) {
-					go.processAction(k);
-				}
-			}
-
-			if (!k.isConsumed()) {
-				processKeyAction(k, root);
-			}
-
-		}
-		game.applyFilters(GameImpl.FILTER_PROCESS_ACTION, action, null);
-		return go;
-	}
-
-	public SceneElementGO<?> processKeyAction(KeyInputAction k,
-			SceneElementGO<?> sceneElement) {
-		SceneElementGO<?> go = null;
-		sceneElement.processAction(k);
-		if (!k.isConsumed()) {
-			for (SceneElementGO<?> s : sceneElement.getChildren()) {
-				go = processKeyAction(k, s);
-				if (go != null) {
-					break;
-				}
-			}
-		} else {
-			go = sceneElement;
-		}
-		return go;
-	}
-
-	public SceneElementGO<?> getGameObjectIn(int x, int y) {
+	public SceneElementGO getGameObjectIn(int x, int y) {
 		return root.getFirstGOIn(x, y);
 	}
 
@@ -326,7 +233,8 @@ public abstract class AbstractGUI<T> implements GUI {
 			}
 		}
 		// Remove old scene
-		sceneRoot.removeSceneElement(scene);
+		if (scene != null)
+			scene.remove();
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null) {
 			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
@@ -341,37 +249,18 @@ public abstract class AbstractGUI<T> implements GUI {
 		sceneRoot.addSceneElement(scene);
 	}
 
-	private void updateInitialTransformation() {
-		if (initialTransformation != null) {
-			initialTransformation.setValidated(true);
-		}
-
-		// currentWidth = gameState.getValue(
-		// SystemFields.GAME_WIDTH);
-		// currentWidth = gameState.getValue(
-		// SystemFields.GAME_HEIGHT);
-		//
-		// float scaleX = currentWidth
-		// / (float) adventure.getGameWidth();
-		// float scaleY = currentHeight
-		// / (float) adventure.getGameHeight();
-		//
-		// float scale = scaleX < scaleY ? scaleX : scaleY;
-		// float dispX = Math.abs(adventure.getGameWidth() * scaleX
-		// - adventure.getGameWidth() * scale) / 2;
-		// float dispY = Math.abs(adventure.getGameHeight() * scaleY
-		// - adventure.getGameHeight() * scale) / 2;
-		//
-		initialTransformation = new EAdTransformationImpl();
-		// initialTransformation.getMatrix().translate(dispX, dispY,
-		// true);
-		// initialTransformation.getMatrix().scale(scale, scale, true);
-		initialTransformation.setValidated(false);
-
+	public SceneElementGO getSceneElement(EAdSceneElement element) {
+		return root.getChild(element);
 	}
 
-	public SceneElementGO<?> getSceneElement(EAdSceneElement element) {
-		return root.getChild(element);
+	public SceneElementGO getRoot() {
+		return root;
+	}
+
+	public SceneElementGO getGameObjectUnderPointer() {
+		return (SceneElementGO) root.hit(gameState
+				.getValue(SystemFields.MOUSE_SCENE_X), gameState
+				.getValue(SystemFields.MOUSE_SCENE_Y), true);
 	}
 
 }

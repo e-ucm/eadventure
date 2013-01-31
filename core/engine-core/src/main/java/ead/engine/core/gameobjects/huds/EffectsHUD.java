@@ -78,13 +78,13 @@ public class EffectsHUD extends AbstractHUD {
 				eventFactory, 10);
 	}
 
-	@Override
-	public void init() {
-		finishedEffects = new ArrayList<EffectGO<?>>();
-		this.setElement(new GroupElement());
-	}
+	//	@Override
+	//	public void init() {
+	//		finishedEffects = new ArrayList<EffectGO<?>>();
+	//		this.setElement(new GroupElement());
+	//	}
 
-	public void update() {
+	public void act(float delta) {
 		if (!gameState.isPaused()) {
 			effects = gameState.getEffects();
 			finishedEffects.clear();
@@ -106,7 +106,7 @@ public class EffectsHUD extends AbstractHUD {
 						// If effect is blocking, get out of the loop
 						block = true;
 
-					effectGO.update();
+					effectGO.act(delta);
 				}
 
 			}
@@ -116,7 +116,7 @@ public class EffectsHUD extends AbstractHUD {
 				// logger.info("Finished or discarded effect {}", e.getClass());
 				gameState.getEffects().remove(e);
 			}
-			super.update();
+			super.act(delta);
 		}
 	}
 

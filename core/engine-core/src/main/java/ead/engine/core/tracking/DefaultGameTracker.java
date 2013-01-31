@@ -40,13 +40,13 @@ package ead.engine.core.tracking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.tracking.selection.TrackerSelector;
 
 @Singleton
@@ -61,9 +61,8 @@ public class DefaultGameTracker extends AbstractGameTracker {
 	}
 
 	@Override
-	protected void trackImpl(InputAction<?> action, SceneElementGO<?> target) {
-		logger.info("Action: {} over {}", action.getGUIEvent(), target
-				.getElement());
+	protected void trackImpl(Event action, SceneElementGO target) {
+		logger.info("Action: {} over {}", action, target.getElement());
 	}
 
 	@Override

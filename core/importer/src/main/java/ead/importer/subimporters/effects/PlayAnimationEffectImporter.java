@@ -45,7 +45,7 @@ import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.ResourceImporter;
@@ -79,8 +79,7 @@ public class PlayAnimationEffectImporter extends
 		EAdDrawable asset = (EAdDrawable) resourceImporter.getAssetDescritptor(
 				oldObject.getPath(), Image.class);
 		SceneElement element = new SceneElement(asset);
-		element
-				.setPosition(new EAdPosition(oldObject.getX(), oldObject.getY()));
+		element.setPosition(new Position(oldObject.getX(), oldObject.getY()));
 		if (asset instanceof FramesAnimation) {
 			int time = 0;
 			for (int i = 0; i < ((FramesAnimation) asset).getFrameCount(); i++) {

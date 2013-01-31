@@ -50,7 +50,7 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
 /**
  * <p>
@@ -106,7 +106,7 @@ public class ShowSceneElementEf extends AbstractEffect {
 	public void setCaption(EAdCaption caption, int x, int y,
 			ShowTextAnimation animation) {
 		SceneElement text = new SceneElement(caption);
-		text.setPosition(new EAdPosition(x, y));
+		text.setPosition(new Position(x, y));
 		setSceneElement(text, animation);
 	}
 

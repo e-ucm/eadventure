@@ -54,8 +54,8 @@ import ead.common.model.elements.trajectories.Side;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
@@ -69,7 +69,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 
-		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
+		element.setPosition(new Position(Corner.BOTTOM_CENTER, 400, 300));
 
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 

@@ -40,7 +40,6 @@ package ead.common.model.assets.text;
 import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.text.enums.FontStyle;
-import ead.common.model.params.util.EAdURI;
 
 /**
  * EAdFont represents a text font and its metrics
@@ -67,10 +66,10 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	private FontStyle style;
 
 	/**
-	 * URI to the *.ttf file for the name font
+	 * String to the *.ttf file for the name font
 	 */
 	@Param
-	private EAdURI uri;
+	private String uri;
 
 	/**
 	 * Regular EAdFont
@@ -97,13 +96,8 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 		this("Arial", size);
 	}
 
-	public BasicFont(EAdURI uri, float size) {
-		this(uri.getPath(), size);
-		this.uri = uri;
-	}
-
 	@Override
-	public EAdURI getUri() {
+	public String getUri() {
 		return uri;
 	}
 
@@ -121,7 +115,7 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 		setStyle(style);
 	}
 
-	public BasicFont(EAdURI uri) {
+	public BasicFont(String uri) {
 		this.uri = uri;
 	}
 
@@ -162,7 +156,7 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	}
 
 	@Override
-	public void setUri(EAdURI uri) {
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 

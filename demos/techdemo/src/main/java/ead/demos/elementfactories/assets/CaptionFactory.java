@@ -45,7 +45,6 @@ import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.paint.EAdFill;
 import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.util.EAdURI;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class CaptionFactory {
@@ -53,8 +52,7 @@ public class CaptionFactory {
 	private EAdFill fill = new LinearGradientFill(ColorFill.GRAY,
 			ColorFill.LIGHT_GRAY, 20, 20, true);
 
-	private EAdFont droidFont = new BasicFont(new EAdURI(
-			"@binary/DroidSans-Bold.ttf"), 20);
+	private EAdFont droidFont = new BasicFont("@binary/DroidSans-Bold.ttf", 20);
 
 	public Caption createCaption(String text, EAdPaint textFill,
 			EAdPaint bubbleFill, EAdFont font) {

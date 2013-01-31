@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.params.util.Interpolator;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -57,21 +56,21 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 
 	private float currentTime;
 
-	private int startX;
+	private float startX;
 
-	private int startY;
+	private float startY;
 
-	private int diffX;
+	private float diffX;
 
-	private int diffY;
+	private float diffY;
 
 	@Inject
 	public SimpleTrajectoryGO(GameState gameState) {
 		super(gameState);
 	}
 
-	public void set(SceneElementGO<?> movingElement, int destinyX,
-			int destinyY, SceneElementGO<?> target) {
+	public void set(SceneElementGO movingElement, float destinyX,
+			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
 		startX = movingElement.getX();
 		startY = movingElement.getY();
@@ -121,12 +120,10 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
-		float x = Interpolator.LINEAR
-				.interpolate(currentTime, totalTime, diffX);
-		float y = Interpolator.LINEAR
-				.interpolate(currentTime, totalTime, diffY);
+		float x = (currentTime / totalTime) * diffX;
+		float y = (currentTime / totalTime) * diffY;
 		movingElement.setX((int) (startX + x));
 		movingElement.setY((int) (startY + y));
 		if (currentTime >= totalTime) {

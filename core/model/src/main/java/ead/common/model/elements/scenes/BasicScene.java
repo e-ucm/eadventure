@@ -43,7 +43,7 @@ import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.VarDef;
 

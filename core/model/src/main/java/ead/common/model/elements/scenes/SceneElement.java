@@ -53,8 +53,8 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.VarDef;
 
@@ -92,11 +92,11 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Boolean> VAR_ENABLE = new VarDef<Boolean>(
 			"enable", Boolean.class, Boolean.TRUE);
 
-	public static final EAdVarDef<Integer> VAR_X = new VarDef<Integer>("x",
-			Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_X = new VarDef<Float>("x",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_Y = new VarDef<Integer>("y",
-			Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_Y = new VarDef<Float>("y",
+			Float.class, 0.f);
 
 	public static final EAdVarDef<Integer> VAR_LEFT = new VarDef<Integer>(
 			"left", Integer.class, 0);
@@ -191,7 +191,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		vars.put(var, value);
 	}
 
-	public void setPosition(EAdPosition position) {
+	public void setPosition(Position position) {
 		vars.put(VAR_X, position.getX());
 		vars.put(VAR_Y, position.getY());
 		vars.put(VAR_DISP_X, position.getDispX());
@@ -223,8 +223,8 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		vars.put(VAR_Y, y);
 	}
 
-	public void setPosition(Corner corner, int x, int y) {
-		setPosition(EAdPosition.volatileEAdPosition(corner, x, y));
+	public void setPosition(Corner corner, float x, float y) {
+		setPosition(Position.volatileEAdPosition(corner, x, y));
 	}
 
 	@Override

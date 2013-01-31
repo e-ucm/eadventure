@@ -99,7 +99,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		finished = true;
 	}
 
-	public void update() {
+	public void act(float delta) {
 		sceneLoader.step();
 	}
 

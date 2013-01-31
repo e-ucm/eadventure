@@ -47,7 +47,7 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCreditsScreen extends EmptyScene {

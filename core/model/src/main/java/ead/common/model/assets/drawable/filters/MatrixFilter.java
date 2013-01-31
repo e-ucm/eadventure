@@ -39,14 +39,13 @@ package ead.common.model.assets.drawable.filters;
 
 import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
-import ead.common.model.params.util.EAdMatrix;
+import ead.common.model.params.util.Matrix;
 
 public class MatrixFilter extends AbstractAssetDescriptor implements
 		EAdDrawableFilter {
 
 	@Param
-	private EAdMatrix matrix;
+	private Matrix matrix;
 
 	@Param
 	private float originX;
@@ -68,13 +67,13 @@ public class MatrixFilter extends AbstractAssetDescriptor implements
 	 * the origin, a value between 0 and 1, 0 meaning 0 as y
 	 *            coordinate, and 1 meaning drawable height as y coordinate
 	 */
-	public MatrixFilter(EAdMatrix m, float originX, float originY) {
+	public MatrixFilter(Matrix m, float originX, float originY) {
 		this.matrix = m;
 		this.originX = originX;
 		this.originY = originY;
 	}
 
-	public MatrixFilter(EAdMatrix m) {
+	public MatrixFilter(Matrix m) {
 		this(m, 0.5f, 0.5f);
 	}
 
@@ -86,11 +85,11 @@ public class MatrixFilter extends AbstractAssetDescriptor implements
 		return originY;
 	}
 
-	public EAdMatrix getMatrix() {
+	public Matrix getMatrix() {
 		return matrix;
 	}
 
-	public void setMatrix(EAdMatrix matrix) {
+	public void setMatrix(Matrix matrix) {
 		this.matrix = matrix;
 	}
 

@@ -42,7 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.VarDef;
 
@@ -60,8 +60,8 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new VarDef<Boolean>(
 			"barrierOn", Boolean.class, Boolean.FALSE);
 
-	public static final EAdVarDef<EAdRectangle> VAR_INFLUENCE_AREA = new VarDef<EAdRectangle>(
-			"influence_area", EAdRectangle.class, null);
+	public static final EAdVarDef<Rectangle> VAR_INFLUENCE_AREA = new VarDef<Rectangle>(
+			"influence_area", Rectangle.class, null);
 
 	/**
 	 * Variable for the current side

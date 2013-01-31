@@ -40,7 +40,6 @@ package ead.engine.core.gameobjects.sceneelements.transitions;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.params.util.Interpolator;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
@@ -75,28 +74,27 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 		first = true;
 	}
 
-	public void update() {
+	public void act(float delta) {
 		if (nextScene != null) {
 
 			if (first) {
 				nextScene.setAlpha(0);
 				nextScene.setX(0);
 				nextScene.setY(0);
-				addSceneElement(nextScene);
+				addActor(nextScene);
 				first = false;
 			}
 
 			currentTime += gui.getSkippedMilliseconds();
-			sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime,
-					transition.getTime(), 1.0f));
+			sceneAlpha = currentTime / transition.getTime();
 			nextScene.setAlpha(sceneAlpha);
 		}
 
 		if (currentTime >= transition.getTime()) {
 			gui.setScene(nextScene);
-			nextScene.update();
+			nextScene.act(delta);
 		} else {
-			super.update();
+			super.act(delta);
 		}
 	}
 

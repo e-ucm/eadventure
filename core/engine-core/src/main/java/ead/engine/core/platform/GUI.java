@@ -37,25 +37,20 @@
 
 package ead.engine.core.platform;
 
-import java.util.List;
-
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.engine.core.debuggers.DebuggersHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.InputActionProcessor;
+import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.InputHandler;
 
 /**
  * This interface is implemented by the class that implements the high level
  * drawing commands for a specific platform.
  */
-public interface GUI extends InputActionProcessor {
+public interface GUI {
 
 	/**
 	 * Id for the effects hud. Huds can be accessed via
@@ -71,13 +66,15 @@ public interface GUI extends InputActionProcessor {
 
 	/**
 	 * Initialize the GUI. Creates the graphic context and and shows it.
-	 * @param debuggerHandler TODO
+	 * 
+	 * @param debuggerHandler
+	 *            TODO
 	 * @param the
 	 *            game
 	 */
 	void initialize(Game game, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			InputHandler inputHandler, DebuggersHandler debuggerHandler);
+			DebuggersHandler debuggerHandler);
 
 	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is
@@ -106,7 +103,7 @@ public interface GUI extends InputActionProcessor {
 	 * 
 	 * @param hud
 	 */
-	void addHud(SceneElementGO<?> hud);
+	void addHud(SceneElementGO hud);
 
 	/**
 	 * Removes a HUD to the GUI. This method shouldn't be used to control HUDs
@@ -114,14 +111,7 @@ public interface GUI extends InputActionProcessor {
 	 * 
 	 * @param hud
 	 */
-	void removeHUD(SceneElementGO<?> hud);
-
-	/**
-	 * Return a list of HUDs added to the GUI
-	 * 
-	 * @return
-	 */
-	List<SceneElementGO<?>> getHUDs();
+	void removeHUD(SceneElementGO hud);
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
@@ -139,31 +129,13 @@ public interface GUI extends InputActionProcessor {
 	void showSpecialResource(Object object, int x, int y, boolean fullscreen);
 
 	/**
-	 * <p>
-	 * Commit the current game state into the screen
-	 * </p>
-	 * 
-	 */
-	void commit();
-
-	/**
-	 * Processes the given action. The GUI deals with finding the target for the
-	 * action
-	 * 
-	 * @param action
-	 *            the action
-	 * @return the game object that consumed the action
-	 */
-	SceneElementGO<?> processAction(InputAction<?> action);
-
-	/**
 	 * Returns the first object that contains the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 * @return
 	 */
-	SceneElementGO<?> getGameObjectIn(int x, int y);
+	SceneElementGO getGameObjectIn(int x, int y);
 
 	/**
 	 * Returns the hud with the given id
@@ -172,7 +144,7 @@ public interface GUI extends InputActionProcessor {
 	 *            the hud id
 	 * @return
 	 */
-	SceneElementGO<?> getHUD(String id);
+	SceneElementGO getHUD(String id);
 
 	/**
 	 * <p>
@@ -203,15 +175,15 @@ public interface GUI extends InputActionProcessor {
 	EAdScene getPreviousScene();
 
 	/**
-	 * Updates one tick the gui
-	 */
-	void update();
-
-	/**
 	 * Returns the scene element representing the given model element
+	 * 
 	 * @param element
 	 * @return
 	 */
-	SceneElementGO<?> getSceneElement(EAdSceneElement element);
+	SceneElementGO getSceneElement(EAdSceneElement element);
+
+	SceneElementGO getRoot();
+
+	SceneElementGO getGameObjectUnderPointer();
 
 }

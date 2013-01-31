@@ -47,7 +47,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeFont;
 
@@ -144,7 +144,7 @@ public class FontHandlerImpl implements FontHandler {
 	 *         cache
 	 */
 	@Override
-	public EAdRectangle stringBounds(String string, EAdFont font) {
+	public Rectangle stringBounds(String string, EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).stringBounds(string);
 		else

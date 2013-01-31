@@ -47,8 +47,8 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.util.EAdPosition;
-import ead.common.model.params.util.EAdRectangle;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Rectangle;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -88,7 +88,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 				.getElementById(oldObject.getTargetId());
 		SceneElement newRef = (SceneElement) object;
 
-		newRef.setPosition(new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
+		newRef.setPosition(new Position(Position.Corner.BOTTOM_CENTER,
 				oldObject.getX(), oldObject.getY()));
 		newRef.setInitialScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
@@ -104,12 +104,12 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 						.getDimensionsForOldImage(imageUri);
 				int width = (int) d.getWidth();
 				int height = (int) d.getHeight();
-				EAdPosition p = new EAdPosition(oldObject.getX(), oldObject
-						.getY(), 0.5f, 1.0f);
+				Position p = new Position(oldObject.getX(), oldObject.getY(),
+						0.5f, 1.0f);
 				float scale = oldObject.getScale();
-				EAdRectangle bounds = new EAdRectangle(p
-						.getJavaX(width * scale), p.getJavaY(height * scale),
-						(int) (width * scale), (int) (height * scale));
+				Rectangle bounds = new Rectangle(p.getJavaX(width * scale), p
+						.getJavaY(height * scale), (int) (width * scale),
+						(int) (height * scale));
 				super.addInfluenceArea(newRef, bounds, oldObject
 						.getInfluenceArea());
 			}

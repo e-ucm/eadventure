@@ -68,7 +68,7 @@ public class SystemEvGO extends AbstractEventGO<SystemEv> {
 	}
 
 	@Override
-	public void update() {
+	public void act(float delta) {
 		if (first) {
 			// TODO probably not enough to just check for assets loaded
 			logger.info("Checking if the game is loaded...");

@@ -40,10 +40,11 @@ package ead.engine.core.tracking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+
 import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.input.InputAction;
 import ead.engine.core.tracking.selection.TrackerSelector;
 
 public abstract class AbstractGameTracker implements GameTracker {
@@ -70,14 +71,13 @@ public abstract class AbstractGameTracker implements GameTracker {
 
 	protected abstract void startTrackingImpl(EAdAdventureModel model);
 
-	public void track(InputAction<?> action, SceneElementGO<?> target) {
+	public void track(Event action, SceneElementGO target) {
 		if (isTracking() && selector.accept(action, target)) {
 			trackImpl(action, target);
 		}
 	}
 
-	protected abstract void trackImpl(InputAction<?> action,
-			SceneElementGO<?> target);
+	protected abstract void trackImpl(Event action, SceneElementGO target);
 
 	public void track(EffectGO<?> effect) {
 		if (isTracking() && selector.accept(effect)) {

@@ -37,10 +37,11 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.GameState;
-import ead.engine.core.input.InputAction;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		EffectGO<P> {
@@ -53,7 +54,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	/**
 	 * The input action
 	 */
-	protected InputAction<?> action;
+	protected Event action;
 
 	/**
 	 * Element that launched the effect
@@ -90,7 +91,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		}
 	}
 
-	public void update() {
+	public void act(float delta) {
 
 	}
 
@@ -118,7 +119,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		}
 	}
 
-	public void setGUIAction(InputAction<?> action) {
+	public void setGUIAction(Event action) {
 		this.action = action;
 	}
 

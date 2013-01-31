@@ -115,12 +115,6 @@ public class DialogueNodeImporter implements
 			previousEffect.getNextEffects().add(effect);
 		}
 
-		if (oldObject.isTerminal()) {
-			ChangeFieldEf changeField = new ChangeFieldEf(
-					SystemFields.BASIC_HUD_OPAQUE, BooleanOp.FALSE_OP);
-			previousEffect.getNextEffects().add(changeField);
-		}
-
 		return initialEffect;
 	}
 }

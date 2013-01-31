@@ -53,7 +53,6 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.EAdRectangle;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -101,21 +100,24 @@ public abstract class ElementImporter<T> implements
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
-			EAdRectangle bounds, InfluenceArea influenceArea) {
+			ead.common.model.params.util.Rectangle bounds,
+			InfluenceArea influenceArea) {
 		boolean hasInfluenceArea = influenceArea != null
 				&& influenceArea.getWidth() != 0
 				&& influenceArea.getHeight() != 0;
 
-		EAdRectangle rect = null;
+		ead.common.model.params.util.Rectangle rect = null;
 		if (hasInfluenceArea) {
-			rect = new EAdRectangle(influenceArea.getX() + bounds.getX(),
-					influenceArea.getY() + bounds.getY(), influenceArea
-							.getWidth(), influenceArea.getHeight());
+			rect = new ead.common.model.params.util.Rectangle(influenceArea
+					.getX()
+					+ bounds.getX(), influenceArea.getY() + bounds.getY(),
+					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = new EAdRectangle(bounds.getX() - INFLUENCE_MARGIN, bounds
-					.getY()
-					- INFLUENCE_MARGIN, bounds.getWidth() + INFLUENCE_MARGIN
-					* 2, bounds.getHeight() + INFLUENCE_MARGIN * 2);
+			rect = new ead.common.model.params.util.Rectangle(bounds.getX()
+					- INFLUENCE_MARGIN, bounds.getY() - INFLUENCE_MARGIN,
+					bounds.getWidth() + INFLUENCE_MARGIN * 2, bounds
+							.getHeight()
+							+ INFLUENCE_MARGIN * 2);
 		}
 		sceneElement
 				.setVarInitialValue(NodeTrajectory.VAR_INFLUENCE_AREA, rect);

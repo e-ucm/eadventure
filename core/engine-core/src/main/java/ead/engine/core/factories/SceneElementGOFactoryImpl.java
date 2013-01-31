@@ -52,10 +52,9 @@ import ead.tools.reflection.ReflectionProvider;
  * </p>
  */
 @Singleton
-public class SceneElementGOFactoryImpl
-		extends
-		GOFactoryImpl<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>>
-		implements SceneElementGOFactory {
+public class SceneElementGOFactoryImpl extends
+		GOFactoryImpl<EAdSceneElement, SceneElementGO> implements
+		SceneElementGOFactory {
 
 	@Inject
 	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider,
@@ -71,7 +70,7 @@ public class SceneElementGOFactoryImpl
 	}
 
 	@Override
-	public SceneElementGO<?> get(String id) {
+	public SceneElementGO get(String id) {
 		for (EAdSceneElement key : cache.keySet()) {
 			if (key.getId().equals(id)) {
 				return cache.get(key);
