@@ -37,12 +37,8 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -59,9 +55,6 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	private GUI gui;
 
 	private SceneLoader sceneLoader;
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("ChangeSceneGO");
 
 	private SceneElementGOFactory transitionFactory;
 
@@ -82,25 +75,20 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	public void initialize() {
 		super.initialize();
 		finished = false;
-		// If the effect is to a different scene
-		if (effect.getNextScene() == null
-				|| effect.getNextScene() != gui.getScene().getElement()) {
+		EAdScene nextScene = (EAdScene) gameState.maybeDecodeField(effect
+				.getNextScene());
+
+		// if null, return to previous scene
+		if (nextScene == null) {
+			nextScene = gui.getPreviousScene();
+		}
+
+		// If next scene is different from current one
+		if (nextScene == null || nextScene != gui.getScene().getElement()) {
 			transition = (TransitionGO<?>) transitionFactory.get(effect
 					.getTransition());
 			transition.setPreviousScene(gui.getScene());
-			EAdElement e = effect.getNextScene();
-			if (e != null) {
-				Object finalElement = gameState.maybeDecodeField(e);
-				if (finalElement instanceof EAdScene) {
-					sceneLoader.loadScene((EAdScene) finalElement, this);
-				} else {
-					logger
-							.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
-
-				}
-			} else {
-
-			}
+			sceneLoader.loadScene(nextScene, this);
 			gui.setScene(transition);
 		}
 	}

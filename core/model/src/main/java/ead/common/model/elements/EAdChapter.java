@@ -78,4 +78,11 @@ public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 	 */
 	EAdScene getInitialScene();
 
+	/**
+	 * Returns the scene with the given id
+	 * @param nextSceneId
+	 * @return
+	 */
+	EAdScene getSceneById(String nextSceneId);
+
 }
