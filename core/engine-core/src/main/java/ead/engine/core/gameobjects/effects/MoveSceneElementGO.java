@@ -54,6 +54,7 @@ import ead.engine.core.factories.TrajectoryFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 import ead.engine.core.platform.GUI;
 
@@ -94,6 +95,8 @@ public class MoveSceneElementGO extends
 		ValueMap valueMap = gameState;
 		int endX = 0;
 		int endY = 0;
+		
+		SceneElementGO<?> movingElement = sceneElementFactory.get(sceneElement);
 
 		if (effect.getxTarget() != null && effect.getyTarget() != null) {
 			endX = gameState.operate(Integer.class, effect.getxTarget());
@@ -103,7 +106,18 @@ public class MoveSceneElementGO extends
 					SceneElement.VAR_X);
 			endY = gameState.getValue(effect.getTargetSceneElement(),
 					SceneElement.VAR_Y);
-		}
+			float width = movingElement.getWidth();
+			float height = movingElement.getHeight();
+			float dispX = movingElement.getDispX();
+			float dispY = movingElement.getDispY();
+			
+			float centerX = dispX * width - width / 2;
+			float centerY = dispY * height - height / 2;
+			
+			endX -= centerX;
+			endY -= centerY;
+		}	
+
 
 		EAdSceneElement target = effect.getTarget() != null ? valueMap
 				.getValue(effect.getTarget(), SceneElementDef.VAR_SCENE_ELEMENT)
@@ -121,7 +135,7 @@ public class MoveSceneElementGO extends
 		}
 
 		trajectory = trajectoryFactory.get(d);
-		trajectory.set(sceneElementFactory.get(sceneElement), endX, endY,
+		trajectory.set(movingElement, endX, endY,
 				target == null ? null : sceneElementFactory.get(target));
 
 		// Check if the element is controlled by other move scene effect
