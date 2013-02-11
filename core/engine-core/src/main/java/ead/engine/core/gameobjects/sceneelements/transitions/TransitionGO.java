@@ -68,7 +68,7 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		transition = (T) e;
 	}
 
-	public abstract void transition(SceneGO nextScene);
+	public abstract void transition(SceneGO nextScene, TransitionListener transition);
 
 	@Override
 	public void getAllGOIn(int x, int y, List<SceneElementGO<?>> list) {
@@ -90,6 +90,11 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		children.clear();
 		this.previousScene = scene;
 		addSceneElement(scene);
+	}
+	
+	public interface TransitionListener {
+		
+		void transitionEnded();
 	}
 
 }
