@@ -332,25 +332,25 @@ public class GameStateImpl implements GameState {
 	}
 
 	@Override
-	public void setValue(EAdField<?> var, EAdOperation operation) {
+	public <S> void setValue(EAdField<S> var, EAdOperation operation) {
 		setValue(var.getElement(), var.getVarDef(), operation);
 	}
 
 	@Override
-	public void setValue(Object element, EAdVarDef<?> var,
+	public <S> void setValue(Object element, EAdVarDef<S> var,
 			EAdOperation operation) {
-		Object result = operatorFactory.operate(var.getType(), operation);
+		S result = operatorFactory.operate(var.getType(), operation);
 		setValue(element, var, result);
 	}
 
 	@Override
-	public void setValue(EAdField<?> field, Object value) {
+	public <S> void setValue(EAdField<S> field, S value) {
 		valueMap.setValue(field, value);
 
 	}
 
 	@Override
-	public void setValue(Object element, EAdVarDef<?> varDef, Object value) {
+	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
 		valueMap.setValue(element, varDef, value);
 	}
 

@@ -58,7 +58,7 @@ public interface ValueMap {
 	 * @param value
 	 *            the value to the field
 	 */
-	void setValue(EAdField<?> field, Object value);
+	<S> void setValue(EAdField<S> field, S value);
 
 	/**
 	 * Sets the value a variable in a element
@@ -70,7 +70,7 @@ public interface ValueMap {
 	 * @param value
 	 *            the value for the variable
 	 */
-	void setValue(Object element, EAdVarDef<?> varDef, Object value);
+	<S> void setValue(Object element, EAdVarDef<S> varDef, S value);
 
 	// Gets
 

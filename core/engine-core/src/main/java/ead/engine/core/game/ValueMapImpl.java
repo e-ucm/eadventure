@@ -75,12 +75,12 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void setValue(EAdField<?> field, Object value) {
+	public <S> void setValue(EAdField<S> field, S value) {
 		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
 	@Override
-	public void setValue(Object element, EAdVarDef<?> varDef, Object value) {
+	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
 		if (value == null
 				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
 						.getClass())) {
@@ -95,7 +95,7 @@ public class ValueMapImpl implements ValueMap {
 				addInitVariables(element, valMap);
 			}
 
-			valMap.put(varDef, value);
+			valMap.put(varDef, (S) value);
 			if (updateEnable)
 				addUpdatedElement(element);
 

@@ -110,7 +110,6 @@
 				<!-- Engine -->
 				<module>core/engine-core</module>
 				<!-- Gdx -->
-				<module>core/engine-gdx</module>
 				<module>core/engine-gdx-desktop</module>
 				<module>core/engine-gdx-android</module>
 				<module>core/engine-gdx-html</module>

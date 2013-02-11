@@ -111,6 +111,7 @@ public class GdxEngineImpl implements GdxEngine {
 	@Override
 	public void render() {
 		game.act(Gdx.graphics.getDeltaTime());
+		gui.getRoot().act(Gdx.graphics.getDeltaTime());
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}

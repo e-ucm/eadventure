@@ -48,6 +48,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
@@ -70,8 +71,8 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
 		finished = false;
 		width = gameState.getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValue(SystemFields.GAME_HEIGHT);

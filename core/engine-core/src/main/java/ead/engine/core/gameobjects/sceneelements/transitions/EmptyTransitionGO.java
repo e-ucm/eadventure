@@ -46,6 +46,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 
@@ -56,8 +57,8 @@ public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 	@Inject
 	public EmptyTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
 	}
 
 	@Override

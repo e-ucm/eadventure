@@ -92,7 +92,7 @@ public interface GameState extends ValueMap {
 	 * @param var
 	 * @param operation
 	 */
-	void setValue(EAdField<?> var, EAdOperation operation);
+	<S> void setValue(EAdField<S> var, EAdOperation operation);
 
 	/**
 	 * Sets the variable value for the given element
@@ -106,7 +106,7 @@ public interface GameState extends ValueMap {
 	 * @param operation
 	 *            the operation whose result will be assigned to the variable
 	 */
-	void setValue(Object element, EAdVarDef<?> var, EAdOperation operation);
+	<S> void setValue(Object element, EAdVarDef<S> var, EAdOperation operation);
 
 	/**
 	 * Adds an effect without any gui action associated

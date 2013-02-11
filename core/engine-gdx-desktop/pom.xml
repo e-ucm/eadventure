@@ -35,19 +35,18 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-gdx</artifactId>
+			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>reader</artifactId>
+			<artifactId>engine-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- GDX -->
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>
 			<artifactId>gdx-backend-lwjgl</artifactId>
-
 		</dependency>
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>

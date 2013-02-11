@@ -36,7 +36,6 @@
 					<compileSourcesArtifacts>
 						<artifact>ead:model</artifact>
 						<artifact>ead:engine-core</artifact>
-						<artifact>ead:engine-gdx</artifact>
 						<artifact>ead:tools</artifact>
 						<artifact>ead:tools-gwt</artifact>
 						<artifact>ead:reader</artifact>
@@ -145,11 +144,6 @@
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-gdx</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

@@ -23,17 +23,17 @@
 		<!-- Gdx already include support for slf4j -->
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-gdx</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
 			<artifactId>tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>tools-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

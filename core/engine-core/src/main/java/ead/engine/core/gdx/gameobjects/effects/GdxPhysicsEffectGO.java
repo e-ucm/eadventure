@@ -141,9 +141,9 @@ public class GdxPhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 
-					valueMap.setValue(e, SceneElement.VAR_X, (int) (b
+					valueMap.setValue(e, SceneElement.VAR_X, (float) (b
 							.getWorldCenter().x * WORLD_SCALE));
-					valueMap.setValue(e, SceneElement.VAR_Y, (int) (b
+					valueMap.setValue(e, SceneElement.VAR_Y, (float) (b
 							.getWorldCenter().y * WORLD_SCALE));
 					valueMap.setValue(e, SceneElement.VAR_ROTATION, b
 							.getAngle());

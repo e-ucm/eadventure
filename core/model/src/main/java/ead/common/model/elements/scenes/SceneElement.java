@@ -218,7 +218,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		return vars;
 	}
 
-	public void setPosition(int x, int y) {
+	public void setPosition(float x, float y) {
 		vars.put(VAR_X, x);
 		vars.put(VAR_Y, y);
 	}

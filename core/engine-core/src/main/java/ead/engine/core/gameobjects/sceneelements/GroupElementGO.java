@@ -46,15 +46,16 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class GroupElementGO extends SceneElementGO {
 
 	@Inject
 	public GroupElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
+			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				null);
+				canvas);
 	}
 
 	public void setElement(EAdSceneElement element) {

@@ -48,6 +48,7 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class SceneGO extends GroupElementGO implements
 		Comparator<SceneElementGO> {
@@ -55,8 +56,8 @@ public class SceneGO extends GroupElementGO implements
 	@Inject
 	public SceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
 		setComparator(this);
 	}
 
@@ -64,7 +65,7 @@ public class SceneGO extends GroupElementGO implements
 		super.setElement(element);
 		EAdSceneElement bg = ((EAdScene) element).getBackground();
 		if (bg != null) {
-			SceneElementGO<?> bgGO = sceneElementFactory.get(bg);
+			SceneElementGO bgGO = sceneElementFactory.get(bg);
 			addSceneElement(bgGO);
 			bgGO.setZ(Integer.MIN_VALUE / 2);
 		}

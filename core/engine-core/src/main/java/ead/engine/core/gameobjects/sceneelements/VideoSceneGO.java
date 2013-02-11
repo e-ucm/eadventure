@@ -53,6 +53,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class VideoSceneGO extends SceneGO {
 
@@ -73,8 +74,8 @@ public class VideoSceneGO extends SceneGO {
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
-			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer, GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;

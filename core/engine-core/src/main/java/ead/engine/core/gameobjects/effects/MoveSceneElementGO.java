@@ -146,7 +146,7 @@ public class MoveSceneElementGO extends
 
 	public void finish() {
 		super.finish();
-		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, (Object) null);
+		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, (MoveSceneElementGO) null);
 	}
 
 	public void stop() {

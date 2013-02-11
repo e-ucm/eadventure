@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -227,17 +228,19 @@ public class SceneElementGO extends Group implements
 		eventGOList = new ArrayList<EventGO<?>>();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
 
-		// Caution: this should be removed if we want to remember the element
-		// state when the scene changes
-		gameState.remove(element);
+		for (Entry<EAdVarDef<?>, Object> e : element.getVars()
+				.entrySet()) {
+			EAdVarDef def = e.getKey();
+			gameState.setValue(element, def, e.getValue());
+		}
 
 		gameState.setValue(element.getDefinition(),
 				SceneElementDef.VAR_SCENE_ELEMENT, element);
-		gameState.checkForUpdates(element.getDefinition());
 
 		// Initial vars
 		// Bundle
@@ -367,7 +370,7 @@ public class SceneElementGO extends Group implements
 	 */
 	public void addSceneElement(EAdSceneElement element) {
 		SceneElementGO go = sceneElementFactory.get(element);
-		super.addActor(go);
+		addSceneElement(go);
 	}
 
 	/**
@@ -541,7 +544,12 @@ public class SceneElementGO extends Group implements
 	}
 
 	public void addSceneElement(SceneElementGO e) {
-		this.addActor(e);
+		addActor(e);
+	}
+	
+	public void addActor(Actor a){
+		super.addActor(a);
+		invalidateOrder();
 	}
 
 	public SceneElementGO getChild(EAdSceneElement e) {

@@ -223,6 +223,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * es.eucm.eadventure.engine.core.GameState#setScene(es.eucm.eadventure.
 	 * engine.core.gameobjects.SceneGO)
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setScene(SceneGO newScene) {
 		if (this.scene != null && this.scene.getElement() != null) {
@@ -241,8 +242,8 @@ public abstract class AbstractGUI<T> implements GUI {
 					Boolean.TRUE);
 			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
 					.entrySet()) {
-				gameState
-						.setValue(scene.getElement(), e.getKey(), e.getValue());
+				EAdVarDef def = e.getKey();
+				gameState.setValue(scene.getElement(), def, e.getValue());
 			}
 		}
 		// Add new scene
@@ -258,9 +259,9 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	public SceneElementGO getGameObjectUnderPointer() {
-		return (SceneElementGO) root.hit(gameState
-				.getValue(SystemFields.MOUSE_SCENE_X), gameState
-				.getValue(SystemFields.MOUSE_SCENE_Y), true);
+		return (SceneElementGO) root.hit(
+				gameState.getValue(SystemFields.MOUSE_SCENE_X),
+				gameState.getValue(SystemFields.MOUSE_SCENE_Y), true);
 	}
 
 }

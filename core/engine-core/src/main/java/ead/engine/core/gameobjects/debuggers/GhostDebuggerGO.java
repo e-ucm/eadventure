@@ -41,13 +41,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.google.inject.Inject;
 
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.platform.GUI;
@@ -81,13 +81,13 @@ public class GhostDebuggerGO extends SceneElementGO {
 		}
 	}
 
-	public void collect(SceneElementGO e) {
+	public void collect(Group e) {
 		for (Actor go : e.getChildren()) {
 			if (go instanceof GhostElementGO) {
 				currentSceneElements.add((GhostElementGO) go);
 				((GhostElementGO) go).setInteractionAreaVisible(true);
 			}
-			collect(go);
+			collect((Group) go);
 		}
 	}
 
