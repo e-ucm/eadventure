@@ -878,9 +878,7 @@ public class SceneElementGOImpl implements SceneElementGO<EAdSceneElement> {
 		this.children.add(sceneElement);
 		sceneElement.getTransformation().setValidated(false);
 		sceneElement.setParent(this);
-		if (parent != null) {
-			parent.invalidateOrder();
-		}
+		invalidateOrder();
 	}
 
 	public void addSceneElement(EAdSceneElement element) {

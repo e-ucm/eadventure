@@ -63,9 +63,11 @@ public class SceneGO extends GroupElementGO implements
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
 		EAdSceneElement bg = ((EAdScene) element).getBackground();
-		SceneElementGO<?> bgGO = sceneElementFactory.get(bg);
-		addSceneElement(bgGO);
-		bgGO.setZ(Integer.MIN_VALUE / 2);
+		if (bg != null) {
+			SceneElementGO<?> bgGO = sceneElementFactory.get(bg);
+			addSceneElement(bgGO);
+			bgGO.setZ(Integer.MIN_VALUE / 2);
+		}
 	}
 
 	@Override
