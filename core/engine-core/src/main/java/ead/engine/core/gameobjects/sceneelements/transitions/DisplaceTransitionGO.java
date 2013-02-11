@@ -65,6 +65,8 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
 	private boolean first;
 
+	private TransitionListener listener;
+
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -129,6 +131,7 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 			nextScene.setY(0);
 			gui.setScene(nextScene);
 			nextScene.act(delta);
+			listener.transitionEnded();
 		} else {
 			super.act(delta);
 		}
@@ -150,7 +153,8 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	}
 
 	@Override
-	public void transition(SceneGO nextScene) {
+	public void transition(SceneGO nextScene, TransitionListener l ) {
 		this.nextScene = nextScene;
+		this.listener = l;
 	}
 }

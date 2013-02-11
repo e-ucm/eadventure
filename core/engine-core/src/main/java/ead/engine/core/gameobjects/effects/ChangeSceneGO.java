@@ -45,12 +45,13 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.TransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.TransitionGO.TransitionListener;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
 import ead.engine.core.platform.GUI;
 
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
-		SceneLoaderListener {
+		SceneLoaderListener, TransitionListener {
 
 	private GUI gui;
 
@@ -95,15 +96,14 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Override
 	public void sceneLoaded(SceneGO sceneGO) {
-		transition.transition(sceneGO);
-		finished = true;
+		transition.transition(sceneGO, this);
 	}
 
 	public void act(float delta) {
 		sceneLoader.step();
 	}
 
-	public boolean isQueuable() {
+	public boolean isQueueable() {
 		return true;
 	}
 
@@ -113,6 +113,11 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	public boolean isFinished() {
 		return finished;
+	}
+
+	@Override
+	public void transitionEnded() {
+		finished = true;
 	}
 
 }

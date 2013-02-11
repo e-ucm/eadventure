@@ -50,6 +50,8 @@ import ead.engine.core.platform.assets.AssetHandler;
 public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 
 	private SceneGO nextScene;
+	
+	private TransitionListener listener;
 
 	@Inject
 	public EmptyTransitionGO(AssetHandler assetHandler,
@@ -59,12 +61,14 @@ public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 	}
 
 	@Override
-	public void transition(SceneGO scene) {
+	public void transition(SceneGO scene, TransitionListener l) {
 		this.nextScene = scene;
+		this.listener = l;
 	}
 
 	public void act(float delta) {
 		gui.setScene(nextScene);
+		listener.transitionEnded();
 	}
 
 }

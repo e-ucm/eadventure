@@ -97,9 +97,14 @@ public class SpeakEf extends AbstractEffect {
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 	}
+	
+	public SpeakEf(String stringId, EAdFont font){
+		this(new EAdString(stringId));
+		caption.setFont(font);
+	}
 
 	public SpeakEf() {
-		this(null);
+		this((EAdString) null);
 	}
 
 	/**

@@ -57,6 +57,8 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 
 	private boolean first;
 
+	private TransitionListener listener;
+
 	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -93,14 +95,16 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 		if (currentTime >= transition.getTime()) {
 			gui.setScene(nextScene);
 			nextScene.act(delta);
+			listener.transitionEnded();
 		} else {
 			super.act(delta);
 		}
 	}
 
 	@Override
-	public void transition(SceneGO nextScene) {
+	public void transition(SceneGO nextScene, TransitionListener l) {
 		this.nextScene = nextScene;
+		this.listener = l;
 	}
 
 }

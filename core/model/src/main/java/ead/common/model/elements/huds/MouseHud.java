@@ -43,12 +43,12 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.SystemFields;
 
-public class MouseHud extends GroupElement {
+public class MouseHud extends BasicScene {
 
 	public static final String MOUSE_HUD_ID = "#predefined.hud.mouse";
 
@@ -60,6 +60,7 @@ public class MouseHud extends GroupElement {
 
 	public MouseHud() {
 		this.setId(MOUSE_HUD_ID);
+		this.setBackground(null);
 		EAdDrawable cursor = new Image("@drawable/default_cursor.png");
 		EAdDrawable takeCursor = new Image("@drawable/take_cursor.png");
 		EAdDrawable examineCursor = new Image("@drawable/examine_cursor.png");

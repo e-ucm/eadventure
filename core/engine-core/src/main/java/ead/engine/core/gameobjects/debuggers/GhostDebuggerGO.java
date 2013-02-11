@@ -87,7 +87,7 @@ public class GhostDebuggerGO extends SceneElementGO {
 				currentSceneElements.add((GhostElementGO) go);
 				((GhostElementGO) go).setInteractionAreaVisible(true);
 			}
-			collect(e);
+			collect(go);
 		}
 	}
 
