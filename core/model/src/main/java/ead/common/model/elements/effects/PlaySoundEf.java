@@ -55,6 +55,9 @@ public class PlaySoundEf extends AbstractEffect {
 	@Param
 	private boolean background;
 
+	@Param
+	private boolean overlay;
+
 	/**
 	 * Creates a play sound effect. If sound is null, it stops the current background music
 	 * 
@@ -96,6 +99,14 @@ public class PlaySoundEf extends AbstractEffect {
 
 	public void setBackground(boolean isBackground) {
 		this.background = isBackground;
+	}
+
+	public boolean isOverlay() {
+		return overlay;
+	}
+
+	public void setOverlay(boolean overlay) {
+		this.overlay = overlay;
 	}
 
 }

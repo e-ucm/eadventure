@@ -66,7 +66,7 @@ public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 		if (effect.isBackground()) {
 			soundManager.playBackgroundMusic(effect.getSound());
 		} else {
-			soundManager.playSound(effect.getSound());
+			soundManager.playSound(effect.getSound(), effect.isOverlay());
 		}
 	}
 

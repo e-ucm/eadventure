@@ -58,9 +58,9 @@ public class GdxSoundManager implements SoundManager {
 	}
 
 	@Override
-	public void playSound(EAdSound sound) {
+	public void playSound(EAdSound sound, boolean overlay) {
 		RuntimeSound s = (RuntimeSound) assetHandler.getRuntimeAsset(sound);
-		s.play();
+		s.play(overlay);
 	}
 
 	@Override

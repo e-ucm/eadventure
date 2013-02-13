@@ -52,8 +52,12 @@ public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
 	/**
 	 * Plays the sound
+	 * 
+	 * @param overlay
+	 *            If true, the sound is played always. If false, the sound is
+	 *            played only if it's not playing
 	 */
-	public abstract void play();
+	public abstract void play(boolean overlay);
 
 	/**
 	 * Stops playing the sound

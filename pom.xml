@@ -156,6 +156,8 @@
 			<!-- Desktop-engine-only build -->
 			<id>engine-desktop</id>
 			<modules>
+				<module>core/model</module>
+				<module>core/engine-core</module>
 				<module>core/engine-gdx-desktop</module>
 			</modules>
 		</profile>
