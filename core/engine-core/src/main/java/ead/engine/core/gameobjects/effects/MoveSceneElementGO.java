@@ -95,7 +95,7 @@ public class MoveSceneElementGO extends
 		ValueMap valueMap = gameState;
 		int endX = 0;
 		int endY = 0;
-		
+
 		SceneElementGO<?> movingElement = sceneElementFactory.get(sceneElement);
 
 		if (effect.getxTarget() != null && effect.getyTarget() != null) {
@@ -110,14 +110,13 @@ public class MoveSceneElementGO extends
 			float height = movingElement.getHeight();
 			float dispX = movingElement.getDispX();
 			float dispY = movingElement.getDispY();
-			
+
 			float centerX = dispX * width - width / 2;
 			float centerY = dispY * height - height / 2;
-			
+
 			endX -= centerX;
 			endY -= centerY;
-		}	
-
+		}
 
 		EAdSceneElement target = effect.getTarget() != null ? valueMap
 				.getValue(effect.getTarget(), SceneElementDef.VAR_SCENE_ELEMENT)
@@ -135,8 +134,8 @@ public class MoveSceneElementGO extends
 		}
 
 		trajectory = trajectoryFactory.get(d);
-		trajectory.set(movingElement, endX, endY,
-				target == null ? null : sceneElementFactory.get(target));
+		trajectory.set(movingElement, endX, endY, target == null ? null
+				: sceneElementFactory.get(target));
 
 		// Check if the element is controlled by other move scene effect
 		MoveSceneElementGO go = gameState.getValue(sceneElement,

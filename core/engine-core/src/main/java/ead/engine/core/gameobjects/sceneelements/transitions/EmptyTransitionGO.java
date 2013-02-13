@@ -50,7 +50,7 @@ import ead.engine.core.platform.assets.AssetHandler;
 public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 
 	private SceneGO nextScene;
-	
+
 	private TransitionListener listener;
 
 	@Inject
