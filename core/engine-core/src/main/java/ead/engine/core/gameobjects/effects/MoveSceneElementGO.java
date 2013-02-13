@@ -42,9 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.variables.EAdVarDef;
@@ -95,7 +93,7 @@ public class MoveSceneElementGO extends
 		ValueMap valueMap = gameState;
 		float endX = 0;
 		float endY = 0;
-		
+
 		SceneElementGO<?> movingElement = sceneElementFactory.get(sceneElement);
 
 		if (effect.getxTarget() != null && effect.getyTarget() != null) {
@@ -110,18 +108,13 @@ public class MoveSceneElementGO extends
 			float height = movingElement.getHeight();
 			float dispX = movingElement.getDispX();
 			float dispY = movingElement.getDispY();
-			
+
 			float centerX = dispX * width - width / 2;
 			float centerY = dispY * height - height / 2;
-			
+
 			endX -= centerX;
 			endY -= centerY;
-		}	
-
-
-		EAdSceneElement target = effect.getTarget() != null ? valueMap
-				.getValue(effect.getTarget(), SceneElementDef.VAR_SCENE_ELEMENT)
-				: null;
+		}
 
 		EAdTrajectory d = DEFAULT_TRAJECTORY;
 
@@ -135,8 +128,8 @@ public class MoveSceneElementGO extends
 		}
 
 		trajectory = trajectoryFactory.get(d);
-		trajectory.set(movingElement, endX, endY,
-				target == null ? null : sceneElementFactory.get(target));
+		trajectory.set(movingElement, endX, endY, sceneElement == null ? null
+				: sceneElementFactory.get(sceneElement));
 
 		// Check if the element is controlled by other move scene effect
 		MoveSceneElementGO go = gameState.getValue(sceneElement,

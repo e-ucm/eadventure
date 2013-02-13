@@ -68,7 +68,8 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		transition = (T) e;
 	}
 
-	public abstract void transition(SceneGO nextScene, TransitionListener transition);
+	public abstract void transition(SceneGO nextScene,
+			TransitionListener transition);
 
 	@Override
 	public boolean handle(Event action) {
@@ -85,9 +86,9 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		this.previousScene = scene;
 		addActor(scene);
 	}
-	
+
 	public interface TransitionListener {
-		
+
 		void transitionEnded();
 	}
 

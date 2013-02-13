@@ -154,7 +154,7 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	}
 
 	@Override
-	public void transition(SceneGO nextScene, TransitionListener l ) {
+	public void transition(SceneGO nextScene, TransitionListener l) {
 		this.nextScene = nextScene;
 		this.listener = l;
 	}

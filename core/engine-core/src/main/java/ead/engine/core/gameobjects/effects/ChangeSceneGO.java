@@ -91,6 +91,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 			transition.setPreviousScene(gui.getScene());
 			sceneLoader.loadScene(nextScene, this);
 			gui.setScene(transition);
+		} else {
+			finished = true;
 		}
 	}
 

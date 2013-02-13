@@ -51,7 +51,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 
 	private SceneGO nextScene;
-	
+
 	private TransitionListener listener;
 
 	@Inject

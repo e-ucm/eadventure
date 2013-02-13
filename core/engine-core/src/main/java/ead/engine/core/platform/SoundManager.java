@@ -50,8 +50,11 @@ public interface SoundManager {
 	 * 
 	 * @param sound
 	 *            the sound
+	 * @param overlay
+	 *            If true, the sound is played always. If false, the sound is
+	 *            played only if it's not playing
 	 */
-	void playSound(EAdSound sound);
+	void playSound(EAdSound sound, boolean overlay);
 
 	/**
 	 * Stops the current background music (if any) and plays the given one
