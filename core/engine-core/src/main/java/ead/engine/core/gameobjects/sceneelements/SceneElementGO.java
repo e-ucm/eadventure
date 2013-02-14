@@ -53,6 +53,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.google.inject.Inject;
 
@@ -226,6 +227,8 @@ public class SceneElementGO extends Group implements
 
 		statesList = new ArrayList<String>();
 		eventGOList = new ArrayList<EventGO<?>>();
+
+		addListener(this);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -233,8 +236,7 @@ public class SceneElementGO extends Group implements
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
 
-		for (Entry<EAdVarDef<?>, Object> e : element.getVars()
-				.entrySet()) {
+		for (Entry<EAdVarDef<?>, Object> e : element.getVars().entrySet()) {
 			EAdVarDef def = e.getKey();
 			gameState.setValue(element, def, e.getValue());
 		}
@@ -391,7 +393,7 @@ public class SceneElementGO extends Group implements
 	 * @param x
 	 */
 	public void setX(float x) {
-		super.setX(x);
+		super.setX(x - dispX * getWidth());
 		gameState.setValue(getElement(), SceneElement.VAR_X, x);
 	}
 
@@ -401,7 +403,7 @@ public class SceneElementGO extends Group implements
 	 * @param y
 	 */
 	public void setY(float y) {
-		super.setY(y);
+		super.setY(y - dispY * getHeight());
 		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
 	}
 
@@ -481,7 +483,10 @@ public class SceneElementGO extends Group implements
 	 * @param alpha
 	 */
 	public void setAlpha(float alpha) {
-		getColor().a = alpha;
+		if (alpha != this.getColor().a) {
+			getColor().a = alpha;
+			gameState.setValue(element, SceneElement.VAR_ALPHA, alpha);
+		}
 	}
 
 	/**
@@ -546,8 +551,8 @@ public class SceneElementGO extends Group implements
 	public void addSceneElement(SceneElementGO e) {
 		addActor(e);
 	}
-	
-	public void addActor(Actor a){
+
+	public void addActor(Actor a) {
 		super.addActor(a);
 		invalidateOrder();
 	}
@@ -586,7 +591,7 @@ public class SceneElementGO extends Group implements
 		}
 	}
 
-	@SuppressWarnings( { "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void act(float delta) {
 		// Reorder list
@@ -640,7 +645,7 @@ public class SceneElementGO extends Group implements
 				if (currentDrawable.getWidth() != getWidth()) {
 					setWidth(currentDrawable.getWidth());
 				}
-				if (currentDrawable.getHeight() != getWidth()) {
+				if (currentDrawable.getHeight() != getHeight()) {
 					setHeight(currentDrawable.getHeight());
 				}
 			}
@@ -656,11 +661,18 @@ public class SceneElementGO extends Group implements
 	}
 
 	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
+	public void drawChildren(SpriteBatch batch, float parentAlpha) {
 		if (currentDrawable != null) {
+			batch.setColor(this.getColor().r, this.getColor().g, this.getColor().b, this.getColor().a * parentAlpha);
 			currentDrawable.render(canvas);
 		}
-		super.draw(batch, parentAlpha);
+		super.drawChildren(batch, parentAlpha);
+	}
+
+	public Actor hit(float x, float y, boolean touchable) {
+		Actor a = super.hit(x, y, touchable);
+		return a == this && currentDrawable != null
+				&& currentDrawable.contains((int) x, (int) y) ? this : a;
 	}
 
 	@Override
@@ -684,6 +696,21 @@ public class SceneElementGO extends Group implements
 					event.cancel();
 				}
 				addEffects(list, event);
+			}
+		}
+
+		if (this.getTouchable() == Touchable.enabled
+				&& event instanceof InputEvent) {
+			Type t = ((InputEvent) event).getType();
+			switch (t) {
+			case enter:
+				setMouseOver(true);
+				break;
+			case exit:
+				setMouseOver(false);
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -736,6 +763,33 @@ public class SceneElementGO extends Group implements
 		}
 		return guiEvent;
 
+	}
+
+	public void setWidth(float width) {
+		super.setWidth(width);
+		setOriginX(width * dispX);
+		gameState.setValue(element, SceneElement.VAR_WIDTH,
+				(Integer) (int) width);
+	}
+
+	public void setHeight(float height) {
+		super.setHeight(height);
+		setOriginY(height * dispY);
+		gameState.setValue(element, SceneElement.VAR_HEIGHT,
+				(Integer) (int) height);
+	}
+
+	public void setMouseOver(boolean mouseOver) {
+		gameState.setValue(element, SceneElement.VAR_MOUSE_OVER,
+				Boolean.valueOf(mouseOver));
+	}
+
+	public void setScaleX(float scaleX) {
+		super.setScaleX(scaleX * scale);
+	}
+
+	public void setScaleY(float scaleY) {
+		super.setScaleY(scaleY * scale);
 	}
 
 }

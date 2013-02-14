@@ -83,6 +83,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Float> VAR_ALPHA = new VarDef<Float>("alpha",
 			Float.class, 1.0f);
 
+	/**
+	 * Rotation in degrees
+	 */
 	public static final EAdVarDef<Float> VAR_ROTATION = new VarDef<Float>(
 			"rotation", Float.class, 0.0f);
 

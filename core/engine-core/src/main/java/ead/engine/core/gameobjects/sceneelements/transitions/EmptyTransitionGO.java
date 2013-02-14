@@ -57,8 +57,10 @@ public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 	@Inject
 	public EmptyTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
+			GameState gameState, EventGOFactory eventFactory,
+			GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				canvas);
 	}
 
 	@Override

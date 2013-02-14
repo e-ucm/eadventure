@@ -58,8 +58,10 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 
 	public TransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
+			GameState gameState, EventGOFactory eventFactory,
+			GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				canvas);
 	}
 
 	@SuppressWarnings("unchecked")

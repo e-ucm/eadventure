@@ -154,7 +154,7 @@ public class TweenControllerImpl implements TweenController,
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public void setValues(EAdField field, int type, float[] values) {
 		switch (type) {
