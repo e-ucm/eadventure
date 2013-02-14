@@ -63,8 +63,10 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
+			GameState gameState, EventGOFactory eventFactory,
+			GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				canvas);
 		currentTime = 0;
 	}
 
@@ -89,14 +91,16 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 			}
 
 			currentTime += gui.getSkippedMilliseconds();
-			sceneAlpha = currentTime / transition.getTime();
+			sceneAlpha = (float) currentTime / (float) transition.getTime();
 			nextScene.setAlpha(sceneAlpha);
 		}
 
 		if (currentTime >= transition.getTime()) {
 			gui.setScene(nextScene);
+			nextScene.setAlpha(1.0f);
 			nextScene.act(delta);
 			listener.transitionEnded();
+			remove();
 		} else {
 			super.act(delta);
 		}

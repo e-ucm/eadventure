@@ -71,8 +71,10 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory, GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
+			GameState gameState, EventGOFactory eventFactory,
+			GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				canvas);
 		finished = false;
 		width = gameState.getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValue(SystemFields.GAME_HEIGHT);
@@ -131,6 +133,7 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 			nextScene.setX(0);
 			nextScene.setY(0);
 			gui.setScene(nextScene);
+			remove();
 			nextScene.act(delta);
 			listener.transitionEnded();
 		} else {

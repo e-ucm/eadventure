@@ -53,6 +53,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.google.inject.Inject;
 
@@ -68,7 +69,10 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.KeyGEv;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.guievents.enums.KeyEventType;
+import ead.common.model.params.guievents.enums.KeyGEvCode;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.factories.EventGOFactory;
@@ -226,15 +230,17 @@ public class SceneElementGO extends Group implements
 
 		statesList = new ArrayList<String>();
 		eventGOList = new ArrayList<EventGO<?>>();
+
+		addListener(this);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
+		setName(element.getId());
 
-		for (Entry<EAdVarDef<?>, Object> e : element.getVars()
-				.entrySet()) {
+		for (Entry<EAdVarDef<?>, Object> e : element.getVars().entrySet()) {
 			EAdVarDef def = e.getKey();
 			gameState.setValue(element, def, e.getValue());
 		}
@@ -391,7 +397,7 @@ public class SceneElementGO extends Group implements
 	 * @param x
 	 */
 	public void setX(float x) {
-		super.setX(x);
+		super.setX(x - dispX * getWidth());
 		gameState.setValue(getElement(), SceneElement.VAR_X, x);
 	}
 
@@ -401,7 +407,7 @@ public class SceneElementGO extends Group implements
 	 * @param y
 	 */
 	public void setY(float y) {
-		super.setY(y);
+		super.setY(y - dispY * getHeight());
 		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
 	}
 
@@ -481,7 +487,10 @@ public class SceneElementGO extends Group implements
 	 * @param alpha
 	 */
 	public void setAlpha(float alpha) {
-		getColor().a = alpha;
+		if (alpha != this.getColor().a) {
+			getColor().a = alpha;
+			gameState.setValue(element, SceneElement.VAR_ALPHA, alpha);
+		}
 	}
 
 	/**
@@ -546,8 +555,8 @@ public class SceneElementGO extends Group implements
 	public void addSceneElement(SceneElementGO e) {
 		addActor(e);
 	}
-	
-	public void addActor(Actor a){
+
+	public void addActor(Actor a) {
 		super.addActor(a);
 		invalidateOrder();
 	}
@@ -640,7 +649,7 @@ public class SceneElementGO extends Group implements
 				if (currentDrawable.getWidth() != getWidth()) {
 					setWidth(currentDrawable.getWidth());
 				}
-				if (currentDrawable.getHeight() != getWidth()) {
+				if (currentDrawable.getHeight() != getHeight()) {
 					setHeight(currentDrawable.getHeight());
 				}
 			}
@@ -656,11 +665,23 @@ public class SceneElementGO extends Group implements
 	}
 
 	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
+	public void drawChildren(SpriteBatch batch, float parentAlpha) {
 		if (currentDrawable != null) {
+			batch.setColor(this.getColor().r, this.getColor().g, this
+					.getColor().b, this.getColor().a * parentAlpha);
 			currentDrawable.render(canvas);
 		}
-		super.draw(batch, parentAlpha);
+		super.drawChildren(batch, parentAlpha);
+	}
+
+	public Actor hit(float x, float y, boolean touchable) {
+		Actor a = super.hit(x, y, touchable);
+		if (a == this) {
+			return currentDrawable != null
+					&& currentDrawable.contains((int) x, (int) y) ? this : null;
+		} else {
+			return a;
+		}
 	}
 
 	@Override
@@ -684,6 +705,21 @@ public class SceneElementGO extends Group implements
 					event.cancel();
 				}
 				addEffects(list, event);
+			}
+		}
+
+		if (this.getTouchable() == Touchable.enabled
+				&& event instanceof InputEvent) {
+			Type t = ((InputEvent) event).getType();
+			switch (t) {
+			case enter:
+				setMouseOver(true);
+				break;
+			case exit:
+				setMouseOver(false);
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -730,12 +766,284 @@ public class SceneElementGO extends Group implements
 			case exit:
 				guiEvent = MouseGEv.MOUSE_EXITED;
 				break;
+			case keyDown:
+				guiEvent = new KeyGEv(KeyEventType.KEY_PRESSED, getKeyCode(i
+						.getKeyCode()));
+				break;
+			case keyUp:
+				guiEvent = new KeyGEv(KeyEventType.KEY_RELEASED, getKeyCode(i
+						.getKeyCode()));
+				break;
+			case keyTyped:
+				guiEvent = new KeyGEv(KeyEventType.KEY_TYPED, getKeyCode(i
+						.getKeyCode()));
+				break;
 			default:
 				break;
 			}
 		}
 		return guiEvent;
+	}
 
+	public KeyGEvCode getKeyCode(int code) {
+		switch (code) {
+		case Input.Keys.NUM_0:
+			return KeyGEvCode.NUM_0;
+		case Input.Keys.NUM_1:
+			return KeyGEvCode.NUM_1;
+		case Input.Keys.NUM_2:
+			return KeyGEvCode.NUM_2;
+		case Input.Keys.NUM_3:
+			return KeyGEvCode.NUM_3;
+		case Input.Keys.NUM_4:
+			return KeyGEvCode.NUM_4;
+		case Input.Keys.NUM_5:
+			return KeyGEvCode.NUM_5;
+		case Input.Keys.NUM_6:
+			return KeyGEvCode.NUM_6;
+		case Input.Keys.NUM_7:
+			return KeyGEvCode.NUM_7;
+		case Input.Keys.NUM_8:
+			return KeyGEvCode.NUM_8;
+		case Input.Keys.NUM_9:
+			return KeyGEvCode.NUM_9;
+		case Input.Keys.A:
+			return KeyGEvCode.A;
+		case Input.Keys.ALT_LEFT:
+			return KeyGEvCode.ALT_LEFT;
+		case Input.Keys.ALT_RIGHT:
+			return KeyGEvCode.ALT_RIGHT;
+		case Input.Keys.APOSTROPHE:
+			return KeyGEvCode.APOSTROPHE;
+		case Input.Keys.AT:
+			return KeyGEvCode.AT;
+		case Input.Keys.B:
+			return KeyGEvCode.B;
+		case Input.Keys.BACK:
+			return KeyGEvCode.BACK;
+		case Input.Keys.BACKSLASH:
+			return KeyGEvCode.BACKSLASH;
+		case Input.Keys.C:
+			return KeyGEvCode.C;
+		case Input.Keys.CALL:
+			return KeyGEvCode.CALL;
+		case Input.Keys.CAMERA:
+			return KeyGEvCode.CAMERA;
+		case Input.Keys.CLEAR:
+			return KeyGEvCode.CLEAR;
+		case Input.Keys.COMMA:
+			return KeyGEvCode.COMMA;
+		case Input.Keys.D:
+			return KeyGEvCode.D;
+		case Input.Keys.BACKSPACE:
+			return KeyGEvCode.BACKSPACE;
+		case Input.Keys.FORWARD_DEL:
+			return KeyGEvCode.FORWARD_DEL;
+		case Input.Keys.CENTER:
+			return KeyGEvCode.CENTER;
+		case Input.Keys.DOWN:
+			return KeyGEvCode.DOWN;
+		case Input.Keys.LEFT:
+			return KeyGEvCode.LEFT;
+		case Input.Keys.RIGHT:
+			return KeyGEvCode.RIGHT;
+		case Input.Keys.UP:
+			return KeyGEvCode.UP;
+		case Input.Keys.E:
+			return KeyGEvCode.E;
+		case Input.Keys.ENDCALL:
+			return KeyGEvCode.ENDCALL;
+		case Input.Keys.ENTER:
+			return KeyGEvCode.ENTER;
+		case Input.Keys.ENVELOPE:
+			return KeyGEvCode.ENVELOPE;
+		case Input.Keys.EQUALS:
+			return KeyGEvCode.EQUALS;
+		case Input.Keys.EXPLORER:
+			return KeyGEvCode.EXPLORER;
+		case Input.Keys.F:
+			return KeyGEvCode.F;
+		case Input.Keys.F1:
+			return KeyGEvCode.F1;
+		case Input.Keys.F2:
+			return KeyGEvCode.F2;
+		case Input.Keys.F3:
+			return KeyGEvCode.F3;
+		case Input.Keys.F4:
+			return KeyGEvCode.F4;
+		case Input.Keys.F5:
+			return KeyGEvCode.F5;
+		case Input.Keys.F6:
+			return KeyGEvCode.F6;
+		case Input.Keys.F7:
+			return KeyGEvCode.F7;
+		case Input.Keys.F8:
+			return KeyGEvCode.F8;
+		case Input.Keys.F9:
+			return KeyGEvCode.F9;
+		case Input.Keys.F10:
+			return KeyGEvCode.F10;
+		case Input.Keys.F11:
+			return KeyGEvCode.F11;
+		case Input.Keys.F12:
+			return KeyGEvCode.F12;
+		case Input.Keys.FOCUS:
+			return KeyGEvCode.FOCUS;
+		case Input.Keys.G:
+			return KeyGEvCode.G;
+		case Input.Keys.GRAVE:
+			return KeyGEvCode.GRAVE;
+		case Input.Keys.H:
+			return KeyGEvCode.H;
+		case Input.Keys.HEADSETHOOK:
+			return KeyGEvCode.HEADSETHOOK;
+		case Input.Keys.HOME:
+			return KeyGEvCode.HOME;
+		case Input.Keys.I:
+			return KeyGEvCode.I;
+		case Input.Keys.J:
+			return KeyGEvCode.J;
+		case Input.Keys.K:
+			return KeyGEvCode.K;
+		case Input.Keys.L:
+			return KeyGEvCode.L;
+		case Input.Keys.LEFT_BRACKET:
+			return KeyGEvCode.LEFT_BRACKET;
+		case Input.Keys.M:
+			return KeyGEvCode.M;
+		case Input.Keys.MEDIA_FAST_FORWARD:
+			return KeyGEvCode.MEDIA_FAST_FORWARD;
+		case Input.Keys.MEDIA_NEXT:
+			return KeyGEvCode.MEDIA_NEXT;
+		case Input.Keys.MEDIA_PLAY_PAUSE:
+			return KeyGEvCode.MEDIA_PLAY_PAUSE;
+		case Input.Keys.MEDIA_PREVIOUS:
+			return KeyGEvCode.MEDIA_PREVIOUS;
+		case Input.Keys.MEDIA_REWIND:
+			return KeyGEvCode.MEDIA_REWIND;
+		case Input.Keys.MEDIA_STOP:
+			return KeyGEvCode.MEDIA_STOP;
+		case Input.Keys.MENU:
+			return KeyGEvCode.MENU;
+		case Input.Keys.MINUS:
+			return KeyGEvCode.MINUS;
+		case Input.Keys.MUTE:
+			return KeyGEvCode.MUTE;
+		case Input.Keys.N:
+			return KeyGEvCode.N;
+		case Input.Keys.NOTIFICATION:
+			return KeyGEvCode.NOTIFICATION;
+		case Input.Keys.NUM:
+			return KeyGEvCode.NUM;
+		case Input.Keys.O:
+			return KeyGEvCode.O;
+		case Input.Keys.P:
+			return KeyGEvCode.P;
+		case Input.Keys.PERIOD:
+			return KeyGEvCode.PERIOD;
+		case Input.Keys.PLUS:
+			return KeyGEvCode.PLUS;
+		case Input.Keys.POUND:
+			return KeyGEvCode.POUND;
+		case Input.Keys.POWER:
+			return KeyGEvCode.POWER;
+		case Input.Keys.Q:
+			return KeyGEvCode.Q;
+		case Input.Keys.R:
+			return KeyGEvCode.R;
+		case Input.Keys.RIGHT_BRACKET:
+			return KeyGEvCode.RIGHT_BRACKET;
+		case Input.Keys.S:
+			return KeyGEvCode.S;
+		case Input.Keys.SEARCH:
+			return KeyGEvCode.SEARCH;
+		case Input.Keys.SEMICOLON:
+			return KeyGEvCode.SEMICOLON;
+		case Input.Keys.SHIFT_LEFT:
+			return KeyGEvCode.SHIFT_LEFT;
+		case Input.Keys.SHIFT_RIGHT:
+			return KeyGEvCode.SHIFT_RIGHT;
+		case Input.Keys.SLASH:
+			return KeyGEvCode.SLASH;
+		case Input.Keys.SOFT_LEFT:
+			return KeyGEvCode.SOFT_LEFT;
+		case Input.Keys.SOFT_RIGHT:
+			return KeyGEvCode.SOFT_RIGHT;
+		case Input.Keys.SPACE:
+			return KeyGEvCode.SPACE;
+		case Input.Keys.STAR:
+			return KeyGEvCode.STAR;
+		case Input.Keys.SYM:
+			return KeyGEvCode.SYM;
+		case Input.Keys.T:
+			return KeyGEvCode.T;
+		case Input.Keys.TAB:
+			return KeyGEvCode.TAB;
+		case Input.Keys.U:
+			return KeyGEvCode.U;
+		case Input.Keys.UNKNOWN:
+			return KeyGEvCode.UNKNOWN;
+		case Input.Keys.V:
+			return KeyGEvCode.V;
+		case Input.Keys.VOLUME_DOWN:
+			return KeyGEvCode.VOLUME_DOWN;
+		case Input.Keys.VOLUME_UP:
+			return KeyGEvCode.VOLUME_UP;
+		case Input.Keys.W:
+			return KeyGEvCode.W;
+		case Input.Keys.X:
+			return KeyGEvCode.X;
+		case Input.Keys.Y:
+			return KeyGEvCode.Y;
+		case Input.Keys.Z:
+			return KeyGEvCode.Z;
+		case Input.Keys.CONTROL_LEFT:
+			return KeyGEvCode.CONTROL_LEFT;
+		case Input.Keys.CONTROL_RIGHT:
+			return KeyGEvCode.CONTROL_RIGHT;
+		case Input.Keys.ESCAPE:
+			return KeyGEvCode.ESCAPE;
+		case Input.Keys.END:
+			return KeyGEvCode.END;
+		case Input.Keys.INSERT:
+			return KeyGEvCode.INSERT;
+		case Input.Keys.PAGE_UP:
+			return KeyGEvCode.PAGE_UP;
+		case Input.Keys.PAGE_DOWN:
+			return KeyGEvCode.PAGE_DOWN;
+		case Input.Keys.COLON:
+			return KeyGEvCode.COLON;
+
+		default:
+			return KeyGEvCode.ANY_KEY;
+		}
+	}
+
+	public void setWidth(float width) {
+		super.setWidth(width);
+		setOriginX(width * dispX);
+		gameState.setValue(element, SceneElement.VAR_WIDTH,
+				(Integer) (int) width);
+	}
+
+	public void setHeight(float height) {
+		super.setHeight(height);
+		setOriginY(height * dispY);
+		gameState.setValue(element, SceneElement.VAR_HEIGHT,
+				(Integer) (int) height);
+	}
+
+	public void setMouseOver(boolean mouseOver) {
+		gameState.setValue(element, SceneElement.VAR_MOUSE_OVER, Boolean
+				.valueOf(mouseOver));
+	}
+
+	public void setScaleX(float scaleX) {
+		super.setScaleX(scaleX * scale);
+	}
+
+	public void setScaleY(float scaleY) {
+		super.setScaleY(scaleY * scale);
 	}
 
 }

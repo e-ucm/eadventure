@@ -72,7 +72,7 @@ public class ComplexElementScene extends EmptyScene {
 				.getSceneElementFactory().createSceneElement(r1, r2, 40, 40);
 
 		e.setInitialScale(0.1f);
-		e.setVarInitialValue(SceneElement.VAR_ROTATION, (float) Math.PI / 6);
+		e.setVarInitialValue(SceneElement.VAR_ROTATION, 30.0f);
 		e.setPosition(new Position(Corner.CENTER, 50, 50));
 
 		complex.getSceneElements().add(e);
@@ -82,9 +82,8 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> rotation = new BasicField<Float>(complex,
 				SceneElement.VAR_ROTATION);
 
-		InterpolationEf effect = new InterpolationEf(rotation, 0,
-				2 * (float) Math.PI, 10000, InterpolationLoopType.RESTART,
-				InterpolationType.LINEAR);
+		InterpolationEf effect = new InterpolationEf(rotation, 0, 360.0f,
+				10000, InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
@@ -95,11 +94,10 @@ public class ComplexElementScene extends EmptyScene {
 				SceneElement.VAR_ROTATION);
 
 		e.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ChangeFieldEf(rotation,
-				new ValueOp((float) 0.1f)));
+				new ValueOp((float) 10.0f)));
 
-		InterpolationEf effect2 = new InterpolationEf(rotation2, 0,
-				2 * (float) Math.PI, 1000, InterpolationLoopType.RESTART,
-				InterpolationType.LINEAR);
+		InterpolationEf effect2 = new InterpolationEf(rotation2, 0, 360, 1000,
+				InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 
 		SceneElementEv event2 = new SceneElementEv();
 		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect2);

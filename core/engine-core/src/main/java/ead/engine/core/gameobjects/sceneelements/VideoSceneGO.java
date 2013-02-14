@@ -74,8 +74,10 @@ public class VideoSceneGO extends SceneGO {
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
-			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer, GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory, canvas);
+			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
+			GenericCanvas canvas) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
+				canvas);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;

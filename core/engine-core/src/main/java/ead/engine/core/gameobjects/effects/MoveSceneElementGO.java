@@ -94,7 +94,7 @@ public class MoveSceneElementGO extends
 		float endX = 0;
 		float endY = 0;
 
-		SceneElementGO<?> movingElement = sceneElementFactory.get(sceneElement);
+		SceneElementGO movingElement = sceneElementFactory.get(sceneElement);
 
 		if (effect.getxTarget() != null && effect.getyTarget() != null) {
 			endX = gameState.operate(Integer.class, effect.getxTarget());
@@ -153,7 +153,8 @@ public class MoveSceneElementGO extends
 
 	public void finish() {
 		super.finish();
-		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, (MoveSceneElementGO) null);
+		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
+				(MoveSceneElementGO) null);
 	}
 
 	public void stop() {

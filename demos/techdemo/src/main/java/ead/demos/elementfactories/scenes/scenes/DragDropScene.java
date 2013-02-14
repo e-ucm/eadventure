@@ -82,7 +82,7 @@ public class DragDropScene extends EmptyScene {
 		SceneElement e5 = new SceneElement(def);
 		e5.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e5.setPosition(new Position(Corner.TOP_RIGHT, 500, 10));
-		e5.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
+		e5.setVarInitialValue(SceneElement.VAR_ROTATION, 10.0f);
 		e5.setInitialScale(1.5f);
 		e5.setVarInitialValue(SceneElement.VAR_Z, 2);
 

@@ -100,6 +100,7 @@ public class GdxEngineImpl implements GdxEngine {
 		Gdx.input.setInputProcessor(stage);
 
 		stage.addActor(gui.getRoot());
+		stage.setKeyboardFocus(gui.getRoot());
 	}
 
 	@Override

@@ -47,6 +47,7 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -304,6 +305,9 @@ public class GameImpl implements Game, VisitorListener {
 		for (EventGO<?> e : events) {
 			e.act(delta);
 		}
+
+		gameState.setValue(SystemFields.MOUSE_X, new Float(Gdx.input.getX()));
+		gameState.setValue(SystemFields.MOUSE_Y, new Float(Gdx.input.getY()));
 	}
 
 	private void setGame() {
