@@ -72,6 +72,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 			EAdCondition c = effect.getConditions().get(i);
 			if (gameState.evaluate(c)) {
 				macro = effect.getMacros().get(i);
+				break;
 			}
 		}
 

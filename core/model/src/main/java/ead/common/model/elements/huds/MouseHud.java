@@ -57,6 +57,7 @@ public class MouseHud extends BasicScene {
 	public static final String TAKE_CURSOR = "take";
 	public static final String EXAMINE_CURSOR = "examine";
 	public static final String DEFAULT_CURSOR = "default";
+	public static final String TALK_CURSOR = "talk";
 
 	public MouseHud() {
 		this.setId(MOUSE_HUD_ID);
@@ -64,9 +65,11 @@ public class MouseHud extends BasicScene {
 		EAdDrawable cursor = new Image("@drawable/default_cursor.png");
 		EAdDrawable takeCursor = new Image("@drawable/take_cursor.png");
 		EAdDrawable examineCursor = new Image("@drawable/examine_cursor.png");
+		EAdDrawable talkCursor = new Image("@drawable/talk_cursor.png");
 		SceneElement mouse = new SceneElement(cursor);
 		mouse.setAppearance(TAKE_CURSOR, takeCursor);
 		mouse.setAppearance(EXAMINE_CURSOR, examineCursor);
+		mouse.setAppearance(TALK_CURSOR, talkCursor);
 		mouse.setId(CURSOR_ID);
 		mouse.setInitialEnable(false);
 		mouse.setPosition(Corner.TOP_LEFT, 0, 0);
