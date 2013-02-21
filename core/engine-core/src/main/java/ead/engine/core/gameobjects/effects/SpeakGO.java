@@ -112,7 +112,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		gone = false;
 		effectsHud = gui.getHUD(GUI.EFFECTS_HUD_ID);
 		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
-		bubbleDialog.setInputProcessor(this);
+		bubbleDialog.setInputProcessor(this, true);
 		effectsHud.addSceneElement(bubbleDialog);
 	}
 

@@ -94,8 +94,8 @@ public class NgCommon {
 
 		int blink = 200;
 		int notBlink = 2000;
-		int walkTime = 200;
-		int talkTime = 300;
+		int walkTime = 500;
+		int talkTime = 500;
 
 		StateDrawable stateDrawables = new StateDrawable();
 		mainCharacter = new SceneElementDef(stateDrawables);

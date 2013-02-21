@@ -82,8 +82,16 @@ public class GhostElementGO extends SceneElementGO {
 		this.visible = visible;
 	}
 
-	public Actor hit(int x, int y, boolean touchable) {
-		return catchAll ? this : super.hit(x, y, touchable);
+	public Actor hit(float x, float y, boolean touchable) {
+		if (catchAll && touchable) {
+			return this;
+		} else {
+			return super.hit(x, y, touchable);
+		}
+	}
+
+	public boolean contains(float x, float y) {
+		return catchAll ? true : super.contains(x, y);
 	}
 
 }

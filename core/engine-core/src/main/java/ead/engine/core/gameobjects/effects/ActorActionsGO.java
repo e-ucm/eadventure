@@ -89,9 +89,9 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 
 	public void initialize() {
 		actions = sceneElementFactory.get(getVisualRepresentation());
-		actions.setInputProcessor(this);
+		actions.setInputProcessor(this, false);
 		for (Actor child : actions.getChildren()) {
-			((SceneElementGO) child).setInputProcessor(this);
+			((SceneElementGO) child).setInputProcessor(this, false);
 		}
 		effectsHUD = gui.getHUD(GUI.EFFECTS_HUD_ID);
 		effectsHUD.addSceneElement(actions);

@@ -235,7 +235,7 @@ public class CharacterScene extends EmptyScene {
 		oriented.setDrawable(Orientation.W, left);
 
 		FramesAnimation down = EAdElementsFactory.getInstance()
-				.getDrawableFactory().getFramesAnimation(walkDownUris, 500);
+				.getDrawableFactory().getFramesAnimation(walkDownUris, 2000);
 		oriented.setDrawable(Orientation.S, down);
 
 		return oriented;

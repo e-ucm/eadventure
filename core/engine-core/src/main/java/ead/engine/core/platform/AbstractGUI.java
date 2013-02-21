@@ -157,7 +157,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				return true;
 			}
 
-		});
+		}, false);
 		root.addSceneElement(hudRoot);
 		addHuds();
 	}
@@ -257,8 +257,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	public SceneElementGO getGameObjectUnderPointer() {
 		return (SceneElementGO) root.hit(gameState
-				.getValue(SystemFields.MOUSE_SCENE_X), gameState
-				.getValue(SystemFields.MOUSE_SCENE_Y), true);
+				.getValue(SystemFields.MOUSE_X), gameState
+				.getValue(SystemFields.MOUSE_Y), true);
 	}
 
 }

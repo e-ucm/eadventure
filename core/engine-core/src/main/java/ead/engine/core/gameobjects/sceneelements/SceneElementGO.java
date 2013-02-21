@@ -499,9 +499,20 @@ public class SceneElementGO extends Group implements
 	 * {@link SceneElementGO#processAction(ead.engine.core.input.InputAction)}
 	 * 
 	 * @param processor
+	 * @param transmitToChildren
+	 *            TODO
 	 */
-	public void setInputProcessor(EventListener processor) {
+	public void setInputProcessor(EventListener processor,
+			boolean transmitToChildren) {
 		this.inputProcessor = processor;
+		if (transmitToChildren) {
+			for (Actor a : this.getChildren()) {
+				if (a instanceof SceneElementGO) {
+					((SceneElementGO) a).setInputProcessor(processor,
+							transmitToChildren);
+				}
+			}
+		}
 	}
 
 	/**
@@ -677,11 +688,15 @@ public class SceneElementGO extends Group implements
 	public Actor hit(float x, float y, boolean touchable) {
 		Actor a = super.hit(x, y, touchable);
 		if (a == this) {
-			return currentDrawable != null
-					&& currentDrawable.contains((int) x, (int) y) ? this : null;
+			return contains(x, y) ? this : null;
 		} else {
 			return a;
 		}
+	}
+
+	public boolean contains(float x, float y) {
+		return currentDrawable != null
+				&& currentDrawable.contains((int) x, (int) y);
 	}
 
 	@Override
