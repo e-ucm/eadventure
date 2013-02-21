@@ -43,6 +43,7 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.AbstractElementWithBehavior;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -152,6 +153,12 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	@Param
 	protected EAdSceneElementDef definition;
+
+	/**
+	 * Initial event for this element. This attribute WILL NOT BE SERIALIZED by
+	 * the any writer. It is a transient attribute
+	 */
+	private transient SceneElementEv initEvent;
 
 	public SceneElement() {
 		super();
@@ -303,6 +310,25 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public void setAppearance(String bundle, EAdDrawable drawable) {
 		getDefinition().setAppearance(bundle, drawable);
 
+	}
+
+	public void setInitialVisible(boolean visible) {
+		setVarInitialValue(SceneElement.VAR_VISIBLE, visible);
+	}
+
+	/**
+	 * Adds an effect that will be executed only once when this scene element
+	 * appears for the first time in the game
+	 * 
+	 * @param e
+	 *            the effect
+	 */
+	public void addInitEffect(EAdEffect e) {
+		if (initEvent == null) {
+			initEvent = new SceneElementEv();
+			this.getEvents().add(initEvent);
+		}
+		initEvent.addEffect(SceneElementEvType.FIRST_UPDATE, e);
 	}
 
 }

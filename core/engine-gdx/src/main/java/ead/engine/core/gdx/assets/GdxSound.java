@@ -76,10 +76,14 @@ public class GdxSound extends RuntimeSound {
 		sound = null;
 	}
 
-	@Override
 	public void play(boolean override) {
+		play(override, 1.0f);
+	}
+
+	@Override
+	public void play(boolean override, float volume) {
 		if (override || id == -1) {
-			id = sound.play(1);
+			id = sound.play(volume);
 		} else if (id != -1) {
 			sound.stop(id);
 			id = sound.play();
@@ -92,8 +96,8 @@ public class GdxSound extends RuntimeSound {
 	}
 
 	@Override
-	public void loop() {
-		id = sound.loop();
+	public void loop(float volume) {
+		id = sound.loop(volume);
 	}
 
 	@Override

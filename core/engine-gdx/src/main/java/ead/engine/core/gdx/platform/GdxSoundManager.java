@@ -58,13 +58,13 @@ public class GdxSoundManager implements SoundManager {
 	}
 
 	@Override
-	public void playSound(EAdSound sound, boolean overlay) {
+	public void playSound(EAdSound sound, boolean overlay, float volume) {
 		RuntimeSound s = (RuntimeSound) assetHandler.getRuntimeAsset(sound);
-		s.play(overlay);
+		s.play(overlay, volume);
 	}
 
 	@Override
-	public void playBackgroundMusic(EAdSound sound) {
+	public void playBackgroundMusic(EAdSound sound, float volume) {
 		if (backgroundMusic != null) {
 			backgroundMusic.stop();
 			backgroundMusic = null;
@@ -73,7 +73,7 @@ public class GdxSoundManager implements SoundManager {
 		if (sound != null) {
 			backgroundMusic = (RuntimeSound) assetHandler
 					.getRuntimeAsset(sound);
-			backgroundMusic.loop();
+			backgroundMusic.loop(volume);
 		}
 	}
 

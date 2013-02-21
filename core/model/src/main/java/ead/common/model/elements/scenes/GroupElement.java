@@ -104,4 +104,13 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 	public EAdList<EAdSceneElement> getSceneElements() {
 		return sceneElements;
 	}
+
+	/**
+	 * Adds an element to the group
+	 * @param e
+	 */
+	public void addSceneElement(SceneElement e) {
+		this.sceneElements.add(e);
+	}
+
 }
