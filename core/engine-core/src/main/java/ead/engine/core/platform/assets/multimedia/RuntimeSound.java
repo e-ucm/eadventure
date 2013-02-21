@@ -59,11 +59,13 @@ public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 	 */
 	public abstract void play(boolean overlay);
 
+	public abstract void play(boolean overlay, float volume);
+
 	/**
 	 * Stops playing the sound
 	 */
 	public abstract void stop();
 
-	public abstract void loop();
+	public abstract void loop(float volume);
 
 }

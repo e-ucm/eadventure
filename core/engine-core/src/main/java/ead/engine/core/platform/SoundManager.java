@@ -53,15 +53,17 @@ public interface SoundManager {
 	 * @param overlay
 	 *            If true, the sound is played always. If false, the sound is
 	 *            played only if it's not playing
+	 * @param volume TODO
 	 */
-	void playSound(EAdSound sound, boolean overlay);
+	void playSound(EAdSound sound, boolean overlay, float volume);
 
 	/**
 	 * Stops the current background music (if any) and plays the given one
 	 * 
 	 * @param sound
 	 *            the new background music
+	 * @param volume TODO
 	 */
-	void playBackgroundMusic(EAdSound sound);
+	void playBackgroundMusic(EAdSound sound, float volume);
 
 }

@@ -123,6 +123,11 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 		this(EAdString.newEAdString(string));
 	}
 
+	public Caption(String stringId, EAdFont font) {
+		this(stringId);
+		this.setFont(font);
+	}
+
 	@Override
 	public EAdString getText() {
 		return label;
