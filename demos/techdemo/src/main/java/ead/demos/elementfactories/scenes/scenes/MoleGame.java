@@ -42,6 +42,7 @@ import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
@@ -50,7 +51,6 @@ import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ListOp;
 import ead.common.model.elements.operations.MathOp;
@@ -86,7 +86,7 @@ public class MoleGame extends EmptyScene {
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setParentVar(SceneElement.VAR_VISIBLE);
-		dissapearMole.setOperation(BooleanOp.FALSE_OP);
+		dissapearMole.setOperation(EmptyCond.FALSE_EMPTY_CONDITION);
 
 		mole = new FramesAnimation();
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));

@@ -47,8 +47,8 @@ import com.google.gwt.http.client.Response;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.gdx.assets.GdxAssetHandler;
 import ead.engine.core.platform.FontHandler;
+import ead.engine.core.platform.assets.GdxAssetHandler;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 

@@ -49,8 +49,7 @@ public abstract class AbstractHUD extends SceneElementGO {
 	public AbstractHUD(String id, AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory, int priority) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				null);
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
 }

@@ -46,6 +46,7 @@ import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.platform.rendering.filters.FilterFactory;
 
 public class RuntimeFilteredDrawable extends
 		AbstractRuntimeAsset<EAdFilteredDrawable> implements
@@ -53,9 +54,13 @@ public class RuntimeFilteredDrawable extends
 
 	private RuntimeDrawable<?> drawable;
 
+	private FilterFactory filterFactory;
+
 	@Inject
-	public RuntimeFilteredDrawable(AssetHandler assetHandler) {
+	public RuntimeFilteredDrawable(AssetHandler assetHandler,
+			FilterFactory filterFactory) {
 		super(assetHandler);
+		this.filterFactory = filterFactory;
 	}
 
 	@Override
@@ -89,10 +94,9 @@ public class RuntimeFilteredDrawable extends
 
 	@Override
 	public void render(GenericCanvas c) {
-		c.save();
-		c.setFilter(drawable, descriptor.getFilter());
+		filterFactory.setFilter(drawable, descriptor.getFilter(), c);
 		drawable.render(c);
-		c.restore();
+		filterFactory.unsetFilter(drawable, descriptor.getFilter(), c);
 	}
 
 	@Override

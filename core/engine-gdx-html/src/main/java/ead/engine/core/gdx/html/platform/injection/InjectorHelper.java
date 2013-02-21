@@ -78,14 +78,14 @@ import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
-import ead.engine.core.gdx.assets.GdxFont;
-import ead.engine.core.gdx.assets.GdxSound;
-import ead.engine.core.gdx.assets.drawables.GdxBezierShape;
-import ead.engine.core.gdx.assets.drawables.GdxCircleShape;
-import ead.engine.core.gdx.assets.drawables.GdxImage;
-import ead.engine.core.gdx.assets.drawables.GdxRectangleShape;
+import ead.engine.core.platform.assets.GdxFont;
+import ead.engine.core.platform.assets.GdxSound;
+import ead.engine.core.platform.assets.drawables.basics.GdxBezierShape;
+import ead.engine.core.platform.assets.drawables.basics.GdxCircleShape;
+import ead.engine.core.platform.assets.drawables.basics.GdxRectangleShape;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
@@ -191,8 +191,8 @@ public class InjectorHelper implements Injector {
 		else if (clazz == PolygonTrajectoryGO.class)
 			o = ginjector.getPolygonTrajectoryGO();
 		// Assets
-		else if (clazz == GdxImage.class)
-			o = ginjector.getGdxImage();
+		else if (clazz == RuntimeImage.class)
+			o = ginjector.getRuntimeImage();
 		else if (clazz == GdxBezierShape.class)
 			o = ginjector.getGdxBezierShape();
 		else if (clazz == GdxRectangleShape.class)

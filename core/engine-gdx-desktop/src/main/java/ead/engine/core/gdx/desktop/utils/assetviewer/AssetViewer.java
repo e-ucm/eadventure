@@ -45,9 +45,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.EAdDrawable;
-import ead.engine.core.gdx.utils.assetviewer.AssetApplicationListener;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
+import ead.engine.core.utils.assetviewer.AssetApplicationListener;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;

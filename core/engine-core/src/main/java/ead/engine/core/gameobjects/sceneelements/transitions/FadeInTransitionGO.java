@@ -63,10 +63,8 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				canvas);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		currentTime = 0;
 	}
 

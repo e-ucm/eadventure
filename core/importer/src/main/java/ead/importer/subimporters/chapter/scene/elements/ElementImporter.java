@@ -44,7 +44,6 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -156,7 +155,7 @@ public abstract class ElementImporter<T> implements
 		ChangeFieldEf changeEnable = new ChangeFieldEf();
 
 		changeEnable.addField(enableField);
-		changeEnable.setOperation(new BooleanOp(condition));
+		changeEnable.setOperation(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeEnable);
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, changeEnable);
 

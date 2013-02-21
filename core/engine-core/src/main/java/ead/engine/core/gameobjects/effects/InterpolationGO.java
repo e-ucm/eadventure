@@ -50,27 +50,16 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.TweenController;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		implements TweenCallback {
 
 	private int finished;
 
-	private TweenController tweenController;
-
 	@Inject
-	public InterpolationGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, TweenController tweenController,
-			EventGOFactory eventFactory) {
+	public InterpolationGO(GameState gameState) {
 		super(gameState);
-		this.tweenController = tweenController;
 	}
 
 	@Override
@@ -122,7 +111,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 				}
 
 				t.setCallback(this);
-				tweenController.add(t);
+				gameState.getTweenManager().add(t);
 				finished++;
 			}
 			i++;

@@ -56,11 +56,21 @@ public class AbstractFilterFactory extends AbstractFactory<RuntimeFilter<?>>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdDrawableFilter> void applyFilter(
+	public <T extends EAdDrawableFilter> void setFilter(
 			RuntimeDrawable<?> drawable, T filter, GenericCanvas c) {
 		RuntimeFilter<T> rf = (RuntimeFilter<T>) this.get(filter.getClass());
 		if (rf != null)
-			rf.applyFilter(drawable, filter, c);
+			rf.setFilter(drawable, filter, c);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends EAdDrawableFilter> void unsetFilter(
+			RuntimeDrawable<?> drawable, T filter, GenericCanvas c) {
+		RuntimeFilter<T> rf = (RuntimeFilter<T>) this.get(filter.getClass());
+		if (rf != null)
+			rf.unsetFilter(drawable, filter, c);
+
 	}
 
 }

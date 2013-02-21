@@ -38,11 +38,11 @@
 package ead.common.model.elements.predef.effects;
 
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.params.variables.VarDef;
 
 /**
@@ -62,7 +62,7 @@ public class OneShotEf extends ChangeFieldEf {
 		// Sets true launched variable
 		BasicField<Boolean> f = new BasicField<Boolean>(this, LAUNCHED);
 		addField(f);
-		setOperation(BooleanOp.TRUE_OP);
+		setOperation(EmptyCond.TRUE_EMPTY_CONDITION);
 		// Sets as condition that launched variable is false
 		setCondition(new NOTCond(new OperationCond(f)));
 

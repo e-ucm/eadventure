@@ -45,14 +45,14 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
-import ead.engine.core.evaluators.EmptyCondEvaluator;
-import ead.engine.core.evaluators.Evaluator;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.evaluators.ListedCondEvaluator;
-import ead.engine.core.evaluators.NOTCondEvaluator;
-import ead.engine.core.evaluators.OperationCondEvaluator;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
+import ead.engine.core.operators.evaluators.EmptyCondEvaluator;
+import ead.engine.core.operators.evaluators.Evaluator;
+import ead.engine.core.operators.evaluators.EvaluatorFactory;
+import ead.engine.core.operators.evaluators.ListedCondEvaluator;
+import ead.engine.core.operators.evaluators.NOTCondEvaluator;
+import ead.engine.core.operators.evaluators.OperationCondEvaluator;
 
 public class EvaluatorsMapProvider extends
 		AbstractMapProvider<Class<?>, Evaluator<?>> {

@@ -145,7 +145,6 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new PositionScene());
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
-		sceneDemos.add(new InventoryScene());
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
 		sceneDemos.add(new VideoSceneDemo());

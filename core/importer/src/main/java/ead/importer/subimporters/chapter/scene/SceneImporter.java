@@ -67,7 +67,6 @@ import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
@@ -370,7 +369,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				foreground.setInitialEnable(false);
 
 				ChangeFieldEf changeVisibility = new ChangeFieldEf(foreground
-						.getField(SceneElement.VAR_VISIBLE), new BooleanOp(c));
+						.getField(SceneElement.VAR_VISIBLE), c);
 
 				SceneElementEv event = new SceneElementEv(
 						SceneElementEvType.ALWAYS, changeVisibility);

@@ -39,6 +39,8 @@ package ead.engine.core.game;
 
 import java.util.List;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.EAdCondition;
@@ -161,6 +163,12 @@ public interface GameState extends ValueMap {
 	 * @param delta TODO
 	 */
 	void update(float delta);
+
+	/**
+	 * Returns the tween manager
+	 * @return
+	 */
+	TweenManager getTweenManager();
 
 	void saveState();
 

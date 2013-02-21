@@ -37,8 +37,9 @@
 
 package ead.engine.core.platform.gdx;
 
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.evaluators.EvaluatorFactoryImpl;
+import com.badlogic.gdx.ApplicationListener;
+
+import ead.engine.core.EAdEngine;
 import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.EffectGOFactoryImpl;
 import ead.engine.core.factories.EventGOFactory;
@@ -51,26 +52,15 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.GameStateImpl;
-import ead.engine.core.game.GdxEngine;
-import ead.engine.core.game.GdxEngineImpl;
-import ead.engine.core.game.ValueMap;
-import ead.engine.core.game.VariableMap;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
-import ead.engine.core.inventory.InventoryHandler;
-import ead.engine.core.inventory.InventoryHandlerImpl;
-import ead.engine.core.operators.OperatorFactory;
-import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.SoundManager;
-import ead.engine.core.platform.TweenController;
-import ead.engine.core.platform.TweenControllerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.platform.assets.GdxAssetHandler;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.DefaultGameTracker;
@@ -86,8 +76,6 @@ public class GdxModuleMap extends ModuleMap {
 	public GdxModuleMap() {
 
 		// Factories
-		binds.put(EvaluatorFactory.class, EvaluatorFactoryImpl.class);
-		binds.put(OperatorFactory.class, OperatorFactoryImpl.class);
 		binds.put(TrajectoryFactory.class, TrajectoryFactoryImpl.class);
 		binds.put(SceneElementGOFactory.class, SceneElementGOFactoryImpl.class);
 		binds.put(EffectGOFactory.class, EffectGOFactoryImpl.class);
@@ -96,12 +84,6 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(AssetHandler.class, GdxAssetHandler.class);
 		binds.put(FontHandler.class, FontHandlerImpl.class);
 		binds.put(DebuggersHandler.class, DebuggersHandlerImpl.class);
-
-		binds.put(GenericCanvas.class, GdxCanvas.class);
-
-		binds.put(ValueMap.class, VariableMap.class);
-
-		binds.put(InventoryHandler.class, InventoryHandlerImpl.class);
 
 		binds.put(PluginHandler.class, GdxPluginHandler.class);
 
@@ -121,9 +103,7 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(SceneGraph.class, BasicSceneGraph.class);
 
-		binds.put(GdxEngine.class, GdxEngineImpl.class);
-
-		binds.put(TweenController.class, TweenControllerImpl.class);
+		binds.put(ApplicationListener.class, EAdEngine.class);
 
 	}
 

@@ -39,10 +39,9 @@ package ead.importer.subimporters;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.BasicInventory;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -90,7 +89,8 @@ public class AdventureImporter implements
 
 		// FIXME positions for the inventory (among other things in AdventureData)
 		if (oldData.getInventoryPosition() != AdventureData.INVENTORY_NONE) {
-			model.setInventory(new BasicInventory());
+			// model.setInventory(new BasicInventory());
+			// XXX Add inventory with a specific plugin
 		}
 
 		stringsWriter.setString(model.getTitle(), oldData.getTitle());

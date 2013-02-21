@@ -39,12 +39,12 @@ package ead.engine.core.gdx.android;
 
 import android.os.Bundle;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GdxEngine;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 
@@ -62,7 +62,8 @@ public class MainActivity extends AndroidApplication {
 		Game g = injector.getInstance(Game.class);
 		g.initialize();
 
-		GdxEngine engine = injector.getInstance(GdxEngine.class);
+		ApplicationListener engine = injector
+				.getInstance(ApplicationListener.class);
 		initialize(engine, cfg);
 	}
 }

@@ -87,6 +87,10 @@ public interface RuntimeDrawable<T extends EAdDrawable> extends
 	 */
 	boolean contains(int x, int y);
 
+	/**
+	 * Some drawables need more data to decide their state
+	 * 
+	 */
 	RuntimeDrawable<?> getDrawable(int time, List<String> states, int level);
 
 }

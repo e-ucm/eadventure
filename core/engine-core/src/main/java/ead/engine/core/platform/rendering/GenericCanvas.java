@@ -37,12 +37,16 @@
 
 package ead.engine.core.platform.rendering;
 
-import ead.common.model.assets.drawable.basics.EAdShape;
-import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
-import ead.common.model.assets.text.EAdFont;
+import java.util.Stack;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+
+import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.util.Matrix;
 import ead.common.model.params.util.Rectangle;
-import ead.engine.core.platform.assets.RuntimeDrawable;
+import ead.engine.core.platform.assets.GdxFont;
 
 /**
  * <p>
@@ -52,59 +56,99 @@ import ead.engine.core.platform.assets.RuntimeDrawable;
  * 
  * @param <S>
  */
-public interface GenericCanvas {
+public class GenericCanvas extends SpriteBatch {
+
+	private Stack<Matrix4> matrixes;
+
+	public GenericCanvas() {
+		matrixes = new Stack<Matrix4>();
+	}
 
 	/**
-	 * @param g
-	 *            The graphic context where elements are rendered
-	 */
-	void setGraphicContext(Object g);
-
-	/**
-	 * @param shape
-	 *            Draw a shape in the graphic context (transformations
-	 *            configured through
-	 *            {@code setTransformation(EAdTransformation t)} are applied)
-	 */
-	void drawShape(RuntimeDrawable<? extends EAdShape> shape);
-
-	/**
-	 * Draws the text in 0, 0. Same result can be accomplished calling
-	 * {@link GenericCanvas#drawText(String, int, int)} with (0, 0)
+	 * Sets the matrix
 	 * 
-	 * @param text
-	 *            the text to draw
+	 * @param m
 	 */
-	void drawText(String text);
+	public void setMatrix(Matrix m) {
+		setTransformMatrix(convertMatrix(m));
+	}
 
 	/**
-	 * Draws the text in a displaced position.
+	 * Creates a {@link Matrix4} compatible with Gdx equivalent to
+	 * {@link EAdMatrix}
 	 * 
-	 * @param text
-	 *            the text to draw
-	 * @param x
-	 *            position along the x axis
-	 * @param y
-	 *            position along the y axis
+	 * @param m
+	 * @return
 	 */
-	void drawText(String text, int x, int y);
+	public Matrix4 convertMatrix(Matrix m) {
+		float[] val = new float[16];
 
-	/**
-	 * Set the paint to be used in elements rendered to the graphic context.
-	 * Paint applies to shapes and text.
-	 * 
-	 * @param paint
-	 *            The {@link EAdPaint} to be used
-	 */
-	void setPaint(EAdPaint paint);
+		float[] mat = m.getFlatMatrix();
 
-	/**
-	 * Set the font to be used to render text in the graphic context.
-	 * 
-	 * @param font
-	 *            The {@link EAdFont} to be used
-	 */
-	void setFont(EAdFont font);
+		val[0] = mat[0];
+		val[1] = mat[1];
+		val[2] = mat[2];
+		val[3] = 0;
+		val[4] = mat[3];
+		val[5] = mat[4];
+		val[6] = mat[5];
+		val[7] = 0;
+		val[8] = 0;
+		val[9] = 0;
+		val[10] = 1;
+		val[11] = 0;
+		val[12] = mat[6];
+		val[13] = mat[7];
+		val[14] = 0;
+		val[15] = mat[8];
+		return new Matrix4(val);
+	}
+
+	public void drawText(String text, int x, int y, GdxFont font, EAdPaint paint) {
+		y -= font.getBitmapFont().getAscent();
+		x += font.getBitmapFont().getSpaceWidth() / 2;
+		// Border
+		if (paint.getBorder() instanceof ColorFill) {
+			ColorFill c = (ColorFill) paint.getBorder();
+			font.getBitmapFont().setColor(c.getRed() / 255.0f,
+					c.getGreen() / 255.0f, c.getBlue() / 255.0f,
+					getColor().a * c.getAlpha() / 255.0f);
+			font.getBitmapFont().draw(this, text, x, y);
+			font.getBitmapFont().draw(this, text, x + 1, y + 1);
+			font.getBitmapFont().draw(this, text, x - 1, y + 1);
+			font.getBitmapFont().draw(this, text, x + 1, y - 1);
+			font.getBitmapFont().draw(this, text, x - 1, y - 1);
+		}
+
+		if (paint.getFill() instanceof ColorFill) {
+			ColorFill c = (ColorFill) paint.getFill();
+			font.getBitmapFont().setColor(c.getRed() / 255.0f,
+					c.getGreen() / 255.0f, c.getBlue() / 255.0f,
+					this.getColor().a * c.getAlpha() / 255.0f);
+			font.getBitmapFont().draw(this, text, x, y);
+		}
+	}
+
+	public void save() {
+		matrixes.push(getTransformMatrix().cpy());
+	}
+
+	public void restore() {
+		Matrix4 m = matrixes.pop();
+		setTransformMatrix(m);
+	}
+
+	public void translate(int x, int y) {
+		setTransformMatrix(getTransformMatrix().translate(x, y, 0));
+	}
+
+	public void scale(float scaleX, float scaleY) {
+		setTransformMatrix(getTransformMatrix().scale(scaleX, scaleY, 1));
+	}
+
+	public void rotate(float angle) {
+		setTransformMatrix(getTransformMatrix().rotate(0, 0, 1, angle));
+	}
 
 	/**
 	 * Set the clipping rectangle on the canvas. The clip is used to limit the
@@ -113,72 +157,8 @@ public interface GenericCanvas {
 	 * @param rectangle
 	 */
 	// TODO clip with shapes to
-	void setClip(Rectangle rectangle);
+	public void setClip(Rectangle rectangle) {
 
-	/**
-	 * Save the configuration and parameters of the graphic context in a stack
-	 */
-	void save();
-
-	/**
-	 * Restore the latest configuration and parameters of the graphic context
-	 * saved to the stack
-	 */
-	void restore();
-
-	/**
-	 * @return the current graphic context of this canvas
-	 */
-	Object getNativeGraphicContext();
-
-	/**
-	 * Apply a translate transformation to the current transform of the canvas
-	 * 
-	 * @param x
-	 *            displacement along the x axis
-	 * @param y
-	 *            displacement along the y axis
-	 */
-	void translate(int x, int y);
-
-	void scale(float scaleX, float scaleY);
-
-	/**
-	 * Rotates the current transformation matrix
-	 * 
-	 * @param angle
-	 *            angle in radians
-	 */
-	void rotate(float angle);
-
-	/**
-	 * Fills a rectangle with the current paint
-	 * 
-	 * @param x
-	 *            left coordinate
-	 * @param y
-	 *            top coordiante
-	 * @param width
-	 *            width for the rectangle
-	 * @param height
-	 *            height for the rectangle
-	 */
-	void fillRect(int x, int y, int width, int height);
-
-	/**
-	 * Sets the filter to be used in the rendering
-	 * 
-	 * @param filter
-	 *            the filter. {@code null} if no filter must be applied
-	 */
-	void setFilter(RuntimeDrawable<?> drawable, EAdDrawableFilter filter);
-
-	int getWidth();
-
-	int getHeight();
-
-	void setWidth(int width);
-
-	void setHeight(int height);
+	}
 
 }

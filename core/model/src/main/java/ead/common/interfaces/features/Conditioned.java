@@ -45,14 +45,14 @@ import ead.common.model.elements.EAdCondition;
 public interface Conditioned {
 
 	/**
-	 * Get the actual condition condition
+	 * Returns the actual condition
 	 * 
 	 * @return The condition
 	 */
 	EAdCondition getCondition();
 
 	/**
-	 * Set the actual condition
+	 * Sets the actual condition
 	 * 
 	 * @param condition The condition
 	 */

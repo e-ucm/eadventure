@@ -40,7 +40,9 @@ package ead.engine.core.game;
 import java.util.Map;
 
 import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.variables.EAdVarDef;
 
 /**
@@ -146,5 +148,26 @@ public interface ValueMap {
 	 *            the element
 	 */
 	void remove(Object element);
+
+	/**
+	 * <p>
+	 * Substitutes the variables in a text for its values.
+	 * </p>
+	 * 
+	 * <p>
+	 * The text format for the correct substitution should be:
+	 * </p>
+	 * 
+	 * <ul>
+	 * <li><b>[op_index]:</b> The index of the operation whose result will be
+	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
+	 * <li><b>{[condition]? true text : false text } </b> A conditional text,
+	 * depending of the operation whose index is {@code condition} value.</p>
+	 * 
+	 * @param text
+	 *            the text to be processed by the value map
+	 * @return the processed text
+	 */
+	String processTextVars(String text, EAdList<EAdOperation> operations);
 
 }

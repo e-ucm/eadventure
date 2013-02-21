@@ -41,10 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.variables.SystemFields;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;

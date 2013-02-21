@@ -44,19 +44,20 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.game.VariableMap;
+import ead.engine.core.game.GameStateImpl;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
-import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.tracking.GameTracker;
 import ead.tools.BasicSceneGraph;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
@@ -76,7 +77,7 @@ public class AssetViewerModule extends AbstractModule {
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);
-		bind(VariableMap.class).to(AssetVariableMap.class).in(Singleton.class);
+		bind(GameState.class).to(AssetVariableMap.class).in(Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
 		bind(SceneGraph.class).to(BasicSceneGraph.class).in(Singleton.class);
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
@@ -182,23 +183,20 @@ public class AssetViewerModule extends AbstractModule {
 
 	}
 
-	public static class AssetVariableMap extends VariableMap {
+	public static class AssetVariableMap extends GameStateImpl {
 
-		public AssetVariableMap(ReflectionProvider reflectionProvider,
-				OperatorFactory operatorFactory, StringHandler stringHandler) {
-			super(reflectionProvider, operatorFactory, stringHandler);
+		public AssetVariableMap(StringHandler stringHandler,
+				SceneElementGOFactory sceneElementFactory,
+				EffectGOFactory effectFactory,
+				ReflectionProvider reflectionProvider, GameTracker tracker) {
+			super(stringHandler, sceneElementFactory, effectFactory,
+					reflectionProvider, tracker);
 		}
 
 		@Override
 		public String processTextVars(String text,
 				EAdList<EAdOperation> operations) {
 			return text;
-		}
-
-		@Override
-		public String evaluateExpression(String expression,
-				EAdList<EAdOperation> operations) {
-			return expression;
 		}
 
 	}

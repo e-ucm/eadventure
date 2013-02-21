@@ -39,19 +39,34 @@ package ead.engine.core.platform.assets.drawables.basics;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.Image;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.GdxAssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
  *
  */
-public abstract class RuntimeImage extends AbstractRuntimeAsset<Image>
-		implements RuntimeDrawable<Image> {
+public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
+		RuntimeDrawable<Image> {
+
+	private static final Logger logger = LoggerFactory.getLogger("GdxImage");
+
+	private FileHandle fh;
+	private TextureRegion textureRegion;
+	private Pixmap pixmap;
 
 	@Inject
 	public RuntimeImage(AssetHandler assetHandler) {
@@ -59,14 +74,71 @@ public abstract class RuntimeImage extends AbstractRuntimeAsset<Image>
 	}
 
 	@Override
+	public boolean loadAsset() {
+		super.loadAsset();
+		try {
+			fh = ((GdxAssetHandler) assetHandler).getFileHandle(descriptor
+					.getUri());
+			pixmap = new Pixmap(fh);
+		} catch (Exception e) {
+			// TODO Load a default error image.
+			logger
+					.warn("Cound not load image for descriptor: " + descriptor,
+							e);
+			pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
+		}
+		Texture texture = new Texture(pixmap);
+		textureRegion = new TextureRegion(texture);
+		textureRegion.flip(false, true);
+		return true;
+	}
+
+	@Override
 	public boolean contains(int x, int y) {
-		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+		if (x > 0 && y > 0 && x < getWidth() && y < getHeight()) {
+			int alpha = pixmap.getPixel(x, y) & 255;
+			return alpha > 128;
+		}
+		return false;
 	}
 
 	@Override
 	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
 		return this;
+	}
+
+	@Override
+	public int getWidth() {
+		return Math.abs(textureRegion.getRegionWidth());
+	}
+
+	@Override
+	public int getHeight() {
+		return Math.abs(textureRegion.getRegionHeight());
+	}
+
+	@Override
+	public void freeMemory() {
+		super.freeMemory();
+		textureRegion.getTexture().dispose();
+		textureRegion = null;
+		pixmap.dispose();
+		pixmap = null;
+	}
+
+	public void render(GenericCanvas batch) {
+		batch.draw(textureRegion, 0, 0);
+	}
+
+	@Override
+	public void refresh() {
+		FileHandle fh = ((GdxAssetHandler) assetHandler)
+				.getFileHandle(descriptor.getUri());
+		if (!this.fh.path().equals(fh.path())) {
+			this.freeMemory();
+			this.loadAsset();
+		}
 	}
 
 }

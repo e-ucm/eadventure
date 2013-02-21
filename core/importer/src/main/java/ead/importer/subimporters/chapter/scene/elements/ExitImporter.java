@@ -39,7 +39,6 @@ package ead.importer.subimporters.chapter.scene.elements;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.EAdImage;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.multimedia.EAdSound;
 import ead.common.model.assets.multimedia.Sound;

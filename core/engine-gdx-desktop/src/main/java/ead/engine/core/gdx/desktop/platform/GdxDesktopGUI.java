@@ -60,7 +60,6 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
-import ead.engine.core.platform.gdx.GdxCanvas;
 import ead.engine.core.platform.gdx.GdxGUI;
 import ead.utils.swing.SwingUtilities;
 
@@ -74,8 +73,8 @@ public class GdxDesktopGUI extends GdxGUI {
 	private Component component;
 
 	@Inject
-	public GdxDesktopGUI(GdxCanvas canvas) {
-		super(canvas);
+	public GdxDesktopGUI() {
+		super();
 	}
 
 	public void create(int width, int height) {

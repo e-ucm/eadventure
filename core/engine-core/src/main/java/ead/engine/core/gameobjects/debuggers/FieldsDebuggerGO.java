@@ -75,8 +75,7 @@ public class FieldsDebuggerGO extends SceneElementGO {
 	public FieldsDebuggerGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory,
-				null);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.vars = new ArrayList<EAdVarDef<?>>();
 	}
 

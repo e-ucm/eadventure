@@ -45,7 +45,7 @@ import org.junit.Test;
 
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.enums.EmptyCondValue;
-import ead.engine.core.evaluators.EmptyCondEvaluator;
+import ead.engine.core.operators.evaluators.EmptyCondEvaluator;
 
 public class EmtpyConditionEvaluatorTest {
 

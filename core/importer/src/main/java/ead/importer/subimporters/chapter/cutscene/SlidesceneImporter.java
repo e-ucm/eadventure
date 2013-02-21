@@ -60,7 +60,6 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.huds.InventoryHud;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
@@ -208,7 +207,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			if (i == scenes.length - 1) {
 				effect = changeNextScene;
 				ChangeFieldEf showInventory = new ChangeFieldEf(SHOW_INVENTORY,
-						BooleanOp.TRUE_OP);
+						EmptyCond.TRUE_EMPTY_CONDITION);
 				effect.getNextEffects().add(showInventory);
 			} else {
 				effect = new ChangeSceneEf();
@@ -301,7 +300,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 
 	private void addHideInventoryEvent(EAdScene cutscene) {
 		ChangeFieldEf hideInventory = new ChangeFieldEf(SHOW_INVENTORY,
-				BooleanOp.FALSE_OP);
+				EmptyCond.FALSE_EMPTY_CONDITION);
 		SceneElementEv bgEvent = new SceneElementEv();
 		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		cutscene.getEvents().add(bgEvent);

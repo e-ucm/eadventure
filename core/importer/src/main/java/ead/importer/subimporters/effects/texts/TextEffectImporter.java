@@ -50,7 +50,6 @@ import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.fills.ColorFill;
@@ -173,7 +172,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 				return null;
 			}
 			if (op1 != null && number != null)
-				return new BooleanOp(new OperationCond(op1, number, comparator));
+				return new OperationCond(op1, number, comparator);
 		}
 
 		return null;

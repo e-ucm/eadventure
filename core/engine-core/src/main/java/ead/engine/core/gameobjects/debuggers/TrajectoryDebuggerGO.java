@@ -112,8 +112,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			TrajectoryFactory trajectoryFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory,
-				null);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.trajectoryFactory = trajectoryFactory;
 		barriers = new ArrayList<EAdShape>();
 	}

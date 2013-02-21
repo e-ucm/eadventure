@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
@@ -50,7 +51,6 @@ import com.google.inject.Injector;
 import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.game.GdxEngine;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
@@ -90,7 +90,8 @@ public class DesktopGame {
 		Game g = injector.getInstance(Game.class);
 		g.setResourcesLocation(resourcesLocation);
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
-		GdxEngine engine = injector.getInstance(GdxEngine.class);
+		ApplicationListener engine = injector
+				.getInstance(ApplicationListener.class);
 
 		// Prepare Gdx configuration
 		int width = gameState.getValue(SystemFields.GAME_WIDTH);

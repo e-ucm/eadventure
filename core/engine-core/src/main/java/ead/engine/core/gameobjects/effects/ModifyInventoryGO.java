@@ -39,16 +39,14 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
+import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
-import ead.engine.core.inventory.InventoryHandler;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * <p>
@@ -63,38 +61,38 @@ import ead.engine.core.platform.assets.AssetHandler;
  */
 public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 
-	private InventoryHandler inventoryHandler;
+	private GUI gui;
 
 	@Inject
-	public ModifyInventoryGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementGOFactory, GUI gui,
-			GameState gameState, InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory) {
+	public ModifyInventoryGO(GUI gui, GameState gameState) {
 		super(gameState);
-		this.inventoryHandler = inventoryHandler;
+		this.gui = gui;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		switch (effect.getModification()) {
-		case ADD_TO_INVENTORY:
-			inventoryHandler.add(effect.getSceneElementDef());
-			if (effect.isRemoveFromScene()) {
-				EAdSceneElement sceneElement = gameState.getValue(effect
-						.getSceneElementDef(),
-						SceneElementDef.VAR_SCENE_ELEMENT);
-				if (sceneElement != null) {
-					gameState.setValue(sceneElement, SceneElement.VAR_VISIBLE,
-							false);
-					gameState.setValue(sceneElement, SceneElement.VAR_ENABLE,
-							true);
+		SceneElementGO inventory = gui.getHUD(BasicInventory.ID);
+		if (inventory != null) {
+			switch (effect.getModification()) {
+			case ADD_TO_INVENTORY:
+				inventory.addSceneElement(new SceneElement(effect
+						.getSceneElementDef()));
+				if (effect.isRemoveFromScene()) {
+					EAdSceneElement sceneElement = gameState.getValue(effect
+							.getSceneElementDef(),
+							SceneElementDef.VAR_SCENE_ELEMENT);
+					if (sceneElement != null) {
+						gameState.setValue(sceneElement,
+								SceneElement.VAR_VISIBLE, false);
+						gameState.setValue(sceneElement,
+								SceneElement.VAR_ENABLE, true);
+					}
 				}
+				break;
+			case REMOVE_FROM_INVENTORY:
+				break;
 			}
-			break;
-		case REMOVE_FROM_INVENTORY:
-			inventoryHandler.remove(effect.getSceneElementDef());
-			break;
 		}
 	}
 

@@ -81,7 +81,6 @@ import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.huds.InventoryHud;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
@@ -185,7 +184,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		BasicScene book = (BasicScene) newElement;
 		ChangeFieldEf hideInventory = new ChangeFieldEf(
 				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
-						SceneElement.VAR_VISIBLE), BooleanOp.FALSE_OP);
+						SceneElement.VAR_VISIBLE),
+				EmptyCond.FALSE_EMPTY_CONDITION);
 		SceneElementEv hideEvent = new SceneElementEv();
 		hideEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		book.getEvents().add(hideEvent);
@@ -199,7 +199,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		ChangeFieldEf showInventory = new ChangeFieldEf(
 				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
-						SceneElement.VAR_VISIBLE), BooleanOp.TRUE_OP);
+						SceneElement.VAR_VISIBLE),
+				EmptyCond.TRUE_EMPTY_CONDITION);
 
 		EAdDrawable image = null;
 		// Create content
@@ -412,9 +413,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
-				visibleVar, BooleanOp.TRUE_OP));
+				visibleVar, EmptyCond.TRUE_EMPTY_CONDITION));
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
-				visibleVar, BooleanOp.FALSE_OP));
+				visibleVar, EmptyCond.FALSE_EMPTY_CONDITION));
 		arrow.getEvents().add(event);
 
 		arrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);

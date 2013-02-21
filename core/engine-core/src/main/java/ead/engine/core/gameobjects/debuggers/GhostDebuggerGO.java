@@ -63,8 +63,7 @@ public class GhostDebuggerGO extends SceneElementGO {
 	public GhostDebuggerGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory,
-				null);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		currentSceneElements = new ArrayList<GhostElementGO>();
 	}
 

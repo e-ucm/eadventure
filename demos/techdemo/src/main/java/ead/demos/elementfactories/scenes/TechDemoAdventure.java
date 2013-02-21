@@ -52,7 +52,6 @@ import ead.demos.elementfactories.scenes.scenes.DrawablesScene;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 import ead.demos.elementfactories.scenes.scenes.FiltersDemo;
 import ead.demos.elementfactories.scenes.scenes.InitScene;
-import ead.demos.elementfactories.scenes.scenes.InventoryScene;
 import ead.demos.elementfactories.scenes.scenes.PhysicsScene2;
 import ead.demos.elementfactories.scenes.scenes.PositionScene;
 import ead.demos.elementfactories.scenes.scenes.ScrollScene;
@@ -91,7 +90,6 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		sceneDemos.add(new PositionScene());
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
-		sceneDemos.add(new InventoryScene());
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
 		//		sceneDemos.add(new VideoScene());

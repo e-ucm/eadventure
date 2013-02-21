@@ -46,13 +46,13 @@ import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.SystemFields;
-import ead.engine.core.game.VariableMap;
+import ead.engine.core.game.GameState;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.GdxFont;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.assets.RuntimeFont;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.tools.StringHandler;
 
@@ -75,7 +75,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 
 	protected List<Integer> widths;
 
-	protected RuntimeFont font;
+	protected GdxFont font;
 
 	protected Rectangle bounds;
 
@@ -119,7 +119,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	 */
 	private String currentText;
 
-	private VariableMap valueMap;
+	private GameState gameState;
 
 	private StringHandler stringsHandler;
 
@@ -129,11 +129,11 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	private RuntimeDrawable shape;
 
 	@Inject
-	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
+	public RuntimeCaption(GUI gui, FontHandler fontCache, GameState valueMap,
 			StringHandler stringsHandler, AssetHandler assetHandler) {
 		super(assetHandler);
 		this.fontCache = fontCache;
-		this.valueMap = valueMap;
+		this.gameState = valueMap;
 		this.stringsHandler = stringsHandler;
 		this.gui = gui;
 	}
@@ -164,8 +164,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	private String getProcessedText() {
 		String text = null;
 		if (descriptor.getFields().size() > 0) {
-			text = valueMap.processTextVars(stringsHandler.getString(descriptor
-					.getText()), descriptor.getFields());
+			text = gameState.processTextVars(stringsHandler
+					.getString(descriptor.getText()), descriptor.getFields());
 		} else {
 			text = stringsHandler.getString(descriptor.getText());
 		}
@@ -233,7 +233,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			preferredWidth = Integer.MAX_VALUE;
 			break;
 		case EAdCaption.SCREEN_SIZE:
-			preferredWidth = valueMap.getValue(SystemFields.GAME_WIDTH);
+			preferredWidth = gameState.getValue(SystemFields.GAME_WIDTH);
 			break;
 		default:
 			preferredWidth = descriptor.getPreferredWidth();
@@ -285,7 +285,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		int preferredHeight = 0;
 		switch (descriptor.getPreferredHeight()) {
 		case EAdCaption.SCREEN_SIZE:
-			preferredHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
+			preferredHeight = gameState.getValue(SystemFields.GAME_HEIGHT);
 			break;
 		case EAdCaption.AUTO_SIZE:
 			preferredHeight = Integer.MAX_VALUE;
@@ -315,8 +315,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		reset();
 	}
 
-	private String splitLongWord(RuntimeFont f, List<String> lines,
-			String word, int lineWidth) {
+	private String splitLongWord(GdxFont f, List<String> lines, String word,
+			int lineWidth) {
 
 		boolean finished = false;
 		String currentLine = "";
@@ -443,7 +443,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		return this.font.lineHeight();
 	}
 
-	public RuntimeFont getFont() {
+	public GdxFont getFont() {
 		return font;
 	}
 
@@ -452,7 +452,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			shape.render(c);
 		}
 
-		c.setFont(descriptor.getFont());
 		int xOffset = 0;
 		int yOffset = getAssetDescriptor().getPadding();
 		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0) {
@@ -477,8 +476,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 				default:
 					xOffset = descriptor.getPadding();
 				}
-				c.setPaint(descriptor.getTextPaint());
-				c.drawText(s, xOffset, yOffset);
+				c
+						.drawText(s, xOffset, yOffset, font, descriptor
+								.getTextPaint());
 				yOffset += getLineHeight();
 				i++;
 			}

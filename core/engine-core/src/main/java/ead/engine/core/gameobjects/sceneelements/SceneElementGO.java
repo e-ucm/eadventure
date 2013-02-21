@@ -121,11 +121,6 @@ public class SceneElementGO extends Group implements
 	private EventGOFactory eventFactory;
 
 	/**
-	 * Canvas
-	 */
-	private GenericCanvas canvas;
-
-	/**
 	 * Scene element
 	 */
 	protected EAdSceneElement element;
@@ -219,14 +214,12 @@ public class SceneElementGO extends Group implements
 	@Inject
 	public SceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			GenericCanvas canvas) {
+			GameState gameState, EventGOFactory eventFactory) {
 		this.eventFactory = eventFactory;
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
-		this.canvas = canvas;
 
 		statesList = new ArrayList<String>();
 		eventGOList = new ArrayList<EventGO<?>>();
@@ -680,7 +673,7 @@ public class SceneElementGO extends Group implements
 		if (currentDrawable != null) {
 			batch.setColor(this.getColor().r, this.getColor().g, this
 					.getColor().b, this.getColor().a * parentAlpha);
-			currentDrawable.render(canvas);
+			currentDrawable.render((GenericCanvas) batch);
 		}
 		super.drawChildren(batch, parentAlpha);
 	}

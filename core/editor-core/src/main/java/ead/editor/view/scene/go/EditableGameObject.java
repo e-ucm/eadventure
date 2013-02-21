@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
@@ -53,14 +52,14 @@ import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.gdx.GdxCanvas;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {
 
 	// Platform
 	private AssetHandler assetHandler;
-	private GdxCanvas canvas;
+	private GenericCanvas canvas;
 
 	// Position
 	private int x;
@@ -105,7 +104,7 @@ public class EditableGameObject {
 	private RuntimeDrawable drawable;
 
 	@Inject
-	public EditableGameObject(AssetHandler assetHandler, GdxCanvas canvas) {
+	public EditableGameObject(AssetHandler assetHandler, GenericCanvas canvas) {
 		super();
 		this.assetHandler = assetHandler;
 		this.canvas = canvas;
@@ -159,10 +158,8 @@ public class EditableGameObject {
 	}
 
 	public void render(int time) {
-		((SpriteBatch) canvas.getNativeGraphicContext()).setColor(1.0f, 1.0f,
-				1.0f, alpha);
-		((SpriteBatch) canvas.getNativeGraphicContext())
-				.setTransformMatrix(matrix);
+		canvas.setColor(1.0f, 1.0f, 1.0f, alpha);
+		canvas.setTransformMatrix(matrix);
 		RuntimeDrawable current = bundle.getDrawable(time, states, 0);
 		if (current != drawable) {
 			drawable = current;

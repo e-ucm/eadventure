@@ -46,8 +46,8 @@ import ead.engine.core.platform.AbstractGUI;
 public abstract class GdxGUI extends AbstractGUI<SpriteBatch> {
 
 	@Inject
-	public GdxGUI(GdxCanvas canvas) {
-		super(canvas);
+	public GdxGUI() {
+		super();
 	}
 
 	@Override

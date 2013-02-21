@@ -49,20 +49,20 @@ import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.params.util.Rectangle;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeFont;
+import ead.engine.core.platform.assets.GdxFont;
 
 @Singleton
 public class FontHandlerImpl implements FontHandler {
 
 	protected Logger logger = LoggerFactory.getLogger("FontCacheImpl");
 
-	protected Map<EAdFont, RuntimeFont> fontCache;
+	protected Map<EAdFont, GdxFont> fontCache;
 
 	protected AssetHandler assetHandler;
 
 	public FontHandlerImpl() {
 		logger.info("New instance of FontHandler");
-		fontCache = new HashMap<EAdFont, RuntimeFont>();
+		fontCache = new HashMap<EAdFont, GdxFont>();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class FontHandlerImpl implements FontHandler {
 	 *            {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
 	@Override
-	public void put(EAdFont font, RuntimeFont rFont) {
+	public void put(EAdFont font, GdxFont rFont) {
 		fontCache.put(font, rFont);
 	}
 
@@ -91,7 +91,7 @@ public class FontHandlerImpl implements FontHandler {
 	 * @return {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
 	@Override
-	public RuntimeFont get(EAdFont font) {
+	public GdxFont get(EAdFont font) {
 		if (!fontCache.containsKey(font)) {
 			this.addEAdFont(font);
 		}
@@ -160,8 +160,7 @@ public class FontHandlerImpl implements FontHandler {
 	 */
 	@Override
 	public void addEAdFont(EAdFont font) {
-		RuntimeFont runtimeFont = (RuntimeFont) assetHandler
-				.getRuntimeAsset(font);
+		GdxFont runtimeFont = (GdxFont) assetHandler.getRuntimeAsset(font);
 		if (!fontCache.containsKey(font)) {
 			fontCache.put(font, runtimeFont);
 		}

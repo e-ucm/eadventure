@@ -37,11 +37,11 @@
 
 package ead.engine.core.gdx.html.platform.injection;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
 import ead.engine.core.game.Game;
-import ead.engine.core.game.GdxEngine;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
@@ -80,15 +80,15 @@ import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
-import ead.engine.core.gdx.assets.GdxFont;
-import ead.engine.core.gdx.assets.GdxSound;
-import ead.engine.core.gdx.assets.drawables.GdxBezierShape;
-import ead.engine.core.gdx.assets.drawables.GdxCircleShape;
-import ead.engine.core.gdx.assets.drawables.GdxImage;
-import ead.engine.core.gdx.assets.drawables.GdxRectangleShape;
 import ead.engine.core.gdx.html.platform.module.GwtModule;
+import ead.engine.core.platform.assets.GdxFont;
+import ead.engine.core.platform.assets.GdxSound;
+import ead.engine.core.platform.assets.drawables.basics.GdxBezierShape;
+import ead.engine.core.platform.assets.drawables.basics.GdxCircleShape;
+import ead.engine.core.platform.assets.drawables.basics.GdxRectangleShape;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
 import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
@@ -99,7 +99,7 @@ import ead.tools.gwt.GWTToolsModule;
 public interface GwtGinInjector extends Ginjector {
 
 	// Platform
-	GdxEngine getEngine();
+	ApplicationListener getEngine();
 
 	GenericInjector getGenericInjector();
 
@@ -186,7 +186,7 @@ public interface GwtGinInjector extends Ginjector {
 	NodeTrajectoryGO getNodeTrajectoryGO();
 
 	// Game object
-	GdxImage getGdxImage();
+	RuntimeImage getRuntimeImage();
 
 	GdxBezierShape getGdxBezierShape();
 

@@ -67,9 +67,6 @@ public class BasicAdventureModel extends BasicElement implements
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Param
-	private EAdInventory inventory;
-
-	@Param
 	private int gameWidth;
 
 	@Param
@@ -132,16 +129,6 @@ public class BasicAdventureModel extends BasicElement implements
 
 	public void setDescription(EAdString description) {
 		this.description = description;
-	}
-
-	@Override
-	public void setInventory(EAdInventory inventory) {
-		this.inventory = inventory;
-	}
-
-	@Override
-	public EAdInventory getInventory() {
-		return inventory;
 	}
 
 	public EAdList<EAdElement> getDepthControlList() {

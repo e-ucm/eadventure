@@ -63,7 +63,6 @@ import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * <p>
@@ -81,8 +80,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
-
-	protected GenericCanvas eAdCanvas;
 
 	protected Game game;
 
@@ -108,9 +105,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	private GameObjectFactory<EAdSceneElement, SceneElementGO> sceneElementFactory;
 
-	public AbstractGUI(GenericCanvas canvas) {
+	public AbstractGUI() {
 		logger.info("Created abstract GUI");
-		this.eAdCanvas = canvas;
 		previousSceneStack = new Stack<EAdScene>();
 	}
 
@@ -121,9 +117,6 @@ public abstract class AbstractGUI<T> implements GUI {
 		this.game = game;
 		this.gameState = gameState;
 		this.sceneElementFactory = sceneElementFactory;
-
-		eAdCanvas.setWidth(gameState.getValue(SystemFields.GAME_WIDTH));
-		eAdCanvas.setHeight(gameState.getValue(SystemFields.GAME_HEIGHT));
 		root = sceneElementFactory.get(new GroupElement());
 		root.getElement().setId("#engine.root");
 		hudRoot = sceneElementFactory.get(new GroupElement());

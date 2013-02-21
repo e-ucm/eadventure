@@ -103,7 +103,7 @@ public class MenuHUD extends AbstractHUD {
 	//		EAdString resumeString = new EAdString("engine.Resume");
 	//
 	//		menu.add(createMenuButton(resumeString, new ChangeFieldEf(visibleField,
-	//				BooleanOp.FALSE_OP)));
+	//				EmptyCond.FALSE_EMPTY_CONDITION)));
 	//
 	//		menu.setVarInitialValue(SceneElement.VAR_VISIBLE, false);
 	//

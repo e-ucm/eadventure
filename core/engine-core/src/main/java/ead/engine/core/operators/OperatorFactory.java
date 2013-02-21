@@ -37,27 +37,32 @@
 
 package ead.engine.core.operators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.model.elements.operations.EAdOperation;
-import ead.engine.core.evaluators.EvaluatorFactory;
+import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
 import ead.engine.core.game.ValueMap;
-import ead.tools.Factory;
+import ead.engine.core.operators.evaluators.EvaluatorFactory;
+import ead.tools.AbstractFactory;
+import ead.tools.reflection.ReflectionProvider;
 
 /**
  * A factory with all {@link Operator} for all {@link EAdOperation}. The Game
  * State is the only class that should access to this factory. If you're using
  * it somewhere else, try to use
  */
-public interface OperatorFactory extends Factory<Operator<?>> {
+public class OperatorFactory extends AbstractFactory<Operator<?>> {
 
-	/**
-	 * Initializes this factory
-	 * 
-	 * @param valueMap
-	 *            the values map
-	 * @param evaluatorFactory
-	 *            the evaluator factory
-	 */
-	void init(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
+	private static final Logger logger = LoggerFactory
+			.getLogger("Operator Factory");
+
+	public OperatorFactory(ReflectionProvider interfacesProvider,
+			ValueMap valueMap) {
+		super(null, interfacesProvider);
+		setMap(new OperatorsMapProvider(this, valueMap, new EvaluatorFactory(
+				reflectionProvider, valueMap, this), interfacesProvider));
+	}
 
 	/**
 	 * <p>
@@ -75,6 +80,15 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
+	@SuppressWarnings("unchecked")
+	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
+		if (operation == null) {
+			logger.error("Null operation attempted: null returned as class {}",
+					clazz);
+			return null;
+		}
+		Operator<T> operator = (Operator<T>) get(operation.getClass());
+		return operator.operate(clazz, operation);
+	}
 
 }

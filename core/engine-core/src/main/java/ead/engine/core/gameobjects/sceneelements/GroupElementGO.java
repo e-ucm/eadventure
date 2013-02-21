@@ -53,10 +53,8 @@ public class GroupElementGO extends SceneElementGO {
 	@Inject
 	public GroupElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				canvas);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
 	public void setElement(EAdSceneElement element) {

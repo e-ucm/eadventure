@@ -49,7 +49,7 @@ import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.panel.AbstractElementPanel;
 import ead.editor.view.panel.asset.ImageAssetPanel;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.platform.assets.GdxAssetHandler;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 

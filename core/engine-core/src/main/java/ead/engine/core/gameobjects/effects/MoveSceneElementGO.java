@@ -97,8 +97,8 @@ public class MoveSceneElementGO extends
 		SceneElementGO movingElement = sceneElementFactory.get(sceneElement);
 
 		if (effect.getxTarget() != null && effect.getyTarget() != null) {
-			endX = gameState.operate(Integer.class, effect.getxTarget());
-			endY = gameState.operate(Integer.class, effect.getyTarget());
+			endX = gameState.operate(Float.class, effect.getxTarget());
+			endY = gameState.operate(Float.class, effect.getyTarget());
 		} else if (effect.getTargetSceneElement() != null) {
 			endX = gameState.getValue(effect.getTargetSceneElement(),
 					SceneElement.VAR_X);

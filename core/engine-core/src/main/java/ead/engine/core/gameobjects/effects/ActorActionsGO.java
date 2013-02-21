@@ -62,15 +62,11 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.TweenController;
-import ead.engine.core.platform.TweenControllerImpl;
 
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 		EventListener {
 
 	private SceneElementGOFactory sceneElementFactory;
-
-	private TweenController tweenController;
 
 	private GUI gui;
 
@@ -80,9 +76,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 
 	@Inject
 	public ActorActionsGO(SceneElementGOFactory sceneElementFactory,
-			GameState gameState, TweenController tweenController, GUI gui) {
+			GameState gameState, GUI gui) {
 		super(gameState);
-		this.tweenController = tweenController;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
 	}
@@ -144,16 +139,14 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 
 						Tween.to(
 								new BasicField<Float>(element,
-										SceneElement.VAR_X),
-								TweenControllerImpl.DEFAULT, 5000.0f).ease(
+										SceneElement.VAR_X), 0, 5000.0f).ease(
 								Linear.INOUT).targetRelative(targetX).start(
-								tweenController.getManager());
+								gameState.getTweenManager());
 						Tween.to(
 								new BasicField<Float>(element,
-										SceneElement.VAR_Y),
-								TweenControllerImpl.DEFAULT, 500.0f).ease(
+										SceneElement.VAR_Y), 0, 500.0f).ease(
 								Linear.INOUT).targetRelative(targetY).start(
-								tweenController.getManager());
+								gameState.getTweenManager());
 						hud.getSceneElements().add(element);
 						accAngle += angle;
 					}

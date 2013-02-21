@@ -42,15 +42,15 @@ import com.google.inject.Singleton;
 
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
@@ -97,10 +97,13 @@ public class BarrierImporter implements
 			event.setCondition(condition);
 			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
 					NodeTrajectory.VAR_BARRIER_ON);
-			event.addEffect(ConditionedEvType.CONDITIONS_MET,
-					new ChangeFieldEf(barrierOn, BooleanOp.TRUE_OP));
+			event
+					.addEffect(ConditionedEvType.CONDITIONS_MET,
+							new ChangeFieldEf(barrierOn,
+									EmptyCond.TRUE_EMPTY_CONDITION));
 			event.addEffect(ConditionedEvType.CONDITIONS_UNMET,
-					new ChangeFieldEf(barrierOn, BooleanOp.FALSE_OP));
+					new ChangeFieldEf(barrierOn,
+							EmptyCond.FALSE_EMPTY_CONDITION));
 
 			barrier.getEvents().add(event);
 		}

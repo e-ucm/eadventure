@@ -40,7 +40,7 @@ package ead.engine.core.platform.gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.gdx.platform.filters.FilterMapProvider;
+import ead.engine.core.platform.filters.FilterMapProvider;
 import ead.engine.core.platform.rendering.AbstractFilterFactory;
 import ead.tools.reflection.ReflectionProvider;
 

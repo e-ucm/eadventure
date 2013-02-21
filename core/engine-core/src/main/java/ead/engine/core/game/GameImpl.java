@@ -65,10 +65,8 @@ import ead.engine.core.game.enginefilters.EngineStringFilter;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.LoadingScreen;
-import ead.engine.core.platform.TweenController;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
@@ -143,11 +141,6 @@ public class GameImpl implements Game, VisitorListener {
 	private AdventureReader reader;
 
 	/**
-	 * Tween controller
-	 */
-	private TweenController tweenController;
-
-	/**
 	 * Strings reader
 	 */
 	private StringsReader stringsReader;
@@ -178,12 +171,10 @@ public class GameImpl implements Game, VisitorListener {
 	public GameImpl(GUI gui, StringHandler stringHandler,
 			PluginHandler pluginHandler, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			AssetHandler assetHandler, ValueMap valueMap,
-			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
+			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, SceneGraph sceneGraph,
-			TweenController tweenController, StringsReader stringsReader,
-			AdventureReader reader, XMLParser xmlReader,
-			DebuggersHandler debuggersHandler) {
+			StringsReader stringsReader, AdventureReader reader,
+			XMLParser xmlReader, DebuggersHandler debuggersHandler) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -196,7 +187,6 @@ public class GameImpl implements Game, VisitorListener {
 		this.tracker = tracker;
 		this.adventure = new BasicAdventureModel();
 		events = new ArrayList<EventGO<?>>();
-		this.tweenController = tweenController;
 		this.reader = reader;
 
 		filters = new HashMap<String, List<EngineFilter<?>>>();
@@ -280,7 +270,6 @@ public class GameImpl implements Game, VisitorListener {
 			// Scene
 			if (!gameState.isPaused()) {
 				updateGameEvents(delta);
-				tweenController.update(gui.getSkippedMilliseconds());
 			}
 		}
 

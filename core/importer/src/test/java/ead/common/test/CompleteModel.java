@@ -51,7 +51,7 @@ import ead.common.model.assets.drawable.filters.FilteredDrawable;
 import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.operations.BooleanOp;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
@@ -95,7 +95,7 @@ public class CompleteModel extends BasicAdventureModel {
 
 		Caption c = new Caption();
 		c.setAlignment(Alignment.LEFT);
-		c.getFields().add(BooleanOp.TRUE_OP);
+		c.getFields().add(EmptyCond.TRUE_EMPTY_CONDITION);
 		c.setPadding(50);
 		c.setTextPaint(gradient);
 		c.setPreferredHeight(20);

@@ -37,8 +37,8 @@
 
 package ead.importer.test.effects.variables;
 
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.importer.subimporters.effects.variables.ActivateFlagImporter;
 import ead.importer.test.effects.EffectTest;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
@@ -62,7 +62,8 @@ public class ActivateFlagTest extends EffectTest<ActivateEffect, ChangeFieldEf> 
 	@Override
 	public boolean equals(ActivateEffect oldObject, ChangeFieldEf newObject) {
 		boolean ok = super.equals(oldObject, newObject);
-		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
+		ok = newObject.getOperation().equals(EmptyCond.TRUE_EMPTY_CONDITION)
+				&& ok;
 		return ok;
 	}
 

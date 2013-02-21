@@ -46,7 +46,6 @@ import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
 
 public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext>
 		extends AbstractRuntimeAsset<T> implements RuntimeDrawable<T> {
@@ -78,11 +77,6 @@ public abstract class RuntimeBezierShape<T extends AbstractShape, GraphicContext
 	@Override
 	public int getHeight() {
 		return height;
-	}
-
-	public void render(GenericCanvas c) {
-		c.setPaint(descriptor.getPaint());
-		c.drawShape(this);
 	}
 
 	@Override

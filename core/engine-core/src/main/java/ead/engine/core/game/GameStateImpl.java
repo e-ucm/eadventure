@@ -44,8 +44,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenAccessor;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
@@ -54,42 +55,27 @@ import com.google.inject.Singleton;
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.params.variables.EAdVarDef;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.effects.EffectGO;
-import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.tracking.GameTracker;
+import ead.tools.StringHandler;
+import ead.tools.reflection.ReflectionProvider;
 
 @Singleton
-public class GameStateImpl implements GameState {
-
-	private static Logger logger = LoggerFactory.getLogger("GameState");
+public class GameStateImpl extends ValueMapImpl implements GameState,
+		TweenAccessor<EAdField<?>> {
 
 	/**
 	 * Game tracker
 	 */
 	private GameTracker tracker;
-
-	/**
-	 * Value map
-	 */
-	private ValueMap valueMap;
-
-	/**
-	 * Evaluator factory
-	 */
-	private EvaluatorFactory evaluatorFactory;
-
-	/**
-	 * Operator factory
-	 */
-	private OperatorFactory operatorFactory;
 
 	/**
 	 * Scene Element factory
@@ -114,31 +100,35 @@ public class GameStateImpl implements GameState {
 	// Auxiliary variable, to avoid new every loop
 	private ArrayList<EffectGO<?>> finishedEffects;
 
+	private TweenManager tweenManager;
+
 	private GameStateData gameStateData;
 
 	@Inject
-	public GameStateImpl(SceneElementGOFactory sceneElementFactory,
-			EffectGOFactory effectFactory, ValueMap valueMap,
-			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory,
-			GameTracker tracker) {
-		logger.info("Initializing GameState...");
+	public GameStateImpl(StringHandler stringHandler,
+			SceneElementGOFactory sceneElementFactory,
+			EffectGOFactory effectFactory,
+			ReflectionProvider reflectionProvider, GameTracker tracker) {
+		super(reflectionProvider, stringHandler);
 		this.sceneElementFactory = sceneElementFactory;
 		this.effectFactory = effectFactory;
-		this.valueMap = valueMap;
-		this.operatorFactory = operatorFactory;
-		this.evaluatorFactory = evaluatorFactory;
 		this.tracker = tracker;
-
-		this.operatorFactory.init(this, evaluatorFactory);
-		this.evaluatorFactory.init(this, operatorFactory);
 
 		effects = new ArrayList<EffectGO<?>>();
 		finishedEffects = new ArrayList<EffectGO<?>>();
+
+		// Init tween manager
+		this.tweenManager = new TweenManager();
+		Tween.registerAccessor(EAdField.class, this);
+		Tween.registerAccessor(BasicField.class, this);
 	}
 
 	@Override
 	public <T extends EAdCondition> boolean evaluate(T condition) {
-		return evaluatorFactory.evaluate(condition);
+		if (condition == null) {
+			return true;
+		}
+		return operatorFactory.operate(Boolean.class, condition);
 	}
 
 	public <T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation) {
@@ -179,7 +169,7 @@ public class GameStateImpl implements GameState {
 	public EffectGO<?> addEffect(EAdEffect e, Event action,
 			EAdSceneElement parent) {
 		if (e != null) {
-			if (evaluatorFactory.evaluate(e.getCondition())) {
+			if (evaluate(e.getCondition())) {
 				EffectGO<?> effectGO = effectFactory.get(e);
 				if (effectGO == null) {
 					logger.warn("No game object for effect {}", e.getClass());
@@ -206,7 +196,12 @@ public class GameStateImpl implements GameState {
 	}
 
 	public void update(float delta) {
+
 		if (!isPaused()) {
+			// Tween manager
+			tweenManager.update(delta);
+
+			// Effects
 			effects = getEffects();
 			finishedEffects.clear();
 			boolean block = false;
@@ -256,15 +251,17 @@ public class GameStateImpl implements GameState {
 			effectsList.add(effGO.getElement());
 		}
 
-		//		Stack<EAdScene> stack = new Stack<EAdScene>();
+		// Stack<EAdScene> stack = new Stack<EAdScene>();
 
-		//		Map<EAdVarDef<?>, Object> systemVars = new HashMap<EAdVarDef<?>, Object>();
+		// Map<EAdVarDef<?>, Object> systemVars = new HashMap<EAdVarDef<?>,
+		// Object>();
 		// systemVars.putAll(valueMap.getSystemVars());
 
 		// Map<Variabled, Map<EAdVarDef<?>, Object>> originalElementVars =
 		// valueMap
 		// .getElementVars();
-		//		Map<Variabled, Map<EAdVarDef<?>, Object>> elementVars = new HashMap<Variabled, Map<EAdVarDef<?>, Object>>();
+		// Map<Variabled, Map<EAdVarDef<?>, Object>> elementVars = new
+		// HashMap<Variabled, Map<EAdVarDef<?>, Object>>();
 		// for (Entry<Variabled, Map<EAdVarDef<?>, Object>> entry :
 		// originalElementVars
 		// .entrySet()) {
@@ -273,7 +270,7 @@ public class GameStateImpl implements GameState {
 		// elementVars.put(entry.getKey(), map);
 		// }
 
-		//		ArrayList<Variabled> updateList = new ArrayList<Variabled>();
+		// ArrayList<Variabled> updateList = new ArrayList<Variabled>();
 		// updateList.addAll(valueMap.getUpdateList());
 
 	}
@@ -343,50 +340,35 @@ public class GameStateImpl implements GameState {
 		setValue(element, var, result);
 	}
 
-	@Override
-	public <S> void setValue(EAdField<S> field, S value) {
-		valueMap.setValue(field, value);
-
+	public TweenManager getTweenManager() {
+		return tweenManager;
 	}
 
 	@Override
-	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
-		valueMap.setValue(element, varDef, value);
+	public int getValues(EAdField<?> field, int type, float[] values) {
+		switch (type) {
+		default:
+			Object o = getValue(field);
+			if (o instanceof Number) {
+				values[0] = ((Number) o).floatValue();
+				return 1;
+			} else {
+				return 0;
+			}
+		}
 	}
 
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
-	public <S> S getValue(EAdField<S> field) {
-		return valueMap.getValue(field);
-	}
+	public void setValues(EAdField field, int type, float[] values) {
+		switch (type) {
+		default:
+			if (field.getVarDef().getType() == Float.class) {
+				setValue(field, values[0]);
+			} else if (field.getVarDef().getType() == Integer.class) {
+				setValue(field, (int) values[0]);
+			}
+		}
 
-	@Override
-	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
-		return valueMap.getValue(element, varDef);
 	}
-
-	@Override
-	public Map<EAdVarDef<?>, Object> getElementVars(Object element) {
-		return valueMap.getElementVars(element);
-	}
-
-	@Override
-	public Object maybeDecodeField(Object element) {
-		return valueMap.maybeDecodeField(element);
-	}
-
-	@Override
-	public boolean checkForUpdates(Object element) {
-		return valueMap.checkForUpdates(element);
-	}
-
-	@Override
-	public void setUpdateListEnable(boolean enable) {
-		valueMap.setUpdateListEnable(enable);
-	}
-
-	@Override
-	public void remove(Object element) {
-		valueMap.remove(element);
-	}
-
 }

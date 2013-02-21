@@ -87,8 +87,7 @@ public class ChangeSceneDebugger extends SceneElementGO {
 	public ChangeSceneDebugger(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory,
-				null);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.gameState = gameState;
 		scenes = new ArrayList<EAdScene>();
 		index = 0;

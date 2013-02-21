@@ -66,8 +66,7 @@ public class TextAreaGO extends SceneElementGO {
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			StringHandler stringHandler) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory,
-				null);
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.stringHandler = stringHandler;
 	}
 

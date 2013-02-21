@@ -52,7 +52,6 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Position.Corner;
@@ -254,7 +253,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		} else {
 
 			ChangeFieldEf effect = new ChangeFieldEf(new BasicField<Boolean>(
-					this, SceneElement.VAR_DRAGGABLE), new BooleanOp(c));
+					this, SceneElement.VAR_DRAGGABLE), c);
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.ALWAYS, effect);
 		}

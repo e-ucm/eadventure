@@ -76,22 +76,6 @@ public interface EAdAdventureModel extends EAdElement, Variabled {
 	EAdString getTitle();
 
 	/**
-	 * Sets the inventory for the adventure
-	 * 
-	 * @param inventory
-	 *            the inventory
-	 */
-	void setInventory(EAdInventory inventory);
-
-	/**
-	 * Returns the adventure inventory. {@code null} if the adventure does not
-	 * require inventory
-	 * 
-	 * @return the inventory
-	 */
-	EAdInventory getInventory();
-
-	/**
 	 * Returns the width for this game
 	 * 
 	 * @return

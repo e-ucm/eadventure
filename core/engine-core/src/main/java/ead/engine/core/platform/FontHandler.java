@@ -40,7 +40,7 @@ package ead.engine.core.platform;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.params.util.Rectangle;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeFont;
+import ead.engine.core.platform.assets.GdxFont;
 
 /**
  * Interface for a cache of the system dependent {@link RuntimeFont}s
@@ -56,7 +56,7 @@ public interface FontHandler {
 	 * @param rFont
 	 *            {@link RuntimeFont} associated to the given {@link EAdFont}
 	 */
-	public void put(EAdFont font, RuntimeFont rFont);
+	public void put(EAdFont font, GdxFont rFont);
 
 	/**
 	 * Returns {@link RuntimeFont} associated to the given {@link EAdFont}
@@ -65,7 +65,7 @@ public interface FontHandler {
 	 *            the {@link EAdFont}
 	 * @return {@link RuntimeFont} associated to the given {@link EAdFont}
 	 */
-	public RuntimeFont get(EAdFont font);
+	public GdxFont get(EAdFont font);
 
 	/**
 	 * Returns the string width with the given font in the current context, -1

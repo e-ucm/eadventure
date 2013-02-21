@@ -67,7 +67,6 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -304,7 +303,7 @@ public class ActionImporter implements
 
 				ChangeFieldEf change = new ChangeFieldEf();
 				change.addField(inInventory);
-				change.setOperation(BooleanOp.TRUE_OP);
+				change.setOperation(EmptyCond.TRUE_EMPTY_CONDITION);
 
 				addToInventory.getNextEffects().add(change);
 

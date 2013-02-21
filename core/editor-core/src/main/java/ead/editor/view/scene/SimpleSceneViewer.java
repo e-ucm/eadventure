@@ -60,8 +60,7 @@ import ead.editor.view.scene.go.EditableGameObject;
 import ead.editor.view.scene.listener.LoggerSceneListener;
 import ead.editor.view.scene.listener.SceneViewerInputProcessor;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.engine.core.gdx.utils.InvOrtographicCamera;
-import ead.engine.core.platform.gdx.GdxCanvas;
+import ead.engine.core.utils.InvOrtographicCamera;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {
@@ -71,7 +70,6 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 	private List<EditableGameObject> gameObjects;
 	private int time;
 	private Injector injector;
-	private GdxCanvas canvas;
 	private InvOrtographicCamera camera;
 	private Texture circle;
 	private Texture hLine;
@@ -84,7 +82,6 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		lwjglCanvas = new LwjglAWTCanvas(this, true);
 		gameObjects = new ArrayList<EditableGameObject>();
 		injector = Guice.createInjector(new AssetViewerModule());
-		canvas = injector.getInstance(GdxCanvas.class);
 		selectionRectangle = new Rectangle();
 		selection = new ArrayList<EditableGameObject>();
 	}
@@ -133,7 +130,6 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		batch.enableBlending();
 		camera = new InvOrtographicCamera();
-		canvas.setGraphicContext(batch);
 		time = 0;
 		lwjglCanvas.getInput().setInputProcessor(
 				new SceneViewerInputProcessor(this, new LoggerSceneListener()));

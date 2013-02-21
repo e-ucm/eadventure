@@ -37,9 +37,11 @@
 
 package ead.common.model.elements;
 
+import ead.common.model.elements.operations.EAdOperation;
+
 /**
  * A condition in the eAdventure model
  */
-public interface EAdCondition extends EAdElement {
+public interface EAdCondition extends EAdOperation {
 
 }

@@ -56,10 +56,8 @@ public class SceneGO extends GroupElementGO implements
 	@Inject
 	public SceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			GenericCanvas canvas) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory,
-				canvas);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 		setComparator(this);
 	}
 

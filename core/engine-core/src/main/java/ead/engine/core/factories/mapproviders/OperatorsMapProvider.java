@@ -40,16 +40,18 @@ package ead.engine.core.factories.mapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
+import ead.common.model.elements.conditions.ANDCond;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.ORCond;
+import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.BooleanOp;
 import ead.common.model.elements.operations.ConditionedOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ListOp;
 import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.ValueOp;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operators.BooleanOperator;
 import ead.engine.core.operators.ConditionedOperator;
 import ead.engine.core.operators.FieldOperator;
 import ead.engine.core.operators.ListOperator;
@@ -57,6 +59,7 @@ import ead.engine.core.operators.MathOperator;
 import ead.engine.core.operators.Operator;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.ValueOperator;
+import ead.engine.core.operators.evaluators.EvaluatorFactory;
 import ead.tools.reflection.ReflectionProvider;
 
 public class OperatorsMapProvider extends
@@ -73,7 +76,7 @@ public class OperatorsMapProvider extends
 	private OperatorFactory operatorFactory;
 
 	public OperatorsMapProvider(OperatorFactory operatorFactory,
-			EvaluatorFactory evaluatorFactory, ValueMap valueMap,
+			ValueMap valueMap, EvaluatorFactory evaluatorFactory,
 			ReflectionProvider reflectionProvider) {
 		super();
 		this.valueMap = valueMap;
@@ -85,8 +88,15 @@ public class OperatorsMapProvider extends
 	@Override
 	public Map<Class<?>, Operator<?>> getMap() {
 		FieldOperator fieldOperator = new FieldOperator(valueMap);
+
+		// Conditions
+		factoryMap.put(ANDCond.class, evaluatorFactory);
+		factoryMap.put(EmptyCond.class, evaluatorFactory);
+		factoryMap.put(NOTCond.class, evaluatorFactory);
+		factoryMap.put(ORCond.class, evaluatorFactory);
+		factoryMap.put(OperationCond.class, evaluatorFactory);
+
 		factoryMap.put(MathOp.class, new MathOperator(valueMap));
-		factoryMap.put(BooleanOp.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(ValueOp.class, new ValueOperator(reflectionProvider));
 		factoryMap.put(EAdField.class, fieldOperator);
 		factoryMap.put(BasicField.class, fieldOperator);
