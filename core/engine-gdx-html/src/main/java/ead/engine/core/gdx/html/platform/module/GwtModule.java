@@ -45,13 +45,13 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.TypeLiteral;
 
 import ead.common.model.assets.multimedia.EAdVideo;
+import ead.engine.core.GdxModuleMap;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.SpecialAssetRenderer;
+import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gdx.html.platform.GdxGWTAssetHandler;
 import ead.engine.core.gdx.html.platform.GdxGWTGUI;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.SpecialAssetRenderer;
-import ead.engine.core.platform.gdx.GdxModuleMap;
 
 public class GwtModule extends AbstractGinModule {
 

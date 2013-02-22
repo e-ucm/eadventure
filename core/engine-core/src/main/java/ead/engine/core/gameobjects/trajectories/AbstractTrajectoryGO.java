@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ead.common.model.elements.trajectories.EAdTrajectory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements

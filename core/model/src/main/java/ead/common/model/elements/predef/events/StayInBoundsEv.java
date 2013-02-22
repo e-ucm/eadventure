@@ -45,9 +45,9 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.variables.SystemFields;
 
 /**
  * This event keeps an {@link EAdSceneElement} in the window bounds

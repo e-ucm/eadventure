@@ -38,7 +38,7 @@
 package ead.engine.core.gdx.html.platform.assets;
 
 import ead.common.model.assets.multimedia.EAdVideo;
-import ead.engine.core.platform.assets.SpecialAssetRenderer;
+import ead.engine.core.assets.SpecialAssetRenderer;
 
 public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> {
 

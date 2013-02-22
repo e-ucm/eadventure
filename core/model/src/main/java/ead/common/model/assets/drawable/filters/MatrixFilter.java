@@ -37,12 +37,13 @@
 
 package ead.common.model.assets.drawable.filters;
 
+import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.assets.AbstractAssetDescriptor;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.params.util.Matrix;
 
-public class MatrixFilter extends AbstractAssetDescriptor implements
-		EAdDrawableFilter {
+@Element
+public class MatrixFilter extends BasicElement implements EAdDrawableFilter {
 
 	@Param
 	private Matrix matrix;

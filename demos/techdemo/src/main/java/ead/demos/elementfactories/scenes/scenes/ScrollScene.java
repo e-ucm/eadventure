@@ -41,6 +41,7 @@ import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
@@ -48,7 +49,6 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position.Corner;
-import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 

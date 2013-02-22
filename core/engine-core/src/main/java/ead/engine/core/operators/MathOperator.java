@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.operations.MathOp;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.util.MathEvaluator;
 
 /**

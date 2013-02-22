@@ -39,10 +39,10 @@ package ead.engine.core.gdx.android;
 
 import com.google.inject.Singleton;
 
-import ead.engine.core.platform.gdx.GdxGUI;
+import ead.engine.core.game.GUIImpl;
 
 @Singleton
-public class AndroidGdxGUI extends GdxGUI {
+public class AndroidGdxGUI extends GUIImpl {
 
 	public AndroidGdxGUI() {
 		super();

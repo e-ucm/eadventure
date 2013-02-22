@@ -40,6 +40,17 @@ package ead.engine.core.gdx.html.platform.injection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.engine.core.assets.drawables.RuntimeCaption;
+import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
+import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
+import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
+import ead.engine.core.assets.drawables.RuntimeImage;
+import ead.engine.core.assets.drawables.RuntimeStateDrawable;
+import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
+import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
+import ead.engine.core.assets.drawables.shapes.GdxRectangleShape;
+import ead.engine.core.assets.fonts.RuntimeFont;
+import ead.engine.core.assets.multimedia.RuntimeSound;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
@@ -78,17 +89,6 @@ import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
-import ead.engine.core.platform.assets.GdxFont;
-import ead.engine.core.platform.assets.GdxSound;
-import ead.engine.core.platform.assets.drawables.basics.GdxBezierShape;
-import ead.engine.core.platform.assets.drawables.basics.GdxCircleShape;
-import ead.engine.core.platform.assets.drawables.basics.GdxRectangleShape;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
 import ead.tools.gwt.Injector;
 
 public class InjectorHelper implements Injector {
@@ -201,8 +201,8 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getGdxCircleShape();
 		else if (clazz == RuntimeCaption.class)
 			o = ginjector.getRuntimeCaption();
-		else if (clazz == GdxSound.class)
-			o = ginjector.getGdxSound();
+		else if (clazz == RuntimeSound.class)
+			o = ginjector.getRuntimeSound();
 		else if (clazz == RuntimeComposedDrawable.class)
 			o = ginjector.getRuntimeComposedDrawable();
 		else if (clazz == RuntimeFilteredDrawable.class)
@@ -211,7 +211,7 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getRuntimeFramesAnimation();
 		else if (clazz == RuntimeStateDrawable.class)
 			o = ginjector.getRuntimeStateDrawable();
-		else if (clazz == GdxFont.class) {
+		else if (clazz == RuntimeFont.class) {
 			o = ginjector.getGdxFont();
 		}
 		if (o == null) {

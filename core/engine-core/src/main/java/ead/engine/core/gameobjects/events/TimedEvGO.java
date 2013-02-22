@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.TimedEvType;
-import ead.engine.core.game.GameState;
-import ead.engine.core.platform.GUI;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
 public class TimedEvGO extends AbstractEventGO<TimedEv> {
 

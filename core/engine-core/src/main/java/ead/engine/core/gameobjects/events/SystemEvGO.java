@@ -44,9 +44,9 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.SystemEv;
 import ead.common.model.elements.events.enums.SystemEvType;
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
 
 public class SystemEvGO extends AbstractEventGO<SystemEv> {
 

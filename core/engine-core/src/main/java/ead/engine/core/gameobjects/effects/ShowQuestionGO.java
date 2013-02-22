@@ -62,8 +62,8 @@ import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.platform.GUI;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
 public class ShowQuestionGO extends AbstractEffectGO<ShowQuestionEf> {
 

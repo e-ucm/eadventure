@@ -42,8 +42,7 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.params.variables.SystemFields;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
 
@@ -72,8 +71,8 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 	public void set(SceneElementGO movingElement, float destinyX,
 			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
-		startX = movingElement.getX();
-		startY = movingElement.getY();
+		startX = movingElement.getRelativeX();
+		startY = movingElement.getRelativeY();
 		if (trajectory.isOnlyHorizontal()) {
 			this.destinyY = startY;
 		}
@@ -121,11 +120,11 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 
 	@Override
 	public void act(float delta) {
-		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+		currentTime += delta;
 		float x = (currentTime / totalTime) * diffX;
 		float y = (currentTime / totalTime) * diffY;
-		movingElement.setX((int) (startX + x));
-		movingElement.setY((int) (startY + y));
+		movingElement.setX(startX + x);
+		movingElement.setY(startY + y);
 		if (currentTime >= totalTime) {
 			movingElement.setState(CommonStates.EAD_STATE_DEFAULT.toString());
 		}

@@ -44,7 +44,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 
-import ead.engine.core.game.Game;
+import ead.engine.core.game.interfaces.Game;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 

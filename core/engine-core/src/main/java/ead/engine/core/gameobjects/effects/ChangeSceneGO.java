@@ -42,13 +42,13 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.TransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.TransitionGO.TransitionListener;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
-import ead.engine.core.platform.GUI;
 
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		SceneLoaderListener, TransitionListener {

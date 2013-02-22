@@ -51,17 +51,17 @@ import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Position.Corner;
-import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.platform.GUI;
 
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 		EventListener {

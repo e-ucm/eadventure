@@ -50,7 +50,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		implements TweenCallback {

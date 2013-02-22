@@ -40,11 +40,11 @@ package ead.engine.core.gdx.html.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.engine.core.game.GUIImpl;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
-import ead.engine.core.platform.gdx.GdxGUI;
 
 @Singleton
-public class GdxGWTGUI extends GdxGUI {
+public class GdxGWTGUI extends GUIImpl {
 
 	private GWTVideoRenderer renderer;
 

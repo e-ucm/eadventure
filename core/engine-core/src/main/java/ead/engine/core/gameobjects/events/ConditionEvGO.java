@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 
 public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 

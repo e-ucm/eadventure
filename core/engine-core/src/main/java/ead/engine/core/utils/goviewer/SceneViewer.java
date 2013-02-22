@@ -39,8 +39,8 @@ package ead.engine.core.utils.goviewer;
 
 import com.badlogic.gdx.ApplicationListener;
 
+import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.platform.GUI;
 
 public class SceneViewer implements ApplicationListener {
 

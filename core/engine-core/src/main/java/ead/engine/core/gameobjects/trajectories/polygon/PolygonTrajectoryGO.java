@@ -47,10 +47,10 @@ import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.trajectories.PolygonTrajectory;
 import ead.common.model.params.util.Position;
-import ead.common.model.params.variables.SystemFields;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
 import ead.tools.pathfinding.PathFinder;
@@ -103,8 +103,8 @@ public class PolygonTrajectoryGO extends
 	public void set(SceneElementGO movingElement, float destinyX,
 			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
-		float startX = movingElement.getX();
-		float startY = movingElement.getY();
+		float startX = movingElement.getRelativeX();
+		float startY = movingElement.getRelativeY();
 		path = pathFinder.getPath(startX, startY, destinyX, destinyY);
 		currentPath = path;
 		currentTarget = 0;

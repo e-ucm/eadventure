@@ -58,12 +58,12 @@ import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Position.Corner;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 @Singleton
 public class ChangeSceneDebugger extends SceneElementGO {

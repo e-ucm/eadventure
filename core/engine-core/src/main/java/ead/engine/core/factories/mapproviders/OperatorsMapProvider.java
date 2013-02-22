@@ -51,7 +51,7 @@ import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ListOp;
 import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.ValueOp;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.ConditionedOperator;
 import ead.engine.core.operators.FieldOperator;
 import ead.engine.core.operators.ListOperator;

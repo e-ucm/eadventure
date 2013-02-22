@@ -41,19 +41,24 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.Game;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.common.model.elements.operations.SystemFields;
+import ead.engine.core.canvas.GdxCanvas;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.utils.InvOrtographicCamera;
 
 @Singleton
 public class EAdEngine implements ApplicationListener {
 
 	private Game game;
+
+	private GameState gameState;
 
 	private GUI gui;
 
@@ -63,11 +68,15 @@ public class EAdEngine implements ApplicationListener {
 
 	private SpriteBatch spriteBatch;
 
+	private Vector2 sceneMouseCoordinates;
+
 	@Inject
-	public EAdEngine(Game game, GUI gui) {
+	public EAdEngine(Game game, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
+		this.gameState = gameState;
 		this.gui = gui;
+		this.sceneMouseCoordinates = new Vector2();
 	}
 
 	@Override
@@ -77,7 +86,7 @@ public class EAdEngine implements ApplicationListener {
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
 
-		spriteBatch = new GenericCanvas();
+		spriteBatch = new GdxCanvas();
 		stage = new Stage(width, height, false, spriteBatch);
 		spriteBatch.enableBlending();
 
@@ -105,9 +114,15 @@ public class EAdEngine implements ApplicationListener {
 
 	@Override
 	public void render() {
-		game.act(Gdx.graphics.getDeltaTime());
-		gui.getRoot().act(Gdx.graphics.getDeltaTime());
-		stage.act(Gdx.graphics.getDeltaTime());
+		game.act(gui.getSkippedMilliseconds());
+		gui.getRoot().act(gui.getSkippedMilliseconds());
+		stage.act(gui.getSkippedMilliseconds());
+		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
+		stage.screenToStageCoordinates(sceneMouseCoordinates);
+		gameState.setValue(SystemFields.MOUSE_SCENE_X, Float
+				.valueOf(sceneMouseCoordinates.x));
+		gameState.setValue(SystemFields.MOUSE_SCENE_Y, Float
+				.valueOf(sceneMouseCoordinates.y));
 		stage.draw();
 	}
 

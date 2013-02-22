@@ -45,8 +45,8 @@ import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.variables.SystemFields;
 
 public class ScrollWithSceneElementEv extends SceneElementEv {
 

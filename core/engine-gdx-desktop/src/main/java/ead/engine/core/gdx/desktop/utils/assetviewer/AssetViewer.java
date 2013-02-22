@@ -38,23 +38,24 @@
 package ead.engine.core.gdx.desktop.utils.assetviewer;
 
 import java.awt.Canvas;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.EAdDrawable;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.utils.assetviewer.AssetApplicationListener;
-
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import org.slf4j.LoggerFactory;
 
 /**
  * Contains a canvas in which assets can be represented as they will be
@@ -153,7 +154,7 @@ public class AssetViewer {
 			@SuppressWarnings("rawtypes")
 			@Override
 			public void run() {
-				app.setDrawable((RuntimeCompoundDrawable) assetHandler
+				app.setDrawable((RuntimeDrawable) assetHandler
 						.getRuntimeAsset(drawable));
 			}
 		});

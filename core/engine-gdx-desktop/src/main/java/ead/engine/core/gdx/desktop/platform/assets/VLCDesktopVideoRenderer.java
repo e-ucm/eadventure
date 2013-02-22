@@ -67,7 +67,7 @@ import com.google.inject.Singleton;
 import com.sun.jna.NativeLibrary;
 
 import ead.common.model.assets.multimedia.EAdVideo;
-import ead.engine.core.platform.assets.SpecialAssetRenderer;
+import ead.engine.core.assets.SpecialAssetRenderer;
 
 /**
  * <p>

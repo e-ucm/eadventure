@@ -37,6 +37,7 @@
 
 package ead.reader.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,7 +74,7 @@ public class ObjectsFactory {
 
 	private Map<String, Identified> elementsMap;
 
-	private Map<String, Identified> assetsMap;
+	private Map<String, AssetDescriptor> assetsMap;
 
 	private ReflectionProvider reflectionProvider;
 
@@ -85,7 +86,7 @@ public class ObjectsFactory {
 		this.reflectionProvider = reflectionProvider;
 		paramsMap = new HashMap<Class<?>, Map<String, Object>>();
 		elementsMap = new HashMap<String, Identified>();
-		assetsMap = new HashMap<String, Identified>();
+		assetsMap = new HashMap<String, AssetDescriptor>();
 	}
 
 	public Object getParam(String textValue, Class<?> clazz) {
@@ -279,7 +280,7 @@ public class ObjectsFactory {
 	}
 
 	public void putAsset(String uniqueId, Identified assetDescriptor) {
-		assetsMap.put(uniqueId, assetDescriptor);
+		assetsMap.put(uniqueId, (AssetDescriptor) assetDescriptor);
 	}
 
 	public void putEAdElement(String uniqueId, Identified eadElement) {
@@ -306,6 +307,10 @@ public class ObjectsFactory {
 		assetsMap.clear();
 		elementsMap.clear();
 		paramsMap.clear();
+	}
+
+	public Collection<AssetDescriptor> getAssets() {
+		return assetsMap.values();
 	}
 
 }

@@ -40,8 +40,8 @@ package ead.common.model.elements.predef.events;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.variables.SystemFields;
 
 public class ChaseMouseEv extends SceneElementEv {
 

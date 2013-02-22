@@ -37,12 +37,14 @@
 
 package ead.reader;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
@@ -104,6 +106,10 @@ public class AdventureReader implements VisitorListener {
 	public boolean loaded(XMLNode node, Object object, boolean isNullInOrigin) {
 		this.model = (EAdAdventureModel) object;
 		return true;
+	}
+
+	public Collection<AssetDescriptor> getAssets() {
+		return visitor.getAssets();
 	}
 
 }

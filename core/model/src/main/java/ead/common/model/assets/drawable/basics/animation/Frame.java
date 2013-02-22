@@ -37,17 +37,19 @@
 
 package ead.common.model.assets.drawable.basics.animation;
 
+import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.elements.BasicElement;
 
 /**
- *
+ * 
  * Represents a frame within a {@link FramesAnimation}
- *
+ * 
  */
-public class Frame extends AbstractAssetDescriptor {
+@Element
+public class Frame extends BasicElement {
 
 	/**
 	 * Default frame time in milliseconds, with a value of 300 ms
@@ -70,7 +72,7 @@ public class Frame extends AbstractAssetDescriptor {
 	/**
 	 * Constructs a frame with the given image. Sets the frame time to
 	 * {@link Frame#DEFAULT_FRAME_TIME}
-	 *
+	 * 
 	 * @param uri
 	 *            the uri to the image for the frame
 	 */
@@ -80,7 +82,7 @@ public class Frame extends AbstractAssetDescriptor {
 
 	/**
 	 * Constructs a frame with the given image and time.
-	 *
+	 * 
 	 * @param uri
 	 *            the uri to the image for the frame
 	 * @param time
@@ -97,7 +99,7 @@ public class Frame extends AbstractAssetDescriptor {
 
 	/**
 	 * Sets the time for this frame (in milliseconds)
-	 *
+	 * 
 	 * @param time
 	 *            the time for this frame (in milliseconds)
 	 */
@@ -107,7 +109,7 @@ public class Frame extends AbstractAssetDescriptor {
 
 	/**
 	 * Returns the time for this frame
-	 *
+	 * 
 	 * @return the time for this frame
 	 */
 	public int getTime() {
@@ -125,7 +127,9 @@ public class Frame extends AbstractAssetDescriptor {
 	@Override
 	public int hashCode() {
 		int hash = 3;
-		hash = 31 * hash + this.getId().hashCode();
+		hash = 31
+				* hash
+				+ (this.drawable != null ? this.drawable.getId().hashCode() : 0);
 		hash = 31 * hash + this.time;
 		hash = 31 * hash
 				+ (this.drawable != null ? this.drawable.hashCode() : 0);
@@ -141,7 +145,7 @@ public class Frame extends AbstractAssetDescriptor {
 			return false;
 		}
 		final Frame other = (Frame) obj;
-		if (!this.getId().equals(other.getId())) {
+		if (this.drawable != null && !this.drawable.equals(other.getDrawable())) {
 			return false;
 		}
 		if (this.time != other.time) {

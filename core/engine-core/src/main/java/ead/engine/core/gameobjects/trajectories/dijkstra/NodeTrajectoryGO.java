@@ -41,13 +41,13 @@ import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.params.util.Position;
-import ead.common.model.params.variables.SystemFields;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
 
@@ -117,8 +117,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		finished = false;
 		firstUpdate = true;
 		initScale = 1.0f;
-		initX = movingElement.getX();
-		initY = movingElement.getY();
+		initX = movingElement.getRelativeX();
+		initY = movingElement.getRelativeY();
 		targetScale = 1.0f;
 		currentTime = 0;
 		totalTime = 0;

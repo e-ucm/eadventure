@@ -51,24 +51,28 @@ import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.multimedia.Video;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.predef.LoadingScreen;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.params.variables.SystemFields;
 import ead.common.model.params.variables.VarDef;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineStringFilter;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.game.interfaces.PluginHandler;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.LoadingScreen;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.reader.AdventureReader;
 import ead.reader.model.XMLVisitor.VisitorListener;
@@ -294,11 +298,21 @@ public class GameImpl implements Game, VisitorListener {
 		for (EventGO<?> e : events) {
 			e.act(delta);
 		}
-		gameState.setValue(SystemFields.MOUSE_X, new Float(Gdx.input.getX()));
-		gameState.setValue(SystemFields.MOUSE_Y, new Float(Gdx.input.getY()));
+		gameState.setValue(SystemFields.MOUSE_X, Float
+				.valueOf(Gdx.input.getX()));
+		gameState.setValue(SystemFields.MOUSE_Y, Float
+				.valueOf(Gdx.input.getY()));
 	}
 
 	private void setGame() {
+		// Load all assets
+		logger.info("Loading {} assets", reader.getAssets().size());
+		for (AssetDescriptor a : reader.getAssets()) {
+			logger.info("{}", a.getClass());
+			if (!(a instanceof Video)) {
+				assetHandler.getRuntimeAsset(a);
+			}
+		}
 		if (adventure != null) {
 			currentChapter = adventure.getChapters().get(0);
 			SceneGO scene = (SceneGO) sceneElementFactory.get(currentChapter

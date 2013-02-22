@@ -57,14 +57,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.GUIImpl;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
-import ead.engine.core.platform.gdx.GdxGUI;
 import ead.utils.swing.SwingUtilities;
 
 @Singleton
-public class GdxDesktopGUI extends GdxGUI {
+public class GdxDesktopGUI extends GUIImpl {
 
 	private JFrame frame;
 

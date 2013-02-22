@@ -50,6 +50,7 @@ import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.EAdVarDef;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
 import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;

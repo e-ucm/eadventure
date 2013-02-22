@@ -39,9 +39,9 @@ package ead.common.model.elements.predef.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.variables.SystemFields;
 
 /**
  * Makes an element the active element in the game.

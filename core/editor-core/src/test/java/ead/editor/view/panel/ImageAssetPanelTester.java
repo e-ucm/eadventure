@@ -49,7 +49,7 @@ import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.panel.AbstractElementPanel;
 import ead.editor.view.panel.asset.ImageAssetPanel;
-import ead.engine.core.platform.assets.GdxAssetHandler;
+import ead.engine.core.assets.AssetHandlerImpl;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
@@ -109,7 +109,7 @@ public class ImageAssetPanelTester extends AbstractPanelTester {
 			target.addChild(new EngineNode<Image>(1, new Image(
 					"@drawable/assets_animation_telefono.png")));
 			target.setBase(new File(getDir(),
-					GdxAssetHandler.PROJECT_INTERNAL_PATH));
+					AssetHandlerImpl.PROJECT_INTERNAL_PATH));
 		}
 		return target;
 	}

@@ -38,9 +38,14 @@
 package ead.engine.test.core.platform;
 
 import ead.common.model.assets.text.EAdFont;
-import ead.engine.core.platform.FontHandlerImpl;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.fonts.FontHandlerImpl;
 
 public class TestFontCache extends FontHandlerImpl {
+
+	public TestFontCache(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
 
 	@Override
 	public void addEAdFont(EAdFont font) {

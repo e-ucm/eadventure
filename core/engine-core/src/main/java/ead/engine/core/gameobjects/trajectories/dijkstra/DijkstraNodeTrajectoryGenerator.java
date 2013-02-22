@@ -56,7 +56,7 @@ import ead.common.model.elements.trajectories.Side;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Rectangle;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 

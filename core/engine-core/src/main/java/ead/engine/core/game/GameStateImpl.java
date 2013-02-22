@@ -63,6 +63,7 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.tracking.GameTracker;
 import ead.tools.StringHandler;

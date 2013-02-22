@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.AddChildEf;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 public class AddChildGO extends AbstractEffectGO<AddChildEf> {

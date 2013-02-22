@@ -41,7 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		EffectGO<P> {

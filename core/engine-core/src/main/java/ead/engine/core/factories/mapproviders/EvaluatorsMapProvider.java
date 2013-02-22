@@ -45,7 +45,7 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.evaluators.EmptyCondEvaluator;
 import ead.engine.core.operators.evaluators.Evaluator;

@@ -65,7 +65,7 @@ public class InitScene extends EmptyScene {
 
 	private List<EAdScene> sceneDemos;
 
-	private SceneElement goBack;
+	private SceneElementDef goBack;
 
 	private EAdSceneElementDef infoButton;
 
@@ -94,7 +94,10 @@ public class InitScene extends EmptyScene {
 					new DisplaceTransition(1000,
 							DisplaceTransitionType.VERTICAL, true)));
 			this.getSceneElements().add(b);
-			s.getSceneElements().add(goBack);
+			SceneElement goBackButton = new SceneElement(goBack);
+			goBackButton.setInitialScale(0.5f);
+			goBackButton.setPosition(Corner.BOTTOM_LEFT, 10, 590);
+			s.getSceneElements().add(goBackButton);
 
 			SceneElement info = new SceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
@@ -117,11 +120,9 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initGOBackButton() {
-		goBack = new SceneElement(new Image("@drawable/goback.png"));
-		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
+		goBack = new SceneElementDef(new Image("@drawable/goback.png"));
 		goBack.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(this,
 				new FadeInTransition(1000)));
-		goBack.setInitialScale(0.5f);
 
 	}
 

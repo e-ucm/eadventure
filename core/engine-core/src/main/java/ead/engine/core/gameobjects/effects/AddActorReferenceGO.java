@@ -46,8 +46,8 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.platform.GUI;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
 public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 

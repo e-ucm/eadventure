@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import ead.common.model.elements.operations.EAdOperation;
 import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
 import ead.tools.AbstractFactory;
 import ead.tools.reflection.ReflectionProvider;

@@ -40,6 +40,7 @@ package ead.engine.core.factories.mapproviders;
 import ead.common.model.elements.debuggers.FieldsDebugger;
 import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
+import ead.common.model.elements.predef.LoadingScreen;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -63,7 +64,6 @@ import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionG
 import ead.engine.core.gameobjects.sceneelements.transitions.EmptyTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
-import ead.engine.core.platform.LoadingScreen;
 
 public class SceneElementsMapProvider
 		extends

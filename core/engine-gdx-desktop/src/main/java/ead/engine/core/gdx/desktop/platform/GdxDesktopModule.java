@@ -45,12 +45,12 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import ead.common.model.assets.multimedia.EAdVideo;
+import ead.engine.core.GdxModuleMap;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.SpecialAssetRenderer;
+import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.gdx.desktop.platform.assets.VLCDesktopVideoRenderer;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.SpecialAssetRenderer;
-import ead.engine.core.platform.gdx.GdxModuleMap;
 
 public class GdxDesktopModule extends AbstractModule {
 

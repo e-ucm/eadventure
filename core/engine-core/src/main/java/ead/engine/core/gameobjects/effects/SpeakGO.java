@@ -37,6 +37,7 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -52,13 +53,12 @@ import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Position;
-import ead.common.model.params.variables.SystemFields;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.drawables.RuntimeCaption;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 
 public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener {
 
@@ -117,8 +117,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected EAdGroupElement getVisualRepresentation() {
-		int width = gameState.getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;

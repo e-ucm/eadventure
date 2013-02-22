@@ -44,19 +44,19 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.fonts.FontHandler;
+import ead.engine.core.assets.fonts.FontHandlerImpl;
 import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
 import ead.engine.core.game.GameStateImpl;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
-import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.tracking.GameTracker;
 import ead.tools.BasicSceneGraph;
 import ead.tools.GenericInjector;
@@ -179,6 +179,24 @@ public class AssetViewerModule extends AbstractModule {
 		public SceneElementGO getGameObjectUnderPointer() {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		@Override
+		public void addDragSource(SceneElementGO dragSource) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void addDragTarget(SceneElementGO dragTarget) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void resetDrag() {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

@@ -43,10 +43,10 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Position.Corner;
-import ead.common.model.params.variables.SystemFields;
 
 public class MouseHud extends BasicScene {
 

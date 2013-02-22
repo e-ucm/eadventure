@@ -43,6 +43,7 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
@@ -56,7 +57,6 @@ import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Position.Corner;
-import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class TrajectoriesScene extends EmptyScene {

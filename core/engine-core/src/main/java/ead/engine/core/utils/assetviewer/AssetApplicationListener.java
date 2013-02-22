@@ -49,8 +49,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.google.inject.Inject;
 
-import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
+import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.utils.InvOrtographicCamera;
 import ead.tools.reflection.ReflectionProvider;
 
@@ -73,7 +73,7 @@ public class AssetApplicationListener implements ApplicationListener {
 	private Matrix4 transformation;
 	private Matrix4 idt = new Matrix4();
 
-	private RuntimeCompoundDrawable currentDrawable;
+	private RuntimeDrawable currentDrawable;
 	private int time;
 	private List<String> states;
 
@@ -100,7 +100,7 @@ public class AssetApplicationListener implements ApplicationListener {
 		this.patternSize = size;
 	}
 
-	public void setDrawable(RuntimeCompoundDrawable drawable) {
+	public void setDrawable(RuntimeDrawable drawable) {
 		if (currentDrawable != null) {
 			currentDrawable.freeMemory();
 		}

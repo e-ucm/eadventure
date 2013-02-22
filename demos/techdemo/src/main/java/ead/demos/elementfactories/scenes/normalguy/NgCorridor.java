@@ -42,6 +42,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdScene;
@@ -51,7 +52,6 @@ import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position.Corner;
-import ead.common.model.params.variables.SystemFields;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCorridor extends EmptyScene {

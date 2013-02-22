@@ -38,7 +38,7 @@
 package ead.common.model.elements.predef.effects;
 
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.params.variables.SystemFields;
+import ead.common.model.elements.operations.SystemFields;
 
 /**
  * Moves the active element to the mouse position

@@ -49,17 +49,16 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.EAdVarDef;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
-import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.canvas.GdxCanvas;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {
 
 	// Platform
 	private AssetHandler assetHandler;
-	private GenericCanvas canvas;
+	private GdxCanvas canvas;
 
 	// Position
 	private int x;
@@ -99,12 +98,12 @@ public class EditableGameObject {
 
 	private List<String> states;
 
-	private RuntimeCompoundDrawable bundle;
+	private RuntimeDrawable bundle;
 
 	private RuntimeDrawable drawable;
 
 	@Inject
-	public EditableGameObject(AssetHandler assetHandler, GenericCanvas canvas) {
+	public EditableGameObject(AssetHandler assetHandler, GdxCanvas canvas) {
 		super();
 		this.assetHandler = assetHandler;
 		this.canvas = canvas;
@@ -150,8 +149,8 @@ public class EditableGameObject {
 				this.rotation = (Float) var.getValue();
 			}
 		}
-		this.bundle = (RuntimeCompoundDrawable) assetHandler
-				.getRuntimeAsset(element.getDefinition().getAppearance());
+		this.bundle = (RuntimeDrawable) assetHandler.getRuntimeAsset(element
+				.getDefinition().getAppearance());
 		this.drawable = bundle.getDrawable(0, states, 0);
 		updateMatrix();
 

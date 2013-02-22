@@ -43,12 +43,11 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
 public class SceneGO extends GroupElementGO implements
 		Comparator<SceneElementGO> {
@@ -63,6 +62,7 @@ public class SceneGO extends GroupElementGO implements
 
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
+		gui.resetDrag();
 		EAdSceneElement bg = ((EAdScene) element).getBackground();
 		if (bg != null) {
 			SceneElementGO bgGO = sceneElementFactory.get(bg);

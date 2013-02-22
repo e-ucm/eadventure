@@ -54,13 +54,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.assets.GdxAssetHandler;
+import ead.engine.core.assets.AssetHandlerImpl;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 
 @Singleton
-public class GdxDesktopAssetHandler extends GdxAssetHandler {
+public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 
 	private ZipFile zipFile;
 
@@ -70,8 +69,8 @@ public class GdxDesktopAssetHandler extends GdxAssetHandler {
 
 	@Inject
 	public GdxDesktopAssetHandler(GenericInjector injector,
-			FontHandler fontHandler, SceneGraph sceneGraph) {
-		super(injector, fontHandler, sceneGraph);
+			SceneGraph sceneGraph) {
+		super(injector, sceneGraph);
 		zipped = false;
 		tempFiles = new HashMap<String, String>();
 	}

@@ -47,8 +47,8 @@ import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.engine.core.game.GameState;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.game.interfaces.ValueMap;
 
 public class GdxApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 

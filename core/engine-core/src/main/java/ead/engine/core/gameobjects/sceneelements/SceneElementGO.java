@@ -75,16 +75,16 @@ import ead.common.model.params.guievents.enums.KeyEventType;
 import ead.common.model.params.guievents.enums.KeyGEvCode;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.variables.EAdVarDef;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.canvas.GdxCanvas;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.GUIImpl.DragEvent;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.events.EventGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
-import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * 
@@ -184,7 +184,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Current compound asset
 	 */
-	private RuntimeCompoundDrawable<?> runtimeDrawable;
+	private RuntimeDrawable<?> runtimeDrawable;
 
 	/**
 	 * Current drawable (contained in {@link SceneElementGO#runtimeDrawable} )
@@ -291,12 +291,12 @@ public class SceneElementGO extends Group implements
 		statesList.add(state);
 		statesList.add(orientation.toString());
 
+		updateBundle();
+
 		setX(gameState.getValue(element, SceneElement.VAR_X));
 		setY(gameState.getValue(element, SceneElement.VAR_Y));
 		setDispX(gameState.getValue(element, SceneElement.VAR_DISP_X));
 		setDispY(gameState.getValue(element, SceneElement.VAR_DISP_Y));
-
-		updateBundle();
 
 	}
 
@@ -321,7 +321,7 @@ public class SceneElementGO extends Group implements
 			}
 
 			if (a != null) {
-				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
+				runtimeDrawable = (RuntimeDrawable<?>) assetHandler
 						.getRuntimeAsset(a, true);
 				if (runtimeDrawable != null) {
 					currentDrawable = runtimeDrawable.getDrawable(
@@ -390,8 +390,16 @@ public class SceneElementGO extends Group implements
 	 * @param x
 	 */
 	public void setX(float x) {
-		super.setX(x - dispX * getWidth());
+		super.setX(x);
 		gameState.setValue(getElement(), SceneElement.VAR_X, x);
+	}
+
+	public float getX() {
+		return super.getX() - this.getOriginX();
+	}
+
+	public float getRelativeX() {
+		return super.getX();
 	}
 
 	/**
@@ -400,17 +408,27 @@ public class SceneElementGO extends Group implements
 	 * @param y
 	 */
 	public void setY(float y) {
-		super.setY(y - dispY * getHeight());
+		super.setY(y);
 		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
+	}
+
+	public float getY() {
+		return super.getY() - this.getOriginY();
+	}
+
+	public float getRelativeY() {
+		return super.getY();
 	}
 
 	public void setDispX(float dispX) {
 		this.dispX = dispX;
+		setOriginX(getWidth() * dispX);
 		gameState.setValue(getElement(), SceneElement.VAR_DISP_X, dispX);
 	}
 
 	public void setDispY(float dispY) {
 		this.dispY = dispY;
+		setOriginY(getHeight() * dispY);
 		gameState.setValue(getElement(), SceneElement.VAR_DISP_Y, dispY);
 	}
 
@@ -558,6 +576,9 @@ public class SceneElementGO extends Group implements
 
 	public void addSceneElement(SceneElementGO e) {
 		addActor(e);
+		if (e.isDraggable()) {
+			gui.addDragSource(e);
+		}
 	}
 
 	public void addActor(Actor a) {
@@ -673,7 +694,7 @@ public class SceneElementGO extends Group implements
 		if (currentDrawable != null) {
 			batch.setColor(this.getColor().r, this.getColor().g, this
 					.getColor().b, this.getColor().a * parentAlpha);
-			currentDrawable.render((GenericCanvas) batch);
+			currentDrawable.render((GdxCanvas) batch);
 		}
 		super.drawChildren(batch, parentAlpha);
 	}
@@ -786,6 +807,10 @@ public class SceneElementGO extends Group implements
 				guiEvent = new KeyGEv(KeyEventType.KEY_TYPED, getKeyCode(i
 						.getKeyCode()));
 				break;
+			case touchDragged:
+				if (i instanceof DragEvent) {
+					//					DragEvent dragEvent = (DragEvent) i;
+				}
 			default:
 				break;
 			}

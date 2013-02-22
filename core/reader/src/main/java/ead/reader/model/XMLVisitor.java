@@ -38,11 +38,13 @@
 package ead.reader.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.params.variables.VarDef;
 import ead.reader.DOMTags;
@@ -270,6 +272,10 @@ public class XMLVisitor {
 	public void addLoadInitalValue(VarDef<?> v, String value) {
 		mapKeysValues.add(new MapKeyValue(v, value));
 
+	}
+
+	public Collection<AssetDescriptor> getAssets() {
+		return this.elementsFactory.getAssets();
 	}
 
 }

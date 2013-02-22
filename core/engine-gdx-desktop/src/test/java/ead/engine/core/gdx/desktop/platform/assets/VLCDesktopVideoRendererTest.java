@@ -44,8 +44,8 @@ import com.google.inject.Injector;
 
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.assets.multimedia.Video;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.utils.Log4jConfig;
 
 /**

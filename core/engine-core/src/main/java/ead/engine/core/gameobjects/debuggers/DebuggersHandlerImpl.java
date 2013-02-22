@@ -51,8 +51,8 @@ import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.platform.GUI;
 
 @Singleton
 public class DebuggersHandlerImpl implements DebuggersHandler {

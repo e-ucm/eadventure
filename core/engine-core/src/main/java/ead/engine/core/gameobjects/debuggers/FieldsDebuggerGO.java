@@ -47,12 +47,12 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.widgets.Label;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.variables.EAdVarDef;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * A debugger showing all the fields and their values of the element under the

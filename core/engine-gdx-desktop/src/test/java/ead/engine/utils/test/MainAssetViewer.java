@@ -57,10 +57,10 @@ import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.model.params.fills.ColorFill;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.utils.swing.SwingUtilities;
 
 public class MainAssetViewer implements Runnable {

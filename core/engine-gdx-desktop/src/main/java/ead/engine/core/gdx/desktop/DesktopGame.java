@@ -48,13 +48,13 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.params.variables.SystemFields;
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameState;
+import ead.common.model.elements.operations.SystemFields;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.engine.core.platform.GUI;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.java.reflection.JavaReflectionClassLoader;
 import ead.tools.reflection.ReflectionClassLoader;

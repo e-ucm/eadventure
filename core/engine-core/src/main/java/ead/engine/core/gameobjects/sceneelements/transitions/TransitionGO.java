@@ -42,12 +42,12 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 

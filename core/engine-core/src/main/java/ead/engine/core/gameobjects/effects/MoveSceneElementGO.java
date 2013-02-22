@@ -49,12 +49,12 @@ import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.VarDef;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.factories.TrajectoryFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
-import ead.engine.core.platform.GUI;
 
 /**
  * Game object for {@link MoveSceneElementEf} effect

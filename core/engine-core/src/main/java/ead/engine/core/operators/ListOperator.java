@@ -41,7 +41,7 @@ import java.util.Random;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.ListOp;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.interfaces.ValueMap;
 
 public class ListOperator implements Operator<ListOp> {
 

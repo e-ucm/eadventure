@@ -42,8 +42,8 @@ import java.util.Collection;
 import javax.swing.Action;
 
 import ead.editor.model.EditorModel;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
-import ead.engine.core.platform.assets.AssetHandler;
 
 /**
  * Game editor controller. The main controller provides access to delegate

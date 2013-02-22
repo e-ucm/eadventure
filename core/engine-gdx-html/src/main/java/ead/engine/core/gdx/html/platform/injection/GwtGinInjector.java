@@ -41,7 +41,18 @@ import com.badlogic.gdx.ApplicationListener;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-import ead.engine.core.game.Game;
+import ead.engine.core.assets.drawables.RuntimeCaption;
+import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
+import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
+import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
+import ead.engine.core.assets.drawables.RuntimeImage;
+import ead.engine.core.assets.drawables.RuntimeStateDrawable;
+import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
+import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
+import ead.engine.core.assets.drawables.shapes.GdxRectangleShape;
+import ead.engine.core.assets.fonts.RuntimeFont;
+import ead.engine.core.assets.multimedia.RuntimeSound;
+import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
@@ -81,17 +92,6 @@ import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.gdx.html.platform.module.GwtModule;
-import ead.engine.core.platform.assets.GdxFont;
-import ead.engine.core.platform.assets.GdxSound;
-import ead.engine.core.platform.assets.drawables.basics.GdxBezierShape;
-import ead.engine.core.platform.assets.drawables.basics.GdxCircleShape;
-import ead.engine.core.platform.assets.drawables.basics.GdxRectangleShape;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compounds.RuntimeStateDrawable;
 import ead.tools.GenericInjector;
 import ead.tools.gwt.GWTToolsModule;
 
@@ -196,7 +196,7 @@ public interface GwtGinInjector extends Ginjector {
 
 	RuntimeCaption getRuntimeCaption();
 
-	GdxSound getGdxSound();
+	RuntimeSound getRuntimeSound();
 
 	RuntimeComposedDrawable getRuntimeComposedDrawable();
 
@@ -206,6 +206,6 @@ public interface GwtGinInjector extends Ginjector {
 
 	RuntimeStateDrawable getRuntimeStateDrawable();
 
-	GdxFont getGdxFont();
+	RuntimeFont getGdxFont();
 
 }
