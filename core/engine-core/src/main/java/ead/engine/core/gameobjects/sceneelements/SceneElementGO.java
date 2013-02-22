@@ -612,7 +612,6 @@ public class SceneElementGO extends Group implements
 	 */
 	private void addEffects(EAdList<EAdEffect> list, Event action) {
 		if (list != null && list.size() > 0) {
-			action.cancel();
 			for (EAdEffect e : list) {
 				logger.debug("GUI Action: '{}' effect '{}'", action, e);
 				gameState.addEffect(e, action, element);
@@ -719,6 +718,27 @@ public class SceneElementGO extends Group implements
 			inputProcessor.handle(event);
 		}
 
+		// Due the way Stage fireEnterAndExit works, enter and exit events never are cancelled
+		boolean cancel = true;
+
+		if (this.getTouchable() == Touchable.enabled
+				&& event instanceof InputEvent) {
+			Type t = ((InputEvent) event).getType();
+			switch (t) {
+			case enter:
+				setMouseOver(true);
+				cancel = false;
+				break;
+			case exit:
+				setMouseOver(false);
+				cancel = false;
+				break;
+			default:
+				cancel = true;
+				break;
+			}
+		}
+
 		if (!event.isCancelled()) {
 			if (this.getTouchable() == Touchable.enabled) {
 				// Effects in the scene element instance
@@ -730,25 +750,10 @@ public class SceneElementGO extends Group implements
 				// Effects in the definition
 				list = element.getDefinition().getEffects(getGUIEvent(event));
 				size += list == null ? 0 : list.size();
-				if (size > 0) {
+				if (size > 0 && cancel) {
 					event.cancel();
 				}
 				addEffects(list, event);
-			}
-		}
-
-		if (this.getTouchable() == Touchable.enabled
-				&& event instanceof InputEvent) {
-			Type t = ((InputEvent) event).getType();
-			switch (t) {
-			case enter:
-				setMouseOver(true);
-				break;
-			case exit:
-				setMouseOver(false);
-				break;
-			default:
-				break;
 			}
 		}
 

@@ -53,7 +53,7 @@ public class GhostElementGO extends SceneElementGO {
 
 	private boolean catchAll;
 
-	public boolean visible;
+	public boolean ghostVisible;
 
 	@Inject
 	public GhostElementGO(AssetHandler assetHandler,
@@ -65,12 +65,12 @@ public class GhostElementGO extends SceneElementGO {
 	public void setElement(EAdSceneElement e) {
 		super.setElement(e);
 		catchAll = ((GhostElement) e).isCatchAll();
-		visible = false;
+		ghostVisible = false;
 	}
 
 	@Override
 	public RuntimeDrawable<?> getDrawable() {
-		if (visible) {
+		if (ghostVisible) {
 			return super.getDrawable();
 		} else {
 			return null;
@@ -78,7 +78,7 @@ public class GhostElementGO extends SceneElementGO {
 	}
 
 	public void setInteractionAreaVisible(boolean visible) {
-		this.visible = visible;
+		this.ghostVisible = visible;
 	}
 
 	public Actor hit(float x, float y, boolean touchable) {

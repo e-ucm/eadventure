@@ -308,7 +308,6 @@ public class GameImpl implements Game, VisitorListener {
 		// Load all assets
 		logger.info("Loading {} assets", reader.getAssets().size());
 		for (AssetDescriptor a : reader.getAssets()) {
-			logger.info("{}", a.getClass());
 			if (!(a instanceof Video)) {
 				assetHandler.getRuntimeAsset(a);
 			}

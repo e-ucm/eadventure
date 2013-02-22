@@ -150,6 +150,10 @@ public abstract class GUIImpl implements GUI {
 					debuggerHandler
 							.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
 					break;
+				case Input.Keys.F4:
+					debuggerHandler
+							.toggleDebugger(DebuggersHandlerImpl.CHANGE_SCENE_DEBUGGER);
+					break;
 				default:
 					break;
 				}

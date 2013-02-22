@@ -103,9 +103,12 @@ public class ShapeScene extends EmptyScene {
 		EAdDrawable asset32 = shapeFactory.getElement(
 				ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new Paint(
 						ColorFill.CYAN, ColorFill.BLACK));
-		getSceneElements().add(
-				EAdElementsFactory.getInstance().getSceneElementFactory()
-						.createSceneElement(asset31, asset32, x, margin));
+
+		SceneElement triangle = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(asset31, asset32,
+						x, margin);
+		triangle.setId("ead.demos.triangle");
+		getSceneElements().add(triangle);
 		x += margin + size;
 
 		// Irregular shape 1
@@ -156,6 +159,7 @@ public class ShapeScene extends EmptyScene {
 				.getSceneElementFactory().createSceneElement(asset21, asset22,
 						330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
+		rotatingRectangle.setId("ead.demos.rotatingrectangle");
 		getSceneElements().add(rotatingRectangle);
 		InterpolationEf interpolation = EAdElementsFactory
 				.getInstance()

@@ -53,6 +53,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.tools.GenericInjector;
 
 @Singleton
 public class DebuggersHandlerImpl implements DebuggersHandler {
@@ -66,6 +67,8 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 
 	public static final String FIELDS_DEBUGGER = "fields_debugger";
 
+	public static final String CHANGE_SCENE_DEBUGGER = "change_scene_debugger";
+
 	private GUI gui;
 
 	private SceneElementGOFactory sceneElementFactory;
@@ -74,10 +77,13 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 
 	private Map<String, SceneElementGO> debuggers;
 
+	private GenericInjector reflectionProvider;
+
 	@Inject
-	public DebuggersHandlerImpl(SceneElementGOFactory sceneElementFactory,
-			GUI gui) {
+	public DebuggersHandlerImpl(GenericInjector reflection,
+			SceneElementGOFactory sceneElementFactory, GUI gui) {
 		this.gui = gui;
+		this.reflectionProvider = reflection;
 		this.sceneElementFactory = sceneElementFactory;
 		this.debuggers = new HashMap<String, SceneElementGO>();
 	}
@@ -113,6 +119,13 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 			e = new GhostDebugger();
 		} else if (id.equals(FIELDS_DEBUGGER)) {
 			e = new FieldsDebugger();
+		} else if (id.equals(CHANGE_SCENE_DEBUGGER)) {
+			SceneElement element = new SceneElement();
+			SceneElementGO go = reflectionProvider
+					.getInstance(ChangeSceneDebugger.class);
+			element.setId(id);
+			go.setElement(element);
+			return go;
 		}
 		e.setId(id);
 		return sceneElementFactory.get(e);
