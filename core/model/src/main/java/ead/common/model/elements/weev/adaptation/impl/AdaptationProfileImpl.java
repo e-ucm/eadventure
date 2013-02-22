@@ -54,7 +54,7 @@ public class AdaptationProfileImpl extends AbstractWEEVElement implements
 	private EAdString name;
 
 	public AdaptationProfileImpl() {
-		name = EAdString.newRandomEAdString("name");
+		name = new EAdString("name");
 	}
 
 	@Override

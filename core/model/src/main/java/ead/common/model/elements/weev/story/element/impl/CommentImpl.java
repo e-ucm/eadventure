@@ -57,7 +57,7 @@ public class CommentImpl extends AbstractStoryElement implements Comment {
 	private EAdString text;
 
 	public CommentImpl() {
-		text = EAdString.newRandomEAdString("text");
+		text = new EAdString("text");
 	}
 
 	@Override

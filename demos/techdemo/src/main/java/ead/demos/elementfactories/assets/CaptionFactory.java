@@ -45,6 +45,7 @@ import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.paint.EAdFill;
 import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.text.EAdString;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class CaptionFactory {
@@ -56,7 +57,7 @@ public class CaptionFactory {
 
 	public Caption createCaption(String text, EAdPaint textFill,
 			EAdPaint bubbleFill, EAdFont font) {
-		Caption caption = new Caption();
+		Caption caption = new Caption(new EAdString("someString" + (int) (Math.random() * 9928109)));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				caption.getText(), text);
 

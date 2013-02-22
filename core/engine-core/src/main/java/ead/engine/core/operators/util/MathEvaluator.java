@@ -44,7 +44,7 @@ import ead.engine.core.game.interfaces.ValueMap;
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,
- * ceil, floor, abs, neg, rndr.<br>
+ * ceil, floor, abs, neg, rndr, deg.<br>
  * When the getValue() is called, a Float object is returned. If it returns
  * null, an error occured.
  * <p>
@@ -203,12 +203,15 @@ public class MathEvaluator {
 			res = new Float(-f1.floatValue());
 		else if ("rnd".equals(op))
 			res = new Float(Math.random() * f1.floatValue());
+		else if ("deg".equals(op)) {
+			res = Float.valueOf((float) Math.toDegrees(f1));
+		}
 
 		return res;
 	}
 
 	private void initializeOperators() {
-		operators = new Operator[25];
+		operators = new Operator[26];
 		operators[0] = new Operator("+", 2, 0);
 		operators[1] = new Operator("-", 2, 0);
 		operators[2] = new Operator("*", 2, 10);
@@ -234,6 +237,7 @@ public class MathEvaluator {
 		operators[22] = new Operator("abs", 1, 20);
 		operators[23] = new Operator("neg", 1, 20);
 		operators[24] = new Operator("rnd", 1, 20);
+		operators[25] = new Operator("deg", 1, 20);
 	}
 
 	/***

@@ -45,7 +45,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-gdx-desktop</artifactId>
+			<artifactId>engine-desktop</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

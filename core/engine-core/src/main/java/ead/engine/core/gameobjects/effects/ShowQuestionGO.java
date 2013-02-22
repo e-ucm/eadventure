@@ -153,8 +153,9 @@ public class ShowQuestionGO extends AbstractEffectGO<ShowQuestionEf> {
 		caption.setBubblePaint(ColorFill.WHITE);
 		SceneElement answerElement = new SceneElement(caption);
 		answerElement.setPosition(-800, y);
-		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, selectEffect);
-		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, entry.getValue());
+		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, selectEffect);
+		answerElement
+				.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, entry.getValue());
 
 		answerElement.addBehavior(MouseGEv.MOUSE_ENTERED, inEffect);
 		answerElement.addBehavior(MouseGEv.MOUSE_EXITED, outEffect);

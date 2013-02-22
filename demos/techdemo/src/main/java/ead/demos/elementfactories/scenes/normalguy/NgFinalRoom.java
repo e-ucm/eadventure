@@ -44,7 +44,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
@@ -100,7 +100,7 @@ public class NgFinalRoom extends EmptyScene {
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		PhysicsEffect effect = new PhysicsEffect();
+		PhysicsEf effect = new PhysicsEf();
 
 		ConditionedEv event = new ConditionedEv();
 		OperationCond condition = new OperationCond(new BasicField<Boolean>(
@@ -196,7 +196,7 @@ public class NgFinalRoom extends EmptyScene {
 	 * 
 	 * @param effect
 	 */
-	protected void addGround(PhysicsEffect effect) {
+	protected void addGround(PhysicsEf effect) {
 		RectangleShape groundS = new RectangleShape(799, 50);
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 799, 50));

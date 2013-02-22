@@ -45,6 +45,7 @@ import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -72,8 +73,8 @@ public class SpeakCharEffectImporter extends
 	public SpeakEf init(SpeakCharEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getCharacter(
 				oldObject.getTargetId());
-		SpeakSceneElementEf effect = new SpeakSceneElementEf();
-		effect.setElement(factory.getElementById(npc.getId()));
+		SpeakSceneElementEf effect = new SpeakSceneElementEf(factory
+				.getElementById(npc.getId()), new EAdString("ng.1"));
 		return effect;
 	}
 

@@ -88,12 +88,12 @@ public abstract class ElementImporter<T> implements
 			EAdCondition enableCondition, EAdEffect finalEffect) {
 
 		if (factory.isFirstPerson()) {
-			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, finalEffect);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, finalEffect);
 		} else {
 			MoveActiveElementToMouseEf move = new MoveActiveElementToMouseEf();
 			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
-			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		}
 
 	}

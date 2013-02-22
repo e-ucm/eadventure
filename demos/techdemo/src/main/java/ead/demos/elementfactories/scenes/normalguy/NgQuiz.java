@@ -87,7 +87,7 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(a3), getAnswer1(false,
 				stringFactory));
 
-		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		return element;
 	}
 

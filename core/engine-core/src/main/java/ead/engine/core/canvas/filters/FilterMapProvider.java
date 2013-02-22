@@ -41,15 +41,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ead.common.model.assets.drawable.filters.MatrixFilter;
+import ead.common.model.assets.drawable.filters.ShaderFilter;
+import ead.engine.core.assets.AssetHandler;
 import ead.tools.MapProvider;
 
 public class FilterMapProvider implements
 		MapProvider<Class<?>, RuntimeFilter<?>> {
 
+	private AssetHandler assetHandler;
+
+	public FilterMapProvider(AssetHandler assetHandler) {
+		this.assetHandler = assetHandler;
+	}
+
 	@Override
 	public Map<Class<?>, RuntimeFilter<?>> getMap() {
 		Map<Class<?>, RuntimeFilter<?>> map = new HashMap<Class<?>, RuntimeFilter<?>>();
 		map.put(MatrixFilter.class, new MatrixRuntimeFilter());
+		map.put(ShaderFilter.class, new ShaderRuntimeFilter(assetHandler));
 		return map;
 	}
 

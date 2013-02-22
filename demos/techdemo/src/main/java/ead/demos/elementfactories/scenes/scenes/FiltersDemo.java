@@ -41,6 +41,7 @@ import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.model.assets.drawable.filters.FilteredDrawable;
 import ead.common.model.assets.drawable.filters.MatrixFilter;
+import ead.common.model.assets.drawable.filters.ShaderFilter;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Matrix;
 import ead.common.model.params.util.Position.Corner;
@@ -57,6 +58,13 @@ public class FiltersDemo extends EmptyScene {
 		SceneElement e = new SceneElement(d);
 		e.setInitialScale(0.8f);
 		e.setPosition(Corner.CENTER, 400, 300);
+
+		EAdFilteredDrawable d2 = new FilteredDrawable(i, new ShaderFilter(
+				"@binary/shaders/normal.vert", "@binary/shaders/reder.frag"));
+		SceneElement e3 = new SceneElement(d2);
+		e3.setInitialScale(0.8f);
+		e3.setPosition(Corner.CENTER, 400, 200);
+		add(e3);
 
 		SceneElement e2 = new SceneElement(i);
 		e2.setPosition(Corner.CENTER, 400, 400);

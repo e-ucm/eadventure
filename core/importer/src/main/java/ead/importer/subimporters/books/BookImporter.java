@@ -427,7 +427,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			int textWidth) {
 		List<String> lines = getLines(text, font, textWidth);
 		for (String l : lines) {
-			Caption caption = new Caption();
+			Caption caption = new Caption(stringHandler.generateNewString());
 			stringHandler.setString(caption.getText(), l);
 			caption.setFont(eadFont);
 			caption.setPadding(0);

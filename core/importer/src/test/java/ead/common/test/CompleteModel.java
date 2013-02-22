@@ -68,7 +68,7 @@ public class CompleteModel extends BasicAdventureModel {
 	public CompleteModel() {
 		// FIXME more elements
 		BasicChapter chapter = new BasicChapter();
-		chapter.setTitle(EAdString.newEAdString("A chapter"));
+		chapter.setTitle(new EAdString("A chapter"));
 		this.getChapters().add(chapter);
 		RectangleShape background = new RectangleShape(800, 600,
 				ColorFill.BLACK);
@@ -93,7 +93,7 @@ public class CompleteModel extends BasicAdventureModel {
 
 		Image i = new Image("@drawable/someimage.png");
 
-		Caption c = new Caption();
+		Caption c = new Caption(new EAdString("completemodelstringcaption"));
 		c.setAlignment(Alignment.LEFT);
 		c.getFields().add(EmptyCond.TRUE_EMPTY_CONDITION);
 		c.setPadding(50);

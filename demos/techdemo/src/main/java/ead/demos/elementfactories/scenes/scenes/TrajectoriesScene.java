@@ -80,7 +80,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		getSceneElements().add(element);
 
-		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementToMouseEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();

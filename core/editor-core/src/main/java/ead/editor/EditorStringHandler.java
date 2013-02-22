@@ -159,9 +159,9 @@ public class EditorStringHandler implements StringHandler {
 
 	@Override
 	public EAdString generateNewString() {
-		EAdString key = EAdString.newRandomEAdString("generatedString");
+		EAdString key = new EAdString("generatedString");
 		while (usedKeys.contains(key)) {
-			key = EAdString.newRandomEAdString("generatedString");
+			key = new EAdString("generatedString");
 		}
 		return key;
 	}

@@ -60,7 +60,7 @@ public class XMLVisitor {
 
 	private static final Logger logger = LoggerFactory.getLogger("XMLVisitor");
 
-	private static final int MAX_LOOPS_WITH_SAME_SIZE = 50;
+	private static final int MAX_LOOPS_WITH_SAME_SIZE = 1000;
 
 	private List<VisitorStep> stepsQueue;
 
@@ -181,7 +181,8 @@ public class XMLVisitor {
 			for (VisitorStep s : stepsQueue) {
 				XMLNode n = s.getNode();
 				// If it's a reference, we create a BasicElement with the id.
-				if (n.getAttributes().getLength() < 2) {
+				if (n.getNodeName().equals("e")
+						&& n.getAttributes().getLength() < 2) {
 					String id = n.getNodeText();
 					if (id != null) {
 						s.getListener().loaded(n, new BasicElement(id), false);
@@ -190,6 +191,9 @@ public class XMLVisitor {
 										"{} is not present in the model. A BasicElement reference was generated",
 										n.getNodeText());
 					}
+				} else {
+					logger.warn("{} node was impossilbe to read.", n
+							.getNodeText());
 				}
 
 			}

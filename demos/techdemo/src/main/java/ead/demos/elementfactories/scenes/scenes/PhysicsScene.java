@@ -53,7 +53,7 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
@@ -90,7 +90,7 @@ public class PhysicsScene extends EmptyScene {
 
 		addSky();
 
-		PhysicsEffect effect = new PhysicsEffect();
+		PhysicsEf effect = new PhysicsEf();
 
 		ConditionedEv event = new ConditionedEv();
 		OperationCond condition = new OperationCond(new BasicField<Boolean>(
@@ -112,7 +112,7 @@ public class PhysicsScene extends EmptyScene {
 		return "A scene showing the use of jbox2d";
 	}
 
-	protected void addWalls(PhysicsEffect effect) {
+	protected void addWalls(PhysicsEf effect) {
 		RectangleShape groundS = new RectangleShape(750, 50);
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 750, 50));
@@ -121,13 +121,11 @@ public class PhysicsScene extends EmptyScene {
 
 		SceneElement wall = new SceneElement(groundS);
 		wall.setPosition(new Position(Corner.CENTER, 775, 300));
-		wall.setVarInitialValue(SceneElement.VAR_ROTATION,
-				(float) Math.PI / 2.0f);
+		wall.setVarInitialValue(SceneElement.VAR_ROTATION, 90.0f);
 
 		SceneElement wall2 = new SceneElement(groundS);
 		wall2.setPosition(new Position(Corner.CENTER, 25, 300));
-		wall2.setVarInitialValue(SceneElement.VAR_ROTATION,
-				(float) Math.PI / 2.0f);
+		wall2.setVarInitialValue(SceneElement.VAR_ROTATION, 90.0f);
 
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);
@@ -142,7 +140,7 @@ public class PhysicsScene extends EmptyScene {
 		return "Physics Scene";
 	}
 
-	private void addCanyon(PhysicsEffect effect) {
+	private void addCanyon(PhysicsEf effect) {
 
 		int height = 100;
 
@@ -179,7 +177,7 @@ public class PhysicsScene extends EmptyScene {
 		EAdField<Float> canyonY = new BasicField<Float>(canyon,
 				SceneElement.VAR_Y);
 
-		String expression = "- acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )";
+		String expression = "deg( - acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) ) )";
 		MathOp op = new MathOp(expression, canyonX, canyonY, mouseX, mouseY);
 		followMouse.setOperation(op);
 		followMouse.addField(rotationField);
@@ -224,7 +222,7 @@ public class PhysicsScene extends EmptyScene {
 
 	}
 
-	protected void addPendulum(PhysicsEffect effect) {
+	protected void addPendulum(PhysicsEf effect) {
 
 		SceneElement holder = new SceneElement(new RectangleShape(100, 10,
 				new LinearGradientFill(ColorFill.DARK_BROWN,
@@ -235,8 +233,8 @@ public class PhysicsScene extends EmptyScene {
 				new LinearGradientFill(ColorFill.YELLOW, ColorFill.LIGHT_BROWN,
 						150, 10)));
 		rope.setPosition(new Position(Corner.CENTER, 450, 50));
-		rope.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
-		rope.setVarInitialValue(PhysicsEffect.VAR_PH_FRICTION, 0.7f);
+		rope.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+		rope.setVarInitialValue(PhysicsEf.VAR_PH_FRICTION, 0.7f);
 		getSceneElements().add(rope);
 		getSceneElements().add(holder);
 

@@ -62,13 +62,13 @@
 	use the -U flag (refreshes all plugins)
 
 * Launch cobertura (check unit-test coverage) on a module
-	mvn -pl ead:engine-gdx-desktop cobertura:check
+	mvn -pl ead:engine-desktop cobertura:check
 
 * Launch findbugs on a module
-	mvn -pl ead:engine-gdx-desktop findbugs:findbugs findbugs:gui
+	mvn -pl ead:engine-desktop findbugs:findbugs findbugs:gui
 
 * Launch pmd on a module
-	mvn -pl ead:engine-gdx-desktop pmd:pmd pmd:cpd
+	mvn -pl ead:engine-desktop pmd:pmd pmd:cpd
 
 	NOTE: results are generated in the corresponding target/pmd.xml and target/cpd.xml
 

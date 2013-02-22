@@ -222,7 +222,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			playerReference.setVarInitialValue(SceneElement.VAR_Z, playerZ);
 			scene.getSceneElements().add(playerReference);
 
-			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					new MoveActiveElementToMouseEf());
 
 			// Add move camera with character

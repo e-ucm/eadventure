@@ -357,7 +357,7 @@ public class ActionImporter implements
 		EAdField<EAdString> descField = new BasicField<EAdString>(actor,
 				SceneElementDef.VAR_DOC_DETAILED_DESC);
 
-		SpeakEf effect = new SpeakEf();
+		SpeakEf effect = new SpeakEf(stringHandler.generateNewString());
 		stringHandler.setString(effect.getCaption().getText(), "[0]");
 		effect.getCaption().getFields().add(descField);
 

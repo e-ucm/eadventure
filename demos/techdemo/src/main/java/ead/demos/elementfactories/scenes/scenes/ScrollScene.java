@@ -48,6 +48,7 @@ import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
@@ -63,10 +64,10 @@ public class ScrollScene extends EmptyScene {
 		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
 
-		SpeakSceneElementEf effect = new SpeakSceneElementEf(character);
+		SpeakSceneElementEf effect = new SpeakSceneElementEf(character, new EAdString("n.1234"));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				effect.getCaption().getText(), "Sometimes I don't speak right");
-		character.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, effect);
+		character.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);
 
 		this.getSceneElements().add(character);
 

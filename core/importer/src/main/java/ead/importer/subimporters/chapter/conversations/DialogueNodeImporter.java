@@ -100,7 +100,7 @@ public class DialogueNodeImporter implements
 		}
 
 		if (initialEffect == null) {
-			initialEffect = new SpeakEf();
+			initialEffect = new SpeakEf(stringHandler.generateNewString());
 			initialEffect
 					.setColor(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
 			stringHandler.setString(initialEffect.getString(), "");

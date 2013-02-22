@@ -107,8 +107,8 @@ public class EffectFactory {
 			int ordinal = i % StringType.values().length;
 			EAdString answerString = EAdElementsFactory.getInstance()
 					.getStringFactory().getString(StringType.values()[ordinal]);
-			effect.addAnswer(answerString, new SpeakEf());
-		}
+			effect.addAnswer(answerString, new SpeakEf(new EAdString("showQuestion" + (int) (Math.random() * 1000000))));
+		} 
 		return effect;
 
 	}

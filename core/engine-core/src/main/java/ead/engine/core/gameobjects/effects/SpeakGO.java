@@ -37,7 +37,6 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -48,6 +47,7 @@ import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
@@ -117,8 +117,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected EAdGroupElement getVisualRepresentation() {
-		int width = Gdx.graphics.getWidth();
-		int height = Gdx.graphics.getHeight();
+		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
@@ -171,6 +171,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		complex.getSceneElements().add(textSE);
 
 		caption = (RuntimeCaption) assetHandler.getRuntimeAsset(text);
+		caption.loadAsset();
 		caption.reset();
 
 		return complex;

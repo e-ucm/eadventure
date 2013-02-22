@@ -44,7 +44,7 @@ import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.operations.BasicField;
@@ -72,19 +72,15 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElement e2 = new SceneElement(rShape);
 		getSceneElements().add(e2);
 		e2.setPosition(new Position(Corner.CENTER, 500, 200));
-		e2
-				.setVarInitialValue(SceneElement.VAR_ROTATION,
-						(float) Math.PI / 4.0f);
+		e2.setVarInitialValue(SceneElement.VAR_ROTATION, 45.0f);
 
-		PhysicsEffect effect = new PhysicsEffect();
+		PhysicsEf effect = new PhysicsEf();
 		effect.addSceneElement(e2);
 
 		SceneElement e3 = new SceneElement(rShape);
 		getSceneElements().add(e3);
 		e3.setPosition(new Position(Corner.CENTER, 200, 100));
-		e3
-				.setVarInitialValue(SceneElement.VAR_ROTATION,
-						(float) Math.PI / 2.0f);
+		e3.setVarInitialValue(SceneElement.VAR_ROTATION, 90.0f);
 
 		effect.addSceneElement(e3);
 
@@ -96,11 +92,11 @@ public class PhysicsScene2 extends PhysicsScene {
 		b.setPosition(new Position(Corner.CENTER, 500, 0));
 		getSceneElements().add(0, b);
 		effect.addSceneElement(b);
-		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
-		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+		b.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new PhApplyImpulseEf(b, new MathOp("0"), new MathOp("-1")));
-		b.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-		b.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
+		b.setVarInitialValue(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+		b.setVarInitialValue(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
@@ -109,14 +105,13 @@ public class PhysicsScene2 extends PhysicsScene {
 						j * 60 + 200));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
 				getBackground().addBehavior(
-						MouseGEv.MOUSE_LEFT_CLICK,
+						MouseGEv.MOUSE_LEFT_PRESSED,
 						new PhApplyImpulseEf(e, new MathOp("0"), new MathOp(
 								"-100")));
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE,
-						PhShape.CIRCULAR);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 			}
 
 		ConditionedEv event = new ConditionedEv();

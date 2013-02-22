@@ -67,7 +67,7 @@ public class ActorSaysEffect extends AbstractEffect {
 	 */
 	public ActorSaysEffect(Actor actor) {
 		this.actor = actor;
-		text = EAdString.newRandomEAdString("text");
+		text = new EAdString("text");
 	}
 
 	public EAdString getText() {

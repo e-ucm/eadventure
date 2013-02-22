@@ -50,7 +50,7 @@ import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.events.ConditionedEv;
@@ -69,6 +69,7 @@ import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.VarDef;
@@ -97,7 +98,7 @@ public class NgRoom2 extends EmptyScene {
 		ng.setInitialScale(0.8f);
 
 		// Character can talk in the scene
-		SpeakEf effect = new SpeakSceneElementEf(ng);
+		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.56"));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				effect.getString(),
 				"Oh... this is getting weird... where the heck am I?");
@@ -234,7 +235,7 @@ public class NgRoom2 extends EmptyScene {
 		int spotX = 100;
 		int spotY = 300;
 		int desp = 0;
-		PhysicsEffect effect = new PhysicsEffect();
+		PhysicsEf effect = new PhysicsEf();
 
 		EAdShape circle = new CircleShape(20);
 		circle.setPaint(new LinearGradientFill(ColorFill.BLACK, new ColorFill(
@@ -248,10 +249,9 @@ public class NgRoom2 extends EmptyScene {
 						spotX + i * 20 + desp, spotY + j * 20));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE,
-						PhShape.CIRCULAR);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 				// Ng moving to the selected ball
 				MoveSceneElementEf move = new MoveSceneElementEf();
 				move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
@@ -271,7 +271,7 @@ public class NgRoom2 extends EmptyScene {
 		addGround(effect);
 	}
 
-	protected void addGround(PhysicsEffect effect) {
+	protected void addGround(PhysicsEf effect) {
 		RectangleShape groundS = new RectangleShape(799, 1);
 		groundS.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT,
 				ColorFill.TRANSPARENT, 799, 1));

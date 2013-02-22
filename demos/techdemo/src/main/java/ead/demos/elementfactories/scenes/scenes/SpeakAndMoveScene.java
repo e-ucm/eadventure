@@ -114,7 +114,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		action.addAsset(SceneElementDef.overAppearance, new Image(
 				"@drawable/examine-pressed.png"));
 
-		SpeakEf speak = new SpeakEf();
+		SpeakEf speak = new SpeakEf("ead.speakandmoveScene");
 
 		InterpolationEf move = new InterpolationEf();
 		move.setInterpolationTime(1000);
@@ -141,7 +141,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		EAdEffect showActions = new ActorActionsEf(actionsObject
 				.getDefinition());
-		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
+		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, showActions);
 		getSceneElements().add(actionsObject);
 
 		// Trajectories

@@ -70,7 +70,7 @@ public class ShowQuestionEf extends AbstractEffect {
 
 	public EAdString getQuestion() {
 		if (question == null) {
-			question = EAdString.newRandomEAdString("question");
+			question = new EAdString("question");
 		}
 		return question;
 	}

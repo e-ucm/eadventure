@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;
 import ead.tools.AbstractFactory;
@@ -51,8 +52,9 @@ public class GdxFilterFactory extends AbstractFactory<RuntimeFilter<?>>
 		implements FilterFactory {
 
 	@Inject
-	public GdxFilterFactory(ReflectionProvider interfacesProvider) {
-		super(new FilterMapProvider(), interfacesProvider);
+	public GdxFilterFactory(ReflectionProvider interfacesProvider,
+			AssetHandler assetHandler) {
+		super(new FilterMapProvider(assetHandler), interfacesProvider);
 	}
 
 	@SuppressWarnings("unchecked")

@@ -87,7 +87,7 @@ public class TextsScene extends EmptyScene {
 	}
 
 	private Caption createTestCaption(EAdFont font) {
-		Caption c = new Caption(EAdString.newEAdString("#txt#Test text"));
+		Caption c = new Caption(new EAdString("#txt#Test text"));
 		c.setTextPaint(ColorFill.WHITE);
 		c.setBubblePaint(ColorFill.RED);
 		c.setPadding(0);

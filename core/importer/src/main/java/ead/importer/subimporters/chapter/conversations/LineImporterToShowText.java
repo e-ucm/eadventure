@@ -78,9 +78,10 @@ public class LineImporterToShowText implements
 	public SpeakEf init(ConversationLine line) {
 		EAdElement element = factory.getElementById(line.getName());
 		if (line.isPlayerLine() && factory.isFirstPerson()) {
-			return new SpeakEf();
+			return new SpeakEf(stringHandler.generateNewString());
 		} else
-			return new SpeakSceneElementEf(element);
+			return new SpeakSceneElementEf(element, stringHandler
+					.generateNewString());
 
 	}
 

@@ -55,7 +55,7 @@ public class SpaceLinkImpl extends AbstractTransition<Space> implements
 	private EAdString name;
 
 	public SpaceLinkImpl() {
-		name = EAdString.newRandomEAdString("name");
+		name = new EAdString("name");
 	}
 
 	@Override

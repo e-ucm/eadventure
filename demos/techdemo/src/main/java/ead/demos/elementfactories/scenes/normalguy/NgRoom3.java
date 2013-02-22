@@ -48,6 +48,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
@@ -67,7 +68,7 @@ public class NgRoom3 extends EmptyScene {
 		ng.setInitialScale(0.8f);
 
 		// Character can talk in the scene
-		SpeakEf effect = new SpeakSceneElementEf(ng);
+		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.001"));
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()
@@ -135,8 +136,7 @@ public class NgRoom3 extends EmptyScene {
 	private void setEvilGuy() {
 		// MoveSceneElementEf move = moveNg(560, 510);
 
-		SpeakSceneElementEf speech = new SpeakSceneElementEf();
-		speech.setElement(evil_ng);
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(evil_ng, new EAdString("n.78"));
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(),
 				new FadeInTransition(1000));

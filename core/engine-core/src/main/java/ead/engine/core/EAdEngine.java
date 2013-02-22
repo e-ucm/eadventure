@@ -86,6 +86,9 @@ public class EAdEngine implements ApplicationListener {
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
 
+		gameState.setValue(SystemFields.GAME_WIDTH, width);
+		gameState.setValue(SystemFields.GAME_HEIGHT, height);
+
 		spriteBatch = new GdxCanvas();
 		stage = new Stage(width, height, false, spriteBatch);
 		spriteBatch.enableBlending();

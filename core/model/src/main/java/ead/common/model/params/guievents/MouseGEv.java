@@ -46,14 +46,8 @@ import ead.common.model.params.guievents.enums.MouseGEvType;
 @Element
 public class MouseGEv extends AbstractParam implements EAdGUIEvent {
 
-	public static final MouseGEv MOUSE_RIGHT_CLICK = new MouseGEv(
-			MouseGEvType.CLICK, MouseGEvButtonType.BUTTON_3);
 	public static final MouseGEv MOUSE_RIGHT_PRESSED = new MouseGEv(
 			MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_3);
-	public static final MouseGEv MOUSE_LEFT_CLICK = new MouseGEv(
-			MouseGEvType.CLICK, MouseGEvButtonType.BUTTON_1);
-	public static final MouseGEv MOUSE_RIGHT_DOUBLE_CLICK = new MouseGEv(
-			MouseGEvType.DOUBLE_CLICK, MouseGEvButtonType.BUTTON_3);
 	public static final MouseGEv MOUSE_ENTERED = new MouseGEv(
 			MouseGEvType.ENTERED, MouseGEvButtonType.NO_BUTTON);
 	public static final MouseGEv MOUSE_EXITED = new MouseGEv(
@@ -111,16 +105,6 @@ public class MouseGEv extends AbstractParam implements EAdGUIEvent {
 	public static MouseGEv getMouseEvent(MouseGEvType type,
 			MouseGEvButtonType button) {
 		switch (type) {
-		case DOUBLE_CLICK:
-			if (button == MouseGEvButtonType.BUTTON_3)
-				return MOUSE_RIGHT_DOUBLE_CLICK;
-			break;
-		case CLICK:
-			if (button == MouseGEvButtonType.BUTTON_3)
-				return MOUSE_RIGHT_CLICK;
-			else if (button == MouseGEvButtonType.BUTTON_1)
-				return MOUSE_LEFT_CLICK;
-			break;
 		case ENTERED:
 			return MOUSE_ENTERED;
 		case EXITED:

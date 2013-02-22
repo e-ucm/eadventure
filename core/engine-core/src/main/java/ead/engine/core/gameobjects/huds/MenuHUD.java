@@ -135,7 +135,7 @@ public class MenuHUD extends AbstractHUD {
 	//		c2.setPadding(11);
 	//		c2.setFont(new BasicFont(18));
 	//
-	//		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+	//		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 	//		return button;
 	//	}
 	//

@@ -258,20 +258,21 @@ public abstract class ActorImporter<P extends Element> implements
 
 		// add actions
 		ActorActionsEf showActions = new ActorActionsEf(actor);
-		actor.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
+		actor.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, showActions);
 
 		if (factory.getOldDataModel().getDefaultClickAction() == DefaultClickAction.SHOW_ACTIONS) {
-			actor.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, showActions);
+			actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, showActions);
 		} else {
-			SpeakEf showDescription = new SpeakEf();
+			SpeakEf showDescription = new SpeakEf(stringHandler
+					.generateNewString());
 			EAdField<EAdString> desc = new BasicField<EAdString>(actor,
 					SceneElementDef.VAR_DOC_DESC);
 			showDescription.getCaption().getFields().add(desc);
 			stringHandler.setString(showDescription.getCaption().getText(),
 					"[0]");
-			actor.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, showDescription);
+			actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, showDescription);
 			if (sounds[0] != null) {
-				actor.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, sounds[0]);
+				actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, sounds[0]);
 			}
 		}
 

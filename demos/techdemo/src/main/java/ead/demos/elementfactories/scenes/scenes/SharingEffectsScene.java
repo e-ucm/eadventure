@@ -64,7 +64,7 @@ public class SharingEffectsScene extends EmptyScene {
 				SystemFields.ACTIVE_ELEMENT, SceneElement.VAR_ROTATION);
 		ChangeFieldEf effect = new ChangeFieldEf(field, new MathOp("[0] + 0.1",
 				field));
-		b.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+		b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		ChangeFieldEf changeAlpha1 = new ChangeFieldEf();
 		changeAlpha1.setParentVar(SceneElement.VAR_ALPHA);
@@ -89,7 +89,7 @@ public class SharingEffectsScene extends EmptyScene {
 				e.setPosition(new Position(Corner.CENTER, i * 60 + 40,
 						j * 60 + 100));
 				MakeActiveElementEf ef = new MakeActiveElementEf(e);
-				e.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, ef);
+				e.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, ef);
 				e.addBehavior(MouseGEv.MOUSE_ENTERED, changeAlpha1);
 				e.addBehavior(MouseGEv.MOUSE_EXITED, changeAlpha2);
 				getSceneElements().add(e);

@@ -51,7 +51,7 @@ import ead.common.model.params.text.EAdString;
 
 /**
  * A caption asset. It's represented by a text, and a bubble
- *
+ * 
  */
 public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 
@@ -91,18 +91,10 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	private Alignment alignment;
 
 	/**
-	 * Constructs an empty caption
+	 * Constructs an empty caption. DO NOT USE this constructor. It is only used
+	 * by the reader
 	 */
 	public Caption() {
-		this(EAdString.newRandomEAdString("label"));
-	}
-
-	/**
-	 * Constructs a caption with the given label
-	 * @param label the label
-	 */
-	public Caption(EAdString label) {
-		this.label = label;
 		textPaint = new Paint(ColorFill.BLACK, ColorFill.WHITE);
 		bubblePaint = new Paint(ColorFill.WHITE, ColorFill.BLACK);
 		this.font = BasicFont.BIG;
@@ -116,11 +108,23 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	}
 
 	/**
+	 * Constructs a caption with the given label
+	 * 
+	 * @param label
+	 *            the label
+	 */
+	public Caption(EAdString label) {
+		this();
+		this.label = label;
+	}
+
+	/**
 	 * Constructs a caption with the given string
+	 * 
 	 * @param string
 	 */
 	public Caption(String string) {
-		this(EAdString.newEAdString(string));
+		this(new EAdString(string));
 	}
 
 	public Caption(String stringId, EAdFont font) {
@@ -180,10 +184,10 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	/**
 	 * Sets preferred width for this text. Could be a positive number or
 	 * {@link EAdCaption#AUTO_SIZE} or {@link EAdCaption#SCREEN_SIZE}
-	 *
+	 * 
 	 * @param maxWidth
 	 *            the width
-	 *
+	 * 
 	 */
 	@Override
 	public void setPreferredWidth(int maxWidth) {
@@ -193,7 +197,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	/**
 	 * Sets preferred height for this text. Could be a positive number or
 	 * {@link EAdCaption#AUTO_SIZE} or {@link EAdCaption#SCREEN_SIZE}
-	 *
+	 * 
 	 * @param maxHeight
 	 *            the height
 	 */

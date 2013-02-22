@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-gdx-desktop</artifactId>
+			<artifactId>engine-desktop</artifactId>
 			<version>2.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

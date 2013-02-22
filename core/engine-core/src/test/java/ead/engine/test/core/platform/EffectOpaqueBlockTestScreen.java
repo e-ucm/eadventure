@@ -94,13 +94,13 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene 
 				new Image("@drawable/start.png"));
 
 		WaitEf waitEffect = new WaitEf(60 + 1);
-		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, waitEffect);
 
 		WaitEf waitEffect2 = new WaitEf(60 + 1);
-		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect2);
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, waitEffect2);
 
 		WaitEf waitEffect3 = new WaitEf(60 + 1);
-		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect3);
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, waitEffect3);
 
 		buttonActor2.setPosition(new Position(Position.Corner.BOTTOM_CENTER,
 				10, 10));

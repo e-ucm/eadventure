@@ -110,9 +110,9 @@
 				<!-- Engine -->
 				<module>core/engine-core</module>
 				<!-- Gdx -->
-				<module>core/engine-gdx-desktop</module>
-				<module>core/engine-gdx-android</module>
-				<module>core/engine-gdx-html</module>
+				<module>core/engine-desktop</module>
+				<module>core/engine-android</module>
+				<module>core/engine-html</module>
 
 				<!-- Editor -->
 				<module>core/editor-core</module>
@@ -124,7 +124,6 @@
 				<module>core/exporter</module>
 
 				<!-- Demos -->
-				<module>demos/firstaidgame</module>
 				<module>demos/techdemo</module>
 
 				<!-- GUI tools -->
@@ -157,14 +156,14 @@
 			<modules>
 				<module>core/model</module>
 				<module>core/engine-core</module>
-				<module>core/engine-gdx-desktop</module>
+				<module>core/engine-desktop</module>
 			</modules>
 		</profile>
 		<profile>
 			<!-- Android-engine-only build -->
 			<id>engine-android</id>
 			<modules>
-				<module>core/engine-gdx-android</module>
+				<module>core/engine-android</module>
 			</modules>
 		</profile>
 	</profiles>
@@ -245,8 +244,8 @@
 						<!-- ignore android-generated java files -->
 						<exclude>**/R.java</exclude>
 						<!-- ignore gwt base website and generated files -->
-						<exclude>core/engine-gdx-html/war/**</exclude>
-						<exclude>core/engine-gdx-html/gwt*/**</exclude>
+						<exclude>core/engine-html/war/**</exclude>
+						<exclude>core/engine-html/gwt*/**</exclude>
 					</excludes>
 					<includes>
 						<!-- ignore /etc and other non-project directories -->

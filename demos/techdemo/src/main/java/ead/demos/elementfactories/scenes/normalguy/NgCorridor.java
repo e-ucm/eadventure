@@ -51,6 +51,7 @@ import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
@@ -282,8 +283,7 @@ public class NgCorridor extends EmptyScene {
 
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
 
-		SpeakSceneElementEf speak = new SpeakSceneElementEf();
-		speak.setElement(ng);
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString("ng.1"));
 		move.getNextEffects().add(speak);
 	}
 

@@ -70,7 +70,7 @@ public class ShowQuestionScene extends EmptyScene {
 		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer4"),
 				null);
 
-		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 	}
 
 }

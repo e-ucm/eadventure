@@ -37,7 +37,6 @@
 
 package ead.common.model.params.text;
 
-import ead.common.model.elements.BasicElement;
 import ead.common.model.params.EAdParam;
 
 /**
@@ -49,8 +48,6 @@ public class EAdString implements EAdParam {
 	 * The id
 	 */
 	private String id;
-
-	public static final String LITERAL_PREFIX = "&#lit;";
 
 	/**
 	 * Construct a new string with the given id
@@ -89,25 +86,6 @@ public class EAdString implements EAdParam {
 	public boolean parse(String data) {
 		this.id = data;
 		return id != null;
-	}
-
-	public static EAdString newRandomEAdString(String string) {
-		return new EAdString(string + BasicElement.randomSuffix());
-	}
-
-	public static EAdString newEAdString(String string) {
-		return new EAdString(string);
-	}
-
-	/**
-	 * Returns a string that won't be internationalized
-	 * 
-	 * @param text
-	 *            the text to be shown
-	 * @return
-	 */
-	public static EAdString newLiteralString(String text) {
-		return new EAdString(LITERAL_PREFIX + text);
 	}
 
 }

@@ -81,6 +81,10 @@ public class SpeakEf extends AbstractEffect {
 	@Param
 	private EAdField<String> stateField;
 
+	public SpeakEf() {
+
+	}
+
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
 	 * {@link Paint#WHITE_ON_BLACK} and bubble color of
@@ -88,23 +92,19 @@ public class SpeakEf extends AbstractEffect {
 	 */
 	public SpeakEf(EAdString string) {
 		super();
-		if (string != null) {
-			caption = new Caption(string);
-		} else {
-			caption = new Caption();
-		}
+		caption = new Caption(string);
 		caption.setTextPaint(ColorFill.BLACK);
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 	}
 
+	public SpeakEf(String stringId) {
+		this(new EAdString(stringId));
+	}
+
 	public SpeakEf(String stringId, EAdFont font) {
 		this(new EAdString(stringId));
 		caption.setFont(font);
-	}
-
-	public SpeakEf() {
-		this((EAdString) null);
 	}
 
 	/**

@@ -318,8 +318,6 @@ public class GameImpl implements Game, VisitorListener {
 					.getInitialScene());
 			gui.setScene(scene);
 		}
-		gameState.setValue(SystemFields.GAME_WIDTH, adventure.getGameWidth());
-		gameState.setValue(SystemFields.GAME_HEIGHT, adventure.getGameHeight());
 
 		logger.info("Init game events...");
 		events.clear();

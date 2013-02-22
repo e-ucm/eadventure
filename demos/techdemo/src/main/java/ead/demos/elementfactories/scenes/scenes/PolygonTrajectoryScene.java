@@ -31,7 +31,8 @@ public class PolygonTrajectoryScene extends EmptyScene {
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 		element.getEvents().add(event);
 		getSceneElements().add(element);
-		addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new MoveActiveElementToMouseEf());
+		addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+				new MoveActiveElementToMouseEf());
 
 		// Create trajectory
 		PolygonTrajectory polygon = new PolygonTrajectory();

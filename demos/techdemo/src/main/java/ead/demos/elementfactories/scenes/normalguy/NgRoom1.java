@@ -69,6 +69,7 @@ import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.DragGEv;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.guievents.enums.DragGEvType;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.VarDef;
@@ -209,7 +210,7 @@ public class NgRoom1 extends EmptyScene {
 	 * text appears
 	 */
 	private void setMainCharactersSpeech() {
-		SpeakSceneElementEf speech = new SpeakSceneElementEf();
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(ng, new EAdString("n.1"));
 
 		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
 
@@ -277,7 +278,7 @@ public class NgRoom1 extends EmptyScene {
 		MoveSceneElementEf move = moveNg(430, 260);
 		move.setCondition(moveCondition);
 
-		portrait.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
+		portrait.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
 		move.getNextEffects().add(NgCommon.getLookNorthEffect());
 
@@ -331,7 +332,7 @@ public class NgRoom1 extends EmptyScene {
 
 	private EAdEffect getSpeakEffect(int i) {
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng);
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString("n.23"));
 		sf.setString(speak.getString(), strings[i]);
 		return speak;
 	}

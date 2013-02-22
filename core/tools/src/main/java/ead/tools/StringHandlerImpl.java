@@ -129,9 +129,11 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public EAdString generateNewString() {
-		EAdString s = EAdString.newRandomEAdString("generatedString");
+		EAdString s = new EAdString("generatedString"
+				+ (int) (Math.random() * 1000000000));
 		while (strings.containsKey(s)) {
-			s = EAdString.newRandomEAdString("generatedString");
+			s = new EAdString("generatedString"
+					+ (int) (Math.random() * 1000000000));
 		}
 		return s;
 	}

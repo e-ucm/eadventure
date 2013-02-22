@@ -85,8 +85,8 @@ public class BasicAdventureModel extends BasicElement implements
 	public BasicAdventureModel() {
 		chapters = new EAdList<EAdChapter>();
 		vars = new EAdMap<EAdVarDef<?>, Object>();
-		description = EAdString.newRandomEAdString("desc");
-		title = EAdString.newRandomEAdString("title");
+		description = new EAdString("desc");
+		title = new EAdString("title");
 		gameWidth = DEFAULT_WIDTH;
 		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdList<EAdElement>();

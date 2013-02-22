@@ -98,7 +98,7 @@ public class SceneElementFactory {
 	public SceneElement createSceneElement(EAdDrawable appearance, int x,
 			int y, EAdEffect effect) {
 		SceneElement sceneElement = this.createSceneElement(appearance, x, y);
-		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		return sceneElement;
 	}
 

@@ -84,7 +84,7 @@ public class AssessmentEffect extends AbstractEffect {
 	public AssessmentEffect(Type type, Integer value) {
 		this.type = type;
 		this.value = value;
-		this.message = EAdString.newRandomEAdString("message");
+		this.message = new EAdString("message");
 	}
 
 	public Integer getValue() {

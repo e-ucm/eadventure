@@ -41,6 +41,7 @@ import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class ActionsFactory {
@@ -48,9 +49,10 @@ public class ActionsFactory {
 	public SceneElementDef getBasicAction() {
 		SceneElementDef def = new SceneElementDef(new Image(
 				"@drawable/examine-normal.png"));
-		SpeakEf speak = new SpeakEf();
-		EAdElementsFactory.getInstance().getStringFactory().setString(
-				speak.getString(), "The action was triggered!");
+		SpeakEf speak = new SpeakEf(new EAdString("string"
+				+ (int) (Math.random() * 1000000000)));
+		EAdElementsFactory.getInstance().getStringFactory()
+				.setString(speak.getString(), "The action was triggered!");
 		def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speak);
 		return def;
 	}

@@ -164,7 +164,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Add name
 		ExitLook exitLook = oldObject.getDefaultExitLook();
 
-		EAdString name = EAdString.newRandomEAdString("exitLookName");
+		EAdString name = stringHandler.generateNewString();
 		stringHandler.setString(name, exitLook.getExitText());
 		newExit.getDefinition().setVarInitialValue(
 				SceneElementDef.VAR_DOC_NAME, name);

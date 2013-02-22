@@ -94,7 +94,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	@Override
 	public SpeakEf init(T oldObject) {
-		return new SpeakEf();
+		return new SpeakEf(stringHandler.generateNewString());
 	}
 
 	public SpeakEf convert(T oldObject, Object object) {

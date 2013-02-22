@@ -93,7 +93,7 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> rotation2 = new BasicField<Float>(e,
 				SceneElement.VAR_ROTATION);
 
-		e.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ChangeFieldEf(rotation,
+		e.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, new ChangeFieldEf(rotation,
 				new ValueOp((float) 10.0f)));
 
 		InterpolationEf effect2 = new InterpolationEf(rotation2, 0, 360, 1000,
