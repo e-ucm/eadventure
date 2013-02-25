@@ -283,7 +283,8 @@ public class NgCorridor extends EmptyScene {
 
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
 
-		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString("ng.1"));
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString(
+				"ng.1"));
 		move.getNextEffects().add(speak);
 	}
 

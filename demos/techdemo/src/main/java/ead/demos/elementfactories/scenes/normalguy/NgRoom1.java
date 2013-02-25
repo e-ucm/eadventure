@@ -210,7 +210,8 @@ public class NgRoom1 extends EmptyScene {
 	 * text appears
 	 */
 	private void setMainCharactersSpeech() {
-		SpeakSceneElementEf speech = new SpeakSceneElementEf(ng, new EAdString("n.1"));
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(ng, new EAdString(
+				"n.1"));
 
 		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
 
@@ -332,7 +333,8 @@ public class NgRoom1 extends EmptyScene {
 
 	private EAdEffect getSpeakEffect(int i) {
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString("n.23"));
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString(
+				"n.23"));
 		sf.setString(speak.getString(), strings[i]);
 		return speak;
 	}

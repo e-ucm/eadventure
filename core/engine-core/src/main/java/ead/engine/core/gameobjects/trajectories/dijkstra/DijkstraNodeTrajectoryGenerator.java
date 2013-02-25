@@ -139,6 +139,10 @@ public class DijkstraNodeTrajectoryGenerator {
 		DijkstraNode currentNode = generateSides(trajectoryDefinition, nodeMap,
 				movingElement, toX, toY, sceneElement);
 
+		if (currentNode == null) {
+			return new Path();
+		}
+
 		Map<DijkstraNode, PathInfo> map = getMap(currentNode);
 
 		return decodePath(currentNode, map);

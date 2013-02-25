@@ -57,7 +57,8 @@ public class CaptionFactory {
 
 	public Caption createCaption(String text, EAdPaint textFill,
 			EAdPaint bubbleFill, EAdFont font) {
-		Caption caption = new Caption(new EAdString("someString" + (int) (Math.random() * 9928109)));
+		Caption caption = new Caption(new EAdString("someString"
+				+ (int) (Math.random() * 9928109)));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				caption.getText(), text);
 

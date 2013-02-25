@@ -37,13 +37,13 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
@@ -69,11 +69,9 @@ public class GhostElementGO extends SceneElementGO {
 	}
 
 	@Override
-	public RuntimeDrawable<?> getDrawable() {
+	public void drawChildren(SpriteBatch batch, float parentAlpha) {
 		if (ghostVisible) {
-			return super.getDrawable();
-		} else {
-			return null;
+			super.drawChildren(batch, parentAlpha);
 		}
 	}
 

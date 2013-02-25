@@ -311,7 +311,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public void setAppearance(String bundle, EAdDrawable drawable) {
 		getDefinition().setAppearance(bundle, drawable);
+	}
 
+	public void setOverAppearance(String bundle, EAdDrawable drawable) {
+		getDefinition().setOverAppearance(bundle, drawable);
 	}
 
 	public void setInitialVisible(boolean visible) {
@@ -331,6 +334,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 			this.getEvents().add(initEvent);
 		}
 		initEvent.addEffect(SceneElementEvType.FIRST_UPDATE, e);
+	}
+
+	public void setOverAppearance(EAdDrawable d) {
+		this.getDefinition().setOverAppearance(d);
 	}
 
 }

@@ -78,4 +78,8 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 
 	void setDoc(EAdString documentation);
 
+	void setOverAppearance(String bundle, EAdDrawable drawable);
+
+	void setOverAppearance(EAdDrawable drawable);
+
 }

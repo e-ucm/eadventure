@@ -149,10 +149,6 @@ public class ChangeFieldEf extends AbstractEffect {
 		return varDef;
 	}
 
-	public String toString() {
-		return fields + " : " + operation;
-	}
-
 	public void setFields(EAdList<EAdField<?>> fields) {
 		this.fields = fields;
 	}

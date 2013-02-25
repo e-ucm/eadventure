@@ -123,6 +123,14 @@ public class SceneElementDef extends ResourcedElement implements
 		addAsset(SceneElementDef.appearance, d);
 	}
 
+	public void setOverAppearance(String bundle, EAdDrawable drawable) {
+		addAsset(bundle, SceneElementDef.appearance, drawable);
+	}
+
+	public void setOverAppearance(EAdDrawable drawable) {
+		addAsset(SceneElementDef.overAppearance, drawable);
+	}
+
 	@Override
 	public EAdDrawable getAppearance() {
 		return (EAdDrawable) getResources().get(SceneElementDef.appearance);

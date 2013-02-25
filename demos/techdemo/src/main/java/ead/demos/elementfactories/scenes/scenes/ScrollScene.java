@@ -64,7 +64,8 @@ public class ScrollScene extends EmptyScene {
 		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
 
-		SpeakSceneElementEf effect = new SpeakSceneElementEf(character, new EAdString("n.1234"));
+		SpeakSceneElementEf effect = new SpeakSceneElementEf(character,
+				new EAdString("n.1234"));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				effect.getCaption().getText(), "Sometimes I don't speak right");
 		character.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);

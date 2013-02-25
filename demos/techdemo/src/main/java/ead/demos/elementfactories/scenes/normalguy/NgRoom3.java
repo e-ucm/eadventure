@@ -136,7 +136,8 @@ public class NgRoom3 extends EmptyScene {
 	private void setEvilGuy() {
 		// MoveSceneElementEf move = moveNg(560, 510);
 
-		SpeakSceneElementEf speech = new SpeakSceneElementEf(evil_ng, new EAdString("n.78"));
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(evil_ng,
+				new EAdString("n.78"));
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(),
 				new FadeInTransition(1000));

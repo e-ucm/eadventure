@@ -37,15 +37,25 @@
 
 package ead.engine.core.gameobjects.debuggers;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.fonts.FontHandler;
+import ead.engine.core.assets.fonts.RuntimeFont;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
@@ -58,26 +68,76 @@ public class ChangeSceneDebugger extends SceneElementGO {
 
 	private Game game;
 
+	private FontHandler fontHandler;
+
+	private EAdScene[] scenes;
+
+	private SelectBox selectBox;
+
 	@Inject
 	public ChangeSceneDebugger(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory, Game game) {
+			GameState gameState, EventGOFactory eventFactory, Game game,
+			FontHandler fontHandler) {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.game = game;
+		this.fontHandler = fontHandler;
 	}
 
 	public void setElement(EAdSceneElement e) {
 		super.setElement(e);
 		setPosition(10, 10);
-		EAdScene scenes[] = new EAdScene[game.getCurrentChapter().getScenes()
-				.size()];
+		scenes = new EAdScene[game.getCurrentChapter().getScenes().size()];
 		int i = 0;
 		for (EAdScene s : game.getCurrentChapter().getScenes()) {
-			scenes[i++] = s;
+			scenes[i] = s;
+			i++;
 		}
-		Skin s = new Skin();
 		SelectBox.SelectBoxStyle style = new SelectBoxStyle();
-		SelectBox selectBox = new SelectBox(scenes, style);
+		Pixmap p = new Pixmap(200, 20, Pixmap.Format.RGBA8888);
+		p.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+		p.fillRectangle(0, 0, 200, 20);
+
+		TextureRegion t1 = new TextureRegion(new Texture(p));
+		p.dispose();
+
+		p = new Pixmap(200, 20, Pixmap.Format.RGBA8888);
+		p.setColor(0.0f, 1.0f, 0.0f, 1.0f);
+		p.fillRectangle(0, 0, 200, 20);
+
+		TextureRegion t2 = new TextureRegion(new Texture(p));
+		p.dispose();
+
+		p = new Pixmap(200, 20, Pixmap.Format.RGBA8888);
+		p.setColor(0.0f, 0.0f, 1.0f, 1.0f);
+		p.fillRectangle(0, 0, 200, 20);
+
+		TextureRegion t3 = new TextureRegion(new Texture(p));
+		p.dispose();
+
+		RuntimeFont f = fontHandler.get(BasicFont.REGULAR);
+		style.font = f.getBitmapFont();
+		style.background = new TextureRegionDrawable(t1);
+		style.background.setTopHeight(0);
+		style.background.setBottomHeight(0);
+		style.listBackground = new TextureRegionDrawable(t2);
+		style.listSelection = new TextureRegionDrawable(t3);
+		style.fontColor = Color.BLACK;
+		selectBox = new SelectBox(scenes, style);
 		addActor(selectBox);
+
+		selectBox.addListener(new ChangeListener() {
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				EAdScene selectScene = scenes[selectBox.getSelectionIndex()];
+				EAdScene currentScene = (EAdScene) gui.getScene().getElement();
+				if (selectScene != currentScene) {
+					gameState.addEffect(new ChangeSceneEf(selectScene), null,
+							null);
+				}
+			}
+
+		});
 	}
 }

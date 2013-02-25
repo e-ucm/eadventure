@@ -650,13 +650,13 @@ public class SceneElementGO extends Group implements
 				timeDisplayed);
 		gameState.setUpdateListEnable(true);
 
-		updateCurrentDawable();
 		if (gameState.checkForUpdates(element)) {
 			gameState.setUpdateListEnable(false);
 			updateVars();
 			setExtraVars();
 			gameState.setUpdateListEnable(true);
 		}
+		updateCurrentDawable();
 
 		super.act(delta);
 

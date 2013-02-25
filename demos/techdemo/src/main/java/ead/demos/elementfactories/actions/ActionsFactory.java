@@ -51,8 +51,8 @@ public class ActionsFactory {
 				"@drawable/examine-normal.png"));
 		SpeakEf speak = new SpeakEf(new EAdString("string"
 				+ (int) (Math.random() * 1000000000)));
-		EAdElementsFactory.getInstance().getStringFactory()
-				.setString(speak.getString(), "The action was triggered!");
+		EAdElementsFactory.getInstance().getStringFactory().setString(
+				speak.getString(), "The action was triggered!");
 		def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speak);
 		return def;
 	}
