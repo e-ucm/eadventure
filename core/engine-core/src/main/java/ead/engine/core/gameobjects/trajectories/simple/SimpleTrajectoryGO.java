@@ -135,4 +135,15 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 		return currentTime >= totalTime;
 	}
 
+	@Override
+	public boolean isReachedTarget() {
+		if (target == null) {
+			return true;
+		}
+		float diffX = target.getCenterX() - movingElement.getCenterX();
+		float diffY = target.getCenterY() - movingElement.getCenterY();
+		return Math.sqrt(diffX * diffX + diffY * diffY) <= trajectory
+				.getDistanceToTarget();
+	}
+
 }

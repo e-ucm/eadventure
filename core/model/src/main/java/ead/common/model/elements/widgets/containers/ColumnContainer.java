@@ -58,8 +58,8 @@ public class ColumnContainer extends GroupElement {
 	public void add(EAdSceneElement element) {
 		element.setPosition(Corner.TOP_LEFT, 0, 0);
 		if (lastAdded != null) {
-			BasicField<Integer> fieldBottom = new BasicField<Integer>(
-					lastAdded, SceneElement.VAR_BOTTOM);
+			BasicField<Float> fieldBottom = new BasicField<Float>(lastAdded,
+					SceneElement.VAR_BOTTOM);
 			BasicField<Float> fieldY = new BasicField<Float>(element,
 					SceneElement.VAR_Y);
 

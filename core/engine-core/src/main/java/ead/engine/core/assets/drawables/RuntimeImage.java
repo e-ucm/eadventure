@@ -140,4 +140,11 @@ public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 		}
 	}
 
+	public Texture getTextureHandle() {
+		if (textureRegion != null) {
+			return textureRegion.getTexture();
+		}
+		return null;
+	}
+
 }

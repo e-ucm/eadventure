@@ -173,4 +173,10 @@ public class PolygonTrajectoryGO extends
 		return pathFinder;
 	}
 
+	@Override
+	public boolean isReachedTarget() {
+		// FIXME
+		return false;
+	}
+
 }

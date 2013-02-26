@@ -103,7 +103,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		currentTime = 0;
 
 		path = generator.getTrajectory(this.trajectory, movingElement
-				.getElement(), destinyX, destinyY);
+				.getElement(), destinyX, destinyY, target);
 
 		currentPath.clear();
 		for (PathSide side : path.getSides()) {
@@ -222,6 +222,14 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	@Override
 	public boolean isDone() {
 		return finished;
+	}
+
+	@Override
+	public boolean isReachedTarget() {
+		if (target == null) {
+			return true;
+		}
+		return path.isGetsTo();
 	}
 
 }

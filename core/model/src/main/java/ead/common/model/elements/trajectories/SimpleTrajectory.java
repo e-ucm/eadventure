@@ -67,6 +67,9 @@ public class SimpleTrajectory extends BasicElement implements EAdTrajectory {
 	@Param
 	private int right;
 
+	@Param
+	private int distanceToTarget;
+
 	public SimpleTrajectory() {
 		this(false);
 		this.freeWalk = true;
@@ -82,6 +85,7 @@ public class SimpleTrajectory extends BasicElement implements EAdTrajectory {
 		this.onlyHorizontal = onlyHorizontal;
 		bottom = right = Integer.MAX_VALUE / 2;
 		top = left = Integer.MIN_VALUE / 2;
+		this.distanceToTarget = 100;
 	}
 
 	public boolean isOnlyHorizontal() {
@@ -143,6 +147,22 @@ public class SimpleTrajectory extends BasicElement implements EAdTrajectory {
 
 	public void setFreeWalk(boolean freeWalk) {
 		this.freeWalk = freeWalk;
+	}
+
+	/**
+	 * Returns the maximum distance to reach one target
+	 * @return
+	 */
+	public int getDistanceToTarget() {
+		return distanceToTarget;
+	}
+
+	/**
+	 * Sets the maximum distance to reach one target
+	 * @param distanceToTarget
+	 */
+	public void setDistanceToTarget(int distanceToTarget) {
+		this.distanceToTarget = distanceToTarget;
 	}
 
 }

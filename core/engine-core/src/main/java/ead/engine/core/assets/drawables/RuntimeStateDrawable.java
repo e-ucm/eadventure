@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.EAdDrawable;
@@ -54,6 +55,12 @@ public class RuntimeStateDrawable extends
 		RuntimeDrawable<EAdStateDrawable> {
 
 	private Map<String, RuntimeDrawable<?>> drawables;
+
+	private int time;
+
+	private List<String> states;
+
+	private int level;
 
 	@Inject
 	public RuntimeStateDrawable(AssetHandler assetHandler) {
@@ -88,6 +95,9 @@ public class RuntimeStateDrawable extends
 	@Override
 	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
+		this.time = time;
+		this.states = states;
+		this.level = level;
 		if (states == null) {
 			return drawables.values().iterator().next().getDrawable(time,
 					states, level);
@@ -130,5 +140,9 @@ public class RuntimeStateDrawable extends
 	public boolean contains(int x, int y) {
 		// Never used
 		return false;
+	}
+
+	public Texture getTextureHandle() {
+		return getDrawable(time, states, level).getTextureHandle();
 	}
 }

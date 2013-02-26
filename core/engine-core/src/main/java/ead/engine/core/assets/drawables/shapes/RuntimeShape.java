@@ -175,4 +175,11 @@ public abstract class RuntimeShape<T extends AbstractShape> extends
 	public void refresh() {
 		// Do nothing
 	}
+
+	public Texture getTextureHandle() {
+		if (textureRegion != null) {
+			return textureRegion.getTexture();
+		}
+		return null;
+	}
 }

@@ -40,6 +40,7 @@ package ead.engine.core.assets.drawables;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.animation.Frame;
@@ -57,6 +58,12 @@ public class RuntimeFramesAnimation extends
 	private List<Integer> times;
 
 	private int totalTime;
+
+	private int time;
+
+	private List<String> states;
+
+	private int level;
 
 	@Inject
 	public RuntimeFramesAnimation(AssetHandler assetHandler) {
@@ -91,6 +98,9 @@ public class RuntimeFramesAnimation extends
 	@Override
 	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
+		this.time = time;
+		this.states = states;
+		this.level = level;
 		int realTime = time % totalTime;
 		int index = 0;
 		while (realTime > times.get(index)) {
@@ -128,6 +138,10 @@ public class RuntimeFramesAnimation extends
 	public boolean contains(int x, int y) {
 		// Never used
 		return false;
+	}
+
+	public Texture getTextureHandle() {
+		return getDrawable(time, states, level).getTextureHandle();
 	}
 
 }

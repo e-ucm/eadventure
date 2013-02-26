@@ -37,11 +37,15 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.transitions.MaskTransition;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.paint.EAdFill;
 
 /**
@@ -60,6 +64,9 @@ public class EmptyScene extends BasicScene {
 				ColorFill.WHITE, 800, 600));
 		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
 				rectangle);
+		this.background.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+				new ChangeSceneEf(null, new MaskTransition(new Image(
+						"@drawable/man_stand_e_1.png"), 5000)));
 	}
 
 	public void setBackgroundFill(EAdFill fill) {

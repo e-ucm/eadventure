@@ -39,6 +39,7 @@ package ead.engine.core.assets.drawables;
 
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
@@ -54,6 +55,12 @@ public class RuntimeFilteredDrawable extends
 	private RuntimeDrawable<?> drawable;
 
 	private FilterFactory filterFactory;
+
+	private int time;
+
+	private List<String> states;
+
+	private int level;
 
 	@Inject
 	public RuntimeFilteredDrawable(AssetHandler assetHandler,
@@ -82,20 +89,22 @@ public class RuntimeFilteredDrawable extends
 	@Override
 	public int getWidth() {
 		// TODO filter could change width and height
-		return drawable.getWidth();
+		return drawable.getDrawable(time, states, level).getWidth();
 	}
 
 	@Override
 	public int getHeight() {
 		// TODO filter could change width and height
-		return drawable.getHeight();
+		return drawable.getDrawable(time, states, level).getHeight();
 	}
 
 	@Override
 	public void render(GdxCanvas c) {
-		filterFactory.setFilter(drawable, descriptor.getFilter(), c);
-		drawable.render(c);
-		filterFactory.unsetFilter(drawable, descriptor.getFilter(), c);
+		filterFactory.setFilter(drawable.getDrawable(time, states, level),
+				descriptor.getFilter(), c);
+		drawable.getDrawable(time, states, level).render(c);
+		filterFactory.unsetFilter(drawable.getDrawable(time, states, level),
+				descriptor.getFilter(), c);
 	}
 
 	@Override
@@ -107,12 +116,19 @@ public class RuntimeFilteredDrawable extends
 	@Override
 	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
+		this.time = time;
+		this.states = states;
+		this.level = level;
 		return this;
 	}
 
 	@Override
 	public void refresh() {
 		drawable.refresh();
+	}
+
+	public Texture getTextureHandle() {
+		return getDrawable(time, states, level).getTextureHandle();
 	}
 
 }

@@ -40,6 +40,7 @@ package ead.engine.core.assets.drawables;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.EAdCaption;
@@ -61,12 +62,12 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	/**
 	 * Average time used to read one word, in milliseconds
 	 */
-	private static final int TIME_FOR_WORD = 300;
+	private static final int TIME_FOR_WORD = 1000;
 
 	/**
 	 * Minimum time a text will be shown
 	 */
-	private static final int MINIMUM_TIME_TEXT = 1400;
+	private static final int MINIMUM_TIME_TEXT = 10000;
 
 	protected String text;
 
@@ -506,6 +507,11 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			freeMemory();
 			loadAsset();
 		}
+	}
+
+	@Override
+	public Texture getTextureHandle() {
+		return null;
 	}
 
 }

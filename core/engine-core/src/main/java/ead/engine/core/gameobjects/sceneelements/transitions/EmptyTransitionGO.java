@@ -45,13 +45,8 @@ import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
-
-	private SceneGO nextScene;
-
-	private TransitionListener listener;
 
 	@Inject
 	public EmptyTransitionGO(AssetHandler assetHandler,
@@ -60,15 +55,8 @@ public class EmptyTransitionGO extends TransitionGO<EmptyTransition> {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
 	}
 
-	@Override
-	public void transition(SceneGO scene, TransitionListener l) {
-		this.nextScene = scene;
-		this.listener = l;
-	}
-
 	public void act(float delta) {
-		gui.setScene(nextScene);
-		listener.transitionEnded();
+		super.finish();
 	}
 
 }

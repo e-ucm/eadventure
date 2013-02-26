@@ -407,17 +407,19 @@ public class DijkstraNodeTrajectoryGenerator {
 				NodeTrajectory.VAR_INFLUENCE_AREA));
 		// TODO check if the position of the element isn't relevant (i.e. if the
 		// position of the rectangle is not relative to the element)
-		Position position = new Position(rectangle.getX(), rectangle.getY());
+		if (rectangle != null) {
+			Position position = new Position(rectangle.getX(), rectangle.getY());
 
-		int i = 0;
-		while (i < intersections.size() - 1) {
-			List<DijkstraNode> newIntersections = getIntersections(
-					intersections.get(i), intersections.get(i + 1), rectangle
-							.getWidth(), rectangle.getHeight(), position);
-			for (DijkstraNode newNode : newIntersections)
-				newNode.setGetsTo(true);
-			intersections.addAll(i + 1, newIntersections);
-			i += newIntersections.size() + 1;
+			int i = 0;
+			while (i < intersections.size() - 1) {
+				List<DijkstraNode> newIntersections = getIntersections(
+						intersections.get(i), intersections.get(i + 1),
+						rectangle.getWidth(), rectangle.getHeight(), position);
+				for (DijkstraNode newNode : newIntersections)
+					newNode.setGetsTo(true);
+				intersections.addAll(i + 1, newIntersections);
+				i += newIntersections.size() + 1;
+			}
 		}
 	}
 

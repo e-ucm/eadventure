@@ -39,6 +39,7 @@ package ead.engine.core.canvas;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
@@ -71,6 +72,8 @@ public class GdxCanvas extends SpriteBatch {
 	 */
 	public void setMatrix(Matrix m) {
 		setTransformMatrix(convertMatrix(m));
+		Gdx.gl20.glBindTexture(0, 0);
+		Gdx.gl20.glActiveTexture(0);
 	}
 
 	/**

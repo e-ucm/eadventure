@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -209,6 +210,16 @@ public class SceneElementGO extends Group implements
 	 */
 	private boolean reorder;
 
+	// Relative positions
+
+	private boolean updateRelatives;
+
+	private float center[];
+
+	private float topLeft[];
+
+	private float bottomRight[];
+
 	private Comparator<SceneElementGO> comparator;
 
 	@Inject
@@ -225,6 +236,11 @@ public class SceneElementGO extends Group implements
 		eventGOList = new ArrayList<EventGO<?>>();
 
 		addListener(this);
+
+		// Relative positions
+		center = new float[3];
+		topLeft = new float[3];
+		bottomRight = new float[3];
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
@@ -346,8 +362,8 @@ public class SceneElementGO extends Group implements
 	protected void setExtraVars() {
 		int scaleW = (int) (this.getWidth() * scale * this.getScaleX());
 		int scaleH = (int) (this.getHeight() * scale * this.getScaleY());
-		int x = (int) (this.getX() + dispX * this.getWidth());
-		int y = (int) (this.getY() + dispY * this.getHeight());
+		float x = (this.getX() + dispX * this.getWidth());
+		float y = (this.getY() + dispY * this.getHeight());
 		gameState.setValue(element, SceneElement.VAR_LEFT, x);
 		gameState.setValue(element, SceneElement.VAR_RIGHT, x + scaleW);
 		gameState.setValue(element, SceneElement.VAR_TOP, y);
@@ -384,12 +400,19 @@ public class SceneElementGO extends Group implements
 		setDispY(position.getDispY());
 	}
 
+	public void setRotation(float rotation) {
+		super.setRotation(rotation);
+		gameState.setValue(getElement(), SceneElement.VAR_ROTATION, rotation);
+		updateRelatives = true;
+	}
+
 	/**
 	 * Sets x position for this element
 	 * 
 	 * @param x
 	 */
 	public void setX(float x) {
+		updateRelatives = true;
 		super.setX(x);
 		gameState.setValue(getElement(), SceneElement.VAR_X, x);
 	}
@@ -402,12 +425,50 @@ public class SceneElementGO extends Group implements
 		return super.getX();
 	}
 
+	private void updateRelatives() {
+		center[0] = getWidth() / 2;
+		center[1] = getHeight() / 2;
+		topLeft[0] = 0;
+		topLeft[1] = 0;
+		bottomRight[0] = getWidth();
+		bottomRight[1] = getHeight();
+		Matrix4 m = computeTransform();
+		Matrix4.mulVec(m.val, center);
+		Matrix4.mulVec(m.val, topLeft);
+		Matrix4.mulVec(m.val, bottomRight);
+	}
+
+	public float getCenterX() {
+		return center[0];
+	}
+
+	public float getCenterY() {
+		return center[1];
+	}
+
+	public float getRight() {
+		return bottomRight[0];
+	}
+
+	public float getBottom() {
+		return bottomRight[1];
+	}
+
+	public float getTop() {
+		return topLeft[1];
+	}
+
+	public float getLeft() {
+		return topLeft[0];
+	}
+
 	/**
 	 * Sets y position for this element
 	 * 
 	 * @param y
 	 */
 	public void setY(float y) {
+		updateRelatives = true;
 		super.setY(y);
 		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
 	}
@@ -481,6 +542,7 @@ public class SceneElementGO extends Group implements
 	 */
 	public void setScale(float scale) {
 		this.scale = scale;
+		updateRelatives = true;
 	}
 
 	/**
@@ -657,6 +719,11 @@ public class SceneElementGO extends Group implements
 			gameState.setUpdateListEnable(true);
 		}
 		updateCurrentDawable();
+
+		if (updateRelatives) {
+			updateRelatives = false;
+			updateRelatives();
+		}
 
 		super.act(delta);
 
@@ -1058,6 +1125,7 @@ public class SceneElementGO extends Group implements
 	}
 
 	public void setWidth(float width) {
+		updateRelatives = true;
 		super.setWidth(width);
 		setOriginX(width * dispX);
 		gameState.setValue(element, SceneElement.VAR_WIDTH,
@@ -1065,6 +1133,7 @@ public class SceneElementGO extends Group implements
 	}
 
 	public void setHeight(float height) {
+		updateRelatives = true;
 		super.setHeight(height);
 		setOriginY(height * dispY);
 		gameState.setValue(element, SceneElement.VAR_HEIGHT,
@@ -1077,10 +1146,12 @@ public class SceneElementGO extends Group implements
 	}
 
 	public void setScaleX(float scaleX) {
+		updateRelatives = true;
 		super.setScaleX(scaleX * scale);
 	}
 
 	public void setScaleY(float scaleY) {
+		updateRelatives = true;
 		super.setScaleY(scaleY * scale);
 	}
 

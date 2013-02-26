@@ -359,6 +359,17 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 			map.addDrawable(barrier, (int) go.getX(), (int) go.getY());
 		}
 
+		for (EAdSceneElement e : ((EAdScene) gui.getScene().getElement())
+				.getSceneElements()) {
+			Rectangle r = (Rectangle) e.getVars().get(
+					NodeTrajectory.VAR_INFLUENCE_AREA);
+			if (r != null) {
+				RectangleShape influenceArea = new RectangleShape(r.width,
+						r.height, new ColorFill(0, 0, 200, 122));
+				map.addDrawable(influenceArea, r.x, r.y);
+			}
+		}
+
 		addSceneElement(sceneElementFactory.get(mapElement));
 
 	}

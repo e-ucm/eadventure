@@ -130,8 +130,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 		if (effect.getX() != null && effect.getY() != null) {
 
-			Integer xOrigin = gameState.operate(Integer.class, effect.getX());
-			Integer yOrigin = gameState.operate(Integer.class, effect.getY());
+			int xOrigin = gameState.operate(Float.class, effect.getX())
+					.intValue();
+			int yOrigin = gameState.operate(Float.class, effect.getY())
+					.intValue();
 
 			xOrigin += (int) effectsHud.getX();
 			yOrigin += (int) effectsHud.getY();

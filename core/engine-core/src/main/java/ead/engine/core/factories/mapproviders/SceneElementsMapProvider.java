@@ -51,6 +51,7 @@ import ead.common.model.elements.scenes.VideoScene;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.model.elements.transitions.MaskTransition;
 import ead.common.model.elements.widgets.TextArea;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
@@ -63,6 +64,7 @@ import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.EmptyTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.MaskTransitionGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 
 public class SceneElementsMapProvider
@@ -82,6 +84,7 @@ public class SceneElementsMapProvider
 		factoryMap.put(EmptyTransition.class, EmptyTransitionGO.class);
 		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
 		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
+		factoryMap.put(MaskTransition.class, MaskTransitionGO.class);
 		// Huds
 
 		// Debuggers

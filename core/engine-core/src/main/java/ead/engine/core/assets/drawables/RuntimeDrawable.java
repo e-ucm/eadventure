@@ -39,6 +39,8 @@ package ead.engine.core.assets.drawables;
 
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.engine.core.assets.RuntimeAsset;
 import ead.engine.core.canvas.GdxCanvas;
@@ -92,5 +94,11 @@ public interface RuntimeDrawable<T extends EAdDrawable> extends RuntimeAsset<T> 
 	 * 
 	 */
 	RuntimeDrawable<?> getDrawable(int time, List<String> states, int level);
+
+	/**
+	 * Returns the OpenGL texture handle
+	 * @return
+	 */
+	Texture getTextureHandle();
 
 }

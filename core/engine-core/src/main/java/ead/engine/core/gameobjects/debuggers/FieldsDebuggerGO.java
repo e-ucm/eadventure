@@ -40,12 +40,15 @@ package ead.engine.core.gameobjects.debuggers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.shapes.CircleShape;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.widgets.Label;
 import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
@@ -53,6 +56,7 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 /**
  * A debugger showing all the fields and their values of the element under the
@@ -69,7 +73,18 @@ public class FieldsDebuggerGO extends SceneElementGO {
 
 	private List<EAdVarDef<?>> vars;
 
+	private List<SceneElementGO> labels;
+
+	private SceneGO scene;
+
+	private List<Bounds> bounds;
+
 	private int y;
+
+	private CircleShape circle = new CircleShape(2, new Paint(ColorFill.RED,
+			ColorFill.BLACK));
+	private CircleShape circleTopLeft = new CircleShape(2, new Paint(
+			ColorFill.GREEN, ColorFill.BLACK));
 
 	@Inject
 	public FieldsDebuggerGO(AssetHandler assetHandler,
@@ -77,15 +92,26 @@ public class FieldsDebuggerGO extends SceneElementGO {
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 		this.vars = new ArrayList<EAdVarDef<?>>();
+		this.bounds = new ArrayList<Bounds>();
+		this.labels = new ArrayList<SceneElementGO>();
 	}
 
 	public void act(float delta) {
+		SceneGO currentScene = gui.getScene();
+		if (currentScene != scene) {
+			scene = currentScene;
+			generateBounds();
+		}
+		updateBounds();
 		SceneElementGO go = gui.getGameObjectUnderPointer();
 		if (currentGO != go) {
 			currentGO = go;
 			if (currentGO != null) {
 				y = 0;
-				getChildren().clear();
+				for (SceneElementGO l : labels) {
+					l.remove();
+				}
+				labels.clear();
 				vars.clear();
 				EAdSceneElement s = (EAdSceneElement) go.getElement();
 
@@ -93,7 +119,9 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				l.setBgColor(ColorFill.WHITE);
 				y += DELTA_Y;
 				l.setPosition(MARGIN_LEFT, y);
-				addSceneElement(l);
+				SceneElementGO lgo = sceneElementFactory.get(l);
+				labels.add(lgo);
+				addSceneElement(lgo);
 
 				// Position
 				y += DELTA_Y;
@@ -108,7 +136,9 @@ public class FieldsDebuggerGO extends SceneElementGO {
 						go.getField(SceneElement.VAR_X));
 				position.getCaption().getFields().add(
 						go.getField(SceneElement.VAR_Y));
-				addSceneElement(position);
+				lgo = sceneElementFactory.get(position);
+				labels.add(lgo);
+				addSceneElement(lgo);
 
 				// Rotation
 				y += DELTA_Y;
@@ -117,7 +147,9 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				rotation.setBgColor(ColorFill.WHITE);
 				rotation.getCaption().getFields().add(
 						go.getField(SceneElement.VAR_ROTATION));
-				addSceneElement(rotation);
+				lgo = sceneElementFactory.get(rotation);
+				labels.add(lgo);
+				addSceneElement(lgo);
 
 				// Scale
 				y += DELTA_Y;
@@ -130,10 +162,77 @@ public class FieldsDebuggerGO extends SceneElementGO {
 						go.getField(SceneElement.VAR_SCALE_X));
 				scale.getCaption().getFields().add(
 						go.getField(SceneElement.VAR_SCALE_Y));
-				addSceneElement(scale);
+				lgo = sceneElementFactory.get(scale);
+				labels.add(lgo);
+				addSceneElement(lgo);
 			}
 		}
 		super.act(delta);
+	}
+
+	private void generateBounds() {
+		for (Bounds b : bounds) {
+			b.remove();
+		}
+		bounds.clear();
+		if (scene != null) {
+			for (Actor a : scene.getChildren()) {
+				if (a instanceof SceneElementGO) {
+					SceneElementGO e = sceneElementFactory
+							.get(new SceneElement(circle));
+					addSceneElement(e);
+					SceneElementGO e2 = sceneElementFactory
+							.get(new SceneElement(circleTopLeft));
+					addSceneElement(e2);
+					bounds.add(new Bounds((SceneElementGO) a, e, e2));
+				}
+			}
+		}
+	}
+
+	private void updateBounds() {
+		for (Bounds b : bounds) {
+			b.update();
+		}
+	}
+
+	public class Bounds {
+
+		private SceneElementGO parent;
+
+		private SceneElementGO bounds;
+
+		private SceneElementGO topRight;
+
+		public Bounds(SceneElementGO parent, SceneElementGO center,
+				SceneElementGO topCenter) {
+			this.parent = parent;
+			this.bounds = center;
+			bounds.setDispX(0.5f);
+			bounds.setDispY(0.5f);
+			this.topRight = topCenter;
+			topCenter.setDispX(0.5f);
+			topCenter.setDispY(0.5f);
+		}
+
+		public void remove() {
+			bounds.remove();
+			topRight.remove();
+		}
+
+		public void update() {
+			bounds.setPosition(parent.getCenterX(), parent.getCenterY());
+			topRight.setPosition(parent.getLeft(), parent.getTop());
+		}
+
+		public SceneElementGO getParent() {
+			return parent;
+		}
+
+		public SceneElementGO getBounds() {
+			return bounds;
+		}
+
 	}
 
 }

@@ -43,6 +43,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.EAdDrawable;
@@ -68,6 +69,12 @@ public class RuntimeComposedDrawable extends
 	private Logger logger = LoggerFactory.getLogger("RuntimeComposedDrawable");
 
 	protected ArrayList<RuntimeDrawable<?>> drawables;
+
+	private int time;
+
+	private List<String> states;
+
+	private int level;
 
 	@Inject
 	public RuntimeComposedDrawable(AssetHandler assetHandler) {
@@ -153,6 +160,9 @@ public class RuntimeComposedDrawable extends
 	@Override
 	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
+		this.time = time;
+		this.states = states;
+		this.level = level;
 		for (RuntimeDrawable<?> d : this.drawables) {
 			d.getDrawable(time, states, level);
 		}
@@ -164,6 +174,10 @@ public class RuntimeComposedDrawable extends
 		for (RuntimeDrawable<?> d : this.drawables) {
 			d.refresh();
 		}
+	}
+
+	public Texture getTextureHandle() {
+		return getDrawable(time, states, level).getTextureHandle();
 	}
 
 }

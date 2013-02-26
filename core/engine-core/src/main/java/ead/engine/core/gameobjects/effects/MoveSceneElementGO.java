@@ -128,8 +128,8 @@ public class MoveSceneElementGO extends
 		}
 
 		trajectory = trajectoryFactory.get(d);
-		trajectory.set(movingElement, endX, endY, sceneElement == null ? null
-				: sceneElementFactory.get(sceneElement));
+		trajectory.set(movingElement, endX, endY, sceneElementFactory
+				.get(effect.getTargetSceneElement()));
 
 		// Check if the element is controlled by other move scene effect
 		MoveSceneElementGO go = gameState.getValue(sceneElement,
@@ -152,9 +152,12 @@ public class MoveSceneElementGO extends
 	}
 
 	public void finish() {
-		super.finish();
+		if (trajectory.isReachedTarget()) {
+			super.finish();
+		}
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
+
 	}
 
 	public void stop() {

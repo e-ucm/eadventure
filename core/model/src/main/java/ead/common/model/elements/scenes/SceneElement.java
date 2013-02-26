@@ -101,23 +101,23 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Float> VAR_Y = new VarDef<Float>("y",
 			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_LEFT = new VarDef<Integer>(
-			"left", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_LEFT = new VarDef<Float>("left",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_TOP = new VarDef<Integer>("top",
-			Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_TOP = new VarDef<Float>("top",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_RIGHT = new VarDef<Integer>(
-			"right", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_RIGHT = new VarDef<Float>("right",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_BOTTOM = new VarDef<Integer>(
-			"bottom", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_BOTTOM = new VarDef<Float>(
+			"bottom", Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_CENTER_X = new VarDef<Integer>(
-			"center_x", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_CENTER_X = new VarDef<Float>(
+			"center_x", Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_CENTER_Y = new VarDef<Integer>(
-			"center_y", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_CENTER_Y = new VarDef<Float>(
+			"center_y", Float.class, 0.f);
 
 	public static final EAdVarDef<Integer> VAR_Z = new VarDef<Integer>("z",
 			Integer.class, 0);
@@ -338,6 +338,15 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public void setOverAppearance(EAdDrawable d) {
 		this.getDefinition().setOverAppearance(d);
+	}
+
+	public void setInitialZ(int z) {
+		setVarInitialValue(SceneElement.VAR_Z, z);
+
+	}
+
+	public void setInitialState(String state) {
+		setVarInitialValue(SceneElement.VAR_STATE, state);
 	}
 
 }

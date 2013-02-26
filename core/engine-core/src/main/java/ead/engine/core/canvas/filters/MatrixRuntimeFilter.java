@@ -54,8 +54,8 @@ public class MatrixRuntimeFilter implements RuntimeFilter<MatrixFilter> {
 		float deltaX = filter.getOriginX() * drawable.getWidth();
 		float deltaY = filter.getOriginY() * drawable.getHeight();
 		Matrix4 m = c.convertMatrix(matrix);
-		c.setTransformMatrix(c.getTransformMatrix().trn(deltaX, deltaY, 0).mul(
-				m));
+		c.setTransformMatrix(c.getTransformMatrix().trn(deltaX, deltaY, 0.0f)
+				.mul(m));
 
 	}
 

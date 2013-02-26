@@ -228,10 +228,10 @@ public class NgRoom1 extends EmptyScene {
 	private void setDarkness(SceneElement ng) {
 		SceneElementEv event = new SceneElementEv();
 		ChangeFieldEf changeX = new ChangeFieldEf(new BasicField<Float>(
-				darkness, SceneElement.VAR_X), new BasicField<Integer>(ng,
+				darkness, SceneElement.VAR_X), new BasicField<Float>(ng,
 				SceneElement.VAR_CENTER_X));
 		ChangeFieldEf changeY = new ChangeFieldEf(new BasicField<Float>(
-				darkness, SceneElement.VAR_Y), new BasicField<Integer>(ng,
+				darkness, SceneElement.VAR_Y), new BasicField<Float>(ng,
 				SceneElement.VAR_CENTER_Y));
 		event.addEffect(SceneElementEvType.ALWAYS, changeX);
 		event.addEffect(SceneElementEvType.ALWAYS, changeY);

@@ -69,9 +69,9 @@ public class SpeakSceneElementEf extends SpeakEf {
 	}
 
 	private void setOrigin(EAdElement element) {
-		BasicField<Integer> centerX = new BasicField<Integer>(element,
+		BasicField<Float> centerX = new BasicField<Float>(element,
 				SceneElement.VAR_CENTER_X);
-		BasicField<Integer> centerY = new BasicField<Integer>(element,
+		BasicField<Float> centerY = new BasicField<Float>(element,
 				SceneElement.VAR_CENTER_Y);
 
 		setPosition(centerX, centerY);

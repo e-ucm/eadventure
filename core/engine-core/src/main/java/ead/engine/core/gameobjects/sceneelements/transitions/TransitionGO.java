@@ -55,6 +55,10 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 
 	protected SceneGO previousScene;
 
+	protected TransitionListener transitionListener;
+
+	protected SceneGO nextScene;
+
 	public TransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
@@ -67,8 +71,11 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		transition = (T) e;
 	}
 
-	public abstract void transition(SceneGO nextScene,
-			TransitionListener transition);
+	public void transition(SceneGO nextScene,
+			TransitionListener transitionListener) {
+		this.nextScene = nextScene;
+		this.transitionListener = transitionListener;
+	}
 
 	@Override
 	public boolean handle(Event action) {
@@ -84,6 +91,15 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		getChildren().clear();
 		this.previousScene = scene;
 		addActor(scene);
+	}
+
+	public void finish() {
+		gui.setScene(nextScene);
+		remove();
+		transitionListener.transitionEnded();
+		nextScene = null;
+		previousScene = null;
+		transitionListener = null;
 	}
 
 	public interface TransitionListener {

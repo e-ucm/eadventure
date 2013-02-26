@@ -76,7 +76,16 @@ public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
 	boolean isDone();
 
 	/**
+	 * Returns true if the moving element has reached the target (if any). It
+	 * also returns true if no target is set
+	 * 
+	 * @return
+	 */
+	boolean isReachedTarget();
+
+	/**
 	 * Returns the current calculated path
+	 * 
 	 * @return
 	 */
 	List<Float> getCurrentPath();

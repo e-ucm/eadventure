@@ -69,12 +69,10 @@ public class StayInBoundsEv extends SceneElementEv {
 
 		EAdField<Float> y = new BasicField<Float>(e, SceneElement.VAR_Y);
 
-		EAdField<Integer> left = new BasicField<Integer>(e,
-				SceneElement.VAR_LEFT);
-		EAdField<Integer> top = new BasicField<Integer>(e, SceneElement.VAR_TOP);
-		EAdField<Integer> right = new BasicField<Integer>(e,
-				SceneElement.VAR_RIGHT);
-		EAdField<Integer> bottom = new BasicField<Integer>(e,
+		EAdField<Float> left = new BasicField<Float>(e, SceneElement.VAR_LEFT);
+		EAdField<Float> top = new BasicField<Float>(e, SceneElement.VAR_TOP);
+		EAdField<Float> right = new BasicField<Float>(e, SceneElement.VAR_RIGHT);
+		EAdField<Float> bottom = new BasicField<Float>(e,
 				SceneElement.VAR_BOTTOM);
 
 		// Correct X Left
