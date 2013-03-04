@@ -45,6 +45,7 @@ import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
 import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
 import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
 import ead.engine.core.assets.drawables.RuntimeImage;
+import ead.engine.core.assets.drawables.RuntimeNinePatchImage;
 import ead.engine.core.assets.drawables.RuntimeStateDrawable;
 import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
 import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
@@ -211,9 +212,10 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getRuntimeFramesAnimation();
 		else if (clazz == RuntimeStateDrawable.class)
 			o = ginjector.getRuntimeStateDrawable();
-		else if (clazz == RuntimeFont.class) {
+		else if (clazz == RuntimeFont.class)
 			o = ginjector.getGdxFont();
-		}
+		else if (clazz == RuntimeNinePatchImage.class)
+			o = ginjector.getNinePatch();
 		if (o == null) {
 			logger
 					.warn("Instance for class {} not defined in ginjector",

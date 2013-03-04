@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import ead.common.model.elements.operations.EAdOperation;
 import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
 import ead.tools.AbstractFactory;
@@ -58,10 +59,10 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 			.getLogger("Operator Factory");
 
 	public OperatorFactory(ReflectionProvider interfacesProvider,
-			ValueMap valueMap) {
+			GameState gameState) {
 		super(null, interfacesProvider);
-		setMap(new OperatorsMapProvider(this, valueMap, new EvaluatorFactory(
-				reflectionProvider, valueMap, this), interfacesProvider));
+		setMap(new OperatorsMapProvider(this, gameState, new EvaluatorFactory(
+				reflectionProvider, gameState, this), interfacesProvider));
 	}
 
 	/**

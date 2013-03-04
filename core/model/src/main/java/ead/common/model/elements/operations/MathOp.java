@@ -59,9 +59,13 @@ public class MathOp extends AbstractOperation {
 	@Param
 	private String expression;
 
+	@Param
+	private boolean resultAsInteger;
+
 	public MathOp() {
 		super();
 		this.expression = "";
+		this.resultAsInteger = false;
 	}
 
 	/**
@@ -116,10 +120,18 @@ public class MathOp extends AbstractOperation {
 		return new MathOp("[0] + " + increment, var);
 	}
 
+	public boolean isResultAsInteger() {
+		return resultAsInteger;
+	}
+
+	public void setResultAsInteger(boolean resultAsInteger) {
+		this.resultAsInteger = resultAsInteger;
+	}
+
 	public String toString() {
 		String s = expression;
 		int i = 0;
-		for (EAdField<?> f : varList) {
+		for (EAdOperation f : varList) {
 			s = s.replace("[" + i + "]", f + "");
 			i++;
 		}

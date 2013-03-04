@@ -70,7 +70,7 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 
 		for (EAdOperation op : TextEffectImporter.getOperations(oldObject
 				.getText(), factory)) {
-			showText.getCaption().getFields().add(op);
+			showText.getCaption().getOperations().add(op);
 		}
 
 		String line = TextEffectImporter.translateLine(oldObject.getText());

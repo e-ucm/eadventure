@@ -267,7 +267,7 @@ public abstract class ActorImporter<P extends Element> implements
 					.generateNewString());
 			EAdField<EAdString> desc = new BasicField<EAdString>(actor,
 					SceneElementDef.VAR_DOC_DESC);
-			showDescription.getCaption().getFields().add(desc);
+			showDescription.getCaption().getOperations().add(desc);
 			stringHandler.setString(showDescription.getCaption().getText(),
 					"[0]");
 			actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, showDescription);

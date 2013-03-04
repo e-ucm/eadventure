@@ -42,6 +42,7 @@ import java.util.HashMap;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BezierShape;
 import ead.common.model.assets.drawable.basics.shapes.CircleShape;
@@ -59,6 +60,7 @@ import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
 import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
 import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
 import ead.engine.core.assets.drawables.RuntimeImage;
+import ead.engine.core.assets.drawables.RuntimeNinePatchImage;
 import ead.engine.core.assets.drawables.RuntimeStateDrawable;
 import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
 import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
@@ -88,6 +90,7 @@ public class AssetHandlerMap
 		inner.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		inner.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		inner.put(Sound.class, RuntimeSound.class);
+		inner.put(NinePatchImage.class, RuntimeNinePatchImage.class);
 
 		putAll((HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>) inner);
 	}

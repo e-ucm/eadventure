@@ -85,7 +85,7 @@ public class SpeakCharEffectImporter extends
 
 		for (EAdOperation op : TextEffectImporter.getOperations(oldObject
 				.getLine(), factory)) {
-			effect.getCaption().getFields().add(op);
+			effect.getCaption().getOperations().add(op);
 		}
 
 		String line = setBallonType(effect, oldObject.getLine());

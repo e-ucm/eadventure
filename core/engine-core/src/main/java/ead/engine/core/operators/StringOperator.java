@@ -35,46 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scenes;
+package ead.engine.core.operators;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.assets.multimedia.EAdVideo;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.StringOp;
+import ead.engine.core.game.interfaces.GameState;
 
-@Element
-public class VideoScene extends BasicScene implements EAdScene {
+public class StringOperator implements Operator<StringOp> {
 
-	public static final String video = "video";
+	private GameState valueMap;
 
-	@Param
-	private EAdList<EAdEffect> finalEffects;
-
-	public VideoScene() {
-		super();
-		finalEffects = new EAdList<EAdEffect>();
+	public StringOperator(GameState valueMap) {
+		this.valueMap = valueMap;
 	}
 
-	public void setVideo(EAdVideo v) {
-		getDefinition().addAsset(VideoScene.video, v);
-	}
-
-	/**
-	 * Effects launched when the video ends
-	 * @return
-	 */
-	public EAdList<EAdEffect> getFinalEffects() {
-		return finalEffects;
-	}
-
-	public void setFinalEffects(EAdList<EAdEffect> finalEffects) {
-		this.finalEffects = finalEffects;
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public Boolean getReturnable() {
-		return false;
+	public <S> S operate(Class<S> clazz, StringOp operation) {
+		if (operation.getOperationsList().size() > 0) {
+			String result = "";
+			String preffix = operation.getPrefix() == null ? "" : operation
+					.getPrefix();
+			String suffix = operation.getSufix() == null ? "" : operation
+					.getSufix();
+			for (EAdOperation f : operation.getOperationsList()) {
+				result += preffix + valueMap.operate(Object.class, f) + suffix;
+			}
+			return (S) result;
+		} else {
+			return null;
+		}
 	}
 
 }

@@ -260,9 +260,12 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	public SceneElementGO getGameObjectUnderPointer() {
-		return (SceneElementGO) root.hit(gameState
-				.getValue(SystemFields.MOUSE_X), gameState
+		Actor a = root.hit(gameState.getValue(SystemFields.MOUSE_X), gameState
 				.getValue(SystemFields.MOUSE_Y), true);
+		if (a instanceof SceneElementGO) {
+			return (SceneElementGO) a;
+		}
+		return null;
 	}
 
 	@Override
@@ -356,7 +359,7 @@ public abstract class GUIImpl implements GUI {
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
 
-			//			getActor().fire(new DragEvent( event, DragEvent.Type.dragStart));
+			// getActor().fire(new DragEvent( event, DragEvent.Type.dragStart));
 
 			Payload payload = new Payload();
 			payload.setDragActor(getActor());
@@ -368,7 +371,7 @@ public abstract class GUIImpl implements GUI {
 		@Override
 		public void dragStop(InputEvent event, float x, float y, int pointer,
 				Target target) {
-			//			getActor().fire(new DragEvent( event, DragEvent.Type.dragStop));
+			// getActor().fire(new DragEvent( event, DragEvent.Type.dragStop));
 		}
 
 	}
@@ -386,7 +389,8 @@ public abstract class GUIImpl implements GUI {
 			i.setStageX(x);
 			i.setStageY(y);
 			i.setPointer(pointer);
-			//			getActor().fire(new DragEvent( i, DragEvent.Type.dragMove, this.getActor()));
+			// getActor().fire(new DragEvent( i, DragEvent.Type.dragMove,
+			// this.getActor()));
 			return false;
 		}
 
@@ -397,13 +401,15 @@ public abstract class GUIImpl implements GUI {
 			i.setStageX(x);
 			i.setStageY(y);
 			i.setPointer(pointer);
-			//			getActor().fire(new DragEvent( i, DragEvent.Type.drop, source.getActor()));
+			// getActor().fire(new DragEvent( i, DragEvent.Type.drop,
+			// source.getActor()));
 
 		}
 
 		@Override
 		public void reset(Source source, Payload payload) {
-			//			getActor().fire(new DragEvent( new InputEvent(), DragEvent.Type.dropExit, source.getActor()));
+			// getActor().fire(new DragEvent( new InputEvent(),
+			// DragEvent.Type.dropExit, source.getActor()));
 		}
 
 	}

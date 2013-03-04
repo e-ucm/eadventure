@@ -46,6 +46,7 @@ import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
 import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
 import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
 import ead.engine.core.assets.drawables.RuntimeImage;
+import ead.engine.core.assets.drawables.RuntimeNinePatchImage;
 import ead.engine.core.assets.drawables.RuntimeStateDrawable;
 import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
 import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
@@ -185,7 +186,7 @@ public interface GwtGinInjector extends Ginjector {
 
 	NodeTrajectoryGO getNodeTrajectoryGO();
 
-	// Game object
+	// Assets 
 	RuntimeImage getRuntimeImage();
 
 	GdxBezierShape getGdxBezierShape();
@@ -207,5 +208,7 @@ public interface GwtGinInjector extends Ginjector {
 	RuntimeStateDrawable getRuntimeStateDrawable();
 
 	RuntimeFont getGdxFont();
+
+	RuntimeNinePatchImage getNinePatch();
 
 }

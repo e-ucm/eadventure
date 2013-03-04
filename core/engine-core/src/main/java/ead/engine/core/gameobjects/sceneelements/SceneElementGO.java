@@ -554,6 +554,14 @@ public class SceneElementGO extends Group implements
 		return scale;
 	}
 
+	public float getScaleX() {
+		return super.getScaleX() * scale;
+	}
+
+	public float getScaleY() {
+		return super.getScaleY() * scale;
+	}
+
 	/**
 	 * Sets the alpha for this element
 	 * 
@@ -613,6 +621,11 @@ public class SceneElementGO extends Group implements
 	public void setState(String state) {
 		this.state = state;
 		gameState.setValue(getElement(), SceneElement.VAR_STATE, state);
+	}
+
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		gameState.setValue(getElement(), SceneElement.VAR_VISIBLE, visible);
 	}
 
 	/**
@@ -1147,12 +1160,12 @@ public class SceneElementGO extends Group implements
 
 	public void setScaleX(float scaleX) {
 		updateRelatives = true;
-		super.setScaleX(scaleX * scale);
+		super.setScaleX(scaleX);
 	}
 
 	public void setScaleY(float scaleY) {
 		updateRelatives = true;
-		super.setScaleY(scaleY * scale);
+		super.setScaleY(scaleY);
 	}
 
 }

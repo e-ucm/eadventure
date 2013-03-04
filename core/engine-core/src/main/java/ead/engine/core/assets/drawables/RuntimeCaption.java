@@ -163,9 +163,10 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 
 	private String getProcessedText() {
 		String text = null;
-		if (descriptor.getFields().size() > 0) {
+		if (descriptor.getOperations().size() > 0) {
 			text = gameState.processTextVars(stringsHandler
-					.getString(descriptor.getText()), descriptor.getFields());
+					.getString(descriptor.getText()), descriptor
+					.getOperations());
 		} else {
 			text = stringsHandler.getString(descriptor.getText());
 		}

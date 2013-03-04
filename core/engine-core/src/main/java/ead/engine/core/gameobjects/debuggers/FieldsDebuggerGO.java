@@ -128,13 +128,13 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				Label position = new Label("Position: ([0]:[1]:[2]:[3])");
 				position.setPosition(MARGIN_LEFT, y);
 				position.setBgColor(ColorFill.WHITE);
-				position.getCaption().getFields().add(
+				position.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_DISP_X));
-				position.getCaption().getFields().add(
+				position.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_DISP_Y));
-				position.getCaption().getFields().add(
+				position.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_X));
-				position.getCaption().getFields().add(
+				position.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_Y));
 				lgo = sceneElementFactory.get(position);
 				labels.add(lgo);
@@ -145,7 +145,7 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				Label rotation = new Label("Rotation: [0]");
 				rotation.setPosition(MARGIN_LEFT, y);
 				rotation.setBgColor(ColorFill.WHITE);
-				rotation.getCaption().getFields().add(
+				rotation.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_ROTATION));
 				lgo = sceneElementFactory.get(rotation);
 				labels.add(lgo);
@@ -156,11 +156,11 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				Label scale = new Label("Scale: [0] - [1]:[2]");
 				scale.setPosition(MARGIN_LEFT, y);
 				scale.setBgColor(ColorFill.WHITE);
-				scale.getCaption().getFields().add(
+				scale.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_SCALE));
-				scale.getCaption().getFields().add(
+				scale.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_SCALE_X));
-				scale.getCaption().getFields().add(
+				scale.getCaption().getOperations().add(
 						go.getField(SceneElement.VAR_SCALE_Y));
 				lgo = sceneElementFactory.get(scale);
 				labels.add(lgo);

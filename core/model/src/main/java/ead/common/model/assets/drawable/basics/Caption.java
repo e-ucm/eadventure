@@ -221,7 +221,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	}
 
 	@Override
-	public EAdList<EAdOperation> getFields() {
+	public EAdList<EAdOperation> getOperations() {
 		return fields;
 	}
 

@@ -48,14 +48,14 @@ public abstract class AbstractOperation extends BasicElement implements
 	 * List of the variables
 	 */
 	@Param
-	protected EAdList<EAdField<?>> varList;
+	protected EAdList<EAdOperation> varList;
 
 	public AbstractOperation() {
 		super();
-		varList = new EAdList<EAdField<?>>();
+		varList = new EAdList<EAdOperation>();
 	}
 
-	public EAdList<EAdField<?>> getVarList() {
+	public EAdList<EAdOperation> getOperationsList() {
 		return varList;
 	}
 

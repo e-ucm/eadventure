@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.operations.MathOp;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.util.MathEvaluator;
 
@@ -59,25 +60,24 @@ public class MathOperator implements Operator<MathOp> {
 	 */
 	private MathEvaluator evaluator = new MathEvaluator();
 
-	private ValueMap valueMap;
+	private GameState gameState;
 
 	@Inject
-	public MathOperator(ValueMap valueMap) {
-		this.valueMap = valueMap;
+	public MathOperator(GameState valueMap) {
+		this.gameState = valueMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, MathOp operation) {
-		synchronized (evaluator) {
-			evaluator.setExpression(operation.getExpression(), valueMap,
-					operation.getVarList());
+		evaluator.setExpression(operation.getExpression(), gameState, operation
+				.getOperationsList());
 
-			if (clazz.equals(Integer.class)) {
-				Float f = evaluator.getValue();
-				return (S) new Integer(f.intValue());
-			} else
-				return (S) evaluator.getValue();
+		if (clazz.equals(Integer.class) || operation.isResultAsInteger()) {
+			Float f = evaluator.getValue();
+			return (S) new Integer(f.intValue());
+		} else {
+			return (S) evaluator.getValue();
 		}
 	}
 

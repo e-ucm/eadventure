@@ -154,7 +154,7 @@ public interface EAdCaption extends EAdBasicDrawable {
 	 * 
 	 * @return a list of fields
 	 */
-	EAdList<EAdOperation> getFields();
+	EAdList<EAdOperation> getOperations();
 
 	/**
 	 * Returns the alignment for the text

@@ -359,7 +359,7 @@ public class ActionImporter implements
 
 		SpeakEf effect = new SpeakEf(stringHandler.generateNewString());
 		stringHandler.setString(effect.getCaption().getText(), "[0]");
-		effect.getCaption().getFields().add(descField);
+		effect.getCaption().getOperations().add(descField);
 
 		effect.setAlignment(Alignment.CENTER);
 		examineAction.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);

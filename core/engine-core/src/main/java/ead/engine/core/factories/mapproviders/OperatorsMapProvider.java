@@ -50,14 +50,16 @@ import ead.common.model.elements.operations.ConditionedOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ListOp;
 import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.StringOp;
 import ead.common.model.elements.operations.ValueOp;
-import ead.engine.core.game.interfaces.ValueMap;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.operators.ConditionedOperator;
 import ead.engine.core.operators.FieldOperator;
 import ead.engine.core.operators.ListOperator;
 import ead.engine.core.operators.MathOperator;
 import ead.engine.core.operators.Operator;
 import ead.engine.core.operators.OperatorFactory;
+import ead.engine.core.operators.StringOperator;
 import ead.engine.core.operators.ValueOperator;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
 import ead.tools.reflection.ReflectionProvider;
@@ -71,12 +73,12 @@ public class OperatorsMapProvider extends
 
 	private ReflectionProvider reflectionProvider;
 
-	private ValueMap valueMap;
+	private GameState valueMap;
 
 	private OperatorFactory operatorFactory;
 
 	public OperatorsMapProvider(OperatorFactory operatorFactory,
-			ValueMap valueMap, EvaluatorFactory evaluatorFactory,
+			GameState valueMap, EvaluatorFactory evaluatorFactory,
 			ReflectionProvider reflectionProvider) {
 		super();
 		this.valueMap = valueMap;
@@ -103,6 +105,7 @@ public class OperatorsMapProvider extends
 		factoryMap.put(ListOp.class, new ListOperator(valueMap));
 		factoryMap.put(ConditionedOp.class, new ConditionedOperator(
 				evaluatorFactory, operatorFactory));
+		factoryMap.put(StringOp.class, new StringOperator(valueMap));
 		factoryMap.putAll(tempMap);
 		return super.getMap();
 	}

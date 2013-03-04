@@ -35,46 +35,88 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scenes;
+package ead.common.model.assets.drawable.basics;
 
-import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.assets.multimedia.EAdVideo;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
 
-@Element
-public class VideoScene extends BasicScene implements EAdScene {
-
-	public static final String video = "video";
+public class NinePatchImage extends Image {
 
 	@Param
-	private EAdList<EAdEffect> finalEffects;
+	private int left;
 
-	public VideoScene() {
-		super();
-		finalEffects = new EAdList<EAdEffect>();
+	@Param
+	private int right;
+
+	@Param
+	private int top;
+
+	@Param
+	private int bottom;
+
+	@Param
+	private int width;
+
+	@Param
+	private int height;
+
+	public NinePatchImage() {
+
 	}
 
-	public void setVideo(EAdVideo v) {
-		getDefinition().addAsset(VideoScene.video, v);
+	public NinePatchImage(String uri, int left, int right, int top, int bottom) {
+		super(uri);
+		this.left = left;
+		this.right = right;
+		this.top = top;
+		this.bottom = bottom;
 	}
 
-	/**
-	 * Effects launched when the video ends
-	 * @return
-	 */
-	public EAdList<EAdEffect> getFinalEffects() {
-		return finalEffects;
+	public int getLeft() {
+		return left;
 	}
 
-	public void setFinalEffects(EAdList<EAdEffect> finalEffects) {
-		this.finalEffects = finalEffects;
+	public void setLeft(int left) {
+		this.left = left;
 	}
 
-	@Override
-	public Boolean getReturnable() {
-		return false;
+	public int getRight() {
+		return right;
+	}
+
+	public void setRight(int right) {
+		this.right = right;
+	}
+
+	public int getTop() {
+		return top;
+	}
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+	public int getBottom() {
+		return bottom;
+	}
+
+	public void setBottom(int bottom) {
+		this.bottom = bottom;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

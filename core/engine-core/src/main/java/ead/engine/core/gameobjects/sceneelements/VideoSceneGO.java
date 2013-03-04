@@ -56,8 +56,7 @@ import ead.engine.core.game.interfaces.GameState;
 
 public class VideoSceneGO extends SceneGO {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("VideoScreenGOImpl");
+	private static final Logger logger = LoggerFactory.getLogger("VideoScene");
 
 	private SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer;
 
@@ -75,7 +74,6 @@ public class VideoSceneGO extends SceneGO {
 			GameState gameState, EventGOFactory eventFactory,
 			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
 		this.error = false;

@@ -35,46 +35,49 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.scenes;
+package ead.common.model.elements.operations;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.assets.multimedia.EAdVideo;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
 
+/**
+ * Concatenates all the fields of this operation, and append and/or prepend a
+ * preffix and/or a suffix to each of them.
+ * 
+ */
 @Element
-public class VideoScene extends BasicScene implements EAdScene {
-
-	public static final String video = "video";
+public class StringOp extends AbstractOperation {
 
 	@Param
-	private EAdList<EAdEffect> finalEffects;
+	private String prefix;
 
-	public VideoScene() {
+	@Param
+	private String sufix;
+
+	public StringOp() {
+
+	}
+
+	public StringOp(String prefix, String sufix) {
 		super();
-		finalEffects = new EAdList<EAdEffect>();
+		this.prefix = prefix;
+		this.sufix = sufix;
 	}
 
-	public void setVideo(EAdVideo v) {
-		getDefinition().addAsset(VideoScene.video, v);
+	public String getPrefix() {
+		return prefix;
 	}
 
-	/**
-	 * Effects launched when the video ends
-	 * @return
-	 */
-	public EAdList<EAdEffect> getFinalEffects() {
-		return finalEffects;
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
-	public void setFinalEffects(EAdList<EAdEffect> finalEffects) {
-		this.finalEffects = finalEffects;
+	public String getSufix() {
+		return sufix;
 	}
 
-	@Override
-	public Boolean getReturnable() {
-		return false;
+	public void setSufix(String sufix) {
+		this.sufix = sufix;
 	}
 
 }

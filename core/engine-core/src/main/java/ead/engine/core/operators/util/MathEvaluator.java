@@ -38,8 +38,8 @@
 package ead.engine.core.operators.util;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdField;
-import ead.engine.core.game.interfaces.ValueMap;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.engine.core.game.interfaces.GameState;
 
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
@@ -64,8 +64,8 @@ public class MathEvaluator {
 	protected static Operator[] operators = null;
 	private Node node = null;
 	private String expression = null;
-	private ValueMap variables;
-	private EAdList<EAdField<?>> varList;
+	private GameState gameState;
+	private EAdList<EAdOperation> operationsList;
 
 	/***
 	 * creates an empty MathEvaluator. You need to use setExpression(String s)
@@ -78,8 +78,8 @@ public class MathEvaluator {
 	/***
 	 * creates a MathEvaluator and assign the math expression string.
 	 */
-	public MathEvaluator(String s, ValueMap variables,
-			EAdList<EAdField<?>> varList) {
+	public MathEvaluator(String s, GameState variables,
+			EAdList<EAdOperation> varList) {
 		init();
 		setExpression(s, variables, varList);
 	}
@@ -94,11 +94,11 @@ public class MathEvaluator {
 	 * 
 	 * @param eAdElementList
 	 */
-	public void setExpression(String s, ValueMap variables,
-			EAdList<EAdField<?>> varList) {
+	public void setExpression(String s, GameState variables,
+			EAdList<EAdOperation> varList) {
 		expression = s;
-		this.variables = variables;
-		this.varList = varList;
+		this.gameState = variables;
+		this.operationsList = varList;
 	}
 
 	/***
@@ -248,8 +248,8 @@ public class MathEvaluator {
 			id = id.replace("[", "");
 			id = id.replace("]", "");
 			int index = Integer.parseInt(id);
-			EAdField<?> number = varList.get(index);
-			Object o = variables.getValue(number);
+			EAdOperation number = operationsList.get(index);
+			Object o = gameState.operate(Float.class, number);
 			if (o instanceof Number) {
 				return ((Number) o).floatValue();
 			} else

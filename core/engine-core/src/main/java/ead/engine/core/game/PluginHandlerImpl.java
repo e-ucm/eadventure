@@ -67,7 +67,7 @@ public class PluginHandlerImpl implements PluginHandler {
 
 	protected SceneElementGOFactory sceneElementFactory;
 
-	protected EventGOFactory eventGOFactory;
+	protected EventGOFactory eventFactory;
 
 	private static final String PLUGINS_TXT = "@plugins.txt";
 
@@ -85,7 +85,7 @@ public class PluginHandlerImpl implements PluginHandler {
 		this.assetHandler = assetHandler;
 		this.effectFactory = effectFactory;
 		this.sceneElementFactory = sceneElementFactory;
-		this.eventGOFactory = eventGOFactory;
+		this.eventFactory = eventGOFactory;
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class PluginHandlerImpl implements PluginHandler {
 					effectFactory.put(c1, c2);
 					break;
 				case EVENTS:
-					eventGOFactory.put(c1, c2);
+					eventFactory.put(c1, c2);
 					break;
 				case SCENE_ELEMENTS:
 					sceneElementFactory.put(c1, c2);

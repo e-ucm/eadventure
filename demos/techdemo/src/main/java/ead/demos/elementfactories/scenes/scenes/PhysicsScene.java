@@ -214,7 +214,7 @@ public class PhysicsScene extends EmptyScene {
 		// Add text
 		Caption c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("radians: #0 ");
-		c.getFields().add(rotationField);
+		c.getOperations().add(rotationField);
 		c.setBubblePaint(ColorFill.TRANSPARENT);
 		SceneElement e = new SceneElement(c);
 		e.setPosition(120, 375);

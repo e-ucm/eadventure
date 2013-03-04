@@ -255,7 +255,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 		for (EAdOperation op : TextEffectImporter.getOperations(originalLine,
 				factory)) {
-			caption.getFields().add(op);
+			caption.getOperations().add(op);
 		}
 		String finalLine = TextEffectImporter.translateLine(originalLine);
 		stringHandler.setString(caption.getText(), finalLine);

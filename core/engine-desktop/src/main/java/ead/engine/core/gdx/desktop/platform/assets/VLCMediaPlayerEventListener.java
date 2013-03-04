@@ -43,12 +43,12 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 
 public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 
-	private VLCDesktopVideoRenderer vlcDesktopVideoRenderer;
+	private VLCVideoRenderer vlcDesktopVideoRenderer;
 
 	private int count;
 
 	public VLCMediaPlayerEventListener(
-			VLCDesktopVideoRenderer vlcDesktopVideoRenderer, int count) {
+			VLCVideoRenderer vlcDesktopVideoRenderer, int count) {
 		this.vlcDesktopVideoRenderer = vlcDesktopVideoRenderer;
 		this.count = count;
 	}

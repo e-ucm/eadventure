@@ -45,6 +45,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -169,6 +170,27 @@ public interface GameState extends ValueMap {
 	 * @return
 	 */
 	TweenManager getTweenManager();
+
+	/**
+	 * <p>
+	 * Substitutes the variables in a text for its values.
+	 * </p>
+	 * 
+	 * <p>
+	 * The text format for the correct substitution should be:
+	 * </p>
+	 * 
+	 * <ul>
+	 * <li><b>[op_index]:</b> The index of the operation whose result will be
+	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
+	 * <li><b>{[condition]? true text : false text } </b> A conditional text,
+	 * depending of the operation whose index is {@code condition} value.</p>
+	 * 
+	 * @param text
+	 *            the text to be processed by the value map
+	 * @return the processed text
+	 */
+	String processTextVars(String text, EAdList<EAdOperation> operations);
 
 	void saveState();
 
