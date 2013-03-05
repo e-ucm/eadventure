@@ -73,6 +73,12 @@ public class SystemFields {
 			null, new VarDef<Integer>("height", Integer.class, 600));
 
 	/**
+	 *  Loading percentage (0 - 100 )
+	 */
+	public static final EAdField<Integer> LOADING = new BasicField<Integer>(
+			null, new VarDef<Integer>("loading", Integer.class, 0));
+
+	/**
 	 * Variable containing the active element in the game
 	 */
 	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new BasicField<EAdSceneElement>(

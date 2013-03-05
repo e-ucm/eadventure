@@ -72,6 +72,7 @@ public class MouseHud extends BasicScene {
 		mouse.setAppearance(TALK_CURSOR, talkCursor);
 		mouse.setId(CURSOR_ID);
 		mouse.setInitialEnable(false);
+		mouse.setInitialVisible(false);
 		mouse.setPosition(Corner.TOP_LEFT, 0, 0);
 		mouse.setVarInitialValue(SceneElement.VAR_Z, 10000);
 

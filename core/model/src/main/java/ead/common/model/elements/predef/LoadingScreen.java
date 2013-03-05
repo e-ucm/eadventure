@@ -38,13 +38,21 @@
 package ead.common.model.elements.predef;
 
 import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.SystemEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.SystemEvType;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.Position.Corner;
 
 public class LoadingScreen extends BasicScene implements EAdScene {
 
@@ -53,14 +61,26 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 	private ChangeSceneEf effect;
 
 	public LoadingScreen() {
+		super(new RectangleShape(800, 600, ColorFill.WHITE));
 		this.setId(ID);
 
-		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
-				new Image("@drawable/loading.png"));
+		SceneElement s = new SceneElement(new Image("@drawable/loadingbar.png"));
+		s.setPosition(Corner.TOP_RIGHT, 0, 195);
+
+		SceneElementEv updateLoad = new SceneElementEv();
+		MathOp op = new MathOp("[0] * (800 / 100 )");
+		op.getOperationsList().add(SystemFields.LOADING);
+		updateLoad.addEffect(SceneElementEvType.ALWAYS, new ChangeFieldEf(s
+				.getField(SceneElement.VAR_X), op));
+		s.getEvents().add(updateLoad);
+		add(s);
+
+		SceneElement bg = new SceneElement(new Image("@drawable/loading.png"));
 		EAdEvent event = new SystemEv();
 		effect = new ChangeSceneEf();
 		event.addEffect(SystemEvType.GAME_LOADED, effect);
 		this.getEvents().add(event);
+		add(bg);
 	}
 
 	public void setInitialScreen(EAdScene screen) {
