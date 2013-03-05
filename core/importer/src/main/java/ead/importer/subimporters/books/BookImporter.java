@@ -184,8 +184,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		BasicScene book = (BasicScene) newElement;
 		ChangeFieldEf hideInventory = new ChangeFieldEf(
 				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
-						SceneElement.VAR_VISIBLE),
-				EmptyCond.FALSE_EMPTY_CONDITION);
+						SceneElement.VAR_VISIBLE), EmptyCond.FALSE);
 		SceneElementEv hideEvent = new SceneElementEv();
 		hideEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		book.getEvents().add(hideEvent);
@@ -199,8 +198,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		ChangeFieldEf showInventory = new ChangeFieldEf(
 				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
-						SceneElement.VAR_VISIBLE),
-				EmptyCond.TRUE_EMPTY_CONDITION);
+						SceneElement.VAR_VISIBLE), EmptyCond.TRUE);
 
 		EAdDrawable image = null;
 		// Create content
@@ -253,7 +251,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		}
 		leftArrow.setPosition(x, y);
 
-		EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
+		EAdCondition rightCondition = EmptyCond.TRUE;
 		SceneElement rightArrow = getArrow(oldObject, content,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, -BOOK_WIDTH,
@@ -413,9 +411,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
-				visibleVar, EmptyCond.TRUE_EMPTY_CONDITION));
+				visibleVar, EmptyCond.TRUE));
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
-				visibleVar, EmptyCond.FALSE_EMPTY_CONDITION));
+				visibleVar, EmptyCond.FALSE));
 		arrow.getEvents().add(event);
 
 		arrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);

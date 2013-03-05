@@ -120,7 +120,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
-				newRef.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
+				newRef.setDragCond(EmptyCond.TRUE);
 				newRef.setVarInitialValue(SceneElement.VAR_RETURN_WHEN_DRAGGED,
 						isReturnWhenDragged(oldObject.getTargetId()));
 

@@ -134,7 +134,7 @@ public class ConversationImporter implements
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
 		EffectsMacro macro = new EffectsMacro();
 		macro.getEffects().add(initialEffect);
-		result.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+		result.putMacro(macro, EmptyCond.TRUE);
 		annotator.annotate(ImportAnnotator.Type.Close, oldObject.getId());
 		return result;
 	}

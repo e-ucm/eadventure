@@ -97,13 +97,10 @@ public class BarrierImporter implements
 			event.setCondition(condition);
 			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
 					NodeTrajectory.VAR_BARRIER_ON);
-			event
-					.addEffect(ConditionedEvType.CONDITIONS_MET,
-							new ChangeFieldEf(barrierOn,
-									EmptyCond.TRUE_EMPTY_CONDITION));
+			event.addEffect(ConditionedEvType.CONDITIONS_MET,
+					new ChangeFieldEf(barrierOn, EmptyCond.TRUE));
 			event.addEffect(ConditionedEvType.CONDITIONS_UNMET,
-					new ChangeFieldEf(barrierOn,
-							EmptyCond.FALSE_EMPTY_CONDITION));
+					new ChangeFieldEf(barrierOn, EmptyCond.FALSE));
 
 			barrier.getEvents().add(event);
 		}

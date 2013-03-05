@@ -74,7 +74,7 @@ public class TriggerConversationImporter extends
 			Object object) {
 		TriggerMacroEf triggerMacro = super.convert(oldObject, object);
 		EffectsMacro macro = new EffectsMacro();
-		triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+		triggerMacro.putMacro(macro, EmptyCond.TRUE);
 
 		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject
 				.getTargetId());

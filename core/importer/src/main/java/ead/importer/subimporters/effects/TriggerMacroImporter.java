@@ -72,7 +72,7 @@ public class TriggerMacroImporter extends
 	public TriggerMacroEf convert(MacroReferenceEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
 		effect.putMacro((EffectsMacro) factory.getElementById(oldObject
-				.getTargetId()), EmptyCond.TRUE_EMPTY_CONDITION);
+				.getTargetId()), EmptyCond.TRUE);
 		return effect;
 	}
 

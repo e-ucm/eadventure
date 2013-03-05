@@ -172,7 +172,7 @@ public abstract class ActorImporter<P extends Element> implements
 			EAdString[] strings = setStrings(stringHandler, d);
 			EAdCondition c = null;
 			if (d.getConditions() == null) {
-				c = EmptyCond.TRUE_EMPTY_CONDITION;
+				c = EmptyCond.TRUE;
 			} else {
 				c = conditionsImporter.init(d.getConditions());
 				c = conditionsImporter.convert(d.getConditions(), c);
@@ -227,7 +227,7 @@ public abstract class ActorImporter<P extends Element> implements
 		macro.getEffects().add(new ChangeFieldEf(descField, new ValueOp(null)));
 		macro.getEffects().add(
 				new ChangeFieldEf(detailedDesc, new ValueOp(null)));
-		triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+		triggerMacro.putMacro(macro, EmptyCond.TRUE);
 
 		actor.addBehavior(MouseGEv.MOUSE_ENTERED, triggerMacro);
 

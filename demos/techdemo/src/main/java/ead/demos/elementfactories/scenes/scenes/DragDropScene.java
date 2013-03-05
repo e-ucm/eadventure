@@ -69,18 +69,18 @@ public class DragDropScene extends EmptyScene {
 		SceneElementDef def = new SceneElementDef(shape);
 
 		SceneElement e1 = new SceneElement(def);
-		e1.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
+		e1.setDragCond(EmptyCond.TRUE);
 		e1.setPosition(new Position(Corner.CENTER, 600, 300));
 		e1.setVarInitialValue(SceneElement.VAR_Z, 0);
 
 		SceneElement e4 = new SceneElement(def);
-		e4.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
+		e4.setDragCond(EmptyCond.TRUE);
 		e4.setPosition(new Position(Corner.TOP_LEFT, 20, 20));
 		e4.setInitialScale(0.5f);
 		e4.setVarInitialValue(SceneElement.VAR_Z, 1);
 
 		SceneElement e5 = new SceneElement(def);
-		e5.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
+		e5.setDragCond(EmptyCond.TRUE);
 		e5.setPosition(new Position(Corner.TOP_RIGHT, 500, 10));
 		e5.setVarInitialValue(SceneElement.VAR_ROTATION, 10.0f);
 		e5.setInitialScale(1.5f);

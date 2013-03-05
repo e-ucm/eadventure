@@ -76,7 +76,7 @@ public class MoveObjectEffectImporter extends
 		TriggerMacroEf effect = super.convert(oldObject, object);
 
 		EffectsMacro macro = new EffectsMacro();
-		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+		effect.putMacro(macro, EmptyCond.TRUE);
 		macro.getEffects().add(
 				new MoveSceneElementEf((EAdSceneElementDef) factory
 						.getElementById(oldObject.getTargetId()), oldObject

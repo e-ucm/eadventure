@@ -52,7 +52,7 @@ public class ColumnContainer extends GroupElement {
 	private EAdSceneElement lastAdded;
 
 	public ColumnContainer() {
-		this.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
+		this.setDragCond(EmptyCond.TRUE);
 	}
 
 	public void add(EAdSceneElement element) {

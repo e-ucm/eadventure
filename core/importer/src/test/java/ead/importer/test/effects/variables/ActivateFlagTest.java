@@ -62,8 +62,7 @@ public class ActivateFlagTest extends EffectTest<ActivateEffect, ChangeFieldEf> 
 	@Override
 	public boolean equals(ActivateEffect oldObject, ChangeFieldEf newObject) {
 		boolean ok = super.equals(oldObject, newObject);
-		ok = newObject.getOperation().equals(EmptyCond.TRUE_EMPTY_CONDITION)
-				&& ok;
+		ok = newObject.getOperation().equals(EmptyCond.TRUE) && ok;
 		return ok;
 	}
 

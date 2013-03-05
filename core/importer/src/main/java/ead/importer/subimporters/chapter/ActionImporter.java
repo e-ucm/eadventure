@@ -147,7 +147,7 @@ public class ActionImporter implements
 
 		EAdCondition andCondition;
 		if (previousCondition == null && condition == null) {
-			andCondition = EmptyCond.TRUE_EMPTY_CONDITION;
+			andCondition = EmptyCond.TRUE;
 		} else if (previousCondition != null && condition != null) {
 			andCondition = new ANDCond(condition,
 					new NOTCond(previousCondition));
@@ -303,7 +303,7 @@ public class ActionImporter implements
 
 				ChangeFieldEf change = new ChangeFieldEf();
 				change.addField(inInventory);
-				change.setOperation(EmptyCond.TRUE_EMPTY_CONDITION);
+				change.setOperation(EmptyCond.TRUE);
 
 				addToInventory.getNextEffects().add(change);
 

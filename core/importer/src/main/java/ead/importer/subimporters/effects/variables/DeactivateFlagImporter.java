@@ -69,8 +69,7 @@ public class DeactivateFlagImporter extends
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.FLAG_CONDITION);
 
-		ChangeFieldEf changeVar = new ChangeFieldEf(var,
-				EmptyCond.FALSE_EMPTY_CONDITION);
+		ChangeFieldEf changeVar = new ChangeFieldEf(var, EmptyCond.FALSE);
 		super.importConditions(oldObject, changeVar);
 
 		return changeVar;

@@ -50,7 +50,7 @@ public class NOTCond extends ResourcedElement implements EAdCondition {
 
 	public NOTCond() {
 		super();
-		this.condition = EmptyCond.FALSE_EMPTY_CONDITION;
+		this.condition = EmptyCond.FALSE;
 	}
 
 	public NOTCond(EAdCondition condition) {

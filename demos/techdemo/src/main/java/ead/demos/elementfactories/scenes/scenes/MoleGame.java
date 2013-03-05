@@ -86,7 +86,7 @@ public class MoleGame extends EmptyScene {
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setParentVar(SceneElement.VAR_VISIBLE);
-		dissapearMole.setOperation(EmptyCond.FALSE_EMPTY_CONDITION);
+		dissapearMole.setOperation(EmptyCond.FALSE);
 
 		mole = new FramesAnimation();
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));

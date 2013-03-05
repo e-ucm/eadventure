@@ -64,8 +64,9 @@ public class SpeakSceneElementEf extends SpeakEf {
 			setOrigin(fieldElement);
 			setStateField(new BasicField<String>(fieldElement,
 					SceneElement.VAR_STATE));
-		} else
+		} else if (element != null) {
 			setOrigin(element);
+		}
 	}
 
 	private void setOrigin(EAdElement element) {

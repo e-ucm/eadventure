@@ -138,7 +138,7 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 				.getEffects());
 		if (macro != null) {
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
-			triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+			triggerMacro.putMacro(macro, EmptyCond.TRUE);
 			changeScene.getNextEffects().add(triggerMacro);
 		}
 		return changeScene;

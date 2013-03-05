@@ -69,8 +69,7 @@ public class ActivateFlagImporter extends
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.FLAG_CONDITION);
 
-		ChangeFieldEf changeVar = new ChangeFieldEf(var,
-				EmptyCond.TRUE_EMPTY_CONDITION);
+		ChangeFieldEf changeVar = new ChangeFieldEf(var, EmptyCond.TRUE);
 		super.importConditions(oldObject, changeVar);
 
 		return changeVar;

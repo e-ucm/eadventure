@@ -62,7 +62,7 @@ public class OneShotEf extends ChangeFieldEf {
 		// Sets true launched variable
 		BasicField<Boolean> f = new BasicField<Boolean>(this, LAUNCHED);
 		addField(f);
-		setOperation(EmptyCond.TRUE_EMPTY_CONDITION);
+		setOperation(EmptyCond.TRUE);
 		// Sets as condition that launched variable is false
 		setCondition(new NOTCond(new OperationCond(f)));
 

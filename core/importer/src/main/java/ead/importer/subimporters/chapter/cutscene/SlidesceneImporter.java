@@ -141,7 +141,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 					.get(0), changeNextScene);
 			musicPaths.add(oldSlides.getResources().get(0).getAssetPath(
 					Slidescene.RESOURCE_TYPE_MUSIC));
-			conditions.add(EmptyCond.TRUE_EMPTY_CONDITION);
+			conditions.add(EmptyCond.TRUE);
 		} else {
 			// When there's more than one appearance, we create a series of
 			// scene for every animation.
@@ -207,7 +207,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			if (i == scenes.length - 1) {
 				effect = changeNextScene;
 				ChangeFieldEf showInventory = new ChangeFieldEf(SHOW_INVENTORY,
-						EmptyCond.TRUE_EMPTY_CONDITION);
+						EmptyCond.TRUE);
 				effect.getNextEffects().add(showInventory);
 			} else {
 				effect = new ChangeSceneEf();
@@ -300,7 +300,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 
 	private void addHideInventoryEvent(EAdScene cutscene) {
 		ChangeFieldEf hideInventory = new ChangeFieldEf(SHOW_INVENTORY,
-				EmptyCond.FALSE_EMPTY_CONDITION);
+				EmptyCond.FALSE);
 		SceneElementEv bgEvent = new SceneElementEv();
 		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		cutscene.getEvents().add(bgEvent);

@@ -335,7 +335,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 			// This condition is to detect if the resources blocks has an empty
 			// condition. If so, subsequent resources blocks are unreachable
-			if (c.equals(EmptyCond.TRUE_EMPTY_CONDITION)) {
+			if (c.equals(EmptyCond.TRUE)) {
 				end = true;
 			}
 

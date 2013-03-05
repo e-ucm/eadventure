@@ -246,9 +246,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	public void setDragCond(EAdCondition c) {
-		if (c.equals(EmptyCond.TRUE_EMPTY_CONDITION)) {
+		if (c.equals(EmptyCond.TRUE)) {
 			this.setInitialDraggable(true);
-		} else if (c.equals(EmptyCond.FALSE_EMPTY_CONDITION)) {
+		} else if (c.equals(EmptyCond.FALSE)) {
 			this.setInitialDraggable(false);
 		} else {
 

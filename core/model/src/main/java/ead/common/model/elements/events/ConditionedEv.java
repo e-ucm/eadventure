@@ -53,7 +53,7 @@ public class ConditionedEv extends AbstractEvent implements Conditioned {
 	private boolean runNotMetConditions;
 
 	public ConditionedEv() {
-		this(EmptyCond.FALSE_EMPTY_CONDITION);
+		this(EmptyCond.FALSE);
 		runNotMetConditions = true;
 	}
 

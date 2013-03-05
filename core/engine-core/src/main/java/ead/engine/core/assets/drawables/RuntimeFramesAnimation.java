@@ -106,7 +106,7 @@ public class RuntimeFramesAnimation extends
 		while (realTime > times.get(index)) {
 			index++;
 		}
-		return frames.get(index);
+		return frames.get(index).getDrawable(realTime, states, level);
 	}
 
 	@Override

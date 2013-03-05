@@ -95,7 +95,7 @@ public class CompleteModel extends BasicAdventureModel {
 
 		Caption c = new Caption(new EAdString("completemodelstringcaption"));
 		c.setAlignment(Alignment.LEFT);
-		c.getOperations().add(EmptyCond.TRUE_EMPTY_CONDITION);
+		c.getOperations().add(EmptyCond.TRUE);
 		c.setPadding(50);
 		c.setTextPaint(gradient);
 		c.setPreferredHeight(20);

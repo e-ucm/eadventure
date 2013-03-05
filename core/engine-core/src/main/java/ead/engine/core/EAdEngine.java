@@ -90,7 +90,7 @@ public class EAdEngine implements ApplicationListener {
 		gameState.setValue(SystemFields.GAME_HEIGHT, height);
 
 		spriteBatch = new GdxCanvas();
-		stage = new Stage(width, height, false, spriteBatch);
+		stage = new Stage(width, height, true, spriteBatch);
 		spriteBatch.enableBlending();
 
 		c = new InvOrtographicCamera();

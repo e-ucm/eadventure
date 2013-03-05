@@ -84,7 +84,7 @@ public class ConditionsImporter implements
 
 		if (oldObject.getSimpleConditions().size() == 0
 				&& oldObject.getEitherConditionsBlockCount() == 0) {
-			return EmptyCond.TRUE_EMPTY_CONDITION;
+			return EmptyCond.TRUE;
 		}
 
 		for (Condition c : oldObject.getSimpleConditions()) {
