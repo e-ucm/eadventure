@@ -100,7 +100,23 @@
 					</lifecycleMappingMetadata>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<target>
+								<copy file="../engine-html/target/engine-html-${project.version}.war" tofile="../../resources/engine.war" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- war stuff -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -116,8 +132,8 @@
 		<gwt.version>2.5.0</gwt.version>
 		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
 		<!--
-			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output-->
-				<gwt.logLevel>DEBUG</gwt.logLevel> 
+			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output
+				<gwt.logLevel>DEBUG</gwt.logLevel> -->
 		<gwt.style>PRETTY</gwt.style>
 	</properties>
 
