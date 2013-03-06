@@ -83,4 +83,8 @@ public class ShowQuestionEf extends AbstractEffect {
 		this.question = question;
 	}
 
+	public void setAnswers(EAdMap<EAdString, EAdEffect> answers) {
+		this.answers = answers;
+	}
+
 }

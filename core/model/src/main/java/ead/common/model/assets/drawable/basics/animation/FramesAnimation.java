@@ -91,4 +91,8 @@ public class FramesAnimation extends AbstractAssetDescriptor implements
 	public EAdList<Frame> getFrames() {
 		return frames;
 	}
+
+	public void setFrames(EAdList<Frame> frames) {
+		this.frames = frames;
+	}
 }

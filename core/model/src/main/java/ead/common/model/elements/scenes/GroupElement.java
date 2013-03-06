@@ -113,4 +113,8 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 		this.sceneElements.add(e);
 	}
 
+	public void setSceneElements(EAdList<EAdSceneElement> sceneElements) {
+		this.sceneElements = sceneElements;
+	}
+
 }

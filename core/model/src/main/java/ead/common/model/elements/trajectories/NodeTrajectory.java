@@ -170,4 +170,16 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 		return barriers;
 	}
 
+	public void setNodes(EAdList<Node> nodes) {
+		this.nodes = nodes;
+	}
+
+	public void setSides(EAdList<Side> sides) {
+		this.sides = sides;
+	}
+
+	public void setBarriers(EAdList<EAdSceneElement> barriers) {
+		this.barriers = barriers;
+	}
+
 }

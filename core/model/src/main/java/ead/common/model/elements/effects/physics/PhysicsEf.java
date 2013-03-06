@@ -97,4 +97,12 @@ public class PhysicsEf extends AbstractEffect {
 		return joints;
 	}
 
+	public void setElements(EAdList<EAdSceneElement> elements) {
+		this.elements = elements;
+	}
+
+	public void setJoints(EAdList<EAdSceneElement> joints) {
+		this.joints = joints;
+	}
+
 }

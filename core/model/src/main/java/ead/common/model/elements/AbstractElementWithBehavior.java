@@ -122,4 +122,8 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 		return events;
 	}
 
+	public void setEvents(EAdList<EAdEvent> events) {
+		this.events = events;
+	}
+
 }

@@ -39,9 +39,12 @@ package ead.common.model.elements.extra;
 
 import java.util.LinkedHashMap;
 
+import com.gwtent.reflection.client.Reflectable;
+
 /**
  * Interface for all maps in the eAdventure game model
  */
+@Reflectable(relationTypes = true)
 public class EAdMap<T, S> extends LinkedHashMap<T, S> {
 
 	/**

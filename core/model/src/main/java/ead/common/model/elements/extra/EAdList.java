@@ -39,9 +39,12 @@ package ead.common.model.elements.extra;
 
 import java.util.ArrayList;
 
+import com.gwtent.reflection.client.Reflectable;
+
 /**
  * Interface for all the list elements in the eAdventure game model
  */
+@Reflectable(relationTypes = true)
 public class EAdList<P> extends ArrayList<P> {
 
 	/**

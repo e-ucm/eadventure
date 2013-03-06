@@ -70,7 +70,7 @@ public class Behavior extends BasicElement implements EAdBehavior {
 	 * Calculated attribute with all effects contained by the behavior. It must
 	 * not be saved in the XML
 	 */
-	private EAdList<EAdEffect> allEffects;
+	private transient EAdList<EAdEffect> allEffects;
 
 	/**
 	 * Constructs an empty behavior
@@ -136,6 +136,10 @@ public class Behavior extends BasicElement implements EAdBehavior {
 		}
 
 		return allEffects;
+	}
+
+	public void setBehavior(EAdMap<EAdGUIEvent, EAdList<EAdEffect>> behavior) {
+		this.behavior = behavior;
 	}
 
 }

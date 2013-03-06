@@ -116,4 +116,12 @@ public abstract class AbstractEffect extends ConditionedElement implements
 		this.persistent = persistent;
 	}
 
+	public void setNextEffects(EAdList<EAdEffect> nextEffects) {
+		this.nextEffects = nextEffects;
+	}
+
+	public void setSimultaneousEffects(EAdList<EAdEffect> simultaneousEffects) {
+		this.simultaneousEffects = simultaneousEffects;
+	}
+
 }

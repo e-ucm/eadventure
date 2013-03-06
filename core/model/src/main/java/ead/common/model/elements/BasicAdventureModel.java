@@ -163,4 +163,16 @@ public class BasicAdventureModel extends BasicElement implements
 		properties.put(key, value);
 	}
 
+	public void setChapters(EAdList<EAdChapter> chapters) {
+		this.chapters = chapters;
+	}
+
+	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+		this.vars = vars;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
 }

@@ -85,7 +85,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	private int padding;
 
 	@Param
-	private EAdList<EAdOperation> fields;
+	private EAdList<EAdOperation> operations;
 
 	@Param
 	private Alignment alignment;
@@ -104,7 +104,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 		preferredWidth = AUTO_SIZE;
 		padding = DEFAULT_PADDING;
 		alignment = Alignment.CENTER;
-		fields = new EAdList<EAdOperation>();
+		operations = new EAdList<EAdOperation>();
 	}
 
 	/**
@@ -222,7 +222,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 
 	@Override
 	public EAdList<EAdOperation> getOperations() {
-		return fields;
+		return operations;
 	}
 
 	public void setAlignment(Alignment alignment) {
@@ -244,6 +244,10 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 
 	public boolean isHasBubble() {
 		return hasBubble;
+	}
+
+	public void setOperations(EAdList<EAdOperation> operations) {
+		this.operations = operations;
 	}
 
 }

@@ -82,4 +82,8 @@ public class RandomEf extends AbstractEffect {
 		return effects;
 	}
 
+	public void setEffects(EAdMap<EAdEffect, Float> effects) {
+		this.effects = effects;
+	}
+
 }

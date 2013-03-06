@@ -44,6 +44,6 @@ import ead.common.interfaces.features.Identified;
  * Classes that implement this interface represent an asset. An asset
  * is any element that can be represented within an eAdventure game.
  */
-@Reflectable
+@Reflectable(relationTypes = true)
 public interface AssetDescriptor extends Identified {
 }

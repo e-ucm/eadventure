@@ -198,4 +198,16 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 		return null;
 	}
 
+	public void setScenes(EAdList<EAdScene> scenes) {
+		this.scenes = scenes;
+	}
+
+	public void setActors(EAdList<EAdSceneElementDef> actors) {
+		this.actors = actors;
+	}
+
+	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+		this.vars = vars;
+	}
+
 }

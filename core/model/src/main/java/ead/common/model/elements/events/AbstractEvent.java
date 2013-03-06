@@ -109,4 +109,13 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 		}
 		return allEffects;
 	}
+
+	public void setEffects(EAdMap<Enum<?>, EAdList<EAdEffect>> effects) {
+		this.effects = effects;
+	}
+
+	public void setAllEffects(EAdList<EAdEffect> allEffects) {
+		this.allEffects = allEffects;
+	}
+
 }

@@ -56,15 +56,21 @@ import java.util.zip.ZipOutputStream;
 
 public class WarExporter implements Exporter {
 
-	private static final String WAR_PATH = "resources/engine.war";
+	private static final String DEFAULT_WAR_PATH = "resources/engine.war";
 	private static final byte[] BUFFER = new byte[4096 * 1024];
 	private ArrayList<String> assets = new ArrayList<String>();
 
 	private String name = "game";
+	
+	private String warPath = DEFAULT_WAR_PATH;
 
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setWarPath(String path){
+		this.warPath = path;
 	}
 
 	@Override
@@ -97,6 +103,9 @@ public class WarExporter implements Exporter {
 		File parent = new File(gameBaseDir);
 		// Copy the war into destination
 		File output = new File(outputfolder);
+		if ( !output.exists()){
+			output.mkdirs();
+		}
 		File gameWar = new File(output, name + ".war");
 
 		ZipOutputStream os = null;
@@ -132,9 +141,7 @@ public class WarExporter implements Exporter {
 	private void copyWar(ZipOutputStream gameWar) {
 
 		try {
-
-			File current = new File(System.getProperty("user.dir"));
-			File f = new File(current.getParentFile().getParent(), WAR_PATH);
+			File f = new File(warPath);
 			ZipFile is = new ZipFile(f);
 			Enumeration<? extends ZipEntry> entries = is.entries();
 			while (entries.hasMoreElements()) {

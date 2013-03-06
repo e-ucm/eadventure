@@ -114,4 +114,9 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 		return null;
 	}
 
+	public void setResources(
+			EAdMap<String, EAdMap<String, AssetDescriptor>> resources) {
+		this.resources = resources;
+	}
+
 }

@@ -43,6 +43,6 @@ import ead.common.interfaces.features.Identified;
 /**
  * Base interface for eAdventure's game model objects.
  */
-@Reflectable
+@Reflectable(relationTypes = true)
 public interface EAdElement extends Identified {
 }

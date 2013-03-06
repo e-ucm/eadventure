@@ -150,4 +150,8 @@ public class SceneElementDef extends ResourcedElement implements
 		return (EAdDrawable) getAsset(currentBundle, SceneElementDef.appearance);
 	}
 
+	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+		this.vars = vars;
+	}
+
 }

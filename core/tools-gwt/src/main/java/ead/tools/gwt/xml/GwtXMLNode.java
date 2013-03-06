@@ -55,8 +55,12 @@ public class GwtXMLNode implements XMLNode {
 
 	public GwtXMLNode(Node node) {
 		this.node = node;
-		attributes = new GwtXMLAttributes(node.getAttributes());
-		childNodes = new GwtXMLNodeList(node.getChildNodes());
+		if (node.hasAttributes()) {
+			attributes = new GwtXMLAttributes(node.getAttributes());
+		}
+		if (node.hasChildNodes()) {
+			childNodes = new GwtXMLNodeList(node.getChildNodes());
+		}
 	}
 
 	public Node getElement() {

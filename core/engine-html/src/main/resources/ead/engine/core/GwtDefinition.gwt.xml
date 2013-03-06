@@ -8,6 +8,7 @@
 	<inherits name='ead.engine.enginecore' />
 	<inherits name='ead.tools.gwttools' />
 	<inherits name='ead.reader.reader' />
+	<inherits name='ead.plugins.engine.pluginsengine' />
 	<inherits name='java.util.lib' />
 	<inherits name='org.slf4j.slf4j' />
 	<inherits name='org.poly2tri.poly2tri' />

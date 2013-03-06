@@ -51,30 +51,30 @@ import ead.common.model.elements.scenes.EAdSceneElementDef;
 public abstract class AbstractSceneElementEffect extends AbstractEffect {
 
 	@Param
-	private EAdElement element;
+	private EAdElement sceneElement;
 
 	public AbstractSceneElementEffect() {
 		super();
 	}
 
 	public EAdElement getSceneElement() {
-		return element;
+		return sceneElement;
 	}
 
 	public void setSceneElement(EAdElement element) {
-		this.element = element;
+		this.sceneElement = element;
 	}
 
 	public void setSceneElement(EAdField<EAdSceneElementDef> elementField) {
-		this.element = elementField;
+		this.sceneElement = elementField;
 	}
 
 	public EAdElement getElement() {
-		return element;
+		return sceneElement;
 	}
 
 	public void setElement(EAdElement element) {
-		this.element = element;
+		this.sceneElement = element;
 	}
 
 }

@@ -48,15 +48,19 @@ public abstract class AbstractOperation extends BasicElement implements
 	 * List of the variables
 	 */
 	@Param
-	protected EAdList<EAdOperation> varList;
+	protected EAdList<EAdOperation> operationsList;
 
 	public AbstractOperation() {
 		super();
-		varList = new EAdList<EAdOperation>();
+		operationsList = new EAdList<EAdOperation>();
 	}
 
 	public EAdList<EAdOperation> getOperationsList() {
-		return varList;
+		return operationsList;
+	}
+
+	public void setOperationsList(EAdList<EAdOperation> operationsList) {
+		this.operationsList = operationsList;
 	}
 
 }

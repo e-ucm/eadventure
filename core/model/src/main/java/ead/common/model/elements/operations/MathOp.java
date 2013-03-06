@@ -83,7 +83,7 @@ public class MathOp extends AbstractOperation {
 		this.expression = expression;
 		if (fields != null) {
 			for (EAdField<?> f : fields) {
-				varList.add(f);
+				operationsList.add(f);
 			}
 		}
 	}
@@ -131,7 +131,7 @@ public class MathOp extends AbstractOperation {
 	public String toString() {
 		String s = expression;
 		int i = 0;
-		for (EAdOperation f : varList) {
+		for (EAdOperation f : operationsList) {
 			s = s.replace("[" + i + "]", f + "");
 			i++;
 		}
