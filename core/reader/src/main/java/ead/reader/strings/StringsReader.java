@@ -68,14 +68,16 @@ public class StringsReader {
 		Map<EAdString, String> strings = new LinkedHashMap<EAdString, String>();
 		try {
 			XMLDocument doc = xmlParser.parse(xml);
-			XMLNodeList nl = doc.getFirstChild().getChildNodes();
-			for (int i = 0; i < nl.getLength(); i++) {
-				String name = nl.item(i).getAttributes().getValue("name");
-				String value = nl.item(i).getNodeText();
-				if (name != null) {
-					strings.put(new EAdString(name), value);
-				} else {
-					name = "0";
+			if (doc.getFirstChild().hasChildNodes()) {
+				XMLNodeList nl = doc.getFirstChild().getChildNodes();
+				for (int i = 0; i < nl.getLength(); i++) {
+					String name = nl.item(i).getAttributeValue("name");
+					String value = nl.item(i).getNodeText();
+					if (name != null) {
+						strings.put(new EAdString(name), value);
+					} else {
+						name = "0";
+					}
 				}
 			}
 		} catch (Exception e) {

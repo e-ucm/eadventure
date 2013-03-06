@@ -70,7 +70,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 	public Identified read(XMLNode node) {
 		Identified element = null;
 
-		if (node.getAttributes().getLength() < 2) {
+		if (node.getAttributesLength() < 2) {
 			if (asset) {
 				element = elementsFactory.getAsset(node.getNodeText());
 			} else {
@@ -83,7 +83,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 			Class<?> clazz = this.getNodeClass(node);
 			if (clazz != null) {
 				element = (Identified) elementsFactory.createObject(clazz);
-				String id = node.getAttributes().getValue(DOMTags.ID_AT);
+				String id = node.getAttributeValue(DOMTags.ID_AT);
 				element.setId(id);
 				if (ids.contains(id)) {
 					logger
@@ -100,21 +100,23 @@ public class ObjectReader extends AbstractReader<Identified> {
 					elementsFactory.putEAdElement(id, element);
 				}
 
-				XMLNodeList children = node.getChildNodes();
-				for (int i = 0; i < children.getLength(); i++) {
-					XMLNode child = children.item(i);
-					String fieldName = child.getAttributes().getValue(
-							DOMTags.FIELD_AT);
-					ReflectionField field = getField(clazz, fieldName);
+				if (node.hasChildNodes()) {
+					XMLNodeList children = node.getChildNodes();
+					for (int i = 0; i < children.getLength(); i++) {
+						XMLNode child = children.item(i);
+						String fieldName = child
+								.getAttributeValue(DOMTags.FIELD_AT);
+						ReflectionField field = getField(clazz, fieldName);
 
-					if (field != null) {
-						xmlVisitor.loadElement(child,
-								new ObjectVisitorListener(element, field));
-					} else {
-						logger
-								.warn(
-										"{} param is not present in {}. It'll be ignored",
-										new Object[] { fieldName, clazz });
+						if (field != null) {
+							xmlVisitor.loadElement(child,
+									new ObjectVisitorListener(element, field));
+						} else {
+							logger
+									.warn(
+											"{} param is not present in {}. It'll be ignored",
+											new Object[] { fieldName, clazz });
+						}
 					}
 				}
 			}

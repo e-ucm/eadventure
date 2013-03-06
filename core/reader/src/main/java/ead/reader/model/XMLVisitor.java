@@ -124,7 +124,7 @@ public class XMLVisitor {
 
 		// First look for null in the node
 		// <p/> or <e/> or <a/> symbolizes null element
-		if (!node.hasChildNodes() && node.getAttributes().getLength() == 0) {
+		if (!node.hasChildNodes() && node.getAttributesLength() == 0) {
 			listener.loaded(node, null, true);
 		} else {
 			Object result = null;
@@ -181,8 +181,7 @@ public class XMLVisitor {
 			for (VisitorStep s : stepsQueue) {
 				XMLNode n = s.getNode();
 				// If it's a reference, we create a BasicElement with the id.
-				if (n.getNodeName().equals("e")
-						&& n.getAttributes().getLength() < 2) {
+				if (n.getNodeName().equals("e") && n.getAttributesLength() < 2) {
 					String id = n.getNodeText();
 					if (id != null) {
 						s.getListener().loaded(n, new BasicElement(id), false);

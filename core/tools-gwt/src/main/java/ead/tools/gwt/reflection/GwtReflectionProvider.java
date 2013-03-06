@@ -68,6 +68,15 @@ public class GwtReflectionProvider implements ReflectionProvider {
 	public boolean isAssignableFrom(Class<?> class1, Class<?> class2) {
 		if (class1 == Object.class || class1 == class2)
 			return true;
+		// Special cases
+		if (class2 == String.class) {
+			return false;
+		}
+
+		if (class2 == Float.class || class2 == Integer.class
+				|| class2 == Long.class || class2 == Double.class) {
+			return class1 == Number.class;
+		}
 
 		Stack<Class<?>> stack = new Stack<Class<?>>();
 		stack.push(class2);

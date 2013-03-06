@@ -65,7 +65,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	 * @return
 	 */
 	public Class<?> getNodeClass(XMLNode node) {
-		String clazz = node.getAttributes().getValue(DOMTags.CLASS_AT);
+		String clazz = node.getAttributeValue(DOMTags.CLASS_AT);
 		return clazz == null ? null : getNodeClass(clazz);
 	}
 

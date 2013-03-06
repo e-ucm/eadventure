@@ -89,8 +89,8 @@ public class AdventureReader implements VisitorListener {
 		XMLNodeList entries = keyMap.getChildNodes();
 		for (int i = 0; i < entries.getLength(); i++) {
 			XMLNode n = entries.item(i);
-			String className = n.getAttributes().getValue(DOMTags.VALUE_AT);
-			classes.put(n.getAttributes().getValue(DOMTags.KEY_AT), className);
+			String className = n.getAttributeValue(DOMTags.VALUE_AT);
+			classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
 		}
 		visitor.addTranslator(new MapClassTranslator(classes));
 

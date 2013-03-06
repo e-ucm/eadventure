@@ -61,15 +61,15 @@ public class WarExporter implements Exporter {
 	private ArrayList<String> assets = new ArrayList<String>();
 
 	private String name = "game";
-	
+
 	private String warPath = DEFAULT_WAR_PATH;
 
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setWarPath(String path){
+
+	public void setWarPath(String path) {
 		this.warPath = path;
 	}
 
@@ -103,7 +103,7 @@ public class WarExporter implements Exporter {
 		File parent = new File(gameBaseDir);
 		// Copy the war into destination
 		File output = new File(outputfolder);
-		if ( !output.exists()){
+		if (!output.exists()) {
 			output.mkdirs();
 		}
 		File gameWar = new File(output, name + ".war");

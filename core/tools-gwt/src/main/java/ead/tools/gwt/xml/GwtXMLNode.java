@@ -38,10 +38,10 @@
 package ead.tools.gwt.xml;
 
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
-import ead.tools.xml.XMLAttributes;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
 
@@ -49,15 +49,10 @@ public class GwtXMLNode implements XMLNode {
 
 	private Node node;
 
-	private XMLAttributes attributes;
-
 	private XMLNodeList childNodes;
 
 	public GwtXMLNode(Node node) {
 		this.node = node;
-		if (node.hasAttributes()) {
-			attributes = new GwtXMLAttributes(node.getAttributes());
-		}
 		if (node.hasChildNodes()) {
 			childNodes = new GwtXMLNodeList(node.getChildNodes());
 		}
@@ -65,11 +60,6 @@ public class GwtXMLNode implements XMLNode {
 
 	public Node getElement() {
 		return node;
-	}
-
-	@Override
-	public XMLAttributes getAttributes() {
-		return attributes;
 	}
 
 	@Override
@@ -102,7 +92,11 @@ public class GwtXMLNode implements XMLNode {
 
 	@Override
 	public boolean hasChildNodes() {
-		return node.hasChildNodes();
+		try {
+			return node.hasChildNodes();
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -132,4 +126,34 @@ public class GwtXMLNode implements XMLNode {
 		this.node.appendChild(child);
 	}
 
+	@Override
+	public String getAttributeValue(String atttributeName) {
+		try {
+			if (node.hasAttributes()) {
+				NamedNodeMap map = node.getAttributes();
+				if (map != null) {
+					Node n = node.getAttributes().getNamedItem(atttributeName);
+					return n == null ? null : n.getNodeValue();
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	@Override
+	public int getAttributesLength() {
+		try {
+			if (node.hasAttributes()) {
+				NamedNodeMap map = node.getAttributes();
+				if (map != null) {
+					return map.getLength();
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		return 0;
+	}
 }

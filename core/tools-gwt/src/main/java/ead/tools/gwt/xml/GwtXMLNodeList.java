@@ -63,7 +63,11 @@ public class GwtXMLNodeList implements XMLNodeList {
 
 	@Override
 	public int getLength() {
-		return nodes.size();
+		try {
+			return nodes.size();
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 
 }

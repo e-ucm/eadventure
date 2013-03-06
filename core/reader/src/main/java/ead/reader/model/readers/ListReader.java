@@ -54,10 +54,12 @@ public class ListReader extends AbstractReader<EAdList> {
 	@Override
 	public EAdList read(XMLNode node) {
 		EAdList list = new EAdList();
-		XMLNodeList children = node.getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			xmlVisitor.loadElement(children.item(i), new ListVisitorListener(
-					list));
+		if (node.hasChildNodes()) {
+			XMLNodeList children = node.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				xmlVisitor.loadElement(children.item(i),
+						new ListVisitorListener(list));
+			}
 		}
 		return list;
 	}

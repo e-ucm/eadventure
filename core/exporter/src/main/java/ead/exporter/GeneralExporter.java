@@ -106,8 +106,8 @@ public class GeneralExporter implements Exporter {
 	public void setInstallApk(boolean selected) {
 		apkExporter.setRunInDevice(selected);
 	}
-	
-	public void setWarPath(String warPath ){
+
+	public void setWarPath(String warPath) {
 		warExporter.setWarPath(warPath);
 	}
 

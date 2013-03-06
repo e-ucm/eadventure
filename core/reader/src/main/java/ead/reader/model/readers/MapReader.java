@@ -55,9 +55,11 @@ public class MapReader extends AbstractReader<EAdMap> {
 	public EAdMap read(XMLNode node) {
 		EAdMap map = new EAdMap();
 		MapVisitorListener listener = new MapVisitorListener(map);
-		XMLNodeList childNodes = node.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			xmlVisitor.loadElement(childNodes.item(i), listener);
+		if (node.hasChildNodes()) {
+			XMLNodeList childNodes = node.getChildNodes();
+			for (int i = 0; i < childNodes.getLength(); i++) {
+				xmlVisitor.loadElement(childNodes.item(i), listener);
+			}
 		}
 		return map;
 	}
@@ -101,16 +103,16 @@ public class MapReader extends AbstractReader<EAdMap> {
 						// The key and/or the value are references and they're
 						// not prepared to be added to the map
 						logger.error("Yeah, it happened!!!!");
-						//						xmlVisitor.addMapKeyValue(map, key, object,
-						//								keyReference, valueReference);
+						// xmlVisitor.addMapKeyValue(map, key, object,
+						// keyReference, valueReference);
 					} else {
 						map.put(key, object);
 					}
 				} catch (Exception e) {
 					// The key is not prepared to generate a valid hash. Let's
 					// wait until it is
-					//					xmlVisitor.addMapKeyValue(map, key, object, keyReference,
-					//							valueReference);
+					// xmlVisitor.addMapKeyValue(map, key, object, keyReference,
+					// valueReference);
 				} finally {
 					key = null;
 					keyReference = false;

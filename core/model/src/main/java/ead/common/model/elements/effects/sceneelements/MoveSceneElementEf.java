@@ -60,10 +60,10 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * Target coordinates
 	 */
 	@Param
-	private EAdOperation xTarget;
+	private EAdOperation xtarget;
 
 	@Param
-	private EAdOperation yTarget;
+	private EAdOperation ytarget;
 
 	/**
 	 * Movement speed
@@ -110,8 +110,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 			EAdOperation yTarget, MovementSpeed speed) {
 		super();
 		setSceneElement(element);
-		this.xTarget = xTarget;
-		this.yTarget = yTarget;
+		this.xtarget = xTarget;
+		this.ytarget = yTarget;
 		this.speed = speed;
 		this.speedFactor = 1.0f;
 		this.useTrajectory = true;
@@ -126,8 +126,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 *            the expression to calculate the y value
 	 */
 	public void setTargetCoordiantes(EAdOperation x, EAdOperation y) {
-		xTarget = x;
-		yTarget = y;
+		xtarget = x;
+		ytarget = y;
 	}
 
 	/**
@@ -144,16 +144,16 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * 
 	 * @return x coordinate target
 	 */
-	public EAdOperation getxTarget() {
-		return xTarget;
+	public EAdOperation getXtarget() {
+		return xtarget;
 	}
 
 	/**
 	 * 
 	 * @return y coordinate target
 	 */
-	public EAdOperation getyTarget() {
-		return yTarget;
+	public EAdOperation getYtarget() {
+		return ytarget;
 	}
 
 	/**
@@ -200,12 +200,12 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 		return targetDefinition;
 	}
 
-	public void setxTarget(EAdOperation xTarget) {
-		this.xTarget = xTarget;
+	public void setXtarget(EAdOperation xTarget) {
+		this.xtarget = xTarget;
 	}
 
-	public void setyTarget(EAdOperation yTarget) {
-		this.yTarget = yTarget;
+	public void setYtarget(EAdOperation yTarget) {
+		this.ytarget = yTarget;
 	}
 
 	public EAdSceneElementDef getTargetDefinition() {
