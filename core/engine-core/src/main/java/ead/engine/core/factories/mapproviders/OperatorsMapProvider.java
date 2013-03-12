@@ -46,6 +46,7 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.ConcatenateStringsOp;
 import ead.common.model.elements.operations.ConditionedOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ListOp;
@@ -53,6 +54,7 @@ import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.StringOp;
 import ead.common.model.elements.operations.ValueOp;
 import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.operators.ConcatenateStringsOperator;
 import ead.engine.core.operators.ConditionedOperator;
 import ead.engine.core.operators.FieldOperator;
 import ead.engine.core.operators.ListOperator;
@@ -62,6 +64,7 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.StringOperator;
 import ead.engine.core.operators.ValueOperator;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
+import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;
 
 public class OperatorsMapProvider extends
@@ -73,23 +76,26 @@ public class OperatorsMapProvider extends
 
 	private ReflectionProvider reflectionProvider;
 
-	private GameState valueMap;
+	private GameState gameState;
 
 	private OperatorFactory operatorFactory;
 
+	private StringHandler stringHandler;
+
 	public OperatorsMapProvider(OperatorFactory operatorFactory,
 			GameState valueMap, EvaluatorFactory evaluatorFactory,
-			ReflectionProvider reflectionProvider) {
+			ReflectionProvider reflectionProvider, StringHandler stringHandler) {
 		super();
-		this.valueMap = valueMap;
+		this.gameState = valueMap;
 		this.evaluatorFactory = evaluatorFactory;
 		this.reflectionProvider = reflectionProvider;
 		this.operatorFactory = operatorFactory;
+		this.stringHandler = stringHandler;
 	}
 
 	@Override
 	public Map<Class<?>, Operator<?>> getMap() {
-		FieldOperator fieldOperator = new FieldOperator(valueMap);
+		FieldOperator fieldOperator = new FieldOperator(gameState);
 
 		// Conditions
 		factoryMap.put(ANDCond.class, evaluatorFactory);
@@ -98,14 +104,17 @@ public class OperatorsMapProvider extends
 		factoryMap.put(ORCond.class, evaluatorFactory);
 		factoryMap.put(OperationCond.class, evaluatorFactory);
 
-		factoryMap.put(MathOp.class, new MathOperator(valueMap));
+		factoryMap.put(MathOp.class, new MathOperator(gameState));
 		factoryMap.put(ValueOp.class, new ValueOperator(reflectionProvider));
 		factoryMap.put(EAdField.class, fieldOperator);
 		factoryMap.put(BasicField.class, fieldOperator);
-		factoryMap.put(ListOp.class, new ListOperator(valueMap));
+		factoryMap.put(ListOp.class, new ListOperator(gameState));
 		factoryMap.put(ConditionedOp.class, new ConditionedOperator(
 				evaluatorFactory, operatorFactory));
-		factoryMap.put(StringOp.class, new StringOperator(valueMap));
+		factoryMap.put(ConcatenateStringsOp.class,
+				new ConcatenateStringsOperator(gameState));
+		factoryMap.put(StringOp.class, new StringOperator(stringHandler,
+				gameState));
 		factoryMap.putAll(tempMap);
 		return super.getMap();
 	}

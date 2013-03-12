@@ -35,73 +35,37 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.effects;
+package ead.engine.core.operators;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.google.inject.Inject;
-
-import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.scenes.GhostElement;
-import ead.engine.core.game.interfaces.GUI;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.ConcatenateStringsOp;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
-public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
+public class ConcatenateStringsOperator implements
+		Operator<ConcatenateStringsOp> {
 
-	private int time;
+	private GameState valueMap;
 
-	private GUI gui;
-
-	@Inject
-	public WaitGO(GUI gui, GameState gameState) {
-		super(gameState);
-		this.gui = gui;
+	public ConcatenateStringsOperator(GameState valueMap) {
+		this.valueMap = valueMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void initialize() {
-		super.initialize();
-		if (effect.isWaitUntilClick()) {
-			time = 1;
-			GhostElement e = new GhostElement();
-			e.setCatchAll(true);
-			SceneElementGO go = gui.getHUD(GUI.EFFECTS_HUD_ID);
-			SceneElementGO eGO = go.addSceneElement(e);
-			eGO.setInputProcessor(this, false);
-		} else {
-			time = effect.getTime();
-		}
-	}
-
-	public void act(float delta) {
-		if (!effect.isWaitUntilClick()) {
-			time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
-		}
-	}
-
-	@Override
-	public boolean isFinished() {
-		return time <= 0;
-	}
-
-	public boolean isQueueable() {
-		return true;
-	}
-
-	@Override
-	public boolean handle(Event event) {
-		if (event instanceof InputEvent) {
-			InputEvent i = (InputEvent) event;
-			event.cancel();
-			if (i.getType() == InputEvent.Type.touchDown) {
-				time = 0;
-				return true;
+	public <S> S operate(Class<S> clazz, ConcatenateStringsOp operation) {
+		if (operation.getOperationsList().size() > 0) {
+			String result = "";
+			String preffix = operation.getPrefix() == null ? "" : operation
+					.getPrefix();
+			String suffix = operation.getSufix() == null ? "" : operation
+					.getSufix();
+			for (EAdOperation f : operation.getOperationsList()) {
+				result += preffix + valueMap.operate(Object.class, f) + suffix;
 			}
+			return (S) result;
+		} else {
+			return null;
 		}
-		return false;
 	}
 
 }

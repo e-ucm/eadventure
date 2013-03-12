@@ -249,7 +249,7 @@ public class MathEvaluator {
 			id = id.replace("]", "");
 			int index = Integer.parseInt(id);
 			EAdOperation number = operationsList.get(index);
-			Object o = gameState.operate(Float.class, number);
+			Object o = gameState.operate(Number.class, number);
 			if (o instanceof Number) {
 				return ((Number) o).floatValue();
 			} else

@@ -182,8 +182,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 			currentTime = (int) (currentTime - totalTime);
 
-			totalTime = (side.getLength() / PIXELS_PER_SECOND * 1000)
-					* side.getSpeedFactor();
+			totalTime = ((side.getLength() / PIXELS_PER_SECOND) * 1000);
 
 			gameState.setValue(movingElement.getElement(),
 					NodeTrajectory.VAR_CURRENT_SIDE, ((PathSide) side)

@@ -46,6 +46,7 @@ import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
 import ead.tools.AbstractFactory;
+import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;
 
 /**
@@ -59,10 +60,10 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 			.getLogger("Operator Factory");
 
 	public OperatorFactory(ReflectionProvider interfacesProvider,
-			GameState gameState) {
+			GameState gameState, StringHandler sh) {
 		super(null, interfacesProvider);
 		setMap(new OperatorsMapProvider(this, gameState, new EvaluatorFactory(
-				reflectionProvider, gameState, this), interfacesProvider));
+				reflectionProvider, gameState, this), interfacesProvider, sh));
 	}
 
 	/**

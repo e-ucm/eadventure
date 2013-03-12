@@ -39,45 +39,35 @@ package ead.common.model.elements.operations;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.params.text.EAdString;
 
 /**
- * Concatenates all the fields of this operation, and append and/or prepend a
- * preffix and/or a suffix to each of them.
+ * Returns as value the {@link EAdString} translated as its corresponding string
+ * in the current language
  * 
  */
 @Element
 public class StringOp extends AbstractOperation {
 
 	@Param
-	private String prefix;
-
-	@Param
-	private String sufix;
+	private EAdElement string;
 
 	public StringOp() {
 
 	}
 
-	public StringOp(String prefix, String sufix) {
+	public StringOp(EAdElement string) {
 		super();
-		this.prefix = prefix;
-		this.sufix = sufix;
+		this.string = string;
 	}
 
-	public String getPrefix() {
-		return prefix;
+	public EAdElement getString() {
+		return string;
 	}
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-
-	public String getSufix() {
-		return sufix;
-	}
-
-	public void setSufix(String sufix) {
-		this.sufix = sufix;
+	public void setString(EAdElement string) {
+		this.string = string;
 	}
 
 }

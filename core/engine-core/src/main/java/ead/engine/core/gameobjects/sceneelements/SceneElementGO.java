@@ -382,10 +382,12 @@ public class SceneElementGO extends Group implements
 	 * Adds an scene element as a child of this element
 	 * 
 	 * @param sceneElement
+	 * @return the game object created for the element
 	 */
-	public void addSceneElement(EAdSceneElement element) {
+	public SceneElementGO addSceneElement(EAdSceneElement element) {
 		SceneElementGO go = sceneElementFactory.get(element);
 		addSceneElement(go);
+		return go;
 	}
 
 	/**
@@ -788,8 +790,9 @@ public class SceneElementGO extends Group implements
 	}
 
 	public boolean contains(float x, float y) {
-		return currentDrawable != null
-				&& currentDrawable.contains((int) x, (int) y);
+		return element.isContainsBounds()
+				|| (currentDrawable != null && currentDrawable.contains(
+						(int) x, (int) y));
 	}
 
 	@Override
@@ -798,7 +801,8 @@ public class SceneElementGO extends Group implements
 			inputProcessor.handle(event);
 		}
 
-		// Due the way Stage fireEnterAndExit works, enter and exit events never are cancelled
+		// Due the way Stage fireEnterAndExit works, enter and exit events never
+		// are cancelled
 		boolean cancel = true;
 
 		if (this.getTouchable() == Touchable.enabled
@@ -894,7 +898,7 @@ public class SceneElementGO extends Group implements
 				break;
 			case touchDragged:
 				if (i instanceof DragEvent) {
-					//					DragEvent dragEvent = (DragEvent) i;
+					// DragEvent dragEvent = (DragEvent) i;
 				}
 			default:
 				break;

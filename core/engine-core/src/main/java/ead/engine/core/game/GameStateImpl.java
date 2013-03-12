@@ -130,7 +130,8 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 		this.sceneElementFactory = sceneElementFactory;
 		this.effectFactory = effectFactory;
 		this.tracker = tracker;
-		this.operatorFactory = new OperatorFactory(reflectionProvider, this);
+		this.operatorFactory = new OperatorFactory(reflectionProvider, this,
+				stringHandler);
 
 		effects = new ArrayList<EffectGO<?>>();
 		finishedEffects = new ArrayList<EffectGO<?>>();

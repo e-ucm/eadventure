@@ -35,35 +35,49 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.operators;
+package ead.common.model.elements.operations;
 
-import ead.common.model.elements.operations.StringOp;
-import ead.common.model.params.text.EAdString;
-import ead.engine.core.game.interfaces.GameState;
-import ead.tools.StringHandler;
+import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
 
-public class StringOperator implements Operator<StringOp> {
+/**
+ * Concatenates all the fields of this operation, and append and/or prepend a
+ * preffix and/or a suffix to each of them.
+ * 
+ */
+@Element
+public class ConcatenateStringsOp extends AbstractOperation {
 
-	private StringHandler stringHandler;
+	@Param
+	private String prefix;
 
-	private GameState gameState;
+	@Param
+	private String sufix;
 
-	public StringOperator(StringHandler stringHandler, GameState gameState) {
-		this.stringHandler = stringHandler;
-		this.gameState = gameState;
+	public ConcatenateStringsOp() {
+
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S> S operate(Class<S> clazz, StringOp operation) {
+	public ConcatenateStringsOp(String prefix, String sufix) {
+		super();
+		this.prefix = prefix;
+		this.sufix = sufix;
+	}
 
-		Object value = gameState.maybeDecodeField(operation.getString());
-		if (value instanceof EAdString) {
-			return (S) stringHandler.getString((EAdString) value);
-		} else {
-			return (S) ("" + value);
-		}
+	public String getPrefix() {
+		return prefix;
+	}
 
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public String getSufix() {
+		return sufix;
+	}
+
+	public void setSufix(String sufix) {
+		this.sufix = sufix;
 	}
 
 }

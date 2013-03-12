@@ -157,6 +157,12 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	protected EAdSceneElementDef definition;
 
 	/**
+	 * Sets if the for the contains method, must be used only the scene element bounds
+	 */
+	@Param
+	protected boolean containsBounds;
+
+	/**
 	 * Initial event for this element. This attribute WILL NOT BE SERIALIZED by
 	 * the any writer. It is a transient attribute
 	 */
@@ -347,6 +353,14 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public void setInitialState(String state) {
 		setVarInitialValue(SceneElement.VAR_STATE, state);
+	}
+
+	public boolean isContainsBounds() {
+		return containsBounds;
+	}
+
+	public void setContainsBounds(boolean containsBounds) {
+		this.containsBounds = containsBounds;
 	}
 
 }

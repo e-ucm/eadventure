@@ -72,4 +72,9 @@ public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
 	 */
 	void setPosition(Corner topLeft, float i, float j);
 
+	/**
+	 *  If for the contains method, must be used only the scene element bounds
+	 */
+	public boolean isContainsBounds();
+
 }
