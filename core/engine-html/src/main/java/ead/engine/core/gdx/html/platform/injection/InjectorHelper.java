@@ -69,7 +69,7 @@ import ead.engine.core.gameobjects.effects.PlaySoundGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
-import ead.engine.core.gameobjects.effects.ShowQuestionGO;
+import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
@@ -127,7 +127,7 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getModifyHudGO();
 		else if (clazz == PlaySoundGO.class)
 			o = ginjector.getPlaySoundGO();
-		else if (clazz == ShowQuestionGO.class)
+		else if (clazz == QuestionGO.class)
 			o = ginjector.getShowQuestionGO();
 		else if (clazz == InterpolationGO.class)
 			o = ginjector.getInterpolationGO();

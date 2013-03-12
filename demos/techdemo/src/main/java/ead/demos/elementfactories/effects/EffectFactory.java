@@ -46,7 +46,7 @@ import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.ShowTextAnimation;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -98,8 +98,8 @@ public class EffectFactory {
 	 * @param nAnswers
 	 * @return
 	 */
-	public ShowQuestionEf getShowQuestion(String question, int nAnswers) {
-		ShowQuestionEf effect = new ShowQuestionEf();
+	public QuestionEf getShowQuestion(String question, int nAnswers) {
+		QuestionEf effect = new QuestionEf();
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				effect.getQuestion(), question);
 

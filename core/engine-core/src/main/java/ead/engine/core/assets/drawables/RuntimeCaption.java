@@ -193,10 +193,10 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	// deleted, because with getDrawable can be done
 	public void update() {
 
-		timeShown -= gui.getSkippedMilliseconds();
+		/*timeShown -= gui.getSkippedMilliseconds();
 		if (timeShown <= 0) {
 			goForward(1);
-		}
+		}*/
 
 		text = getProcessedText();
 

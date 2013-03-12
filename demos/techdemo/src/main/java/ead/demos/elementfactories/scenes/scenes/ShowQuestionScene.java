@@ -38,7 +38,7 @@
 package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.guievents.MouseGEv;
@@ -57,7 +57,7 @@ public class ShowQuestionScene extends EmptyScene {
 
 		getSceneElements().add(element);
 
-		ShowQuestionEf effect = new ShowQuestionEf();
+		QuestionEf effect = new QuestionEf();
 		effect
 				.setQuestion(new EAdString(
 						"techDemo.ShowQuestionScene.question"));

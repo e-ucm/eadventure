@@ -60,7 +60,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.RandomEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
@@ -269,8 +269,8 @@ public class BasicSceneGraph implements SceneGraph {
 			for (EAdEffect e : randomEf.getEffects().keySet()) {
 				lookForConnections(currentScene, e);
 			}
-		} else if (effect instanceof ShowQuestionEf) {
-			ShowQuestionEf showQuestion = (ShowQuestionEf) effect;
+		} else if (effect instanceof QuestionEf) {
+			QuestionEf showQuestion = (QuestionEf) effect;
 			for (EAdEffect e : showQuestion.getAnswers().values()) {
 				lookForConnections(currentScene, e);
 			}

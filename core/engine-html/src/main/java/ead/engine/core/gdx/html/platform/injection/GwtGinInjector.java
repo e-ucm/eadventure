@@ -71,7 +71,7 @@ import ead.engine.core.gameobjects.effects.PlaySoundGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
-import ead.engine.core.gameobjects.effects.ShowQuestionGO;
+import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
@@ -116,7 +116,7 @@ public interface GwtGinInjector extends Ginjector {
 
 	TriggerMacroGO getTriggerMacroGO();
 
-	ShowQuestionGO getShowQuestionGO();
+	QuestionGO getShowQuestionGO();
 
 	WaitGO getWaitGO();
 

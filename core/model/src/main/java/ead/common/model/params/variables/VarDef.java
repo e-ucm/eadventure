@@ -113,14 +113,13 @@ public class VarDef<T> extends AbstractParam implements EAdVarDef<T> {
 	public boolean equals(Object o) {
 		if (o instanceof VarDef) {
 			VarDef v = (VarDef) o;
-			return this.getName().equals(v.getName())
-					&& getType().equals(v.getType());
+			return this.getName().equals(v.getName());
 		}
 		return false;
 	}
 
 	public int hashCode() {
-		return name.hashCode() ^ type.hashCode();
+		return name.hashCode();
 	}
 
 	@Override

@@ -46,7 +46,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
@@ -102,7 +102,7 @@ public class ConversationImporter implements
 					nodes.put(node, effect);
 				}
 			} else if (node.getType() == ConversationNode.OPTION) {
-				EAdEffect effect = new ShowQuestionEf();
+				EAdEffect effect = new QuestionEf();
 				nodes.put(node, effect);
 				annotator.annotate(effect, ImportAnnotator.Type.Comment,
 						"choice");
@@ -121,8 +121,7 @@ public class ConversationImporter implements
 					currentNodeEffect.getNextEffects().add(nextNodeEffect);
 				}
 			} else if (node.getType() == ConversationNode.OPTION) {
-				ShowQuestionEf currentNodeEffect = (ShowQuestionEf) nodes
-						.get(node);
+				QuestionEf currentNodeEffect = (QuestionEf) nodes.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
 					EAdString string = stringHandler.generateNewString();
 					stringHandler.setString(string, node.getLineText(i));

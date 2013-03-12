@@ -53,7 +53,7 @@ import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
@@ -76,7 +76,7 @@ import ead.engine.core.gameobjects.effects.PlaySoundGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
-import ead.engine.core.gameobjects.effects.ShowQuestionGO;
+import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
@@ -105,7 +105,7 @@ public class EffectsMapProvider
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
 		factoryMap.put(RandomEf.class, RandomGO.class);
 		factoryMap.put(RemoveEf.class, RemoveGO.class);
-		factoryMap.put(ShowQuestionEf.class, ShowQuestionGO.class);
+		factoryMap.put(QuestionEf.class, QuestionGO.class);
 		factoryMap.put(AddChildEf.class, AddChildGO.class);
 		// Physics
 		factoryMap.put(PhysicsEf.class, PhysicsEffectGO.class);

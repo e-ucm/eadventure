@@ -63,6 +63,10 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 
 	}
 
+	public GhostElement(boolean catchAll) {
+		this.setCatchAll(catchAll);
+	}
+
 	/**
 	 * Creates a ghost element
 	 * 

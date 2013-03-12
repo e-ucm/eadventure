@@ -44,7 +44,11 @@ import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.operations.SystemFields;
@@ -52,7 +56,9 @@ import ead.common.model.elements.scenes.EAdGroupElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeCaption;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -89,6 +95,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	private SceneElementGO bubbleDialog;
 
 	private SceneElementGO effectsHud;
+
+	private SceneElement dots;
 
 	@Inject
 	public SpeakGO(GameState gameState, GUI gui,
@@ -176,6 +184,17 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		caption.loadAsset();
 		caption.reset();
 
+		// Dots
+		FramesAnimation f = new FramesAnimation();
+		f.addFrame(new Frame(new Image("@drawable/dots.png"), 1000));
+		f.addFrame(new Frame(new RectangleShape(1, 1, ColorFill.TRANSPARENT),
+				1000));
+		dots = new SceneElement(f);
+		dots.setAppearance("done", new Image("@drawable/dot.png"));
+		dots.setPosition(new Position(Corner.CENTER, right - 20, bottom - 15));
+
+		complex.getSceneElements().add(dots);
+
 		return complex;
 	}
 
@@ -205,6 +224,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		}
 
 		bubbleDialog.setAlpha(alpha);
+
+		if (caption.getCurrentPart() == caption.getTotalParts() - 1) {
+			gameState.setValue(dots, SceneElement.VAR_BUNDLE_ID, "done");
+		}
 	}
 
 	@Override

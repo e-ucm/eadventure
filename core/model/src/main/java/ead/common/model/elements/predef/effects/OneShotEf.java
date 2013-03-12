@@ -41,6 +41,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.params.variables.VarDef;
@@ -59,15 +60,34 @@ public class OneShotEf extends ChangeFieldEf {
 	 * @param effect the effect to launch only once
 	 */
 	public OneShotEf(EAdEffect effect) {
+		this(effect, null);
+	}
+
+	/**
+	 * 
+	 * @param effect the effect to launch only once
+	 * @param noEffect the effect to launch all times except first
+	 */
+	public OneShotEf(EAdEffect effect, EAdEffect noEffect) {
 		// Sets true launched variable
 		BasicField<Boolean> f = new BasicField<Boolean>(this, LAUNCHED);
-		addField(f);
-		setOperation(EmptyCond.TRUE);
-		// Sets as condition that launched variable is false
-		setCondition(new NOTCond(new OperationCond(f)));
+		OperationCond cond = new OperationCond(f);
 
-		// Adds as a next effect the one shot effect
-		getNextEffects().add(effect);
+		if (noEffect != null) {
+			TriggerMacroEf triggerMacro = new TriggerMacroEf();
+			triggerMacro.putEffect(effect, new NOTCond(cond));
+			triggerMacro.putEffect(noEffect, cond);
+			getNextEffects().add(triggerMacro);
+			getNextEffects().add(new ChangeFieldEf(f, EmptyCond.TRUE));
+		} else {
+			addField(f);
+			setOperation(EmptyCond.TRUE);
+			// Sets as condition that launched variable is false
+			setCondition(new NOTCond(cond));
+
+			// Adds as a next effect the one shot effect
+			getNextEffects().add(effect);
+		}
 	}
 
 }

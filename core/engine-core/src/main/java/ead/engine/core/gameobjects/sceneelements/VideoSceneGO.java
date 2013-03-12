@@ -87,7 +87,10 @@ public class VideoSceneGO extends SceneGO {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		if (component == null) {
+		if (error || specialAssetRenderer.isFinished()) {
+			gui.showSpecialResource(null, 0, 0, true);
+			removeVideoComponent();
+		} else if (component == null) {
 			try {
 				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
 						currentBundle, VideoScene.video);
@@ -106,9 +109,6 @@ public class VideoSceneGO extends SceneGO {
 		} else if (toStart) {
 			toStart = false;
 			specialAssetRenderer.start();
-		} else if (error || specialAssetRenderer.isFinished()) {
-			gui.showSpecialResource(null, 0, 0, true);
-			removeVideoComponent();
 		}
 	}
 

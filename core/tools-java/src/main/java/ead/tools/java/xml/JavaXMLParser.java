@@ -79,6 +79,7 @@ public class JavaXMLParser implements XMLParser {
 
 	@Override
 	public XMLDocument parse(String xml) {
+		logger.info("Parsing {}", xml);
 
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
 
@@ -86,13 +87,19 @@ public class JavaXMLParser implements XMLParser {
 			Document doc = dBuilder.parse(is);
 			doc.getDocumentElement().normalize();
 			return new JavaXMLDocument(doc);
-
 		} catch (SAXException e) {
-
+			logger.error("Error reading xml: {}", e);
 		} catch (IOException e) {
+			logger.error("Error reading xml: {}", e);
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
 
+				}
+			}
 		}
-
 		return null;
 	}
 

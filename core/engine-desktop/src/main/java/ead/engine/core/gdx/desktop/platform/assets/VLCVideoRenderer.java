@@ -42,6 +42,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +130,13 @@ public class VLCVideoRenderer implements
 	@Override
 	public Component getComponent(EAdVideo asset) {
 		if (vlcLoaded) {
-			return getVLCComponent(asset);
+			try {
+				return getVLCComponent(asset);
+			} catch (Exception e) {
+				logger.warn("VLC not supported in this OS. Videos won't load");
+				this.setFinished(true);
+				return null;
+			}
 		} else {
 			logger.warn("VLC not supported in this OS. Videos won't load");
 			this.setFinished(true);
@@ -190,6 +197,7 @@ public class VLCVideoRenderer implements
 		String pathPlugins = null;
 		vlcOptions = "--no-video-title-show";
 		String os = System.getProperty("os.name").toLowerCase();
+		// Looking for in embedded installation
 		if (os.contains("win")) {
 			pathLibvlc = "vlc/vlc-windows";
 			pathPlugins = "vlc/vlc-windows/plugins";
@@ -208,8 +216,67 @@ public class VLCVideoRenderer implements
 			NativeLibrary.addSearchPath("vlc", pathLibvlc);
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
-			vlcLoaded = true;
 		}
+		// Looking for in the system
+		if (os.contains("win")) {
+			String temp = null;
+			try {
+				temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
+						"Software\\VideoLAN\\VLC", "InstallDir");
+				if (temp == null) {
+					temp = WinRegistry.readString(
+							WinRegistry.HKEY_LOCAL_MACHINE,
+							"Software\\Wow6432Node\\VideoLAN\\VLC",
+							"InstallDir");
+				}
+				logger.info("VLC folder: '{}'", temp);
+			} catch (Exception e) {
+				logger.debug("VLC folder not found in Windows Registry");
+			}
+
+			if (temp == null) {
+				logger.warn("VLC not installed");
+				// not exists, extract
+				return;
+
+			}
+			pathLibvlc = temp;
+			pathPlugins = temp + "\\plugins";
+		} else if (os.contains("mac")) {
+			String temp = "/Applications/VLC.app";
+			if (!new File("/Applications/VLC.app/").exists()) {
+				logger.warn("VLC not installed");
+				// not exists, extract
+				// temp = ....;
+			} else {
+				logger.info("VLC installed");
+			}
+			pathLibvlc = temp + "/Contents/MacOS/lib/";
+			pathPlugins = temp + "/Contents/MacOS/plugins/";
+		} else if (os.contains("linux")) {
+			File[] libDirs = new File[] { new File("/usr/lib/vlc"),
+					new File("/usr/local/lib/vlc") };
+			File libDir = null;
+			for (File d : libDirs) {
+				if (d.exists()) {
+					libDir = d;
+					break;
+				}
+			}
+			if (libDir != null) {
+				logger.info("VLC installation at {}", libDir);
+				pathPlugins = new File(libDir, "plugins").getAbsolutePath();
+				pathLibvlc = libDir.getAbsolutePath();
+				NativeLibrary.addSearchPath("vlc", pathLibvlc);
+				System.setProperty("jna.library.path", pathLibvlc);
+				System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
+				vlcLoaded = true;
+			}
+		}
+		NativeLibrary.addSearchPath("vlc", pathLibvlc);
+		System.setProperty("jna.library.path", pathLibvlc);
+		System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
+		vlcLoaded = true;
 	}
 
 	@Override
