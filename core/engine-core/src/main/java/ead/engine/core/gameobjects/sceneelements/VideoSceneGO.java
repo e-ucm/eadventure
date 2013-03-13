@@ -64,7 +64,7 @@ public class VideoSceneGO extends SceneGO {
 
 	private boolean error;
 
-	boolean toStart = false;
+	private boolean toStart = false;
 
 	private VideoScene videoScene;
 
@@ -82,6 +82,8 @@ public class VideoSceneGO extends SceneGO {
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
 		this.videoScene = (VideoScene) element;
+		this.toStart = false;
+		this.error = false;
 	}
 
 	@Override

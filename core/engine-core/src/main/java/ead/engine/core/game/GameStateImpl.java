@@ -203,6 +203,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 				} else {
 					effectGO.finish();
 					tracker.track(effectGO);
+					effectFactory.remove(effectGO);
 				}
 				return effectGO;
 			} else if (e.isNextEffectsAlways()) {
@@ -221,7 +222,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 			tweenManager.update(delta);
 
 			// Effects
-			effects = getEffects();
 			finishedEffects.clear();
 			boolean block = false;
 			int i = 0;
@@ -248,8 +248,8 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 
 			// Delete finished effects
 			for (EffectGO<?> e : finishedEffects) {
-				// logger.info("Finished or discarded effect {}", e.getClass());
-				getEffects().remove(e);
+				effects.remove(e);
+				effectFactory.remove(e);
 			}
 		}
 	}

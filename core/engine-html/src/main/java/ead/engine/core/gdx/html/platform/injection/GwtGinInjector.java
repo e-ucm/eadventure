@@ -68,17 +68,16 @@ import ead.engine.core.gameobjects.effects.ModifyHudGO;
 import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
 import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
+import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
-import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
-import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
@@ -93,6 +92,7 @@ import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.gdx.html.platform.module.GwtModule;
+import ead.plugins.engine.bubbledescription.BubbleNameGO;
 import ead.tools.GenericInjector;
 import ead.tools.gwt.GWTToolsModule;
 
@@ -149,8 +149,6 @@ public interface GwtGinInjector extends Ginjector {
 	ChangeFieldGO getChangeFieldGO();
 
 	SceneElementEvGO getSceneElementEvGO();
-
-	SystemEvGO getSystemEvGO();
 
 	ConditionEvGO getConditionEvGO();
 
@@ -210,5 +208,9 @@ public interface GwtGinInjector extends Ginjector {
 	RuntimeFont getGdxFont();
 
 	RuntimeNinePatchImage getNinePatch();
+
+	// Plugins
+	// FIXME This CAN NOT be here
+	BubbleNameGO getBubbleNameGO();
 
 }

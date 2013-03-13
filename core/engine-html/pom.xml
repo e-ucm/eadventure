@@ -26,9 +26,9 @@
 				<executions>
 					<execution>
 						<goals>
-							<!--  <goal>compile</goal>
+							<goal>compile</goal>
 							<goal>generateAsync</goal>
-							<goal>test</goal>-->
+							<goal>test</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -133,8 +133,8 @@
 		<gwt.version>2.5.0</gwt.version>
 		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
 		<!--
-			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output
-				<gwt.logLevel>DEBUG</gwt.logLevel> -->
+			switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output-->
+				<gwt.logLevel>DEBUG</gwt.logLevel> 
 		<gwt.style>PRETTY</gwt.style>
 	</properties>
 

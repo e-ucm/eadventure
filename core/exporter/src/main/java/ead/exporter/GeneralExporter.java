@@ -40,7 +40,8 @@ package ead.exporter;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.codehaus.plexus.PlexusContainer;
+import org.apache.maven.DefaultMaven;
+import org.apache.maven.Maven;
 
 public class GeneralExporter implements Exporter {
 
@@ -51,17 +52,15 @@ public class GeneralExporter implements Exporter {
 	private WarExporter warExporter;
 
 	public GeneralExporter() {
-		PlexusContainer plexusContainer = null;
 		try {
-			/*plexusContainer = new DefaultPlexusContainer();
-			Maven maven = plexusContainer.lookup(Maven.class);
+			Maven maven = new DefaultMaven();
 			jarExporter = new JarExporter(maven);
-			apkExporter = new ApkExporter(maven);*/
+			apkExporter = new ApkExporter(maven);
 			warExporter = new WarExporter();
 			exporters = new ArrayList<Exporter>();
-			//exporters.add(jarExporter);
+			exporters.add(jarExporter);
 			exporters.add(warExporter);
-			//exporters.add(apkExporter);
+			exporters.add(apkExporter);
 		} catch (Exception e) {
 
 		}

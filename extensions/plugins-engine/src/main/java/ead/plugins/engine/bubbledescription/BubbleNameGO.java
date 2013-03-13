@@ -1,6 +1,7 @@
 package ead.plugins.engine.bubbledescription;
 
 import com.google.inject.Inject;
+import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.assets.drawable.basics.EAdCaption;
@@ -19,6 +20,7 @@ import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.events.AbstractEventGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
+@Reflectable
 public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
 	private final float TIME = 100.0f;

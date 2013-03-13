@@ -35,50 +35,19 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.events;
+package ead.tools;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.RandomAccess;
 
-import com.google.inject.Inject;
-
-import ead.common.model.elements.events.SystemEv;
-import ead.common.model.elements.events.enums.SystemEvType;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.game.interfaces.Game;
-import ead.engine.core.game.interfaces.GameState;
-
-public class SystemEvGO extends AbstractEventGO<SystemEv> {
-
-	private boolean triggered = false;
-
-	private static final Logger logger = LoggerFactory.getLogger("SystemEvGO");
-
-	private AssetHandler assetHandler;
-
-	private Game game;
-
-	private boolean first = true;
-
-	@Inject
-	public SystemEvGO(AssetHandler assetHandler, GameState gameState, Game game) {
-		super(gameState);
-		this.assetHandler = assetHandler;
-		this.game = game;
-	}
-
-	@Override
-	public void act(float delta) {
-		if (first) {
-			// TODO probably not enough to just check for assets loaded
-			logger.info("Checking if the game is loaded...");
-		}
-		first = false;
-		if (assetHandler.isLoaded() && game.getAdventureModel() != null
-				&& !triggered) {
-			runEffects(element.getEffectsForEvent(SystemEvType.GAME_LOADED));
-			triggered = true;
+public class EAdUtils {
+	public static void shuffle(List<?> list, Random rnd) {
+		if (list instanceof RandomAccess) {
+			int size = list.size();
+			for (int i = size; i > 1; i--)
+				Collections.swap(list, i - 1, rnd.nextInt(i));
 		}
 	}
-
 }

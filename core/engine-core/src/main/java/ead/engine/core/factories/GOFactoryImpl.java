@@ -43,6 +43,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.utils.Pool;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdElement;
@@ -65,6 +66,8 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 
 	protected Map<S, T> cache;
 
+	protected Map<Class<?>, Pool<T>> pools;
+
 	private Map<Class<? extends S>, Class<? extends T>> classMap;
 
 	public GOFactoryImpl(boolean useCache,
@@ -75,6 +78,8 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		}
 		this.reflectionProvider = reflectionProvider;
 		this.injector = injector;
+		// Pools
+		this.pools = new HashMap<Class<?>, Pool<T>>();
 	}
 
 	public void setClassMap(Map<Class<? extends S>, Class<? extends T>> classMap) {
@@ -106,7 +111,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 			logger.error("No game element mapped for class {}", element
 					.getClass());
 		} else {
-			temp = (GameObject) injector.getInstance(runtimeClass);
+			temp = (GameObject) getInstance(runtimeClass);
 			if (temp == null) {
 				logger.error("No instance for game object of class {}", element
 						.getClass());
@@ -120,16 +125,54 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		return (T) temp;
 	}
 
-	public void remove(EAdElement element) {
-		cache.remove(element);
+	public void remove(S element) {
+		if (cache != null) {
+			cache.remove(element);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void remove(T gameObject) {
+		remove((S) gameObject.getElement());
+		Pool<T> pool = pools.get(gameObject.getClass());
+		if (pool != null) {
+			pool.free((T) gameObject);
+		}
 	}
 
 	public void clean() {
-		cache.clear();
+		if (cache != null) {
+			cache.clear();
+		}
 	}
 
 	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {
 		classMap.put(clazz1, clazz2);
+	}
+
+	private T getInstance(Class<?> clazz) {
+		Pool<T> pool = pools.get(clazz);
+		if (pool == null) {
+			pool = new GameObjectPool(clazz);
+			pools.put(clazz, pool);
+		}
+		return pool.obtain();
+	}
+
+	public class GameObjectPool extends Pool<T> {
+
+		private Class<?> clazz;
+
+		public GameObjectPool(Class<?> clazz) {
+			this.clazz = clazz;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected T newObject() {
+			return (T) injector.getInstance(clazz);
+		}
+
 	}
 
 }

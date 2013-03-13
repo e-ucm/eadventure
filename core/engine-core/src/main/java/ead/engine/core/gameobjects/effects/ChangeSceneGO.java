@@ -57,7 +57,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	private SceneLoader sceneLoader;
 
-	private SceneElementGOFactory transitionFactory;
+	private SceneElementGOFactory sceneElementFactory;
 
 	private boolean finished;
 
@@ -69,7 +69,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		super(gameState);
 		this.sceneLoader = sceneLoader;
 		this.gui = gui;
-		this.transitionFactory = sceneElementFactory;
+		this.sceneElementFactory = sceneElementFactory;
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 		// If next scene is different from current one
 		if (nextScene == null || nextScene != gui.getScene().getElement()) {
-			transition = (TransitionGO<?>) transitionFactory.get(effect
+			transition = (TransitionGO<?>) sceneElementFactory.get(effect
 					.getTransition());
 			transition.setPreviousScene(gui.getScene());
 			sceneLoader.loadScene(nextScene, this);
@@ -120,6 +120,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void transitionEnded() {
 		finished = true;
+		transition.free();
 	}
 
 }

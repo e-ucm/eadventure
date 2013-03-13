@@ -232,21 +232,23 @@ public class SceneElementGO extends Group implements
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
 
-		statesList = new ArrayList<String>();
-		eventGOList = new ArrayList<EventGO<?>>();
-
 		addListener(this);
 
 		// Relative positions
 		center = new float[3];
 		topLeft = new float[3];
 		bottomRight = new float[3];
+
+		statesList = new ArrayList<String>();
+		eventGOList = new ArrayList<EventGO<?>>();
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
+		resetVars();
+
 		setName(element.getId());
 
 		for (Entry<EAdVarDef<?>, Object> e : element.getVars().entrySet()) {
@@ -269,6 +271,20 @@ public class SceneElementGO extends Group implements
 
 		updateVars();
 		setExtraVars();
+	}
+
+	private void resetVars() {
+		statesList.clear();
+		eventGOList.clear();
+		currentBundle = null;
+		currentDrawable = null;
+		inputProcessor = null;
+		mouseOver = false;
+		reorder = false;
+		runtimeDrawable = null;
+		scale = 1.0f;
+		state = null;
+		timeDisplayed = 0;
 	}
 
 	private void initEvents(EAdList<EAdEvent> events) {
@@ -1170,6 +1186,19 @@ public class SceneElementGO extends Group implements
 	public void setScaleY(float scaleY) {
 		updateRelatives = true;
 		super.setScaleY(scaleY);
+	}
+
+	public void free() {
+		for (Actor a : getChildren()) {
+			if (a instanceof SceneElementGO) {
+				((SceneElementGO) a).free();
+			}
+		}
+		sceneElementFactory.remove(this);
+		for (EventGO<?> eventGO : this.eventGOList) {
+			eventFactory.remove(eventGO);
+		}
+		getChildren().clear();
 	}
 
 }

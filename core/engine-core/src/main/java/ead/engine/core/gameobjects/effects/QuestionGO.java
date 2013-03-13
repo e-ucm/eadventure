@@ -38,7 +38,6 @@
 package ead.engine.core.gameobjects.effects;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
@@ -67,6 +66,7 @@ import ead.common.model.params.text.EAdString;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
+import ead.tools.EAdUtils;
 
 public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		Comparator<Object> {
@@ -117,8 +117,8 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		answers.addAll(effect.getAnswers().keySet());
 
 		if (effect.isRandomAnswers()) {
-			long seed = System.nanoTime();
-			Collections.shuffle(answers, new Random(seed));
+			long seed = System.currentTimeMillis();
+			EAdUtils.shuffle(answers, new Random(seed));
 		}
 
 		int i = 0;

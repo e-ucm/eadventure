@@ -39,13 +39,9 @@ package ead.common.model.elements.predef;
 
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.SystemEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.events.enums.SystemEvType;
 import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.BasicScene;
@@ -57,8 +53,6 @@ import ead.common.model.params.util.Position.Corner;
 public class LoadingScreen extends BasicScene implements EAdScene {
 
 	private static final String ID = "#engine.LoadingScreen";
-
-	private ChangeSceneEf effect;
 
 	public LoadingScreen() {
 		super(new RectangleShape(800, 600, ColorFill.WHITE));
@@ -76,15 +70,7 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 		add(s);
 
 		SceneElement bg = new SceneElement(new Image("@drawable/loading.png"));
-		EAdEvent event = new SystemEv();
-		effect = new ChangeSceneEf();
-		event.addEffect(SystemEvType.GAME_LOADED, effect);
-		this.getEvents().add(event);
 		add(bg);
-	}
-
-	public void setInitialScreen(EAdScene screen) {
-		effect.setNextScene(screen);
 	}
 
 }

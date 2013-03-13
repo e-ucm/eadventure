@@ -66,17 +66,16 @@ import ead.engine.core.gameobjects.effects.ModifyHudGO;
 import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
 import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
+import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
-import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
-import ead.engine.core.gameobjects.events.SystemEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
@@ -90,6 +89,7 @@ import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
+import ead.plugins.engine.bubbledescription.BubbleNameGO;
 import ead.tools.gwt.Injector;
 
 public class InjectorHelper implements Injector {
@@ -153,8 +153,6 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getConditionEvGO();
 		else if (clazz == SceneElementEvGO.class)
 			o = ginjector.getSceneElementEvGO();
-		else if (clazz == SystemEvGO.class)
-			o = ginjector.getSystemEvGO();
 		else if (clazz == TimedEvGO.class)
 			o = ginjector.getTimedEvGO();
 		else if (clazz == TextAreaGO.class)
@@ -216,6 +214,8 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getGdxFont();
 		else if (clazz == RuntimeNinePatchImage.class)
 			o = ginjector.getNinePatch();
+		else if (clazz == BubbleNameGO.class)
+			o = ginjector.getBubbleNameGO();
 		if (o == null) {
 			logger
 					.warn("Instance for class {} not defined in ginjector",

@@ -69,6 +69,9 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 	public void setElement(EAdSceneElement e) {
 		super.setElement(e);
 		transition = (T) e;
+		previousScene = null;
+		transitionListener = null;
+		nextScene = null;
 	}
 
 	public void transition(SceneGO nextScene,

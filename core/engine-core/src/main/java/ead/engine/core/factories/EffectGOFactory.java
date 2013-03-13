@@ -43,4 +43,6 @@ import ead.engine.core.gameobjects.effects.EffectGO;
 public interface EffectGOFactory extends
 		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {
 
+	void remove(EffectGO<?> effectGO);
+
 }

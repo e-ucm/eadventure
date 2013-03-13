@@ -37,6 +37,8 @@
 
 package ead.engine.core.operators.util;
 
+import com.badlogic.gdx.utils.Pool;
+
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.engine.core.game.interfaces.GameState;
@@ -67,12 +69,22 @@ public class MathEvaluator {
 	private GameState gameState;
 	private EAdList<EAdOperation> operationsList;
 
+	private Pool<Node> pool = new Pool<Node>() {
+
+		@Override
+		protected Node newObject() {
+			return new Node();
+		}
+
+	};
+
 	/***
 	 * creates an empty MathEvaluator. You need to use setExpression(String s)
 	 * to assign a math expression string to it.
 	 */
 	public MathEvaluator() {
 		init();
+		node = new Node();
 	}
 
 	/***
@@ -114,7 +126,8 @@ public class MathEvaluator {
 	 */
 	public void trace() {
 		try {
-			node = new Node(expression);
+			node = pool.obtain();
+			node.init(null, expression, 0);
 			node.trace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -129,7 +142,9 @@ public class MathEvaluator {
 			return null;
 
 		try {
-			node = new Node(expression);
+			node.free();
+			node = pool.obtain();
+			node.init(null, expression, 0);
 			return evaluate(node);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -309,15 +324,32 @@ public class MathEvaluator {
 		public int nLevel = 0;
 		public Float nValue = null;
 
-		public Node(String s) throws Exception {
-			init(null, s, 0);
+		public Node() {
+
 		}
 
-		public Node(Node parent, String s, int level) throws Exception {
-			init(parent, s, level);
+		public void free() {
+			if (nLeft != null) {
+				nLeft.free();
+				nLeft = null;
+			}
+
+			if (nRight != null) {
+				nRight.free();
+				nRight = null;
+			}
+
+			pool.free(this);
+
 		}
 
 		private void init(Node parent, String s, int level) throws Exception {
+			nString = null;
+			nOperator = null;
+			nLeft = null;
+			nRight = null;
+			nLevel = 0;
+			nValue = null;
 			s = removeIllegalCharacters(s);
 			s = removeBrackets(s);
 			s = addZero(s);
@@ -362,8 +394,9 @@ public class MathEvaluator {
 					// the brackets must be ok
 					if (checkBrackets(s.substring(nOperator.getOperator()
 							.length())) == 0) {
-						nLeft = new Node(this, s.substring(nOperator
-								.getOperator().length()), nLevel + 1);
+						nLeft = pool.obtain();
+						nLeft.init(this, s.substring(nOperator.getOperator()
+								.length()), nLevel + 1);
 						nRight = null;
 						return;
 					} else
@@ -373,9 +406,10 @@ public class MathEvaluator {
 				}
 				// two operands
 				else if (startOperator > 0 && nOperator.getType() == 2) {
-					nLeft = new Node(this, s.substring(0, startOperator),
-							nLevel + 1);
-					nRight = new Node(this, s.substring(startOperator
+					nLeft = pool.obtain();
+					nLeft.init(this, s.substring(0, startOperator), nLevel + 1);
+					nRight = pool.obtain();
+					nRight.init(this, s.substring(startOperator
 							+ nOperator.getOperator().length()), nLevel + 1);
 				}
 			}

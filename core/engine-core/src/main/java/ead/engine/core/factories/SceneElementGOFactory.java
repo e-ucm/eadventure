@@ -52,14 +52,6 @@ public interface SceneElementGOFactory extends
 	SceneElementGO get(String id);
 
 	/**
-	 * Removes an element from the cache
-	 * 
-	 * @param element
-	 *            the element to be removed
-	 */
-	void remove(EAdSceneElement element);
-
-	/**
 	 * Remove all elements from the cache
 	 */
 	void clean();
