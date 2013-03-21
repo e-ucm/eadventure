@@ -160,7 +160,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 				triggerMacro.putMacro(macro, c);
 			}
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.ADDED_TO_SCENE, triggerMacro);
+			event.addEffect(SceneElementEvType.ADDED, triggerMacro);
 			cutscene.getEvents().add(event);
 		}
 
@@ -302,7 +302,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 		ChangeFieldEf hideInventory = new ChangeFieldEf(SHOW_INVENTORY,
 				EmptyCond.FALSE);
 		SceneElementEv bgEvent = new SceneElementEv();
-		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
+		bgEvent.addEffect(SceneElementEvType.ADDED, hideInventory);
 		cutscene.getEvents().add(bgEvent);
 	}
 

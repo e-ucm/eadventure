@@ -251,18 +251,21 @@ public class SceneElementGO extends Group implements
 
 		setName(element.getId());
 
-		for (Entry<EAdVarDef<?>, Object> e : element.getVars().entrySet()) {
-			EAdVarDef def = e.getKey();
-			gameState.setValue(element, def, e.getValue());
+		// We only set initial values if it is the first time this element is shown
+		if (!gameState.contains(element)) {
+			// Definition values
+			for (Entry<EAdVarDef<?>, Object> e : element.getDefinition()
+					.getVars().entrySet()) {
+				EAdVarDef def = e.getKey();
+				gameState.setValue(element, def, e.getValue());
+			}
+
+			// Scene element values
+			for (Entry<EAdVarDef<?>, Object> e : element.getVars().entrySet()) {
+				EAdVarDef def = e.getKey();
+				gameState.setValue(element, def, e.getValue());
+			}
 		}
-
-		gameState.setValue(element.getDefinition(),
-				SceneElementDef.VAR_SCENE_ELEMENT, element);
-
-		// Initial vars
-		// Bundle
-		gameState.setValue(element, SceneElement.VAR_BUNDLE_ID,
-				SceneElementDef.INITIAL_BUNDLE);
 
 		// Scene element events
 		initEvents(element.getEvents());
@@ -285,6 +288,7 @@ public class SceneElementGO extends Group implements
 		scale = 1.0f;
 		state = null;
 		timeDisplayed = 0;
+		this.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	private void initEvents(EAdList<EAdEvent> events) {
@@ -642,8 +646,10 @@ public class SceneElementGO extends Group implements
 	}
 
 	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		gameState.setValue(getElement(), SceneElement.VAR_VISIBLE, visible);
+		if (visible != this.isVisible()) {
+			super.setVisible(visible);
+			gameState.setValue(getElement(), SceneElement.VAR_VISIBLE, visible);
+		}
 	}
 
 	/**
@@ -754,6 +760,11 @@ public class SceneElementGO extends Group implements
 		if (updateRelatives) {
 			updateRelatives = false;
 			updateRelatives();
+		}
+
+		if (this.isVisible()) {
+			gameState.setValue(element.getDefinition(),
+					SceneElementDef.VAR_SCENE_ELEMENT, element);
 		}
 
 		super.act(delta);
@@ -1199,6 +1210,11 @@ public class SceneElementGO extends Group implements
 			eventFactory.remove(eventGO);
 		}
 		getChildren().clear();
+	}
+
+	@Override
+	public void release() {
+
 	}
 
 }

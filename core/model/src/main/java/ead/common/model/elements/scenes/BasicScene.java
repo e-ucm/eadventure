@@ -82,13 +82,17 @@ public class BasicScene extends GroupElement implements EAdScene {
 		this(new RectangleShape(800, 600, ColorFill.BLACK));
 	}
 
-	public BasicScene(EAdDrawable backgroundDrawable) {
+	public BasicScene(SceneElement bg) {
 		super();
-		background = new SceneElement(backgroundDrawable);
+		background = bg;
 		background.setPosition(Corner.TOP_LEFT, 0, 0);
 		background.setId(super.getId() + ".background");
 		returnable = true;
 		setCenter(Corner.TOP_LEFT);
+	}
+
+	public BasicScene(EAdDrawable backgroundDrawable) {
+		this(new SceneElement(backgroundDrawable));
 	}
 
 	public EAdSceneElement getBackground() {
@@ -120,7 +124,7 @@ public class BasicScene extends GroupElement implements EAdScene {
 	 * @param element
 	 *            the element to be added
 	 */
-	public void add(SceneElement element) {
+	public void add(EAdSceneElement element) {
 		this.getSceneElements().add(element);
 	}
 

@@ -37,8 +37,6 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import java.util.ArrayList;
-
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
@@ -54,21 +52,17 @@ import ead.engine.core.game.interfaces.GameState;
 
 public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
-	private ArrayList<EffectGO<?>> effects;
-
 	@Inject
 	public TriggerMacroGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, Game gameController,
 			EventGOFactory eventFactory) {
 		super(gameState);
-		effects = new ArrayList<EffectGO<?>>();
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		effects.clear();
 
 		EffectsMacro macro = null;
 
@@ -82,24 +76,9 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 		if (macro != null) {
 			for (EAdEffect e : macro.getEffects()) {
-				EffectGO<?> eGO = gameState.addEffect(e, action, parent);
-				if (!eGO.isFinished()) {
-					effects.add(eGO);
-				}
+				gameState.addEffect(e, action, parent);
 			}
 		}
-	}
-
-	@Override
-	public boolean isFinished() {
-		if (effects != null) {
-			for (EffectGO<?> e : effects) {
-				if (e != null && !e.isFinished()) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 }

@@ -55,6 +55,7 @@ import com.google.inject.Singleton;
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
@@ -114,6 +115,11 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 	 */
 	private boolean paused;
 
+	/**
+	 * Map containing field watchers by element and variable
+	 */
+	private Map<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> fieldWatchers;
+
 	// Auxiliary variable, to avoid new every loop
 	private ArrayList<EffectGO<?>> finishedEffects;
 
@@ -135,6 +141,8 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 
 		effects = new ArrayList<EffectGO<?>>();
 		finishedEffects = new ArrayList<EffectGO<?>>();
+		// Field watcher
+		fieldWatchers = new HashMap<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>>();
 
 		// Init tween manager
 		this.tweenManager = new TweenManager();
@@ -197,7 +205,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 				effectGO.setGUIAction(action);
 				effectGO.setParent(parent);
 				effectGO.initialize();
-				if (effectGO.isQueueable()) {
+				if (effectGO.isQueueable() && !effectGO.isFinished()) {
 					tracker.track(effectGO);
 					effects.add(effectGO);
 				} else {
@@ -391,9 +399,9 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 
 	}
 
-	//---------------------------------//
+	// ---------------------------------//
 	// TEXT PROCESSING
-	//---------------------------------//
+	// ---------------------------------//
 
 	public String processTextVars(String text, EAdList<EAdOperation> operations) {
 		text = processConditionalExpressions(text, operations);
@@ -508,5 +516,48 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 		}
 
 		return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
+	}
+
+	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
+		super.setValue(element, varDef, value);
+		notifyWatchers(element, varDef);
+	}
+
+	private void notifyWatchers(Object element, EAdVarDef<?> varDef) {
+		Map<EAdVarDef<?>, List<FieldWatcher>> map = fieldWatchers.get(element);
+		if (map != null) {
+			List<FieldWatcher> list = map.get(varDef);
+			if (list != null) {
+				for (FieldWatcher fw : list) {
+					fw.fieldUpdated();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void addFieldWatcher(FieldWatcher fieldWatcher, EAdField<?> field) {
+		Map<EAdVarDef<?>, List<FieldWatcher>> map = fieldWatchers.get(field
+				.getElement());
+		if (map == null) {
+			map = new HashMap<EAdVarDef<?>, List<FieldWatcher>>();
+			fieldWatchers.put(field.getElement(), map);
+		}
+		List<FieldWatcher> list = map.get(field.getVarDef());
+		if (list == null) {
+			list = new ArrayList<FieldWatcher>();
+			map.put(field.getVarDef(), list);
+		}
+		list.add(fieldWatcher);
+	}
+
+	@Override
+	public void removeFieldWatcher(FieldWatcher fieldWatcher) {
+		for (Entry<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> e : fieldWatchers
+				.entrySet()) {
+			for (List<FieldWatcher> l : e.getValue().values()) {
+				l.remove(fieldWatcher);
+			}
+		}
 	}
 }

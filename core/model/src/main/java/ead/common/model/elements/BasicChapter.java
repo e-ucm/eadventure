@@ -210,4 +210,8 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 		this.vars = vars;
 	}
 
+	public void addScene(EAdScene scene) {
+		scenes.add(scene);
+	}
+
 }

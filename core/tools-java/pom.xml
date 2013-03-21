@@ -64,6 +64,5 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 		</dependency>
-
 	</dependencies>
 </project>

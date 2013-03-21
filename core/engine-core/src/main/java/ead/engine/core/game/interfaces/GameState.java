@@ -161,12 +161,15 @@ public interface GameState extends ValueMap {
 
 	/**
 	 * Updates the game state
-	 * @param delta TODO
+	 * 
+	 * @param delta
+	 *            TODO
 	 */
 	void update(float delta);
 
 	/**
 	 * Returns the tween manager
+	 * 
 	 * @return
 	 */
 	TweenManager getTweenManager();
@@ -191,6 +194,30 @@ public interface GameState extends ValueMap {
 	 * @return the processed text
 	 */
 	String processTextVars(String text, EAdList<EAdOperation> operations);
+
+	/**
+	 * Adds a field watcher that is notified every time the given field is
+	 * updated
+	 * 
+	 * @param fieldWatcher
+	 * @param field
+	 */
+	void addFieldWatcher(FieldWatcher fieldWatcher, EAdField<?> field);
+
+	/**
+	 * Removes a field watcher
+	 * 
+	 * @param fieldWatcher
+	 */
+	void removeFieldWatcher(FieldWatcher fieldWatcher);
+
+	public interface FieldWatcher {
+		/**
+		 * Call whenever the field is updated
+		 */
+		void fieldUpdated();
+
+	}
 
 	void saveState();
 

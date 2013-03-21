@@ -80,4 +80,11 @@ public class EmptyCond extends AbstractCondition {
 		return (value != null ? value.toString() : getId() + "NULL");
 	}
 
+	public boolean equals(Object o) {
+		if (o instanceof EmptyCond) {
+			return this.value == ((EmptyCond) o).value;
+		}
+		return false;
+	}
+
 }

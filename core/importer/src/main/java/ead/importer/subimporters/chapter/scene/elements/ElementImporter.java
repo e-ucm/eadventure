@@ -40,6 +40,7 @@ package ead.importer.subimporters.chapter.scene.elements;
 import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
@@ -145,6 +146,10 @@ public abstract class ElementImporter<T> implements
 
 	protected void addVisibleEvent(SceneElement newReference,
 			EAdCondition condition) {
+
+		if (condition.equals(EmptyCond.TRUE)) {
+			return;
+		}
 
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);

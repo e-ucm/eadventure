@@ -87,4 +87,8 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 		return currentPath;
 	}
 
+	public void release() {
+
+	}
+
 }

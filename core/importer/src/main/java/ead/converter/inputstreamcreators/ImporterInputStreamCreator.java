@@ -35,39 +35,45 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.importer.auxiliar.inputstreamcreators;
+package ead.converter.inputstreamcreators;
 
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
-import com.google.inject.Singleton;
-
-import es.eucm.eadventure.common.loader.InputStreamCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Singleton
+import es.eucm.eadventure.common.loader.InputStreamCreator;
+
 public class ImporterInputStreamCreator implements InputStreamCreator {
 
 	private InputStreamCreator currentStreamCreator;
 	private static final Logger logger = LoggerFactory
 			.getLogger("ImporterInputStreamCreator");
 
+	private EAPInputStreamCreator eapInputStreamCreator;
+
+	private ZipInputStreamCreator zipInputStreamCreator;
+
+	public ImporterInputStreamCreator() {
+		eapInputStreamCreator = new EAPInputStreamCreator();
+		zipInputStreamCreator = new ZipInputStreamCreator();
+	}
+
 	public void setFile(String projectFile) {
 		if (new File(projectFile).isDirectory()) {
-			currentStreamCreator = new EAPInputStreamCreator();
-			((EAPInputStreamCreator) currentStreamCreator).setFile(projectFile);
+			currentStreamCreator = eapInputStreamCreator;
+			eapInputStreamCreator.setFile(projectFile);
 			logger.info("Folder project reader");
 		} else if (projectFile.endsWith(".eap")) {
 			projectFile = projectFile.substring(0, projectFile.length() - 4);
-			currentStreamCreator = new EAPInputStreamCreator();
-			((EAPInputStreamCreator) currentStreamCreator).setFile(projectFile);
+			currentStreamCreator = eapInputStreamCreator;
+			eapInputStreamCreator.setFile(projectFile);
 			logger.info("Eap project reader");
 		} else if (projectFile.endsWith(".zip") || projectFile.endsWith(".ead")) {
-			currentStreamCreator = new ZipInputStreamCreator();
-			((ZipInputStreamCreator) currentStreamCreator)
-					.setZipFile(projectFile);
+			currentStreamCreator = zipInputStreamCreator;
+			zipInputStreamCreator.setZipFile(projectFile);
 			logger.info("Zip/ead project reader");
 		} else {
 			logger.info("No project reader available for: " + projectFile);

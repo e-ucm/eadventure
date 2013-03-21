@@ -131,4 +131,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		return !isQueueable();
 	}
 
+	public void release() {
+
+	}
+
 }

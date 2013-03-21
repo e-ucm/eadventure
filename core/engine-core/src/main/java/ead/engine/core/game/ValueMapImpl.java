@@ -199,4 +199,8 @@ public class ValueMapImpl implements ValueMap {
 		map.remove(maybeDecodeField(element));
 	}
 
+	public boolean contains(Object element) {
+		return map.get(element) != null;
+	}
+
 }

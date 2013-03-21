@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.importer.auxiliar.inputstreamcreators;
+package ead.converter.inputstreamcreators;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -79,8 +79,6 @@ public class JavaXMLParser implements XMLParser {
 
 	@Override
 	public XMLDocument parse(String xml) {
-		logger.info("Parsing {}", xml);
-
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
 
 		try {

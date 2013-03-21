@@ -76,9 +76,12 @@ import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
+import ead.engine.core.gameobjects.effects.WaitUntilGO;
+import ead.engine.core.gameobjects.effects.sceneelement.ChangeColorGO;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
+import ead.engine.core.gameobjects.events.WatchFieldEvGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -146,6 +149,8 @@ public interface GwtGinInjector extends Ginjector {
 
 	AddChildGO getAddChildGO();
 
+	WaitUntilGO getWaitUntilGO();
+
 	ChangeFieldGO getChangeFieldGO();
 
 	SceneElementEvGO getSceneElementEvGO();
@@ -153,6 +158,8 @@ public interface GwtGinInjector extends Ginjector {
 	ConditionEvGO getConditionEvGO();
 
 	TimedEvGO getTimedEvGO();
+
+	WatchFieldEvGO getWatchFieldEvGO();
 
 	GhostDebuggerGO getGhostDebuggerGO();
 
@@ -183,6 +190,8 @@ public interface GwtGinInjector extends Ginjector {
 	SimpleTrajectoryGO getSimpleTrajectoryGO();
 
 	NodeTrajectoryGO getNodeTrajectoryGO();
+
+	ChangeColorGO getChangeColorGO();
 
 	// Assets 
 	RuntimeImage getRuntimeImage();

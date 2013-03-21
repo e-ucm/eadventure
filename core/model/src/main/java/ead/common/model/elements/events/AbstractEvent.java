@@ -62,7 +62,7 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 	 * Calculated attribute with all effects contained by the behavior. It must
 	 * not be saved in the XML
 	 */
-	private EAdList<EAdEffect> allEffects;
+	private transient EAdList<EAdEffect> allEffects;
 
 	public AbstractEvent() {
 		super();

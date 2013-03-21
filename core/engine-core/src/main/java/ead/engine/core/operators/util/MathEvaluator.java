@@ -47,7 +47,7 @@ import ead.engine.core.game.interfaces.GameState;
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,
  * ceil, floor, abs, neg, rndr, deg.<br>
- * When the getValue() is called, a Float object is returned. If it returns
+ * When the getValue() is called, a float object is returned. If it returns
  * null, an error occured.
  * <p>
  * 
@@ -139,7 +139,7 @@ public class MathEvaluator {
 	 */
 	public Float getValue() {
 		if (expression == null)
-			return null;
+			return Float.valueOf(0);
 
 		try {
 			node.free();
@@ -148,15 +148,15 @@ public class MathEvaluator {
 			return evaluate(node);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return Float.valueOf(0);
 		}
 	}
 
-	private static Float evaluate(Node n) {
+	private static float evaluate(Node n) {
 		if (n.hasOperator() && n.hasChild()) {
 			if (n.getOperator().getType() == 1)
 				n.setValue(evaluateExpression(n.getOperator(), evaluate(n
-						.getLeft()), null));
+						.getLeft()), 0));
 			else if (n.getOperator().getType() == 2)
 				n.setValue(evaluateExpression(n.getOperator(), evaluate(n
 						.getLeft()), evaluate(n.getRight())));
@@ -164,62 +164,62 @@ public class MathEvaluator {
 		return n.getValue();
 	}
 
-	private static Float evaluateExpression(Operator o, Float f1, Float f2) {
+	private static float evaluateExpression(Operator o, float f1, float f2) {
 		String op = o.getOperator();
-		Float res = null;
+		float res = 0;
 
 		if ("+".equals(op))
-			res = new Float(f1.floatValue() + f2.floatValue());
+			res = f1 + f2;
 		else if ("-".equals(op))
-			res = new Float(f1.floatValue() - f2.floatValue());
+			res = f1 - f2;
 		else if ("*".equals(op))
-			res = new Float(f1.floatValue() * f2.floatValue());
+			res = f1 * f2;
 		else if ("/".equals(op))
-			res = new Float(f1.floatValue() / f2.floatValue());
+			res = f1 / f2;
 		else if ("^".equals(op))
-			res = new Float(Math.pow(f1.floatValue(), f2.floatValue()));
+			res = (float) Math.pow(f1, f2);
 		else if ("%".equals(op))
-			res = new Float(f1.floatValue() % f2.floatValue());
+			res = f1 % f2;
 		else if ("&".equals(op))
-			res = new Float(f1.floatValue() + f2.floatValue()); // todo
+			res = f1 + f2;
 		else if ("|".equals(op))
-			res = new Float(f1.floatValue() + f2.floatValue()); // todo
+			res = f1 + f2;
 		else if ("cos".equals(op))
-			res = new Float(Math.cos(f1.floatValue()));
+			res = (float) Math.cos(f1);
 		else if ("sin".equals(op))
-			res = new Float(Math.sin(f1.floatValue()));
+			res = (float) Math.sin(f1);
 		else if ("tan".equals(op))
-			res = new Float(Math.tan(f1.floatValue()));
+			res = (float) Math.tan(f1);
 		else if ("acos".equals(op))
-			res = new Float(Math.acos(f1.floatValue()));
+			res = (float) Math.acos(f1);
 		else if ("asin".equals(op))
-			res = new Float(Math.asin(f1.floatValue()));
+			res = (float) Math.asin(f1);
 		else if ("atan".equals(op))
-			res = new Float(Math.atan(f1.floatValue()));
+			res = (float) Math.atan(f1);
 		else if ("sqr".equals(op))
-			res = new Float(f1.floatValue() * f1.floatValue());
+			res = f1 * f1;
 		else if ("sqrt".equals(op))
-			res = new Float(Math.sqrt(f1.floatValue()));
+			res = (float) Math.sqrt(f1);
 		else if ("log".equals(op))
-			res = new Float(Math.log(f1.floatValue()));
+			res = (float) Math.log(f1);
 		else if ("min".equals(op))
-			res = new Float(Math.min(f1.floatValue(), f2.floatValue()));
+			res = Math.min(f1, f2);
 		else if ("max".equals(op))
-			res = new Float(Math.max(f1.floatValue(), f2.floatValue()));
+			res = Math.max(f1, f2);
 		else if ("exp".equals(op))
-			res = new Float(Math.exp(f1.floatValue()));
+			res = (float) Math.exp(f1);
 		else if ("floor".equals(op))
-			res = new Float(Math.floor(f1.floatValue()));
+			res = (float) Math.floor(f1);
 		else if ("ceil".equals(op))
-			res = new Float(Math.ceil(f1.floatValue()));
+			res = (float) Math.ceil(f1);
 		else if ("abs".equals(op))
-			res = new Float(Math.abs(f1.floatValue()));
+			res = Math.abs(f1);
 		else if ("neg".equals(op))
-			res = new Float(-f1.floatValue());
+			res = -f1;
 		else if ("rnd".equals(op))
-			res = new Float(Math.random() * f1.floatValue());
+			res = (float) (Math.random() * f1);
 		else if ("deg".equals(op)) {
-			res = Float.valueOf((float) Math.toDegrees(f1));
+			res = (float) Math.toDegrees(f1);
 		}
 
 		return res;
@@ -258,7 +258,7 @@ public class MathEvaluator {
 	/***
 	 * gets the variable's value that was assigned previously
 	 */
-	public Float getVariable(String id) {
+	public float getVariable(String id) {
 		try {
 			id = id.replace("[", "");
 			id = id.replace("]", "");
@@ -274,13 +274,13 @@ public class MathEvaluator {
 		}
 	}
 
-	private Float getFloat(String s) {
+	private float getfloat(String s) {
 		if (s == null)
-			return null;
+			return 0;
 
-		Float res = null;
+		float res = 0;
 		try {
-			res = new Float(Float.parseFloat(s));
+			res = Float.parseFloat(s);
 		} catch (Exception e) {
 			return getVariable(s);
 		}
@@ -322,7 +322,7 @@ public class MathEvaluator {
 		public Node nLeft = null;
 		public Node nRight = null;
 		public int nLevel = 0;
-		public Float nValue = null;
+		public float nValue = 0;
 
 		public Node() {
 
@@ -349,7 +349,7 @@ public class MathEvaluator {
 			nLeft = null;
 			nRight = null;
 			nLevel = 0;
-			nValue = null;
+			nValue = 0;
 			s = removeIllegalCharacters(s);
 			s = removeBrackets(s);
 			s = addZero(s);
@@ -357,7 +357,7 @@ public class MathEvaluator {
 				throw new Exception("Wrong number of brackets in [" + s + "]");
 
 			nString = s;
-			nValue = getFloat(s);
+			nValue = getfloat(s);
 			nLevel = level;
 			int sLength = s.length();
 			int inBrackets = 0;
@@ -513,11 +513,11 @@ public class MathEvaluator {
 			return nOperator;
 		}
 
-		protected Float getValue() {
+		protected float getValue() {
 			return nValue;
 		}
 
-		protected void setValue(Float f) {
+		protected void setValue(float f) {
 			nValue = f;
 		}
 

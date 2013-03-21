@@ -52,6 +52,12 @@
 			<artifactId>guice</artifactId>
 			<classifier>no_aop</classifier>
 		</dependency>
-
+		
+		<!-- GSon -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.2</version>
+		</dependency>
 	</dependencies>
 </project>

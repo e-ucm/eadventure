@@ -137,6 +137,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		Pool<T> pool = pools.get(gameObject.getClass());
 		if (pool != null) {
 			pool.free((T) gameObject);
+			gameObject.release();
 		}
 	}
 

@@ -41,50 +41,48 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.SystemFields;
-import ead.engine.core.game.interfaces.GUI;
+import ead.common.model.params.variables.VarDef;
 import ead.engine.core.game.interfaces.GameState;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
-	private boolean firstCheck = true;
+	private static final VarDef<Boolean> INIT = new VarDef<Boolean>("init",
+			Boolean.class, false);
+
+	private boolean firstCheck;
 
 	private boolean hasAlways;
 
-	private Long timeLastUpdate;
-
-	private GUI gui;
-
 	@Inject
-	public SceneElementEvGO(GUI gui, GameState gameState) {
+	public SceneElementEvGO(GameState gameState) {
 		super(gameState);
-		this.gui = gui;
 	}
 
-	public void initialize() {
+	public void setElement(SceneElementEv ev) {
+		super.setElement(ev);
 		firstCheck = true;
 		hasAlways = element.getEffectsForEvent(SceneElementEvType.ALWAYS) != null;
-		timeLastUpdate = -1l;
 	}
 
 	@Override
 	public void act(float delta) {
-		Long currentTime = gameState.getValue(SystemFields.GAME_TIME);
-		if (timeLastUpdate == -1
-				|| currentTime - timeLastUpdate > gui.getSkippedMilliseconds() * 2) {
-			runEffects(element
-					.getEffectsForEvent(SceneElementEvType.ADDED_TO_SCENE));
-		}
-		timeLastUpdate = currentTime;
-
 		if (firstCheck) {
+			boolean init = gameState.getValue(element, INIT);
+			if (!init) {
+				runEffects(element
+						.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
+				gameState.setValue(element, INIT, true);
+			}
+			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED));
 			firstCheck = false;
-			runEffects(element
-					.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
 		}
 
 		if (hasAlways)
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ALWAYS));
+	}
+
+	public void release() {
+		runEffects(element.getEffectsForEvent(SceneElementEvType.REMOVED));
 	}
 
 }

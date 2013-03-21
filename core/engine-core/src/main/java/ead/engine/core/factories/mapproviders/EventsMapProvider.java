@@ -41,10 +41,12 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
+import ead.common.model.elements.events.WatchFieldEv;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
+import ead.engine.core.gameobjects.events.WatchFieldEvGO;
 
 public class EventsMapProvider
 		extends
@@ -54,6 +56,7 @@ public class EventsMapProvider
 		factoryMap.put(ConditionedEv.class, ConditionEvGO.class);
 		factoryMap.put(SceneElementEv.class, SceneElementEvGO.class);
 		factoryMap.put(TimedEv.class, TimedEvGO.class);
+		factoryMap.put(WatchFieldEv.class, WatchFieldEvGO.class);
 	}
 
 }

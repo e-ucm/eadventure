@@ -66,4 +66,8 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 		return element + "";
 	}
 
+	public void release() {
+
+	}
+
 }

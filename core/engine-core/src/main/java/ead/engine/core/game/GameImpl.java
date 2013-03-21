@@ -352,6 +352,13 @@ public class GameImpl implements Game, VisitorListener {
 			events.add(eventGO);
 		}
 
+		for (EAdEvent e : adventure.getEvents()) {
+			EventGO<?> eventGO = eventFactory.get(e);
+			eventGO.setParent(null);
+			eventGO.initialize();
+			events.add(eventGO);
+		}
+
 		// Start tracking
 		Boolean track = Boolean.parseBoolean(adventure.getProperties().get(
 				GameTracker.TRACKING_ENABLE));

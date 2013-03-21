@@ -186,7 +186,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				new BasicField<Boolean>(new BasicElement(InventoryHud.ID),
 						SceneElement.VAR_VISIBLE), EmptyCond.FALSE);
 		SceneElementEv hideEvent = new SceneElementEv();
-		hideEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
+		hideEvent.addEffect(SceneElementEvType.ADDED, hideInventory);
 		book.getEvents().add(hideEvent);
 		// Import background
 		AssetDescriptor background = resourceImporter.getAssetDescritptor(
@@ -218,7 +218,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		SceneElementEv xEvent = new SceneElementEv();
 		content.getEvents().add(xEvent);
 		ChangeFieldEf changeX = new ChangeFieldEf(xField, new ValueOp(0));
-		xEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, changeX);
+		xEvent.addEffect(SceneElementEvType.ADDED, changeX);
 
 		book.setReturnable(false);
 		book.getSceneElements().add(content);

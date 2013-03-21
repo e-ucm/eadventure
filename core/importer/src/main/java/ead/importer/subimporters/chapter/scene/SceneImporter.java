@@ -410,7 +410,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 		SceneElementEv event = new SceneElementEv();
 
-		event.addEffect(SceneElementEvType.ADDED_TO_SCENE, triggerMacro);
+		event.addEffect(SceneElementEvType.ADDED, triggerMacro);
 		scene.getEvents().add(event);
 	}
 

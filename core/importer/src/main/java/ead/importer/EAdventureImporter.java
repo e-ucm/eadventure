@@ -59,7 +59,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.params.text.EAdString;
-import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
+import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;

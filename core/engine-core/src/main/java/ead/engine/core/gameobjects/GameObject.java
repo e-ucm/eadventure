@@ -61,8 +61,16 @@ public interface GameObject<T> {
 
 	/**
 	 * Updates game object
-	 * @param delta TODO
+	 * 
+	 * @param delta
+	 *            TODO
 	 */
 	void act(float delta);
+
+	/**
+	 * This method is called when the game object is returned to the objects
+	 * pool.
+	 */
+	void release();
 
 }

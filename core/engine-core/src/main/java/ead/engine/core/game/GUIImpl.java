@@ -54,6 +54,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.google.inject.Inject;
 
+import ead.common.model.elements.huds.BottomHud;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.LoadingScreen;
@@ -167,6 +168,8 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	public void addHuds() {
+		// Bottom hud
+		hudRoot.addSceneElement(sceneElementFactory.get(new BottomHud()));
 		// Effects hud
 		SceneElement effectsHud = new SceneElement();
 		effectsHud.setId(GUI.EFFECTS_HUD_ID);

@@ -77,4 +77,6 @@ public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
 	 */
 	public boolean isContainsBounds();
 
+	void setInitialBundle(String name);
+
 }

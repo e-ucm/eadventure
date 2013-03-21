@@ -363,4 +363,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this.containsBounds = containsBounds;
 	}
 
+	public void setInitialBundle(String bundleId) {
+		this.setVarInitialValue(SceneElement.VAR_BUNDLE_ID, bundleId);
+
+	}
+
 }

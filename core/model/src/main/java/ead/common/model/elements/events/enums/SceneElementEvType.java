@@ -48,9 +48,15 @@ public enum SceneElementEvType {
 	FIRST_UPDATE,
 
 	/**
-	 * Triggered whenever the element is added to a scene
+	 * Triggered whenever the element is added to the scene
 	 */
-	ADDED_TO_SCENE,
+	ADDED,
+
+	/**
+	 * Whenever the scene element is removed and the game object is returned to
+	 * the pool
+	 */
+	REMOVED,
 
 	/**
 	 * Triggered in every update

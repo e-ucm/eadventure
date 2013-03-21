@@ -73,6 +73,12 @@ public class BasicAdventureModel extends BasicElement implements
 	private int gameHeight;
 
 	@Param
+	/**
+	 * This events are launched after the game loads
+	 */
+	private EAdList<EAdEvent> events;
+
+	@Param
 	private EAdList<EAdElement> depthControlList;
 
 	// This map is fulfilled with the values in ead.properties. That's why it
@@ -91,6 +97,7 @@ public class BasicAdventureModel extends BasicElement implements
 		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdList<EAdElement>();
 		properties = new LinkedHashMap<String, String>();
+		events = new EAdList<EAdEvent>();
 	}
 
 	public EAdList<EAdChapter> getChapters() {
@@ -173,6 +180,16 @@ public class BasicAdventureModel extends BasicElement implements
 
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
+	}
+
+	public void addChapter(EAdChapter chapter) {
+		this.chapters.add(chapter);
+
+	}
+
+	@Override
+	public EAdList<EAdEvent> getEvents() {
+		return events;
 	}
 
 }

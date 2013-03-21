@@ -147,4 +147,11 @@ public interface ValueMap {
 	 */
 	void remove(Object element);
 
+	/**
+	 * If the value map contains values for this element
+	 * @param element
+	 * @return
+	 */
+	boolean contains(Object element);
+
 }

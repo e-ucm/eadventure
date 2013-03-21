@@ -74,9 +74,12 @@ import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
+import ead.engine.core.gameobjects.effects.WaitUntilGO;
+import ead.engine.core.gameobjects.effects.sceneelement.ChangeColorGO;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
+import ead.engine.core.gameobjects.events.WatchFieldEvGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
@@ -189,6 +192,10 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getNodeTrajectoryGO();
 		else if (clazz == PolygonTrajectoryGO.class)
 			o = ginjector.getPolygonTrajectoryGO();
+		else if (clazz == WaitUntilGO.class)
+			o = ginjector.getWaitUntilGO();
+		else if (clazz == ChangeColorGO.class)
+			o = ginjector.getChangeColorGO();
 		// Assets
 		else if (clazz == RuntimeImage.class)
 			o = ginjector.getRuntimeImage();
@@ -216,6 +223,8 @@ public class InjectorHelper implements Injector {
 			o = ginjector.getNinePatch();
 		else if (clazz == BubbleNameGO.class)
 			o = ginjector.getBubbleNameGO();
+		else if (clazz == WatchFieldEvGO.class)
+			o = ginjector.getWatchFieldEvGO();
 		if (o == null) {
 			logger
 					.warn("Instance for class {} not defined in ginjector",

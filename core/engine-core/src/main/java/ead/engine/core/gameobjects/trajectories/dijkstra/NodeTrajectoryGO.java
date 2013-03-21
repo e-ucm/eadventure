@@ -55,7 +55,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	/**
 	 * Pixels traveled per second
 	 */
-	private static final int PIXELS_PER_SECOND = 250;
+	private static final int PIXELS_PER_SECOND = 100;
 
 	private DijkstraNodeTrajectoryGenerator generator;
 

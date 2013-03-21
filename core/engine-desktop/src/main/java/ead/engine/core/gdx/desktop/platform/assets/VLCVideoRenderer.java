@@ -192,6 +192,9 @@ public class VLCVideoRenderer implements
 	 * Initialize system and system dependent variables for vlcj.
 	 */
 	private void initializeVariables() {
+		if (System.getProperty("jna.nosys") == null) {
+			System.setProperty("jna.nosys", "true");
+		}
 		vlcLoaded = false;
 		String pathLibvlc = null;
 		String pathPlugins = null;
