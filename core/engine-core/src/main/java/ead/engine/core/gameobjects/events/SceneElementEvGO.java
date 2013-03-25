@@ -49,7 +49,7 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	private static final VarDef<Boolean> INIT = new VarDef<Boolean>("init",
 			Boolean.class, false);
 
-	private boolean firstCheck;
+	private int checks;
 
 	private boolean hasAlways;
 
@@ -60,21 +60,23 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
 	public void setElement(SceneElementEv ev) {
 		super.setElement(ev);
-		firstCheck = true;
+		checks = 2;
 		hasAlways = element.getEffectsForEvent(SceneElementEvType.ALWAYS) != null;
 	}
 
 	@Override
 	public void act(float delta) {
-		if (firstCheck) {
+		if (checks >= 0) {
+			checks--;
+		}
+
+		if (checks == 0) {
 			boolean init = gameState.getValue(element, INIT);
 			if (!init) {
-				runEffects(element
-						.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
+				runEffects(element.getEffectsForEvent(SceneElementEvType.INIT));
 				gameState.setValue(element, INIT, true);
 			}
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED));
-			firstCheck = false;
 		}
 
 		if (hasAlways)

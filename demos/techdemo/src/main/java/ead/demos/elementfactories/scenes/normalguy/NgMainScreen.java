@@ -70,14 +70,14 @@ public class NgMainScreen extends EmptyScene {
 		InterpolationEf rotate = new InterpolationEf(spiral,
 				SceneElement.VAR_ROTATION, 0, 2 * Math.PI, 20000, 0,
 				InterpolationLoopType.RESTART, -1, InterpolationType.LINEAR);
-		e.addEffect(SceneElementEvType.FIRST_UPDATE, rotate);
+		e.addEffect(SceneElementEvType.INIT, rotate);
 		spiral.getEvents().add(e);
 
 		e = new SceneElementEv();
 		InterpolationEf bounce = new InterpolationEf(logo,
 				SceneElement.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
-		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
+		e.addEffect(SceneElementEvType.INIT, bounce);
 
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		// Creates all rooms

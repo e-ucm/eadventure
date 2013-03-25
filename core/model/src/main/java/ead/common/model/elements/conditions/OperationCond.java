@@ -82,7 +82,7 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	 * @param operator
 	 *            the value to set
 	 */
-	public void setOperator(Comparator operator) {
+	public void setComparator(Comparator operator) {
 		this.operator = operator;
 	}
 

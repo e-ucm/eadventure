@@ -63,7 +63,7 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 
 		SceneElementEv updateLoad = new SceneElementEv();
 		MathOp op = new MathOp("[0] * (800 / 100 )");
-		op.getOperationsList().add(SystemFields.LOADING);
+		op.getOperations().add(SystemFields.LOADING);
 		updateLoad.addEffect(SceneElementEvType.ALWAYS, new ChangeFieldEf(s
 				.getField(SceneElement.VAR_X), op));
 		s.getEvents().add(updateLoad);

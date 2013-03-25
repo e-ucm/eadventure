@@ -109,7 +109,7 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 	 * Adds an element to the group
 	 * @param e
 	 */
-	public void addSceneElement(SceneElement e) {
+	public void addSceneElement(EAdSceneElement e) {
 		this.sceneElements.add(e);
 	}
 

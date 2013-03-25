@@ -94,7 +94,7 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 
 		// If it's really going to move...
 		if (Math.abs(diffX) > 0.1f || Math.abs(diffY) > 0.1f) {
-			movingElement.setState(CommonStates.EAD_STATE_WALKING.toString());
+			movingElement.setState(CommonStates.WALKING.toString());
 
 			if (Math.abs(diffX) > Math.abs(diffY)) {
 				if (diffX > 0) {
@@ -126,7 +126,7 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 		movingElement.setX(startX + x);
 		movingElement.setY(startY + y);
 		if (currentTime >= totalTime) {
-			movingElement.setState(CommonStates.EAD_STATE_DEFAULT.toString());
+			movingElement.setState(CommonStates.DEFAULT.toString());
 		}
 	}
 

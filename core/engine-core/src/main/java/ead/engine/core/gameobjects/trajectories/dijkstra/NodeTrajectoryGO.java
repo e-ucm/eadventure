@@ -132,7 +132,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 			if (firstUpdate) {
 				firstUpdate = false;
 				gameState.setValue(sceneElement, SceneElement.VAR_STATE,
-						CommonStates.EAD_STATE_WALKING.toString());
+						CommonStates.WALKING.toString());
 			}
 
 			if (finishedSide) {
@@ -156,7 +156,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		}
 
 		if (finished) {
-			movingElement.setState(CommonStates.EAD_STATE_DEFAULT.toString());
+			movingElement.setState(CommonStates.DEFAULT.toString());
 
 			// if (path.isGetsTo() || effect.getTarget() == null)
 			// super.finish();

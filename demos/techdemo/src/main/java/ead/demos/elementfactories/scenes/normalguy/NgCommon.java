@@ -129,8 +129,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.W, frames);
 
-		stateDrawables.addDrawable(CommonStates.EAD_STATE_DEFAULT + "",
-				oriented);
+		stateDrawables.addDrawable(CommonStates.DEFAULT + "", oriented);
 
 		// Walk
 		oriented = new StateDrawable();
@@ -159,8 +158,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.W, frames);
 
-		stateDrawables.addDrawable(CommonStates.EAD_STATE_WALKING + "",
-				oriented);
+		stateDrawables.addDrawable(CommonStates.WALKING + "", oriented);
 
 		// Talk
 		oriented = new StateDrawable();
@@ -185,8 +183,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.W, frames);
 
-		stateDrawables.addDrawable(CommonStates.EAD_STATE_TALKING + "",
-				oriented);
+		stateDrawables.addDrawable(CommonStates.TALKING + "", oriented);
 
 		mainCharacterSceneElement = new BasicField<EAdSceneElement>(
 				mainCharacter, SceneElementDef.VAR_SCENE_ELEMENT);

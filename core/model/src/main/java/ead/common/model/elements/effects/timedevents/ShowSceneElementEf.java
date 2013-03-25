@@ -86,7 +86,7 @@ public class ShowSceneElementEf extends AbstractEffect {
 					InterpolationLoopType.NO_LOOP);
 
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+			event.addEffect(SceneElementEvType.INIT, effect);
 
 			text.getEvents().add(event);
 			break;

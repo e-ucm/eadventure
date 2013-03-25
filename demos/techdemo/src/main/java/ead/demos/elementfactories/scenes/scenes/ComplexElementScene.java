@@ -86,7 +86,7 @@ public class ComplexElementScene extends EmptyScene {
 				10000, InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+		event.addEffect(SceneElementEvType.INIT, effect);
 
 		complex.getEvents().add(event);
 
@@ -100,7 +100,7 @@ public class ComplexElementScene extends EmptyScene {
 				InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 
 		SceneElementEv event2 = new SceneElementEv();
-		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect2);
+		event2.addEffect(SceneElementEvType.INIT, effect2);
 
 		e.getEvents().add(event2);
 
@@ -111,7 +111,7 @@ public class ComplexElementScene extends EmptyScene {
 		InterpolationEf effect3 = new InterpolationEf(scale, 0.0f, 1.5f, 5000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
-		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect3);
+		event2.addEffect(SceneElementEvType.INIT, effect3);
 
 	}
 

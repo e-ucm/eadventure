@@ -102,33 +102,33 @@ public class NPCImporter extends ActorImporter<NPC> {
 					NPC.RESOURCE_TYPE_STAND_UP, NPC.RESOURCE_TYPE_STAND_DOWN,
 					NPC.RESOURCE_TYPE_STAND_RIGHT, NPC.RESOURCE_TYPE_STAND_LEFT);
 			if (stand != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT
-						.toString(), stand);
+				stateDrawable.addDrawable(CommonStates.DEFAULT.toString(),
+						stand);
 			}
 
 			StateDrawable walk = getOrientedAsset(r, NPC.RESOURCE_TYPE_WALK_UP,
 					NPC.RESOURCE_TYPE_WALK_DOWN, NPC.RESOURCE_TYPE_WALK_RIGHT,
 					NPC.RESOURCE_TYPE_WALK_LEFT);
 			if (walk != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_WALKING
-						.toString(), walk);
+				stateDrawable
+						.addDrawable(CommonStates.WALKING.toString(), walk);
 			}
 
 			StateDrawable talking = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_SPEAK_UP, NPC.RESOURCE_TYPE_SPEAK_DOWN,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_SPEAK_LEFT);
 			if (talking != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING
-						.toString(), talking);
+				stateDrawable.addDrawable(CommonStates.TALKING.toString(),
+						talking);
 			}
 
 			StateDrawable using = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_USE_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT);
 			if (using != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_USING
-						.toString(), using == null
-						|| using.getDrawables().isEmpty() ? stand : using);
+				stateDrawable.addDrawable(CommonStates.USING.toString(),
+						using == null || using.getDrawables().isEmpty() ? stand
+								: using);
 			}
 
 			drawables.add(stateDrawable);

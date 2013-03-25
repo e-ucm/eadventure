@@ -211,6 +211,9 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	}
 
 	public void addScene(EAdScene scene) {
+		if (this.initialScene == null) {
+			this.initialScene = scene;
+		}
 		scenes.add(scene);
 	}
 

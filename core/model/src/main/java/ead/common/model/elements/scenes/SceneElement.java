@@ -66,7 +66,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 			"orientation", Orientation.class, Orientation.S);
 
 	public static final EAdVarDef<String> VAR_STATE = new VarDef<String>(
-			"state", String.class, CommonStates.EAD_STATE_DEFAULT.toString());
+			"state", String.class, CommonStates.DEFAULT.toString());
 
 	public static final EAdVarDef<String> VAR_BUNDLE_ID = new VarDef<String>(
 			"bundleId", String.class, ResourcedElement.INITIAL_BUNDLE);
@@ -339,7 +339,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 			initEvent = new SceneElementEv();
 			this.getEvents().add(initEvent);
 		}
-		initEvent.addEffect(SceneElementEvType.FIRST_UPDATE, e);
+		initEvent.addEffect(SceneElementEvType.INIT, e);
 	}
 
 	public void setOverAppearance(EAdDrawable d) {

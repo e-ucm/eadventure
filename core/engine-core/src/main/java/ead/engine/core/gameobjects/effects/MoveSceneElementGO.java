@@ -163,7 +163,7 @@ public class MoveSceneElementGO extends
 	public void stop() {
 		super.stop();
 		gameState.setValue(sceneElement, SceneElement.VAR_STATE,
-				CommonStates.EAD_STATE_DEFAULT.toString());
+				CommonStates.DEFAULT.toString());
 	}
 
 	public boolean isQueueable() {

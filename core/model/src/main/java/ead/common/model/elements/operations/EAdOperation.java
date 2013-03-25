@@ -38,6 +38,7 @@
 package ead.common.model.elements.operations;
 
 import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.extra.EAdList;
 
 /**
  * An operation with a result. Probably (but not necessarily) this operation
@@ -46,5 +47,7 @@ import ead.common.model.elements.EAdElement;
  * 
  */
 public interface EAdOperation extends EAdElement {
+
+	EAdList<EAdOperation> getOperations();
 
 }

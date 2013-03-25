@@ -53,13 +53,13 @@ public class ConcatenateStringsOperator implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, ConcatenateStringsOp operation) {
-		if (operation.getOperationsList().size() > 0) {
+		if (operation.getOperations().size() > 0) {
 			String result = "";
 			String preffix = operation.getPrefix() == null ? "" : operation
 					.getPrefix();
 			String suffix = operation.getSufix() == null ? "" : operation
 					.getSufix();
-			for (EAdOperation f : operation.getOperationsList()) {
+			for (EAdOperation f : operation.getOperations()) {
 				result += preffix + valueMap.operate(Object.class, f) + suffix;
 			}
 			return (S) result;

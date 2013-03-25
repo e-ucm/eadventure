@@ -71,7 +71,7 @@ public class MathOperator implements Operator<MathOp> {
 	@Override
 	public <S> S operate(Class<S> clazz, MathOp operation) {
 		evaluator.setExpression(operation.getExpression(), gameState, operation
-				.getOperationsList());
+				.getOperations());
 
 		if (clazz.equals(Integer.class) || operation.isResultAsInteger()) {
 			Float f = evaluator.getValue();

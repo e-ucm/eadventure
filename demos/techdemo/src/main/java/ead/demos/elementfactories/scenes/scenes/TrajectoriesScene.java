@@ -74,7 +74,7 @@ public class TrajectoriesScene extends EmptyScene {
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+		event.addEffect(SceneElementEvType.INIT, effect);
 
 		element.getEvents().add(event);
 

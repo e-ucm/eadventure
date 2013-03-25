@@ -55,7 +55,7 @@ public abstract class AbstractOperation extends BasicElement implements
 		operationsList = new EAdList<EAdOperation>();
 	}
 
-	public EAdList<EAdOperation> getOperationsList() {
+	public EAdList<EAdOperation> getOperations() {
 		return operationsList;
 	}
 

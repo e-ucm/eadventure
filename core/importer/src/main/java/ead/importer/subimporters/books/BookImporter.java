@@ -233,8 +233,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		content.setPosition(Corner.TOP_LEFT, 0, 0);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, new ChangeFieldEf(
-				xField, new ValueOp(0)));
+		event.addEffect(SceneElementEvType.INIT, new ChangeFieldEf(xField,
+				new ValueOp(0)));
 		content.getEvents().add(event);
 
 		EAdCondition leftCondition = new OperationCond(xField, 0,

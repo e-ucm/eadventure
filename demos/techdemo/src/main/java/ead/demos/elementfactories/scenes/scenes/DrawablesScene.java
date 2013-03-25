@@ -151,10 +151,8 @@ public class DrawablesScene extends EmptyScene {
 				.setPaint(new Paint(ColorFill.BLACK, ColorFill.LIGHT_BROWN, 8));
 
 		EAdStateDrawable stateDrawable = new StateDrawable();
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT.toString(),
-				rectangle1);
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING.toString(),
-				rectangle2);
+		stateDrawable.addDrawable(CommonStates.DEFAULT.toString(), rectangle1);
+		stateDrawable.addDrawable(CommonStates.TALKING.toString(), rectangle2);
 
 		caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("State Drawable");
@@ -172,15 +170,13 @@ public class DrawablesScene extends EmptyScene {
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
 										SceneElement.VAR_STATE),
-								new ValueOp(CommonStates.EAD_STATE_DEFAULT
-										.toString())));
+								new ValueOp(CommonStates.DEFAULT.toString())));
 		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
 										SceneElement.VAR_STATE),
-								new ValueOp(CommonStates.EAD_STATE_TALKING
-										.toString())));
+								new ValueOp(CommonStates.TALKING.toString())));
 		getSceneElements().add(sceneElement);
 
 		// Frames

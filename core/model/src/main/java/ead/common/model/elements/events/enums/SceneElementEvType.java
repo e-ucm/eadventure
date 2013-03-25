@@ -45,7 +45,7 @@ public enum SceneElementEvType {
 	/**
 	 * Triggered in the first update of the element
 	 */
-	FIRST_UPDATE,
+	INIT,
 
 	/**
 	 * Triggered whenever the element is added to the scene

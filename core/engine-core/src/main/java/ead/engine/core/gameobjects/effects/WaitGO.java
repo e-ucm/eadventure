@@ -55,6 +55,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 
 	private GUI gui;
 
+	private SceneElementGO eGO;
+
 	@Inject
 	public WaitGO(GUI gui, GameState gameState) {
 		super(gameState);
@@ -69,7 +71,7 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 			GhostElement e = new GhostElement();
 			e.setCatchAll(true);
 			SceneElementGO go = gui.getHUD(GUI.EFFECTS_HUD_ID);
-			SceneElementGO eGO = go.addSceneElement(e);
+			eGO = go.addSceneElement(e);
 			eGO.setInputProcessor(this, false);
 		} else {
 			time = effect.getTime();
@@ -85,6 +87,12 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 	@Override
 	public boolean isFinished() {
 		return time <= 0;
+	}
+
+	public void finish() {
+		if (eGO != null)
+			eGO.remove();
+		super.finish();
 	}
 
 	public boolean isQueueable() {

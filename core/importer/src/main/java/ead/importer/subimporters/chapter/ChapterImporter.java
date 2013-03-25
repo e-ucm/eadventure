@@ -169,7 +169,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 				.getInitialGeneralScene().getId());
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, changeCursor);
+		event.addEffect(SceneElementEvType.INIT, changeCursor);
 		scene.getEvents().add(event);
 
 	}

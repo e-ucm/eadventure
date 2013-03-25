@@ -112,8 +112,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		super.initialize();
 		if (effect.getStateField() != null) {
 			previousState = gameState.getValue(effect.getStateField());
-			gameState.setValue(effect.getStateField(),
-					CommonStates.EAD_STATE_TALKING.toString());
+			gameState.setValue(effect.getStateField(), CommonStates.TALKING
+					.toString());
 		}
 		finished = false;
 		alpha = 0.0f;

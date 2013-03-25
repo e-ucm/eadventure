@@ -409,10 +409,9 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 	}
 
 	private String processVars(String text, EAdList<EAdOperation> operations) {
-		int i = 0;
 		boolean done = false;
-		while (i < text.length() && !done) {
-			i = text.indexOf(BEGIN_VAR_CHAR, i);
+		while (!done) {
+			int i = text.indexOf(BEGIN_VAR_CHAR);
 			if (i != -1) {
 				int separatorIndex = text.indexOf(END_VAR_CHAR, i + 1);
 				if (separatorIndex != -1) {
@@ -420,15 +419,17 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 					Integer index = new Integer(varName);
 					Object o = operatorFactory.operate(Object.class, operations
 							.get(index));
-					if (o != null) {
-						String value = o instanceof EAdString ? stringHandler
-								.getString((EAdString) o) : o.toString();
-						text = text.substring(0, i) + value
-								+ text.substring(separatorIndex + 1);
-					}
-				}
-				i = separatorIndex;
 
+					if (o == null) {
+						o = "";
+					}
+
+					String value = o instanceof EAdString ? stringHandler
+							.getString((EAdString) o) : o.toString();
+					text = text.substring(0, i) + value
+							+ text.substring(separatorIndex + 1);
+
+				}
 			} else {
 				done = true;
 			}

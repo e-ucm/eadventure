@@ -77,7 +77,7 @@ public class SharingEffectsScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		//		EAdVarInterpolationEffect rotate = new EAdVarInterpolationEffect( "rotate", )
 
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+		event.addEffect(SceneElementEvType.INIT, effect);
 
 		b.setPosition(20, 20);
 		this.getSceneElements().add(b);

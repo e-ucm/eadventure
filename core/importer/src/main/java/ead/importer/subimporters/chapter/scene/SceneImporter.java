@@ -214,7 +214,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 					playerReference);
 
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+			event.addEffect(SceneElementEvType.INIT, effect);
 			playerReference.getEvents().add(event);
 
 			int playerZ = oldScene.isAllowPlayerLayer() ? Math.max(0, oldScene

@@ -41,11 +41,11 @@ import java.util.Iterator;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.AbstractOperation;
 
-public abstract class ListedCond extends ResourcedElement implements
+public abstract class ListedCond extends AbstractOperation implements
 		EAdCondition {
 
 	@Param

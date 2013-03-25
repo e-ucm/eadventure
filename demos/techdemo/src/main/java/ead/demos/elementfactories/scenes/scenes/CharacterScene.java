@@ -100,7 +100,7 @@ public class CharacterScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 
 		event
-				.addEffect(SceneElementEvType.FIRST_UPDATE, EAdElementsFactory
+				.addEffect(SceneElementEvType.INIT, EAdElementsFactory
 						.getInstance().getEffectFactory().getMakeActiveElement(
 								element));
 
@@ -166,7 +166,7 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
-						new ValueOp(CommonStates.EAD_STATE_DEFAULT.toString()));
+						new ValueOp(CommonStates.DEFAULT.toString()));
 		//		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 		//				.getSceneElementFactory()
 		//				.createSceneElement("Stand", 300, 10, standEffect);		
@@ -181,7 +181,7 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
-						new ValueOp(CommonStates.EAD_STATE_TALKING.toString()));
+						new ValueOp(CommonStates.TALKING.toString()));
 		Button talk = new Button(new EAdString("techDemo.CharacterScene.Talk"));
 		talk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
@@ -192,7 +192,7 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<String>(element, SceneElement.VAR_STATE),
-						new ValueOp(CommonStates.EAD_STATE_WALKING.toString()));
+						new ValueOp(CommonStates.WALKING.toString()));
 		Button walk = new Button(new EAdString("techDemo.CharacterScene.Walk"));
 		walk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
@@ -246,11 +246,10 @@ public class CharacterScene extends EmptyScene {
 				.getDrawableFactory().getOrientedDrawable(standUris);
 
 		StateDrawable stateDrawable = new StateDrawable();
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT.toString(),
-				stand);
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING.toString(),
+		stateDrawable.addDrawable(CommonStates.DEFAULT.toString(), stand);
+		stateDrawable.addDrawable(CommonStates.TALKING.toString(),
 				getTalkDrawable());
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_WALKING.toString(),
+		stateDrawable.addDrawable(CommonStates.WALKING.toString(),
 				getWalkDrawable());
 
 		return stateDrawable;

@@ -169,7 +169,7 @@ public class ShapeScene extends EmptyScene {
 								SceneElement.VAR_ROTATION), 0, 360.0f, 2000,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 		SceneElementEv event = EAdElementsFactory.getInstance()
-				.getEventsFactory().getEvent(SceneElementEvType.FIRST_UPDATE,
+				.getEventsFactory().getEvent(SceneElementEvType.INIT,
 						interpolation);
 		rotatingRectangle.getEvents().add(event);
 		getSceneElements().add(rotatingRectangle);

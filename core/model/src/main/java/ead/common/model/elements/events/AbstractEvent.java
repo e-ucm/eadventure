@@ -37,6 +37,8 @@
 
 package ead.common.model.elements.events;
 
+import java.util.List;
+
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdEffect;
@@ -94,6 +96,12 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 			this.effects.put(event, effects);
 		}
 		effects.add(effect);
+	}
+
+	public void addEffects(Enum<?> event, List<EAdEffect> effects) {
+		for (EAdEffect e : effects) {
+			addEffect(event, e);
+		}
 	}
 
 	public EAdMap<Enum<?>, EAdList<EAdEffect>> getEffects() {

@@ -100,7 +100,7 @@ public class DepthZScene extends EmptyScene {
 		effect2.getNextEffects().add(changeZ1);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, changeZ1);
+		event.addEffect(SceneElementEvType.INIT, changeZ1);
 
 		e2.getEvents().add(event);
 

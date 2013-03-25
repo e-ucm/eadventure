@@ -75,7 +75,7 @@ public class ScrollScene extends EmptyScene {
 		MakeActiveElementEf makeActive = new MakeActiveElementEf(character);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
+		event.addEffect(SceneElementEvType.INIT, makeActive);
 		character.getEvents().add(event);
 
 		this.getEvents().add(new ScrollWithSceneElementEv(this, character));

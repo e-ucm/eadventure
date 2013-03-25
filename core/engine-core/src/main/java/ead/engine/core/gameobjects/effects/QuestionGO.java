@@ -147,7 +147,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 		InterpolationEf interpolation = new InterpolationEf(questionElement,
 				SceneElement.VAR_ALPHA, 0, 1.0f, 500);
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, interpolation);
+		event.addEffect(SceneElementEvType.INIT, interpolation);
 
 		questionElement.getEvents().add(event);
 
@@ -178,7 +178,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		InterpolationEf interpolation = new InterpolationEf(answerElement,
 				SceneElement.VAR_X, 0, 820, 400, 500 + pos * 100,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, interpolation);
+		event.addEffect(SceneElementEvType.INIT, interpolation);
 
 		answerElement.getEvents().add(event);
 

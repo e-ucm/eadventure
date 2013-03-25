@@ -46,9 +46,14 @@ import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.features.Identified;
 import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.params.EAdParam;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
@@ -56,10 +61,12 @@ import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.DragGEv;
 import ead.common.model.params.guievents.KeyGEv;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Matrix;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Rectangle;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.common.model.params.variables.VarDef;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
@@ -78,6 +85,8 @@ public class ObjectsFactory {
 
 	private ReflectionProvider reflectionProvider;
 
+	private Map<String, EAdVarDef<?>> registeredVars;
+
 	private XMLVisitor xmlVisitor;
 
 	public ObjectsFactory(ReflectionProvider reflectionProvider,
@@ -87,6 +96,26 @@ public class ObjectsFactory {
 		paramsMap = new HashMap<Class<?>, Map<String, Object>>();
 		elementsMap = new HashMap<String, Identified>();
 		assetsMap = new HashMap<String, AssetDescriptor>();
+		registeredVars = new HashMap<String, EAdVarDef<?>>();
+		addDefaultVars();
+	}
+
+	private void addDefaultVars() {
+		registeredVars.put("alpha", SceneElement.VAR_ALPHA);
+		registeredVars.put("visible", SceneElement.VAR_VISIBLE);
+		registeredVars.put("x", SceneElement.VAR_X);
+		registeredVars.put("y", SceneElement.VAR_Y);
+		registeredVars.put("rotation", SceneElement.VAR_ROTATION);
+		registeredVars.put("scale", SceneElement.VAR_SCALE);
+		registeredVars.put("scale_x", SceneElement.VAR_SCALE_X);
+		registeredVars.put("scale_y", SceneElement.VAR_SCALE_Y);
+		registeredVars.put("enable", SceneElement.VAR_ENABLE);
+		registeredVars.put("disp_x", SceneElement.VAR_DISP_X);
+		registeredVars.put("disp_y", SceneElement.VAR_DISP_Y);
+		registeredVars.put("z", SceneElement.VAR_Z);
+		registeredVars.put("state", SceneElement.VAR_STATE);
+		registeredVars.put("orientation", SceneElement.VAR_ORIENTATION);
+		registeredVars.put("influence_area", NodeTrajectory.VAR_INFLUENCE_AREA);
 	}
 
 	public Object getParam(String textValue, Class<?> clazz) {
@@ -288,7 +317,11 @@ public class ObjectsFactory {
 	}
 
 	public Identified getAsset(String uniqueId) {
-		return assetsMap.get(uniqueId);
+		Identified i = assetsMap.get(uniqueId);
+		if (i == null) {
+			logger.warn("No asset for id {}", uniqueId);
+		}
+		return i;
 	}
 
 	public Identified getEAdElement(String uniqueId) {
@@ -311,6 +344,42 @@ public class ObjectsFactory {
 
 	public Collection<AssetDescriptor> getAssets() {
 		return assetsMap.values();
+	}
+
+	@SuppressWarnings( { "rawtypes", "unchecked" })
+	public EAdField<?> getField(String elementId, String varName) {
+		EAdElement element = (EAdElement) this.getEAdElement(elementId);
+		if (element == null) {
+			element = new BasicElement(elementId);
+		}
+		EAdVarDef varDef = registeredVars.get(varName);
+		if (varDef == null) {
+			logger.warn("No variable registered for {}", varName);
+		} else {
+			return new BasicField<Boolean>(element, varDef);
+		}
+		return null;
+	}
+
+	public EAdVarDef<?> getVarDef(String key) {
+		return registeredVars.get(key);
+	}
+
+	public void registerVariable(String string, EAdVarDef<?> var) {
+		registeredVars.put(string, var);
+
+	}
+
+	public EAdPaint getPaint(String p) {
+		EAdPaint paint = null;
+		if (p.indexOf(Paint.SEPARATOR) != -1) {
+			paint = (EAdPaint) getParam(p, Paint.class);
+		} else if (p.indexOf(LinearGradientFill.SEPARATOR) != -1) {
+			paint = (EAdPaint) getParam(p, LinearGradientFill.class);
+		} else {
+			paint = (EAdPaint) getParam(p, ColorFill.class);
+		}
+		return paint;
 	}
 
 }
