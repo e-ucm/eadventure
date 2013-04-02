@@ -39,6 +39,9 @@ package ead.json.reader;
 
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.internal.StringMap;
 
 import ead.common.interfaces.features.WithBehavior;
@@ -49,6 +52,9 @@ import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class BehaviorReader {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("BehaviorReader");
 
 	private ObjectsFactory objectsFactory;
 
@@ -67,8 +73,12 @@ public class BehaviorReader {
 	public void read(Collection<StringMap<Object>> bs) {
 		for (StringMap<Object> b : bs) {
 			templateReader.applyTemplates(b);
+			String id = b.get("target").toString();
 			WithBehavior element = (WithBehavior) objectsFactory
-					.getEAdElement(b.get("target").toString());
+					.getEAdElement(id);
+			if (element == null) {
+				logger.warn("No element for id {}", id);
+			}
 			EAdGUIEvent event = getGUIEvent(b.get("type").toString());
 			Collection<StringMap<Object>> effects = (Collection<StringMap<Object>>) b
 					.get("effects");

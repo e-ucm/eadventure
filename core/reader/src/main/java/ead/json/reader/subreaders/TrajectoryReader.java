@@ -42,6 +42,7 @@ import java.util.Collection;
 import com.google.gson.internal.StringMap;
 
 import ead.common.model.elements.trajectories.EAdTrajectory;
+import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 
 public class TrajectoryReader {
@@ -72,6 +73,13 @@ public class TrajectoryReader {
 			String start = (String) s.get("start");
 			String end = (String) s.get("end");
 			Number distance = (Number) s.get("distance");
+			if (distance == null) {
+				Node n1 = trajectory.getNodeForId(start);
+				Node n2 = trajectory.getNodeForId(end);
+				float dx = n1.getX() - n2.getX();
+				float dy = n1.getY() - n1.getY();
+				distance = new Float(Math.sqrt(dx * dx + dy * dy));
+			}
 			trajectory.addSide(start, end, distance.floatValue());
 		}
 		return trajectory;

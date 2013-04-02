@@ -35,33 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.effects;
+package ead.common.model.elements.transitions;
 
-import com.google.inject.Inject;
+import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
 
-import ead.common.model.elements.effects.hud.ModifyHUDEf;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
-import ead.tools.StringHandler;
+@Element
+public class ScaleTransition extends EmptyTransition {
 
-public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
+	@Param
+	private boolean grow;
 
-	private SceneElementGOFactory sceneElementFactory;
+	@Param
+	private boolean targetNext;
 
-	@Inject
-	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(gameState);
-		this.sceneElementFactory = sceneElementFactory;
+	public ScaleTransition(int time, boolean grow, boolean targetNext) {
+		super(time);
+		this.grow = grow;
+		this.targetNext = targetNext;
 	}
 
-	public void initialize() {
-		super.initialize();
-		//XXX
+	public ScaleTransition() {
+
 	}
+
+	public boolean isGrow() {
+		return grow;
+	}
+
+	public void setGrow(boolean grow) {
+		this.grow = grow;
+	}
+
+	public boolean isTargetNext() {
+		return targetNext;
+	}
+
+	public void setTargetNext(boolean targetNext) {
+		this.targetNext = targetNext;
+	}
+
 }

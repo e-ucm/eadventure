@@ -199,7 +199,8 @@ public class AssetsReader {
 		Boolean recursive = (Boolean) a.get("recursive");
 		for (String root : roots) {
 			root = resourcesRoot + root.substring(1);
-			addImages(new File(root), recursive.booleanValue());
+			addImages(new File(root), recursive != null
+					&& recursive.booleanValue());
 		}
 	}
 

@@ -62,17 +62,20 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.OneShotEf;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.model.elements.transitions.ScaleTransition;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.text.EAdString;
 import ead.reader.model.ObjectsFactory;
 
+@SuppressWarnings("unchecked")
 public class EffectsReader {
 
 	private static final Logger logger = LoggerFactory
@@ -132,7 +135,25 @@ public class EffectsReader {
 				effect = getRemove(e);
 			} else if (type.equals("goto")) {
 				effect = getGoTo(e);
+			} else if (type.equals("oneshot")) {
+				effect = getOneShot(e);
 			}
+
+			Boolean oneshot = (Boolean) e.get("oneshot");
+			if (oneshot != null && oneshot.booleanValue()) {
+				effect = new OneShotEf(effect);
+			}
+
+			StringMap<Object> cond = (StringMap<Object>) e.get("cond");
+			if (cond != null) {
+				EAdCondition condition = conditionsReader.read(cond);
+				effect.setCondition(condition);
+			}
+
+			Boolean persistent = (Boolean) e.get("persistent");
+			effect.setPersistent(persistent != null
+					&& persistent.booleanValue());
+
 		} catch (Exception ex) {
 			logger.error("Error reading {}", e, ex);
 		}
@@ -150,10 +171,22 @@ public class EffectsReader {
 		return effect;
 	}
 
+	private EAdEffect getOneShot(StringMap<Object> e) {
+		EAdEffect effect = this.read((StringMap<Object>) e.get("effect"));
+		return new OneShotEf(effect);
+	}
+
 	private EAdEffect getGoTo(StringMap<Object> e) {
 		MoveSceneElementEf effect = new MoveSceneElementEf();
 		effect.setUseTrajectory(true);
-		effect.setSceneElement(SystemFields.ACTIVE_ELEMENT);
+		String target = (String) e.get("target");
+		if (target != null) {
+			EAdElement element = (EAdElement) objectsFactory
+					.getEAdElement(target);
+			effect.setSceneElement(element);
+		} else {
+			effect.setSceneElement(SystemFields.ACTIVE_ELEMENT);
+		}
 		String sceneElement = (String) e.get("sceneElement");
 		effect.setTarget((EAdSceneElement) objectsFactory
 				.getEAdElement(sceneElement));
@@ -280,9 +313,15 @@ public class EffectsReader {
 		StringMap<Object> t = (StringMap<Object>) e.get("transition");
 		EAdTransition transition = EmptyTransition.instance();
 		if (t != null) {
+			Number time = (Number) t.get("time");
 			if (t.get("type").equals("fadein")) {
-				Number time = (Number) t.get("time");
 				transition = new FadeInTransition(time.intValue());
+			} else if (t.get("type").equals("scale")) {
+				Boolean grow = (Boolean) t.get("grow");
+				Boolean targetNext = (Boolean) t.get("targetNext");
+				transition = new ScaleTransition(time.intValue(), grow != null
+						&& grow.booleanValue(), targetNext != null
+						&& targetNext.booleanValue());
 			}
 		}
 		String ns = (String) e.get("nextScene");
@@ -294,7 +333,6 @@ public class EffectsReader {
 		return changeScene;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addNextEffects(EAdEffect effect, StringMap<Object> e) {
 		Collection<Object> nextEffects = (Collection<Object>) e
 				.get("nextEffects");
@@ -306,7 +344,6 @@ public class EffectsReader {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private EAdEffect getChangeField(StringMap<Object> e) {
 		ChangeFieldEf changeField = new ChangeFieldEf();
 		EAdOperation operation = operationReader.read((StringMap<Object>) e
@@ -320,7 +357,6 @@ public class EffectsReader {
 		return changeField;
 	}
 
-	@SuppressWarnings("unchecked")
 	private EAdEffect getInterpolation(StringMap<Object> e) {
 		InterpolationEf interpolation = new InterpolationEf();
 		Number start = (Number) e.get("start");

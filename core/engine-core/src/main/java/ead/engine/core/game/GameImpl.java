@@ -58,6 +58,7 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.LoadingScreen;
@@ -338,9 +339,9 @@ public class GameImpl implements Game, VisitorListener {
 	private void setGame() {
 		if (adventure != null) {
 			currentChapter = adventure.getChapters().get(0);
-			SceneGO scene = (SceneGO) sceneElementFactory.get(currentChapter
+			ChangeSceneEf initGame = new ChangeSceneEf(currentChapter
 					.getInitialScene());
-			gui.setScene(scene);
+			gameState.addEffect(initGame);
 		}
 
 		logger.info("Init game events...");

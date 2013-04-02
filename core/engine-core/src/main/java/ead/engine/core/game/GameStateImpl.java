@@ -197,6 +197,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 			EAdSceneElement parent) {
 		if (e != null) {
 			if (evaluate(e.getCondition())) {
+				logger.debug("{} launched", e);
 				EffectGO<?> effectGO = effectFactory.get(e);
 				if (effectGO == null) {
 					logger.warn("No game object for effect {}", e.getClass());
@@ -215,8 +216,11 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 				}
 				return effectGO;
 			} else if (e.isNextEffectsAlways()) {
+				logger.debug("{} discarded. But next effects launched", e);
 				for (EAdEffect ne : e.getNextEffects())
 					addEffect(ne);
+			} else {
+				logger.debug("{} discarded", e);
 			}
 		}
 		return null;

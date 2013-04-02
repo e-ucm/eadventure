@@ -89,4 +89,8 @@ public class ConditionedOp extends AbstractOperation {
 		this.opFalse = opFalse;
 	}
 
+	public String toString() {
+		return condition + "?" + opTrue + ":" + opFalse;
+	}
+
 }

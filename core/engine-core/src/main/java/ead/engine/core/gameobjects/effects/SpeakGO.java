@@ -232,11 +232,20 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 	@Override
 	public void finish() {
+		end();
+		super.finish();
+	}
+
+	public void stop() {
+		end();
+		super.stop();
+	}
+
+	public void end() {
 		if (effect.getStateField() != null) {
 			gameState.setValue(effect.getStateField(), previousState);
 		}
 		bubbleDialog.remove();
-		super.finish();
 	}
 
 	public boolean isQueueable() {

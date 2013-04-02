@@ -165,6 +165,16 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				lgo = sceneElementFactory.get(scale);
 				labels.add(lgo);
 				addSceneElement(lgo);
+				// Z
+				y += DELTA_Y;
+				Label z = new Label("Z: [0]");
+				z.setPosition(MARGIN_LEFT, y);
+				z.setBgColor(ColorFill.WHITE);
+				z.getCaption().getOperations().add(
+						go.getField(SceneElement.VAR_Z));
+				lgo = sceneElementFactory.get(z);
+				labels.add(lgo);
+				addSceneElement(lgo);
 			}
 		}
 		super.act(delta);

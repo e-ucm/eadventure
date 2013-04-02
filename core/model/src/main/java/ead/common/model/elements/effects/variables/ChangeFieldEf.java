@@ -161,4 +161,8 @@ public class ChangeFieldEf extends AbstractEffect {
 		return varDef;
 	}
 
+	public String toString() {
+		return fields + "=" + operation;
+	}
+
 }

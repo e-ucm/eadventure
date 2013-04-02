@@ -93,7 +93,7 @@ public class SceneReader {
 		EAdScene scene = null;
 		String type = (String) jsonScene.get("type");
 		String id = (String) jsonScene.get("id");
-		if (type.equals("scene")) {
+		if (type == null || type.equals("scene")) {
 			scene = getScene(jsonScene);
 		} else if (type.equals("video")) {
 			scene = getVideoScene(jsonScene);

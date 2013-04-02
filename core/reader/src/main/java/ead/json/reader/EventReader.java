@@ -41,6 +41,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.internal.StringMap;
 
 import ead.common.interfaces.features.Evented;
@@ -54,6 +57,9 @@ import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class EventReader {
+
+	private static final Logger logger = LoggerFactory.getLogger("EventReader");
+
 	private ObjectsFactory objectsFactory;
 	private EffectsReader effectsReader;
 	private OperationReader operationReader;
@@ -68,8 +74,13 @@ public class EventReader {
 		this.templatesReader = templatesReader;
 	}
 
-	public void addEvents(Collection<StringMap<Object>> events) {
+	public boolean addEvents(Collection<StringMap<Object>> events) {
 		for (StringMap<Object> e : events) {
+			if (e == null) {
+				logger
+						.warn("Null event. Make sure there is no additional commas in the file");
+				return false;
+			}
 			EAdEvent event = null;
 			String type = (String) e.get("type");
 			Collection<StringMap<Object>> ef = (Collection<StringMap<Object>>) e
@@ -95,6 +106,7 @@ public class EventReader {
 				evented.getEvents().add(event);
 			}
 		}
+		return true;
 	}
 
 	private EAdEvent getWatchFieldEvent(StringMap<Object> e,

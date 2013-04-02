@@ -233,6 +233,7 @@ public abstract class GUIImpl implements GUI {
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public void setScene(SceneGO newScene) {
+		gameState.clearEffects(false);
 		if (this.scene != null && this.scene.getElement() != null) {
 			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.FALSE);

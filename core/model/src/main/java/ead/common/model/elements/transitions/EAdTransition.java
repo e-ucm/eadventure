@@ -52,4 +52,6 @@ public interface EAdTransition extends EAdScene {
 	 */
 	int getTime();
 
+	void setTime(int time);
+
 }

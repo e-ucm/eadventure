@@ -54,7 +54,6 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.reader.model.ObjectsFactory;
 import ead.tools.reflection.ReflectionProvider;
@@ -87,6 +86,8 @@ public class JsonReader {
 
 	private AdventureWriter writer;
 
+	private ConversationReader conversationsReader;
+
 	public JsonReader(ReflectionProvider reflectionProvider, XMLParser xmlParser) {
 		gson = new Gson();
 		templateReader = new TemplateReader();
@@ -96,6 +97,8 @@ public class JsonReader {
 		sceneReader = new SceneReader(objectsFactory, templateReader);
 		effectsReader = new EffectsReader(objectsFactory, operationReader,
 				conditionsReader, templateReader, sceneReader);
+		conversationsReader = new ConversationReader(objectsFactory,
+				effectsReader, conditionsReader, templateReader);
 		assetsReader = new AssetsReader(objectsFactory, templateReader,
 				operationReader);
 		eventReader = new EventReader(objectsFactory, effectsReader,
@@ -133,6 +136,11 @@ public class JsonReader {
 			addEffects(folder + "/effects.json");
 		}
 
+		// Read conversations
+		for (String folder : folders) {
+			addConversations(folder + "/conversations.json", folder);
+		}
+
 		for (String folder : folders) {
 			addEvents(folder + "/events.json");
 		}
@@ -142,6 +150,14 @@ public class JsonReader {
 		}
 
 		return model;
+	}
+
+	private void addConversations(String file, String folder) {
+		Collection<StringMap<Object>> conversations = fromJson(file,
+				new TypeToken<Collection<StringMap<Object>>>() {
+				}.getType());
+		if (conversations != null)
+			conversationsReader.readConversations(conversations, folder);
 	}
 
 	private void addEffects(String file) {
@@ -173,19 +189,34 @@ public class JsonReader {
 	}
 
 	public void addEvents(String file) {
-		Collection<StringMap<Object>> events = fromJson(file,
-				new TypeToken<Collection<StringMap<Object>>>() {
-				}.getType());
-		if (events != null)
-			eventReader.addEvents(events);
+		try {
+			Collection<StringMap<Object>> events = fromJson(file,
+					new TypeToken<Collection<StringMap<Object>>>() {
+					}.getType());
+			if (events != null) {
+				if (!eventReader.addEvents(events)) {
+					logger
+							.warn(
+									"Some errors in file {}. Check previous log messages.",
+									file);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error in file {}", file, e);
+		}
+
 	}
 
 	public void addBehaviors(String file) {
-		Collection<StringMap<Object>> behaviors = fromJson(file,
-				new TypeToken<Collection<StringMap<Object>>>() {
-				}.getType());
-		if (behaviors != null)
-			behaviorReader.read(behaviors);
+		try {
+			Collection<StringMap<Object>> behaviors = fromJson(file,
+					new TypeToken<Collection<StringMap<Object>>>() {
+					}.getType());
+			if (behaviors != null)
+				behaviorReader.read(behaviors);
+		} catch (Exception e) {
+			logger.error("Error in file {}", file, e);
+		}
 	}
 
 	public void addTemplates(String file) {
@@ -232,6 +263,10 @@ public class JsonReader {
 			}
 		}
 		return null;
+	}
+
+	public ConversationReader getConversationReader() {
+		return conversationsReader;
 	}
 
 }

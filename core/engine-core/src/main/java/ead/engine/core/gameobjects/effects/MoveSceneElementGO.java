@@ -157,7 +157,6 @@ public class MoveSceneElementGO extends
 		}
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
-
 	}
 
 	public void stop() {

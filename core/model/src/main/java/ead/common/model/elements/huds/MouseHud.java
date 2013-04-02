@@ -37,17 +37,14 @@
 
 package ead.common.model.elements.huds;
 
+import ead.common.interfaces.Element;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.util.Position.Corner;
 
+@Element
 public class MouseHud extends BasicScene {
 
 	public static final String MOUSE_HUD_ID = "#predefined.hud.mouse";
@@ -75,15 +72,6 @@ public class MouseHud extends BasicScene {
 		mouse.setInitialVisible(false);
 		mouse.setPosition(Corner.TOP_LEFT, 0, 0);
 		mouse.setVarInitialValue(SceneElement.VAR_Z, 10000);
-
-		SceneElementEv followMouseEvent = new SceneElementEv();
-		followMouseEvent.addEffect(SceneElementEvType.ALWAYS,
-				new ChangeFieldEf(new BasicField<Float>(mouse,
-						SceneElement.VAR_X), SystemFields.MOUSE_X));
-		followMouseEvent.addEffect(SceneElementEvType.ALWAYS,
-				new ChangeFieldEf(new BasicField<Float>(mouse,
-						SceneElement.VAR_Y), SystemFields.MOUSE_Y));
-		mouse.getEvents().add(followMouseEvent);
 		getSceneElements().add(mouse);
 	}
 

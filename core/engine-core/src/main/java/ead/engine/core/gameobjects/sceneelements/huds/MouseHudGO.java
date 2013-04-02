@@ -35,33 +35,41 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.effects;
+package ead.engine.core.gameobjects.sceneelements.huds;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.hud.ModifyHUDEf;
+import ead.common.model.elements.huds.MouseHud;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
-import ead.tools.StringHandler;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
-public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
+public class MouseHudGO extends SceneGO {
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementGO mouse;
 
 	@Inject
-	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
+	public MouseHudGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(gameState);
-		this.sceneElementFactory = sceneElementFactory;
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
-	public void initialize() {
-		super.initialize();
-		//XXX
+	public void setElement(EAdSceneElement element) {
+		super.setElement(element);
+		mouse = sceneElementFactory.get(MouseHud.CURSOR_ID);
 	}
+
+	public void act(float delta) {
+		super.act(delta);
+		mouse.setX(gameState.getValue(SystemFields.MOUSE_X));
+		mouse.setY(gameState.getValue(SystemFields.MOUSE_Y));
+	}
+
 }

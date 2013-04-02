@@ -40,6 +40,7 @@ package ead.engine.core.factories.mapproviders;
 import ead.common.model.elements.debuggers.FieldsDebugger;
 import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.predef.LoadingScreen;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
@@ -52,6 +53,7 @@ import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.MaskTransition;
+import ead.common.model.elements.transitions.ScaleTransition;
 import ead.common.model.elements.widgets.TextArea;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
@@ -61,10 +63,12 @@ import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
+import ead.engine.core.gameobjects.sceneelements.huds.MouseHudGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.EmptyTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.MaskTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.ScaleTransitionGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 
 public class SceneElementsMapProvider
@@ -85,7 +89,9 @@ public class SceneElementsMapProvider
 		factoryMap.put(DisplaceTransition.class, DisplaceTransitionGO.class);
 		factoryMap.put(FadeInTransition.class, FadeInTransitionGO.class);
 		factoryMap.put(MaskTransition.class, MaskTransitionGO.class);
+		factoryMap.put(ScaleTransition.class, ScaleTransitionGO.class);
 		// Huds
+		factoryMap.put(MouseHud.class, MouseHudGO.class);
 
 		// Debuggers
 		factoryMap.put(TrajectoryDebugger.class, TrajectoryDebuggerGO.class);

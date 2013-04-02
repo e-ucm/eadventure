@@ -251,7 +251,8 @@ public class SceneElementGO extends Group implements
 
 		setName(element.getId());
 
-		// We only set initial values if it is the first time this element is shown
+		// We only set initial values if it is the first time this element is
+		// shown
 		if (!gameState.contains(element)) {
 			// Definition values
 			for (Entry<EAdVarDef<?>, Object> e : element.getDefinition()
@@ -563,8 +564,11 @@ public class SceneElementGO extends Group implements
 	 * @param scale
 	 */
 	public void setScale(float scale) {
-		this.scale = scale;
-		updateRelatives = true;
+		if (scale != this.scale) {
+			this.scale = scale;
+			updateRelatives = true;
+			gameState.setValue(element, SceneElement.VAR_SCALE, scale);
+		}
 	}
 
 	/**
@@ -712,7 +716,6 @@ public class SceneElementGO extends Group implements
 	private void addEffects(EAdList<EAdEffect> list, Event action) {
 		if (list != null && list.size() > 0) {
 			for (EAdEffect e : list) {
-				logger.debug("GUI Action: '{}' effect '{}'", action, e);
 				gameState.addEffect(e, action, element);
 			}
 		}
