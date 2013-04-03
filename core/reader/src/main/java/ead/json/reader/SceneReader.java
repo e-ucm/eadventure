@@ -41,6 +41,7 @@ import java.util.Collection;
 
 import com.google.gson.internal.StringMap;
 
+import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.multimedia.EAdSound;
 import ead.common.model.assets.multimedia.Video;
@@ -225,8 +226,30 @@ public class SceneReader {
 				} else if (var.getType() == Rectangle.class) {
 					e.setVarInitialValue(var, objectsFactory.getParam(value
 							.toString(), Rectangle.class));
+				} else if (var.getType() == Orientation.class) {
+					e.setVarInitialValue(var, Orientation.parse(value
+							.toString()));
 				}
 
+			}
+		}
+
+		// Bundles
+		Collection<StringMap<Object>> bundles = (Collection<StringMap<Object>>) jsonSceneElement
+				.get("bundles");
+		if (bundles != null) {
+			for (StringMap<Object> b : bundles) {
+				String id = (String) b.get("id");
+				appearance = (String) b.get("appearance");
+				overappearance = (String) b.get("appearance");
+				if (appearance != null) {
+					e.setAppearance(id, (EAdDrawable) objectsFactory
+							.getAsset(appearance));
+				}
+				if (overappearance != null) {
+					e.setOverAppearance(id, (EAdDrawable) objectsFactory
+							.getAsset(overappearance));
+				}
 			}
 		}
 

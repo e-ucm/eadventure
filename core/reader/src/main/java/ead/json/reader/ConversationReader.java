@@ -68,7 +68,8 @@ public class ConversationReader {
 
 	private Logger logger = LoggerFactory.getLogger("ConversationReader");
 
-	private Map<String, EAdEffect> segments;
+	private Map<String, EAdEffect> segmentsStart;
+	private Map<String, EAdEffect> segmentsEnd;
 	private Map<String, EAdPaint> texts;
 	private Map<String, EAdPaint> bubbles;
 	private Map<EAdString, String> strings;
@@ -84,7 +85,8 @@ public class ConversationReader {
 	public ConversationReader(ObjectsFactory objectsFactory,
 			EffectsReader effectsReader, ConditionReader conditionsReader,
 			TemplateReader templateReader) {
-		segments = new HashMap<String, EAdEffect>();
+		segmentsStart = new HashMap<String, EAdEffect>();
+		segmentsEnd = new HashMap<String, EAdEffect>();
 		bubbles = new HashMap<String, EAdPaint>();
 		texts = new HashMap<String, EAdPaint>();
 		strings = new HashMap<EAdString, String>();
@@ -95,7 +97,8 @@ public class ConversationReader {
 	}
 
 	public EAdEffect read(StringMap<Object> conv) {
-		segments.clear();
+		segmentsStart.clear();
+		segmentsEnd.clear();
 		strings.clear();
 		id = 0;
 		currentId = (String) conv.get("id");
@@ -114,30 +117,54 @@ public class ConversationReader {
 		for (StringMap<Object> s : seg) {
 			addLinkQuestion(s);
 		}
-		EAdEffect effect = segments.get(conv.get("start"));
+		EAdEffect effect = segmentsStart.get(conv.get("start"));
 		effect.setId(currentId);
 		objectsFactory.putEAdElement(effect.getId(), effect);
 		return effect;
 	}
 
 	private void addLinkQuestion(StringMap<Object> s) {
-		StringMap<Object> q = (StringMap<Object>) s.get("question");
-		if (q != null) {
-			String segmentId = (String) s.get("id");
-			QuestionEf question = (QuestionEf) segments.get(segmentId);
-			String string = (String) s.get("string");
-			EAdString text = new EAdString(currentId + ".line." + id++);
-			strings.put(text, string);
-			question.setQuestion(text);
-			Collection<StringMap<Object>> answers = (Collection<StringMap<Object>>) s
-					.get("answers");
-			for (StringMap<Object> a : answers) {
-				EAdString line = new EAdString(currentId + ".line." + id++);
-				strings.put(line, a.get("line").toString());
-				EAdEffect nextEffect = segments.get(a.get("nextNode")
-						.toString());
-				question.addAnswer(line, nextEffect);
+		try {
+			StringMap<Object> n = ((Collection<StringMap<Object>>) s
+					.get("nodes")).iterator().next();
+			StringMap<Object> q = (StringMap<Object>) n.get("question");
+			if (q != null) {
+				String segmentId = (String) s.get("id");
+				QuestionEf question = (QuestionEf) segmentsStart.get(segmentId);
+				String string = (String) q.get("string");
+				EAdString text = new EAdString(currentId + ".line." + id++);
+				strings.put(text, string);
+				question.setQuestion(text);
+				Collection<StringMap<Object>> answers = (Collection<StringMap<Object>>) q
+						.get("answers");
+				for (StringMap<Object> a : answers) {
+					EAdString line = new EAdString(currentId + ".line." + id++);
+					strings.put(line, a.get("line").toString());
+					Collection<StringMap<Object>> effects = (Collection<StringMap<Object>>) a
+							.get("effects");
+					EAdEffect nextEffect = segmentsStart.get(a.get("nextNode")
+							.toString());
+					if (effects != null) {
+						EAdEffect firstEffect = null;
+						EAdEffect lastEffect = null;
+						for (StringMap<Object> e : effects) {
+							templateReader.applyTemplates(e);
+							EAdEffect effect = effectsReader.read(e);
+							if (firstEffect == null) {
+								firstEffect = effect;
+							} else {
+								lastEffect.getNextEffects().add(effect);
+							}
+							lastEffect = effect;
+						}
+						lastEffect.getNextEffects().add(nextEffect);
+						nextEffect = lastEffect;
+					}
+					question.addAnswer(line, nextEffect);
+				}
 			}
+		} catch (Exception e) {
+			logger.error("Error reading link question {}", s, e);
 		}
 	}
 
@@ -146,10 +173,10 @@ public class ConversationReader {
 			String start = (String) l.get("start");
 			Collection<StringMap<Object>> ends = (Collection<StringMap<Object>>) l
 					.get("ends");
-			EAdEffect startEffect = segments.get(start);
+			EAdEffect startEffect = segmentsEnd.get(start);
 			if (ends.size() == 1) {
 				String next = (String) ends.iterator().next().get("id");
-				EAdEffect nextEffect = segments.get(next);
+				EAdEffect nextEffect = segmentsStart.get(next);
 				startEffect.getNextEffects().add(nextEffect);
 			} else {
 				TriggerMacroEf triggerMacro = new TriggerMacroEf();
@@ -160,7 +187,7 @@ public class ConversationReader {
 					if (cond != null) {
 						condition = conditionsReader.read(cond);
 					}
-					EAdEffect nextEffect = segments.get(next);
+					EAdEffect nextEffect = segmentsStart.get(next);
 					triggerMacro.putEffect(nextEffect, condition);
 				}
 				startEffect.getNextEffects().add(triggerMacro);
@@ -186,7 +213,8 @@ public class ConversationReader {
 				}
 				effect = nextEffect;
 			}
-			segments.put(id, firstEffect);
+			segmentsStart.put(id, firstEffect);
+			segmentsEnd.put(id, effect);
 		} catch (Exception e) {
 			logger.error("Exception adding segment {}", s, e);
 		}
@@ -248,12 +276,16 @@ public class ConversationReader {
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(f));
+			writer.write("<resources>");
 			for (Entry<EAdString, String> e : strings.entrySet()) {
 				writer.write("<string name=\"" + e.getKey().toString() + "\">"
 						+ e.getValue() + "</string>");
 				writer.newLine();
 			}
+			writer.write("</resources>");
 		} catch (IOException e) {
+
+		} finally {
 			if (writer != null) {
 				try {
 					writer.close();

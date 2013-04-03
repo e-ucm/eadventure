@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -49,6 +50,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.operations.SystemFields;
+import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
@@ -69,12 +71,15 @@ public class DesktopGame {
 
 	private List<Class<? extends SceneElementGO>> debuggers;
 
+	private Map<String, List<EngineFilter<?>>> filters;
+
 	private String resourcesLocation;
 
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
 		debuggers = new ArrayList<Class<? extends SceneElementGO>>();
+		filters = new HashMap<String, List<EngineFilter<?>>>();
 	}
 
 	public void setModel(String path) {
@@ -88,6 +93,11 @@ public class DesktopGame {
 		GameState gameState = injector.getInstance(GameState.class);
 		gameState.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
 		Game g = injector.getInstance(Game.class);
+		for (Entry<String, List<EngineFilter<?>>> e : filters.entrySet()) {
+			for (EngineFilter<?> f : e.getValue()) {
+				g.addFilter(e.getKey(), f);
+			}
+		}
 		g.setResourcesLocation(resourcesLocation);
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 		ApplicationListener engine = injector
@@ -123,6 +133,15 @@ public class DesktopGame {
 
 	public void exit() {
 		injector.getInstance(GUI.class).finish();
+	}
+
+	public void addFilter(String filterName, EngineFilter<?> filter) {
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		if (filtersList == null) {
+			filtersList = new ArrayList<EngineFilter<?>>();
+			filters.put(filterName, filtersList);
+		}
+		filtersList.add(filter);
 	}
 
 }

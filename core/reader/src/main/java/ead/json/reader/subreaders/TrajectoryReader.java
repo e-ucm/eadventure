@@ -45,6 +45,7 @@ import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 
+@SuppressWarnings("unchecked")
 public class TrajectoryReader {
 
 	public EAdTrajectory read(StringMap<Object> t) {

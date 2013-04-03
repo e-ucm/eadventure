@@ -53,12 +53,6 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 
 	private int currentTime;
 
-	private SceneGO nextScene;
-
-	private boolean first;
-
-	private TransitionListener listener;
-
 	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -67,46 +61,36 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 		currentTime = 0;
 	}
 
-	@Override
 	public void setPreviousScene(SceneGO scene) {
-		super.setPreviousScene(scene);
 		currentTime = 0;
 		sceneAlpha = 0;
-		nextScene = null;
-		first = true;
 	}
 
 	public void act(float delta) {
 		if (nextScene != null) {
-
-			if (first) {
-				nextScene.setAlpha(0);
-				nextScene.setX(0);
-				nextScene.setY(0);
-				addActor(nextScene);
-				first = false;
-			}
-
 			currentTime += gui.getSkippedMilliseconds();
 			sceneAlpha = (float) currentTime / (float) transition.getTime();
 			nextScene.setAlpha(sceneAlpha);
 		}
 
 		if (currentTime >= transition.getTime()) {
-			gui.setScene(nextScene);
 			nextScene.setAlpha(1.0f);
-			nextScene.act(delta);
-			listener.transitionEnded();
-			remove();
+			super.finish();
 		} else {
 			super.act(delta);
 		}
 	}
 
 	@Override
-	public void transition(SceneGO nextScene, TransitionListener l) {
-		this.nextScene = nextScene;
-		this.listener = l;
+	public void transition(SceneGO previousScene, SceneGO nextScene,
+			TransitionListener l) {
+		super.transition(previousScene, nextScene, l);
+		setPreviousScene(previousScene);
+		nextScene.setAlpha(0);
+		nextScene.setX(0);
+		nextScene.setY(0);
+		addSceneElement(previousScene);
+		addActor(nextScene);
 	}
 
 }

@@ -22,7 +22,7 @@
 	<string name="techDemo.ShowQuestionScene.launchquestion">Launch question</string>
 	<string name="techDemo.ShowQuestionScene.answer1">Repeat the question</string>
 	<string name="techDemo.ShowQuestionScene.answer2">Nothing else</string>
-	<string name="techDemo.ShowQuestionScene.answer3">Nothing else, indeed</string>
+	<string name="techDemo.ShowQuestionScene.answer3">Nothing else, indeed. Nothing else, indeed.Nothing else, indeed.Nothing else, indeed.Nothing else, indeed.Nothing else, indeed.Nothing else, indeed.Nothing else, indeed.Nothing else, indeed.</string>
 	<string name="techDemo.ShowQuestionScene.answer4">Nothing else...</string>
 	<string name="techDemo.SoundScene">Sound Scene</string>
 	<string name="techDemo.SoundScene.description">A scene where a sound is played</string>

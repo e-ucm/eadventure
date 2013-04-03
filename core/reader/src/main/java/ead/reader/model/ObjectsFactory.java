@@ -116,6 +116,8 @@ public class ObjectsFactory {
 		registeredVars.put("state", SceneElement.VAR_STATE);
 		registeredVars.put("orientation", SceneElement.VAR_ORIENTATION);
 		registeredVars.put("influence_area", NodeTrajectory.VAR_INFLUENCE_AREA);
+		registeredVars.put("bundle", SceneElement.VAR_BUNDLE_ID);
+
 	}
 
 	public Object getParam(String textValue, Class<?> clazz) {

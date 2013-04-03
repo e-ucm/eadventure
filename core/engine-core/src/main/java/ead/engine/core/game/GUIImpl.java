@@ -252,6 +252,7 @@ public abstract class GUIImpl implements GUI {
 			}
 		}
 		// Add new scene
+		sceneRoot.getChildren().clear();
 		sceneRoot.addSceneElement(scene);
 	}
 

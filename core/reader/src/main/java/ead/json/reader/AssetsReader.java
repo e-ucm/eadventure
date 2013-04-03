@@ -54,6 +54,7 @@ import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.enums.Alignment;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.assets.drawable.compounds.ComposedDrawable;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
@@ -280,6 +281,28 @@ public class AssetsReader {
 		if (pad != null) {
 			c.setPadding(pad.intValue());
 		}
+
+		Number prefWidth = (Number) a.get("prefWidth");
+		if (prefWidth != null) {
+			c.setPreferredWidth(prefWidth.intValue());
+		}
+
+		Number prefHeight = (Number) a.get("prefHeight");
+		if (prefHeight != null) {
+			c.setPreferredWidth(prefHeight.intValue());
+		}
+
+		String align = (String) a.get("align");
+		if (align != null) {
+			if (align.equals("left")) {
+				c.setAlignment(Alignment.LEFT);
+			} else if (align.equals("center")) {
+				c.setAlignment(Alignment.CENTER);
+			} else if (align.equals("right")) {
+				c.setAlignment(Alignment.RIGHT);
+			}
+		}
+
 		Collection<StringMap<Object>> operations = (Collection<StringMap<Object>>) a
 				.get("operations");
 		if (operations != null)

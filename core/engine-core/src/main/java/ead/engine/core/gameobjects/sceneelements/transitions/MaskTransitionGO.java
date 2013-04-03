@@ -98,9 +98,9 @@ public class MaskTransitionGO extends TransitionGO<MaskTransition> {
 	}
 
 	@Override
-	public void transition(SceneGO nextScene,
+	public void transition(SceneGO previousScene, SceneGO nextScene,
 			TransitionListener transitionListener) {
-		super.transition(nextScene, transitionListener);
+		super.transition(previousScene, nextScene, transitionListener);
 		this.remainingTime = transition.getTime();
 		offset.set(800, 0, 0);
 		this.addSceneElement(nextScene);

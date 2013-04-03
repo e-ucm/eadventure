@@ -40,7 +40,9 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.params.variables.VarDef;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
@@ -53,6 +55,9 @@ import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneL
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		SceneLoaderListener, TransitionListener {
 
+	public static BasicField<Boolean> IN_TRANSITION = new BasicField<Boolean>(
+			null, new VarDef<Boolean>("in_transition", Boolean.class, false));
+
 	private GUI gui;
 
 	private SceneLoader sceneLoader;
@@ -62,6 +67,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	private boolean finished;
 
 	private TransitionGO<?> transition;
+
+	private SceneGO previousScene;
 
 	@Inject
 	public ChangeSceneGO(GUI gui, GameState gameState,
@@ -75,6 +82,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void initialize() {
 		super.initialize();
+		gameState.setValue(IN_TRANSITION, true);
 		finished = false;
 		EAdScene nextScene = (EAdScene) gameState.maybeDecodeField(effect
 				.getNextScene());
@@ -88,7 +96,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		if (nextScene == null || nextScene != gui.getScene().getElement()) {
 			transition = (TransitionGO<?>) sceneElementFactory.get(effect
 					.getTransition());
-			transition.setPreviousScene(gui.getScene());
+			previousScene = gui.getScene();
 			sceneLoader.loadScene(nextScene, this);
 			gui.setScene(transition);
 		} else {
@@ -98,7 +106,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Override
 	public void sceneLoaded(SceneGO sceneGO) {
-		transition.transition(sceneGO, this);
+		transition.transition(previousScene, sceneGO, this);
 	}
 
 	public void act(float delta) {
@@ -119,6 +127,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Override
 	public void transitionEnded() {
+		gameState.setValue(IN_TRANSITION, false);
 		finished = true;
 		transition.free();
 	}

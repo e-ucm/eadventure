@@ -64,7 +64,7 @@ import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 public class MoveSceneElementGO extends
 		SceneElementEffectGO<MoveSceneElementEf> {
 
-	private static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDef<MoveSceneElementGO>(
+	public static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDef<MoveSceneElementGO>(
 			"element_moving", MoveSceneElementGO.class, null);
 
 	private static final EAdTrajectory DEFAULT_TRAJECTORY = new SimpleTrajectory();
@@ -76,6 +76,8 @@ public class MoveSceneElementGO extends
 	private GUI gui;
 
 	private TrajectoryGO<? extends EAdTrajectory> trajectory;
+
+	private boolean cancelMovement;
 
 	@Inject
 	public MoveSceneElementGO(GameState gameState,
@@ -93,6 +95,7 @@ public class MoveSceneElementGO extends
 		ValueMap valueMap = gameState;
 		float endX = 0;
 		float endY = 0;
+		cancelMovement = false;
 
 		SceneElementGO movingElement = sceneElementFactory.get(sceneElement);
 
@@ -114,36 +117,43 @@ public class MoveSceneElementGO extends
 
 			endX -= centerX;
 			endY -= centerY;
+		} else {
+			cancelMovement = true;
 		}
 
-		EAdTrajectory d = DEFAULT_TRAJECTORY;
+		if (!cancelMovement) {
+			EAdTrajectory d = DEFAULT_TRAJECTORY;
 
-		if (effect.isUseTrajectory()) {
+			if (effect.isUseTrajectory()) {
 
-			EAdTrajectory sceneTrajectory = valueMap.getValue(gui.getScene()
-					.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
-			if (sceneTrajectory != null) {
-				d = sceneTrajectory;
+				EAdTrajectory sceneTrajectory = valueMap.getValue(gui
+						.getScene().getElement(),
+						BasicScene.VAR_TRAJECTORY_DEFINITION);
+				if (sceneTrajectory != null) {
+					d = sceneTrajectory;
+				}
 			}
+
+			trajectory = trajectoryFactory.get(d);
+			trajectory.set(movingElement, endX, endY, sceneElementFactory
+					.get(effect.getTargetSceneElement()));
+
 		}
-
-		trajectory = trajectoryFactory.get(d);
-		trajectory.set(movingElement, endX, endY, sceneElementFactory
-				.get(effect.getTargetSceneElement()));
-
 		// Check if the element is controlled by other move scene effect
 		MoveSceneElementGO go = gameState.getValue(sceneElement,
 				VAR_ELEMENT_MOVING);
 		if (go != null) {
 			go.stop();
 		}
-		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, this);
+		if (!cancelMovement) {
+			gameState.setValue(sceneElement, VAR_ELEMENT_MOVING, this);
+		}
 
 	}
 
 	@Override
 	public boolean isFinished() {
-		return trajectory.isDone();
+		return cancelMovement || trajectory.isDone();
 	}
 
 	@Override
@@ -152,7 +162,7 @@ public class MoveSceneElementGO extends
 	}
 
 	public void finish() {
-		if (trajectory.isReachedTarget()) {
+		if (!cancelMovement && trajectory.isReachedTarget()) {
 			super.finish();
 		}
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
@@ -163,6 +173,8 @@ public class MoveSceneElementGO extends
 		super.stop();
 		gameState.setValue(sceneElement, SceneElement.VAR_STATE,
 				CommonStates.DEFAULT.toString());
+		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
+				(MoveSceneElementGO) null);
 	}
 
 	public boolean isQueueable() {

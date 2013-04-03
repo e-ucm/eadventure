@@ -51,8 +51,6 @@ import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
-	private boolean finished;
-
 	private int width;
 
 	private int height;
@@ -61,41 +59,18 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
 	private int currentTime;
 
-	protected SceneGO nextScene;
-
-	private boolean first;
-
-	private TransitionListener listener;
-
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		finished = false;
 		width = gameState.getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		currentTime = 0;
 	}
 
-	@Override
-	public void setPreviousScene(SceneGO scene) {
-		super.setPreviousScene(scene);
-		currentTime = 0;
-		nextScene = null;
-		finished = false;
-		x1 = x2 = y1 = y2 = 0;
-		first = true;
-	}
-
 	public void act(float delta) {
 		if (nextScene != null) {
-
-			if (first) {
-				addSceneElement(nextScene);
-				first = false;
-			}
-
 			currentTime += gui.getSkippedMilliseconds();
 
 			float dispX = getDisp(true, currentTime);
@@ -129,17 +104,10 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 		if (currentTime >= transition.getTime()) {
 			nextScene.setX(0);
 			nextScene.setY(0);
-			gui.setScene(nextScene);
-			remove();
-			nextScene.act(delta);
-			listener.transitionEnded();
+			super.finish();
 		} else {
 			super.act(delta);
 		}
-	}
-
-	public boolean isFinished() {
-		return finished;
 	}
 
 	private float getDisp(boolean horizontal, int currentTime) {
@@ -154,8 +122,16 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	}
 
 	@Override
-	public void transition(SceneGO nextScene, TransitionListener l) {
-		this.nextScene = nextScene;
-		this.listener = l;
+	public void transition(SceneGO previousScene, SceneGO nextScene,
+			TransitionListener l) {
+		super.transition(previousScene, nextScene, l);
+		setPreviousScene(previousScene);
+		addSceneElement(previousScene);
+		addSceneElement(nextScene);
+	}
+
+	public void setPreviousScene(SceneGO scene) {
+		currentTime = 0;
+		x1 = x2 = y1 = y2 = 0;
 	}
 }

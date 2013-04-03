@@ -43,22 +43,23 @@ import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.BasicElement;
 
 /**
- * Classes that implement this interface represent an asset. An asset
- * is any element that can be represented within an eAdventure game.
+ * Classes that implement this interface represent an asset. An asset is any
+ * element that can be represented within an eAdventure game.
  */
 @Reflectable
 public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
 	private String id;
 
+	private static long lastId = 0;
+
 	public AbstractAssetDescriptor() {
-		this.id = BasicElement.classToString(this.getClass())
-				+ BasicElement.randomSuffix();
+		this.id = BasicElement.classToString(this.getClass()) + lastId++;
 	}
 
 	/**
 	 * Get the element ID. This is guaranteed to be unique.
-	 *
+	 * 
 	 * @return the id
 	 */
 	@Override
@@ -79,8 +80,8 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 	}
 
 	/**
-	 * Should be called from all children. Performs ID comparison; null
-	 * IDs are admitted (and considered equal).
+	 * Should be called from all children. Performs ID comparison; null IDs are
+	 * admitted (and considered equal).
 	 */
 	@Override
 	public int hashCode() {
@@ -88,8 +89,9 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 	}
 
 	/**
-	 * Should be called from all children. Compares by ID; null IDs
-	 * are admitted (and considered equal).
+	 * Should be called from all children. Compares by ID; null IDs are admitted
+	 * (and considered equal).
+	 * 
 	 * @param other
 	 * @return
 	 */

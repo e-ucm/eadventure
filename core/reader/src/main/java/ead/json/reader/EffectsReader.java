@@ -137,6 +137,10 @@ public class EffectsReader {
 				effect = getGoTo(e);
 			} else if (type.equals("oneshot")) {
 				effect = getOneShot(e);
+			} else if (type.equals("stopgoto")) {
+				effect = getGoTo(e);
+				((MoveSceneElementEf) effect).setXtarget(null);
+				((MoveSceneElementEf) effect).setYtarget(null);
 			}
 
 			Boolean oneshot = (Boolean) e.get("oneshot");
@@ -188,8 +192,9 @@ public class EffectsReader {
 			effect.setSceneElement(SystemFields.ACTIVE_ELEMENT);
 		}
 		String sceneElement = (String) e.get("sceneElement");
-		effect.setTarget((EAdSceneElement) objectsFactory
-				.getEAdElement(sceneElement));
+		if (sceneElement != null)
+			effect.setTarget((EAdSceneElement) objectsFactory
+					.getEAdElement(sceneElement));
 		return effect;
 	}
 
@@ -255,6 +260,10 @@ public class EffectsReader {
 						.add(operationReader.read(op));
 			}
 
+		Number time = (Number) e.get("time");
+		if (time != null) {
+			speak.setTime(time.intValue());
+		}
 		speak.setColor(textPaint, bubblePaint);
 		return speak;
 	}
@@ -340,6 +349,14 @@ public class EffectsReader {
 			for (Object o : nextEffects) {
 				EAdEffect nextEffect = read((StringMap<Object>) o);
 				effect.getNextEffects().add(nextEffect);
+			}
+		}
+		Collection<Object> simultaneousEffects = (Collection<Object>) e
+				.get("simultaneousEffects");
+		if (simultaneousEffects != null) {
+			for (Object o : simultaneousEffects) {
+				EAdEffect sEffect = read((StringMap<Object>) o);
+				effect.getSimultaneousEffects().add(sEffect);
 			}
 		}
 	}

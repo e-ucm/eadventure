@@ -95,10 +95,10 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 						.getDeclaredField(name)));
 			} catch (SecurityException e) {
 				logger.debug("error accessing field {} for {}", new Object[] {
-						clazz, name }, e);
+						clazz, name });
 			} catch (NoSuchFieldException e) {
 				logger.debug("no such field for {} for {}", new Object[] {
-						clazz, name }, e);
+						clazz, name });
 			}
 		}
 		return fields.get(name);

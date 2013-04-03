@@ -81,6 +81,9 @@ public class SpeakEf extends AbstractEffect {
 	@Param
 	private EAdField<String> stateField;
 
+	@Param
+	private int time;
+
 	public SpeakEf() {
 
 	}
@@ -196,6 +199,14 @@ public class SpeakEf extends AbstractEffect {
 
 	public EAdField<String> getStateField() {
 		return this.stateField;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
 	}
 
 }

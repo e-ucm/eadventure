@@ -74,8 +74,10 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 		nextScene = null;
 	}
 
-	public void transition(SceneGO nextScene,
+	public void transition(SceneGO previousScene, SceneGO nextScene,
 			TransitionListener transitionListener) {
+		getChildren().clear();
+		this.previousScene = previousScene;
 		this.nextScene = nextScene;
 		this.transitionListener = transitionListener;
 	}
@@ -88,12 +90,6 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 
 	public Actor hit(float x, float y, boolean touchable) {
 		return this;
-	}
-
-	public void setPreviousScene(SceneGO scene) {
-		getChildren().clear();
-		this.previousScene = scene;
-		addActor(scene);
 	}
 
 	public void finish() {

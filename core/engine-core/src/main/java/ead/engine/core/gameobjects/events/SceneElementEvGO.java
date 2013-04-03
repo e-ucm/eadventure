@@ -43,6 +43,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.params.variables.VarDef;
 import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
@@ -53,6 +54,8 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
 	private boolean hasAlways;
 
+	private boolean inTransition;
+
 	@Inject
 	public SceneElementEvGO(GameState gameState) {
 		super(gameState);
@@ -62,10 +65,19 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 		super.setElement(ev);
 		checks = 2;
 		hasAlways = element.getEffectsForEvent(SceneElementEvType.ALWAYS) != null;
+		inTransition = true;
 	}
 
 	@Override
 	public void act(float delta) {
+
+		if (inTransition) {
+			inTransition = gameState.getValue(ChangeSceneGO.IN_TRANSITION);
+			if (inTransition) {
+				return;
+			}
+		}
+
 		if (checks >= 0) {
 			checks--;
 		}

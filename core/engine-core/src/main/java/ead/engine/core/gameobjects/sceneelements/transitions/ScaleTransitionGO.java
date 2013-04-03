@@ -70,9 +70,9 @@ public class ScaleTransitionGO extends TransitionGO<ScaleTransition> {
 		scale = growing ? 0 : 1;
 	}
 
-	public void transition(SceneGO nextScene,
+	public void transition(SceneGO previousScene, SceneGO nextScene,
 			TransitionListener transitionListener) {
-		super.transition(nextScene, transitionListener);
+		super.transition(previousScene, nextScene, transitionListener);
 		addActor(nextScene);
 		nextScene.setZ(transition.isTargetNext() ? 100 : 50);
 		previousScene.setZ(transition.isTargetNext() ? 50 : 100);

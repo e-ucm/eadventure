@@ -44,6 +44,7 @@ import java.util.Random;
 import com.google.inject.Inject;
 
 import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.enums.Alignment;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.EAdEffect;
@@ -86,6 +87,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 	}
 
 	public void initialize() {
+		super.initialize();
 		y = 0;
 		SceneElement question = setUpNewInstance();
 		gui.getHUD(GUI.EFFECTS_HUD_ID).addSceneElement(
@@ -138,6 +140,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		caption.setFont(font);
 		caption.setPadding(padding);
 		caption.setBubblePaint(Paint.BLACK_ON_WHITE);
+		caption.setPreferredWidth(600);
 		SceneElement questionElement = new SceneElement(caption);
 		questionElement.setPosition(10, y);
 
@@ -164,6 +167,8 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		caption.setFont(font);
 		caption.setPadding(padding);
 		caption.setBubblePaint(ColorFill.WHITE);
+		caption.setPreferredWidth(700);
+		caption.setAlignment(Alignment.LEFT);
 		SceneElement answerElement = new SceneElement(caption);
 		answerElement.setPosition(-800, y);
 		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, selectEffect);
@@ -171,7 +176,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 		answerElement.addBehavior(MouseGEv.MOUSE_ENTERED, inEffect);
 		answerElement.addBehavior(MouseGEv.MOUSE_EXITED, outEffect);
-		y += fontSize * 2 + padding * 2;
+		y += fontSize * 2.5f + padding * 2.5f;
 
 		SceneElementEv event = new SceneElementEv();
 

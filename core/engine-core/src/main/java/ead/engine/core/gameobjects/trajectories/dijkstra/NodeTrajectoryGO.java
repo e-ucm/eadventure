@@ -201,7 +201,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		float xv = targetX - initX;
 		float yv = targetY - initY;
 		double module = Math.sqrt(xv * xv + yv * yv);
-		double angle = Math.acos(xv / module) * Math.signum(-yv);
+		float c = (float) Math.min(1, Math.max(0, xv / module));
+		double angle = Math.acos(c) * Math.signum(-yv);
 
 		Orientation tempDirection = Orientation.W;
 

@@ -49,6 +49,7 @@ import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.operations.SystemFields;
@@ -98,6 +99,12 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 	private SceneElement dots;
 
+	private boolean hasTime;
+
+	private int timePerPart;
+
+	private int currentTime;
+
 	@Inject
 	public SpeakGO(GameState gameState, GUI gui,
 			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
@@ -111,6 +118,12 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	public void initialize() {
 		super.initialize();
 		if (effect.getStateField() != null) {
+			EAdElement element = effect.getStateField().getElement();
+			MoveSceneElementGO moving = gameState.getValue(element,
+					MoveSceneElementGO.VAR_ELEMENT_MOVING);
+			if (moving != null) {
+				moving.stop();
+			}
 			previousState = gameState.getValue(effect.getStateField());
 			gameState.setValue(effect.getStateField(), CommonStates.TALKING
 					.toString());
@@ -122,6 +135,11 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
 		bubbleDialog.setInputProcessor(this, true);
 		effectsHud.addSceneElement(bubbleDialog);
+		hasTime = effect.getTime() > 0;
+		if (hasTime) {
+			timePerPart = effect.getTime() / caption.getTotalParts();
+			currentTime = timePerPart;
+		}
 	}
 
 	protected EAdGroupElement getVisualRepresentation() {
@@ -206,6 +224,14 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	public void act(float delta) {
 		super.act(delta);
 
+		if (hasTime) {
+			currentTime -= delta;
+			if (currentTime <= 0) {
+				currentTime = timePerPart + currentTime;
+				caption.goForward(1);
+			}
+		}
+
 		if (finished) {
 			alpha -= 0.003f * gui.getSkippedMilliseconds();
 			if (alpha <= 0.0f) {
@@ -257,7 +283,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		if (event instanceof InputEvent) {
 			InputEvent i = (InputEvent) event;
 			event.cancel();
-			if (!finished)
+			if (!hasTime && !finished && alpha > 0.9f)
 				if (i.getType() == InputEvent.Type.touchDown) {
 					if (caption.getTimesRead() >= 1
 							|| caption.getCurrentPart() == caption
