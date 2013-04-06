@@ -70,6 +70,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	private SceneGO previousScene;
 
+	private SceneGO nextScene;
+
 	@Inject
 	public ChangeSceneGO(GUI gui, GameState gameState,
 			SceneElementGOFactory sceneElementFactory, SceneLoader sceneLoader) {
@@ -107,6 +109,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void sceneLoaded(SceneGO sceneGO) {
 		transition.transition(previousScene, sceneGO, this);
+		this.nextScene = sceneGO;
 	}
 
 	public void act(float delta) {
@@ -129,7 +132,9 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	public void transitionEnded() {
 		gameState.setValue(IN_TRANSITION, false);
 		finished = true;
-		transition.free();
+		//		if (nextScene != previousScene)
+		//			previousScene.free();
+		//		transition.free();
 	}
 
 }

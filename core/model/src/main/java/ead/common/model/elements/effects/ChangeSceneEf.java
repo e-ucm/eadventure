@@ -114,4 +114,8 @@ public class ChangeSceneEf extends AbstractEffect {
 		this.transition = transition;
 	}
 
+	public String toString() {
+		return "nextScene:" + nextScene;
+	}
+
 }

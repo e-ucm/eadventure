@@ -110,6 +110,9 @@ public class GdxBezierShape extends RuntimeShape<BezierShape> {
 		// TODO Probably this can be improved
 
 		EAdPaint p = descriptor.getPaint();
+		if (p == null) {
+			p = ColorFill.WHITE;
+		}
 
 		float f[] = new float[shape.size()];
 		for (int i = 0; i < shape.size(); i++) {

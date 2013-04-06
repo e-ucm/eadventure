@@ -81,6 +81,8 @@ public class FieldsDebuggerGO extends SceneElementGO {
 
 	private int y;
 
+	private boolean model = true;
+
 	private CircleShape circle = new CircleShape(2, new Paint(ColorFill.RED,
 			ColorFill.BLACK));
 	private CircleShape circleTopLeft = new CircleShape(2, new Paint(

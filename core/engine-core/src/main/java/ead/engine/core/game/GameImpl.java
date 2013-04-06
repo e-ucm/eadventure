@@ -52,9 +52,11 @@ import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.multimedia.Video;
 import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
@@ -338,6 +340,7 @@ public class GameImpl implements Game, VisitorListener {
 
 	private void setGame() {
 		if (adventure != null) {
+			BasicElement.idPrefix = AbstractAssetDescriptor.idPrefix = "eng";
 			currentChapter = adventure.getChapters().get(0);
 			ChangeSceneEf initGame = new ChangeSceneEf(currentChapter
 					.getInitialScene());

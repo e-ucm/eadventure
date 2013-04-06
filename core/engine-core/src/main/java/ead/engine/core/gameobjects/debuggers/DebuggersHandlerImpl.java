@@ -66,6 +66,7 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 	public static final String GHOST_DEBUGGER = "ghost_debugger";
 
 	public static final String FIELDS_DEBUGGER = "fields_debugger";
+	public static final String MODEL_FIELDS_DEBUGGER = "model_fields_debugger";
 
 	public static final String CHANGE_SCENE_DEBUGGER = "change_scene_debugger";
 
@@ -123,6 +124,13 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 			SceneElement element = new SceneElement();
 			SceneElementGO go = reflectionProvider
 					.getInstance(ChangeSceneDebugger.class);
+			element.setId(id);
+			go.setElement(element);
+			return go;
+		} else if (id.equals(MODEL_FIELDS_DEBUGGER)) {
+			SceneElement element = new SceneElement();
+			SceneElementGO go = reflectionProvider
+					.getInstance(ModelFieldsDebuggerGO.class);
 			element.setId(id);
 			go.setElement(element);
 			return go;

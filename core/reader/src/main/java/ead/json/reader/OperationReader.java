@@ -39,6 +39,9 @@ package ead.json.reader;
 
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.internal.StringMap;
 
 import ead.common.model.elements.operations.ConcatenateStringsOp;
@@ -50,6 +53,9 @@ import ead.common.model.params.text.EAdString;
 import ead.reader.model.ObjectsFactory;
 
 public class OperationReader {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("OperationReader");
 
 	private ConditionReader conditionReader;
 	private ObjectsFactory objectsFactory;
@@ -128,6 +134,9 @@ public class OperationReader {
 
 	public EAdField<?> translateField(String field) {
 		String[] fs = field.split("\\.");
+		if (fs.length != 2) {
+			logger.error("{} is not a valid field", field);
+		}
 		return objectsFactory.getField(fs[0], fs[1]);
 	}
 

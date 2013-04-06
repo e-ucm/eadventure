@@ -47,6 +47,7 @@ import com.google.gson.internal.StringMap;
 
 import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.assets.text.EAdFont;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
@@ -154,24 +155,24 @@ public class EffectsReader {
 				effect.setCondition(condition);
 			}
 
+			String id = (String) e.get("id");
+			if (id != null) {
+				effect.setId(id);
+			}
+
 			Boolean persistent = (Boolean) e.get("persistent");
 			effect.setPersistent(persistent != null
 					&& persistent.booleanValue());
 
+			Boolean nextEffectsAlways = (Boolean) e.get("nextEffectsAlways");
+			effect.setNextEffectsAlways(nextEffectsAlways != null
+					&& nextEffectsAlways.booleanValue());
+
+			objectsFactory.putEAdElement(effect.getId(), effect);
+			addNextEffects(effect, e);
 		} catch (Exception ex) {
 			logger.error("Error reading {}", e, ex);
 		}
-
-		String id = (String) e.get("id");
-		if (id != null) {
-			effect.setId(id);
-		}
-
-		Boolean persistent = (Boolean) e.get("persistent");
-		effect.setPersistent(persistent != null && persistent.booleanValue());
-
-		objectsFactory.putEAdElement(effect.getId(), effect);
-		addNextEffects(effect, e);
 		return effect;
 	}
 
@@ -337,6 +338,9 @@ public class EffectsReader {
 		EAdElement nextScene = null;
 		if (ns != null) {
 			nextScene = (EAdElement) objectsFactory.getEAdElement(ns);
+			if (nextScene == null) {
+				nextScene = new BasicElement(ns);
+			}
 		}
 		ChangeSceneEf changeScene = new ChangeSceneEf(nextScene, transition);
 		return changeScene;

@@ -52,12 +52,14 @@ public class BasicElement implements EAdElement {
 
 	private static int lastId = 0;
 
+	public static String idPrefix = "mod";
+
 	public static void initLastId() {
 		lastId = 0;
 	}
 
 	public static String randomSuffix() {
-		return "" + lastId++;
+		return "" + idPrefix + lastId++;
 	}
 
 	/**

@@ -37,17 +37,28 @@
 
 package ead.json.reader;
 
+import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.internal.StringMap;
 
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.operations.EAdField;
 import ead.reader.model.ObjectsFactory;
 
+@SuppressWarnings("unchecked")
 public class ConditionReader {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ConditionReader");
 
 	private OperationReader operationReader;
 
@@ -72,8 +83,30 @@ public class ConditionReader {
 			return parseBooleanField(c);
 		} else if (cond.equals("not")) {
 			return parseNot(c);
+		} else if (cond.equals("or")) {
+			return parseOr(c);
+		} else if (cond.equals("and")) {
+			return parseAnd(c);
 		}
 		return null;
+	}
+
+	private EAdCondition parseAnd(StringMap<Object> c) {
+		EAdCondition cond = EmptyCond.TRUE;
+		Collection<StringMap<Object>> operations = (Collection<StringMap<Object>>) c
+				.get("operations");
+		for (StringMap<Object> op : operations) {
+			cond = new ANDCond(cond, read(op));
+		}
+		return cond;
+	}
+
+	private EAdCondition parseOr(StringMap<Object> c) {
+		StringMap<Object> op1 = (StringMap<Object>) c.get("op1");
+		StringMap<Object> op2 = (StringMap<Object>) c.get("op2");
+		EAdCondition condition1 = read(op1);
+		EAdCondition condition2 = read(op2);
+		return new ORCond(condition1, condition2);
 	}
 
 	private EAdCondition parseNot(StringMap<Object> c) {
@@ -93,7 +126,7 @@ public class ConditionReader {
 		Comparator comp = null;
 		if (comparator.equals("<")) {
 			comp = Comparator.LESS;
-		} else if (comparator.equals("==")) {
+		} else if (comparator.equals("=")) {
 			comp = Comparator.EQUAL;
 		} else if (comparator.equals("<=")) {
 			comp = Comparator.LESS_EQUAL;
@@ -101,6 +134,10 @@ public class ConditionReader {
 			comp = Comparator.GREATER;
 		} else if (comparator.equals(">=")) {
 			comp = Comparator.GREATER_EQUAL;
+		} else if (comparator.equals("!=")) {
+			comp = Comparator.DIFFERENT;
+		} else {
+			logger.warn("No comparator for {}", comparator);
 		}
 		cond.setComparator(comp);
 		cond.setOp1(operationReader.read((StringMap<Object>) c.get("op1")));

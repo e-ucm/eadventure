@@ -234,7 +234,15 @@ public class ConversationReader {
 				SpeakSceneElementEf speak = new SpeakSceneElementEf(
 						sceneElement, text);
 				speak.setFont(font);
-				speak.setColor(texts.get(character), bubbles.get(character));
+				EAdPaint bubble = bubbles.get(character);
+				if (bubble == null) {
+					logger.warn("No bubble paint for {}", character);
+				}
+				EAdPaint textP = texts.get(character);
+				if (textP == null) {
+					logger.warn("No text paint for {}", character);
+				}
+				speak.setColor(textP, bubble);
 				effect = speak;
 			} else if (type.equals("effects")) {
 				Collection<String> eff = (Collection<String>) n.get("effects");
@@ -258,7 +266,13 @@ public class ConversationReader {
 
 	public void addCharacter(String[] ids, EAdPaint text, EAdPaint bubble) {
 		for (String id : ids) {
+			if (text == null) {
+				logger.warn("Added a null text for {}", id);
+			}
 			texts.put(id, text);
+			if (bubble == null) {
+				logger.warn("Added a null text for {}", id);
+			}
 			bubbles.put(id, bubble);
 		}
 	}

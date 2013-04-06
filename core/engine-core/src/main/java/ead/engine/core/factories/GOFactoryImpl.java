@@ -138,6 +138,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		if (pool != null) {
 			pool.free((T) gameObject);
 			gameObject.release();
+			logger.debug("{} freed", gameObject);
 		}
 	}
 
