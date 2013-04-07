@@ -85,7 +85,7 @@ public class SimpleTrajectory extends BasicElement implements EAdTrajectory {
 		this.onlyHorizontal = onlyHorizontal;
 		bottom = right = Integer.MAX_VALUE / 2;
 		top = left = Integer.MIN_VALUE / 2;
-		this.distanceToTarget = 100;
+		this.distanceToTarget = 300;
 	}
 
 	public boolean isOnlyHorizontal() {

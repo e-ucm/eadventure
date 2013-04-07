@@ -48,6 +48,7 @@ import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.RandomEf;
 import ead.common.model.elements.effects.RemoveEf;
+import ead.common.model.elements.effects.ToggleSoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.WaitUntilEf;
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
@@ -81,6 +82,7 @@ import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
+import ead.engine.core.gameobjects.effects.ToggleSoundGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
 import ead.engine.core.gameobjects.effects.WaitUntilGO;
@@ -113,6 +115,7 @@ public class EffectsMapProvider
 		factoryMap.put(AddChildEf.class, AddChildGO.class);
 		factoryMap.put(WaitUntilEf.class, WaitUntilGO.class);
 		factoryMap.put(ChangeColorEf.class, ChangeColorGO.class);
+		factoryMap.put(ToggleSoundEf.class, ToggleSoundGO.class);
 		// Physics
 		factoryMap.put(PhysicsEf.class, PhysicsEffectGO.class);
 		factoryMap.put(PhApplyImpulseEf.class, ApplyForceGO.class);

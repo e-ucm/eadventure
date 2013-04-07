@@ -40,6 +40,7 @@ package ead.engine.core.gameobjects.debuggers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
@@ -84,6 +85,10 @@ public class ChangeSceneDebugger extends SceneElementGO {
 		this.fontHandler = fontHandler;
 	}
 
+	public void draw(SpriteBatch b, float alpha) {
+		super.draw(b, alpha);
+	}
+
 	public void setElement(EAdSceneElement e) {
 		super.setElement(e);
 		setPosition(10, 10);
@@ -96,32 +101,40 @@ public class ChangeSceneDebugger extends SceneElementGO {
 		SelectBox.SelectBoxStyle style = new SelectBoxStyle();
 		Pixmap p = new Pixmap(200, 20, Pixmap.Format.RGBA8888);
 		p.setColor(1.0f, 0.0f, 0.0f, 0.5f);
-		p.fillRectangle(0, 0, 200, 20);
+		p.fillRectangle(0, 0, 200, 40);
 
 		TextureRegion t1 = new TextureRegion(new Texture(p));
 		p.dispose();
 
 		p = new Pixmap(200, 20, Pixmap.Format.RGBA8888);
 		p.setColor(0.0f, 1.0f, 0.0f, 1.0f);
-		p.fillRectangle(0, 0, 200, 20);
+		p.fillRectangle(0, 0, 200, 40);
 
 		TextureRegion t2 = new TextureRegion(new Texture(p));
 		p.dispose();
 
 		p = new Pixmap(200, 20, Pixmap.Format.RGBA8888);
 		p.setColor(0.0f, 0.0f, 1.0f, 1.0f);
-		p.fillRectangle(0, 0, 200, 20);
+		p.fillRectangle(0, 0, 200, 40);
 
 		TextureRegion t3 = new TextureRegion(new Texture(p));
 		p.dispose();
 
-		RuntimeFont f = fontHandler.get(BasicFont.REGULAR);
+		RuntimeFont f = fontHandler.get(new BasicFont(
+				"@binary/fonts/coolvetica-16"));
 		style.font = f.getBitmapFont();
 		style.background = new TextureRegionDrawable(t1);
-		style.background.setTopHeight(0);
-		style.background.setBottomHeight(0);
+		style.background.setTopHeight(10);
+		style.background.setBottomHeight(-12);
+		style.background.setLeftWidth(10);
+		style.background.setRightWidth(10);
+		style.itemSpacing = 20;
 		style.listBackground = new TextureRegionDrawable(t2);
+		style.listBackground.setTopHeight(10);
+		style.listBackground.setBottomHeight(-12);
 		style.listSelection = new TextureRegionDrawable(t3);
+		style.listSelection.setTopHeight(10);
+		style.listSelection.setBottomHeight(-12);
 		style.fontColor = Color.BLACK;
 		selectBox = new SelectBox(scenes, style);
 		addActor(selectBox);

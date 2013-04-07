@@ -66,4 +66,14 @@ public interface SoundManager {
 	 */
 	void playBackgroundMusic(EAdSound sound, float volume);
 
+	/**
+	 * Silence all sounds
+	 * @param silence
+	 */
+	void setSilence(boolean silence);
+
+	void toggleSound();
+
+	boolean isSilence();
+
 }

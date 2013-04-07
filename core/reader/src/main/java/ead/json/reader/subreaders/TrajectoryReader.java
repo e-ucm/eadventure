@@ -44,6 +44,7 @@ import com.google.gson.internal.StringMap;
 import ead.common.model.elements.trajectories.EAdTrajectory;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectory;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 
 @SuppressWarnings("unchecked")
 public class TrajectoryReader {
@@ -52,6 +53,9 @@ public class TrajectoryReader {
 		String type = t.get("type").toString();
 		if (type.equals("nodes")) {
 			return parseNodes(t);
+		} else if (type.equals("simplefree")) {
+			SimpleTrajectory trajectory = new SimpleTrajectory(false);
+			trajectory.setFreeWalk(true);
 		}
 		return null;
 	}

@@ -234,6 +234,7 @@ public class ConversationReader {
 				SpeakSceneElementEf speak = new SpeakSceneElementEf(
 						sceneElement, text);
 				speak.setFont(font);
+				speak.setNextEffectsAlways(true);
 				EAdPaint bubble = bubbles.get(character);
 				if (bubble == null) {
 					logger.warn("No bubble paint for {}", character);
@@ -241,6 +242,10 @@ public class ConversationReader {
 				EAdPaint textP = texts.get(character);
 				if (textP == null) {
 					logger.warn("No text paint for {}", character);
+				}
+				StringMap<Object> c = (StringMap<Object>) n.get("cond");
+				if (c != null) {
+					speak.setCondition(conditionsReader.read(c));
 				}
 				speak.setColor(textP, bubble);
 				effect = speak;

@@ -142,6 +142,8 @@ public class EffectsReader {
 				effect = getGoTo(e);
 				((MoveSceneElementEf) effect).setXtarget(null);
 				((MoveSceneElementEf) effect).setYtarget(null);
+			} else if (type.equals("gotoposition")) {
+				effect = getGoToPosition(e);
 			}
 
 			Boolean oneshot = (Boolean) e.get("oneshot");
@@ -161,8 +163,9 @@ public class EffectsReader {
 			}
 
 			Boolean persistent = (Boolean) e.get("persistent");
-			effect.setPersistent(persistent != null
-					&& persistent.booleanValue());
+			if (persistent != null) {
+				effect.setPersistent(persistent.booleanValue());
+			}
 
 			Boolean nextEffectsAlways = (Boolean) e.get("nextEffectsAlways");
 			effect.setNextEffectsAlways(nextEffectsAlways != null
@@ -174,6 +177,17 @@ public class EffectsReader {
 			logger.error("Error reading {}", e, ex);
 		}
 		return effect;
+	}
+
+	private EAdEffect getGoToPosition(StringMap<Object> e) {
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setXtarget(new ValueOp(((Number) e.get("x")).floatValue()));
+		move.setYtarget(new ValueOp(((Number) e.get("y")).floatValue()));
+		EAdSceneElement element = (EAdSceneElement) objectsFactory
+				.getEAdElement((String) e.get("sceneElement"));
+		move.setSceneElement(element);
+		move.setUseTrajectory(false);
+		return move;
 	}
 
 	private EAdEffect getOneShot(StringMap<Object> e) {

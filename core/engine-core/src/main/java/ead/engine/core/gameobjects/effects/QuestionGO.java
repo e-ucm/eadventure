@@ -140,7 +140,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		caption.setFont(font);
 		caption.setPadding(padding);
 		caption.setBubblePaint(Paint.BLACK_ON_WHITE);
-		caption.setPreferredWidth(600);
+		caption.setPreferredWidth(750);
 		SceneElement questionElement = new SceneElement(caption);
 		questionElement.setPosition(10, y);
 

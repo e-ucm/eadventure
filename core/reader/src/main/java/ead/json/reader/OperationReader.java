@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.internal.StringMap;
 
 import ead.common.model.elements.operations.ConcatenateStringsOp;
+import ead.common.model.elements.operations.ConditionedOp;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.operations.MathOp;
@@ -52,6 +53,7 @@ import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.params.text.EAdString;
 import ead.reader.model.ObjectsFactory;
 
+@SuppressWarnings("unchecked")
 public class OperationReader {
 
 	private static final Logger logger = LoggerFactory
@@ -84,6 +86,8 @@ public class OperationReader {
 			operation = new ValueOp(op.get("value"));
 		} else if (type.equals("valueeadstring")) {
 			operation = new ValueOp(new EAdString((String) op.get("value")));
+		} else if (type.equals("conditioned")) {
+			operation = parseConditioned(op);
 		}
 
 		// Add operations
@@ -94,6 +98,14 @@ public class OperationReader {
 				operation.getOperations().add(read(o));
 			}
 		return operation;
+	}
+
+	private EAdOperation parseConditioned(StringMap<Object> op) {
+		StringMap<Object> opT = (StringMap<Object>) op.get("opTrue");
+		StringMap<Object> opF = (StringMap<Object>) op.get("opFalse");
+		StringMap<Object> cond = (StringMap<Object>) op.get("cond");
+		return new ConditionedOp(conditionReader.read(cond), read(opT),
+				read(opF));
 	}
 
 	private EAdOperation parseConcatString(StringMap<Object> op) {

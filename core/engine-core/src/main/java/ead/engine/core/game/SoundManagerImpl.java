@@ -37,6 +37,9 @@
 
 package ead.engine.core.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,15 +55,23 @@ public class SoundManagerImpl implements SoundManager {
 
 	private AssetHandler assetHandler;
 
+	private boolean silence;
+
+	private List<RuntimeSound> currentSounds;
+
 	@Inject
 	public SoundManagerImpl(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
+		currentSounds = new ArrayList<RuntimeSound>();
 	}
 
 	@Override
 	public void playSound(EAdSound sound, boolean overlay, float volume) {
 		RuntimeSound s = (RuntimeSound) assetHandler.getRuntimeAsset(sound);
-		s.play(overlay, volume);
+		s.play(overlay, silence ? 0.0f : volume);
+		if (!currentSounds.contains(s)) {
+			currentSounds.add(s);
+		}
 	}
 
 	@Override
@@ -73,8 +84,28 @@ public class SoundManagerImpl implements SoundManager {
 		if (sound != null) {
 			backgroundMusic = (RuntimeSound) assetHandler
 					.getRuntimeAsset(sound);
-			backgroundMusic.loop(volume);
+			backgroundMusic.loop(silence ? 0.0f : volume);
 		}
+	}
+
+	public void toggleSound() {
+		setSilence(!silence);
+	}
+
+	public void setSilence(boolean silence) {
+		this.silence = silence;
+		float volume = silence ? 0.0f : 1.0f;
+		if (backgroundMusic != null) {
+			backgroundMusic.setVolume(volume);
+		}
+		for (RuntimeSound s : currentSounds) {
+			s.setVolume(volume);
+		}
+
+	}
+
+	public boolean isSilence() {
+		return silence;
 	}
 
 }

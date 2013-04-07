@@ -89,15 +89,17 @@ public class CheckBox extends GroupElement {
 				new NOTCond(c));
 		addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeCheck);
 
-		Caption text = new Caption(stringId);
-		text.setFont(font);
-		text.setBubblePaint(ColorFill.WHITE);
-		text.setPadding(5);
-		text.setTextPaint(ColorFill.BLACK);
-		SceneElement e = new SceneElement(text);
-		e.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeCheck);
-		e.setPosition(new Position(45, 20, 0, 0.5f));
-		addSceneElement(e);
+		if (stringId != null) {
+			Caption text = new Caption(stringId);
+			text.setFont(font);
+			text.setBubblePaint(ColorFill.WHITE);
+			text.setPadding(5);
+			text.setTextPaint(ColorFill.BLACK);
+			SceneElement e = new SceneElement(text);
+			e.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeCheck);
+			e.setPosition(new Position(45, 20, 0, 0.5f));
+			addSceneElement(e);
+		}
 	}
 
 }

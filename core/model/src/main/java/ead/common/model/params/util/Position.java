@@ -66,7 +66,7 @@ public class Position extends AbstractParam {
 	public static final String SEPARATOR = ":";
 
 	public static enum Corner {
-		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT, BOTTOM_RIGHT;
+		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT, BOTTOM_RIGHT, TOP_CENTER;
 
 		public float getDispY() {
 			switch (this) {
@@ -82,6 +82,8 @@ public class Position extends AbstractParam {
 				return 1f;
 			case CENTER:
 				return 0.5f;
+			case TOP_CENTER:
+				return 0.0f;
 			default:
 				return 0.0f;
 			}
@@ -100,6 +102,8 @@ public class Position extends AbstractParam {
 			case BOTTOM_CENTER:
 				return 0.5f;
 			case CENTER:
+				return 0.5f;
+			case TOP_CENTER:
 				return 0.5f;
 			default:
 				return 0.0f;

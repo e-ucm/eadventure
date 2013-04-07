@@ -57,6 +57,7 @@ import com.sun.jna.NativeLibrary;
 
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.SpecialAssetRenderer;
+import ead.engine.core.game.interfaces.SoundManager;
 
 /**
  * <p>
@@ -121,9 +122,16 @@ public class VLCVideoRenderer implements
 	 */
 	private boolean vlcLoaded;
 
+	/**
+	 * Sound manager, to control videos volume
+	 */
+	private SoundManager soundManager;
+
 	@Inject
-	public VLCVideoRenderer(GdxDesktopAssetHandler assetHandler) {
+	public VLCVideoRenderer(GdxDesktopAssetHandler assetHandler,
+			SoundManager soundManager) {
 		this.assetHandler = assetHandler;
+		this.soundManager = soundManager;
 		initializeVariables();
 	}
 
@@ -292,6 +300,7 @@ public class VLCVideoRenderer implements
 		if (!started && mediaPlayer != null) {
 			String[] mediaOptions = {};
 			mediaPlayer.prepareMedia(path, mediaOptions);
+			mediaPlayer.setVolume(soundManager.isSilence() ? 0 : 100);
 			mediaPlayer.play();
 			started = true;
 			return true;

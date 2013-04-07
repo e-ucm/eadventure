@@ -71,6 +71,12 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 		return true;
 	}
 
+	public void setVolume(float volume) {
+		if (sound != null && id != -1) {
+			sound.setVolume(id, volume);
+		}
+	}
+
 	@Override
 	public void freeMemory() {
 		super.freeMemory();

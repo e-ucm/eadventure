@@ -162,7 +162,8 @@ public class MoveSceneElementGO extends
 	}
 
 	public void finish() {
-		if (!cancelMovement && trajectory.isReachedTarget()) {
+		if ((!cancelMovement && trajectory.isReachedTarget())
+				|| !this.effect.isUseTrajectory()) {
 			super.finish();
 		}
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
