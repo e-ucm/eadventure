@@ -135,9 +135,11 @@ public class GdxDesktopGUI extends GUIImpl {
 					canvas.setCursor(java.awt.Cursor.getDefaultCursor());
 					canvas.setVisible(true);
 					if (component != null) {
+						component.setVisible(false);
 						frame.remove((Component) component);
 					}
 					frame.validate();
+					component = null;
 				}
 			});
 		} else if (object != component) {
@@ -149,7 +151,8 @@ public class GdxDesktopGUI extends GUIImpl {
 					canvas.setCursor(null);
 
 					frame.getContentPane().setFocusable(true);
-
+					component.setVisible(true);
+					component.invalidate();
 					frame.add((Component) component);
 					frame.validate();
 

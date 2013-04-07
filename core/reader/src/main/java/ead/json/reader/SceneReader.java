@@ -119,11 +119,16 @@ public class SceneReader {
 				.getAsset((String) jsonScene.get("background"));
 		BasicScene scene = new BasicScene(background);
 
-		String music = (String) jsonScene.get("music");
-		if (music != null) {
-			EAdSound bgMusic = (EAdSound) objectsFactory.getAsset(music);
-			PlaySoundEf playBg = new PlaySoundEf(bgMusic, true);
-			scene.addInitEffect(playBg);
+		if (jsonScene.containsKey("music")) {
+			String music = (String) jsonScene.get("music");
+			if (music != null) {
+				EAdSound bgMusic = (EAdSound) objectsFactory.getAsset(music);
+				PlaySoundEf playBg = new PlaySoundEf(bgMusic, true);
+				scene.addInitEffect(playBg);
+			} else {
+				PlaySoundEf playBg = new PlaySoundEf(null, true);
+				scene.addInitEffect(playBg);
+			}
 		}
 
 		Collection<StringMap<Object>> sceneElements = (Collection<StringMap<Object>>) jsonScene

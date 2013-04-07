@@ -88,6 +88,8 @@ public class OperationReader {
 			operation = new ValueOp(new EAdString((String) op.get("value")));
 		} else if (type.equals("conditioned")) {
 			operation = parseConditioned(op);
+		} else {
+			logger.warn("Unknown operation type: {}", type);
 		}
 
 		// Add operations

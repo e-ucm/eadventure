@@ -40,8 +40,6 @@ package ead.engine.core.gdx.desktop.platform.assets;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 
 import org.slf4j.Logger;
@@ -80,12 +78,12 @@ public class VLCVideoRenderer implements
 	/**
 	 * The vlcj media player (controls, etc.)
 	 */
-	private EmbeddedMediaPlayer mediaPlayer;
+	private static EmbeddedMediaPlayer mediaPlayer;
 
 	/**
 	 * The vlcj surface for the video
 	 */
-	private CanvasVideoSurface videoSurface;
+	private static CanvasVideoSurface videoSurface;
 
 	/**
 	 * True if finished
@@ -100,12 +98,12 @@ public class VLCVideoRenderer implements
 	/**
 	 * The vlcj media player factory
 	 */
-	private MediaPlayerFactory mediaPlayerFactory;
+	private static MediaPlayerFactory mediaPlayerFactory;
 
 	/**
 	 * Used to configure vlc when necessary
 	 */
-	private String vlcOptions = "";
+	private static String vlcOptions = "";
 
 	/**
 	 * The path of the video file
@@ -120,19 +118,32 @@ public class VLCVideoRenderer implements
 	/**
 	 * Sets if VLC has been successfully loaded
 	 */
-	private boolean vlcLoaded;
+	private static boolean vlcLoaded;
+
+	private static VLCMediaPlayerEventListener vlcListener;
+
+	private static Canvas canvas;
 
 	/**
 	 * Sound manager, to control videos volume
 	 */
 	private SoundManager soundManager;
 
+	private boolean wasSilence;
+
+	static {
+		logger.debug("Loading VLC...");
+		initializeVariables();
+		initComponent();
+		logger.debug("VLC loaded: {}", mediaPlayer != null);
+	}
+
 	@Inject
 	public VLCVideoRenderer(GdxDesktopAssetHandler assetHandler,
 			SoundManager soundManager) {
 		this.assetHandler = assetHandler;
 		this.soundManager = soundManager;
-		initializeVariables();
+		vlcListener.setRenderer(this);
 	}
 
 	@Override
@@ -152,54 +163,35 @@ public class VLCVideoRenderer implements
 		}
 	}
 
-	protected Component getVLCComponent(EAdVideo asset) {
-		if (mediaPlayerFactory == null) {
-			String[] options = { vlcOptions };
-
-			mediaPlayerFactory = new MediaPlayerFactory(options);
-		}
-
-		Canvas canvas = new Canvas();
+	private static void initComponent() {
+		String[] options = { vlcOptions };
+		mediaPlayerFactory = new MediaPlayerFactory(options);
+		canvas = new Canvas();
 		canvas.setBackground(Color.black);
-		started = false;
-
 		mediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer();
 		mediaPlayer.setAdjustVideo(false);
 		mediaPlayer.setCropGeometry("4:3");
 		videoSurface = mediaPlayerFactory.newVideoSurface(canvas);
 		mediaPlayer.setVideoSurface(videoSurface);
 
-		canvas.addMouseListener(new MouseAdapter() {
+		// canvas.addMouseListener(new MouseAdapter() {
+		//
+		// @Override
+		// public void mousePressed(MouseEvent e) {
+		// finished = true;
+		// }
+		//
+		// });
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-				finished = true;
-			}
+		vlcListener = new VLCMediaPlayerEventListener();
+		mediaPlayer.addMediaPlayerEventListener(vlcListener);
 
-		});
-
-		mediaPlayer
-				.addMediaPlayerEventListener(new VLCMediaPlayerEventListener(
-						this, asset.isStream() ? -1 : 1));
-
-		path = asset.getUri();
-		if (assetHandler != null && !asset.isStream()) {
-			path = assetHandler.getTempFilePath(asset.getUri());
-		}
-
-		if (asset.isStream()) {
-			mediaPlayer.setPlaySubItems(true);
-		}
-
-		finished = false;
-
-		return canvas;
 	}
 
 	/**
 	 * Initialize system and system dependent variables for vlcj.
 	 */
-	private void initializeVariables() {
+	private static void initializeVariables() {
 		if (System.getProperty("jna.nosys") == null) {
 			System.setProperty("jna.nosys", "true");
 		}
@@ -295,12 +287,27 @@ public class VLCVideoRenderer implements
 		return finished;
 	}
 
+	protected Component getVLCComponent(EAdVideo asset) {
+		vlcListener.setCount(asset.isStream() ? -1 : 1);
+		started = false;
+		path = asset.getUri();
+		if (assetHandler != null && !asset.isStream()) {
+			path = assetHandler.getTempFilePath(asset.getUri());
+		}
+		if (asset.isStream()) {
+			mediaPlayer.setPlaySubItems(true);
+		}
+		finished = false;
+		return canvas;
+	}
+
 	@Override
 	public boolean start() {
 		if (!started && mediaPlayer != null) {
 			String[] mediaOptions = {};
+			wasSilence = soundManager.isSilence();
+			soundManager.setSilence(true);
 			mediaPlayer.prepareMedia(path, mediaOptions);
-			mediaPlayer.setVolume(soundManager.isSilence() ? 0 : 100);
 			mediaPlayer.play();
 			started = true;
 			return true;
@@ -315,6 +322,8 @@ public class VLCVideoRenderer implements
 	 *            The new value for finished
 	 */
 	public void setFinished(boolean b) {
+		if (b)
+			soundManager.setSilence(wasSilence);
 		this.finished = b;
 	}
 

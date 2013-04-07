@@ -100,7 +100,7 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 			id = sound.play(volume);
 		} else if (id != -1) {
 			sound.stop(id);
-			id = sound.play();
+			id = sound.play(volume);
 		}
 	}
 

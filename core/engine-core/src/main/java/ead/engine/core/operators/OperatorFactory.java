@@ -85,8 +85,10 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 	@SuppressWarnings("unchecked")
 	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
-			logger.error("Null operation attempted: null returned as class {}",
-					clazz);
+			logger
+					.warn(
+							"Null operation attempted: null returned as class {} for operation {}",
+							new Object[] { clazz, operation });
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());

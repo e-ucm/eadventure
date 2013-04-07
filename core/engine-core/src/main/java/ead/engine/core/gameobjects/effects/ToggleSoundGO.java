@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.google.inject.Inject;
+
 import ead.common.model.elements.effects.ToggleSoundEf;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.SoundManager;
@@ -45,6 +47,7 @@ public class ToggleSoundGO extends AbstractEffectGO<ToggleSoundEf> {
 
 	private SoundManager soundManager;
 
+	@Inject
 	public ToggleSoundGO(GameState gameState, SoundManager soundManager) {
 		super(gameState);
 		this.soundManager = soundManager;

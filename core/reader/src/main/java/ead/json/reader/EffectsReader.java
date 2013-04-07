@@ -56,6 +56,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.RemoveEf;
+import ead.common.model.elements.effects.ToggleSoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.timedevents.WaitEf;
@@ -144,6 +145,8 @@ public class EffectsReader {
 				((MoveSceneElementEf) effect).setYtarget(null);
 			} else if (type.equals("gotoposition")) {
 				effect = getGoToPosition(e);
+			} else if (type.equals("togglesound")) {
+				effect = new ToggleSoundEf();
 			}
 
 			Boolean oneshot = (Boolean) e.get("oneshot");

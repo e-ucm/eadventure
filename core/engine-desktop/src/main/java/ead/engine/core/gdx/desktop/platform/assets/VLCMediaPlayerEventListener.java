@@ -47,9 +47,14 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 
 	private int count;
 
-	public VLCMediaPlayerEventListener(
-			VLCVideoRenderer vlcDesktopVideoRenderer, int count) {
-		this.vlcDesktopVideoRenderer = vlcDesktopVideoRenderer;
+	public VLCMediaPlayerEventListener() {
+	}
+
+	public void setRenderer(VLCVideoRenderer renderer) {
+		this.vlcDesktopVideoRenderer = renderer;
+	}
+
+	public void setCount(int count) {
 		this.count = count;
 	}
 
@@ -66,8 +71,8 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 	@Override
 	public void error(MediaPlayer player) {
 
-		//		vlcDesktopVideoRenderer.setFinished(true);
-		//		vlcDesktopVideoRenderer.setStarted(false);
+		// vlcDesktopVideoRenderer.setFinished(true);
+		// vlcDesktopVideoRenderer.setStarted(false);
 	}
 
 	@Override
@@ -128,7 +133,7 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 	}
 
 	@Override
-	public void playing(MediaPlayer arg0) {
+	public void playing(MediaPlayer mediaPlayer) {
 	}
 
 	@Override
