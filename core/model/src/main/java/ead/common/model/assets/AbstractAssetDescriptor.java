@@ -55,6 +55,10 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
 	public static String idPrefix = "mod";
 
+	public static void initLastId() {
+		lastId = 0;
+	}
+
 	public AbstractAssetDescriptor() {
 		this.id = BasicElement.classToString(this.getClass()) + idPrefix
 				+ lastId++;

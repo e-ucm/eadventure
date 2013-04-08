@@ -381,16 +381,12 @@ public class SceneElementGO extends Group implements
 	 * Sets some variables
 	 */
 	protected void setExtraVars() {
-		int scaleW = (int) (this.getWidth() * scale * this.getScaleX());
-		int scaleH = (int) (this.getHeight() * scale * this.getScaleY());
-		float x = (this.getX() + dispX * this.getWidth());
-		float y = (this.getY() + dispY * this.getHeight());
-		gameState.setValue(element, SceneElement.VAR_LEFT, x);
-		gameState.setValue(element, SceneElement.VAR_RIGHT, x + scaleW);
-		gameState.setValue(element, SceneElement.VAR_TOP, y);
-		gameState.setValue(element, SceneElement.VAR_BOTTOM, y + scaleH);
-		gameState.setValue(element, SceneElement.VAR_CENTER_X, x + scaleW / 2);
-		gameState.setValue(element, SceneElement.VAR_CENTER_Y, y + scaleH / 2);
+		gameState.setValue(element, SceneElement.VAR_LEFT, topLeft[0]);
+		gameState.setValue(element, SceneElement.VAR_TOP, topLeft[1]);
+		gameState.setValue(element, SceneElement.VAR_BOTTOM, bottomRight[1]);
+		gameState.setValue(element, SceneElement.VAR_RIGHT, bottomRight[0]);
+		gameState.setValue(element, SceneElement.VAR_CENTER_X, center[0]);
+		gameState.setValue(element, SceneElement.VAR_CENTER_Y, center[1]);
 
 	}
 
@@ -459,6 +455,7 @@ public class SceneElementGO extends Group implements
 		Matrix4.mulVec(m.val, center);
 		Matrix4.mulVec(m.val, topLeft);
 		Matrix4.mulVec(m.val, bottomRight);
+		setExtraVars();
 	}
 
 	public float getCenterX() {

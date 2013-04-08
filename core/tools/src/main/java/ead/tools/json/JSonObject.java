@@ -35,76 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.tracking;
+package ead.tools.json;
 
-import java.util.Map;
+public interface JSonObject {
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.effects.EffectGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.tracking.selection.TrackerSelector;
-
-@Singleton
-public class DefaultGameTracker extends AbstractGameTracker {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultTracker");
-
-	@Inject
-	public DefaultGameTracker(TrackerSelector selector) {
-		super(selector);
-	}
-
-	@Override
-	protected void trackImpl(Event action, SceneElementGO target) {
-		logger.info("Action: {} over {}", action, target.getElement());
-	}
-
-	@Override
-	protected void trackImpl(EffectGO<?> effect) {
-		logger.info("Effect: {}", effect);
-	}
-
-	@Override
-	protected void startTrackingImpl(EAdAdventureModel model) {
-		logger.info("Tracking starts.");
-	}
-
-	@Override
-	public void tag(String tag, Map<String, Object> trace) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void startPhase(String phaseId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endPhase(String phaseId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void varUpdate(String varId, Object newValue) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endGame() {
-		// TODO Auto-generated method stub
-
-	}
+	Object get(String key);
 
 }

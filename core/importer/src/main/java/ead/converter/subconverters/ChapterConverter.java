@@ -92,6 +92,7 @@ public class ChapterConverter {
 
 	public EAdChapter convert(Chapter c) {
 		BasicChapter chapter = new BasicChapter();
+		modelQuerier.setCurrentChapter(chapter, c);
 
 		// Import atrezzos
 		for (Atrezzo a : c.getAtrezzo()) {
@@ -110,8 +111,6 @@ public class ChapterConverter {
 			EAdSceneElementDef def = npcConverter.convert(a);
 			elementsCache.put(def);
 		}
-
-		modelQuerier.setCurrentChapter(chapter, c);
 
 		// Import scenes
 		for (Scene s : c.getScenes()) {

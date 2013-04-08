@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdChapter;
@@ -82,6 +83,7 @@ public class AdventureConverter {
 
 	public void convert(String file, String destinyFolder) {
 		BasicElement.initLastId();
+		AbstractAssetDescriptor.initLastId();
 		resourceConverter.setPath(destinyFolder);
 
 		adventureData = oldReader.loadGame(file);

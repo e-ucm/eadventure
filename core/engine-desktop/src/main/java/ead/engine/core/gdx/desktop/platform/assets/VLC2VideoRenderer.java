@@ -76,6 +76,9 @@ public class VLC2VideoRenderer implements
 	}
 
 	static {
+		if (System.getProperty("jna.nosys") == null) {
+			System.setProperty("jna.nosys", "true");
+		}
 		init();
 	}
 
@@ -127,6 +130,8 @@ public class VLC2VideoRenderer implements
 		}
 		String[] mediaOptions = {};
 		mediaPlayer.prepareMedia(path, mediaOptions);
+		mediaPlayer.setAdjustVideo(false);
+		mediaPlayer.setCropGeometry("4:3");
 		finished = false;
 		return mediaPlayerComponent;
 	}

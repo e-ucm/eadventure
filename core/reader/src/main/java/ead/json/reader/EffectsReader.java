@@ -55,6 +55,7 @@ import ead.common.model.elements.effects.AddChildEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.PlaySoundEf;
+import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.RemoveEf;
 import ead.common.model.elements.effects.ToggleSoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
@@ -147,6 +148,8 @@ public class EffectsReader {
 				effect = getGoToPosition(e);
 			} else if (type.equals("togglesound")) {
 				effect = new ToggleSoundEf();
+			} else if (type.equals("quit")) {
+				effect = new QuitGameEf();
 			}
 
 			Boolean oneshot = (Boolean) e.get("oneshot");
@@ -325,6 +328,9 @@ public class EffectsReader {
 	private EAdEffect getRef(StringMap<Object> e) {
 		String ref = (String) e.get("ref");
 		EAdEffect reference = (EAdEffect) objectsFactory.getEAdElement(ref);
+		if (reference == null) {
+			logger.warn("Reference to effect {} not found", ref);
+		}
 		return reference;
 	}
 
@@ -406,6 +412,12 @@ public class EffectsReader {
 					new ValueOp(start.floatValue()), new ValueOp(end
 							.floatValue()));
 		}
+
+		Boolean relative = (Boolean) e.get("relative");
+		if (relative != null) {
+			interpolation.setRelative(relative.booleanValue());
+		}
+
 		interpolation.setInterpolationTime(time.intValue());
 		return interpolation;
 	}

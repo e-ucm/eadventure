@@ -121,7 +121,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 
 	@Override
 	public boolean isFinished() {
-		return finished == 0;
+		return finished <= 0;
 	}
 
 	public boolean isQueueable() {

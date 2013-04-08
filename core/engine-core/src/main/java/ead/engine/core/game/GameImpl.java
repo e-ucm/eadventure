@@ -248,8 +248,8 @@ public class GameImpl implements Game, VisitorListener {
 
 	@Override
 	public void dispose() {
-		gui.finish();
 		tracker.stop();
+		gui.finish();
 	}
 
 	@Override

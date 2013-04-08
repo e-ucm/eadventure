@@ -128,7 +128,7 @@ public class ChangeSceneDebugger extends SceneElementGO {
 		style.background.setBottomHeight(-12);
 		style.background.setLeftWidth(10);
 		style.background.setRightWidth(10);
-		style.itemSpacing = 20;
+		style.itemSpacing = 15;
 		style.listBackground = new TextureRegionDrawable(t2);
 		style.listBackground.setTopHeight(10);
 		style.listBackground.setBottomHeight(-12);

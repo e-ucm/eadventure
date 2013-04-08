@@ -37,6 +37,8 @@
 
 package ead.engine.core.tracking;
 
+import java.util.Map;
+
 import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.EAdAdventureModel;
@@ -83,6 +85,38 @@ public interface GameTracker {
 	 *            the launched effect
 	 */
 	void track(EffectGO<?> effect);
+
+	/**
+	 * Track a trace related to the given tag
+	 * 
+	 * @param tag
+	 * @param trace
+	 */
+	void tag(String tag, Map<String, Object> trace);
+
+	/**
+	 * 
+	 * @param phaseId
+	 */
+	void startPhase(String phaseId);
+
+	/**
+	 * 
+	 * @param phaseId
+	 */
+	void endPhase(String phaseId);
+
+	/**
+	 * 
+	 * @param varId
+	 * @param newValue
+	 */
+	void varUpdate(String varId, Object newValue);
+
+	/**
+	 * The game has ended
+	 */
+	void endGame();
 
 	/**
 	 * Returns if it is currently sending tracking data
