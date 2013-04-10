@@ -50,7 +50,7 @@ import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
-import ead.engine.core.gdx.desktop.platform.assets.VLC2VideoRenderer;
+import ead.engine.core.gdx.desktop.platform.assets.java.JavaVideoRenderer;
 
 public class GdxDesktopModule extends AbstractModule {
 
@@ -82,8 +82,10 @@ public class GdxDesktopModule extends AbstractModule {
 			bind(c1).to(c2).in(Singleton.class);
 		}
 
+		//		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		//		}).to(VLC2VideoRenderer.class);
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		}).to(VLC2VideoRenderer.class);
+		}).to(JavaVideoRenderer.class);
 	}
 
 }

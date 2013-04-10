@@ -8,7 +8,6 @@ import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.compounds.ComposedDrawable;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
@@ -46,10 +45,6 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
 	private RuntimeNinePatchImage ninePatch;
 
-	private int width;
-
-	private int height;
-
 	@Inject
 	public BubbleNameGO(GameState gameState, GUI gui,
 			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
@@ -62,8 +57,6 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 	@Override
 	public void setElement(BubbleNameEv element) {
 		super.setElement(element);
-		this.width = gameState.getValue(SystemFields.GAME_WIDTH);
-		this.height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		currentDescription = new BasicField<EAdString>(element,
 				BubbleNameEv.VAR_BUBBLE_NAME);
 		SceneElement e = new SceneElement();

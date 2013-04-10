@@ -96,6 +96,10 @@ public class ModelQuerier {
 		this.adventureData = adventureData;
 	}
 
+	public AdventureData getAventureData() {
+		return adventureData;
+	}
+
 	public void setCurrentChapter(EAdChapter chapter, Chapter c) {
 		this.currentChapter = chapter;
 		this.oldChapter = c;

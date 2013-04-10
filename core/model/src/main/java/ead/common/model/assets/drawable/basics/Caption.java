@@ -43,7 +43,6 @@ import ead.common.model.assets.drawable.basics.enums.Alignment;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;

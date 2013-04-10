@@ -97,7 +97,7 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 			FileHandle file = getFileHandle(path);
 			if (file.exists()) {
 				try {
-					File f = File.createTempFile("video", null);
+					File f = File.createTempFile("video", ".avi");
 					f.deleteOnExit();
 					FileHandle tempFile = new FileHandle(f);
 					file.copyTo(tempFile);

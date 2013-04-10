@@ -41,6 +41,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -61,6 +64,7 @@ public class AdventureReader implements VisitorListener {
 	private XMLParser xmlParser;
 	private XMLVisitor visitor;
 	private EAdAdventureModel model;
+	private static Logger logger = LoggerFactory.getLogger("AdventureReader");
 
 	@Inject
 	public AdventureReader(XMLParser parser,
@@ -85,17 +89,38 @@ public class AdventureReader implements VisitorListener {
 		// Load classes keys
 		Map<String, String> classes = new HashMap<String, String>();
 		XMLNode node = document.getFirstChild();
-		XMLNode keyMap = node.getChildNodes().item(0);
-		XMLNodeList entries = keyMap.getChildNodes();
-		for (int i = 0; i < entries.getLength(); i++) {
-			XMLNode n = entries.item(i);
-			String className = n.getAttributeValue(DOMTags.VALUE_AT);
-			classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
-		}
-		visitor.addTranslator(new MapClassTranslator(classes));
+		XMLNode adventure = null;
+		XMLNode keyMap = null;
 
-		XMLNode adventure = node.getChildNodes().item(1);
-		visitor.loadElement(adventure, listener);
+		// This loop is to avoid some weird node GWT adds to the root element
+		// when there are errors
+		XMLNodeList list = node.getChildNodes();
+		for (int i = 0; i < list.getLength(); i++) {
+			XMLNode n = list.item(i);
+			if (n.getNodeName().equals("e")) {
+				adventure = n;
+			} else if (n.getNodeName().equals("classes")) {
+				keyMap = n;
+			}
+		}
+
+		if (keyMap == null) {
+			logger.warn("No classes node found");
+		} else {
+			XMLNodeList entries = keyMap.getChildNodes();
+			for (int i = 0; i < entries.getLength(); i++) {
+				XMLNode n = entries.item(i);
+				String className = n.getAttributeValue(DOMTags.VALUE_AT);
+				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
+			}
+			visitor.addTranslator(new MapClassTranslator(classes));
+		}
+
+		if (adventure == null) {
+			logger.warn("No model node found");
+		} else {
+			visitor.loadElement(adventure, listener);
+		}
 	}
 
 	public boolean step() {

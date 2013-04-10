@@ -82,6 +82,7 @@ public class AdventureConverter {
 	}
 
 	public void convert(String file, String destinyFolder) {
+		logger.debug("Converting {}", file);
 		BasicElement.initLastId();
 		AbstractAssetDescriptor.initLastId();
 		resourceConverter.setPath(destinyFolder);

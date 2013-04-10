@@ -276,12 +276,12 @@ public abstract class I18N {
 					logger
 							.warn(
 									"Could not resolve value {} in key {}, iteration {}",
-									new String[] { m.group(), key, "" + (i + 1) });
+									new Object[] { m.group(), key, "" + (i + 1) });
 				} else {
 					logger
 							.debug(
 									"Resolved value {} in key {} as {}, iteration {}",
-									new String[] { m.group(), key, value,
+									new Object[] { m.group(), key, value,
 											"" + (i + 1) });
 				}
 				m.appendReplacement(sb, value);
@@ -301,7 +301,7 @@ public abstract class I18N {
 			logger
 					.warn(
 							"Circular reference in key {}: reached {} replacement iterations",
-							new String[] { key, "" + maxIterations });
+							new Object[] { key, "" + maxIterations });
 		}
 		props.setProperty(key, output);
 		return output;
@@ -363,7 +363,7 @@ public abstract class I18N {
 						if (fieldNames.contains(key)) {
 							if (fields.containsKey(key)) {
 								logger.debug("setting key {} to '{}'",
-										new String[] {
+										new Object[] {
 												fields.get(key).getName(),
 												value });
 								assignField(fields.get(key), e.getValue());

@@ -114,7 +114,7 @@ public class DataPrettifier {
 						// in mapping list - now we can build our mappings
 						mappings.put(reader.getAttributeValue(0), reader
 								.getAttributeValue(1));
-						logger.debug("Mapped {} to {}", new String[] {
+						logger.debug("Mapped {} to {}", new Object[] {
 								reader.getAttributeValue(0),
 								reader.getAttributeValue(1) });
 					}
@@ -174,12 +174,12 @@ public class DataPrettifier {
 						String value = reader.getAttributeValue(i);
 						if (translatedAttributes.contains(name)
 								&& mappings.containsKey(value)) {
-							logger.debug("\t(switch {}  ::= {}", new String[] {
+							logger.debug("\t(switch {}  ::= {}", new Object[] {
 									value, mappings.get(value) });
 							value = mappings.get(value);
 						}
 						writer.writeAttribute(name, value);
-						logger.debug("\tattr: {} --> {}", new String[] { name,
+						logger.debug("\tattr: {} --> {}", new Object[] { name,
 								value });
 					}
 				}

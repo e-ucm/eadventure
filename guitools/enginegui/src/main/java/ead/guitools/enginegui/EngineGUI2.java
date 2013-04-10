@@ -18,9 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.converter.AdventureConverter;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.utils.FileUtils;
@@ -31,7 +28,6 @@ public class EngineGUI2 {
 
 	public static void main(String args[]) {
 		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "debug");
-		Logger logger = LoggerFactory.getLogger("Sivenga");
 		loadProperties();
 		final JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileFilter() {

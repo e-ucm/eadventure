@@ -52,7 +52,6 @@ import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.assets.fonts.RuntimeFont;
 import ead.engine.core.canvas.GdxCanvas;
-import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.tools.StringHandler;
 
@@ -123,19 +122,16 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 
 	private StringHandler stringsHandler;
 
-	private GUI gui;
-
 	@SuppressWarnings("rawtypes")
 	private RuntimeDrawable shape;
 
 	@Inject
-	public RuntimeCaption(GUI gui, FontHandler fontCache, GameState valueMap,
+	public RuntimeCaption(FontHandler fontCache, GameState valueMap,
 			StringHandler stringsHandler, AssetHandler assetHandler) {
 		super(assetHandler);
 		this.fontCache = fontCache;
 		this.gameState = valueMap;
 		this.stringsHandler = stringsHandler;
-		this.gui = gui;
 	}
 
 	/*

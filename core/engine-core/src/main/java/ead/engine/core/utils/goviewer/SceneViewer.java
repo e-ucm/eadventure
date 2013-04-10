@@ -39,14 +39,11 @@ package ead.engine.core.utils.goviewer;
 
 import com.badlogic.gdx.ApplicationListener;
 
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
-
 public class SceneViewer implements ApplicationListener {
 
-	private GUI gui;
-
-	private SceneGO currentScene;
+	//	private GUI gui;
+	//
+	//	private SceneGO currentScene;
 
 	//	private int sceneWidth;
 	//	private int sceneHeight;

@@ -62,10 +62,8 @@ public class ConditionReader {
 
 	private OperationReader operationReader;
 
-	private ObjectsFactory objectsFactory;
-
 	public ConditionReader(ObjectsFactory objectsFactory) {
-		this.objectsFactory = objectsFactory;
+
 	}
 
 	public void setOperationReader(OperationReader operationReader) {

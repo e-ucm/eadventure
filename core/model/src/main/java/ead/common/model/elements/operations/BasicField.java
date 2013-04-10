@@ -98,7 +98,8 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	@Override
 	public String toString() {
-		return (element != null ? element : "NULL") + "." + varDef.getName();
+		return (element != null ? element.getId() : "NULL") + "."
+				+ varDef.getName();
 	}
 
 	public void setVarDef(EAdVarDef<T> varDef) {

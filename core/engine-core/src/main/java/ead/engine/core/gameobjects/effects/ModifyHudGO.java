@@ -40,24 +40,14 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
-import ead.tools.StringHandler;
 
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 
-	private SceneElementGOFactory sceneElementFactory;
-
 	@Inject
-	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
+	public ModifyHudGO(GameState gameState) {
 		super(gameState);
-		this.sceneElementFactory = sceneElementFactory;
 	}
 
 	public void initialize() {

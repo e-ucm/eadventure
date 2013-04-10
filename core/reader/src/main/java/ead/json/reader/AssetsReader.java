@@ -67,6 +67,7 @@ import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.util.Matrix;
 import ead.reader.model.ObjectsFactory;
 
+@SuppressWarnings("unchecked")
 public class AssetsReader {
 
 	private static final Logger logger = LoggerFactory
