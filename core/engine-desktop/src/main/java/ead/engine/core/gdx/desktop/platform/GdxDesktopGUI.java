@@ -89,7 +89,6 @@ public class GdxDesktopGUI extends GUIImpl {
 		frame.add(canvas);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
 

@@ -331,10 +331,6 @@ public class GameImpl implements Game, VisitorListener {
 		for (EventGO<?> e : events) {
 			e.act(delta);
 		}
-		gameState.setValue(SystemFields.MOUSE_X, Float
-				.valueOf(Gdx.input.getX()));
-		gameState.setValue(SystemFields.MOUSE_Y, Float
-				.valueOf(Gdx.input.getY()));
 	}
 
 	private void setGame() {

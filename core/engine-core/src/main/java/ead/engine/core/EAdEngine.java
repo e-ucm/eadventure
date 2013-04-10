@@ -71,6 +71,10 @@ public class EAdEngine implements ApplicationListener {
 
 	private Vector2 sceneMouseCoordinates;
 
+	private float scaleX;
+
+	private float scaleY;
+
 	@Inject
 	public EAdEngine(Game game, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
@@ -129,12 +133,20 @@ public class EAdEngine implements ApplicationListener {
 				.valueOf(sceneMouseCoordinates.x));
 		gameState.setValue(SystemFields.MOUSE_SCENE_Y, Float
 				.valueOf(sceneMouseCoordinates.y));
+		gameState.setValue(SystemFields.MOUSE_X, Float.valueOf(Gdx.input.getX()
+				/ scaleX));
+		gameState.setValue(SystemFields.MOUSE_Y, Float.valueOf(Gdx.input.getY()
+				/ scaleY));
 		stage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		stage.setViewport(width, height, true);
+		scaleX = (float) width / 800.0f;
+		scaleY = (float) height / 600.0f;
+		gui.getRoot().setScaleX(scaleX);
+		gui.getRoot().setScaleY(scaleY);
 	}
 
 	@Override

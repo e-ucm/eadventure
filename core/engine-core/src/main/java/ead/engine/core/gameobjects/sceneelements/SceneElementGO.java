@@ -1192,11 +1192,13 @@ public class SceneElementGO extends Group implements
 	public void setScaleX(float scaleX) {
 		updateRelatives = true;
 		super.setScaleX(scaleX);
+		gameState.setValue(getElement(), SceneElement.VAR_SCALE_X, scaleX);
 	}
 
 	public void setScaleY(float scaleY) {
 		updateRelatives = true;
 		super.setScaleY(scaleY);
+		gameState.setValue(getElement(), SceneElement.VAR_SCALE_Y, scaleY);
 	}
 
 	public void free() {
