@@ -59,6 +59,7 @@ public class RemoveGO extends AbstractEffectGO<RemoveEf> {
 		SceneElementGO sceneElement = gui.getSceneElement(effect.getElement());
 		if (sceneElement != null) {
 			sceneElement.remove();
+			sceneElement.free();
 		}
 	}
 

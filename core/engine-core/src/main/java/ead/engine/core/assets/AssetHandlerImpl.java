@@ -59,6 +59,7 @@ import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.factories.mapproviders.AssetHandlerMap;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
 
@@ -106,7 +107,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	@Inject
 	public AssetHandlerImpl(GenericInjector injector, SceneGraph sceneGraph) {
 		this.injector = injector;
-		this.classMap = new AssetHandlerMap();
+		this.classMap = new AssetHandlerMap().getMap();
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 		cacheEnabled = true;
 		assetsQueue = new ArrayList<AssetDescriptor>();
@@ -410,5 +411,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	public FileHandle getEngineFileHandle(String uri) {
 		return Gdx.files.internal(ENGINE_RESOURCES_PATH + uri);
+	}
+
+	public int getCacheSize() {
+		return cache != null ? cache.size() : 0;
 	}
 }

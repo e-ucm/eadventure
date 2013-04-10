@@ -177,4 +177,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 
 	}
 
+	public int getCacheSize() {
+		return cache != null ? cache.size() : 0;
+	}
 }

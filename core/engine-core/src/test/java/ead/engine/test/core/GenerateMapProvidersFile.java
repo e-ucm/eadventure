@@ -40,32 +40,55 @@ package ead.engine.test.core;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import ead.engine.core.factories.mapproviders.AssetHandlerMap;
 import ead.engine.core.factories.mapproviders.EffectsMapProvider;
 import ead.engine.core.factories.mapproviders.EventsMapProvider;
 import ead.engine.core.factories.mapproviders.SceneElementsMapProvider;
 import ead.engine.core.factories.mapproviders.TrajectoriesMapProvider;
 
+@SuppressWarnings( { "rawtypes", "unchecked" })
 public class GenerateMapProvidersFile {
 
+	public static boolean first = true;
+
 	public static void main(String args[]) {
+		System.out.println("// Effects");
 		writeMap(new EffectsMapProvider().getMap());
+		System.out.println("// SceneElements");
 		writeMap(new EventsMapProvider().getMap());
+		System.out.println("// Events");
 		writeMap(new SceneElementsMapProvider().getMap());
+		System.out.println("// Trajectories");
 		writeMap(new TrajectoriesMapProvider().getMap());
+		System.out.println("// Assets");
+		writeMap(new AssetHandlerMap().getMap());
+		System.out.println("// Effects");
+		writeMap2(new EffectsMapProvider().getMap());
+		System.out.println("// Events");
+		writeMap2(new EventsMapProvider().getMap());
+		System.out.println("// SeneElements");
+		writeMap2(new SceneElementsMapProvider().getMap());
+		System.out.println("// Trajectories");
+		writeMap2(new TrajectoriesMapProvider().getMap());
+		System.out.println("// Assets");
+		writeMap2(new AssetHandlerMap().getMap());
 	}
 
-	@SuppressWarnings( { "rawtypes", "unchecked" })
 	public static void writeMap(Map m) {
 		Map<Class<?>, Class<?>> map = m;
-		//				for (Entry<Class<?>, Class<?>> e : map.entrySet()) {
-		//					System.out.println(e.getValue().getSimpleName() + " get"
-		//							+ e.getValue().getSimpleName() + "();");
-		//				}
-
 		for (Entry<Class<?>, Class<?>> e : map.entrySet()) {
-			System.out.println("else if ( clazz == "
+			System.out.println((first ? "" : "else ") + "if ( clazz == "
 					+ e.getValue().getSimpleName()
 					+ ".class ) o = ginjector.get"
+					+ e.getValue().getSimpleName() + "();");
+			first = false;
+		}
+	}
+
+	public static void writeMap2(Map m) {
+		Map<Class<?>, Class<?>> map = m;
+		for (Entry<Class<?>, Class<?>> e : map.entrySet()) {
+			System.out.println(e.getValue().getSimpleName() + " get"
 					+ e.getValue().getSimpleName() + "();");
 		}
 	}

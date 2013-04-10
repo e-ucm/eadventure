@@ -220,8 +220,16 @@ public interface AssetHandler {
 
 	/**
 	 * Sets the current language
+	 * 
 	 * @param currentLanguage
 	 */
 	void setLanguage(String currentLanguage);
+
+	/**
+	 * Returns how many elements are contained by the asset handler cache
+	 * 
+	 * @return
+	 */
+	int getCacheSize();
 
 }

@@ -63,4 +63,8 @@ public abstract class AbstractOperation extends BasicElement implements
 		this.operationsList = operationsList;
 	}
 
+	public void addOperation(EAdOperation operation) {
+		this.operationsList.add(operation);
+	}
+
 }

@@ -43,10 +43,12 @@ import java.util.List;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.WaitUntilEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.BasicField;
 import ead.converter.subconverters.CutsceneConverter;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
@@ -64,19 +66,27 @@ public class ChangeSceneConverter implements EffectConverter {
 	@Override
 	public List<EAdEffect> convert(Effect e) {
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+		// Normal scenes
 		if (e instanceof TriggerSceneEffect) {
 			TriggerSceneEffect ef = (TriggerSceneEffect) e;
 			list.add(new ChangeSceneEf(new BasicElement(ef.getTargetId())));
+			// Cutscenes
 		} else if (e instanceof TriggerCutsceneEffect) {
+
 			TriggerCutsceneEffect ef = (TriggerCutsceneEffect) e;
 			BasicElement nextScene = new BasicElement(ef.getTargetId());
 			ChangeSceneEf changeScene = new ChangeSceneEf(nextScene);
 
-			EAdCondition cond = new NOTCond(new OperationCond(
-					new BasicField<Boolean>(nextScene,
-							CutsceneConverter.IN_CUTSCENE)));
-
+			// When a cutscene is triggered, all the effects after it must wait
+			// to be launched until the cutscene ends. We make sure that
+			// IN_CUTSCENE is set to true before launching any other effect
+			BasicField<Boolean> field = new BasicField<Boolean>(nextScene,
+					CutsceneConverter.IN_CUTSCENE);
+			changeScene.getSimultaneousEffects().add(
+					new ChangeFieldEf(field, EmptyCond.TRUE));
+			EAdCondition cond = new NOTCond(new OperationCond(field));
 			WaitUntilEf waitUntil = new WaitUntilEf(cond);
+			waitUntil.setPersistent(true);
 			changeScene.getNextEffects().add(waitUntil);
 			changeScene.getNextEffects().add(EffectsConverter.hideGhostEffects);
 			list.add(changeScene);

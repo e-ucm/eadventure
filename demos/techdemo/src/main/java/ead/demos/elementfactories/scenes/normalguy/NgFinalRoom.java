@@ -39,20 +39,16 @@ package ead.demos.elementfactories.scenes.normalguy;
 
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
@@ -102,11 +98,8 @@ public class NgFinalRoom extends EmptyScene {
 
 		PhysicsEf effect = new PhysicsEf();
 
-		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(
-				this, BasicScene.VAR_SCENE_LOADED));
-		event.setCondition(condition);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.ADDED, effect);
 
 		// getEvents().add(event);
 		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);

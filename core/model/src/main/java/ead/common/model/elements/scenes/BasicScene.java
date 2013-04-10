@@ -56,9 +56,6 @@ import ead.common.model.params.variables.VarDef;
 @Element
 public class BasicScene extends GroupElement implements EAdScene {
 
-	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new VarDef<Boolean>(
-			"scene_loaded", Boolean.class, Boolean.FALSE);
-
 	public static final EAdVarDef<EAdTrajectory> VAR_TRAJECTORY_DEFINITION = new VarDef<EAdTrajectory>(
 			"trajectory_generator", EAdTrajectory.class, null);
 

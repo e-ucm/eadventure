@@ -97,9 +97,8 @@ public abstract class ElementConverter {
 
 		// Add conditioned resources
 		// The variable that changes is IN THE SCENE ELEMENT DEFINITION, so
-		// every element that
-		// refers to this actor, must watch this field in order to update its
-		// own state
+		// every element that refers to this actor, must watch this field in
+		// order to update its own state
 		utilsConverter.addResourcesConditions(a.getResources(), definition,
 				SceneElement.VAR_STATE);
 		return definition;

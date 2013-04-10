@@ -200,12 +200,11 @@ public class GameImpl implements Game, VisitorListener {
 		this.adventure = null;
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
-		this.adventure = new BasicAdventureModel();
-		events = new ArrayList<EventGO<?>>();
 		this.reader = reader;
-
-		filters = new HashMap<String, List<EngineFilter<?>>>();
 		this.debuggersHandler = debuggersHandler;
+		this.adventure = new BasicAdventureModel();
+		filters = new HashMap<String, List<EngineFilter<?>>>();
+		events = new ArrayList<EventGO<?>>();
 		assetsToLoad = new Stack<AssetDescriptor>();
 	}
 

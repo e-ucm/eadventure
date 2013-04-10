@@ -82,29 +82,31 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 
 		Map<EAdVarDef<?>, Object> values = gameState.getElementVars(game
 				.getAdventureModel());
-		if (values.size() != currentLength) {
-			currentLength = values.size();
-			int y = 10;
-			int marginY = 20;
-			if (container != null) {
-				container.remove();
-				container.free();
-				this.getChildren().clear();
+		if (values != null) {
+			if (values.size() != currentLength) {
+				currentLength = values.size();
+				int y = 10;
+				int marginY = 20;
+				if (container != null) {
+					container.remove();
+					container.free();
+					this.getChildren().clear();
+				}
+				GroupElement fields = new GroupElement();
+				fields.setInitialEnable(false);
+				for (EAdVarDef<?> var : values.keySet()) {
+					Caption c = new Caption(var.getName() + ": [0]");
+					c.setPadding(1);
+					c.getOperations().add(
+							new BasicField(game.getAdventureModel(), var));
+					c.setBubblePaint(bubblePaint);
+					SceneElement field = new SceneElement(c);
+					field.setPosition(x, y);
+					y += marginY;
+					fields.addSceneElement(field);
+				}
+				container = this.addSceneElement(fields);
 			}
-			GroupElement fields = new GroupElement();
-			fields.setInitialEnable(false);
-			for (EAdVarDef<?> var : values.keySet()) {
-				Caption c = new Caption(var.getName() + ": [0]");
-				c.setPadding(1);
-				c.getOperations().add(
-						new BasicField(game.getAdventureModel(), var));
-				c.setBubblePaint(bubblePaint);
-				SceneElement field = new SceneElement(c);
-				field.setPosition(x, y);
-				y += marginY;
-				fields.addSceneElement(field);
-			}
-			container = this.addSceneElement(fields);
 		}
 	}
 

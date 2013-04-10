@@ -56,7 +56,6 @@ import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalState;
-import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 
 @Singleton
@@ -69,6 +68,8 @@ public class ModelQuerier {
 	private AdventureData adventureData;
 
 	private EAdChapter currentChapter;
+
+	private Chapter oldChapter;
 
 	private Map<String, EAdField<Boolean>> flagFields;
 	private Map<String, EAdField<Integer>> variableFields;
@@ -97,18 +98,24 @@ public class ModelQuerier {
 
 	public void setCurrentChapter(EAdChapter chapter, Chapter c) {
 		this.currentChapter = chapter;
+		this.oldChapter = c;
 		flagFields.clear();
 		variableFields.clear();
+	}
+
+	public void loadGlobalStates() {
 		// Add global states
 		globalStates.clear();
-		for (GlobalState g : c.getGlobalStates()) {
+		for (GlobalState g : oldChapter.getGlobalStates()) {
 			EAdCondition cond = conditionConverter.convert(g);
 			globalStates.put(g.getId(), cond);
 		}
+	}
 
+	public void loadMacros() {
 		macros.clear();
 		// Add macros
-		for (Macro m : c.getMacros()) {
+		for (Macro m : oldChapter.getMacros()) {
 			EffectsMacro macro = new EffectsMacro();
 			List<EAdEffect> effect = effectsConverter.convert(m);
 			if (effect.size() > 0) {

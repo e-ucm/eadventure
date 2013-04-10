@@ -39,7 +39,6 @@ package ead.engine.core.assets.drawables;
 
 import java.util.List;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.google.inject.Inject;
@@ -47,14 +46,13 @@ import com.google.inject.Inject;
 import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.assets.AssetHandlerImpl;
 import ead.engine.core.canvas.GdxCanvas;
 
 public class RuntimeNinePatchImage extends AbstractRuntimeAsset<NinePatchImage>
 		implements RuntimeDrawable<NinePatchImage> {
 
-	private FileHandle fh;
 	private NinePatch ninePatch;
+	private RuntimeImage image;
 	private int width;
 	private int height;
 
@@ -65,9 +63,10 @@ public class RuntimeNinePatchImage extends AbstractRuntimeAsset<NinePatchImage>
 
 	public boolean loadAsset() {
 		super.loadAsset();
-		fh = ((AssetHandlerImpl) assetHandler).getFileHandle(descriptor
-				.getUri());
-		Texture t = new Texture(fh);
+		image = (RuntimeImage) assetHandler.getRuntimeAsset(descriptor
+				.getImage());
+		Texture t = image.getTextureHandle();
+
 		this.width = t.getWidth();
 		this.height = t.getHeight();
 		ninePatch = new NinePatch(t, descriptor.getLeft(), descriptor
@@ -77,12 +76,7 @@ public class RuntimeNinePatchImage extends AbstractRuntimeAsset<NinePatchImage>
 
 	@Override
 	public void refresh() {
-		FileHandle fh = ((AssetHandlerImpl) assetHandler)
-				.getFileHandle(descriptor.getUri());
-		if (!this.fh.path().equals(fh.path())) {
-			this.freeMemory();
-			this.loadAsset();
-		}
+		image.refresh();
 	}
 
 	@Override

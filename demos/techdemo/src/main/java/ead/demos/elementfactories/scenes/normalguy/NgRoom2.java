@@ -41,7 +41,6 @@ import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.shapes.CircleShape;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
@@ -53,14 +52,13 @@ import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
-import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
@@ -260,11 +258,8 @@ public class NgRoom2 extends EmptyScene {
 			}
 		}
 
-		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(
-				this, BasicScene.VAR_SCENE_LOADED));
-		event.setCondition(condition);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.ADDED, effect);
 
 		getEvents().add(event);
 

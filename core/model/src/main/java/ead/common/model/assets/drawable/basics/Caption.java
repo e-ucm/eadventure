@@ -43,6 +43,7 @@ import ead.common.model.assets.drawable.basics.enums.Alignment;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
@@ -248,6 +249,15 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 
 	public void setOperations(EAdList<EAdOperation> operations) {
 		this.operations = operations;
+	}
+
+	/**
+	 * Adds an operation to the operations list
+	 * 
+	 * @param op
+	 */
+	public void addOperation(EAdOperation op) {
+		operations.add(op);
 	}
 
 }

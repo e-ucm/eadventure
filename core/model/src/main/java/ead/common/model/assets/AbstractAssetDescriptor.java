@@ -51,7 +51,7 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
 	private String id;
 
-	public static long lastId = 0;
+	public static int lastId = 0;
 
 	public static String idPrefix = "mod";
 

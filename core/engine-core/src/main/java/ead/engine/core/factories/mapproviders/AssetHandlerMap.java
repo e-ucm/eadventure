@@ -35,9 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.assets;
-
-import java.util.HashMap;
+package ead.engine.core.factories.mapproviders;
 
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.basics.Caption;
@@ -55,6 +53,7 @@ import ead.common.model.assets.drawable.filters.FilteredDrawable;
 import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
+import ead.engine.core.assets.RuntimeAsset;
 import ead.engine.core.assets.drawables.RuntimeCaption;
 import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
 import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
@@ -70,29 +69,25 @@ import ead.engine.core.assets.multimedia.RuntimeSound;
 
 public class AssetHandlerMap
 		extends
-		HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> {
-	private static final long serialVersionUID = 5284553649611577802L;
+		AbstractMapProvider<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> {
 
-	@SuppressWarnings( { "unchecked", "rawtypes" })
 	public AssetHandlerMap() {
-		HashMap inner = new HashMap();
-		inner.put(Image.class, RuntimeImage.class);
-		inner.put(BezierShape.class, GdxBezierShape.class);
-		inner.put(RectangleShape.class, GdxRectangleShape.class);
-		inner.put(CircleShape.class, GdxCircleShape.class);
-		inner.put(Caption.class, RuntimeCaption.class);
-		inner.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
-		inner.put(BasicFont.class, RuntimeFont.class);
-		inner.put(EAdFont.class, RuntimeFont.class);
-		inner.put(StateDrawable.class, RuntimeStateDrawable.class);
-		inner.put(EAdStateDrawable.class, RuntimeStateDrawable.class);
-		inner.put(FramesAnimation.class, RuntimeFramesAnimation.class);
-		inner.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
-		inner.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
-		inner.put(Sound.class, RuntimeSound.class);
-		inner.put(NinePatchImage.class, RuntimeNinePatchImage.class);
-
-		putAll((HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>) inner);
+		factoryMap.put(Image.class, RuntimeImage.class);
+		factoryMap.put(BezierShape.class, GdxBezierShape.class);
+		factoryMap.put(RectangleShape.class, GdxRectangleShape.class);
+		factoryMap.put(CircleShape.class, GdxCircleShape.class);
+		factoryMap.put(Caption.class, RuntimeCaption.class);
+		factoryMap.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
+		factoryMap.put(BasicFont.class, RuntimeFont.class);
+		factoryMap.put(EAdFont.class, RuntimeFont.class);
+		factoryMap.put(StateDrawable.class, RuntimeStateDrawable.class);
+		factoryMap.put(EAdStateDrawable.class, RuntimeStateDrawable.class);
+		factoryMap.put(FramesAnimation.class, RuntimeFramesAnimation.class);
+		factoryMap
+				.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
+		factoryMap.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
+		factoryMap.put(Sound.class, RuntimeSound.class);
+		factoryMap.put(NinePatchImage.class, RuntimeNinePatchImage.class);
 	}
 
 }

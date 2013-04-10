@@ -35,62 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.sceneelements.transitions;
+package ead.common.model.elements.debuggers;
 
-import com.google.inject.Inject;
+import ead.common.interfaces.Element;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.widgets.Label;
+import ead.common.model.params.fills.ColorFill;
 
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
+/**
+ * 
+ * Debugger to show some statistics of the game engine
+ * 
+ */
+@Element
+public class ProfilerDebugger extends GroupElement {
 
-public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
+	private EAdField<?>[] fields = new EAdField<?>[] {
+			SystemFields.DEBUG_GAME_OBJECTS, SystemFields.DEBUG_ASSETS,
+			SystemFields.DEBUG_HEAP_SIZE, SystemFields.DEBUG_NATIVE_SIZE,
+			SystemFields.DEBUG_BASIC_ELEMENT_ID, SystemFields.DEBUG_ASSET_ID };
 
-	private float sceneAlpha;
-
-	private int currentTime;
-
-	@Inject
-	public FadeInTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		currentTime = 0;
-	}
-
-	public void setPreviousScene(SceneGO scene) {
-
-	}
-
-	public void act(float delta) {
-		if (nextScene != null) {
-			currentTime += delta;
-			sceneAlpha = (float) currentTime / (float) transition.getTime();
-			nextScene.setAlpha(sceneAlpha);
-		}
-
-		if (currentTime >= transition.getTime()) {
-			nextScene.setAlpha(1.0f);
-			super.finish();
-		} else {
-			super.act(delta);
+	public ProfilerDebugger() {
+		int y = 0;
+		int marginY = 40;
+		for (EAdField<?> f : fields) {
+			Label l = new Label(f.getVarDef().getName() + ": [0]   ");
+			l.getCaption().setPadding(20);
+			l.getCaption().addOperation(f);
+			l.setPosition(10, y);
+			l.setBgColor(ColorFill.WHITE);
+			y += marginY;
+			addSceneElement(l);
 		}
 	}
-
-	@Override
-	public void transition(SceneGO previousScene, SceneGO nextScene,
-			TransitionListener l) {
-		super.transition(previousScene, nextScene, l);
-		currentTime = 0;
-		sceneAlpha = 0;
-		nextScene.setAlpha(0);
-		addSceneElement(previousScene);
-		addSceneElement(nextScene);
-		previousScene.setZ(0);
-		nextScene.setZ(100);
-	}
-
 }

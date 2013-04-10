@@ -93,6 +93,7 @@ public class ChapterConverter {
 	public EAdChapter convert(Chapter c) {
 		BasicChapter chapter = new BasicChapter();
 		modelQuerier.setCurrentChapter(chapter, c);
+		modelQuerier.loadGlobalStates();
 
 		// Import atrezzos
 		for (Atrezzo a : c.getAtrezzo()) {
@@ -111,6 +112,10 @@ public class ChapterConverter {
 			EAdSceneElementDef def = npcConverter.convert(a);
 			elementsCache.put(def);
 		}
+
+		// Loads macros and global states. It
+		// must be here, after all the actors has been loaded
+		modelQuerier.loadMacros();
 
 		// Import scenes
 		for (Scene s : c.getScenes()) {

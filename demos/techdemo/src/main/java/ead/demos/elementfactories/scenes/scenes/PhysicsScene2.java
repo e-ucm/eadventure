@@ -40,16 +40,13 @@ package ead.demos.elementfactories.scenes.scenes;
 import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.shapes.CircleShape;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
 import ead.common.model.elements.effects.physics.PhysicsEf;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
@@ -114,11 +111,8 @@ public class PhysicsScene2 extends PhysicsScene {
 				e.setVarInitialValue(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 			}
 
-		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(
-				this, BasicScene.VAR_SCENE_LOADED));
-		event.setCondition(condition);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.ADDED, effect);
 
 		getEvents().add(event);
 

@@ -35,62 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.sceneelements.transitions;
+package ead.engine.core.gameobjects.debuggers;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.model.assets.AbstractAssetDescriptor;
+import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.operations.SystemFields;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
+import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 
-public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
-
-	private float sceneAlpha;
-
-	private int currentTime;
+public class ProfilerDebuggerGO extends GroupElementGO {
 
 	@Inject
-	public FadeInTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
+	public ProfilerDebuggerGO(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		currentTime = 0;
-	}
-
-	public void setPreviousScene(SceneGO scene) {
-
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
 	public void act(float delta) {
-		if (nextScene != null) {
-			currentTime += delta;
-			sceneAlpha = (float) currentTime / (float) transition.getTime();
-			nextScene.setAlpha(sceneAlpha);
-		}
-
-		if (currentTime >= transition.getTime()) {
-			nextScene.setAlpha(1.0f);
-			super.finish();
-		} else {
-			super.act(delta);
-		}
-	}
-
-	@Override
-	public void transition(SceneGO previousScene, SceneGO nextScene,
-			TransitionListener l) {
-		super.transition(previousScene, nextScene, l);
-		currentTime = 0;
-		sceneAlpha = 0;
-		nextScene.setAlpha(0);
-		addSceneElement(previousScene);
-		addSceneElement(nextScene);
-		previousScene.setZ(0);
-		nextScene.setZ(100);
+		super.act(delta);
+		gameState.setValue(SystemFields.DEBUG_HEAP_SIZE,
+				Gdx.app.getJavaHeap() / 1048576);
+		gameState.setValue(SystemFields.DEBUG_NATIVE_SIZE, Gdx.app
+				.getNativeHeap() / 1048576);
+		gameState.setValue(SystemFields.DEBUG_ASSETS, assetHandler
+				.getCacheSize());
+		gameState.setValue(SystemFields.DEBUG_GAME_OBJECTS, sceneElementFactory
+				.getCacheSize());
+		gameState.setValue(SystemFields.DEBUG_BASIC_ELEMENT_ID,
+				BasicElement.lastId);
+		gameState.setValue(SystemFields.DEBUG_ASSET_ID,
+				AbstractAssetDescriptor.lastId);
 	}
 
 }

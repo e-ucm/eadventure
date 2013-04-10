@@ -182,6 +182,8 @@ public class EffectsConverter {
 				effects.get(0).setCondition(cond);
 			}
 			for (EAdEffect effect : effects) {
+				// Effects are always executed (conditions may prevent its
+				// execution later)
 				effect.setNextEffectsAlways(true);
 			}
 			return effects;
@@ -209,7 +211,7 @@ public class EffectsConverter {
 
 		if (effects.size() > 0) {
 			effects.get(0).getSimultaneousEffects().add(showGhostEffects);
-			effects.get(effects.size() - 1).getSimultaneousEffects().add(
+			effects.get(effects.size() - 1).getNextEffects().add(
 					hideGhostEffects);
 		}
 

@@ -82,7 +82,7 @@ public class TrajectoryReader {
 				Node n1 = trajectory.getNodeForId(start);
 				Node n2 = trajectory.getNodeForId(end);
 				float dx = n1.getX() - n2.getX();
-				float dy = n1.getY() - n1.getY();
+				float dy = n1.getY() - n2.getY();
 				distance = new Float(Math.sqrt(dx * dx + dy * dy));
 			}
 			trajectory.addSide(start, end, distance.floatValue());

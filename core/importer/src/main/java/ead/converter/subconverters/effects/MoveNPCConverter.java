@@ -64,6 +64,7 @@ public class MoveNPCConverter implements EffectConverter<MoveNPCEffect> {
 				.getTargetId());
 		MoveSceneElementEf moveSceneElement = new MoveSceneElementEf(
 				sceneElementDef, e.getX(), e.getY(), MovementSpeed.NORMAL);
+		moveSceneElement.setUseTrajectory(false);
 		list.add(moveSceneElement);
 		return list;
 	}

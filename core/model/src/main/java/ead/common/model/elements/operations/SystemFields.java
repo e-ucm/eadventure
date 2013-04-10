@@ -73,7 +73,7 @@ public class SystemFields {
 			null, new VarDef<Integer>("height", Integer.class, 600));
 
 	/**
-	 *  Loading percentage (0 - 100 )
+	 * Loading percentage (0 - 100 )
 	 */
 	public static final EAdField<Integer> LOADING = new BasicField<Integer>(
 			null, new VarDef<Integer>("loading", Integer.class, 0));
@@ -106,5 +106,24 @@ public class SystemFields {
 
 	public static EAdField<String> LANGUAGES = new BasicField<String>(null,
 			new VarDef<String>("languages", String.class, ""));
+
+	// Debugging variables
+	public static EAdField<Integer> DEBUG_GAME_OBJECTS = new BasicField<Integer>(
+			null, new VarDef<Integer>("debug_game_objects", Integer.class, 0));
+
+	public static EAdField<Integer> DEBUG_ASSETS = new BasicField<Integer>(
+			null, new VarDef<Integer>("debug_assets", Integer.class, 0));
+
+	public static EAdField<Integer> DEBUG_BASIC_ELEMENT_ID = new BasicField<Integer>(
+			null, new VarDef<Integer>("basic_element_id", Integer.class, 0));
+
+	public static EAdField<Integer> DEBUG_ASSET_ID = new BasicField<Integer>(
+			null, new VarDef<Integer>("asset_id", Integer.class, 0));
+
+	public static EAdField<Long> DEBUG_HEAP_SIZE = new BasicField<Long>(null,
+			new VarDef<Long>("heap_size", Long.class, 0l));
+
+	public static EAdField<Long> DEBUG_NATIVE_SIZE = new BasicField<Long>(null,
+			new VarDef<Long>("native_size", Long.class, 0l));
 
 }

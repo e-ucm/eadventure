@@ -133,6 +133,10 @@ public class ConversationReader {
 				QuestionEf question = (QuestionEf) segmentsStart.get(segmentId);
 				String string = (String) q.get("string");
 				EAdString text = new EAdString(currentId + ".line." + id++);
+				Boolean random = (Boolean) q.get("random");
+				if (random != null) {
+					question.setRandomAnswers(random.booleanValue());
+				}
 				strings.put(text, string);
 				question.setQuestion(text);
 				Collection<StringMap<Object>> answers = (Collection<StringMap<Object>>) q

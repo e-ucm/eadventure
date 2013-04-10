@@ -60,14 +60,12 @@ import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
-import ead.tools.EAdUtils;
 
 public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		Comparator<Object> {
@@ -78,12 +76,20 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 	private int y;
 
+	private static final Random r = new Random(System.currentTimeMillis());
+
+	private ArrayList<EAdString> answersToAdd;
+
+	private ArrayList<EAdString> answersOrdered;
+
 	@Inject
 	public QuestionGO(GameState gameState, GUI gui,
 			SceneElementGOFactory sceneElementFactory) {
 		super(gameState);
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
+		answersToAdd = new ArrayList<EAdString>();
+		answersOrdered = new ArrayList<EAdString>();
 	}
 
 	public void initialize() {
@@ -115,16 +121,23 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		RemoveEf selectEffect = new RemoveEf();
 		selectEffect.setElement(question);
 
-		ArrayList<EAdString> answers = new ArrayList<EAdString>();
-		answers.addAll(effect.getAnswers().keySet());
+		// Order answers
+		answersOrdered.clear();
+		answersToAdd.clear();
+
+		answersToAdd.addAll(effect.getAnswers().keySet());
 
 		if (effect.isRandomAnswers()) {
-			long seed = System.currentTimeMillis();
-			EAdUtils.shuffle(answers, new Random(seed));
+			while (answersToAdd.size() > 0) {
+				answersOrdered.add(answersToAdd.remove(r.nextInt(answersToAdd
+						.size())));
+			}
+		} else {
+			answersOrdered.addAll(answersToAdd);
 		}
 
 		int i = 0;
-		for (EAdString s : answers) {
+		for (EAdString s : answersOrdered) {
 			EAdEffect e = effect.getAnswers().get(s);
 			setUpAnswer(question, i++, s, e, selectEffect, inEffect, outEffect);
 		}
@@ -166,7 +179,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		Caption caption = new Caption(key);
 		caption.setFont(font);
 		caption.setPadding(padding);
-		caption.setBubblePaint(ColorFill.WHITE);
+		caption.setBubblePaint(Paint.BLACK_ON_WHITE);
 		caption.setPreferredWidth(700);
 		caption.setAlignment(Alignment.LEFT);
 		SceneElement answerElement = new SceneElement(caption);

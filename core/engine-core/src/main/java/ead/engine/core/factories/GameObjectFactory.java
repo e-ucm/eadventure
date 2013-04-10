@@ -79,4 +79,11 @@ public interface GameObjectFactory<S extends EAdElement, T extends GameObject<?>
 
 	void remove(T element);
 
+	/**
+	 * Returns how many elements are contained by the cache of this factory
+	 * 
+	 * @return
+	 */
+	int getCacheSize();
+
 }

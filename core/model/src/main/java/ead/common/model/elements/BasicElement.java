@@ -50,7 +50,7 @@ public class BasicElement implements EAdElement {
 
 	private String id;
 
-	private static int lastId = 0;
+	public static int lastId = 0;
 
 	public static String idPrefix = "mod";
 

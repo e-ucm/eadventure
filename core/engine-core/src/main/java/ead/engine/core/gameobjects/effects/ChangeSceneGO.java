@@ -37,6 +37,9 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
@@ -55,6 +58,8 @@ import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneL
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		SceneLoaderListener, TransitionListener {
 
+	private static final Logger logger = LoggerFactory.getLogger("ChangeScene");
+
 	public static BasicField<Boolean> IN_TRANSITION = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("in_transition", Boolean.class, false));
 
@@ -64,13 +69,13 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	private SceneElementGOFactory sceneElementFactory;
 
-	private boolean finished;
-
 	private TransitionGO<?> transition;
 
 	private SceneGO previousScene;
 
 	private SceneGO nextScene;
+
+	private boolean finished;
 
 	@Inject
 	public ChangeSceneGO(GUI gui, GameState gameState,
@@ -96,9 +101,11 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 		// If next scene is different from current one
 		if (nextScene == null || nextScene != gui.getScene().getElement()) {
+			previousScene = gui.getScene();
 			transition = (TransitionGO<?>) sceneElementFactory.get(effect
 					.getTransition());
-			previousScene = gui.getScene();
+			logger.debug("Transition {} -> {}", new Object[] { previousScene,
+					nextScene });
 			sceneLoader.loadScene(nextScene, this);
 			gui.setScene(transition);
 		} else {
@@ -131,10 +138,15 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void transitionEnded() {
 		gameState.setValue(IN_TRANSITION, false);
+		gui.setScene(nextScene);
+		nextScene.setPosition(0, 0);
+		nextScene.setAlpha(1);
+		nextScene.setZ(0);
 		finished = true;
-		//		if (nextScene != previousScene)
-		//			previousScene.free();
-		//		transition.free();
+		transition.removeActor(nextScene);
+		transition.removeActor(previousScene);
+		previousScene.free();
+		transition.free();
 	}
 
 }

@@ -48,6 +48,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.debuggers.FieldsDebugger;
 import ead.common.model.elements.debuggers.GhostDebugger;
+import ead.common.model.elements.debuggers.ProfilerDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -62,13 +63,11 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 			.getLogger("DebuggersHandler");
 
 	public static final String TRAJECTORY_DEBUGGER = "trajectory_debugger";
-
 	public static final String GHOST_DEBUGGER = "ghost_debugger";
-
 	public static final String FIELDS_DEBUGGER = "fields_debugger";
 	public static final String MODEL_FIELDS_DEBUGGER = "model_fields_debugger";
-
 	public static final String CHANGE_SCENE_DEBUGGER = "change_scene_debugger";
+	public static final String PROFILER_DEBUGGER = "profiler_debugger";
 
 	private GUI gui;
 
@@ -133,6 +132,13 @@ public class DebuggersHandlerImpl implements DebuggersHandler {
 					.getInstance(ModelFieldsDebuggerGO.class);
 			element.setId(id);
 			go.setElement(element);
+			return go;
+		} else if (id.equals(PROFILER_DEBUGGER)) {
+			e = new ProfilerDebugger();
+			SceneElementGO go = reflectionProvider
+					.getInstance(ProfilerDebuggerGO.class);
+			e.setId(id);
+			go.setElement(e);
 			return go;
 		}
 		e.setId(id);

@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
@@ -140,6 +141,25 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 			timePerPart = effect.getTime() / caption.getTotalParts();
 			currentTime = timePerPart;
 		}
+	}
+
+	protected EAdGroupElement getVisualRepresentation2() {
+		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		int horizontalMargin = width / MARGIN_PROPORTION;
+		int verticalMargin = height / MARGIN_PROPORTION;
+		int left = horizontalMargin;
+		int right = width - horizontalMargin;
+		int top = verticalMargin;
+		int bottom = height / HEIGHT_PROPORTION + top;
+
+		NinePatchImage balloonBg = new NinePatchImage(new Image(
+				"@drawable/balloon_in.png"), 20, 20, 20, 20);
+		NinePatchImage balloongFg = new NinePatchImage(new Image(
+				"@drawable/balloon_in.png"), 20, 20, 20, 20);
+		balloonBg.setWidth(right - left);
+		balloonBg.setHeight(bottom - top);
+		return null;
 	}
 
 	protected EAdGroupElement getVisualRepresentation() {
@@ -295,6 +315,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 			return true;
 		}
 		return false;
+	}
+
+	public void release() {
+		bubbleDialog.free();
 	}
 
 }

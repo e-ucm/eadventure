@@ -99,6 +99,11 @@ public class UtilsConverter {
 		return "bundle" + index;
 	}
 
+	/**
+	 * Watches the var in the definition
+	 * @param sceneElement
+	 * @param varState
+	 */
 	public void addWatchDefinitionField(EAdSceneElement sceneElement,
 			EAdVarDef<String> varState) {
 		WatchFieldEv watchField = new WatchFieldEv();

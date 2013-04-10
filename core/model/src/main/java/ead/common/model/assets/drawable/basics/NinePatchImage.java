@@ -38,8 +38,13 @@
 package ead.common.model.assets.drawable.basics;
 
 import ead.common.interfaces.Param;
+import ead.common.model.assets.AbstractAssetDescriptor;
 
-public class NinePatchImage extends Image {
+public class NinePatchImage extends AbstractAssetDescriptor implements
+		EAdBasicDrawable {
+
+	@Param
+	private Image image;
 
 	@Param
 	private int left;
@@ -63,8 +68,16 @@ public class NinePatchImage extends Image {
 
 	}
 
+	public NinePatchImage(Image img, int left, int right, int top, int bottom) {
+		image = img;
+		this.left = left;
+		this.right = right;
+		this.top = top;
+		this.bottom = bottom;
+	}
+
 	public NinePatchImage(String uri, int left, int right, int top, int bottom) {
-		super(uri);
+		this(new Image(uri), left, right, top, bottom);
 		this.left = left;
 		this.right = right;
 		this.top = top;
@@ -117,6 +130,10 @@ public class NinePatchImage extends Image {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public Image getImage() {
+		return image;
 	}
 
 }

@@ -56,10 +56,12 @@ import ead.engine.core.assets.multimedia.RuntimeSound;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.ProfilerDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
 import ead.engine.core.gameobjects.effects.AddChildGO;
+import ead.engine.core.gameobjects.effects.ApplyForceGO;
 import ead.engine.core.gameobjects.effects.ChangeFieldGO;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
@@ -67,6 +69,7 @@ import ead.engine.core.gameobjects.effects.InterpolationGO;
 import ead.engine.core.gameobjects.effects.ModifyHudGO;
 import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
 import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
+import ead.engine.core.gameobjects.effects.PhysicsEffectGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
 import ead.engine.core.gameobjects.effects.QuestionGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
@@ -74,6 +77,7 @@ import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.RemoveGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
+import ead.engine.core.gameobjects.effects.ToggleSoundGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
 import ead.engine.core.gameobjects.effects.WaitGO;
 import ead.engine.core.gameobjects.effects.WaitUntilGO;
@@ -87,9 +91,12 @@ import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
+import ead.engine.core.gameobjects.sceneelements.huds.MouseHudGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.EmptyTransitionGO;
 import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.MaskTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.ScaleTransitionGO;
 import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
@@ -109,114 +116,128 @@ public interface GwtGinInjector extends Ginjector {
 
 	Game getGame();
 
-	// Assets
-
-	// ----- Game objects ---- //
-
-	ActorActionsGO getActorActionsGO();
-
-	ShowSceneElementGO getShowSceneElementGO();
-
-	TriggerMacroGO getTriggerMacroGO();
-
-	QuestionGO getShowQuestionGO();
-
-	WaitGO getWaitGO();
-
-	RemoveGO getRemoveGO();
-
-	QuitGameGO getQuitGameGO();
-
-	SpeakGO getSpeakGO();
-
-	InterpolationGO getInterpolationGO();
-
+	// Effects
 	HighlightSceneElementGO getHighlightSceneElementGO();
 
-	AddActorReferenceGO getAddActorReferenceGO();
-
-	ChangeSceneGO getChangeSceneGO();
-
-	PlaySoundGO getPlaySoundGO();
-
-	RandomGO getRandomGO();
-
-	ModifyInventoryGO getModifyInventoryGO();
+	SpeakGO getSpeakGO();
 
 	ModifyHudGO getModifyHudGO();
 
 	MoveSceneElementGO getMoveSceneElementGO();
 
+	ActorActionsGO getActorActionsGO();
+
+	ModifyInventoryGO getModifyInventoryGO();
+
 	AddChildGO getAddChildGO();
 
 	WaitUntilGO getWaitUntilGO();
 
+	ShowSceneElementGO getShowSceneElementGO();
+
+	ChangeSceneGO getChangeSceneGO();
+
+	QuestionGO getQuestionGO();
+
+	RandomGO getRandomGO();
+
+	PlaySoundGO getPlaySoundGO();
+
+	RemoveGO getRemoveGO();
+
 	ChangeFieldGO getChangeFieldGO();
 
-	SceneElementEvGO getSceneElementEvGO();
+	AddActorReferenceGO getAddActorReferenceGO();
 
-	ConditionEvGO getConditionEvGO();
+	WaitGO getWaitGO();
 
-	TimedEvGO getTimedEvGO();
-
-	WatchFieldEvGO getWatchFieldEvGO();
-
-	GhostDebuggerGO getGhostDebuggerGO();
-
-	SceneElementGO getSceneElementGO();
-
-	EmptyTransitionGO getEmptyTransitionGO();
-
-	TrajectoryDebuggerGO getTrajectoryDebuggerGO();
-
-	DisplaceTransitionGO getDisplaceTransitionGO();
-
-	FieldsDebuggerGO getFieldsDebuggerGO();
-
-	GroupElementGO getGroupElementGO();
-
-	GhostElementGO getGhostElementGO();
-
-	FadeInTransitionGO getFadeInTransitionGO();
-
-	TextAreaGO getTextAreaGO();
-
-	SceneGO getSceneGO();
-
-	VideoSceneGO getVideoSceneGO();
-
-	PolygonTrajectoryGO getPolygonTrajectoryGO();
-
-	SimpleTrajectoryGO getSimpleTrajectoryGO();
-
-	NodeTrajectoryGO getNodeTrajectoryGO();
+	PhysicsEffectGO getPhysicsEffectGO();
 
 	ChangeColorGO getChangeColorGO();
 
-	// Assets 
-	RuntimeImage getRuntimeImage();
+	QuitGameGO getQuitGameGO();
 
-	GdxBezierShape getGdxBezierShape();
+	InterpolationGO getInterpolationGO();
 
-	GdxRectangleShape getGdxRectangleShape();
+	ApplyForceGO getApplyForceGO();
 
+	ToggleSoundGO getToggleSoundGO();
+
+	TriggerMacroGO getTriggerMacroGO();
+
+	// Events
+	TimedEvGO getTimedEvGO();
+
+	SceneElementEvGO getSceneElementEvGO();
+
+	WatchFieldEvGO getWatchFieldEvGO();
+
+	ConditionEvGO getConditionEvGO();
+
+	// SeneElements
+	TextAreaGO getTextAreaGO();
+
+	DisplaceTransitionGO getDisplaceTransitionGO();
+
+	VideoSceneGO getVideoSceneGO();
+
+	GroupElementGO getGroupElementGO();
+
+	SceneGO getSceneGO();
+
+	FadeInTransitionGO getFadeInTransitionGO();
+
+	FieldsDebuggerGO getFieldsDebuggerGO();
+
+	EmptyTransitionGO getEmptyTransitionGO();
+
+	MaskTransitionGO getMaskTransitionGO();
+
+	GhostElementGO getGhostElementGO();
+
+	ScaleTransitionGO getScaleTransitionGO();
+
+	SceneElementGO getSceneElementGO();
+
+	GhostDebuggerGO getGhostDebuggerGO();
+
+	TrajectoryDebuggerGO getTrajectoryDebuggerGO();
+
+	ProfilerDebuggerGO getProfilerDebuggerGO();
+
+	MouseHudGO getMouseHudGO();
+
+	// Trajectories
+	NodeTrajectoryGO getNodeTrajectoryGO();
+
+	SimpleTrajectoryGO getSimpleTrajectoryGO();
+
+	PolygonTrajectoryGO getPolygonTrajectoryGO();
+
+	// Assets
 	GdxCircleShape getGdxCircleShape();
-
-	RuntimeCaption getRuntimeCaption();
-
-	RuntimeSound getRuntimeSound();
-
-	RuntimeComposedDrawable getRuntimeComposedDrawable();
-
-	RuntimeFilteredDrawable getRuntimeFilteredDrawable();
-
-	RuntimeFramesAnimation getRuntimeFramesAnimation();
 
 	RuntimeStateDrawable getRuntimeStateDrawable();
 
-	RuntimeFont getGdxFont();
+	GdxRectangleShape getGdxRectangleShape();
 
-	RuntimeNinePatchImage getNinePatch();
+	RuntimeFramesAnimation getRuntimeFramesAnimation();
+
+	RuntimeFont getRuntimeFont();
+
+	RuntimeFilteredDrawable getRuntimeFilteredDrawable();
+
+	GdxBezierShape getGdxBezierShape();
+
+	RuntimeSound getRuntimeSound();
+
+	RuntimeNinePatchImage getRuntimeNinePatchImage();
+
+	RuntimeImage getRuntimeImage();
+
+	RuntimeComposedDrawable getRuntimeComposedDrawable();
+
+	RuntimeCaption getRuntimeCaption();
 
 	// Plugins
 	// FIXME This CAN NOT be here

@@ -37,7 +37,6 @@
 
 package ead.engine.core.game;
 
-import java.util.Map.Entry;
 import java.util.Stack;
 
 import org.slf4j.Logger;
@@ -58,12 +57,10 @@ import ead.common.model.elements.huds.BottomHud;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.LoadingScreen;
-import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.factories.GameObjectFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
@@ -159,6 +156,10 @@ public abstract class GUIImpl implements GUI {
 					debuggerHandler
 							.toggleDebugger(DebuggersHandlerImpl.MODEL_FIELDS_DEBUGGER);
 					break;
+				case Input.Keys.F6:
+					debuggerHandler
+							.toggleDebugger(DebuggersHandlerImpl.PROFILER_DEBUGGER);
+					break;
 				default:
 					break;
 				}
@@ -234,28 +235,18 @@ public abstract class GUIImpl implements GUI {
 	 * es.eucm.eadventure.engine.core.GameState#setScene(es.eucm.eadventure.
 	 * engine.core.gameobjects.SceneGO)
 	 */
-	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public void setScene(SceneGO newScene) {
+		// We remove any remaining non-persistent effect in the scene
 		gameState.clearEffects(false);
-		if (this.scene != null && this.scene.getElement() != null) {
-			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
-					Boolean.FALSE);
-			if (scene.getReturnable()) {
-				previousSceneStack.push((EAdScene) scene.getElement());
-			}
+
+		// We add the scene to stack if it is returnable
+		if (this.scene != null && this.scene.getElement() != null
+				&& scene.getReturnable()) {
+			previousSceneStack.push((EAdScene) scene.getElement());
 		}
+		// Set the scene
 		this.scene = newScene;
-		if (this.scene != null && this.scene.getElement() != null) {
-			gameState.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
-					Boolean.TRUE);
-			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
-					.entrySet()) {
-				EAdVarDef def = e.getKey();
-				gameState.setValue(scene.getElement(), def, e.getValue());
-			}
-		}
-		// Add new scene
 		sceneRoot.getChildren().clear();
 		sceneRoot.addSceneElement(scene);
 	}

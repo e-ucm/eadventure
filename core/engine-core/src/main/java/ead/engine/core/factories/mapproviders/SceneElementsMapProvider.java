@@ -39,6 +39,7 @@ package ead.engine.core.factories.mapproviders;
 
 import ead.common.model.elements.debuggers.FieldsDebugger;
 import ead.common.model.elements.debuggers.GhostDebugger;
+import ead.common.model.elements.debuggers.ProfilerDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.predef.LoadingScreen;
@@ -57,6 +58,7 @@ import ead.common.model.elements.transitions.ScaleTransition;
 import ead.common.model.elements.widgets.TextArea;
 import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
+import ead.engine.core.gameobjects.debuggers.ProfilerDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
 import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
 import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
@@ -97,5 +99,6 @@ public class SceneElementsMapProvider
 		factoryMap.put(TrajectoryDebugger.class, TrajectoryDebuggerGO.class);
 		factoryMap.put(GhostDebugger.class, GhostDebuggerGO.class);
 		factoryMap.put(FieldsDebugger.class, FieldsDebuggerGO.class);
+		factoryMap.put(ProfilerDebugger.class, ProfilerDebuggerGO.class);
 	}
 }

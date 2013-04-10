@@ -93,10 +93,6 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 	}
 
 	public void finish() {
-		gui.setScene(nextScene);
-		remove();
-		if (nextScene != previousScene)
-			previousScene.free();
 		transitionListener.transitionEnded();
 		nextScene = null;
 		previousScene = null;

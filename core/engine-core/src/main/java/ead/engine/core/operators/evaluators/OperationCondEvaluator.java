@@ -107,7 +107,7 @@ public class OperationCondEvaluator implements Evaluator<OperationCond> {
 			case DIFFERENT:
 				return !equals;
 			default:
-				logger.info("Attempeted to compare " + value1 + " & " + value2
+				logger.warn("Attempeted to compare " + value1 + " & " + value2
 						+ " with an invalid operator. false was returned.");
 			}
 		}

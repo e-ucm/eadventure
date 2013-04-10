@@ -92,11 +92,8 @@ public class PhysicsScene extends EmptyScene {
 
 		PhysicsEf effect = new PhysicsEf();
 
-		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(
-				this, BasicScene.VAR_SCENE_LOADED));
-		event.setCondition(condition);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.ADDED, effect);
 
 		// getEvents().add(event);
 		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);
