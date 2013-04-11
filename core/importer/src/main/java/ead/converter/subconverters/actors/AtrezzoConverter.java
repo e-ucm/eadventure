@@ -40,17 +40,20 @@ package ead.converter.subconverters.actors;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
-import ead.converter.resources.ResourceConverter;
+import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.actors.actions.ActionsConverter;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 
 @Singleton
 public class AtrezzoConverter extends ElementConverter {
 
 	@Inject
-	public AtrezzoConverter(ResourceConverter resourceConverter,
-			UtilsConverter utilsConverter) {
-		super(resourceConverter, utilsConverter);
+	public AtrezzoConverter(ResourcesConverter resourceConverter,
+			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
+			ModelQuerier modelQuerier) {
+		super(resourceConverter, utilsConverter, actionsConverter, modelQuerier);
 	}
 
 	@Override

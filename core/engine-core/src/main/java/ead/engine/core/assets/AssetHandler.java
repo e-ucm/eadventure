@@ -42,6 +42,7 @@ import java.util.List;
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 
@@ -231,5 +232,36 @@ public interface AssetHandler {
 	 * @return
 	 */
 	int getCacheSize();
+
+	/**
+	 * Makes aware the asset handler of an existing video
+	 * 
+	 * @param v
+	 *            video asset
+	 */
+	void addVideo(EAdVideo v);
+
+	/**
+	 * Preloads the video in a separate thread (when possible)
+	 * 
+	 * @return true if the preloading is possible
+	 */
+	boolean preloadVideos();
+
+	/**
+	 * Return if it is preloading videos
+	 * 
+	 * @return
+	 */
+	boolean isPreloadingVideos();
+
+	/**
+	 * Returns an special asset renderer (for example, for a video)
+	 * 
+	 * @param specialAsset
+	 * @return
+	 */
+	<T extends AssetDescriptor> SpecialAssetRenderer<T, ?> getSpecialAssetRenderer(
+			T specialAsset);
 
 }

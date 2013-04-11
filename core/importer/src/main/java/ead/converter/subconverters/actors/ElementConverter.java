@@ -40,36 +40,51 @@ package ead.converter.subconverters.actors;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.ResourcedElement;
+import ead.common.model.elements.effects.ActorActionsEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
-import ead.converter.resources.ResourceConverter;
+import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.actors.actions.ActionsConverter;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
 @Singleton
 public abstract class ElementConverter {
 
-	protected ResourceConverter resourceConverter;
+	protected ResourcesConverter resourceConverter;
 
 	protected UtilsConverter utilsConverter;
 
+	protected ActionsConverter actionsConverter;
+
+	protected ModelQuerier modelQuerier;
+
 	@Inject
-	public ElementConverter(ResourceConverter resourceConverter,
-			UtilsConverter utilsConverter) {
+	public ElementConverter(ResourcesConverter resourceConverter,
+			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
+			ModelQuerier modelQuerier) {
 		this.resourceConverter = resourceConverter;
 		this.utilsConverter = utilsConverter;
+		this.actionsConverter = actionsConverter;
+		this.modelQuerier = modelQuerier;
 	}
 
 	public EAdSceneElementDef convert(Element a) {
 		SceneElementDef definition = new SceneElementDef();
 		definition.setId(a.getId());
+		// Appearance
 		convert(a, getResourceType(), definition,
 				ResourcedElement.INITIAL_BUNDLE, SceneElementDef.appearance);
+		// Actions
+		addActions(a, definition);
 		return definition;
 	}
 
@@ -92,8 +107,11 @@ public abstract class ElementConverter {
 			i++;
 		}
 
-		definition.addAsset(bundle, resourceId, utilsConverter
-				.simplifyStateDrawable(stateDrawable));
+		AssetDescriptor asset = utilsConverter
+				.simplifyStateDrawable(stateDrawable);
+		if (asset != null) {
+			definition.addAsset(bundle, resourceId, asset);
+		}
 
 		// Add conditioned resources
 		// The variable that changes is IN THE SCENE ELEMENT DEFINITION, so
@@ -101,7 +119,20 @@ public abstract class ElementConverter {
 		// order to update its own state
 		utilsConverter.addResourcesConditions(a.getResources(), definition,
 				SceneElement.VAR_STATE);
+
 		return definition;
+	}
+
+	protected void addActions(Element element, EAdSceneElementDef def) {
+		// Add actions
+		if (element.getActions().size() > 0) {
+			EAdList<EAdSceneElementDef> actions = actionsConverter
+					.convert(element.getActions());
+			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
+			def.addBehavior(modelQuerier.getActionsInteraction(),
+					new ActorActionsEf(def));
+			// XXX Process actions visibility (actionsConverter.actionsConditions)
+		}
 	}
 
 	protected EAdDrawable getDrawable(Resources r, String resourceId) {

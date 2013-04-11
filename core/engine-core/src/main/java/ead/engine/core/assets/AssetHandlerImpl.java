@@ -37,6 +37,7 @@
 
 package ead.engine.core.assets;
 
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,6 +58,7 @@ import com.google.inject.Singleton;
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.factories.mapproviders.AssetHandlerMap;
@@ -92,6 +94,11 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	 * A cache of the runtime assets for each asset descriptor
 	 */
 	final private Map<AssetDescriptor, RuntimeAsset<?>> cache;
+
+	/**
+	 * Cache for special assets renderers
+	 */
+	protected Map<AssetDescriptor, SpecialAssetRenderer<?, ?>> specialRenderers;
 	/**
 	 * A class map of the asset descriptor classes and their corresponding
 	 * runtime assets
@@ -103,15 +110,18 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	private ArrayList<AssetDescriptor> assetsQueue;
 	private SceneGraph sceneGraph;
 	protected String currentLanguage;
+	protected List<EAdVideo> videos;
 
 	@Inject
 	public AssetHandlerImpl(GenericInjector injector, SceneGraph sceneGraph) {
 		this.injector = injector;
 		this.classMap = new AssetHandlerMap().getMap();
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
+		specialRenderers = new HashMap<AssetDescriptor, SpecialAssetRenderer<?, ?>>();
 		cacheEnabled = true;
 		assetsQueue = new ArrayList<AssetDescriptor>();
 		this.sceneGraph = sceneGraph;
+		this.videos = new ArrayList<EAdVideo>();
 	}
 
 	public void queueSceneToLoad(EAdScene scene) {
@@ -415,5 +425,25 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	public int getCacheSize() {
 		return cache != null ? cache.size() : 0;
+	}
+
+	public void addVideo(EAdVideo video) {
+		videos.add(video);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends AssetDescriptor> SpecialAssetRenderer<T, ?> getSpecialAssetRenderer(
+			T specialAsset) {
+		return (SpecialAssetRenderer<T, ?>) this.specialRenderers
+				.get(specialAsset);
+	}
+
+	public boolean preloadVideos() {
+		return false;
+	}
+
+	public boolean isPreloadingVideos() {
+		return false;
 	}
 }

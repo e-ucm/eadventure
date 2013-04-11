@@ -52,11 +52,18 @@ import java.util.zip.ZipFile;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.AssetHandlerImpl;
+import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
+import ead.tools.java.JavaInjector;
 
 @Singleton
 public class GdxDesktopAssetHandler extends AssetHandlerImpl {
@@ -67,12 +74,15 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 
 	private Map<String, String> tempFiles;
 
+	private Integer preloading;
+
 	@Inject
 	public GdxDesktopAssetHandler(GenericInjector injector,
 			SceneGraph sceneGraph) {
 		super(injector, sceneGraph);
 		zipped = false;
 		tempFiles = new HashMap<String, String>();
+		preloading = 0;
 	}
 
 	@Override
@@ -202,6 +212,59 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 			logger.warn("Unable to find resource {}", path);
 		}
 		textHandler.handle(result);
+	}
+
+	@Override
+	public <T extends AssetDescriptor> SpecialAssetRenderer<T, ?> getSpecialAssetRenderer(
+			T specialAsset) {
+		synchronized (preloading) {
+			return super.getSpecialAssetRenderer(specialAsset);
+		}
+	}
+
+	public boolean isPreloadingVideos() {
+		synchronized (preloading) {
+			return preloading > 0;
+		}
+	}
+
+	public boolean preloadVideos() {
+		synchronized (preloading) {
+			preloading = 0;
+			Injector i = ((JavaInjector) injector).getInjector();
+			for (EAdVideo video : this.videos) {
+				SpecialAssetRenderer<EAdVideo, ?> renderer = i
+						.getInstance(Key
+								.get(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+								}));
+				new Thread(new LoadVideo(video, renderer)).start();
+				preloading++;
+			}
+			return true;
+		}
+	}
+
+	public class LoadVideo implements Runnable {
+
+		private EAdVideo video;
+
+		private SpecialAssetRenderer<EAdVideo, ?> renderer;
+
+		public LoadVideo(EAdVideo video,
+				SpecialAssetRenderer<EAdVideo, ?> renderer) {
+			this.video = video;
+			this.renderer = renderer;
+		}
+
+		@Override
+		public void run() {
+			renderer.getComponent(video);
+			synchronized (preloading) {
+				preloading--;
+				specialRenderers.put(video, renderer);
+			}
+		}
+
 	}
 
 }

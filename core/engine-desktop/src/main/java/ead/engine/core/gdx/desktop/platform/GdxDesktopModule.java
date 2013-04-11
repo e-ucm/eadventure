@@ -50,7 +50,7 @@ import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
-import ead.engine.core.gdx.desktop.platform.assets.java.JavaVideoRenderer;
+import ead.engine.core.gdx.desktop.platform.assets.video.java.JavaVideoRenderer;
 
 public class GdxDesktopModule extends AbstractModule {
 

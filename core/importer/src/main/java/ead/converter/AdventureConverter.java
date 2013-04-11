@@ -52,7 +52,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.huds.BottomHud;
 import ead.common.model.elements.scenes.GhostElement;
-import ead.converter.resources.ResourceConverter;
+import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.ChapterConverter;
 import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
@@ -72,13 +72,16 @@ public class AdventureConverter {
 
 	private AdventureData adventureData;
 
-	private ResourceConverter resourceConverter;
+	private ResourcesConverter resourceConverter;
+
+	private ModelQuerier modelQuerier;
 
 	public AdventureConverter() {
 		Injector i = Guice.createInjector();
 		oldReader = i.getInstance(OldReader.class);
 		chapterConverter = i.getInstance(ChapterConverter.class);
-		resourceConverter = i.getInstance(ResourceConverter.class);
+		resourceConverter = i.getInstance(ResourcesConverter.class);
+		modelQuerier = i.getInstance(ModelQuerier.class);
 	}
 
 	public void convert(String file, String destinyFolder) {
@@ -88,6 +91,7 @@ public class AdventureConverter {
 		resourceConverter.setPath(destinyFolder);
 
 		adventureData = oldReader.loadGame(file);
+		modelQuerier.setAdventureData(adventureData);
 
 		// This element will be displayed whenever a set of effects is launched,
 		// to avoid user interaction with other elements in the scene

@@ -60,7 +60,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.converter.AdventureConverter;
 import ead.converter.EAdElementsCache;
 import ead.converter.ModelQuerier;
-import ead.converter.subconverters.conditions.ConditionConverter;
+import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.variables.ActivateFlagConverter;
 import ead.converter.subconverters.effects.variables.DeactivateFlagConverter;
 import ead.converter.subconverters.effects.variables.DecrementVarConverter;
@@ -93,7 +93,7 @@ public class EffectsConverter {
 
 	private Map<Class<?>, EffectConverter<?>> converters;
 
-	private ConditionConverter conditionConverter;
+	private ConditionsConverter conditionConverter;
 
 	private static EAdField<Boolean> ghostEffectsVisible = new BasicField<Boolean>(
 			new BasicElement(AdventureConverter.EFFECTS_GHOST_ID),
@@ -105,7 +105,7 @@ public class EffectsConverter {
 
 	@Inject
 	public EffectsConverter(ModelQuerier modelQuerier,
-			ConditionConverter conditionsConverter,
+			ConditionsConverter conditionsConverter,
 			EAdElementsCache elementsCache) {
 		this.modelQuerier = modelQuerier;
 		this.conditionConverter = conditionsConverter;
@@ -195,6 +195,18 @@ public class EffectsConverter {
 		List<EAdEffect> convert(T e);
 	}
 
+	/**
+	 * Returns a list of effects. This effects are already concatenated one to
+	 * the other, so most of cases you'll only need to use the first element of
+	 * the list (For example, to add it to scene element with an addBehavior
+	 * method)
+	 * 
+	 * You'll also use the last effect of the list when you need to add more
+	 * affects AFTER all the effects on the list has been executed
+	 * 
+	 * @param ef
+	 * @return
+	 */
 	public List<EAdEffect> convert(Effects ef) {
 		List<EAdEffect> effects = new ArrayList<EAdEffect>();
 		EAdEffect effect = null;

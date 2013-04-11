@@ -43,8 +43,10 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
-import ead.converter.resources.ResourceConverter;
+import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.actors.actions.ActionsConverter;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 
@@ -52,9 +54,10 @@ import es.eucm.eadventure.common.data.chapter.elements.Item;
 public class ItemConverter extends ElementConverter {
 
 	@Inject
-	public ItemConverter(ResourceConverter resourceConverter,
-			UtilsConverter utilsConverter) {
-		super(resourceConverter, utilsConverter);
+	public ItemConverter(ResourcesConverter resourceConverter,
+			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
+			ModelQuerier modelQuerier) {
+		super(resourceConverter, utilsConverter, actionsConverter, modelQuerier);
 	}
 
 	public EAdSceneElementDef convert(Element a) {

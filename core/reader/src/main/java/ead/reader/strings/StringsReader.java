@@ -72,11 +72,10 @@ public class StringsReader {
 				XMLNodeList nl = doc.getFirstChild().getChildNodes();
 				for (int i = 0; i < nl.getLength(); i++) {
 					String name = nl.item(i).getAttributeValue("name");
-					String value = nl.item(i).getNodeText();
 					if (name != null) {
+						String value = nl.item(i).getNodeText();
+						logger.debug("{}:={}", new Object[] { name, value });
 						strings.put(new EAdString(name), value);
-					} else {
-						name = "0";
 					}
 				}
 			}

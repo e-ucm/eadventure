@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop.platform.assets.java;
+package ead.engine.core.gdx.desktop.platform.assets.video.java;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -60,14 +60,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.game.interfaces.SoundManager;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 
-@Singleton
 public class JavaVideoRenderer implements
 		SpecialAssetRenderer<EAdVideo, Component> {
 	private static Logger logger = LoggerFactory
@@ -99,6 +97,10 @@ public class JavaVideoRenderer implements
 	}
 
 	public Component getComponent(EAdVideo asset) {
+		if (video != null) {
+			return video;
+		}
+
 		video = null;
 		finished = false;
 		if (!loaded) {

@@ -6,7 +6,6 @@ import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.enginefilters.AbstractEngineFilter;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.utils.Log4jConfig;
-import ead.utils.Log4jConfig.Slf4jLevel;
 
 public class TechDemoMain {
 
@@ -21,7 +20,7 @@ public class TechDemoMain {
 	}*/
 
 	public static void main(String args[]) {
-		Log4jConfig.configForConsole(Slf4jLevel.Debug, null);
+		Log4jConfig.setLevel(null, Log4jConfig.Slf4jLevel.Debug);
 		DesktopGame game = new DesktopGame();
 		game
 				.addFilter(GameImpl.FILTER_STRING_FILES,

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop.platform.assets;
+package ead.engine.core.gdx.desktop.platform.assets.video.vlc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

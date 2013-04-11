@@ -58,7 +58,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.variables.VarDef;
 import ead.converter.UtilsConverter;
-import ead.converter.resources.ResourceConverter;
+import ead.converter.resources.ResourcesConverter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.Frame;
 import es.eucm.eadventure.common.data.animation.Transition;
@@ -72,14 +72,14 @@ public class CutsceneConverter {
 	public static final VarDef<Boolean> IN_CUTSCENE = new VarDef<Boolean>(
 			"in_cutscene", Boolean.class, false);
 
-	private ResourceConverter resourceConverter;
+	private ResourcesConverter resourceConverter;
 
 	private TransitionConverter transitionConverter;
 
 	private UtilsConverter utilsConverter;
 
 	@Inject
-	public CutsceneConverter(ResourceConverter resourceConverter,
+	public CutsceneConverter(ResourcesConverter resourceConverter,
 			TransitionConverter transitionConverter,
 			UtilsConverter utilsConverter) {
 		this.resourceConverter = resourceConverter;

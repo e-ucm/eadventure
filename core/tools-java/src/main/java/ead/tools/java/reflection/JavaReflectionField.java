@@ -79,7 +79,7 @@ public class JavaReflectionField implements ReflectionField {
 		try {
 			return field.get(object);
 		} catch (Exception e) {
-			logger.error("{}", e);
+
 		}
 		return null;
 	}

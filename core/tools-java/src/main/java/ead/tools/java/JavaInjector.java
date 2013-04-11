@@ -56,4 +56,8 @@ public class JavaInjector implements GenericInjector {
 		return injector.getInstance(clazz);
 	}
 
+	public Injector getInjector() {
+		return injector;
+	}
+
 }

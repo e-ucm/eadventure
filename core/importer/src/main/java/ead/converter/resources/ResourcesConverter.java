@@ -23,7 +23,7 @@ import ead.converter.OldReader;
 import es.eucm.eadventure.common.data.animation.Animation;
 
 @Singleton
-public class ResourceConverter {
+public class ResourcesConverter {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ResourceConverter");
@@ -44,7 +44,7 @@ public class ResourceConverter {
 	private Map<String, AssetDescriptor> assets;
 
 	@Inject
-	public ResourceConverter(OldReader oldReader) {
+	public ResourcesConverter(OldReader oldReader) {
 		this.oldReader = oldReader;
 		urisCorrespondences = new LinkedHashMap<String, String>();
 		assets = new LinkedHashMap<String, AssetDescriptor>();

@@ -61,8 +61,8 @@ import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position.Corner;
 import ead.converter.EAdElementsCache;
 import ead.converter.UtilsConverter;
-import ead.converter.resources.ResourceConverter;
-import ead.converter.subconverters.conditions.ConditionConverter;
+import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
@@ -84,7 +84,7 @@ public class SceneConverter {
 
 	private TransitionConverter transitionConverter;
 
-	private ResourceConverter resourceConverter;
+	private ResourcesConverter resourceConverter;
 
 	private EAdElementsCache elementsCache;
 
@@ -94,15 +94,15 @@ public class SceneConverter {
 
 	private EffectsConverter effectConverter;
 
-	private ConditionConverter conditionsConverter;
+	private ConditionsConverter conditionsConverter;
 
 	@Inject
-	public SceneConverter(ResourceConverter resourceConverter,
+	public SceneConverter(ResourcesConverter resourceConverter,
 			EAdElementsCache elementsCache,
 			TransitionConverter transitionConverter,
 			RectangleConverter rectangleConverter,
 			UtilsConverter utilsConverter, EffectsConverter effectConverter,
-			ConditionConverter conditionsConverter) {
+			ConditionsConverter conditionsConverter) {
 		this.resourceConverter = resourceConverter;
 		this.elementsCache = elementsCache;
 		this.transitionConverter = transitionConverter;

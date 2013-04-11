@@ -50,8 +50,10 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.variables.VarDef;
-import ead.converter.subconverters.conditions.ConditionConverter;
+import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -61,7 +63,7 @@ import es.eucm.eadventure.common.data.chapter.effects.Macro;
 @Singleton
 public class ModelQuerier {
 
-	private ConditionConverter conditionConverter;
+	private ConditionsConverter conditionConverter;
 
 	private EffectsConverter effectsConverter;
 
@@ -84,7 +86,7 @@ public class ModelQuerier {
 		macros = new HashMap<String, EffectsMacro>();
 	}
 
-	public void setConditionConverter(ConditionConverter conditionConverter) {
+	public void setConditionConverter(ConditionsConverter conditionConverter) {
 		this.conditionConverter = conditionConverter;
 	}
 
@@ -157,4 +159,13 @@ public class ModelQuerier {
 		return macros.get(id);
 	}
 
+	public EAdGUIEvent getActionsInteraction() {
+		switch (adventureData.getDefaultClickAction()) {
+		case SHOW_ACTIONS:
+			return MouseGEv.MOUSE_LEFT_PRESSED;
+		case SHOW_DETAILS:
+			return MouseGEv.MOUSE_RIGHT_PRESSED;
+		}
+		return MouseGEv.MOUSE_RIGHT_PRESSED;
+	}
 }

@@ -56,7 +56,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 
 @Singleton
-public class ConditionConverter {
+public class ConditionsConverter {
 
 	private FlagConditionConverter flagConditionConverter;
 	private VarConditionConverter varConditionConverter;
@@ -68,7 +68,7 @@ public class ConditionConverter {
 	private List<EAdField<?>> fieldsInLastCond;
 
 	@Inject
-	public ConditionConverter(FlagConditionConverter flagConditionConverter,
+	public ConditionsConverter(FlagConditionConverter flagConditionConverter,
 			VarConditionConverter varConditionConverter,
 			ModelQuerier modelQuerier) {
 		this.flagConditionConverter = flagConditionConverter;

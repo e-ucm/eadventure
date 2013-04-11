@@ -55,17 +55,17 @@ import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.params.variables.EAdVarDef;
-import ead.converter.subconverters.conditions.ConditionConverter;
+import ead.converter.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
 @Singleton
 public class UtilsConverter {
 
-	private ConditionConverter conditionsConverter;
+	private ConditionsConverter conditionsConverter;
 
 	@Inject
-	public UtilsConverter(ConditionConverter conditionsConverter) {
+	public UtilsConverter(ConditionsConverter conditionsConverter) {
 		this.conditionsConverter = conditionsConverter;
 	}
 
@@ -87,11 +87,12 @@ public class UtilsConverter {
 				ChangeFieldEf changeState = new ChangeFieldEf(stateField,
 						new ValueOp(this.getResourceBundleId(i)));
 				triggerMacro.putEffect(changeState, cond);
+				i++;
 			}
 
 			watchField.addEffect(triggerMacro);
 			((Evented) e).getEvents().add(watchField);
-			i++;
+
 		}
 	}
 

@@ -42,8 +42,10 @@ import com.google.inject.Singleton;
 
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
-import ead.converter.resources.ResourceConverter;
+import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.actors.actions.ActionsConverter;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
@@ -51,9 +53,10 @@ import es.eucm.eadventure.common.data.chapter.resources.Resources;
 public class NPCConverter extends ElementConverter {
 
 	@Inject
-	public NPCConverter(ResourceConverter resourceConverter,
-			UtilsConverter utilsConverter) {
-		super(resourceConverter, utilsConverter);
+	public NPCConverter(ResourcesConverter resourceConverter,
+			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
+			ModelQuerier modelQuerier) {
+		super(resourceConverter, utilsConverter, actionsConverter, modelQuerier);
 	}
 
 	public EAdSceneElementDef convert(NPC npc) {

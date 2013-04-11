@@ -164,7 +164,7 @@ public class XMLVisitor {
 			}
 			return true;
 		}
-		logger.debug("XML Visitor steps: " + this.stepsQueue.size());
+
 		// We check queue size, looking for elements impossible to read
 		// (usually, references to ids not defined)
 		int newSize = stepsQueue.size();

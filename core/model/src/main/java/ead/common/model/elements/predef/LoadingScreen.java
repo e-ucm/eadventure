@@ -40,8 +40,8 @@ package ead.common.model.elements.predef;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.events.WatchFieldEv;
+import ead.common.model.elements.events.enums.WatchFieldEvType;
 import ead.common.model.elements.operations.MathOp;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.BasicScene;
@@ -61,12 +61,13 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 		SceneElement s = new SceneElement(new Image("@drawable/loadingbar.png"));
 		s.setPosition(Corner.TOP_RIGHT, 0, 195);
 
-		SceneElementEv updateLoad = new SceneElementEv();
+		WatchFieldEv watchField = new WatchFieldEv();
 		MathOp op = new MathOp("[0] * (800 / 100 )");
-		op.getOperations().add(SystemFields.LOADING);
-		updateLoad.addEffect(SceneElementEvType.ALWAYS, new ChangeFieldEf(s
+		op.addOperation(SystemFields.LOADING);
+		watchField.watchField(SystemFields.LOADING);
+		watchField.addEffect(WatchFieldEvType.WATCH, new ChangeFieldEf(s
 				.getField(SceneElement.VAR_X), op));
-		s.getEvents().add(updateLoad);
+		s.getEvents().add(watchField);
 		add(s);
 
 		SceneElement bg = new SceneElement(new Image("@drawable/loading.png"));

@@ -47,6 +47,9 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.VideoScene;
+import ead.common.model.elements.widgets.Label;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.Position.Corner;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.factories.EventGOFactory;
@@ -68,20 +71,28 @@ public class VideoSceneGO extends SceneGO {
 
 	private VideoScene videoScene;
 
+	private EAdVideo video;
+
+	private Label label;
+
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer) {
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
-		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
 		this.error = false;
 	}
 
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
+		label = new Label("Loading...");
+		label.setColor(ColorFill.WHITE);
+		label.setPosition(Corner.CENTER, 400, 300);
+		this.addSceneElement(label);
 		this.videoScene = (VideoScene) element;
+		video = (EAdVideo) element.getDefinition().getAsset(currentBundle,
+				VideoScene.video);
 		this.toStart = false;
 		this.error = false;
 	}
@@ -89,14 +100,23 @@ public class VideoSceneGO extends SceneGO {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		specialAssetRenderer = assetHandler.getSpecialAssetRenderer(video);
+		// Check for the renderer
+		if (specialAssetRenderer == null && !assetHandler.isPreloadingVideos()) {
+			error = true;
+		}
+
+		// We'll wait
+		if (!error && specialAssetRenderer == null) {
+			return;
+		}
+
 		if (error || specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
 			removeVideoComponent();
 		} else if (component == null) {
 			try {
-				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
-						currentBundle, VideoScene.video);
-				component = specialAssetRenderer.getComponent(v);
+				component = specialAssetRenderer.getComponent(video);
 				if (component != null) {
 					gui.showSpecialResource(component, 0, 0, true);
 					toStart = true;

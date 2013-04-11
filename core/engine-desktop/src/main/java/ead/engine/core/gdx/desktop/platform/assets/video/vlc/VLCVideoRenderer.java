@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.desktop.platform.assets;
+package ead.engine.core.gdx.desktop.platform.assets.video.vlc;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -56,6 +56,7 @@ import com.sun.jna.NativeLibrary;
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.game.interfaces.SoundManager;
+import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 
 /**
  * <p>

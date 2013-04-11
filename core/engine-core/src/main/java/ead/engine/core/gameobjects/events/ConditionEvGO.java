@@ -45,13 +45,19 @@ import ead.engine.core.game.interfaces.GameState;
 
 public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 
-	private boolean triggered = false;
+	private boolean triggered;
 
-	private boolean firstCheck = true;
+	private boolean firstCheck;
 
 	@Inject
 	public ConditionEvGO(GameState gameState) {
 		super(gameState);
+	}
+
+	public void setElement(ConditionedEv event) {
+		super.setElement(event);
+		triggered = false;
+		firstCheck = true;
 	}
 
 	@Override

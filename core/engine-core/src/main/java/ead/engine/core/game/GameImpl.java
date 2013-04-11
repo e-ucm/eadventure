@@ -48,13 +48,12 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.multimedia.Video;
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
@@ -281,8 +280,10 @@ public class GameImpl implements Game, VisitorListener {
 					break;
 				}
 				AssetDescriptor a = assetsToLoad.pop();
-				if (!(a instanceof Video)) {
+				if (!(a instanceof EAdVideo)) {
 					assetHandler.getRuntimeAsset(a);
+				} else {
+					assetHandler.addVideo((EAdVideo) a);
 				}
 			}
 			if (assetsToLoadNumber > 0) {
@@ -334,6 +335,7 @@ public class GameImpl implements Game, VisitorListener {
 	}
 
 	private void setGame() {
+		assetHandler.preloadVideos();
 		if (adventure != null) {
 			BasicElement.idPrefix = AbstractAssetDescriptor.idPrefix = "eng";
 			currentChapter = adventure.getChapters().get(0);
