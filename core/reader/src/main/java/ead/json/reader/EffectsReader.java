@@ -221,8 +221,8 @@ public class EffectsReader {
 
 	private EAdEffect getRemove(StringMap<Object> e) {
 		String target = (String) e.get("target");
-		return new RemoveEf((EAdSceneElement) objectsFactory
-				.getEAdElement(target));
+		return new RemoveEf(
+				(EAdSceneElement) objectsFactory.getEAdElement(target));
 	}
 
 	private EAdEffect getAddChild(StringMap<Object> e) {
@@ -339,7 +339,10 @@ public class EffectsReader {
 	}
 
 	private EAdEffect getPlaySound(StringMap<Object> e) {
-		return new PlaySoundEf(new Sound(e.get("uri").toString()));
+		Boolean background = (Boolean) e.get("background");
+		String uri = (String) e.get("uri");
+		return new PlaySoundEf(uri == null ? null : new Sound(uri),
+				background != null && background.booleanValue());
 	}
 
 	private EAdEffect getChangeScene(StringMap<Object> e) {
@@ -409,8 +412,8 @@ public class EffectsReader {
 		Collection<String> fields = (Collection<String>) e.get("fields");
 		for (String f : fields) {
 			interpolation.addField(operationReader.translateField(f),
-					new ValueOp(start.floatValue()), new ValueOp(end
-							.floatValue()));
+					new ValueOp(start.floatValue()),
+					new ValueOp(end.floatValue()));
 		}
 
 		Boolean relative = (Boolean) e.get("relative");

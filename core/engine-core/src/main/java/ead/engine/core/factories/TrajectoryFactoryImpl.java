@@ -54,7 +54,7 @@ public class TrajectoryFactoryImpl extends
 	@Inject
 	public TrajectoryFactoryImpl(ReflectionProvider reflectionProvider,
 			GenericInjector injector) {
-		super(true, reflectionProvider, injector);
+		super(false, reflectionProvider, injector);
 		TrajectoriesMapProvider mapProvider = new TrajectoriesMapProvider();
 		this.setClassMap(mapProvider.getMap());
 	}

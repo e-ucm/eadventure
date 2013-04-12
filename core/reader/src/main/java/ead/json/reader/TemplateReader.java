@@ -96,8 +96,7 @@ public class TemplateReader {
 						.get("template");
 				if (values != null)
 					for (String key : values.keySet()) {
-						if (!key.equals("id")
-								&& !templateValues.containsKey(key)) {
+						if (!templateValues.containsKey(key)) {
 							templateValues.put(key, values.get(key));
 						}
 					}
@@ -108,7 +107,7 @@ public class TemplateReader {
 				// We add attributes from the template
 				for (String key : template.keySet()) {
 					// If the object doesn't contain a value for the key
-					if (!key.equals("id") && !object.containsKey(key)) {
+					if (!object.containsKey(key)) {
 						// We set the value from the template
 						object.put(key, template.get(key));
 					}

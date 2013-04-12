@@ -168,6 +168,10 @@ public class MoveSceneElementGO extends
 		}
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
+		
+		if ( trajectory != null ){
+//			trajectoryFactory.remove(trajectory);
+		}
 	}
 
 	public void stop() {
@@ -176,6 +180,9 @@ public class MoveSceneElementGO extends
 				CommonStates.DEFAULT.toString());
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
+		if ( trajectory != null ){
+//			trajectoryFactory.remove(trajectory);
+		}
 	}
 
 	public boolean isQueueable() {
