@@ -73,6 +73,8 @@ import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 public abstract class GUIImpl implements GUI {
 
+	private static final boolean DEBUG = false;
+
 	/**
 	 * Logger
 	 */
@@ -130,44 +132,46 @@ public abstract class GUIImpl implements GUI {
 		sceneRoot.getElement().setId("#engine.sceneContainer");
 
 		root.addSceneElement(sceneRoot);
-		root.setInputProcessor(new InputListener() {
+		if (DEBUG) {
+			root.setInputProcessor(new InputListener() {
 
-			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
+				@Override
+				public boolean keyDown(InputEvent event, int keycode) {
 
-				switch (keycode) {
-				case Input.Keys.F1:
-					debuggerHandler
-							.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
-					break;
-				case Input.Keys.F2:
-					debuggerHandler
-							.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
-					break;
-				case Input.Keys.F3:
-					debuggerHandler
-							.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
-					break;
-				case Input.Keys.F4:
-					debuggerHandler
-							.toggleDebugger(DebuggersHandlerImpl.CHANGE_SCENE_DEBUGGER);
-					break;
-				case Input.Keys.F5:
-					debuggerHandler
-							.toggleDebugger(DebuggersHandlerImpl.MODEL_FIELDS_DEBUGGER);
-					break;
-				case Input.Keys.F6:
-					debuggerHandler
-							.toggleDebugger(DebuggersHandlerImpl.PROFILER_DEBUGGER);
-					break;
-				default:
-					break;
+					switch (keycode) {
+					case Input.Keys.F1:
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
+						break;
+					case Input.Keys.F2:
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
+						break;
+					case Input.Keys.F3:
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
+						break;
+					case Input.Keys.F4:
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.CHANGE_SCENE_DEBUGGER);
+						break;
+					case Input.Keys.F5:
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.MODEL_FIELDS_DEBUGGER);
+						break;
+					case Input.Keys.F6:
+						debuggerHandler
+								.toggleDebugger(DebuggersHandlerImpl.PROFILER_DEBUGGER);
+						break;
+					default:
+						break;
+					}
+
+					return true;
 				}
 
-				return true;
-			}
-
-		}, false);
+			}, false);
+		}
 		root.addSceneElement(hudRoot);
 		addHuds();
 	}

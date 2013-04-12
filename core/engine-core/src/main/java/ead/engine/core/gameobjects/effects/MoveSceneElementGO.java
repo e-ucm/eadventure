@@ -168,9 +168,9 @@ public class MoveSceneElementGO extends
 		}
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
-		
-		if ( trajectory != null ){
-//			trajectoryFactory.remove(trajectory);
+
+		if (trajectory != null) {
+			//			trajectoryFactory.remove(trajectory);
 		}
 	}
 
@@ -180,8 +180,8 @@ public class MoveSceneElementGO extends
 				CommonStates.DEFAULT.toString());
 		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
-		if ( trajectory != null ){
-//			trajectoryFactory.remove(trajectory);
+		if (trajectory != null) {
+			//			trajectoryFactory.remove(trajectory);
 		}
 	}
 

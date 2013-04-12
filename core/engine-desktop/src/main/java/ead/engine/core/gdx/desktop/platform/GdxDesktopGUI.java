@@ -99,6 +99,7 @@ public class GdxDesktopGUI extends GUIImpl {
 		});
 
 		// Frame needs to be visible so Gdx can create the right context
+		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 
