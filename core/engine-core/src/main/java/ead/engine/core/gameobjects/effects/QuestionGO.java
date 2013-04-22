@@ -146,33 +146,36 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 	}
 
 	private void setUpQuestion(GroupElement root) {
-		int fontSize = 20;
-		int padding = 8;
-		EAdFont font = new BasicFont(fontSize);
-		Caption caption = new Caption(effect.getQuestion());
-		caption.setFont(font);
-		caption.setPadding(padding);
-		caption.setBubblePaint(Paint.BLACK_ON_WHITE);
-		caption.setPreferredWidth(750);
-		SceneElement questionElement = new SceneElement(caption);
-		questionElement.setPosition(10, y);
+		if (effect.getQuestion() != null) {
+			int fontSize = 20;
+			int padding = 8;
+			EAdFont font = new BasicFont(fontSize);
+			Caption caption = new Caption(effect.getQuestion());
+			caption.setFont(font);
+			caption.setPadding(padding);
+			caption.setBubblePaint(Paint.BLACK_ON_WHITE);
+			caption.setPreferredWidth(750);
+			SceneElement questionElement = new SceneElement(caption);
+			questionElement.setPosition(10, y);
 
-		questionElement.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
-		root.getSceneElements().add(questionElement);
-		SceneElementEv event = new SceneElementEv();
+			questionElement.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
+			root.getSceneElements().add(questionElement);
+			SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf interpolation = new InterpolationEf(questionElement,
-				SceneElement.VAR_ALPHA, 0, 1.0f, 500);
-		event.addEffect(SceneElementEvType.INIT, interpolation);
+			InterpolationEf interpolation = new InterpolationEf(
+					questionElement, SceneElement.VAR_ALPHA, 0, 1.0f, 500);
+			event.addEffect(SceneElementEvType.INIT, interpolation);
 
-		questionElement.getEvents().add(event);
+			questionElement.getEvents().add(event);
 
-		y += fontSize * 2 + padding * 2;
+			y += fontSize * 2 + padding * 2;
+		}
 	}
 
 	private void setUpAnswer(GroupElement question, int pos, EAdString key,
 			EAdEffect value, EAdEffect selectEffect, EAdEffect inEffect,
 			EAdEffect outEffect) {
+		int delay = effect.getQuestion() != null ? 500 : 0;
 		int fontSize = 18;
 		int padding = 5;
 		EAdFont font = new BasicFont(fontSize);
@@ -194,7 +197,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		SceneElementEv event = new SceneElementEv();
 
 		InterpolationEf interpolation = new InterpolationEf(answerElement,
-				SceneElement.VAR_X, 0, 820, 400, 500 + pos * 100,
+				SceneElement.VAR_X, 0, 820, 400, delay + pos * 100,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 		event.addEffect(SceneElementEvType.INIT, interpolation);
 

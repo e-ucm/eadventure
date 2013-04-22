@@ -60,6 +60,8 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.converter.AdventureConverter;
 import ead.converter.EAdElementsCache;
 import ead.converter.ModelQuerier;
+import ead.converter.StringsConverter;
+import ead.converter.UtilsConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.variables.ActivateFlagConverter;
 import ead.converter.subconverters.effects.variables.DeactivateFlagConverter;
@@ -77,7 +79,12 @@ import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
+import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
+import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
+import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
+import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
+import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
 
@@ -95,6 +102,10 @@ public class EffectsConverter {
 
 	private ConditionsConverter conditionConverter;
 
+	private StringsConverter stringsConverter;
+
+	private UtilsConverter utilsConverter;
+
 	private static EAdField<Boolean> ghostEffectsVisible = new BasicField<Boolean>(
 			new BasicElement(AdventureConverter.EFFECTS_GHOST_ID),
 			SceneElement.VAR_VISIBLE);
@@ -106,10 +117,13 @@ public class EffectsConverter {
 	@Inject
 	public EffectsConverter(ModelQuerier modelQuerier,
 			ConditionsConverter conditionsConverter,
-			EAdElementsCache elementsCache) {
+			EAdElementsCache elementsCache, StringsConverter stringsConverter,
+			UtilsConverter utilsConverter) {
 		this.modelQuerier = modelQuerier;
 		this.conditionConverter = conditionsConverter;
 		this.elementsCache = elementsCache;
+		this.utilsConverter = utilsConverter;
+		this.stringsConverter = stringsConverter;
 		modelQuerier.setEffectsConverter(this);
 		setConverters();
 	}
@@ -121,7 +135,7 @@ public class EffectsConverter {
 		ChangeSceneConverter changeSceneConverter = new ChangeSceneConverter();
 		converters.put(TriggerSceneEffect.class, changeSceneConverter);
 		converters.put(TriggerCutsceneEffect.class, changeSceneConverter);
-
+		converters.put(TriggerLastSceneEffect.class, changeSceneConverter);
 		converters.put(DeactivateEffect.class, new DeactivateFlagConverter(
 				modelQuerier));
 		converters.put(ActivateEffect.class, new ActivateFlagConverter(
@@ -137,18 +151,17 @@ public class EffectsConverter {
 		converters.put(WaitTimeEffect.class, new WaitConverter());
 		converters.put(HighlightItemEffect.class, new HighlightItemConverter(
 				elementsCache));
+		converters.put(TriggerConversationEffect.class,
+				new TriggerConversationConverter(modelQuerier));
 
-		// factoryMap.put(ShowTextEffect.class, ShowTextEffectImporter.class);
+		SpeakEffectConverter speakConverter = new SpeakEffectConverter(
+				modelQuerier, stringsConverter, utilsConverter);
+		converters.put(ShowTextEffect.class, speakConverter);
+		converters.put(SpeakCharEffect.class, speakConverter);
+		converters.put(SpeakPlayerEffect.class, speakConverter);
 
 		// factoryMap.put(RandomEffect.class, RandomEffectImporter.class);
-		// factoryMap.put(TriggerConversationEffect.class,
-		// TriggerConversationImporter.class);
 
-		// factoryMap.put(TriggerLastSceneEffect.class,
-		// TriggerPreviousSceneImporter.class);
-		// factoryMap
-		// .put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
-		// factoryMap.put(SpeakCharEffect.class, SpeakCharEffectImporter.class);
 		// factoryMap.put(CancelActionEffect.class,
 		// CancelActionEffectImporter.class);
 		// factoryMap.put(PlaySoundEffect.class, PlaySoundEffectImporter.class);

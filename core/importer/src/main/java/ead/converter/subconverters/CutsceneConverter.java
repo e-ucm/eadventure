@@ -45,9 +45,11 @@ import com.google.inject.Singleton;
 
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
@@ -59,6 +61,7 @@ import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.variables.VarDef;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.Frame;
 import es.eucm.eadventure.common.data.animation.Transition;
@@ -78,13 +81,16 @@ public class CutsceneConverter {
 
 	private UtilsConverter utilsConverter;
 
+	private EffectsConverter effectsConverter;
+
 	@Inject
 	public CutsceneConverter(ResourcesConverter resourceConverter,
 			TransitionConverter transitionConverter,
-			UtilsConverter utilsConverter) {
+			UtilsConverter utilsConverter, EffectsConverter effectsConverter) {
 		this.resourceConverter = resourceConverter;
 		this.transitionConverter = transitionConverter;
 		this.utilsConverter = utilsConverter;
+		this.effectsConverter = effectsConverter;
 	}
 
 	public List<EAdScene> convert(Cutscene scene) {
@@ -123,38 +129,51 @@ public class CutsceneConverter {
 					EAdScene scene = new BasicScene();
 					scene.getBackground().getDefinition().setAppearance(
 							background);
+					EAdEffect nextEffect = null;
 
-					// Link to next slide
-					ChangeSceneEf nextSlide = new ChangeSceneEf();
-					// If it's last frame, we link with the next scene
-					if (i == anim.getFrames().size() - 1) {
-						nextSlide.setNextScene(getNextScene(cs));
-					}
-					// Else, we link with the next slide
-					else {
-						nextSlide.setNextScene(new BasicElement(cs.getId()
-								+ (i + 1)));
-					}
-
-					// Add transition, if any
-					// For the last scene, we add the next transition
-					if (i == anim.getFrames().size() - 1) {
-						nextSlide.setTransition(transitionConverter
-								.getTransition(cs.getTransitionType(), cs
-										.getTransitionTime()));
+					if (cs.getNext() == Slidescene.ENDCHAPTER) {
+						// XXX Games with more thatn one chapter will fail
+						nextEffect = new QuitGameEf();
 					} else {
-						// If the animation has transitions, we add it
-						if (anim.isUseTransitions()) {
-							Transition t = anim.getTransitions().get(i);
-							nextSlide.setTransition(transitionConverter
-									.getTransition(t.getType(), (int) t
-											.getTime()));
+						// Link to next slide
+						ChangeSceneEf nextSlide = new ChangeSceneEf();
+						// If it's last frame, we link with the next scene, ad
+						// we add the next effects
+						if (i == anim.getFrames().size() - 1) {
+							nextSlide.setNextScene(getNextScene(cs));
+							List<EAdEffect> effects = effectsConverter
+									.convert(cs.getEffects());
+							if (effects.size() > 0) {
+								nextSlide.addNextEffect(effects.get(0));
+							}
 						}
+						// Else, we link with the next slide
+						else {
+							nextSlide.setNextScene(new BasicElement(cs.getId()
+									+ (i + 1)));
+						}
+
+						// Add transition, if any
+						// For the last scene, we add the next transition
+						if (i == anim.getFrames().size() - 1) {
+							nextSlide.setTransition(transitionConverter
+									.getTransition(cs.getTransitionType(), cs
+											.getTransitionTime()));
+						} else {
+							// If the animation has transitions, we add it
+							if (anim.isUseTransitions()) {
+								Transition t = anim.getTransitions().get(i);
+								nextSlide.setTransition(transitionConverter
+										.getTransition(t.getType(), (int) t
+												.getTime()));
+							}
+						}
+						nextEffect = nextSlide;
 					}
 
 					// Change to next slide when click
 					scene.getBackground().addBehavior(
-							MouseGEv.MOUSE_LEFT_PRESSED, nextSlide);
+							MouseGEv.MOUSE_LEFT_PRESSED, nextEffect);
 					i++;
 					cutscene.add(scene);
 				}

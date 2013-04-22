@@ -57,7 +57,10 @@ import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -71,8 +74,10 @@ public class UtilsConverter {
 	private BasicElement cursor;
 
 	@Inject
-	public UtilsConverter(ConditionsConverter conditionsConverter) {
+	public UtilsConverter(ConditionsConverter conditionsConverter,
+			ModelQuerier modelQuerier) {
 		this.conditionsConverter = conditionsConverter;
+		modelQuerier.setUtilsConverter(this);
 		cursor = new BasicElement(MouseHud.CURSOR_ID);
 	}
 
@@ -171,6 +176,40 @@ public class UtilsConverter {
 				MouseHud.EXIT_CURSOR));
 		e.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(cursor,
 				MouseHud.DEFAULT_CURSOR));
+	}
+
+	/**
+	 * Returns a string transforming the given old color
+	 * 
+	 * @param oldColor
+	 * @return
+	 */
+	public String getColor(String oldColor) {
+		if (oldColor != null) {
+			String color = oldColor;
+			if (oldColor.startsWith("#")) {
+				color = color.substring(1);
+			}
+			while (color.length() < 6) {
+				color = "0" + color;
+			}
+
+			return "0x" + color + "FF";
+		} else {
+			return "0x00000000";
+		}
+	}
+
+	/**
+	 * Get the proper paint for two colors in the old format
+	 * 
+	 * @param fillColor
+	 * @param borderColor
+	 * @return
+	 */
+	public EAdPaint getPaint(String fillColor, String borderColor) {
+		return new Paint(new ColorFill(getColor(fillColor)), new ColorFill(
+				getColor(borderColor)));
 	}
 
 }

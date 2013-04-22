@@ -37,35 +37,59 @@
 
 package ead.converter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.EmptyEffect;
+import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
+import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.EAdGUIEvent;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.VarDef;
+import ead.converter.subconverters.ConversationsConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
+import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalState;
+import es.eucm.eadventure.common.data.chapter.conditions.GlobalStateCondition;
+import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
+import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
+import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
+import es.eucm.eadventure.common.data.chapter.elements.NPC;
 
 @Singleton
 public class ModelQuerier {
 
+	private static Logger logger = LoggerFactory.getLogger("ModelQuerier");
+
 	private ConditionsConverter conditionConverter;
 
 	private EffectsConverter effectsConverter;
+
+	private UtilsConverter utilsConverter;
+
+	private ConversationsConverter conversationsConverter;
 
 	private AdventureData adventureData;
 
@@ -77,6 +101,17 @@ public class ModelQuerier {
 	private Map<String, EAdField<Integer>> variableFields;
 	private Map<String, EAdCondition> globalStates;
 	private Map<String, EffectsMacro> macros;
+	private Map<String, EAdEffect> conversations;
+	private Map<String, EAdPaint> npcTexts;
+	private Map<String, EAdPaint> npcBubbles;
+
+	// Auxiliary variables:
+	// These stacks are to solve cycles and assure that everything is loaded an
+	// the right moment in macros and global state (a macro calling another
+	// macro, a global state depending on another global state)
+	private ArrayList<Macro> macrosToLoad;
+
+	private ArrayList<GlobalState> globalStatesToLoad;
 
 	@Inject
 	public ModelQuerier() {
@@ -84,6 +119,15 @@ public class ModelQuerier {
 		variableFields = new HashMap<String, EAdField<Integer>>();
 		globalStates = new HashMap<String, EAdCondition>();
 		macros = new HashMap<String, EffectsMacro>();
+
+		macrosToLoad = new ArrayList<Macro>();
+		globalStatesToLoad = new ArrayList<GlobalState>();
+
+		// Conversations
+		conversations = new HashMap<String, EAdEffect>();
+		npcTexts = new HashMap<String, EAdPaint>();
+		npcBubbles = new HashMap<String, EAdPaint>();
+
 	}
 
 	public void setConditionConverter(ConditionsConverter conditionConverter) {
@@ -98,6 +142,15 @@ public class ModelQuerier {
 		this.adventureData = adventureData;
 	}
 
+	public void setConversationsConverter(
+			ConversationsConverter conversationsConverter) {
+		this.conversationsConverter = conversationsConverter;
+	}
+
+	public void setUtilsConverter(UtilsConverter utilsConverter) {
+		this.utilsConverter = utilsConverter;
+	}
+
 	public AdventureData getAventureData() {
 		return adventureData;
 	}
@@ -109,25 +162,147 @@ public class ModelQuerier {
 		variableFields.clear();
 	}
 
+	/**
+	 * Loads the global states in the current chapter, and removes any global
+	 * state in the cache
+	 */
 	public void loadGlobalStates() {
-		// Add global states
 		globalStates.clear();
-		for (GlobalState g : oldChapter.getGlobalStates()) {
-			EAdCondition cond = conditionConverter.convert(g);
-			globalStates.put(g.getId(), cond);
+		// Add global states
+		globalStatesToLoad.addAll(oldChapter.getGlobalStates());
+		int iterations = 0;
+		boolean toWait = false;
+		while (iterations <= globalStatesToLoad.size()
+				&& !globalStatesToLoad.isEmpty()) {
+			// We check for references to other global states, if any and the
+			// global state is still not loaded, we send this global state to
+			// the end of the queue
+			GlobalState g = globalStatesToLoad.remove(0);
+			for (List<Condition> l : g.getConditionsList()) {
+				for (Condition c : l) {
+					if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
+						GlobalStateCondition gs = (GlobalStateCondition) c;
+						if (!globalStates.containsKey(gs.getId())) {
+							toWait = true;
+							break;
+						}
+					}
+				}
+				if (toWait) {
+					break;
+				}
+			}
+
+			if (toWait) {
+				globalStatesToLoad.add(g);
+				iterations++;
+
+			} else {
+				iterations = 0;
+				EAdCondition cond = conditionConverter.convert(g);
+				if (cond == null) {
+					logger.warn("Global state returned a {} after conversion",
+							g.getId());
+				}
+				globalStates.put(g.getId(), cond);
+			}
+			toWait = false;
+		}
+
+		// We report errors
+		if (globalStatesToLoad.size() > 0) {
+			String globalStatesIds = "";
+			for (GlobalState gs : globalStatesToLoad) {
+				globalStatesIds += gs.getId() + ",";
+			}
+			logger
+					.error("Cycle detected in global states: {}",
+							globalStatesIds);
 		}
 	}
 
+	/**
+	 * Loads the macros of the current chapter, and removes any existing macro
+	 * in the cache
+	 */
 	public void loadMacros() {
 		macros.clear();
 		// Add macros
-		for (Macro m : oldChapter.getMacros()) {
-			EffectsMacro macro = new EffectsMacro();
-			List<EAdEffect> effect = effectsConverter.convert(m);
-			if (effect.size() > 0) {
-				macro.getEffects().add(effect.get(0));
+		macrosToLoad.addAll(oldChapter.getMacros());
+		int iterations = 0;
+		boolean toWait = false;
+		while (iterations <= macrosToLoad.size() && !macrosToLoad.isEmpty()) {
+			Macro m = macrosToLoad.remove(0);
+			// We check for other macros. If there's any and is still not
+			// defined, we send this macro to the end of the queue to wait
+			for (AbstractEffect e : m.getEffects()) {
+				if (e instanceof MacroReferenceEffect) {
+					MacroReferenceEffect mr = (MacroReferenceEffect) e;
+					if (!macros.containsKey(mr.getTargetId())) {
+						toWait = true;
+						break;
+					}
+				}
 			}
-			macros.put(m.getId(), macro);
+
+			// If macro has a reference to a non-defined macro, we wait to load
+			// it
+			if (toWait) {
+				macrosToLoad.add(m);
+				iterations++;
+				// If not, we load it
+			} else {
+				iterations = 0;
+				EffectsMacro macro = getMacro(m.getId());
+				List<EAdEffect> effect = effectsConverter.convert(m);
+				if (effect.size() > 0) {
+					macro.getEffects().add(effect.get(0));
+				}
+			}
+			toWait = false;
+
+		}
+
+		if (macrosToLoad.size() > 0) {
+			String macrosIds = "";
+			for (Macro m : macrosToLoad) {
+				macrosIds += m.getId() + ",";
+			}
+			logger.error("Cycle detected in macros: {}", macrosIds);
+		}
+	}
+
+	/**
+	 * Loads the conversations of the current chapter, and clear any existing
+	 * conversation in the cache
+	 */
+	public void loadConversations() {
+		conversations.clear();
+		npcTexts.clear();
+		npcBubbles.clear();
+		// Load text and bubble colors
+		for (NPC npc : oldChapter.getCharacters()) {
+			EAdPaint textPaint = utilsConverter.getPaint(npc
+					.getTextFrontColor(), npc.getTextBorderColor());
+
+			npcTexts.put(npc.getId(), textPaint);
+			if (npc.getShowsSpeechBubbles()) {
+				EAdPaint bubblePaint = utilsConverter.getPaint(npc
+						.getBubbleBkgColor(), npc.getBubbleBorderColor());
+				npcBubbles.put(npc.getId(), bubblePaint);
+			} else {
+				npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
+			}
+		}
+		// Load conversations
+		for (Conversation c : oldChapter.getConversations()) {
+			EAdEffect conversation = conversationsConverter.convert(c);
+			EAdEffect proxy = conversations.get(c.getId());
+			if (proxy != null) {
+				proxy.addNextEffect(conversation);
+			} else {
+				conversations.put(c.getId(), conversation);
+			}
 		}
 	}
 
@@ -152,11 +327,20 @@ public class ModelQuerier {
 	}
 
 	public EAdCondition getGlobalState(String id) {
-		return globalStates.get(id);
+		EAdCondition globalState = globalStates.get(id);
+		if (globalState == null) {
+			logger.warn("Global state '{}' not found", id);
+		}
+		return globalState;
 	}
 
 	public EffectsMacro getMacro(String id) {
-		return macros.get(id);
+		EffectsMacro macro = macros.get(id);
+		if (macro == null) {
+			macro = new EffectsMacro();
+			macros.put(id, macro);
+		}
+		return macro;
 	}
 
 	public EAdGUIEvent getActionsInteraction() {
@@ -167,5 +351,33 @@ public class ModelQuerier {
 			return MouseGEv.MOUSE_RIGHT_PRESSED;
 		}
 		return MouseGEv.MOUSE_RIGHT_PRESSED;
+	}
+
+	/**
+	 * Creates an speak effect for the given npc id and the given text
+	 * 
+	 * @param npc
+	 * @param text
+	 * @return
+	 */
+	public SpeakEf getSpeakFor(String npc, EAdString text) {
+		SpeakEf effect = new SpeakSceneElementEf(new BasicElement(npc), text);
+		effect.setColor(npcTexts.get(npc), npcBubbles.get(npc));
+		return effect;
+	}
+
+	/**
+	 * Returns the conversation for the given id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public EAdEffect getConversation(String id) {
+		EAdEffect conversation = conversations.get(id);
+		if (conversation == null) {
+			conversation = new EmptyEffect();
+			conversations.put(id, conversation);
+		}
+		return conversation;
 	}
 }

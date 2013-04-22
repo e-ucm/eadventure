@@ -87,4 +87,9 @@ public class ChangeColorEf extends AbstractSceneElementEffect {
 		this.blue = blue;
 	}
 
+	public String toString() {
+		return this.getSceneElement() + ".color:=(" + red + ", " + green + ", "
+				+ blue + ")";
+	}
+
 }

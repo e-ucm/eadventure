@@ -54,6 +54,7 @@ import ead.converter.subconverters.CutsceneConverter;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
+import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
 
 @SuppressWarnings("rawtypes")
@@ -92,6 +93,8 @@ public class ChangeSceneConverter implements EffectConverter {
 			list.add(changeScene);
 			list.add(waitUntil);
 			waitUntil.getNextEffects().add(EffectsConverter.showGhostEffects);
+		} else if (e instanceof TriggerLastSceneEffect) {
+			list.add(new ChangeSceneEf());
 		}
 		return list;
 	}

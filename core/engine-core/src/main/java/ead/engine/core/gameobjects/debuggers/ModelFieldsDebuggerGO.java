@@ -82,6 +82,11 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 
 		Map<EAdVarDef<?>, Object> values = gameState.getElementVars(game
 				.getAdventureModel());
+
+		if (values == null || values.size() == 0) {
+			values = gameState.getElementVars(game.getCurrentChapter());
+		}
+
 		if (values != null) {
 			if (values.size() != currentLength) {
 				currentLength = values.size();

@@ -58,11 +58,26 @@ public interface EAdEffect extends EAdElement, Conditioned {
 	EAdList<EAdEffect> getNextEffects();
 
 	/**
+	 * Adds a effect to be executed when this effect ends
+	 * 
+	 * @param e
+	 *            next effect
+	 */
+	void addNextEffect(EAdEffect e);
+
+	/**
 	 * Returns the effects to be launched when this effect is launched
 	 * 
 	 * @return
 	 */
 	EAdList<EAdEffect> getSimultaneousEffects();
+
+	/**
+	 * Adds an effect to be launched just before this effect is launched
+	 * 
+	 * @param e
+	 */
+	void addSimultaneousEffect(EAdEffect e);
 
 	/**
 	 * Sets if the effects in the next effects list are launched even when the

@@ -144,21 +144,21 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected EAdGroupElement getVisualRepresentation2() {
-		int width = gameState.getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
-		int horizontalMargin = width / MARGIN_PROPORTION;
-		int verticalMargin = height / MARGIN_PROPORTION;
-		int left = horizontalMargin;
-		int right = width - horizontalMargin;
-		int top = verticalMargin;
-		int bottom = height / HEIGHT_PROPORTION + top;
-
-		NinePatchImage balloonBg = new NinePatchImage(new Image(
-				"@drawable/balloon_in.png"), 20, 20, 20, 20);
-		NinePatchImage balloongFg = new NinePatchImage(new Image(
-				"@drawable/balloon_in.png"), 20, 20, 20, 20);
-		balloonBg.setWidth(right - left);
-		balloonBg.setHeight(bottom - top);
+		//		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		//		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		//		int horizontalMargin = width / MARGIN_PROPORTION;
+		//		int verticalMargin = height / MARGIN_PROPORTION;
+		//		int left = horizontalMargin;
+		//		int right = width - horizontalMargin;
+		//		int top = verticalMargin;
+		//		int bottom = height / HEIGHT_PROPORTION + top;
+		//
+		//		NinePatchImage balloonBg = new NinePatchImage(new Image(
+		//				"@drawable/balloon_in.png"), 20, 20, 20, 20);
+		//		NinePatchImage balloongFg = new NinePatchImage(new Image(
+		//				"@drawable/balloon_in.png"), 20, 20, 20, 20);
+		//		balloonBg.setWidth(right - left);
+		//		balloonBg.setHeight(bottom - top);
 		return null;
 	}
 

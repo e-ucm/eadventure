@@ -40,6 +40,7 @@ package ead.common.model.elements.effects;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.ConditionedElement;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 
 /**
@@ -88,8 +89,16 @@ public abstract class AbstractEffect extends ConditionedElement implements
 		return nextEffects;
 	}
 
+	public void addNextEffect(EAdEffect e) {
+		nextEffects.add(e);
+	}
+
 	public EAdList<EAdEffect> getSimultaneousEffects() {
 		return simultaneousEffects;
+	}
+
+	public void addSimultaneousEffect(EAdEffect e) {
+		simultaneousEffects.add(e);
 	}
 
 	public void setNextEffectsAlways(boolean always) {

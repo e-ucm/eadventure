@@ -80,7 +80,8 @@ public class ChapterConverter {
 			CutsceneConverter cutsceneConverter,
 			EAdElementsCache elementsCache, AtrezzoConverter atrezzoConverter,
 			ModelQuerier modelQuerier, ItemConverter itemConverter,
-			NPCConverter npcConverter) {
+			NPCConverter npcConverter,
+			ConversationsConverter conversationsConverter) {
 		this.sceneConverter = sceneConverter;
 		this.cutsceneConverter = cutsceneConverter;
 		this.elementsCache = elementsCache;
@@ -88,6 +89,7 @@ public class ChapterConverter {
 		this.modelQuerier = modelQuerier;
 		this.itemConverter = itemConverter;
 		this.npcConverter = npcConverter;
+		modelQuerier.setConversationsConverter(conversationsConverter);
 	}
 
 	public EAdChapter convert(Chapter c) {
@@ -113,9 +115,10 @@ public class ChapterConverter {
 			elementsCache.put(def);
 		}
 
-		// Loads macros and global states. It
+		// Loads macros and conversations. It
 		// must be here, after all the actors has been loaded
 		modelQuerier.loadMacros();
+		modelQuerier.loadConversations();
 
 		// Import scenes
 		for (Scene s : c.getScenes()) {
