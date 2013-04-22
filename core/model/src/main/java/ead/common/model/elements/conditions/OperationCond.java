@@ -37,6 +37,8 @@
 
 package ead.common.model.elements.conditions;
 
+import java.util.List;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
@@ -135,6 +137,16 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	@Override
 	public String toString() {
 		return op1 + " " + operator + " than " + op2;
+	}
+
+	public void addFields(List<EAdField<?>> fields) {
+		if (op1 instanceof EAdField) {
+			fields.add((EAdField<?>) op1);
+		}
+
+		if (op2 instanceof EAdField) {
+			fields.add((EAdField<?>) op2);
+		}
 	}
 
 }

@@ -57,14 +57,20 @@ public class VarConditionConverter {
 	}
 
 	public OperationCond convert(VarCondition oldObject) {
-		Comparator op = getOperator(oldObject.getState());
+		Comparator op = getComparator(oldObject.getState());
 		EAdField<Integer> var = modelQuerier.getVariable(oldObject.getId());
 		OperationCond condition = new OperationCond(var, oldObject.getValue(),
 				op);
 		return condition;
 	}
 
-	private Comparator getOperator(int op) {
+	/**
+	 * Returns the corresponding comparator for the given operation constant
+	 * 
+	 * @param op
+	 * @return
+	 */
+	private Comparator getComparator(int op) {
 		switch (op) {
 		case VarCondition.VAR_EQUALS:
 			return Comparator.EQUAL;
@@ -76,6 +82,8 @@ public class VarConditionConverter {
 			return Comparator.LESS_EQUAL;
 		case VarCondition.VAR_LESS_THAN:
 			return Comparator.LESS;
+		case VarCondition.VAR_NOT_EQUALS:
+			return Comparator.DIFFERENT;
 		}
 		return Comparator.EQUAL;
 	}

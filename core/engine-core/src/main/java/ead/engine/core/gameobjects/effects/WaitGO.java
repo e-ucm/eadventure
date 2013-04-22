@@ -66,8 +66,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 	@Override
 	public void initialize() {
 		super.initialize();
-		if (effect.isWaitUntilClick()) {
-			time = 1;
+		if (effect.isWaitUntilClick() || effect.isBlockInput()) {
+			time = effect.isWaitUntilClick() ? 1 : effect.getTime();
 			GhostElement e = new GhostElement();
 			e.setCatchAll(true);
 			SceneElementGO go = gui.getHUD(GUI.EFFECTS_HUD_ID);
@@ -104,7 +104,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 		if (event instanceof InputEvent) {
 			InputEvent i = (InputEvent) event;
 			event.cancel();
-			if (i.getType() == InputEvent.Type.touchDown) {
+			if (i.getType() == InputEvent.Type.touchDown
+					&& effect.isWaitUntilClick()) {
 				time = 0;
 				return true;
 			}

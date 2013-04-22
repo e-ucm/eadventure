@@ -61,6 +61,8 @@ public class RuntimeFramesAnimation extends
 
 	private int time;
 
+	private int lastTime = -1;
+
 	private List<String> states;
 
 	private int level;
@@ -98,7 +100,13 @@ public class RuntimeFramesAnimation extends
 	@Override
 	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
 			int level) {
-		this.time = time;
+		if (lastTime == -1) {
+			lastTime = time;
+		}
+		if (lastTime > time) {
+			this.time += time - lastTime;
+		}
+		this.lastTime = time;
 		this.states = states;
 		this.level = level;
 		int realTime = time % totalTime;
@@ -106,7 +114,7 @@ public class RuntimeFramesAnimation extends
 		while (realTime > times.get(index)) {
 			index++;
 		}
-		return frames.get(index).getDrawable(realTime, states, level);
+		return frames.get(index).getDrawable(time, states, level);
 	}
 
 	@Override

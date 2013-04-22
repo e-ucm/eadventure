@@ -59,6 +59,9 @@ public class WaitEf extends AbstractEffect {
 	@Param
 	private boolean waitUntilClick;
 
+	@Param
+	private boolean blockInput;
+
 	/**
 	 * Constructs a blocking and opaque wait effect with time = 0
 	 * 
@@ -106,6 +109,14 @@ public class WaitEf extends AbstractEffect {
 
 	public boolean isWaitUntilClick() {
 		return waitUntilClick;
+	}
+
+	public boolean isBlockInput() {
+		return blockInput;
+	}
+
+	public void setBlockInput(boolean blockInput) {
+		this.blockInput = blockInput;
 	}
 
 }

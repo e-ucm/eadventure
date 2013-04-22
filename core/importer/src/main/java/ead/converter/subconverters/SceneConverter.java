@@ -51,6 +51,7 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
@@ -58,14 +59,18 @@ import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
 import ead.converter.EAdElementsCache;
+import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
+import ead.plugins.engine.bubbledescription.BubbleNameEv;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
+import es.eucm.eadventure.common.data.chapter.ExitLook;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
@@ -96,13 +101,16 @@ public class SceneConverter {
 
 	private ConditionsConverter conditionsConverter;
 
+	private StringsConverter stringsConverter;
+
 	@Inject
 	public SceneConverter(ResourcesConverter resourceConverter,
 			EAdElementsCache elementsCache,
 			TransitionConverter transitionConverter,
 			RectangleConverter rectangleConverter,
 			UtilsConverter utilsConverter, EffectsConverter effectConverter,
-			ConditionsConverter conditionsConverter) {
+			ConditionsConverter conditionsConverter,
+			StringsConverter stringsConverter) {
 		this.resourceConverter = resourceConverter;
 		this.elementsCache = elementsCache;
 		this.transitionConverter = transitionConverter;
@@ -110,6 +118,7 @@ public class SceneConverter {
 		this.utilsConverter = utilsConverter;
 		this.effectConverter = effectConverter;
 		this.conditionsConverter = conditionsConverter;
+		this.stringsConverter = stringsConverter;
 	}
 
 	public EAdScene convert(Scene s) {
@@ -220,6 +229,17 @@ public class SceneConverter {
 
 			// Set Z
 			exit.setInitialZ(EXIT_Z + i);
+
+			// Add appearance
+			ExitLook exitLook = e.getDefaultExitLook();
+			// Text
+			if (!"".equals(exitLook.getExitText())) {
+				EAdString text = stringsConverter.convert(exitLook
+						.getExitText());
+				exit.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, text);
+			}
+			// XXX For now, we use the default exit image
+			utilsConverter.addCursorChange(exit, MouseHud.EXIT_CURSOR);
 
 			// Add the exit to the scene
 			scene.add(exit);

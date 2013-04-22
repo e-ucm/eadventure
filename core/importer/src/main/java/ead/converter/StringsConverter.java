@@ -40,8 +40,11 @@ package ead.converter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.inject.Singleton;
+
 import ead.common.model.params.text.EAdString;
 
+@Singleton
 public class StringsConverter {
 
 	private static final String PREFIX = "converter.string";
@@ -68,6 +71,15 @@ public class StringsConverter {
 			reverse.put(text, string);
 		}
 		return string;
+	}
+
+	/**
+	 * Returns the strings contained by this converter
+	 * 
+	 * @return
+	 */
+	public Map<EAdString, String> getStrings() {
+		return strings;
 	}
 
 }

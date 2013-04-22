@@ -37,9 +37,12 @@
 
 package ead.common.model.elements.conditions;
 
+import java.util.List;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.operations.EAdField;
 
 @Element
 public class NOTCond extends AbstractCondition {
@@ -74,6 +77,10 @@ public class NOTCond extends AbstractCondition {
 	@Override
 	public String toString() {
 		return "NOT " + condition.toString();
+	}
+
+	public void addFields(List<EAdField<?>> fields) {
+		condition.addFields(fields);
 	}
 
 }

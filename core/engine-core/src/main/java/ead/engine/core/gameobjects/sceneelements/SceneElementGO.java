@@ -744,7 +744,7 @@ public class SceneElementGO extends Group implements
 		}
 
 		gameState.setUpdateListEnable(false);
-		timeDisplayed += gui.getSkippedMilliseconds();
+		timeDisplayed += delta;
 		gameState.setValue(element, SceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed);
 		gameState.setUpdateListEnable(true);

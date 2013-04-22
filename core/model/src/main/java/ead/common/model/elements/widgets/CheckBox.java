@@ -65,8 +65,12 @@ public class CheckBox extends GroupElement {
 	public static final EAdVarDef<Boolean> CHECKED = new VarDef<Boolean>(
 			"checkbox_checked", Boolean.class, false);
 
+	public static final EAdVarDef<Integer> CHECKED_INT = new VarDef<Integer>(
+			"checkbox_checked_int", Integer.class, 0);
+
 	public CheckBox(boolean checked, String stringId, EAdFont font) {
 		setVarInitialValue(CHECKED, checked);
+		setVarInitialValue(CHECKED_INT, checked ? 1 : 0);
 		setVarInitialValue(SceneElement.VAR_BUNDLE_ID,
 				(checked ? CHECKED_BUNDLE : SceneElementDef.INITIAL_BUNDLE));
 		setAppearance(new Image("@drawable/checkboxoff.png"));
@@ -84,6 +88,13 @@ public class CheckBox extends GroupElement {
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
 				bundleField, new ValueOp(SceneElementDef.INITIAL_BUNDLE)));
 
+		EAdField<Integer> checkedFieldInt = new BasicField<Integer>(this,
+				CHECKED_INT);
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
+				checkedFieldInt, new ValueOp(1)));
+		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
+				checkedFieldInt, new ValueOp(0)));
+
 		getEvents().add(event);
 		ChangeFieldEf changeCheck = new ChangeFieldEf(checkedField,
 				new NOTCond(c));
@@ -92,7 +103,6 @@ public class CheckBox extends GroupElement {
 		if (stringId != null) {
 			Caption text = new Caption(stringId);
 			text.setFont(font);
-			text.setBubblePaint(ColorFill.WHITE);
 			text.setPadding(5);
 			text.setTextPaint(ColorFill.BLACK);
 			SceneElement e = new SceneElement(text);

@@ -73,7 +73,7 @@ import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 public abstract class GUIImpl implements GUI {
 
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	/**
 	 * Logger
@@ -245,8 +245,11 @@ public abstract class GUIImpl implements GUI {
 		gameState.clearEffects(false);
 
 		// We add the scene to stack if it is returnable
-		if (this.scene != null && this.scene.getElement() != null
-				&& scene.getReturnable()) {
+		if (this.scene != null
+				&& this.scene.getElement() != null
+				&& scene.getReturnable()
+				&& (previousSceneStack.isEmpty() || previousSceneStack.peek() != scene
+						.getElement())) {
 			previousSceneStack.push((EAdScene) scene.getElement());
 		}
 		// Set the scene

@@ -37,6 +37,8 @@
 
 package ead.converter;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.assets.AbstractAssetDescriptor;
+import ead.common.model.assets.drawable.basics.NinePatchImage;
+import ead.common.model.assets.text.BasicFont;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdChapter;
@@ -52,11 +56,14 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.huds.BottomHud;
 import ead.common.model.elements.scenes.GhostElement;
+import ead.common.model.params.fills.ColorFill;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.ChapterConverter;
+import ead.plugins.engine.bubbledescription.BubbleNameEv;
 import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
 import ead.writer.AdventureWriter;
+import ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 
@@ -76,12 +83,18 @@ public class AdventureConverter {
 
 	private ModelQuerier modelQuerier;
 
+	private StringWriter stringWriter;
+
+	private StringsConverter stringsConverter;
+
 	public AdventureConverter() {
 		Injector i = Guice.createInjector();
 		oldReader = i.getInstance(OldReader.class);
 		chapterConverter = i.getInstance(ChapterConverter.class);
 		resourceConverter = i.getInstance(ResourcesConverter.class);
 		modelQuerier = i.getInstance(ModelQuerier.class);
+		stringsConverter = i.getInstance(StringsConverter.class);
+		stringWriter = new StringWriter();
 	}
 
 	public void convert(String file, String destinyFolder) {
@@ -107,18 +120,37 @@ public class AdventureConverter {
 		BasicAdventureModel model = new BasicAdventureModel();
 		model.getEvents().add(initEvent);
 
+		// Descriptions balloon (for mouse over)
+		BubbleNameEv event = new BubbleNameEv();
+		event.setBubble(new NinePatchImage("@drawable/bubblename.png", 15, 15,
+				15, 15));
+		event.setFont(new BasicFont("@binary/fonts/coolvetica-16"));
+		event.setTextPaint(ColorFill.WHITE);
+		model.getEvents().add(event);
+
 		for (Chapter c : adventureData.getChapters()) {
 			EAdChapter chapter = chapterConverter.convert(c);
 			model.addChapter(chapter);
 		}
 
+		String path = destinyFolder
+				+ (destinyFolder.charAt(destinyFolder.length() - 1) == '/' ? ""
+						: "/");
 		// Create data.xml
 		AdventureWriter writer = new AdventureWriter(
 				new JavaReflectionProvider(), new JavaXMLParser());
 
-		writer.write(model, destinyFolder
-				+ (destinyFolder.charAt(destinyFolder.length() - 1) == '/' ? ""
-						: "/") + "data.xml");
+		writer.write(model, path + "data.xml");
+
+		// Create strings.xml
+		File f = new File(path, "strings.xml");
+		try {
+			stringWriter.write(f.getAbsolutePath(), stringsConverter
+					.getStrings());
+		} catch (Exception e) {
+			logger.error("Error writing strings file while importing '{}'",
+					file, e);
+		}
 
 	}
 }

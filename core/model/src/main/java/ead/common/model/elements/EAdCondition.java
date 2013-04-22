@@ -37,11 +37,21 @@
 
 package ead.common.model.elements;
 
+import java.util.List;
+
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 
 /**
  * A condition in the eAdventure model
  */
 public interface EAdCondition extends EAdOperation {
+
+	/**
+	 * Adds all the fields contained by this condition to the given list
+	 * 
+	 * @param fieldsInLastCond
+	 */
+	void addFields(List<EAdField<?>> fields);
 
 }

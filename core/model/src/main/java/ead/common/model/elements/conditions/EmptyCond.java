@@ -37,9 +37,12 @@
 
 package ead.common.model.elements.conditions;
 
+import java.util.List;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.conditions.enums.EmptyCondValue;
+import ead.common.model.elements.operations.EAdField;
 
 @Element
 public class EmptyCond extends AbstractCondition {
@@ -85,6 +88,10 @@ public class EmptyCond extends AbstractCondition {
 			return this.value == ((EmptyCond) o).value;
 		}
 		return false;
+	}
+
+	public void addFields(List<EAdField<?>> fields) {
+
 	}
 
 }

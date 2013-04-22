@@ -45,15 +45,19 @@ import com.google.inject.Singleton;
 import ead.common.interfaces.features.Evented;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.WatchFieldEv;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -64,9 +68,12 @@ public class UtilsConverter {
 
 	private ConditionsConverter conditionsConverter;
 
+	private BasicElement cursor;
+
 	@Inject
 	public UtilsConverter(ConditionsConverter conditionsConverter) {
 		this.conditionsConverter = conditionsConverter;
+		cursor = new BasicElement(MouseHud.CURSOR_ID);
 	}
 
 	public void addResourcesConditions(List<Resources> resources, EAdElement e,
@@ -102,6 +109,7 @@ public class UtilsConverter {
 
 	/**
 	 * Watches the var in the definition
+	 * 
 	 * @param sceneElement
 	 * @param varState
 	 */
@@ -118,6 +126,7 @@ public class UtilsConverter {
 
 	/**
 	 * Simplifies a state drawables to its minimum
+	 * 
 	 * @param drawable
 	 * @return
 	 */
@@ -131,7 +140,9 @@ public class UtilsConverter {
 	}
 
 	/**
-	 * Add a event to watch a condition, and set the field to the value of the condition
+	 * Add a event to watch a condition, and set the field to the value of the
+	 * condition
+	 * 
 	 * @param field
 	 * @param conditions
 	 */
@@ -144,6 +155,22 @@ public class UtilsConverter {
 		}
 		watchField.addEffect(new ChangeFieldEf(field, cond));
 		sceneElement.getEvents().add(watchField);
+	}
+
+	/**
+	 * Add mouse enter and mouse exit behavior to change the cursor when is over
+	 * the given element
+	 * 
+	 * @param e
+	 *            the element
+	 * @param bundleId
+	 *            cursor bundle id
+	 */
+	public void addCursorChange(EAdSceneElement e, String bundleId) {
+		e.addBehavior(MouseGEv.MOUSE_ENTERED, new ChangeAppearanceEf(cursor,
+				MouseHud.EXIT_CURSOR));
+		e.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(cursor,
+				MouseHud.DEFAULT_CURSOR));
 	}
 
 }

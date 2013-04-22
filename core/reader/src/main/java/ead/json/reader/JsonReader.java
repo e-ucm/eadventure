@@ -111,7 +111,7 @@ public class JsonReader {
 	public EAdAdventureModel parseGame(String[] folders) {
 		BasicAdventureModel model = new BasicAdventureModel();
 		model.setId("model");
-		getObjectFactory().putEAdElement("model", model);
+		getObjectsFactory().putEAdElement("model", model);
 		BasicChapter chapter = new BasicChapter();
 		model.getChapters().add(chapter);
 
@@ -238,7 +238,7 @@ public class JsonReader {
 		objectsFactory.registerVariable(string, var);
 	}
 
-	public ObjectsFactory getObjectFactory() {
+	public ObjectsFactory getObjectsFactory() {
 		return objectsFactory;
 	}
 

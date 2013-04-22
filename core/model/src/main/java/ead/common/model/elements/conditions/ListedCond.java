@@ -38,12 +38,14 @@
 package ead.common.model.elements.conditions;
 
 import java.util.Iterator;
+import java.util.List;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.AbstractOperation;
+import ead.common.model.elements.operations.EAdField;
 
 public abstract class ListedCond extends AbstractOperation implements
 		EAdCondition {
@@ -121,6 +123,12 @@ public abstract class ListedCond extends AbstractOperation implements
 
 	public void setOperator(ConditionOperator operator) {
 		this.operator = operator;
+	}
+
+	public void addFields(List<EAdField<?>> fields) {
+		for (EAdCondition c : conditions) {
+			c.addFields(fields);
+		}
 	}
 
 }

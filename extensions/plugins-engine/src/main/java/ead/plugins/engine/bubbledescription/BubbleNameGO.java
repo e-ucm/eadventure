@@ -102,6 +102,10 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 					if (centerX - bubble.getWidth() / 2 < 0) {
 						centerX += bubble.getWidth() / 2 - centerX;
 					}
+
+					if (top < bubble.getHeight()) {
+						top = bubble.getHeight();
+					}
 					bubble.setX(centerX);
 					bubble.setY(top);
 					scale = 0.0f;

@@ -43,6 +43,11 @@
 			<artifactId>engine-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>plugins-engine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- GDX -->
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>

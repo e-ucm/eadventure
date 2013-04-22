@@ -335,7 +335,22 @@ public class EffectsReader {
 	}
 
 	private EAdEffect getWait(StringMap<Object> e) {
-		return new WaitEf(((Number) e.get("time")).intValue());
+		WaitEf effect = new WaitEf();
+		Boolean waitUntilClick = (Boolean) e.get("waitUntilClick");
+		if (waitUntilClick != null) {
+			effect.setWaitUntilClick(waitUntilClick.booleanValue());
+		}
+
+		Number time = (Number) e.get("time");
+		if (time != null) {
+			effect.setTime(time.intValue());
+		}
+
+		Boolean blockInput = (Boolean) e.get("blockInput");
+		if (blockInput != null) {
+			effect.setBlockInput(blockInput.booleanValue());
+		}
+		return effect;
 	}
 
 	private EAdEffect getPlaySound(StringMap<Object> e) {

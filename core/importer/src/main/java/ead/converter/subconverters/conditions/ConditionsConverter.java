@@ -78,6 +78,11 @@ public class ConditionsConverter {
 		modelQuerier.setConditionConverter(this);
 	}
 
+	/**
+	 * Converts a condition
+	 * @param oldObject
+	 * @return
+	 */
 	public EAdCondition convert(Conditions oldObject) {
 		fieldsInLastCond.clear();
 		ANDCond newCondition = new ANDCond();
@@ -124,7 +129,9 @@ public class ConditionsConverter {
 			fieldsInLastCond.add((EAdField<?>) cond.getOp1());
 			return cond;
 		} else if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
-			return modelQuerier.getGlobalState(c.getId());
+			EAdCondition cond = modelQuerier.getGlobalState(c.getId());
+			cond.addFields(fieldsInLastCond);
+			return cond;
 		}
 		return null;
 	}
