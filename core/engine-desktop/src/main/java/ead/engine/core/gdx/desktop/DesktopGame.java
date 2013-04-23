@@ -55,6 +55,7 @@ import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import ead.engine.core.gdx.desktop.debugger.DebuggerFrame;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.tools.java.JavaToolsModule;
@@ -62,6 +63,8 @@ import ead.tools.java.reflection.JavaReflectionClassLoader;
 import ead.tools.reflection.ReflectionClassLoader;
 
 public class DesktopGame {
+
+	private boolean debug = true;
 
 	private Injector injector;
 
@@ -115,6 +118,12 @@ public class DesktopGame {
 		cfg.forceExit = gameState.getValue(SystemFields.EXIT_WHEN_CLOSE);
 
 		GdxDesktopGUI gui = (GdxDesktopGUI) injector.getInstance(GUI.class);
+		if (debug) {
+			DebuggerFrame frame = new DebuggerFrame(injector
+					.getInstance(Game.class), injector
+					.getInstance(GameState.class), gui);
+			frame.setVisible(true);
+		}
 		gui.create(width, height);
 		new LwjglApplication(engine, cfg, gui.getCanvas());
 	}

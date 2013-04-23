@@ -86,7 +86,8 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	/**
 	 * Big EAdFont
 	 */
-	public static final BasicFont BIG = new BasicFont(35.0f);
+	public static final BasicFont BIG = new BasicFont(
+			"@binary/fonts/coolvetica-32");
 
 	public BasicFont() {
 

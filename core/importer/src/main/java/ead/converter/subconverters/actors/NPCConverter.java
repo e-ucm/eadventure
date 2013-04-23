@@ -40,7 +40,10 @@ package ead.converter.subconverters.actors;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.compounds.StateDrawable;
+import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
@@ -51,6 +54,20 @@ import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
 @Singleton
 public class NPCConverter extends ElementConverter {
+
+	public static final String[] NPC_STATES = { NPC.RESOURCE_TYPE_STAND_UP,
+			NPC.RESOURCE_TYPE_STAND_RIGHT, NPC.RESOURCE_TYPE_STAND_DOWN,
+			NPC.RESOURCE_TYPE_STAND_LEFT, NPC.RESOURCE_TYPE_SPEAK_UP,
+			NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_SPEAK_DOWN,
+			NPC.RESOURCE_TYPE_SPEAK_LEFT, NPC.RESOURCE_TYPE_WALK_UP,
+			NPC.RESOURCE_TYPE_WALK_RIGHT, NPC.RESOURCE_TYPE_WALK_DOWN,
+			NPC.RESOURCE_TYPE_WALK_LEFT, NPC.RESOURCE_TYPE_USE_RIGHT,
+			NPC.RESOURCE_TYPE_USE_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT,
+			NPC.RESOURCE_TYPE_USE_LEFT };
+
+	public static final String[] NEW_STATES = {
+			CommonStates.DEFAULT.toString(), CommonStates.TALKING.toString(),
+			CommonStates.WALKING.toString(), CommonStates.USING.toString() };
 
 	@Inject
 	public NPCConverter(ResourcesConverter resourceConverter,
@@ -66,8 +83,38 @@ public class NPCConverter extends ElementConverter {
 
 	@Override
 	protected EAdDrawable getDrawable(Resources r, String resourceId) {
-		// XXX All states and orientations
-		return resourceConverter.getFramesAnimation(r.getAssetPath(resourceId));
+		StateDrawable states = new StateDrawable();
+		int i = 0;
+		for (String newState : NEW_STATES) {
+			StateDrawable state = new StateDrawable();
+			for (int j = 0; j < 4; j++) {
+				resourceId = NPC_STATES[i * 4 + j];
+				EAdDrawable drawable = resourceConverter.getFramesAnimation(r
+						.getAssetPath(resourceId));
+				Orientation o = Orientation.N;
+				switch (j) {
+				case 0:
+					o = Orientation.N;
+					break;
+				case 1:
+					o = Orientation.E;
+					break;
+				case 2:
+					o = Orientation.S;
+					break;
+				case 3:
+					o = Orientation.W;
+					break;
+				}
+				state.addDrawable(o.toString(), drawable);
+			}
+			EAdDrawable result = utilsConverter.simplifyStateDrawable(state);
+			if (result != null) {
+				states.addDrawable(newState, result);
+			}
+			i++;
+		}
+		return utilsConverter.simplifyStateDrawable(states);
 	}
 
 	@Override

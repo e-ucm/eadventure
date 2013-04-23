@@ -40,7 +40,6 @@ package ead.common.model.elements.effects;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.ConditionedElement;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 
 /**

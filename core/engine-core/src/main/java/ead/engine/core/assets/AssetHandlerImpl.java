@@ -37,7 +37,6 @@
 
 package ead.engine.core.assets;
 
-import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;

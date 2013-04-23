@@ -42,6 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.assets.drawable.basics.enums.Alignment;
 import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.operations.EAdField;
@@ -98,6 +99,7 @@ public class SpeakEf extends AbstractEffect {
 		caption = new Caption(string);
 		caption.setId(this.getId() + caption.getId());
 		caption.setTextPaint(ColorFill.BLACK);
+		caption.setFont(BasicFont.BIG);
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 	}

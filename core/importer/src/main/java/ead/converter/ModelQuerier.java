@@ -48,16 +48,19 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.EAdGUIEvent;
 import ead.common.model.params.guievents.MouseGEv;
@@ -91,6 +94,8 @@ public class ModelQuerier {
 
 	private ConversationsConverter conversationsConverter;
 
+	private EAdElementsCache elementsCache;
+
 	private AdventureData adventureData;
 
 	private EAdChapter currentChapter;
@@ -114,7 +119,8 @@ public class ModelQuerier {
 	private ArrayList<GlobalState> globalStatesToLoad;
 
 	@Inject
-	public ModelQuerier() {
+	public ModelQuerier(EAdElementsCache elementsCache) {
+		this.elementsCache = elementsCache;
 		flagFields = new HashMap<String, EAdField<Boolean>>();
 		variableFields = new HashMap<String, EAdField<Integer>>();
 		globalStates = new HashMap<String, EAdCondition>();
@@ -361,8 +367,15 @@ public class ModelQuerier {
 	 * @return
 	 */
 	public SpeakEf getSpeakFor(String npc, EAdString text) {
-		SpeakEf effect = new SpeakSceneElementEf(new BasicElement(npc), text);
+		EAdElement element = elementsCache.get(npc);
+		SpeakEf effect = new SpeakSceneElementEf(element, text);
 		effect.setColor(npcTexts.get(npc), npcBubbles.get(npc));
+		EAdField<EAdSceneElement> fieldElement = elementsCache.getField(
+				element, SceneElementDef.VAR_SCENE_ELEMENT);
+
+		effect.setX(elementsCache.getField(fieldElement,
+				SceneElement.VAR_CENTER_X));
+		effect.setY(elementsCache.getField(fieldElement, SceneElement.VAR_TOP));
 		return effect;
 	}
 
@@ -376,6 +389,7 @@ public class ModelQuerier {
 		EAdEffect conversation = conversations.get(id);
 		if (conversation == null) {
 			conversation = new EmptyEffect();
+			conversation.setId(id);
 			conversations.put(id, conversation);
 		}
 		return conversation;

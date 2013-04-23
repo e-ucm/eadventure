@@ -97,7 +97,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	public Caption() {
 		textPaint = new Paint(ColorFill.BLACK, ColorFill.WHITE);
 		bubblePaint = new Paint(ColorFill.WHITE, ColorFill.BLACK);
-		this.font = BasicFont.BIG;
+		this.font = BasicFont.REGULAR;
 		this.hasBubble = false;
 		this.bubblePaint = null;
 		preferredHeight = AUTO_SIZE;

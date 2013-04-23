@@ -69,6 +69,7 @@ import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
+import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.enginefilters.EngineStringFilter;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
@@ -95,6 +96,10 @@ public class GameImpl implements Game, VisitorListener {
 	public static final String FILTER_STRING_FILES = "stringFiles";
 
 	public static final String FILTER_PROCESS_ACTION = "action_generated";
+
+	public static final String HOOK_AFTER_UPDATE = "after_update";
+
+	public static final String HOOK_AFTER_MODEL_READ = "after_model_read";
 
 	/**
 	 * Default properties file. Loaded during initialization
@@ -140,6 +145,11 @@ public class GameImpl implements Game, VisitorListener {
 	 * Engine filters
 	 */
 	private Map<String, List<EngineFilter<?>>> filters;
+
+	/**
+	 * Engine hooks
+	 */
+	private Map<String, List<EngineHook>> hooks;
 
 	/**
 	 * Game tracker
@@ -203,6 +213,7 @@ public class GameImpl implements Game, VisitorListener {
 		this.debuggersHandler = debuggersHandler;
 		this.adventure = new BasicAdventureModel();
 		filters = new HashMap<String, List<EngineFilter<?>>>();
+		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
 		assetsToLoad = new Stack<AssetDescriptor>();
 	}
@@ -310,7 +321,7 @@ public class GameImpl implements Game, VisitorListener {
 				updateGameEvents(delta);
 			}
 		}
-
+		doHook(HOOK_AFTER_UPDATE);
 	}
 
 	private void updateLanguage() {
@@ -368,6 +379,7 @@ public class GameImpl implements Game, VisitorListener {
 		}
 		// Set mouse visible
 		sceneElementFactory.get(MouseHud.CURSOR_ID).setVisible(true);
+		doHook(GameImpl.HOOK_AFTER_MODEL_READ);
 	}
 
 	@Override
@@ -395,6 +407,26 @@ public class GameImpl implements Game, VisitorListener {
 		}
 		return result;
 
+	}
+
+	public void addHook(String hookName, EngineHook hook) {
+		List<EngineHook> hooksList = hooks.get(hookName);
+		if (hooksList == null) {
+			hooksList = new ArrayList<EngineHook>();
+			hooks.put(hookName, hooksList);
+		}
+
+		hooksList.add(hook);
+		Collections.sort(hooksList);
+	}
+
+	public void doHook(String hookName) {
+		List<EngineHook> hooksList = hooks.get(hookName);
+		if (hooksList != null) {
+			for (EngineHook h : hooksList) {
+				h.execute(this, gameState, gui);
+			}
+		}
 	}
 
 	private void addFilters() {

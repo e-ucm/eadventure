@@ -40,6 +40,7 @@ package ead.engine.core.game.interfaces;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.engine.core.game.enginefilters.EngineFilter;
+import ead.engine.core.game.enginefilters.EngineHook;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
@@ -105,7 +106,9 @@ public interface Game {
 
 	/**
 	 * Updates the game state
-	 * @param delta TODO
+	 * 
+	 * @param delta
+	 *            TODO
 	 */
 	void act(float delta);
 
@@ -121,6 +124,10 @@ public interface Game {
 	 * @param filter
 	 */
 	void addFilter(String filterName, EngineFilter<?> filter);
+
+	void addHook(String hookName, EngineHook hook);
+
+	void doHook(String hookName);
 
 	/**
 	 * Applies filters

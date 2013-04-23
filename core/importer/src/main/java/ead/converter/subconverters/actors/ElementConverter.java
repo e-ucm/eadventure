@@ -40,9 +40,7 @@ package ead.converter.subconverters.actors;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.extra.EAdList;
@@ -90,27 +88,19 @@ public abstract class ElementConverter {
 
 	protected EAdSceneElementDef convert(Element a, String resourceType,
 			EAdSceneElementDef definition, String bundle, String resourceId) {
-		// One state for each bundle
-		StateDrawable stateDrawable = new StateDrawable();
+		// One bundle for each bundle (DUH)
 		int i = 0;
 		for (Resources r : a.getResources()) {
 			EAdDrawable drawable = getDrawable(r, resourceType);
-			// The item has no over appearance
 			if (drawable != null) {
-				stateDrawable.addDrawable(
-						utilsConverter.getResourceBundleId(i), drawable);
+				definition.addAsset(utilsConverter.getResourceBundleId(i),
+						resourceId, drawable);
 				if (i == 0) {
-					definition.setVarInitialValue(SceneElement.VAR_STATE,
+					definition.setVarInitialValue(SceneElement.VAR_BUNDLE_ID,
 							utilsConverter.getResourceBundleId(i));
 				}
 			}
 			i++;
-		}
-
-		AssetDescriptor asset = utilsConverter
-				.simplifyStateDrawable(stateDrawable);
-		if (asset != null) {
-			definition.addAsset(bundle, resourceId, asset);
 		}
 
 		// Add conditioned resources
@@ -118,7 +108,7 @@ public abstract class ElementConverter {
 		// every element that refers to this actor, must watch this field in
 		// order to update its own state
 		utilsConverter.addResourcesConditions(a.getResources(), definition,
-				SceneElement.VAR_STATE);
+				SceneElement.VAR_BUNDLE_ID);
 
 		return definition;
 	}
@@ -131,7 +121,8 @@ public abstract class ElementConverter {
 			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
 			def.addBehavior(modelQuerier.getActionsInteraction(),
 					new ActorActionsEf(def));
-			// XXX Process actions visibility (actionsConverter.actionsConditions)
+			// XXX Process actions visibility
+			// (actionsConverter.actionsConditions)
 		}
 	}
 

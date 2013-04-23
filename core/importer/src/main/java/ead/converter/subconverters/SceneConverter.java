@@ -186,7 +186,7 @@ public class SceneConverter {
 			// Add event to change appearance when required by the actor's
 			// definition
 			utilsConverter.addWatchDefinitionField(sceneElement,
-					SceneElement.VAR_STATE);
+					SceneElement.VAR_BUNDLE_ID);
 
 			// Add visibility condition
 			utilsConverter.addWatchCondition(sceneElement, sceneElement

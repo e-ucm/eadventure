@@ -115,6 +115,10 @@ public class ChapterConverter {
 			elementsCache.put(def);
 		}
 
+		// Import player
+		EAdSceneElementDef def = npcConverter.convert(c.getPlayer());
+		elementsCache.put(def);
+
 		// Loads macros and conversations. It
 		// must be here, after all the actors has been loaded
 		modelQuerier.loadMacros();

@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.basics.shapes.BalloonShape;

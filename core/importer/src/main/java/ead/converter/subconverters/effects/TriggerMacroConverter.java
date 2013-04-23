@@ -42,13 +42,23 @@ import java.util.List;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.WaitUntilEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.params.variables.VarDef;
 import ead.converter.ModelQuerier;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 
 public class TriggerMacroConverter implements
 		EffectConverter<MacroReferenceEffect> {
+
+	public static final VarDef<Boolean> IN_MACRO = new VarDef<Boolean>(
+			"in_macro", Boolean.class, false);
 
 	private ModelQuerier modelQuerier;
 
@@ -59,9 +69,24 @@ public class TriggerMacroConverter implements
 	public List<EAdEffect> convert(MacroReferenceEffect e) {
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
 		TriggerMacroEf effect = new TriggerMacroEf();
-		effect.putMacro(modelQuerier.getMacro(e.getTargetId()), EmptyCond.TRUE);
+		EffectsMacro macro = modelQuerier.getMacro(e.getTargetId());
+		effect.putMacro(macro, EmptyCond.TRUE);
 		list.add(effect);
+		// Add IN_MACRO field to hold next effects until the macro ends
+		BasicField<Boolean> field = new BasicField<Boolean>(effect, IN_MACRO);
+		ChangeFieldEf macroIn = new ChangeFieldEf(field, EmptyCond.TRUE);
+		effect.addSimultaneousEffect(macroIn);
+
+		ChangeFieldEf macroOut = new ChangeFieldEf(field, EmptyCond.FALSE);
+		macro.getEffects().get(macro.getEffects().size() - 1).addNextEffect(
+				macroOut);
+
+		// Waits until the macro ends
+		WaitUntilEf wait = new WaitUntilEf(
+				new NOTCond(new OperationCond(field)));
+		effect.addSimultaneousEffect(wait);
+
+		list.add(wait);
 		return list;
 	}
-
 }

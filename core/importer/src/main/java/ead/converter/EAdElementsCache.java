@@ -40,17 +40,29 @@ package ead.converter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.variables.EAdVarDef;
 
 @Singleton
 public class EAdElementsCache {
 
-	public Map<String, EAdElement> elements;
+	private static final Logger logger = LoggerFactory
+			.getLogger("ElementsCache");
+
+	private Map<String, EAdElement> elements;
+
+	private Map<String, Map<EAdVarDef<?>, EAdField<?>>> fields;
 
 	public EAdElementsCache() {
 		elements = new HashMap<String, EAdElement>();
+		fields = new HashMap<String, Map<EAdVarDef<?>, EAdField<?>>>();
 	}
 
 	public void put(EAdElement element) {
@@ -58,7 +70,30 @@ public class EAdElementsCache {
 	}
 
 	public EAdElement get(String id) {
-		return elements.get(id);
+		EAdElement element = elements.get(id);
+		if (element == null) {
+			logger.warn("No element for id {}", id);
+		}
+		return element;
 	}
 
+	public <T> EAdField<T> getField(String elementId, EAdVarDef<T> var) {
+		return getField(elements.get(elementId), var);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> EAdField<T> getField(EAdElement element, EAdVarDef<T> var) {
+		Map<EAdVarDef<?>, EAdField<?>> fieldsMap = fields.get(element.getId());
+		if (fieldsMap == null) {
+			fieldsMap = new HashMap<EAdVarDef<?>, EAdField<?>>();
+			fields.put(element.getId(), fieldsMap);
+		}
+
+		EAdField<T> field = (EAdField<T>) fieldsMap.get(var);
+		if (field == null) {
+			field = new BasicField<T>(element, var);
+			fieldsMap.put(var, field);
+		}
+		return field;
+	}
 }
