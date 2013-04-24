@@ -42,8 +42,6 @@ import java.util.List;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.enums.InterpolationLoopType;
-import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -96,13 +94,9 @@ public class HighlightItemConverter implements
 			BasicField<EAdSceneElement> sceneElementField = new BasicField<EAdSceneElement>(
 					def, SceneElementDef.VAR_SCENE_ELEMENT);
 			InterpolationEf interpolation = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 2.0f,
-					1000, 0, InterpolationLoopType.REVERSE, 1,
-					InterpolationType.LINEAR);
+					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.5f, 1000);
 			InterpolationEf interpolation2 = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 2.0f, 1.0f,
-					1000, 0, InterpolationLoopType.REVERSE, 1,
-					InterpolationType.LINEAR);
+					sceneElementField, SceneElement.VAR_SCALE, 0.5f, 1.0f, 1000);
 			changeColor.getNextEffects().add(interpolation);
 			interpolation.getNextEffects().add(interpolation2);
 			list.add(interpolation);

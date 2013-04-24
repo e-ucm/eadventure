@@ -41,24 +41,23 @@ import java.util.List;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.conditions.enums.EmptyCondValue;
 import ead.common.model.elements.operations.EAdField;
 
 @Element
 public class EmptyCond extends AbstractCondition {
 
-	public static EmptyCond TRUE = new EmptyCond(EmptyCondValue.TRUE);
+	public static EmptyCond TRUE = new EmptyCond(true);
 
-	public static EmptyCond FALSE = new EmptyCond(EmptyCondValue.FALSE);
+	public static EmptyCond FALSE = new EmptyCond(false);
 
 	@Param
-	private EmptyCondValue value;
+	private boolean value;
 
 	public EmptyCond() {
 		super();
 	}
 
-	public EmptyCond(EmptyCondValue value) {
+	public EmptyCond(boolean value) {
 		super();
 		this.value = value;
 	}
@@ -66,7 +65,7 @@ public class EmptyCond extends AbstractCondition {
 	/**
 	 * @return the value
 	 */
-	public EmptyCondValue getValue() {
+	public boolean getValue() {
 		return value;
 	}
 
@@ -74,13 +73,13 @@ public class EmptyCond extends AbstractCondition {
 	 * @param value
 	 *            the value to set
 	 */
-	public void setValue(EmptyCondValue value) {
+	public void setValue(boolean value) {
 		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		return (value != null ? value.toString() : getId() + "NULL");
+		return value + "";
 	}
 
 	public boolean equals(Object o) {

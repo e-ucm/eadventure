@@ -70,4 +70,16 @@ public class StringOp extends AbstractOperation {
 		this.string = string;
 	}
 
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (o instanceof StringOp && super.equals(o)) {
+			StringOp op = (StringOp) o;
+			return op.string.equals(string);
+		}
+		return false;
+	}
+
 }

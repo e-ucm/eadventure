@@ -68,7 +68,8 @@ public class NOTCond extends AbstractCondition {
 	}
 
 	/**
-	 * @param condition the condition to set
+	 * @param condition
+	 *            the condition to set
 	 */
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
@@ -83,4 +84,10 @@ public class NOTCond extends AbstractCondition {
 		condition.addFields(fields);
 	}
 
+	public boolean equals(Object o) {
+		if (o instanceof NOTCond) {
+			return (this.condition.equals(((NOTCond) o).condition));
+		}
+		return false;
+	}
 }

@@ -58,7 +58,7 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	/**
 	 * Constructs a field
-	 *
+	 * 
 	 * @param element
 	 *            field owner. It can be {@code null}, if there's no owner
 	 * @param name
@@ -75,7 +75,7 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	/**
 	 * Constructs a field
-	 *
+	 * 
 	 * @param element
 	 *            field owner
 	 * @param varDef
@@ -108,6 +108,21 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	public void setElement(EAdElement element) {
 		this.element = element;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o instanceof BasicField) {
+			BasicField f = (BasicField) o;
+			return this.varDef.equals(f.getVarDef())
+					&& (this.getElement() == f.getElement() || (this
+							.getElement() != null && this.getElement().equals(
+							f.getElement())));
+		}
+		return false;
 	}
 
 }

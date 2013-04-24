@@ -12,4 +12,8 @@ public class EmptyEffectGO extends AbstractEffectGO<EmptyEffect> {
 		super(gameState);
 	}
 
+	public void setElement(EmptyEffect e) {
+		super.setElement(e);
+	}
+
 }

@@ -46,13 +46,7 @@ public class EmptyCondEvaluator implements Evaluator<EmptyCond> {
 
 	@Override
 	public boolean evaluate(EmptyCond condition) {
-		switch (condition.getValue()) {
-		case TRUE:
-			return true;
-		case FALSE:
-			return false;
-		}
-		return false;
+		return condition.getValue();
 	}
 
 }

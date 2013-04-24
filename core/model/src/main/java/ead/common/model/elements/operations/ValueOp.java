@@ -84,4 +84,12 @@ public class ValueOp extends AbstractOperation {
 	public void setValue(Object value) {
 		this.value = value;
 	}
+
+	public boolean equals(Object o) {
+		if (o instanceof ValueOp) {
+			return (this.value == ((ValueOp) o).value || (this.value != null && this.value
+					.equals(((ValueOp) o).value)));
+		}
+		return false;
+	}
 }

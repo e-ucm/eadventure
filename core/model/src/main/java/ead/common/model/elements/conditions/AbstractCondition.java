@@ -47,4 +47,8 @@ public abstract class AbstractCondition extends AbstractOperation implements
 		super();
 	}
 
+	public boolean equals(Object o) {
+		return this == o;
+	}
+
 }

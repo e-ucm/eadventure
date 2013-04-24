@@ -233,6 +233,7 @@ public class ModelQuerier {
 	 */
 	public void loadMacros() {
 		macros.clear();
+		conversations.clear();
 		// Add macros
 		macrosToLoad.addAll(oldChapter.getMacros());
 		int iterations = 0;
@@ -283,7 +284,6 @@ public class ModelQuerier {
 	 * conversation in the cache
 	 */
 	public void loadConversations() {
-		conversations.clear();
 		npcTexts.clear();
 		npcBubbles.clear();
 		// Load text and bubble colors
@@ -389,7 +389,6 @@ public class ModelQuerier {
 		EAdEffect conversation = conversations.get(id);
 		if (conversation == null) {
 			conversation = new EmptyEffect();
-			conversation.setId(id);
 			conversations.put(id, conversation);
 		}
 		return conversation;

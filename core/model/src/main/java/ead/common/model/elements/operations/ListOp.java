@@ -70,4 +70,17 @@ public class ListOp extends AbstractOperation {
 		return listField;
 	}
 
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (o instanceof ListOp) {
+			ListOp op = (ListOp) o;
+			return op.operation.equals(operation)
+					&& op.listField.equals(listField);
+		}
+		return false;
+	}
+
 }

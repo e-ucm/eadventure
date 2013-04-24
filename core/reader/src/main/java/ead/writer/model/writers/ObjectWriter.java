@@ -38,7 +38,9 @@
 package ead.writer.model.writers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +49,16 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.conditions.ListedCond;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.reader.DOMTags;
+import ead.tools.MathEvaluator;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionField;
@@ -59,6 +70,37 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ObjectWriter");
+
+	/**
+	 * Map to aggregate all repeated fields
+	 */
+	private Map<Object, Map<EAdVarDef<?>, EAdField<?>>> fields;
+
+	/**
+	 * Lists to aggregate conditions
+	 */
+	private List<EAdCondition> conditions;
+
+	/**
+	 * Fields in the conditions (helper to simplify conditions)
+	 */
+	private List<EAdField<?>> conditionFields;
+
+	/**
+	 * An auxiliary field
+	 */
+	private List<EAdCondition> conditionsAux;
+	private List<EAdCondition> conditionsAuxToAdd;
+
+	/**
+	 * Lists to aggregate operations
+	 */
+	private List<EAdOperation> operations;
+
+	/**
+	 * MathEvaluator to help simplify MathOp with no values
+	 */
+	private MathEvaluator mathEvaluator;
 
 	private boolean asset;
 
@@ -72,16 +114,35 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 	 */
 	private List<String> assets;
 
+	private int simplifications;
+
 	public ObjectWriter(ModelVisitor modelVisitor) {
 		super(modelVisitor);
 		elements = new ArrayList<String>();
 		assets = new ArrayList<String>();
+		fields = new HashMap<Object, Map<EAdVarDef<?>, EAdField<?>>>();
+		simplifications = 0;
+		conditions = new ArrayList<EAdCondition>();
+		conditionFields = new ArrayList<EAdField<?>>();
+		conditionsAux = new ArrayList<EAdCondition>();
+		conditionsAuxToAdd = new ArrayList<EAdCondition>();
+		operations = new ArrayList<EAdOperation>();
+		mathEvaluator = new MathEvaluator();
 	}
 
 	@Override
 	public XMLNode write(Identified object) {
 		if (object == null) {
 			return null;
+		}
+
+		// Special cases
+		if (!asset && object instanceof EAdField) {
+			object = simplifyField((EAdField<?>) object);
+		} else if (!asset && object instanceof EAdCondition) {
+			object = simplifyCondition((EAdCondition) object);
+		} else if (!asset && object instanceof EAdOperation) {
+			object = simplifyOperation((EAdOperation) object);
 		}
 
 		XMLNode node = null;
@@ -176,6 +237,134 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 			parent.append(node);
 		}
 
+	}
+
+	public int getSimplifications() {
+		return simplifications;
+	}
+
+	public EAdField<?> simplifyField(EAdField<?> field) {
+		Map<EAdVarDef<?>, EAdField<?>> elementFields = fields.get(field
+				.getElement());
+		if (elementFields == null) {
+			elementFields = new HashMap<EAdVarDef<?>, EAdField<?>>();
+			fields.put(field.getElement(), elementFields);
+		}
+		EAdField<?> copy = elementFields.get(field.getVarDef());
+		if (copy == null) {
+			copy = field;
+			elementFields.put(field.getVarDef(), copy);
+		} else {
+			if (copy != field) {
+				simplifications++;
+			}
+		}
+		return copy;
+	}
+
+	public EAdCondition simplifyCondition(EAdCondition condition) {
+		if (condition instanceof ListedCond) {
+			condition = simplifyListed((ListedCond) condition);
+		}
+
+		if (!(condition instanceof EmptyCond)) {
+			conditionFields.clear();
+			condition.addFields(conditionFields);
+			if (conditionFields.size() == 0) {
+				logger.debug("No fields in {}", condition);
+			}
+		}
+
+		int index = conditions.indexOf(condition);
+		if (index != -1) {
+
+			EAdCondition copy = conditions.get(index);
+			if (copy != condition) {
+				simplifications++;
+				return copy;
+			}
+		} else {
+			conditions.add(condition);
+		}
+		return condition;
+	}
+
+	private EAdCondition simplifyListed(ListedCond condition) {
+		conditionsAux.clear();
+		conditionsAuxToAdd.clear();
+		for (EAdCondition c : condition.getConditions()) {
+			if (c instanceof EmptyCond) {
+				// If it is the condition null operator, the whole condition is
+				// false
+				if (c.equals(condition.getNullOperator())) {
+					return condition.getNullOperator();
+				}
+				// If not, it is not necessary, so we delete it
+				else {
+					conditionsAux.add(c);
+				}
+			} else if (c instanceof ListedCond) {
+				EAdCondition c2 = simplifyListed((ListedCond) c);
+				if (c2 != c) {
+					conditionsAux.add(c);
+					// If it's an OR inside another OR, we group them and remove
+					// unnecessary conditions
+					if (c2 instanceof ListedCond) {
+						ListedCond listed = (ListedCond) c2;
+						if (listed.getNullOperator().equals(
+								((ListedCond) c).getNullOperator())) {
+							conditionsAuxToAdd.addAll(listed.getConditions());
+						} else {
+							conditionsAuxToAdd.add(c2);
+						}
+					} else {
+						conditionsAuxToAdd.add(c2);
+					}
+				}
+			}
+		}
+
+		for (EAdCondition c : conditionsAux) {
+			condition.getConditions().remove(c);
+		}
+
+		for (EAdCondition c : conditionsAuxToAdd) {
+			condition.getConditions().add(c);
+		}
+
+		if (condition.getConditions().size() == 1) {
+			return condition.getConditions().get(0);
+		}
+
+		conditionFields.clear();
+		condition.addFields(conditionFields);
+		if (conditionFields.size() == 0) {
+			logger.debug("No fields in {}", condition);
+		}
+		return condition;
+	}
+
+	private EAdOperation simplifyOperation(EAdOperation operation) {
+		// If it is math expression with no operands, simplify to a ValueOp
+		if (operation instanceof MathOp
+				&& !((MathOp) operation).getExpression().contains("[")) {
+			String expression = ((MathOp) operation).getExpression();
+			mathEvaluator.setExpression(expression, null, null);
+			Float value = mathEvaluator.getValue();
+			operation = new ValueOp(value);
+		}
+
+		int index = operations.indexOf(operation);
+		if (index != -1) {
+			EAdOperation op = operations.get(index);
+			if (op != operation) {
+				simplifications++;
+			}
+			return op;
+		} else {
+			operations.add(operation);
+		}
+		return operation;
 	}
 
 }

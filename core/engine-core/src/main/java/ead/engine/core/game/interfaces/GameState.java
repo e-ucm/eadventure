@@ -52,11 +52,12 @@ import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.operators.Operator;
+import ead.tools.MathEvaluator.OperationResolver;
 
 /**
  * The state of the game.
  */
-public interface GameState extends ValueMap {
+public interface GameState extends ValueMap, OperationResolver {
 
 	/**
 	 * Evaluates a condition, using the required evaluator, based on a given

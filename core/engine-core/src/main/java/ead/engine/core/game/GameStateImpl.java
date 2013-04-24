@@ -179,6 +179,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 				effect.stop();
 			}
 		}
+		logger.debug("Effects cleared");
 	}
 
 	@Override

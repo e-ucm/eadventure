@@ -81,8 +81,8 @@ public class ConversationsConverter {
 		// subsequent effects until the conversation is finished. We used a wait
 		// until effect, with a condition that checks if the conversation is
 		// over
-		EAdEffect root = nodes.get(c.getRootNode()).get(0);
-		EAdField<Boolean> inConversation = new BasicField<Boolean>(root,
+		EAdEffect empty = modelQuerier.getConversation(c.getId());
+		EAdField<Boolean> inConversation = new BasicField<Boolean>(empty,
 				IN_CONVERSATION);
 
 		ChangeFieldEf endConversation = new ChangeFieldEf(inConversation,
@@ -108,7 +108,7 @@ public class ConversationsConverter {
 				effects.get(effects.size() - 1).addNextEffect(endConversation);
 			}
 		}
-
+		EAdEffect root = nodes.get(c.getRootNode()).get(0);
 		return root;
 	}
 

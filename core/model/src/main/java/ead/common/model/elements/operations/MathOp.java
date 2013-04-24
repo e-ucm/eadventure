@@ -138,4 +138,12 @@ public class MathOp extends AbstractOperation {
 		return s;
 	}
 
+	public boolean equals(Object o) {
+		if (o instanceof MathOp) {
+			return (this.expression == ((MathOp) o).expression || this.expression != null
+					&& this.expression.equals(((MathOp) o).expression))
+					&& super.equals(o);
+		}
+		return false;
+	}
 }

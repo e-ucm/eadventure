@@ -47,7 +47,6 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.ListedCond;
-import ead.common.model.elements.conditions.enums.EmptyCondValue;
 
 @Singleton
 public class ListedCondEvaluator implements Evaluator<ListedCond> {
@@ -65,7 +64,7 @@ public class ListedCondEvaluator implements Evaluator<ListedCond> {
 	@Override
 	public boolean evaluate(ListedCond condition) {
 		boolean temp = false;
-		if (condition.getNullOperator().getValue() == EmptyCondValue.TRUE)
+		if (condition.getNullOperator().getValue())
 			temp = true;
 
 		Iterator<EAdCondition> conditions = condition.getConditionsIterator();

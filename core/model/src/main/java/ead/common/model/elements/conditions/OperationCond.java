@@ -149,4 +149,16 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 		}
 	}
 
+	public boolean equals(Object o) {
+		if (o instanceof OperationCond) {
+			OperationCond oc = (OperationCond) o;
+			return oc.operator == this.operator
+					&& (oc.op1 == this.op1 || (oc.op1 != null && oc.op1
+							.equals(this.op1)))
+					&& (oc.op2 == this.op2 || (oc.op2 != null && oc.op2
+							.equals(this.op2)));
+		}
+		return false;
+	}
+
 }

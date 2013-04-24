@@ -67,4 +67,24 @@ public abstract class AbstractOperation extends BasicElement implements
 		this.operationsList.add(operation);
 	}
 
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o instanceof AbstractOperation) {
+			AbstractOperation ao = (AbstractOperation) o;
+			if (ao.operationsList.size() == this.operationsList.size()) {
+				for (int i = 0; i < ao.operationsList.size(); i++) {
+					EAdOperation op1 = ao.operationsList.get(i);
+					EAdOperation op2 = this.operationsList.get(i);
+					if (!op1.equals(op2)) {
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

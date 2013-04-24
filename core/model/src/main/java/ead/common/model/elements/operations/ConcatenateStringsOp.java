@@ -52,16 +52,16 @@ public class ConcatenateStringsOp extends AbstractOperation {
 	private String prefix;
 
 	@Param
-	private String sufix;
+	private String suffix;
 
 	public ConcatenateStringsOp() {
 
 	}
 
-	public ConcatenateStringsOp(String prefix, String sufix) {
+	public ConcatenateStringsOp(String prefix, String suffix) {
 		super();
 		this.prefix = prefix;
-		this.sufix = sufix;
+		this.suffix = suffix;
 	}
 
 	public String getPrefix() {
@@ -73,11 +73,26 @@ public class ConcatenateStringsOp extends AbstractOperation {
 	}
 
 	public String getSufix() {
-		return sufix;
+		return suffix;
 	}
 
-	public void setSufix(String sufix) {
-		this.sufix = sufix;
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (o instanceof ConcatenateStringsOp && super.equals(o)) {
+			ConcatenateStringsOp c = ((ConcatenateStringsOp) o);
+			return ((c.prefix == prefix || c.prefix != null
+					&& c.prefix.equals(prefix)))
+					&& ((c.suffix == suffix || c.suffix != null
+							&& c.suffix.equals(suffix)));
+		}
+		return false;
 	}
 
 }

@@ -42,6 +42,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
@@ -58,6 +61,9 @@ import ead.writer.model.writers.ObjectWriter;
 import ead.writer.model.writers.ParamWriter;
 
 public class ModelVisitor {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ModelVisitor");
 
 	private ReflectionProvider reflectionProvider;
 
@@ -140,6 +146,11 @@ public class ModelVisitor {
 				root.append(node);
 				addedToRoot = true;
 			}
+		}
+
+		if (stepsQueue.isEmpty()) {
+			logger.debug("{} elements simplified.", objectWriter
+					.getSimplifications());
 		}
 		return stepsQueue.isEmpty();
 	}

@@ -93,4 +93,17 @@ public class ConditionedOp extends AbstractOperation {
 		return condition + "?" + opTrue + ":" + opFalse;
 	}
 
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (o instanceof ConditionedOp) {
+			ConditionedOp op = (ConditionedOp) o;
+			return op.condition.equals(condition) && op.opTrue.equals(opTrue)
+					&& op.opFalse.equals(opFalse);
+		}
+		return false;
+	}
+
 }

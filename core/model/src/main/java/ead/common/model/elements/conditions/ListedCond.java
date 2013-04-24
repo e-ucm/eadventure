@@ -131,4 +131,27 @@ public abstract class ListedCond extends AbstractOperation implements
 		}
 	}
 
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o instanceof ListedCond) {
+			ListedCond listed = (ListedCond) o;
+			if (listed.operator == this.operator
+					&& listed.conditions.size() == this.conditions.size()) {
+				for (int i = 0; i < conditions.size(); i++) {
+					EAdCondition c1 = conditions.get(i);
+					EAdCondition c2 = listed.conditions.get(i);
+					if (!this.conditions.contains(c2)
+							|| !(listed.conditions.contains(c1))) {
+						return false;
+					}
+
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

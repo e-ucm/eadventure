@@ -35,13 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.operators.util;
-
-import com.badlogic.gdx.utils.Pool;
+package ead.tools;
 
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdOperation;
-import ead.engine.core.game.interfaces.GameState;
 
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
@@ -66,7 +63,7 @@ public class MathEvaluator {
 	protected static Operator[] operators = null;
 	private Node node = null;
 	private String expression = null;
-	private GameState gameState;
+	private OperationResolver operationResolver;
 	private EAdList<EAdOperation> operationsList;
 
 	private Pool<Node> pool = new Pool<Node>() {
@@ -90,7 +87,7 @@ public class MathEvaluator {
 	/***
 	 * creates a MathEvaluator and assign the math expression string.
 	 */
-	public MathEvaluator(String s, GameState variables,
+	public MathEvaluator(String s, OperationResolver variables,
 			EAdList<EAdOperation> varList) {
 		init();
 		setExpression(s, variables, varList);
@@ -106,10 +103,10 @@ public class MathEvaluator {
 	 * 
 	 * @param eAdElementList
 	 */
-	public void setExpression(String s, GameState variables,
+	public void setExpression(String s, OperationResolver operationResolver,
 			EAdList<EAdOperation> varList) {
 		expression = s;
-		this.gameState = variables;
+		this.operationResolver = operationResolver;
 		this.operationsList = varList;
 	}
 
@@ -264,7 +261,7 @@ public class MathEvaluator {
 			id = id.replace("]", "");
 			int index = Integer.parseInt(id);
 			EAdOperation number = operationsList.get(index);
-			Object o = gameState.operate(Number.class, number);
+			Object o = operationResolver.operate(Number.class, number);
 			if (o instanceof Number) {
 				return ((Number) o).floatValue();
 			} else
@@ -569,5 +566,10 @@ public class MathEvaluator {
 
 	protected static void _D(String s) {
 		System.err.println(s);
+	}
+
+	public interface OperationResolver {
+
+		<T extends EAdOperation, S> S operate(Class<S> clazz, T operation);
 	}
 }
