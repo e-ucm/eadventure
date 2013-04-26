@@ -53,6 +53,8 @@ import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.EmptyEffect;
+import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
@@ -228,7 +230,8 @@ public class EffectsConverter {
 			if (nextEffects.size() > 0) {
 				effects.addAll(nextEffects);
 				if (effect != null) {
-					effect.getNextEffects().add(nextEffects.get(0));
+					EAdEffect nextEffect = simplifyEffects(nextEffects).get(0);
+					effect.getNextEffects().add(nextEffect);
 				}
 				effect = nextEffects.get(nextEffects.size() - 1);
 			}
@@ -241,5 +244,61 @@ public class EffectsConverter {
 		}
 
 		return effects;
+	}
+
+	private List<EAdEffect> simplifyEffects(List<EAdEffect> nextEffects) {
+		if (nextEffects.size() < 2) {
+			return nextEffects;
+		}
+
+		int i = 0;
+		boolean hasNotQueue = false;
+		while (!hasNotQueue && i < nextEffects.size()) {
+			hasNotQueue = isNotQueueable(nextEffects.get(i++));
+		}
+
+		if (!hasNotQueue) {
+			return nextEffects;
+		}
+
+		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+
+		int index = 0;
+		while (i < nextEffects.size()) {
+			while (i < nextEffects.size()
+					&& isNotQueueable(nextEffects.get(i++))) {
+				;
+				if (i - index == 0) {
+					list.add(nextEffects.get(i));
+				} else {
+					if (i == 0 && i - index > 2) {
+						EmptyEffect effect = new EmptyEffect();
+						for (int j = i; j < index; j++) {
+							EAdEffect e = nextEffects.get(j);
+							e.getNextEffects().clear();
+							effect.addNextEffect(e);
+							list.add(effect);
+						}
+					} else {
+						for (int j = i; j < index; j++) {
+							list.add(nextEffects.get(j));
+						}
+					}
+
+				}
+				index = i;
+			}
+		}
+
+		for (int j = index; j < i; j++) {
+			list.add(nextEffects.get(j));
+		}
+		return list;
+	}
+
+	private boolean isNotQueueable(EAdEffect e) {
+		return e.getSimultaneousEffects().size() == 0
+				&& e.getNextEffects().size() == 1
+				&& (e instanceof ChangeFieldEf || e instanceof ChangeColorEf);
 	}
 }

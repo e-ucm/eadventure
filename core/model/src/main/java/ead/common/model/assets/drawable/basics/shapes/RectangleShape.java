@@ -100,10 +100,18 @@ public class RectangleShape extends AbstractShape {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
-			return false;
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
 		}
-		return true;
+
+		if (o instanceof RectangleShape) {
+			return toString().equals(o.toString());
+		}
+		return false;
+	}
+
+	public String toString() {
+		return width + ":" + height + ":" + super.getPaint();
 	}
 }

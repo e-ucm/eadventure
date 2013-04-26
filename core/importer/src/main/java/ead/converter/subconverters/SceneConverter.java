@@ -174,8 +174,9 @@ public class SceneConverter {
 	private void addReferences(BasicScene scene,
 			List<ElementReference> references) {
 		for (ElementReference e : references) {
-			SceneElement sceneElement = new SceneElement(
-					(EAdSceneElementDef) elementsCache.get(e.getTargetId()));
+			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(e
+					.getTargetId());
+			SceneElement sceneElement = new SceneElement(def);
 			sceneElement.setId(e.getTargetId() + "_" + sceneElement.getId());
 			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
 			sceneElement.setInitialZ(e.getLayer());
@@ -185,8 +186,10 @@ public class SceneConverter {
 
 			// Add event to change appearance when required by the actor's
 			// definition
-			utilsConverter.addWatchDefinitionField(sceneElement,
-					SceneElement.VAR_BUNDLE_ID);
+			if (def.getResources().size() > 1) {
+				utilsConverter.addWatchDefinitionField(sceneElement,
+						SceneElement.VAR_BUNDLE_ID);
+			}
 
 			// Add visibility condition
 			utilsConverter.addWatchCondition(sceneElement, sceneElement

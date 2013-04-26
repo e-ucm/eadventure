@@ -62,6 +62,7 @@ public class DecrementVarConverter implements
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
 		EAdField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
 		MathOp op = new MathOp("[0] - " + oldObject.getDecrement(), var);
+		op.setResultAsInteger(true);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		list.add(effect);
 		return list;

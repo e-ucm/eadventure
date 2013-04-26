@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,9 @@ import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.params.EAdParam;
+import ead.common.model.params.variables.EAdVarDef;
 import ead.reader.DOMTags;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLDocument;
@@ -149,8 +152,46 @@ public class ModelVisitor {
 		}
 
 		if (stepsQueue.isEmpty()) {
+			logger.debug("Resolving references...");
+			objectWriter.resolveReferences();
+		}
+		// Debug output
+		if (stepsQueue.isEmpty() && logger.isDebugEnabled()) {
 			logger.debug("{} elements simplified.", objectWriter
 					.getSimplifications());
+			int total = 0;
+			for (Entry<Object, Map<EAdVarDef<?>, EAdField<?>>> e : objectWriter
+					.getFields().entrySet()) {
+				logger.debug("+{}", e.getKey());
+				for (Entry<EAdVarDef<?>, EAdField<?>> v : e.getValue()
+						.entrySet()) {
+					logger.debug("     |-- {}", v.getKey().getName());
+				}
+			}
+			for (Entry<Class<?>, Integer> e : objectWriter
+					.getClassProfilerAssets().entrySet()) {
+				List l = objectWriter.getSimplifier().getIdentified().get(
+						e.getKey());
+				int value = l == null ? 0 : l.size();
+				logger.debug("{}:{} | {}", new Object[] { e.getKey(),
+						e.getValue(), value });
+				total += e.getValue();
+			}
+			logger.debug("Total assets: {}", total);
+			total = 0;
+			for (Entry<Class<?>, Integer> e : objectWriter
+					.getClassProfilerElements().entrySet()) {
+				List l = objectWriter.getSimplifier().getIdentified().get(
+						e.getKey());
+				int value = l == null ? 0 : l.size();
+				logger.debug("{}:{} | {}", new Object[] { e.getKey(),
+						e.getValue(), value });
+				total += e.getValue();
+			}
+			logger.debug("Total eadelements: {}", total);
+			logger.debug("Total lists: " + listWriter.getTotal());
+			logger.debug("Total maps: " + mapWriter.getTotal());
+			logger.debug("Total params: " + paramWriter.getTotal());
 		}
 		return stepsQueue.isEmpty();
 	}

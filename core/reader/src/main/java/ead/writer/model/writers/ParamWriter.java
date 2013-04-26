@@ -37,6 +37,8 @@
 
 package ead.writer.model.writers;
 
+import java.util.ArrayList;
+
 import ead.common.model.params.EAdParam;
 import ead.reader.DOMTags;
 import ead.tools.xml.XMLNode;
@@ -44,8 +46,11 @@ import ead.writer.model.ModelVisitor;
 
 public class ParamWriter extends AbstractWriter<Object> {
 
+	private ArrayList<String> params;
+
 	public ParamWriter(ModelVisitor modelVisitor) {
 		super(modelVisitor);
+		params = new ArrayList<String>();
 	}
 
 	@Override
@@ -67,7 +72,15 @@ public class ParamWriter extends AbstractWriter<Object> {
 				value = o.toString();
 			}
 			node.setText(value);
+			if (!params.contains(value)) {
+				params.add(value);
+			}
 		}
+
 		return node;
+	}
+
+	public int getTotal() {
+		return params.size();
 	}
 }

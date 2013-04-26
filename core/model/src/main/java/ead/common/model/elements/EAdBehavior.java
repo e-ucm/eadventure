@@ -86,4 +86,10 @@ public interface EAdBehavior extends EAdElement {
 	 */
 	EAdList<EAdEffect> getAllEffects();
 
+	/**
+	 * Returns if this behavior is empty
+	 * @return
+	 */
+	boolean isEmpty();
+
 }

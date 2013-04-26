@@ -115,6 +115,21 @@ public class ChapterConverter {
 			elementsCache.put(def);
 		}
 
+		// Add actions after the cache contains all the actors
+		// Items actions
+		for (Item a : c.getItems()) {
+			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(a
+					.getId());
+			itemConverter.addActions(a, def);
+
+		}
+		// NPCs actions
+		for (NPC a : c.getCharacters()) {
+			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(a
+					.getId());
+			npcConverter.addActions(a, def);
+		}
+
 		// Import player
 		EAdSceneElementDef def = npcConverter.convert(c.getPlayer());
 		elementsCache.put(def);

@@ -46,8 +46,11 @@ import ead.writer.model.ModelVisitor.VisitorListener;
 @SuppressWarnings("rawtypes")
 public class MapWriter extends AbstractWriter<EAdMap> {
 
+	private int total;
+
 	public MapWriter(ModelVisitor modelVisitor) {
 		super(modelVisitor);
+		total = 0;
 	}
 
 	@Override
@@ -56,6 +59,7 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 		if (object.isEmpty()) {
 			return null;
 		}
+		total++;
 		XMLNode node = modelVisitor.newNode(DOMTags.MAP_TAG);
 
 		MapWriterListener listener = new MapWriterListener(node);
@@ -91,4 +95,7 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 
 	}
 
+	public int getTotal() {
+		return total;
+	}
 }

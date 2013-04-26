@@ -108,6 +108,6 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 			return false;
 		}
 		String oid = ((Identified) other).getId();
-		return (oid == null && id == null) || oid.equals(id);
+		return oid != null && id != null && oid.equals(id);
 	}
 }

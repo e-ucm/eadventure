@@ -48,6 +48,7 @@ import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.WatchFieldEv;
@@ -153,13 +154,17 @@ public class UtilsConverter {
 	 */
 	public void addWatchCondition(EAdSceneElement sceneElement,
 			EAdField<Boolean> field, Conditions c) {
-		WatchFieldEv watchField = new WatchFieldEv();
 		EAdCondition cond = conditionsConverter.convert(c);
-		for (EAdField<?> f : conditionsConverter.getFieldsLastCondition()) {
-			watchField.watchField(f);
+		// If condition is true, the scene element is always visible, so no need
+		// for watch event
+		if (!cond.equals(EmptyCond.TRUE)) {
+			WatchFieldEv watchField = new WatchFieldEv();
+			for (EAdField<?> f : conditionsConverter.getFieldsLastCondition()) {
+				watchField.watchField(f);
+			}
+			watchField.addEffect(new ChangeFieldEf(field, cond));
+			sceneElement.getEvents().add(watchField);
 		}
-		watchField.addEffect(new ChangeFieldEf(field, cond));
-		sceneElement.getEvents().add(watchField);
 	}
 
 	/**

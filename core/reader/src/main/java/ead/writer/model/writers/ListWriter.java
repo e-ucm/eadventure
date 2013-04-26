@@ -45,8 +45,11 @@ import ead.writer.model.ModelVisitor.VisitorListener;
 
 public class ListWriter extends AbstractWriter<EAdList<?>> {
 
+	private int total;
+
 	public ListWriter(ModelVisitor modelVisitor) {
 		super(modelVisitor);
+		total = 0;
 	}
 
 	@Override
@@ -55,6 +58,7 @@ public class ListWriter extends AbstractWriter<EAdList<?>> {
 		if (object.isEmpty()) {
 			return null;
 		}
+		total++;
 		XMLNode node = modelVisitor.newNode(DOMTags.LIST_TAG);
 		ListWriterVisitor listVisitor = new ListWriterVisitor(node);
 		for (Object o : object) {
@@ -76,6 +80,10 @@ public class ListWriter extends AbstractWriter<EAdList<?>> {
 			list.append(node);
 		}
 
+	}
+
+	public int getTotal() {
+		return total;
 	}
 
 }

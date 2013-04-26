@@ -82,11 +82,12 @@ public class HighlightItemConverter implements
 			// XXX Highlight border
 			red = blue = green = 0.5f;
 			break;
+		case HighlightItemEffect.NO_HIGHLIGHT:
+			red = blue = green = 1.0f;
 		}
 
 		ChangeColorEf changeColor = new ChangeColorEf(red, green, blue);
 		changeColor.setSceneElement(elementsCache.get(e.getTargetId()));
-		list.add(changeColor);
 
 		if (e.isHighlightAnimated()) {
 			SceneElementDef def = (SceneElementDef) elementsCache.get(e
@@ -97,10 +98,12 @@ public class HighlightItemConverter implements
 					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.5f, 1000);
 			InterpolationEf interpolation2 = new InterpolationEf(
 					sceneElementField, SceneElement.VAR_SCALE, 0.5f, 1.0f, 1000);
-			changeColor.getNextEffects().add(interpolation);
+			interpolation.addSimultaneousEffect(changeColor);
 			interpolation.getNextEffects().add(interpolation2);
 			list.add(interpolation);
 			list.add(interpolation2);
+		} else {
+			list.add(changeColor);
 		}
 
 		return list;

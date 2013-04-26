@@ -81,8 +81,6 @@ public abstract class ElementConverter {
 		// Appearance
 		convert(a, getResourceType(), definition,
 				ResourcedElement.INITIAL_BUNDLE, SceneElementDef.appearance);
-		// Actions
-		addActions(a, definition);
 		return definition;
 	}
 
@@ -113,7 +111,7 @@ public abstract class ElementConverter {
 		return definition;
 	}
 
-	protected void addActions(Element element, EAdSceneElementDef def) {
+	public void addActions(Element element, EAdSceneElementDef def) {
 		// Add actions
 		if (element.getActions().size() > 0) {
 			EAdList<EAdSceneElementDef> actions = actionsConverter

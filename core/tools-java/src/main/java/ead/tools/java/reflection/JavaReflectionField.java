@@ -39,6 +39,7 @@ package ead.tools.java.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,6 +92,11 @@ public class JavaReflectionField implements ReflectionField {
 		} catch (Exception e) {
 			logger.error("{}", e);
 		}
+	}
+
+	@Override
+	public boolean isStatic() {
+		return Modifier.isStatic(field.getModifiers());
 	}
 
 }

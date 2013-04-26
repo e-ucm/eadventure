@@ -142,4 +142,8 @@ public class Behavior extends BasicElement implements EAdBehavior {
 		this.behavior = behavior;
 	}
 
+	public boolean isEmpty() {
+		return behavior.isEmpty();
+	}
+
 }

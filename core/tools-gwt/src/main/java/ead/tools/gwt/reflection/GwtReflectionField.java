@@ -83,4 +83,9 @@ public class GwtReflectionField implements ReflectionField {
 		}
 	}
 
+	@Override
+	public boolean isStatic() {
+		return field.isStatic();
+	}
+
 }

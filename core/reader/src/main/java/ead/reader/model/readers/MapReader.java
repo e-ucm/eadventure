@@ -47,21 +47,27 @@ import ead.tools.xml.XMLNodeList;
 @SuppressWarnings("rawtypes")
 public class MapReader extends AbstractReader<EAdMap> {
 
+	private static final EAdMap EMPTY_MAP = new EAdMap();
+
 	public MapReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
 	}
 
 	@Override
 	public EAdMap read(XMLNode node) {
-		EAdMap map = new EAdMap();
-		MapVisitorListener listener = new MapVisitorListener(map);
+
 		if (node.hasChildNodes()) {
+			EAdMap map = new EAdMap();
+			MapVisitorListener listener = new MapVisitorListener(map);
 			XMLNodeList childNodes = node.getChildNodes();
 			for (int i = 0; i < childNodes.getLength(); i++) {
 				xmlVisitor.loadElement(childNodes.item(i), listener);
 			}
+			return map;
+		} else {
+			return EMPTY_MAP;
 		}
-		return map;
+
 	}
 
 	public class MapVisitorListener implements VisitorListener {

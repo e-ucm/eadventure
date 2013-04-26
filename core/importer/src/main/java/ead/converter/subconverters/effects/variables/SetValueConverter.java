@@ -43,7 +43,7 @@ import java.util.List;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.ValueOp;
 import ead.converter.ModelQuerier;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
@@ -60,8 +60,8 @@ public class SetValueConverter implements EffectConverter<SetValueEffect> {
 	public List<EAdEffect> convert(SetValueEffect oldObject) {
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
 		EAdField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
-		MathOp op = new MathOp(oldObject.getValue() + "", var);
-		ChangeFieldEf effect = new ChangeFieldEf(var, op);
+		ChangeFieldEf effect = new ChangeFieldEf(var, new ValueOp(oldObject
+				.getValue()));
 		list.add(effect);
 		return list;
 	}

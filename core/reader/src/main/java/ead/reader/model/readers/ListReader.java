@@ -47,21 +47,26 @@ import ead.tools.xml.XMLNodeList;
 @SuppressWarnings("rawtypes")
 public class ListReader extends AbstractReader<EAdList> {
 
+	private static final EAdList EMPTY_LIST = new EAdList();
+
 	public ListReader(ObjectsFactory elementsFactory, XMLVisitor visitor) {
 		super(elementsFactory, visitor);
 	}
 
 	@Override
 	public EAdList read(XMLNode node) {
-		EAdList list = new EAdList();
 		if (node.hasChildNodes()) {
+			EAdList list = new EAdList();
 			XMLNodeList children = node.getChildNodes();
 			for (int i = 0; i < children.getLength(); i++) {
 				xmlVisitor.loadElement(children.item(i),
 						new ListVisitorListener(list));
 			}
+			return list;
+		} else {
+			return EMPTY_LIST;
 		}
-		return list;
+
 	}
 
 	public static class ListVisitorListener implements VisitorListener {

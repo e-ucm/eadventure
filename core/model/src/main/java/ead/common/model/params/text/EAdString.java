@@ -47,7 +47,7 @@ public class EAdString implements EAdParam {
 	/**
 	 * The id
 	 */
-	private String id;
+	private String stringId;
 
 	/**
 	 * Construct a new string with the given id
@@ -56,36 +56,36 @@ public class EAdString implements EAdParam {
 	 *            The id of the EAdString
 	 */
 	public EAdString(String id) {
-		this.id = id;
+		this.stringId = id;
 	}
 
 	@Override
 	public String toString() {
-		return id;
+		return stringId;
 	}
 
 	@Override
 	public int hashCode() {
-		return id.hashCode();
+		return stringId.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof EAdString) {
-			return ((EAdString) o).id.equals(id);
+			return ((EAdString) o).stringId.equals(stringId);
 		}
 		return false;
 	}
 
 	@Override
 	public String toStringData() {
-		return id;
+		return stringId;
 	}
 
 	@Override
 	public boolean parse(String data) {
-		this.id = data;
-		return id != null;
+		this.stringId = data;
+		return stringId != null;
 	}
 
 }

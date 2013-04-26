@@ -62,6 +62,7 @@ public class IncrementVarConverter implements
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
 		EAdField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
 		MathOp op = new MathOp("[0] + " + oldObject.getIncrement(), var);
+		op.setResultAsInteger(true);
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		list.add(effect);
 		return list;

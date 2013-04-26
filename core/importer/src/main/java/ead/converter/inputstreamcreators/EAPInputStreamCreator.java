@@ -60,8 +60,9 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 
 	@Override
 	public InputStream buildInputStream(String filePath) {
+		File f = new File(absolutePath, filePath);
 		try {
-			return new FileInputStream(new File(absolutePath, filePath));
+			return new FileInputStream(f);
 		} catch (FileNotFoundException e) {
 
 		}
