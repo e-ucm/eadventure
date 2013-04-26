@@ -49,8 +49,8 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
@@ -181,10 +181,6 @@ public class BaseImporterModule extends AbstractModule {
 
 		EAdElementFactoryImpl.importerMap.put(GlobalState.class,
 				ConditionsImporter.class);
-
-		bind(new TypeLiteral<EAdElementImporter<Macro, EffectsMacro>>() {
-		}).to(MacroImporter.class);
-		EAdElementFactoryImpl.importerMap.put(Macro.class, MacroImporter.class);
 
 		bind(new TypeLiteral<EAdElementImporter<Action, EAdSceneElementDef>>() {
 		}).to(ActionImporter.class);

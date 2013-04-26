@@ -51,13 +51,13 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.InventoryHud;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
@@ -150,8 +150,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			for (Resources res : oldSlides.getResources()) {
 				EAdScene scene = new BasicScene();
 				createSceneFromSlides(scene, oldSlides, res, changeNextScene);
-				EffectsMacro macro = new EffectsMacro();
-				macro.getEffects().add(new ChangeSceneEf(scene));
+				EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+				macro.add(new ChangeSceneEf(scene));
 				EAdCondition c = conditionsImporter.init(res.getConditions());
 				c = conditionsImporter.convert(res.getConditions(), c);
 				musicPaths

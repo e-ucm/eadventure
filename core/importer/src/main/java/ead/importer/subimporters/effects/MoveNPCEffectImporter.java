@@ -40,11 +40,12 @@ package ead.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.MovementSpeed;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
@@ -74,14 +75,14 @@ public class MoveNPCEffectImporter extends
 	@Override
 	public TriggerMacroEf convert(MoveNPCEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
-		EffectsMacro macro = new EffectsMacro();
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
 		effect.putMacro(macro, EmptyCond.TRUE);
 
 		MoveSceneElementEf moveEffect = new MoveSceneElementEf(
 				(EAdSceneElementDef) factory.getElementById(oldObject
 						.getTargetId()), oldObject.getX(), oldObject.getY(),
 				MovementSpeed.NORMAL);
-		macro.getEffects().add(moveEffect);
+		macro.add(moveEffect);
 
 		return effect;
 	}

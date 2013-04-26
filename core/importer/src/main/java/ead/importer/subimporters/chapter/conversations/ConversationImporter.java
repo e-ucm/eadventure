@@ -44,9 +44,9 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.text.QuestionEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
@@ -131,8 +131,8 @@ public class ConversationImporter implements
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
-		EffectsMacro macro = new EffectsMacro();
-		macro.getEffects().add(initialEffect);
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+		macro.add(initialEffect);
 		result.putMacro(macro, EmptyCond.TRUE);
 		annotator.annotate(ImportAnnotator.Type.Close, oldObject.getId());
 		return result;

@@ -48,11 +48,11 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.ValueOp;
@@ -178,20 +178,17 @@ public abstract class ActorImporter<P extends Element> implements
 				c = conditionsImporter.convert(d.getConditions(), c);
 			}
 
-			EffectsMacro macro = new EffectsMacro();
-			macro.getEffects().add(
-					new ChangeFieldEf(nameField, new ValueOp(strings[0])));
-			macro.getEffects().add(
-					new ChangeFieldEf(descField, new ValueOp(strings[1])));
-			macro.getEffects().add(
-					new ChangeFieldEf(detailedDesc, new ValueOp(strings[2])));
+			EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+			macro.add(new ChangeFieldEf(nameField, new ValueOp(strings[0])));
+			macro.add(new ChangeFieldEf(descField, new ValueOp(strings[1])));
+			macro.add(new ChangeFieldEf(detailedDesc, new ValueOp(strings[2])));
 
 			// Sound
 			if (d.getNameSoundPath() != null
 					&& !d.getNameSoundPath().equals("")) {
 				EAdSound sound = (EAdSound) resourceImporter
 						.getAssetDescritptor(d.getNameSoundPath(), Sound.class);
-				macro.getEffects().add(new PlaySoundEf(sound, false));
+				macro.add(new PlaySoundEf(sound, false));
 			}
 
 			if (d.getDescriptionSoundPath() != null
@@ -202,8 +199,7 @@ public abstract class ActorImporter<P extends Element> implements
 				if (soundEffects[0] == null) {
 					soundEffects[0] = new TriggerMacroEf();
 				}
-				soundEffects[0].putMacro(new EffectsMacro(new PlaySoundEf(
-						sound, false)), c);
+				soundEffects[0].putMacro(new EAdList<EAdEffect>(), c);
 			}
 
 			if (d.getDetailedDescriptionSoundPath() != null
@@ -214,19 +210,17 @@ public abstract class ActorImporter<P extends Element> implements
 				if (soundEffects[1] == null) {
 					soundEffects[1] = new TriggerMacroEf();
 				}
-				soundEffects[1].putMacro(new EffectsMacro(new PlaySoundEf(
-						sound, false)), c);
+				soundEffects[1].putMacro(new EAdList<EAdEffect>(), c);
 			}
 
 			triggerMacro.putMacro(macro, c);
 		}
 
 		// Generate default case (set to null all the strings)
-		EffectsMacro macro = new EffectsMacro();
-		macro.getEffects().add(new ChangeFieldEf(nameField, new ValueOp(null)));
-		macro.getEffects().add(new ChangeFieldEf(descField, new ValueOp(null)));
-		macro.getEffects().add(
-				new ChangeFieldEf(detailedDesc, new ValueOp(null)));
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+		macro.add(new ChangeFieldEf(nameField, new ValueOp(null)));
+		macro.add(new ChangeFieldEf(descField, new ValueOp(null)));
+		macro.add(new ChangeFieldEf(detailedDesc, new ValueOp(null)));
 		triggerMacro.putMacro(macro, EmptyCond.TRUE);
 
 		actor.addBehavior(MouseGEv.MOUSE_ENTERED, triggerMacro);

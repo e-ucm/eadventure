@@ -40,9 +40,9 @@ package ead.importer.subimporters.chapter.cutscene;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
@@ -134,7 +134,7 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 		changeScene.setNextScene(nextScene);
 		changeScene.setTransition(transition);
 
-		EffectsMacro macro = effectsImporter.getMacroEffects(cutscene
+		EAdList<EAdEffect> macro = effectsImporter.getMacroEffects(cutscene
 				.getEffects());
 		if (macro != null) {
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();

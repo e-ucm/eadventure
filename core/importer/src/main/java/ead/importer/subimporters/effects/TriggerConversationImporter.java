@@ -42,8 +42,8 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -73,13 +73,13 @@ public class TriggerConversationImporter extends
 	public TriggerMacroEf convert(TriggerConversationEffect oldObject,
 			Object object) {
 		TriggerMacroEf triggerMacro = super.convert(oldObject, object);
-		EffectsMacro macro = new EffectsMacro();
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
 		triggerMacro.putMacro(macro, EmptyCond.TRUE);
 
 		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject
 				.getTargetId());
 		if (effect != null)
-			macro.getEffects().add(effect);
+			macro.add(effect);
 
 		return triggerMacro;
 	}

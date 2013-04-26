@@ -46,9 +46,9 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.predef.effects.ChangeCursorEf;
 import ead.common.model.elements.scenes.EAdScene;
@@ -202,7 +202,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		TriggerMacroEf triggerMacro = new TriggerMacroEf();
 
 		// Normal effects
-		EffectsMacro normalMacro = effectsImporterFactory
+		EAdList<EAdEffect> normalMacro = effectsImporterFactory
 				.getMacroEffects(oldObject.getEffects());
 		if (normalMacro != null) {
 			triggerMacro.putMacro(normalMacro, enableCondition);
@@ -210,11 +210,10 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 		// No effects
 		if (oldObject.isHasNotEffects()) {
-			EffectsMacro noEffectsMacro = effectsImporterFactory
+			EAdList<EAdEffect> noEAdList = effectsImporterFactory
 					.getMacroEffects(oldObject.getNotEffects());
-			if (noEffectsMacro != null) {
-				triggerMacro.putMacro(noEffectsMacro, new NOTCond(
-						enableCondition));
+			if (noEAdList != null) {
+				triggerMacro.putMacro(noEAdList, new NOTCond(enableCondition));
 			}
 		}
 

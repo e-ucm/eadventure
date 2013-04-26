@@ -40,9 +40,10 @@ package ead.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -71,7 +72,7 @@ public class TriggerMacroImporter extends
 	@Override
 	public TriggerMacroEf convert(MacroReferenceEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
-		effect.putMacro((EffectsMacro) factory.getElementById(oldObject
+		effect.putMacro((EAdList<EAdEffect>) factory.getElementById(oldObject
 				.getTargetId()), EmptyCond.TRUE);
 		return effect;
 	}

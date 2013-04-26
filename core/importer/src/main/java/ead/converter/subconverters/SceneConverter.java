@@ -49,8 +49,8 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
@@ -255,10 +255,10 @@ public class SceneConverter {
 				// Add ACTIVE effects
 				triggerMacro.putEffect(effectWhenClick, cond);
 				// Add INACTIVE effects
-				EffectsMacro macro = new EffectsMacro();
+				EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
 				effects = effectConverter.convert(e.getNotEffects());
 				if (effects.size() > 0) {
-					macro.getEffects().add(effects.get(0));
+					macro.add(effects.get(0));
 				}
 				// The macro only executes if the first condition fails
 				triggerMacro.putMacro(macro, EmptyCond.TRUE);

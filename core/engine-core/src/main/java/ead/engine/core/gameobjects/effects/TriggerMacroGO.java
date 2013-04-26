@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -64,7 +64,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 	public void initialize() {
 		super.initialize();
 
-		EffectsMacro macro = null;
+		EAdList<EAdEffect> macro = null;
 
 		for (int i = 0; i < effect.getMacros().size() && macro == null; i++) {
 			EAdCondition c = effect.getConditions().get(i);
@@ -75,7 +75,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 		}
 
 		if (macro != null) {
-			for (EAdEffect e : macro.getEffects()) {
+			for (EAdEffect e : macro) {
 				gameState.addEffect(e, action, parent);
 			}
 		}

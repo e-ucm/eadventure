@@ -51,23 +51,23 @@ import ead.common.model.elements.extra.EAdList;
 public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 
 	@Param
-	private EAdList<EffectsMacro> macros;
+	private EAdList<EAdList<EAdEffect>> macros;
 
 	@Param
 	private EAdList<EAdCondition> conditions;
 
 	public TriggerMacroEf() {
 		super();
-		macros = new EAdList<EffectsMacro>();
+		macros = new EAdList<EAdList<EAdEffect>>();
 		conditions = new EAdList<EAdCondition>();
 	}
 
-	public void putMacro(EffectsMacro macro, EAdCondition condition) {
+	public void putMacro(EAdList<EAdEffect> macro, EAdCondition condition) {
 		macros.add(macro);
 		conditions.add(condition);
 	}
 
-	public EAdList<EffectsMacro> getMacros() {
+	public EAdList<EAdList<EAdEffect>> getMacros() {
 		return macros;
 	}
 
@@ -75,7 +75,7 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 		return conditions;
 	}
 
-	public void setMacros(EAdList<EffectsMacro> macros) {
+	public void setMacros(EAdList<EAdList<EAdEffect>> macros) {
 		this.macros = macros;
 	}
 
@@ -84,8 +84,8 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 	}
 
 	public void putEffect(EAdEffect effect, EAdCondition c) {
-		EffectsMacro macro = new EffectsMacro();
-		macro.getEffects().add(effect);
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+		macro.add(effect);
 		putMacro(macro, c);
 
 	}

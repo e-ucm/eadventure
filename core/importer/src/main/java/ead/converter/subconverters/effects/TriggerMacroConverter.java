@@ -44,10 +44,10 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.WaitUntilEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.params.variables.VarDef;
 import ead.converter.ModelQuerier;
@@ -69,7 +69,7 @@ public class TriggerMacroConverter implements
 	public List<EAdEffect> convert(MacroReferenceEffect e) {
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
 		TriggerMacroEf effect = new TriggerMacroEf();
-		EffectsMacro macro = modelQuerier.getMacro(e.getTargetId());
+		EAdList<EAdEffect> macro = modelQuerier.getMacro(e.getTargetId());
 		effect.putMacro(macro, EmptyCond.TRUE);
 		list.add(effect);
 		// Add IN_MACRO field to hold next effects until the macro ends
@@ -78,8 +78,7 @@ public class TriggerMacroConverter implements
 		effect.addSimultaneousEffect(macroIn);
 
 		ChangeFieldEf macroOut = new ChangeFieldEf(field, EmptyCond.FALSE);
-		macro.getEffects().get(macro.getEffects().size() - 1).addNextEffect(
-				macroOut);
+		macro.get(macro.size() - 1).addNextEffect(macroOut);
 
 		// Waits until the macro ends
 		WaitUntilEf wait = new WaitUntilEf(

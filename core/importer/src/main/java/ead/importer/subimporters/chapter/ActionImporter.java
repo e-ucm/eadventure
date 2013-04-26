@@ -59,7 +59,6 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.InventoryEffectAction;
@@ -197,8 +196,8 @@ public class ActionImporter implements
 			SceneElementDef action, EAdSceneElementDef actor,
 			EAdCondition condition, boolean isActiveArea) {
 		// Add effects
-		EffectsMacro macro = effectsImporterFactory.getMacroEffects(oldObject
-				.getEffects());
+		EAdList<EAdEffect> macro = effectsImporterFactory
+				.getMacroEffects(oldObject.getEffects());
 
 		// Add default effects for the action
 		EAdEffect defaultEffect = getDefaultEffects(oldObject, actor,
@@ -206,9 +205,9 @@ public class ActionImporter implements
 
 		if (defaultEffect != null) {
 			if (macro == null) {
-				macro = new EffectsMacro();
+				macro = new EAdList<EAdEffect>();
 			}
-			macro.getEffects().add(0, defaultEffect);
+			macro.add(0, defaultEffect);
 		}
 
 		// Add conditions and get to
@@ -217,7 +216,7 @@ public class ActionImporter implements
 		}
 
 		// Add no effects
-		EffectsMacro notEffects = effectsImporterFactory
+		EAdList<EAdEffect> notEffects = effectsImporterFactory
 				.getMacroEffects(oldObject.getNotEffects());
 		if (notEffects != null) {
 			notEffectTrigger.putMacro(notEffects, new NOTCond(condition));
@@ -639,16 +638,16 @@ public class ActionImporter implements
 			target = ((EAdSceneElement) element).getDefinition();
 		}
 
-		EffectsMacro macro = this.effectsImporterFactory.getMacroEffects(a
-				.getEffects());
+		EAdList<EAdEffect> macro = this.effectsImporterFactory
+				.getMacroEffects(a.getEffects());
 		if (effectTrigger != null) {
 			effectTrigger.putMacro(macro, c);
 		}
 
-		EffectsMacro noEffectsMacro = this.effectsImporterFactory
+		EAdList<EAdEffect> noEAdList = this.effectsImporterFactory
 				.getMacroEffects(a.getNotEffects());
-		if (noEffectsMacro != null) {
-			notEffectTrigger.putMacro(noEffectsMacro, new NOTCond(c));
+		if (noEAdList != null) {
+			notEffectTrigger.putMacro(noEAdList, new NOTCond(c));
 		}
 
 		factory.addDraggableActor(actor);
@@ -666,7 +665,7 @@ public class ActionImporter implements
 			TriggerMacroEf notEffectTrigger, Action a, SceneElementDef actor,
 			EAdCondition condition) {
 
-		EffectsMacro macro = effectsImporterFactory.getMacroEffects(a
+		EAdList<EAdEffect> macro = effectsImporterFactory.getMacroEffects(a
 				.getEffects());
 
 		if (macro != null) {
@@ -674,15 +673,15 @@ public class ActionImporter implements
 					actor, InventoryEffectAction.REMOVE_FROM_INVENTORY);
 			if (a.getType() == Action.GIVE_TO
 					&& !hasCancelEffect(a.getEffects())) {
-				macro.getEffects().add(removeFromInventory);
+				macro.add(removeFromInventory);
 			}
 		}
 		effectTrigger.putMacro(macro, condition);
 
-		EffectsMacro noEffectsMacro = this.effectsImporterFactory
+		EAdList<EAdEffect> noEAdList = this.effectsImporterFactory
 				.getMacroEffects(a.getNotEffects());
-		if (noEffectsMacro != null) {
-			notEffectTrigger.putMacro(noEffectsMacro, new NOTCond(condition));
+		if (noEAdList != null) {
+			notEffectTrigger.putMacro(noEAdList, new NOTCond(condition));
 		}
 
 		EAdElement e = factory.getElementById(a.getTargetId());

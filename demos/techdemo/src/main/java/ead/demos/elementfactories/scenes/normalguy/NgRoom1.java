@@ -45,7 +45,6 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
@@ -57,6 +56,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.MathOp;
@@ -286,8 +286,8 @@ public class NgRoom1 extends EmptyScene {
 		TriggerMacroEf triggerMacro = new TriggerMacroEf();
 
 		for (int i = 0; i < 4; i++) {
-			EffectsMacro macro = new EffectsMacro();
-			macro.getEffects().add(getSpeakEffect(i));
+			EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+			macro.add(getSpeakEffect(i));
 			OperationCond cond1 = new OperationCond(timesField, i,
 					Comparator.EQUAL);
 			triggerMacro.putMacro(macro, cond1);
@@ -304,8 +304,8 @@ public class NgRoom1 extends EmptyScene {
 		e1.getNextEffects().add(portraitGoDown);
 		portraitGoDown.getNextEffects().add(e3);
 
-		EffectsMacro macro2 = new EffectsMacro();
-		macro2.getEffects().add(e1);
+		EAdList<EAdEffect> macro2 = new EAdList<EAdEffect>();
+		macro2.add(e1);
 		triggerMacro.putMacro(macro2, cond);
 
 		move.getNextEffects().add(triggerMacro);

@@ -58,15 +58,16 @@ import ead.common.model.assets.multimedia.EAdSound;
 import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
@@ -404,7 +405,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 						musicPath, Sound.class);
 			}
 			PlaySoundEf playSound = new PlaySoundEf(sound, true);
-			triggerMacro.putMacro(new EffectsMacro(playSound), condition);
+			triggerMacro.putMacro(new EAdList<EAdEffect>(), condition);
 			i++;
 		}
 

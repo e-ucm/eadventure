@@ -64,12 +64,13 @@ import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
 import ead.importer.EAdElementImporter;
 import ead.importer.GenericImporter;
@@ -283,7 +284,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			for (EAdCondition c : conditions) {
 				ChangeAppearanceEf effect = new ChangeAppearanceEf(null,
 						bundles.get(i));
-				changeBundle.putMacro(new EffectsMacro(effect), c);
+				changeBundle.putMacro(new EAdList<EAdEffect>(), c);
 				i++;
 			}
 			SceneElementEv event = new SceneElementEv(

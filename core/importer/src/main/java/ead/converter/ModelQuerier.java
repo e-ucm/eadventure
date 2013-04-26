@@ -52,9 +52,9 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
@@ -105,7 +105,7 @@ public class ModelQuerier {
 	private Map<String, EAdField<Boolean>> flagFields;
 	private Map<String, EAdField<Integer>> variableFields;
 	private Map<String, EAdCondition> globalStates;
-	private Map<String, EffectsMacro> macros;
+	private Map<String, EAdList<EAdEffect>> macros;
 	private Map<String, EAdEffect> conversations;
 	private Map<String, EAdPaint> npcTexts;
 	private Map<String, EAdPaint> npcBubbles;
@@ -124,7 +124,7 @@ public class ModelQuerier {
 		flagFields = new HashMap<String, EAdField<Boolean>>();
 		variableFields = new HashMap<String, EAdField<Integer>>();
 		globalStates = new HashMap<String, EAdCondition>();
-		macros = new HashMap<String, EffectsMacro>();
+		macros = new HashMap<String, EAdList<EAdEffect>>();
 
 		macrosToLoad = new ArrayList<Macro>();
 		globalStatesToLoad = new ArrayList<GlobalState>();
@@ -260,10 +260,10 @@ public class ModelQuerier {
 				// If not, we load it
 			} else {
 				iterations = 0;
-				EffectsMacro macro = getMacro(m.getId());
+				EAdList<EAdEffect> macro = getMacro(m.getId());
 				List<EAdEffect> effect = effectsConverter.convert(m);
 				if (effect.size() > 0) {
-					macro.getEffects().add(effect.get(0));
+					macro.add(effect.get(0));
 				}
 			}
 			toWait = false;
@@ -340,10 +340,10 @@ public class ModelQuerier {
 		return globalState;
 	}
 
-	public EffectsMacro getMacro(String id) {
-		EffectsMacro macro = macros.get(id);
+	public EAdList<EAdEffect> getMacro(String id) {
+		EAdList<EAdEffect> macro = macros.get(id);
 		if (macro == null) {
-			macro = new EffectsMacro();
+			macro = new EAdList<EAdEffect>();
 			macros.put(id, macro);
 		}
 		return macro;
