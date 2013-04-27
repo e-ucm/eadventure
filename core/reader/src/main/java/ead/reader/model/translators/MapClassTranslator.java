@@ -39,7 +39,7 @@ package ead.reader.model.translators;
 
 import java.util.Map;
 
-public class MapClassTranslator implements ClassTranslator {
+public class MapClassTranslator implements StringTranslator {
 
 	private Map<String, String> translations;
 

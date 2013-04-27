@@ -150,6 +150,9 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 					.getReflectionClass(object.getClass());
 
 			if (asset) {
+				if (assets.contains(id)) {
+					logger.error("Id repeated: {}", id);
+				}
 				assets.add(id);
 			} else {
 				ReflectionClass<?> c = ReflectionClassLoader
@@ -174,6 +177,9 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 						references.add(new Reference(node, id));
 						return node;
 					}
+					if (elements.contains(id)) {
+						logger.error("Id repeated: {}", id);
+					}
 					elements.add(id);
 					clazz = c;
 				}
@@ -189,10 +195,9 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 					if (f.getAnnotation(Param.class) != null) {
 						Object value = f.getFieldValue(object);
 						if (value != null) {
-							modelVisitor
-									.writeElement(value,
-											new ObjectWriterListener(f
-													.getName(), node));
+							modelVisitor.writeElement(value,
+									new ObjectWriterListener(translateField(f
+											.getName()), node));
 						}
 					}
 				}

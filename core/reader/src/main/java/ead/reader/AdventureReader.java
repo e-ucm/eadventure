@@ -90,21 +90,25 @@ public class AdventureReader implements VisitorListener {
 		BasicElement.initLastId();
 		AbstractAssetDescriptor.initLastId();
 
-		// Load classes keys
-		Map<String, String> classes = new HashMap<String, String>();
 		XMLNode node = document.getFirstChild();
 		XMLNode adventure = null;
 		XMLNode keyMap = null;
+		XMLNode fieldsMap = null;
+		XMLNode paramsMap = null;
 
 		// This loop is to avoid some weird node GWT adds to the root element
 		// when there are errors
 		XMLNodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			XMLNode n = list.item(i);
-			if (n.getNodeName().equals("e")) {
+			if (n.getNodeName().equals(DOMTags.ELEMENT_TAG)) {
 				adventure = n;
-			} else if (n.getNodeName().equals("classes")) {
+			} else if (n.getNodeName().equals(DOMTags.CLASSES_TAG)) {
 				keyMap = n;
+			} else if (n.getNodeName().equals(DOMTags.FIELDS_TAG)) {
+				fieldsMap = n;
+			} else if (n.getNodeName().equals(DOMTags.PARAMS_ABB_TAG)) {
+				paramsMap = n;
 			}
 		}
 
@@ -112,12 +116,40 @@ public class AdventureReader implements VisitorListener {
 			logger.warn("No classes node found");
 		} else {
 			XMLNodeList entries = keyMap.getChildNodes();
+			Map<String, String> classes = new HashMap<String, String>();
+			for (int i = 0; i < entries.getLength(); i++) {
+				XMLNode n = entries.item(i);
+				String className = n.getAttributeValue(DOMTags.VALUE_AT);
+
+				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
+			}
+			visitor.addClazzTranslator(new MapClassTranslator(classes));
+		}
+
+		if (fieldsMap == null) {
+			logger.warn("No fields node found");
+		} else {
+			XMLNodeList entries = fieldsMap.getChildNodes();
+			Map<String, String> classes = new HashMap<String, String>();
 			for (int i = 0; i < entries.getLength(); i++) {
 				XMLNode n = entries.item(i);
 				String className = n.getAttributeValue(DOMTags.VALUE_AT);
 				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
 			}
-			visitor.addTranslator(new MapClassTranslator(classes));
+			visitor.addFieldsTranslator(new MapClassTranslator(classes));
+		}
+
+		if (paramsMap == null) {
+			logger.warn("No fields node found");
+		} else {
+			Map<String, String> classes = new HashMap<String, String>();
+			XMLNodeList entries = paramsMap.getChildNodes();
+			for (int i = 0; i < entries.getLength(); i++) {
+				XMLNode n = entries.item(i);
+				String className = n.getAttributeValue(DOMTags.VALUE_AT);
+				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
+			}
+			visitor.addParamsTranslator(new MapClassTranslator(classes));
 		}
 
 		if (adventure == null) {

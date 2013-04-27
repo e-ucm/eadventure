@@ -106,6 +106,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 						XMLNode child = children.item(i);
 						String fieldName = child
 								.getAttributeValue(DOMTags.FIELD_AT);
+						fieldName = translateField(fieldName);
 						ReflectionField field = getField(clazz, fieldName);
 
 						if (field != null) {

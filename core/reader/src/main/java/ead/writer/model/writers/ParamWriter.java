@@ -40,6 +40,9 @@ package ead.writer.model.writers;
 import java.util.ArrayList;
 
 import ead.common.model.params.EAdParam;
+import ead.common.model.params.guievents.EAdGUIEvent;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.variables.VarDef;
 import ead.reader.DOMTags;
 import ead.tools.xml.XMLNode;
 import ead.writer.model.ModelVisitor;
@@ -64,10 +67,21 @@ public class ParamWriter extends AbstractWriter<Object> {
 			String translatedClass = translateClass(o.getClass());
 			node.setAttribute(DOMTags.CLASS_AT, translatedClass);
 			String value = null;
-			if (o instanceof EAdParam) {
+			if (o instanceof VarDef || o instanceof EAdPaint
+					|| o instanceof Enum || o instanceof EAdGUIEvent) {
+				// XXX Hacer que el lector tenga esto en cuenta				
+				value = translateParam(o.toString());
+			} else if (o instanceof EAdParam) {
 				value = ((EAdParam) o).toStringData();
 			} else if (o instanceof Class) {
 				value = ((Class<?>) o).getName();
+			} else if (o instanceof Boolean) {
+				value = ((Boolean) o).booleanValue() ? "t" : "f";
+			} else if (o instanceof Float) {
+				value = o.toString();
+				if (value.endsWith(".0")) {
+					value = value.substring(0, value.length() - 2);
+				}
 			} else {
 				value = o.toString();
 			}
