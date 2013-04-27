@@ -59,12 +59,16 @@ public class DOMTags {
 
 	public static final String FIELD_AT = "f";
 
-	public static final String CLASSES_TAG = "classes";
+	public static final String CLASSES_TAG = "z";
 
-	public static final String ENTRY_TAG = "entry";
+	public static final String ENTRY_TAG = "w";
 
 	public static final String KEY_AT = "k";
 
 	public static final String VALUE_AT = "v";
+
+	public static final String FIELDS_TAG = "y";
+
+	public static final String PARAMS_ABB_TAG = "n";
 
 }

@@ -48,22 +48,47 @@ import ead.common.interfaces.Element;
 @Element
 public class BasicElement implements EAdElement {
 
+	public static final char[] ID_CHARS = new char[] { '0', '1', '2', '3', '4',
+			'5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+			'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+			'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+			'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+			'V', 'W', 'X', 'Y', 'Z', /*
+										 * '.', '_', '\'', '?', '¿', '¡', '!', 'ñ',
+										 * 'Ñ', 'ç', '+', '-', ' ', '@', '^', '#',
+										 * '$', '%', '(', ')',';', ',', '{', '}',
+										 * '*', '·', '[', ']', '`', '´'
+										 */};
+	// XXX Some kind of error happen with the other characters
+
 	private String id;
 
 	public static int lastId = 0;
 
-	public static String idPrefix = "mod";
+	public static String idPrefix = "";
 
 	public static void initLastId() {
 		lastId = 0;
 	}
 
 	public static String randomSuffix() {
-		return "" + idPrefix + lastId++;
+		String id = idPrefix;
+		int id2 = lastId;
+		boolean oneZero = false;
+		while (!oneZero) {
+			id = ID_CHARS[(id2 % ID_CHARS.length)] + id;
+			id2 /= ID_CHARS.length;
+			if (id2 == 0) {
+				oneZero = true;
+			}
+		}
+		lastId++;
+		return id;
 	}
 
 	/**
 	 * Creates a reference to an element
+	 * 
 	 * @param reference
 	 */
 	public BasicElement(String reference) {
@@ -71,7 +96,7 @@ public class BasicElement implements EAdElement {
 	}
 
 	public BasicElement() {
-		this.id = classToString(this.getClass()) + randomSuffix();
+		this.id = randomSuffix();
 	}
 
 	@Override
@@ -89,7 +114,7 @@ public class BasicElement implements EAdElement {
 	}
 
 	public String toString() {
-		return id;
+		return classToString(this.getClass()) + id;
 	}
 
 	public boolean equals(Object o) {

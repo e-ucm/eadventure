@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.features.Identified;
+import ead.common.interfaces.features.Variabled;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.Image;
@@ -53,6 +55,8 @@ public class Simplifier {
 	private List<EAdCondition> conditionsAux;
 	private List<EAdCondition> conditionsAuxToAdd;
 
+	private List<EAdVarDef<?>> varDefsAux;
+
 	/**
 	 * Lists to aggregate operations
 	 */
@@ -79,10 +83,15 @@ public class Simplifier {
 		checkEquals = new HashMap<Class<?>, CheckEquals<?>>();
 		listEquals = new HashMap<Class<?>, List<?>>();
 		objectsLists = new HashMap<Class<?>, List<Identified>>();
+		varDefsAux = new ArrayList<EAdVarDef<?>>();
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
 	public EAdElement simplifyEAdElement(EAdElement object) {
+		if (object instanceof Variabled) {
+			object = (EAdElement) simplifyVariabled((Variabled) object);
+		}
+
 		if (object instanceof EAdSceneElement
 				|| object.getClass() == BasicElement.class) {
 			// EAdSceneElement can not be simplified
@@ -121,6 +130,22 @@ public class Simplifier {
 			objectsLists.put(object.getClass(), list);
 		}
 		object = (EAdElement) simplifyCheckEquals(object, list, generalEq);
+		return object;
+	}
+
+	private Variabled simplifyVariabled(Variabled object) {
+		varDefsAux.clear();
+		for (Entry<EAdVarDef<?>, Object> e : object.getVars().entrySet()) {
+			Object value = e.getKey().getInitialValue();
+			if (value == e.getValue()
+					|| (value != null && value.equals(e.getValue()))) {
+				varDefsAux.add(e.getKey());
+			}
+		}
+
+		for (EAdVarDef<?> v : varDefsAux) {
+			object.getVars().remove(v);
+		}
 		return object;
 	}
 

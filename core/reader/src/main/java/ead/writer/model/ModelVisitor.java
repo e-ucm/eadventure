@@ -46,7 +46,9 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
@@ -76,6 +78,10 @@ public class ModelVisitor {
 
 	private XMLNode classes;
 
+	private XMLNode fields;
+
+	private XMLNode params;
+
 	private ParamWriter paramWriter;
 
 	private ListWriter listWriter;
@@ -88,7 +94,9 @@ public class ModelVisitor {
 
 	private List<WriterStep> stepsQueue;
 
-	private Map<Class<?>, String> translations;
+	private Map<Class<?>, String> classTranslations;
+	private Map<String, String> fieldsTranslations;
+	private Map<String, String> paramsTranslations;
 
 	private XMLNode root;
 
@@ -98,7 +106,9 @@ public class ModelVisitor {
 		this.xmlParser = parser;
 
 		this.stepsQueue = new ArrayList<WriterStep>();
-		this.translations = new LinkedHashMap<Class<?>, String>();
+		this.classTranslations = new LinkedHashMap<Class<?>, String>();
+		this.fieldsTranslations = new LinkedHashMap<String, String>();
+		this.paramsTranslations = new LinkedHashMap<String, String>();
 		// writers
 		paramWriter = new ParamWriter(this);
 		listWriter = new ListWriter(this);
@@ -192,6 +202,9 @@ public class ModelVisitor {
 			logger.debug("Total lists: " + listWriter.getTotal());
 			logger.debug("Total maps: " + mapWriter.getTotal());
 			logger.debug("Total params: " + paramWriter.getTotal());
+			logger.debug("Last Element Id: " + BasicElement.randomSuffix());
+			logger.debug("Last Asset Id: "
+					+ AbstractAssetDescriptor.randomSuffix());
 		}
 		return stepsQueue.isEmpty();
 	}
@@ -202,21 +215,51 @@ public class ModelVisitor {
 		root = currentDocument.newNode(DOMTags.ROOT_TAG);
 		currentDocument.appendChild(root);
 		classes = currentDocument.newNode(DOMTags.CLASSES_TAG);
+		fields = currentDocument.newNode(DOMTags.FIELDS_TAG);
+		params = currentDocument.newNode(DOMTags.PARAMS_ABB_TAG);
 		root.append(classes);
+		root.append(fields);
+		root.append(params);
 		addedToRoot = false;
 		objectWriter.clear();
-		translations.clear();
+		classTranslations.clear();
 	}
 
 	public String translateClass(Class<?> clazz) {
-		String value = translations.get(clazz);
+		String value = classTranslations.get(clazz);
 		if (value == null) {
-			value = Integer.toHexString(translations.size());
-			translations.put(clazz, value);
+			value = Integer.toHexString(classTranslations.size());
+			classTranslations.put(clazz, value);
 			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
 			entry.setAttribute(DOMTags.KEY_AT, value);
 			entry.setAttribute(DOMTags.VALUE_AT, clazz.getName());
 			classes.append(entry);
+		}
+		return value;
+	}
+
+	public String translateField(String field) {
+		String value = fieldsTranslations.get(field);
+		if (value == null) {
+			value = Integer.toHexString(fieldsTranslations.size());
+			fieldsTranslations.put(field, value);
+			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+			entry.setAttribute(DOMTags.KEY_AT, value);
+			entry.setAttribute(DOMTags.VALUE_AT, field);
+			fields.append(entry);
+		}
+		return value;
+	}
+
+	public String translateParam(String param) {
+		String value = paramsTranslations.get(param);
+		if (value == null) {
+			value = Integer.toHexString(paramsTranslations.size());
+			paramsTranslations.put(param, value);
+			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+			entry.setAttribute(DOMTags.KEY_AT, value);
+			entry.setAttribute(DOMTags.VALUE_AT, param);
+			params.append(entry);
 		}
 		return value;
 	}

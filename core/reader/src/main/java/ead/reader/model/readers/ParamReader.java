@@ -37,6 +37,13 @@
 
 package ead.reader.model.readers;
 
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.KeyGEv;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.variables.VarDef;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
 import ead.tools.xml.XMLNode;
@@ -54,7 +61,14 @@ public class ParamReader extends AbstractReader<Object> {
 	@Override
 	public Object read(XMLNode node) {
 		Class<?> clazz = getNodeClass(node);
-		return elementsFactory.getParam(node.getNodeText(), clazz);
+		String value = node.getNodeText();
+		if (clazz.isEnum() || clazz == VarDef.class || clazz == ColorFill.class
+				|| clazz == Paint.class || clazz == LinearGradientFill.class
+				|| clazz == MouseGEv.class || clazz == KeyGEv.class
+				|| clazz == DragGEv.class) {
+			value = translateParam(value);
+		}
+		return elementsFactory.getParam(value, clazz);
 	}
 
 }

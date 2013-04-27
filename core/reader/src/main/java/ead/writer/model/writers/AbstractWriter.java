@@ -51,4 +51,12 @@ public abstract class AbstractWriter<T> implements Writer<T> {
 		return modelVisitor.translateClass(clazz);
 	}
 
+	protected String translateField(String field) {
+		return modelVisitor.translateField(field);
+	}
+
+	protected String translateParam(String param) {
+		return modelVisitor.translateParam(param);
+	}
+
 }

@@ -52,7 +52,7 @@ import ead.reader.model.readers.ListReader;
 import ead.reader.model.readers.MapReader;
 import ead.reader.model.readers.ObjectReader;
 import ead.reader.model.readers.ParamReader;
-import ead.reader.model.translators.ClassTranslator;
+import ead.reader.model.translators.StringTranslator;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLNode;
 
@@ -66,7 +66,11 @@ public class XMLVisitor {
 
 	private List<MapKeyValue> mapKeysValues;
 
-	private List<ClassTranslator> translators;
+	private List<StringTranslator> clazzTranslators;
+
+	private List<StringTranslator> fieldsTranslators;
+
+	private List<StringTranslator> paramsTranslators;
 
 	private ObjectsFactory elementsFactory;
 
@@ -85,7 +89,9 @@ public class XMLVisitor {
 	public XMLVisitor(ReflectionProvider reflectionProvider) {
 		stepsQueue = new ArrayList<VisitorStep>();
 		mapKeysValues = new ArrayList<MapKeyValue>();
-		translators = new ArrayList<ClassTranslator>();
+		clazzTranslators = new ArrayList<StringTranslator>();
+		fieldsTranslators = new ArrayList<StringTranslator>();
+		paramsTranslators = new ArrayList<StringTranslator>();
 		elementsFactory = new ObjectsFactory(reflectionProvider, this);
 		paramReader = new ParamReader(elementsFactory, this);
 		listReader = new ListReader(elementsFactory, this);
@@ -93,8 +99,16 @@ public class XMLVisitor {
 		objectReader = new ObjectReader(elementsFactory, this);
 	}
 
-	public void addTranslator(ClassTranslator t) {
-		this.translators.add(t);
+	public void addClazzTranslator(StringTranslator t) {
+		this.clazzTranslators.add(t);
+	}
+
+	public void addFieldsTranslator(StringTranslator t) {
+		this.fieldsTranslators.add(t);
+	}
+
+	public void addParamsTranslator(StringTranslator t) {
+		this.paramsTranslators.add(t);
 	}
 
 	/**
@@ -254,18 +268,30 @@ public class XMLVisitor {
 		}
 	}
 
-	public String translate(String clazz) {
-		for (ClassTranslator t : translators) {
-			String translation = t.translate(clazz);
+	private String translate(String string, List<StringTranslator> translators) {
+		for (StringTranslator t : translators) {
+			String translation = t.translate(string);
 			if (translation != null) {
 				return translation;
 			}
 		}
-		return clazz;
+		return string;
+	}
+
+	public String translateClazz(String clazz) {
+		return translate(clazz, clazzTranslators);
+	}
+
+	public String translateField(String field) {
+		return translate(field, fieldsTranslators);
+	}
+
+	public String translateParam(String param) {
+		return translate(param, paramsTranslators);
 	}
 
 	public void init() {
-		translators.clear();
+		clazzTranslators.clear();
 		elementsFactory.clear();
 		mapKeysValues.clear();
 		stepsQueue.clear();

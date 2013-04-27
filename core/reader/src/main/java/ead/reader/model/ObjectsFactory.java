@@ -216,25 +216,27 @@ public class ObjectsFactory {
 		} else if (clazz.equals(DragGEv.class)) {
 			p = new DragGEv(value);
 		} else if (clazz.equals(VarDef.class)) {
-			try {
-				Object initialValue = null;
-				String values[] = value.split(";");
-				Class<?> c = getClassFromName(values[1]);
+			p = registeredVars.get(value);
+			if (p == null) {
+				try {
+					Object initialValue = null;
+					String values[] = value.split(";");
+					Class<?> c = getClassFromName(values[1]);
 
-				boolean forLater = false;
-				if (values.length == 3) {
-					initialValue = this.getObject(values[2], c);
-					forLater = initialValue == null;
+					boolean forLater = false;
+					if (values.length == 3) {
+						initialValue = this.getObject(values[2], c);
+						forLater = initialValue == null;
+					}
+					p = new VarDef(values[0], c, initialValue);
+					if (forLater) {
+						xmlVisitor.addLoadInitalValue((VarDef) p, values[3]);
+					}
+				} catch (Exception e) {
+					logger.warn("VarDef with representation {} poorly parsed",
+							value);
 				}
-				p = new VarDef(values[0], c, initialValue);
-				if (forLater) {
-					xmlVisitor.addLoadInitalValue((VarDef) p, values[3]);
-				}
-			} catch (Exception e) {
-				logger.warn("VarDef with representation {} poorly parsed",
-						value);
 			}
-
 		}
 		return p;
 	}
@@ -246,7 +248,7 @@ public class ObjectsFactory {
 		} else if (clazz == Integer.class || clazz == int.class) {
 			return Integer.parseInt(value);
 		} else if (clazz == Boolean.class || clazz == boolean.class) {
-			return Boolean.parseBoolean(value);
+			return value.equals("t") ? Boolean.TRUE : Boolean.FALSE;
 		} else if (clazz == Float.class || clazz == float.class) {
 			return Float.parseFloat(value);
 		} else if (clazz == Character.class || clazz == char.class) {
