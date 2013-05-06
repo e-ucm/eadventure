@@ -35,51 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.assets;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.compounds.StateDrawable;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public interface ReflectionClass<T> {
+public class StateDrawablesSimplifier implements
+		ObjectSimplifier<StateDrawable> {
 
-	ReflectionConstructor<T> getConstructor();
+	public Object simplify(StateDrawable s) {
+		if (s.getStates().size() == 1) {
+			return s.getDrawablesCollection().iterator().next();
+		} else {
+			boolean allequals = true;
+			EAdDrawable d = s.getDrawablesCollection().iterator().next();
+			for (EAdDrawable d2 : s.getDrawablesCollection()) {
+				if (d != d2) {
+					allequals = false;
+					break;
+				}
+			}
 
-	ReflectionField getField(String name);
+			if (allequals) {
+				return d;
+			}
+		}
+		return s;
+	}
 
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
+	@Override
+	public void clear() {
+		// Do nothing
 
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
-
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
-
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	}
 
 }

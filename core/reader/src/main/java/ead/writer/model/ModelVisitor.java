@@ -100,6 +100,8 @@ public class ModelVisitor {
 
 	private XMLNode root;
 
+	private boolean simplificationsEnabled;
+
 	public ModelVisitor(ReflectionProvider reflectionProvider, XMLParser parser) {
 		this.reflectionProvider = reflectionProvider;
 		this.reflectionProvider = reflectionProvider;
@@ -114,6 +116,8 @@ public class ModelVisitor {
 		listWriter = new ListWriter(this);
 		mapWriter = new MapWriter(this);
 		objectWriter = new ObjectWriter(this);
+
+		simplificationsEnabled = true;
 	}
 
 	public void writeElement(Object object, VisitorListener listener) {
@@ -296,6 +300,14 @@ public class ModelVisitor {
 
 		void load(XMLNode node, Object object);
 
+	}
+
+	public void setEnableSimplifcations(boolean enable) {
+		this.simplificationsEnabled = enable;
+	}
+
+	public boolean isSimplifcationsEnabled() {
+		return simplificationsEnabled;
 	}
 
 }

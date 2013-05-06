@@ -35,51 +35,24 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
-
-public interface ReflectionClass<T> {
-
-	ReflectionConstructor<T> getConstructor();
-
-	ReflectionField getField(String name);
+public interface ObjectSimplifier<T> {
 
 	/**
-	 * Returns a list with all fields in the class
+	 * Simplifies the given object, returning a new one that represents the same
+	 * as the object, but in a simplified form. Sometimes simplifications won't
+	 * be possible
 	 * 
-	 * @return
+	 * @param object
+	 *            the object to simplify
+	 * @return the object simplified
 	 */
-	Collection<ReflectionField> getFields();
+	Object simplify(T object);
 
 	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
+	 * Reset the simplifier for a new write
 	 */
-	ReflectionClass<?> getSuperclass();
-
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
-
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	void clear();
 
 }

@@ -45,6 +45,8 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
 
@@ -56,7 +58,7 @@ import ead.engine.core.canvas.GdxCanvas;
 
 /**
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
- *
+ * 
  */
 public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 		RuntimeDrawable<Image> {
@@ -66,6 +68,8 @@ public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 	private FileHandle fh;
 	private TextureRegion textureRegion;
 	private Pixmap pixmap;
+	private static TextureAtlas atlas;
+	private static boolean hasAtlas = true;
 
 	@Inject
 	public RuntimeImage(AssetHandler assetHandler) {
@@ -74,20 +78,40 @@ public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 
 	@Override
 	public boolean loadAsset() {
-		super.loadAsset();
-		try {
-			fh = ((AssetHandlerImpl) assetHandler).getFileHandle(descriptor
-					.getUri());
-			pixmap = new Pixmap(fh);
-		} catch (Exception e) {
-			// TODO Load a default error image.
-			logger
-					.warn("Cound not load image for descriptor: " + descriptor,
-							e);
-			pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
+		if (hasAtlas) {
+			if (atlas == null) {
+				FileHandle atlasFh = ((AssetHandlerImpl) assetHandler)
+						.getFileHandle("@atlas/eadatlas.atlas");
+				if (atlasFh.exists()) {
+					atlas = new TextureAtlas(atlasFh);
+				} else {
+					hasAtlas = false;
+				}
+			}
 		}
-		Texture texture = new Texture(pixmap);
-		textureRegion = new TextureRegion(texture);
+
+		super.loadAsset();
+
+		if (hasAtlas) {
+			AtlasRegion region = atlas.findRegion(descriptor.getUri()
+					.substring(1));
+			textureRegion = region;
+		}
+
+		if (textureRegion == null) {
+			try {
+				fh = ((AssetHandlerImpl) assetHandler).getFileHandle(descriptor
+						.getUri());
+				pixmap = new Pixmap(fh);
+			} catch (Exception e) {
+				// TODO Load a default error image.
+				logger.warn("Cound not load image for descriptor: "
+						+ descriptor, e);
+				pixmap = new Pixmap(64, 64, Pixmap.Format.RGB565);
+			}
+			Texture texture = new Texture(pixmap);
+			textureRegion = new TextureRegion(texture);
+		}
 		textureRegion.flip(false, true);
 		return true;
 	}

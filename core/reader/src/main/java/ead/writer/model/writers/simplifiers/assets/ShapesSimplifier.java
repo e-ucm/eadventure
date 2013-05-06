@@ -35,51 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.assets;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public interface ReflectionClass<T> {
+public class ShapesSimplifier implements ObjectSimplifier<EAdShape> {
 
-	ReflectionConstructor<T> getConstructor();
+	@Override
+	public Object simplify(EAdShape object) {
+		return object;
+	}
 
-	ReflectionField getField(String name);
+	@Override
+	public void clear() {
 
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
-
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
-
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
-
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	}
 
 }

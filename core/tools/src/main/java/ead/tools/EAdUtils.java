@@ -46,6 +46,7 @@ import java.util.RandomAccess;
 import java.util.Stack;
 
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionField;
@@ -83,7 +84,9 @@ public class EAdUtils {
 			return false;
 		}
 
-		if (o1 instanceof Number || o1 instanceof String
+		if (o1 instanceof EAdSceneElement || o1 instanceof BasicElement) {
+			return o1.equals(o2);
+		} else if (o1 instanceof Number || o1 instanceof String
 				|| o1 instanceof Boolean || o1.getClass() == BasicElement.class) {
 			return o1.equals(o2);
 		} else if (o1 instanceof List) {

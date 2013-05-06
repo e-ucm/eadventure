@@ -35,51 +35,45 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.elements;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
-public interface ReflectionClass<T> {
+import ead.common.interfaces.features.Variabled;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-	ReflectionConstructor<T> getConstructor();
+public class VariabledSimplifier implements ObjectSimplifier<Variabled> {
 
-	ReflectionField getField(String name);
+	private List<EAdVarDef<?>> varDefsAux;
 
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
+	public VariabledSimplifier() {
+		varDefsAux = new ArrayList<EAdVarDef<?>>();
+	}
 
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
+	@Override
+	public Object simplify(Variabled object) {
+		// Remove those variables that are set to its initial value
+		varDefsAux.clear();
+		for (Entry<EAdVarDef<?>, Object> e : object.getVars().entrySet()) {
+			Object value = e.getKey().getInitialValue();
+			if (value == e.getValue()
+					|| (value != null && value.equals(e.getValue()))) {
+				varDefsAux.add(e.getKey());
+			}
+		}
 
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
+		for (EAdVarDef<?> v : varDefsAux) {
+			object.getVars().remove(v);
+		}
+		return object;
+	}
 
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	@Override
+	public void clear() {
+		// Do nothing
+	}
 
 }

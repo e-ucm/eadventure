@@ -35,51 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.elements;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.ValueOp;
+import ead.tools.MathEvaluator;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public interface ReflectionClass<T> {
-
-	ReflectionConstructor<T> getConstructor();
-
-	ReflectionField getField(String name);
+public class OperationsSimplifier implements ObjectSimplifier<EAdOperation> {
 
 	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
+	 * MathEvaluator to help simplify MathOp with no values
 	 */
-	Collection<ReflectionField> getFields();
+	private MathEvaluator mathEvaluator;
 
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
+	public OperationsSimplifier() {
+		mathEvaluator = new MathEvaluator();
+	}
 
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
+	public Object simplify(EAdOperation operation) {
+		// If it is math expression with no operands, simplify to a ValueOp
+		if (operation instanceof MathOp
+				&& !((MathOp) operation).getExpression().contains("[")) {
+			String expression = ((MathOp) operation).getExpression();
+			mathEvaluator.setExpression(expression, null, null);
+			Float value = mathEvaluator.getValue();
+			operation = new ValueOp(
+					((MathOp) operation).isResultAsInteger() ? value.intValue()
+							: value);
+		}
 
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
+		return operation;
+	}
 
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	@Override
+	public void clear() {
+		// Do nothing
+
+	}
 
 }

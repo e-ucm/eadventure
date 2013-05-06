@@ -1,335 +1,168 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ead.writer.model.writers.simplifiers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.interfaces.features.Identified;
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.behaviors.Behavior;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.ListedCond;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.tools.EAdUtils;
-import ead.tools.MathEvaluator;
+import ead.tools.reflection.ReflectionClass;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.writer.model.writers.simplifiers.assets.FramesAnimationSimplifier;
+import ead.writer.model.writers.simplifiers.assets.ImagesSimplifier;
+import ead.writer.model.writers.simplifiers.assets.ShapesSimplifier;
+import ead.writer.model.writers.simplifiers.assets.StateDrawablesSimplifier;
+import ead.writer.model.writers.simplifiers.elements.BehaviorsSimplifier;
+import ead.writer.model.writers.simplifiers.elements.ConditionsSimplifier;
+import ead.writer.model.writers.simplifiers.elements.FieldsSimplifier;
+import ead.writer.model.writers.simplifiers.elements.OperationsSimplifier;
+import ead.writer.model.writers.simplifiers.elements.SceneElementDefSimplifier;
+import ead.writer.model.writers.simplifiers.elements.VariabledSimplifier;
 
 public class Simplifier {
 
 	private static final Logger logger = LoggerFactory.getLogger("Simplifier");
 
-	private static final Behavior EMPTY_BEHAVIOR = new Behavior();
-	private static final SceneElementDef EMPTY_DEF = new SceneElementDef();
+	private Map<Class<?>, List<Object>> objectsLists;
 
-	/**
-	 * Map to aggregate all repeated fields
-	 */
-	private Map<Object, Map<EAdVarDef<?>, EAdField<?>>> fields;
-
-	private Map<String, Image> images;
-
-	private Map<Class<?>, List<Identified>> objectsLists;
-
-	/**
-	 * An auxiliary field
-	 */
-	private List<EAdCondition> conditionsAux;
-	private List<EAdCondition> conditionsAuxToAdd;
-
-	private List<EAdVarDef<?>> varDefsAux;
-
-	/**
-	 * Lists to aggregate operations
-	 */
-	private List<EAdOperation> operations;
-
-	/**
-	 * MathEvaluator to help simplify MathOp with no values
-	 */
-	private MathEvaluator mathEvaluator;
+	private Map<Class<?>, ObjectSimplifier<?>> simplifiers;
 
 	private int simplifications;
 
-	private Map<Class<?>, CheckEquals<?>> checkEquals;
-	private Map<Class<?>, List<?>> listEquals;
+	private FieldsSimplifier fieldsSimplifier;
 
 	public Simplifier() {
-		fields = new HashMap<Object, Map<EAdVarDef<?>, EAdField<?>>>();
+		objectsLists = new HashMap<Class<?>, List<Object>>();
 		simplifications = 0;
-		conditionsAux = new ArrayList<EAdCondition>();
-		conditionsAuxToAdd = new ArrayList<EAdCondition>();
-		operations = new ArrayList<EAdOperation>();
-		mathEvaluator = new MathEvaluator();
-		images = new HashMap<String, Image>();
-		checkEquals = new HashMap<Class<?>, CheckEquals<?>>();
-		listEquals = new HashMap<Class<?>, List<?>>();
-		objectsLists = new HashMap<Class<?>, List<Identified>>();
-		varDefsAux = new ArrayList<EAdVarDef<?>>();
+		simplifiers = new HashMap<Class<?>, ObjectSimplifier<?>>();
+		// Simplifiers
+		fieldsSimplifier = new FieldsSimplifier();
+
+		simplifiers.put(Behavior.class, new BehaviorsSimplifier());
+		simplifiers.put(EAdCondition.class, new ConditionsSimplifier());
+		simplifiers.put(EAdField.class, fieldsSimplifier);
+		simplifiers.put(EAdOperation.class, new OperationsSimplifier());
+		simplifiers.put(SceneElementDef.class, new SceneElementDefSimplifier());
+		simplifiers.put(Variabled.class, new VariabledSimplifier());
+		simplifiers.put(FramesAnimation.class, new FramesAnimationSimplifier());
+		simplifiers.put(Image.class, new ImagesSimplifier());
+		simplifiers.put(EAdShape.class, new ShapesSimplifier());
+		simplifiers.put(StateDrawable.class, new StateDrawablesSimplifier());
+	}
+
+	public void clear() {
+		objectsLists.clear();
+		simplifications = 0;
+	}
+
+	public Object simplify(Object o) {
+		Object oldObject = o;
+		if (o instanceof EAdSceneElement || o.getClass() == BasicElement.class) {
+			// EAdSceneElement can not be simplified
+			// BaiscElement are already simplified
+			return o;
+		}
+
+		Class<?> oldClass = o.getClass();
+		Class<?> newClass = null;
+		while (oldClass != newClass) {
+			Object newObject = simplifyImpl(o);
+			if (newObject == null) {
+				logger.warn("Error simplifiying asset: {}", o);
+				return null;
+			}
+			newClass = newObject.getClass();
+			o = newObject;
+		}
+
+		List<Object> list = objectsLists.get(o.getClass());
+		if (list == null) {
+			list = new ArrayList<Object>();
+			objectsLists.put(o.getClass(), list);
+		}
+		o = simplifyCheckEquals(o, list, generalEq);
+		if (oldObject != o) {
+			simplifications++;
+		}
+		return o;
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
-	public EAdElement simplifyEAdElement(EAdElement object) {
-		if (object instanceof Variabled) {
-			object = (EAdElement) simplifyVariabled((Variabled) object);
-		}
-
-		if (object instanceof EAdSceneElement
-				|| object.getClass() == BasicElement.class) {
-			// EAdSceneElement can not be simplified
-			// BaiscElement are already simplified
-			return object;
-		} else if (object instanceof EAdField<?>) {
-			return simplifyField((EAdField<?>) object);
-		} else if (object instanceof EAdCondition) {
-			object = simplifyCondition((EAdCondition) object);
-		} else if (object instanceof EAdOperation) {
-			object = simplifyOperation((EAdOperation) object);
-		} else if (object instanceof Behavior) {
-			object = simplifyBehavior((Behavior) object);
-		} else if (object instanceof SceneElementDef) {
-			object = simplifySceneElementDef((SceneElementDef) object);
-		} else {
-			// CheckEquals ce = checkEquals.get(object.getClass());
-			// if (ce != null) {
-			// List list = listEquals.get(object.getClass());
-			// if (list == null) {
-			// list = new ArrayList();
-			// listEquals.put(object.getClass(), list);
-			// }
-			// object = simplifyCheckEquals(object, list, ce);
-			// }
-		}
-
-		if (object == null) {
-			logger.warn("Error simplifiying asset: {}", object);
-			return null;
-		}
-
-		List<Identified> list = objectsLists.get(object.getClass());
-		if (list == null) {
-			list = new ArrayList();
-			objectsLists.put(object.getClass(), list);
-		}
-		object = (EAdElement) simplifyCheckEquals(object, list, generalEq);
-		return object;
-	}
-
-	private Variabled simplifyVariabled(Variabled object) {
-		varDefsAux.clear();
-		for (Entry<EAdVarDef<?>, Object> e : object.getVars().entrySet()) {
-			Object value = e.getKey().getInitialValue();
-			if (value == e.getValue()
-					|| (value != null && value.equals(e.getValue()))) {
-				varDefsAux.add(e.getKey());
+	public Object simplifyImpl(Object o) {
+		ReflectionClass<?> clazz = ReflectionClassLoader.getReflectionClass(o
+				.getClass());
+		for (ReflectionClass<?> i : clazz.getInterfaces()) {
+			ObjectSimplifier simplifier = simplifiers.get(i.getType());
+			if (simplifier != null) {
+				o = simplifier.simplify(o);
 			}
 		}
 
-		for (EAdVarDef<?> v : varDefsAux) {
-			object.getVars().remove(v);
-		}
-		return object;
-	}
-
-	private EAdElement simplifySceneElementDef(SceneElementDef object) {
-		if (object.getResources().isEmpty() && object.getEvents().isEmpty()
-				&& object.getBehavior().isEmpty() && object.getVars().isEmpty()) {
-			return EMPTY_DEF;
-		}
-		return object;
-	}
-
-	public AssetDescriptor simplifyAssetDescriptor(AssetDescriptor a) {
-		if (a instanceof StateDrawable) {
-			a = simplifyStateDrawable((StateDrawable) a);
-		} else if (a instanceof FramesAnimation) {
-			a = simplifyFramesAnimation((FramesAnimation) a);
-		} else if (a instanceof Image) {
-			a = simplifyImage((Image) a);
-		}
-
-		if (a == null) {
-			logger.warn("Error simplifiying asset: {}", a);
-			return null;
-		}
-		List<Identified> list = objectsLists.get(a.getClass());
-		if (list == null) {
-			list = new ArrayList<Identified>();
-			objectsLists.put(a.getClass(), list);
-		}
-		a = (AssetDescriptor) simplifyCheckEquals(a, list, generalEq);
-		return a;
-	}
-
-	private AssetDescriptor simplifyImage(Image i) {
-		// XXX Add to atlas
-		Image copy = images.get(i.getUri());
-		if (copy == null) {
-			copy = i;
-			images.put(i.getUri(), copy);
-		}
-		return copy;
-	}
-
-	private AssetDescriptor simplifyStateDrawable(StateDrawable s) {
-		if (s.getStates().size() == 1) {
-			return simplifyAssetDescriptor(s.getDrawablesCollection()
-					.iterator().next());
-		} else {
-			boolean allequals = true;
-			EAdDrawable d = s.getDrawablesCollection().iterator().next();
-			for (EAdDrawable d2 : s.getDrawablesCollection()) {
-				if (d != d2) {
-					allequals = false;
-					break;
-				}
+		while (clazz != null) {
+			ObjectSimplifier simplifier = simplifiers.get(clazz.getType());
+			if (simplifier != null) {
+				o = simplifier.simplify(o);
 			}
-
-			if (allequals) {
-				return simplifyAssetDescriptor(d);
-			}
+			clazz = clazz.getSuperclass();
 		}
-		return s;
-	}
-
-	private AssetDescriptor simplifyFramesAnimation(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
+		return o;
 	}
 
 	public int getSimplifications() {
 		return simplifications;
-	}
-
-	private EAdField<?> simplifyField(EAdField<?> field) {
-		Map<EAdVarDef<?>, EAdField<?>> elementFields = fields.get(field
-				.getElement());
-		if (elementFields == null) {
-			elementFields = new HashMap<EAdVarDef<?>, EAdField<?>>();
-			fields.put(field.getElement(), elementFields);
-		}
-		EAdField<?> copy = elementFields.get(field.getVarDef());
-		if (copy == null) {
-			copy = field;
-			elementFields.put(field.getVarDef(), copy);
-		} else {
-			if (copy != field) {
-				simplifications++;
-			}
-		}
-		return copy;
-	}
-
-	public EAdCondition simplifyCondition(EAdCondition condition) {
-		if (condition instanceof ListedCond) {
-			condition = simplifyListed((ListedCond) condition);
-		}
-		return condition;
-	}
-
-	private EAdCondition simplifyListed(ListedCond condition) {
-		conditionsAux.clear();
-		conditionsAuxToAdd.clear();
-		for (EAdCondition c : condition.getConditions()) {
-			if (c instanceof EmptyCond) {
-				// If it is the condition null operator, the whole condition is
-				// false
-				if (!c.equals(condition.getNullOperator())) {
-					logger.debug("{}", condition);
-					logger.debug("->");
-					logger.debug("{}", condition.getNullOperator());
-					return condition.getNullOperator();
-				}
-				// If not, it is not necessary, so we delete it
-				else {
-					conditionsAux.add(c);
-				}
-			} else if (c instanceof ListedCond) {
-				EAdCondition c2 = simplifyListed((ListedCond) c);
-				if (c2 != c) {
-					conditionsAux.add(c);
-					// If it's an OR inside another OR, we group them and remove
-					// unnecessary conditions
-					if (c2 instanceof ListedCond) {
-						ListedCond listed = (ListedCond) c2;
-						if (listed.getNullOperator().equals(
-								((ListedCond) c).getNullOperator())) {
-							conditionsAuxToAdd.addAll(listed.getConditions());
-						} else {
-							conditionsAuxToAdd.add(c2);
-						}
-					} else {
-						conditionsAuxToAdd.add(c2);
-					}
-				}
-			}
-		}
-
-		for (EAdCondition c : conditionsAux) {
-			condition.getConditions().remove(c);
-		}
-
-		for (EAdCondition c : conditionsAuxToAdd) {
-			condition.getConditions().add(c);
-		}
-
-		if (condition.getConditions().size() == 1) {
-			return condition.getConditions().get(0);
-		}
-
-		return condition;
-	}
-
-	private EAdOperation simplifyOperation(EAdOperation operation) {
-		// If it is math expression with no operands, simplify to a ValueOp
-		if (operation instanceof MathOp
-				&& !((MathOp) operation).getExpression().contains("[")) {
-			String expression = ((MathOp) operation).getExpression();
-			mathEvaluator.setExpression(expression, null, null);
-			Float value = mathEvaluator.getValue();
-			operation = new ValueOp(
-					((MathOp) operation).isResultAsInteger() ? value.intValue()
-							: value);
-		}
-
-		int index = operations.indexOf(operation);
-		if (index != -1) {
-			EAdOperation op = operations.get(index);
-			if (op != operation) {
-				simplifications++;
-			}
-			return op;
-		} else {
-			operations.add(operation);
-		}
-		return operation;
-	}
-
-	private EAdElement simplifyBehavior(Behavior b) {
-		if (b.getBehavior().isEmpty()) {
-			return EMPTY_BEHAVIOR;
-		}
-		return b;
 	}
 
 	public interface CheckEquals<T> {
@@ -337,31 +170,10 @@ public class Simplifier {
 		boolean equals(T o1, T o2);
 	}
 
-	private class CheckEqualsEffect<T extends EAdEffect> implements
-			CheckEquals<T> {
+	private CheckEquals<Object> generalEq = new CheckEquals<Object>() {
 
 		@Override
-		public boolean equals(T o1, T o2) {
-			if (o1.getNextEffects().size() > 0
-					|| o2.getNextEffects().size() > 0
-					|| o1.getSimultaneousEffects().size() > 0
-					|| o2.getSimultaneousEffects().size() > 0) {
-				return false;
-			}
-			if (o1.getCondition() == o2.getCondition()
-					|| (o1.getCondition() != null && o1.getCondition().equals(
-							o2.getCondition()))) {
-				return true;
-			}
-			return false;
-		}
-
-	}
-
-	private CheckEquals<Identified> generalEq = new CheckEquals<Identified>() {
-
-		@Override
-		public boolean equals(Identified o1, Identified o2) {
+		public boolean equals(Object o1, Object o2) {
 			if (o1 == o2) {
 				return true;
 			}
@@ -370,26 +182,26 @@ public class Simplifier {
 				logger.debug("Equals match {}={}", new Object[] { o1, o2 });
 			}
 			return equals;
-			// return false;
 		}
 
 	};
 
-	private <T> T simplifyCheckEquals(T object, List<T> list,
-			CheckEquals<T> checkEquals) {
-		T copy = find(object, list, checkEquals);
+	private Object simplifyCheckEquals(Object o, List<Object> list,
+			CheckEquals<Object> generalEq2) {
+		Object copy = find(o, list, generalEq2);
 		if (copy == null) {
-			copy = object;
-			list.add(object);
+			copy = o;
+			list.add(o);
 		} else {
 			simplifications++;
 		}
 		return copy;
 	}
 
-	public <T> T find(T e, List<T> list, CheckEquals<T> checkEquals) {
-		for (T o : list) {
-			if (checkEquals.equals(e, o)) {
+	public Object find(Object o2, List<Object> list,
+			CheckEquals<Object> generalEq2) {
+		for (Object o : list) {
+			if (generalEq2.equals(o2, o)) {
 				return o;
 			}
 		}
@@ -397,10 +209,10 @@ public class Simplifier {
 	}
 
 	public Map<Object, Map<EAdVarDef<?>, EAdField<?>>> getFields() {
-		return fields;
+		return fieldsSimplifier.getFields();
 	}
 
-	public Map<Class<?>, List<Identified>> getIdentified() {
+	public Map<Class<?>, List<Object>> getIdentified() {
 		return objectsLists;
 	}
 

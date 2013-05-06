@@ -48,9 +48,7 @@ import org.slf4j.LoggerFactory;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
-import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.reader.DOMTags;
@@ -114,24 +112,20 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 			return null;
 		}
 
-		String oldId = object.getId();
-		Identified simplified = null;
+		// If simplifications are enabled, well, we simplify
+		if (modelVisitor.isSimplifcationsEnabled()) {
+			String oldId = object.getId();
+			Identified simplified = (Identified) simplifier.simplify(object);
 
-		if (asset) {
-			simplified = simplifier
-					.simplifyAssetDescriptor((AssetDescriptor) object);
-		} else {
-			simplified = simplifier.simplifyEAdElement((EAdElement) object);
-		}
+			if (simplified != null) {
+				object = simplified;
+			}
 
-		if (simplified != null) {
-			object = simplified;
-		}
-
-		// Keep track if the id changed
-		String newId = object.getId();
-		if (!oldId.equals(newId)) {
-			idTranslations.put(oldId, newId);
+			// Keep track if the id changed
+			String newId = object.getId();
+			if (!oldId.equals(newId)) {
+				idTranslations.put(oldId, newId);
+			}
 		}
 
 		XMLNode node = null;
@@ -214,7 +208,11 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 	public void clear() {
 		asset = false;
 		assets.clear();
+		classProfilerAssets.clear();
+		classProfilerElements.clear();
 		elements.clear();
+		idTranslations.clear();
+		references.clear();
 	}
 
 	public int getSimplifications() {

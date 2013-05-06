@@ -35,51 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.elements;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public interface ReflectionClass<T> {
+public class SceneElementDefSimplifier implements
+		ObjectSimplifier<SceneElementDef> {
 
-	ReflectionConstructor<T> getConstructor();
+	private static final SceneElementDef EMPTY_DEF = new SceneElementDef();
 
-	ReflectionField getField(String name);
+	public Object simplify(SceneElementDef object) {
+		// Simplify empty scene element definitions
+		if (object.getResources().isEmpty() && object.getEvents().isEmpty()
+				&& object.getBehavior().isEmpty() && object.getVars().isEmpty()) {
+			return EMPTY_DEF;
+		}
+		return object;
+	}
 
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
+	@Override
+	public void clear() {
+		// Do nothing
 
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
-
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
-
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	}
 
 }

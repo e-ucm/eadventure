@@ -35,51 +35,24 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.assets;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public interface ReflectionClass<T> {
+public class FramesAnimationSimplifier implements
+		ObjectSimplifier<FramesAnimation> {
 
-	ReflectionConstructor<T> getConstructor();
+	public Object simplify(FramesAnimation f) {
+		if (f.getFrameCount() == 1) {
+			return f.getFrame(0).getDrawable();
+		}
+		return f;
+	}
 
-	ReflectionField getField(String name);
+	@Override
+	public void clear() {
+		// Do nothing
 
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
-
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
-
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
-
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
-
+	}
 }

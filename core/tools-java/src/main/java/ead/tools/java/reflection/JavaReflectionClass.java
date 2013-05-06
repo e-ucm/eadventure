@@ -40,14 +40,17 @@ package ead.tools.java.reflection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.tools.reflection.ReflectionClass;
+import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionConstructor;
 import ead.tools.reflection.ReflectionField;
 
@@ -63,6 +66,8 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	private Map<String, ReflectionField> fields;
 
 	private ReflectionClass<?> superClass;
+
+	private List<ReflectionClass<?>> interfaces;
 
 	private boolean allFieldsAdded;
 
@@ -136,6 +141,17 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	@Override
 	public <S extends Annotation> boolean hasAnnotation(Class<S> annotation) {
 		return clazz.getAnnotation(annotation) != null;
+	}
+
+	@Override
+	public List<ReflectionClass<?>> getInterfaces() {
+		if (interfaces == null) {
+			interfaces = new ArrayList<ReflectionClass<?>>();
+			for (Class<?> c : clazz.getInterfaces()) {
+				interfaces.add(ReflectionClassLoader.getReflectionClass(c));
+			}
+		}
+		return interfaces;
 	}
 
 }

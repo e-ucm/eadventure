@@ -35,51 +35,27 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.elements;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import ead.common.model.elements.behaviors.Behavior;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public interface ReflectionClass<T> {
+public class BehaviorsSimplifier implements ObjectSimplifier<Behavior> {
 
-	ReflectionConstructor<T> getConstructor();
+	private static final Behavior EMPTY_BEHAVIOR = new Behavior();
 
-	ReflectionField getField(String name);
+	public Object simplify(Behavior b) {
+		// Aggregate all empty behaviors
+		if (b.getBehavior().isEmpty()) {
+			return EMPTY_BEHAVIOR;
+		}
+		return b;
+	}
 
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
+	@Override
+	public void clear() {
+		// Do nothing
 
-	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
-	 */
-	ReflectionClass<?> getSuperclass();
-
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
-
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
-
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	}
 
 }

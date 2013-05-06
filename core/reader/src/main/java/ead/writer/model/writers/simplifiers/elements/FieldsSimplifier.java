@@ -35,51 +35,49 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.reflection;
+package ead.writer.model.writers.simplifiers.elements;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface ReflectionClass<T> {
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-	ReflectionConstructor<T> getConstructor();
-
-	ReflectionField getField(String name);
-
-	/**
-	 * Returns a list with all fields in the class
-	 * 
-	 * @return
-	 */
-	Collection<ReflectionField> getFields();
+public class FieldsSimplifier implements ObjectSimplifier<EAdField<?>> {
 
 	/**
-	 * Returns the superclass of this class
-	 * 
-	 * @return
+	 * Map to aggregate all repeated fields
 	 */
-	ReflectionClass<?> getSuperclass();
+	private Map<Object, Map<EAdVarDef<?>, EAdField<?>>> fields;
 
-	/**
-	 * Returns interfaces implemented by this class
-	 * @return
-	 */
-	List<ReflectionClass<?>> getInterfaces();
+	public FieldsSimplifier() {
+		fields = new HashMap<Object, Map<EAdVarDef<?>, EAdField<?>>>();
+	}
 
-	/**
-	 * Return the class contained by this reflection class
-	 * 
-	 * @return
-	 */
-	Class<?> getType();
+	public Object simplify(EAdField<?> field) {
+		// Never two different objects pointing the same field
+		Map<EAdVarDef<?>, EAdField<?>> elementFields = fields.get(field
+				.getElement());
+		if (elementFields == null) {
+			elementFields = new HashMap<EAdVarDef<?>, EAdField<?>>();
+			fields.put(field.getElement(), elementFields);
+		}
+		EAdField<?> copy = elementFields.get(field.getVarDef());
+		if (copy == null) {
+			copy = field;
+			elementFields.put(field.getVarDef(), copy);
+		}
+		return copy;
+	}
 
-	/**
-	 * Returns true if this class is annotated with the given annotation
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	<S extends Annotation> boolean hasAnnotation(Class<S> annotation);
+	@Override
+	public void clear() {
+		fields.clear();
+	}
+
+	public Map<Object, Map<EAdVarDef<?>, EAdField<?>>> getFields() {
+		return fields;
+	}
 
 }

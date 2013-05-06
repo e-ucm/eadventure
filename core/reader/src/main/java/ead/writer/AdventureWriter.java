@@ -86,4 +86,16 @@ public class AdventureWriter {
 		xmlParser.writeToFile(doc, string);
 	}
 
+	/**
+	 * Sets if simplifications of the model must be performed while writing (it
+	 * can slow the writing process. Just a bit. Trust me, better slow it now
+	 * than while reading. You do NOT want that. You do not. That's why
+	 * simplification is enable by default)
+	 * 
+	 * @param enable
+	 */
+	public void setEnableSimplifications(boolean enable) {
+		visitor.setEnableSimplifcations(enable);
+	}
+
 }
