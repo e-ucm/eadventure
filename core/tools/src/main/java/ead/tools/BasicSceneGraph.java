@@ -270,8 +270,10 @@ public class BasicSceneGraph implements SceneGraph {
 			}
 		} else if (effect instanceof QuestionEf) {
 			QuestionEf showQuestion = (QuestionEf) effect;
-			for (EAdEffect e : showQuestion.getAnswers().values()) {
-				lookForConnections(currentScene, e);
+			for (List<EAdEffect> effects : showQuestion.getAnswers().values()) {
+				for (EAdEffect e : effects) {
+					lookForConnections(currentScene, e);
+				}
 			}
 		} else if (effect instanceof ChangeFieldEf) {
 			checkChangeField((ChangeFieldEf) effect);

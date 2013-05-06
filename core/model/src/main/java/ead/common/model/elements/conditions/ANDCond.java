@@ -40,12 +40,17 @@ package ead.common.model.elements.conditions;
 import ead.common.interfaces.Element;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
+import ead.common.model.elements.extra.EAdList;
 
 @Element
 public class ANDCond extends ListedCond {
 
 	public ANDCond(EAdCondition... condition) {
 		super(ConditionOperator.AND, condition);
+	}
+
+	public ANDCond(EAdList<EAdCondition> conditions) {
+		super(ConditionOperator.AND, conditions);
 	}
 
 	public ANDCond() {

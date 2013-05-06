@@ -50,8 +50,10 @@ import ead.common.interfaces.features.Evented;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.WatchFieldEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.events.enums.WatchFieldEvType;
 import ead.reader.model.ObjectsFactory;
 
@@ -97,6 +99,8 @@ public class EventReader {
 				event = getSceneElementEvent(SceneElementEvType.INIT, effects);
 			} else if (type.equals("watchfield")) {
 				event = getWatchFieldEvent(e, effects);
+			} else if (type.equals("time")) {
+				event = getTimeEvent(e, effects);
 			}
 
 			Collection<String> targets = (Collection<String>) e.get("targets");
@@ -107,6 +111,15 @@ public class EventReader {
 			}
 		}
 		return true;
+	}
+
+	private EAdEvent getTimeEvent(StringMap<Object> e, List<EAdEffect> effects) {
+		Number time = (Number) e.get("time");
+		TimedEv event = new TimedEv();
+		event.setTime(time.intValue());
+		event.addEffects(TimedEvType.END_TIME, effects);
+		event.setRepeats(1);
+		return event;
 	}
 
 	private EAdEvent getWatchFieldEvent(StringMap<Object> e,

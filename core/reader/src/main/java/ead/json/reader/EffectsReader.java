@@ -60,8 +60,10 @@ import ead.common.model.elements.effects.RemoveEf;
 import ead.common.model.elements.effects.ToggleSoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.operations.ValueOp;
@@ -150,6 +152,8 @@ public class EffectsReader {
 				effect = new ToggleSoundEf();
 			} else if (type.equals("quit")) {
 				effect = new QuitGameEf();
+			} else if (type.equals("question")) {
+				effect = getQuestion(e);
 			}
 
 			Boolean oneshot = (Boolean) e.get("oneshot");
@@ -181,6 +185,25 @@ public class EffectsReader {
 			addNextEffects(effect, e);
 		} catch (Exception ex) {
 			logger.error("Error reading {}", e, ex);
+		}
+		return effect;
+	}
+
+	private EAdEffect getQuestion(StringMap<Object> e) {
+		String question = (String) e.get("question");
+		QuestionEf effect = new QuestionEf();
+		effect.setQuestion(new EAdString(question));
+		Collection<StringMap<Object>> answers = (Collection<StringMap<Object>>) e
+				.get("answers");
+		for (StringMap<Object> a : answers) {
+			EAdString text = new EAdString((String) a.get("string"));
+			EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
+			Collection<StringMap<Object>> effs = ((Collection<StringMap<Object>>) a
+					.get("effects"));
+			for (StringMap<Object> ef : effs) {
+				effects.add(read(ef));
+			}
+			effect.setAnswer(text, effects);
 		}
 		return effect;
 	}

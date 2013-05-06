@@ -51,6 +51,7 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdField;
 import ead.reader.model.ObjectsFactory;
 
@@ -90,13 +91,13 @@ public class ConditionReader {
 	}
 
 	private EAdCondition parseAnd(StringMap<Object> c) {
-		EAdCondition cond = EmptyCond.TRUE;
 		Collection<StringMap<Object>> operations = (Collection<StringMap<Object>>) c
 				.get("operations");
+		EAdList<EAdCondition> conditions = new EAdList<EAdCondition>();
 		for (StringMap<Object> op : operations) {
-			cond = new ANDCond(cond, read(op));
+			conditions.add(read(op));
 		}
-		return cond;
+		return new ANDCond(conditions);
 	}
 
 	private EAdCondition parseOr(StringMap<Object> c) {

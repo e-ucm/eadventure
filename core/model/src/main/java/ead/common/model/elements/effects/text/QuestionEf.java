@@ -41,6 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.AbstractEffect;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.params.text.EAdString;
 
@@ -57,18 +58,23 @@ public class QuestionEf extends AbstractEffect {
 	private EAdString question;
 
 	@Param
-	private EAdMap<EAdString, EAdEffect> answers;
+	private EAdMap<EAdString, EAdList<EAdEffect>> answers;
 
 	@Param
 	private boolean randomAnswers;
 
 	public QuestionEf() {
 		super();
-		answers = new EAdMap<EAdString, EAdEffect>();
+		answers = new EAdMap<EAdString, EAdList<EAdEffect>>();
 	}
 
 	public void addAnswer(EAdString string, EAdEffect effect) {
-		answers.put(string, effect);
+		EAdList<EAdEffect> effects = answers.get(effect);
+		if (effects == null) {
+			effects = new EAdList<EAdEffect>();
+			answers.put(string, effects);
+		}
+		effects.add(effect);
 	}
 
 	public EAdString getQuestion() {
@@ -78,7 +84,7 @@ public class QuestionEf extends AbstractEffect {
 		return question;
 	}
 
-	public EAdMap<EAdString, EAdEffect> getAnswers() {
+	public EAdMap<EAdString, EAdList<EAdEffect>> getAnswers() {
 		return answers;
 	}
 
@@ -86,8 +92,12 @@ public class QuestionEf extends AbstractEffect {
 		this.question = question;
 	}
 
-	public void setAnswers(EAdMap<EAdString, EAdEffect> answers) {
+	public void setAnswers(EAdMap<EAdString, EAdList<EAdEffect>> answers) {
 		this.answers = answers;
+	}
+
+	public void setAnswer(EAdString answer, EAdList<EAdEffect> answers) {
+		this.answers.put(answer, answers);
 	}
 
 	public boolean isRandomAnswers() {

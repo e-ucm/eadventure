@@ -60,6 +60,12 @@ public abstract class ListedCond extends AbstractOperation implements
 		this(null);
 	}
 
+	public ListedCond(ConditionOperator operator,
+			EAdList<EAdCondition> conditions) {
+		this.operator = operator;
+		this.conditions = conditions;
+	}
+
 	public ListedCond(ConditionOperator operator) {
 		this(operator, (EAdCondition) null);
 	}

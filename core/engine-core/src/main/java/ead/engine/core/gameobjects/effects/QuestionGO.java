@@ -56,6 +56,7 @@ import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.GroupElement;
@@ -138,7 +139,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 		int i = 0;
 		for (EAdString s : answersOrdered) {
-			EAdEffect e = effect.getAnswers().get(s);
+			EAdList<EAdEffect> e = effect.getAnswers().get(s);
 			setUpAnswer(question, i++, s, e, selectEffect, inEffect, outEffect);
 		}
 		return question;
@@ -173,8 +174,8 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 	}
 
 	private void setUpAnswer(GroupElement question, int pos, EAdString key,
-			EAdEffect value, EAdEffect selectEffect, EAdEffect inEffect,
-			EAdEffect outEffect) {
+			EAdList<EAdEffect> value, EAdEffect selectEffect,
+			EAdEffect inEffect, EAdEffect outEffect) {
 		int delay = effect.getQuestion() != null ? 500 : 0;
 		int fontSize = 18;
 		int padding = 5;
