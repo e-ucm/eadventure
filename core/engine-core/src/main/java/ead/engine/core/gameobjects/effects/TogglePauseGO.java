@@ -35,12 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.factories;
+package ead.engine.core.gameobjects.effects;
 
-import ead.common.model.elements.EAdEffect;
-import ead.engine.core.gameobjects.effects.EffectGO;
+import com.google.inject.Inject;
 
-public interface EffectGOFactory extends
-		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {
+import ead.common.model.elements.effects.TogglePauseEf;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.game.interfaces.SoundManager;
+
+public class TogglePauseGO extends AbstractEffectGO<TogglePauseEf> {
+
+	private SoundManager soundManager;
+
+	@Inject
+	public TogglePauseGO(GameState gameState, SoundManager soundManager) {
+		super(gameState);
+		this.soundManager = soundManager;
+	}
+
+	public void initialize() {
+		super.initialize();
+		gameState.setPaused(!gameState.isPaused());
+		soundManager.setPause(gameState.isPaused());
+	}
 
 }

@@ -68,12 +68,12 @@ public class ValueMapImpl implements ValueMap {
 	/**
 	 * Contains all variables values
 	 */
-	protected Map<Object, Map<EAdVarDef<?>, Object>> map;
+	protected Map<Object, Map<EAdVarDef<?>, Object>> valuesMap;
 
 	/**
 	 * Contains the elements with variables updated
 	 */
-	private ArrayList<Object> updateList;
+	protected ArrayList<Object> updateList;
 
 	/**
 	 * If the update list is enable
@@ -84,7 +84,7 @@ public class ValueMapImpl implements ValueMap {
 			StringHandler stringHandler) {
 		this.stringHandler = stringHandler;
 		this.reflectionProvider = reflectionProvider;
-		map = new HashMap<Object, Map<EAdVarDef<?>, Object>>();
+		valuesMap = new HashMap<Object, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
 		updateList = new ArrayList<Object>();
 		updateEnable = true;
@@ -101,11 +101,11 @@ public class ValueMapImpl implements ValueMap {
 				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
 						.getClass())) {
 
-			Map<EAdVarDef<?>, Object> valMap = map
+			Map<EAdVarDef<?>, Object> valMap = valuesMap
 					.get(maybeDecodeField(element));
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
-				map.put(element, valMap);
+				valuesMap.put(element, valMap);
 
 				// Sets initial values, if any
 				addInitVariables(element, valMap);
@@ -136,11 +136,12 @@ public class ValueMapImpl implements ValueMap {
 
 	@SuppressWarnings("unchecked")
 	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = map.get(maybeDecodeField(element));
+		Map<EAdVarDef<?>, Object> valMap = valuesMap
+				.get(maybeDecodeField(element));
 
 		if (valMap == null) {
 			valMap = new HashMap<EAdVarDef<?>, Object>();
-			map.put(element, valMap);
+			valuesMap.put(element, valMap);
 
 			// Sets initial values, if any
 			addInitVariables(element, valMap);
@@ -156,7 +157,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public Map<EAdVarDef<?>, Object> getElementVars(Object element) {
-		return map.get(maybeDecodeField(element));
+		return valuesMap.get(maybeDecodeField(element));
 	}
 
 	@Override
@@ -196,11 +197,11 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void remove(Object element) {
-		map.remove(maybeDecodeField(element));
+		valuesMap.remove(maybeDecodeField(element));
 	}
 
 	public boolean contains(Object element) {
-		return map.get(element) != null;
+		return valuesMap.get(element) != null;
 	}
 
 }

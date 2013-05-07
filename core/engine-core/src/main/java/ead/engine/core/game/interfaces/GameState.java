@@ -224,4 +224,9 @@ public interface GameState extends ValueMap, OperationResolver {
 
 	void loadState();
 
+	/**
+	 * Resets the game state to its initial state
+	 */
+	void reset();
+
 }

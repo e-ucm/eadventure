@@ -61,7 +61,6 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.engine.core.factories.GameObjectFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
@@ -102,7 +101,7 @@ public abstract class GUIImpl implements GUI {
 
 	private EAdScene loadingScreen;
 
-	private GameObjectFactory<EAdSceneElement, SceneElementGO> sceneElementFactory;
+	private SceneElementGOFactory sceneElementFactory;
 
 	/**
 	 * Drag and drop handler
@@ -117,21 +116,15 @@ public abstract class GUIImpl implements GUI {
 		dragAndDropHandler = new DragAndDrop();
 	}
 
-	public void initialize(Game game, GameState gameState,
+	public void initialize(final Game game, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
 			final DebuggersHandler debuggerHandler) {
 		this.loadingScreen = new LoadingScreen();
 		this.game = game;
 		this.gameState = gameState;
 		this.sceneElementFactory = sceneElementFactory;
-		root = sceneElementFactory.get(new GroupElement());
-		root.getElement().setId("#engine.root");
-		hudRoot = sceneElementFactory.get(new GroupElement());
-		hudRoot.getElement().setId("#engine.huds");
-		sceneRoot = sceneElementFactory.get(new GroupElement());
-		sceneRoot.getElement().setId("#engine.sceneContainer");
+		addHierarchy();
 
-		root.addSceneElement(sceneRoot);
 		if (DEBUG) {
 			root.setInputProcessor(new InputListener() {
 
@@ -163,6 +156,8 @@ public abstract class GUIImpl implements GUI {
 						debuggerHandler
 								.toggleDebugger(DebuggersHandlerImpl.PROFILER_DEBUGGER);
 						break;
+					case Input.Keys.F7:
+						game.restart();
 					default:
 						break;
 					}
@@ -172,11 +167,17 @@ public abstract class GUIImpl implements GUI {
 
 			}, false);
 		}
-		root.addSceneElement(hudRoot);
-		addHuds();
 	}
 
-	public void addHuds() {
+	public void addHierarchy() {
+		root = sceneElementFactory.get(new GroupElement());
+		root.getElement().setId("#engine.root");
+		hudRoot = sceneElementFactory.get(new GroupElement());
+		hudRoot.getElement().setId("#engine.huds");
+		sceneRoot = sceneElementFactory.get(new GroupElement());
+		sceneRoot.getElement().setId("#engine.sceneContainer");
+		root.addSceneElement(sceneRoot);
+		root.addSceneElement(hudRoot);
 		// Bottom hud
 		hudRoot.addSceneElement(sceneElementFactory.get(new BottomHud()));
 		// Effects hud
@@ -279,7 +280,8 @@ public abstract class GUIImpl implements GUI {
 
 	@Override
 	public int getSkippedMilliseconds() {
-		return (int) (Gdx.graphics.getDeltaTime() * 1000);
+		return gameState.isPaused() ? 0
+				: (int) (Gdx.graphics.getDeltaTime() * 1000);
 	}
 
 	@Override
@@ -357,6 +359,13 @@ public abstract class GUIImpl implements GUI {
 			return actor;
 		}
 
+	}
+
+	public void reset() {
+		previousSceneStack.clear();
+		sceneElementFactory.clean();
+		addHierarchy();
+		setScene((SceneGO) sceneElementFactory.get(loadingScreen));
 	}
 
 	public class DragSource extends Source {

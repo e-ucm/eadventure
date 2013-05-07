@@ -35,12 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.factories;
+package ead.common.model.elements.effects;
 
-import ead.common.model.elements.EAdEffect;
-import ead.engine.core.gameobjects.effects.EffectGO;
+import ead.common.interfaces.Element;
 
-public interface EffectGOFactory extends
-		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {
+/**
+ * 
+ * Effect to toggle between play/pause in the game.
+ * 
+ */
+@Element
+public class TogglePauseEf extends AbstractEffect {
 
 }

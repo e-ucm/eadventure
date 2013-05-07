@@ -142,9 +142,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 	}
 
 	public void clean() {
-		if (cache != null) {
-			cache.clear();
-		}
+
 	}
 
 	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {

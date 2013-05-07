@@ -1212,6 +1212,7 @@ public class SceneElementGO extends Group implements
 			eventFactory.remove(eventGO);
 		}
 		getChildren().clear();
+		setParent(null);
 	}
 
 	@Override

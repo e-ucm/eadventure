@@ -199,6 +199,12 @@ public class AssetViewerModule extends AbstractModule {
 
 		}
 
+		@Override
+		public void reset() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	public static class AssetVariableMap extends GameStateImpl {

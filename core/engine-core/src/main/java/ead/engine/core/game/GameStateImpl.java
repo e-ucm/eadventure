@@ -566,4 +566,17 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 			}
 		}
 	}
+
+	@Override
+	public void reset() {
+		for (EffectGO<?> e : effects) {
+			effectFactory.remove(e);
+		}
+		effects.clear();
+		tweenManager.killAll();
+		this.setPaused(false);
+		fieldWatchers.clear();
+		valuesMap.clear();
+		updateList.clear();
+	}
 }

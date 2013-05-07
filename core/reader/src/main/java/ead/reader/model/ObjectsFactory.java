@@ -352,9 +352,12 @@ public class ObjectsFactory {
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
 	public EAdField<?> getField(String elementId, String varName) {
-		EAdElement element = (EAdElement) this.getEAdElement(elementId);
-		if (element == null) {
-			element = new BasicElement(elementId);
+		EAdElement element = null;
+		if (!elementId.equals("ead")) {
+			element = (EAdElement) this.getEAdElement(elementId);
+			if (element == null) {
+				element = new BasicElement(elementId);
+			}
 		}
 		EAdVarDef varDef = registeredVars.get(varName);
 		if (varDef == null) {

@@ -79,6 +79,7 @@ public class EAdEngine implements ApplicationListener {
 	public EAdEngine(Game game, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
+		game.setEAdEngine(this);
 		this.gameState = gameState;
 		this.gui = gui;
 		this.sceneMouseCoordinates = new Vector2();
@@ -124,6 +125,7 @@ public class EAdEngine implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		game.act(gui.getSkippedMilliseconds());
 		stage.act(gui.getSkippedMilliseconds());
 		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
@@ -146,6 +148,10 @@ public class EAdEngine implements ApplicationListener {
 		scaleY = (float) height / 600.0f;
 		gui.getRoot().setScaleX(scaleX);
 		gui.getRoot().setScaleY(scaleY);
+	}
+
+	public Stage getStage() {
+		return stage;
 	}
 
 	@Override

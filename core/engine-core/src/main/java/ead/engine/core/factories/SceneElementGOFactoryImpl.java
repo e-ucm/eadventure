@@ -37,6 +37,8 @@
 
 package ead.engine.core.factories;
 
+import java.util.ArrayList;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -72,6 +74,17 @@ public class SceneElementGOFactoryImpl extends
 			}
 		}
 		return null;
+	}
+
+	public void clean() {
+		ArrayList<SceneElementGO> aux = new ArrayList<SceneElementGO>();
+		if (cache != null) {
+			aux.addAll(cache.values());
+			for (SceneElementGO go : aux) {
+				go.free();
+			}
+			cache.clear();
+		}
 	}
 
 }

@@ -203,4 +203,9 @@ public interface GUI {
 	 */
 	void resetDrag();
 
+	/**
+	 * Resets the GUI. The GUI recovers its initial state
+	 */
+	void reset();
+
 }

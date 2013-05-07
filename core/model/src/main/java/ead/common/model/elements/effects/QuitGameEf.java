@@ -38,13 +38,30 @@
 package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 
 @Element
 public class QuitGameEf extends AbstractEffect implements EAdEffect {
 
+	@Param
+	private boolean restart;
+
 	public QuitGameEf() {
-		super();
+		restart = false;
+	}
+
+	public boolean isRestart() {
+		return restart;
+	}
+
+	/**
+	 * Sets if the game must be restarted after quit
+	 * 
+	 * @param restart
+	 */
+	public void setRestart(boolean restart) {
+		this.restart = restart;
 	}
 
 }

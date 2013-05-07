@@ -65,6 +65,7 @@ import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.LoadingScreen;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.VarDef;
+import ead.engine.core.EAdEngine;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
@@ -75,6 +76,7 @@ import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.PluginHandler;
+import ead.engine.core.game.interfaces.SoundManager;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
@@ -191,6 +193,10 @@ public class GameImpl implements Game, VisitorListener {
 
 	private DebuggersHandler debuggersHandler;
 
+	private EAdEngine eAdEngine;
+
+	private SoundManager soundManager;
+
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
 			PluginHandler pluginHandler, GameState gameState,
@@ -198,7 +204,8 @@ public class GameImpl implements Game, VisitorListener {
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, SceneGraph sceneGraph,
 			StringsReader stringsReader, AdventureReader reader,
-			XMLParser xmlReader, DebuggersHandler debuggersHandler) {
+			XMLParser xmlReader, DebuggersHandler debuggersHandler,
+			SoundManager soundManager) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -211,11 +218,16 @@ public class GameImpl implements Game, VisitorListener {
 		this.tracker = tracker;
 		this.reader = reader;
 		this.debuggersHandler = debuggersHandler;
+		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
 		assetsToLoad = new Stack<AssetDescriptor>();
+	}
+
+	public void setEAdEngine(EAdEngine eAdEngine) {
+		this.eAdEngine = eAdEngine;
 	}
 
 	@Override
@@ -527,6 +539,17 @@ public class GameImpl implements Game, VisitorListener {
 		reader.readXML(assetHandler.getTextFile("@data.xml"), this);
 		firstUpdate = true;
 		readingXML = true;
+	}
+
+	@Override
+	public void restart() {
+		soundManager.stopAll();
+		gui.reset();
+		eAdEngine.getStage().getActors().clear();
+		eAdEngine.getStage().addActor(gui.getRoot());
+		eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
+		gameState.reset();
+		setGame();
 	}
 
 }

@@ -57,6 +57,7 @@ import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.RemoveEf;
+import ead.common.model.elements.effects.TogglePauseEf;
 import ead.common.model.elements.effects.ToggleSoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
@@ -151,9 +152,11 @@ public class EffectsReader {
 			} else if (type.equals("togglesound")) {
 				effect = new ToggleSoundEf();
 			} else if (type.equals("quit")) {
-				effect = new QuitGameEf();
+				effect = getQuit(e);
 			} else if (type.equals("question")) {
 				effect = getQuestion(e);
+			} else if (type.equals("togglepause")) {
+				effect = new TogglePauseEf();
 			}
 
 			Boolean oneshot = (Boolean) e.get("oneshot");
@@ -186,6 +189,13 @@ public class EffectsReader {
 		} catch (Exception ex) {
 			logger.error("Error reading {}", e, ex);
 		}
+		return effect;
+	}
+
+	private EAdEffect getQuit(StringMap<Object> e) {
+		QuitGameEf effect = new QuitGameEf();
+		Boolean restart = (Boolean) e.get("restart");
+		effect.setRestart(restart != null ? restart.booleanValue() : false);
 		return effect;
 	}
 

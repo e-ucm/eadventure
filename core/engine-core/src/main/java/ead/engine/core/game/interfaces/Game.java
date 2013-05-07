@@ -39,6 +39,7 @@ package ead.engine.core.game.interfaces;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
+import ead.engine.core.EAdEngine;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineHook;
 
@@ -68,6 +69,8 @@ public interface Game {
 	 * Sets if System.exit must be called when the game is closed
 	 */
 	public static final String EXIT_WHEN_CLOSE = "exit_when_close";
+
+	void setEAdEngine(EAdEngine eAdEngine);
 
 	/**
 	 * 
@@ -138,5 +141,10 @@ public interface Game {
 	 * @return
 	 */
 	<T> T applyFilters(String filterName, T o, Object[] params);
+
+	/**
+	 * Restarts the game, deleting any stored state
+	 */
+	void restart();
 
 }

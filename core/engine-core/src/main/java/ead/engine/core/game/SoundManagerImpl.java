@@ -101,11 +101,26 @@ public class SoundManagerImpl implements SoundManager {
 		for (RuntimeSound s : currentSounds) {
 			s.setVolume(volume);
 		}
-
 	}
 
 	public boolean isSilence() {
 		return silence;
+	}
+
+	@Override
+	public void setPause(boolean paused) {
+		// FIXME currently, the API sound doesn't allow to pause sounds...
+
+	}
+
+	@Override
+	public void stopAll() {
+		if (backgroundMusic != null) {
+			backgroundMusic.stop();
+		}
+		for (RuntimeSound s : currentSounds) {
+			s.stop();
+		}
 	}
 
 }
