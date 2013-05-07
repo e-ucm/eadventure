@@ -254,6 +254,8 @@ public abstract class GUIImpl implements GUI {
 		}
 		// Set the scene
 		this.scene = newScene;
+		gameState.setValue(SystemFields.CURRENT_SCENE,
+				scene.getElement() == null ? null : scene.getElement().getId());
 		sceneRoot.getChildren().clear();
 		sceneRoot.addSceneElement(scene);
 	}
