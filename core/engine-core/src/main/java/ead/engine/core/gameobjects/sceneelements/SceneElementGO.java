@@ -1213,11 +1213,13 @@ public class SceneElementGO extends Group implements
 		}
 		getChildren().clear();
 		setParent(null);
+		this.currentDrawable = null;
+		this.runtimeDrawable = null;
 	}
 
 	@Override
 	public void release() {
-
+		remove();
 	}
 
 }

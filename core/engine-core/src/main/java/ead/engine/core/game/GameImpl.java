@@ -543,12 +543,15 @@ public class GameImpl implements Game, VisitorListener {
 
 	@Override
 	public void restart() {
-		soundManager.stopAll();
+		// The order is important here
+		sceneElementFactory.clean();
+		eventFactory.clean();
+		gameState.reset();
 		gui.reset();
+		soundManager.stopAll();
 		eAdEngine.getStage().getActors().clear();
 		eAdEngine.getStage().addActor(gui.getRoot());
 		eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
-		gameState.reset();
 		setGame();
 	}
 

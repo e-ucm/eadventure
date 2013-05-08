@@ -75,7 +75,7 @@ public interface GameObjectFactory<S extends EAdElement, T extends GameObject<?>
 	 */
 	void put(Class<? extends S> clazz1, Class<? extends T> clazz2);
 
-	void remove(S element);
+	boolean remove(S element);
 
 	void remove(T element);
 
@@ -85,5 +85,7 @@ public interface GameObjectFactory<S extends EAdElement, T extends GameObject<?>
 	 * @return
 	 */
 	int getCacheSize();
+
+	void clean();
 
 }

@@ -56,15 +56,19 @@ public class MouseHud extends BasicScene {
 	public static final String DEFAULT_CURSOR = "default";
 	public static final String TALK_CURSOR = "talk";
 	public static final String EXIT_CURSOR = "exit";
+	public static final EAdDrawable cursor = new Image(
+			"@drawable/default_cursor.png");
+	public static final EAdDrawable takeCursor = new Image(
+			"@drawable/take_cursor.png");
+	public static final EAdDrawable examineCursor = new Image(
+			"@drawable/examine_cursor.png");
+	public static final EAdDrawable talkCursor = new Image(
+			"@drawable/talk_cursor.png");
+	public static final EAdDrawable exitCursor = new Image("@drawable/exit.png");
 
 	public MouseHud() {
 		this.setId(MOUSE_HUD_ID);
 		this.setBackground(null);
-		EAdDrawable cursor = new Image("@drawable/default_cursor.png");
-		EAdDrawable takeCursor = new Image("@drawable/take_cursor.png");
-		EAdDrawable examineCursor = new Image("@drawable/examine_cursor.png");
-		EAdDrawable talkCursor = new Image("@drawable/talk_cursor.png");
-		EAdDrawable exitCursor = new Image("@drawable/exit.png");
 		SceneElement mouse = new SceneElement(cursor);
 		mouse.setAppearance(DEFAULT_CURSOR, cursor);
 		mouse.setAppearance(TAKE_CURSOR, takeCursor);

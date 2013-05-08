@@ -125,24 +125,28 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		return (T) temp;
 	}
 
-	public void remove(S element) {
+	public boolean remove(S element) {
 		if (cache != null) {
-			cache.remove(element);
+			return (cache.remove(element) != null);
 		}
+		return true;
 	}
 
 	@SuppressWarnings("unchecked")
 	public void remove(T gameObject) {
-		remove((S) gameObject.getElement());
-		Pool<T> pool = pools.get(gameObject.getClass());
-		if (pool != null) {
-			pool.free((T) gameObject);
-			gameObject.release();
+		if (remove((S) gameObject.getElement())) {
+			Pool<T> pool = pools.get(gameObject.getClass());
+			if (pool != null) {
+				pool.free((T) gameObject);
+				gameObject.release();
+			}
 		}
 	}
 
 	public void clean() {
-
+		pools.clear();
+		if (cache != null)
+			cache.clear();
 	}
 
 	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {

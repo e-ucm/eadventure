@@ -108,6 +108,8 @@ public abstract class GUIImpl implements GUI {
 	 */
 	private DragAndDrop dragAndDropHandler;
 
+	private DebuggersHandler debuggerHandler;
+
 	@Inject
 	public GUIImpl() {
 		super();
@@ -118,13 +120,40 @@ public abstract class GUIImpl implements GUI {
 
 	public void initialize(final Game game, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
-			final DebuggersHandler debuggerHandler) {
+			DebuggersHandler debuggerHandler) {
 		this.loadingScreen = new LoadingScreen();
 		this.game = game;
 		this.gameState = gameState;
 		this.sceneElementFactory = sceneElementFactory;
+		this.debuggerHandler = debuggerHandler;
 		addHierarchy();
+	}
 
+	public void addHierarchy() {
+		root = sceneElementFactory.get(new GroupElement());
+		root.getElement().setId("#engine.root");
+		hudRoot = sceneElementFactory.get(new GroupElement());
+		hudRoot.getElement().setId("#engine.huds");
+		sceneRoot = sceneElementFactory.get(new GroupElement());
+		sceneRoot.getElement().setId("#engine.sceneContainer");
+		root.addSceneElement(sceneRoot);
+		root.addSceneElement(hudRoot);
+		// Bottom hud
+		hudRoot.addSceneElement(sceneElementFactory.get(new BottomHud()));
+		// Effects hud
+		SceneElement effectsHud = new SceneElement();
+		effectsHud.setId(GUI.EFFECTS_HUD_ID);
+		hudRoot.addSceneElement(sceneElementFactory.get(effectsHud));
+		// Debugger hud
+		SceneElement debuggerHud = new SceneElement();
+		debuggerHud.setId(GUI.DEBBUGERS_HUD_ID);
+		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
+		// Add huds
+		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
+		addDebug();
+	}
+
+	private void addDebug() {
 		if (DEBUG) {
 			root.setInputProcessor(new InputListener() {
 
@@ -167,29 +196,6 @@ public abstract class GUIImpl implements GUI {
 
 			}, false);
 		}
-	}
-
-	public void addHierarchy() {
-		root = sceneElementFactory.get(new GroupElement());
-		root.getElement().setId("#engine.root");
-		hudRoot = sceneElementFactory.get(new GroupElement());
-		hudRoot.getElement().setId("#engine.huds");
-		sceneRoot = sceneElementFactory.get(new GroupElement());
-		sceneRoot.getElement().setId("#engine.sceneContainer");
-		root.addSceneElement(sceneRoot);
-		root.addSceneElement(hudRoot);
-		// Bottom hud
-		hudRoot.addSceneElement(sceneElementFactory.get(new BottomHud()));
-		// Effects hud
-		SceneElement effectsHud = new SceneElement();
-		effectsHud.setId(GUI.EFFECTS_HUD_ID);
-		hudRoot.addSceneElement(sceneElementFactory.get(effectsHud));
-		// Debugger hud
-		SceneElement debuggerHud = new SceneElement();
-		debuggerHud.setId(GUI.DEBBUGERS_HUD_ID);
-		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
-		// Add huds
-		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
 	}
 
 	@Override

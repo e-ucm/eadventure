@@ -49,7 +49,7 @@ import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
 public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 
 	// We want to move 800px every 4 seconds
-	private static final int TIME_PER_UNIT = 4000 / 800;
+	private static final int TIME_PER_UNIT = 8000 / 800;
 
 	private float totalTime;
 

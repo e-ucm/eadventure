@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.json.reader.subreaders;
+package ead.json.reader;
 
 import java.util.Collection;
 

@@ -225,7 +225,9 @@ public class EffectsReader {
 		EAdSceneElement element = (EAdSceneElement) objectsFactory
 				.getEAdElement((String) e.get("sceneElement"));
 		move.setSceneElement(element);
-		move.setUseTrajectory(false);
+		Boolean useTrajectory = (Boolean) e.get("useTrajectory");
+		move.setUseTrajectory(useTrajectory == null ? false : useTrajectory
+				.booleanValue());
 		return move;
 	}
 

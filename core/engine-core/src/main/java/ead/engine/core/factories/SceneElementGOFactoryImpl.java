@@ -83,8 +83,8 @@ public class SceneElementGOFactoryImpl extends
 			for (SceneElementGO go : aux) {
 				go.free();
 			}
-			cache.clear();
 		}
+		super.clean();
 	}
 
 }

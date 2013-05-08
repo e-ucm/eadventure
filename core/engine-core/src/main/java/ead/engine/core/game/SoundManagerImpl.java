@@ -44,8 +44,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.elements.operations.SystemFields;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.multimedia.RuntimeSound;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.SoundManager;
 
 @Singleton
@@ -59,10 +61,15 @@ public class SoundManagerImpl implements SoundManager {
 
 	private List<RuntimeSound> currentSounds;
 
+	private GameState gameState;
+
 	@Inject
-	public SoundManagerImpl(AssetHandler assetHandler) {
+	public SoundManagerImpl(AssetHandler assetHandler, GameState gameState) {
 		this.assetHandler = assetHandler;
+		this.gameState = gameState;
+		this.silence = false;
 		currentSounds = new ArrayList<RuntimeSound>();
+		gameState.setValue(SystemFields.SOUND_ON, !isSilence());
 	}
 
 	@Override
@@ -101,6 +108,7 @@ public class SoundManagerImpl implements SoundManager {
 		for (RuntimeSound s : currentSounds) {
 			s.setVolume(volume);
 		}
+		gameState.setValue(SystemFields.SOUND_ON, !isSilence());
 	}
 
 	public boolean isSilence() {
@@ -110,6 +118,7 @@ public class SoundManagerImpl implements SoundManager {
 	@Override
 	public void setPause(boolean paused) {
 		// FIXME currently, the API sound doesn't allow to pause sounds...
+		setSilence(paused);
 
 	}
 
@@ -121,6 +130,7 @@ public class SoundManagerImpl implements SoundManager {
 		for (RuntimeSound s : currentSounds) {
 			s.stop();
 		}
+		gameState.setValue(SystemFields.SOUND_ON, !isSilence());
 	}
 
 }

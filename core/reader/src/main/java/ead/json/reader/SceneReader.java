@@ -69,7 +69,6 @@ import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.EAdVarDef;
-import ead.json.reader.subreaders.TrajectoryReader;
 import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
