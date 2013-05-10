@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
@@ -64,8 +65,9 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 	private float diffY;
 
 	@Inject
-	public SimpleTrajectoryGO(GameState gameState) {
-		super(gameState);
+	public SimpleTrajectoryGO(GameState gameState,
+			SceneElementGOFactory sceneElementFactory) {
+		super(gameState, sceneElementFactory);
 	}
 
 	public void set(SceneElementGO movingElement, float destinyX,
@@ -120,6 +122,7 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 
 	@Override
 	public void act(float delta) {
+		movingElement = sceneElementFactory.get(sceneElement);
 		currentTime += delta;
 		float x = (currentTime / totalTime) * diffX;
 		float y = (currentTime / totalTime) * diffY;

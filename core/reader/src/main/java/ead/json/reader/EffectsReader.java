@@ -53,6 +53,7 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.AddChildEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.QuitGameEf;
@@ -212,6 +213,10 @@ public class EffectsReader {
 					.get("effects"));
 			for (StringMap<Object> ef : effs) {
 				effects.add(read(ef));
+			}
+			// A empty list is ignored by the writer
+			if (effects.isEmpty()) {
+				effects.add(new EmptyEffect());
 			}
 			effect.setAnswer(text, effects);
 		}

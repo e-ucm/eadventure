@@ -90,7 +90,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	@Inject
 	public NodeTrajectoryGO(SceneElementGOFactory sceneElementFactory,
 			GameState gameState) {
-		super(gameState);
+		super(gameState, sceneElementFactory);
 		this.generator = new DijkstraNodeTrajectoryGenerator(
 				sceneElementFactory, gameState);
 	}
@@ -127,6 +127,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 	@Override
 	public void act(float delta) {
+		movingElement = sceneElementFactory.get(sceneElement);
 		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		if (!finished) {
 			if (firstUpdate) {

@@ -50,6 +50,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.operations.SystemFields;
+import ead.engine.core.game.GUIImpl;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
@@ -64,7 +65,7 @@ import ead.tools.reflection.ReflectionClassLoader;
 
 public class DesktopGame {
 
-	private boolean debug = true;
+	private boolean debug = GUIImpl.DEBUG;
 
 	private Injector injector;
 

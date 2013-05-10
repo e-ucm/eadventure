@@ -50,6 +50,7 @@ import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.trajectories.PolygonTrajectory;
 import ead.common.model.params.util.Position;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
@@ -85,8 +86,9 @@ public class PolygonTrajectoryGO extends
 	private float startY;
 
 	@Inject
-	public PolygonTrajectoryGO(GameState gameState) {
-		super(gameState);
+	public PolygonTrajectoryGO(GameState gameState,
+			SceneElementGOFactory sceneElementFactory) {
+		super(gameState, sceneElementFactory);
 	}
 
 	public void setElement(PolygonTrajectory trajectory) {
@@ -113,6 +115,7 @@ public class PolygonTrajectoryGO extends
 
 	@Override
 	public void act(float delta) {
+		movingElement = sceneElementFactory.get(sceneElement);
 		currentTime += gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		if (updateEnd) {
 			updateEnd = false;

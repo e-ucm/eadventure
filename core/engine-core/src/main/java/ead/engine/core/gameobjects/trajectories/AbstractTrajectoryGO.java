@@ -40,7 +40,9 @@ package ead.engine.core.gameobjects.trajectories;
 import java.util.ArrayList;
 import java.util.List;
 
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectory;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
@@ -53,6 +55,8 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected SceneElementGO movingElement;
 
+	protected EAdSceneElement sceneElement;
+
 	protected float destinyX;
 
 	protected float destinyY;
@@ -61,7 +65,11 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected List<Float> currentPath;
 
-	public AbstractTrajectoryGO(GameState gameState) {
+	protected SceneElementGOFactory sceneElementFactory;
+
+	public AbstractTrajectoryGO(GameState gameState,
+			SceneElementGOFactory sceneElementFactory) {
+		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
 		this.currentPath = new ArrayList<Float>();
 	}
@@ -78,6 +86,7 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 	public void set(SceneElementGO movingElement, float destinyX,
 			float destinyY, SceneElementGO target) {
 		this.movingElement = movingElement;
+		this.sceneElement = movingElement.getElement();
 		this.destinyX = destinyX;
 		this.destinyY = destinyY;
 		this.target = target;

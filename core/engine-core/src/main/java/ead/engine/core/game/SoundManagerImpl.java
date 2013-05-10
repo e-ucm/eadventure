@@ -117,8 +117,8 @@ public class SoundManagerImpl implements SoundManager {
 
 	@Override
 	public void setPause(boolean paused) {
-		// FIXME currently, the API sound doesn't allow to pause sounds...
-		setSilence(paused);
+		// FIXME currently, the API sound doesn't allow to pause
+		// sounds..
 
 	}
 
