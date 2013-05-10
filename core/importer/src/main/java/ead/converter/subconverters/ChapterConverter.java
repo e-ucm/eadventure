@@ -42,13 +42,17 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.enums.DragGEvType;
 import ead.converter.EAdElementsCache;
 import ead.converter.ModelQuerier;
 import ead.converter.subconverters.actors.AtrezzoConverter;
+import ead.converter.subconverters.actors.ElementConverter.DropEvent;
 import ead.converter.subconverters.actors.ItemConverter;
 import ead.converter.subconverters.actors.NPCConverter;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -157,6 +161,16 @@ public class ChapterConverter {
 			if (c.getInitialGeneralScene() == cs) {
 				chapter.setInitialScene(cutscene.get(0));
 			}
+		}
+
+		for (DropEvent e : npcConverter.getDropEvents()) {
+			WithBehavior w = (WithBehavior) elementsCache.get(e.target);
+			w.addBehavior(new DragGEv(e.owner, DragGEvType.DROP), e.effects);
+		}
+
+		for (DropEvent e : itemConverter.getDropEvents()) {
+			WithBehavior w = (WithBehavior) elementsCache.get(e.target);
+			w.addBehavior(new DragGEv(e.owner, DragGEvType.DROP), e.effects);
 		}
 
 		return chapter;

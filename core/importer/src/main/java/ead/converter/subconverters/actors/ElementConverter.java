@@ -37,21 +37,31 @@
 
 package ead.converter.subconverters.actors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.effects.ActorActionsEf;
+import ead.common.model.elements.effects.DragEf;
+import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
+import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
@@ -69,15 +79,22 @@ public abstract class ElementConverter {
 
 	protected ConditionsConverter conditionsConverter;
 
+	protected EffectsConverter effectsConverter;
+
+	private List<DropEvent> dropEvents;
+
 	@Inject
 	public ElementConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
-			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter) {
+			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
+			EffectsConverter effectsConverter) {
 		this.resourceConverter = resourceConverter;
 		this.utilsConverter = utilsConverter;
 		this.actionsConverter = actionsConverter;
 		this.modelQuerier = modelQuerier;
 		this.conditionsConverter = conditionsConverter;
+		this.effectsConverter = effectsConverter;
+		this.dropEvents = new ArrayList<DropEvent>();
 	}
 
 	public EAdSceneElementDef convert(Element a) {
@@ -128,27 +145,39 @@ public abstract class ElementConverter {
 			// (actionsConverter.actionsConditions)
 
 			// Add drag & drop
-			// NOTE: The old version of eadventure allows complex behaviors with
-			// drag and drop. So, a couple of things to note, to make conversion
-			// less crazy:
-			// 1) If an element has a drag action is ALWAYS draggable (no matter
-			// action conditions).
-			// 2) Conditions are used to decide what effects to launch
-
-			// First, detect drag
-			boolean hasDrag = false;
+			TriggerMacroEf drags = null;
 			for (Action a : element.getActions()) {
 				if (a.getType() == Action.DRAG_TO) {
-					hasDrag = true;
-					break;
+					if (drags == null) {
+						drags = new TriggerMacroEf();
+					}
+					// click effects and effects and action are the same, so add all
+					EAdCondition cond = conditionsConverter.convert(a
+							.getConditions());
+					DragEf drag = new DragEf();
+					drag.setReturnAfterDrag(element.isReturnsWhenDragged());
+					drags.putEffect(cond, drag);
+
+					dropEvents.add(new DropEvent(element.getId(), a
+							.getTargetId(), effectsConverter.convert(a
+							.getEffects())));
 				}
 			}
 
-			// Then, if it has drag
-			if (hasDrag) {
-
+			if (drags != null) {
+				def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, drags);
 			}
+
+			if (element.getActions().size() > 0) {
+				// XXX For now, we use the default exit image
+				utilsConverter.addCursorChange(def, MouseHud.EXIT_CURSOR);
+			}
+
 		}
+	}
+
+	public List<DropEvent> getDropEvents() {
+		return dropEvents;
 	}
 
 	protected EAdDrawable getDrawable(Resources r, String resourceId) {
@@ -157,4 +186,19 @@ public abstract class ElementConverter {
 	}
 
 	protected abstract String getResourceType();
+
+	public static class DropEvent {
+		public String owner;
+
+		public String target;
+
+		public EAdList<EAdEffect> effects;
+
+		public DropEvent(String owner, String target, EAdList<EAdEffect> effects) {
+			this.owner = owner;
+			this.target = target;
+			this.effects = effects;
+		}
+
+	}
 }

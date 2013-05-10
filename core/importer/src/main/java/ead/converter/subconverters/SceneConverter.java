@@ -282,11 +282,13 @@ public class SceneConverter {
 			AbstractShape shape = rectangleConverter.convert(a,
 					ACTIVE_AREA_FILL);
 			GhostElement activeArea = new GhostElement(shape);
+			activeArea.setId(a.getId());
 			if (a.isRectangular()) {
 				activeArea.setPosition(Corner.TOP_LEFT, a.getX(), a.getY());
 			}
 			// Set Z
 			activeArea.setInitialZ(ACTIVE_AREA_Z + i);
+			elementsCache.put(activeArea);
 			// Add visibility condition
 			utilsConverter.addWatchCondition(activeArea, activeArea
 					.getField(SceneElement.VAR_VISIBLE), a.getConditions());

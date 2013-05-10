@@ -61,16 +61,13 @@ import es.eucm.eadventure.common.data.chapter.elements.Item;
 @Singleton
 public class ItemConverter extends ElementConverter {
 
-	private EffectsConverter effectsConverter;
-
 	@Inject
 	public ItemConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
 			EffectsConverter effectsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter);
-		this.effectsConverter = effectsConverter;
+				modelQuerier, conditionsConverter, effectsConverter);
 	}
 
 	public EAdSceneElementDef convert(Element a) {

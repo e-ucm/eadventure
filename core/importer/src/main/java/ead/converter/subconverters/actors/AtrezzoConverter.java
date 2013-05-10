@@ -45,6 +45,7 @@ import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
+import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 
 @Singleton
@@ -53,9 +54,10 @@ public class AtrezzoConverter extends ElementConverter {
 	@Inject
 	public AtrezzoConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
-			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter) {
+			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
+			EffectsConverter effectsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter);
+				modelQuerier, conditionsConverter, effectsConverter);
 	}
 
 	@Override

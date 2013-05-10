@@ -103,6 +103,7 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 			target.setX(x);
 			target.setY(y);
 		} else {
+			// XXX Objects can get outside of the window
 			target.setX(x + gameState.getValue(SystemFields.MOUSE_SCENE_X)
 					- mouseInitX);
 			target.setY(y + gameState.getValue(SystemFields.MOUSE_SCENE_Y)
