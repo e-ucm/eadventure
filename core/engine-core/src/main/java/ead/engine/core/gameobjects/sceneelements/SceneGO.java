@@ -62,7 +62,6 @@ public class SceneGO extends GroupElementGO implements
 
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
-		gui.resetDrag();
 		EAdSceneElement bg = ((EAdScene) element).getBackground();
 		if (bg != null) {
 			SceneElementGO bgGO = sceneElementFactory.get(bg);

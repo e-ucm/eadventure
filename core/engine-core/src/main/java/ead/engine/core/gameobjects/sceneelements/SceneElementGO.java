@@ -79,9 +79,9 @@ import ead.common.model.params.variables.EAdVarDef;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;
+import ead.engine.core.events.DragEvent;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GUIImpl.DragEvent;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.GameObject;
@@ -165,11 +165,6 @@ public class SceneElementGO extends Group implements
 	 * Current asset bundle
 	 */
 	protected String currentBundle;
-
-	/**
-	 * If the element is draggable
-	 */
-	protected boolean draggable;
 
 	/**
 	 * If the mouse is over the element
@@ -313,7 +308,6 @@ public class SceneElementGO extends Group implements
 
 		orientation = gameState.getValue(element, SceneElement.VAR_ORIENTATION);
 		state = gameState.getValue(element, SceneElement.VAR_STATE);
-		draggable = gameState.getValue(element, SceneElement.VAR_DRAGGABLE);
 		setZ(gameState.getValue(element, SceneElement.VAR_Z));
 
 		// Transformation
@@ -620,14 +614,6 @@ public class SceneElementGO extends Group implements
 	}
 
 	/**
-	 * Returns if this element is draggable
-	 * 
-	 */
-	public boolean isDraggable() {
-		return draggable;
-	}
-
-	/**
 	 * Returns the drawable that represents this element
 	 * 
 	 * @return
@@ -676,9 +662,6 @@ public class SceneElementGO extends Group implements
 
 	public void addSceneElement(SceneElementGO e) {
 		addActor(e);
-		if (e.isDraggable()) {
-			gui.addDragSource(e);
-		}
 	}
 
 	public void addActor(Actor a) {
@@ -690,7 +673,7 @@ public class SceneElementGO extends Group implements
 		return (SceneElementGO) super.findActor(e.getId());
 	}
 
-	public SceneElementGO getFirstGOIn(int virtualX, int virtualY) {
+	public SceneElementGO getFirstGOIn(float virtualX, float virtualY) {
 		return (SceneElementGO) this.hit(virtualX, virtualY, true);
 	}
 
@@ -835,18 +818,20 @@ public class SceneElementGO extends Group implements
 		if (this.getTouchable() == Touchable.enabled
 				&& event instanceof InputEvent) {
 			Type t = ((InputEvent) event).getType();
-			switch (t) {
-			case enter:
-				setMouseOver(true);
-				cancel = false;
-				break;
-			case exit:
-				setMouseOver(false);
-				cancel = false;
-				break;
-			default:
-				cancel = true;
-				break;
+			if (t != null) {
+				switch (t) {
+				case enter:
+					setMouseOver(true);
+					cancel = false;
+					break;
+				case exit:
+					setMouseOver(false);
+					cancel = false;
+					break;
+				default:
+					cancel = true;
+					break;
+				}
 			}
 		}
 
@@ -873,7 +858,10 @@ public class SceneElementGO extends Group implements
 
 	public EAdGUIEvent getGUIEvent(Event e) {
 		EAdGUIEvent guiEvent = null;
-		if (e instanceof InputEvent) {
+		// First check DragEvent, because it is also an InputEvent
+		if (e instanceof DragEvent) {
+			return ((DragEvent) e).getDragEvent();
+		} else if (e instanceof InputEvent) {
 			InputEvent i = (InputEvent) e;
 			switch (i.getType()) {
 			case mouseMoved:
@@ -912,6 +900,7 @@ public class SceneElementGO extends Group implements
 				guiEvent = MouseGEv.MOUSE_EXITED;
 				break;
 			case keyDown:
+				// XXX Fixme, news!!
 				guiEvent = new KeyGEv(KeyEventType.KEY_PRESSED, getKeyCode(i
 						.getKeyCode()));
 				break;
@@ -923,10 +912,6 @@ public class SceneElementGO extends Group implements
 				guiEvent = new KeyGEv(KeyEventType.KEY_TYPED, getKeyCode(i
 						.getKeyCode()));
 				break;
-			case touchDragged:
-				if (i instanceof DragEvent) {
-					// DragEvent dragEvent = (DragEvent) i;
-				}
 			default:
 				break;
 			}

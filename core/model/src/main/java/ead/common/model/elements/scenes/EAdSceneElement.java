@@ -37,7 +37,6 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.interfaces.features.Draggable;
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Variabled;
 import ead.common.interfaces.features.WithBehavior;
@@ -51,7 +50,7 @@ import ead.common.model.params.util.Position.Corner;
  * 
  */
 public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
-		Evented, Draggable {
+		Evented {
 
 	/**
 	 * Returns the definition for this scene element

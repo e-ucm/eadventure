@@ -42,6 +42,7 @@ import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.AddChildEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.DragEf;
 import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.ModifyInventoryEf;
@@ -70,6 +71,7 @@ import ead.engine.core.gameobjects.effects.AddChildGO;
 import ead.engine.core.gameobjects.effects.ApplyForceGO;
 import ead.engine.core.gameobjects.effects.ChangeFieldGO;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
+import ead.engine.core.gameobjects.effects.DragGO;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.effects.EmptyEffectGO;
 import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
@@ -122,6 +124,7 @@ public class EffectsMapProvider
 		factoryMap.put(ToggleSoundEf.class, ToggleSoundGO.class);
 		factoryMap.put(EmptyEffect.class, EmptyEffectGO.class);
 		factoryMap.put(TogglePauseEf.class, TogglePauseGO.class);
+		factoryMap.put(DragEf.class, DragGO.class);
 		// Physics
 		factoryMap.put(PhysicsEf.class, PhysicsEffectGO.class);
 		factoryMap.put(PhApplyImpulseEf.class, ApplyForceGO.class);

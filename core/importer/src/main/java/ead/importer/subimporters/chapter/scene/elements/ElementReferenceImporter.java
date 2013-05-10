@@ -44,9 +44,11 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.DragEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position;
 import ead.common.model.params.util.Rectangle;
 import ead.importer.EAdElementImporter;
@@ -120,9 +122,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
-				newRef.setDragCond(EmptyCond.TRUE);
-				newRef.setVarInitialValue(SceneElement.VAR_RETURN_WHEN_DRAGGED,
-						isReturnWhenDragged(oldObject.getTargetId()));
+				newRef.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
 
 			}
 		} else {

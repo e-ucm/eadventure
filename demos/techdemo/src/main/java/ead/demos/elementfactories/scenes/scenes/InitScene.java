@@ -148,7 +148,7 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new SharingEffectsScene());
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
-		sceneDemos.add(new VideoSceneDemo());
+		//		sceneDemos.add(new VideoSceneDemo());
 		sceneDemos.add(new WebMVideoScene());
 		sceneDemos.add(new WidgetsScene());
 		sceneDemos.add(new NgMainScreen(this));

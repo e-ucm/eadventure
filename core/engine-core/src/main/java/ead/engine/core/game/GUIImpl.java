@@ -47,7 +47,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
@@ -103,11 +102,6 @@ public abstract class GUIImpl implements GUI {
 
 	private SceneElementGOFactory sceneElementFactory;
 
-	/**
-	 * Drag and drop handler
-	 */
-	private DragAndDrop dragAndDropHandler;
-
 	private DebuggersHandler debuggerHandler;
 
 	@Inject
@@ -115,7 +109,6 @@ public abstract class GUIImpl implements GUI {
 		super();
 		logger.info("Created GUI");
 		previousSceneStack = new Stack<EAdScene>();
-		dragAndDropHandler = new DragAndDrop();
 	}
 
 	public void initialize(final Game game, GameState gameState,
@@ -298,73 +291,6 @@ public abstract class GUIImpl implements GUI {
 	@Override
 	public void finish() {
 		Gdx.app.exit();
-	}
-
-	public void addDragSource(SceneElementGO dragSource) {
-		dragAndDropHandler.addSource(new DragSource(dragSource));
-	}
-
-	public void addDragTarget(SceneElementGO dragTarget) {
-		dragAndDropHandler.addTarget(new DragTarget(dragTarget));
-	}
-
-	public void resetDrag() {
-		// FIXME modify dragAndDropHandler pull request
-		dragAndDropHandler = new DragAndDrop();
-	}
-
-	public static class DragEvent extends InputEvent {
-
-		public static enum Type {
-			dragStart, dragMove, dragStop, dropExit, drop
-		}
-
-		private Type type;
-
-		private Actor actor;
-
-		public DragEvent(InputEvent i, Type type) {
-			this(i, type, null);
-		}
-
-		public DragEvent(InputEvent i, Type type, Actor actor) {
-			this.actor = actor;
-			this.type = type;
-			// Clone
-			this.setStage(i.getStage());
-			this.setTarget(i.getTarget());
-			this.setListenerActor(i.getListenerActor());
-			this.setCapture(i.isCapture());
-			this.setBubbles(i.getBubbles());
-			if (i.isHandled()) {
-				handle();
-			}
-			if (i.isStopped()) {
-				stop();
-			}
-
-			if (i.isCancelled()) {
-				cancel();
-			}
-			this.setType(i.getType());
-			this.setStageX(i.getStageX());
-			this.setStageY(i.getStageY());
-			this.setPointer(i.getPointer());
-			this.setBubbles(i.getBubbles());
-			this.setKeyCode(i.getKeyCode());
-			this.setScrollAmount(i.getScrollAmount());
-			this.setCharacter(i.getCharacter());
-			this.setRelatedActor(i.getRelatedActor());
-		}
-
-		public Type getDragType() {
-			return type;
-		}
-
-		public Actor getActor() {
-			return actor;
-		}
-
 	}
 
 	public void reset() {

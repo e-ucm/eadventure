@@ -42,11 +42,8 @@ import ead.common.interfaces.Param;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.AbstractElementWithBehavior;
-import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.ResourcedElement;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
@@ -139,16 +136,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public static final EAdVarDef<Boolean> VAR_MOUSE_OVER = new VarDef<Boolean>(
 			"mouse_over", Boolean.class, Boolean.FALSE);
-
-	public static final EAdVarDef<Boolean> VAR_DRAGGABLE = new VarDef<Boolean>(
-			"draggable", Boolean.class, Boolean.FALSE);
-
-	/**
-	 * Flag to indicate that the element will return to its initial position
-	 * after being released from a drag action
-	 */
-	public static final EAdVarDef<Boolean> VAR_RETURN_WHEN_DRAGGED = new VarDef<Boolean>(
-			"returnWhenDragged", Boolean.class, Boolean.FALSE);
 
 	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
@@ -251,20 +238,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this.definition = def;
 	}
 
-	public void setDragCond(EAdCondition c) {
-		if (c.equals(EmptyCond.TRUE)) {
-			this.setInitialDraggable(true);
-		} else if (c.equals(EmptyCond.FALSE)) {
-			this.setInitialDraggable(false);
-		} else {
-
-			ChangeFieldEf effect = new ChangeFieldEf(new BasicField<Boolean>(
-					this, SceneElement.VAR_DRAGGABLE), c);
-			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.ALWAYS, effect);
-		}
-	}
-
 	public void setInitialAlpha(float f) {
 		this.setVarInitialValue(SceneElement.VAR_ALPHA, f);
 
@@ -305,10 +278,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public <T> EAdField<T> getField(EAdVarDef<T> varDef) {
 		return new BasicField<T>(this, varDef);
-	}
-
-	public void setInitialDraggable(boolean draggable) {
-		setVarInitialValue(SceneElement.VAR_DRAGGABLE, draggable);
 	}
 
 	public String toString() {

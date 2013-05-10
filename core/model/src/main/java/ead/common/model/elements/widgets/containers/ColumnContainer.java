@@ -37,14 +37,15 @@
 
 package ead.common.model.elements.widgets.containers;
 
-import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.DragEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.util.Position.Corner;
 
 public class ColumnContainer extends GroupElement {
@@ -52,7 +53,7 @@ public class ColumnContainer extends GroupElement {
 	private EAdSceneElement lastAdded;
 
 	public ColumnContainer() {
-		this.setDragCond(EmptyCond.TRUE);
+		this.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
 	}
 
 	public void add(EAdSceneElement element) {

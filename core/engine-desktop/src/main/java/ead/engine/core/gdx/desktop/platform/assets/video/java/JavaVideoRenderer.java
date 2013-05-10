@@ -170,8 +170,10 @@ public class JavaVideoRenderer implements
 			logger.error("Cannot realized player", e);
 			finished = true;
 		}
-		video.setSize(800, 600);
-		video.setPreferredSize(new Dimension(800, 600));
+		if (video != null) {
+			video.setSize(800, 600);
+			video.setPreferredSize(new Dimension(800, 600));
+		}
 		return video;
 	}
 

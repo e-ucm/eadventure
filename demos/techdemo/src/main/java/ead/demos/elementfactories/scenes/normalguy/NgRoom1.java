@@ -45,6 +45,7 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.DragEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
@@ -314,7 +315,9 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void setKey() {
-		key.setDragCond(new OperationCond(timesField, 4, Comparator.GREATER));
+		DragEf e = new DragEf();
+		e.setCondition(new OperationCond(timesField, 4, Comparator.GREATER));
+		key.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, e);
 	}
 
 	protected EAdCondition getTextCondition(EAdField<Integer> timesField,

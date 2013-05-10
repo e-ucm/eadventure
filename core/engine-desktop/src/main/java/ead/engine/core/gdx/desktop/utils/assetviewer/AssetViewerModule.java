@@ -182,24 +182,6 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void addDragSource(SceneElementGO dragSource) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void addDragTarget(SceneElementGO dragTarget) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void resetDrag() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void reset() {
 			// TODO Auto-generated method stub
 

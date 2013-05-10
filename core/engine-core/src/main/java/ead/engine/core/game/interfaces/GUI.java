@@ -185,25 +185,6 @@ public interface GUI {
 	SceneElementGO getGameObjectUnderPointer();
 
 	/**
-	 * Adds an element that can be dragged
-	 * 
-	 * @param dragSource
-	 */
-	void addDragSource(SceneElementGO dragSource);
-
-	/**
-	 * Adds a drag target
-	 * 
-	 * @param dragTarget
-	 */
-	void addDragTarget(SceneElementGO dragTarget);
-
-	/**
-	 * Removes the current drag sources and drag targets
-	 */
-	void resetDrag();
-
-	/**
 	 * Resets the GUI. The GUI recovers its initial state
 	 */
 	void reset();
