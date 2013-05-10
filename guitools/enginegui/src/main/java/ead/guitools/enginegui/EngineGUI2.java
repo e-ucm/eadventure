@@ -48,6 +48,7 @@ public class EngineGUI2 {
 		fileChooser.setSelectedFile(new File(getProperty("file", ".")));
 		final JFrame frame = new JFrame("eAdventure Engine");
 		final AdventureConverter importer = new AdventureConverter();
+		importer.setEnableSimplifications(true);
 		JButton open = new JButton("Open");
 		open.addActionListener(new ActionListener() {
 

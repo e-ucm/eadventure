@@ -212,14 +212,14 @@ public class ActionImporter implements
 
 		// Add conditions and get to
 		if (macro != null) {
-			effectTrigger.putMacro(macro, condition);
+			effectTrigger.putEffects(condition, macro);
 		}
 
 		// Add no effects
 		EAdList<EAdEffect> notEffects = effectsImporterFactory
 				.getMacroEffects(oldObject.getNotEffects());
 		if (notEffects != null) {
-			notEffectTrigger.putMacro(notEffects, new NOTCond(condition));
+			notEffectTrigger.putEffects(new NOTCond(condition), notEffects);
 		}
 	}
 
@@ -641,13 +641,13 @@ public class ActionImporter implements
 		EAdList<EAdEffect> macro = this.effectsImporterFactory
 				.getMacroEffects(a.getEffects());
 		if (effectTrigger != null) {
-			effectTrigger.putMacro(macro, c);
+			effectTrigger.putEffects(c, macro);
 		}
 
 		EAdList<EAdEffect> noEAdList = this.effectsImporterFactory
 				.getMacroEffects(a.getNotEffects());
 		if (noEAdList != null) {
-			notEffectTrigger.putMacro(noEAdList, new NOTCond(c));
+			notEffectTrigger.putEffects(new NOTCond(c), noEAdList);
 		}
 
 		factory.addDraggableActor(actor);
@@ -676,12 +676,12 @@ public class ActionImporter implements
 				macro.add(removeFromInventory);
 			}
 		}
-		effectTrigger.putMacro(macro, condition);
+		effectTrigger.putEffects(condition, macro);
 
 		EAdList<EAdEffect> noEAdList = this.effectsImporterFactory
 				.getMacroEffects(a.getNotEffects());
 		if (noEAdList != null) {
-			notEffectTrigger.putMacro(noEAdList, new NOTCond(condition));
+			notEffectTrigger.putEffects(new NOTCond(condition), noEAdList);
 		}
 
 		EAdElement e = factory.getElementById(a.getTargetId());

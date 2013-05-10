@@ -264,7 +264,7 @@ public class ActionsConverter {
 		List<EAdEffect> effect = effectsConverter.convert(a.getEffects());
 		EAdCondition condition = conditionsConverter.convert(a.getConditions());
 		// We add the effect to the macro
-		triggerMacroEf.putEffect(effect.get(0), condition);
+		triggerMacroEf.putEffect(condition, effect.get(0));
 		// We expand the visibility condition
 		return new ORCond(visibility, condition);
 	}

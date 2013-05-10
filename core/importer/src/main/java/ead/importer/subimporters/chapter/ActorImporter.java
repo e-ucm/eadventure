@@ -199,7 +199,7 @@ public abstract class ActorImporter<P extends Element> implements
 				if (soundEffects[0] == null) {
 					soundEffects[0] = new TriggerMacroEf();
 				}
-				soundEffects[0].putMacro(new EAdList<EAdEffect>(), c);
+				soundEffects[0].putEffects(c, new EAdList<EAdEffect>());
 			}
 
 			if (d.getDetailedDescriptionSoundPath() != null
@@ -210,10 +210,10 @@ public abstract class ActorImporter<P extends Element> implements
 				if (soundEffects[1] == null) {
 					soundEffects[1] = new TriggerMacroEf();
 				}
-				soundEffects[1].putMacro(new EAdList<EAdEffect>(), c);
+				soundEffects[1].putEffects(c, new EAdList<EAdEffect>());
 			}
 
-			triggerMacro.putMacro(macro, c);
+			triggerMacro.putEffects(c, macro);
 		}
 
 		// Generate default case (set to null all the strings)
@@ -221,7 +221,7 @@ public abstract class ActorImporter<P extends Element> implements
 		macro.add(new ChangeFieldEf(nameField, new ValueOp(null)));
 		macro.add(new ChangeFieldEf(descField, new ValueOp(null)));
 		macro.add(new ChangeFieldEf(detailedDesc, new ValueOp(null)));
-		triggerMacro.putMacro(macro, EmptyCond.TRUE);
+		triggerMacro.putEffects(EmptyCond.TRUE, macro);
 
 		actor.addBehavior(MouseGEv.MOUSE_ENTERED, triggerMacro);
 

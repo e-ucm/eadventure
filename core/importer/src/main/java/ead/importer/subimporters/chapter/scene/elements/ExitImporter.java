@@ -205,7 +205,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		EAdList<EAdEffect> normalMacro = effectsImporterFactory
 				.getMacroEffects(oldObject.getEffects());
 		if (normalMacro != null) {
-			triggerMacro.putMacro(normalMacro, enableCondition);
+			triggerMacro.putEffects(enableCondition, normalMacro);
 		}
 
 		// No effects
@@ -213,7 +213,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 			EAdList<EAdEffect> noEAdList = effectsImporterFactory
 					.getMacroEffects(oldObject.getNotEffects());
 			if (noEAdList != null) {
-				triggerMacro.putMacro(noEAdList, new NOTCond(enableCondition));
+				triggerMacro
+						.putEffects(new NOTCond(enableCondition), noEAdList);
 			}
 		}
 

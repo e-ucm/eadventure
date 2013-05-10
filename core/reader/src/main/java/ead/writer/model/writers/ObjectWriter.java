@@ -165,7 +165,7 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 					// When an element is defined with BasicElement, it is a
 					// reference to another element, so its real content is
 					// stored somewhere else.
-					// Teh node will wait until all elements are resolved to set
+					// The node will wait until all elements are resolved to set
 					// the id
 					if (c.getType() == BasicElement.class) {
 						references.add(new Reference(node, id));

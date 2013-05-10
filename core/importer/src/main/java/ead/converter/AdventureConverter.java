@@ -45,11 +45,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.effects.AddChildEf;
 import ead.common.model.elements.events.SceneElementEv;
@@ -87,6 +85,8 @@ public class AdventureConverter {
 
 	private StringsConverter stringsConverter;
 
+	private AdventureWriter writer;
+
 	public AdventureConverter() {
 		Injector i = Guice.createInjector();
 		oldReader = i.getInstance(OldReader.class);
@@ -95,12 +95,12 @@ public class AdventureConverter {
 		modelQuerier = i.getInstance(ModelQuerier.class);
 		stringsConverter = i.getInstance(StringsConverter.class);
 		stringWriter = new StringWriter();
+		writer = new AdventureWriter(new JavaReflectionProvider(),
+				new JavaXMLParser());
 	}
 
 	public void convert(String file, String destinyFolder) {
 		logger.debug("Converting {}", file);
-		BasicElement.initLastId();
-		AbstractAssetDescriptor.initLastId();
 		resourceConverter.setPath(destinyFolder);
 
 		adventureData = oldReader.loadGame(file);
@@ -137,9 +137,6 @@ public class AdventureConverter {
 				+ (destinyFolder.charAt(destinyFolder.length() - 1) == '/' ? ""
 						: "/");
 		// Create data.xml
-		AdventureWriter writer = new AdventureWriter(
-				new JavaReflectionProvider(), new JavaXMLParser());
-
 		writer.write(model, path + "data.xml");
 
 		// Create strings.xml
@@ -152,5 +149,9 @@ public class AdventureConverter {
 					file, e);
 		}
 
+	}
+
+	public void setEnableSimplifications(boolean enableSimplifications) {
+		writer.setEnableSimplifications(enableSimplifications);
 	}
 }

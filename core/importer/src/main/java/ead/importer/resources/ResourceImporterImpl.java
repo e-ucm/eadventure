@@ -284,7 +284,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			for (EAdCondition c : conditions) {
 				ChangeAppearanceEf effect = new ChangeAppearanceEf(null,
 						bundles.get(i));
-				changeBundle.putMacro(new EAdList<EAdEffect>(), c);
+				changeBundle.putEffects(c, new EAdList<EAdEffect>());
 				i++;
 			}
 			SceneElementEv event = new SceneElementEv(

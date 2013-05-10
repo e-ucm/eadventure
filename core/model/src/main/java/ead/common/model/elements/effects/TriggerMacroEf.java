@@ -62,7 +62,7 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 		conditions = new EAdList<EAdCondition>();
 	}
 
-	public void putMacro(EAdList<EAdEffect> macro, EAdCondition condition) {
+	public void putEffects(EAdCondition condition, EAdList<EAdEffect> macro) {
 		macros.add(macro);
 		conditions.add(condition);
 	}
@@ -83,10 +83,10 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 		this.conditions = conditions;
 	}
 
-	public void putEffect(EAdEffect effect, EAdCondition c) {
+	public void putEffect(EAdCondition c, EAdEffect effect) {
 		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
 		macro.add(effect);
-		putMacro(macro, c);
+		putEffects(c, macro);
 
 	}
 

@@ -290,7 +290,7 @@ public class NgRoom1 extends EmptyScene {
 			macro.add(getSpeakEffect(i));
 			OperationCond cond1 = new OperationCond(timesField, i,
 					Comparator.EQUAL);
-			triggerMacro.putMacro(macro, cond1);
+			triggerMacro.putEffects(cond1, macro);
 		}
 
 		OperationCond cond = new OperationCond(timesField, 4, Comparator.EQUAL);
@@ -306,7 +306,7 @@ public class NgRoom1 extends EmptyScene {
 
 		EAdList<EAdEffect> macro2 = new EAdList<EAdEffect>();
 		macro2.add(e1);
-		triggerMacro.putMacro(macro2, cond);
+		triggerMacro.putEffects(cond, macro2);
 
 		move.getNextEffects().add(triggerMacro);
 		triggerMacro.getNextEffects().add(addTimes);

@@ -49,6 +49,7 @@ import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
+import ead.converter.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
@@ -72,8 +73,9 @@ public class NPCConverter extends ElementConverter {
 	@Inject
 	public NPCConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
-			ModelQuerier modelQuerier) {
-		super(resourceConverter, utilsConverter, actionsConverter, modelQuerier);
+			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter) {
+		super(resourceConverter, utilsConverter, actionsConverter,
+				modelQuerier, conditionsConverter);
 	}
 
 	public EAdSceneElementDef convert(NPC npc) {

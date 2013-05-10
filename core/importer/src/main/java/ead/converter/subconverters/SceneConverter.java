@@ -212,7 +212,7 @@ public class SceneConverter {
 			// Next scene
 			ChangeSceneEf nextScene = new ChangeSceneEf();
 			nextScene.setNextScene(new BasicElement(e.getNextSceneId()));
-			nextScene.setTransition(transitionConverter.getTransition(e
+			nextScene.setTransition(transitionConverter.getTransitionExit(e
 					.getTransitionType(), e.getTransitionTime()));
 
 			// Add effects
@@ -253,7 +253,7 @@ public class SceneConverter {
 				EAdCondition cond = conditionsConverter.convert(e
 						.getConditions());
 				// Add ACTIVE effects
-				triggerMacro.putEffect(effectWhenClick, cond);
+				triggerMacro.putEffect(cond, effectWhenClick);
 				// Add INACTIVE effects
 				EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
 				effects = effectConverter.convert(e.getNotEffects());
@@ -261,7 +261,7 @@ public class SceneConverter {
 					macro.add(effects.get(0));
 				}
 				// The macro only executes if the first condition fails
-				triggerMacro.putMacro(macro, EmptyCond.TRUE);
+				triggerMacro.putEffects(EmptyCond.TRUE, macro);
 				exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacro);
 
 			} else {

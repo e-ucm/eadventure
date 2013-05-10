@@ -405,7 +405,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 						musicPath, Sound.class);
 			}
 			PlaySoundEf playSound = new PlaySoundEf(sound, true);
-			triggerMacro.putMacro(new EAdList<EAdEffect>(), condition);
+			triggerMacro.putEffects(condition, new EAdList<EAdEffect>());
 			i++;
 		}
 

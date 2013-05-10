@@ -45,6 +45,7 @@ import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import es.eucm.eadventure.common.data.animation.Transition;
+import es.eucm.eadventure.common.data.chapter.Exit;
 
 @Singleton
 public class TransitionConverter {
@@ -59,6 +60,27 @@ public class TransitionConverter {
 		case Transition.TYPE_VERTICAL:
 			return new DisplaceTransition(time,
 					DisplaceTransitionType.VERTICAL, true);
+		default:
+			return EmptyTransition.instance();
+		}
+	}
+
+	public EAdTransition getTransitionExit(int type, int time) {
+		switch (type) {
+		case Exit.FADE_IN:
+			return new FadeInTransition(time);
+		case Exit.BOTTOM_TO_TOP:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, false);
+		case Exit.TOP_TO_BOTTOM:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, true);
+		case Exit.LEFT_TO_RIGHT:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, true);
+		case Exit.RIGHT_TO_LEFT:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, false);
 		default:
 			return EmptyTransition.instance();
 		}

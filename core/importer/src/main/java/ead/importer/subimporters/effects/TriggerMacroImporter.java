@@ -72,8 +72,8 @@ public class TriggerMacroImporter extends
 	@Override
 	public TriggerMacroEf convert(MacroReferenceEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
-		effect.putMacro((EAdList<EAdEffect>) factory.getElementById(oldObject
-				.getTargetId()), EmptyCond.TRUE);
+		effect.putEffects(EmptyCond.TRUE, (EAdList<EAdEffect>) factory
+				.getElementById(oldObject.getTargetId()));
 		return effect;
 	}
 

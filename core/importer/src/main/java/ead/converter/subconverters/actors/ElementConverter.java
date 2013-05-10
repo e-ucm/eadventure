@@ -51,6 +51,8 @@ import ead.converter.ModelQuerier;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
+import ead.converter.subconverters.conditions.ConditionsConverter;
+import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
@@ -65,14 +67,17 @@ public abstract class ElementConverter {
 
 	protected ModelQuerier modelQuerier;
 
+	protected ConditionsConverter conditionsConverter;
+
 	@Inject
 	public ElementConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
-			ModelQuerier modelQuerier) {
+			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter) {
 		this.resourceConverter = resourceConverter;
 		this.utilsConverter = utilsConverter;
 		this.actionsConverter = actionsConverter;
 		this.modelQuerier = modelQuerier;
+		this.conditionsConverter = conditionsConverter;
 	}
 
 	public EAdSceneElementDef convert(Element a) {
@@ -121,6 +126,28 @@ public abstract class ElementConverter {
 					new ActorActionsEf(def));
 			// XXX Process actions visibility
 			// (actionsConverter.actionsConditions)
+
+			// Add drag & drop
+			// NOTE: The old version of eadventure allows complex behaviors with
+			// drag and drop. So, a couple of things to note, to make conversion
+			// less crazy:
+			// 1) If an element has a drag action is ALWAYS draggable (no matter
+			// action conditions).
+			// 2) Conditions are used to decide what effects to launch
+
+			// First, detect drag
+			boolean hasDrag = false;
+			for (Action a : element.getActions()) {
+				if (a.getType() == Action.DRAG_TO) {
+					hasDrag = true;
+					break;
+				}
+			}
+
+			// Then, if it has drag
+			if (hasDrag) {
+
+			}
 		}
 	}
 

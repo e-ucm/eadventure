@@ -75,8 +75,8 @@ public class OneShotEf extends ChangeFieldEf {
 
 		if (noEffect != null) {
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
-			triggerMacro.putEffect(effect, new NOTCond(cond));
-			triggerMacro.putEffect(noEffect, cond);
+			triggerMacro.putEffect(new NOTCond(cond), effect);
+			triggerMacro.putEffect(cond, noEffect);
 			getNextEffects().add(triggerMacro);
 			getNextEffects().add(new ChangeFieldEf(f, EmptyCond.TRUE));
 		} else {

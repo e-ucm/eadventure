@@ -70,7 +70,7 @@ public class TriggerMacroConverter implements
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
 		TriggerMacroEf effect = new TriggerMacroEf();
 		EAdList<EAdEffect> macro = modelQuerier.getMacro(e.getTargetId());
-		effect.putMacro(macro, EmptyCond.TRUE);
+		effect.putEffects(EmptyCond.TRUE, macro);
 		list.add(effect);
 		// Add IN_MACRO field to hold next effects until the macro ends
 		BasicField<Boolean> field = new BasicField<Boolean>(effect, IN_MACRO);

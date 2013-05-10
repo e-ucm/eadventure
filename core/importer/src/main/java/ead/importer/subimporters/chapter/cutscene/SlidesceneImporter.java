@@ -157,7 +157,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 				musicPaths
 						.add(res.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC));
 				conditions.add(c);
-				triggerMacro.putMacro(macro, c);
+				triggerMacro.putEffects(c, macro);
 			}
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.ADDED, triggerMacro);

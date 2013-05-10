@@ -72,7 +72,7 @@ import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 public abstract class GUIImpl implements GUI {
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 
 	/**
 	 * Logger

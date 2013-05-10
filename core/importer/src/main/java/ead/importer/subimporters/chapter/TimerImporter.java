@@ -232,7 +232,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 					stopCondition);
 
 			TriggerMacroEf triggerStopEffects = new TriggerMacroEf();
-			triggerStopEffects.putMacro(stopEffects, EmptyCond.TRUE);
+			triggerStopEffects.putEffects(EmptyCond.TRUE, stopEffects);
 
 			ConditionedEv stopEvent = new ConditionedEv();
 			stopEvent.setCondition(stopCondition);
@@ -253,7 +253,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 				.getMacroEffects(oldTimer.getEffects());
 		if (expiredEffects != null) {
 			TriggerMacroEf triggerExpiredEffects = new TriggerMacroEf();
-			triggerExpiredEffects.putMacro(expiredEffects, EmptyCond.TRUE);
+			triggerExpiredEffects.putEffects(EmptyCond.TRUE, expiredEffects);
 
 			EAdCondition expireCondition = new OperationCond(currentTimeField,
 					time, Comparator.GREATER_EQUAL);

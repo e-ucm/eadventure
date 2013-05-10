@@ -56,6 +56,7 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.SceneElement;
@@ -222,8 +223,8 @@ public class EffectsConverter {
 	 * @param ef
 	 * @return
 	 */
-	public List<EAdEffect> convert(Effects ef) {
-		List<EAdEffect> effects = new ArrayList<EAdEffect>();
+	public EAdList<EAdEffect> convert(Effects ef) {
+		EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
 		EAdEffect effect = null;
 		for (AbstractEffect e : ef.getEffects()) {
 			List<EAdEffect> nextEffects = convert(e);

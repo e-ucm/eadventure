@@ -76,7 +76,7 @@ public class MoveNPCEffectImporter extends
 	public TriggerMacroEf convert(MoveNPCEffect oldObject, Object object) {
 		TriggerMacroEf effect = super.convert(oldObject, object);
 		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
-		effect.putMacro(macro, EmptyCond.TRUE);
+		effect.putEffects(EmptyCond.TRUE, macro);
 
 		MoveSceneElementEf moveEffect = new MoveSceneElementEf(
 				(EAdSceneElementDef) factory.getElementById(oldObject

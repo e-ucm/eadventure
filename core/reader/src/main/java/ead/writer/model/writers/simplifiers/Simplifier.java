@@ -125,6 +125,7 @@ public class Simplifier {
 				return null;
 			}
 			newClass = newObject.getClass();
+			oldClass = o.getClass();
 			o = newObject;
 		}
 

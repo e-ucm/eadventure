@@ -282,7 +282,7 @@ public class EffectsReader {
 			EAdCondition cond = conditionsReader.read(c);
 			EAdEffect effect = (EAdEffect) objectsFactory.getEAdElement(i
 					.next());
-			triggerMacro.putEffect(effect, cond);
+			triggerMacro.putEffect(cond, effect);
 		}
 		return triggerMacro;
 	}

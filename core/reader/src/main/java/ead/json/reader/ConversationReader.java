@@ -192,7 +192,7 @@ public class ConversationReader {
 						condition = conditionsReader.read(cond);
 					}
 					EAdEffect nextEffect = segmentsStart.get(next);
-					triggerMacro.putEffect(nextEffect, condition);
+					triggerMacro.putEffect(condition, nextEffect);
 				}
 				startEffect.getNextEffects().add(triggerMacro);
 			}

@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.interfaces.features.Evented;
+import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.BasicElement;
@@ -99,7 +100,7 @@ public class UtilsConverter {
 				}
 				ChangeFieldEf changeState = new ChangeFieldEf(stateField,
 						new ValueOp(this.getResourceBundleId(i)));
-				triggerMacro.putEffect(changeState, cond);
+				triggerMacro.putEffect(cond, changeState);
 				i++;
 			}
 
@@ -176,7 +177,7 @@ public class UtilsConverter {
 	 * @param bundleId
 	 *            cursor bundle id
 	 */
-	public void addCursorChange(EAdSceneElement e, String bundleId) {
+	public void addCursorChange(WithBehavior e, String bundleId) {
 		e.addBehavior(MouseGEv.MOUSE_ENTERED, new ChangeAppearanceEf(cursor,
 				MouseHud.EXIT_CURSOR));
 		e.addBehavior(MouseGEv.MOUSE_EXITED, new ChangeAppearanceEf(cursor,
