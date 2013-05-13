@@ -38,6 +38,7 @@
 package ead.common.model.elements;
 
 import ead.common.interfaces.Element;
+import ead.common.interfaces.features.Identified;
 
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements
@@ -48,43 +49,7 @@ import ead.common.interfaces.Element;
 @Element
 public class BasicElement implements EAdElement {
 
-	public static final char[] ID_CHARS = new char[] { '0', '1', '2', '3', '4',
-			'5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-			'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-			'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-			'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-			'V', 'W', 'X', 'Y', 'Z', /*
-										 * '.', '_', '\'', '?', '¿', '¡', '!', 'ñ',
-										 * 'Ñ', 'ç', '+', '-', ' ', '@', '^', '#',
-										 * '$', '%', '(', ')',';', ',', '{', '}',
-										 * '*', '·', '[', ']', '`', '´'
-										 */};
-	// XXX Some kind of error happen with the other characters
-
 	private String id;
-
-	public static int lastId = 0;
-
-	public static String idPrefix = "";
-
-	public static void initLastId() {
-		lastId = 0;
-	}
-
-	public static String randomSuffix() {
-		String id = idPrefix;
-		int id2 = lastId;
-		boolean oneZero = false;
-		while (!oneZero) {
-			id = ID_CHARS[(id2 % ID_CHARS.length)] + id;
-			id2 /= ID_CHARS.length;
-			if (id2 == 0) {
-				oneZero = true;
-			}
-		}
-		lastId++;
-		return id;
-	}
 
 	/**
 	 * Creates a reference to an element
@@ -96,15 +61,11 @@ public class BasicElement implements EAdElement {
 	}
 
 	public BasicElement() {
-		this.id = randomSuffix();
+
 	}
 
 	@Override
 	public String getId() {
-		if (id == null) {
-			throw new IllegalStateException(
-					"EAdElement with no id - Broken contract!");
-		}
 		return id;
 	}
 
@@ -114,16 +75,20 @@ public class BasicElement implements EAdElement {
 	}
 
 	public String toString() {
-		return classToString(this.getClass()) + id;
+		return classToString(this.getClass())
+				+ (id != null ? id.toString() : "");
 	}
 
 	public boolean equals(Object o) {
-		return (o instanceof EAdElement && ((EAdElement) o).getId().equals(
-				getId()));
+		if (o instanceof Identified) {
+			String id2 = ((Identified) o).getId();
+			return id == null ? super.equals(o) : id == id2 || id.equals(id2);
+		}
+		return false;
 	}
 
 	public int hashCode() {
-		return getId().hashCode();
+		return id == null ? super.hashCode() : getId().hashCode();
 	}
 
 	/**

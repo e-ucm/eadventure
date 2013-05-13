@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JFrame;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -79,6 +81,8 @@ public class DesktopGame {
 
 	private String resourcesLocation;
 
+	private Game game;
+
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
@@ -88,21 +92,24 @@ public class DesktopGame {
 
 	public void setModel(String path) {
 		this.resourcesLocation = path;
+		if (game != null) {
+			game.setResourcesLocation(resourcesLocation);
+		}
 	}
 
-	public void start() {
+	public JFrame start() {
 		injector = Guice.createInjector(new GdxDesktopModule(binds),
 				new JavaToolsModule());
 
 		GameState gameState = injector.getInstance(GameState.class);
 		gameState.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
-		Game g = injector.getInstance(Game.class);
+		game = injector.getInstance(Game.class);
 		for (Entry<String, List<EngineFilter<?>>> e : filters.entrySet()) {
 			for (EngineFilter<?> f : e.getValue()) {
-				g.addFilter(e.getKey(), f);
+				game.addFilter(e.getKey(), f);
 			}
 		}
-		g.setResourcesLocation(resourcesLocation);
+		game.setResourcesLocation(resourcesLocation);
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 		ApplicationListener engine = injector
 				.getInstance(ApplicationListener.class);
@@ -127,6 +134,7 @@ public class DesktopGame {
 		}
 		gui.create(width, height);
 		new LwjglApplication(engine, cfg, gui.getCanvas());
+		return gui.getFrame();
 	}
 
 	public DesktopGame() {
@@ -135,10 +143,6 @@ public class DesktopGame {
 
 	public void addDebugger(Class<? extends SceneElementGO> debuggerClass) {
 		debuggers.add(debuggerClass);
-	}
-
-	public void setResourcesLocation(String path) {
-		this.resourcesLocation = path;
 	}
 
 	public void exit() {
@@ -152,6 +156,10 @@ public class DesktopGame {
 			filters.put(filterName, filtersList);
 		}
 		filtersList.add(filter);
+	}
+
+	public Game getGame() {
+		return game;
 	}
 
 }

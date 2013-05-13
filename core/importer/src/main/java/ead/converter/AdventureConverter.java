@@ -87,6 +87,8 @@ public class AdventureConverter {
 
 	private AdventureWriter writer;
 
+	private ResourcesConverter resourcesConverter;
+
 	public AdventureConverter() {
 		Injector i = Guice.createInjector();
 		oldReader = i.getInstance(OldReader.class);
@@ -97,9 +99,15 @@ public class AdventureConverter {
 		stringWriter = new StringWriter();
 		writer = new AdventureWriter(new JavaReflectionProvider(),
 				new JavaXMLParser());
+		resourcesConverter = i.getInstance(ResourcesConverter.class);
 	}
 
 	public void convert(String file, String destinyFolder) {
+		// Reset attributes
+		stringsConverter.clear();
+		modelQuerier.clear();
+		resourcesConverter.clear();
+
 		logger.debug("Converting {}", file);
 		resourceConverter.setPath(destinyFolder);
 

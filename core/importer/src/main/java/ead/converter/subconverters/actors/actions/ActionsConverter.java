@@ -104,6 +104,8 @@ public class ActionsConverter {
 
 	private ConditionsConverter conditionsConverter;
 
+	// Aux. variables
+
 	/**
 	 * Actions converted
 	 */

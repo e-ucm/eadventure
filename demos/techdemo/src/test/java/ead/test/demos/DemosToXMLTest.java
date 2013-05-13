@@ -10,9 +10,15 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.demos.elementfactories.scenes.scenes.InitScene;
 import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
+import ead.utils.Log4jConfig;
+import ead.utils.Log4jConfig.Slf4jLevel;
 import ead.writer.AdventureWriter;
 
 public class DemosToXMLTest {
+
+	static {
+		Log4jConfig.configForConsole(Slf4jLevel.Debug, null);
+	}
 
 	private static final Logger logger = LoggerFactory.getLogger("DemosToXml");
 

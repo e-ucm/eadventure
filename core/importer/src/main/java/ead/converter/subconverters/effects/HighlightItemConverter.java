@@ -87,23 +87,28 @@ public class HighlightItemConverter implements
 		}
 
 		ChangeColorEf changeColor = new ChangeColorEf(red, green, blue);
-		changeColor.setSceneElement(elementsCache.get(e.getTargetId()));
+		BasicField<EAdSceneElement> sceneElementField = new BasicField<EAdSceneElement>(
+				elementsCache.get(e.getTargetId()),
+				SceneElementDef.VAR_SCENE_ELEMENT);
+		changeColor.setSceneElement(sceneElementField);
 
+		// Effects after highlight effects doesn't wait
+		// until the effect ends, that's why change color if the first and
+		// last effect in the last, and subsequent effects will added to it
+		list.add(changeColor);
 		if (e.isHighlightAnimated()) {
-			SceneElementDef def = (SceneElementDef) elementsCache.get(e
-					.getTargetId());
-			BasicField<EAdSceneElement> sceneElementField = new BasicField<EAdSceneElement>(
-					def, SceneElementDef.VAR_SCENE_ELEMENT);
 			InterpolationEf interpolation = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.5f, 1000);
+					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.8f, 1000);
 			InterpolationEf interpolation2 = new InterpolationEf(
-					sceneElementField, SceneElement.VAR_SCALE, 0.5f, 1.0f, 1000);
-			interpolation.addSimultaneousEffect(changeColor);
+					sceneElementField, SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
+			InterpolationEf interpolation3 = new InterpolationEf(
+					sceneElementField, SceneElement.VAR_SCALE, 1.0f, 0.8f, 1000);
+			InterpolationEf interpolation4 = new InterpolationEf(
+					sceneElementField, SceneElement.VAR_SCALE, 0.8f, 1.0f, 1000);
+			changeColor.addSimultaneousEffect(interpolation);
 			interpolation.getNextEffects().add(interpolation2);
-			list.add(interpolation);
-			list.add(interpolation2);
-		} else {
-			list.add(changeColor);
+			interpolation2.getNextEffects().add(interpolation3);
+			interpolation3.getNextEffects().add(interpolation4);
 		}
 
 		return list;

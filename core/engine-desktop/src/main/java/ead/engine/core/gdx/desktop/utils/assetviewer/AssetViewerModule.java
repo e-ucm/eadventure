@@ -126,7 +126,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public SceneElementGO getGameObjectIn(int x, int y) {
+		public SceneElementGO getGameObjectIn(int x, int y, boolean t) {
 			// TODO Auto-generated method stub
 			return null;
 		}

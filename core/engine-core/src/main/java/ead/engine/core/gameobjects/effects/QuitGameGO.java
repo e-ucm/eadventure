@@ -64,7 +64,7 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	public void initialize() {
 		super.initialize();
 		if (effect.isRestart()) {
-			game.restart();
+			game.restart(false);
 		} else {
 			game.dispose();
 		}

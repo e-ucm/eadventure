@@ -86,4 +86,10 @@ public class TestStringsReader implements StringHandler {
 
 	}
 
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

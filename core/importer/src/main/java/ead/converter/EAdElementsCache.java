@@ -96,4 +96,9 @@ public class EAdElementsCache {
 		}
 		return field;
 	}
+
+	public void clear() {
+		elements.clear();
+		fields.clear();
+	}
 }

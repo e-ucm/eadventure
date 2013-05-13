@@ -268,25 +268,32 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	@Override
 	public void clean(List<AssetDescriptor> exceptions) {
 		descriptorsToRemove.clear();
-		synchronized (cache) {
-			if (exceptions != null) {
-				for (AssetDescriptor asset : cache.keySet()) {
-					if (!exceptions.contains(asset)) {
-						descriptorsToRemove.add(asset);
-					}
+		if (exceptions != null) {
+			for (AssetDescriptor asset : cache.keySet()) {
+				if (!exceptions.contains(asset)) {
+					descriptorsToRemove.add(asset);
 				}
-			} else {
-				descriptorsToRemove.addAll(cache.keySet());
 			}
+		} else {
+			descriptorsToRemove.addAll(cache.keySet());
+		}
 
-			for (AssetDescriptor a : descriptorsToRemove) {
-				RuntimeAsset<?> asset = cache.remove(a);
+		for (AssetDescriptor a : descriptorsToRemove) {
+			RuntimeAsset<?> asset = cache.remove(a);
+			if (asset != null) {
 				asset.freeMemory();
 			}
 		}
 
 		logger.info(descriptorsToRemove.size()
 				+ " unused assets were remove from the cache");
+	}
+
+	public void clean() {
+		for (RuntimeAsset<?> a : cache.values()) {
+			a.freeMemory();
+		}
+		cache.clear();
 	}
 
 	protected void setLoaded(boolean loaded) {
@@ -313,10 +320,8 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	@Override
 	public void refresh() {
-		synchronized (cache) {
-			for (RuntimeAsset<?> r : cache.values()) {
-				r.refresh();
-			}
+		for (RuntimeAsset<?> r : cache.values()) {
+			r.refresh();
 		}
 	}
 

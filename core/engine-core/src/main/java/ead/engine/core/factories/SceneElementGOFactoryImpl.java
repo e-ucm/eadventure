@@ -69,7 +69,7 @@ public class SceneElementGOFactoryImpl extends
 	@Override
 	public SceneElementGO get(String id) {
 		for (EAdSceneElement key : cache.keySet()) {
-			if (key.getId().equals(id)) {
+			if (key.getId() != null && key.getId().equals(id)) {
 				return cache.get(key);
 			}
 		}

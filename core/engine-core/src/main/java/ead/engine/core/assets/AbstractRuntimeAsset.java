@@ -70,7 +70,6 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor>
 
 	public void freeMemory() {
 		loaded = false;
-		assetHandler.remove(descriptor);
 	}
 
 	public boolean isLoaded() {

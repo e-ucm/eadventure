@@ -287,4 +287,9 @@ public class ResourcesConverter {
 			return null;
 	}
 
+	public void clear() {
+		assets.clear();
+		urisCorrespondences.clear();
+	}
+
 }

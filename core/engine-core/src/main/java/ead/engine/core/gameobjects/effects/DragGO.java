@@ -73,7 +73,7 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		target.setY(gameState.getValue(SystemFields.MOUSE_SCENE_Y) + diffY);
 		SceneElementGO go = gui.getScene().getFirstGOIn(
 				gameState.getValue(SystemFields.MOUSE_SCENE_X),
-				gameState.getValue(SystemFields.MOUSE_SCENE_Y));
+				gameState.getValue(SystemFields.MOUSE_SCENE_Y), false);
 		if (go != currentGO) {
 			if (currentGO != null) {
 				// SceneElement id and definition id

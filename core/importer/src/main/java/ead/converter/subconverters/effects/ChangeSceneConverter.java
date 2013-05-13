@@ -73,11 +73,9 @@ public class ChangeSceneConverter implements EffectConverter {
 			list.add(new ChangeSceneEf(new BasicElement(ef.getTargetId())));
 			// Cutscenes
 		} else if (e instanceof TriggerCutsceneEffect) {
-
 			TriggerCutsceneEffect ef = (TriggerCutsceneEffect) e;
 			BasicElement nextScene = new BasicElement(ef.getTargetId());
 			ChangeSceneEf changeScene = new ChangeSceneEf(nextScene);
-
 			// When a cutscene is triggered, all the effects after it must wait
 			// to be launched until the cutscene ends. We make sure that
 			// IN_CUTSCENE is set to true before launching any other effect

@@ -43,26 +43,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.LoadGameEf;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.predef.LoadingScreen;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.VarDef;
 import ead.engine.core.EAdEngine;
@@ -79,10 +75,8 @@ import ead.engine.core.game.interfaces.PluginHandler;
 import ead.engine.core.game.interfaces.SoundManager;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.tracking.GameTracker;
 import ead.reader.AdventureReader;
-import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.reader.strings.StringsReader;
 import ead.tools.PropertiesReader;
 import ead.tools.SceneGraph;
@@ -91,7 +85,7 @@ import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLParser;
 
 @Singleton
-public class GameImpl implements Game, VisitorListener {
+public class GameImpl implements Game {
 
 	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
 
@@ -158,8 +152,6 @@ public class GameImpl implements Game, VisitorListener {
 	 */
 	private GameTracker tracker;
 
-	private AdventureReader reader;
-
 	/**
 	 * Strings reader
 	 */
@@ -180,16 +172,6 @@ public class GameImpl implements Game, VisitorListener {
 	private List<EventGO<?>> events;
 
 	private String currentLanguage = "";
-
-	private boolean readingXML;
-
-	private boolean readingAssets;
-
-	private Stack<AssetDescriptor> assetsToLoad;
-
-	private int assetsToLoadNumber;
-
-	private boolean firstUpdate;
 
 	private DebuggersHandler debuggersHandler;
 
@@ -216,14 +198,12 @@ public class GameImpl implements Game, VisitorListener {
 		this.adventure = null;
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
-		this.reader = reader;
 		this.debuggersHandler = debuggersHandler;
 		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
-		assetsToLoad = new Stack<AssetDescriptor>();
 	}
 
 	public void setEAdEngine(EAdEngine eAdEngine) {
@@ -233,6 +213,9 @@ public class GameImpl implements Game, VisitorListener {
 	@Override
 	public void setResourcesLocation(String path) {
 		this.path = path;
+		if (assetHandler != null) {
+			assetHandler.setResourcesLocation(path);
+		}
 	}
 
 	@Override
@@ -259,10 +242,6 @@ public class GameImpl implements Game, VisitorListener {
 		gui.initialize(GameImpl.this, gameState, sceneElementFactory,
 				debuggersHandler);
 
-		// Load strings
-		loadStrings();
-		// Read model
-		readModel();
 		assetHandler.initialize();
 		pluginHandler.initialize();
 	}
@@ -275,64 +254,23 @@ public class GameImpl implements Game, VisitorListener {
 
 	@Override
 	public void act(float delta) {
-		if (readingXML) {
-			if (firstUpdate) {
-				LoadingScreen loadingScreen = new LoadingScreen();
-				gui.setScene((SceneGO) sceneElementFactory.get(loadingScreen));
-				firstUpdate = false;
-			}
-			for (int i = 0; i < 200; i++) {
-				if (reader.step()) {
-					break;
-				}
-			}
 
-			if (reader.step()) {
-				gameState.setValue(SystemFields.LOADING, 30);
-				readingAssets = true;
-				readingXML = false;
-				assetsToLoad.addAll(reader.getAssets());
-				logger.info("Loading {} assets", reader.getAssets().size());
-				assetsToLoadNumber = reader.getAssets().size();
-			}
-		} else if (readingAssets) {
-			for (int i = 0; i < 10; i++) {
-				if (assetsToLoad.isEmpty()) {
-					readingAssets = false;
-					setGame();
-					break;
-				}
-				AssetDescriptor a = assetsToLoad.pop();
-				if (!(a instanceof EAdVideo)) {
-					assetHandler.getRuntimeAsset(a);
-				} else {
-					assetHandler.addVideo((EAdVideo) a);
-				}
-			}
-			if (assetsToLoadNumber > 0) {
-				gameState.setValue(SystemFields.LOADING, (int) (30.0f + 70.f
-						* (float) (assetsToLoadNumber - assetsToLoad.size())
-						/ (float) assetsToLoadNumber));
-			} else {
-				gameState.setValue(SystemFields.LOADING, 100);
-			}
-		} else {
-			gameState.update(delta);
+		gameState.update(delta);
 
-			// Update language. Check this every loop is probably too much
-			updateLanguage();
+		// TODO Update language. Check this every loop is probably too much
+		updateLanguage();
 
-			// We load one possible asset in the background
-			assetHandler.loadStep();
+		// We load one possible asset in the background
+		assetHandler.loadStep();
 
-			gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
-					.getSkippedMilliseconds());
+		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
+				.getSkippedMilliseconds());
 
-			// Scene
-			if (!gameState.isPaused()) {
-				updateGameEvents(delta);
-			}
+		// Scene
+		if (!gameState.isPaused()) {
+			updateGameEvents(delta);
 		}
+
 		doHook(HOOK_AFTER_UPDATE);
 	}
 
@@ -357,10 +295,9 @@ public class GameImpl implements Game, VisitorListener {
 		}
 	}
 
-	private void setGame() {
+	public void startGame() {
 		assetHandler.preloadVideos();
 		if (adventure != null) {
-			BasicElement.idPrefix = AbstractAssetDescriptor.idPrefix = "eng";
 			currentChapter = adventure.getChapters().get(0);
 			ChangeSceneEf initGame = new ChangeSceneEf(currentChapter
 					.getInitialScene());
@@ -499,6 +436,7 @@ public class GameImpl implements Game, VisitorListener {
 	}
 
 	private void loadStrings() {
+		stringHandler.clear();
 		// Map containing all the files with strings (keys) and its associated
 		// language (value)
 		Map<String, String> stringFiles = new HashMap<String, String>();
@@ -535,24 +473,34 @@ public class GameImpl implements Game, VisitorListener {
 		return true;
 	}
 
-	private void readModel() {
-		reader.readXML(assetHandler.getTextFile("@data.xml"), this);
-		firstUpdate = true;
-		readingXML = true;
-	}
-
 	@Override
-	public void restart() {
+	public void restart(boolean reloadModel) {
 		// The order is important here
 		sceneElementFactory.clean();
 		eventFactory.clean();
 		gameState.reset();
-		gui.reset();
-		soundManager.stopAll();
-		eAdEngine.getStage().getActors().clear();
-		eAdEngine.getStage().addActor(gui.getRoot());
-		eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
-		setGame();
+
+		if (reloadModel) {
+			Gdx.app.postRunnable(new Runnable() {
+
+				@Override
+				public void run() {
+					gui.reset();
+					soundManager.stopAll();
+					eAdEngine.getStage().getActors().clear();
+					eAdEngine.getStage().addActor(gui.getRoot());
+					eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
+					// Load strings
+					loadStrings();
+					// Read model
+					gameState.addEffect(new LoadGameEf(true));
+				}
+
+			});
+		} else {
+			startGame();
+		}
+
 	}
 
 }

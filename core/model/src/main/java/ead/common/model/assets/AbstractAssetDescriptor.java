@@ -40,7 +40,7 @@ package ead.common.model.assets;
 import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.interfaces.features.Identified;
-import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdElement;
 
 /**
  * Classes that implement this interface represent an asset. An asset is any
@@ -51,32 +51,8 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
 	private String id;
 
-	public static int lastId = 0;
-
-	public static String idPrefix = "#";
-
-	public static void initLastId() {
-		lastId = 0;
-	}
-
 	public AbstractAssetDescriptor() {
-		this.id = randomSuffix();
-	}
 
-	public static String randomSuffix() {
-		String id = idPrefix;
-		int id2 = lastId;
-		boolean oneZero = false;
-		while (!oneZero) {
-			id = BasicElement.ID_CHARS[(id2 % BasicElement.ID_CHARS.length)]
-					+ id;
-			id2 /= BasicElement.ID_CHARS.length;
-			if (id2 == 0) {
-				oneZero = true;
-			}
-		}
-		lastId++;
-		return id;
 	}
 
 	/**
@@ -101,28 +77,16 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 		return id;
 	}
 
-	/**
-	 * Should be called from all children. Performs ID comparison; null IDs are
-	 * admitted (and considered equal).
-	 */
-	@Override
-	public int hashCode() {
-		return this.getId().hashCode() ^ this.getClass().hashCode();
+	public boolean equals(Object o) {
+		if (o instanceof Identified) {
+			String id2 = ((Identified) o).getId();
+			return id == null ? super.equals(o) : id == id2 || id.equals(id2);
+		}
+		return false;
 	}
 
-	/**
-	 * Should be called from all children. Compares by ID; null IDs are admitted
-	 * (and considered equal).
-	 * 
-	 * @param other
-	 * @return
-	 */
-	@Override
-	public boolean equals(Object other) {
-		if ((other == null) || !other.getClass().equals(getClass())) {
-			return false;
-		}
-		String oid = ((Identified) other).getId();
-		return oid != null && id != null && oid.equals(id);
+	public int hashCode() {
+		return id == null ? super.hashCode() : getId().hashCode();
 	}
+
 }

@@ -80,6 +80,7 @@ import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 
 @Singleton
 public class ModelQuerier {
@@ -300,6 +301,21 @@ public class ModelQuerier {
 				npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
 			}
 		}
+
+		// Load text and bubbles from player
+		NPC npc = oldChapter.getPlayer();
+		EAdPaint textPaint = utilsConverter.getPaint(npc.getTextFrontColor(),
+				npc.getTextBorderColor());
+
+		npcTexts.put(npc.getId(), textPaint);
+		if (npc.getShowsSpeechBubbles()) {
+			EAdPaint bubblePaint = utilsConverter.getPaint(npc
+					.getBubbleBkgColor(), npc.getBubbleBorderColor());
+			npcBubbles.put(npc.getId(), bubblePaint);
+		} else {
+			npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
+		}
+
 		// Load conversations
 		for (Conversation c : oldChapter.getConversations()) {
 			EAdEffect conversation = conversationsConverter.convert(c);
@@ -368,14 +384,22 @@ public class ModelQuerier {
 	 */
 	public SpeakEf getSpeakFor(String npc, EAdString text) {
 		EAdElement element = elementsCache.get(npc);
-		SpeakEf effect = new SpeakSceneElementEf(element, text);
-		effect.setColor(npcTexts.get(npc), npcBubbles.get(npc));
-		EAdField<EAdSceneElement> fieldElement = elementsCache.getField(
-				element, SceneElementDef.VAR_SCENE_ELEMENT);
+		SpeakEf effect = null;
 
-		effect.setX(elementsCache.getField(fieldElement,
-				SceneElement.VAR_CENTER_X));
-		effect.setY(elementsCache.getField(fieldElement, SceneElement.VAR_TOP));
+		if (adventureData.getPlayerMode() == AdventureData.MODE_PLAYER_1STPERSON
+				&& npc.equals(Player.IDENTIFIER)) {
+			effect = new SpeakEf(text);
+		} else {
+			EAdField<EAdSceneElement> fieldElement = elementsCache.getField(
+					element, SceneElementDef.VAR_SCENE_ELEMENT);
+			effect = new SpeakSceneElementEf(element, text);
+			effect.setX(elementsCache.getField(fieldElement,
+					SceneElement.VAR_CENTER_X));
+			effect.setY(elementsCache.getField(fieldElement,
+					SceneElement.VAR_TOP));
+		}
+
+		effect.setColor(npcTexts.get(npc), npcBubbles.get(npc));
 		return effect;
 	}
 
@@ -392,5 +416,16 @@ public class ModelQuerier {
 			conversations.put(id, conversation);
 		}
 		return conversation;
+	}
+
+	public void clear() {
+		conversations.clear();
+		elementsCache.clear();
+		flagFields.clear();
+		globalStates.clear();
+		macros.clear();
+		npcBubbles.clear();
+		npcTexts.clear();
+		variableFields.clear();
 	}
 }

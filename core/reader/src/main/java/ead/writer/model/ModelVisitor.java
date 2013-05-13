@@ -46,9 +46,7 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
@@ -206,9 +204,6 @@ public class ModelVisitor {
 			logger.debug("Total lists: " + listWriter.getTotal());
 			logger.debug("Total maps: " + mapWriter.getTotal());
 			logger.debug("Total params: " + paramWriter.getTotal());
-			logger.debug("Last Element Id: " + BasicElement.randomSuffix());
-			logger.debug("Last Asset Id: "
-					+ AbstractAssetDescriptor.randomSuffix());
 		}
 		return stepsQueue.isEmpty();
 	}

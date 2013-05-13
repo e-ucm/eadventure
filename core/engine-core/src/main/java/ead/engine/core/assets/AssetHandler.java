@@ -264,4 +264,6 @@ public interface AssetHandler {
 	<T extends AssetDescriptor> SpecialAssetRenderer<T, ?> getSpecialAssetRenderer(
 			T specialAsset);
 
+	void clean();
+
 }

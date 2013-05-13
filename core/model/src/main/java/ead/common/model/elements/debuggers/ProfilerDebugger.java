@@ -53,9 +53,7 @@ import ead.common.model.params.fills.ColorFill;
 public class ProfilerDebugger extends GroupElement {
 
 	private EAdField<?>[] fields = new EAdField<?>[] {
-			SystemFields.DEBUG_GAME_OBJECTS, SystemFields.DEBUG_ASSETS,
-			SystemFields.DEBUG_HEAP_SIZE, SystemFields.DEBUG_NATIVE_SIZE,
-			SystemFields.DEBUG_BASIC_ELEMENT_ID, SystemFields.DEBUG_ASSET_ID };
+			SystemFields.DEBUG_GAME_OBJECTS, SystemFields.DEBUG_ASSETS };
 
 	public ProfilerDebugger() {
 		int y = 0;

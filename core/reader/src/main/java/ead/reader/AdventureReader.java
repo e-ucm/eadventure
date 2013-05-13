@@ -47,9 +47,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.AbstractAssetDescriptor;
 import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
@@ -87,8 +85,6 @@ public class AdventureReader implements VisitorListener {
 	public void readXML(String xml, VisitorListener listener) {
 		XMLDocument document = xmlParser.parse(xml);
 		visitor.init();
-		BasicElement.initLastId();
-		AbstractAssetDescriptor.initLastId();
 
 		XMLNode node = document.getFirstChild();
 		XMLNode adventure = null;

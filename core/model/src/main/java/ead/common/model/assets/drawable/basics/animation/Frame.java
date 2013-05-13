@@ -125,18 +125,6 @@ public class Frame extends BasicElement {
 	}
 
 	@Override
-	public int hashCode() {
-		int hash = 3;
-		hash = 31
-				* hash
-				+ (this.drawable != null ? this.drawable.getId().hashCode() : 0);
-		hash = 31 * hash + this.time;
-		hash = 31 * hash
-				+ (this.drawable != null ? this.drawable.hashCode() : 0);
-		return hash;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;

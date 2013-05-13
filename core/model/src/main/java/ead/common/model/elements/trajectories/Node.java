@@ -116,9 +116,4 @@ public class Node extends BasicElement {
 		this.scale = scale;
 	}
 
-	public Node copy() {
-		Node n = new Node("node" + randomSuffix(), x, y, scale);
-		return n;
-	}
-
 }

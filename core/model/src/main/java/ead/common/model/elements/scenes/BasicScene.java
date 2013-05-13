@@ -83,7 +83,6 @@ public class BasicScene extends GroupElement implements EAdScene {
 		super();
 		background = bg;
 		background.setPosition(Corner.TOP_LEFT, 0, 0);
-		background.setId(super.getId() + ".background");
 		returnable = true;
 		setCenter(Corner.TOP_LEFT);
 	}

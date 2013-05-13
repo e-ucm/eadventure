@@ -196,4 +196,9 @@ public class StringsConverter {
 		return finalText;
 	}
 
+	public void clear() {
+		strings.clear();
+		reverse.clear();
+	}
+
 }

@@ -114,6 +114,8 @@ public class EAdEngine implements ApplicationListener {
 
 		stage.addActor(gui.getRoot());
 		stage.setKeyboardFocus(gui.getRoot());
+
+		game.restart(true);
 	}
 
 	@Override

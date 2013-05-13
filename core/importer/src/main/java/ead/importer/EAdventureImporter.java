@@ -56,7 +56,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.params.text.EAdString;
 import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
@@ -140,7 +139,6 @@ public class EAdventureImporter {
 	 */
 	public EAdAdventureModel importGame(String eadFile, String destination,
 			String format) {
-		BasicElement.initLastId();
 		// Init importer
 		updateProgress(0, "Starting importer...");
 		stringsHandler.getStrings().clear();

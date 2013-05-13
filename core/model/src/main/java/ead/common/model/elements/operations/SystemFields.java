@@ -114,12 +114,6 @@ public class SystemFields {
 	public static EAdField<Integer> DEBUG_ASSETS = new BasicField<Integer>(
 			null, new VarDef<Integer>("debug_assets", Integer.class, 0));
 
-	public static EAdField<Integer> DEBUG_BASIC_ELEMENT_ID = new BasicField<Integer>(
-			null, new VarDef<Integer>("basic_element_id", Integer.class, 0));
-
-	public static EAdField<Integer> DEBUG_ASSET_ID = new BasicField<Integer>(
-			null, new VarDef<Integer>("asset_id", Integer.class, 0));
-
 	public static EAdField<Long> DEBUG_HEAP_SIZE = new BasicField<Long>(null,
 			new VarDef<Long>("heap_size", Long.class, 0l));
 

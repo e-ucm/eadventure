@@ -127,4 +127,6 @@ public interface StringHandler {
 	 */
 	EAdString generateNewString();
 
+	void clear();
+
 }

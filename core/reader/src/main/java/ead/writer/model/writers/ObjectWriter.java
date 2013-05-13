@@ -52,6 +52,7 @@ import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.reader.DOMTags;
+import ead.tools.EAdUtils;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionField;
@@ -64,6 +65,14 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("ObjectWriter");
+
+	public static final String ASSETS_PREFIX = "@";
+
+	public static final String ELEMENT_PREFIX = "";
+
+	private int assetOrdinal = 0;
+
+	private int elementOrdinal = 0;
 
 	private boolean asset;
 
@@ -112,6 +121,11 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 			return null;
 		}
 
+		String id = object.getId();
+		if (id != null) {
+			logger.debug("Id found: {}", id);
+		}
+
 		// If simplifications are enabled, well, we simplify
 		if (modelVisitor.isSimplifcationsEnabled()) {
 			String oldId = object.getId();
@@ -123,13 +137,18 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 
 			// Keep track if the id changed
 			String newId = object.getId();
-			if (!oldId.equals(newId)) {
+			if (oldId != null && newId != null && !oldId.equals(newId)) {
 				idTranslations.put(oldId, newId);
+				id = newId;
 			}
 		}
 
 		XMLNode node = null;
-		String id = object.getId();
+		if (id == null) {
+			id = EAdUtils.generateId(asset ? ASSETS_PREFIX : ELEMENT_PREFIX,
+					asset ? assetOrdinal++ : elementOrdinal++);
+			object.setId(id);
+		}
 
 		if (asset) {
 			node = modelVisitor.newNode(DOMTags.ASSET_TAG);
@@ -213,6 +232,8 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 		elements.clear();
 		idTranslations.clear();
 		references.clear();
+		assetOrdinal = 0;
+		elementOrdinal = 0;
 	}
 
 	public int getSimplifications() {

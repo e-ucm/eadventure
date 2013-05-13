@@ -69,10 +69,6 @@ public class ProfilerDebuggerGO extends GroupElementGO {
 				.getCacheSize());
 		gameState.setValue(SystemFields.DEBUG_GAME_OBJECTS, sceneElementFactory
 				.getCacheSize());
-		gameState.setValue(SystemFields.DEBUG_BASIC_ELEMENT_ID,
-				BasicElement.lastId);
-		gameState.setValue(SystemFields.DEBUG_ASSET_ID,
-				AbstractAssetDescriptor.lastId);
 	}
 
 }

@@ -137,4 +137,10 @@ public class StringHandlerImpl implements StringHandler {
 		}
 		return s;
 	}
+
+	@Override
+	public void clear() {
+		loadedStrings.clear();
+		defaultStrings.clear();
+	}
 }

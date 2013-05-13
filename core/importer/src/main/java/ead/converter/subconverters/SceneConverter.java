@@ -49,6 +49,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.MouseHud;
@@ -207,6 +208,8 @@ public class SceneConverter {
 				exit.setPosition(Corner.TOP_LEFT, e.getX(), e.getY());
 			}
 
+			EAdCondition cond = conditionsConverter.convert(e.getConditions());
+
 			EAdEffect effectWhenClick = null;
 
 			// Next scene
@@ -250,8 +253,6 @@ public class SceneConverter {
 			// If it has not-effects
 			if (e.isHasNotEffects()) {
 				TriggerMacroEf triggerMacro = new TriggerMacroEf();
-				EAdCondition cond = conditionsConverter.convert(e
-						.getConditions());
 				// Add ACTIVE effects
 				triggerMacro.putEffect(cond, effectWhenClick);
 				// Add INACTIVE effects
@@ -265,6 +266,12 @@ public class SceneConverter {
 				exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacro);
 
 			} else {
+				if (!cond.equals(EmptyCond.TRUE)) {
+					EmptyEffect empty = new EmptyEffect();
+					empty.setCondition(cond);
+					empty.addNextEffect(effectWhenClick);
+					effectWhenClick = empty;
+				}
 				exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effectWhenClick);
 				// Add visibility condition
 				utilsConverter.addWatchCondition(exit, exit
@@ -292,6 +299,8 @@ public class SceneConverter {
 			// Add visibility condition
 			utilsConverter.addWatchCondition(activeArea, activeArea
 					.getField(SceneElement.VAR_VISIBLE), a.getConditions());
+
+			scene.add(activeArea);
 			i++;
 		}
 

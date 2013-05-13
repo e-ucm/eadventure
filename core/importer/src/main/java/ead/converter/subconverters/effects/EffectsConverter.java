@@ -53,6 +53,7 @@ import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -238,10 +239,26 @@ public class EffectsConverter {
 			}
 		}
 
-		if (effects.size() > 0) {
-			effects.get(0).getSimultaneousEffects().add(showGhostEffects);
-			effects.get(effects.size() - 1).getNextEffects().add(
-					hideGhostEffects);
+		boolean nextShow = false;
+		int i = 0;
+		for (EAdEffect e : effects) {
+			if (i == 0) {
+				e.addSimultaneousEffect(showGhostEffects);
+			}
+
+			if (nextShow) {
+				nextShow = false;
+				e.addSimultaneousEffect(showGhostEffects);
+			}
+			if (e instanceof ChangeSceneEf) {
+				nextShow = true;
+				e.addNextEffect(hideGhostEffects);
+			}
+
+			if (i == effects.size() - 1) {
+				e.addNextEffect(hideGhostEffects);
+			}
+			i++;
 		}
 
 		return effects;

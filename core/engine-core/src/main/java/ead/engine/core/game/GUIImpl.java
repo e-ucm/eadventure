@@ -71,7 +71,7 @@ import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
 public abstract class GUIImpl implements GUI {
 
-	public static final boolean DEBUG = true;
+	public static boolean DEBUG = true;
 
 	/**
 	 * Logger
@@ -119,7 +119,7 @@ public abstract class GUIImpl implements GUI {
 		this.gameState = gameState;
 		this.sceneElementFactory = sceneElementFactory;
 		this.debuggerHandler = debuggerHandler;
-		addHierarchy();
+		reset();
 	}
 
 	public void addHierarchy() {
@@ -179,7 +179,7 @@ public abstract class GUIImpl implements GUI {
 								.toggleDebugger(DebuggersHandlerImpl.PROFILER_DEBUGGER);
 						break;
 					case Input.Keys.F7:
-						game.restart();
+						game.restart(false);
 					default:
 						break;
 					}
@@ -217,8 +217,8 @@ public abstract class GUIImpl implements GUI {
 		return a;
 	}
 
-	public SceneElementGO getGameObjectIn(int x, int y) {
-		return root.getFirstGOIn(x, y);
+	public SceneElementGO getGameObjectIn(int x, int y, boolean touchable) {
+		return root.getFirstGOIn(x, y, touchable);
 	}
 
 	@Override
@@ -290,14 +290,15 @@ public abstract class GUIImpl implements GUI {
 
 	@Override
 	public void finish() {
-		Gdx.app.exit();
+		if (gameState.getValue(SystemFields.EXIT_WHEN_CLOSE)) {
+			Gdx.app.exit();
+		}
 	}
 
 	public void reset() {
 		previousSceneStack.clear();
 		sceneElementFactory.clean();
 		addHierarchy();
-		setScene((SceneGO) sceneElementFactory.get(loadingScreen));
 	}
 
 	public class DragSource extends Source {

@@ -96,6 +96,12 @@ public class CommonTestModule extends AbstractModule {
 
 		}
 
+		@Override
+		public void clear() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 }

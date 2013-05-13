@@ -673,8 +673,9 @@ public class SceneElementGO extends Group implements
 		return (SceneElementGO) super.findActor(e.getId());
 	}
 
-	public SceneElementGO getFirstGOIn(float virtualX, float virtualY) {
-		return (SceneElementGO) this.hit(virtualX, virtualY, true);
+	public SceneElementGO getFirstGOIn(float virtualX, float virtualY,
+			boolean touchable) {
+		return (SceneElementGO) this.hit(virtualX, virtualY, touchable);
 	}
 
 	/**
@@ -836,21 +837,18 @@ public class SceneElementGO extends Group implements
 		}
 
 		if (!event.isCancelled()) {
-			if (this.getTouchable() == Touchable.enabled) {
-				// Effects in the scene element instance
-				EAdList<EAdEffect> list = element
-						.getEffects(getGUIEvent(event));
-				int size = list == null ? 0 : list.size();
-				addEffects(list, event);
+			// Effects in the scene element instance
+			EAdList<EAdEffect> list = element.getEffects(getGUIEvent(event));
+			int size = list == null ? 0 : list.size();
+			addEffects(list, event);
 
-				// Effects in the definition
-				list = element.getDefinition().getEffects(getGUIEvent(event));
-				size += list == null ? 0 : list.size();
-				if (size > 0 && cancel) {
-					event.cancel();
-				}
-				addEffects(list, event);
+			// Effects in the definition
+			list = element.getDefinition().getEffects(getGUIEvent(event));
+			size += list == null ? 0 : list.size();
+			if (size > 0 && cancel) {
+				event.cancel();
 			}
+			addEffects(list, event);
 		}
 
 		return event.isCancelled();

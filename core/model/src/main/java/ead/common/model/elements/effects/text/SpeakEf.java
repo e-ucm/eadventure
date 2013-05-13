@@ -158,7 +158,6 @@ public class SpeakEf extends AbstractEffect {
 
 	public void setCaption(Caption caption) {
 		this.caption = caption;
-		caption.setId(this.getId() + caption.getId());
 	}
 
 	public EAdPaint getBubbleColor() {

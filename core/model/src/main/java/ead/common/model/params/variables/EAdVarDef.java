@@ -76,4 +76,6 @@ public interface EAdVarDef<T> extends EAdParam {
 	 */
 	T getInitialValue();
 
+	void setInitialValue(T v);
+
 }

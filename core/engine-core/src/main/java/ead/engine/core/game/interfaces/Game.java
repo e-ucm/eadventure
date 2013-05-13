@@ -42,13 +42,14 @@ import ead.common.model.elements.EAdChapter;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineHook;
+import ead.reader.model.XMLVisitor.VisitorListener;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
  * current game state, evaluate conditions according to the current game state,
  * etc.
  */
-public interface Game {
+public interface Game extends VisitorListener {
 
 	/**
 	 * Container width
@@ -145,6 +146,8 @@ public interface Game {
 	/**
 	 * Restarts the game, deleting any stored state
 	 */
-	void restart();
+	void restart(boolean reloadModel);
+
+	void startGame();
 
 }

@@ -78,7 +78,17 @@ public class TriggerMacroConverter implements
 		effect.addSimultaneousEffect(macroIn);
 
 		ChangeFieldEf macroOut = new ChangeFieldEf(field, EmptyCond.FALSE);
-		macro.get(macro.size() - 1).addNextEffect(macroOut);
+		// Look for the last effect in the queue, and add the macro-out.
+		EAdEffect lastEffect = macro.get(macro.size() - 1);
+		boolean done = false;
+		while (!done) {
+			if (lastEffect.getNextEffects().size() == 0) {
+				done = true;
+			} else {
+				lastEffect = lastEffect.getNextEffects().get(0);
+			}
+		}
+		lastEffect.addNextEffect(macroOut);
 
 		// Waits until the macro ends
 		WaitUntilEf wait = new WaitUntilEf(

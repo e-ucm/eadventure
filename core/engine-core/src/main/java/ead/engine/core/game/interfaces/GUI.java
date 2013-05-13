@@ -133,7 +133,7 @@ public interface GUI {
 	 * @param y
 	 * @return
 	 */
-	SceneElementGO getGameObjectIn(int x, int y);
+	SceneElementGO getGameObjectIn(int x, int y, boolean touchable);
 
 	/**
 	 * Returns the hud with the given id
