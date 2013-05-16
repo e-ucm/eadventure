@@ -104,8 +104,12 @@ public class Simplifier {
 	}
 
 	public void clear() {
-		objectsLists.clear();
 		simplifications = 0;
+		objectsLists.clear();
+		for (ObjectSimplifier<?> o : simplifiers.values()) {
+			o.clear();
+		}
+		fieldsSimplifier.clear();
 	}
 
 	public Object simplify(Object o) {
@@ -179,9 +183,7 @@ public class Simplifier {
 				return true;
 			}
 			boolean equals = EAdUtils.equals(o1, o2, true);
-			if (equals) {
-				logger.debug("Equals match {}={}", new Object[] { o1, o2 });
-			}
+
 			return equals;
 		}
 

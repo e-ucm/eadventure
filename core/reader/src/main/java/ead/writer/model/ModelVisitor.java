@@ -221,7 +221,13 @@ public class ModelVisitor {
 		root.append(params);
 		addedToRoot = false;
 		objectWriter.clear();
+		paramWriter.clear();
+		listWriter.clear();
+		mapWriter.clear();
+		stepsQueue.clear();
 		classTranslations.clear();
+		fieldsTranslations.clear();
+		paramsTranslations.clear();
 	}
 
 	public String translateClass(Class<?> clazz) {

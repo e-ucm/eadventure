@@ -86,4 +86,8 @@ public class ListWriter extends AbstractWriter<EAdList<?>> {
 		return total;
 	}
 
+	public void clear() {
+		total = 0;
+	}
+
 }

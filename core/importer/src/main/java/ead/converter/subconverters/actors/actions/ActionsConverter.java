@@ -183,7 +183,8 @@ public class ActionsConverter {
 		definitions.clear();
 		// Conversion
 		for (Action a : ac) {
-			convert(a);
+			if (a.getType() != Action.DRAG_TO)
+				convert(a);
 		}
 		EAdList<EAdSceneElementDef> actions = new EAdList<EAdSceneElementDef>();
 		actions.addAll(definitions);
@@ -198,8 +199,8 @@ public class ActionsConverter {
 	 */
 	public void convert(Action a) {
 
-		TriggerMacroEf triggerMacroEf = null;
-		EAdCondition visibility = null;
+		TriggerMacroEf triggerMacroEf;
+		EAdCondition visibility;
 
 		// Fetch if the there is already an action like "a"
 		if (a.getType() == Action.CUSTOM_INTERACT) {

@@ -144,7 +144,9 @@ public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 	@Override
 	public void freeMemory() {
 		super.freeMemory();
-		textureRegion.getTexture().dispose();
+		if (textureRegion.getTexture() != null) {
+			textureRegion.getTexture().dispose();
+		}
 		textureRegion = null;
 		pixmap.dispose();
 		pixmap = null;

@@ -98,4 +98,8 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 	public int getTotal() {
 		return total;
 	}
+
+	public void clear() {
+		total = 0;
+	}
 }

@@ -295,6 +295,8 @@ public class XMLVisitor {
 		elementsFactory.clear();
 		mapKeysValues.clear();
 		stepsQueue.clear();
+		fieldsTranslators.clear();
+		paramsTranslators.clear();
 		objectReader.clear();
 	}
 

@@ -146,7 +146,7 @@ public interface Game extends VisitorListener {
 	/**
 	 * Restarts the game, deleting any stored state
 	 */
-	void restart(boolean reloadModel);
+	void restart(final boolean reloadModel);
 
 	void startGame();
 

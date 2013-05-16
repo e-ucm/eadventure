@@ -178,7 +178,6 @@ public class SceneConverter {
 			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(e
 					.getTargetId());
 			SceneElement sceneElement = new SceneElement(def);
-			sceneElement.setId(e.getTargetId() + "_" + sceneElement.getId());
 			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
 			sceneElement.setInitialZ(e.getLayer());
 			sceneElement.setInitialScale(e.getScale());

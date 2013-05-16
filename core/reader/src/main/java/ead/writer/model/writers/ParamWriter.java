@@ -66,7 +66,7 @@ public class ParamWriter extends AbstractWriter<Object> {
 		if (o != null) {
 			String translatedClass = translateClass(o.getClass());
 			node.setAttribute(DOMTags.CLASS_AT, translatedClass);
-			String value = null;
+			String value;
 			if (o instanceof VarDef || o instanceof EAdPaint
 					|| o instanceof Enum || o instanceof EAdGUIEvent) {
 				value = translateParam(o.toString());
@@ -95,5 +95,9 @@ public class ParamWriter extends AbstractWriter<Object> {
 
 	public int getTotal() {
 		return params.size();
+	}
+
+	public void clear() {
+		this.params.clear();
 	}
 }

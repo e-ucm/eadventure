@@ -188,7 +188,7 @@ public class EAdUtils {
 	}
 
 	public static String generateId(String prefix, int ordinal) {
-		String id = "id";
+		String id = "";
 		int id2 = ordinal;
 		boolean oneZero = false;
 		while (!oneZero) {

@@ -97,7 +97,6 @@ public class SpeakEf extends AbstractEffect {
 	public SpeakEf(EAdString string) {
 		super();
 		caption = new Caption(string);
-		caption.setId(this.getId() + caption.getId());
 		caption.setTextPaint(ColorFill.BLACK);
 		caption.setFont(BasicFont.BIG);
 		bubbleColor = BUBBLE_PAINT;

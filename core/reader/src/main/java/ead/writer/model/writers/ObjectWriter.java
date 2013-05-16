@@ -143,10 +143,17 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 			}
 		}
 
-		XMLNode node = null;
+		XMLNode node;
 		if (id == null) {
-			id = EAdUtils.generateId(asset ? ASSETS_PREFIX : ELEMENT_PREFIX,
-					asset ? assetOrdinal++ : elementOrdinal++);
+			boolean takenId = true;
+			while (takenId) {
+				id = EAdUtils.generateId(
+						asset ? ASSETS_PREFIX : ELEMENT_PREFIX,
+						asset ? assetOrdinal++ : elementOrdinal++);
+				takenId = (asset ? assets.contains(id) : elements.contains(id));
+				if (takenId)
+					logger.debug("Id {} is taken. Looking for another one...");
+			}
 			object.setId(id);
 		}
 
@@ -234,6 +241,7 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 		references.clear();
 		assetOrdinal = 0;
 		elementOrdinal = 0;
+		simplifier.clear();
 	}
 
 	public int getSimplifications() {

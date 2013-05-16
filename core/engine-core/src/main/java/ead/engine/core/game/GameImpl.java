@@ -37,27 +37,15 @@
 
 package ead.engine.core.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.LoadGameEf;
-import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.VarDef;
@@ -68,11 +56,7 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.enginefilters.EngineStringFilter;
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.game.interfaces.Game;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.game.interfaces.PluginHandler;
-import ead.engine.core.game.interfaces.SoundManager;
+import ead.engine.core.game.interfaces.*;
 import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.tracking.GameTracker;
@@ -83,6 +67,11 @@ import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 @Singleton
 public class GameImpl implements Game {
@@ -327,7 +316,6 @@ public class GameImpl implements Game {
 			tracker.startTracking(adventure);
 		}
 		// Set mouse visible
-		sceneElementFactory.get(MouseHud.CURSOR_ID).setVisible(true);
 		doHook(GameImpl.HOOK_AFTER_MODEL_READ);
 	}
 
@@ -474,33 +462,31 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void restart(boolean reloadModel) {
-		// The order is important here
-		sceneElementFactory.clean();
-		eventFactory.clean();
-		gameState.reset();
+	public void restart(final boolean reloadModel) {
 
-		if (reloadModel) {
-			Gdx.app.postRunnable(new Runnable() {
+		Gdx.app.postRunnable(new Runnable() {
 
-				@Override
-				public void run() {
-					gui.reset();
-					soundManager.stopAll();
-					eAdEngine.getStage().getActors().clear();
-					eAdEngine.getStage().addActor(gui.getRoot());
-					eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
+			@Override
+			public void run() {
+				// The order is important here
+				eventFactory.clean();
+				sceneElementFactory.clean();
+				gameState.reset();
+				gui.reset();
+				soundManager.stopAll();
+				eAdEngine.getStage().getActors().clear();
+				eAdEngine.getStage().addActor(gui.getRoot());
+				eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
+				// Read model
+				if (reloadModel) {
 					// Load strings
 					loadStrings();
-					// Read model
 					gameState.addEffect(new LoadGameEf(true));
+				} else {
+					startGame();
 				}
-
-			});
-		} else {
-			startGame();
-		}
-
+			}
+		});
 	}
 
 }
