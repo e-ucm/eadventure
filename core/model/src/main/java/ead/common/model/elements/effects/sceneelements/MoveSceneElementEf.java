@@ -101,8 +101,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 		this(element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element, int xTarget,
-			int yTarget, MovementSpeed speed) {
+	public MoveSceneElementEf(EAdSceneElementDef element, float xTarget,
+			float yTarget, MovementSpeed speed) {
 		this(element, new MathOp("" + xTarget), new MathOp("" + yTarget), speed);
 	}
 

@@ -37,11 +37,8 @@
 
 package ead.converter.subconverters;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
 import ead.common.model.elements.BasicElement;
@@ -53,28 +50,33 @@ import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.MouseHud;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.GhostElement;
-import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import ead.common.model.elements.scenes.*;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Position.Corner;
 import ead.converter.EAdElementsCache;
+import ead.converter.ModelQuerier;
 import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import ead.plugins.engine.bubbledescription.BubbleNameEv;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.ExitLook;
+import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
+
+import java.awt.*;
+import java.util.List;
 
 @Singleton
 public class SceneConverter {
@@ -82,6 +84,8 @@ public class SceneConverter {
 	private static final int EXIT_Z = 20000;
 
 	private static final int ACTIVE_AREA_Z = 10000;
+
+	private static final int PLAYER_Z = 5000;
 
 	private static final ColorFill EXIT_FILL = new ColorFill(255, 0, 0, 100);
 
@@ -104,6 +108,10 @@ public class SceneConverter {
 
 	private StringsConverter stringsConverter;
 
+	private ModelQuerier modelQuerier;
+
+	private TrajectoryConverter trajectoryConverter;
+
 	@Inject
 	public SceneConverter(ResourcesConverter resourceConverter,
 			EAdElementsCache elementsCache,
@@ -111,7 +119,8 @@ public class SceneConverter {
 			RectangleConverter rectangleConverter,
 			UtilsConverter utilsConverter, EffectsConverter effectConverter,
 			ConditionsConverter conditionsConverter,
-			StringsConverter stringsConverter) {
+			StringsConverter stringsConverter, ModelQuerier modelQuerier,
+			TrajectoryConverter trajectoryConverter) {
 		this.resourceConverter = resourceConverter;
 		this.elementsCache = elementsCache;
 		this.transitionConverter = transitionConverter;
@@ -120,6 +129,8 @@ public class SceneConverter {
 		this.effectConverter = effectConverter;
 		this.conditionsConverter = conditionsConverter;
 		this.stringsConverter = stringsConverter;
+		this.modelQuerier = modelQuerier;
+		this.trajectoryConverter = trajectoryConverter;
 	}
 
 	public EAdScene convert(Scene s) {
@@ -134,6 +145,12 @@ public class SceneConverter {
 		addActiveZones(scene, s);
 		addExits(scene, s);
 
+		// Add trajectory
+		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
+			scene.setTrajectoryDefinition(trajectoryConverter.convert(s
+					.getTrajectory()));
+		}
+
 		return scene;
 	}
 
@@ -146,7 +163,14 @@ public class SceneConverter {
 			// Background
 			String backgroundPath = r
 					.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
-			EAdDrawable drawable = resourceConverter.getImage(backgroundPath);
+			EAdDrawable drawable = utilsConverter.getBackground(backgroundPath);
+			Dimension d = resourceConverter.getSize(backgroundPath);
+			float scale = 1.0f;
+			// If dimension is greater than 600, we have to scale
+			if (d.getHeight() > 600) {
+				scale = 600.0f / (float) d.getHeight();
+			}
+
 			background.setAppearance(utilsConverter.getResourceBundleId(i),
 					drawable);
 			if (i == 0) {
@@ -157,6 +181,11 @@ public class SceneConverter {
 			// XXX Front mask
 
 			// XXX Music scene
+
+			boolean hasScroll = d.getWidth() * scale > 800;
+			if (hasScroll) {
+				// XXX add scroll
+			}
 
 			i++;
 		}
@@ -170,6 +199,32 @@ public class SceneConverter {
 		addReferences(scene, s.getAtrezzoReferences());
 		addReferences(scene, s.getItemReferences());
 		addReferences(scene, s.getCharacterReferences());
+
+		// Add player
+		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
+			SceneElement playerRef = new SceneElement(
+					(EAdSceneElementDef) elementsCache.get(Player.IDENTIFIER));
+			if (s.isAllowPlayerLayer()) {
+				playerRef.setInitialZ(s.getPlayerLayer());
+			} else {
+				playerRef.setInitialZ(PLAYER_Z);
+			}
+
+			playerRef.setInitialScale(s.getPlayerScale());
+			playerRef.setPosition(Corner.BOTTOM_CENTER, s.getPositionX(), s
+					.getPositionY());
+			if (s.getTrajectory() != null) {
+				Trajectory t = s.getTrajectory();
+				playerRef.setInitialScale(t.getInitial().getScale());
+				playerRef.setPosition(Corner.BOTTOM_CENTER, t.getInitial()
+						.getX(), t.getInitial().getY());
+			}
+			scene.addAddedEffect(new MakeActiveElementEf(playerRef));
+			scene.add(playerRef);
+
+			scene.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+					new MoveActiveElementToMouseEf());
+		}
 	}
 
 	private void addReferences(BasicScene scene,
@@ -209,7 +264,7 @@ public class SceneConverter {
 
 			EAdCondition cond = conditionsConverter.convert(e.getConditions());
 
-			EAdEffect effectWhenClick = null;
+			EAdEffect effectWhenClick;
 
 			// Next scene
 			ChangeSceneEf nextScene = new ChangeSceneEf();

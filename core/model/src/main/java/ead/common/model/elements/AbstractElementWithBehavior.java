@@ -41,6 +41,8 @@ import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.elements.behaviors.Behavior;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.params.guievents.EAdGUIEvent;
 
@@ -60,6 +62,12 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	@Param
 	protected EAdList<EAdEvent> events;
 
+	/**
+	 * Initial event for this element. This attribute WILL NOT BE SERIALIZED by
+	 * the any writer. It is a transient attribute
+	 */
+	private transient SceneElementEv initEvent;
+
 	public AbstractElementWithBehavior() {
 		super();
 		this.behavior = new Behavior();
@@ -75,7 +83,7 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 * 
 	 * @param event
 	 *            the event
-	 * @param behavior
+	 * @param effect
 	 *            the effect
 	 */
 	public void addBehavior(EAdGUIEvent event, EAdEffect effect) {
@@ -126,4 +134,26 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 		this.events = events;
 	}
 
+	public void addAddedEffect(EAdEffect e) {
+		if (initEvent == null) {
+			initEvent = new SceneElementEv();
+			this.getEvents().add(initEvent);
+		}
+		initEvent.addEffect(SceneElementEvType.ADDED, e);
+	}
+
+	/**
+	 * Adds an effect that will be executed only once when this scene element
+	 * appears for the first time in the game
+	 *
+	 * @param e
+	 *            the effect
+	 */
+	public void addInitEffect(EAdEffect e) {
+		if (initEvent == null) {
+			initEvent = new SceneElementEv();
+			this.getEvents().add(initEvent);
+		}
+		initEvent.addEffect(SceneElementEvType.INIT, e);
+	}
 }

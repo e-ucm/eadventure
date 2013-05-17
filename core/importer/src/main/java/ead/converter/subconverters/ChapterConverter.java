@@ -37,11 +37,8 @@
 
 package ead.converter.subconverters;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.interfaces.features.Variabled;
 import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.elements.BasicChapter;
@@ -61,8 +58,11 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
+
+import java.util.List;
 
 @Singleton
 public class ChapterConverter {
@@ -120,6 +120,10 @@ public class ChapterConverter {
 			EAdSceneElementDef def = npcConverter.convert(a);
 			elementsCache.put(def);
 		}
+		// Import Player
+		EAdSceneElementDef player = npcConverter.convert(c.getPlayer());
+		player.setId(Player.IDENTIFIER);
+		elementsCache.put(player);
 
 		// Add actions after the cache contains all the actors
 		// Items actions

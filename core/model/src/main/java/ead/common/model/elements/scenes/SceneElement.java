@@ -149,12 +149,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	@Param
 	protected boolean containsBounds;
 
-	/**
-	 * Initial event for this element. This attribute WILL NOT BE SERIALIZED by
-	 * the any writer. It is a transient attribute
-	 */
-	private transient SceneElementEv initEvent;
-
 	public SceneElement() {
 		super();
 		definition = new SceneElementDef();
@@ -294,21 +288,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public void setInitialVisible(boolean visible) {
 		setVarInitialValue(SceneElement.VAR_VISIBLE, visible);
-	}
-
-	/**
-	 * Adds an effect that will be executed only once when this scene element
-	 * appears for the first time in the game
-	 * 
-	 * @param e
-	 *            the effect
-	 */
-	public void addInitEffect(EAdEffect e) {
-		if (initEvent == null) {
-			initEvent = new SceneElementEv();
-			this.getEvents().add(initEvent);
-		}
-		initEvent.addEffect(SceneElementEvType.INIT, e);
 	}
 
 	public void setOverAppearance(EAdDrawable d) {

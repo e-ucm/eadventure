@@ -37,20 +37,13 @@
 
 package ead.converter.subconverters.actors.actions;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.extra.EAdList;
@@ -66,6 +59,12 @@ import ead.plugins.engine.bubbledescription.BubbleNameEv;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Converts Actions to scene element definitions
@@ -221,7 +220,7 @@ public class ActionsConverter {
 		if (triggerMacroEf == null) {
 			created = true;
 			triggerMacroEf = new TriggerMacroEf();
-			visibility = EmptyCond.TRUE;
+			visibility = conditionsConverter.convert(a.getConditions());
 
 			SceneElementDef def = new SceneElementDef();
 			addAppearance(a, def);
@@ -230,6 +229,7 @@ public class ActionsConverter {
 			// Add the definition to the list
 			definitions.add(def);
 		}
+
 		// We add the effects to the macro and updates the visibility condition
 		visibility = addEffects(a, triggerMacroEf, visibility);
 
@@ -265,15 +265,28 @@ public class ActionsConverter {
 	private EAdCondition addEffects(Action a, TriggerMacroEf triggerMacroEf,
 			EAdCondition visibility) {
 		List<EAdEffect> effect = effectsConverter.convert(a.getEffects());
+		// I think that click effects should always be empty for actions, but... whatever
+		effect.addAll(effectsConverter.convert(a.getClickEffects()));
 		EAdCondition condition = conditionsConverter.convert(a.getConditions());
 		if (effect.size() > 0) {
 			// We add the effect to the macro
 			triggerMacroEf.putEffect(condition, effect.get(0));
 			// We expand the visibility condition
-			return new ORCond(visibility, condition);
-		} else {
-			return visibility;
+			visibility = new ORCond(visibility, condition);
 		}
+
+		// If the action has not effects, it is always visible. By the way, the OR will be simplified in
+		// the writing process to TRUE, even if the condition is modified by posteriors actions
+		if (a.isActivatedNotEffects()) {
+			List<EAdEffect> notEffects = effectsConverter.convert(a
+					.getNotEffects());
+			if (notEffects.size() > 0) {
+				triggerMacroEf.putEffect(new NOTCond(condition), notEffects
+						.get(0));
+				visibility = new ORCond(EmptyCond.TRUE);
+			}
+		}
+		return visibility;
 	}
 
 	/**

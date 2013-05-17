@@ -57,16 +57,12 @@ import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.enginefilters.EngineStringFilter;
 import ead.engine.core.game.interfaces.*;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.tracking.GameTracker;
-import ead.reader.AdventureReader;
 import ead.reader.strings.StringsReader;
 import ead.tools.PropertiesReader;
-import ead.tools.SceneGraph;
 import ead.tools.StringHandler;
 import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +81,8 @@ public class GameImpl implements Game {
 	public static final String HOOK_AFTER_UPDATE = "after_update";
 
 	public static final String HOOK_AFTER_MODEL_READ = "after_model_read";
+
+	public static final String HOOK_AFTER_CHAPTER_READ = "after_chapter_read";
 
 	/**
 	 * Default properties file. Loaded during initialization
@@ -162,8 +160,6 @@ public class GameImpl implements Game {
 
 	private String currentLanguage = "";
 
-	private DebuggersHandler debuggersHandler;
-
 	private EAdEngine eAdEngine;
 
 	private SoundManager soundManager;
@@ -173,9 +169,7 @@ public class GameImpl implements Game {
 			PluginHandler pluginHandler, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
-			GameTracker tracker, SceneGraph sceneGraph,
-			StringsReader stringsReader, AdventureReader reader,
-			XMLParser xmlReader, DebuggersHandler debuggersHandler,
+			GameTracker tracker, StringsReader stringsReader,
 			SoundManager soundManager) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
@@ -187,7 +181,6 @@ public class GameImpl implements Game {
 		this.adventure = null;
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
-		this.debuggersHandler = debuggersHandler;
 		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
 		filters = new HashMap<String, List<EngineFilter<?>>>();
@@ -228,8 +221,7 @@ public class GameImpl implements Game {
 
 		// It is necessary to load the default properties before set up
 		// GUI initialization
-		gui.initialize(GameImpl.this, gameState, sceneElementFactory,
-				debuggersHandler);
+		gui.initialize(GameImpl.this, gameState, sceneElementFactory);
 
 		assetHandler.initialize();
 		pluginHandler.initialize();
@@ -315,8 +307,8 @@ public class GameImpl implements Game {
 		if (track) {
 			tracker.startTracking(adventure);
 		}
-		// Set mouse visible
 		doHook(GameImpl.HOOK_AFTER_MODEL_READ);
+		doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
 	}
 
 	@Override

@@ -37,18 +37,8 @@
 
 package ead.converter.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
@@ -61,42 +51,22 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.converter.AdventureConverter;
-import ead.converter.EAdElementsCache;
-import ead.converter.ModelQuerier;
-import ead.converter.StringsConverter;
-import ead.converter.UtilsConverter;
+import ead.converter.*;
+import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
-import ead.converter.subconverters.effects.variables.ActivateFlagConverter;
-import ead.converter.subconverters.effects.variables.DeactivateFlagConverter;
-import ead.converter.subconverters.effects.variables.DecrementVarConverter;
-import ead.converter.subconverters.effects.variables.IncrementVarConverter;
-import ead.converter.subconverters.effects.variables.SetValueConverter;
-import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
-import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
-import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
-import es.eucm.eadventure.common.data.chapter.effects.DecrementVarEffect;
-import es.eucm.eadventure.common.data.chapter.effects.Effect;
-import es.eucm.eadventure.common.data.chapter.effects.Effects;
-import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
-import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
-import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
-import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
-import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
-import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
-import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
-import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
-import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
-import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
-import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
-import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
-import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
+import ead.converter.subconverters.effects.variables.*;
+import es.eucm.eadventure.common.data.chapter.effects.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 @Singleton
 public class EffectsConverter {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("EffectsConverter");
+	private ResourcesConverter resourcesConverter;
 
 	private ModelQuerier modelQuerier;
 
@@ -122,12 +92,13 @@ public class EffectsConverter {
 	public EffectsConverter(ModelQuerier modelQuerier,
 			ConditionsConverter conditionsConverter,
 			EAdElementsCache elementsCache, StringsConverter stringsConverter,
-			UtilsConverter utilsConverter) {
+			UtilsConverter utilsConverter, ResourcesConverter resourcesConverter) {
 		this.modelQuerier = modelQuerier;
 		this.conditionConverter = conditionsConverter;
 		this.elementsCache = elementsCache;
 		this.utilsConverter = utilsConverter;
 		this.stringsConverter = stringsConverter;
+		this.resourcesConverter = resourcesConverter;
 		modelQuerier.setEffectsConverter(this);
 		setConverters();
 	}
@@ -150,8 +121,11 @@ public class EffectsConverter {
 				modelQuerier));
 		converters.put(DecrementVarEffect.class, new DecrementVarConverter(
 				modelQuerier));
-		converters
-				.put(MoveNPCEffect.class, new MoveNPCConverter(elementsCache));
+		MoveEffectConverter moveEffectConverter = new MoveEffectConverter(
+				elementsCache);
+		converters.put(MoveNPCEffect.class, moveEffectConverter);
+		converters.put(MovePlayerEffect.class, moveEffectConverter);
+		converters.put(MoveObjectEffect.class, moveEffectConverter);
 		converters.put(WaitTimeEffect.class, new WaitConverter());
 		converters.put(HighlightItemEffect.class, new HighlightItemConverter(
 				elementsCache));
@@ -163,12 +137,12 @@ public class EffectsConverter {
 		converters.put(ShowTextEffect.class, speakConverter);
 		converters.put(SpeakCharEffect.class, speakConverter);
 		converters.put(SpeakPlayerEffect.class, speakConverter);
-
-		// factoryMap.put(RandomEffect.class, RandomEffectImporter.class);
+		converters.put(RandomEffect.class, new RandomEffectConverter(this));
+		converters.put(PlaySoundEffect.class, new PlaySoundConverter(
+				resourcesConverter));
 
 		// factoryMap.put(CancelActionEffect.class,
 		// CancelActionEffectImporter.class);
-		// factoryMap.put(PlaySoundEffect.class, PlaySoundEffectImporter.class);
 		// factoryMap.put(ConsumeObjectEffect.class,
 		// ConsumeObjectEffectImporter.class);
 		// factoryMap.put(GenerateObjectEffect.class,
@@ -187,7 +161,7 @@ public class EffectsConverter {
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
-	protected List<EAdEffect> convert(AbstractEffect e) {
+	public List<EAdEffect> convert(AbstractEffect e) {
 		EffectConverter converter = converters.get(e.getClass());
 		if (converter == null) {
 			logger.warn("No effect converter for {}", e.getClass());

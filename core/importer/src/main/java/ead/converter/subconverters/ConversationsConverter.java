@@ -37,19 +37,11 @@
 
 package ead.converter.subconverters;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.EmptyEffect;
 import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -66,6 +58,13 @@ import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversationNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class ConversationsConverter {
@@ -94,10 +93,6 @@ public class ConversationsConverter {
 		this.stringsConverter = stringConverter;
 		this.nodes = new HashMap<ConversationNode, List<EAdEffect>>();
 		this.effectsConverter = effectsConverter;
-		this.modelQuerier = modelQuerier;
-	}
-
-	public void setModelQuerier(ModelQuerier modelQuerier) {
 		this.modelQuerier = modelQuerier;
 	}
 
@@ -184,6 +179,12 @@ public class ConversationsConverter {
 	 */
 	private List<EAdEffect> convertDialog(DialogueConversationNode n) {
 		ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
+		// If it has no lines, we return an empty effect
+		if (n.getLineCount() == 0) {
+			nodes.add(new EmptyEffect());
+			return nodes;
+		}
+
 		EAdEffect lastEffect = null;
 		for (int i = 0; i < n.getLineCount(); i++) {
 			// XXX n.getAudioPath(i);
@@ -238,8 +239,13 @@ public class ConversationsConverter {
 		QuestionEf question = (QuestionEf) nodes.get(n).get(0);
 		for (int i = 0; i < n.getLineCount(); i++) {
 			EAdString answer = stringsConverter.convert(n.getLineText(i));
-			EAdEffect nextEffect = nodes.get(n.getChild(i)).get(0);
-			question.addAnswer(answer, nextEffect);
+			List<EAdEffect> nextEffects = nodes.get(n.getChild(i));
+			if (nextEffects.size() > 0) {
+				EAdEffect nextEffect = nextEffects.get(0);
+				question.addAnswer(answer, nextEffect);
+			} else {
+				logger.debug("Weird. Answer with no next node.");
+			}
 		}
 	}
 

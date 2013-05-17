@@ -44,6 +44,7 @@ import ead.common.model.elements.scenes.SceneElement;
 public class FieldsDebugger extends SceneElement {
 
 	public FieldsDebugger() {
+		this.setPosition(0, 50);
 		this.setInitialEnable(false);
 	}
 

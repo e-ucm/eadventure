@@ -1,26 +1,17 @@
 package ead.guitools.enginegui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.Random;
-import java.util.zip.ZipFile;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
-
 import ead.converter.AdventureConverter;
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.utils.FileUtils;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.Properties;
+import java.util.Random;
+import java.util.zip.ZipFile;
 
 public class EngineGUI2 {
 
@@ -124,6 +115,7 @@ public class EngineGUI2 {
 						DesktopGame game = new DesktopGame(true);
 						game.setModel(folder);
 						game.start();
+						game.setDebug(true);
 					} else {
 						JOptionPane.showMessageDialog(frame,
 								"Invalid eAdventure game.");

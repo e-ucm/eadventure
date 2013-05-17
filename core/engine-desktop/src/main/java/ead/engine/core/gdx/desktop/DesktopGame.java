@@ -37,27 +37,16 @@
 
 package ead.engine.core.gdx.desktop;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.JFrame;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import ead.common.model.elements.operations.SystemFields;
-import ead.engine.core.game.GUIImpl;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gdx.desktop.debugger.DebuggerFrame;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
@@ -65,9 +54,16 @@ import ead.tools.java.JavaToolsModule;
 import ead.tools.java.reflection.JavaReflectionClassLoader;
 import ead.tools.reflection.ReflectionClassLoader;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class DesktopGame {
 
-	private boolean debug = GUIImpl.DEBUG;
+	private boolean debug = false;
 
 	private Injector injector;
 
@@ -75,18 +71,17 @@ public class DesktopGame {
 
 	private Map<Class<?>, Class<?>> binds;
 
-	private List<Class<? extends SceneElementGO>> debuggers;
-
 	private Map<String, List<EngineFilter<?>>> filters;
 
 	private String resourcesLocation;
 
 	private Game game;
 
+	private DebuggerFrame debuggerFrame;
+
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
-		debuggers = new ArrayList<Class<? extends SceneElementGO>>();
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 	}
 
@@ -126,12 +121,7 @@ public class DesktopGame {
 		cfg.forceExit = gameState.getValue(SystemFields.EXIT_WHEN_CLOSE);
 
 		GdxDesktopGUI gui = (GdxDesktopGUI) injector.getInstance(GUI.class);
-		if (debug) {
-			DebuggerFrame frame = new DebuggerFrame(injector
-					.getInstance(Game.class), injector
-					.getInstance(GameState.class), gui);
-			frame.setVisible(true);
-		}
+
 		gui.create(width, height);
 		new LwjglApplication(engine, cfg, gui.getCanvas());
 		return gui.getFrame();
@@ -139,10 +129,6 @@ public class DesktopGame {
 
 	public DesktopGame() {
 		this(true);
-	}
-
-	public void addDebugger(Class<? extends SceneElementGO> debuggerClass) {
-		debuggers.add(debuggerClass);
 	}
 
 	public void exit() {
@@ -160,6 +146,17 @@ public class DesktopGame {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;
+		if (debug) {
+			if (debuggerFrame == null) {
+				debuggerFrame = new DebuggerFrame(injector
+						.getInstance(Game.class));
+			}
+			debuggerFrame.setVisible(debug);
+		}
 	}
 
 }

@@ -670,7 +670,10 @@ public class SceneElementGO extends Group implements
 	}
 
 	public SceneElementGO getChild(EAdSceneElement e) {
-		return (SceneElementGO) super.findActor(e.getId());
+		if (e.getId() != null) {
+			return (SceneElementGO) super.findActor(e.getId());
+		}
+		return null;
 	}
 
 	public SceneElementGO getFirstGOIn(float virtualX, float virtualY,

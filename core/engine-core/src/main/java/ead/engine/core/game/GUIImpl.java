@@ -37,21 +37,9 @@
 
 package ead.engine.core.game;
 
-import java.util.Stack;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.google.inject.Inject;
-
 import ead.common.model.elements.huds.BottomHud;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.operations.SystemFields;
@@ -64,14 +52,14 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Stack;
 
 public abstract class GUIImpl implements GUI {
-
-	public static boolean DEBUG = true;
 
 	/**
 	 * Logger
@@ -102,8 +90,6 @@ public abstract class GUIImpl implements GUI {
 
 	private SceneElementGOFactory sceneElementFactory;
 
-	private DebuggersHandler debuggerHandler;
-
 	@Inject
 	public GUIImpl() {
 		super();
@@ -112,13 +98,11 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	public void initialize(final Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			DebuggersHandler debuggerHandler) {
+			SceneElementGOFactory sceneElementFactory) {
 		this.loadingScreen = new LoadingScreen();
 		this.game = game;
 		this.gameState = gameState;
 		this.sceneElementFactory = sceneElementFactory;
-		this.debuggerHandler = debuggerHandler;
 		reset();
 	}
 
@@ -143,52 +127,6 @@ public abstract class GUIImpl implements GUI {
 		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
 		// Add huds
 		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
-		addDebug();
-	}
-
-	private void addDebug() {
-		if (DEBUG) {
-			root.setInputProcessor(new InputListener() {
-
-				@Override
-				public boolean keyDown(InputEvent event, int keycode) {
-
-					switch (keycode) {
-					case Input.Keys.F1:
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.TRAJECTORY_DEBUGGER);
-						break;
-					case Input.Keys.F2:
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.GHOST_DEBUGGER);
-						break;
-					case Input.Keys.F3:
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.FIELDS_DEBUGGER);
-						break;
-					case Input.Keys.F4:
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.CHANGE_SCENE_DEBUGGER);
-						break;
-					case Input.Keys.F5:
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.MODEL_FIELDS_DEBUGGER);
-						break;
-					case Input.Keys.F6:
-						debuggerHandler
-								.toggleDebugger(DebuggersHandlerImpl.PROFILER_DEBUGGER);
-						break;
-					case Input.Keys.F7:
-						game.restart(false);
-					default:
-						break;
-					}
-
-					return true;
-				}
-
-			}, false);
-		}
 	}
 
 	@Override
@@ -301,67 +239,4 @@ public abstract class GUIImpl implements GUI {
 		addHierarchy();
 	}
 
-	public class DragSource extends Source {
-
-		public DragSource(SceneElementGO sceneElement) {
-			super(sceneElement);
-		}
-
-		@Override
-		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-
-			// getActor().fire(new DragEvent( event, DragEvent.Type.dragStart));
-
-			Payload payload = new Payload();
-			payload.setDragActor(getActor());
-			payload.setInvalidDragActor(getActor());
-			payload.setValidDragActor(getActor());
-			return payload;
-		}
-
-		@Override
-		public void dragStop(InputEvent event, float x, float y, int pointer,
-				Target target) {
-			// getActor().fire(new DragEvent( event, DragEvent.Type.dragStop));
-		}
-
-	}
-
-	public class DragTarget extends Target {
-
-		public DragTarget(SceneElementGO sceneElement) {
-			super(sceneElement);
-		}
-
-		@Override
-		public boolean drag(Source source, Payload payload, float x, float y,
-				int pointer) {
-			InputEvent i = new InputEvent();
-			i.setStageX(x);
-			i.setStageY(y);
-			i.setPointer(pointer);
-			// getActor().fire(new DragEvent( i, DragEvent.Type.dragMove,
-			// this.getActor()));
-			return false;
-		}
-
-		@Override
-		public void drop(Source source, Payload payload, float x, float y,
-				int pointer) {
-			InputEvent i = new InputEvent();
-			i.setStageX(x);
-			i.setStageY(y);
-			i.setPointer(pointer);
-			// getActor().fire(new DragEvent( i, DragEvent.Type.drop,
-			// source.getActor()));
-
-		}
-
-		@Override
-		public void reset(Source source, Payload payload) {
-			// getActor().fire(new DragEvent( new InputEvent(),
-			// DragEvent.Type.dropExit, source.getActor()));
-		}
-
-	}
 }

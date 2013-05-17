@@ -61,8 +61,6 @@ import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.PluginHandler;
 import ead.engine.core.game.interfaces.SoundManager;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandlerImpl;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
 import ead.engine.core.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import ead.engine.core.tracking.DefaultGameTracker;
@@ -85,7 +83,6 @@ public class GdxModuleMap extends ModuleMap {
 
 		binds.put(AssetHandler.class, AssetHandlerImpl.class);
 		binds.put(FontHandler.class, FontHandlerImpl.class);
-		binds.put(DebuggersHandler.class, DebuggersHandlerImpl.class);
 
 		binds.put(PluginHandler.class, PluginHandlerImpl.class);
 

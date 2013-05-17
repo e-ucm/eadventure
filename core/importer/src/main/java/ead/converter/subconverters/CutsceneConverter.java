@@ -37,12 +37,8 @@
 
 package ead.converter.subconverters;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdEffect;
@@ -68,6 +64,9 @@ import es.eucm.eadventure.common.data.animation.Transition;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class CutsceneConverter {
@@ -123,8 +122,9 @@ public class CutsceneConverter {
 				Animation anim = resourceConverter.getAnimation(slidesPath);
 				int i = 0;
 				for (Frame f : anim.getFrames()) {
-					EAdDrawable background = resourceConverter.getImage(f
+					EAdDrawable background = utilsConverter.getBackground(f
 							.getUri());
+
 					// XXX Sound
 					EAdScene scene = new BasicScene();
 					scene.getBackground().getDefinition().setAppearance(
@@ -175,6 +175,7 @@ public class CutsceneConverter {
 					scene.getBackground().addBehavior(
 							MouseGEv.MOUSE_LEFT_PRESSED, nextEffect);
 					i++;
+					scene.setReturnable(false);
 					cutscene.add(scene);
 				}
 			}

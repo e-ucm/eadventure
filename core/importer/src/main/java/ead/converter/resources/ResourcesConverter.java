@@ -1,19 +1,7 @@
 package ead.converter.resources;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.Image;
@@ -21,6 +9,15 @@ import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.converter.OldReader;
 import es.eucm.eadventure.common.data.animation.Animation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Singleton
 public class ResourcesConverter {
@@ -292,4 +289,14 @@ public class ResourcesConverter {
 		urisCorrespondences.clear();
 	}
 
+	public Dimension getSize(String path) {
+		try {
+			BufferedImage img = ImageIO.read(oldReader.getInputStream(path));
+			Dimension d = new Dimension(img.getWidth(), img.getHeight());
+			img.flush();
+			return d;
+		} catch (IOException e) {
+			return new Dimension(1, 1);
+		}
+	}
 }

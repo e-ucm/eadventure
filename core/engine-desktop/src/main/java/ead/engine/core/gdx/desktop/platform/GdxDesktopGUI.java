@@ -37,31 +37,25 @@
 
 package ead.engine.core.gdx.desktop.platform;
 
-import java.awt.Canvas;
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
-
-import javax.swing.JFrame;
-
+import com.badlogic.gdx.Gdx;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.GUIImpl;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
+import ead.utils.swing.SwingUtilities;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 
-import com.badlogic.gdx.Gdx;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.GUIImpl;
-import ead.engine.core.game.interfaces.Game;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
-import ead.utils.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.nio.IntBuffer;
 
 @Singleton
 public class GdxDesktopGUI extends GUIImpl {
@@ -105,9 +99,8 @@ public class GdxDesktopGUI extends GUIImpl {
 
 	@Override
 	public void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			DebuggersHandler debuggerHandler) {
-		super.initialize(game, gameState, sceneElementFactory, debuggerHandler);
+			SceneElementGOFactory sceneElementFactory) {
+		super.initialize(game, gameState, sceneElementFactory);
 
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {

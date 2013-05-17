@@ -37,34 +37,61 @@
 
 package ead.converter.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.MovementSpeed;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.converter.EAdElementsCache;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
-import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
+import es.eucm.eadventure.common.data.chapter.effects.*;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 
-public class MoveNPCConverter implements EffectConverter<MoveNPCEffect> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MoveEffectConverter implements EffectConverter<AbstractEffect> {
 
 	private EAdElementsCache elementsCache;
 
-	public MoveNPCConverter(EAdElementsCache elementsCache) {
+	public MoveEffectConverter(EAdElementsCache elementsCache) {
 		this.elementsCache = elementsCache;
 	}
 
 	@Override
-	public List<EAdEffect> convert(MoveNPCEffect e) {
+	public List<EAdEffect> convert(AbstractEffect e) {
 		// XXX It doesn't work if there's more than one element with the definition
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
-		SceneElementDef sceneElementDef = (SceneElementDef) elementsCache.get(e
-				.getTargetId());
+		SceneElementDef sceneElementDef = null;
+		boolean useTrajectory = false;
+		float x = 0;
+		float y = 0;
+		switch (e.getType()) {
+		case Effect.MOVE_NPC:
+			MoveNPCEffect npcEf = (MoveNPCEffect) e;
+			x = npcEf.getX();
+			y = npcEf.getY();
+			sceneElementDef = (SceneElementDef) elementsCache.get(npcEf
+					.getTargetId());
+			break;
+		case Effect.MOVE_PLAYER:
+			MovePlayerEffect ef = (MovePlayerEffect) e;
+			x = ef.getX();
+			y = ef.getY();
+			useTrajectory = true;
+			sceneElementDef = (SceneElementDef) elementsCache
+					.get(Player.IDENTIFIER);
+			break;
+		case Effect.MOVE_OBJECT:
+			MoveObjectEffect obEf = (MoveObjectEffect) e;
+			x = obEf.getX();
+			y = obEf.getY();
+			// XXX isAnimated, scale...
+			sceneElementDef = (SceneElementDef) elementsCache.get(obEf
+					.getTargetId());
+		}
 		MoveSceneElementEf moveSceneElement = new MoveSceneElementEf(
-				sceneElementDef, e.getX(), e.getY(), MovementSpeed.NORMAL);
-		moveSceneElement.setUseTrajectory(false);
+				sceneElementDef, x, y, MovementSpeed.NORMAL);
+		moveSceneElement.setUseTrajectory(useTrajectory);
 		list.add(moveSceneElement);
 		return list;
 	}

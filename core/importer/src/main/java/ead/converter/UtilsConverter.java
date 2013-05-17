@@ -37,15 +37,14 @@
 
 package ead.converter;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
+import ead.common.model.assets.drawable.filters.FilteredDrawable;
+import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdElement;
@@ -63,10 +62,15 @@ import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.Paint;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.util.Matrix;
 import ead.common.model.params.variables.EAdVarDef;
+import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
+
+import java.awt.*;
+import java.util.List;
 
 @Singleton
 public class UtilsConverter {
@@ -75,10 +79,13 @@ public class UtilsConverter {
 
 	private BasicElement cursor;
 
+	private ResourcesConverter resourcesConverter;
+
 	@Inject
 	public UtilsConverter(ConditionsConverter conditionsConverter,
-			ModelQuerier modelQuerier) {
+			ModelQuerier modelQuerier, ResourcesConverter resourcesConverter) {
 		this.conditionsConverter = conditionsConverter;
+		this.resourcesConverter = resourcesConverter;
 		modelQuerier.setUtilsConverter(this);
 		cursor = new BasicElement(MouseHud.CURSOR_ID);
 	}
@@ -151,7 +158,7 @@ public class UtilsConverter {
 	 * condition
 	 * 
 	 * @param field
-	 * @param conditions
+	 * @param c
 	 */
 	public void addWatchCondition(EAdSceneElement sceneElement,
 			EAdField<Boolean> field, Conditions c) {
@@ -218,4 +225,22 @@ public class UtilsConverter {
 				getColor(borderColor)));
 	}
 
+	public EAdDrawable getBackground(String path) {
+		EAdDrawable drawable = resourcesConverter.getImage(path);
+		Dimension d = resourcesConverter.getSize(path);
+		// If dimension is greater than 600, we have to scale
+		if (d.getHeight() > 600) {
+			Matrix m = new Matrix();
+			float scale = 600.0f / (float) d.getHeight();
+			float diff = 800.0f - scale * 800.0f;
+			if (diff > 0) {
+				m.translate(diff / 2.0f, 0.0f, true);
+			}
+			m.scale(scale, scale, true);
+			MatrixFilter filter = new MatrixFilter(m, 0.0f, 0.0f);
+			drawable = new FilteredDrawable(drawable, filter);
+		}
+
+		return drawable;
+	}
 }

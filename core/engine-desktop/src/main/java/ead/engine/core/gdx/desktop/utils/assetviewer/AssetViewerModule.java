@@ -53,7 +53,6 @@ import ead.engine.core.game.GameStateImpl;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
@@ -133,8 +132,7 @@ public class AssetViewerModule extends AbstractModule {
 
 		@Override
 		public void initialize(Game game, GameState gameState,
-				SceneElementGOFactory sceneElementFactory,
-				DebuggersHandler debuggerHandler) {
+				SceneElementGOFactory sceneElementFactory) {
 			// TODO Auto-generated method stub
 
 		}

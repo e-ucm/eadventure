@@ -37,12 +37,8 @@
 
 package ead.converter.subconverters.actors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
@@ -65,6 +61,9 @@ import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public abstract class ElementConverter {
@@ -141,8 +140,6 @@ public abstract class ElementConverter {
 			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
 			def.addBehavior(modelQuerier.getActionsInteraction(),
 					new ActorActionsEf(def));
-			// XXX Process actions visibility
-			// (actionsConverter.actionsConditions)
 
 			// Add drag & drop
 			TriggerMacroEf drags = null;

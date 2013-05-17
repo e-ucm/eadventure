@@ -47,6 +47,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.extra.EAdList;
@@ -83,13 +84,16 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	}
 
 	public void initialize() {
-		actions = sceneElementFactory.get(getVisualRepresentation());
-		actions.setInputProcessor(this, false);
-		for (Actor child : actions.getChildren()) {
-			((SceneElementGO) child).setInputProcessor(this, false);
+		EAdGroupElement rep = getVisualRepresentation();
+		if (rep != null) {
+			actions = sceneElementFactory.get(getVisualRepresentation());
+			actions.setInputProcessor(this, false);
+			for (Actor child : actions.getChildren()) {
+				((SceneElementGO) child).setInputProcessor(this, false);
+			}
+			effectsHUD = gui.getHUD(GUI.EFFECTS_HUD_ID);
+			effectsHUD.addSceneElement(actions);
 		}
-		effectsHUD = gui.getHUD(GUI.EFFECTS_HUD_ID);
-		effectsHUD.addSceneElement(actions);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -130,27 +134,32 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 					GhostElement bg = new GhostElement();
 					bg.setCatchAll(true);
 					hud.getSceneElements().add(bg);
+					boolean hasEnableActions = false;
 					for (EAdSceneElementDef a : list) {
-						SceneElement element = new SceneElement(a);
-						element.setId(element.getId() + "engine");
-						element.setPosition(Corner.CENTER, x, y);
-						int targetX = (int) (Math.cos(accAngle) * radius);
-						int targetY = (int) (Math.sin(accAngle) * radius);
+						EAdCondition cond = (EAdCondition) a.getVars().get(
+								ActorActionsEf.VAR_ACTION_COND);
+						if (gameState.evaluate(cond)) {
+							hasEnableActions = true;
+							SceneElement element = new SceneElement(a);
+							element.setPosition(Corner.CENTER, x, y);
+							int targetX = (int) (Math.cos(accAngle) * radius);
+							int targetY = (int) (Math.sin(accAngle) * radius);
 
-						Tween.to(
-								new BasicField<Float>(element,
-										SceneElement.VAR_X), 0, 5000.0f).ease(
-								Linear.INOUT).targetRelative(targetX).start(
-								gameState.getTweenManager());
-						Tween.to(
-								new BasicField<Float>(element,
-										SceneElement.VAR_Y), 0, 500.0f).ease(
-								Linear.INOUT).targetRelative(targetY).start(
-								gameState.getTweenManager());
-						hud.getSceneElements().add(element);
-						accAngle += angle;
+							Tween.to(
+									new BasicField<Float>(element,
+											SceneElement.VAR_X), 0, 5000.0f)
+									.ease(Linear.INOUT).targetRelative(targetX)
+									.start(gameState.getTweenManager());
+							Tween.to(
+									new BasicField<Float>(element,
+											SceneElement.VAR_Y), 0, 500.0f)
+									.ease(Linear.INOUT).targetRelative(targetY)
+									.start(gameState.getTweenManager());
+							hud.getSceneElements().add(element);
+							accAngle += angle;
+						}
 					}
-					return hud;
+					return hasEnableActions ? hud : null;
 				}
 
 			}

@@ -40,7 +40,6 @@ package ead.engine.core.game.interfaces;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.debuggers.DebuggersHandler;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 
@@ -71,8 +70,7 @@ public interface GUI {
 	 *            game
 	 */
 	void initialize(Game game, GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			DebuggersHandler debuggerHandler);
+			SceneElementGOFactory sceneElementFactory);
 
 	/**
 	 * Finalize the GUI. Destroy the graphic context. Once this method is

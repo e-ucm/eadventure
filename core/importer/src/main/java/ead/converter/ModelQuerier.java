@@ -37,17 +37,8 @@
 
 package ead.converter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
@@ -81,6 +72,13 @@ import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class ModelQuerier {
@@ -384,7 +382,7 @@ public class ModelQuerier {
 	 */
 	public SpeakEf getSpeakFor(String npc, EAdString text) {
 		EAdElement element = elementsCache.get(npc);
-		SpeakEf effect = null;
+		SpeakEf effect;
 
 		if (adventureData.getPlayerMode() == AdventureData.MODE_PLAYER_1STPERSON
 				&& npc.equals(Player.IDENTIFIER)) {
