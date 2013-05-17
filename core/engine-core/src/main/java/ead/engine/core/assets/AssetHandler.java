@@ -45,6 +45,7 @@ import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.assets.fonts.FontHandler;
 
 /**
  * <p>
@@ -126,6 +127,12 @@ public interface AssetHandler {
 
 	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T> getDrawableAsset(
 			T descriptor);
+
+	/**
+	 * Sets the font handler. The Asset handler cleans it when needed
+	 * @param fontHandler
+	 */
+	void setFontHandler(FontHandler fontHandler);
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded

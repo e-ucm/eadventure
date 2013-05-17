@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ead.engine.core.assets.fonts.FontHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +86,11 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	protected GenericInjector injector;
 
 	/**
+	 * Font handler
+	 */
+	private FontHandler fontHandler;
+
+	/**
 	 * The class logger
 	 */
 	protected static final Logger logger = LoggerFactory
@@ -121,6 +127,11 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		assetsQueue = new ArrayList<AssetDescriptor>();
 		this.sceneGraph = sceneGraph;
 		this.videos = new ArrayList<EAdVideo>();
+	}
+
+	@Override
+	public void setFontHandler(FontHandler fontHandler) {
+		this.fontHandler = fontHandler;
 	}
 
 	public void queueSceneToLoad(EAdScene scene) {
@@ -294,6 +305,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 			a.freeMemory();
 		}
 		cache.clear();
+		if (fontHandler != null) {
+			fontHandler.clean();
+		}
 	}
 
 	protected void setLoaded(boolean loaded) {

@@ -109,4 +109,8 @@ public interface FontHandler {
 	 */
 	public void addEAdFont(EAdFont font);
 
+	/**
+	 * Cleans the fonts in the cache
+	 */
+	public void clean();
 }

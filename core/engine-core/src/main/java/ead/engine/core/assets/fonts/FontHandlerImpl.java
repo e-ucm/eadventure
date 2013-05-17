@@ -56,15 +56,16 @@ public class FontHandlerImpl implements FontHandler {
 
 	protected Logger logger = LoggerFactory.getLogger("FontCacheImpl");
 
-	protected Map<EAdFont, RuntimeFont> fontHandler;
+	protected Map<EAdFont, RuntimeFont> cache;
 
 	protected AssetHandler assetHandler;
 
 	@Inject
 	public FontHandlerImpl(AssetHandler assetHandler) {
 		logger.info("New instance of FontHandler");
-		this.fontHandler = new HashMap<EAdFont, RuntimeFont>();
+		this.cache = new HashMap<EAdFont, RuntimeFont>();
 		this.assetHandler = assetHandler;
+		assetHandler.setFontHandler(this);
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class FontHandlerImpl implements FontHandler {
 	 */
 	@Override
 	public void put(EAdFont font, RuntimeFont rFont) {
-		fontHandler.put(font, rFont);
+		cache.put(font, rFont);
 	}
 
 	/**
@@ -89,10 +90,10 @@ public class FontHandlerImpl implements FontHandler {
 	 */
 	@Override
 	public RuntimeFont get(EAdFont font) {
-		if (!fontHandler.containsKey(font)) {
+		if (!cache.containsKey(font)) {
 			this.addEAdFont(font);
 		}
-		return fontHandler.get(font);
+		return cache.get(font);
 	}
 
 	/**
@@ -108,8 +109,8 @@ public class FontHandlerImpl implements FontHandler {
 	 */
 	@Override
 	public int stringWidth(String string, EAdFont font) {
-		if (fontHandler.containsKey(font))
-			return fontHandler.get(font).stringWidth(string);
+		if (cache.containsKey(font))
+			return cache.get(font).stringWidth(string);
 		else
 			return -1;
 	}
@@ -125,8 +126,8 @@ public class FontHandlerImpl implements FontHandler {
 	 */
 	@Override
 	public int lineHeight(EAdFont font) {
-		if (fontHandler.containsKey(font))
-			return fontHandler.get(font).lineHeight();
+		if (cache.containsKey(font))
+			return cache.get(font).lineHeight();
 		else
 			return -1;
 	}
@@ -142,8 +143,8 @@ public class FontHandlerImpl implements FontHandler {
 	 */
 	@Override
 	public Rectangle stringBounds(String string, EAdFont font) {
-		if (fontHandler.containsKey(font))
-			return fontHandler.get(font).stringBounds(string);
+		if (cache.containsKey(font))
+			return cache.get(font).stringBounds(string);
 		else
 			return null;
 	}
@@ -159,9 +160,12 @@ public class FontHandlerImpl implements FontHandler {
 	public void addEAdFont(EAdFont font) {
 		RuntimeFont runtimeFont = (RuntimeFont) assetHandler
 				.getRuntimeAsset(font);
-		if (!fontHandler.containsKey(font)) {
-			fontHandler.put(font, runtimeFont);
+		if (!cache.containsKey(font)) {
+			cache.put(font, runtimeFont);
 		}
 	}
 
+	public void clean() {
+		this.cache.clear();
+	}
 }

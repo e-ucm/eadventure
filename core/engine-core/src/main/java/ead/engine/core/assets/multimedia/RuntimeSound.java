@@ -79,9 +79,11 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
 	@Override
 	public void freeMemory() {
-		super.freeMemory();
-		sound.dispose();
-		sound = null;
+		if (isLoaded()) {
+			super.freeMemory();
+			sound.dispose();
+			sound = null;
+		}
 	}
 
 	/**

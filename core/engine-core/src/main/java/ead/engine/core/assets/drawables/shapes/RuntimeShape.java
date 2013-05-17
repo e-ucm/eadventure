@@ -37,30 +37,29 @@
 
 package ead.engine.core.assets.drawables.shapes;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
 import ead.common.model.params.fills.ColorFill;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public abstract class RuntimeShape<T extends AbstractShape> extends
 		AbstractRuntimeAsset<T> implements RuntimeDrawable<T> {
 
-	private TextureRegion textureRegion;
-	protected Pixmap pixmapContains;
-
 	protected final static Logger logger = LoggerFactory
 			.getLogger("RuntimeBezierShape");
+
+	private TextureRegion textureRegion;
+
+	protected Pixmap pixmapContains;
 
 	private int width = 0;
 
@@ -119,10 +118,19 @@ public abstract class RuntimeShape<T extends AbstractShape> extends
 
 	@Override
 	public void freeMemory() {
-		super.freeMemory();
-		if (pixmapContains != null) {
-			this.pixmapContains.dispose();
+		if (isLoaded()) {
+			super.freeMemory();
+			if (textureRegion.getTexture() != null) {
+				textureRegion.getTexture().dispose();
+			}
+			textureRegion = null;
+
+			if (pixmapContains != null) {
+				this.pixmapContains.dispose();
+			}
+			pixmapContains = null;
 		}
+
 	}
 
 	@Override

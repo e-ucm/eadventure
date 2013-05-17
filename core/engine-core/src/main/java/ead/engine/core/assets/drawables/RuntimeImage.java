@@ -143,13 +143,15 @@ public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 
 	@Override
 	public void freeMemory() {
-		super.freeMemory();
-		if (textureRegion.getTexture() != null) {
-			textureRegion.getTexture().dispose();
+		if (isLoaded()) {
+			super.freeMemory();
+			if (textureRegion.getTexture() != null) {
+				textureRegion.getTexture().dispose();
+			}
+			textureRegion = null;
+			pixmap.dispose();
+			pixmap = null;
 		}
-		textureRegion = null;
-		pixmap.dispose();
-		pixmap = null;
 	}
 
 	public void render(GdxCanvas batch) {
