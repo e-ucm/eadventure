@@ -42,10 +42,13 @@ import ead.common.model.elements.debuggers.GhostDebugger;
 import ead.common.model.elements.debuggers.TrajectoryDebugger;
 import ead.common.model.elements.effects.AddChildEf;
 import ead.common.model.elements.effects.RemoveEf;
+import ead.common.model.elements.scenes.VideoScene;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.gameobjects.sceneelements.SkipVideoSceneGO;
+import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
 import ead.engine.core.gdx.desktop.debugger.components.ChangeSceneComboBox;
 import ead.engine.core.gdx.desktop.debugger.hooks.ChapterLoadedHook;
 import ead.engine.core.gdx.desktop.debugger.hooks.EffectsHook;
@@ -137,6 +140,20 @@ public class DebuggerFrame extends JFrame {
 			}
 		});
 
+		// Skip videos
+		final JCheckBox skipVideos = new JCheckBox("Skip videos");
+		skipVideos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				if (skipVideos.isSelected()) {
+					game.getSceneElementFactory().put(VideoScene.class,
+							SkipVideoSceneGO.class);
+				} else {
+					game.getSceneElementFactory().put(VideoScene.class,
+							VideoSceneGO.class);
+				}
+			}
+		});
 		GridBagLayout layout = new GridBagLayout();
 		JPanel panel = new JPanel(layout);
 
@@ -151,6 +168,8 @@ public class DebuggerFrame extends JFrame {
 		panel.add(showGhostElements, c);
 		c.gridy = 3;
 		panel.add(showFields, c);
+		c.gridy = 4;
+		panel.add(skipVideos, c);
 		this.add(panel);
 		pack();
 	}

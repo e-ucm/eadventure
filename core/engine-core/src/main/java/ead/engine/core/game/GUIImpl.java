@@ -199,7 +199,7 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	public SceneElementGO getSceneElement(EAdSceneElement element) {
-		return root.getChild(element);
+		return sceneElementFactory.get(element);
 	}
 
 	public SceneElementGO getRoot() {

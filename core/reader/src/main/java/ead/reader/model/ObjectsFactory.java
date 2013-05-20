@@ -37,13 +37,6 @@
 
 package ead.reader.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.common.interfaces.features.Identified;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.BasicElement;
@@ -72,6 +65,12 @@ import ead.common.model.params.variables.VarDef;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ObjectsFactory {
 
@@ -119,6 +118,8 @@ public class ObjectsFactory {
 		registeredVars.put("influence_area", NodeTrajectory.VAR_INFLUENCE_AREA);
 		registeredVars.put("bundle", SceneElement.VAR_BUNDLE_ID);
 		registeredVars.put("sound_on", SystemFields.SOUND_ON.getVarDef());
+		registeredVars.put("seconds_played", SystemFields.SECONDS_PLAYING
+				.getVarDef());
 
 	}
 

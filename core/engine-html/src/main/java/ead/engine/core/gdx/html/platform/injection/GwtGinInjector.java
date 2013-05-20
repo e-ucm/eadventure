@@ -40,14 +40,7 @@ package ead.engine.core.gdx.html.platform.injection;
 import com.badlogic.gdx.ApplicationListener;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
-
-import ead.engine.core.assets.drawables.RuntimeCaption;
-import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
-import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
-import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
-import ead.engine.core.assets.drawables.RuntimeImage;
-import ead.engine.core.assets.drawables.RuntimeNinePatchImage;
-import ead.engine.core.assets.drawables.RuntimeStateDrawable;
+import ead.engine.core.assets.drawables.*;
 import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
 import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
 import ead.engine.core.assets.drawables.shapes.GdxRectangleShape;
@@ -58,45 +51,15 @@ import ead.engine.core.gameobjects.debuggers.FieldsDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.GhostDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.ProfilerDebuggerGO;
 import ead.engine.core.gameobjects.debuggers.TrajectoryDebuggerGO;
-import ead.engine.core.gameobjects.effects.ActorActionsGO;
-import ead.engine.core.gameobjects.effects.AddActorReferenceGO;
-import ead.engine.core.gameobjects.effects.AddChildGO;
-import ead.engine.core.gameobjects.effects.ApplyForceGO;
-import ead.engine.core.gameobjects.effects.ChangeFieldGO;
-import ead.engine.core.gameobjects.effects.ChangeSceneGO;
-import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
-import ead.engine.core.gameobjects.effects.InterpolationGO;
-import ead.engine.core.gameobjects.effects.ModifyHudGO;
-import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
-import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
-import ead.engine.core.gameobjects.effects.PhysicsEffectGO;
-import ead.engine.core.gameobjects.effects.PlaySoundGO;
-import ead.engine.core.gameobjects.effects.QuestionGO;
-import ead.engine.core.gameobjects.effects.QuitGameGO;
-import ead.engine.core.gameobjects.effects.RandomGO;
-import ead.engine.core.gameobjects.effects.RemoveGO;
-import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
-import ead.engine.core.gameobjects.effects.SpeakGO;
-import ead.engine.core.gameobjects.effects.ToggleSoundGO;
-import ead.engine.core.gameobjects.effects.TriggerMacroGO;
-import ead.engine.core.gameobjects.effects.WaitGO;
-import ead.engine.core.gameobjects.effects.WaitUntilGO;
+import ead.engine.core.gameobjects.effects.*;
 import ead.engine.core.gameobjects.effects.sceneelement.ChangeColorGO;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;
 import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.events.WatchFieldEvGO;
-import ead.engine.core.gameobjects.sceneelements.GhostElementGO;
-import ead.engine.core.gameobjects.sceneelements.GroupElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.engine.core.gameobjects.sceneelements.VideoSceneGO;
+import ead.engine.core.gameobjects.sceneelements.*;
 import ead.engine.core.gameobjects.sceneelements.huds.MouseHudGO;
-import ead.engine.core.gameobjects.sceneelements.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.sceneelements.transitions.EmptyTransitionGO;
-import ead.engine.core.gameobjects.sceneelements.transitions.FadeInTransitionGO;
-import ead.engine.core.gameobjects.sceneelements.transitions.MaskTransitionGO;
-import ead.engine.core.gameobjects.sceneelements.transitions.ScaleTransitionGO;
+import ead.engine.core.gameobjects.sceneelements.transitions.*;
 import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
@@ -114,130 +77,76 @@ public interface GwtGinInjector extends Ginjector {
 
 	GenericInjector getGenericInjector();
 
-	Game getGame();
+    Game getGame();
 
-	// Effects
-	HighlightSceneElementGO getHighlightSceneElementGO();
-
-	SpeakGO getSpeakGO();
-
-	ModifyHudGO getModifyHudGO();
-
-	MoveSceneElementGO getMoveSceneElementGO();
-
-	ActorActionsGO getActorActionsGO();
-
-	ModifyInventoryGO getModifyInventoryGO();
-
-	AddChildGO getAddChildGO();
-
-	WaitUntilGO getWaitUntilGO();
-
-	ShowSceneElementGO getShowSceneElementGO();
-
-	ChangeSceneGO getChangeSceneGO();
-
-	QuestionGO getQuestionGO();
-
-	RandomGO getRandomGO();
-
-	PlaySoundGO getPlaySoundGO();
-
-	RemoveGO getRemoveGO();
-
-	ChangeFieldGO getChangeFieldGO();
-
-	AddActorReferenceGO getAddActorReferenceGO();
-
-	WaitGO getWaitGO();
-
-	PhysicsEffectGO getPhysicsEffectGO();
-
-	ChangeColorGO getChangeColorGO();
-
-	QuitGameGO getQuitGameGO();
-
-	InterpolationGO getInterpolationGO();
-
-	ApplyForceGO getApplyForceGO();
-
-	ToggleSoundGO getToggleSoundGO();
-
-	TriggerMacroGO getTriggerMacroGO();
-
-	// Events
-	TimedEvGO getTimedEvGO();
-
-	SceneElementEvGO getSceneElementEvGO();
-
-	WatchFieldEvGO getWatchFieldEvGO();
-
-	ConditionEvGO getConditionEvGO();
-
-	// SeneElements
-	TextAreaGO getTextAreaGO();
-
-	DisplaceTransitionGO getDisplaceTransitionGO();
-
-	VideoSceneGO getVideoSceneGO();
-
-	GroupElementGO getGroupElementGO();
-
-	SceneGO getSceneGO();
-
-	FadeInTransitionGO getFadeInTransitionGO();
-
-	FieldsDebuggerGO getFieldsDebuggerGO();
-
-	EmptyTransitionGO getEmptyTransitionGO();
-
-	MaskTransitionGO getMaskTransitionGO();
-
-	GhostElementGO getGhostElementGO();
-
-	ScaleTransitionGO getScaleTransitionGO();
-
-	SceneElementGO getSceneElementGO();
-
-	GhostDebuggerGO getGhostDebuggerGO();
-
-	TrajectoryDebuggerGO getTrajectoryDebuggerGO();
-
-	ProfilerDebuggerGO getProfilerDebuggerGO();
-
-	MouseHudGO getMouseHudGO();
-
-	// Trajectories
-	NodeTrajectoryGO getNodeTrajectoryGO();
-
-	SimpleTrajectoryGO getSimpleTrajectoryGO();
-
-	PolygonTrajectoryGO getPolygonTrajectoryGO();
-
-	// Assets
-	GdxCircleShape getGdxCircleShape();
-
-	RuntimeStateDrawable getRuntimeStateDrawable();
-
-	GdxRectangleShape getGdxRectangleShape();
-
-	RuntimeFramesAnimation getRuntimeFramesAnimation();
-
-	RuntimeFont getRuntimeFont();
-
-	RuntimeFilteredDrawable getRuntimeFilteredDrawable();
-
-	GdxBezierShape getGdxBezierShape();
-
-	RuntimeSound getRuntimeSound();
-
-	RuntimeNinePatchImage getRuntimeNinePatchImage();
-
-	RuntimeImage getRuntimeImage();
-
-	RuntimeComposedDrawable getRuntimeComposedDrawable();
-
-	RuntimeCaption getRuntimeCaption();
+    // Effects
+    ModifyHudGO getModifyHudGO();
+    ModifyInventoryGO getModifyInventoryGO();
+    AddActorReferenceGO getAddActorReferenceGO();
+    PhysicsEffectGO getPhysicsEffectGO();
+    LoadGameGO getLoadGameGO();
+    HighlightSceneElementGO getHighlightSceneElementGO();
+    ShowSceneElementGO getShowSceneElementGO();
+    DragGO getDragGO();
+    ToggleSoundGO getToggleSoundGO();
+    TogglePauseGO getTogglePauseGO();
+    RandomGO getRandomGO();
+    RemoveGO getRemoveGO();
+    QuitGameGO getQuitGameGO();
+    ApplyForceGO getApplyForceGO();
+    MoveSceneElementGO getMoveSceneElementGO();
+    InterpolationGO getInterpolationGO();
+    WaitGO getWaitGO();
+    EmptyEffectGO getEmptyEffectGO();
+    AddChildGO getAddChildGO();
+    ActorActionsGO getActorActionsGO();
+    TriggerMacroGO getTriggerMacroGO();
+    WaitUntilGO getWaitUntilGO();
+    SpeakGO getSpeakGO();
+    ChangeFieldGO getChangeFieldGO();
+    PlaySoundGO getPlaySoundGO();
+    ChangeSceneGO getChangeSceneGO();
+    QuestionGO getQuestionGO();
+    ChangeColorGO getChangeColorGO();
+    // Events
+    TimedEvGO getTimedEvGO();
+    WatchFieldEvGO getWatchFieldEvGO();
+    ConditionEvGO getConditionEvGO();
+    SceneElementEvGO getSceneElementEvGO();
+    // SeneElements
+    VideoSceneGO getVideoSceneGO();
+    EmptyTransitionGO getEmptyTransitionGO();
+    ProfilerDebuggerGO getProfilerDebuggerGO();
+    MouseHudGO getMouseHudGO();
+    DisplaceTransitionGO getDisplaceTransitionGO();
+    SceneElementGO getSceneElementGO();
+    SceneGO getSceneGO();
+    MaskTransitionGO getMaskTransitionGO();
+    GroupElementGO getGroupElementGO();
+    TextAreaGO getTextAreaGO();
+    GhostElementGO getGhostElementGO();
+    FieldsDebuggerGO getFieldsDebuggerGO();
+    FadeInTransitionGO getFadeInTransitionGO();
+    TrajectoryDebuggerGO getTrajectoryDebuggerGO();
+    GhostDebuggerGO getGhostDebuggerGO();
+    ScaleTransitionGO getScaleTransitionGO();
+    // Trajectories
+    NodeTrajectoryGO getNodeTrajectoryGO();
+    SimpleTrajectoryGO getSimpleTrajectoryGO();
+    PolygonTrajectoryGO getPolygonTrajectoryGO();
+    // Assets
+    GdxRectangleShape getGdxRectangleShape();
+    RuntimeCaption getRuntimeCaption();
+    RuntimeFont getRuntimeFont();
+    RuntimeComposedDrawable getRuntimeComposedDrawable();
+    RuntimeFramesAnimation getRuntimeFramesAnimation();
+    RuntimeStateDrawable getRuntimeStateDrawable();
+    GdxCircleShape getGdxCircleShape();
+    RuntimeNinePatchImage getRuntimeNinePatchImage();
+    RuntimeSound getRuntimeSound();
+    GdxBezierShape getGdxBezierShape();
+    RuntimeFilteredDrawable getRuntimeFilteredDrawable();
+    RuntimeImage getRuntimeImage();
 
 	// Plugins
 	// FIXME This CAN NOT be here

@@ -129,4 +129,6 @@ public class SystemFields {
 	public static EAdField<Boolean> SOUND_ON = new BasicField<Boolean>(null,
 			new VarDef<Boolean>("sound_on", Boolean.class, true));
 
+	public static final EAdField<Integer> SECONDS_PLAYING = new BasicField<Integer>(
+			null, new VarDef<Integer>("seconds_playing", Integer.class, 0));
 }

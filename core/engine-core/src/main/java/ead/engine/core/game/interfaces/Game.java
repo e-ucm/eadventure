@@ -40,6 +40,7 @@ package ead.engine.core.game.interfaces;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.engine.core.EAdEngine;
+import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.reader.model.XMLVisitor.VisitorListener;
@@ -150,4 +151,9 @@ public interface Game extends VisitorListener {
 
 	void startGame();
 
+	/**
+	 * Returns the scene element factory
+	 * @return
+	 */
+	SceneElementGOFactory getSceneElementFactory();
 }

@@ -35,39 +35,50 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.converter.subconverters.effects;
+package ead.engine.core.gameobjects.sceneelements;
 
-import ead.common.model.assets.multimedia.Sound;
+import com.google.inject.Inject;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.converter.resources.ResourcesConverter;
-import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
-
-import java.util.ArrayList;
-import java.util.List;
+import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
 /**
+ *
+ * This class can be used while debugging, to disable video reproduction
  * @author anserran
- *         Date: 17/05/13
- *         Time: 13:36
+ *         Date: 20/05/13
+ *         Time: 9:31
  */
-public class PlaySoundConverter implements
-		EffectsConverter.EffectConverter<PlaySoundEffect> {
+public class SkipVideoSceneGO extends SceneGO {
 
-	private ResourcesConverter resourcesConverter;
+	private VideoScene videoScene;
 
-	public PlaySoundConverter(ResourcesConverter resourcesConverter) {
-		this.resourcesConverter = resourcesConverter;
+	@Inject
+	public SkipVideoSceneGO(AssetHandler assetHandler,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
-	@Override
-	public List<EAdEffect> convert(PlaySoundEffect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
-		PlaySoundEf effect = new PlaySoundEf();
-		String newString = resourcesConverter.getPath(e.getPath());
+	public void setElement(EAdSceneElement element) {
+		videoScene = (VideoScene) element;
+	}
 
-		effect.setSound(new Sound(newString));
-		list.add(effect);
-		return list;
+	public void act(float delta) {
+		if (videoScene.getFinalEffects().size() == 0) {
+			ChangeSceneEf ef = new ChangeSceneEf();
+			gameState.addEffect(ef);
+
+		} else {
+			for (EAdEffect e : videoScene.getFinalEffects()) {
+				gameState.addEffect(e);
+			}
+		}
 	}
 }

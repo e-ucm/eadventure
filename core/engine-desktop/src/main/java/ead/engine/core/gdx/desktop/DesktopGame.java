@@ -43,6 +43,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import ead.common.model.elements.operations.SystemFields;
+import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
@@ -78,11 +79,14 @@ public class DesktopGame {
 	private Game game;
 
 	private DebuggerFrame debuggerFrame;
+	private EffectGOFactory effectFactory;
 
 	public DesktopGame(boolean exitAtClose) {
 		this.exitAtClose = exitAtClose;
 		this.binds = new HashMap<Class<?>, Class<?>>();
 		filters = new HashMap<String, List<EngineFilter<?>>>();
+		initInjector();
+		effectFactory = injector.getInstance(EffectGOFactory.class);
 	}
 
 	public void setModel(String path) {
@@ -93,9 +97,6 @@ public class DesktopGame {
 	}
 
 	public JFrame start() {
-		injector = Guice.createInjector(new GdxDesktopModule(binds),
-				new JavaToolsModule());
-
 		GameState gameState = injector.getInstance(GameState.class);
 		gameState.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
 		game = injector.getInstance(Game.class);
@@ -127,6 +128,12 @@ public class DesktopGame {
 		return gui.getFrame();
 	}
 
+	private void initInjector() {
+		if (injector == null)
+			injector = Guice.createInjector(new GdxDesktopModule(binds),
+					new JavaToolsModule());
+	}
+
 	public DesktopGame() {
 		this(true);
 	}
@@ -149,6 +156,7 @@ public class DesktopGame {
 	}
 
 	public void setDebug(boolean debug) {
+		initInjector();
 		this.debug = debug;
 		if (debug) {
 			if (debuggerFrame == null) {
@@ -159,4 +167,8 @@ public class DesktopGame {
 		}
 	}
 
+	public EffectGOFactory getEffectFactory() {
+
+		return effectFactory;
+	}
 }

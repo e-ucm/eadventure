@@ -163,6 +163,10 @@ public class GameImpl implements Game {
 	private EAdEngine eAdEngine;
 
 	private SoundManager soundManager;
+	/**
+	 * Timestamp of last update
+	 */
+	private long lastUpdate;
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
@@ -246,6 +250,9 @@ public class GameImpl implements Game {
 
 		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
 				.getSkippedMilliseconds());
+
+		gameState.setValue(SystemFields.SECONDS_PLAYING, (int) (System
+				.currentTimeMillis() - lastUpdate) / 1000);
 
 		// Scene
 		if (!gameState.isPaused()) {
@@ -455,7 +462,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public void restart(final boolean reloadModel) {
-
+		lastUpdate = System.currentTimeMillis();
 		Gdx.app.postRunnable(new Runnable() {
 
 			@Override
@@ -481,4 +488,8 @@ public class GameImpl implements Game {
 		});
 	}
 
+	@Override
+	public SceneElementGOFactory getSceneElementFactory() {
+		return sceneElementFactory;
+	}
 }
