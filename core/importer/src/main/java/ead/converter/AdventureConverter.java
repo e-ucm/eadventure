@@ -37,14 +37,8 @@
 
 package ead.converter;
 
-import java.io.File;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.elements.BasicAdventureModel;
@@ -64,6 +58,11 @@ import ead.writer.AdventureWriter;
 import ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Random;
 
 public class AdventureConverter {
 
@@ -89,6 +88,8 @@ public class AdventureConverter {
 
 	private ResourcesConverter resourcesConverter;
 
+	private Random rand;
+
 	public AdventureConverter() {
 		Injector i = Guice.createInjector();
 		oldReader = i.getInstance(OldReader.class);
@@ -100,9 +101,24 @@ public class AdventureConverter {
 		writer = new AdventureWriter(new JavaReflectionProvider(),
 				new JavaXMLParser());
 		resourcesConverter = i.getInstance(ResourcesConverter.class);
+		rand = new Random();
 	}
 
-	public void convert(String file, String destinyFolder) {
+	/**
+	 * Converts the adventure in file to the new format, and stores the converted game in destinyFolder. If destinyFolder is null, a temp file is created
+	 * @param file
+	 * @param destinyFolder
+	 * @return the destiny folder path
+	 */
+	public String convert(String file, String destinyFolder) {
+
+		if (destinyFolder == null) {
+			String tempFolder = System.getProperty("java.io.tmpdir");
+			File tmpDir = new File(tempFolder + File.separator
+					+ "eAdventureTemp" + rand.nextInt());
+			destinyFolder = tmpDir.getAbsolutePath();
+		}
+
 		// Reset attributes
 		stringsConverter.clear();
 		modelQuerier.clear();
@@ -156,6 +172,8 @@ public class AdventureConverter {
 			logger.error("Error writing strings file while importing '{}'",
 					file, e);
 		}
+
+		return destinyFolder;
 
 	}
 

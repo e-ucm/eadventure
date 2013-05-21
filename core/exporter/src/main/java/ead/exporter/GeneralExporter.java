@@ -37,11 +37,11 @@
 
 package ead.exporter;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.apache.maven.DefaultMaven;
 import org.apache.maven.Maven;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class GeneralExporter implements Exporter {
 
@@ -54,7 +54,7 @@ public class GeneralExporter implements Exporter {
 	public GeneralExporter() {
 		try {
 			Maven maven = new DefaultMaven();
-			jarExporter = new JarExporter(maven);
+			jarExporter = new JarExporter();
 			apkExporter = new ApkExporter(maven);
 			warExporter = new WarExporter();
 			exporters = new ArrayList<Exporter>();
@@ -108,6 +108,10 @@ public class GeneralExporter implements Exporter {
 
 	public void setWarPath(String warPath) {
 		warExporter.setWarPath(warPath);
+	}
+
+	public void setJarPath(String jarPath) {
+		jarExporter.setJarPath(jarPath);
 	}
 
 }

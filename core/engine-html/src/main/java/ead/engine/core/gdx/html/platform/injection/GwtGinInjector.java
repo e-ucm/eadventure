@@ -77,76 +77,138 @@ public interface GwtGinInjector extends Ginjector {
 
 	GenericInjector getGenericInjector();
 
-    Game getGame();
+	Game getGame();
 
-    // Effects
-    ModifyHudGO getModifyHudGO();
-    ModifyInventoryGO getModifyInventoryGO();
-    AddActorReferenceGO getAddActorReferenceGO();
-    PhysicsEffectGO getPhysicsEffectGO();
-    LoadGameGO getLoadGameGO();
-    HighlightSceneElementGO getHighlightSceneElementGO();
-    ShowSceneElementGO getShowSceneElementGO();
-    DragGO getDragGO();
-    ToggleSoundGO getToggleSoundGO();
-    TogglePauseGO getTogglePauseGO();
-    RandomGO getRandomGO();
-    RemoveGO getRemoveGO();
-    QuitGameGO getQuitGameGO();
-    ApplyForceGO getApplyForceGO();
-    MoveSceneElementGO getMoveSceneElementGO();
-    InterpolationGO getInterpolationGO();
-    WaitGO getWaitGO();
-    EmptyEffectGO getEmptyEffectGO();
-    AddChildGO getAddChildGO();
-    ActorActionsGO getActorActionsGO();
-    TriggerMacroGO getTriggerMacroGO();
-    WaitUntilGO getWaitUntilGO();
-    SpeakGO getSpeakGO();
-    ChangeFieldGO getChangeFieldGO();
-    PlaySoundGO getPlaySoundGO();
-    ChangeSceneGO getChangeSceneGO();
-    QuestionGO getQuestionGO();
-    ChangeColorGO getChangeColorGO();
-    // Events
-    TimedEvGO getTimedEvGO();
-    WatchFieldEvGO getWatchFieldEvGO();
-    ConditionEvGO getConditionEvGO();
-    SceneElementEvGO getSceneElementEvGO();
-    // SeneElements
-    VideoSceneGO getVideoSceneGO();
-    EmptyTransitionGO getEmptyTransitionGO();
-    ProfilerDebuggerGO getProfilerDebuggerGO();
-    MouseHudGO getMouseHudGO();
-    DisplaceTransitionGO getDisplaceTransitionGO();
-    SceneElementGO getSceneElementGO();
-    SceneGO getSceneGO();
-    MaskTransitionGO getMaskTransitionGO();
-    GroupElementGO getGroupElementGO();
-    TextAreaGO getTextAreaGO();
-    GhostElementGO getGhostElementGO();
-    FieldsDebuggerGO getFieldsDebuggerGO();
-    FadeInTransitionGO getFadeInTransitionGO();
-    TrajectoryDebuggerGO getTrajectoryDebuggerGO();
-    GhostDebuggerGO getGhostDebuggerGO();
-    ScaleTransitionGO getScaleTransitionGO();
-    // Trajectories
-    NodeTrajectoryGO getNodeTrajectoryGO();
-    SimpleTrajectoryGO getSimpleTrajectoryGO();
-    PolygonTrajectoryGO getPolygonTrajectoryGO();
-    // Assets
-    GdxRectangleShape getGdxRectangleShape();
-    RuntimeCaption getRuntimeCaption();
-    RuntimeFont getRuntimeFont();
-    RuntimeComposedDrawable getRuntimeComposedDrawable();
-    RuntimeFramesAnimation getRuntimeFramesAnimation();
-    RuntimeStateDrawable getRuntimeStateDrawable();
-    GdxCircleShape getGdxCircleShape();
-    RuntimeNinePatchImage getRuntimeNinePatchImage();
-    RuntimeSound getRuntimeSound();
-    GdxBezierShape getGdxBezierShape();
-    RuntimeFilteredDrawable getRuntimeFilteredDrawable();
-    RuntimeImage getRuntimeImage();
+	// Effects
+	ModifyHudGO getModifyHudGO();
+
+	ModifyInventoryGO getModifyInventoryGO();
+
+	AddActorReferenceGO getAddActorReferenceGO();
+
+	PhysicsEffectGO getPhysicsEffectGO();
+
+	LoadGameGO getLoadGameGO();
+
+	HighlightSceneElementGO getHighlightSceneElementGO();
+
+	ShowSceneElementGO getShowSceneElementGO();
+
+	DragGO getDragGO();
+
+	ToggleSoundGO getToggleSoundGO();
+
+	TogglePauseGO getTogglePauseGO();
+
+	RandomGO getRandomGO();
+
+	RemoveGO getRemoveGO();
+
+	QuitGameGO getQuitGameGO();
+
+	ApplyForceGO getApplyForceGO();
+
+	MoveSceneElementGO getMoveSceneElementGO();
+
+	InterpolationGO getInterpolationGO();
+
+	WaitGO getWaitGO();
+
+	EmptyEffectGO getEmptyEffectGO();
+
+	AddChildGO getAddChildGO();
+
+	ActorActionsGO getActorActionsGO();
+
+	TriggerMacroGO getTriggerMacroGO();
+
+	WaitUntilGO getWaitUntilGO();
+
+	SpeakGO getSpeakGO();
+
+	ChangeFieldGO getChangeFieldGO();
+
+	PlaySoundGO getPlaySoundGO();
+
+	ChangeSceneGO getChangeSceneGO();
+
+	QuestionGO getQuestionGO();
+
+	ChangeColorGO getChangeColorGO();
+
+	// Events
+	TimedEvGO getTimedEvGO();
+
+	WatchFieldEvGO getWatchFieldEvGO();
+
+	ConditionEvGO getConditionEvGO();
+
+	SceneElementEvGO getSceneElementEvGO();
+
+	// SeneElements
+	VideoSceneGO getVideoSceneGO();
+
+	EmptyTransitionGO getEmptyTransitionGO();
+
+	ProfilerDebuggerGO getProfilerDebuggerGO();
+
+	MouseHudGO getMouseHudGO();
+
+	DisplaceTransitionGO getDisplaceTransitionGO();
+
+	SceneElementGO getSceneElementGO();
+
+	SceneGO getSceneGO();
+
+	MaskTransitionGO getMaskTransitionGO();
+
+	GroupElementGO getGroupElementGO();
+
+	TextAreaGO getTextAreaGO();
+
+	GhostElementGO getGhostElementGO();
+
+	FieldsDebuggerGO getFieldsDebuggerGO();
+
+	FadeInTransitionGO getFadeInTransitionGO();
+
+	TrajectoryDebuggerGO getTrajectoryDebuggerGO();
+
+	GhostDebuggerGO getGhostDebuggerGO();
+
+	ScaleTransitionGO getScaleTransitionGO();
+
+	// Trajectories
+	NodeTrajectoryGO getNodeTrajectoryGO();
+
+	SimpleTrajectoryGO getSimpleTrajectoryGO();
+
+	PolygonTrajectoryGO getPolygonTrajectoryGO();
+
+	// Assets
+	GdxRectangleShape getGdxRectangleShape();
+
+	RuntimeCaption getRuntimeCaption();
+
+	RuntimeFont getRuntimeFont();
+
+	RuntimeComposedDrawable getRuntimeComposedDrawable();
+
+	RuntimeFramesAnimation getRuntimeFramesAnimation();
+
+	RuntimeStateDrawable getRuntimeStateDrawable();
+
+	GdxCircleShape getGdxCircleShape();
+
+	RuntimeNinePatchImage getRuntimeNinePatchImage();
+
+	RuntimeSound getRuntimeSound();
+
+	GdxBezierShape getGdxBezierShape();
+
+	RuntimeFilteredDrawable getRuntimeFilteredDrawable();
+
+	RuntimeImage getRuntimeImage();
 
 	// Plugins
 	// FIXME This CAN NOT be here
