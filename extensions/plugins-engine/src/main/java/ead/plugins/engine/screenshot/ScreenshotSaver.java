@@ -24,7 +24,7 @@ public class ScreenshotSaver {
 			throws IOException {
 		if (Gdx.app.getType() == ApplicationType.Android)
 			return;
-
+		Gdx.graphics.requestRendering();
 		byte[] screenshotPixels = ScreenUtils.getFrameBufferPixels(true);
 
 		int width = Gdx.graphics.getWidth();

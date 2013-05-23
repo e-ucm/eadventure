@@ -185,6 +185,12 @@ public class AssetViewerModule extends AbstractModule {
 
 		}
 
+		@Override
+		public void setScale(float scaleX, float scaleY) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	public static class AssetVariableMap extends GameStateImpl {

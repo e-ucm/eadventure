@@ -49,6 +49,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.operations.SystemFields;
 import ead.engine.core.canvas.GdxCanvas;
+import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
@@ -114,7 +115,9 @@ public class EAdEngine implements ApplicationListener {
 
 		stage.addActor(gui.getRoot());
 		stage.setKeyboardFocus(gui.getRoot());
-
+		scaleX = (float) width / 800.0f;
+		scaleY = (float) height / 600.0f;
+		gui.setScale(scaleX, scaleY);
 		game.restart(true);
 	}
 
@@ -127,7 +130,6 @@ public class EAdEngine implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		game.act(gui.getSkippedMilliseconds());
 		stage.act(gui.getSkippedMilliseconds());
 		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
@@ -141,6 +143,7 @@ public class EAdEngine implements ApplicationListener {
 		gameState.setValue(SystemFields.MOUSE_Y, Float.valueOf(Gdx.input.getY()
 				/ scaleY));
 		stage.draw();
+		game.doHook(GameImpl.HOOK_AFTER_RENDER);
 	}
 
 	@Override
@@ -148,8 +151,7 @@ public class EAdEngine implements ApplicationListener {
 		stage.setViewport(width, height, true);
 		scaleX = (float) width / 800.0f;
 		scaleY = (float) height / 600.0f;
-		gui.getRoot().setScaleX(scaleX);
-		gui.getRoot().setScaleY(scaleY);
+		gui.setScale(scaleX, scaleY);
 	}
 
 	public Stage getStage() {
