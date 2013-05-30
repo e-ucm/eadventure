@@ -84,6 +84,8 @@ public class GameImpl implements Game {
 
 	public static final String HOOK_AFTER_CHAPTER_READ = "after_chapter_read";
 
+	public static final String HOOK_AFTER_RENDER = "after_render";
+
 	/**
 	 * Default properties file. Loaded during initialization
 	 */
@@ -168,6 +170,12 @@ public class GameImpl implements Game {
 	 */
 	private long lastUpdate;
 
+	// Aux
+	private ArrayList<String> hookNameDelete;
+	private ArrayList<EngineHook> hookDelete;
+	private ArrayList<String> filterNameDelete;
+	private ArrayList<EngineFilter<?>> filterDelete;
+
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
 			PluginHandler pluginHandler, GameState gameState,
@@ -190,6 +198,11 @@ public class GameImpl implements Game {
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
+		// Aux
+		hookNameDelete = new ArrayList<String>();
+		hookDelete = new ArrayList<EngineHook>();
+		filterNameDelete = new ArrayList<String>();
+		filterDelete = new ArrayList<EngineFilter<?>>();
 	}
 
 	public void setEAdEngine(EAdEngine eAdEngine) {
@@ -239,6 +252,17 @@ public class GameImpl implements Game {
 
 	@Override
 	public void act(float delta) {
+		// Remove hooks and filters
+		for (int i = 0; i < this.filterNameDelete.size(); i++) {
+			removeFilterImpl(filterNameDelete.get(i), filterDelete.get(i));
+		}
+		filterNameDelete.clear();
+		filterDelete.clear();
+		for (int i = 0; i < this.hookNameDelete.size(); i++) {
+			removeHookImpl(hookNameDelete.get(i), hookDelete.get(i));
+		}
+		hookNameDelete.clear();
+		hookDelete.clear();
 
 		gameState.update(delta);
 
@@ -331,6 +355,18 @@ public class GameImpl implements Game {
 		Collections.sort(filtersList);
 	}
 
+	public void removeFilter(String filterName, EngineFilter<?> filter) {
+		this.filterNameDelete.add(filterName);
+		this.filterDelete.add(filter);
+	}
+
+	private void removeFilterImpl(String filterName, EngineFilter<?> filter) {
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		if (filtersList != null) {
+			filtersList.remove(filter);
+		}
+	}
+
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	public <T> T applyFilters(String filterName, T o, Object[] params) {
@@ -354,6 +390,18 @@ public class GameImpl implements Game {
 
 		hooksList.add(hook);
 		Collections.sort(hooksList);
+	}
+
+	public void removeHook(String filterName, EngineHook hook) {
+		this.hookNameDelete.add(filterName);
+		this.hookDelete.add(hook);
+	}
+
+	private void removeHookImpl(String hookName, EngineHook hook) {
+		List<EngineHook> hooksList = hooks.get(hookName);
+		if (hooksList != null) {
+			hooksList.remove(hook);
+		}
 	}
 
 	public void doHook(String hookName) {

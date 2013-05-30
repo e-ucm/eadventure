@@ -111,8 +111,7 @@
 				<module>core/engine-core</module>
 				<!-- Gdx -->
 				<module>core/engine-desktop</module>
-				<module>core/engine-android</module>
-				<module>core/engine-html</module>
+				<module>core/engine-android</module>				
 
 				<!-- Editor -->
 				<module>core/editor-core</module>
@@ -131,6 +130,8 @@
 				<module>guitools/enginegui</module>
 				<!-- Plugins -->
 				<module>extensions/plugins-engine</module>
+				
+				<!-- <module>core/engine-html</module> -->
 			</modules>
 		</profile>
 		<profile>

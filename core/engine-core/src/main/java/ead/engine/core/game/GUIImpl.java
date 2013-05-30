@@ -90,11 +90,20 @@ public abstract class GUIImpl implements GUI {
 
 	private SceneElementGOFactory sceneElementFactory;
 
+	private float scaleX;
+
+	private float scaleY;
+
 	@Inject
 	public GUIImpl() {
 		super();
 		logger.info("Created GUI");
 		previousSceneStack = new Stack<EAdScene>();
+	}
+
+	public void setScale(float scaleX, float scaleY) {
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
 	}
 
 	public void initialize(final Game game, GameState gameState,
@@ -109,6 +118,7 @@ public abstract class GUIImpl implements GUI {
 	public void addHierarchy() {
 		root = sceneElementFactory.get(new GroupElement());
 		root.getElement().setId("#engine.root");
+		root.setScale(scaleX, scaleY);
 		hudRoot = sceneElementFactory.get(new GroupElement());
 		hudRoot.getElement().setId("#engine.huds");
 		sceneRoot = sceneElementFactory.get(new GroupElement());

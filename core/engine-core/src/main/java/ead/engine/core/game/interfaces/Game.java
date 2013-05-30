@@ -130,7 +130,11 @@ public interface Game extends VisitorListener {
 	 */
 	void addFilter(String filterName, EngineFilter<?> filter);
 
+	void removeFilter(String filterName, EngineFilter<?> filter);
+
 	void addHook(String hookName, EngineHook hook);
+
+	void removeHook(String hookName, EngineHook hook);
 
 	void doHook(String hookName);
 
@@ -156,4 +160,5 @@ public interface Game extends VisitorListener {
 	 * @return
 	 */
 	SceneElementGOFactory getSceneElementFactory();
+
 }

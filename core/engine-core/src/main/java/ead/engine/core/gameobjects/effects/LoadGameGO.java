@@ -46,10 +46,16 @@ import com.google.inject.Inject;
 
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.multimedia.EAdVideo;
+import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.LoadGameEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.huds.MouseHud;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.predef.LoadingScreen;
 import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
@@ -106,6 +112,9 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 			loadingScreen = new LoadingScreen();
 		}
 		gui.setScene((SceneGO) sceneElementFactory.get(loadingScreen));
+		gameState.addEffect(new ChangeFieldEf(
+				new BasicField<Boolean>(new BasicElement(MouseHud.CURSOR_ID),
+						SceneElement.VAR_VISIBLE), EmptyCond.FALSE));
 		reader.readXML(assetHandler.getTextFile("@data.xml"), game);
 		readingXML = true;
 	}
@@ -157,6 +166,9 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	public void finish() {
 		super.finish();
 		game.startGame();
+		gameState.addEffect(new ChangeFieldEf(
+				new BasicField<Boolean>(new BasicElement(MouseHud.CURSOR_ID),
+						SceneElement.VAR_VISIBLE), EmptyCond.TRUE));
 	}
 
 	public boolean isQueueable() {

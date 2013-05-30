@@ -187,4 +187,11 @@ public interface GUI {
 	 */
 	void reset();
 
+	/**
+	 * Set root scale (to adjust to the window size)
+	 * @param scaleX
+	 * @param scaleY
+	 */
+	void setScale(float scaleX, float scaleY);
+
 }
