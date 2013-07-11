@@ -45,7 +45,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
-			<artifactId>engine-gdx-desktop</artifactId>
+			<artifactId>engine-desktop</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -60,8 +60,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<optional>true</optional>
+			<artifactId>slf4j-simple</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.dockingframes</groupId>

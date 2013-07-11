@@ -37,23 +37,22 @@
 
 package ead.importer.subimporters.chapter.scene.elements;
 
+import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.util.EAdRectangle;
+import ead.common.model.elements.trajectories.NodeTrajectory;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -90,35 +89,38 @@ public abstract class ElementImporter<T> implements
 			EAdCondition enableCondition, EAdEffect finalEffect) {
 
 		if (factory.isFirstPerson()) {
-			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, finalEffect);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, finalEffect);
 		} else {
 			MoveActiveElementToMouseEf move = new MoveActiveElementToMouseEf();
 			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
-			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		}
 
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
-			EAdRectangle bounds, InfluenceArea influenceArea) {
+			ead.common.model.params.util.Rectangle bounds,
+			InfluenceArea influenceArea) {
 		boolean hasInfluenceArea = influenceArea != null
 				&& influenceArea.getWidth() != 0
 				&& influenceArea.getHeight() != 0;
 
-		EAdRectangle rect = null;
+		ead.common.model.params.util.Rectangle rect = null;
 		if (hasInfluenceArea) {
-			rect = new EAdRectangle(influenceArea.getX() + bounds.getX(),
-					influenceArea.getY() + bounds.getY(), influenceArea
-							.getWidth(), influenceArea.getHeight());
+			rect = new ead.common.model.params.util.Rectangle(influenceArea
+					.getX()
+					+ bounds.getX(), influenceArea.getY() + bounds.getY(),
+					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = new EAdRectangle(bounds.getX() - INFLUENCE_MARGIN, bounds
-					.getY()
-					- INFLUENCE_MARGIN, bounds.getWidth() + INFLUENCE_MARGIN
-					* 2, bounds.getHeight() + INFLUENCE_MARGIN * 2);
+			rect = new ead.common.model.params.util.Rectangle(bounds.getX()
+					- INFLUENCE_MARGIN, bounds.getY() - INFLUENCE_MARGIN,
+					bounds.getWidth() + INFLUENCE_MARGIN * 2, bounds
+							.getHeight()
+							+ INFLUENCE_MARGIN * 2);
 		}
-		sceneElement.setVarInitialValue(
-				NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, rect);
+		sceneElement
+				.setVarInitialValue(NodeTrajectory.VAR_INFLUENCE_AREA, rect);
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
@@ -131,7 +133,7 @@ public abstract class ElementImporter<T> implements
 		EAdShape shape = ShapedElementImporter.importShape(exit);
 		shape.setPaint(p);
 		sceneElement.setPosition(exit.getX(), exit.getY());
-		sceneElement.setInteractionArea(shape);
+		sceneElement.setAppearance(shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {
@@ -145,6 +147,10 @@ public abstract class ElementImporter<T> implements
 	protected void addVisibleEvent(SceneElement newReference,
 			EAdCondition condition) {
 
+		if (condition.equals(EmptyCond.TRUE)) {
+			return;
+		}
+
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
@@ -154,7 +160,7 @@ public abstract class ElementImporter<T> implements
 		ChangeFieldEf changeEnable = new ChangeFieldEf();
 
 		changeEnable.addField(enableField);
-		changeEnable.setOperation(new BooleanOp(condition));
+		changeEnable.setOperation(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeEnable);
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, changeEnable);
 

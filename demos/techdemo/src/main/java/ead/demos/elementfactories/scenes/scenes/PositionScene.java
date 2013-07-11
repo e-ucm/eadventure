@@ -37,35 +37,25 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class PositionScene extends EmptyScene {
 
 	public PositionScene() {
-		getBackground().getDefinition().getResources().addAsset(
-				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance,
+		this.setId("PositionScene");
+		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
 				new Image("@drawable/centerbackground.png"));
 
 		NgCommon.init();
 		SceneElement e = new SceneElement(NgCommon.getMainCharacter());
 		e.setInitialScale(0.5f);
-		e.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
+		e.setPosition(new Position(Corner.CENTER, 400, 300));
 
 		this.getSceneElements().add(e);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene to tests coners in EAdPositionImpl";
-	}
-
-	public String getDemoName() {
-		return "Positions Scene";
 	}
 }

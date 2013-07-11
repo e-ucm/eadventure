@@ -34,6 +34,11 @@
 			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>plugins-engine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>es.eucm.eadventure</groupId>

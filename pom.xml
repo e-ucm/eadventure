@@ -110,10 +110,8 @@
 				<!-- Engine -->
 				<module>core/engine-core</module>
 				<!-- Gdx -->
-				<module>core/engine-gdx</module>
-				<module>core/engine-gdx-desktop</module>
-				<module>core/engine-gdx-android</module>
-				<module>core/engine-gdx-html</module>
+				<module>core/engine-desktop</module>
+				<module>core/engine-android</module>				
 
 				<!-- Editor -->
 				<module>core/editor-core</module>
@@ -125,12 +123,15 @@
 				<module>core/exporter</module>
 
 				<!-- Demos -->
-				<module>demos/firstaidgame</module>
 				<module>demos/techdemo</module>
 
 				<!-- GUI tools -->
 				<module>guitools/exportergui</module>
 				<module>guitools/enginegui</module>
+				<!-- Plugins -->
+				<module>extensions/plugins-engine</module>
+				
+				<!-- <module>core/engine-html</module> -->
 			</modules>
 		</profile>
 		<profile>
@@ -156,14 +157,16 @@
 			<!-- Desktop-engine-only build -->
 			<id>engine-desktop</id>
 			<modules>
-				<module>core/engine-gdx-desktop</module>
+				<module>core/model</module>
+				<module>core/engine-core</module>
+				<module>core/engine-desktop</module>
 			</modules>
 		</profile>
 		<profile>
 			<!-- Android-engine-only build -->
 			<id>engine-android</id>
 			<modules>
-				<module>core/engine-gdx-android</module>
+				<module>core/engine-android</module>
 			</modules>
 		</profile>
 	</profiles>
@@ -239,11 +242,13 @@
 						<exclude>**/*.xml</exclude>
 						<exclude>**/*.properties</exclude>
 						<exclude>**/resources/**</exclude>
+						<exclude>**/poly2tri/**</exclude>
+						<exclude>**/AStar.java</exclude>
 						<!-- ignore android-generated java files -->
 						<exclude>**/R.java</exclude>
 						<!-- ignore gwt base website and generated files -->
-						<exclude>core/engine-gdx-html/war/**</exclude>
-						<exclude>core/engine-gdx-html/gwt*/**</exclude>
+						<exclude>core/engine-html/war/**</exclude>
+						<exclude>core/engine-html/gwt*/**</exclude>
 					</excludes>
 					<includes>
 						<!-- ignore /etc and other non-project directories -->
@@ -661,16 +666,6 @@
 			<name>AOL yoava</name>
 			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
 		</repository>
-		<!-- GLAS -->
-		<repository>
-			<id>glas-repo</id>
-			<url>https://github.com/anserran/glas/raw/master/glasrepository/releases</url>
-		</repository>
-		<repository>
-			<id>glas-snapshot-repo</id>
-			<url>https://github.com/anserran/glas/raw/master/glasrepository/snapshots</url>
-		</repository>
-
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -726,17 +721,12 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.1</version>
+				<version>1.7.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
-				<version>1.6.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.1</version>
+				<version>1.7.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -747,7 +737,7 @@
 			<dependency>
 				<groupId>uk.co.caprica</groupId>
 				<artifactId>vlcj</artifactId>
-				<version>2.1.0</version>
+				<version>2.2.0</version>
 			</dependency>
 			<!-- JNA -->
 			<dependency>
@@ -805,96 +795,56 @@
 				<version>0.9</version>
 			</dependency>
 
-			<!-- GLAS -->
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-model</artifactId>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-tracker</artifactId>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-tracker-java</artifactId>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-tracker-gwt</artifactId>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-tracker-gwt</artifactId>
-				<classifier>sources</classifier>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-tracker</artifactId>
-				<classifier>sources</classifier>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>es.eucm.glas</groupId>
-				<artifactId>glas-model</artifactId>
-				<classifier>sources</classifier>
-				<version>0.1-SNAPSHOT</version>
-			</dependency>
-
 			<!-- GDX -->
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl-natives</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl-sources</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-natives</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-sources</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-android</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-android-sources</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-gwt</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badlogic.gdx</groupId>
 				<artifactId>gdx-backend-gwt-sources</artifactId>
-				<version>1.6</version>
+				<version>0.98</version>
 			</dependency>
 			<dependency>
 				<groupId>aurelienribon</groupId>

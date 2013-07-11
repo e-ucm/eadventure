@@ -37,21 +37,22 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCorridor extends EmptyScene {
@@ -80,7 +81,7 @@ public class NgCorridor extends EmptyScene {
 		// Star form node trajectory
 		ChangeFieldEf changeSide = new ChangeFieldEf();
 		changeSide.addField(new BasicField<Side>(ng,
-				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+				NodeTrajectory.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp(null));
 		createNodeTrajectory(changeSide);
 
@@ -110,7 +111,7 @@ public class NgCorridor extends EmptyScene {
 	 * @param changeSide
 	 */
 	private void createNodeTrajectory(ChangeFieldEf changeSide) {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		NodeTrajectory trajectory = new NodeTrajectory();
 		// 5 nodes
 		trajectory.addNode("0", 175, 495, 0.8f);
 		trajectory.addNode("1", 255, 360, 0.8f);
@@ -282,8 +283,8 @@ public class NgCorridor extends EmptyScene {
 
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
 
-		SpeakSceneElementEf speak = new SpeakSceneElementEf();
-		speak.setElement(ng);
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString(
+				"ng.1"));
 		move.getNextEffects().add(speak);
 	}
 

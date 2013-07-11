@@ -37,23 +37,40 @@
 
 package ead.common.model.elements.extra;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
+
+import com.gwtent.reflection.client.Reflectable;
 
 /**
  * Interface for all maps in the eAdventure game model
  */
-public interface EAdMap<T, S> extends Map<T, S> {
+@Reflectable(relationTypes = true)
+public class EAdMap<T, S> extends LinkedHashMap<T, S> {
 
 	/**
-	 * Returns the class for the key elements
-	 * @return
+	 * 
 	 */
-	Class<?> getKeyClass();
+	private static final long serialVersionUID = -5238161921791743523L;
 
-	/**
-	 * Returns the class for the value elements
-	 * @return
-	 */
-	Class<?> getValueClass();
+	public String toString() {
+		String s = "{";
+		for (java.util.Map.Entry<T, S> entry : this.entrySet()) {
+			T key = entry.getKey();
+			S value = entry.getValue();
+			if (key != null) {
+				s += key;
+			}
+
+			s += ":";
+
+			if (value != null) {
+				s += value;
+			}
+			s += ",";
+		}
+		// Remove last comma
+		s = s.substring(0, s.length() - 1) + "}";
+		return s;
+	}
 
 }

@@ -41,13 +41,11 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Evented;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * Model of the eAdventure chapter.
@@ -59,25 +57,25 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	/**
 	 * Scenes of the game
 	 */
-	@Param("scenes")
+	@Param
 	private EAdList<EAdScene> scenes;
 
 	/**
 	 * Actors of the game
 	 */
-	@Param("actors")
+	@Param
 	private EAdList<EAdSceneElementDef> actors;
 
-	@Param("title")
+	@Param
 	private EAdString title;
 
-	@Param("description")
+	@Param
 	private EAdString description;
 
-	@Param("initialScene")
+	@Param
 	private EAdScene initialScene;
 
-	@Param("vars")
+	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	/**
@@ -88,13 +86,12 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	 */
 	public BasicChapter() {
 		super();
-		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
-		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
-		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		title = EAdString.newRandomEAdString("title");
-		description = EAdString.newRandomEAdString("desc");
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
+		scenes = new EAdList<EAdScene>();
+		actors = new EAdList<EAdSceneElementDef>();
+		events = new EAdList<EAdEvent>();
+		title = new EAdString("title");
+		description = new EAdString("desc");
+		vars = new EAdMap<EAdVarDef<?>, Object>();
 
 	}
 
@@ -187,6 +184,37 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	public void setDescription(EAdString description) {
 		this.description = description;
+	}
+
+	public EAdScene getSceneById(String nextSceneId) {
+		if (nextSceneId == null) {
+			return null;
+		}
+		for (EAdScene s : scenes) {
+			if (s.getId().equals(nextSceneId)) {
+				return s;
+			}
+		}
+		return null;
+	}
+
+	public void setScenes(EAdList<EAdScene> scenes) {
+		this.scenes = scenes;
+	}
+
+	public void setActors(EAdList<EAdSceneElementDef> actors) {
+		this.actors = actors;
+	}
+
+	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+		this.vars = vars;
+	}
+
+	public void addScene(EAdScene scene) {
+		if (this.initialScene == null) {
+			this.initialScene = scene;
+		}
+		scenes.add(scene);
 	}
 
 }

@@ -37,56 +37,55 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectory;
+import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.Side;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
+		this.setId("TrajectoriesScene");
 		NgCommon.init();
 		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
 				ColorFill.LIGHT_GRAY, 800, 600, true));
 
 		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 
-		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
+		element.setPosition(new Position(Corner.BOTTOM_CENTER, 400, 300));
 
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+		event.addEffect(SceneElementEvType.INIT, effect);
 
 		element.getEvents().add(event);
 
 		getSceneElements().add(element);
 
-		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementToMouseEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
 		changeSide.addField(new BasicField<Side>(element,
-				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+				NodeTrajectory.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp(null));
 
 		// Sets up character's movement
@@ -97,9 +96,9 @@ public class TrajectoriesScene extends EmptyScene {
 		move.setUseTrajectory(true);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		createTrajectory1(changeSide);
-		createTrajectory2(changeSide);
-		createTrajectory3(changeSide);
+		createTrajectory1();
+		createTrajectory2();
+		createTrajectory3();
 
 	}
 
@@ -107,27 +106,27 @@ public class TrajectoriesScene extends EmptyScene {
 		return "" + (max * i + j);
 	}
 
-	private void createTrajectory1(ChangeFieldEf changeSide) {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+	private void createTrajectory1() {
+		NodeTrajectory trajectory = new NodeTrajectory();
 		trajectory.addNode("0", 50, 300, 3.0f);
 		trajectory.addNode("1", 750, 300, 1.0f);
 		trajectory.addSide("0", "1", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+		effect.addField(new BasicField<EAdTrajectory>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_1), effect);
-
-		effect.getNextEffects().add(changeSide);
-
+		Caption c = new Caption("techDemo.TrajectoriesScene.1");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement change = new SceneElement(c);
+		change.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		setTrajectoryDefinition(trajectory);
+		this.getSceneElements().add(change);
 	}
 
-	private void createTrajectory2(ChangeFieldEf changeSide) {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+	private void createTrajectory2() {
+		NodeTrajectory trajectory = new NodeTrajectory();
 		int margin = 60;
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 6; j++)
@@ -165,18 +164,20 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.setInitial("0");
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+		effect.addField(new BasicField<EAdTrajectory>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
-		effect.getNextEffects().add(changeSide);
-
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_2), effect);
+		Caption c = new Caption("techDemo.TrajectoriesScene.2");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement change = new SceneElement(c);
+		change.setPosition(50, 0);
+		change.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+		this.getSceneElements().add(change);
 	}
 
-	private void createTrajectory3(ChangeFieldEf changeSide) {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+	private void createTrajectory3() {
+		NodeTrajectory trajectory = new NodeTrajectory();
 		trajectory.addNode("0", 50, 200, 3.0f);
 		trajectory.addNode("1", 750, 200, 1.0f);
 		trajectory.addNode("2", 350, 400, 1.0f);
@@ -185,22 +186,17 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("1", "0", 700);
 
 		ChangeFieldEf effect = new ChangeFieldEf();
-		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+		effect.addField(new BasicField<EAdTrajectory>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
-		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, KeyGEvCode.NUM_3), effect);
-	}
+		Caption c = new Caption("techDemo.TrajectoriesScene.3");
+		c.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement change = new SceneElement(c);
+		change.setPosition(100, 0);
+		change.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
-	@Override
-	public String getSceneDescription() {
-		return "Scene te test some trajectories";
-	}
-
-	public String getDemoName() {
-		return "Trajectories scene";
+		this.getSceneElements().add(change);
 	}
 
 }

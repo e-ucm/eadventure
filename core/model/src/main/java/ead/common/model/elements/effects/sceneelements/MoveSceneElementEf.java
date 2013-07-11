@@ -41,10 +41,11 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.MovementSpeed;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.model.elements.variables.operations.ValueOp;
 
 /**
  * 
@@ -58,26 +59,29 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	/**
 	 * Target coordinates
 	 */
-	@Param("xTarget")
-	private EAdOperation xTarget;
+	@Param
+	private EAdOperation xtarget;
 
-	@Param("yTarget")
-	private EAdOperation yTarget;
+	@Param
+	private EAdOperation ytarget;
 
 	/**
 	 * Movement speed
 	 */
-	@Param("speed")
+	@Param
 	private MovementSpeed speed;
 
-	@Param("speedFactor")
+	@Param
 	private float speedFactor;
 
-	@Param("boolean")
+	@Param
 	private boolean useTrajectory;
 
-	@Param("target")
-	private EAdSceneElementDef target;
+	@Param
+	private EAdSceneElementDef targetDefinition;
+
+	@Param
+	private EAdSceneElement targetSceneElement;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -85,7 +89,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * 
 	 */
 	public MoveSceneElementEf() {
-		this(null);
+
 	}
 
 	public MoveSceneElementEf(EAdSceneElementDef element) {
@@ -97,8 +101,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 		this(element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element, int xTarget,
-			int yTarget, MovementSpeed speed) {
+	public MoveSceneElementEf(EAdSceneElementDef element, float xTarget,
+			float yTarget, MovementSpeed speed) {
 		this(element, new MathOp("" + xTarget), new MathOp("" + yTarget), speed);
 	}
 
@@ -106,9 +110,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 			EAdOperation yTarget, MovementSpeed speed) {
 		super();
 		setSceneElement(element);
-		setQueueable(true);
-		this.xTarget = xTarget;
-		this.yTarget = yTarget;
+		this.xtarget = xTarget;
+		this.ytarget = yTarget;
 		this.speed = speed;
 		this.speedFactor = 1.0f;
 		this.useTrajectory = true;
@@ -123,8 +126,8 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 *            the expression to calculate the y value
 	 */
 	public void setTargetCoordiantes(EAdOperation x, EAdOperation y) {
-		xTarget = x;
-		yTarget = y;
+		xtarget = x;
+		ytarget = y;
 	}
 
 	/**
@@ -141,16 +144,16 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * 
 	 * @return x coordinate target
 	 */
-	public EAdOperation getxTarget() {
-		return xTarget;
+	public EAdOperation getXtarget() {
+		return xtarget;
 	}
 
 	/**
 	 * 
 	 * @return y coordinate target
 	 */
-	public EAdOperation getyTarget() {
-		return yTarget;
+	public EAdOperation getYtarget() {
+		return ytarget;
 	}
 
 	/**
@@ -186,19 +189,39 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	}
 
 	public void setTarget(EAdSceneElementDef sceneElementDef) {
-		this.target = sceneElementDef;
+		setTargetDefinition(sceneElementDef);
+	}
+
+	public void setTarget(EAdSceneElement sceneElement) {
+		setTargetSceneElement(sceneElement);
 	}
 
 	public EAdSceneElementDef getTarget() {
-		return target;
+		return targetDefinition;
 	}
 
-	public void setxTarget(EAdOperation xTarget) {
-		this.xTarget = xTarget;
+	public void setXtarget(EAdOperation xTarget) {
+		this.xtarget = xTarget;
 	}
 
-	public void setyTarget(EAdOperation yTarget) {
-		this.yTarget = yTarget;
+	public void setYtarget(EAdOperation yTarget) {
+		this.ytarget = yTarget;
+	}
+
+	public EAdSceneElementDef getTargetDefinition() {
+		return targetDefinition;
+	}
+
+	public void setTargetDefinition(EAdSceneElementDef targetDefinition) {
+		this.targetDefinition = targetDefinition;
+	}
+
+	public EAdSceneElement getTargetSceneElement() {
+		return targetSceneElement;
+	}
+
+	public void setTargetSceneElement(EAdSceneElement targetSceneElement) {
+		this.targetSceneElement = targetSceneElement;
 	}
 
 }

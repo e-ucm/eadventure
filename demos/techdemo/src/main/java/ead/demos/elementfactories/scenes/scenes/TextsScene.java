@@ -37,18 +37,19 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.compounds.ComposedDrawable;
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.assets.text.EAdFont;
+import ead.common.model.assets.text.enums.FontStyle;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.resources.assets.text.enums.FontStyle;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.text.EAdString;
 
 public class TextsScene extends EmptyScene {
 
 	public TextsScene() {
+		this.setId("TextsScene");
 		this.setBackgroundFill(ColorFill.DARK_GRAY);
 
 		ComposedDrawable drawable = new ComposedDrawable();
@@ -86,21 +87,12 @@ public class TextsScene extends EmptyScene {
 	}
 
 	private Caption createTestCaption(EAdFont font) {
-		Caption c = new Caption(EAdString.newEAdString("#txt#Test text"));
+		Caption c = new Caption(new EAdString("#txt#Test text"));
 		c.setTextPaint(ColorFill.WHITE);
 		c.setBubblePaint(ColorFill.RED);
 		c.setPadding(0);
 		c.setFont(font);
 		return c;
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene for test texts";
-	}
-
-	public String getDemoName() {
-		return "Texts Scene";
 	}
 
 }

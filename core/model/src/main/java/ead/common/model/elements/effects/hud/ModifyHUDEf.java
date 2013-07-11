@@ -39,7 +39,7 @@ package ead.common.model.elements.effects.hud;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 
 /**
@@ -50,7 +50,7 @@ import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffec
 @Element
 public class ModifyHUDEf extends AbstractSceneElementEffect {
 
-	@Param("add")
+	@Param
 	private boolean add;
 
 	/**

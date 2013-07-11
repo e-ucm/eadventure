@@ -80,10 +80,10 @@ public class ElementControllerGetPanelTest extends JFrame {
 	//        sceneController2.setElement(scene2);
 	//
 	//        EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
-	//        when(sceneElementDef.getName()).thenReturn(EAdString.newRandomEAdString("testName"));
-	//        when(sceneElementDef.getDoc()).thenReturn(EAdString.newRandomEAdString("testDocumentation"));
-	//        when(sceneElementDef.getDesc()).thenReturn(EAdString.newRandomEAdString("testDescription"));
-	//        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newRandomEAdString("testDetailedDescription"));
+	//        when(sceneElementDef.getName()).thenReturn(new EAdString(("testName"));
+	//        when(sceneElementDef.getDoc()).thenReturn(new EAdString(("testDocumentation"));
+	//        when(sceneElementDef.getDesc()).thenReturn(new EAdString(("testDescription"));
+	//        when(sceneElementDef.getDetailDesc()).thenReturn(new EAdString(("testDetailedDescription"));
 	//
 	//        sceneElementController = new EAdSceneElementDefController();
 	//        sceneElementController.setElement(sceneElementDef);

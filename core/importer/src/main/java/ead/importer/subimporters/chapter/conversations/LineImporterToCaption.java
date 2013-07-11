@@ -38,11 +38,12 @@
 package ead.importer.subimporters.chapter.conversations;
 
 import com.google.inject.Inject;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
+
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.text.EAdString;
 import ead.importer.GenericImporter;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.tools.StringHandler;
@@ -67,7 +68,7 @@ public class LineImporterToCaption implements
 	@Override
 	public EAdCaption convert(ConversationLine line, Object object) {
 		// Set caption attributes
-		EAdString string = EAdString.newRandomEAdString("line");
+		EAdString string = stringHandler.generateNewString();
 		stringHandler.setString(string, line.getText());
 		Caption caption = new Caption(string);
 

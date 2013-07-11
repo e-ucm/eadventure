@@ -37,36 +37,25 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.util.EAdURI;
-import ead.demos.elementfactories.EAdElementsFactory;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.multimedia.Sound;
+import ead.common.model.elements.effects.PlaySoundEf;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.guievents.MouseGEv;
 
 public class SoundScene extends EmptyScene {
 
 	public SoundScene() {
-		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory()
-				.createCaption(
-						"Play",
-						Paint.WHITE_ON_BLACK,
-						Paint.BLACK_ON_WHITE,
-						new BasicFont(new EAdURI("@binary/DroidSans-Bold.ttf"),
-								20));
-		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory()
-				.getPlaySound("@binary/sound.mp3");
-		getSceneElements().add(
-				EAdElementsFactory.getInstance().getSceneElementFactory()
-						.createSceneElement(caption, 10, 10, effect));
-	}
+		this.setId("SoundScene");
+		Caption caption = new Caption("techDemo.SoundScene.play");
+		caption.setBubblePaint(ColorFill.LIGHT_GRAY);
+		SceneElement element = new SceneElement(caption);
+		element.setPosition(10, 10);
+		this.getSceneElements().add(element);
 
-	@Override
-	public String getSceneDescription() {
-		return "A scene where a sound is played";
-	}
-
-	public String getDemoName() {
-		return "Sound Scene";
+		PlaySoundEf effect = new PlaySoundEf();
+		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+		effect.setSound(new Sound("@binary/sound.mp3"));
 	}
 }

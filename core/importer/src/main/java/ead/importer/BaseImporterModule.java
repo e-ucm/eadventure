@@ -40,26 +40,25 @@ package ead.importer;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
-import ead.common.model.elements.EAdAction;
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.elements.trajectories.NodeTrajectory;
+import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.auxiliar.EAdElementFactoryImpl;
 import ead.importer.auxiliar.ImporterImageLoaderFactory;
-import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.importer.resources.AnimationImporter;
@@ -183,11 +182,7 @@ public class BaseImporterModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(GlobalState.class,
 				ConditionsImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Macro, EffectsMacro>>() {
-		}).to(MacroImporter.class);
-		EAdElementFactoryImpl.importerMap.put(Macro.class, MacroImporter.class);
-
-		bind(new TypeLiteral<EAdElementImporter<Action, EAdAction>>() {
+		bind(new TypeLiteral<EAdElementImporter<Action, EAdSceneElementDef>>() {
 		}).to(ActionImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Action.class,
 				ActionImporter.class);
@@ -258,9 +253,8 @@ public class BaseImporterModule extends AbstractModule {
 		}).to(TimerImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Timer.class, TimerImporter.class);
 
-		bind(
-				new TypeLiteral<EAdElementImporter<Trajectory, NodeTrajectoryDefinition>>() {
-				}).to(TrajectoryImporter.class);
+		bind(new TypeLiteral<EAdElementImporter<Trajectory, NodeTrajectory>>() {
+		}).to(TrajectoryImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Trajectory.class,
 				TrajectoryImporter.class);
 

@@ -39,12 +39,12 @@ package ead.editor.view.scene;
 
 import javax.swing.JFrame;
 
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.Position.Corner;
 import ead.utils.swing.SwingUtilities;
 
 public class SimpleSceneViewerTest {

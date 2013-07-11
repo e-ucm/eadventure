@@ -40,40 +40,36 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.PlaySoundEf;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.SoundManager;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.game.interfaces.SoundManager;
 
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 
 	private SoundManager soundManager;
 
 	@Inject
-	public PlaySoundGO(SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, SoundManager soundManager) {
-		super(gameObjectFactory, gui, gameState);
+	public PlaySoundGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, SoundManager soundManager,
+			EventGOFactory eventFactory) {
+		super(gameState);
 		this.soundManager = soundManager;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		if (element.isBackground()) {
-			soundManager.playBackgroundMusic(element.getSound());
+		if (effect.isBackground()) {
+			soundManager.playBackgroundMusic(effect.getSound(), effect
+					.getVolume());
 		} else {
-			soundManager.playSound(element.getSound());
+			soundManager.playSound(effect.getSound(), effect.isOverlay(),
+					effect.getVolume());
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

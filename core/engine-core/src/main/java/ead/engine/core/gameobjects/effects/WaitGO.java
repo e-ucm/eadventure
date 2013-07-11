@@ -37,38 +37,51 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.scenes.GhostElement;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
-public class WaitGO extends AbstractEffectGO<WaitEf> {
+public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 
 	private int time;
 
+	private GUI gui;
+
+	private SceneElementGO eGO;
+
 	@Inject
-	public WaitGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+	public WaitGO(GUI gui, GameState gameState) {
+		super(gameState);
+		this.gui = gui;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		time = element.getTime();
+		if (effect.isWaitUntilClick() || effect.isBlockInput()) {
+			time = effect.isWaitUntilClick() ? 1 : effect.getTime();
+			GhostElement e = new GhostElement();
+			e.setCatchAll(true);
+			SceneElementGO go = gui.getHUD(GUI.EFFECTS_HUD_ID);
+			eGO = go.addSceneElement(e);
+			eGO.setInputProcessor(this, false);
+		} else {
+			time = effect.getTime();
+		}
 	}
 
-	public void update() {
-		time -= gui.getSkippedMilliseconds();
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
+	public void act(float delta) {
+		if (!effect.isWaitUntilClick()) {
+			time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+		}
 	}
 
 	@Override
@@ -76,8 +89,28 @@ public class WaitGO extends AbstractEffectGO<WaitEf> {
 		return time <= 0;
 	}
 
-	public String toString() {
-		return "WaitEffect:  Time left " + time;
+	public void finish() {
+		if (eGO != null)
+			eGO.remove();
+		super.finish();
+	}
+
+	public boolean isQueueable() {
+		return true;
+	}
+
+	@Override
+	public boolean handle(Event event) {
+		if (event instanceof InputEvent) {
+			InputEvent i = (InputEvent) event;
+			event.cancel();
+			if (i.getType() == InputEvent.Type.touchDown
+					&& effect.isWaitUntilClick()) {
+				time = 0;
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

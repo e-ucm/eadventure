@@ -37,242 +37,184 @@
 
 package ead.engine.core.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.debuggers.DebuggerHandler;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.gameobjects.go.EventGO;
-import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.gameobjects.huds.BottomBasicHUD;
-import ead.engine.core.gameobjects.huds.EffectHUD;
-import ead.engine.core.gameobjects.huds.InventoryHUD;
-import ead.engine.core.gameobjects.huds.TopBasicHUD;
-import ead.engine.core.inventory.InventoryHandler;
-import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.TweenController;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.LoadGameEf;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.variables.VarDef;
+import ead.engine.core.EAdEngine;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.enginefilters.EngineFilter;
+import ead.engine.core.game.enginefilters.EngineHook;
+import ead.engine.core.game.enginefilters.EngineStringFilter;
+import ead.engine.core.game.interfaces.*;
+import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.tracking.GameTracker;
-import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
-import ead.tools.SceneGraph;
+import ead.reader.strings.StringsReader;
+import ead.tools.PropertiesReader;
+import ead.tools.StringHandler;
+import ead.tools.xml.XMLNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 @Singleton
 public class GameImpl implements Game {
 
+	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
+
+	public static final String FILTER_STRING_FILES = "stringFiles";
+
+	public static final String FILTER_PROCESS_ACTION = "action_generated";
+
+	public static final String HOOK_AFTER_UPDATE = "after_update";
+
+	public static final String HOOK_AFTER_MODEL_READ = "after_model_read";
+
+	public static final String HOOK_AFTER_CHAPTER_READ = "after_chapter_read";
+
+	public static final String HOOK_AFTER_RENDER = "after_render";
+
+	/**
+	 * Default properties file. Loaded during initialization
+	 */
+	private static final String DEFAULT_PROPERTIES = "ead/engine/resources/ead.properties";
+
+	/**
+	 * Game gui
+	 */
+	private GUI gui;
+
+	/**
+	 * String handler
+	 */
+	private StringHandler stringHandler;
+
+	/**
+	 * Plugin handler
+	 */
+	private PluginHandler pluginHandler;
+
+	/**
+	 * Scene element game objects factory
+	 */
+	private SceneElementGOFactory sceneElementFactory;
+
+	/**
+	 * Asset handler
+	 */
 	private AssetHandler assetHandler;
 
+	/**
+	 * Game state
+	 */
+	private GameState gameState;
+
+	/**
+	 * Events factory
+	 */
+	private EventGOFactory eventFactory;
+
+	/**
+	 * Engine filters
+	 */
+	private Map<String, List<EngineFilter<?>>> filters;
+
+	/**
+	 * Engine hooks
+	 */
+	private Map<String, List<EngineHook>> hooks;
+
+	/**
+	 * Game tracker
+	 */
+	private GameTracker tracker;
+
+	/**
+	 * Strings reader
+	 */
+	private StringsReader stringsReader;
+
+	/**
+	 * Assets path root
+	 */
+	private String path;
+
+	/**
+	 * Current adventure model
+	 */
 	private EAdAdventureModel adventure;
 
 	private EAdChapter currentChapter;
 
-	private GUI gui;
-
-	private GameState gameState;
-
-	private EffectHUD effectHUD;
-
-	private InventoryHUD inventoryHUD;
-
-	private ActionsHUD actionsHUD;
-
-	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
-
-	// Auxiliary variable, to avoid new every time
-	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
-
-	private GameObjectManager gameObjectManager;
-
-	private DebuggerHandler debuggerHandler;
-
-	private InventoryHandler inventoryHandler;
-
-	private EAdTransformation initialTransformation;
-
-	private EventGOFactory eventFactory;
-
 	private List<EventGO<?>> events;
 
-	private EngineConfiguration configuration;
+	private String currentLanguage = "";
 
-	private int currentWidth = -1;
+	private EAdEngine eAdEngine;
 
-	private int currentHeight = -1;
+	private SoundManager soundManager;
+	/**
+	 * Timestamp of last update
+	 */
+	private long lastUpdate;
 
-	private GameTracker tracker;
-
-	private SceneGraph sceneGraph;
-
-	private GameLoader gameLoader;
-
-	private TweenController tweenController;
-
-	/** should only be changed within a synchronized block, locking onto modelWaitingMutex */
-	private boolean modelWaiting;
-
-	private final Object modelWaitingMutex = new Object();
-
-	private EAdList<EAdEffect> launchEffects;
+	// Aux
+	private ArrayList<String> hookNameDelete;
+	private ArrayList<EngineHook> hookDelete;
+	private ArrayList<String> filterNameDelete;
+	private ArrayList<EngineFilter<?>> filterDelete;
 
 	@Inject
-	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
-			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
-			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
-			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD,
-			GameTracker tracker, SceneGraph sceneGraph,
-			TweenController tweenController) {
+	public GameImpl(GUI gui, StringHandler stringHandler,
+			PluginHandler pluginHandler, GameState gameState,
+			SceneElementGOFactory sceneElementFactory,
+			AssetHandler assetHandler, EventGOFactory eventFactory,
+			GameTracker tracker, StringsReader stringsReader,
+			SoundManager soundManager) {
 		this.gui = gui;
+		this.stringHandler = stringHandler;
+		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
-		this.effectHUD = effectHUD;
-		this.actionsHUD = actionsHUD;
 		this.assetHandler = assetHandler;
+		this.pluginHandler = pluginHandler;
+		this.stringsReader = stringsReader;
 		this.adventure = null;
-		this.gameObjectManager = gameObjectManager;
-		this.debuggerHandler = debugger;
-		this.inventoryHUD = inventoryHud;
-		this.inventoryHandler = inventoryHandler;
 		this.eventFactory = eventFactory;
-		this.configuration = configuration;
 		this.tracker = tracker;
+		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
-		this.sceneGraph = sceneGraph;
+		filters = new HashMap<String, List<EngineFilter<?>>>();
+		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
-		this.tweenController = tweenController;
-		this.modelWaiting = Boolean.FALSE;
-		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
-		gui.initialize();
-		gui.setGame(this);
+		// Aux
+		hookNameDelete = new ArrayList<String>();
+		hookDelete = new ArrayList<EngineHook>();
+		filterNameDelete = new ArrayList<String>();
+		filterDelete = new ArrayList<EngineFilter<?>>();
+	}
+
+	public void setEAdEngine(EAdEngine eAdEngine) {
+		this.eAdEngine = eAdEngine;
 	}
 
 	@Override
-	public void update() {
-
-		synchronized (modelWaitingMutex) {
-			if (modelWaiting) {
-				modelWaiting = false;
-				setGame();
-			}
+	public void setResourcesLocation(String path) {
+		this.path = path;
+		if (assetHandler != null) {
+			assetHandler.setResourcesLocation(path);
 		}
-
-		// We load one possible asset in the background
-		assetHandler.loadStep();
-		// We load some possible game
-		gameLoader.step();
-
-		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
-				gui.getSkippedMilliseconds());
-
-		tweenController.update(gui.getSkippedMilliseconds());
-
-		updateInitialTransformation();
-		if (!gameState.isPaused()) {
-			processEffects();
-			updateGameEvents();
-			gameState.getScene().update();
-
-		}
-		gameObjectManager.updateHUDs();
-		gui.addElement(gameState.getScene(), initialTransformation);
-
-		updateDebuggers();
-		// Add huds
-		gameObjectManager.addHUDs(gui, initialTransformation);
-
-		gui.prepareGUI();
-
-	}
-
-	private void updateDebuggers() {
-		if (debuggerHandler != null) {
-			debuggerHandler.doLayout(gui, initialTransformation);
-		}
-	}
-
-	private void updateGameEvents() {
-		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
-		l += gui.getSkippedMilliseconds();
-		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
-
-		for (EventGO<?> e : events) {
-			e.update();
-		}
-	}
-
-	private void processEffects() {
-		gameState.updateEffectsQueue();
-		finishedEffects.clear();
-		boolean block = false;
-		int i = 0;
-		while (i < gameState.getEffects().size()) {
-			EffectGO<?> effectGO = gameState.getEffects().get(i);
-			i++;
-
-			if (block)
-				continue;
-
-			if (effectGO.isStopped() || effectGO.isFinished()) {
-				finishedEffects.add(effectGO);
-				if (effectGO.isFinished())
-					effectGO.finish();
-			} else {
-				if (effectGO.isBlocking())
-					// If effect is blocking, get out of the loop
-					block = true;
-
-				effectGO.update();
-			}
-
-		}
-
-		// Delete finished effects
-		for (EffectGO<?> e : finishedEffects) {
-			// logger.info("Finished or discarded effect {}", e.getClass());
-			gameState.getEffects().remove(e);
-		}
-
-		boolean visualEffect = false;
-		int index = 0;
-		while (!visualEffect && index < gameState.getEffects().size()) {
-			visualEffect = gameState.getEffects().get(index++).isVisualEffect();
-		}
-
-		boolean effectHUDon = gameObjectManager.getHUDs().contains(effectHUD);
-		if (visualEffect) {
-			if (!effectHUDon) {
-				gameObjectManager.addHUD(effectHUD);
-				gameObjectManager.removeHUD(actionsHUD);
-			}
-			effectHUD.setEffects(gameState.getEffects());
-		} else {
-			if (effectHUDon) {
-				gameObjectManager.removeHUD(effectHUD);
-				effectHUDon = false;
-			}
-		}
-	}
-
-	@Override
-	public void render(float interpolation) {
-		gui.commit();
 	}
 
 	@Override
@@ -281,23 +223,97 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void loadGame() {
-		assetHandler.initialize();
+	public EAdChapter getCurrentChapter() {
+		return currentChapter;
 	}
 
-	private void setGame() {
-		logger.info("Setting the game");
-		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
-				adventure.getGameWidth());
-		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
-				adventure.getGameHeight());
+	@Override
+	public void initialize() {
+		// Set assets root
+		assetHandler.setResourcesLocation(path);
+		// Adds filters
+		addFilters();
+		// Load game properties
+		processProperties(assetHandler.getTextFile(DEFAULT_PROPERTIES));
 
-		if (adventure.getInventory() != null) {
-			logger.info("Building inventory...");
-			for (EAdSceneElementDef def : adventure.getInventory()
-					.getInitialItems())
-				inventoryHandler.add(def);
-			gameObjectManager.addHUD(inventoryHUD);
+		// It is necessary to load the default properties before set up
+		// GUI initialization
+		gui.initialize(GameImpl.this, gameState, sceneElementFactory);
+
+		assetHandler.initialize();
+		pluginHandler.initialize();
+	}
+
+	@Override
+	public void dispose() {
+		tracker.stop();
+		gui.finish();
+	}
+
+	@Override
+	public void act(float delta) {
+		// Remove hooks and filters
+		for (int i = 0; i < this.filterNameDelete.size(); i++) {
+			removeFilterImpl(filterNameDelete.get(i), filterDelete.get(i));
+		}
+		filterNameDelete.clear();
+		filterDelete.clear();
+		for (int i = 0; i < this.hookNameDelete.size(); i++) {
+			removeHookImpl(hookNameDelete.get(i), hookDelete.get(i));
+		}
+		hookNameDelete.clear();
+		hookDelete.clear();
+
+		gameState.update(delta);
+
+		// TODO Update language. Check this every loop is probably too much
+		updateLanguage();
+
+		// We load one possible asset in the background
+		assetHandler.loadStep();
+
+		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
+				.getSkippedMilliseconds());
+
+		gameState.setValue(SystemFields.SECONDS_PLAYING, (int) (System
+				.currentTimeMillis() - lastUpdate) / 1000);
+
+		// Scene
+		if (!gameState.isPaused()) {
+			updateGameEvents(delta);
+		}
+
+		doHook(HOOK_AFTER_UPDATE);
+	}
+
+	private void updateLanguage() {
+		String newLanguage = gameState.getValue(SystemFields.LANGUAGE);
+
+		if (newLanguage != null && !newLanguage.equals(currentLanguage)) {
+			currentLanguage = newLanguage;
+			stringHandler.setLanguage(currentLanguage);
+			assetHandler.setLanguage(currentLanguage);
+		}
+
+	}
+
+	private void updateGameEvents(float delta) {
+		Long l = gameState.getValue(SystemFields.GAME_TIME);
+		l += gui.getSkippedMilliseconds();
+		gameState.setValue(SystemFields.GAME_TIME, l);
+
+		for (EventGO<?> e : events) {
+			e.act(delta);
+		}
+	}
+
+	public void startGame() {
+		assetHandler.preloadVideos();
+		if (adventure != null) {
+			currentChapter = adventure.getChapters().get(0);
+			ChangeSceneEf initGame = new ChangeSceneEf(currentChapter
+					.getInitialScene());
+			gameState.addEffect(initGame);
 		}
 
 		logger.info("Init game events...");
@@ -309,13 +325,12 @@ public class GameImpl implements Game {
 			events.add(eventGO);
 		}
 
-		// Set the debuggers
-		setDebuggers(adventure);
-
-		sceneGraph.generateGraph(currentChapter.getInitialScene());
-		gameState.setInitialScene(currentChapter.getInitialScene(),
-				launchEffects);
-		updateInitialTransformation();
+		for (EAdEvent e : adventure.getEvents()) {
+			EventGO<?> eventGO = eventFactory.get(e);
+			eventGO.setParent(null);
+			eventGO.initialize();
+			events.add(eventGO);
+		}
 
 		// Start tracking
 		Boolean track = Boolean.parseBoolean(adventure.getProperties().get(
@@ -323,80 +338,206 @@ public class GameImpl implements Game {
 		if (track) {
 			tracker.startTracking(adventure);
 		}
-
+		doHook(GameImpl.HOOK_AFTER_MODEL_READ);
+		doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
 	}
 
 	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
-		setGame(model, eAdChapter, null);
+	public void addFilter(String filterName, EngineFilter<?> filter) {
+
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		if (filtersList == null) {
+			filtersList = new ArrayList<EngineFilter<?>>();
+			filters.put(filterName, filtersList);
+		}
+
+		filtersList.add(filter);
+		Collections.sort(filtersList);
 	}
 
-	@Override
-	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter,
-			EAdList<EAdEffect> effects) {
-		synchronized (modelWaitingMutex) {
-			this.adventure = model;
-			this.currentChapter = eAdChapter;
-			this.launchEffects = effects;
-			modelWaiting = true;
+	public void removeFilter(String filterName, EngineFilter<?> filter) {
+		this.filterNameDelete.add(filterName);
+		this.filterDelete.add(filter);
+	}
+
+	private void removeFilterImpl(String filterName, EngineFilter<?> filter) {
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		if (filtersList != null) {
+			filtersList.remove(filter);
 		}
 	}
 
-	private void setDebuggers(EAdAdventureModel model) {
-		if (debuggerHandler != null) {
-			debuggerHandler.setUp(model);
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	@Override
+	public <T> T applyFilters(String filterName, T o, Object[] params) {
+		List<EngineFilter<?>> filtersList = filters.get(filterName);
+		T result = o;
+		if (filtersList != null) {
+			for (EngineFilter f : filtersList) {
+				result = (T) f.filter(o, params);
+			}
+		}
+		return result;
+
+	}
+
+	public void addHook(String hookName, EngineHook hook) {
+		List<EngineHook> hooksList = hooks.get(hookName);
+		if (hooksList == null) {
+			hooksList = new ArrayList<EngineHook>();
+			hooks.put(hookName, hooksList);
+		}
+
+		hooksList.add(hook);
+		Collections.sort(hooksList);
+	}
+
+	public void removeHook(String filterName, EngineHook hook) {
+		this.hookNameDelete.add(filterName);
+		this.hookDelete.add(hook);
+	}
+
+	private void removeHookImpl(String hookName, EngineHook hook) {
+		List<EngineHook> hooksList = hooks.get(hookName);
+		if (hooksList != null) {
+			hooksList.remove(hook);
+		}
+	}
+
+	public void doHook(String hookName) {
+		List<EngineHook> hooksList = hooks.get(hookName);
+		if (hooksList != null) {
+			for (EngineHook h : hooksList) {
+				h.execute(this, gameState, gui);
+			}
+		}
+	}
+
+	private void addFilters() {
+		addFilter(FILTER_STRING_FILES, new EngineStringFilter());
+	}
+
+	private void processProperties(String text) {
+		Map<String, Map<String, String>> map = PropertiesReader.parse(
+				"defaultProperties", text);
+		for (Entry<String, Map<String, String>> e : map.entrySet()) {
+			String type = e.getKey();
+			if (type == null || type.equals("String")) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
+					VarDef<String> varDef = new VarDef<String>(e2.getKey(),
+							String.class, e2.getValue());
+					gameState.setValue(null, varDef, e2.getValue());
+				}
+			} else if (type.equals("Integer")) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
+					try {
+						Integer i = Integer.parseInt(e2.getValue());
+						VarDef<Integer> varDef = new VarDef<Integer>(e2
+								.getKey(), Integer.class, i);
+						gameState.setValue(null, varDef, i);
+					} catch (NumberFormatException ex) {
+						logger.warn("{} is not a number valid for property {}",
+								new Object[] { e2.getValue(), e2.getKey() });
+					}
+				}
+			} else if (type.equals("Float")) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
+					try {
+						Float i = Float.parseFloat(e2.getValue());
+						VarDef<Float> varDef = new VarDef<Float>(e2.getKey(),
+								Float.class, i);
+						gameState.setValue(null, varDef, i);
+					} catch (NumberFormatException ex) {
+						logger.warn("{} is not a number valid for property {}",
+								new Object[] { e2.getValue(), e2.getKey() });
+					}
+				}
+			} else if (type.equals("Boolean")) {
+				for (Entry<String, String> e2 : e.getValue().entrySet()) {
+					try {
+						Boolean b = Boolean.parseBoolean(e2.getValue());
+						VarDef<Boolean> varDef = new VarDef<Boolean>(e2
+								.getKey(), Boolean.class, b);
+						gameState.setValue(null, varDef, b);
+					} catch (NumberFormatException ex) {
+						logger.warn("{} is not a number valid for property {}",
+								new Object[] { e2.getValue(), e2.getKey() });
+					}
+				}
+			} else {
+				logger.warn("{} is not a valid type in ead.properties", type);
+			}
+		}
+	}
+
+	private void loadStrings() {
+		stringHandler.clear();
+		// Map containing all the files with strings (keys) and its associated
+		// language (value)
+		Map<String, String> stringFiles = new HashMap<String, String>();
+		stringFiles = applyFilters(FILTER_STRING_FILES, stringFiles,
+				new Object[] { gameState });
+
+		for (Entry<String, String> file : stringFiles.entrySet()) {
+			String strings = assetHandler.getTextFile(file.getKey());
+			String language = file.getValue();
+			if (strings == null || strings.equals("")) {
+				logger
+						.info(
+								"{} language was not loaded. Maybe the strings.xml file associated is not present",
+								language);
+			} else {
+				stringHandler.addLanguage(language);
+				stringHandler.setLanguage(language);
+				Map<EAdString, String> stringsMap = stringsReader
+						.readStrings(strings);
+				if (stringsMap != null) {
+					stringHandler.addStrings(stringsMap);
+					logger.info("{} language loaded", language);
+				} else {
+					logger.info("{} language not loaded. See previous erros.",
+							language);
+				}
+			}
 		}
 	}
 
 	@Override
-	public void updateInitialTransformation() {
-		if (initialTransformation != null) {
-			initialTransformation.setValidated(true);
-		}
-
-		if (currentWidth != configuration.getWidth()
-				|| currentHeight != configuration.getHeight()) {
-
-			currentWidth = configuration.getWidth();
-			currentHeight = configuration.getHeight();
-
-			float scaleX = configuration.getWidth()
-					/ (float) adventure.getGameWidth();
-			float scaleY = configuration.getHeight()
-					/ (float) adventure.getGameHeight();
-
-			float scale = scaleX < scaleY ? scaleX : scaleY;
-			float dispX = Math.abs(adventure.getGameWidth() * scaleX
-					- adventure.getGameWidth() * scale) / 2;
-			float dispY = Math.abs(adventure.getGameHeight() * scaleY
-					- adventure.getGameHeight() * scale) / 2;
-
-			initialTransformation = new EAdTransformationImpl();
-			initialTransformation.getMatrix().translate(dispX, dispY, true);
-			initialTransformation.getMatrix().scale(scale, scale, true);
-			initialTransformation.setValidated(false);
-			gui.setInitialTransformation(initialTransformation);
-		}
+	public boolean loaded(XMLNode node, Object object, boolean isNullInOrigin) {
+		this.adventure = (EAdAdventureModel) object;
+		return true;
 	}
 
 	@Override
-	public EAdTransformation getInitialTransformation() {
-		return initialTransformation;
+	public void restart(final boolean reloadModel) {
+		lastUpdate = System.currentTimeMillis();
+		Gdx.app.postRunnable(new Runnable() {
+
+			@Override
+			public void run() {
+				// The order is important here
+				eventFactory.clean();
+				sceneElementFactory.clean();
+				gameState.reset();
+				gui.reset();
+				soundManager.stopAll();
+				eAdEngine.getStage().getActors().clear();
+				eAdEngine.getStage().addActor(gui.getRoot());
+				eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
+				// Read model
+				if (reloadModel) {
+					// Load strings
+					loadStrings();
+					gameState.addEffect(new LoadGameEf(true));
+				} else {
+					startGame();
+				}
+			}
+		});
 	}
 
 	@Override
-	public EAdChapter getCurrentChapter() {
-		return currentChapter;
+	public SceneElementGOFactory getSceneElementFactory() {
+		return sceneElementFactory;
 	}
-
-	@Override
-	public void setGameLoader(GameLoader gameLoader) {
-		this.gameLoader = gameLoader;
-	}
-
-	public void stop() {
-		gui.finish();
-		tracker.stop();
-	}
-
 }

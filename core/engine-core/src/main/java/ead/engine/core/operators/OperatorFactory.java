@@ -37,18 +37,34 @@
 
 package ead.engine.core.operators;
 
-import ead.common.model.EAdElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.ValueMap;
-import ead.tools.Factory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ead.common.model.elements.operations.EAdOperation;
+import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.game.interfaces.ValueMap;
+import ead.engine.core.operators.evaluators.EvaluatorFactory;
+import ead.tools.AbstractFactory;
+import ead.tools.StringHandler;
+import ead.tools.reflection.ReflectionProvider;
 
 /**
- * A factory with all {@link Operator} for all {@link EAdOperation}.
+ * A factory with all {@link Operator} for all {@link EAdOperation}. The Game
+ * State is the only class that should access to this factory. If you're using
+ * it somewhere else, try to use
  */
-public interface OperatorFactory extends Factory<Operator<?>> {
+public class OperatorFactory extends AbstractFactory<Operator<?>> {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("Operator Factory");
+
+	public OperatorFactory(ReflectionProvider interfacesProvider,
+			GameState gameState, StringHandler sh) {
+		super(null, interfacesProvider);
+		setMap(new OperatorsMapProvider(this, gameState, new EvaluatorFactory(
+				reflectionProvider, gameState, this), interfacesProvider, sh));
+	}
 
 	/**
 	 * <p>
@@ -60,19 +76,23 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 	 * 
 	 * @param <T>
 	 * @param eAdVar
-	 *            the var where the result will be stored
+	 *            the class for the result
 	 * @param eAdOperation
 	 *            operation to be done
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
-
-	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
-
-	<T extends EAdOperation, S> S operate(EAdElement element,
-			EAdVarDef<S> varDef, T operation);
-
-	void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
+	@SuppressWarnings("unchecked")
+	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
+		if (operation == null) {
+			logger
+					.warn(
+							"Null operation attempted: null returned as class {} for operation {}",
+							new Object[] { clazz, operation });
+			return null;
+		}
+		Operator<T> operator = (Operator<T>) get(operation.getClass());
+		return operator.operate(clazz, operation);
+	}
 
 }

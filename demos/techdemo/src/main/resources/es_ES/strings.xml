@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+	<string name="techDemo.EmptyScene">Escena vacía</string>
+	<string name="techDemo.EmptyScene.description">Una escena vacía. No hay mucho que hacer aquí.</string>
+	<string name="techDemo.CharacterScene.Stand">De pie</string>
+	<string name="techDemo.CharacterScene.Talk">Hablar</string>
+	<string name="techDemo.CharacterScene.Walk">Caminar</string>
+</resources>

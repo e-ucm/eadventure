@@ -37,7 +37,12 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
@@ -45,23 +50,17 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.ListOp;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.enums.ListOpType;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.model.elements.variables.operations.ListOp;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.model.elements.variables.operations.enums.ListOpType;
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @SuppressWarnings("rawtypes")
 public class MoleGame extends EmptyScene {
@@ -87,14 +86,13 @@ public class MoleGame extends EmptyScene {
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setParentVar(SceneElement.VAR_VISIBLE);
-		dissapearMole.setOperation(BooleanOp.FALSE_OP);
+		dissapearMole.setOperation(EmptyCond.FALSE);
 
 		mole = new FramesAnimation();
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));
 		mole.addFrame(new Frame("@drawable/mole2.png", 500));
 
-		EAdList<EAdSceneElement> list = new EAdListImpl<EAdSceneElement>(
-				EAdSceneElement.class);
+		EAdList<EAdSceneElement> list = new EAdList<EAdSceneElement>();
 
 		int row = 7;
 		int col = row;

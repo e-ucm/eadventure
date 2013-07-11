@@ -40,16 +40,16 @@ package ead.importer.subimporters.chapter.cutscene;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -134,11 +134,11 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 		changeScene.setNextScene(nextScene);
 		changeScene.setTransition(transition);
 
-		EffectsMacro macro = effectsImporter.getMacroEffects(cutscene
+		EAdList<EAdEffect> macro = effectsImporter.getMacroEffects(cutscene
 				.getEffects());
 		if (macro != null) {
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
-			triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+			triggerMacro.putEffects(EmptyCond.TRUE, macro);
 			changeScene.getNextEffects().add(triggerMacro);
 		}
 		return changeScene;

@@ -37,15 +37,15 @@
 
 package ead.demos.elementfactories.assets;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdFill;
-import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdURI;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.assets.text.EAdFont;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.paint.EAdFill;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.text.EAdString;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class CaptionFactory {
@@ -53,12 +53,12 @@ public class CaptionFactory {
 	private EAdFill fill = new LinearGradientFill(ColorFill.GRAY,
 			ColorFill.LIGHT_GRAY, 20, 20, true);
 
-	private EAdFont droidFont = new BasicFont(new EAdURI(
-			"@binary/DroidSans-Bold.ttf"), 20);
+	private EAdFont droidFont = new BasicFont("@binary/DroidSans-Bold.ttf", 20);
 
 	public Caption createCaption(String text, EAdPaint textFill,
 			EAdPaint bubbleFill, EAdFont font) {
-		Caption caption = new Caption();
+		Caption caption = new Caption(new EAdString("someString"
+				+ (int) (Math.random() * 9928109)));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				caption.getText(), text);
 

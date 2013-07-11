@@ -39,7 +39,7 @@ package ead.importer.resources;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.importer.GenericImporter;
 import ead.importer.interfaces.ResourceImporter;
 
@@ -59,9 +59,9 @@ public class FrameImporter implements
 			Object newElement) {
 		// FIXME Frame sounds not imported
 		long time = oldObject.getTime();
-		String oldURI = oldObject.getUri();
-		String newURI = resourceImporter.getURI(oldURI);
-		Frame frame = new Frame(newURI, (int) time);
+		String oldString = oldObject.getUri();
+		String newString = resourceImporter.getString(oldString);
+		Frame frame = new Frame(newString, (int) time);
 		return frame;
 	}
 

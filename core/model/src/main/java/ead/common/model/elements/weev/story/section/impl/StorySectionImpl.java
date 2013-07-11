@@ -40,11 +40,10 @@ package ead.common.model.elements.weev.story.section.impl;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.weev.story.impl.AbstractStoryElement;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.story.section.StorySection;
 import ead.common.model.weev.story.section.StorySectionStart;
-import ead.common.params.text.EAdString;
 
 /**
  * Default implementation of {@link StorySection}
@@ -53,15 +52,14 @@ import ead.common.params.text.EAdString;
 public class StorySectionImpl extends AbstractStoryElement implements
 		StorySection {
 
-	@Param(value = "name")
+	@Param
 	private EAdString name;
 
 	private EAdList<StorySectionStart> sectionStarts;
 
 	public StorySectionImpl() {
-		name = EAdString.newRandomEAdString("name");
-		sectionStarts = new EAdListImpl<StorySectionStart>(
-				StorySectionStart.class);
+		name = new EAdString("name");
+		sectionStarts = new EAdList<StorySectionStart>();
 	}
 
 	@Override

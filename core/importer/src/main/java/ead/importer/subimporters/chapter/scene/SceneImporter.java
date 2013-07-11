@@ -53,36 +53,36 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.predef.events.ScrollWithSceneElementEv;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.multimedia.EAdSound;
-import ead.common.resources.assets.multimedia.Sound;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.trajectories.NodeTrajectory;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -130,7 +130,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	/**
 	 * Trajectory importer
 	 */
-	private EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter;
+	private EAdElementImporter<Trajectory, NodeTrajectory> trajectoryImporter;
 
 	/**
 	 * Barrier importer
@@ -151,7 +151,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			EAdElementImporter<ElementReference, EAdSceneElement> referencesImporter,
 			EAdElementFactory factory,
 			EAdElementImporter<Exit, EAdSceneElement> exitsImporter,
-			EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter,
+			EAdElementImporter<Trajectory, NodeTrajectory> trajectoryImporter,
 			EAdElementImporter<Barrier, EAdSceneElement> barrierImporter,
 			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
@@ -205,8 +205,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			EAdSceneElementDef player = (EAdSceneElementDef) factory
 					.getElementById(Player.IDENTIFIER);
 			SceneElement playerReference = new SceneElement(player);
-			EAdPosition p = new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
-					oldScene.getPositionX(), oldScene.getPositionY());
+			Position p = new Position(Position.Corner.BOTTOM_CENTER, oldScene
+					.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
 			playerReference.setInitialScale(oldScene.getPlayerScale());
 
@@ -215,7 +215,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 					playerReference);
 
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+			event.addEffect(SceneElementEvType.INIT, effect);
 			playerReference.getEvents().add(event);
 
 			int playerZ = oldScene.isAllowPlayerLayer() ? Math.max(0, oldScene
@@ -223,7 +223,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			playerReference.setVarInitialValue(SceneElement.VAR_Z, playerZ);
 			scene.getSceneElements().add(playerReference);
 
-			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					new MoveActiveElementToMouseEf());
 
 			// Add move camera with character
@@ -244,10 +244,9 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	private void importTrajectory(BasicScene scene, Trajectory trajectory,
 			List<Barrier> barriers, SceneElement playerReference) {
 		if (trajectory == null) {
-			scene.setTrajectoryDefinition(new SimpleTrajectoryDefinition(true));
+			scene.setTrajectoryDefinition(new SimpleTrajectory(true));
 		} else {
-			NodeTrajectoryDefinition nodeDef = trajectoryImporter
-					.init(trajectory);
+			NodeTrajectory nodeDef = trajectoryImporter.init(trajectory);
 			nodeDef = trajectoryImporter.convert(trajectory, nodeDef);
 			scene.setTrajectoryDefinition(nodeDef);
 
@@ -259,7 +258,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				scene.getSceneElements().add(barrier);
 			}
 
-			playerReference.setPosition(new EAdPosition(Corner.BOTTOM_CENTER,
+			playerReference.setPosition(new Position(Corner.BOTTOM_CENTER,
 					nodeDef.getInitial().getX(), nodeDef.getInitial().getY()));
 			playerReference.setInitialScale(nodeDef.getInitial().getScale());
 		}
@@ -272,8 +271,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		for (ActiveArea a : list) {
 			SceneElement activeArea = (SceneElement) factory.getElementById(a
 					.getId());
-			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT,
-					a.getX(), a.getY()));
+			activeArea.setPosition(new Position(Position.Corner.TOP_LEFT, a
+					.getX(), a.getY()));
 			activeArea.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE
 					- substract - i);
 			i++;
@@ -337,7 +336,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 			// This condition is to detect if the resources blocks has an empty
 			// condition. If so, subsequent resources blocks are unreachable
-			if (c.equals(EmptyCond.TRUE_EMPTY_CONDITION)) {
+			if (c.equals(EmptyCond.TRUE)) {
 				end = true;
 			}
 
@@ -354,7 +353,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				Image image = (Image) resourceImporter.getAssetDescritptor(
 						foregroundPath, Image.class);
 
-				String path = image.getUri().getPath();
+				String path = image.getUri();
 				if (path.endsWith(".jpg") || path.endsWith(".JPG")) {
 					image = new Image(path.substring(0, path.length() - 3)
 							+ "png");
@@ -362,17 +361,16 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 				String backgroundPath = r
 						.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
-				applyForegroundMask(image.getUri().getPath(), foregroundPath,
+				applyForegroundMask(image.getUri(), foregroundPath,
 						backgroundPath);
 
 				SceneElement foreground = new SceneElement(image);
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
 				foreground.setInitialEnable(false);
-				foreground.setPropagateGUIEvents(true);
 
 				ChangeFieldEf changeVisibility = new ChangeFieldEf(foreground
-						.getField(SceneElement.VAR_VISIBLE), new BooleanOp(c));
+						.getField(SceneElement.VAR_VISIBLE), c);
 
 				SceneElementEv event = new SceneElementEv(
 						SceneElementEvType.ALWAYS, changeVisibility);
@@ -407,13 +405,13 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 						musicPath, Sound.class);
 			}
 			PlaySoundEf playSound = new PlaySoundEf(sound, true);
-			triggerMacro.putMacro(new EffectsMacro(playSound), condition);
+			triggerMacro.putEffects(condition, new EAdList<EAdEffect>());
 			i++;
 		}
 
 		SceneElementEv event = new SceneElementEv();
 
-		event.addEffect(SceneElementEvType.ADDED_TO_SCENE, triggerMacro);
+		event.addEffect(SceneElementEvType.ADDED, triggerMacro);
 		scene.getEvents().add(event);
 	}
 
@@ -446,7 +444,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		BufferedImage result = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
 		result.getRaster().setDataElements(0, 0, width, height, resultPixels);
-		String newUri = resourceImporter.getURI(foregroundPath);
+		String newUri = resourceImporter.getString(foregroundPath);
 
 		try {
 			ImageIO.write(result, "png", new File(resourceImporter

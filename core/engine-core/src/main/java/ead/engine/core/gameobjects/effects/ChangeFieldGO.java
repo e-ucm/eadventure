@@ -40,44 +40,25 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operators.OperatorFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.common.model.elements.operations.EAdField;
+import ead.engine.core.game.interfaces.GameState;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
-	private OperatorFactory operatorFactory;
-
 	@Inject
-	public ChangeFieldGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory) {
-		super(sceneElementFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
+	public ChangeFieldGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
 	public void initialize() {
-		for (EAdField<?> v : element.getFields()) {
-			operatorFactory.operate(v, element.getOperation());
+		for (EAdField<?> v : effect.getFields()) {
+			gameState.setValue(v, effect.getOperation());
 		}
-		if (element.getParentVar() != null && parent != null) {
-			operatorFactory.operate(parent, element.getParentVar(), element
+		if (effect.getParentVar() != null && parent != null) {
+			gameState.setValue(parent, effect.getParentVar(), effect
 					.getOperation());
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

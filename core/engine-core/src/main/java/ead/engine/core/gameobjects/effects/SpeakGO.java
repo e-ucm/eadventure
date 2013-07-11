@@ -37,31 +37,43 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
-import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.scenes.EAdGroupElement;
+import ead.common.model.elements.scenes.GhostElement;
+import ead.common.model.elements.scenes.GroupElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.util.EAdPosition;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.MouseInputAction;
-import ead.engine.core.operators.OperatorFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.util.EAdTransformation;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.drawables.RuntimeCaption;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
-public class SpeakGO extends AbstractEffectGO<SpeakEf> {
+public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener {
+
+	private GUI gui;
+
+	private SceneElementGOFactory sceneElementFactory;
+
+	private AssetHandler assetHandler;
 
 	private static final int MARGIN_PROPORTION = 35;
 
@@ -69,9 +81,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	private static final int MARGIN = 30;
 
-	private SceneElementGO<?> ballon;
-
-	private RuntimeCaption<?> caption;
+	private RuntimeCaption caption;
 
 	private boolean finished;
 
@@ -79,60 +89,81 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	private SceneElement textSE;
 
-	private OperatorFactory operatorFactory;
-
 	private float alpha;
 
 	private String previousState;
 
-	private AssetHandler assetHandler;
+	private SceneElementGO bubbleDialog;
+
+	private SceneElementGO effectsHud;
+
+	private SceneElement dots;
+
+	private boolean hasTime;
+
+	private int timePerPart;
+
+	private int currentTime;
 
 	@Inject
-	public SpeakGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory) {
-		super(gameObjectFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
+	public SpeakGO(GameState gameState, GUI gui,
+			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
+		super(gameState);
+		this.gui = gui;
+		this.sceneElementFactory = sceneElementFactory;
 		this.assetHandler = assetHandler;
-	}
-
-	@Override
-	public boolean processAction(InputAction<?> action) {
-		if (action instanceof MouseInputAction) {
-			MouseInputAction mouseAction = (MouseInputAction) action;
-			action.consume();
-			if (!finished)
-				if (mouseAction.getType() == MouseGEvType.PRESSED) {
-					if (caption.getTimesRead() >= 1
-							|| caption.getCurrentPart() == caption
-									.getTotalParts() - 1)
-						finished = true;
-					else
-						caption.goForward(1);
-				}
-			return true;
-		}
-		return super.processAction(action);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		if (element.getStateField() != null) {
-			previousState = gameState.getValueMap().getValue(
-					element.getStateField());
-			gameState.getValueMap().setValue(element.getStateField(),
-					CommonStates.EAD_STATE_TALKING.toString());
+		if (effect.getStateField() != null) {
+			EAdElement element = effect.getStateField().getElement();
+			MoveSceneElementGO moving = gameState.getValue(element,
+					MoveSceneElementGO.VAR_ELEMENT_MOVING);
+			if (moving != null) {
+				moving.stop();
+			}
+			previousState = gameState.getValue(effect.getStateField());
+			gameState.setValue(effect.getStateField(), CommonStates.TALKING
+					.toString());
 		}
 		finished = false;
-		ballon = sceneElementFactory.get(getSceneElement());
 		alpha = 0.0f;
 		gone = false;
+		effectsHud = gui.getHUD(GUI.EFFECTS_HUD_ID);
+		bubbleDialog = sceneElementFactory.get(this.getVisualRepresentation());
+		bubbleDialog.setInputProcessor(this, true);
+		effectsHud.addSceneElement(bubbleDialog);
+		hasTime = effect.getTime() > 0;
+		if (hasTime) {
+			timePerPart = effect.getTime() / caption.getTotalParts();
+			currentTime = timePerPart;
+		}
 	}
 
-	private EAdSceneElement getSceneElement() {
-		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
+	protected EAdGroupElement getVisualRepresentation2() {
+		//		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		//		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		//		int horizontalMargin = width / MARGIN_PROPORTION;
+		//		int verticalMargin = height / MARGIN_PROPORTION;
+		//		int left = horizontalMargin;
+		//		int right = width - horizontalMargin;
+		//		int top = verticalMargin;
+		//		int bottom = height / HEIGHT_PROPORTION + top;
+		//
+		//		NinePatchImage balloonBg = new NinePatchImage(new Image(
+		//				"@drawable/balloon_in.png"), 20, 20, 20, 20);
+		//		NinePatchImage balloongFg = new NinePatchImage(new Image(
+		//				"@drawable/balloon_in.png"), 20, 20, 20, 20);
+		//		balloonBg.setWidth(right - left);
+		//		balloonBg.setHeight(bottom - top);
+		return null;
+	}
+
+	protected EAdGroupElement getVisualRepresentation() {
+		int width = gameState.getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
@@ -142,16 +173,15 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 		EAdShape rectangle = null;
 
-		if (element.getX() != null && element.getY() != null) {
-			EAdPosition p = gameState.getScene().getPosition();
+		if (effect.getX() != null && effect.getY() != null) {
 
-			Integer xOrigin = operatorFactory.operate(Integer.class, element
-					.getX());
-			Integer yOrigin = operatorFactory.operate(Integer.class, element
-					.getY());
+			int xOrigin = gameState.operate(Float.class, effect.getX())
+					.intValue();
+			int yOrigin = gameState.operate(Float.class, effect.getY())
+					.intValue();
 
-			xOrigin += p.getX();
-			yOrigin += p.getY();
+			xOrigin += (int) effectsHud.getX();
+			yOrigin += (int) effectsHud.getY();
 
 			if (yOrigin < height / 2) {
 				bottom = height - verticalMargin;
@@ -161,43 +191,48 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 				yOrigin = bottom + MARGIN * 2;
 			}
 
-			rectangle = new BalloonShape(left, top, right, bottom, element
+			rectangle = new BalloonShape(left, top, right, bottom, effect
 					.getBallonType(), xOrigin, yOrigin);
 		} else {
 			int offsetY = height / 2 - (bottom - top) / 2;
 			top += offsetY;
 			bottom += offsetY;
-			rectangle = new BalloonShape(left, top, right, bottom, element
+			rectangle = new BalloonShape(left, top, right, bottom, effect
 					.getBallonType());
 		}
 
-		rectangle.setPaint(element.getBubbleColor());
-		EAdCaption text = element.getCaption();
+		rectangle.setPaint(effect.getBubbleColor());
+		EAdCaption text = effect.getCaption();
 		text.setPadding(MARGIN);
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);
 
 		textSE = new SceneElement(text);
-		textSE.setPosition(new EAdPosition(left, top));
-		textSE.setInitialEnable(false);
+		textSE.setPosition(new Position(left, top));
 
-		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
+		GroupElement complex = new GroupElement(rectangle);
+		// To capture clicks all over the screen
+		GhostElement bg = new GhostElement();
+		bg.setCatchAll(true);
+		complex.getSceneElements().add(bg);
 		complex.getSceneElements().add(textSE);
 
-		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
+		caption = (RuntimeCaption) assetHandler.getRuntimeAsset(text);
+		caption.loadAsset();
 		caption.reset();
 
-		complex.setInitialEnable(false);
+		// Dots
+		FramesAnimation f = new FramesAnimation();
+		f.addFrame(new Frame(new Image("@drawable/dots.png"), 1000));
+		f.addFrame(new Frame(new RectangleShape(1, 1, ColorFill.TRANSPARENT),
+				1000));
+		dots = new SceneElement(f);
+		dots.setAppearance("done", new Image("@drawable/dot.png"));
+		dots.setPosition(new Position(Corner.CENTER, right - 20, bottom - 15));
+
+		complex.getSceneElements().add(dots);
+
 		return complex;
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return true;
-	}
-
-	public void doLayout(EAdTransformation t) {
-		gui.addElement(ballon, t);
 	}
 
 	@Override
@@ -205,8 +240,16 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		return finished && gone;
 	}
 
-	public void update() {
-		super.update();
+	public void act(float delta) {
+		super.act(delta);
+
+		if (hasTime) {
+			currentTime -= delta;
+			if (currentTime <= 0) {
+				currentTime = timePerPart + currentTime;
+				caption.goForward(1);
+			}
+		}
 
 		if (finished) {
 			alpha -= 0.003f * gui.getSkippedMilliseconds();
@@ -216,7 +259,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 			}
 		} else {
 			if (alpha >= 1.0f) {
-				ballon.update();
 				finished = finished || caption.getTimesRead() > 0;
 			} else {
 				alpha += 0.003f * gui.getSkippedMilliseconds();
@@ -226,21 +268,56 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 			}
 		}
 
-		transformation.setAlpha(alpha);
-	}
+		bubbleDialog.setAlpha(alpha);
 
-	@Override
-	public boolean contains(int x, int y) {
-		return true;
+		if (caption.getCurrentPart() == caption.getTotalParts() - 1) {
+			gameState.setValue(dots, SceneElement.VAR_BUNDLE_ID, "done");
+		}
 	}
 
 	@Override
 	public void finish() {
-		if (element.getStateField() != null) {
-			gameState.getValueMap().setValue(element.getStateField(),
-					previousState);
-		}
+		end();
 		super.finish();
+	}
+
+	public void stop() {
+		end();
+		super.stop();
+	}
+
+	public void end() {
+		if (effect.getStateField() != null) {
+			gameState.setValue(effect.getStateField(), previousState);
+		}
+		bubbleDialog.remove();
+	}
+
+	public boolean isQueueable() {
+		return true;
+	}
+
+	@Override
+	public boolean handle(Event event) {
+		if (event instanceof InputEvent) {
+			InputEvent i = (InputEvent) event;
+			event.cancel();
+			if (!hasTime && !finished && alpha > 0.9f)
+				if (i.getType() == InputEvent.Type.touchDown) {
+					if (caption.getTimesRead() >= 1
+							|| caption.getCurrentPart() == caption
+									.getTotalParts() - 1)
+						finished = true;
+					else
+						caption.goForward(1);
+				}
+			return true;
+		}
+		return false;
+	}
+
+	public void release() {
+		bubbleDialog.free();
 	}
 
 }

@@ -37,8 +37,11 @@
 
 package ead.tools.gwt.reflection;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.gwtent.reflection.client.ClassType;
@@ -47,6 +50,7 @@ import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.tools.reflection.ReflectionClass;
+import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionConstructor;
 import ead.tools.reflection.ReflectionField;
 
@@ -61,6 +65,8 @@ public class GwtReflectionClass<T> implements ReflectionClass<T> {
 	private ReflectionClass<?> superClass;
 
 	private boolean allFieldsAdded;
+
+	private List<ReflectionClass<?>> interfaces;
 
 	public GwtReflectionClass(Class<T> clazz) {
 		this.clazz = TypeOracle.Instance.getClassType(clazz);
@@ -116,6 +122,23 @@ public class GwtReflectionClass<T> implements ReflectionClass<T> {
 	@Override
 	public Class<?> getType() {
 		return clazz.getDeclaringClass();
+	}
+
+	@Override
+	public <S extends Annotation> boolean hasAnnotation(Class<S> annotation) {
+		return clazz.getAnnotation(annotation) != null;
+	}
+
+	@Override
+	public List<ReflectionClass<?>> getInterfaces() {
+		if (interfaces == null) {
+			interfaces = new ArrayList<ReflectionClass<?>>();
+			for (ClassType<?> c : clazz.getImplementedInterfaces()) {
+				interfaces.add(ReflectionClassLoader.getReflectionClass(c
+						.getDeclaringClass()));
+			}
+		}
+		return interfaces;
 	}
 
 }

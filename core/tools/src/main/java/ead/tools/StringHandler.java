@@ -39,7 +39,7 @@ package ead.tools;
 
 import java.util.Map;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * A handler to translate {@link EAdString} to readable text in a given language
@@ -53,6 +53,27 @@ public interface StringHandler {
 	 * prefix
 	 */
 	public static String TEXTUAL_STRING_PREFIX = "#txt#";
+
+	/**
+	 * 
+	 * @param language
+	 *            A language, usually in the form "en_EN", "es_ES", "en_GB"...
+	 *            Setting the language to an unknown language or null makes the
+	 *            string handler to return strings in the default language
+	 *            (English)
+	 */
+	void addLanguage(String language);
+
+	/**
+	 * Sets the current language
+	 * 
+	 * @param language
+	 *            A language, usually in the form "en_EN", "es_ES", "en_GB"...
+	 *            Setting the language to an unknown language or null makes the
+	 *            string handler to return strings in the default language
+	 *            (English)
+	 */
+	void setLanguage(String language);
 
 	/**
 	 * Get the text associated to an {@link EAdString} in the configured
@@ -105,5 +126,7 @@ public interface StringHandler {
 	 * @return
 	 */
 	EAdString generateNewString();
+
+	void clear();
 
 }

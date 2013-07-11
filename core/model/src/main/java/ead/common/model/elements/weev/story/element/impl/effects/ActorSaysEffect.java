@@ -40,8 +40,8 @@ package ead.common.model.elements.weev.story.element.impl.effects;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.weev.story.element.impl.AbstractEffect;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.Actor;
-import ead.common.params.text.EAdString;
 
 /**
  * Actor (i.e. character, NPC, etc) says something effect.
@@ -52,13 +52,13 @@ public class ActorSaysEffect extends AbstractEffect {
 	/**
 	 * The {@link Actor} that "speaks" the text
 	 */
-	@Param(value = "actor")
+	@Param
 	private Actor actor;
 
 	/**
 	 * The {@link EAdString} of the text said by the actor
 	 */
-	@Param(value = "text")
+	@Param
 	private EAdString text;
 
 	/**
@@ -67,7 +67,7 @@ public class ActorSaysEffect extends AbstractEffect {
 	 */
 	public ActorSaysEffect(Actor actor) {
 		this.actor = actor;
-		text = EAdString.newRandomEAdString("text");
+		text = new EAdString("text");
 	}
 
 	public EAdString getText() {

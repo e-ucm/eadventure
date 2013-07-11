@@ -37,12 +37,12 @@ package ead.demos.elementfactories.scenes.normalguy;
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import ead.common.model.elements.effects.text.ShowQuestionEf;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
@@ -67,7 +67,7 @@ public class NgQuiz extends EmptyScene {
 
 		SceneElement element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(intro, 10, 10);
-		element.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
+		element.setPosition(new Position(Corner.CENTER, 400, 575));
 
 		String q = "Question 1";
 		String a1 = "Answer 1 true";
@@ -77,7 +77,7 @@ public class NgQuiz extends EmptyScene {
 		StringFactory stringFactory = EAdElementsFactory.getInstance()
 				.getStringFactory();
 
-		ShowQuestionEf effect = new ShowQuestionEf();
+		QuestionEf effect = new QuestionEf();
 		stringFactory.setString(effect.getQuestion(), q);
 
 		effect.addAnswer(stringFactory.getString(a1), getAnswer1(true,
@@ -87,21 +87,18 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(a3), getAnswer1(false,
 				stringFactory));
 
-		effect.setUpNewInstance();
-
-		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
+		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		return element;
 	}
 
-	private ShowQuestionEf getAnswer1(boolean isCorrect,
-			StringFactory stringFactory) {
+	private QuestionEf getAnswer1(boolean isCorrect, StringFactory stringFactory) {
 		String questionOk = "Okay... that was easy but... let'see this one! pregunta número dos";
 		String questionWr = "Hehehe... I'm afraid you are wrong!!! hahaha! veamos la segunda";
 		String b1 = "Answer 1 false";
 		String b2 = "Answer 2 true";
 		String b3 = "Answer 3 false";
 
-		ShowQuestionEf effect = new ShowQuestionEf();
+		QuestionEf effect = new QuestionEf();
 		if (isCorrect) {
 			stringFactory.setString(effect.getQuestion(), questionOk);
 		} else {
@@ -115,20 +112,17 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(b3), getAnswer2(false,
 				stringFactory));
 
-		effect.setUpNewInstance();
-
 		return effect;
 	}
 
-	private ShowQuestionEf getAnswer2(boolean isCorrect,
-			StringFactory stringFactory) {
+	private QuestionEf getAnswer2(boolean isCorrect, StringFactory stringFactory) {
 		String questionOk = "Well... I think you are kinda clever but this one will be your end! pregunta número tres";
 		String questionWr = "Hehehe... I'm afraid you are wrong!!! hahaha! veamos la tercera";
 		String b1 = "Answer 1 false";
 		String b2 = "Anser 2 false";
 		String b3 = "Anser 3 true";
 
-		ShowQuestionEf effect = new ShowQuestionEf();
+		QuestionEf effect = new QuestionEf();
 		if (isCorrect) {
 			stringFactory.setString(effect.getQuestion(), questionOk);
 		} else {
@@ -142,26 +136,22 @@ public class NgQuiz extends EmptyScene {
 		effect.addAnswer(stringFactory.getString(b3), getAnswer3andClose(true,
 				stringFactory));
 
-		effect.setUpNewInstance();
-
 		return effect;
 	}
 
-	private ShowQuestionEf getAnswer3andClose(boolean result,
+	private QuestionEf getAnswer3andClose(boolean result,
 			StringFactory stringFactory) {
 		String questionOk = "Well... I think you are kinda clever but this one will be your end! pregunta número tres";
 		String questionWr = "Hehehe... I'm afraid you are wrong!!! hahaha! veamos la tercera";
 		String finalQ = "Close quiz? or another way to get back to room2?";
 
-		ShowQuestionEf effect = new ShowQuestionEf();
+		QuestionEf effect = new QuestionEf();
 		if (result) {
 			stringFactory.setString(effect.getQuestion(), questionOk);
 		} else {
 			stringFactory.setString(effect.getQuestion(), questionWr);
 		}
 		effect.addAnswer(stringFactory.getString(finalQ), null);
-
-		effect.setUpNewInstance();
 
 		return effect;
 	}

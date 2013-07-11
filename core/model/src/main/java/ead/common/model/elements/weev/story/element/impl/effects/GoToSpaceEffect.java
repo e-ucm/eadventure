@@ -51,7 +51,7 @@ public class GoToSpaceEffect extends AbstractEffect {
 	/**
 	 * The new {@link Space}
 	 */
-	@Param(value = "space")
+	@Param
 	private Space space;
 
 	/**

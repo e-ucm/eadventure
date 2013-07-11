@@ -37,24 +37,26 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.predef.effects.MakeActiveElementEf;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
+import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.model.predef.events.ScrollWithSceneElementEv;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
+		this.setId("ScrollScene");
 		setBounds(1000, 1213);
 		setBackground(new SceneElement(new Image("@drawable/scrollbg.png")));
 
@@ -62,23 +64,23 @@ public class ScrollScene extends EmptyScene {
 		SceneElement character = new SceneElement(NgCommon.getMainCharacter());
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
 
-		SpeakSceneElementEf effect = new SpeakSceneElementEf(character);
+		SpeakSceneElementEf effect = new SpeakSceneElementEf(character,
+				new EAdString("n.1234"));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				effect.getCaption().getText(), "Sometimes I don't speak right");
-		character.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, effect);
+		character.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);
 
 		this.getSceneElements().add(character);
 
 		MakeActiveElementEf makeActive = new MakeActiveElementEf(character);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
+		event.addEffect(SceneElementEvType.INIT, makeActive);
 		character.getEvents().add(event);
 
 		this.getEvents().add(new ScrollWithSceneElementEv(this, character));
 
-		SimpleTrajectoryDefinition trajectory = new SimpleTrajectoryDefinition(
-				false);
+		SimpleTrajectory trajectory = new SimpleTrajectory(false);
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 
@@ -89,15 +91,6 @@ public class ScrollScene extends EmptyScene {
 		move.setSceneElement(character);
 		move.setUseTrajectory(true);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene scrolling with the character";
-	}
-
-	public String getDemoName() {
-		return "Scroll Scene";
 	}
 
 }

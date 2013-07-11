@@ -38,6 +38,7 @@
 package ead.tools.gwt.xml;
 
 import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
 
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
@@ -46,13 +47,26 @@ public class GwtXMLDocument implements XMLDocument {
 
 	private XMLNode firstChild;
 
+	private Document document;
+
 	public GwtXMLDocument(Document document) {
 		this.firstChild = new GwtXMLNode(document.getFirstChild());
+		this.document = document;
 	}
 
 	@Override
 	public XMLNode getFirstChild() {
 		return firstChild;
+	}
+
+	@Override
+	public XMLNode newNode(String tag) {
+		Element n = document.createElement(tag);
+		return new GwtXMLNode(n);
+	}
+
+	public void appendChild(XMLNode node) {
+		document.appendChild(((GwtXMLNode) node).getElement());
 	}
 
 }

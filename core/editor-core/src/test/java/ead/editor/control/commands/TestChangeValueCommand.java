@@ -37,25 +37,28 @@
 
 package ead.editor.control.commands;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import junit.framework.TestCase;
-import org.junit.*;
-import org.mockito.*;
-import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;
-import ead.editor.control.commands.ChangeFieldCommand;
 import ead.editor.model.EditorModel;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
-import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
 
 /**
  * Class for testing the right functionality of ChangeValueActions that modify the game model.
@@ -108,7 +111,6 @@ public class TestChangeValueCommand extends TestCase {
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
-		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		editorModel = injector.getInstance(EditorModel.class);
 

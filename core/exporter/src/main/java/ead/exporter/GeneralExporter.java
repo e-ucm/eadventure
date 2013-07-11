@@ -37,12 +37,11 @@
 
 package ead.exporter;
 
+import org.apache.maven.DefaultMaven;
+import org.apache.maven.Maven;
+
 import java.io.File;
 import java.util.ArrayList;
-
-import org.apache.maven.Maven;
-import org.codehaus.plexus.DefaultPlexusContainer;
-import org.codehaus.plexus.PlexusContainer;
 
 public class GeneralExporter implements Exporter {
 
@@ -53,11 +52,9 @@ public class GeneralExporter implements Exporter {
 	private WarExporter warExporter;
 
 	public GeneralExporter() {
-		PlexusContainer plexusContainer = null;
 		try {
-			plexusContainer = new DefaultPlexusContainer();
-			Maven maven = plexusContainer.lookup(Maven.class);
-			jarExporter = new JarExporter(maven);
+			Maven maven = new DefaultMaven();
+			jarExporter = new JarExporter();
 			apkExporter = new ApkExporter(maven);
 			warExporter = new WarExporter();
 			exporters = new ArrayList<Exporter>();
@@ -107,6 +104,14 @@ public class GeneralExporter implements Exporter {
 
 	public void setInstallApk(boolean selected) {
 		apkExporter.setRunInDevice(selected);
+	}
+
+	public void setWarPath(String warPath) {
+		warExporter.setWarPath(warPath);
+	}
+
+	public void setJarPath(String jarPath) {
+		jarExporter.setJarPath(jarPath);
 	}
 
 }

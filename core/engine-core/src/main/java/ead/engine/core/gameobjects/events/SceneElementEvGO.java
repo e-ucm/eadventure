@@ -41,51 +41,62 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.game.GameState;
-import ead.engine.core.platform.GUI;
+import ead.common.model.params.variables.VarDef;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
-	private boolean firstCheck = true;
+	private static final VarDef<Boolean> INIT = new VarDef<Boolean>("init",
+			Boolean.class, false);
+
+	private int checks;
 
 	private boolean hasAlways;
 
-	private Long timeLastUpdate;
-
-	private GUI gui;
+	private boolean inTransition;
 
 	@Inject
-	public SceneElementEvGO(GUI gui, GameState gameState) {
+	public SceneElementEvGO(GameState gameState) {
 		super(gameState);
-		this.gui = gui;
 	}
 
-	public void initialize() {
-		firstCheck = true;
+	public void setElement(SceneElementEv ev) {
+		super.setElement(ev);
+		checks = 2;
 		hasAlways = element.getEffectsForEvent(SceneElementEvType.ALWAYS) != null;
-		timeLastUpdate = -1l;
+		inTransition = true;
 	}
 
 	@Override
-	public void update() {
-		Long currentTime = gameState.getValueMap().getValue(
-				SystemFields.GAME_TIME);
-		if (timeLastUpdate == -1
-				|| currentTime - timeLastUpdate > gui.getSkippedMilliseconds() * 2) {
-			runEffects(element
-					.getEffectsForEvent(SceneElementEvType.ADDED_TO_SCENE));
-		}
-		timeLastUpdate = currentTime;
+	public void act(float delta) {
 
-		if (firstCheck) {
-			firstCheck = false;
-			runEffects(element
-					.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
+		if (inTransition) {
+			inTransition = gameState.getValue(ChangeSceneGO.IN_TRANSITION);
+			if (inTransition) {
+				return;
+			}
+		}
+
+		if (checks >= 0) {
+			checks--;
+		}
+
+		if (checks == 0) {
+			boolean init = gameState.getValue(element, INIT);
+			if (!init) {
+				runEffects(element.getEffectsForEvent(SceneElementEvType.INIT));
+				gameState.setValue(element, INIT, true);
+			}
+			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED));
 		}
 
 		if (hasAlways)
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ALWAYS));
+	}
+
+	public void release() {
+		runEffects(element.getEffectsForEvent(SceneElementEvType.REMOVED));
 	}
 
 }

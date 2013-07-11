@@ -38,8 +38,8 @@
 package ead.common.model.weev.story.section;
 
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.story.StoryElement;
-import ead.common.params.text.EAdString;
 
 /**
  * A section or part of a {@link Story} that can be edited independently from

@@ -37,16 +37,18 @@
 
 package ead.engine.core.tracking;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
+import ead.engine.core.gameobjects.effects.EffectGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.tracking.selection.TrackerSelector;
 
 @Singleton
@@ -61,9 +63,8 @@ public class DefaultGameTracker extends AbstractGameTracker {
 	}
 
 	@Override
-	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
-		logger.info("Action: {} over {}", action.getGUIEvent(), target
-				.getElement());
+	protected void trackImpl(Event action, SceneElementGO target) {
+		logger.info("Action: {} over {}", action, target.getElement());
 	}
 
 	@Override
@@ -74,6 +75,36 @@ public class DefaultGameTracker extends AbstractGameTracker {
 	@Override
 	protected void startTrackingImpl(EAdAdventureModel model) {
 		logger.info("Tracking starts.");
+	}
+
+	@Override
+	public void tag(String tag, Map<String, Object> trace) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startPhase(String phaseId) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void endPhase(String phaseId) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void varUpdate(String varId, Object newValue) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void endGame() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

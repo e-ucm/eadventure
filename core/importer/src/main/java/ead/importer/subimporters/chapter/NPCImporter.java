@@ -43,20 +43,20 @@ import java.util.LinkedHashMap;
 import com.google.inject.Inject;
 
 import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.elements.EAdAction;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
+import ead.common.model.assets.drawable.compounds.StateDrawable;
+import ead.common.model.assets.drawable.filters.FilteredDrawable;
+import ead.common.model.assets.drawable.filters.MatrixFilter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.MatrixFilter;
-import ead.common.util.BasicMatrix;
+import ead.common.model.params.util.Matrix;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -73,7 +73,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public NPCImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter,
@@ -102,33 +102,33 @@ public class NPCImporter extends ActorImporter<NPC> {
 					NPC.RESOURCE_TYPE_STAND_UP, NPC.RESOURCE_TYPE_STAND_DOWN,
 					NPC.RESOURCE_TYPE_STAND_RIGHT, NPC.RESOURCE_TYPE_STAND_LEFT);
 			if (stand != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT
-						.toString(), stand);
+				stateDrawable.addDrawable(CommonStates.DEFAULT.toString(),
+						stand);
 			}
 
 			StateDrawable walk = getOrientedAsset(r, NPC.RESOURCE_TYPE_WALK_UP,
 					NPC.RESOURCE_TYPE_WALK_DOWN, NPC.RESOURCE_TYPE_WALK_RIGHT,
 					NPC.RESOURCE_TYPE_WALK_LEFT);
 			if (walk != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_WALKING
-						.toString(), walk);
+				stateDrawable
+						.addDrawable(CommonStates.WALKING.toString(), walk);
 			}
 
 			StateDrawable talking = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_SPEAK_UP, NPC.RESOURCE_TYPE_SPEAK_DOWN,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_SPEAK_LEFT);
 			if (talking != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING
-						.toString(), talking);
+				stateDrawable.addDrawable(CommonStates.TALKING.toString(),
+						talking);
 			}
 
 			StateDrawable using = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_USE_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT);
 			if (using != null) {
-				stateDrawable.addDrawable(CommonStates.EAD_STATE_USING
-						.toString(), using == null
-						|| using.getDrawables().isEmpty() ? stand : using);
+				stateDrawable.addDrawable(CommonStates.USING.toString(),
+						using == null || using.getDrawables().isEmpty() ? stand
+								: using);
 			}
 
 			drawables.add(stateDrawable);
@@ -201,7 +201,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 		FramesAnimation mirror = new FramesAnimation();
 
 		for (Frame f : a.getFrames()) {
-			BasicMatrix m = new BasicMatrix();
+			Matrix m = new Matrix();
 			m.scale(-1.0f, 1.0f, true);
 			EAdBasicDrawable d = new FilteredDrawable(f.getDrawable(),
 					new MatrixFilter(m, 1.0f, 0.0f));

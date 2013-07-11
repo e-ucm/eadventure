@@ -40,11 +40,11 @@
 
 package ead.editor.view.components;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.Image;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.assets.AssetHandlerImpl;
 import ead.utils.Log4jConfig;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -76,7 +76,7 @@ public class ThumbnailPanelTest extends JPanel {
 					"@drawable/assets_animation_telefono.png")));
 			ian.setBase(new File(
 					"../../demos/firstaidgame/src/main/resources/",
-					GdxAssetHandler.PROJECT_INTERNAL_PATH));
+					AssetHandlerImpl.PROJECT_INTERNAL_PATH));
 			ians.add(ian);
 		}
 		final ThumbnailPanel tnp = new ThumbnailPanel();

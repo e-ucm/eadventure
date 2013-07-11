@@ -41,7 +41,6 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.ConditionedElement;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 /**
  * <p>
@@ -54,38 +53,19 @@ public abstract class AbstractEffect extends ConditionedElement implements
 		EAdEffect {
 
 	/**
-	 * Indicates that this effect blocks the effect queue until finished
-	 */
-	@Param(value = "blocking", defaultValue = "false")
-	private boolean blocking;
-
-	/**
-	 * Indicates that this effect is opaque and captures the interactions in the
-	 * screen
-	 */
-	@Param(value = "opaque", defaultValue = "false")
-	private boolean opaque;
-
-	/**
-	 * Indicates that this effect is queued and can be blocked
-	 */
-	@Param(value = "queueable", defaultValue = "false")
-	private boolean queueable;
-
-	/**
 	 * Sets if the effect must be conserved when the scene changes and the
 	 * effects is still running
 	 */
-	@Param(value = "persistent", defaultValue = "false")
+	@Param
 	private boolean persistent;
 
-	@Param("nextEffects")
+	@Param
 	private EAdList<EAdEffect> nextEffects;
 
-	@Param("previousEffects")
-	private EAdList<EAdEffect> previousEffects;
+	@Param
+	private EAdList<EAdEffect> simultaneousEffects;
 
-	@Param(value = "nextEffectsAlways", defaultValue = "false")
+	@Param
 	private boolean nextEffectsAlways;
 
 	/**
@@ -99,71 +79,25 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	 */
 	public AbstractEffect() {
 		super();
-		blocking = false;
-		opaque = false;
-		queueable = false;
 		nextEffectsAlways = false;
-		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		previousEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-	}
-
-	/**
-	 * Sets blocking property for this effect. {@code true} means no subsequent
-	 * effects will be triggered until this effect is finished. By default, this
-	 * value is set to {@code false}
-	 * 
-	 * @param blocking
-	 */
-	public void setBlocking(boolean blocking) {
-		this.blocking = blocking;
-	}
-
-	/**
-	 * Sets opaque property for this effect. {@code true} means that GUI events
-	 * will be only processed for this effect and those which were over it. By
-	 * default, this value is set to {@code true}
-	 * 
-	 * @param opaque
-	 */
-	public void setOpaque(boolean opaque) {
-		this.opaque = opaque;
-	}
-
-	public void setQueueable(boolean queueable) {
-		this.queueable = queueable;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.effects.EAdEffect#isBlocking()
-	 */
-	@Override
-	public boolean isBlocking() {
-		return blocking;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.effects.EAdEffect#isOpaque()
-	 */
-	@Override
-	public boolean isOpaque() {
-		return opaque;
-	}
-
-	@Override
-	public boolean isQueueable() {
-		return queueable;
+		nextEffects = new EAdList<EAdEffect>();
+		simultaneousEffects = new EAdList<EAdEffect>();
 	}
 
 	public EAdList<EAdEffect> getNextEffects() {
 		return nextEffects;
 	}
 
-	public EAdList<EAdEffect> getPreviousEffects() {
-		return previousEffects;
+	public void addNextEffect(EAdEffect e) {
+		nextEffects.add(e);
+	}
+
+	public EAdList<EAdEffect> getSimultaneousEffects() {
+		return simultaneousEffects;
+	}
+
+	public void addSimultaneousEffect(EAdEffect e) {
+		simultaneousEffects.add(e);
 	}
 
 	public void setNextEffectsAlways(boolean always) {
@@ -188,6 +122,14 @@ public abstract class AbstractEffect extends ConditionedElement implements
 	 */
 	public void setPersistent(boolean persistent) {
 		this.persistent = persistent;
+	}
+
+	public void setNextEffects(EAdList<EAdEffect> nextEffects) {
+		this.nextEffects = nextEffects;
+	}
+
+	public void setSimultaneousEffects(EAdList<EAdEffect> simultaneousEffects) {
+		this.simultaneousEffects = simultaneousEffects;
 	}
 
 }

@@ -44,16 +44,42 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 public class StringHandlerImpl implements StringHandler {
 
 	private Logger logger = LoggerFactory.getLogger("StringHandlerImpl");
 
+	private Map<String, Map<EAdString, String>> loadedStrings;
+
 	private Map<EAdString, String> strings;
 
+	private Map<EAdString, String> defaultStrings;
+
+	private String language;
+
 	public StringHandlerImpl() {
-		strings = new HashMap<EAdString, String>();
+		defaultStrings = new HashMap<EAdString, String>();
+		loadedStrings = new HashMap<String, Map<EAdString, String>>();
+		loadedStrings.put("", defaultStrings);
+		strings = defaultStrings;
+		language = "";
+	}
+
+	public void addLanguage(String language) {
+		if (!loadedStrings.containsKey(language))
+			loadedStrings.put(language, new HashMap<EAdString, String>());
+	}
+
+	public void setLanguage(String language) {
+		if (!language.equals(this.language)) {
+			this.language = language;
+			if (loadedStrings.containsKey(language)) {
+				strings = loadedStrings.get(language);
+			} else {
+				strings = loadedStrings.get("");
+			}
+		}
 	}
 
 	@Override
@@ -64,7 +90,10 @@ public class StringHandlerImpl implements StringHandler {
 		}
 
 		String value = strings.get(string);
-		return value == null ? "" : strings.get(string);
+		if (value == null) {
+			value = defaultStrings.get(string);
+		}
+		return value == null ? string.toString() : value;
 	}
 
 	@Override
@@ -100,10 +129,18 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public EAdString generateNewString() {
-		EAdString s = EAdString.newRandomEAdString("generatedString");
+		EAdString s = new EAdString("generatedString"
+				+ (int) (Math.random() * 1000000000));
 		while (strings.containsKey(s)) {
-			s = EAdString.newRandomEAdString("generatedString");
+			s = new EAdString("generatedString"
+					+ (int) (Math.random() * 1000000000));
 		}
 		return s;
+	}
+
+	@Override
+	public void clear() {
+		loadedStrings.clear();
+		defaultStrings.clear();
 	}
 }

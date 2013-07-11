@@ -44,16 +44,16 @@ import ead.common.model.elements.BasicElement;
 @Element
 public class Node extends BasicElement {
 
-	@Param("nodeId")
+	@Param
 	private String nodeId;
 
-	@Param("x")
+	@Param
 	private int x;
 
-	@Param("y")
+	@Param
 	private int y;
 
-	@Param("scale")
+	@Param
 	private float scale;
 
 	public Node() {
@@ -73,10 +73,6 @@ public class Node extends BasicElement {
 
 	public void setNodeId(String nodeId) {
 		this.nodeId = nodeId;
-	}
-
-	public String getId() {
-		return super.getId();
 	}
 
 	public Node(Node n) {
@@ -118,11 +114,6 @@ public class Node extends BasicElement {
 		this.x = x;
 		this.y = y;
 		this.scale = scale;
-	}
-
-	public Node copy() {
-		Node n = new Node("node" + randomSuffix(), x, y, scale);
-		return n;
 	}
 
 }

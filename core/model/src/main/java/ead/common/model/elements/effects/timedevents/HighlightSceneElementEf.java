@@ -49,7 +49,7 @@ import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffec
 @Element
 public class HighlightSceneElementEf extends AbstractSceneElementEffect {
 
-	@Param("time")
+	@Param
 	private int time;
 
 	public HighlightSceneElementEf() {

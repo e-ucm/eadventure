@@ -37,6 +37,10 @@
 
 package ead.editor.view.scene;
 
+import java.awt.Canvas;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.badlogic.gdx.graphics.Color;
@@ -51,16 +55,12 @@ import com.google.inject.Injector;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.util.EAdRectangle;
+import ead.common.model.params.util.Rectangle;
 import ead.editor.view.scene.go.EditableGameObject;
 import ead.editor.view.scene.listener.LoggerSceneListener;
 import ead.editor.view.scene.listener.SceneViewerInputProcessor;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.engine.core.gdx.platform.GdxCanvas;
-import ead.engine.core.gdx.utils.InvOrtographicCamera;
-import java.awt.Canvas;
-import java.util.ArrayList;
-import java.util.List;
+import ead.engine.core.utils.InvOrtographicCamera;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {
@@ -70,12 +70,11 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 	private List<EditableGameObject> gameObjects;
 	private int time;
 	private Injector injector;
-	private GdxCanvas canvas;
 	private InvOrtographicCamera camera;
 	private Texture circle;
 	private Texture hLine;
 	private Texture vLine;
-	private EAdRectangle selectionRectangle;
+	private Rectangle selectionRectangle;
 	private List<EditableGameObject> selection;
 	private Matrix4 selectionMatrix = new Matrix4();
 
@@ -83,8 +82,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		lwjglCanvas = new LwjglAWTCanvas(this, true);
 		gameObjects = new ArrayList<EditableGameObject>();
 		injector = Guice.createInjector(new AssetViewerModule());
-		canvas = injector.getInstance(GdxCanvas.class);
-		selectionRectangle = new EAdRectangle();
+		selectionRectangle = new Rectangle();
 		selection = new ArrayList<EditableGameObject>();
 	}
 
@@ -132,7 +130,6 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		batch.enableBlending();
 		camera = new InvOrtographicCamera();
-		canvas.setGraphicContext(batch);
 		time = 0;
 		lwjglCanvas.getInput().setInputProcessor(
 				new SceneViewerInputProcessor(this, new LoggerSceneListener()));
@@ -231,7 +228,7 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 		int minY = Integer.MAX_VALUE;
 		int maxY = Integer.MIN_VALUE;
 		for (EditableGameObject go : selection) {
-			EAdRectangle bounds = go.getBounds();
+			Rectangle bounds = go.getBounds();
 			minX = bounds.x < minX ? bounds.x : minX;
 			minY = bounds.y < minY ? bounds.y : minY;
 			maxX = bounds.x + bounds.width > maxX ? bounds.x + bounds.width

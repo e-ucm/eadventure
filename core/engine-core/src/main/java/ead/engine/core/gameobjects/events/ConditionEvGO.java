@@ -41,26 +41,28 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 
 public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 
-	private EvaluatorFactory evaluator;
+	private boolean triggered;
 
-	private boolean triggered = false;
-
-	private boolean firstCheck = true;
+	private boolean firstCheck;
 
 	@Inject
-	public ConditionEvGO(GameState gameState, EvaluatorFactory evaluator) {
+	public ConditionEvGO(GameState gameState) {
 		super(gameState);
-		this.evaluator = evaluator;
+	}
+
+	public void setElement(ConditionedEv event) {
+		super.setElement(event);
+		triggered = false;
+		firstCheck = true;
 	}
 
 	@Override
-	public void update() {
-		if (evaluator.evaluate(element.getCondition())) {
+	public void act(float delta) {
+		if (gameState.evaluate(element.getCondition())) {
 			if (!triggered) {
 				runEffects(element
 						.getEffectsForEvent(ConditionedEvType.CONDITIONS_MET));

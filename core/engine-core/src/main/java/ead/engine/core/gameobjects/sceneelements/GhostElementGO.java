@@ -37,21 +37,23 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.EAdGhostElement;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeDrawable;
+import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.GhostElement;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
-public class GhostElementGO extends SceneElementGOImpl<EAdGhostElement> {
+public class GhostElementGO extends SceneElementGO {
 
-	private RuntimeDrawable<?, ?> interactionArea;
+	private boolean catchAll;
+
+	public boolean ghostVisible;
 
 	@Inject
 	public GhostElementGO(AssetHandler assetHandler,
@@ -60,19 +62,33 @@ public class GhostElementGO extends SceneElementGOImpl<EAdGhostElement> {
 		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
 	}
 
-	@Override
-	public void setElement(EAdGhostElement element) {
-		interactionArea = assetHandler.getDrawableAsset(element
-				.getInteractionArea());
-		RectangleShape area = new RectangleShape(interactionArea.getWidth(),
-				interactionArea.getHeight(), Paint.TRANSPARENT);
-		element.getDefinition().setAppearance(area);
-		super.setElement(element);
+	public void setElement(EAdSceneElement e) {
+		super.setElement(e);
+		catchAll = ((GhostElement) e).isCatchAll();
+		ghostVisible = false;
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
-		return interactionArea.contains(x, y);
+	public void drawChildren(SpriteBatch batch, float parentAlpha) {
+		if (ghostVisible) {
+			super.drawChildren(batch, parentAlpha);
+		}
+	}
+
+	public void setInteractionAreaVisible(boolean visible) {
+		this.ghostVisible = visible;
+	}
+
+	public Actor hit(float x, float y, boolean touchable) {
+		if (catchAll && touchable) {
+			return this;
+		} else {
+			return super.hit(x, y, touchable);
+		}
+	}
+
+	public boolean contains(float x, float y) {
+		return catchAll ? true : super.contains(x, y);
 	}
 
 }

@@ -38,7 +38,7 @@
 package ead.common.model.elements.weev.story.element.impl.nodes;
 
 import ead.common.model.elements.weev.story.element.impl.AbstractAreaNode;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Representation in the WEEV model of a parallel story line.
@@ -52,7 +52,7 @@ public class ParallelStory extends AbstractAreaNode {
 	private EAdString name;
 
 	public ParallelStory() {
-		name = EAdString.newRandomEAdString("name");
+		name = new EAdString("name");
 	}
 
 	public EAdString getName() {

@@ -42,7 +42,7 @@ import java.util.List;
 
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.VarDef;
+import ead.common.model.params.variables.VarDef;
 import ead.editor.view.scene.listener.SceneListener;
 
 public abstract class AbstractSceneViewer implements SceneViewer {

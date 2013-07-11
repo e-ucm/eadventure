@@ -37,13 +37,15 @@
 
 package ead.common.model.elements.conditions;
 
+import java.util.List;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.operations.ValueOp;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.elements.operations.ValueOp;
 
 /**
  * Condition comparing the values of two variables
@@ -55,13 +57,13 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	public static final ValueOp TRUE = new ValueOp(Boolean.TRUE);
 	public static final ValueOp FALSE = new ValueOp(Boolean.FALSE);
 
-	@Param("op1")
+	@Param
 	private EAdOperation op1;
 
-	@Param("op2")
+	@Param
 	private EAdOperation op2;
 
-	@Param("operator")
+	@Param
 	private Comparator operator;
 
 	public OperationCond(EAdOperation op1, EAdOperation op2, Comparator operator) {
@@ -82,7 +84,7 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	 * @param operator
 	 *            the value to set
 	 */
-	public void setOperator(Comparator operator) {
+	public void setComparator(Comparator operator) {
 		this.operator = operator;
 	}
 
@@ -135,6 +137,28 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	@Override
 	public String toString() {
 		return op1 + " " + operator + " than " + op2;
+	}
+
+	public void addFields(List<EAdField<?>> fields) {
+		if (op1 instanceof EAdField) {
+			fields.add((EAdField<?>) op1);
+		}
+
+		if (op2 instanceof EAdField) {
+			fields.add((EAdField<?>) op2);
+		}
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof OperationCond) {
+			OperationCond oc = (OperationCond) o;
+			return oc.operator == this.operator
+					&& (oc.op1 == this.op1 || (oc.op1 != null && oc.op1
+							.equals(this.op1)))
+					&& (oc.op2 == this.op2 || (oc.op2 != null && oc.op2
+							.equals(this.op2)));
+		}
+		return false;
 	}
 
 }

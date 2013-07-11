@@ -71,4 +71,10 @@ public interface ReflectionField {
 	 */
 	void setFieldValue(Object object, Object value);
 
+	/**
+	 * Returns if the attribute was defined as static
+	 * @return
+	 */
+	boolean isStatic();
+
 }

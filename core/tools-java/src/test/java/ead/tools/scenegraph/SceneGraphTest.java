@@ -43,8 +43,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.tools.BasicSceneGraph;
 import ead.tools.SceneGraph;
 import ead.tools.java.reflection.JavaReflectionProvider;

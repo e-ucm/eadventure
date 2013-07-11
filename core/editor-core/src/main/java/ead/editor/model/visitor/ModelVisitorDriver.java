@@ -49,18 +49,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.params.EAdParam;
-import ead.common.params.text.EAdString;
-import ead.common.resources.BasicAssetBundle;
-import ead.common.resources.BasicResources;
-import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.EAdResources;
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.params.EAdParam;
+import ead.common.model.params.text.EAdString;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;
@@ -86,7 +81,6 @@ public class ModelVisitorDriver {
 	private MapDriver mapDriver = new MapDriver();
 	private ParamDriver paramDriver = new ParamDriver();
 	private AssetDriver assetDriver = new AssetDriver();
-	private ResourceDriver resourceDriver = new ResourceDriver();
 	private EditorNodeDriver editorNodeDriver = new EditorNodeDriver();
 	private EngineNodeDriver engineNodeDriver = new EngineNodeDriver();
 
@@ -154,8 +148,6 @@ public class ModelVisitorDriver {
 			return mapDriver;
 		} else if (o instanceof EAdParam) {
 			return paramDriver;
-		} else if (o instanceof EAdResources) {
-			return resourceDriver;
 		} else if (o instanceof AssetDescriptor) {
 			return assetDriver;
 		} else {
@@ -180,7 +172,7 @@ public class ModelVisitorDriver {
 
 		VisitorDriver d = driverFor(o);
 		if (d instanceof ParamDriver || d instanceof MapDriver
-				|| d instanceof ListDriver || d instanceof ResourceDriver) {
+				|| d instanceof ListDriver) {
 			logger.debug("auto-driving into {} of type {} with a {}",
 					new Object[] { o.toString(), o.getClass().getSimpleName(),
 							d.getClass().getSimpleName() });
@@ -312,39 +304,6 @@ public class ModelVisitorDriver {
 	public static final String resourceBundleSuffix = "-inner-bundle-id";
 
 	/**
-	 * visits a resource.
-	 */
-	private class ResourceDriver implements VisitorDriver<EAdResources> {
-
-		@Override
-		public void drive(EAdResources target, Object source, String sourceName) {
-
-			// recurse into its non-bundled resources
-			for (String assetId : ((BasicAssetBundle) target).getIds()) {
-				AssetDescriptor asset = ((BasicAssetBundle) target)
-						.getAsset(assetId);
-				driveInto(asset, source, sourceName + resourceAssetSuffix);
-			}
-
-			for (EAdBundleId bundleId : ((BasicResources) target)
-					.getBundleIds()) {
-				EAdAssetBundle bundle = ((BasicResources) target)
-						.getBundle(bundleId);
-				// tag the bundle ID as a property
-				v.visitProperty(source, sourceName + resourceBundleSuffix,
-						bundleId.getBundleId());
-
-				// recurse into its resources
-				for (String assetId : ((BasicAssetBundle) bundle).getIds()) {
-					AssetDescriptor asset = ((BasicAssetBundle) bundle)
-							.getAsset(assetId);
-					driveInto(asset, source, sourceName + resourceAssetSuffix);
-				}
-			}
-		}
-	}
-
-	/**
 	 * visits an asset.
 	 */
 	private class AssetDriver implements VisitorDriver<AssetDescriptor> {
@@ -440,8 +399,7 @@ public class ModelVisitorDriver {
 	public static boolean isEmpty(Object o) {
 		return ((o == null)
 				|| (o instanceof Collection && ((Collection<?>) o).isEmpty())
-				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0)
-				|| (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) || (o instanceof EAdResources && ((EAdResources) o)
+				|| (o instanceof EAdList && ((EAdList<?>) o).size() == 0) || (o instanceof EAdMap && ((EAdMap<?, ?>) o)
 				.isEmpty()));
 	}
 

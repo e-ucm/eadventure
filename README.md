@@ -18,3 +18,5 @@ You can dowlonad [the latest release of eAdventure from here](http://e-adventure
 
 # [Google +](https://plus.google.com/b/105192112768097933442/105192112768097933442/)
 
+# [Trying out](https://github.com/anserran/eadventure/wiki/Trying-it-out)
+

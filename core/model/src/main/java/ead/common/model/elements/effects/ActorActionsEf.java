@@ -39,16 +39,28 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class ActorActionsEf extends AbstractEffect {
 
-	@Param("actionElement")
+	@SuppressWarnings("rawtypes")
+	public static final EAdVarDef<EAdList> VAR_ACTIONS = new VarDef<EAdList>(
+			"actions", EAdList.class, null);
+
+	public static final EAdVarDef<EAdCondition> VAR_ACTION_COND = new VarDef<EAdCondition>(
+			"action_cond", EAdCondition.class, EmptyCond.TRUE);
+
+	@Param
 	private EAdSceneElementDef actionElement;
 
-	@Param("change")
+	@Param
 	private ChangeActorActions change;
 
 	public ActorActionsEf() {

@@ -44,12 +44,6 @@ package ead.tools.xml;
 public interface XMLNode {
 
 	/**
-	 * 
-	 * @return the node's attributes
-	 */
-	XMLAttributes getAttributes();
-
-	/**
 	 * @return the text contained by this node
 	 */
 	String getNodeText();
@@ -73,8 +67,47 @@ public interface XMLNode {
 
 	/**
 	 * Returns the first child node
+	 * 
 	 * @return
 	 */
 	XMLNode getFirstChild();
+
+	/**
+	 * Sets the contained text in this node
+	 * 
+	 * @param text
+	 */
+	void setText(String text);
+
+	/**
+	 * Sets the value for the attribute
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	void setAttribute(String key, String value);
+
+	/**
+	 * Appends a child to this node
+	 * 
+	 * @param node
+	 */
+	void append(XMLNode node);
+
+	/**
+	 * Returns the value for a given attribute. Returns null if the attribute is
+	 * not present in the node
+	 * 
+	 * @param atttributeName
+	 *            the attribute name
+	 * @return
+	 */
+	String getAttributeValue(String atttributeName);
+
+	/**
+	 * Returns the number of attributes contained by this node
+	 * @return
+	 */
+	int getAttributesLength();
 
 }

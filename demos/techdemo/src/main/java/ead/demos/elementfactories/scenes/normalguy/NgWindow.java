@@ -37,19 +37,17 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.multimedia.EAdVideo;
+import ead.common.model.assets.multimedia.Video;
 import ead.common.model.elements.scenes.VideoScene;
-import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.common.resources.assets.multimedia.Video;
-import ead.demos.elementfactories.scenes.SceneDemo;
 
-public class NgWindow extends VideoScene implements SceneDemo {
+public class NgWindow extends VideoScene {
 	public NgWindow() {
 		super();
 		EAdVideo video = new Video("@binary/eAdventure.webm");
-		getDefinition().getResources().addAsset(VideoScene.video, video);
+		getDefinition().addAsset(VideoScene.video, video);
 	}
 
-	@Override
 	public String getSceneDescription() {
 		return "A scene showing the e-Adventure presentation video";
 	}

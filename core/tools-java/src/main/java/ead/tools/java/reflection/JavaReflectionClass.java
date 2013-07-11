@@ -37,17 +37,22 @@
 
 package ead.tools.java.reflection;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import ead.tools.reflection.ReflectionClass;
-import ead.tools.reflection.ReflectionConstructor;
-import ead.tools.reflection.ReflectionField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.tools.reflection.ReflectionClass;
+import ead.tools.reflection.ReflectionClassLoader;
+import ead.tools.reflection.ReflectionConstructor;
+import ead.tools.reflection.ReflectionField;
 
 public class JavaReflectionClass<T> implements ReflectionClass<T> {
 
@@ -62,11 +67,13 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 
 	private ReflectionClass<?> superClass;
 
+	private List<ReflectionClass<?>> interfaces;
+
 	private boolean allFieldsAdded;
 
 	public JavaReflectionClass(Class<T> clazz) {
 		this.clazz = clazz;
-		this.fields = new HashMap<String, ReflectionField>();
+		this.fields = new LinkedHashMap<String, ReflectionField>();
 		this.allFieldsAdded = false;
 	}
 
@@ -92,11 +99,9 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 				fields.put(name, new JavaReflectionField(clazz
 						.getDeclaredField(name)));
 			} catch (SecurityException e) {
-				logger.error("error accessing field {} for {}", new Object[] {
-						clazz, name }, e);
+
 			} catch (NoSuchFieldException e) {
-				logger.error("no such field for {} for {}", new Object[] {
-						clazz, name }, e);
+
 			}
 		}
 		return fields.get(name);
@@ -131,6 +136,22 @@ public class JavaReflectionClass<T> implements ReflectionClass<T> {
 	@Override
 	public Class<?> getType() {
 		return clazz;
+	}
+
+	@Override
+	public <S extends Annotation> boolean hasAnnotation(Class<S> annotation) {
+		return clazz.getAnnotation(annotation) != null;
+	}
+
+	@Override
+	public List<ReflectionClass<?>> getInterfaces() {
+		if (interfaces == null) {
+			interfaces = new ArrayList<ReflectionClass<?>>();
+			for (Class<?> c : clazz.getInterfaces()) {
+				interfaces.add(ReflectionClassLoader.getReflectionClass(c));
+			}
+		}
+		return interfaces;
 	}
 
 }

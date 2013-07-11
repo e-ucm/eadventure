@@ -39,34 +39,25 @@ package ead.common.model.elements.scenes;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.resources.annotation.Asset;
-import ead.common.resources.annotation.Bundled;
-import ead.common.resources.assets.multimedia.EAdVideo;
 
 @Element
 public class VideoScene extends BasicScene implements EAdScene {
 
-	/**
-	 * Variable to defining if the video is finished playing
-	 */
-	public static final EAdVarDef<Boolean> VAR_FINISHED = new VarDef<Boolean>(
-			"finished", Boolean.class, Boolean.FALSE);
-
-	@Bundled
-	@Asset( { EAdVideo.class })
 	public static final String video = "video";
 
-	@Param("finalEffects")
+	@Param
 	private EAdList<EAdEffect> finalEffects;
 
 	public VideoScene() {
 		super();
-		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+		finalEffects = new EAdList<EAdEffect>();
+	}
+
+	public void setVideo(EAdVideo v) {
+		getDefinition().addAsset(VideoScene.video, v);
 	}
 
 	/**

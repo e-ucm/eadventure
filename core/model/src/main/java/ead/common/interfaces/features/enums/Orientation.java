@@ -79,4 +79,25 @@ public enum Orientation {
 	 * Northwest
 	 */
 	NW;
+
+	public static Orientation parse(String o) {
+		if (o.equals("N")) {
+			return N;
+		} else if (o.equals("S")) {
+			return S;
+		} else if (o.equals("W")) {
+			return W;
+		} else if (o.equals("E")) {
+			return E;
+		} else if (o.equals("NW")) {
+			return NW;
+		} else if (o.equals("NE")) {
+			return NE;
+		} else if (o.equals("SW")) {
+			return SW;
+		} else if (o.equals("SE")) {
+			return SE;
+		}
+		return S;
+	}
 };

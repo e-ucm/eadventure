@@ -53,8 +53,14 @@ public class WaitEf extends AbstractEffect {
 	/**
 	 * Time to wait for this effect, in milliseconds
 	 */
-	@Param("time")
+	@Param
 	private int time;
+
+	@Param
+	private boolean waitUntilClick;
+
+	@Param
+	private boolean blockInput;
 
 	/**
 	 * Constructs a blocking and opaque wait effect with time = 0
@@ -77,9 +83,6 @@ public class WaitEf extends AbstractEffect {
 	public WaitEf(int time) {
 		super();
 		this.time = time;
-		this.setBlocking(true);
-		this.setOpaque(true);
-		this.setQueueable(true);
 	}
 
 	/**
@@ -98,6 +101,22 @@ public class WaitEf extends AbstractEffect {
 	 */
 	public int getTime() {
 		return time;
+	}
+
+	public void setWaitUntilClick(boolean b) {
+		this.waitUntilClick = b;
+	}
+
+	public boolean isWaitUntilClick() {
+		return waitUntilClick;
+	}
+
+	public boolean isBlockInput() {
+		return blockInput;
+	}
+
+	public void setBlockInput(boolean blockInput) {
+		this.blockInput = blockInput;
 	}
 
 }

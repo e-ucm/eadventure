@@ -11,6 +11,8 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.iml
+.idea/
 local.properties
 .classpath
 .settings/
@@ -44,20 +46,20 @@ test/resources/result*
 **/R.java
 
 # gwt settings, output and support
-core/engine-playn/.gwt/
-core/engine-playn/gwt-unitCache*
-core/engine-playn/war/eadengine*
 
-core/engine-gdx-html/.gwt/
-core/engine-gdx-html/gwt-unitCache*
-core/engine-gdx-html/war/ead*
-core/engine-gdx-html/war/assets*
-core/engine-gdx-html/war/WEB-INF/deploy*
-core/engine-gdx-html/war/WEB-INF/lib*
-core/engine-gdx-html/war/WEB-INF/classes*
+core/engine-html/.gwt/
+core/engine-html/gwt-unitCache*
+core/engine-html/war/ead*
+core/engine-html/war/assets*
+core/engine-html/war/WEB-INF/deploy*
+core/engine-html/war/WEB-INF/lib*
+core/engine-html/war/WEB-INF/classes*
 
 # jvm error files
 **/hs_err*.log
+
+# Logs
+*.log
 
 # android-compilation generated files and output; also, special lint.xml rules
 core/engine-android/gen/
@@ -76,18 +78,17 @@ demos/firstaidgame/gwt-unitCache
 demos/firstaidgame/war/firstaid
 demos/firstaidgame/.gwt/
 
-core/engine-gdx-android/assets
-core/engine-gdx-android/gen/
-core/engine-gdx-android/bin/
-core/engine-gdx-android/proguard.cfg
+core/engine-android/assets
+core/engine-android/gen/
+core/engine-android/bin/
+core/engine-android/proguard.cfg
 
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
 guitools/enginegui/enginegui.properties
 
-core/engine-gdx-html/src/main/webapp/assets
-core/engine-gdx-desktop/src/main/resources/ead/engine/resources
+core/engine-html/src/main/webapp/assets
+core/engine-desktop/src/main/resources/ead/engine/resources
 classes/
 
-
-
+resources/engine.war

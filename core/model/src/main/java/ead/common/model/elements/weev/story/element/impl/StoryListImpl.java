@@ -38,7 +38,6 @@
 package ead.common.model.elements.weev.story.element.impl;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.weev.story.impl.AbstractRetractableStoryElement;
 import ead.common.model.weev.story.elements.StoryList;
 
@@ -48,7 +47,7 @@ public class StoryListImpl<E> extends AbstractRetractableStoryElement implements
 	EAdList<E> hints;
 
 	public StoryListImpl(Class<E> clazz) {
-		hints = new EAdListImpl<E>(clazz);
+		hints = new EAdList<E>();
 	}
 
 	@Override

@@ -39,7 +39,7 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.EAdSound;
 
 /**
  * An effect that plays a sound
@@ -49,14 +49,25 @@ import ead.common.resources.assets.multimedia.EAdSound;
 @Element
 public class PlaySoundEf extends AbstractEffect {
 
-	@Param("sound")
+	@Param
 	private EAdSound sound;
 
-	@Param("background")
+	@Param
 	private boolean background;
 
+	@Param
+	private boolean overlay;
+
+	@Param
+	private float volume;
+
+	public PlaySoundEf() {
+		this(null);
+	}
+
 	/**
-	 * Creates a play sound effect. If sound is null, it stops the current background music
+	 * Creates a play sound effect. If sound is null, it stops the current
+	 * background music
 	 * 
 	 * @param id
 	 *            the effect id
@@ -67,14 +78,14 @@ public class PlaySoundEf extends AbstractEffect {
 		this(sound, false);
 	}
 
-	public PlaySoundEf() {
-		this(null);
+	public PlaySoundEf(EAdSound sound, boolean isBackground) {
+		this(sound, isBackground, 1.0f);
 	}
 
-	public PlaySoundEf(EAdSound sound, boolean isBackground) {
-		super();
+	public PlaySoundEf(EAdSound sound, boolean isBackground, float volume) {
 		this.sound = sound;
 		this.background = isBackground;
+		this.volume = volume;
 	}
 
 	public void setSound(EAdSound sound) {
@@ -96,6 +107,28 @@ public class PlaySoundEf extends AbstractEffect {
 
 	public void setBackground(boolean isBackground) {
 		this.background = isBackground;
+	}
+
+	public boolean isOverlay() {
+		return overlay;
+	}
+
+	public void setOverlay(boolean overlay) {
+		this.overlay = overlay;
+	}
+
+	public float getVolume() {
+		return volume;
+	}
+
+	/**
+	 * Sets the volume for the sound, being 1.0f the maximum volume and 0.0f the
+	 * minimum
+	 * 
+	 * @param volume
+	 */
+	public void setVolume(float volume) {
+		this.volume = volume;
 	}
 
 }

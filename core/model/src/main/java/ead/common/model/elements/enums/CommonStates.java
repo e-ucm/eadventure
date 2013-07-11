@@ -49,21 +49,35 @@ public enum CommonStates {
 	/**
 	 * Default state
 	 */
-	EAD_STATE_DEFAULT,
+	DEFAULT,
 
 	/**
 	 * Talking state
 	 */
-	EAD_STATE_TALKING,
+	TALKING,
 
 	/**
 	 * Walking state
 	 */
-	EAD_STATE_WALKING,
+	WALKING,
 
 	/**
 	 * Using state
 	 */
-	EAD_STATE_USING;
+	USING;
+
+	public String toString() {
+		switch (this) {
+		case DEFAULT:
+			return "default";
+		case TALKING:
+			return "talking";
+		case USING:
+			return "using";
+		case WALKING:
+			return "walking";
+		}
+		return null;
+	}
 
 }

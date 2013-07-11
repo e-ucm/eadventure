@@ -37,14 +37,14 @@
 
 package ead.common.model.elements.events;
 
+import java.util.List;
+
 import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
 
 /**
  * <p>
@@ -57,19 +57,18 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 	/**
 	 * List of effects
 	 */
-	@Param("effects")
+	@Param
 	private EAdMap<Enum<?>, EAdList<EAdEffect>> effects;
 
 	/**
 	 * Calculated attribute with all effects contained by the behavior. It must
 	 * not be saved in the XML
 	 */
-	private EAdList<EAdEffect> allEffects;
+	private transient EAdList<EAdEffect> allEffects;
 
 	public AbstractEvent() {
 		super();
-		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>(Enum.class,
-				EAdList.class);
+		effects = new EAdMap<Enum<?>, EAdList<EAdEffect>>();
 	}
 
 	/*
@@ -93,10 +92,16 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 	public void addEffect(Enum<?> event, EAdEffect effect) {
 		EAdList<EAdEffect> effects = this.effects.get(event);
 		if (effects == null) {
-			effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			effects = new EAdList<EAdEffect>();
 			this.effects.put(event, effects);
 		}
 		effects.add(effect);
+	}
+
+	public void addEffects(Enum<?> event, List<EAdEffect> effects) {
+		for (EAdEffect e : effects) {
+			addEffect(event, e);
+		}
 	}
 
 	public EAdMap<Enum<?>, EAdList<EAdEffect>> getEffects() {
@@ -105,11 +110,20 @@ public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 
 	public EAdList<EAdEffect> getAllEffects() {
 		if (allEffects == null) {
-			allEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+			allEffects = new EAdList<EAdEffect>();
 			for (EAdList<EAdEffect> l : effects.values()) {
 				allEffects.addAll(l);
 			}
 		}
 		return allEffects;
 	}
+
+	public void setEffects(EAdMap<Enum<?>, EAdList<EAdEffect>> effects) {
+		this.effects = effects;
+	}
+
+	public void setAllEffects(EAdList<EAdEffect> allEffects) {
+		this.allEffects = allEffects;
+	}
+
 }

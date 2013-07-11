@@ -40,7 +40,6 @@ package ead.common.model.elements.weev.world.impl;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.weev.impl.AbstractWEEVElement;
 import ead.common.model.weev.world.ActorPlacement;
 import ead.common.model.weev.world.Space;
@@ -59,13 +58,13 @@ public class WorldImpl extends AbstractWEEVElement implements World {
 
 	private EAdList<ActorPlacement> actorPlacements;
 
-	@Param(value = "initialSpace")
+	@Param
 	private Space initialSpace;
 
 	public WorldImpl() {
-		spaces = new EAdListImpl<Space>(Space.class);
-		spaceLinks = new EAdListImpl<SpaceLink>(SpaceLink.class);
-		actorPlacements = new EAdListImpl<ActorPlacement>(ActorPlacement.class);
+		spaces = new EAdList<Space>();
+		spaceLinks = new EAdList<SpaceLink>();
+		actorPlacements = new EAdList<ActorPlacement>();
 	}
 
 	@Override

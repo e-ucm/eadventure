@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.operations.EAdField;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

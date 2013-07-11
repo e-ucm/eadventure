@@ -39,15 +39,15 @@ package ead.common.model.elements;
 
 import java.util.Map;
 
+import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Interface for an eAdventure game static model.
  */
-public interface EAdAdventureModel extends EAdElement, Variabled {
+public interface EAdAdventureModel extends EAdElement, Variabled, Evented {
 
 	/**
 	 * Default width for games
@@ -75,22 +75,6 @@ public interface EAdAdventureModel extends EAdElement, Variabled {
 	 * @return the title of the adventure
 	 */
 	EAdString getTitle();
-
-	/**
-	 * Sets the inventory for the adventure
-	 * 
-	 * @param inventory
-	 *            the inventory
-	 */
-	void setInventory(EAdInventory inventory);
-
-	/**
-	 * Returns the adventure inventory. {@code null} if the adventure does not
-	 * require inventory
-	 * 
-	 * @return the inventory
-	 */
-	EAdInventory getInventory();
 
 	/**
 	 * Returns the width for this game

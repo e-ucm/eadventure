@@ -37,10 +37,11 @@
 
 package ead.tools.gwt.xml;
 
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
-import ead.tools.xml.XMLAttributes;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
 
@@ -48,19 +49,17 @@ public class GwtXMLNode implements XMLNode {
 
 	private Node node;
 
-	private XMLAttributes attributes;
-
 	private XMLNodeList childNodes;
 
 	public GwtXMLNode(Node node) {
 		this.node = node;
-		attributes = new GwtXMLAttributes(node.getAttributes());
-		childNodes = new GwtXMLNodeList(node.getChildNodes());
+		if (node.hasChildNodes()) {
+			childNodes = new GwtXMLNodeList(node.getChildNodes());
+		}
 	}
 
-	@Override
-	public XMLAttributes getAttributes() {
-		return attributes;
+	public Node getElement() {
+		return node;
 	}
 
 	@Override
@@ -93,7 +92,11 @@ public class GwtXMLNode implements XMLNode {
 
 	@Override
 	public boolean hasChildNodes() {
-		return node.hasChildNodes();
+		try {
+			return node.hasChildNodes();
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -106,4 +109,51 @@ public class GwtXMLNode implements XMLNode {
 
 	}
 
+	@Override
+	public void setText(String text) {
+		node.setNodeValue(text);
+	}
+
+	@Override
+	public void setAttribute(String key, String value) {
+		((Element) node).setAttribute(key, value);
+
+	}
+
+	@Override
+	public void append(XMLNode node) {
+		Node child = ((GwtXMLNode) node).getElement();
+		this.node.appendChild(child);
+	}
+
+	@Override
+	public String getAttributeValue(String atttributeName) {
+		try {
+			if (node.hasAttributes()) {
+				NamedNodeMap map = node.getAttributes();
+				if (map != null) {
+					Node n = node.getAttributes().getNamedItem(atttributeName);
+					return n == null ? null : n.getNodeValue();
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	@Override
+	public int getAttributesLength() {
+		try {
+			if (node.hasAttributes()) {
+				NamedNodeMap map = node.getAttributes();
+				if (map != null) {
+					return map.getLength();
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		return 0;
+	}
 }

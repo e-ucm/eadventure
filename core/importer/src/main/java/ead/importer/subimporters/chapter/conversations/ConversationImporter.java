@@ -43,11 +43,11 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.params.text.EAdString;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.text.QuestionEf;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
@@ -80,11 +80,12 @@ public class ConversationImporter implements
 
 	@Override
 	public EAdEffect init(Conversation oldObject) {
-		return null;
+		return new TriggerMacroEf();
 	}
 
 	@Override
 	public EAdEffect convert(Conversation oldObject, Object object) {
+		TriggerMacroEf result = (TriggerMacroEf) object;
 		nodes.clear();
 
 		annotator.annotate(ImportAnnotator.Type.Entry,
@@ -101,7 +102,7 @@ public class ConversationImporter implements
 					nodes.put(node, effect);
 				}
 			} else if (node.getType() == ConversationNode.OPTION) {
-				EAdEffect effect = new ShowQuestionEf();
+				EAdEffect effect = new QuestionEf();
 				nodes.put(node, effect);
 				annotator.annotate(effect, ImportAnnotator.Type.Comment,
 						"choice");
@@ -120,24 +121,20 @@ public class ConversationImporter implements
 					currentNodeEffect.getNextEffects().add(nextNodeEffect);
 				}
 			} else if (node.getType() == ConversationNode.OPTION) {
-				ShowQuestionEf currentNodeEffect = (ShowQuestionEf) nodes
-						.get(node);
+				QuestionEf currentNodeEffect = (QuestionEf) nodes.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
-					EAdString string = EAdString.newRandomEAdString("line");
+					EAdString string = stringHandler.generateNewString();
 					stringHandler.setString(string, node.getLineText(i));
 					currentNodeEffect.addAnswer(string, nodes.get(node
 							.getChild(i)));
 				}
-				currentNodeEffect.setUpNewInstance();
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
-		ChangeFieldEf changeField = new ChangeFieldEf(
-				SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP);
-		changeField.getNextEffects().add(initialEffect);
-
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+		macro.add(initialEffect);
+		result.putEffects(EmptyCond.TRUE, macro);
 		annotator.annotate(ImportAnnotator.Type.Close, oldObject.getId());
-
-		return changeField;
+		return result;
 	}
 }

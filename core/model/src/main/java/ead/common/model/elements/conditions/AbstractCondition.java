@@ -38,13 +38,17 @@
 package ead.common.model.elements.conditions;
 
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.operations.AbstractOperation;
 
-public abstract class AbstractCondition extends BasicElement implements
+public abstract class AbstractCondition extends AbstractOperation implements
 		EAdCondition {
 
 	public AbstractCondition() {
 		super();
+	}
+
+	public boolean equals(Object o) {
+		return this == o;
 	}
 
 }

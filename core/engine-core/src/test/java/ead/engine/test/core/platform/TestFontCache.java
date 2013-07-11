@@ -37,39 +37,19 @@
 
 package ead.engine.test.core.platform;
 
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.assets.RuntimeFont;
+import ead.common.model.assets.text.EAdFont;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.fonts.FontHandlerImpl;
 
 public class TestFontCache extends FontHandlerImpl {
 
+	public TestFontCache(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
+
 	@Override
 	public void addEAdFont(EAdFont font) {
-		this.fontCache.put(font, new RuntimeFont() {
 
-			@Override
-			public BasicFont getEAdFont() {
-				return null;
-			}
-
-			@Override
-			public int stringWidth(String string) {
-				return string.length();
-			}
-
-			@Override
-			public int lineHeight() {
-				return 1;
-			}
-
-			@Override
-			public EAdRectangle stringBounds(String string) {
-				return new EAdRectangle(0, -1, string.length(), 1);
-			}
-
-		});
 	}
 
 }

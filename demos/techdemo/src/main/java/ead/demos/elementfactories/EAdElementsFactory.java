@@ -37,7 +37,6 @@
 
 package ead.demos.elementfactories;
 
-import ead.common.model.elements.EAdInventory;
 import ead.demos.elementfactories.actions.ActionsFactory;
 import ead.demos.elementfactories.assets.CaptionFactory;
 import ead.demos.elementfactories.assets.DrawableFactory;
@@ -96,16 +95,6 @@ public class EAdElementsFactory {
 
 	public ShapeFactory getShapeFactory() {
 		return shapeFactory;
-	}
-
-	private EAdInventory inventory;
-
-	public void setInventory(EAdInventory inventory) {
-		this.inventory = inventory;
-	}
-
-	public EAdInventory getInventory() {
-		return inventory;
 	}
 
 	public ActionsFactory getActionsFactory() {

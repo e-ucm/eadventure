@@ -38,15 +38,13 @@
 package ead.common.model.elements;
 
 import ead.common.interfaces.Param;
-import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.Evented;
-import ead.common.model.elements.EAdBehavior;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
+import ead.common.interfaces.features.WithBehavior;
 import ead.common.model.elements.behaviors.Behavior;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.EAdGUIEvent;
 
 /**
  * An abstract element with behavior, resources and events
@@ -55,23 +53,25 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
 public abstract class AbstractElementWithBehavior extends BasicElement
 		implements Evented, WithBehavior {
 
-	@Param("behavior")
+	@Param
 	protected EAdBehavior behavior;
 
 	/**
 	 * Events associated with this element
 	 */
-	@Param("events")
+	@Param
 	protected EAdList<EAdEvent> events;
 
-	@Param(value = "propagateGUIEvents", defaultValue = "true")
-	private boolean propagateGUIEvents;
+	/**
+	 * Initial event for this element. This attribute WILL NOT BE SERIALIZED by
+	 * the any writer. It is a transient attribute
+	 */
+	private transient SceneElementEv initEvent;
 
 	public AbstractElementWithBehavior() {
 		super();
 		this.behavior = new Behavior();
-		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		this.propagateGUIEvents = false;
+		this.events = new EAdList<EAdEvent>();
 	}
 
 	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {
@@ -83,7 +83,7 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 * 
 	 * @param event
 	 *            the event
-	 * @param behavior
+	 * @param effect
 	 *            the effect
 	 */
 	public void addBehavior(EAdGUIEvent event, EAdEffect effect) {
@@ -130,12 +130,30 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 		return events;
 	}
 
-	public void setPropagateGUIEvents(boolean propagate) {
-		this.propagateGUIEvents = propagate;
+	public void setEvents(EAdList<EAdEvent> events) {
+		this.events = events;
 	}
 
-	public boolean isPropagateGUIEvents() {
-		return propagateGUIEvents;
+	public void addAddedEffect(EAdEffect e) {
+		if (initEvent == null) {
+			initEvent = new SceneElementEv();
+			this.getEvents().add(initEvent);
+		}
+		initEvent.addEffect(SceneElementEvType.ADDED, e);
 	}
 
+	/**
+	 * Adds an effect that will be executed only once when this scene element
+	 * appears for the first time in the game
+	 *
+	 * @param e
+	 *            the effect
+	 */
+	public void addInitEffect(EAdEffect e) {
+		if (initEvent == null) {
+			initEvent = new SceneElementEv();
+			this.getEvents().add(initEvent);
+		}
+		initEvent.addEffect(SceneElementEvType.INIT, e);
+	}
 }

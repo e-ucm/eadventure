@@ -50,7 +50,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-
 		<!-- tests -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -64,6 +63,5 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 		</dependency>
-
 	</dependencies>
 </project>

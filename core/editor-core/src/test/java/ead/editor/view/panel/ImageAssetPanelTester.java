@@ -42,13 +42,14 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ead.common.resources.assets.drawable.basics.Image;
+
+import ead.common.model.assets.drawable.basics.Image;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.panel.AbstractElementPanel;
 import ead.editor.view.panel.asset.ImageAssetPanel;
-import ead.engine.core.gdx.assets.GdxAssetHandler;
+import ead.engine.core.assets.AssetHandlerImpl;
 import ead.utils.FileUtils;
 import ead.utils.Log4jConfig;
 
@@ -108,7 +109,7 @@ public class ImageAssetPanelTester extends AbstractPanelTester {
 			target.addChild(new EngineNode<Image>(1, new Image(
 					"@drawable/assets_animation_telefono.png")));
 			target.setBase(new File(getDir(),
-					GdxAssetHandler.PROJECT_INTERNAL_PATH));
+					AssetHandlerImpl.PROJECT_INTERNAL_PATH));
 		}
 		return target;
 	}

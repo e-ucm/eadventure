@@ -38,7 +38,7 @@
 package ead.importer.interfaces;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.extra.EAdList;
 import ead.importer.EAdElementImporter;
 import ead.tools.Factory;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
@@ -63,6 +63,6 @@ public interface EffectsImporterFactory extends
 	 *            old effects
 	 * @return the macro; {@code null} if effect was empty.
 	 */
-	EffectsMacro getMacroEffects(Effects effect);
+	EAdList<EAdEffect> getMacroEffects(Effects effect);
 
 }

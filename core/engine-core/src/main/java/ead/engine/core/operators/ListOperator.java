@@ -40,9 +40,8 @@ package ead.engine.core.operators;
 import java.util.Random;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.variables.operations.ListOp;
-import ead.engine.core.game.ValueMap;
+import ead.common.model.elements.operations.ListOp;
+import ead.engine.core.game.interfaces.ValueMap;
 
 public class ListOperator implements Operator<ListOp> {
 
@@ -55,7 +54,7 @@ public class ListOperator implements Operator<ListOp> {
 	public ListOperator(ValueMap valueMap) {
 		this.valueMap = valueMap;
 		random = new Random(System.currentTimeMillis());
-		auxList = new EAdListImpl<Object>(Object.class);
+		auxList = new EAdList<Object>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,17 +64,13 @@ public class ListOperator implements Operator<ListOp> {
 
 		switch (operation.getOperation()) {
 		case RANDOM_ELEMENT:
-			if (list.getValueClass().equals(clazz)) {
-				return (S) list.get(random.nextInt(list.size()));
-			}
-			break;
+			return (S) list.get(random.nextInt(list.size()));
 		case RANDOM_LIST:
 			if (clazz.equals(EAdList.class)) {
 				for (Object o : list) {
 					auxList.add(o);
 				}
-				EAdList<Object> randomList = new EAdListImpl<Object>(
-						Object.class);
+				EAdList<Object> randomList = new EAdList<Object>();
 				while (auxList.size() > 0)
 					randomList.add(auxList.remove(random
 							.nextInt(auxList.size())));

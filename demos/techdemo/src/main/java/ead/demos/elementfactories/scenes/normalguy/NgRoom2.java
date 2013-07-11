@@ -37,7 +37,10 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.assets.drawable.basics.EAdShape;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.shapes.CircleShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
@@ -45,33 +48,29 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
-import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
+import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.resources.assets.drawable.basics.EAdShape;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
+import ead.common.model.params.variables.VarDef;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
@@ -97,7 +96,7 @@ public class NgRoom2 extends EmptyScene {
 		ng.setInitialScale(0.8f);
 
 		// Character can talk in the scene
-		SpeakEf effect = new SpeakSceneElementEf(ng);
+		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.56"));
 		EAdElementsFactory.getInstance().getStringFactory().setString(
 				effect.getString(),
 				"Oh... this is getting weird... where the heck am I?");
@@ -105,7 +104,7 @@ public class NgRoom2 extends EmptyScene {
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		// Area where the character can walk
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(445, 490, 800, 600);
 		setTrajectoryDefinition(d);
 
@@ -163,9 +162,9 @@ public class NgRoom2 extends EmptyScene {
 				new VarDef<Integer>("integer", Integer.class, 0));
 		EAdField<Integer> mouseY = new BasicField<Integer>(null,
 				new VarDef<Integer>("integer", Integer.class, 0));
-		EAdField<Integer> canyonX = new BasicField<Integer>(topFan,
+		EAdField<Float> canyonX = new BasicField<Float>(topFan,
 				SceneElement.VAR_X);
-		EAdField<Integer> canyonY = new BasicField<Integer>(topFan,
+		EAdField<Float> canyonY = new BasicField<Float>(topFan,
 				SceneElement.VAR_Y);
 
 		// Bullet generation
@@ -175,11 +174,11 @@ public class NgRoom2 extends EmptyScene {
 		//circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY, ColorFill.LIGHT_GRAY, 20, 20));
 		EAdSceneElementDef bullet = new SceneElementDef(circle);
 
-		PhApplyImpluseEf applyForce = new PhApplyImpluseEf();
+		PhApplyImpulseEf applyForce = new PhApplyImpulseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1])", mouseY, canyonY));
 		AddActorReferenceEf addEffect = new AddActorReferenceEf(bullet,
-				new EAdPosition(Corner.CENTER, 552, height), applyForce);
+				new Position(Corner.CENTER, 552, height), applyForce);
 
 		//interpolation.getNextEffects().add(addEffect);
 		topFan.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, addEffect);
@@ -234,7 +233,7 @@ public class NgRoom2 extends EmptyScene {
 		int spotX = 100;
 		int spotY = 300;
 		int desp = 0;
-		PhysicsEffect effect = new PhysicsEffect();
+		PhysicsEf effect = new PhysicsEf();
 
 		EAdShape circle = new CircleShape(20);
 		circle.setPaint(new LinearGradientFill(ColorFill.BLACK, new ColorFill(
@@ -244,14 +243,13 @@ public class NgRoom2 extends EmptyScene {
 			desp += 20;
 			for (int j = 0; j < 10; j++) {
 				SceneElement e = new SceneElement(circle);
-				e.setPosition(new EAdPosition(Corner.CENTER, spotX + i * 20
-						+ desp, spotY + j * 20));
+				e.setPosition(new Position(Corner.CENTER,
+						spotX + i * 20 + desp, spotY + j * 20));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-				e.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE,
-						PhShape.CIRCULAR);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_TYPE, PhType.DYNAMIC);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_RESTITUTION, 0.3f);
+				e.setVarInitialValue(PhysicsEf.VAR_PH_SHAPE, PhShape.CIRCULAR);
 				// Ng moving to the selected ball
 				MoveSceneElementEf move = new MoveSceneElementEf();
 				move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
@@ -260,23 +258,20 @@ public class NgRoom2 extends EmptyScene {
 			}
 		}
 
-		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(
-				this, BasicScene.VAR_SCENE_LOADED));
-		event.setCondition(condition);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.ADDED, effect);
 
 		getEvents().add(event);
 
 		addGround(effect);
 	}
 
-	protected void addGround(PhysicsEffect effect) {
+	protected void addGround(PhysicsEf effect) {
 		RectangleShape groundS = new RectangleShape(799, 1);
 		groundS.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT,
 				ColorFill.TRANSPARENT, 799, 1));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
+		ground.setPosition(new Position(Corner.CENTER, 400, 575));
 
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);

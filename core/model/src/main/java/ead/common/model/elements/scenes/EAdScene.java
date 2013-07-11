@@ -40,7 +40,7 @@ package ead.common.model.elements.scenes;
 /**
  * Scenes in the eAdventure model. A scene is a game screen.
  */
-public interface EAdScene extends EAdComplexSceneElement {
+public interface EAdScene extends EAdGroupElement {
 
 	/**
 	 * @return the background element of the scene

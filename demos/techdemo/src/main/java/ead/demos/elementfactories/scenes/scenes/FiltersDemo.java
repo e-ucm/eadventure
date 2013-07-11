@@ -37,18 +37,20 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
+import ead.common.model.assets.drawable.filters.FilteredDrawable;
+import ead.common.model.assets.drawable.filters.MatrixFilter;
+import ead.common.model.assets.drawable.filters.ShaderFilter;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.MatrixFilter;
-import ead.common.util.BasicMatrix;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.util.Matrix;
+import ead.common.model.params.util.Position.Corner;
 
 public class FiltersDemo extends EmptyScene {
 
 	public FiltersDemo() {
-		BasicMatrix m = new BasicMatrix();
+		this.setId("FiltersDemo");
+		Matrix m = new Matrix();
 		m.scale(-1.0f, 1.0f, true);
 		Image i = new Image("@drawable/ng_key.png");
 		EAdFilteredDrawable d = new FilteredDrawable(i, new MatrixFilter(m,
@@ -57,20 +59,18 @@ public class FiltersDemo extends EmptyScene {
 		e.setInitialScale(0.8f);
 		e.setPosition(Corner.CENTER, 400, 300);
 
+		EAdFilteredDrawable d2 = new FilteredDrawable(i, new ShaderFilter(
+				"@binary/shaders/normal.vert", "@binary/shaders/reder.frag"));
+		SceneElement e3 = new SceneElement(d2);
+		e3.setInitialScale(0.8f);
+		e3.setPosition(Corner.CENTER, 400, 200);
+		add(e3);
+
 		SceneElement e2 = new SceneElement(i);
 		e2.setPosition(Corner.CENTER, 400, 400);
 		e2.setInitialScale(0.8f);
 		getSceneElements().add(e2);
 		getSceneElements().add(e);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "An scene showing filters.";
-	}
-
-	public String getDemoName() {
-		return "Filters Scene";
 	}
 
 }

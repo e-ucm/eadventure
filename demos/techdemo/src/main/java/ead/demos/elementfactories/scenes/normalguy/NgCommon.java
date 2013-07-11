@@ -38,20 +38,20 @@
 package ead.demos.elementfactories.scenes.normalguy;
 
 import ead.common.interfaces.features.enums.Orientation;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.Frame;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
 
 public class NgCommon {
 
@@ -94,8 +94,8 @@ public class NgCommon {
 
 		int blink = 200;
 		int notBlink = 2000;
-		int walkTime = 200;
-		int talkTime = 300;
+		int walkTime = 500;
+		int talkTime = 500;
 
 		StateDrawable stateDrawables = new StateDrawable();
 		mainCharacter = new SceneElementDef(stateDrawables);
@@ -129,8 +129,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.W, frames);
 
-		stateDrawables.addDrawable(CommonStates.EAD_STATE_DEFAULT + "",
-				oriented);
+		stateDrawables.addDrawable(CommonStates.DEFAULT + "", oriented);
 
 		// Walk
 		oriented = new StateDrawable();
@@ -159,8 +158,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.W, frames);
 
-		stateDrawables.addDrawable(CommonStates.EAD_STATE_WALKING + "",
-				oriented);
+		stateDrawables.addDrawable(CommonStates.WALKING + "", oriented);
 
 		// Talk
 		oriented = new StateDrawable();
@@ -185,8 +183,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.W, frames);
 
-		stateDrawables.addDrawable(CommonStates.EAD_STATE_TALKING + "",
-				oriented);
+		stateDrawables.addDrawable(CommonStates.TALKING + "", oriented);
 
 		mainCharacterSceneElement = new BasicField<EAdSceneElement>(
 				mainCharacter, SceneElementDef.VAR_SCENE_ELEMENT);

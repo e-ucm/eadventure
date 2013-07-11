@@ -37,31 +37,19 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.interfaces.WithActions;
-import ead.common.interfaces.WithBehavior;
 import ead.common.interfaces.features.ResourcedEvented;
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.EAdElement;
-import ead.common.params.text.EAdString;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.interfaces.features.WithBehavior;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Scene element definition in the eAdventure model. Definition for scene
  * elements, placed in eAdventure scene.
  */
 public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
-		WithBehavior, Variabled, WithActions {
-
-	/**
-	 * Sets the appearance in the given bundle
-	 *
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance);
+		WithBehavior, Variabled {
 
 	/**
 	 * Sets the initial appearance for the scene element
@@ -69,7 +57,9 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	 * @param appearance
 	 *            the initial appearance
 	 */
-	public void setAppearance(EAdDrawable appearance);
+	void setAppearance(EAdDrawable appearance);
+
+	void setAppearance(String bundle, EAdDrawable drawable);
 
 	/**
 	 * Returns the default appearance for this definition
@@ -78,13 +68,7 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	 */
 	EAdDrawable getAppearance();
 
-	/**
-	 * Returns the appearance for the given bundle
-	 *
-	 * @param bundle
-	 * @return
-	 */
-	EAdDrawable getAppearance(EAdBundleId bundle);
+	EAdDrawable getAppearance(String bundleId);
 
 	void setName(EAdString name);
 
@@ -93,5 +77,9 @@ public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
 	void setDetailDesc(EAdString detailedDescription);
 
 	void setDoc(EAdString documentation);
+
+	void setOverAppearance(String bundle, EAdDrawable drawable);
+
+	void setOverAppearance(EAdDrawable drawable);
 
 }

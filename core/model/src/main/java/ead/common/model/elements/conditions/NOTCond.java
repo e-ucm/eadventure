@@ -37,20 +37,22 @@
 
 package ead.common.model.elements.conditions;
 
+import java.util.List;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.ResourcedElement;
+import ead.common.model.elements.operations.EAdField;
 
 @Element
-public class NOTCond extends ResourcedElement implements EAdCondition {
+public class NOTCond extends AbstractCondition {
 
-	@Param("condition")
+	@Param
 	private EAdCondition condition;
 
 	public NOTCond() {
 		super();
-		this.condition = EmptyCond.FALSE_EMPTY_CONDITION;
+		this.condition = EmptyCond.FALSE;
 	}
 
 	public NOTCond(EAdCondition condition) {
@@ -66,7 +68,8 @@ public class NOTCond extends ResourcedElement implements EAdCondition {
 	}
 
 	/**
-	 * @param condition the condition to set
+	 * @param condition
+	 *            the condition to set
 	 */
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
@@ -77,4 +80,14 @@ public class NOTCond extends ResourcedElement implements EAdCondition {
 		return "NOT " + condition.toString();
 	}
 
+	public void addFields(List<EAdField<?>> fields) {
+		condition.addFields(fields);
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof NOTCond) {
+			return (this.condition.equals(((NOTCond) o).condition));
+		}
+		return false;
+	}
 }

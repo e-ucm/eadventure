@@ -42,25 +42,24 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAction;
+import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.multimedia.EAdSound;
-import ead.common.resources.assets.multimedia.Sound;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.annotation.ImportAnnotator.Key;
@@ -101,7 +100,7 @@ public abstract class ActorImporter<P extends Element> implements
 	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		this.stringHandler = stringHandler;
@@ -173,26 +172,23 @@ public abstract class ActorImporter<P extends Element> implements
 			EAdString[] strings = setStrings(stringHandler, d);
 			EAdCondition c = null;
 			if (d.getConditions() == null) {
-				c = EmptyCond.TRUE_EMPTY_CONDITION;
+				c = EmptyCond.TRUE;
 			} else {
 				c = conditionsImporter.init(d.getConditions());
 				c = conditionsImporter.convert(d.getConditions(), c);
 			}
 
-			EffectsMacro macro = new EffectsMacro();
-			macro.getEffects().add(
-					new ChangeFieldEf(nameField, new ValueOp(strings[0])));
-			macro.getEffects().add(
-					new ChangeFieldEf(descField, new ValueOp(strings[1])));
-			macro.getEffects().add(
-					new ChangeFieldEf(detailedDesc, new ValueOp(strings[2])));
+			EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+			macro.add(new ChangeFieldEf(nameField, new ValueOp(strings[0])));
+			macro.add(new ChangeFieldEf(descField, new ValueOp(strings[1])));
+			macro.add(new ChangeFieldEf(detailedDesc, new ValueOp(strings[2])));
 
 			// Sound
 			if (d.getNameSoundPath() != null
 					&& !d.getNameSoundPath().equals("")) {
 				EAdSound sound = (EAdSound) resourceImporter
 						.getAssetDescritptor(d.getNameSoundPath(), Sound.class);
-				macro.getEffects().add(new PlaySoundEf(sound, false));
+				macro.add(new PlaySoundEf(sound, false));
 			}
 
 			if (d.getDescriptionSoundPath() != null
@@ -203,8 +199,7 @@ public abstract class ActorImporter<P extends Element> implements
 				if (soundEffects[0] == null) {
 					soundEffects[0] = new TriggerMacroEf();
 				}
-				soundEffects[0].putMacro(new EffectsMacro(new PlaySoundEf(
-						sound, false)), c);
+				soundEffects[0].putEffects(c, new EAdList<EAdEffect>());
 			}
 
 			if (d.getDetailedDescriptionSoundPath() != null
@@ -215,20 +210,18 @@ public abstract class ActorImporter<P extends Element> implements
 				if (soundEffects[1] == null) {
 					soundEffects[1] = new TriggerMacroEf();
 				}
-				soundEffects[1].putMacro(new EffectsMacro(new PlaySoundEf(
-						sound, false)), c);
+				soundEffects[1].putEffects(c, new EAdList<EAdEffect>());
 			}
 
-			triggerMacro.putMacro(macro, c);
+			triggerMacro.putEffects(c, macro);
 		}
 
 		// Generate default case (set to null all the strings)
-		EffectsMacro macro = new EffectsMacro();
-		macro.getEffects().add(new ChangeFieldEf(nameField, new ValueOp(null)));
-		macro.getEffects().add(new ChangeFieldEf(descField, new ValueOp(null)));
-		macro.getEffects().add(
-				new ChangeFieldEf(detailedDesc, new ValueOp(null)));
-		triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+		macro.add(new ChangeFieldEf(nameField, new ValueOp(null)));
+		macro.add(new ChangeFieldEf(descField, new ValueOp(null)));
+		macro.add(new ChangeFieldEf(detailedDesc, new ValueOp(null)));
+		triggerMacro.putEffects(EmptyCond.TRUE, macro);
 
 		actor.addBehavior(MouseGEv.MOUSE_ENTERED, triggerMacro);
 
@@ -254,25 +247,26 @@ public abstract class ActorImporter<P extends Element> implements
 
 	public static void addDefaultBehavior(StringHandler stringHandler,
 			EAdElementFactory factory,
-			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementImporter<Action, EAdSceneElementDef> actionImporter,
 			List<Action> actions, SceneElementDef actor, EAdEffect[] sounds) {
 
 		// add actions
 		ActorActionsEf showActions = new ActorActionsEf(actor);
-		actor.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
+		actor.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, showActions);
 
 		if (factory.getOldDataModel().getDefaultClickAction() == DefaultClickAction.SHOW_ACTIONS) {
-			actor.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, showActions);
+			actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, showActions);
 		} else {
-			SpeakEf showDescription = new SpeakEf();
+			SpeakEf showDescription = new SpeakEf(stringHandler
+					.generateNewString());
 			EAdField<EAdString> desc = new BasicField<EAdString>(actor,
 					SceneElementDef.VAR_DOC_DESC);
-			showDescription.getCaption().getFields().add(desc);
+			showDescription.getCaption().getOperations().add(desc);
 			stringHandler.setString(showDescription.getCaption().getText(),
 					"[0]");
-			actor.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, showDescription);
+			actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, showDescription);
 			if (sounds[0] != null) {
-				actor.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, sounds[0]);
+				actor.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, sounds[0]);
 			}
 		}
 

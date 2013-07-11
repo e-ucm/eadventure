@@ -40,42 +40,34 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 
-	private SceneElementGO<?> sceneElement;
+	private SceneElementGO sceneElement;
 
 	private int time;
 
 	@Inject
 	public ShowSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
-	}
-
-	@Override
-	public void doLayout(EAdTransformation t) {
-		gui.addElement(sceneElement, t);
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(gameState);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		time = element.getTime();
-		sceneElement = sceneElementFactory.get(element.getSceneElement());
+		time = effect.getTime();
+		//		sceneElement = sceneElementFactory.get(effect.getSceneElement());
 
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return true;
 	}
 
 	@Override
@@ -83,10 +75,10 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 		return time <= 0;
 	}
 
-	public void update() {
-		super.update();
-		sceneElement.update();
-		time -= gui.getSkippedMilliseconds();
+	public void act(float delta) {
+		super.act(delta);
+		sceneElement.act(delta);
+		//		time -= gui.getSkippedMilliseconds();
 
 	}
 

@@ -41,66 +41,44 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.common.model.elements.extra.EAdList;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.Game;
+import ead.engine.core.game.interfaces.GameState;
 
 public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
-	private EvaluatorFactory evaluator;
-
-	private EffectGO<?>[] effects;
-
 	@Inject
 	public TriggerMacroGO(AssetHandler assetHandler,
-			EvaluatorFactory evaluator, SceneElementGOFactory factory, GUI gui,
-			GameState gameState) {
-		super(factory, gui, gameState);
-		this.evaluator = evaluator;
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, Game gameController,
+			EventGOFactory eventFactory) {
+		super(gameState);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
 
-		EffectsMacro macro = null;
+		EAdList<EAdEffect> macro = null;
 
-		for (int i = 0; i < element.getMacros().size() && macro == null; i++) {
-			EAdCondition c = element.getConditions().get(i);
-			if (evaluator.evaluate(c)) {
-				macro = element.getMacros().get(i);
+		for (int i = 0; i < effect.getMacros().size() && macro == null; i++) {
+			EAdCondition c = effect.getConditions().get(i);
+			if (gameState.evaluate(c)) {
+				macro = effect.getMacros().get(i);
+				break;
 			}
 		}
 
 		if (macro != null) {
-			effects = new EffectGO<?>[macro.getEffects().size()];
-			int i = 0;
-			for (EAdEffect e : macro.getEffects()) {
-				effects[i++] = gameState.addEffect(e, action, parent);
+			for (EAdEffect e : macro) {
+				gameState.addEffect(e, action, parent);
 			}
 		}
-	}
-
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		if (effects != null) {
-			for (EffectGO<?> e : effects) {
-				if (e != null && !e.isFinished()) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 }

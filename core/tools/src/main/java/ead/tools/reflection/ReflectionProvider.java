@@ -45,4 +45,6 @@ public interface ReflectionProvider {
 
 	Class<?> getSuperclass(Class<?> c);
 
+	Class<?> getClassforName(String string);
+
 }

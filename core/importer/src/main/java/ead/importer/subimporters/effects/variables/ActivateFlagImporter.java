@@ -42,8 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.model.elements.operations.EAdField;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -69,10 +68,8 @@ public class ActivateFlagImporter extends
 	public ChangeFieldEf init(ActivateEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.FLAG_CONDITION);
-		BooleanOp op = new BooleanOp();
-		op.setCondition(EmptyCond.TRUE_EMPTY_CONDITION);
 
-		ChangeFieldEf changeVar = new ChangeFieldEf(var, op);
+		ChangeFieldEf changeVar = new ChangeFieldEf(var, EmptyCond.TRUE);
 		super.importConditions(oldObject, changeVar);
 
 		return changeVar;

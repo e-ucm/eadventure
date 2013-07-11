@@ -43,28 +43,30 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.huds.InventoryHud;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.params.guievents.MouseGEv;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -97,6 +99,9 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 	private FramesAnimation frames;
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+
+	private static final EAdField<Boolean> SHOW_INVENTORY = new BasicField<Boolean>(
+			new BasicElement(InventoryHud.ID), SceneElement.VAR_VISIBLE);
 
 	@Inject
 	public SlidesceneImporter(EffectsImporterFactory effectsImporter,
@@ -136,7 +141,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 					.get(0), changeNextScene);
 			musicPaths.add(oldSlides.getResources().get(0).getAssetPath(
 					Slidescene.RESOURCE_TYPE_MUSIC));
-			conditions.add(EmptyCond.TRUE_EMPTY_CONDITION);
+			conditions.add(EmptyCond.TRUE);
 		} else {
 			// When there's more than one appearance, we create a series of
 			// scene for every animation.
@@ -145,17 +150,17 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			for (Resources res : oldSlides.getResources()) {
 				EAdScene scene = new BasicScene();
 				createSceneFromSlides(scene, oldSlides, res, changeNextScene);
-				EffectsMacro macro = new EffectsMacro();
-				macro.getEffects().add(new ChangeSceneEf(scene));
+				EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+				macro.add(new ChangeSceneEf(scene));
 				EAdCondition c = conditionsImporter.init(res.getConditions());
 				c = conditionsImporter.convert(res.getConditions(), c);
 				musicPaths
 						.add(res.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC));
 				conditions.add(c);
-				triggerMacro.putMacro(macro, c);
+				triggerMacro.putEffects(c, macro);
 			}
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEvType.ADDED_TO_SCENE, triggerMacro);
+			event.addEffect(SceneElementEvType.ADDED, triggerMacro);
 			cutscene.getEvents().add(event);
 		}
 
@@ -188,7 +193,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			// Adjust scene background to 800x600 (restriction from old
 			// model)
 			Dimension d = resourceImporter.getDimensionsForNewImage(drawable
-					.getUri().getPath());
+					.getUri());
 			float scaleX = 800.0f / d.width;
 			float scaleY = 600.0f / d.height;
 			background.setInitialScale(scaleX, scaleY);
@@ -201,8 +206,8 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			EAdEffect effect = null;
 			if (i == scenes.length - 1) {
 				effect = changeNextScene;
-				ChangeFieldEf showInventory = new ChangeFieldEf(
-						SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
+				ChangeFieldEf showInventory = new ChangeFieldEf(SHOW_INVENTORY,
+						EmptyCond.TRUE);
 				effect.getNextEffects().add(showInventory);
 			} else {
 				effect = new ChangeSceneEf();
@@ -250,7 +255,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 				}
 			}
 		} else {
-			for (ead.common.resources.assets.drawable.basics.animation.Frame f : frames
+			for (ead.common.model.assets.drawable.basics.animation.Frame f : frames
 					.getFrames()) {
 				times.add(f.getTime());
 			}
@@ -282,7 +287,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 		ArrayList<Image> images = new ArrayList<Image>();
 		if (animation != null) {
 			for (Frame f : animation.getFrames()) {
-				String uri = resourceImporter.getURI(f.getUri());
+				String uri = resourceImporter.getString(f.getUri());
 				images.add(new Image(uri));
 			}
 		} else {
@@ -294,10 +299,10 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 	}
 
 	private void addHideInventoryEvent(EAdScene cutscene) {
-		ChangeFieldEf hideInventory = new ChangeFieldEf(
-				SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP);
+		ChangeFieldEf hideInventory = new ChangeFieldEf(SHOW_INVENTORY,
+				EmptyCond.FALSE);
 		SceneElementEv bgEvent = new SceneElementEv();
-		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
+		bgEvent.addEffect(SceneElementEvType.ADDED, hideInventory);
 		cutscene.getEvents().add(bgEvent);
 	}
 

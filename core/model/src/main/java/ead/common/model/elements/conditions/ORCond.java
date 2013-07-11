@@ -40,7 +40,6 @@ package ead.common.model.elements.conditions;
 import ead.common.interfaces.Element;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
-import ead.common.model.elements.conditions.enums.EmptyCondValue;
 
 @Element
 public class ORCond extends ListedCond {
@@ -55,7 +54,7 @@ public class ORCond extends ListedCond {
 
 	@Override
 	public EmptyCond getNullOperator() {
-		return new EmptyCond(EmptyCondValue.FALSE);
+		return EmptyCond.FALSE;
 	}
 
 	@Override

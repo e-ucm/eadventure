@@ -37,27 +37,27 @@
 
 package ead.common.test.params;
 
-import ead.common.util.EAdPosition;
+import ead.common.model.params.util.Position;
 
-public class PositionTest extends ParamsTest<EAdPosition> {
+public class PositionTest extends ParamsTest<Position> {
 
 	@Override
-	public EAdPosition buildParam(String data) {
-		return new EAdPosition(data);
+	public Position buildParam(String data) {
+		return new Position(data);
 	}
 
 	@Override
-	public EAdPosition defaultValue() {
-		return new EAdPosition();
+	public Position defaultValue() {
+		return new Position();
 	}
 
 	@Override
-	public EAdPosition[] getObjects() {
-		EAdPosition[] positions = new EAdPosition[20];
+	public Position[] getObjects() {
+		Position[] positions = new Position[20];
 		for (int i = 0; i < positions.length; i += 2) {
-			positions[i] = new EAdPosition(i * 3, i * 4,
-					(float) (i - 1) * 800.f, (float) (i) * 600.f);
-			positions[i + 1] = new EAdPosition(i * 3, i * 4,
+			positions[i] = new Position(i * 3, i * 4, (float) (i - 1) * 800.f,
+					(float) (i) * 600.f);
+			positions[i + 1] = new Position(i * 3, i * 4,
 					(float) (i - 1) * 800.f, (float) (i) * 600.f);
 		}
 		return positions;

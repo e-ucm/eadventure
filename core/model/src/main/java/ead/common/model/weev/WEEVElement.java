@@ -69,7 +69,7 @@
 
 package ead.common.model.weev;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 
 /**
  * An element in the WEEV model

@@ -76,7 +76,16 @@ public class GwtReflectionField implements ReflectionField {
 
 	@Override
 	public void setFieldValue(Object object, Object value) {
-		field.setFieldValue(object, value);
+		try {
+			field.setFieldValue(object, value);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Override
+	public boolean isStatic() {
+		return field.isStatic();
 	}
 
 }

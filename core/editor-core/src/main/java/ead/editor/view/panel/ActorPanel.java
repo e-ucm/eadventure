@@ -69,8 +69,6 @@ public class ActorPanel extends AbstractElementPanel<CharacterNode> {
 		add(new JLabel("This actor has detailDesc= "
 				+ actor.getVars().get(SceneElementDef.VAR_DOC_DETAILED_DESC)));
 		add(new JSeparator(JSeparator.HORIZONTAL));
-		add(new JLabel("This actor has " + actor.getActions().size()
-				+ " actions"));
 
 		actor.getAppearance();
 

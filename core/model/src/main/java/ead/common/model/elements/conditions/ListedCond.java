@@ -38,25 +38,32 @@
 package ead.common.model.elements.conditions;
 
 import java.util.Iterator;
+import java.util.List;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
+import ead.common.model.elements.operations.AbstractOperation;
+import ead.common.model.elements.operations.EAdField;
 
-public abstract class ListedCond extends ResourcedElement implements
+public abstract class ListedCond extends AbstractOperation implements
 		EAdCondition {
 
-	@Param("conditions")
+	@Param
 	private EAdList<EAdCondition> conditions;
 
-	@Param("operator")
+	@Param
 	private ConditionOperator operator;
 
 	public ListedCond() {
 		this(null);
+	}
+
+	public ListedCond(ConditionOperator operator,
+			EAdList<EAdCondition> conditions) {
+		this.operator = operator;
+		this.conditions = conditions;
 	}
 
 	public ListedCond(ConditionOperator operator) {
@@ -65,7 +72,7 @@ public abstract class ListedCond extends ResourcedElement implements
 
 	public ListedCond(ConditionOperator operator, EAdCondition... condition) {
 		super();
-		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
+		conditions = new EAdList<EAdCondition>();
 		for (int i = 0; i < condition.length; i++)
 			if (condition[i] != null)
 				conditions.add(condition[i]);
@@ -122,6 +129,35 @@ public abstract class ListedCond extends ResourcedElement implements
 
 	public void setOperator(ConditionOperator operator) {
 		this.operator = operator;
+	}
+
+	public void addFields(List<EAdField<?>> fields) {
+		for (EAdCondition c : conditions) {
+			c.addFields(fields);
+		}
+	}
+
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o instanceof ListedCond) {
+			ListedCond listed = (ListedCond) o;
+			if (listed.operator == this.operator
+					&& listed.conditions.size() == this.conditions.size()) {
+				for (int i = 0; i < conditions.size(); i++) {
+					EAdCondition c1 = conditions.get(i);
+					EAdCondition c2 = listed.conditions.get(i);
+					if (!this.conditions.contains(c2)
+							|| !(listed.conditions.contains(c1))) {
+						return false;
+					}
+
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

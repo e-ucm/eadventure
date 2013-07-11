@@ -63,13 +63,13 @@ public class ChangeActorVisibilityEffect extends AbstractEffect {
 	/**
 	 * The {@link Change} to the {@link Actor}'s visibility
 	 */
-	@Param(value = "change")
+	@Param
 	private Change change;
 
 	/**
 	 * The {@link Actor} to which to apply the change
 	 */
-	@Param(value = "actor")
+	@Param
 	private Actor actor;
 
 	/**

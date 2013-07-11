@@ -42,13 +42,10 @@ import java.util.Map;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * The eAdventure game model.
@@ -57,28 +54,31 @@ import ead.common.params.text.EAdString;
 public class BasicAdventureModel extends BasicElement implements
 		EAdAdventureModel {
 
-	@Param("description")
+	@Param
 	public EAdString description;
 
-	@Param("title")
+	@Param
 	private EAdString title;
 
-	@Param("chapters")
+	@Param
 	private EAdList<EAdChapter> chapters;
 
-	@Param("vars")
+	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Param("inventory")
-	private EAdInventory inventory;
-
-	@Param("width")
+	@Param
 	private int gameWidth;
 
-	@Param("height")
+	@Param
 	private int gameHeight;
 
-	@Param("depthControlList")
+	@Param
+	/**
+	 * This events are launched after the game loads
+	 */
+	private EAdList<EAdEvent> events;
+
+	@Param
 	private EAdList<EAdElement> depthControlList;
 
 	// This map is fulfilled with the values in ead.properties. That's why it
@@ -89,15 +89,15 @@ public class BasicAdventureModel extends BasicElement implements
 	 * Constructs a {@link BasicAdventureModel}.
 	 */
 	public BasicAdventureModel() {
-		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
-		description = EAdString.newRandomEAdString("desc");
-		title = EAdString.newRandomEAdString("title");
+		chapters = new EAdList<EAdChapter>();
+		vars = new EAdMap<EAdVarDef<?>, Object>();
+		description = new EAdString("desc");
+		title = new EAdString("title");
 		gameWidth = DEFAULT_WIDTH;
 		gameHeight = DEFAULT_HEIGHT;
-		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
+		depthControlList = new EAdList<EAdElement>();
 		properties = new LinkedHashMap<String, String>();
+		events = new EAdList<EAdEvent>();
 	}
 
 	public EAdList<EAdChapter> getChapters() {
@@ -138,16 +138,6 @@ public class BasicAdventureModel extends BasicElement implements
 		this.description = description;
 	}
 
-	@Override
-	public void setInventory(EAdInventory inventory) {
-		this.inventory = inventory;
-	}
-
-	@Override
-	public EAdInventory getInventory() {
-		return inventory;
-	}
-
 	public EAdList<EAdElement> getDepthControlList() {
 		return depthControlList;
 	}
@@ -178,6 +168,28 @@ public class BasicAdventureModel extends BasicElement implements
 	@Override
 	public void setProperty(String key, String value) {
 		properties.put(key, value);
+	}
+
+	public void setChapters(EAdList<EAdChapter> chapters) {
+		this.chapters = chapters;
+	}
+
+	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+		this.vars = vars;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
+	public void addChapter(EAdChapter chapter) {
+		this.chapters.add(chapter);
+
+	}
+
+	@Override
+	public EAdList<EAdEvent> getEvents() {
+		return events;
 	}
 
 }

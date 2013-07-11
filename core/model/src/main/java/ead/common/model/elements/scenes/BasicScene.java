@@ -39,13 +39,13 @@ package ead.common.model.elements.scenes;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.params.fills.ColorFill;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.elements.trajectories.EAdTrajectory;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.util.Position.Corner;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 /**
  * <p>
@@ -54,22 +54,19 @@ import ead.common.util.EAdPosition.Corner;
  * 
  */
 @Element
-public class BasicScene extends ComplexSceneElement implements EAdScene {
+public class BasicScene extends GroupElement implements EAdScene {
 
-	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new VarDef<Boolean>(
-			"scene_loaded", Boolean.class, Boolean.FALSE);
+	public static final EAdVarDef<EAdTrajectory> VAR_TRAJECTORY_DEFINITION = new VarDef<EAdTrajectory>(
+			"trajectory_generator", EAdTrajectory.class, null);
 
-	public static final EAdVarDef<EAdTrajectoryDefinition> VAR_TRAJECTORY_DEFINITION = new VarDef<EAdTrajectoryDefinition>(
-			"trajectory_generator", EAdTrajectoryDefinition.class, null);
-
-	@Param("background")
+	@Param
 	protected EAdSceneElement background;
 
 	/**
 	 * This property indicates if the game can return to this scene after a
 	 * cutscene or similiar
 	 */
-	@Param(value = "returnable", defaultValue = "true")
+	@Param
 	protected Boolean returnable;
 
 	/**
@@ -82,12 +79,16 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 		this(new RectangleShape(800, 600, ColorFill.BLACK));
 	}
 
-	public BasicScene(EAdDrawable backgroundDrawable) {
+	public BasicScene(SceneElement bg) {
 		super();
-		background = new SceneElement(backgroundDrawable);
+		background = bg;
 		background.setPosition(Corner.TOP_LEFT, 0, 0);
 		returnable = true;
 		setCenter(Corner.TOP_LEFT);
+	}
+
+	public BasicScene(EAdDrawable backgroundDrawable) {
+		this(new SceneElement(backgroundDrawable));
 	}
 
 	public EAdSceneElement getBackground() {
@@ -107,8 +108,7 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 		this.returnable = returnable;
 	}
 
-	public void setTrajectoryDefinition(
-			EAdTrajectoryDefinition trajectoryDefinition) {
+	public void setTrajectoryDefinition(EAdTrajectory trajectoryDefinition) {
 		this
 				.setVarInitialValue(VAR_TRAJECTORY_DEFINITION,
 						trajectoryDefinition);
@@ -120,7 +120,7 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 	 * @param element
 	 *            the element to be added
 	 */
-	public void add(SceneElement element) {
+	public void add(EAdSceneElement element) {
 		this.getSceneElements().add(element);
 	}
 

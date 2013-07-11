@@ -37,30 +37,31 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.assets.ShapeFactory;
 
 /**
  * Scene with shapes. Test containst for different types of shapes
  * 
- *
+ * 
  */
 public class ShapeScene extends EmptyScene {
 	public ShapeScene() {
+		this.setId("ShapeScene");
 		int margin = 10;
 		int size = 140;
 		int x = margin;
@@ -68,7 +69,7 @@ public class ShapeScene extends EmptyScene {
 		ShapeFactory shapeFactory = EAdElementsFactory.getInstance()
 				.getShapeFactory();
 
-		// Rectangle	
+		// Rectangle
 		EAdDrawable rectangleAsset1 = shapeFactory.getElement(
 				ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size,
 				Paint.WHITE_ON_BLACK);
@@ -79,7 +80,7 @@ public class ShapeScene extends EmptyScene {
 				.getSceneElementFactory().createSceneElement(rectangleAsset1,
 						rectangleAsset2, x + 20, margin);
 		e.setVarInitialValue(SceneElement.VAR_SCALE, 0.5f);
-		e.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
+		e.setVarInitialValue(SceneElement.VAR_ROTATION, 10.0f);
 		getSceneElements().add(e);
 		x += margin + size;
 
@@ -102,9 +103,12 @@ public class ShapeScene extends EmptyScene {
 		EAdDrawable asset32 = shapeFactory.getElement(
 				ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new Paint(
 						ColorFill.CYAN, ColorFill.BLACK));
-		getSceneElements().add(
-				EAdElementsFactory.getInstance().getSceneElementFactory()
-						.createSceneElement(asset31, asset32, x, margin));
+
+		SceneElement triangle = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(asset31, asset32,
+						x, margin);
+		triangle.setId("ead.demos.triangle");
+		getSceneElements().add(triangle);
 		x += margin + size;
 
 		// Irregular shape 1
@@ -155,17 +159,17 @@ public class ShapeScene extends EmptyScene {
 				.getSceneElementFactory().createSceneElement(asset21, asset22,
 						330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
+		rotatingRectangle.setId("ead.demos.rotatingrectangle");
 		getSceneElements().add(rotatingRectangle);
 		InterpolationEf interpolation = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
 						new BasicField<Float>(rotatingRectangle,
-								SceneElement.VAR_ROTATION), 0,
-						(float) (Math.PI * 2.0), 2000,
+								SceneElement.VAR_ROTATION), 0, 360.0f, 2000,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 		SceneElementEv event = EAdElementsFactory.getInstance()
-				.getEventsFactory().getEvent(SceneElementEvType.FIRST_UPDATE,
+				.getEventsFactory().getEvent(SceneElementEvType.INIT,
 						interpolation);
 		rotatingRectangle.getEvents().add(event);
 		getSceneElements().add(rotatingRectangle);
@@ -185,15 +189,6 @@ public class ShapeScene extends EmptyScene {
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 		rotatingRectangle2.addBehavior(MouseGEv.MOUSE_ENTERED, interpolation2);
 
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene with some eAdventure shapes. Move the mouse over the shapes.";
-	}
-
-	public String getDemoName() {
-		return "Shape Scene";
 	}
 
 }

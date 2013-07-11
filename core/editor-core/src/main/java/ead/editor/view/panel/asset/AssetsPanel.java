@@ -57,7 +57,7 @@ import org.jdesktop.swingx.JXRadioGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.editor.model.ModelEvent;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EditorNode;

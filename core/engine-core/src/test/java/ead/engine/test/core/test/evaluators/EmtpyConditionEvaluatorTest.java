@@ -44,14 +44,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.enums.EmptyCondValue;
-import ead.engine.core.evaluators.EmptyCondEvaluator;
+import ead.engine.core.operators.evaluators.EmptyCondEvaluator;
 
 public class EmtpyConditionEvaluatorTest {
 
 	protected EmptyCondEvaluator evaluator;
-	protected EmptyCond cTrue = new EmptyCond(EmptyCondValue.TRUE);
-	protected EmptyCond cFalse = new EmptyCond(EmptyCondValue.FALSE);
+	protected EmptyCond cTrue = EmptyCond.TRUE;
+	protected EmptyCond cFalse = EmptyCond.FALSE;
 
 	@Before
 	public void setUp() {

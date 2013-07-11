@@ -37,20 +37,18 @@
 
 package ead.common.interfaces;
 
-import ead.common.util.EAdURI;
-
 /**
- * Implemented by those elements which has an URI
+ * Implemented by those elements which has an String
  * 
  */
 public interface HasURI {
 
 	/**
-	 * Returns the URI associated to this element
+	 * Returns the String associated to this element
 	 * 
 	 * @return
 	 */
-	EAdURI getUri();
+	String getUri();
 
 	/**
 	 * Sets the uri for the element
@@ -58,5 +56,5 @@ public interface HasURI {
 	 * @param uri
 	 *            the uri
 	 */
-	void setUri(EAdURI uri);
+	void setUri(String uri);
 }

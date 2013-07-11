@@ -37,26 +37,16 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.multimedia.Video;
 import ead.common.model.elements.scenes.VideoScene;
-import ead.common.resources.assets.multimedia.Video;
-import ead.demos.elementfactories.scenes.SceneDemo;
 
-public class WebMVideoScene extends VideoScene implements SceneDemo {
+public class WebMVideoScene extends VideoScene {
 
 	public WebMVideoScene() {
+		this.setId("WebMVideoScene");
 		Video video = new Video("http://www.youtube.com/watch?v=qfi-Bqp3YiI");
 		video.setStream(true);
-		getDefinition().getResources().addAsset(
-				getDefinition().getInitialBundle(), VideoScene.video, video);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene playing a YouTube video.";
-	}
-
-	public String getDemoName() {
-		return "YouTube video Scene";
+		getDefinition().addAsset(VideoScene.video, video);
 	}
 
 }

@@ -37,47 +37,38 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.paint.EAdFill;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.demos.elementfactories.scenes.SceneDemo;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.paint.EAdFill;
 
 /**
  * An empty scene
  * 
  */
-public class EmptyScene extends BasicScene implements SceneDemo {
+public class EmptyScene extends BasicScene {
 
 	private RectangleShape rectangle;
 
 	public EmptyScene() {
 		super();
-		((SceneElementDef) this.getDefinition()).setName(EAdString
-				.newRandomEAdString("name"));
-		((SceneElementDef) this.getDefinition()).setDesc(EAdString
-				.newRandomEAdString("desc"));
-		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString
-				.newRandomEAdString("detailDesc"));
-		((SceneElementDef) this.getDefinition()).setDoc(EAdString
-				.newRandomEAdString("doc"));
-
+		this.setId("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240),
 				ColorFill.WHITE, 800, 600));
-		getBackground().getDefinition().getResources().addAsset(
-				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDef.appearance, rectangle);
+		getBackground().getDefinition().addAsset(SceneElementDef.appearance,
+				rectangle);
+		//		this.background.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+		//				new ChangeSceneEf(null, new MaskTransition(new Image(
+		//						"@drawable/man_stand_e_1.png"), 5000)));
 	}
 
 	public void setBackgroundFill(EAdFill fill) {
 		rectangle.setPaint(fill);
 	}
 
-	@Override
 	public String getSceneDescription() {
 		return "An empty scene. Not much to do here.";
 	}
@@ -88,10 +79,6 @@ public class EmptyScene extends BasicScene implements SceneDemo {
 
 	public String toString() {
 		return getDemoName() + " - " + getSceneDescription();
-	}
-
-	public String getId() {
-		return getDemoName();
 	}
 
 }

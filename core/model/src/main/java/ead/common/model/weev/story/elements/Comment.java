@@ -37,8 +37,8 @@
 
 package ead.common.model.weev.story.elements;
 
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.story.StoryElement;
-import ead.common.params.text.EAdString;
 
 /**
  * A comment in the {@link Story}, which will be represented in the visual representation

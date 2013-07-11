@@ -37,33 +37,29 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.physics.PhysicsEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 /**
@@ -100,13 +96,10 @@ public class NgFinalRoom extends EmptyScene {
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		PhysicsEffect effect = new PhysicsEffect();
+		PhysicsEf effect = new PhysicsEf();
 
-		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new BasicField<Boolean>(
-				this, BasicScene.VAR_SCENE_LOADED));
-		event.setCondition(condition);
-		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
+		SceneElementEv event = new SceneElementEv();
+		event.addEffect(SceneElementEvType.ADDED, effect);
 
 		// getEvents().add(event);
 		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);
@@ -119,7 +112,7 @@ public class NgFinalRoom extends EmptyScene {
 	}
 
 	private void createTrajectory() {
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(50, 575, 630, 580);
 		setTrajectoryDefinition(d);
 	}
@@ -162,6 +155,7 @@ public class NgFinalRoom extends EmptyScene {
 
 	/**
 	 * Moves ng to x & y coordinates
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
@@ -175,16 +169,16 @@ public class NgFinalRoom extends EmptyScene {
 
 	private void addSky() {
 		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
-		backgroundDef.getResources().addAsset(backgroundDef.getInitialBundle(),
-				SceneElementDef.appearance, new Image("@drawable/sky.png"));
+		backgroundDef.addAsset(SceneElementDef.appearance, new Image(
+				"@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new BasicField<Integer>(
+		InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
 				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
-		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
+		event.addEffect(SceneElementEvType.INIT, effect);
 
 		this.getBackground().getEvents().add(event);
 
@@ -192,14 +186,15 @@ public class NgFinalRoom extends EmptyScene {
 
 	/**
 	 * Creates and adds the scene's ground
+	 * 
 	 * @param effect
 	 */
-	protected void addGround(PhysicsEffect effect) {
+	protected void addGround(PhysicsEf effect) {
 		RectangleShape groundS = new RectangleShape(799, 50);
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
 				ColorFill.DARK_BROWN, 799, 50));
 		SceneElement ground = new SceneElement(groundS);
-		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
+		ground.setPosition(new Position(Corner.CENTER, 400, 575));
 
 		// Moves ng over the ground
 		MoveSceneElementEf move = new MoveSceneElementEf();

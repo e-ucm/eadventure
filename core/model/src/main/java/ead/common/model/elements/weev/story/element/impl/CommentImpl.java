@@ -40,9 +40,9 @@ package ead.common.model.elements.weev.story.element.impl;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.weev.story.impl.AbstractStoryElement;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.story.StoryElement;
 import ead.common.model.weev.story.elements.Comment;
-import ead.common.params.text.EAdString;
 
 /**
  * Default {@link Comment} implementation
@@ -50,14 +50,14 @@ import ead.common.params.text.EAdString;
 @Element
 public class CommentImpl extends AbstractStoryElement implements Comment {
 
-	@Param(value = "storyElement")
+	@Param
 	private StoryElement storyElement;
 
-	@Param(value = "text")
+	@Param
 	private EAdString text;
 
 	public CommentImpl() {
-		text = EAdString.newRandomEAdString("text");
+		text = new EAdString("text");
 	}
 
 	@Override

@@ -34,6 +34,10 @@
 			<artifactId>reader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.badlogic.gdx</groupId>
+			<artifactId>gdx</artifactId>
+		</dependency>
 
 		<!-- external -->
 		<dependency>
@@ -44,11 +48,6 @@
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<classifier>no_aop</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.jbox2d</groupId>
-			<artifactId>jbox2d-library</artifactId>
-			<version>2.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>aurelienribon</groupId>
@@ -71,16 +70,6 @@
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
-		</dependency>
-
-		<!-- GLAS -->
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-model</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>es.eucm.glas</groupId>
-			<artifactId>glas-tracker</artifactId>
 		</dependency>
 	</dependencies>
 </project>

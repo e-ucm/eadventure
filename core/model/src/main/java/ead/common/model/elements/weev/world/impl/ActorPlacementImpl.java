@@ -50,10 +50,10 @@ import ead.common.model.weev.world.Space;
 public class ActorPlacementImpl extends AbstractWorldElement implements
 		ActorPlacement {
 
-	@Param(value = "space")
+	@Param
 	private Space space;
 
-	@Param(value = "actor")
+	@Param
 	private Actor actor;
 
 	@Override

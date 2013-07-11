@@ -37,27 +37,30 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.model.elements.effects.DragEf;
+import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.DragGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.guievents.enums.DragGEvType;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
 
 public class DragDropScene extends EmptyScene {
 
 	public DragDropScene() {
+		this.setId("DragDropScene");
 		setBackgroundFill(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				new ColorFill(245, 255, 245), 800, 600));
 		BezierShape shape = new BalloonShape(0, 0, 100, 100,
@@ -68,30 +71,32 @@ public class DragDropScene extends EmptyScene {
 		SceneElementDef def = new SceneElementDef(shape);
 
 		SceneElement e1 = new SceneElement(def);
-		e1.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		e1.setPosition(new EAdPosition(Corner.CENTER, 600, 300));
+		e1.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
+		e1.setPosition(new Position(Corner.CENTER, 600, 300));
+		e1.setVarInitialValue(SceneElement.VAR_Z, 0);
 
 		SceneElement e4 = new SceneElement(def);
-		e4.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		e4.setPosition(new EAdPosition(Corner.TOP_LEFT, 20, 20));
+		e4.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
+		e4.setPosition(new Position(Corner.TOP_LEFT, 20, 20));
 		e4.setInitialScale(0.5f);
+		e4.setVarInitialValue(SceneElement.VAR_Z, 1);
 
 		SceneElement e5 = new SceneElement(def);
-		e5.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		e5.setPosition(new EAdPosition(Corner.TOP_RIGHT, 500, 10));
-		e5.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
+		e5.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
+		e5.setPosition(new Position(Corner.TOP_RIGHT, 500, 10));
 		e5.setInitialScale(1.5f);
+		e5.setVarInitialValue(SceneElement.VAR_Z, 2);
 
-		//		addComplexElement( );
+		// addComplexElement( );
 
 		BezierShape shape2 = new BalloonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape2.setPaint(Paint.BLACK_ON_WHITE);
 		SceneElement e2 = new SceneElement(shape2);
-		e2.setPosition(new EAdPosition(Corner.CENTER, 100, 300));
+		e2.setPosition(new Position(Corner.CENTER, 100, 300));
 
 		SceneElement e3 = new SceneElement(shape2);
-		e3.setPosition(new EAdPosition(Corner.CENTER, 300, 300));
+		e3.setPosition(new Position(Corner.CENTER, 300, 300));
 
 		addBehaviors(e2, e1);
 		addBehaviors(e3, e1);
@@ -109,37 +114,37 @@ public class DragDropScene extends EmptyScene {
 				SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		ChangeFieldEf changeScale2 = new ChangeFieldEf(scale, new ValueOp(1.0f));
-		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.ENTERED),
+		e2.addBehavior(new DragGEv(e1.getId(), DragGEvType.ENTERED),
 				changeScale1);
-		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.EXITED),
+		e2.addBehavior(new DragGEv(e1.getId(), DragGEvType.EXITED),
 				changeScale2);
+		e2.addBehavior(new DragGEv(e1.getId(), DragGEvType.DROP),
+				new ChangeColorEf(0.0f, 1.0f, 0.0f));
 
-		//		BasicField<Integer> fieldX = new BasicField<Integer>(e1,
-		//				SceneElement.VAR_X);
-		//		BasicField<Integer> fieldY = new BasicField<Integer>(e1,
-		//				SceneElement.VAR_Y);
+		e1.addBehavior(MouseGEv.MOUSE_START_DRAG, new ChangeFieldEf(e1
+				.getField(SceneElement.VAR_ROTATION), new ValueOp(10.0f)));
+		e1.addBehavior(MouseGEv.MOUSE_DROP, new ChangeFieldEf(e1
+				.getField(SceneElement.VAR_ROTATION), new ValueOp(0.0f)));
 
-		//		ChangeFieldEf changeX = new ChangeFieldEf(
-		//				fieldX,
-		//				new MathOp("[0]", new BasicField<Integer>(e2,
-		//						SceneElement.VAR_X)));
+		// BasicField<Integer> fieldX = new BasicField<Integer>(e1,
+		// SceneElement.VAR_X);
+		// BasicField<Integer> fieldY = new BasicField<Integer>(e1,
+		// SceneElement.VAR_Y);
+
+		// ChangeFieldEf changeX = new ChangeFieldEf(
+		// fieldX,
+		// new MathOp("[0]", new BasicField<Integer>(e2,
+		// SceneElement.VAR_X)));
 		//
-		//		ChangeFieldEf changeY = new ChangeFieldEf(
-		//				fieldY,
-		//				new MathOp("[0]", new BasicField<Integer>(e2,
-		//						SceneElement.VAR_Y)));
+		// ChangeFieldEf changeY = new ChangeFieldEf(
+		// fieldY,
+		// new MathOp("[0]", new BasicField<Integer>(e2,
+		// SceneElement.VAR_Y)));
 
-		//		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);
-		//		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeY);
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene showing drag and drop";
-	}
-
-	public String getDemoName() {
-		return "Drag & Drop Scene";
+		// e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(),
+		// DragAction.DROP), changeX);
+		// e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(),
+		// DragAction.DROP), changeY);
 	}
 
 }

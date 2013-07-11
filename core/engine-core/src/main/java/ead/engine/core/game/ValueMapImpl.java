@@ -44,97 +44,89 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import ead.common.model.EAdElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.operators.OperatorFactory;
+import ead.common.interfaces.features.Variabled;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.engine.core.game.interfaces.ValueMap;
+import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;
 
-@Singleton
 public class ValueMapImpl implements ValueMap {
 
-	protected Map<EAdVarDef<?>, Object> systemVars;
+	protected static final Logger logger = LoggerFactory.getLogger("ValueMap");
 
-	protected Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
+	/**
+	 * Reflection provider
+	 */
+	protected ReflectionProvider reflectionProvider;
 
-	private ArrayList<EAdElement> updateList;
+	/**
+	 * String handler
+	 */
+	protected StringHandler stringHandler;
 
-	protected OperatorFactory operatorFactory;
+	/**
+	 * Contains all variables values
+	 */
+	protected Map<Object, Map<EAdVarDef<?>, Object>> valuesMap;
 
-	protected static final Logger logger = LoggerFactory.getLogger("Value Map");
+	/**
+	 * Contains the elements with variables updated
+	 */
+	protected ArrayList<Object> updateList;
 
-	private ReflectionProvider reflectionProvider;
-
+	/**
+	 * If the update list is enable
+	 */
 	private boolean updateEnable;
 
-	@Inject
 	public ValueMapImpl(ReflectionProvider reflectionProvider,
-			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
-		map = new HashMap<EAdElement, Map<EAdVarDef<?>, Object>>();
-		systemVars = new HashMap<EAdVarDef<?>, Object>();
-		logger.info("New instance");
+			StringHandler stringHandler) {
+		this.stringHandler = stringHandler;
 		this.reflectionProvider = reflectionProvider;
-		setOperatorFactory(operatorFactory);
-		if (operatorFactory != null) {
-			operatorFactory.install(this, evaluatorFactory);
-		}
-
-		if (evaluatorFactory != null) {
-			evaluatorFactory.install(this, operatorFactory);
-		}
-		updateList = new ArrayList<EAdElement>();
+		valuesMap = new HashMap<Object, Map<EAdVarDef<?>, Object>>();
+		logger.info("New instance");
+		updateList = new ArrayList<Object>();
 		updateEnable = true;
 	}
 
 	@Override
-	public void setOperatorFactory(OperatorFactory operatorFactory) {
-		this.operatorFactory = operatorFactory;
+	public <S> void setValue(EAdField<S> field, S value) {
+		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
 	@Override
-	public void setValue(EAdElement element, EAdVarDef<?> varDef, Object value) {
+	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
 		if (value == null
 				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
 						.getClass())) {
 
-			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
-					: map.get(getFinalElement(element));
+			Map<EAdVarDef<?>, Object> valMap = valuesMap
+					.get(maybeDecodeField(element));
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
-				map.put(element, valMap);
+				valuesMap.put(element, valMap);
+
+				// Sets initial values, if any
+				addInitVariables(element, valMap);
 			}
 
-			valMap.put(varDef, value);
+			valMap.put(varDef, (S) value);
 			if (updateEnable)
 				addUpdatedElement(element);
 
 		} else {
 			logger.warn("setValue failed: Impossible to cast "
 					+ varDef.getType() + " to " + value.getClass()
-					+ " for element " + element.getId() + " of class "
+					+ " for element " + element + " of class "
 					+ element.getClass());
 		}
 	}
 
-	@Override
-	public void setValue(EAdField<?> field, Object value) {
-		setValue(field.getElement(), field.getVarDef(), value);
-	}
-
-	public void setValue(EAdField<?> var, EAdOperation operation) {
-		operatorFactory.operate(var.getElement(), var.getVarDef(), operation);
-	}
-
-	@Override
-	public void setValue(EAdElement element, EAdVarDef<?> var,
-			EAdOperation operation) {
-		Object result = operatorFactory.operate(var.getType(), operation);
-		setValue(element, var, result);
+	private void addInitVariables(Object o, Map<EAdVarDef<?>, Object> initVars) {
+		if (o instanceof Variabled) {
+			initVars.putAll(((Variabled) o).getVars());
+		}
 	}
 
 	@Override
@@ -142,19 +134,17 @@ public class ValueMapImpl implements ValueMap {
 		return getValue(var.getElement(), var.getVarDef());
 	}
 
-	@Override
-	public <S> S getValue(EAdElement element, EAdVarDef<S> varDef) {
-		return getFinalValue(getFinalElement(element), varDef);
-	}
-
 	@SuppressWarnings("unchecked")
-	private <S> S getFinalValue(EAdElement element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
-				.get(element);
+	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
+		Map<EAdVarDef<?>, Object> valMap = valuesMap
+				.get(maybeDecodeField(element));
 
 		if (valMap == null) {
-			// If the variable has not been set, returns the initial value
-			return varDef.getInitialValue();
+			valMap = new HashMap<EAdVarDef<?>, Object>();
+			valuesMap.put(element, valMap);
+
+			// Sets initial values, if any
+			addInitVariables(element, valMap);
 		}
 		Object value = valMap.get(varDef);
 		// If the variable has not been set, returns the initial value
@@ -166,32 +156,22 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void remove(EAdElement element) {
-		map.remove(getFinalElement(element));
+	public Map<EAdVarDef<?>, Object> getElementVars(Object element) {
+		return valuesMap.get(maybeDecodeField(element));
 	}
 
 	@Override
-	public Map<EAdVarDef<?>, Object> getElementVars(EAdElement element) {
-		return element == null ? systemVars : map.get(getFinalElement(element));
-	}
-
-	@Override
-	public EAdElement getFinalElement(EAdElement element) {
+	public Object maybeDecodeField(Object element) {
 		if (element != null && element instanceof EAdField<?>) {
 			EAdField<?> field = (EAdField<?>) element;
 			Object result = getValue(field.getElement(), field.getVarDef());
-			if (result instanceof EAdElement) {
-				return (EAdElement) result;
-			} else {
-				return element;
-			}
-		} else {
-			return element;
+			return maybeDecodeField(result);
 		}
+		return element;
 	}
 
 	@Override
-	public boolean checkForUpdates(EAdElement element) {
+	public boolean checkForUpdates(Object element) {
 		if (updateList.contains(element)) {
 			updateList.remove(element);
 			return true;
@@ -199,7 +179,12 @@ public class ValueMapImpl implements ValueMap {
 		return false;
 	}
 
-	private void addUpdatedElement(EAdElement element) {
+	/**
+	 * Adds ana element to the update list
+	 * 
+	 * @param element
+	 */
+	private void addUpdatedElement(Object element) {
 		if (element != null && !updateList.contains(element)) {
 			updateList.add(element);
 		}
@@ -211,32 +196,12 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void clearUpdateList() {
-		updateList.clear();
+	public void remove(Object element) {
+		valuesMap.remove(maybeDecodeField(element));
 	}
 
-	public Map<EAdVarDef<?>, Object> getSystemVars() {
-		return systemVars;
-	}
-
-	public void setSystemVars(Map<EAdVarDef<?>, Object> systemVars) {
-		this.systemVars = systemVars;
-	}
-
-	public Map<EAdElement, Map<EAdVarDef<?>, Object>> getElementVars() {
-		return map;
-	}
-
-	public void setElementVars(Map<EAdElement, Map<EAdVarDef<?>, Object>> map) {
-		this.map = map;
-	}
-
-	public ArrayList<EAdElement> getUpdateList() {
-		return updateList;
-	}
-
-	public void setUpdateList(ArrayList<EAdElement> updateList) {
-		this.updateList = updateList;
+	public boolean contains(Object element) {
+		return valuesMap.get(element) != null;
 	}
 
 }

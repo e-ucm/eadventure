@@ -37,28 +37,29 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.assets.drawable.compounds.ComposedDrawable;
+import ead.common.model.assets.drawable.compounds.EAdComposedDrawable;
+import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
+import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdFill;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.paint.EAdFill;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class DrawablesScene extends EmptyScene {
 
 	public DrawablesScene() {
+		this.setId("DrawablesScene");
 		setBackgroundFill(new ColorFill(240, 255, 255));
 		int margin = 50;
 		int x = margin;
@@ -150,10 +151,8 @@ public class DrawablesScene extends EmptyScene {
 				.setPaint(new Paint(ColorFill.BLACK, ColorFill.LIGHT_BROWN, 8));
 
 		EAdStateDrawable stateDrawable = new StateDrawable();
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT.toString(),
-				rectangle1);
-		stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING.toString(),
-				rectangle2);
+		stateDrawable.addDrawable(CommonStates.DEFAULT.toString(), rectangle1);
+		stateDrawable.addDrawable(CommonStates.TALKING.toString(), rectangle2);
 
 		caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("State Drawable");
@@ -166,22 +165,18 @@ public class DrawablesScene extends EmptyScene {
 		SceneElement sceneElement = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(stateDrawable,
 						x + 50, y + 40);
-		sceneElement
-				.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, EAdElementsFactory
-						.getInstance().getEffectFactory()
+		sceneElement.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED,
+				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
 										SceneElement.VAR_STATE),
-								new ValueOp(CommonStates.EAD_STATE_DEFAULT
-										.toString())));
-		sceneElement
-				.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, EAdElementsFactory
-						.getInstance().getEffectFactory()
+								new ValueOp(CommonStates.DEFAULT.toString())));
+		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
 										SceneElement.VAR_STATE),
-								new ValueOp(CommonStates.EAD_STATE_TALKING
-										.toString())));
+								new ValueOp(CommonStates.TALKING.toString())));
 		getSceneElements().add(sceneElement);
 
 		// Frames
@@ -207,14 +202,5 @@ public class DrawablesScene extends EmptyScene {
 		paniel.setInitialScale(0.8f);
 		getSceneElements().add(paniel);
 
-	}
-
-	@Override
-	public String getSceneDescription() {
-		return "A scene showing some drawables of eAdventure";
-	}
-
-	public String getDemoName() {
-		return "Drawables Scene";
 	}
 }

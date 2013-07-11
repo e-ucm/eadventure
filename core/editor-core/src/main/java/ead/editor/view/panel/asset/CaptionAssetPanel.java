@@ -44,8 +44,8 @@ import javax.swing.SpinnerNumberModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.params.text.EAdString;
 import ead.editor.model.nodes.asset.CaptionAssetNode;
 import ead.editor.view.generic.BooleanOption;
 import ead.editor.view.generic.IntegerOption;

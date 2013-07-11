@@ -55,13 +55,13 @@ public class TimerEffect extends AbstractEffect {
 	/**
 	 * The desired {@link Status} of the {@link Timer}
 	 */
-	@Param(value = "status")
+	@Param
 	private Status status;
 
 	/**
 	 * The {@link Timer} to be affected
 	 */
-	@Param(value = "timer")
+	@Param
 	private Timer timer;
 
 	/**

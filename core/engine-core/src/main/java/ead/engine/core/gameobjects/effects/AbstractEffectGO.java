@@ -37,78 +37,70 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import java.util.List;
-
-import com.google.inject.Inject;
+import com.badlogic.gdx.scenes.scene2d.Event;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdPosition;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.DrawableGameObjectImpl;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.game.interfaces.GameState;
 
-public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		DrawableGameObjectImpl<P> implements EffectGO<P> {
+public abstract class AbstractEffectGO<P extends EAdEffect> implements
+		EffectGO<P> {
 
-	private boolean stopped = false;
+	/**
+	 * The game state
+	 */
+	protected GameState gameState;
 
-	private boolean initialized = false;
-
-	protected int currentTime = 0;
-
-	protected InputAction<?> action;
+	/**
+	 * The input action
+	 */
+	protected Event action;
 
 	/**
 	 * Element that launched the effect
 	 */
 	protected EAdSceneElement parent;
 
-	protected GameState gameState;
+	/**
+	 * If the effect has been stopped
+	 */
+	private boolean stopped;
 
-	@Inject
-	public AbstractEffectGO(SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui);
+	/**
+	 * The effect
+	 */
+	protected P effect;
+
+	public AbstractEffectGO(GameState gameState) {
 		this.gameState = gameState;
+	}
+
+	public P getElement() {
+		return effect;
+	}
+
+	public void setElement(P effect) {
+		this.effect = effect;
 	}
 
 	@Override
 	public void initialize() {
-		initialized = true;
 		stopped = false;
-		for (EAdEffect e : element.getPreviousEffects()) {
+		for (EAdEffect e : effect.getSimultaneousEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
 	}
 
-	public void update() {
-		currentTime += gui.getSkippedMilliseconds();
+	public void act(float delta) {
+
 	}
 
-	public P getEffect() {
-		return element;
-	}
-
-	@Override
-	public boolean isBlocking() {
-		return element.isBlocking();
-	}
-
-	@Override
-	public boolean isOpaque() {
-		return element.isOpaque();
-	}
-
-	@Override
 	public boolean isQueueable() {
-		return element.isQueueable();
+		return false;
+	}
+
+	public boolean isBlocking() {
+		return false;
 	}
 
 	@Override
@@ -120,23 +112,14 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		stopped = true;
 	}
 
-	public void run() {
-		stopped = false;
-	}
-
-	public boolean isInitilized() {
-		return initialized;
-	}
-
 	public void finish() {
-		initialized = false;
 		stopped = true;
-		for (EAdEffect e : element.getNextEffects()) {
+		for (EAdEffect e : effect.getNextEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
 	}
 
-	public void setGUIAction(InputAction<?> action) {
+	public void setGUIAction(Event action) {
 		this.action = action;
 	}
 
@@ -144,46 +127,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		this.parent = parent;
 	}
 
-	@Override
-	public boolean contains(int x, int y) {
-		return element.isOpaque();
+	public boolean isFinished() {
+		return !isQueueable();
 	}
 
-	public EAdPosition getPosition() {
-		return null;
-	}
+	public void release() {
 
-	@Override
-	public boolean processAction(InputAction<?> action) {
-		return false;
-	}
-
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-
-	}
-
-	@Override
-	public boolean isEnable() {
-		return element.isOpaque();
-	}
-
-	@Override
-	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets) {
-		return assetList;
-	}
-
-	public RuntimeDrawable<?, ?> getRuntimeDrawable() {
-		return null;
-	}
-
-	public int getWidth() {
-		return 1;
-	}
-
-	public int getHeight() {
-		return 1;
 	}
 
 }

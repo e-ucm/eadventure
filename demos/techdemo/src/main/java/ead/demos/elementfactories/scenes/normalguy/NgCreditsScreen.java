@@ -37,17 +37,17 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCreditsScreen extends EmptyScene {
@@ -69,14 +69,14 @@ public class NgCreditsScreen extends EmptyScene {
 		InterpolationEf rotate = new InterpolationEf(spiral,
 				SceneElement.VAR_ROTATION, 0, 2 * Math.PI, 20000, 0,
 				InterpolationLoopType.RESTART, -1, InterpolationType.LINEAR);
-		e.addEffect(SceneElementEvType.FIRST_UPDATE, rotate);
+		e.addEffect(SceneElementEvType.INIT, rotate);
 		spiral.getEvents().add(e);
 
 		e = new SceneElementEv();
 		InterpolationEf bounce = new InterpolationEf(logo,
 				SceneElement.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
-		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
+		e.addEffect(SceneElementEvType.INIT, bounce);
 
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setNextScene(initScene);

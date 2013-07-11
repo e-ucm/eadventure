@@ -40,13 +40,13 @@
 
 package ead.editor.view.components;
 
-import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.model.assets.AssetDescriptor;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.drawable.basics.shapes.BezierShape;
+import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.model.assets.multimedia.Video;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.QueryNode;
 import ead.editor.model.nodes.asset.AssetNode;

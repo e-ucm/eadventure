@@ -39,28 +39,28 @@ package ead.importer.subimporters.chapter.scene.elements;
 
 import com.google.inject.Inject;
 
+import ead.common.model.assets.drawable.basics.Image;
+import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.huds.MouseHud;
+import ead.common.model.elements.predef.effects.ChangeCursorEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.GhostElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.predef.effects.ChangeCursorEf;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.EAdImage;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.multimedia.EAdSound;
-import ead.common.resources.assets.multimedia.Sound;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -101,7 +101,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
 		GhostElement newExit = (GhostElement) object;
-		newExit.setPropagateGUIEvents(false);
 		oldObject.getDefaultExitLook();
 
 		// Shape
@@ -165,23 +164,24 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Add name
 		ExitLook exitLook = oldObject.getDefaultExitLook();
 
-		EAdString name = EAdString.newRandomEAdString("exitLookName");
+		EAdString name = stringHandler.generateNewString();
 		stringHandler.setString(name, exitLook.getExitText());
 		newExit.getDefinition().setVarInitialValue(
 				SceneElementDef.VAR_DOC_NAME, name);
 
 		// Change cursor
-		EAdImage cursor = null;
+		String cursor = null;
 		if (exitLook.getCursorPath() == null)
 			// Default
 			cursor = factory.getDefaultCursor(AdventureData.EXIT_CURSOR);
 		else
-			cursor = (Image) resourceImporter.getAssetDescritptor(exitLook
-					.getCursorPath(), Image.class);
+			cursor = factory
+					.createCursor((Image) resourceImporter.getAssetDescritptor(
+							exitLook.getCursorPath(), Image.class));
 
 		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
-		ChangeCursorEf changeCursorBack = new ChangeCursorEf(factory
-				.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
+		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
+				MouseHud.DEFAULT_CURSOR);
 
 		newExit.addBehavior(MouseGEv.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);
@@ -202,19 +202,19 @@ public class ExitImporter extends ElementImporter<Exit> {
 		TriggerMacroEf triggerMacro = new TriggerMacroEf();
 
 		// Normal effects
-		EffectsMacro normalMacro = effectsImporterFactory
+		EAdList<EAdEffect> normalMacro = effectsImporterFactory
 				.getMacroEffects(oldObject.getEffects());
 		if (normalMacro != null) {
-			triggerMacro.putMacro(normalMacro, enableCondition);
+			triggerMacro.putEffects(enableCondition, normalMacro);
 		}
 
 		// No effects
 		if (oldObject.isHasNotEffects()) {
-			EffectsMacro noEffectsMacro = effectsImporterFactory
+			EAdList<EAdEffect> noEAdList = effectsImporterFactory
 					.getMacroEffects(oldObject.getNotEffects());
-			if (noEffectsMacro != null) {
-				triggerMacro.putMacro(noEffectsMacro, new NOTCond(
-						enableCondition));
+			if (noEAdList != null) {
+				triggerMacro
+						.putEffects(new NOTCond(enableCondition), noEAdList);
 			}
 		}
 

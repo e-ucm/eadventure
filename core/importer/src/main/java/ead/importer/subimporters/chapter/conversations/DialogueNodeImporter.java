@@ -41,10 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.params.fills.ColorFill;
+import ead.common.model.params.fills.ColorFill;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
@@ -103,7 +100,7 @@ public class DialogueNodeImporter implements
 		}
 
 		if (initialEffect == null) {
-			initialEffect = new SpeakEf();
+			initialEffect = new SpeakEf(stringHandler.generateNewString());
 			initialEffect
 					.setColor(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
 			stringHandler.setString(initialEffect.getString(), "");
@@ -113,12 +110,6 @@ public class DialogueNodeImporter implements
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
 			previousEffect.getNextEffects().add(effect);
-		}
-
-		if (oldObject.isTerminal()) {
-			ChangeFieldEf changeField = new ChangeFieldEf(
-					SystemFields.BASIC_HUD_OPAQUE, BooleanOp.FALSE_OP);
-			previousEffect.getNextEffects().add(changeField);
 		}
 
 		return initialEffect;

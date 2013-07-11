@@ -37,7 +37,6 @@
 
 package ead.common.model.elements;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 
 /**

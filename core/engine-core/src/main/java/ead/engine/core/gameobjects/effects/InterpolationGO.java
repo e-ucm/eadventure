@@ -48,32 +48,18 @@ import aurelienribon.tweenengine.equations.Linear;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operators.OperatorFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.TweenController;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.engine.core.game.interfaces.GameState;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		implements TweenCallback {
 
 	private int finished;
 
-	private OperatorFactory operatorFactory;
-
-	private TweenController tweenController;
-
 	@Inject
-	public InterpolationGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, OperatorFactory operatorFactory,
-			TweenController tweenController) {
-		super(gameObjectFactory, gui, gameState);
-		this.operatorFactory = operatorFactory;
-		this.tweenController = tweenController;
+	public InterpolationGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
@@ -81,7 +67,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		super.initialize();
 		finished = 0;
 		TweenEquation eq = Linear.INOUT;
-		switch (element.getInterpolationType()) {
+		switch (effect.getInterpolationType()) {
 		case BOUNCE_END:
 			eq = Bounce.OUT;
 			break;
@@ -95,29 +81,29 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		}
 
 		int i = 0;
-		for (EAdField<?> f : element.getFields()) {
-			EAdOperation op = element.getInitialValues().get(i);
-			Number n1 = operatorFactory.operate(Number.class, op);
-			EAdOperation opR = element.getEndValues().get(i);
-			Number n2 = operatorFactory.operate(Number.class, opR);
+		for (EAdField<?> f : effect.getFields()) {
+			EAdOperation op = effect.getInitialValues().get(i);
+			Number n1 = gameState.operate(Number.class, op);
+			EAdOperation opR = effect.getEndValues().get(i);
+			Number n2 = gameState.operate(Number.class, opR);
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();
-				Tween t = Tween.to(f, 0, element.getInterpolationTime()).ease(
-						eq).delay(element.getDelay());
+				Tween t = Tween.to(f, 0, effect.getInterpolationTime())
+						.ease(eq).delay(effect.getDelay());
 
-				switch (element.getLoopType()) {
+				switch (effect.getLoopType()) {
 				case RESTART:
-					t.repeat(element.getLoops(), element.getDelay());
+					t.repeat(effect.getLoops(), effect.getDelay());
 					break;
 				case REVERSE:
-					t.repeatYoyo(element.getLoops(), element.getDelay());
+					t.repeatYoyo(effect.getLoops(), effect.getDelay());
 					break;
 				default:
 
 				}
 
-				if (element.isRelative()) {
+				if (effect.isRelative()) {
 					t.targetRelative(endValue - startValue);
 				} else {
 					Tween.set(f, 0).target(startValue);
@@ -125,7 +111,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 				}
 
 				t.setCallback(this);
-				tweenController.add(t);
+				gameState.getTweenManager().add(t);
 				finished++;
 			}
 			i++;
@@ -134,13 +120,12 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 	}
 
 	@Override
-	public boolean isVisualEffect() {
-		return false;
+	public boolean isFinished() {
+		return finished <= 0;
 	}
 
-	@Override
-	public boolean isFinished() {
-		return finished == 0;
+	public boolean isQueueable() {
+		return true;
 	}
 
 	@Override

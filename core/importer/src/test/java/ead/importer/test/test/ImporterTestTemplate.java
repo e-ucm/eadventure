@@ -37,7 +37,7 @@
 
 package ead.importer.test.test;
 
-import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdElement;
 import ead.importer.EAdElementImporter;
 
 public abstract class ImporterTestTemplate<OldType, NewType extends EAdElement> {

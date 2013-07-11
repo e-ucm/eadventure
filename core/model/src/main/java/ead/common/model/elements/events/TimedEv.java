@@ -43,10 +43,10 @@ import ead.common.interfaces.Param;
 @Element
 public class TimedEv extends AbstractEvent {
 
-	@Param("time")
+	@Param
 	private int time;
 
-	@Param("repeats")
+	@Param
 	private int repeats;
 
 	/**

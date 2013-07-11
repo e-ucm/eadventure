@@ -37,8 +37,6 @@
 
 package ead.common.model.elements.scenes;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
-
 /**
  * A ghost element is an invisible element which can received events
  * 
@@ -47,17 +45,16 @@ import ead.common.resources.assets.drawable.EAdDrawable;
 public interface EAdGhostElement extends EAdSceneElement {
 
 	/**
-	 * Returns a drawable defining the "contains" area for the element
 	 * 
-	 * @return
+	 * @return if captures all input event, ignoring the interaction area
 	 */
-	EAdDrawable getInteractionArea();
+	boolean isCatchAll();
 
 	/**
-	 * Sets the defining the "contains" area for the element
 	 * 
-	 * @return
+	 * @param catchAll
+	 *            if captures all input event, ignoring the interaction area
 	 */
-	void setInteractionArea(EAdDrawable drawable);
+	void setCatchAll(boolean catchAll);
 
 }

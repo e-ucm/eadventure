@@ -43,7 +43,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,14 +56,15 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.params.text.EAdString;
-import ead.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
+import ead.common.model.params.text.EAdString;
+import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.tools.StringHandler;
-import ead.writer.EAdAdventureModelWriter;
+import ead.tools.java.reflection.JavaReflectionProvider;
+import ead.tools.java.xml.JavaXMLParser;
+import ead.writer.AdventureWriter;
 import ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
@@ -139,7 +139,6 @@ public class EAdventureImporter {
 	 */
 	public EAdAdventureModel importGame(String eadFile, String destination,
 			String format) {
-		BasicElement.initLastId();
 		// Init importer
 		updateProgress(0, "Starting importer...");
 		stringsHandler.getStrings().clear();
@@ -182,11 +181,9 @@ public class EAdventureImporter {
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 
-		if (destination != null) {
-			updateProgress(90, "Creating " + destination);
-			createGameFile(model, destinationFolder.getAbsolutePath(),
-					destination, "." + format, "Imported version", zipped);
-		}
+		updateProgress(90, "Creating " + destination);
+		createGameFile(model, destinationFolder.getAbsolutePath(), destination,
+				"." + format, "Imported version", zipped);
 
 		updateProgress(100, "Done.");
 
@@ -215,26 +212,12 @@ public class EAdventureImporter {
 		boolean ok = true;
 
 		// Create data.xml
-		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
+		AdventureWriter writer = new AdventureWriter(
+				new JavaReflectionProvider(), new JavaXMLParser());
 
-		OutputStream os = null;
-		try {
-			os = new FileOutputStream(new File(path, "data.xml"));
-			writer.write(model, os);
-		} catch (Exception e) {
-			logger.error("Error writing data.xml while importing to '{}'",
-					destination, e);
-		} finally {
-			if (os != null) {
-				try {
-					os.close();
-				} catch (Exception e) {
-					logger.error("Error closing data.xml "
-							+ "while importing '{}", destination, e);
-					ok = false;
-				}
-			}
-		}
+		writer.write(model, path
+				+ (path.charAt(path.length() - 1) == '/' ? "" : "/")
+				+ "data.xml");
 
 		// Create strings.xml
 		File f = new File(path, "strings.xml");

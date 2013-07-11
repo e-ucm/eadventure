@@ -40,31 +40,47 @@ package ead.reader.strings;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import ead.common.params.text.EAdString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import ead.common.model.params.text.EAdString;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNodeList;
 import ead.tools.xml.XMLParser;
 
+@Singleton
 public class StringsReader {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("StringsReader");
 
 	private XMLParser xmlParser;
 
+	@Inject
 	public StringsReader(XMLParser xmlParser) {
 		this.xmlParser = xmlParser;
 	}
 
 	public Map<EAdString, String> readStrings(String xml) {
 		Map<EAdString, String> strings = new LinkedHashMap<EAdString, String>();
-		XMLDocument doc = xmlParser.parse(xml);
-		XMLNodeList nl = doc.getFirstChild().getChildNodes();
-		for (int i = 0; i < nl.getLength(); i++) {
-			String name = nl.item(i).getAttributes().getValue("name");
-			String value = nl.item(i).getNodeText();
-			if (name != null) {
-				strings.put(new EAdString(name), value);
-			} else {
-				name = "0";
+		try {
+			XMLDocument doc = xmlParser.parse(xml);
+			if (doc.getFirstChild().hasChildNodes()) {
+				XMLNodeList nl = doc.getFirstChild().getChildNodes();
+				for (int i = 0; i < nl.getLength(); i++) {
+					String name = nl.item(i).getAttributeValue("name");
+					if (name != null) {
+						String value = nl.item(i).getNodeText();
+						logger.debug("{}:={}", new Object[] { name, value });
+						strings.put(new EAdString(name), value);
+					}
+				}
 			}
+		} catch (Exception e) {
+			logger.error("Something went wrong:", e);
 		}
 		return strings;
 	}

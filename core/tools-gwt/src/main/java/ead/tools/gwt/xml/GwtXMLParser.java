@@ -51,4 +51,16 @@ public class GwtXMLParser implements XMLParser {
 		return new GwtXMLDocument(doc);
 	}
 
+	@Override
+	public XMLDocument createDocument() {
+		Document doc = com.google.gwt.xml.client.XMLParser.createDocument();
+		return new GwtXMLDocument(doc);
+	}
+
+	@Override
+	public void writeToFile(XMLDocument document, String file) {
+		// FIXME Not implemented
+
+	}
+
 }

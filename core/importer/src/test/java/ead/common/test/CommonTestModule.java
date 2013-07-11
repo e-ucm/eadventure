@@ -42,7 +42,7 @@ import java.util.Map;
 
 import com.google.inject.AbstractModule;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 import ead.tools.StringHandler;
 
 public class CommonTestModule extends AbstractModule {
@@ -82,6 +82,24 @@ public class CommonTestModule extends AbstractModule {
 		@Override
 		public EAdString generateNewString() {
 			return null;
+		}
+
+		@Override
+		public void setLanguage(String language) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void addLanguage(String language) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void clear() {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

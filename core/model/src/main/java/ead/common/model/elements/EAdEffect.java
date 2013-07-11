@@ -38,7 +38,6 @@
 package ead.common.model.elements;
 
 import ead.common.interfaces.features.Conditioned;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 
 /**
@@ -52,31 +51,6 @@ import ead.common.model.elements.extra.EAdList;
 public interface EAdEffect extends EAdElement, Conditioned {
 
 	/**
-	 * If returns {@code true} means no subsequent effects will be triggered
-	 * until this effect is finished. If returns {@code false}, other effects
-	 * can be executed in parallel with this one
-	 * 
-	 * @return
-	 */
-	boolean isBlocking();
-
-	/**
-	 * If returns {@code true} means that GUI events will be only processed for
-	 * this effect or those which are over it
-	 * 
-	 * @return
-	 */
-	boolean isOpaque();
-
-	boolean isQueueable();
-
-	void setQueueable(boolean queueable);
-
-	void setBlocking(boolean blocking);
-
-	void setOpaque(boolean opaque);
-
-	/**
 	 * Returns the effects to be launched when this effect ends
 	 * 
 	 * @return
@@ -84,11 +58,26 @@ public interface EAdEffect extends EAdElement, Conditioned {
 	EAdList<EAdEffect> getNextEffects();
 
 	/**
-	 * Returns the effects to be launched before this event is launched
+	 * Adds a effect to be executed when this effect ends
+	 * 
+	 * @param e
+	 *            next effect
+	 */
+	void addNextEffect(EAdEffect e);
+
+	/**
+	 * Returns the effects to be launched when this effect is launched
 	 * 
 	 * @return
 	 */
-	EAdList<EAdEffect> getPreviousEffects();
+	EAdList<EAdEffect> getSimultaneousEffects();
+
+	/**
+	 * Adds an effect to be launched just before this effect is launched
+	 * 
+	 * @param e
+	 */
+	void addSimultaneousEffect(EAdEffect e);
 
 	/**
 	 * Sets if the effects in the next effects list are launched even when the

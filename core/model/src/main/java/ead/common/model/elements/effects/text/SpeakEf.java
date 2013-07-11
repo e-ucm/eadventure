@@ -39,17 +39,18 @@ package ead.common.model.elements.effects.text;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.assets.drawable.basics.enums.Alignment;
+import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.effects.AbstractEffect;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
-import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.enums.Alignment;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.resources.assets.text.EAdFont;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.text.EAdString;
 
 /**
  * 
@@ -63,37 +64,52 @@ public class SpeakEf extends AbstractEffect {
 	private static final Paint BUBBLE_PAINT = new Paint(new ColorFill(255, 255,
 			255, 220), ColorFill.BLACK, 2);
 
-	@Param("x")
+	@Param
 	private EAdOperation x;
 
-	@Param("y")
+	@Param
 	private EAdOperation y;
 
-	@Param("caption")
+	@Param
 	private Caption caption;
 
-	@Param("bubbleColor")
+	@Param
 	private EAdPaint bubbleColor;
 
-	@Param(value = "ballonType", defaultValue = "ROUNDED_RECTANGLE")
+	@Param
 	private BalloonType ballonType;
 
-	@Param(value = "state_field")
+	@Param
 	private EAdField<String> stateField;
+
+	@Param
+	private int time;
+
+	public SpeakEf() {
+
+	}
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
 	 * {@link Paint#WHITE_ON_BLACK} and bubble color of
 	 * {@link Paint#BLACK_ON_WHITE}
 	 */
-	public SpeakEf() {
+	public SpeakEf(EAdString string) {
 		super();
-		caption = new Caption();
+		caption = new Caption(string);
 		caption.setTextPaint(ColorFill.BLACK);
+		caption.setFont(BasicFont.BIG);
 		bubbleColor = BUBBLE_PAINT;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
-		setQueueable(true);
-		setOpaque(true);
+	}
+
+	public SpeakEf(String stringId) {
+		this(new EAdString(stringId));
+	}
+
+	public SpeakEf(String stringId, EAdFont font) {
+		this(new EAdString(stringId));
+		caption.setFont(font);
 	}
 
 	/**
@@ -185,6 +201,14 @@ public class SpeakEf extends AbstractEffect {
 
 	public EAdField<String> getStateField() {
 		return this.stateField;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
 	}
 
 }

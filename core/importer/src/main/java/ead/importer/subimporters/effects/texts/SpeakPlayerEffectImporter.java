@@ -41,7 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
+import ead.common.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -69,10 +70,10 @@ public class SpeakPlayerEffectImporter extends
 	public SpeakEf init(SpeakPlayerEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getPlayer();
 		if (factory.isFirstPerson()) {
-			return new SpeakEf();
+			return new SpeakEf(stringHandler.generateNewString());
 		} else {
-			SpeakSceneElementEf effect = new SpeakSceneElementEf();
-			effect.setElement(factory.getElementById(npc.getId()));
+			SpeakSceneElementEf effect = new SpeakSceneElementEf(factory
+					.getElementById(npc.getId()), new EAdString("ng.45"));
 			return effect;
 		}
 	}

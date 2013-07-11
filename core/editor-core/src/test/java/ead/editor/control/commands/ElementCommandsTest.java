@@ -37,8 +37,7 @@
 
 package ead.editor.control.commands;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import junit.framework.TestCase;
 
 import org.junit.Before;
@@ -48,23 +47,18 @@ import org.mockito.MockitoAnnotations;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import ead.common.model.EAdElement;
+
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;
-import ead.editor.control.commands.ListCommand;
 import ead.editor.model.EditorModel;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
-import ead.reader.adventure.ObjectFactory;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
-
-import static org.mockito.Mockito.*;
 
 /**
  * Class for testing the right functionality of generic Commands to modify the lists of EAdElement instances in the game model.
@@ -113,7 +107,6 @@ public class ElementCommandsTest extends TestCase {
 		// init reflection
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
-		ObjectFactory.init(injector.getInstance(ReflectionProvider.class));
 
 		editorModel = injector.getInstance(EditorModel.class);
 
@@ -144,7 +137,7 @@ public class ElementCommandsTest extends TestCase {
 
 		MockitoAnnotations.initMocks(this);
 
-		elemList = new EAdListImpl<EAdElement>(EAdElement.class);
+		elemList = new EAdList<EAdElement>();
 		elemList.add(pelement);
 
 		addComm = new ListCommand.AddToList<EAdElement>(elemList, element,

@@ -39,7 +39,7 @@ package ead.engine.test.core.platform;
 
 import java.util.Map;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 import ead.tools.StringHandler;
 
 public class TestStringsReader implements StringHandler {
@@ -72,6 +72,24 @@ public class TestStringsReader implements StringHandler {
 	@Override
 	public EAdString generateNewString() {
 		return null;
+	}
+
+	@Override
+	public void setLanguage(String language) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addLanguage(String language) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

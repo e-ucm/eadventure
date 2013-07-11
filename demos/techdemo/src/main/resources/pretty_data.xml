@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<adventure>
+  <z>
+    <w k="0" v="ead.common.model.elements.BasicAdventureModel"/>
+    <w k="1" v="ead.common.model.params.text.EAdString"/>
+    <w k="2" v="java.lang.Integer"/>
+  </z>
+  <y>
+    <w k="0" v="description"/>
+    <w k="1" v="title"/>
+    <w k="2" v="chapters"/>
+    <w k="3" v="vars"/>
+    <w k="4" v="gameWidth"/>
+    <w k="5" v="gameHeight"/>
+    <w k="6" v="events"/>
+    <w k="7" v="depthControlList"/>
+  </y>
+  <n/>
+  <e c="0" i="">
+    <p c="1" f="0">desc</p>
+    <p c="1" f="1">title</p>
+    <l f="2">
+      <e/>
+    </l>
+    <p c="2" f="4">800</p>
+    <p c="2" f="5">600</p>
+  </e>
+</adventure>

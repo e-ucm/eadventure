@@ -46,7 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URI;
+import java.net.String;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,9 +70,9 @@ public class EAdAdventureDOMModelReader {
 
 	private static final Logger logger = LoggerFactory.getLogger("EAdReader");
 
-	public EAdAdventureModel read(URI fileURI) {
+	public EAdAdventureModel read(String fileString) {
 		try {
-			File file = new File(fileURI);
+			File file = new File(fileString);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			AdventureReader xmlReader = new AdventureReader(new JavaXMLParser());
 			StringBuilder xml = new StringBuilder();
@@ -170,9 +170,9 @@ public class EAdAdventureDOMModelReader {
 		}
 	}
 
-	public EAdAdventureModel read(String fileURI) {
+	public EAdAdventureModel read(String fileString) {
 		try {
-			File file = new File(fileURI);
+			File file = new File(fileString);
 			FileInputStream fileInputStream = new FileInputStream(file);
 			EAdAdventureModel data = read(fileInputStream);
 			return data;

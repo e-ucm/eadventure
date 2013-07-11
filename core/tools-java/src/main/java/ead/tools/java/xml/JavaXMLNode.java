@@ -37,9 +37,10 @@
 
 package ead.tools.java.xml;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import ead.tools.xml.XMLAttributes;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
 
@@ -47,19 +48,15 @@ public class JavaXMLNode implements XMLNode {
 
 	private Node node;
 
-	private XMLAttributes attributes;
-
 	private XMLNodeList childNodes;
 
 	public JavaXMLNode(Node node) {
 		this.node = node;
-		attributes = new JavaXMLAttributes(node.getAttributes());
 		childNodes = new JavaXMLNodeList(node.getChildNodes());
 	}
 
-	@Override
-	public XMLAttributes getAttributes() {
-		return attributes;
+	public Node getElement() {
+		return node;
 	}
 
 	@Override
@@ -90,6 +87,46 @@ public class JavaXMLNode implements XMLNode {
 			return null;
 		}
 
+	}
+
+	@Override
+	public void setText(String text) {
+		node.setTextContent(text);
+
+	}
+
+	@Override
+	public void setAttribute(String key, String value) {
+		((Element) node).setAttribute(key, value);
+
+	}
+
+	@Override
+	public void append(XMLNode node) {
+		this.node.appendChild(((JavaXMLNode) node).getElement());
+	}
+
+	@Override
+	public String getAttributeValue(String atttributeName) {
+		if (node.hasAttributes()) {
+			NamedNodeMap map = node.getAttributes();
+			if (map != null) {
+				Node n = node.getAttributes().getNamedItem(atttributeName);
+				return n == null ? null : n.getNodeValue();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public int getAttributesLength() {
+		if (node.hasAttributes()) {
+			NamedNodeMap map = node.getAttributes();
+			if (map != null) {
+				return map.getLength();
+			}
+		}
+		return 0;
 	}
 
 }

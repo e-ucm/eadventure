@@ -41,10 +41,9 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.params.variables.EAdVarDef;
 
 /**
  * Effect for changing a field value
@@ -56,17 +55,17 @@ public class ChangeFieldEf extends AbstractEffect {
 	/**
 	 * Fields to be changed
 	 */
-	@Param("fields")
+	@Param
 	private EAdList<EAdField<?>> fields;
 
-	@Param("varDef")
+	@Param
 	private EAdVarDef<?> varDef;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
 	 * the variable
 	 */
-	@Param("operation")
+	@Param
 	private EAdOperation operation;
 
 	/**
@@ -91,7 +90,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 */
 	public ChangeFieldEf(EAdField<?> field, EAdOperation operation) {
 		super();
-		this.fields = new EAdListImpl<EAdField<?>>(EAdField.class);
+		this.fields = new EAdList<EAdField<?>>();
 		if (field != null)
 			fields.add(field);
 		this.operation = operation;
@@ -150,10 +149,6 @@ public class ChangeFieldEf extends AbstractEffect {
 		return varDef;
 	}
 
-	public String toString() {
-		return fields + " : " + operation;
-	}
-
 	public void setFields(EAdList<EAdField<?>> fields) {
 		this.fields = fields;
 	}
@@ -164,6 +159,10 @@ public class ChangeFieldEf extends AbstractEffect {
 
 	public EAdVarDef<?> getVarDef() {
 		return varDef;
+	}
+
+	public String toString() {
+		return fields + "=" + operation;
 	}
 
 }

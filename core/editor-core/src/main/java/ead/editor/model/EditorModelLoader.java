@@ -42,7 +42,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.zip.ZipFile;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -76,28 +76,29 @@ import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
-import ead.reader.adventure.AdventureReader;
-import ead.reader.properties.PropertiesReader;
+import ead.reader.AdventureReader;
 import ead.reader.strings.StringsReader;
+import ead.tools.PropertiesReader;
 import ead.tools.StringHandler;
+import ead.tools.java.DataPrettifier;
+import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLParser;
 import ead.utils.FileUtils;
-import ead.writer.DataPrettifier;
-import ead.writer.EAdAdventureModelWriter;
+import ead.writer.AdventureWriter;
 import ead.writer.StringWriter;
 
 /**
  * Loads an EditorModel.
- *
+ * 
  * EditorModels contain each 'Identified' element in the XML wrapped up in a
- * DependencyNode (which hosts lookup information and dependencies). Non-identified
- * elements (maps and lists) are provided transient, lookup-by-value DependencyNodes,
- * as are
- *
+ * DependencyNode (which hosts lookup information and dependencies).
+ * Non-identified elements (maps and lists) are provided transient,
+ * lookup-by-value DependencyNodes, as are
+ * 
  * Imported editorModels are passed through a series of factories to build
  * EditorNodes. Loaded models have these EditorNodes restored from their
  * editor.xml file.
- *
+ * 
  * @author mfreire
  */
 public class EditorModelLoader {
@@ -120,7 +121,7 @@ public class EditorModelLoader {
 	/**
 	 * Writer for DOM models
 	 */
-	private EAdAdventureModelWriter writer;
+	private AdventureWriter writer;
 	/**
 	 * Parser for XML documents
 	 */
@@ -162,10 +163,11 @@ public class EditorModelLoader {
 
 	@Inject
 	public EditorModelLoader(XMLParser parser, EAdventureImporter importer,
-			EAdAdventureModelWriter writer, ImportAnnotator annotator) {
+			AdventureWriter writer, ImportAnnotator annotator,
+			ReflectionProvider reflectionProvider) {
 
 		this.parser = parser;
-		this.reader = new AdventureReader(parser);
+		this.reader = new AdventureReader(parser, reflectionProvider);
 		this.importer = importer;
 		this.writer = writer;
 		this.importAnnotator = (EditorAnnotator) annotator;
@@ -181,7 +183,7 @@ public class EditorModelLoader {
 
 	/**
 	 * Exports the editor model into a zip file.
-	 *
+	 * 
 	 * @param target
 	 *            ; if null, previous target is assumed
 	 * @throws IOException
@@ -196,7 +198,7 @@ public class EditorModelLoader {
 
 	/**
 	 * Writes the editor mappings to an editor.xml file.
-	 *
+	 * 
 	 * @param dest
 	 * @return number of mappings written
 	 */
@@ -226,14 +228,15 @@ public class EditorModelLoader {
 
 	/**
 	 * Reads the editor mappings from an editor.xml file.
-	 *
+	 * 
 	 * @param source
 	 * @return number of mappings read
 	 */
 	private int readEditorNodes(File source) throws IOException {
 		InputStream input;
 		if (source.isFile()) {
-			input = FileUtils.readEntryFromZip(source, editorModelFile);
+			ZipFile zip = new ZipFile(source);
+			input = FileUtils.readEntryFromZip(zip, editorModelFile);
 		} else {
 			input = new BufferedInputStream(new FileInputStream(new File(
 					source, editorModelFile)));
@@ -304,7 +307,7 @@ public class EditorModelLoader {
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
 		 * Visits a node
-		 *
+		 * 
 		 * @see ModelVisitor#visitObject
 		 */
 		@Override
@@ -336,7 +339,7 @@ public class EditorModelLoader {
 
 		/**
 		 * Visits a node property. Mostly used for indexing
-		 *
+		 * 
 		 * @see ModelVisitor#visitProperty
 		 */
 		@Override
@@ -351,9 +354,8 @@ public class EditorModelLoader {
 	}
 
 	/**
-	 * Builds EditorNodes from EngineNodes.
-	 * Requires a 'hot' (recently updated) EditorAnnotator. Discards
-	 * annotator information after use.
+	 * Builds EditorNodes from EngineNodes. Requires a 'hot' (recently updated)
+	 * EditorAnnotator. Discards annotator information after use.
 	 */
 	private void createEditorNodes() {
 		// engine ids may have changed during load
@@ -376,9 +378,11 @@ public class EditorModelLoader {
 	/**
 	 * Loads data from an EAdventure1.x game file. Saves this as an EAdventure
 	 * 2.x editor file.
-	 *
-	 * @param fin old-version file to import from
-	 * @param fout target folder to build into
+	 * 
+	 * @param fin
+	 *            old-version file to import from
+	 * @param fout
+	 *            target folder to build into
 	 */
 	public void loadFromImportFile(File fin, File fout) throws IOException {
 		logger.info(
@@ -417,7 +421,7 @@ public class EditorModelLoader {
 		writeEngineData(fout, true);
 		writeEditorNodes(fout);
 
-		// index  & finish
+		// index & finish
 		model.updateProgress(90, "Indexing model ...");
 		model.getNodeIndex().firstIndexUpdate(model.getGraph().vertexSet());
 		model.updateProgress(100, "... load complete.");
@@ -431,7 +435,7 @@ public class EditorModelLoader {
 	 * Loads the editor model. Discards the current editing session. The file
 	 * must have been built with save(). Any presentation-related data should be
 	 * added after this is called, using FileUtils.readEntryFromZip(source, ...)
-	 *
+	 * 
 	 * @param sourceDir
 	 * @throws IOException
 	 */
@@ -525,7 +529,7 @@ public class EditorModelLoader {
 
 			PropertiesReader pr = new PropertiesReader();
 			HashMap<String, String> engineProperties = new HashMap<String, String>();
-			engineProperties.putAll(pr.readProperties(properties));
+			// engineProperties.putAll(pr.readProperties(properties));
 			logger.info("Read {} engine properties", engineProperties.size());
 			model.setEngineProperties(engineProperties);
 		} catch (Exception e) {
@@ -579,7 +583,7 @@ public class EditorModelLoader {
 	 * resources, plus editor-specific model nodes. Does not include anything
 	 * presentation- related; that should be appended via
 	 * FileUtils.appendEntryToZip(target, ...)
-	 *
+	 * 
 	 * @param target
 	 *            ; if null, previous target is assumed
 	 * @throws IOException
@@ -644,7 +648,7 @@ public class EditorModelLoader {
 
 	/**
 	 * Returns a file that is relative to this save-file
-	 *
+	 * 
 	 * @param name
 	 *            of file to return, relative to save-file
 	 */
@@ -658,9 +662,9 @@ public class EditorModelLoader {
 	}
 
 	/**
-	 * Writes the data.xml file, optionally with a human-readable copy.
-	 * Also includes internationalized strings and engine properties
-	 *
+	 * Writes the data.xml file, optionally with a human-readable copy. Also
+	 * includes internationalized strings and engine properties
+	 * 
 	 * @param dest
 	 *            destination file
 	 * @param humanReadable
@@ -672,15 +676,9 @@ public class EditorModelLoader {
 
 		// data
 		File destFile = new File(dest, "data.xml");
-		OutputStream out = null;
-		try {
-			out = new FileOutputStream(destFile);
-			writer.write((EAdAdventureModel) model.getEngineModel(), out);
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
+		writer.write((EAdAdventureModel) model.getEngineModel(), destFile
+				.getAbsolutePath());
+
 		if (humanReadable) {
 			DataPrettifier.prettify(destFile, new File(dest, "pretty-"
 					+ destFile.getName()));

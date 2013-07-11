@@ -44,27 +44,11 @@ import java.lang.annotation.Target;
 
 /**
  * <p>
- * Annotates fields that are stored as params in the xml
- * </p>
- * <p>
- * These parameters must be {@link EAdElement}s, Enums, simple values (such as
- * int, char, float...) or its wrapper classes.
+ * Annotates fields that are stored in the xml
  * </p>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Param {
-
-	/**
-	 * @return The value or name of the parameter, should coincide with the
-	 *         attribute name
-	 */
-	String value();
-
-	/**
-	 * 
-	 * @return the default value for the param
-	 */
-	String defaultValue() default "";
 
 }

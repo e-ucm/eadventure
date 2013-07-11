@@ -41,19 +41,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.util.EAdRectangle;
-import ead.engine.core.gdx.platform.GdxCanvas;
-import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
-import ead.engine.core.platform.assets.RuntimeDrawable;
+import ead.common.model.params.util.Rectangle;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.canvas.GdxCanvas;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {
@@ -88,7 +86,7 @@ public class EditableGameObject {
 	private float height;
 
 	// Bounds
-	private EAdRectangle bounds;
+	private Rectangle bounds;
 
 	// Alpha
 	private float alpha;
@@ -100,7 +98,7 @@ public class EditableGameObject {
 
 	private List<String> states;
 
-	private RuntimeCompoundDrawable bundle;
+	private RuntimeDrawable bundle;
 
 	private RuntimeDrawable drawable;
 
@@ -126,7 +124,7 @@ public class EditableGameObject {
 		this.states = new ArrayList<String>();
 		xT = x - dispX * width;
 		yL = y - dispY * height;
-		this.bounds = new EAdRectangle((int) xT, (int) yL, (int) width,
+		this.bounds = new Rectangle((int) xT, (int) yL, (int) width,
 				(int) height);
 	}
 
@@ -151,18 +149,16 @@ public class EditableGameObject {
 				this.rotation = (Float) var.getValue();
 			}
 		}
-		this.bundle = (RuntimeCompoundDrawable) assetHandler
-				.getRuntimeAsset(element.getDefinition().getAppearance());
+		this.bundle = (RuntimeDrawable) assetHandler.getRuntimeAsset(element
+				.getDefinition().getAppearance());
 		this.drawable = bundle.getDrawable(0, states, 0);
 		updateMatrix();
 
 	}
 
 	public void render(int time) {
-		((SpriteBatch) canvas.getNativeGraphicContext()).setColor(1.0f, 1.0f,
-				1.0f, alpha);
-		((SpriteBatch) canvas.getNativeGraphicContext())
-				.setTransformMatrix(matrix);
+		canvas.setColor(1.0f, 1.0f, 1.0f, alpha);
+		canvas.setTransformMatrix(matrix);
 		RuntimeDrawable current = bundle.getDrawable(time, states, 0);
 		if (current != drawable) {
 			drawable = current;
@@ -208,7 +204,7 @@ public class EditableGameObject {
 		return tmp.x >= 0 && tmp.x < width && tmp.y >= 0 && tmp.y < height;
 	}
 
-	public EAdRectangle getBounds() {
+	public Rectangle getBounds() {
 		return bounds;
 	}
 

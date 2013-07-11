@@ -37,17 +37,10 @@
 
 package ead.exporter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -56,20 +49,27 @@ import java.util.zip.ZipOutputStream;
 
 public class WarExporter implements Exporter {
 
-	private static final String WAR_PATH = "resources/engine.war";
+	private static final Logger logger = LoggerFactory.getLogger("WarExporter");
+
+	private static final String DEFAULT_WAR_PATH = "resources/engine.war";
 	private static final byte[] BUFFER = new byte[4096 * 1024];
 	private ArrayList<String> assets = new ArrayList<String>();
 
 	private String name = "game";
+
+	private String warPath = DEFAULT_WAR_PATH;
 
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public void setWarPath(String path) {
+		this.warPath = path;
+	}
+
 	@Override
 	public void setIcon(File icon) {
-		// WAR hasn't got icon :(
 	}
 
 	public static void copy(InputStream input, OutputStream output)
@@ -82,7 +82,7 @@ public class WarExporter implements Exporter {
 
 	private void readAssets(BufferedReader reader) {
 		assets.clear();
-		String line = null;
+		String line;
 		try {
 			while ((line = reader.readLine()) != null) {
 				assets.add(line);
@@ -93,17 +93,15 @@ public class WarExporter implements Exporter {
 	}
 
 	@Override
-	public void export(String gameBaseDir, String outputfolder) {
+	public void export(String gameBaseDir, String output) {
+		File gameWar = new File(output);
 		File parent = new File(gameBaseDir);
-		// Copy the war into destination
-		File output = new File(outputfolder);
-		File gameWar = new File(output, name + ".war");
 
 		ZipOutputStream os = null;
 		try {
 			os = new ZipOutputStream(new FileOutputStream(gameWar));
 			copyWar(os);
-			addFolder(parent, parent, gameWar.getAbsolutePath(), os);
+			addFolder(parent, parent, os);
 			os.putNextEntry(new ZipEntry("assets/assets.txt"));
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 					os));
@@ -113,10 +111,8 @@ public class WarExporter implements Exporter {
 			}
 			writer.flush();
 			os.closeEntry();
-		} catch (FileNotFoundException e) {
-
-		} catch (IOException e) {
-
+		} catch (Exception e) {
+			logger.error("Error while exporting to war", e);
 		} finally {
 			if (os != null) {
 				try {
@@ -132,9 +128,7 @@ public class WarExporter implements Exporter {
 	private void copyWar(ZipOutputStream gameWar) {
 
 		try {
-
-			File current = new File(System.getProperty("user.dir"));
-			File f = new File(current.getParentFile().getParent(), WAR_PATH);
+			File f = new File(warPath);
 			ZipFile is = new ZipFile(f);
 			Enumeration<? extends ZipEntry> entries = is.entries();
 			while (entries.hasMoreElements()) {
@@ -152,8 +146,6 @@ public class WarExporter implements Exporter {
 					.getInputStream(is.getEntry("assets/assets.txt")))));
 			is.close();
 
-		} catch (FileNotFoundException e) {
-
 		} catch (IOException e) {
 
 		} finally {
@@ -166,14 +158,13 @@ public class WarExporter implements Exporter {
 		return fileName.endsWith(".png") || fileName.endsWith(".jpg");
 	}
 
-	public void addFolder(File parent, File folder, String outputWarPath,
-			ZipOutputStream os) {
+	public void addFolder(File parent, File folder, ZipOutputStream os) {
 		for (File f : folder.listFiles()) {
 			String fileEntry = f.getAbsolutePath().substring(
 					parent.getAbsolutePath().length() + 1).replace('\\', '/');
 			if (f.isDirectory()) {
 				assets.add("d:" + fileEntry);
-				addFolder(parent, f, outputWarPath, os);
+				addFolder(parent, f, os);
 			} else {
 				FileInputStream is = null;
 				try {

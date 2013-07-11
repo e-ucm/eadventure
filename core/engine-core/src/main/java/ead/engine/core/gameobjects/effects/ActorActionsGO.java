@@ -37,76 +37,148 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Linear;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
+import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.input.actions.MouseInputAction;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.scenes.EAdGroupElement;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
+import ead.common.model.elements.scenes.GhostElement;
+import ead.common.model.elements.scenes.GroupElement;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.params.util.Position.Corner;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
-public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> {
+public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
+		EventListener {
 
-	/**
-	 * The current {@link ActionsHUD}
-	 */
-	private ActionsHUD actionsHUD;
+	private SceneElementGOFactory sceneElementFactory;
 
-	private GameObjectManager gameObjectManager;
+	private GUI gui;
+
+	private SceneElementGO effectsHUD;
+
+	private SceneElementGO actions;
 
 	@Inject
-	public ActorActionsGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, ActionsHUD actionsHUD,
-			GameObjectManager gameObjectManager) {
-		super(gameObjectFactory, gui, gameState);
-		this.actionsHUD = actionsHUD;
-		this.gameObjectManager = gameObjectManager;
+	public ActorActionsGO(SceneElementGOFactory sceneElementFactory,
+			GameState gameState, GUI gui) {
+		super(gameState);
+		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
 	}
 
-	@Override
 	public void initialize() {
-		super.initialize();
-		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
-			EAdSceneElement ref = gameState.getValueMap().getValue(
-					element.getActionElement(),
-					SceneElementDef.VAR_SCENE_ELEMENT);
-			if (ref != null) {
-				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
-				if (sceneElement.getActions() != null) {
-					int x = sceneElement.getCenterX();
-					int y = sceneElement.getCenterY();
-					if (action instanceof MouseInputAction) {
-						x = gameState.getValueMap().getValue(
-								SystemFields.MOUSE_X);
-						y = gameState.getValueMap().getValue(
-								SystemFields.MOUSE_Y);
-					}
-					actionsHUD.setElement(sceneElement, x, y);
-					gameObjectManager.addHUD(actionsHUD);
-				}
+		EAdGroupElement rep = getVisualRepresentation();
+		if (rep != null) {
+			actions = sceneElementFactory.get(getVisualRepresentation());
+			actions.setInputProcessor(this, false);
+			for (Actor child : actions.getChildren()) {
+				((SceneElementGO) child).setInputProcessor(this, false);
 			}
-		} else {
-			gameObjectManager.removeHUD(actionsHUD);
+			effectsHUD = gui.getHUD(GUI.EFFECTS_HUD_ID);
+			effectsHUD.addSceneElement(actions);
 		}
 	}
 
-	@Override
-	public boolean isVisualEffect() {
-		return false;
+	@SuppressWarnings("unchecked")
+	protected EAdGroupElement getVisualRepresentation() {
+		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
+			EAdSceneElementDef ref = effect.getActionElement();
+			if (ref != null) {
+				EAdList<EAdSceneElementDef> list = gameState.getValue(ref,
+						ActorActionsEf.VAR_ACTIONS);
+				if (list != null) {
+					float x = gameState.getValue(SystemFields.MOUSE_SCENE_X);
+					float y = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
+					int gameWidth = gameState.getValue(SystemFields.GAME_WIDTH);
+					int gameHeight = gameState
+							.getValue(SystemFields.GAME_HEIGHT);
+					float radius = gameHeight / 8;
+					float maxRadius = gameWidth - x < gameHeight - y ? gameWidth
+							- x
+							: gameHeight - y;
+					maxRadius = x < maxRadius ? x : maxRadius;
+					maxRadius = y < maxRadius ? y : maxRadius;
+					radius = Math.min(maxRadius, radius);
+
+					float signum = -1.0f;
+					if (x < gameWidth - x) {
+						signum = 1.0f;
+					}
+
+					float accAngle = (float) -Math.PI / 2;
+					if (y < gameHeight - y) {
+						accAngle = -accAngle;
+					}
+
+					float angle = (float) (Math.PI / 4.5) * signum;
+
+					GroupElement hud = new GroupElement();
+
+					GhostElement bg = new GhostElement();
+					bg.setCatchAll(true);
+					hud.getSceneElements().add(bg);
+					boolean hasEnableActions = false;
+					for (EAdSceneElementDef a : list) {
+						EAdCondition cond = (EAdCondition) a.getVars().get(
+								ActorActionsEf.VAR_ACTION_COND);
+						if (gameState.evaluate(cond)) {
+							hasEnableActions = true;
+							SceneElement element = new SceneElement(a);
+							element.setPosition(Corner.CENTER, x, y);
+							int targetX = (int) (Math.cos(accAngle) * radius);
+							int targetY = (int) (Math.sin(accAngle) * radius);
+
+							Tween.to(
+									new BasicField<Float>(element,
+											SceneElement.VAR_X), 0, 5000.0f)
+									.ease(Linear.INOUT).targetRelative(targetX)
+									.start(gameState.getTweenManager());
+							Tween.to(
+									new BasicField<Float>(element,
+											SceneElement.VAR_Y), 0, 500.0f)
+									.ease(Linear.INOUT).targetRelative(targetY)
+									.start(gameState.getTweenManager());
+							hud.getSceneElements().add(element);
+							accAngle += angle;
+						}
+					}
+					return hasEnableActions ? hud : null;
+				}
+
+			}
+
+		}
+		return null;
+
 	}
 
 	@Override
-	public boolean isFinished() {
-		return true;
+	public boolean handle(Event event) {
+		if (event instanceof InputEvent) {
+			InputEvent e = (InputEvent) event;
+			if (e.getType() == InputEvent.Type.touchDown
+					&& e.getButton() == Input.Buttons.LEFT) {
+				actions.remove();
+			}
+		}
+		return false;
 	}
 
 }

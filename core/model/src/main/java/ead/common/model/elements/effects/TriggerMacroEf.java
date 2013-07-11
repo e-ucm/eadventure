@@ -42,7 +42,6 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 
 /**
  * Effect to trigger the effects contained in a macro. It only trigger the first
@@ -51,25 +50,24 @@ import ead.common.model.elements.extra.EAdListImpl;
 @Element
 public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 
-	@Param("macros")
-	private EAdList<EffectsMacro> macros;
+	@Param
+	private EAdList<EAdList<EAdEffect>> macros;
 
-	@Param("conditions")
+	@Param
 	private EAdList<EAdCondition> conditions;
 
 	public TriggerMacroEf() {
 		super();
-		macros = new EAdListImpl<EffectsMacro>(EffectsMacro.class);
-		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
-		setQueueable(true);
+		macros = new EAdList<EAdList<EAdEffect>>();
+		conditions = new EAdList<EAdCondition>();
 	}
 
-	public void putMacro(EffectsMacro macro, EAdCondition condition) {
+	public void putEffects(EAdCondition condition, EAdList<EAdEffect> macro) {
 		macros.add(macro);
 		conditions.add(condition);
 	}
 
-	public EAdList<EffectsMacro> getMacros() {
+	public EAdList<EAdList<EAdEffect>> getMacros() {
 		return macros;
 	}
 
@@ -77,12 +75,19 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 		return conditions;
 	}
 
-	public void setMacros(EAdList<EffectsMacro> macros) {
+	public void setMacros(EAdList<EAdList<EAdEffect>> macros) {
 		this.macros = macros;
 	}
 
 	public void setConditions(EAdList<EAdCondition> conditions) {
 		this.conditions = conditions;
+	}
+
+	public void putEffect(EAdCondition c, EAdEffect effect) {
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+		macro.add(effect);
+		putEffects(c, macro);
+
 	}
 
 }

@@ -43,7 +43,7 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * A factory providing {@link EAdString}s for testing
@@ -91,8 +91,7 @@ public class StringFactory {
 		if (strings == null) {
 			strings = new ArrayList<EAdString>();
 			for (StringType type : StringType.values()) {
-				EAdString string = EAdString
-						.newRandomEAdString(type.toString());
+				EAdString string = new EAdString(type.toString());
 				strings.add(string);
 			}
 		}
@@ -121,7 +120,7 @@ public class StringFactory {
 	}
 
 	public EAdString getString(String string) {
-		EAdString eAdString = EAdString.newRandomEAdString(string);
+		EAdString eAdString = new EAdString(string);
 		setString(eAdString, string);
 		return eAdString;
 	}

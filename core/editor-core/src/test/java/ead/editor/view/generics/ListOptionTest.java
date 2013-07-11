@@ -40,14 +40,14 @@ package ead.editor.view.generics;
 import java.awt.BorderLayout;
 
 import javax.swing.JComponent;
+
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdListImpl;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.ListOption;
-import ead.editor.view.generic.TextOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
+import ead.editor.view.generic.TextOption;
 import ead.utils.Log4jConfig;
 
 public class ListOptionTest extends AbstractOptionTest {
@@ -83,7 +83,7 @@ public class ListOptionTest extends AbstractOptionTest {
 	public static class ExampleClass {
 
 		public String name = "initial name";
-		public EAdList<String> list = new EAdListImpl<String>(String.class);
+		public EAdList<String> list = new EAdList<String>();
 
 		public ExampleClass() {
 			list.add("hola");

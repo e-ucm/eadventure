@@ -40,9 +40,9 @@ package ead.common.model.elements.weev.world.impl;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.weev.impl.AbstractTransition;
+import ead.common.model.params.text.EAdString;
 import ead.common.model.weev.world.Space;
 import ead.common.model.weev.world.SpaceLink;
-import ead.common.params.text.EAdString;
 
 /**
  * Default {@link SpaceLink} implementation
@@ -51,11 +51,11 @@ import ead.common.params.text.EAdString;
 public class SpaceLinkImpl extends AbstractTransition<Space> implements
 		SpaceLink {
 
-	@Param(value = "name")
+	@Param
 	private EAdString name;
 
 	public SpaceLinkImpl() {
-		name = EAdString.newRandomEAdString("name");
+		name = new EAdString("name");
 	}
 
 	@Override

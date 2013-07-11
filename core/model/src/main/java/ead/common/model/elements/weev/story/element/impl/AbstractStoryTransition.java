@@ -52,7 +52,7 @@ import ead.common.model.weev.story.elements.StoryTransition;
 public abstract class AbstractStoryTransition extends AbstractTransition<Node>
 		implements StoryTransition {
 
-	@Param(value = "effectList")
+	@Param
 	StoryList<Effect> effectList;
 
 	@Override

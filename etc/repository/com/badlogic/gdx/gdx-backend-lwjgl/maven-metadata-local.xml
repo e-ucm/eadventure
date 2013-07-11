@@ -3,11 +3,10 @@
   <groupId>com.badlogic.gdx</groupId>
   <artifactId>gdx-backend-lwjgl</artifactId>
   <versioning>
-    <release>1.6</release>
+    <release>0.98</release>
     <versions>
-      <version>1.5</version>
-      <version>1.6</version>
+      <version>0.98</version>
     </versions>
-    <lastUpdated>20121120155604</lastUpdated>
+    <lastUpdated>20130129181207</lastUpdated>
   </versioning>
 </metadata>

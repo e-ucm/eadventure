@@ -40,11 +40,13 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
+import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.factories.EventGOFactory;
+import ead.engine.core.factories.SceneElementGOFactory;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
 
 public class HighlightSceneElementGO extends
 		AbstractEffectGO<HighlightSceneElementEf> {
@@ -55,38 +57,35 @@ public class HighlightSceneElementGO extends
 
 	private boolean started;
 
+	private Object highLightElement;
+
 	@Inject
 	public HighlightSceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+			GameState gameState, EventGOFactory eventFactory) {
+		super(gameState);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		oldScale = gameState.getValueMap().getValue(element,
-				SceneElement.VAR_SCALE);
-		time = element.getTime();
+		highLightElement = gameState.maybeDecodeField(effect.getSceneElement());
+		oldScale = gameState.getValue(highLightElement, SceneElement.VAR_SCALE);
+		time = effect.getTime();
 		started = false;
 	}
 
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	public void update() {
+	public void act(float delta) {
 		if (time > 0) {
 			if (!started) {
-				gameState.getValueMap().setValue(element,
-						SceneElement.VAR_SCALE, oldScale * 2);
+				gameState.setValue(highLightElement, SceneElement.VAR_SCALE,
+						oldScale * 2);
 				started = true;
 			}
-			time -= gui.getSkippedMilliseconds();
+			time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
 			if (time <= 0) {
-				gameState.getValueMap().setValue(element,
-						SceneElement.VAR_SCALE, oldScale);
+				gameState.setValue(highLightElement, SceneElement.VAR_SCALE,
+						oldScale);
 			}
 		}
 	}

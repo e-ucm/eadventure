@@ -44,7 +44,6 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.demos.elementfactories.scenes.normalguy.NgMainScreen;
-import ead.demos.elementfactories.scenes.scenes.BVSScene;
 import ead.demos.elementfactories.scenes.scenes.CharacterScene;
 import ead.demos.elementfactories.scenes.scenes.ComplexElementScene;
 import ead.demos.elementfactories.scenes.scenes.DepthZScene;
@@ -53,7 +52,6 @@ import ead.demos.elementfactories.scenes.scenes.DrawablesScene;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 import ead.demos.elementfactories.scenes.scenes.FiltersDemo;
 import ead.demos.elementfactories.scenes.scenes.InitScene;
-import ead.demos.elementfactories.scenes.scenes.InventoryScene;
 import ead.demos.elementfactories.scenes.scenes.PhysicsScene2;
 import ead.demos.elementfactories.scenes.scenes.PositionScene;
 import ead.demos.elementfactories.scenes.scenes.ScrollScene;
@@ -65,7 +63,7 @@ import ead.demos.elementfactories.scenes.scenes.TrajectoriesScene;
 
 public class TechDemoAdventure extends BasicAdventureModel {
 
-	private List<SceneDemo> sceneDemos;
+	private List<EAdScene> sceneDemos;
 
 	private BasicChapter chapter;
 
@@ -73,8 +71,7 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		chapter = new BasicChapter();
 		this.getChapters().add(chapter);
 
-		sceneDemos = new ArrayList<SceneDemo>();
-		sceneDemos = new ArrayList<SceneDemo>();
+		sceneDemos = new ArrayList<EAdScene>();
 		sceneDemos.add(new InitScene());
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
@@ -93,22 +90,20 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		sceneDemos.add(new PositionScene());
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
-		sceneDemos.add(new InventoryScene());
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
 		//		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen(null));
 		//		sceneDemos.add(new NgRoom1());
-		sceneDemos.add(new BVSScene());
 	}
 
-	public List<SceneDemo> getScenes() {
+	public List<EAdScene> getScenes() {
 		return sceneDemos;
 	}
 
 	public List<String> getSceneDemosDescriptions() {
 		ArrayList<String> strings = new ArrayList<String>();
-		for (SceneDemo s : sceneDemos) {
+		for (EAdScene s : sceneDemos) {
 			strings.add(s.toString());
 		}
 		return strings;

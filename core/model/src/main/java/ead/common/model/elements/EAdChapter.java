@@ -40,19 +40,13 @@ package ead.common.model.elements;
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Resourced;
 import ead.common.interfaces.features.Variabled;
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.params.text.EAdString;
-import ead.common.resources.annotation.Asset;
-import ead.common.resources.annotation.Bundled;
-import ead.common.resources.assets.multimedia.EAdSound;
+import ead.common.model.params.text.EAdString;
 
 public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 
-	@Bundled
-	@Asset( { EAdSound.class })
 	final static String music = "music";
 
 	/**
@@ -83,5 +77,12 @@ public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 	 * @return The first screen in the game
 	 */
 	EAdScene getInitialScene();
+
+	/**
+	 * Returns the scene with the given id
+	 * @param nextSceneId
+	 * @return
+	 */
+	EAdScene getSceneById(String nextSceneId);
 
 }

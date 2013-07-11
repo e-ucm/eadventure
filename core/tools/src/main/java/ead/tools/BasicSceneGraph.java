@@ -49,24 +49,24 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
-import ead.common.model.elements.EAdAction;
+import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.EAdEvent;
+import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.RandomEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.extra.EAdMap;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.resources.EAdResources;
-import ead.common.resources.assets.AssetDescriptor;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.tools.reflection.ReflectionProvider;
 
 public class BasicSceneGraph implements SceneGraph {
@@ -170,13 +170,17 @@ public class BasicSceneGraph implements SceneGraph {
 		return sceneAssets;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void lookForConnections(EAdScene currentScene,
 			EAdSceneElement element) {
 		// Behavior
 		lookForConnections(currentScene, element.getBehavior());
 		lookForConnections(currentScene, element.getDefinition().getBehavior());
 
-		addAssets(currentScene, element.getDefinition().getResources());
+		for (EAdMap<String, AssetDescriptor> map : element.getDefinition()
+				.getResources().values()) {
+			addAssets(currentScene, map);
+		}
 
 		// Events
 		lookForConnectionsEvents(currentScene, element.getEvents());
@@ -184,22 +188,23 @@ public class BasicSceneGraph implements SceneGraph {
 				.getEvents());
 
 		// Actions
-		lookForConnectionsActions(currentScene, element.getDefinition()
-				.getActions());
+		EAdList<EAdSceneElementDef> list = (EAdList<EAdSceneElementDef>) element
+				.getDefinition().getVars().get(ActorActionsEf.VAR_ACTIONS);
+		lookForConnectionsActions(currentScene, list);
 	}
 
-	private void addAssets(EAdScene currentScene, EAdResources resources) {
-		sceneAssets.get(currentScene).addAll(resources.getAllAssets());
+	private void addAssets(EAdScene currentScene,
+			EAdMap<String, AssetDescriptor> resources) {
+		sceneAssets.get(currentScene).addAll(resources.values());
 	}
 
 	private void lookForConnectionsActions(EAdScene currentScene,
-			EAdList<EAdAction> actions) {
+			EAdList<EAdSceneElementDef> actions) {
 
-		for (EAdAction a : actions) {
-			for (EAdEffect e : a.getEffects()) {
-				lookForConnections(currentScene, e);
+		if (actions != null)
+			for (EAdSceneElementDef a : actions) {
+				lookForConnections(currentScene, a.getBehavior());
 			}
-		}
 	}
 
 	private void lookForConnections(EAdScene currentScene, EAdBehavior behavior) {
@@ -253,8 +258,8 @@ public class BasicSceneGraph implements SceneGraph {
 			}
 		} else if (effect instanceof TriggerMacroEf) {
 			TriggerMacroEf triggerMacro = (TriggerMacroEf) effect;
-			for (EffectsMacro macro : triggerMacro.getMacros()) {
-				for (EAdEffect e : macro.getEffects()) {
+			for (EAdList<EAdEffect> macro : triggerMacro.getMacros()) {
+				for (EAdEffect e : macro) {
 					lookForConnections(currentScene, e);
 				}
 			}
@@ -263,10 +268,12 @@ public class BasicSceneGraph implements SceneGraph {
 			for (EAdEffect e : randomEf.getEffects().keySet()) {
 				lookForConnections(currentScene, e);
 			}
-		} else if (effect instanceof ShowQuestionEf) {
-			ShowQuestionEf showQuestion = (ShowQuestionEf) effect;
-			for (EAdEffect e : showQuestion.getAnswers().values()) {
-				lookForConnections(currentScene, e);
+		} else if (effect instanceof QuestionEf) {
+			QuestionEf showQuestion = (QuestionEf) effect;
+			for (List<EAdEffect> effects : showQuestion.getAnswers().values()) {
+				for (EAdEffect e : effects) {
+					lookForConnections(currentScene, e);
+				}
 			}
 		} else if (effect instanceof ChangeFieldEf) {
 			checkChangeField((ChangeFieldEf) effect);

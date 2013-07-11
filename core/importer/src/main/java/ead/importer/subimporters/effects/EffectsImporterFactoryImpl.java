@@ -42,7 +42,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.extra.EAdList;
 import ead.importer.EAdElementImporter;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.tools.AbstractFactory;
@@ -86,17 +86,17 @@ public class EffectsImporterFactoryImpl extends
 	}
 
 	@Override
-	public EffectsMacro getMacroEffects(Effects effects) {
+	public EAdList<EAdEffect> getMacroEffects(Effects effects) {
 		if (effects == null || effects.isEmpty()) {
 			return null;
 		}
 
-		EffectsMacro macro = new EffectsMacro();
+		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
 
 		for (Effect e : effects.getEffects()) {
 			EAdEffect effect = getEffect(e);
 			if (effect != null)
-				macro.getEffects().add(effect);
+				macro.add(effect);
 		}
 
 		return macro;

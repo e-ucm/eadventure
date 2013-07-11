@@ -37,8 +37,7 @@
 
 package ead.engine.core.gameobjects;
 
-import ead.common.model.EAdElement;
-import ead.engine.core.gameobjects.go.GameObject;
+import ead.common.model.elements.EAdElement;
 
 /**
  * Basic game object implementation for eAdventure elements
@@ -65,6 +64,10 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	@Override
 	public String toString() {
 		return element + "";
+	}
+
+	public void release() {
+
 	}
 
 }

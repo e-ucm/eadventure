@@ -87,4 +87,10 @@ public class LoggerFactory {
 		}
 		return map.get(name);
 	}
+
+	public static synchronized Logger getLogger(Class<?> c) {
+		return getLogger(c.getName());
+
+	}
+
 }

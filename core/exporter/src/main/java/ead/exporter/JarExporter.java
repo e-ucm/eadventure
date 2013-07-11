@@ -37,17 +37,14 @@
 
 package ead.exporter;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.maven.Maven;
-import org.apache.maven.execution.DefaultMavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionResult;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.io.RawInputStreamFacade;
+import java.io.*;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Maven wrapper able to export projects to jar/exe
@@ -55,12 +52,15 @@ import org.codehaus.plexus.util.io.RawInputStreamFacade;
  */
 public class JarExporter implements Exporter {
 
-	private Maven maven;
+	private static final Logger logger = LoggerFactory.getLogger("JarExporter");
+
+	private static final byte[] BUFFER = new byte[4096 * 1024];
+
+	private String jarPath;
 
 	private String name;
 
-	public JarExporter(Maven maven) {
-		this.maven = maven;
+	public JarExporter() {
 		this.name = "game";
 	}
 
@@ -69,65 +69,106 @@ public class JarExporter implements Exporter {
 		this.name = name;
 	}
 
+	public void setJarPath(String jarPath) {
+		this.jarPath = jarPath;
+	}
+
 	@Override
 	public void setIcon(File icon) {
 
 	}
 
-	public void export(String gameBaseDir, String outputfolder) {
-		String tempFolder = System.getProperty("java.io.tmpdir");
-		File jarTemp = new File(tempFolder + File.separator
-				+ "eAdventureJarTemp" + Math.round(Math.random() * 1000));
-		jarTemp.mkdirs();
-
-		// Load pom file
-		File pomFile = new File(jarTemp, "pom.xml");
+	public void export(String gameFolder, String output) {
+		// Create destiny file
+		File gameJar = new File(output);
+		ZipOutputStream os = null;
 		try {
-			FileUtils.copyStreamToFile(new RawInputStreamFacade(ClassLoader
-					.getSystemResourceAsStream("pom/desktoppom.xml")), pomFile);
-		} catch (IOException e1) {
+			os = new ZipOutputStream(new FileOutputStream(gameJar));
+			// Copy engine jar to destination jar
+			copyJar(os);
 
+			// Copy game to jar
+			File parent = new File(gameFolder);
+			addFolder(parent, parent, os);
+			os.putNextEntry(new ZipEntry("assets/assets.txt"));
+			os.closeEntry();
+		} catch (Exception e) {
+			logger.error("Error exporting game", e);
+		} finally {
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e1) {
+
+				}
+			}
 		}
+	}
 
-		MavenExecutionRequest request = new DefaultMavenExecutionRequest();
-
-		// Goals
-		ArrayList<String> goals = new ArrayList<String>();
-		goals.add("package");
-		request.setGoals(goals);
-
-		// Properties
-		Properties userProperties = new Properties();
-		userProperties.setProperty("game.basedir", gameBaseDir);
-		userProperties.setProperty("game.outputfolder", outputfolder);
-		userProperties.setProperty("game.name", name);
-		request.setUserProperties(userProperties);
-
-		// Set files
-		request.setBaseDirectory(jarTemp);
-		request.setPom(pomFile);
-
-		// Execute maven
-		MavenExecutionResult result = maven.execute(request);
-		for (Throwable e : result.getExceptions()) {
-			e.printStackTrace();
-		}
-
-		// Copy to output folder
-		File jarFile = new File(jarTemp, "target/desktop-game-1.0-unified.jar");
-		File dstFile = new File(outputfolder, name + ".jar");
+	private void copyJar(ZipOutputStream os) {
+		ZipFile is = null;
 		try {
-			FileUtils.copyFile(jarFile, dstFile);
-		} catch (IOException e2) {
+			// Engine jar file
+			File f = new File(jarPath);
+			is = new ZipFile(f);
 
+			Enumeration<? extends ZipEntry> entries = is.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry e = entries.nextElement();
+				os.putNextEntry(e);
+				if (!e.isDirectory()) {
+					copy(is.getInputStream(e), os);
+				}
+				os.closeEntry();
+			}
+		} catch (Exception e) {
+			logger.error("Error exporting to jar", e);
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+
+				}
+			}
 		}
 
-		try {
-			FileUtils.deleteDirectory(jarTemp);
-		} catch (IOException e1) {
+	}
 
+	public void addFolder(File parent, File folder, ZipOutputStream os) {
+		for (File f : folder.listFiles()) {
+			String fileEntry = f.getAbsolutePath().substring(
+					parent.getAbsolutePath().length() + 1).replace('\\', '/');
+			if (f.isDirectory()) {
+				addFolder(parent, f, os);
+			} else {
+				FileInputStream is = null;
+				try {
+					os.putNextEntry(new ZipEntry(fileEntry));
+					is = new FileInputStream(f);
+					copy(is, os);
+					os.closeEntry();
+				} catch (Exception e) {
+					logger.error("Error exporting to jar", e);
+				} finally {
+					if (is != null) {
+						try {
+							is.close();
+						} catch (IOException e) {
+
+						}
+					}
+				}
+			}
 		}
+	}
 
+	public static void copy(InputStream input, OutputStream output)
+			throws IOException {
+		int bytesRead;
+		while ((bytesRead = input.read(BUFFER)) != -1) {
+			output.write(BUFFER, 0, bytesRead);
+		}
 	}
 
 }

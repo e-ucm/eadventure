@@ -37,15 +37,11 @@
 
 package ead.utils;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-
 /**
- * Simple configuration for log4j logging. Should be called from "main" files
- * or unit-tests in this directory. A single check for log4j existence is performed
+ * Simple configuration for log4j logging. Should be called from "main" files or
+ * unit-tests in this directory. A single check for log4j existence is performed
  * during initial class-loading, to bail out cleanly if it is not present.
+ * 
  * @author mfreire
  */
 public class Log4jConfig {
@@ -65,7 +61,8 @@ public class Log4jConfig {
 
 	/**
 	 * Decouples slf4j levels from log4j levels. This avoids adding any mention
-	 * to log4j in the calling class, or to rely on their being basically the same.
+	 * to log4j in the calling class, or to rely on their being basically the
+	 * same.
 	 */
 	public enum Slf4jLevel {
 		Trace("TRACE"), Debug("DEBUG"), Info("INFO"), Warn("WARN"), Error(
@@ -77,64 +74,89 @@ public class Log4jConfig {
 			this.log4jLevelName = log4jLevelName;
 		}
 
-		public Level getLog4jLevel() {
-			return Level.toLevel(log4jLevelName);
+		// public Level getLog4jLevel() {
+		// return Level.toLevel(log4jLevelName);
+		// }
+
+		public String toString() {
+			switch (this) {
+			case Trace:
+				return "trace";
+			case Debug:
+				return "debug";
+			case Info:
+				return "info";
+			case Warn:
+				return "warn";
+			case Error:
+				return "error";
+			case Fatal:
+				return "fatal";
+			}
+			return "trace";
 		}
 	}
 
 	/**
-	 * Initial log4j configuration. Fails if no log4j present; should be 
-	 * called only from main(), but can be called repeatedly without ill
-	 * effects (only the 1st call will set the pattern, though).
+	 * Initial log4j configuration. Fails if no log4j present; should be called
+	 * only from main(), but can be called repeatedly without ill effects (only
+	 * the 1st call will set the pattern, though).
+	 * 
 	 * @param defaultLevel
-	 * @param otherLevels if you want loggers "A" and "B" to use Debug, 
-	 * and logger "C" to use Warn, you would pass in
-	 * new Object[] {"A", Debug, "B", Debug, "C", Warn}; null is also valid.
+	 * @param otherLevels
+	 *            if you want loggers "A" and "B" to use Debug, and logger "C"
+	 *            to use Warn, you would pass in new Object[] {"A", Debug, "B",
+	 *            Debug, "C", Warn}; null is also valid.
 	 */
 	public static void configForConsole(final Slf4jLevel defaultLevel,
 			final Object[] otherLevels) {
-		if (!isLog4jPresent) {
-			System.err
-					.println("Log4j is not present. Configuration request ignored");
-		} else {
-			new Runnable() {
-				@Override
-				public void run() {
-					Logger root = Logger.getRootLogger();
-					if (!root.getAllAppenders().hasMoreElements()) {
-						root.setLevel(defaultLevel.getLog4jLevel());
-						root.addAppender(new ConsoleAppender(new PatternLayout(
-								"%-5p [%c|%t]: %m%n")));
-					}
-					if (otherLevels != null) {
-						for (int i = 0; i < otherLevels.length; i += 2) {
-							String loggerName = (String) otherLevels[i];
-							Slf4jLevel level = (Slf4jLevel) otherLevels[i + 1];
-							setLevel(loggerName, level);
-						}
-					}
-				}
-			}.run();
-		}
+		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel",
+				defaultLevel.toString());
+		//		if (!isLog4jPresent) {
+		//			System.err
+		//					.println("Log4j is not present. Configuration request ignored");
+		//		} else {
+		//			new Runnable() {
+		//				@Override
+		//				public void run() {
+		//					Logger root = Logger.getRootLogger();
+		//					if (!root.getAllAppenders().hasMoreElements()) {
+		//						root.setLevel(defaultLevel.getLog4jLevel());
+		//						root.addAppender(new ConsoleAppender(new PatternLayout(
+		//								"%-5p [%c|%t]: %m%n")));
+		//					}
+		//					if (otherLevels != null) {
+		//						for (int i = 0; i < otherLevels.length; i += 2) {
+		//							String loggerName = (String) otherLevels[i];
+		//							Slf4jLevel level = (Slf4jLevel) otherLevels[i + 1];
+		//							setLevel(loggerName, level);
+		//						}
+		//					}
+		//				}
+		//			}.run();
+		//		}
 	}
 
 	/**
 	 * Sets a logger to a level.
+	 * 
 	 * @param loggerName
-	 * @param level 
+	 * @param level
 	 */
 	public static void setLevel(final String loggerName, final Slf4jLevel level) {
-		if (!isLog4jPresent) {
-			System.err
-					.println("Log4j is not present. Configuration request ignored");
-		} else {
-			new Runnable() {
-				@Override
-				public void run() {
-					Logger.getLogger(loggerName)
-							.setLevel(level.getLog4jLevel());
-				}
-			}.run();
-		}
+		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", level
+				.toString());
+		// if (!isLog4jPresent) {
+		// System.err
+		// .println("Log4j is not present. Configuration request ignored");
+		// } else {
+		// new Runnable() {
+		// @Override
+		// public void run() {
+		// Logger.getLogger(loggerName)
+		// .setLevel(level.getLog4jLevel());
+		// }
+		// }.run();
+		// }
 	}
 }

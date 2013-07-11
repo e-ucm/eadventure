@@ -40,20 +40,20 @@ package ead.common.model.elements.scenes;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.enums.Orientation;
+import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.elements.AbstractElementWithBehavior;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.extra.EAdMapImpl;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.util.EAdPosition;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.util.Position;
+import ead.common.model.params.util.Position.Corner;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 
 @Element
 public class SceneElement extends AbstractElementWithBehavior implements
@@ -63,7 +63,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 			"orientation", Orientation.class, Orientation.S);
 
 	public static final EAdVarDef<String> VAR_STATE = new VarDef<String>(
-			"state", String.class, CommonStates.EAD_STATE_DEFAULT.toString());
+			"state", String.class, CommonStates.DEFAULT.toString());
+
+	public static final EAdVarDef<String> VAR_BUNDLE_ID = new VarDef<String>(
+			"bundleId", String.class, ResourcedElement.INITIAL_BUNDLE);
 
 	public static final EAdVarDef<Float> VAR_SCALE = new VarDef<Float>("scale",
 			Float.class, 1.0f);
@@ -77,6 +80,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Float> VAR_ALPHA = new VarDef<Float>("alpha",
 			Float.class, 1.0f);
 
+	/**
+	 * Rotation in degrees
+	 */
 	public static final EAdVarDef<Float> VAR_ROTATION = new VarDef<Float>(
 			"rotation", Float.class, 0.0f);
 
@@ -86,29 +92,29 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Boolean> VAR_ENABLE = new VarDef<Boolean>(
 			"enable", Boolean.class, Boolean.TRUE);
 
-	public static final EAdVarDef<Integer> VAR_X = new VarDef<Integer>("x",
-			Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_X = new VarDef<Float>("x",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_Y = new VarDef<Integer>("y",
-			Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_Y = new VarDef<Float>("y",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_LEFT = new VarDef<Integer>(
-			"left", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_LEFT = new VarDef<Float>("left",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_TOP = new VarDef<Integer>("top",
-			Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_TOP = new VarDef<Float>("top",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_RIGHT = new VarDef<Integer>(
-			"right", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_RIGHT = new VarDef<Float>("right",
+			Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_BOTTOM = new VarDef<Integer>(
-			"bottom", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_BOTTOM = new VarDef<Float>(
+			"bottom", Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_CENTER_X = new VarDef<Integer>(
-			"center_x", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_CENTER_X = new VarDef<Float>(
+			"center_x", Float.class, 0.f);
 
-	public static final EAdVarDef<Integer> VAR_CENTER_Y = new VarDef<Integer>(
-			"center_y", Integer.class, 0);
+	public static final EAdVarDef<Float> VAR_CENTER_Y = new VarDef<Float>(
+			"center_y", Float.class, 0.f);
 
 	public static final EAdVarDef<Integer> VAR_Z = new VarDef<Integer>("z",
 			Integer.class, 0);
@@ -131,28 +137,22 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Boolean> VAR_MOUSE_OVER = new VarDef<Boolean>(
 			"mouse_over", Boolean.class, Boolean.FALSE);
 
-	/**
-	 * Flag to indicate that the element will return to its initial position
-	 * after being released from a drag action
-	 */
-	public static final EAdVarDef<Boolean> VAR_RETURN_WHEN_DRAGGED = new VarDef<Boolean>(
-			"returnWhenDragged", Boolean.class, Boolean.FALSE);
-
-	@Param("vars")
+	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Param("definition")
+	@Param
 	protected EAdSceneElementDef definition;
 
-	@Param("dragCond")
-	protected EAdCondition dragCond;
+	/**
+	 * Sets if the for the contains method, must be used only the scene element bounds
+	 */
+	@Param
+	protected boolean containsBounds;
 
 	public SceneElement() {
 		super();
-		dragCond = EmptyCond.FALSE_EMPTY_CONDITION;
 		definition = new SceneElementDef();
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
+		vars = new EAdMap<EAdVarDef<?>, Object>();
 		this.setPosition(Corner.TOP_LEFT, 0, 0);
 	}
 
@@ -169,6 +169,11 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this.definition = new SceneElementDef(appearance);
 	}
 
+	public SceneElement(EAdDrawable appearance, EAdDrawable overAppearance) {
+		this();
+		this.definition = new SceneElementDef(appearance, overAppearance);
+	}
+
 	public SceneElement(EAdSceneElementDef actor) {
 		this();
 		this.definition = actor;
@@ -182,7 +187,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		vars.put(var, value);
 	}
 
-	public void setPosition(EAdPosition position) {
+	public void setPosition(Position position) {
 		vars.put(VAR_X, position.getX());
 		vars.put(VAR_Y, position.getY());
 		vars.put(VAR_DISP_X, position.getDispX());
@@ -209,13 +214,13 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		return vars;
 	}
 
-	public void setPosition(int x, int y) {
+	public void setPosition(float x, float y) {
 		vars.put(VAR_X, x);
 		vars.put(VAR_Y, y);
 	}
 
-	public void setPosition(Corner corner, int x, int y) {
-		setPosition(EAdPosition.volatileEAdPosition(corner, x, y));
+	public void setPosition(Corner corner, float x, float y) {
+		setPosition(Position.volatileEAdPosition(corner, x, y));
 	}
 
 	@Override
@@ -225,15 +230,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public void setDefinition(EAdSceneElementDef def) {
 		this.definition = def;
-	}
-
-	public void setDragCond(EAdCondition c) {
-		this.dragCond = c;
-	}
-
-	@Override
-	public EAdCondition getDragCond() {
-		return dragCond;
 	}
 
 	public void setInitialAlpha(float f) {
@@ -266,18 +262,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		getDefinition().setAppearance(appearance);
 	}
 
-	/**
-	 * Sets the appearance in the given bundle
-	 * 
-	 * @param bundle
-	 *            the bundle id
-	 * @param appearance
-	 *            the appearance
-	 */
-	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
-		getDefinition().setAppearance(bundle, appearance);
-	}
-
 	public void setInitialEnable(boolean enable) {
 		setVarInitialValue(SceneElement.VAR_ENABLE, enable);
 	}
@@ -288,6 +272,48 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	public <T> EAdField<T> getField(EAdVarDef<T> varDef) {
 		return new BasicField<T>(this, varDef);
+	}
+
+	public String toString() {
+		return getId();
+	}
+
+	public void setAppearance(String bundle, EAdDrawable drawable) {
+		getDefinition().setAppearance(bundle, drawable);
+	}
+
+	public void setOverAppearance(String bundle, EAdDrawable drawable) {
+		getDefinition().setOverAppearance(bundle, drawable);
+	}
+
+	public void setInitialVisible(boolean visible) {
+		setVarInitialValue(SceneElement.VAR_VISIBLE, visible);
+	}
+
+	public void setOverAppearance(EAdDrawable d) {
+		this.getDefinition().setOverAppearance(d);
+	}
+
+	public void setInitialZ(int z) {
+		setVarInitialValue(SceneElement.VAR_Z, z);
+
+	}
+
+	public void setInitialState(String state) {
+		setVarInitialValue(SceneElement.VAR_STATE, state);
+	}
+
+	public boolean isContainsBounds() {
+		return containsBounds;
+	}
+
+	public void setContainsBounds(boolean containsBounds) {
+		this.containsBounds = containsBounds;
+	}
+
+	public void setInitialBundle(String bundleId) {
+		this.setVarInitialValue(SceneElement.VAR_BUNDLE_ID, bundleId);
+
 	}
 
 }

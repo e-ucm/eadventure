@@ -37,37 +37,31 @@
 
 package ead.engine.core.gameobjects.effects.sceneelement;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.engine.core.game.GameState;
+import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		extends AbstractEffectGO<T> {
 
 	protected EAdSceneElement sceneElement;
 
-	public SceneElementEffectGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(gameObjectFactory, gui, gameState);
+	public SceneElementEffectGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
-	public void setElement(T element) {
-		super.setElement(element);
-		EAdElement sceneElement = gameState.getValueMap().getFinalElement(
-				element.getSceneElement());
+	public void initialize() {
+		super.initialize();
+		Object sceneElement = gameState.maybeDecodeField(effect
+				.getSceneElement());
 
 		if (sceneElement instanceof EAdSceneElement) {
 			this.sceneElement = (EAdSceneElement) sceneElement;
 		} else if (sceneElement != null) {
-			this.sceneElement = gameState.getValueMap().getValue(sceneElement,
+			this.sceneElement = gameState.getValue(sceneElement,
 					SceneElementDef.VAR_SCENE_ELEMENT);
 		} else {
 			this.sceneElement = this.parent;

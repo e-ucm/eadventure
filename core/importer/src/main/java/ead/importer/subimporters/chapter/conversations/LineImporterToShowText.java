@@ -39,10 +39,10 @@ package ead.importer.subimporters.chapter.conversations;
 
 import com.google.inject.Inject;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -78,9 +78,10 @@ public class LineImporterToShowText implements
 	public SpeakEf init(ConversationLine line) {
 		EAdElement element = factory.getElementById(line.getName());
 		if (line.isPlayerLine() && factory.isFirstPerson()) {
-			return new SpeakEf();
+			return new SpeakEf(stringHandler.generateNewString());
 		} else
-			return new SpeakSceneElementEf(element);
+			return new SpeakSceneElementEf(element, stringHandler
+					.generateNewString());
 
 	}
 

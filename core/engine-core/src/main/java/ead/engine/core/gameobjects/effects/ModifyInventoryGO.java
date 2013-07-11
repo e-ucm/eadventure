@@ -39,15 +39,14 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
+import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.inventory.InventoryHandler;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.game.interfaces.GUI;
+import ead.engine.core.game.interfaces.GameState;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 /**
  * <p>
@@ -62,58 +61,39 @@ import ead.engine.core.platform.assets.AssetHandler;
  */
 public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 
-	private InventoryHandler inventoryHandler;
+	private GUI gui;
 
 	@Inject
-	public ModifyInventoryGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, InventoryHandler inventoryHandler) {
-		super(gameObjectFactory, gui, gameState);
-		this.inventoryHandler = inventoryHandler;
+	public ModifyInventoryGO(GUI gui, GameState gameState) {
+		super(gameState);
+		this.gui = gui;
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		switch (element.getModification()) {
-		case ADD_TO_INVENTORY:
-			inventoryHandler.add(element.getSceneElementDef());
-			if (element.isRemoveFromScene()) {
-				EAdSceneElement sceneElement = gameState.getValueMap()
-						.getValue(element.getSceneElementDef(),
-								SceneElementDef.VAR_SCENE_ELEMENT);
-				if (sceneElement != null) {
-					gameState.getValueMap().setValue(sceneElement,
-							SceneElement.VAR_VISIBLE, false);
-					gameState.getValueMap().setValue(sceneElement,
-							SceneElement.VAR_ENABLE, true);
+		SceneElementGO inventory = gui.getHUD(BasicInventory.ID);
+		if (inventory != null) {
+			switch (effect.getModification()) {
+			case ADD_TO_INVENTORY:
+				inventory.addSceneElement(new SceneElement(effect
+						.getSceneElementDef()));
+				if (effect.isRemoveFromScene()) {
+					EAdSceneElement sceneElement = gameState.getValue(effect
+							.getSceneElementDef(),
+							SceneElementDef.VAR_SCENE_ELEMENT);
+					if (sceneElement != null) {
+						gameState.setValue(sceneElement,
+								SceneElement.VAR_VISIBLE, false);
+						gameState.setValue(sceneElement,
+								SceneElement.VAR_ENABLE, true);
+					}
 				}
+				break;
+			case REMOVE_FROM_INVENTORY:
+				break;
 			}
-			break;
-		case REMOVE_FROM_INVENTORY:
-			inventoryHandler.remove(element.getSceneElementDef());
-			break;
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.EffectGO#isVisualEffect()
-	 */
-	@Override
-	public boolean isVisualEffect() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.EffectGO#isFinished()
-	 */
-	@Override
-	public boolean isFinished() {
-		return true;
 	}
 
 }

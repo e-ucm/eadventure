@@ -41,7 +41,6 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.elements.weev.story.element.impl.AbstractEffect;
-import ead.common.resources.EAdBundleId;
 
 /**
  * Change an element (e.g. actor, scene, etc.) appearance effect
@@ -52,14 +51,8 @@ public class ChangeAppearanceEffect extends AbstractEffect {
 	/**
 	 * The {@link Resourced} element whose appearance can be changed
 	 */
-	@Param(value = "element")
+	@Param
 	private Resourced element;
-
-	/**
-	 * The {@link EAdBundleId} of the appearance to be set
-	 */
-	@Param(value = "bundleId")
-	private EAdBundleId bundleId;
 
 	/**
 	 * @param element
@@ -67,9 +60,8 @@ public class ChangeAppearanceEffect extends AbstractEffect {
 	 * @param bundleId
 	 *            The {@link EAdBundleId} of the appearance to be set
 	 */
-	public ChangeAppearanceEffect(Resourced element, EAdBundleId bundleId) {
+	public ChangeAppearanceEffect(Resourced element) {
 		this.element = element;
-		this.bundleId = bundleId;
 	}
 
 	public Resourced getElement() {
@@ -78,14 +70,6 @@ public class ChangeAppearanceEffect extends AbstractEffect {
 
 	public void setElement(Resourced element) {
 		this.element = element;
-	}
-
-	public EAdBundleId getBundleId() {
-		return bundleId;
-	}
-
-	public void setBundleId(EAdBundleId bundleId) {
-		this.bundleId = bundleId;
 	}
 
 }

@@ -39,25 +39,25 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.EAdScene;
+import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 
 /**
  * <p>
  * Change the current scene, if the next scene is set to null, go to previous
- * possible scene.
+ * possible scene. Next scene can be defined with an element (an EAdField, an
+ * EAdScene) or with the scene id
  * </p>
  * 
  */
 @Element
 public class ChangeSceneEf extends AbstractEffect {
 
-	@Param("nextScene")
+	@Param
 	private EAdElement nextScene;
 
-	@Param("transition")
+	@Param
 	private EAdTransition transition;
 
 	/**
@@ -78,14 +78,13 @@ public class ChangeSceneEf extends AbstractEffect {
 	 * @param nextScene
 	 *            The next scene where to go, can be null to go back to previous
 	 */
-	public ChangeSceneEf(EAdScene nextScene, EAdTransition transition) {
+	public ChangeSceneEf(EAdElement nextScene, EAdTransition transition) {
 		super();
 		this.nextScene = nextScene;
 		this.transition = transition;
-		this.setQueueable(true);
 	}
 
-	public ChangeSceneEf(EAdScene scene) {
+	public ChangeSceneEf(EAdElement scene) {
 		this(scene, EmptyTransition.instance());
 	}
 
@@ -113,6 +112,10 @@ public class ChangeSceneEf extends AbstractEffect {
 
 	public void setTransition(EAdTransition transition) {
 		this.transition = transition;
+	}
+
+	public String toString() {
+		return "nextScene:" + nextScene;
 	}
 
 }

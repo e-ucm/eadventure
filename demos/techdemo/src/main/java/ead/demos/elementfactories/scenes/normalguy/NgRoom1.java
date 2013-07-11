@@ -37,6 +37,7 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.ANDCond;
@@ -44,7 +45,7 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.DragEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
@@ -56,22 +57,23 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.guievents.DragGEv;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.BasicField;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.MathOp;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.operations.ValueOp;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.variables.BasicField;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.VarDef;
-import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
+import ead.common.model.params.guievents.DragGEv;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.guievents.enums.DragGEvType;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.Position.Corner;
+import ead.common.model.params.variables.EAdVarDef;
+import ead.common.model.params.variables.VarDef;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
@@ -108,7 +110,7 @@ public class NgRoom1 extends EmptyScene {
 		ng.setPosition(Corner.BOTTOM_CENTER, 200, 400);
 		ng.setInitialScale(0.8f);
 
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(150, 380, 800, 600);
 		setTrajectoryDefinition(d);
 
@@ -209,7 +211,8 @@ public class NgRoom1 extends EmptyScene {
 	 * text appears
 	 */
 	private void setMainCharactersSpeech() {
-		SpeakSceneElementEf speech = new SpeakSceneElementEf();
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(ng, new EAdString(
+				"n.1"));
 
 		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
 
@@ -225,11 +228,11 @@ public class NgRoom1 extends EmptyScene {
 	 */
 	private void setDarkness(SceneElement ng) {
 		SceneElementEv event = new SceneElementEv();
-		ChangeFieldEf changeX = new ChangeFieldEf(new BasicField<Integer>(
-				darkness, SceneElement.VAR_X), new BasicField<Integer>(ng,
+		ChangeFieldEf changeX = new ChangeFieldEf(new BasicField<Float>(
+				darkness, SceneElement.VAR_X), new BasicField<Float>(ng,
 				SceneElement.VAR_CENTER_X));
-		ChangeFieldEf changeY = new ChangeFieldEf(new BasicField<Integer>(
-				darkness, SceneElement.VAR_Y), new BasicField<Integer>(ng,
+		ChangeFieldEf changeY = new ChangeFieldEf(new BasicField<Float>(
+				darkness, SceneElement.VAR_Y), new BasicField<Float>(ng,
 				SceneElement.VAR_CENTER_Y));
 		event.addEffect(SceneElementEvType.ALWAYS, changeX);
 		event.addEffect(SceneElementEvType.ALWAYS, changeY);
@@ -249,8 +252,8 @@ public class NgRoom1 extends EmptyScene {
 	private void setDoor(EAdScene corridor) {
 		// Principal character moving to the door
 		MoveSceneElementEf move = moveNg(662, 235);
-		door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP),
-				move);
+		door.addBehavior(new DragGEv(key.getDefinition().getId(),
+				DragGEvType.DROP), move);
 
 		// Define next scene, add next behavior
 		ChangeSceneEf corridorScene = new ChangeSceneEf();
@@ -277,23 +280,23 @@ public class NgRoom1 extends EmptyScene {
 		MoveSceneElementEf move = moveNg(430, 260);
 		move.setCondition(moveCondition);
 
-		portrait.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
+		portrait.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
 		move.getNextEffects().add(NgCommon.getLookNorthEffect());
 
 		TriggerMacroEf triggerMacro = new TriggerMacroEf();
 
 		for (int i = 0; i < 4; i++) {
-			EffectsMacro macro = new EffectsMacro();
-			macro.getEffects().add(getSpeakEffect(i));
+			EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+			macro.add(getSpeakEffect(i));
 			OperationCond cond1 = new OperationCond(timesField, i,
 					Comparator.EQUAL);
-			triggerMacro.putMacro(macro, cond1);
+			triggerMacro.putEffects(cond1, macro);
 		}
 
 		OperationCond cond = new OperationCond(timesField, 4, Comparator.EQUAL);
 		InterpolationEf portraitGoDown = new InterpolationEf(
-				new BasicField<Integer>(portrait, SceneElement.VAR_Y), 0, 80,
+				new BasicField<Float>(portrait, SceneElement.VAR_Y), 0, 80,
 				200, InterpolationLoopType.NO_LOOP,
 				InterpolationType.BOUNCE_END);
 
@@ -302,9 +305,9 @@ public class NgRoom1 extends EmptyScene {
 		e1.getNextEffects().add(portraitGoDown);
 		portraitGoDown.getNextEffects().add(e3);
 
-		EffectsMacro macro2 = new EffectsMacro();
-		macro2.getEffects().add(e1);
-		triggerMacro.putMacro(macro2, cond);
+		EAdList<EAdEffect> macro2 = new EAdList<EAdEffect>();
+		macro2.add(e1);
+		triggerMacro.putEffects(cond, macro2);
 
 		move.getNextEffects().add(triggerMacro);
 		triggerMacro.getNextEffects().add(addTimes);
@@ -312,7 +315,9 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void setKey() {
-		key.setDragCond(new OperationCond(timesField, 4, Comparator.GREATER));
+		DragEf e = new DragEf();
+		e.setCondition(new OperationCond(timesField, 4, Comparator.GREATER));
+		key.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, e);
 	}
 
 	protected EAdCondition getTextCondition(EAdField<Integer> timesField,
@@ -331,7 +336,8 @@ public class NgRoom1 extends EmptyScene {
 
 	private EAdEffect getSpeakEffect(int i) {
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng);
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(ng, new EAdString(
+				"n.23"));
 		sf.setString(speak.getString(), strings[i]);
 		return speak;
 	}
@@ -355,7 +361,6 @@ public class NgRoom1 extends EmptyScene {
 		ChangeFieldEf up = new ChangeFieldEf(darknessAlpha, op1);
 		ChangeFieldEf down = new ChangeFieldEf(darknessAlpha, op2);
 		WaitEf wait = new WaitEf();
-		wait.setBlocking(false);
 		wait.setTime(50);
 
 		up.getNextEffects().add(wait);

@@ -40,7 +40,7 @@ package ead.common.model.elements.conditions;
 import ead.common.interfaces.Element;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.enums.ConditionOperator;
-import ead.common.model.elements.conditions.enums.EmptyCondValue;
+import ead.common.model.elements.extra.EAdList;
 
 @Element
 public class ANDCond extends ListedCond {
@@ -49,13 +49,17 @@ public class ANDCond extends ListedCond {
 		super(ConditionOperator.AND, condition);
 	}
 
+	public ANDCond(EAdList<EAdCondition> conditions) {
+		super(ConditionOperator.AND, conditions);
+	}
+
 	public ANDCond() {
-		super(ConditionOperator.AND, new EmptyCond(EmptyCondValue.TRUE));
+		super(ConditionOperator.AND);
 	}
 
 	@Override
 	public EmptyCond getNullOperator() {
-		return new EmptyCond(EmptyCondValue.TRUE);
+		return EmptyCond.TRUE;
 	}
 
 	@Override

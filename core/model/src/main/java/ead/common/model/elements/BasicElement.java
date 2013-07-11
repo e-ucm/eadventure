@@ -37,38 +37,35 @@
 
 package ead.common.model.elements;
 
-import ead.common.model.EAdElement;
+import ead.common.interfaces.Element;
+import ead.common.interfaces.features.Identified;
 
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements
- * inherits from this basis class
+ * inherits from this basis class.
  * 
- * 
+ * They can also be used as reference of other elements
  */
-public abstract class BasicElement implements EAdElement {
+@Element
+public class BasicElement implements EAdElement {
 
 	private String id;
 
-	private static int lastId = 0;
-
-	public static void initLastId() {
-		lastId = 0;
-	}
-
-	public static String randomSuffix() {
-		return "" + lastId++;
+	/**
+	 * Creates a reference to an element
+	 * 
+	 * @param reference
+	 */
+	public BasicElement(String reference) {
+		this.id = reference;
 	}
 
 	public BasicElement() {
-		this.id = classToString(this.getClass()) + randomSuffix();
+
 	}
 
 	@Override
 	public String getId() {
-		if (id == null) {
-			throw new IllegalStateException(
-					"EAdElement with no id - Broken contract!");
-		}
 		return id;
 	}
 
@@ -78,16 +75,20 @@ public abstract class BasicElement implements EAdElement {
 	}
 
 	public String toString() {
-		return id;
+		return classToString(this.getClass())
+				+ (id != null ? id.toString() : "");
 	}
 
 	public boolean equals(Object o) {
-		return o != null && getClass().equals(o.getClass())
-				&& getId().equals(((EAdElement) o).getId());
+		if (o instanceof Identified) {
+			String id2 = ((Identified) o).getId();
+			return id == null ? super.equals(o) : id == id2 || id.equals(id2);
+		}
+		return false;
 	}
 
 	public int hashCode() {
-		return getId().hashCode() * 43 ^ getClass().hashCode();
+		return id == null ? super.hashCode() : getId().hashCode();
 	}
 
 	/**

@@ -71,6 +71,7 @@ import ead.utils.i18n.Resource;
 
 /**
  * An option that allows a list of elements to be manipulated.
+ * 
  * @author mfreire
  * @param <T>
  */
@@ -97,6 +98,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	/**
 	 * Allows easier customization of classes
+	 * 
 	 * @param <T>
 	 */
 	public static class ColumnSpec<T> {
@@ -270,17 +272,18 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	/**
 	 * Called to get settings for the "meat" columns.
+	 * 
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public ColumnSpec<T>[] getExtraColumns() {
-		return new ColumnSpec[] { new ColumnSpec("value", oldValue
-				.getValueClass(), false, -1) };
+		return new ColumnSpec[] { new ColumnSpec("value", oldValue.get(0)
+				.getClass(), false, -1) };
 	}
 
 	/**
-	 * Model used to represent the list. Looks directly at oldValue; which
-	 * must always be updated.
+	 * Model used to represent the list. Looks directly at oldValue; which must
+	 * always be updated.
 	 */
 	private class ListTableModel extends AbstractTableModel {
 		private ColumnSpec<T>[] cols;
@@ -412,6 +415,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
+	 * 
 	 * @param o
 	 */
 	protected void remove(T o, int index) {
@@ -422,6 +426,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	/**
 	 * Allows user to choose from available elements to add one to the list
+	 * 
 	 * @return
 	 */
 	protected T chooseElementToAdd() {
@@ -432,6 +437,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Adds an object to the list. Triggered either externally or via
 	 * button-click.
+	 * 
 	 * @param o
 	 */
 	protected void add(T o) {
@@ -441,6 +447,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Moves an object one position up. Triggered either externally or via
 	 * button-click.
+	 * 
 	 * @param o
 	 */
 	protected void moveUp(T o, int index) {
@@ -457,6 +464,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
+	 * 
 	 * @param o
 	 */
 	protected void moveDown(T o, int index) {
@@ -471,8 +479,9 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	}
 
 	/**
-	 * Consider contents to have changed, even if the list-reference
-	 * does not change.
+	 * Consider contents to have changed, even if the list-reference does not
+	 * change.
+	 * 
 	 * @param oldValue
 	 * @param newValue
 	 * @return

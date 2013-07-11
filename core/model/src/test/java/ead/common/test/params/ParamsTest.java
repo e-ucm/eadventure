@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import ead.common.params.EAdParam;
+import ead.common.model.params.EAdParam;
 import ead.common.test.EqualsHashCodeTest;
 
 public abstract class ParamsTest<T extends EAdParam> extends

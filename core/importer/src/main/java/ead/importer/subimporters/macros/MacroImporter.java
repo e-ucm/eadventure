@@ -39,15 +39,10 @@ package ead.importer.subimporters.macros;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.EffectsMacro;
-import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
-import es.eucm.eadventure.common.data.chapter.effects.Macro;
 
-public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro> {
+public class MacroImporter {
 
 	private EffectsImporterFactory effectImporter;
 
@@ -60,21 +55,21 @@ public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro> {
 		this.annotator = annotator;
 	}
 
-	@Override
-	public EffectsMacro init(Macro oldMacro) {
-		EffectsMacro macro = new EffectsMacro();
-		return macro;
-	}
-
-	@Override
-	public EffectsMacro convert(Macro oldMacro, Object object) {
-		EffectsMacro newMacro = (EffectsMacro) object;
-
-		for (AbstractEffect e : oldMacro.getEffects()) {
-			EAdEffect newEffect = (EAdEffect) effectImporter.getEffect(e);
-			newMacro.getEffects().add(newEffect);
-		}
-
-		return newMacro;
-	}
+	//	@Override
+	//	public EAdList<EAdEffect> init(Macro oldMacro) {
+	//		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+	//		return macro;
+	//	}
+	//
+	//	@Override
+	//	public EAdList<EAdEffect> convert(Macro oldMacro, Object object) {
+	//		EAdList<EAdEffect> newMacro = (EAdList<EAdEffect>) object;
+	//
+	//		for (AbstractEffect e : oldMacro.getEffects()) {
+	//			EAdEffect newEffect = (EAdEffect) effectImporter.getEffect(e);
+	//			newMacro.add(newEffect);
+	//		}
+	//
+	//		return newMacro;
+	//	}
 }

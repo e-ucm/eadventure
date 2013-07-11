@@ -37,7 +37,7 @@
 
 package ead.common.interfaces.features;
 
-import ead.common.params.text.EAdString;
+import ead.common.model.params.text.EAdString;
 
 /**
  * Implemented by elements with name

@@ -42,17 +42,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.EAdGUIEvent;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.variables.EAdField;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.params.guievents.EAdGUIEvent;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.engine.core.gameobjects.effects.EffectGO;
+import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 
 @Singleton
 public class DefaultTrackerSelector implements TrackerSelector {
@@ -114,16 +114,17 @@ public class DefaultTrackerSelector implements TrackerSelector {
 	}
 
 	@Override
-	public boolean accept(InputAction<?> action, DrawableGO<?> target) {
-		return actionsAccepted.contains(action.getGUIEvent());
+	public boolean accept(Event action, SceneElementGO target) {
+		//		return actionsAccepted.contains(action.getGUIEvent());
+		return true;
 	}
 
 	@Override
 	public boolean accept(EffectGO<?> effect) {
-		Class<?> c = effect.getEffect().getClass();
+		Class<?> c = effect.getElement().getClass();
 		if (effectsAccepted.contains(c)) {
-			if (effect.getEffect() instanceof ChangeFieldEf) {
-				ChangeFieldEf cf = (ChangeFieldEf) effect.getEffect();
+			if (effect.getElement() instanceof ChangeFieldEf) {
+				ChangeFieldEf cf = (ChangeFieldEf) effect.getElement();
 				for (EAdField<?> f : cf.getFields()) {
 					if (varsAccepted.contains(f.getVarDef().getName())) {
 						return true;

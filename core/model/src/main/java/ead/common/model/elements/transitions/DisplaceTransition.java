@@ -44,10 +44,10 @@ import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 @Element
 public class DisplaceTransition extends EmptyTransition {
 
-	@Param("type")
+	@Param
 	private DisplaceTransitionType type;
 
-	@Param("forward")
+	@Param
 	private boolean forward;
 
 	public DisplaceTransition() {

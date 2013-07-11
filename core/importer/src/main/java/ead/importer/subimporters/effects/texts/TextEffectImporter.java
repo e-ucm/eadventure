@@ -40,21 +40,20 @@ package ead.importer.subimporters.effects.texts;
 import java.util.ArrayList;
 import java.util.List;
 
+import ead.common.model.assets.drawable.basics.EAdCaption;
+import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.model.assets.multimedia.Sound;
+import ead.common.model.assets.text.BasicFont;
+import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.resources.assets.multimedia.Sound;
-import ead.common.resources.assets.text.BasicFont;
-import ead.common.resources.assets.text.EAdFont;
+import ead.common.model.elements.operations.EAdField;
+import ead.common.model.elements.operations.EAdOperation;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -95,13 +94,11 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	@Override
 	public SpeakEf init(T oldObject) {
-		return new SpeakEf();
+		return new SpeakEf(stringHandler.generateNewString());
 	}
 
 	public SpeakEf convert(T oldObject, Object object) {
 		SpeakEf showText = super.convert(oldObject, object);
-		showText.setBlocking(true);
-		showText.setOpaque(true);
 		showText.setFont(DEFAULT_FONT);
 		return showText;
 	}
@@ -112,7 +109,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 					Sound.class);
 			if (s != null) {
 				PlaySoundEf playSound = new PlaySoundEf(s);
-				effect.getPreviousEffects().add(playSound);
+				effect.getSimultaneousEffects().add(playSound);
 			}
 		}
 	}
@@ -175,7 +172,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 				return null;
 			}
 			if (op1 != null && number != null)
-				return new BooleanOp(new OperationCond(op1, number, comparator));
+				return new OperationCond(op1, number, comparator);
 		}
 
 		return null;
@@ -258,7 +255,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 		for (EAdOperation op : TextEffectImporter.getOperations(originalLine,
 				factory)) {
-			caption.getFields().add(op);
+			caption.getOperations().add(op);
 		}
 		String finalLine = TextEffectImporter.translateLine(originalLine);
 		stringHandler.setString(caption.getText(), finalLine);

@@ -37,18 +37,19 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
+import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.operations.SystemFields;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.util.EAdPosition.Corner;
+import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
+import ead.common.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
@@ -67,7 +68,7 @@ public class NgRoom3 extends EmptyScene {
 		ng.setInitialScale(0.8f);
 
 		// Character can talk in the scene
-		SpeakEf effect = new SpeakSceneElementEf(ng);
+		SpeakEf effect = new SpeakSceneElementEf(ng, new EAdString("n.001"));
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()
@@ -78,7 +79,7 @@ public class NgRoom3 extends EmptyScene {
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		// Area where the character can walk
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		SimpleTrajectory d = new SimpleTrajectory(false);
 		d.setLimits(145, 495, 750, 550);
 		setTrajectoryDefinition(d);
 
@@ -135,8 +136,8 @@ public class NgRoom3 extends EmptyScene {
 	private void setEvilGuy() {
 		// MoveSceneElementEf move = moveNg(560, 510);
 
-		SpeakSceneElementEf speech = new SpeakSceneElementEf();
-		speech.setElement(evil_ng);
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(evil_ng,
+				new EAdString("n.78"));
 
 		ChangeSceneEf changeScene = new ChangeSceneEf(new NgQuiz(),
 				new FadeInTransition(1000));

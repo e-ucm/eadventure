@@ -37,20 +37,21 @@
 
 package ead.editor.control;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import ead.common.util.EAdURI;
-import ead.editor.model.EditorModel;
-import ead.engine.core.game.GameLoader;
-import ead.engine.core.gdx.desktop.DesktopGame;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
-import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
-import ead.engine.core.platform.assets.AssetHandler;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+
 import javax.swing.Action;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import ead.editor.model.EditorModel;
+import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.gdx.desktop.DesktopGame;
+import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
+import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -163,20 +164,6 @@ public class ControllerImpl implements Controller {
 	}
 
 	/**
-	 * Provides GameLoaders on request
-	 */
-	@Override
-	public GameLoader createGameLoader() {
-		if (game != null) {
-			game.exit();
-		}
-		game = new DesktopGame(false);
-		game.setResourcesLocation(editorModel.getLoader().getSaveDir()
-				.getPath());
-		return game.getPreparedLoader();
-	}
-
-	/**
 	 * Provides AssetViewers on request
 	 */
 	@Override
@@ -188,8 +175,8 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public AssetHandler getAssetHandler() {
-		assetHandler.setResourcesLocation(new EAdURI(editorModel.getLoader()
-				.getSaveDir().getPath()));
+		assetHandler.setResourcesLocation(editorModel.getLoader().getSaveDir()
+				.getAbsolutePath());
 		assetHandler.setCacheEnabled(false);
 		return assetHandler;
 	}
