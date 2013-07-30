@@ -117,6 +117,8 @@
 				<module>core/editor-core</module>
 				<!-- Reader -->
 				<module>core/reader</module>
+                <!-- Writer -->
+                <module>core/writer</module>
 				<!-- Importer -->
 				<module>core/importer</module>
 				<!-- Exporter -->
