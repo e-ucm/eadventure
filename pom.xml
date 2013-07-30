@@ -281,7 +281,6 @@
 				<configuration>
 					<compilerCompliance>1.6</compilerCompliance>
 					<compilerSource>1.6</compilerSource>
-					<compileTargetPlatform>1.6</compileTargetPlatform>
 					<configFile>${project.parent.basedir}/etc/eclipse-formatter.xml</configFile>
 					<lineEnding>KEEP</lineEnding>
 				</configuration>

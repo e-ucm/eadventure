@@ -5,6 +5,8 @@ import ead.common.interfaces.Param;
 import ead.common.model.assets.drawable.basics.NinePatchImage;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.events.AbstractEvent;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.variables.VarDef;
@@ -19,6 +21,9 @@ public class BubbleNameEv extends AbstractEvent {
 
 	public static final VarDef<EAdString> VAR_BUBBLE_NAME = new VarDef<EAdString>(
 			"hud_bubble_name", EAdString.class, null);
+
+	public static final VarDef<EAdList> VAR_BUBBLE_OPERATIONS = new VarDef<EAdList>(
+			"hud_bubble_operations", EAdList.class, null);
 
 	@Param
 	private NinePatchImage bubble;

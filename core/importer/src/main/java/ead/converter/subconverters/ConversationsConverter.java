@@ -191,11 +191,12 @@ public class ConversationsConverter {
 			// XXX n.getSynthesizerVoice(line)
 			// XXX n.isKeepShowing()
 
-			EAdString text = stringsConverter.convert(n.getLineText(i));
-			SpeakEf nextEffect = modelQuerier.getSpeakFor(n.getLineName(i),
-					text);
+			EAdString text = stringsConverter.convert(n.getLineText(i), true);
 			List<EAdOperation> ops = stringsConverter.getOperations(n
 					.getLineText(i));
+
+			SpeakEf nextEffect = modelQuerier.getSpeakFor(n.getLineName(i),
+					text);
 			nextEffect.getCaption().getOperations().addAll(ops);
 
 			// Set conditions
@@ -238,7 +239,9 @@ public class ConversationsConverter {
 	private void addAnswers(OptionConversationNode n) {
 		QuestionEf question = (QuestionEf) nodes.get(n).get(0);
 		for (int i = 0; i < n.getLineCount(); i++) {
-			EAdString answer = stringsConverter.convert(n.getLineText(i));
+			// In eAd1, expressions are not evaluated in answers
+			EAdString answer = stringsConverter
+					.convert(n.getLineText(i), false);
 			List<EAdEffect> nextEffects = nodes.get(n.getChild(i));
 			if (nextEffects.size() > 0) {
 				EAdEffect nextEffect = nextEffects.get(0);

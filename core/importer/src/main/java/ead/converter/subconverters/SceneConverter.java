@@ -160,7 +160,7 @@ public class SceneConverter {
 		// Resources blocks
 		int i = 0;
 		for (Resources r : s.getResources()) {
-			// Background
+			// Background [SC - Bg]
 			String backgroundPath = r
 					.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
 			EAdDrawable drawable = utilsConverter.getBackground(backgroundPath);
@@ -295,7 +295,7 @@ public class SceneConverter {
 			// Text
 			if (!"".equals(exitLook.getExitText())) {
 				EAdString text = stringsConverter.convert(exitLook
-						.getExitText());
+						.getExitText(), false);
 				exit.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, text);
 			}
 			// XXX For now, we use the default exit image

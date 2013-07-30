@@ -59,7 +59,7 @@ import ead.utils.FileUtils;
  * @author mfreire
  */
 public class FileCache {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger("FileCache");
 
 	/**
@@ -110,7 +110,6 @@ public class FileCache {
 		return k;
 	}
 
-
 	/**
 	 * Restores a saved file.
 	 * @param key returned when saving the file
@@ -121,26 +120,26 @@ public class FileCache {
 		File source = new File(base, showBytes(key.hash));
 		FileUtils.copy(source, dest);
 	}
-	
+
 	/**
 	 * Used to find files in the cache.
 	 */
 	public static class Key {
-		
+
 		private static MessageDigest digester = null;
-		
+
 		private String[] attributes;
-		private byte[] hash;			
-		
+		private byte[] hash;
+
 		public void addAttributes(File f) throws IOException {
 			if (attributes == null) {
 				attributes = computeAttributes(f);
 			}
 		}
-		
+
 		public void addContents(File f) throws IOException {
 			if (hash == null) {
-				hash = computeContentsHash(f);			
+				hash = computeContentsHash(f);
 			}
 		}
 
@@ -149,13 +148,13 @@ public class FileCache {
 			k.addAttributes(f);
 			if (Arrays.deepEquals(attributes, k.attributes)) {
 				k.addContents(f);
-				if ( ! deep || Arrays.equals(hash, k.hash)) {
+				if (!deep || Arrays.equals(hash, k.hash)) {
 					return true;
 				}
 			}
 			return false;
 		}
-		
+
 		/**
 		 * Returns a hash for a file's meta-data. Reads file size,
 		 * creation & modification time (but not file-contents) into a string. 
@@ -163,7 +162,8 @@ public class FileCache {
 		 * "different" files (different attributes; but contents *may* be the same)
 		 */
 		private static String[] computeAttributes(File f) throws IOException {
-			return new String[] { f.getPath(), ""+f.length(), ""+f.lastModified() };
+			return new String[] { f.getPath(), "" + f.length(),
+					"" + f.lastModified() };
 		}
 
 		/**
@@ -208,10 +208,10 @@ public class FileCache {
 						fc.close();
 					}
 				} catch (Exception e) {
-					logger.error("Error closing file-channel after hashing {}", f,
-							e);
+					logger.error("Error closing file-channel after hashing {}",
+							f, e);
 				}
 			}
-		}		
+		}
 	}
 }

@@ -303,7 +303,8 @@ public class ActionsConverter {
 		} else {
 			name = getActionName(a.getType());
 		}
-		EAdString string = stringsConverter.convert(name);
+		// In eAd1, expressions are not evaluated for action names
+		EAdString string = stringsConverter.convert(name, false);
 		def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
 	}
 

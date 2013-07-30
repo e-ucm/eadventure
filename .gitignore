@@ -92,3 +92,4 @@ core/engine-desktop/src/main/resources/ead/engine/resources
 classes/
 
 resources/engine.war
+ead-editor-config.xml
