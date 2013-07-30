@@ -81,7 +81,7 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 			FileCache fileCache, DependencyNode... changed) {
 		super(newSource, fieldDescriptor, changed);
 		this.fileCache = fileCache;
-		this.commandName = ChangeFile;		
+		this.commandName = ChangeFile;
 	}
 
 	/**
@@ -99,19 +99,20 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 		if (validOne != validAnother) {
 			return true;
 		}
-		
+
 		if (validOne && validAnother) {
 			try {
 				FileCache.Key k1 = new FileCache.Key();
 				k1.addAttributes(one);
 				k1.addContents(one);
-				logger.warn("Potentially expensive check - {} vs {}", k1, another);
-				return ! k1.sameAsFor(another, true);
+				logger.warn("Potentially expensive check - {} vs {}", k1,
+						another);
+				return !k1.sameAsFor(another, true);
 			} catch (IOException ioe) {
-				logger.error("Error checking difference between " + one + " and " + another,
-						ioe);
-			}			
-		}		
+				logger.error("Error checking difference between " + one
+						+ " and " + another, ioe);
+			}
+		}
 		return false;
 	}
 

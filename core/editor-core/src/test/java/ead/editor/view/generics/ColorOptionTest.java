@@ -39,10 +39,9 @@ package ead.editor.view.generics;
 
 import java.awt.Color;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.paint.EAdFill;
-import ead.common.params.paint.EAdPaint;
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
+import ead.common.model.params.paint.EAdFill;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.ColorOption;
