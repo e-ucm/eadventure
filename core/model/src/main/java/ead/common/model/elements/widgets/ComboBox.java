@@ -39,10 +39,10 @@ package ead.common.model.elements.widgets;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.text.EAdString;
-import ead.common.model.weev.story.elements.Effect;
 
 @Element
 public class ComboBox extends SceneElement {
@@ -51,14 +51,14 @@ public class ComboBox extends SceneElement {
 	private EAdList<EAdString> strings;
 
 	@Param
-	private EAdList<Effect> selectionEffects;
+	private EAdList<EAdEffect> selectionEffects;
 
 	public ComboBox() {
 		strings = new EAdList<EAdString>();
-		selectionEffects = new EAdList<Effect>();
+		selectionEffects = new EAdList<EAdEffect>();
 	}
 
-	public void addString(EAdString string, Effect selectionEffect) {
+	public void addString(EAdString string, EAdEffect selectionEffect) {
 		strings.add(string);
 		selectionEffects.add(selectionEffect);
 	}
@@ -71,11 +71,11 @@ public class ComboBox extends SceneElement {
 		this.strings = strings;
 	}
 
-	public EAdList<Effect> getSelectionEffects() {
+	public EAdList<EAdEffect> getSelectionEffects() {
 		return selectionEffects;
 	}
 
-	public void setSelectionEffects(EAdList<Effect> selectionEffects) {
+	public void setSelectionEffects(EAdList<EAdEffect> selectionEffects) {
 		this.selectionEffects = selectionEffects;
 	}
 

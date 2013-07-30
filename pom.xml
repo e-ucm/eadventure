@@ -128,9 +128,10 @@
 				<!-- GUI tools -->
 				<module>guitools/exportergui</module>
 				<module>guitools/enginegui</module>
-				<!-- Plugins -->
+				<!-- Extensions -->
 				<module>extensions/plugins-engine</module>
-				
+                <module>extensions/weev</module>
+
 				<!-- <module>core/engine-html</module> -->
 			</modules>
 		</profile>
