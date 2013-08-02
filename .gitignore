@@ -94,3 +94,4 @@ classes/
 resources/engine.war
 ead-editor-config.xml
 *.properties
+demos/techdemo/src/main/resources/data.xml

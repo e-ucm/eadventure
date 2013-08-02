@@ -40,11 +40,6 @@
 			<artifactId>tools-gwt</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<classifier>no_aop</classifier>
-		</dependency>
 	</dependencies>
 
 </project>
