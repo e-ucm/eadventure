@@ -33,6 +33,22 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+        <dependency>
+            <groupId>com.badlogic.gdx</groupId>
+            <artifactId>gdx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogic.gdx</groupId>
+            <artifactId>gdx-natives</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogic.gdx</groupId>
+            <artifactId>gdx-backend-lwjgl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogic.gdx</groupId>
+            <artifactId>gdx-backend-lwjgl-natives</artifactId>
+        </dependency>
 	</dependencies>
 		<build>
 			<plugins>
