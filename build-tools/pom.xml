@@ -8,28 +8,4 @@
 	<packaging>jar</packaging>
 	<name>eAdventure Build Utilities</name>
 	<description>eAdventure Maven 2 build utilities.</description>
-	<!-- Ant plugin, to copy resources folder where needed -->
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<configuration>
-							<target>
-								<copy todir="../core/engine-desktop/src/main/resources">
-									<fileset dir="../resources/engineassets" />
-								</copy>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -48,6 +48,11 @@
             <artifactId>plugins-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ead</groupId>
+            <artifactId>resources</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- GDX -->
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
@@ -56,7 +61,6 @@
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
             <artifactId>gdx-backend-lwjgl-natives</artifactId>
-
         </dependency>
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
