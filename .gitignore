@@ -93,3 +93,4 @@ classes/
 
 resources/engine.war
 ead-editor-config.xml
+*.properties

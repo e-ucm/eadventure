@@ -37,138 +37,67 @@
 
 package ead.exporter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.maven.cli.MavenCli;
 
 import java.io.*;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Maven wrapper able to export projects to jar/exe
  * 
  */
-public class JarExporter implements Exporter {
+public class JarExporter {
 
-	private static final Logger logger = LoggerFactory.getLogger("JarExporter");
-
-	private static final byte[] BUFFER = new byte[4096 * 1024];
-
-	private String jarPath;
-
-	private String name;
+	private MavenCli maven;
 
 	public JarExporter() {
-		this.name = "game";
+		maven = new MavenCli();
 	}
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setJarPath(String jarPath) {
-		this.jarPath = jarPath;
-	}
-
-	@Override
-	public void setIcon(File icon) {
-
-	}
-
-	public void export(String gameFolder, String output) {
-		// Create destiny file
-		File gameJar = new File(output);
-		ZipOutputStream os = null;
+	/**
+	 *
+	 * @param projectFolder folder containing a folder (name as parameter 'resourcesFolder') with all the assets of the game
+	 * @param resourcesFolder name of folder inside 'projectFolder' containing all the assets of the game
+	 * @param destiny destiny file to ouput the .jar
+	 */
+	public void export(String projectFolder, String resourcesFolder,
+			String destiny) {
+		// Copy desktop-pom.xml to project
+		InputStream jarpom = ClassLoader
+				.getSystemResourceAsStream("desktop-pom.xml");
+		OutputStream os = null;
 		try {
-			os = new ZipOutputStream(new FileOutputStream(gameJar));
-			// Copy engine jar to destination jar
-			copyJar(os);
-
-			// Copy game to jar
-			File parent = new File(gameFolder);
-			addFolder(parent, parent, os);
-			os.putNextEntry(new ZipEntry("assets/assets.txt"));
-			os.closeEntry();
+			ead.utils.FileUtils.copy(jarpom, new FileOutputStream(new File(
+					projectFolder, "pom.xml")));
+			maven.doMain(new String[] { "-Dresources=" + resourcesFolder,
+					"clean", "compile", "assembly:single" }, projectFolder,
+					System.out, System.err);
+			// Copy jar to destiny
+			File destinyFile = new File(destiny);
+			if (destinyFile.isDirectory()) {
+				destinyFile = new File(destinyFile, "eAdventuregame.jar");
+			} else if (!destiny.endsWith(".jar")) {
+				destiny += ".jar";
+				destinyFile = new File(destiny);
+			}
+			ead.utils.FileUtils.copy(new File(projectFolder + "/target",
+					"game-1.0-jar-with-dependencies.jar"), destinyFile);
 		} catch (Exception e) {
-			logger.error("Error exporting game", e);
+
 		} finally {
+			if (jarpom != null) {
+				try {
+					jarpom.close();
+				} catch (IOException e) {
+				}
+			}
+
 			if (os != null) {
 				try {
 					os.close();
-				} catch (IOException e1) {
-
-				}
-			}
-		}
-	}
-
-	private void copyJar(ZipOutputStream os) {
-		ZipFile is = null;
-		try {
-			// Engine jar file
-			File f = new File(jarPath);
-			is = new ZipFile(f);
-
-			Enumeration<? extends ZipEntry> entries = is.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry e = entries.nextElement();
-				os.putNextEntry(e);
-				if (!e.isDirectory()) {
-					copy(is.getInputStream(e), os);
-				}
-				os.closeEntry();
-			}
-		} catch (Exception e) {
-			logger.error("Error exporting to jar", e);
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
 				} catch (IOException e) {
-
 				}
 			}
 		}
 
 	}
-
-	public void addFolder(File parent, File folder, ZipOutputStream os) {
-		for (File f : folder.listFiles()) {
-			String fileEntry = f.getAbsolutePath().substring(
-					parent.getAbsolutePath().length() + 1).replace('\\', '/');
-			if (f.isDirectory()) {
-				addFolder(parent, f, os);
-			} else {
-				FileInputStream is = null;
-				try {
-					os.putNextEntry(new ZipEntry(fileEntry));
-					is = new FileInputStream(f);
-					copy(is, os);
-					os.closeEntry();
-				} catch (Exception e) {
-					logger.error("Error exporting to jar", e);
-				} finally {
-					if (is != null) {
-						try {
-							is.close();
-						} catch (IOException e) {
-
-						}
-					}
-				}
-			}
-		}
-	}
-
-	public static void copy(InputStream input, OutputStream output)
-			throws IOException {
-		int bytesRead;
-		while ((bytesRead = input.read(BUFFER)) != -1) {
-			output.write(BUFFER, 0, bytesRead);
-		}
-	}
-
 }
