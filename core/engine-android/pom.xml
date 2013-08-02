@@ -13,7 +13,7 @@
 	<groupId>ead</groupId>
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-android</artifactId>
-	<packaging>apk</packaging>
+	<packaging>jar</packaging>
 	<name>eAdventure Gdx Android Engine</name>
 	<description>
 		Android engine; requires ADK to build, generates android .apk
@@ -21,11 +21,6 @@
 
 	<dependencies>
 		<!-- Gdx already include support for slf4j -->
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>tools-java</artifactId>
@@ -36,6 +31,11 @@
 			<artifactId>engine-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>ead</groupId>
+            <artifactId>plugins-engine</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 		<!-- Android -->
 		<dependency>
@@ -56,20 +56,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 	</dependencies>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>oss.sonatype.org-jayway-snapshots</id>
-			<name>Jayway OpenSource SNAPSHOTs on Sonatype.org</name>
-			<url>http://oss.sonatype.org/content/repositories/jayway-snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -83,26 +70,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-				<artifactId>android-maven-plugin</artifactId>
-				<version>3.3.0</version>
-				<configuration>
-					<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
-					<assetsDirectory>${ead.assets}</assetsDirectory>
-					<resourceDirectory>${project.basedir}/res</resourceDirectory>
-					<nativeLibrariesDirectory>${project.basedir}/libs</nativeLibrariesDirectory>
-					<sdk>
-						<path>${env.ANDROID_HOME}</path>
-						<platform>15</platform>
-					</sdk>
-					<deleteConflictingFiles>true</deleteConflictingFiles>
-					<undeployBeforeDeploy>true</undeployBeforeDeploy>
-					<!-- <extractDuplicates>true</extractDuplicates> -->
-				</configuration>
-				<extensions>true</extensions>
-			</plugin>
-
-			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
@@ -110,6 +77,23 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

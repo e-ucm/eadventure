@@ -40,8 +40,6 @@ package ead.engine.core.gameobjects.debuggers;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.operations.SystemFields;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;

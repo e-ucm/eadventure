@@ -44,23 +44,22 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 
-import ead.engine.core.game.interfaces.Game;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
+import ead.tools.java.reflection.JavaReflectionClassLoader;
+import ead.tools.reflection.ReflectionClassLoader;
 
 public class MainActivity extends AndroidApplication {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		cfg.useGL20 = true;
 
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+
 		JavaInjector injector = new JavaInjector(Guice.createInjector(
 				new GdxAndroidModule(), new JavaToolsModule()));
-
-		Game g = injector.getInstance(Game.class);
-		g.initialize();
 
 		ApplicationListener engine = injector
 				.getInstance(ApplicationListener.class);
