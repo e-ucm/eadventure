@@ -38,10 +38,7 @@
 package ead.editor.view.generic;
 
 import java.awt.Dimension;
-import ead.editor.view.generic.accessors.Accessor;
-import ead.editor.control.Command;
-import ead.editor.control.commands.ChangeFieldCommand;
-import ead.editor.model.nodes.DependencyNode;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -49,6 +46,11 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
+
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFieldCommand;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
 
 public class TextOption extends DefaultAbstractOption<String> {
 

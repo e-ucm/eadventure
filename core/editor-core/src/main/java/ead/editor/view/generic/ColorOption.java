@@ -37,49 +37,85 @@
 
 package ead.editor.view.generic;
 
-import javax.swing.JCheckBox;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
 
-public class BooleanOption extends DefaultAbstractOption<Boolean> {
+public class ColorOption extends DefaultAbstractOption<Color> {
 
-	private JCheckBox checkBox;
+	private static JColorChooser jcc = new JColorChooser();
+	private Color controlValue = null;
 
-	public BooleanOption(String title, String toolTipText, Object object,
+	private JButton colorButton;
+	private BufferedImage colorImage = new BufferedImage(32, 32,
+			BufferedImage.TYPE_INT_ARGB);
+
+	private void paintIcon(Color color) {
+		Graphics2D g = (Graphics2D) colorImage.getGraphics();
+		for (int j = 0; j < colorImage.getHeight() / 8 + 1; j++) {
+			for (int i = 0; i < colorImage.getWidth() / 8 + 1; i++) {
+				g.setColor(((i + j) % 2) == 0 ? Color.BLACK : Color.WHITE);
+				g.fillRect(i * 8, j * 8, 8, 8);
+				g.setColor(color);
+				g.fillRect(i * 8, j * 8, 8, 8);
+			}
+		}
+	}
+
+	public ColorOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode... changed) {
 		super(title, toolTipText, object, fieldName, changed);
 	}
 
-	public BooleanOption(String title, String toolTipText,
-			Accessor<Boolean> fieldDescriptor, DependencyNode... changed) {
+	public ColorOption(String title, String toolTipText,
+			Accessor<Color> fieldDescriptor, DependencyNode... changed) {
 		super(title, toolTipText, fieldDescriptor, changed);
 	}
 
 	@Override
 	protected JComponent createControl() {
-		checkBox = new JCheckBox(getTitle());
-		checkBox.setToolTipText(getToolTipText());
-		checkBox.setSelected(fieldDescriptor.read());
-		checkBox.addChangeListener(new javax.swing.event.ChangeListener() {
+		colorButton = new JButton();
+		oldValue = readModelValue();
+		setControlValue(oldValue);
+		colorButton.setToolTipText(getToolTipText());
+
+		colorButton.addActionListener(new ActionListener() {
 			@Override
-			public void stateChanged(javax.swing.event.ChangeEvent change) {
-				if (checkBox.isSelected() != oldValue) {
+			public void actionPerformed(ActionEvent ae) {
+				setControlValue(readModelValue());
+				jcc.setColor(controlValue);
+				JOptionPane.showMessageDialog(colorButton.getParent(), jcc,
+						"Select a color", JOptionPane.QUESTION_MESSAGE);
+				if (!controlValue.equals(jcc.getColor())
+						&& jcc.getColor() != null) {
+					setControlValue(jcc.getColor());
 					update();
 				}
 			}
 		});
-		return checkBox;
+		return colorButton;
 	}
 
 	@Override
-	protected Boolean getControlValue() {
-		return checkBox.isSelected();
+	protected Color getControlValue() {
+		return controlValue;
 	}
 
 	@Override
-	protected void setControlValue(Boolean newValue) {
-		checkBox.setSelected(newValue);
+	protected void setControlValue(Color newValue) {
+		paintIcon(newValue);
+		colorButton.setIcon(new ImageIcon(colorImage));
+		controlValue = newValue;
 	}
 }

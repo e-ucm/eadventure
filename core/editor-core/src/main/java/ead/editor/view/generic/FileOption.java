@@ -37,17 +37,12 @@
 
 package ead.editor.view.generic;
 
-import ead.editor.view.generic.accessors.Accessor;
-import ead.editor.control.Command;
-import ead.editor.control.commands.ChangeFileCommand;
-import ead.editor.control.commands.FileCache;
-import ead.editor.model.nodes.DependencyNode;
-import ead.utils.i18n.I18N;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -56,6 +51,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import ead.editor.control.Command;
+import ead.editor.control.commands.ChangeFileCommand;
+import ead.editor.control.commands.FileCache;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.utils.i18n.I18N;
 
 public class FileOption extends DefaultAbstractOption<File> {
 

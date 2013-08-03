@@ -37,15 +37,15 @@
 
 package ead.editor.control.commands;
 
-import ead.editor.control.Command;
-import ead.editor.model.DefaultModelEvent;
-import ead.editor.model.nodes.DependencyNode;
-import ead.editor.view.generic.accessors.Accessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.editor.control.Command;
+import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
 import ead.editor.model.ModelEvent;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 
 /**
@@ -85,24 +85,25 @@ public class ChangeFieldCommand<T> extends Command {
 
 	/**
 	 * Simplified constructor
-	 * @param newValue The new value (T)
-	 * @param fieldDescriptor
-	 *
+	 * @param newValue new value (T)
+	 * @param target where the value should be set
+	 * @param fieldName name of writable attribute in target
+	 * @param changed nodes that change when this command is done or undone
 	 */
 	public ChangeFieldCommand(T newValue, Object target, String fieldName,
 			DependencyNode... changed) {
-		this.newValue = newValue;
-		this.fieldDescriptor = new IntrospectingAccessor<T>(target, fieldName);
-		this.commandName = ChangeField;
+		this(newValue, new IntrospectingAccessor<T>(target, fieldName), changed);
 	}
 
 	/**
 	 * General constructor
-	 * @param newValue The new value (T)
-	 * @param fieldDescriptor
+	 * @param newValue new value (T)
+	 * @param fieldDescriptor that can write values to target field
+	 * @param changed nodes that change when this command is done or undone
 	 */
 	public ChangeFieldCommand(T newValue, Accessor<T> fieldDescriptor,
 			DependencyNode... changed) {
+		this.oldValue = fieldDescriptor.read();
 		this.newValue = newValue;
 		this.fieldDescriptor = fieldDescriptor;
 		this.commandName = ChangeField;
@@ -111,16 +112,17 @@ public class ChangeFieldCommand<T> extends Command {
 
 	/**
 	 * Method to perform a changing values command. Not having any changes
-	 * is an error.
+	 * is wasteful, but hardly an error.
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ModelEvent performCommand(EditorModel em) {
 		oldValue = fieldDescriptor.read();
 		if (!isChange(oldValue, newValue)) {
-			throw new IllegalArgumentException(
-					"Damn, same value man, whatyathinkin!");
-			// return null;
+			logger.warn("Fix me!", new IllegalArgumentException(
+					"They tried to set me TO THE SAME VALUE!"));
+			logger.warn("Redundant change: {} {}->{}; short-circuited",
+					new Object[] { commandName, oldValue, newValue });
 		}
 		return setValue(newValue);
 	}
@@ -128,7 +130,7 @@ public class ChangeFieldCommand<T> extends Command {
 	/**
 	 * @param one
 	 * @param another
-	 * @return true if any change fro one to another
+	 * @return true if any change from one to another
 	 */
 	public static <T> boolean defaultIsChange(T one, T another) {
 		boolean validOne = (one != null);

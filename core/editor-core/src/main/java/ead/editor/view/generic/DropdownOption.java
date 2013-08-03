@@ -141,9 +141,8 @@ public class DropdownOption<T> extends DefaultAbstractOption<T> {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				T newValue = getControlValue();
-				T oldValue = readModelValue();
-				if (changeConsideredRelevant(oldValue, newValue)) {
+				if (changeConsideredRelevant(readModelValue(),
+						getControlValue())) {
 					update();
 				}
 			}

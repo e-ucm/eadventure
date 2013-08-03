@@ -37,19 +37,13 @@
 
 package ead.editor.view.generic;
 
-import ead.common.model.elements.extra.EAdList;
-import ead.editor.R;
-import ead.editor.control.Command;
-import ead.editor.control.commands.ListCommand;
-import ead.editor.model.nodes.DependencyNode;
-import ead.editor.view.generic.accessors.Accessor;
-import ead.utils.i18n.Resource;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -62,9 +56,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+
 import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.common.model.elements.extra.EAdList;
+import ead.editor.R;
+import ead.editor.control.Command;
+import ead.editor.control.commands.ListCommand;
+import ead.editor.model.nodes.DependencyNode;
+import ead.editor.view.generic.accessors.Accessor;
+import ead.utils.i18n.Resource;
 
 /**
  * An option that allows a list of elements to be manipulated.

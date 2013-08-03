@@ -63,18 +63,18 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 
 	public final static String ChangeFile = "ChangeFile";
 
-	protected String oldSourceHash;
-	protected String newSourceHash;
-	protected String currentHash;
+	protected FileCache.Key oldKey;
+	protected FileCache.Key newKey;
+	protected  FileCache.Key currentKey;
 
 	protected FileCache fileCache;
 
 	/**
-	 * Constructor for the ChangeFileCommand class.
-	 *
-	 * @param newValue
-	 *            The new value (T)
+	 * Builds a new ChangeFileCommand
+	 * @param newSource 
 	 * @param fieldDescriptor
+	 * @param fileCache
+	 * @param changed  
 	 *
 	 */
 	public ChangeFileCommand(File newSource, Accessor<File> fieldDescriptor,
@@ -85,18 +85,35 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 	}
 
 	/**
+	 * Note - this is expensive. As it has to check the file contents, or risk
+	 * problems if the file was externally modified. Therefore, logging.
 	 * @param one
 	 * @param another
-	 * @return true if any change fro one to another
+	 * @return true if any change from one to another
 	 */
 	@Override
 	protected boolean isChange(File one, File another) {
 		boolean validOne = (one != null);
 		boolean validAnother = (another != null);
 
-		return (validOne != validAnother) || (validOne && validAnother);
-		// Notice that we don't care if they are 'equals'
-		// -- because the FS may have changed; the fileCache will help us out here
+		if (validOne != validAnother) {
+			return true;
+		}
+
+		if (validOne && validAnother) {
+			try {
+				FileCache.Key k1 = new FileCache.Key();
+				k1.addAttributes(one);
+				k1.addContents(one);
+				logger.warn("Potentially expensive check - {} vs {}", k1,
+						another);
+				return !k1.sameAsFor(another, true);
+			} catch (IOException ioe) {
+				logger.error("Error checking difference between " + one
+						+ " and " + another, ioe);
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -109,17 +126,15 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 		if (!isChange(oldValue, newValue)) {
 			throw new IllegalArgumentException("Refusing to do nothing");
 		}
-		File toHash = (oldValue != null && oldValue.exists()) ? oldValue : null;
-		// if toHash is null, the "empty file hash" will be used instead
 		try {
-			oldSourceHash = fileCache.saveFile(toHash);
-			newSourceHash = fileCache.saveFile(newValue);
+			oldKey = fileCache.saveFile(oldValue);
+			newKey = fileCache.saveFile(newValue);
 		} catch (IOException ioe) {
 			logger.error("Could not hash old:{} new:{}", new Object[] {
 					oldValue, newValue }, ioe);
 			return null;
 		}
-		currentHash = newSourceHash;
+		currentKey = newKey;
 		return setValue(newValue);
 	}
 
@@ -128,7 +143,7 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 	 */
 	@Override
 	public ModelEvent redoCommand(EditorModel em) {
-		currentHash = newSourceHash;
+		currentKey = newKey;
 		return super.redoCommand(em);
 	}
 
@@ -137,7 +152,7 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 	 */
 	@Override
 	public ModelEvent undoCommand(EditorModel em) {
-		currentHash = oldSourceHash;
+		currentKey = oldKey;
 		return super.undoCommand(em);
 	}
 
@@ -157,7 +172,7 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 	 */
 	public void writeFile(File target) {
 		try {
-			fileCache.restoreFile(currentHash, target);
+			fileCache.restoreFile(currentKey, target);
 		} catch (IOException ex) {
 			logger.error("Could not write file to '{}'", target, ex);
 		}
