@@ -38,23 +38,16 @@
 package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.factories.EventGOFactory;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.interfaces.GUI;
+import ead.common.model.elements.effects.PlayMusicEf;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.SoundManager;
 
-public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
+public class PlayMusicGO extends AbstractEffectGO<PlayMusicEf> {
 
     private SoundManager soundManager;
 
     @Inject
-    public PlaySoundGO(AssetHandler assetHandler,
-                       SceneElementGOFactory gameObjectFactory, GUI gui,
-                       GameState gameState, SoundManager soundManager,
-                       EventGOFactory eventFactory) {
+    public PlayMusicGO(GameState gameState, SoundManager soundManager) {
         super(gameState);
         this.soundManager = soundManager;
     }
@@ -62,8 +55,8 @@ public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
     @Override
     public void initialize() {
         super.initialize();
-        soundManager.playSound(effect.getSound(), effect.isOverlay(),
-                effect.getVolume());
+        soundManager.playBackgroundMusic(effect.getMusic(), effect.isLoop(), effect
+                .getVolume());
     }
 
 }

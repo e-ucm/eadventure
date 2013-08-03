@@ -38,6 +38,7 @@
 package ead.engine.core.game.interfaces;
 
 import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.Music;
 
 /**
  * General interface for managing sound
@@ -66,7 +67,7 @@ public interface SoundManager {
 	 * @param volume
 	 *            TODO
 	 */
-	void playBackgroundMusic(EAdSound sound, float volume);
+	void playBackgroundMusic(Music music, boolean loop, float volume);
 
 	/**
 	 * Silence all sounds

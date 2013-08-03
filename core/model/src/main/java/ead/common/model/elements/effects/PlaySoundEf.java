@@ -53,9 +53,6 @@ public class PlaySoundEf extends AbstractEffect {
 	private EAdSound sound;
 
 	@Param
-	private boolean background;
-
-	@Param
 	private boolean overlay;
 
 	@Param
@@ -65,26 +62,12 @@ public class PlaySoundEf extends AbstractEffect {
 		this(null);
 	}
 
-	/**
-	 * Creates a play sound effect. If sound is null, it stops the current
-	 * background music
-	 * 
-	 * @param id
-	 *            the effect id
-	 * @param sound
-	 *            the sound to be played
-	 */
 	public PlaySoundEf(EAdSound sound) {
-		this(sound, false);
+		this(sound, 1.0f);
 	}
 
-	public PlaySoundEf(EAdSound sound, boolean isBackground) {
-		this(sound, isBackground, 1.0f);
-	}
-
-	public PlaySoundEf(EAdSound sound, boolean isBackground, float volume) {
+	public PlaySoundEf(EAdSound sound, float volume) {
 		this.sound = sound;
-		this.background = isBackground;
 		this.volume = volume;
 	}
 
@@ -99,14 +82,6 @@ public class PlaySoundEf extends AbstractEffect {
 	 */
 	public EAdSound getSound() {
 		return sound;
-	}
-
-	public boolean isBackground() {
-		return background;
-	}
-
-	public void setBackground(boolean isBackground) {
-		this.background = isBackground;
 	}
 
 	public boolean isOverlay() {
