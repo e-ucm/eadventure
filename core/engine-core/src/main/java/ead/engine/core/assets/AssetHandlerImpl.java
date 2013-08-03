@@ -457,8 +457,8 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		return false;
 	}
 
-    public boolean fileExists(String path){
-        FileHandle fh = getFileHandle(path);
-        return ( fh != null && fh.exists());
-    }
+	public boolean fileExists(String path) {
+		FileHandle fh = getFileHandle(path);
+		return (fh != null && fh.exists());
+	}
 }

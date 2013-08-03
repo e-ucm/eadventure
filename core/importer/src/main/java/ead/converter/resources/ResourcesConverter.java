@@ -80,30 +80,30 @@ public class ResourcesConverter {
 		return (EAdDrawable) asset;
 	}
 
-    /**
-     * Returns the sound associated to the soundPath in the old model
-     * @param soundPath
-     * @return
-     */
-    public EAdSound getSound( String soundPath ){
-        AssetDescriptor asset = assets.get(soundPath);
-        if ( asset == null ){
-            String destinySoundPath = getPath(soundPath);
-            asset = new Sound(destinySoundPath);
-            assets.put(soundPath, asset);
-        }
-        return (EAdSound) asset;
-    }
+	/**
+	 * Returns the sound associated to the soundPath in the old model
+	 * @param soundPath
+	 * @return
+	 */
+	public EAdSound getSound(String soundPath) {
+		AssetDescriptor asset = assets.get(soundPath);
+		if (asset == null) {
+			String destinySoundPath = getPath(soundPath);
+			asset = new Sound(destinySoundPath);
+			assets.put(soundPath, asset);
+		}
+		return (EAdSound) asset;
+	}
 
-    public Music getMusic(String musicPath) {
-        AssetDescriptor asset = assets.get(musicPath);
-        if ( asset == null ){
-            String destinySoundPath = getPath(musicPath);
-            asset = new Music(destinySoundPath);
-            assets.put(musicPath, asset);
-        }
-        return (Music) asset;
-    }
+	public Music getMusic(String musicPath) {
+		AssetDescriptor asset = assets.get(musicPath);
+		if (asset == null) {
+			String destinySoundPath = getPath(musicPath);
+			asset = new Music(destinySoundPath);
+			assets.put(musicPath, asset);
+		}
+		return (Music) asset;
+	}
 
 	/**
 	 * Returns the path on the new model for a given path in the old model
@@ -132,7 +132,9 @@ public class ResourcesConverter {
 	}
 
 	private String getFolder(String oldString) {
-		if (oldString.endsWith(".png") || oldString.endsWith(".jpg") || oldString.endsWith(".JPG") || oldString.endsWith(".PNG") || oldString.endsWith(".gif") || oldString.endsWith(".GIF"))
+		if (oldString.endsWith(".png") || oldString.endsWith(".jpg")
+				|| oldString.endsWith(".JPG") || oldString.endsWith(".PNG")
+				|| oldString.endsWith(".gif") || oldString.endsWith(".GIF"))
 			return DRAWABLE;
 		else
 			return BINARY;
@@ -328,25 +330,25 @@ public class ResourcesConverter {
 		}
 	}
 
-    /**
-     * Returns an image from the old model
-     * @param oldUri the uri for the image in the old model
-     * @return the image loaded. You should flush the image when it's no longer needed
-     */
-    public BufferedImage loadImage(String oldUri) {
-        try {
-            return ImageIO.read(oldReader.getInputStream(oldUri));
-        } catch (Exception e) {
-            logger.error("Error loading {}", oldUri);
-        }
-        return null;
-    }
+	/**
+	 * Returns an image from the old model
+	 * @param oldUri the uri for the image in the old model
+	 * @return the image loaded. You should flush the image when it's no longer needed
+	 */
+	public BufferedImage loadImage(String oldUri) {
+		try {
+			return ImageIO.read(oldReader.getInputStream(oldUri));
+		} catch (Exception e) {
+			logger.error("Error loading {}", oldUri);
+		}
+		return null;
+	}
 
-    /**
-     * Returns the project folder
-     * @return
-     */
-    public String getProjectFolder(){
-        return destinyPath;
-    }
+	/**
+	 * Returns the project folder
+	 * @return
+	 */
+	public String getProjectFolder() {
+		return destinyPath;
+	}
 }

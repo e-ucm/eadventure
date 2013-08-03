@@ -167,34 +167,34 @@ public class ModelQuerier {
 		flagFields.clear();
 		variableFields.clear();
 
-        // Load text and bubble colors
-        for (NPC npc : oldChapter.getCharacters()) {
-            EAdPaint textPaint = utilsConverter.getPaint(npc
-                    .getTextFrontColor(), npc.getTextBorderColor());
+		// Load text and bubble colors
+		for (NPC npc : oldChapter.getCharacters()) {
+			EAdPaint textPaint = utilsConverter.getPaint(npc
+					.getTextFrontColor(), npc.getTextBorderColor());
 
-            npcTexts.put(npc.getId(), textPaint);
-            if (npc.getShowsSpeechBubbles()) {
-                EAdPaint bubblePaint = utilsConverter.getPaint(npc
-                        .getBubbleBkgColor(), npc.getBubbleBorderColor());
-                npcBubbles.put(npc.getId(), bubblePaint);
-            } else {
-                npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
-            }
-        }
+			npcTexts.put(npc.getId(), textPaint);
+			if (npc.getShowsSpeechBubbles()) {
+				EAdPaint bubblePaint = utilsConverter.getPaint(npc
+						.getBubbleBkgColor(), npc.getBubbleBorderColor());
+				npcBubbles.put(npc.getId(), bubblePaint);
+			} else {
+				npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
+			}
+		}
 
-        // Load text and bubbles from player
-        NPC npc = oldChapter.getPlayer();
-        EAdPaint textPaint = utilsConverter.getPaint(npc.getTextFrontColor(),
-                npc.getTextBorderColor());
+		// Load text and bubbles from player
+		NPC npc = oldChapter.getPlayer();
+		EAdPaint textPaint = utilsConverter.getPaint(npc.getTextFrontColor(),
+				npc.getTextBorderColor());
 
-        npcTexts.put(npc.getId(), textPaint);
-        if (npc.getShowsSpeechBubbles()) {
-            EAdPaint bubblePaint = utilsConverter.getPaint(npc
-                    .getBubbleBkgColor(), npc.getBubbleBorderColor());
-            npcBubbles.put(npc.getId(), bubblePaint);
-        } else {
-            npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
-        }
+		npcTexts.put(npc.getId(), textPaint);
+		if (npc.getShowsSpeechBubbles()) {
+			EAdPaint bubblePaint = utilsConverter.getPaint(npc
+					.getBubbleBkgColor(), npc.getBubbleBorderColor());
+			npcBubbles.put(npc.getId(), bubblePaint);
+		} else {
+			npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
+		}
 	}
 
 	/**
@@ -361,11 +361,11 @@ public class ModelQuerier {
 		return macro;
 	}
 
-	public void addActionsInteraction(EAdSceneElementDef def, EAdEffect effect ) {
-        def.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);
-        if ( getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_ACTIONS ){
-            def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
-        }
+	public void addActionsInteraction(EAdSceneElementDef def, EAdEffect effect) {
+		def.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);
+		if (getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_ACTIONS) {
+			def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+		}
 	}
 
 	/**

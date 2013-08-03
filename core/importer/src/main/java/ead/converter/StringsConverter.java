@@ -37,20 +37,17 @@
 
 package ead.converter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.params.text.EAdString;
-import ead.importer.interfaces.EAdElementFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class StringsConverter {
@@ -70,24 +67,8 @@ public class StringsConverter {
 	}
 
 	/**
-	 * Converts a string to an EAdString
-	 * 
-	 * @param text
-	 * @return
-	 */
-	public EAdString convert(String text) {
-		EAdString string = reverse.get(text);
-		if (string == null) {
-			string = new EAdString(PREFIX + strings.size());
-			strings.put(string, translateLine(text));
-			reverse.put(text, string);
-		}
-		return string;
-	}
-
-	/**
 	 * Returns the strings contained by this converter
-	 * 
+	 *
 	 * @return
 	 */
 	public Map<EAdString, String> getStrings() {
@@ -95,13 +76,75 @@ public class StringsConverter {
 	}
 
 	/**
+	 * Converts a string to an EAdString
+	 *
+	 * @param text Strings to internationalize
+	 * @param evaluateExpressions if the method must look for conditional/variable expressions
+	 * @return
+	 */
+	public EAdString convert(String text, boolean evaluateExpressions) {
+		// [ST - i18n]
+		EAdString string = reverse.get(text);
+		if (string == null) {
+			string = new EAdString(PREFIX + strings.size());
+			// In eAd1 expressions with variables are evaluated in:
+			// - Speak effects and show text effects
+			// - Assessment reports
+			// - Name in contextual hud
+			// In eAd1 expressions are NOT EVALUATED in:
+			// - Answers in conversations
+			// - Exit descriptions
+			// - Actions names
+			// - Item descriptions (when clicking them)
+			String finalText = evaluateExpressions ? translateLine(text) : text;
+			strings.put(string, finalText);
+			reverse.put(text, string);
+		}
+		return string;
+	}
+
+	/**
+	 * Translates strings with conditional operations to strings with operations
+	 * in the new model. Use
+	 * {@link StringsConverter#getOperations(String)} to
+	 * obtain the operations associated to this string
+	 *
+	 * @param text
+	 * @return
+	 */
+	private String translateLine(String text) {
+		// [ST - Variables]
+		String finalText = text;
+		int i = 0;
+		int varNumber = 0;
+		boolean finished = false;
+		while (!finished && i < text.length()) {
+			int beginIndex = text.indexOf('(', i);
+			int endIndex = text.indexOf(')', i);
+			int questionMark = text.indexOf('?', i);
+			if (beginIndex != -1 && endIndex != -1 && endIndex > beginIndex
+					&& questionMark > beginIndex) {
+				String varName = text.substring(beginIndex + 2, questionMark);
+				finalText = finalText.replace("#" + varName, "[" + varNumber
+						+ "]");
+				varNumber++;
+				i = endIndex + 1;
+			} else {
+				finished = true;
+			}
+		}
+		return finalText;
+	}
+
+	/**
 	 * Generates a list of operations for the given text
 	 * @param text
 	 * @return
 	 */
-	public List<EAdOperation> getOperations(String text) {
+	public EAdList<EAdOperation> getOperations(String text) {
+		// [ST - Conditions]
 		int i = 0;
-		ArrayList<EAdOperation> operations = new ArrayList<EAdOperation>();
+		EAdList<EAdOperation> operations = new EAdList<EAdOperation>();
 		boolean finished = false;
 		while (!finished && i < text.length()) {
 			int beginIndex = text.indexOf('(', i);
@@ -128,8 +171,9 @@ public class StringsConverter {
 	 * @return
 	 */
 	private EAdOperation createOperation(String condition) {
-		Comparator comparator = Comparator.DIFFERENT;
-		String[] comparison = new String[] { new String(condition) };
+		Comparator comparator;
+		String[] comparison;
+		// Look for comparators. Comparators checked are those checked in es.eucm.eadventure.engine.core.control.VarSummary
 		if (condition.contains(">=")) {
 			comparator = Comparator.GREATER_EQUAL;
 			comparison = condition.split(">=");
@@ -151,7 +195,7 @@ public class StringsConverter {
 
 		if (comparison.length == 2) {
 			EAdField<?> op1 = modelQuerier.getVariable(condition);
-			Integer number = null;
+			Integer number;
 			try {
 				number = new Integer(comparison[1]);
 			} catch (NumberFormatException e) {
@@ -162,38 +206,6 @@ public class StringsConverter {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Translates strings with conditional operations to strings with operations
-	 * in the new model. Use
-	 * {@link StringsConverter#getOperations(String, EAdElementFactory)} to
-	 * obtain the operations associated to this string
-	 * 
-	 * @param text
-	 * @return
-	 */
-	public String translateLine(String text) {
-		String finalText = text;
-		int i = 0;
-		int varNumber = 0;
-		boolean finished = false;
-		while (!finished && i < text.length()) {
-			int beginIndex = text.indexOf('(', i);
-			int endIndex = text.indexOf(')', i);
-			int questionMark = text.indexOf('?', i);
-			if (beginIndex != -1 && endIndex != -1 && endIndex > beginIndex
-					&& questionMark > beginIndex) {
-				String varName = text.substring(beginIndex + 2, questionMark);
-				finalText = finalText.replace("#" + varName, "[" + varNumber
-						+ "]");
-				varNumber++;
-				i = endIndex + 1;
-			} else {
-				finished = true;
-			}
-		}
-		return finalText;
 	}
 
 	public void clear() {

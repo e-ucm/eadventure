@@ -207,14 +207,14 @@ public interface AssetHandler {
 	 */
 	void clearAssetQueue();
 
-    /**
-     * Returns if there's a file with the given path
-     * @param path
-     * @return
-     */
-    boolean fileExists(String path);
+	/**
+	 * Returns if there's a file with the given path
+	 * @param path
+	 * @return
+	 */
+	boolean fileExists(String path);
 
-    public static interface TextHandler {
+	public static interface TextHandler {
 
 		void handle(String text);
 	}

@@ -38,6 +38,7 @@
 package ead.demos.elementfactories.scenes.scenes;
 
 import ead.common.model.assets.drawable.basics.Caption;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.params.fills.ColorFill;
@@ -64,11 +65,11 @@ public class ShowQuestionScene extends EmptyScene {
 		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer1"),
 				effect);
 		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer2"),
-				null);
+				(EAdEffect) null);
 		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer3"),
-				null);
+				(EAdEffect) null);
 		effect.addAnswer(new EAdString("techDemo.ShowQuestionScene.answer4"),
-				null);
+				(EAdEffect) null);
 
 		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 	}

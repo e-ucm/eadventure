@@ -126,13 +126,14 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		answers.clear();
 
 		answers.addAll(effect.getAnswers());
-        effects.addAll(effect.getEffects());
+		effects.addAll(effect.getEffects());
 
 		int i = 0;
-        while ( answers.size() > 0 ){
-            int index = ( effect.isRandomAnswers() ? r.nextInt(answers.size()) : 0);
-            EAdString s = answers.remove(index);
-			EAdList <EAdEffect> e = effects.remove(index);
+		while (answers.size() > 0) {
+			int index = (effect.isRandomAnswers() ? r.nextInt(answers.size())
+					: 0);
+			EAdString s = answers.remove(index);
+			EAdList<EAdEffect> e = effects.remove(index);
 			setUpAnswer(question, i++, s, e, selectEffect, inEffect, outEffect);
 		}
 		return question;

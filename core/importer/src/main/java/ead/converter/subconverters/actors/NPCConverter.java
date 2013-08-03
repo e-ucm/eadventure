@@ -78,7 +78,8 @@ public class NPCConverter extends ElementConverter {
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
 			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter, effectsConverter, stringsConverter);
+				modelQuerier, conditionsConverter, effectsConverter,
+				stringsConverter);
 	}
 
 	public EAdSceneElementDef convert(NPC npc) {

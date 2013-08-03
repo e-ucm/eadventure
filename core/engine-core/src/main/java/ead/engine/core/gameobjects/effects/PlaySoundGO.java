@@ -48,22 +48,22 @@ import ead.engine.core.game.interfaces.SoundManager;
 
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 
-    private SoundManager soundManager;
+	private SoundManager soundManager;
 
-    @Inject
-    public PlaySoundGO(AssetHandler assetHandler,
-                       SceneElementGOFactory gameObjectFactory, GUI gui,
-                       GameState gameState, SoundManager soundManager,
-                       EventGOFactory eventFactory) {
-        super(gameState);
-        this.soundManager = soundManager;
-    }
+	@Inject
+	public PlaySoundGO(AssetHandler assetHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, SoundManager soundManager,
+			EventGOFactory eventFactory) {
+		super(gameState);
+		this.soundManager = soundManager;
+	}
 
-    @Override
-    public void initialize() {
-        super.initialize();
-        soundManager.playSound(effect.getSound(), effect.isOverlay(),
-                effect.getVolume());
-    }
+	@Override
+	public void initialize() {
+		super.initialize();
+		soundManager.playSound(effect.getSound(), effect.isOverlay(), effect
+				.getVolume());
+	}
 
 }

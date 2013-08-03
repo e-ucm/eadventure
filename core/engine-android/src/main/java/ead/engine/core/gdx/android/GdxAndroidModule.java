@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import com.google.inject.AbstractModule;
 
 import ead.engine.core.GdxModuleMap;
+import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.game.interfaces.GUI;
 
 public class GdxAndroidModule extends AbstractModule {
@@ -51,7 +52,8 @@ public class GdxAndroidModule extends AbstractModule {
 	protected void configure() {
 
 		GdxModuleMap map = new GdxModuleMap();
-		map.getBinds().put(GUI.class, AndroidGdxGUI.class);
+		map.setBind(GUI.class, AndroidGdxGUI.class);
+		map.setBind(AssetHandler.class, AndroidAssetHandler.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();

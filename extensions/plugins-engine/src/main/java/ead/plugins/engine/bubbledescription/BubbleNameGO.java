@@ -6,6 +6,7 @@ import com.gwtent.reflection.client.Reflectable;
 import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.compounds.ComposedDrawable;
+import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.scenes.SceneElement;
@@ -93,9 +94,12 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 			if (current != null) {
 				EAdString name = gameState.getValue(current.getElement(),
 						BubbleNameEv.VAR_BUBBLE_NAME);
-                if ( name == null ){
-                    name = gameState.getValue(current.getElement().getDefinition(), BubbleNameEv.VAR_BUBBLE_NAME);
-                }
+				EAdList operations = gameState.getValue(current.getElement(),
+						BubbleNameEv.VAR_BUBBLE_OPERATIONS);
+				if (operations != null && operations.size() > 0) {
+					caption.getCaption().getOperations().clear();
+					caption.getCaption().getOperations().addAll(operations);
+				}
 				gameState.setValue(currentDescription, name);
 				if (name != null) {
 					bubble.act(delta);

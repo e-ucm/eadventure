@@ -99,36 +99,36 @@ public class ChapterConverter {
 	}
 
 	public EAdChapter convert(Chapter c) {
-        modelQuerier.clear();
+		modelQuerier.clear();
 		BasicChapter chapter = new BasicChapter();
 		modelQuerier.setCurrentChapter(chapter, c);
 		modelQuerier.loadGlobalStates();
 
-        // Import Player
-        EAdSceneElementDef player = npcConverter.convert(c.getPlayer());
-        player.setId(Player.IDENTIFIER);
-        elementsCache.put(player);
-        chapter.getActors().add(player);
+		// Import Player
+		EAdSceneElementDef player = npcConverter.convert(c.getPlayer());
+		player.setId(Player.IDENTIFIER);
+		elementsCache.put(player);
+		chapter.getActors().add(player);
 
 		// Import atrezzos
 		for (Atrezzo a : c.getAtrezzo()) {
 			EAdSceneElementDef def = atrezzoConverter.convert(a);
 			elementsCache.put(def);
-            chapter.getActors().add(def);
+			chapter.getActors().add(def);
 		}
 
 		// Import items
 		for (Item a : c.getItems()) {
 			EAdSceneElementDef def = itemConverter.convert(a);
 			elementsCache.put(def);
-            chapter.getActors().add(def);
+			chapter.getActors().add(def);
 		}
 
 		// Import NPCs
 		for (NPC a : c.getCharacters()) {
 			EAdSceneElementDef def = npcConverter.convert(a);
 			elementsCache.put(def);
-            chapter.getActors().add(def);
+			chapter.getActors().add(def);
 		}
 
 		// Add actions after the cache contains all the actors

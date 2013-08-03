@@ -72,7 +72,7 @@ public class EffectsMapProvider
 		factoryMap.put(InterpolationEf.class, InterpolationGO.class);
 		factoryMap.put(SpeakEf.class, SpeakGO.class);
 		factoryMap.put(PlaySoundEf.class, PlaySoundGO.class);
-        factoryMap.put(PlayMusicEf.class, PlayMusicGO.class);
+		factoryMap.put(PlayMusicEf.class, PlayMusicGO.class);
 		factoryMap.put(AddActorReferenceEf.class, AddActorReferenceGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
 		factoryMap.put(RandomEf.class, RandomGO.class);

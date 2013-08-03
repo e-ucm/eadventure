@@ -65,7 +65,7 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 
 	protected FileCache.Key oldKey;
 	protected FileCache.Key newKey;
-	protected  FileCache.Key currentKey;
+	protected FileCache.Key currentKey;
 
 	protected FileCache fileCache;
 

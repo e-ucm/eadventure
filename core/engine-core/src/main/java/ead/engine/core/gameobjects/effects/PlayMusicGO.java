@@ -44,19 +44,19 @@ import ead.engine.core.game.interfaces.SoundManager;
 
 public class PlayMusicGO extends AbstractEffectGO<PlayMusicEf> {
 
-    private SoundManager soundManager;
+	private SoundManager soundManager;
 
-    @Inject
-    public PlayMusicGO(GameState gameState, SoundManager soundManager) {
-        super(gameState);
-        this.soundManager = soundManager;
-    }
+	@Inject
+	public PlayMusicGO(GameState gameState, SoundManager soundManager) {
+		super(gameState);
+		this.soundManager = soundManager;
+	}
 
-    @Override
-    public void initialize() {
-        super.initialize();
-        soundManager.playBackgroundMusic(effect.getMusic(), effect.isLoop(), effect
-                .getVolume());
-    }
+	@Override
+	public void initialize() {
+		super.initialize();
+		soundManager.playBackgroundMusic(effect.getMusic(), effect.isLoop(),
+				effect.getVolume());
+	}
 
 }

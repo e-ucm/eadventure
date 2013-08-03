@@ -83,7 +83,7 @@ public class AssetHandlerMap
 				.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		factoryMap.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		factoryMap.put(Sound.class, RuntimeSound.class);
-        factoryMap.put(Music.class, RuntimeMusic.class);
+		factoryMap.put(Music.class, RuntimeMusic.class);
 		factoryMap.put(NinePatchImage.class, RuntimeNinePatchImage.class);
 	}
 

@@ -67,7 +67,8 @@ public class ItemConverter extends ElementConverter {
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
 			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter, effectsConverter, stringsConverter);
+				modelQuerier, conditionsConverter, effectsConverter,
+				stringsConverter);
 	}
 
 	public EAdSceneElementDef convert(Element a) {
@@ -95,7 +96,7 @@ public class ItemConverter extends ElementConverter {
 				action.putEffects(cond, effects);
 			}
 
-            modelQuerier.addActionsInteraction( def, action );
+			modelQuerier.addActionsInteraction(def, action);
 			// XXX For now, we use the default exit image
 			utilsConverter.addCursorChange(def, MouseHud.EXIT_CURSOR);
 		} else {

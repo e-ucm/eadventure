@@ -120,9 +120,9 @@ public class SoundManagerImpl implements SoundManager {
 	public void setPause(boolean paused) {
 		// FIXME currently, the API sound doesn't allow to pause
 		// sounds..
-        if (backgroundMusic != null){
-            backgroundMusic.setPause(paused);
-        }
+		if (backgroundMusic != null) {
+			backgroundMusic.setPause(paused);
+		}
 
 	}
 

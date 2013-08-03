@@ -56,11 +56,11 @@ public class QuestionEf extends AbstractEffect {
 	@Param
 	private EAdString question;
 
-    @Param
-    private EAdList<EAdString> answers;
+	@Param
+	private EAdList<EAdString> answers;
 
-    @Param
-    private EAdList<EAdList<EAdEffect>> effects;
+	@Param
+	private EAdList<EAdList<EAdEffect>> effects;
 
 	@Param
 	private boolean randomAnswers;
@@ -68,19 +68,19 @@ public class QuestionEf extends AbstractEffect {
 	public QuestionEf() {
 		super();
 		answers = new EAdList<EAdString>();
-        effects = new EAdList<EAdList<EAdEffect>>();
+		effects = new EAdList<EAdList<EAdEffect>>();
 	}
 
 	public void addAnswer(EAdString string, EAdList<EAdEffect> effects) {
-        answers.add(string);
-        this.effects.add(effects);
+		answers.add(string);
+		this.effects.add(effects);
 	}
 
-    public void addAnswer(EAdString string, EAdEffect effect){
-        EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
-        effects.add(effect);
-        this.addAnswer(string, effects);
-    }
+	public void addAnswer(EAdString string, EAdEffect effect) {
+		EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
+		effects.add(effect);
+		this.addAnswer(string, effects);
+	}
 
 	public EAdString getQuestion() {
 		return question;
@@ -98,19 +98,19 @@ public class QuestionEf extends AbstractEffect {
 		this.randomAnswers = randomAnswers;
 	}
 
-    public EAdList<EAdString> getAnswers() {
-        return answers;
-    }
+	public EAdList<EAdString> getAnswers() {
+		return answers;
+	}
 
-    public void setAnswers(EAdList<EAdString> answers) {
-        this.answers = answers;
-    }
+	public void setAnswers(EAdList<EAdString> answers) {
+		this.answers = answers;
+	}
 
-    public EAdList<EAdList<EAdEffect>> getEffects() {
-        return effects;
-    }
+	public EAdList<EAdList<EAdEffect>> getEffects() {
+		return effects;
+	}
 
-    public void setEffects(EAdList<EAdList<EAdEffect>> effects) {
-        this.effects = effects;
-    }
+	public void setEffects(EAdList<EAdList<EAdEffect>> effects) {
+		this.effects = effects;
+	}
 }

@@ -51,57 +51,58 @@ import java.util.Map;
 @Singleton
 public class EAdElementsCache {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger("ElementsCache");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ElementsCache");
 
-    private Map<String, EAdElement> elements;
+	private Map<String, EAdElement> elements;
 
-    private Map<String, Map<EAdVarDef<?>, EAdField<?>>> fields;
+	private Map<String, Map<EAdVarDef<?>, EAdField<?>>> fields;
 
-    public EAdElementsCache() {
-        elements = new HashMap<String, EAdElement>();
-        fields = new HashMap<String, Map<EAdVarDef<?>, EAdField<?>>>();
-    }
+	public EAdElementsCache() {
+		elements = new HashMap<String, EAdElement>();
+		fields = new HashMap<String, Map<EAdVarDef<?>, EAdField<?>>>();
+	}
 
-    public void put(EAdElement element) {
-        elements.put(element.getId(), element);
-    }
+	public void put(EAdElement element) {
+		elements.put(element.getId(), element);
+	}
 
-    public EAdElement get(String id) {
-        EAdElement element = elements.get(id);
-        if (element == null) {
-            logger.warn("No element for id {}", id);
-        }
-        return element;
-    }
+	public EAdElement get(String id) {
+		EAdElement element = elements.get(id);
+		if (element == null) {
+			logger.warn("No element for id {}", id);
+		}
+		return element;
+	}
 
-    public <T> EAdField<T> getField(String elementId, EAdVarDef<T> var) {
-        return getField(elements.get(elementId), var);
-    }
+	public <T> EAdField<T> getField(String elementId, EAdVarDef<T> var) {
+		return getField(elements.get(elementId), var);
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> EAdField<T> getField(EAdElement element, EAdVarDef<T> var) {
-        if (element != null && element.getId() != null) {
+	@SuppressWarnings("unchecked")
+	public <T> EAdField<T> getField(EAdElement element, EAdVarDef<T> var) {
+		if (element != null && element.getId() != null) {
 
-            Map<EAdVarDef<?>, EAdField<?>> fieldsMap = fields.get(element.getId());
-            if (fieldsMap == null) {
-                fieldsMap = new HashMap<EAdVarDef<?>, EAdField<?>>();
-                fields.put(element.getId(), fieldsMap);
-            }
+			Map<EAdVarDef<?>, EAdField<?>> fieldsMap = fields.get(element
+					.getId());
+			if (fieldsMap == null) {
+				fieldsMap = new HashMap<EAdVarDef<?>, EAdField<?>>();
+				fields.put(element.getId(), fieldsMap);
+			}
 
-            EAdField<T> field = (EAdField<T>) fieldsMap.get(var);
-            if (field == null) {
-                field = new BasicField<T>(element, var);
-                fieldsMap.put(var, field);
-            }
-            return field;
-        } else {
-            return new BasicField<T>(element, var);
-        }
-    }
+			EAdField<T> field = (EAdField<T>) fieldsMap.get(var);
+			if (field == null) {
+				field = new BasicField<T>(element, var);
+				fieldsMap.put(var, field);
+			}
+			return field;
+		} else {
+			return new BasicField<T>(element, var);
+		}
+	}
 
-    public void clear() {
-        elements.clear();
-        fields.clear();
-    }
+	public void clear() {
+		elements.clear();
+		fields.clear();
+	}
 }

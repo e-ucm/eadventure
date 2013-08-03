@@ -37,8 +37,8 @@ package ead.editor.view.generics;
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.awt.Color;
-
+import ead.common.model.params.fills.ColorFill;
+import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.fills.ColorFill;
 import ead.common.model.params.fills.LinearGradientFill;
 import ead.common.model.params.paint.EAdFill;
@@ -50,6 +50,8 @@ import ead.editor.view.generic.PanelImpl;
 import ead.editor.view.generic.accessors.ConvertingAccessor;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 import ead.utils.Log4jConfig;
+
+import java.awt.*;
 
 public class ColorOptionTest extends AbstractOptionTest {
 

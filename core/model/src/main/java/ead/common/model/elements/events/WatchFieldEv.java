@@ -63,9 +63,9 @@ public class WatchFieldEv extends AbstractEvent {
 	}
 
 	public void watchField(EAdField<?> f) {
-        if ( !fields.contains(f)){
-		    fields.add(f);
-        }
+		if (!fields.contains(f)) {
+			fields.add(f);
+		}
 	}
 
 	public void addEffect(EAdEffect effect) {

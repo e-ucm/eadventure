@@ -40,7 +40,6 @@ package ead.common.model.assets;
 import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.interfaces.features.Identified;
-import ead.common.model.elements.EAdElement;
 
 /**
  * Classes that implement this interface represent an asset. An asset is any

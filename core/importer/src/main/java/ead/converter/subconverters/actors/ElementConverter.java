@@ -74,7 +74,7 @@ import java.util.List;
 @Singleton
 public abstract class ElementConverter {
 
-    protected ResourcesConverter resourceConverter;
+	protected ResourcesConverter resourceConverter;
 
 	protected UtilsConverter utilsConverter;
 
@@ -88,7 +88,7 @@ public abstract class ElementConverter {
 
 	private List<DropEvent> dropEvents;
 
-    private StringsConverter stringsConverter;
+	private StringsConverter stringsConverter;
 
 	@Inject
 	public ElementConverter(ResourcesConverter resourceConverter,
@@ -102,7 +102,7 @@ public abstract class ElementConverter {
 		this.conditionsConverter = conditionsConverter;
 		this.effectsConverter = effectsConverter;
 		this.dropEvents = new ArrayList<DropEvent>();
-        this.stringsConverter = stringsConverter;
+		this.stringsConverter = stringsConverter;
 	}
 
 	public EAdSceneElementDef convert(Element a) {
@@ -111,8 +111,8 @@ public abstract class ElementConverter {
 		// Appearance
 		convert(a, getResourceType(), definition,
 				ResourcedElement.INITIAL_BUNDLE, SceneElementDef.appearance);
-        // Descriptions
-        addDescription(a, definition);
+		// Descriptions
+		addDescription(a, definition);
 		return definition;
 	}
 
@@ -143,30 +143,33 @@ public abstract class ElementConverter {
 		return definition;
 	}
 
-    public void addDescription(Element element, EAdSceneElementDef def ){
-        // XXX Multiple descriptions
-        if ( element.getDescriptions().size() > 0 ){
-            String name = element.getDescription(0).getName();
-            if ( !name.equals("")){
-                EAdString string = stringsConverter.convert(name);
-                def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
-            }
-            // Descriptions are only showed if the default click action is "show details"
-            if ( modelQuerier.getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_DETAILS ){
-                String description = element.getDescription(0).getName();
-                SpeakEf speakDesc = modelQuerier.getSpeakFor(Player.IDENTIFIER, stringsConverter.convert(description));
-                def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speakDesc);
-            }
-        }
-    }
+	public void addDescription(Element element, EAdSceneElementDef def) {
+		// XXX Multiple descriptions
+		if (element.getDescriptions().size() > 0) {
+			String name = element.getDescription(0).getName();
+			if (!name.equals("")) {
+				EAdString string = stringsConverter.convert(name, true);
+				def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
+				def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_OPERATIONS,
+						stringsConverter.getOperations(name));
+			}
+			// Descriptions are only showed if the default click action is "show details"
+			if (modelQuerier.getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_DETAILS) {
+				String description = element.getDescription(0).getName();
+				SpeakEf speakDesc = modelQuerier.getSpeakFor(Player.IDENTIFIER,
+						stringsConverter.convert(description, false));
+				def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speakDesc);
+			}
+		}
+	}
 
 	public void addActions(Element element, EAdSceneElementDef def) {
 		// Add actions
 		if (element.getActions().size() > 0) {
-			EAdList<EAdSceneElementDef> actions = actionsConverter
-					.convert(def, element.getActions());
+			EAdList<EAdSceneElementDef> actions = actionsConverter.convert(def,
+					element.getActions());
 			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
-            modelQuerier.addActionsInteraction(def, new ActorActionsEf(def));
+			modelQuerier.addActionsInteraction(def, new ActorActionsEf(def));
 
 			// Add drag & drop
 			TriggerMacroEf drags = null;

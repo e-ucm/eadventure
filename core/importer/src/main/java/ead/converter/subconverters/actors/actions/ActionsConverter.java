@@ -71,7 +71,6 @@ import java.util.Map;
 
 /**
  * Converts Actions to scene element definitions
- * 
  */
 @Singleton
 public class ActionsConverter {
@@ -106,7 +105,7 @@ public class ActionsConverter {
 
 	private ConditionsConverter conditionsConverter;
 
-    private ModelQuerier modelQuerier;
+	private ModelQuerier modelQuerier;
 
 	// Aux. variables
 
@@ -154,7 +153,7 @@ public class ActionsConverter {
 		this.stringsConverter = stringsConverter;
 		this.effectsConverter = effectsConverter;
 		this.conditionsConverter = conditionsConverter;
-        this.modelQuerier = modelQuerier;
+		this.modelQuerier = modelQuerier;
 		// We keep three maps because in actions list we can have repeated
 		// actions. In the new model, this actions are all simplified in one
 		// definition with one trigger macro with one effect for every of the
@@ -173,11 +172,12 @@ public class ActionsConverter {
 
 	/**
 	 * Converts a list of actions to a list scene element definitions
-	 * 
+	 *
 	 * @param ac
 	 * @return
 	 */
-	public EAdList<EAdSceneElementDef> convert(EAdSceneElementDef owner, List<Action> ac) {
+	public EAdList<EAdSceneElementDef> convert(EAdSceneElementDef owner,
+			List<Action> ac) {
 		// Clean maps
 		actions.clear();
 		customActions.clear();
@@ -198,7 +198,7 @@ public class ActionsConverter {
 
 	/**
 	 * Converts an action to a scene element definition
-	 * 
+	 *
 	 * @param a
 	 * @return
 	 */
@@ -262,40 +262,50 @@ public class ActionsConverter {
 
 	/**
 	 * Add effects to the macro
-	 * 
+	 *
 	 * @param a
 	 * @param triggerMacroEf
 	 * @param visibility
 	 * @return the visibility condition updated
 	 */
-	private EAdCondition addEffects(EAdSceneElementDef owner, Action a, TriggerMacroEf triggerMacroEf,
-			EAdCondition visibility) {
+	private EAdCondition addEffects(EAdSceneElementDef owner, Action a,
+			TriggerMacroEf triggerMacroEf, EAdCondition visibility) {
 		List<EAdEffect> effects = effectsConverter.convert(a.getEffects());
+		if (effects.size() == 0) {
+			logger.debug("Action '" + getActionName(a.getType())
+					+ "' of element '" + owner.getId() + "' has no effects.");
+		}
 		// I think that click effects should always be empty for actions, but... whatever
-		List<EAdEffect> clickEffects = effectsConverter.convert(a.getClickEffects());
-        if ( clickEffects.size() > 0 ){
-            effects.get(effects.size()-1).addNextEffect(clickEffects.get(0));
-            effects.addAll(clickEffects);
-        }
+		List<EAdEffect> clickEffects = effectsConverter.convert(a
+				.getClickEffects());
+		if (clickEffects.size() > 0) {
+			if (effects.size() > 0) {
+				effects.get(effects.size() - 1).addNextEffect(
+						clickEffects.get(0));
+			}
+			effects.addAll(clickEffects);
+		}
 
-
-        EAdEffect firstEffect;
-        // Add move to, if necessary
-        if ( modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON ){
-            MoveActiveElementToMouseEf moveTo = new MoveActiveElementToMouseEf();
-            moveTo.setTarget(owner);
-            firstEffect = moveTo;
-            effects.get(0).addNextEffect(moveTo);
-            effects.add(0, firstEffect);
-        }
-        else {
-            firstEffect = effects.get(0);
-        }
+		EAdEffect firstEffect = null;
+		// Add move to, if necessary
+		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
+			MoveActiveElementToMouseEf moveTo = new MoveActiveElementToMouseEf();
+			moveTo.setTarget(owner);
+			firstEffect = moveTo;
+			if (effects.size() > 0) {
+				moveTo.addNextEffect(effects.get(0));
+			}
+			effects.add(0, moveTo);
+		} else if (effects.size() > 0) {
+			firstEffect = effects.get(0);
+		}
 
 		EAdCondition condition = conditionsConverter.convert(a.getConditions());
 		if (effects.size() > 0) {
 			// We add the effect to the macro
-			triggerMacroEf.putEffect(condition, firstEffect);
+			if (firstEffect != null) {
+				triggerMacroEf.putEffect(condition, firstEffect);
+			}
 			// We expand the visibility condition
 			visibility = new ORCond(visibility, condition);
 		}
@@ -316,7 +326,7 @@ public class ActionsConverter {
 
 	/**
 	 * Adds the name of the action
-	 * 
+	 *
 	 * @param a
 	 * @param def
 	 */
@@ -328,13 +338,14 @@ public class ActionsConverter {
 		} else {
 			name = getActionName(a.getType());
 		}
-		EAdString string = stringsConverter.convert(name);
+		// In eAd1, expressions are not evaluated for action names
+		EAdString string = stringsConverter.convert(name, false);
 		def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
 	}
 
 	/**
 	 * Add appearance to the button
-	 * 
+	 *
 	 * @param a
 	 * @param def
 	 */
@@ -381,7 +392,7 @@ public class ActionsConverter {
 
 	/**
 	 * Returns the corresponding image for the given action type
-	 * 
+	 *
 	 * @param actionType
 	 * @return
 	 */
@@ -417,7 +428,7 @@ public class ActionsConverter {
 
 	/**
 	 * Returns the name (in English) of the given action
-	 * 
+	 *
 	 * @param actionType
 	 * @return
 	 */
@@ -437,6 +448,10 @@ public class ActionsConverter {
 			return "Use";
 		case Action.USE_WITH:
 			return "Use with";
+		case Action.CUSTOM:
+			return "Custom";
+		case Action.CUSTOM_INTERACT:
+			return "Custom interact";
 		default:
 			return "Action";
 		}

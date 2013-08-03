@@ -71,6 +71,7 @@ public class SpeakEffectConverter implements EffectConverter {
 	}
 
 	public List<EAdEffect> convert(Effect e) {
+		// [ST - Speak]
 		ArrayList<EAdEffect> effects = new ArrayList<EAdEffect>();
 		SpeakEf effect = null;
 		// XXX e.getAudioPath()
@@ -79,18 +80,18 @@ public class SpeakEffectConverter implements EffectConverter {
 			SpeakCharEffect sc = (SpeakCharEffect) e;
 			text = sc.getLine();
 			effect = modelQuerier.getSpeakFor(sc.getTargetId(),
-					stringsConverter.convert(text));
+					stringsConverter.convert(text, true));
 
 		} else if (e instanceof SpeakPlayerEffect) {
 			SpeakPlayerEffect sp = (SpeakPlayerEffect) e;
 			text = sp.getLine();
 			effect = modelQuerier.getSpeakFor(Player.IDENTIFIER,
-					stringsConverter.convert(text));
+					stringsConverter.convert(text, true));
 
 		} else if (e instanceof ShowTextEffect) {
 			ShowTextEffect st = (ShowTextEffect) e;
 			text = st.getText();
-			effect = new SpeakEf(stringsConverter.convert(text));
+			effect = new SpeakEf(stringsConverter.convert(text, true));
 			effect.setColor(
 					utilsConverter.getPaint(Integer.toHexString(st
 							.getRgbFrontColor())

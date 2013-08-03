@@ -50,7 +50,8 @@ import org.slf4j.LoggerFactory;
 
 public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
-    private static final Logger logger = LoggerFactory.getLogger("RuntimeSound");
+	private static final Logger logger = LoggerFactory
+			.getLogger("RuntimeSound");
 
 	private Sound sound;
 
@@ -69,19 +70,19 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 		super.loadAsset();
 		fh = ((AssetHandlerImpl) assetHandler).getFileHandle(descriptor
 				.getUri());
-        try {
-		    sound = Gdx.audio.newSound(fh);
-        } catch ( Exception e ){
-            logger.error("Error loading sound {}", descriptor.getUri(), e);
-        }
+		try {
+			sound = Gdx.audio.newSound(fh);
+		} catch (Exception e) {
+			logger.error("Error loading sound {}", descriptor.getUri(), e);
+		}
 		id = -1;
 		return true;
 	}
 
 	public void setVolume(float volume) {
-        if ( sound == null ){
-            return;
-        }
+		if (sound == null) {
+			return;
+		}
 		if (sound != null && id != -1) {
 			sound.setVolume(id, volume);
 		}
@@ -89,9 +90,9 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
 	@Override
 	public void freeMemory() {
-        if ( sound == null ){
-            return;
-        }
+		if (sound == null) {
+			return;
+		}
 		if (isLoaded()) {
 			super.freeMemory();
 			sound.dispose();
@@ -111,9 +112,9 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 	}
 
 	public void play(boolean override, float volume) {
-        if ( sound == null ){
-            return;
-        }
+		if (sound == null) {
+			return;
+		}
 		if (override || id == -1) {
 			id = sound.play(volume);
 		} else if (id != -1) {
@@ -123,16 +124,16 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 	}
 
 	public void stop() {
-        if ( sound == null ){
-            return;
-        }
+		if (sound == null) {
+			return;
+		}
 		sound.stop(id);
 	}
 
 	public void loop(float volume) {
-        if ( sound == null ){
-            return;
-        }
+		if (sound == null) {
+			return;
+		}
 		id = sound.loop(volume);
 	}
 
