@@ -37,10 +37,7 @@
 
 package ead.json.reader;
 
-import java.util.Collection;
-
 import com.google.gson.internal.StringMap;
-
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.multimedia.EAdSound;
@@ -58,18 +55,14 @@ import ead.common.model.elements.operations.SystemFields;
 import ead.common.model.elements.operations.ValueOp;
 import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.GhostElement;
-import ead.common.model.elements.scenes.GroupElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.VideoScene;
+import ead.common.model.elements.scenes.*;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
 import ead.common.model.params.util.Rectangle;
 import ead.common.model.params.variables.EAdVarDef;
 import ead.reader.model.ObjectsFactory;
+
+import java.util.Collection;
 
 @SuppressWarnings("unchecked")
 public class SceneReader {
@@ -122,10 +115,10 @@ public class SceneReader {
 			String music = (String) jsonScene.get("music");
 			if (music != null) {
 				EAdSound bgMusic = (EAdSound) objectsFactory.getAsset(music);
-				PlaySoundEf playBg = new PlaySoundEf(bgMusic, true);
+				PlaySoundEf playBg = new PlaySoundEf(bgMusic);
 				scene.addInitEffect(playBg);
 			} else {
-				PlaySoundEf playBg = new PlaySoundEf(null, true);
+				PlaySoundEf playBg = new PlaySoundEf(null);
 				scene.addInitEffect(playBg);
 			}
 		}

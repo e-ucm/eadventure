@@ -37,8 +37,6 @@
 
 package ead.engine.core.assets;
 
-import java.util.List;
-
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
@@ -46,6 +44,8 @@ import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.assets.fonts.FontHandler;
+
+import java.util.List;
 
 /**
  * <p>
@@ -207,7 +207,14 @@ public interface AssetHandler {
 	 */
 	void clearAssetQueue();
 
-	public static interface TextHandler {
+    /**
+     * Returns if there's a file with the given path
+     * @param path
+     * @return
+     */
+    boolean fileExists(String path);
+
+    public static interface TextHandler {
 
 		void handle(String text);
 	}

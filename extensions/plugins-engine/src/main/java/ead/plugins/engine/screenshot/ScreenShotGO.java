@@ -1,17 +1,6 @@
 package ead.plugins.engine.screenshot;
 
-import java.awt.Component;
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
-
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.interfaces.GUI;
@@ -19,6 +8,13 @@ import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
 import ead.tools.StringHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author anserran Date: 20/05/13 Time: 11:29
@@ -83,8 +79,8 @@ public class ScreenShotGO extends AbstractEffectGO<ScreenShotEf> implements
 								goOn = (JOptionPane
 										.showConfirmDialog(
 												null,
-												"El archivo ya existe. �Desea sobreescribir?",
-												"�Sobreescribir?",
+												"El archivo ya existe. ¿Desea sobreescribir?",
+												"¿Sobreescribir?",
 												JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION);
 							} else {
 								goOn = true;

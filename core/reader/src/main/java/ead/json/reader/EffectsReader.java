@@ -37,30 +37,15 @@
 
 package ead.json.reader;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.internal.StringMap;
-
+import ead.common.model.assets.multimedia.Music;
 import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.assets.text.EAdFont;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.effects.AddChildEf;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EmptyEffect;
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.model.elements.effects.QuitGameEf;
-import ead.common.model.elements.effects.RemoveEf;
-import ead.common.model.elements.effects.TogglePauseEf;
-import ead.common.model.elements.effects.ToggleSoundEf;
-import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.*;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.timedevents.WaitEf;
@@ -81,6 +66,11 @@ import ead.common.model.params.fills.Paint;
 import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.text.EAdString;
 import ead.reader.model.ObjectsFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 @SuppressWarnings("unchecked")
 public class EffectsReader {
@@ -218,7 +208,7 @@ public class EffectsReader {
 			if (effects.isEmpty()) {
 				effects.add(new EmptyEffect());
 			}
-			effect.setAnswer(text, effects);
+			effect.addAnswer(text, effects);
 		}
 		return effect;
 	}
@@ -396,8 +386,12 @@ public class EffectsReader {
 	private EAdEffect getPlaySound(StringMap<Object> e) {
 		Boolean background = (Boolean) e.get("background");
 		String uri = (String) e.get("uri");
-		return new PlaySoundEf(uri == null ? null : new Sound(uri),
-				background != null && background.booleanValue());
+        if ( background != null && background.booleanValue() ){
+            return new PlayMusicEf(uri == null ? null : new Music(uri), 1.0f, true);
+        }
+        else {
+	    	return new PlaySoundEf(uri == null ? null : new Sound(uri) );
+        }
 	}
 
 	private EAdEffect getChangeScene(StringMap<Object> e) {

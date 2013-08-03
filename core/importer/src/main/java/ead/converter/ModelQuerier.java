@@ -50,10 +50,10 @@ import ead.common.model.elements.operations.BasicField;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
 import ead.common.model.elements.scenes.EAdSceneElement;
+import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.fills.Paint;
-import ead.common.model.params.guievents.EAdGUIEvent;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.paint.EAdPaint;
 import ead.common.model.params.text.EAdString;
@@ -62,6 +62,7 @@ import ead.converter.subconverters.ConversationsConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
+import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalState;
@@ -165,6 +166,35 @@ public class ModelQuerier {
 		this.oldChapter = c;
 		flagFields.clear();
 		variableFields.clear();
+
+        // Load text and bubble colors
+        for (NPC npc : oldChapter.getCharacters()) {
+            EAdPaint textPaint = utilsConverter.getPaint(npc
+                    .getTextFrontColor(), npc.getTextBorderColor());
+
+            npcTexts.put(npc.getId(), textPaint);
+            if (npc.getShowsSpeechBubbles()) {
+                EAdPaint bubblePaint = utilsConverter.getPaint(npc
+                        .getBubbleBkgColor(), npc.getBubbleBorderColor());
+                npcBubbles.put(npc.getId(), bubblePaint);
+            } else {
+                npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
+            }
+        }
+
+        // Load text and bubbles from player
+        NPC npc = oldChapter.getPlayer();
+        EAdPaint textPaint = utilsConverter.getPaint(npc.getTextFrontColor(),
+                npc.getTextBorderColor());
+
+        npcTexts.put(npc.getId(), textPaint);
+        if (npc.getShowsSpeechBubbles()) {
+            EAdPaint bubblePaint = utilsConverter.getPaint(npc
+                    .getBubbleBkgColor(), npc.getBubbleBorderColor());
+            npcBubbles.put(npc.getId(), bubblePaint);
+        } else {
+            npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
+        }
 	}
 
 	/**
@@ -231,8 +261,6 @@ public class ModelQuerier {
 	 * in the cache
 	 */
 	public void loadMacros() {
-		macros.clear();
-		conversations.clear();
 		// Add macros
 		macrosToLoad.addAll(oldChapter.getMacros());
 		int iterations = 0;
@@ -283,36 +311,6 @@ public class ModelQuerier {
 	 * conversation in the cache
 	 */
 	public void loadConversations() {
-		npcTexts.clear();
-		npcBubbles.clear();
-		// Load text and bubble colors
-		for (NPC npc : oldChapter.getCharacters()) {
-			EAdPaint textPaint = utilsConverter.getPaint(npc
-					.getTextFrontColor(), npc.getTextBorderColor());
-
-			npcTexts.put(npc.getId(), textPaint);
-			if (npc.getShowsSpeechBubbles()) {
-				EAdPaint bubblePaint = utilsConverter.getPaint(npc
-						.getBubbleBkgColor(), npc.getBubbleBorderColor());
-				npcBubbles.put(npc.getId(), bubblePaint);
-			} else {
-				npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
-			}
-		}
-
-		// Load text and bubbles from player
-		NPC npc = oldChapter.getPlayer();
-		EAdPaint textPaint = utilsConverter.getPaint(npc.getTextFrontColor(),
-				npc.getTextBorderColor());
-
-		npcTexts.put(npc.getId(), textPaint);
-		if (npc.getShowsSpeechBubbles()) {
-			EAdPaint bubblePaint = utilsConverter.getPaint(npc
-					.getBubbleBkgColor(), npc.getBubbleBorderColor());
-			npcBubbles.put(npc.getId(), bubblePaint);
-		} else {
-			npcBubbles.put(npc.getId(), Paint.BLACK_ON_WHITE);
-		}
 
 		// Load conversations
 		for (Conversation c : oldChapter.getConversations()) {
@@ -363,14 +361,11 @@ public class ModelQuerier {
 		return macro;
 	}
 
-	public EAdGUIEvent getActionsInteraction() {
-		switch (adventureData.getDefaultClickAction()) {
-		case SHOW_ACTIONS:
-			return MouseGEv.MOUSE_LEFT_PRESSED;
-		case SHOW_DETAILS:
-			return MouseGEv.MOUSE_RIGHT_PRESSED;
-		}
-		return MouseGEv.MOUSE_RIGHT_PRESSED;
+	public void addActionsInteraction(EAdSceneElementDef def, EAdEffect effect ) {
+        def.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);
+        if ( getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_ACTIONS ){
+            def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+        }
 	}
 
 	/**

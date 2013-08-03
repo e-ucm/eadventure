@@ -46,6 +46,7 @@ import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.converter.ModelQuerier;
+import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
@@ -75,9 +76,9 @@ public class NPCConverter extends ElementConverter {
 	public NPCConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
-			EffectsConverter effectsConverter) {
+			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter, effectsConverter);
+				modelQuerier, conditionsConverter, effectsConverter, stringsConverter);
 	}
 
 	public EAdSceneElementDef convert(NPC npc) {

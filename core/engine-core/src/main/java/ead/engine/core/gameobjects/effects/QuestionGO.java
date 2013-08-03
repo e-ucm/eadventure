@@ -37,12 +37,7 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Random;
-
 import com.google.inject.Inject;
-
 import ead.common.model.assets.drawable.basics.Caption;
 import ead.common.model.assets.drawable.basics.enums.Alignment;
 import ead.common.model.assets.text.BasicFont;
@@ -68,6 +63,10 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Random;
+
 public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		Comparator<Object> {
 
@@ -79,9 +78,9 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 	private static final Random r = new Random(System.currentTimeMillis());
 
-	private ArrayList<EAdString> answersToAdd;
+	private ArrayList<EAdString> answers;
 
-	private ArrayList<EAdString> answersOrdered;
+	private ArrayList<EAdList<EAdEffect>> effects;
 
 	@Inject
 	public QuestionGO(GameState gameState, GUI gui,
@@ -89,8 +88,8 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		super(gameState);
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
-		answersToAdd = new ArrayList<EAdString>();
-		answersOrdered = new ArrayList<EAdString>();
+		answers = new ArrayList<EAdString>();
+		effects = new ArrayList<EAdList<EAdEffect>>();
 	}
 
 	public void initialize() {
@@ -123,23 +122,17 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		selectEffect.setElement(question);
 
 		// Order answers
-		answersOrdered.clear();
-		answersToAdd.clear();
+		effects.clear();
+		answers.clear();
 
-		answersToAdd.addAll(effect.getAnswers().keySet());
-
-		if (effect.isRandomAnswers()) {
-			while (answersToAdd.size() > 0) {
-				answersOrdered.add(answersToAdd.remove(r.nextInt(answersToAdd
-						.size())));
-			}
-		} else {
-			answersOrdered.addAll(answersToAdd);
-		}
+		answers.addAll(effect.getAnswers());
+        effects.addAll(effect.getEffects());
 
 		int i = 0;
-		for (EAdString s : answersOrdered) {
-			EAdList<EAdEffect> e = effect.getAnswers().get(s);
+        while ( answers.size() > 0 ){
+            int index = ( effect.isRandomAnswers() ? r.nextInt(answers.size()) : 0);
+            EAdString s = answers.remove(index);
+			EAdList <EAdEffect> e = effects.remove(index);
 			setUpAnswer(question, i++, s, e, selectEffect, inEffect, outEffect);
 		}
 		return question;

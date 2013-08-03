@@ -7,6 +7,9 @@ import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.Music;
+import ead.common.model.assets.multimedia.Sound;
 import ead.converter.OldReader;
 import es.eucm.eadventure.common.data.animation.Animation;
 import org.slf4j.Logger;
@@ -77,6 +80,31 @@ public class ResourcesConverter {
 		return (EAdDrawable) asset;
 	}
 
+    /**
+     * Returns the sound associated to the soundPath in the old model
+     * @param soundPath
+     * @return
+     */
+    public EAdSound getSound( String soundPath ){
+        AssetDescriptor asset = assets.get(soundPath);
+        if ( asset == null ){
+            String destinySoundPath = getPath(soundPath);
+            asset = new Sound(destinySoundPath);
+            assets.put(soundPath, asset);
+        }
+        return (EAdSound) asset;
+    }
+
+    public Music getMusic(String musicPath) {
+        AssetDescriptor asset = assets.get(musicPath);
+        if ( asset == null ){
+            String destinySoundPath = getPath(musicPath);
+            asset = new Music(destinySoundPath);
+            assets.put(musicPath, asset);
+        }
+        return (Music) asset;
+    }
+
 	/**
 	 * Returns the path on the new model for a given path in the old model
 	 * 
@@ -104,7 +132,7 @@ public class ResourcesConverter {
 	}
 
 	private String getFolder(String oldString) {
-		if (oldString.endsWith(".png") || oldString.endsWith(".jpg"))
+		if (oldString.endsWith(".png") || oldString.endsWith(".jpg") || oldString.endsWith(".JPG") || oldString.endsWith(".PNG") || oldString.endsWith(".gif") || oldString.endsWith(".GIF"))
 			return DRAWABLE;
 		else
 			return BINARY;
@@ -299,4 +327,26 @@ public class ResourcesConverter {
 			return new Dimension(1, 1);
 		}
 	}
+
+    /**
+     * Returns an image from the old model
+     * @param oldUri the uri for the image in the old model
+     * @return the image loaded. You should flush the image when it's no longer needed
+     */
+    public BufferedImage loadImage(String oldUri) {
+        try {
+            return ImageIO.read(oldReader.getInputStream(oldUri));
+        } catch (Exception e) {
+            logger.error("Error loading {}", oldUri);
+        }
+        return null;
+    }
+
+    /**
+     * Returns the project folder
+     * @return
+     */
+    public String getProjectFolder(){
+        return destinyPath;
+    }
 }

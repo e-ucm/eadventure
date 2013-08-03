@@ -37,28 +37,13 @@
 
 package ead.tools;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
-
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.AddActorReferenceEf;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.RandomEf;
-import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.*;
 import ead.common.model.elements.effects.text.QuestionEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
@@ -68,6 +53,11 @@ import ead.common.model.elements.scenes.EAdScene;
 import ead.common.model.elements.scenes.EAdSceneElement;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.tools.reflection.ReflectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class BasicSceneGraph implements SceneGraph {
 
@@ -270,7 +260,7 @@ public class BasicSceneGraph implements SceneGraph {
 			}
 		} else if (effect instanceof QuestionEf) {
 			QuestionEf showQuestion = (QuestionEf) effect;
-			for (List<EAdEffect> effects : showQuestion.getAnswers().values()) {
+			for (List<EAdEffect> effects : showQuestion.getEffects()) {
 				for (EAdEffect e : effects) {
 					lookForConnections(currentScene, e);
 				}

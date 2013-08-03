@@ -42,7 +42,6 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.params.text.EAdString;
 
 /**
@@ -57,47 +56,38 @@ public class QuestionEf extends AbstractEffect {
 	@Param
 	private EAdString question;
 
-	@Param
-	private EAdMap<EAdString, EAdList<EAdEffect>> answers;
+    @Param
+    private EAdList<EAdString> answers;
+
+    @Param
+    private EAdList<EAdList<EAdEffect>> effects;
 
 	@Param
 	private boolean randomAnswers;
 
 	public QuestionEf() {
 		super();
-		answers = new EAdMap<EAdString, EAdList<EAdEffect>>();
+		answers = new EAdList<EAdString>();
+        effects = new EAdList<EAdList<EAdEffect>>();
 	}
 
-	public void addAnswer(EAdString string, EAdEffect effect) {
-		EAdList<EAdEffect> effects = answers.get(effect);
-		if (effects == null) {
-			effects = new EAdList<EAdEffect>();
-			answers.put(string, effects);
-		}
-		effects.add(effect);
+	public void addAnswer(EAdString string, EAdList<EAdEffect> effects) {
+        answers.add(string);
+        this.effects.add(effects);
 	}
+
+    public void addAnswer(EAdString string, EAdEffect effect){
+        EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
+        effects.add(effect);
+        this.addAnswer(string, effects);
+    }
 
 	public EAdString getQuestion() {
-		if (question == null) {
-			question = new EAdString("question");
-		}
 		return question;
-	}
-
-	public EAdMap<EAdString, EAdList<EAdEffect>> getAnswers() {
-		return answers;
 	}
 
 	public void setQuestion(EAdString question) {
 		this.question = question;
-	}
-
-	public void setAnswers(EAdMap<EAdString, EAdList<EAdEffect>> answers) {
-		this.answers = answers;
-	}
-
-	public void setAnswer(EAdString answer, EAdList<EAdEffect> answers) {
-		this.answers.put(answer, answers);
 	}
 
 	public boolean isRandomAnswers() {
@@ -108,4 +98,19 @@ public class QuestionEf extends AbstractEffect {
 		this.randomAnswers = randomAnswers;
 	}
 
+    public EAdList<EAdString> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(EAdList<EAdString> answers) {
+        this.answers = answers;
+    }
+
+    public EAdList<EAdList<EAdEffect>> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(EAdList<EAdList<EAdEffect>> effects) {
+        this.effects = effects;
+    }
 }

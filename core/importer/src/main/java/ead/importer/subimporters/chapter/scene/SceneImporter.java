@@ -37,22 +37,7 @@
 
 package ead.importer.subimporters.chapter.scene;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
-
 import ead.common.model.assets.drawable.basics.Image;
 import ead.common.model.assets.multimedia.EAdSound;
 import ead.common.model.assets.multimedia.Sound;
@@ -62,7 +47,6 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
@@ -71,12 +55,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.*;
 import ead.common.model.elements.trajectories.NodeTrajectory;
 import ead.common.model.elements.trajectories.SimpleTrajectory;
 import ead.common.model.params.guievents.MouseGEv;
@@ -97,6 +76,18 @@ import es.eucm.eadventure.common.data.chapter.elements.Barrier;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Scenes importer
@@ -404,7 +395,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				sound = (EAdSound) resourceImporter.getAssetDescritptor(
 						musicPath, Sound.class);
 			}
-			PlaySoundEf playSound = new PlaySoundEf(sound, true);
+			//PlayMusicEf playMusic = new PlayMusicEf(null, true, 1.0f);
 			triggerMacro.putEffects(condition, new EAdList<EAdEffect>());
 			i++;
 		}

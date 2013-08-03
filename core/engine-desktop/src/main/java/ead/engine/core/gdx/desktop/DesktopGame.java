@@ -64,8 +64,6 @@ import java.util.Map.Entry;
 
 public class DesktopGame {
 
-	private boolean debug = false;
-
 	private Injector injector;
 
 	private boolean exitAtClose;
@@ -157,7 +155,6 @@ public class DesktopGame {
 
 	public void setDebug(boolean debug) {
 		initInjector();
-		this.debug = debug;
 		if (debug) {
 			if (debuggerFrame == null) {
 				debuggerFrame = new DebuggerFrame(injector

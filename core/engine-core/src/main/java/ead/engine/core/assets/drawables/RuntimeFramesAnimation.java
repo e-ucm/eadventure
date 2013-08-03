@@ -37,119 +37,120 @@
 
 package ead.engine.core.assets.drawables;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
-
 import ead.common.model.assets.drawable.basics.animation.Frame;
 import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.canvas.GdxCanvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RuntimeFramesAnimation extends
-		AbstractRuntimeAsset<FramesAnimation> implements
-		RuntimeDrawable<FramesAnimation> {
+        AbstractRuntimeAsset<FramesAnimation> implements
+        RuntimeDrawable<FramesAnimation> {
 
-	private List<RuntimeDrawable<?>> frames;
+    private List<RuntimeDrawable<?>> frames;
 
-	private List<Integer> times;
+    private List<Integer> times;
 
-	private int totalTime;
+    private int totalTime;
 
-	private int time;
+    private int time;
 
-	private int lastTime = -1;
+    private int lastTime = -1;
 
-	private List<String> states;
+    private List<String> states;
 
-	private int level;
+    private int level;
 
-	@Inject
-	public RuntimeFramesAnimation(AssetHandler assetHandler) {
-		super(assetHandler);
-	}
+    @Inject
+    public RuntimeFramesAnimation(AssetHandler assetHandler) {
+        super(assetHandler);
+    }
 
-	@Override
-	public boolean loadAsset() {
-		super.loadAsset();
-		frames = new ArrayList<RuntimeDrawable<?>>();
-		times = new ArrayList<Integer>();
-		for (Frame f : descriptor.getFrames()) {
-			RuntimeDrawable<?> d = (RuntimeDrawable<?>) assetHandler
-					.getRuntimeAsset(f.getDrawable(), true);
-			frames.add(d);
-			totalTime += f.getTime();
-			times.add(totalTime);
-		}
-		return true;
-	}
+    @Override
+    public boolean loadAsset() {
+        super.loadAsset();
+        frames = new ArrayList<RuntimeDrawable<?>>();
+        times = new ArrayList<Integer>();
+        for (Frame f : descriptor.getFrames()) {
+            RuntimeDrawable<?> d = (RuntimeDrawable<?>) assetHandler
+                    .getRuntimeAsset(f.getDrawable(), true);
+            frames.add(d);
+            totalTime += f.getTime();
+            times.add(totalTime);
+        }
+        return true;
+    }
 
-	@Override
-	public void freeMemory() {
-		super.freeMemory();
-		for (RuntimeDrawable<?> d : frames) {
-			d.freeMemory();
-		}
-		frames.clear();
-		frames = null;
-	}
+    @Override
+    public void freeMemory() {
+        super.freeMemory();
+        if (frames != null) {
+            for (RuntimeDrawable<?> d : frames) {
+                d.freeMemory();
+            }
+            frames.clear();
+            frames = null;
+        }
+    }
 
-	@Override
-	public RuntimeDrawable<?> getDrawable(int time, List<String> states,
-			int level) {
-		if (lastTime == -1) {
-			lastTime = time;
-		}
-		if (lastTime > time) {
-			this.time += time - lastTime;
-		}
-		this.lastTime = time;
-		this.states = states;
-		this.level = level;
-		int realTime = time % totalTime;
-		int index = 0;
-		while (realTime > times.get(index)) {
-			index++;
-		}
-		return frames.get(index).getDrawable(time, states, level);
-	}
+    @Override
+    public RuntimeDrawable<?> getDrawable(int time, List<String> states,
+                                          int level) {
+        if (lastTime == -1) {
+            lastTime = time;
+        }
+        if (lastTime > time) {
+            this.time += time - lastTime;
+        }
+        this.lastTime = time;
+        this.states = states;
+        this.level = level;
+        int realTime = time % totalTime;
+        int index = 0;
+        while (realTime > times.get(index)) {
+            index++;
+        }
+        return frames.get(index).getDrawable(time, states, level);
+    }
 
-	@Override
-	public void refresh() {
-		for (RuntimeDrawable<?> d : this.frames) {
-			d.refresh();
-		}
-	}
+    @Override
+    public void refresh() {
+        for (RuntimeDrawable<?> d : this.frames) {
+            d.refresh();
+        }
+    }
 
-	@Override
-	public int getWidth() {
-		// Never used
-		return 0;
-	}
+    @Override
+    public int getWidth() {
+        // Never used
+        return 0;
+    }
 
-	@Override
-	public int getHeight() {
-		// Never used
-		return 0;
-	}
+    @Override
+    public int getHeight() {
+        // Never used
+        return 0;
+    }
 
-	@Override
-	public void render(GdxCanvas c) {
-		// Never used
+    @Override
+    public void render(GdxCanvas c) {
+        // Never used
 
-	}
+    }
 
-	@Override
-	public boolean contains(int x, int y) {
-		// Never used
-		return false;
-	}
+    @Override
+    public boolean contains(int x, int y) {
+        // Never used
+        return false;
+    }
 
-	public Texture getTextureHandle() {
-		return getDrawable(time, states, level).getTextureHandle();
-	}
+    public Texture getTextureHandle() {
+        return getDrawable(time, states, level).getTextureHandle();
+    }
 
 }

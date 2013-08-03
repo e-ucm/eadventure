@@ -37,18 +37,13 @@
 
 package ead.importer.subimporters.chapter;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import ead.common.model.assets.multimedia.EAdSound;
 import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -72,6 +67,9 @@ import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
+
+import java.util.List;
+import java.util.Map;
 
 public abstract class ActorImporter<P extends Element> implements
 		EAdElementImporter<P, EAdSceneElementDef> {
@@ -188,7 +186,7 @@ public abstract class ActorImporter<P extends Element> implements
 					&& !d.getNameSoundPath().equals("")) {
 				EAdSound sound = (EAdSound) resourceImporter
 						.getAssetDescritptor(d.getNameSoundPath(), Sound.class);
-				macro.add(new PlaySoundEf(sound, false));
+				//macro.add(new PlaySoundEf(sound, false));
 			}
 
 			if (d.getDescriptionSoundPath() != null

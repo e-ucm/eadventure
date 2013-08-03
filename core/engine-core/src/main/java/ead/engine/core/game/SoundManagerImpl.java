@@ -37,23 +37,24 @@
 
 package ead.engine.core.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.multimedia.EAdSound;
+import ead.common.model.assets.multimedia.Music;
 import ead.common.model.elements.operations.SystemFields;
 import ead.engine.core.assets.AssetHandler;
+import ead.engine.core.assets.multimedia.RuntimeMusic;
 import ead.engine.core.assets.multimedia.RuntimeSound;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.SoundManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Singleton
 public class SoundManagerImpl implements SoundManager {
 
-	private RuntimeSound backgroundMusic;
+	private RuntimeMusic backgroundMusic;
 
 	private AssetHandler assetHandler;
 
@@ -82,16 +83,16 @@ public class SoundManagerImpl implements SoundManager {
 	}
 
 	@Override
-	public void playBackgroundMusic(EAdSound sound, float volume) {
+	public void playBackgroundMusic(Music sound, boolean loop, float volume) {
 		if (backgroundMusic != null) {
 			backgroundMusic.stop();
 			backgroundMusic = null;
 		}
 
 		if (sound != null) {
-			backgroundMusic = (RuntimeSound) assetHandler
+			backgroundMusic = (RuntimeMusic) assetHandler
 					.getRuntimeAsset(sound);
-			backgroundMusic.loop(silence ? 0.0f : volume);
+			backgroundMusic.play(loop, silence ? 0.0f : volume);
 		}
 	}
 
@@ -119,6 +120,9 @@ public class SoundManagerImpl implements SoundManager {
 	public void setPause(boolean paused) {
 		// FIXME currently, the API sound doesn't allow to pause
 		// sounds..
+        if (backgroundMusic != null){
+            backgroundMusic.setPause(paused);
+        }
 
 	}
 

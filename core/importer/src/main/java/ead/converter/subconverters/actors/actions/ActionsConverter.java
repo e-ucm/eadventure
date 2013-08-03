@@ -47,15 +47,18 @@ import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.guievents.MouseGEv;
 import ead.common.model.params.text.EAdString;
+import ead.converter.ModelQuerier;
 import ead.converter.StringsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import ead.plugins.engine.bubbledescription.BubbleNameEv;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
@@ -103,6 +106,8 @@ public class ActionsConverter {
 
 	private ConditionsConverter conditionsConverter;
 
+    private ModelQuerier modelQuerier;
+
 	// Aux. variables
 
 	/**
@@ -144,11 +149,12 @@ public class ActionsConverter {
 	public ActionsConverter(ResourcesConverter resourceConverter,
 			StringsConverter stringsConverter,
 			EffectsConverter effectsConverter,
-			ConditionsConverter conditionsConverter) {
+			ConditionsConverter conditionsConverter, ModelQuerier modelQuerier) {
 		this.resourceConverter = resourceConverter;
 		this.stringsConverter = stringsConverter;
 		this.effectsConverter = effectsConverter;
 		this.conditionsConverter = conditionsConverter;
+        this.modelQuerier = modelQuerier;
 		// We keep three maps because in actions list we can have repeated
 		// actions. In the new model, this actions are all simplified in one
 		// definition with one trigger macro with one effect for every of the
@@ -171,7 +177,7 @@ public class ActionsConverter {
 	 * @param ac
 	 * @return
 	 */
-	public EAdList<EAdSceneElementDef> convert(List<Action> ac) {
+	public EAdList<EAdSceneElementDef> convert(EAdSceneElementDef owner, List<Action> ac) {
 		// Clean maps
 		actions.clear();
 		customActions.clear();
@@ -183,7 +189,7 @@ public class ActionsConverter {
 		// Conversion
 		for (Action a : ac) {
 			if (a.getType() != Action.DRAG_TO)
-				convert(a);
+				convert(owner, a);
 		}
 		EAdList<EAdSceneElementDef> actions = new EAdList<EAdSceneElementDef>();
 		actions.addAll(definitions);
@@ -196,7 +202,7 @@ public class ActionsConverter {
 	 * @param a
 	 * @return
 	 */
-	public void convert(Action a) {
+	public void convert(EAdSceneElementDef owner, Action a) {
 
 		TriggerMacroEf triggerMacroEf;
 		EAdCondition visibility;
@@ -231,7 +237,7 @@ public class ActionsConverter {
 		}
 
 		// We add the effects to the macro and updates the visibility condition
-		visibility = addEffects(a, triggerMacroEf, visibility);
+		visibility = addEffects(owner, a, triggerMacroEf, visibility);
 
 		// We update the maps
 		if (a.getType() == Action.CUSTOM_INTERACT) {
@@ -262,15 +268,34 @@ public class ActionsConverter {
 	 * @param visibility
 	 * @return the visibility condition updated
 	 */
-	private EAdCondition addEffects(Action a, TriggerMacroEf triggerMacroEf,
+	private EAdCondition addEffects(EAdSceneElementDef owner, Action a, TriggerMacroEf triggerMacroEf,
 			EAdCondition visibility) {
-		List<EAdEffect> effect = effectsConverter.convert(a.getEffects());
+		List<EAdEffect> effects = effectsConverter.convert(a.getEffects());
 		// I think that click effects should always be empty for actions, but... whatever
-		effect.addAll(effectsConverter.convert(a.getClickEffects()));
+		List<EAdEffect> clickEffects = effectsConverter.convert(a.getClickEffects());
+        if ( clickEffects.size() > 0 ){
+            effects.get(effects.size()-1).addNextEffect(clickEffects.get(0));
+            effects.addAll(clickEffects);
+        }
+
+
+        EAdEffect firstEffect;
+        // Add move to, if necessary
+        if ( modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON ){
+            MoveActiveElementToMouseEf moveTo = new MoveActiveElementToMouseEf();
+            moveTo.setTarget(owner);
+            firstEffect = moveTo;
+            effects.get(0).addNextEffect(moveTo);
+            effects.add(0, firstEffect);
+        }
+        else {
+            firstEffect = effects.get(0);
+        }
+
 		EAdCondition condition = conditionsConverter.convert(a.getConditions());
-		if (effect.size() > 0) {
+		if (effects.size() > 0) {
 			// We add the effect to the macro
-			triggerMacroEf.putEffect(condition, effect.get(0));
+			triggerMacroEf.putEffect(condition, firstEffect);
 			// We expand the visibility condition
 			visibility = new ORCond(visibility, condition);
 		}

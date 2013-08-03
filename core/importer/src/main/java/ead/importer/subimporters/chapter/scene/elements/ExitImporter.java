@@ -191,7 +191,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 			EAdSound s = (EAdSound) resourceImporter.getAssetDescritptor(
 					exitLook.getSoundPath(), Sound.class);
 
-			PlaySoundEf playSound = new PlaySoundEf(s, false);
+			PlaySoundEf playSound = null; //new PlaySoundEf(s, false);
 			newExit.addBehavior(MouseGEv.MOUSE_ENTERED, playSound);
 
 		}

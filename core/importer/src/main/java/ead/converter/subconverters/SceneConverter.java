@@ -41,15 +41,20 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
+import ead.common.model.assets.multimedia.Music;
 import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EmptyEffect;
+import ead.common.model.elements.effects.PlayMusicEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.events.WatchFieldEv;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.MouseHud;
+import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.predef.effects.MakeActiveElementEf;
 import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.elements.scenes.*;
@@ -62,6 +67,8 @@ import ead.converter.ModelQuerier;
 import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
+import ead.converter.subconverters.actors.ElementConverter;
+import ead.converter.subconverters.actors.NPCConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
 import ead.plugins.engine.bubbledescription.BubbleNameEv;
@@ -81,283 +88,354 @@ import java.util.List;
 @Singleton
 public class SceneConverter {
 
-	private static final int EXIT_Z = 20000;
+    private static final int EXIT_Z = 20000;
 
-	private static final int ACTIVE_AREA_Z = 10000;
+    private static final int ACTIVE_AREA_Z = 10000;
 
-	private static final int PLAYER_Z = 5000;
+    private static final int PLAYER_Z = 5000;
 
-	private static final ColorFill EXIT_FILL = new ColorFill(255, 0, 0, 100);
+    private static final int FOREGROUND_Z = Integer.MAX_VALUE / 2;
 
-	private static final ColorFill ACTIVE_AREA_FILL = new ColorFill(0, 255, 0,
-			100);
+    private static final ColorFill EXIT_FILL = new ColorFill(255, 0, 0, 100);
 
-	private TransitionConverter transitionConverter;
+    private static final ColorFill ACTIVE_AREA_FILL = new ColorFill(0, 255, 0,
+            100);
 
-	private ResourcesConverter resourceConverter;
+    private TransitionConverter transitionConverter;
 
-	private EAdElementsCache elementsCache;
+    private ResourcesConverter resourceConverter;
 
-	private RectangleConverter rectangleConverter;
+    private EAdElementsCache elementsCache;
 
-	private UtilsConverter utilsConverter;
+    private RectangleConverter rectangleConverter;
 
-	private EffectsConverter effectConverter;
+    private UtilsConverter utilsConverter;
 
-	private ConditionsConverter conditionsConverter;
+    private EffectsConverter effectConverter;
 
-	private StringsConverter stringsConverter;
+    private ConditionsConverter conditionsConverter;
 
-	private ModelQuerier modelQuerier;
+    private StringsConverter stringsConverter;
 
-	private TrajectoryConverter trajectoryConverter;
+    private ModelQuerier modelQuerier;
 
-	@Inject
-	public SceneConverter(ResourcesConverter resourceConverter,
-			EAdElementsCache elementsCache,
-			TransitionConverter transitionConverter,
-			RectangleConverter rectangleConverter,
-			UtilsConverter utilsConverter, EffectsConverter effectConverter,
-			ConditionsConverter conditionsConverter,
-			StringsConverter stringsConverter, ModelQuerier modelQuerier,
-			TrajectoryConverter trajectoryConverter) {
-		this.resourceConverter = resourceConverter;
-		this.elementsCache = elementsCache;
-		this.transitionConverter = transitionConverter;
-		this.rectangleConverter = rectangleConverter;
-		this.utilsConverter = utilsConverter;
-		this.effectConverter = effectConverter;
-		this.conditionsConverter = conditionsConverter;
-		this.stringsConverter = stringsConverter;
-		this.modelQuerier = modelQuerier;
-		this.trajectoryConverter = trajectoryConverter;
-	}
+    private TrajectoryConverter trajectoryConverter;
 
-	public EAdScene convert(Scene s) {
+    private ElementConverter elementConverter;
 
-		SceneElement background = new SceneElement();
-		BasicScene scene = new BasicScene(background);
-		scene.setId(s.getId());
+    @Inject
+    public SceneConverter(ResourcesConverter resourceConverter,
+                          EAdElementsCache elementsCache,
+                          TransitionConverter transitionConverter,
+                          RectangleConverter rectangleConverter,
+                          UtilsConverter utilsConverter, EffectsConverter effectConverter,
+                          ConditionsConverter conditionsConverter,
+                          StringsConverter stringsConverter, ModelQuerier modelQuerier,
+                          TrajectoryConverter trajectoryConverter, NPCConverter elementConverter) {
+        this.resourceConverter = resourceConverter;
+        this.elementsCache = elementsCache;
+        this.transitionConverter = transitionConverter;
+        this.rectangleConverter = rectangleConverter;
+        this.utilsConverter = utilsConverter;
+        this.effectConverter = effectConverter;
+        this.conditionsConverter = conditionsConverter;
+        this.stringsConverter = stringsConverter;
+        this.modelQuerier = modelQuerier;
+        this.trajectoryConverter = trajectoryConverter;
+        this.elementConverter = elementConverter;
+    }
 
-		addAppearance(scene, s);
-		// XXX Information
-		addReferences(scene, s);
-		addActiveZones(scene, s);
-		addExits(scene, s);
+    public EAdScene convert(Scene s) {
 
-		// Add trajectory
-		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
-			scene.setTrajectoryDefinition(trajectoryConverter.convert(s
-					.getTrajectory()));
-		}
+        SceneElement background = new SceneElement();
+        BasicScene scene = new BasicScene(background);
+        scene.setId(s.getId());
 
-		return scene;
-	}
+        addAppearance(scene, s);
+        // XXX Information
+        addReferences(scene, s);
+        addActiveZones(scene, s);
+        addExits(scene, s);
 
-	public void addAppearance(BasicScene scene, Scene s) {
-		// Appearance tab
-		SceneElement background = (SceneElement) scene.getBackground();
-		// Resources blocks
-		int i = 0;
-		for (Resources r : s.getResources()) {
-			// Background
-			String backgroundPath = r
-					.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
-			EAdDrawable drawable = utilsConverter.getBackground(backgroundPath);
-			Dimension d = resourceConverter.getSize(backgroundPath);
-			float scale = 1.0f;
-			// If dimension is greater than 600, we have to scale
-			if (d.getHeight() > 600) {
-				scale = 600.0f / (float) d.getHeight();
-			}
+        // Add trajectory
+        if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
+            scene.setTrajectoryDefinition(trajectoryConverter.convert(s
+                    .getTrajectory()));
+        }
 
-			background.setAppearance(utilsConverter.getResourceBundleId(i),
-					drawable);
-			if (i == 0) {
-				background.setInitialBundle(utilsConverter
-						.getResourceBundleId(i));
-			}
+        return scene;
+    }
 
-			// XXX Front mask
+    public void addAppearance(BasicScene scene, Scene s) {
+        // Appearance tab
+        SceneElement background = (SceneElement) scene.getBackground();
+        // The foreground is only initialized if needed
+        SceneElement foreground = null;
+        // Resources blocks
+        int i = 0;
+        for (Resources r : s.getResources()) {
+            // Background
+            String backgroundPath = r
+                    .getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
+            EAdDrawable drawable = utilsConverter.getBackground(backgroundPath);
+            Dimension d = resourceConverter.getSize(backgroundPath);
+            float scale = 1.0f;
+            // If dimension is greater than 600, we have to scale
+            if (d.getHeight() > 600) {
+                scale = 600.0f / (float) d.getHeight();
+            }
 
-			// XXX Music scene
+            background.setAppearance(utilsConverter.getResourceBundleId(i),
+                    drawable);
+            if (i == 0) {
+                background.setInitialBundle(utilsConverter
+                        .getResourceBundleId(i));
+            }
 
-			boolean hasScroll = d.getWidth() * scale > 800;
-			if (hasScroll) {
-				// XXX add scroll
-			}
+            String foregroundPath = r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
+            if (foregroundPath != null) {
+                foregroundPath = utilsConverter.applyForegroundMask(foregroundPath, backgroundPath);
+                if (foreground == null) {
+                    foreground = new SceneElement();
+                    foreground.setInitialEnable(false);
+                    foreground.setInitialZ(FOREGROUND_Z);
+                    foreground.setInitialBundle(utilsConverter.getResourceBundleId(i));
+                    scene.add(foreground);
+                }
+                foreground.setAppearance(utilsConverter.getResourceBundleId(i), new ead.common.model.assets.drawable.basics.Image(foregroundPath));
+            }
 
-			i++;
-		}
+            int finalWidth = (int) (d.getWidth() * scale);
+            boolean hasScroll = finalWidth > 800;
+            if (hasScroll) {
 
-		// Add conditioned resources
-		utilsConverter.addResourcesConditions(s.getResources(), scene
-				.getBackground(), SceneElement.VAR_BUNDLE_ID);
-	}
+            }
 
-	private void addReferences(BasicScene scene, Scene s) {
-		addReferences(scene, s.getAtrezzoReferences());
-		addReferences(scene, s.getItemReferences());
-		addReferences(scene, s.getCharacterReferences());
+            i++;
+        }
 
-		// Add player
-		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
-			SceneElement playerRef = new SceneElement(
-					(EAdSceneElementDef) elementsCache.get(Player.IDENTIFIER));
-			if (s.isAllowPlayerLayer()) {
-				playerRef.setInitialZ(s.getPlayerLayer());
-			} else {
-				playerRef.setInitialZ(PLAYER_Z);
-			}
+        // Add conditioned resources
+        utilsConverter.addResourcesConditions(s.getResources(), scene
+                .getBackground(), SceneElement.VAR_BUNDLE_ID);
+        if (foreground != null) {
+            utilsConverter.addResourcesConditions(s.getResources(), foreground, SceneElement.VAR_BUNDLE_ID);
+        }
+        this.addForegroundMusicConditions(scene, s.getResources(), foreground);
+    }
 
-			playerRef.setInitialScale(s.getPlayerScale());
-			playerRef.setPosition(Corner.BOTTOM_CENTER, s.getPositionX(), s
-					.getPositionY());
-			if (s.getTrajectory() != null) {
-				Trajectory t = s.getTrajectory();
-				playerRef.setInitialScale(t.getInitial().getScale());
-				playerRef.setPosition(Corner.BOTTOM_CENTER, t.getInitial()
-						.getX(), t.getInitial().getY());
-			}
-			scene.addAddedEffect(new MakeActiveElementEf(playerRef));
-			scene.add(playerRef);
+    private void addReferences(BasicScene scene, Scene s) {
+        addReferences(scene, s.getAtrezzoReferences());
+        addReferences(scene, s.getItemReferences());
+        addReferences(scene, s.getCharacterReferences());
 
-			scene.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-					new MoveActiveElementToMouseEf());
-		}
-	}
+        // Add player
+        if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
+            SceneElement playerRef = new SceneElement(
+                    (EAdSceneElementDef) elementsCache.get(Player.IDENTIFIER));
+            if (s.isAllowPlayerLayer() && s.getPlayerLayer() != -1 ) {
+                playerRef.setInitialZ(s.getPlayerLayer());
+            } else {
+                playerRef.setInitialZ(PLAYER_Z);
+            }
 
-	private void addReferences(BasicScene scene,
-			List<ElementReference> references) {
-		for (ElementReference e : references) {
-			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(e
-					.getTargetId());
-			SceneElement sceneElement = new SceneElement(def);
-			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
-			sceneElement.setInitialZ(e.getLayer());
-			sceneElement.setInitialScale(e.getScale());
-			// XXX Influence area
-			scene.add(sceneElement);
+            playerRef.setInitialScale(s.getPlayerScale());
+            playerRef.setPosition(Corner.BOTTOM_CENTER, s.getPositionX(), s
+                    .getPositionY());
+            if (s.getTrajectory() != null) {
+                Trajectory t = s.getTrajectory();
+                playerRef.setInitialScale(t.getInitial().getScale());
+                playerRef.setPosition(Corner.BOTTOM_CENTER, t.getInitial()
+                        .getX(), t.getInitial().getY());
+            }
+            scene.addAddedEffect(new MakeActiveElementEf(playerRef));
+            scene.add(playerRef);
 
-			// Add event to change appearance when required by the actor's
-			// definition
-			if (def.getResources().size() > 1) {
-				utilsConverter.addWatchDefinitionField(sceneElement,
-						SceneElement.VAR_BUNDLE_ID);
-			}
+            scene.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
+                    new MoveActiveElementToMouseEf());
+        }
+    }
 
-			// Add visibility condition
-			utilsConverter.addWatchCondition(sceneElement, sceneElement
-					.getField(SceneElement.VAR_VISIBLE), e.getConditions());
-		}
-	}
+    private void addReferences(BasicScene scene,
+                               List<ElementReference> references) {
+        for (ElementReference e : references) {
+            EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(e
+                    .getTargetId());
+            SceneElement sceneElement = new SceneElement(def);
+            sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
+            sceneElement.setInitialZ(e.getLayer());
+            sceneElement.setInitialScale(e.getScale());
+            // XXX Influence area
+            scene.add(sceneElement);
 
-	private void addExits(BasicScene scene, Scene s) {
-		int i = 0;
-		for (Exit e : s.getExits()) {
-			AbstractShape shape = rectangleConverter.convert(e, EXIT_FILL);
+            // Add event to change appearance when required by the actor's
+            // definition
+            if (def.getResources().size() > 1) {
+                utilsConverter.addWatchDefinitionField(sceneElement,
+                        SceneElement.VAR_BUNDLE_ID);
+            }
 
-			GhostElement exit = new GhostElement(shape);
-			if (e.isRectangular()) {
-				exit.setPosition(Corner.TOP_LEFT, e.getX(), e.getY());
-			}
+            // Add visibility condition
+            utilsConverter.addWatchCondition(sceneElement, sceneElement
+                    .getField(SceneElement.VAR_VISIBLE), e.getConditions());
+        }
+    }
 
-			EAdCondition cond = conditionsConverter.convert(e.getConditions());
+    private void addExits(BasicScene scene, Scene s) {
+        int i = 0;
+        for (Exit e : s.getExits()) {
+            AbstractShape shape = rectangleConverter.convert(e, EXIT_FILL);
 
-			EAdEffect effectWhenClick;
+            GhostElement exit = new GhostElement(shape);
+            if (e.isRectangular()) {
+                exit.setPosition(Corner.TOP_LEFT, e.getX(), e.getY());
+            }
 
-			// Next scene
-			ChangeSceneEf nextScene = new ChangeSceneEf();
-			nextScene.setNextScene(new BasicElement(e.getNextSceneId()));
-			nextScene.setTransition(transitionConverter.getTransitionExit(e
-					.getTransitionType(), e.getTransitionTime()));
+            EAdCondition cond = conditionsConverter.convert(e.getConditions());
 
-			// Add effects
-			List<EAdEffect> effects = effectConverter.convert(e.getEffects());
-			if (effects.size() > 0) {
-				effectWhenClick = effects.get(0);
-				effects.get(effects.size() - 1).getNextEffects().add(nextScene);
-			} else {
-				effectWhenClick = nextScene;
-			}
+            EAdEffect effectWhenClick;
 
-			// Add next effects
-			effects = effectConverter.convert(e.getPostEffects());
-			if (effects.size() > 0) {
-				nextScene.getNextEffects().add(effects.get(0));
-			}
+            // Next scene
+            ChangeSceneEf nextScene = new ChangeSceneEf();
+            nextScene.setNextScene(new BasicElement(e.getNextSceneId()));
+            nextScene.setTransition(transitionConverter.getTransitionExit(e
+                    .getTransitionType(), e.getTransitionTime()));
 
-			// Set Z
-			exit.setInitialZ(EXIT_Z + i);
+            // Add effects
+            List<EAdEffect> effects = effectConverter.convert(e.getEffects());
+            if (effects.size() > 0) {
+                effectWhenClick = effects.get(0);
+                effects.get(effects.size() - 1).getNextEffects().add(nextScene);
+            } else {
+                effectWhenClick = nextScene;
+            }
 
-			// Add appearance
-			ExitLook exitLook = e.getDefaultExitLook();
-			// Text
-			if (!"".equals(exitLook.getExitText())) {
-				EAdString text = stringsConverter.convert(exitLook
-						.getExitText());
-				exit.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, text);
-			}
-			// XXX For now, we use the default exit image
-			utilsConverter.addCursorChange(exit, MouseHud.EXIT_CURSOR);
+            // Add next effects
+            effects = effectConverter.convert(e.getPostEffects());
+            if (effects.size() > 0) {
+                nextScene.getNextEffects().add(effects.get(0));
+            }
 
-			// Add the exit to the scene
-			scene.add(exit);
+            // Set Z
+            exit.setInitialZ(EXIT_Z + i);
 
-			// If it has not-effects
-			if (e.isHasNotEffects()) {
-				TriggerMacroEf triggerMacro = new TriggerMacroEf();
-				// Add ACTIVE effects
-				triggerMacro.putEffect(cond, effectWhenClick);
-				// Add INACTIVE effects
-				EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
-				effects = effectConverter.convert(e.getNotEffects());
-				if (effects.size() > 0) {
-					macro.add(effects.get(0));
-				}
-				// The macro only executes if the first condition fails
-				triggerMacro.putEffects(EmptyCond.TRUE, macro);
-				exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacro);
+            // Add appearance
+            ExitLook exitLook = e.getDefaultExitLook();
+            // Text
+            if (!"".equals(exitLook.getExitText())) {
+                EAdString text = stringsConverter.convert(exitLook
+                        .getExitText());
+                exit.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, text);
+            }
+            // XXX For now, we use the default exit image
+            utilsConverter.addCursorChange(exit, MouseHud.EXIT_CURSOR);
 
-			} else {
-				if (!cond.equals(EmptyCond.TRUE)) {
-					EmptyEffect empty = new EmptyEffect();
-					empty.setCondition(cond);
-					empty.addNextEffect(effectWhenClick);
-					effectWhenClick = empty;
-				}
-				exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effectWhenClick);
-				// Add visibility condition
-				utilsConverter.addWatchCondition(exit, exit
-						.getField(SceneElement.VAR_VISIBLE), e.getConditions());
-			}
+            // Add the exit to the scene
+            scene.add(exit);
 
-			i++;
-		}
+            // If it has not-effects
+            if (e.isHasNotEffects()) {
+                TriggerMacroEf triggerMacro = new TriggerMacroEf();
+                // Add ACTIVE effects
+                triggerMacro.putEffect(cond, effectWhenClick);
+                // Add INACTIVE effects
+                EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+                effects = effectConverter.convert(e.getNotEffects());
+                if (effects.size() > 0) {
+                    macro.add(effects.get(0));
+                }
+                // The macro only executes if the first condition fails
+                triggerMacro.putEffects(EmptyCond.TRUE, macro);
+                exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacro);
 
-	}
+            } else {
+                if (!cond.equals(EmptyCond.TRUE)) {
+                    EmptyEffect empty = new EmptyEffect();
+                    empty.setCondition(cond);
+                    empty.addNextEffect(effectWhenClick);
+                    effectWhenClick = empty;
+                }
+                exit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effectWhenClick);
+                // Add visibility condition
+                utilsConverter.addWatchCondition(exit, exit
+                        .getField(SceneElement.VAR_VISIBLE), e.getConditions());
+            }
 
-	private void addActiveZones(BasicScene scene, Scene s) {
-		int i = 0;
-		for (ActiveArea a : s.getActiveAreas()) {
-			AbstractShape shape = rectangleConverter.convert(a,
-					ACTIVE_AREA_FILL);
-			GhostElement activeArea = new GhostElement(shape);
-			activeArea.setId(a.getId());
-			if (a.isRectangular()) {
-				activeArea.setPosition(Corner.TOP_LEFT, a.getX(), a.getY());
-			}
-			// Set Z
-			activeArea.setInitialZ(ACTIVE_AREA_Z + i);
-			elementsCache.put(activeArea);
-			// Add visibility condition
-			utilsConverter.addWatchCondition(activeArea, activeArea
-					.getField(SceneElement.VAR_VISIBLE), a.getConditions());
+            i++;
+        }
 
-			scene.add(activeArea);
-			i++;
-		}
+    }
 
-	}
+
+    private void addActiveZones(BasicScene scene, Scene s) {
+        int i = 0;
+        for (ActiveArea a : s.getActiveAreas()) {
+            AbstractShape shape = rectangleConverter.convert(a,
+                    ACTIVE_AREA_FILL);
+            GhostElement activeArea = new GhostElement(shape);
+            // Add actions
+            elementConverter.addActions(a, activeArea.getDefinition());
+            elementConverter.addDescription(a, activeArea.getDefinition());
+
+            activeArea.setId(a.getId());
+            if (a.isRectangular()) {
+                activeArea.setPosition(Corner.TOP_LEFT, a.getX(), a.getY());
+            }
+            // Set Z
+            activeArea.setInitialZ(ACTIVE_AREA_Z + i);
+            elementsCache.put(activeArea);
+            // Add visibility condition
+            utilsConverter.addWatchCondition(activeArea, activeArea
+                    .getField(SceneElement.VAR_VISIBLE), a.getConditions());
+
+            scene.add(activeArea);
+            i++;
+        }
+
+    }
+
+    private void addForegroundMusicConditions(BasicScene scene, List<Resources> resources, SceneElement foreground) {
+        WatchFieldEv watchField = new WatchFieldEv();
+        boolean hasMusic = false;
+        TriggerMacroEf triggerMacroVisible = new TriggerMacroEf();
+        TriggerMacroEf triggerMacroMusic = new TriggerMacroEf();
+        // Prepare visibility for foreground
+        EAdField<Boolean> foregroundVisible = ( foreground != null ? foreground.getField(SceneElement.VAR_VISIBLE) : null );
+        ChangeFieldEf makeForegroundVisible = new ChangeFieldEf( foregroundVisible, EmptyCond.TRUE );
+        ChangeFieldEf makeForegroundInvisible = new ChangeFieldEf( foregroundVisible, EmptyCond.FALSE );
+
+        for (Resources r : resources) {
+            EAdCondition cond = conditionsConverter.convert(r.getConditions());
+            // Watch all the fields in the condition
+            for (EAdField<?> field : conditionsConverter.getFieldsLastCondition()) {
+                watchField.watchField(field);
+            }
+
+            if (foreground != null) {
+                // Check if there is foreground in this bundle
+                if (r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND) == null) {
+                    triggerMacroVisible.putEffect(cond, makeForegroundInvisible);
+                }
+                else {
+                    triggerMacroVisible.putEffect(cond, makeForegroundVisible);
+                }
+            }
+
+            String musicPath = r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC);
+            if ( musicPath != null ){
+                hasMusic = true;
+                Music music = resourceConverter.getMusic(musicPath);
+                PlayMusicEf playMusic = new PlayMusicEf(music, 1.0f, true );
+                triggerMacroMusic.putEffect(cond, playMusic);
+            }
+        }
+
+        if ( hasMusic ){
+            scene.addAddedEffect(triggerMacroMusic);
+        }
+        if ( foreground != null ){
+            scene.addAddedEffect(triggerMacroVisible);
+        }
+
+    }
 
 }

@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.converter.ModelQuerier;
+import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
@@ -55,9 +56,9 @@ public class AtrezzoConverter extends ElementConverter {
 	public AtrezzoConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
-			EffectsConverter effectsConverter) {
+			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter, effectsConverter);
+				modelQuerier, conditionsConverter, effectsConverter, stringsConverter);
 	}
 
 	@Override

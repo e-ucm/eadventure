@@ -69,184 +69,187 @@ import java.util.Map;
 @Singleton
 public class ConversationsConverter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ConversationConverter");
+    private static final Logger logger = LoggerFactory
+            .getLogger("ConversationConverter");
 
-	public static final VarDef<Boolean> IN_CONVERSATION = new VarDef<Boolean>(
-			"in_conversation", Boolean.class, true);
+    public static final VarDef<Boolean> IN_CONVERSATION = new VarDef<Boolean>(
+            "in_conversation", Boolean.class, true);
 
-	private ModelQuerier modelQuerier;
+    private ModelQuerier modelQuerier;
 
-	private StringsConverter stringsConverter;
+    private StringsConverter stringsConverter;
 
-	private ConditionsConverter conditionsConverter;
+    private ConditionsConverter conditionsConverter;
 
-	private EffectsConverter effectsConverter;
+    private EffectsConverter effectsConverter;
 
-	private Map<ConversationNode, List<EAdEffect>> nodes;
+    private Map<ConversationNode, List<EAdEffect>> nodes;
 
-	@Inject
-	public ConversationsConverter(StringsConverter stringConverter,
-			ConditionsConverter conditionsConverter,
-			EffectsConverter effectsConverter, ModelQuerier modelQuerier) {
-		this.conditionsConverter = conditionsConverter;
-		this.stringsConverter = stringConverter;
-		this.nodes = new HashMap<ConversationNode, List<EAdEffect>>();
-		this.effectsConverter = effectsConverter;
-		this.modelQuerier = modelQuerier;
-	}
+    @Inject
+    public ConversationsConverter(StringsConverter stringConverter,
+                                  ConditionsConverter conditionsConverter,
+                                  EffectsConverter effectsConverter, ModelQuerier modelQuerier) {
+        this.conditionsConverter = conditionsConverter;
+        this.stringsConverter = stringConverter;
+        this.nodes = new HashMap<ConversationNode, List<EAdEffect>>();
+        this.effectsConverter = effectsConverter;
+        this.modelQuerier = modelQuerier;
+    }
 
-	/**
-	 * Converts and old conversation into a list of speak effects
-	 * 
-	 * @param c
-	 * @return
-	 */
-	public EAdEffect convert(Conversation c) {
-		nodes.clear();
-		// Create the nodes
-		for (ConversationNode n : c.getAllNodes()) {
-			nodes.put(n, convert(n));
-		}
+    /**
+     * Converts and old conversation into a list of speak effects
+     *
+     * @param c
+     * @return
+     */
+    public EAdEffect convert(Conversation c) {
+        nodes.clear();
+        // Create the nodes
+        for (ConversationNode n : c.getAllNodes()) {
+            nodes.put(n, convert(n));
+        }
 
-		// We need a mechanism to encapsulate the whole conversation and to hold
-		// subsequent effects until the conversation is finished. We used a wait
-		// until effect, with a condition that checks if the conversation is
-		// over
-		EAdEffect empty = modelQuerier.getConversation(c.getId());
-		EAdField<Boolean> inConversation = new BasicField<Boolean>(empty,
-				IN_CONVERSATION);
+        // We need a mechanism to encapsulate the whole conversation and to hold
+        // subsequent effects until the conversation is finished. We used a wait
+        // until effect, with a condition that checks if the conversation is
+        // over
+        EAdEffect empty = modelQuerier.getConversation(c.getId());
+        EAdField<Boolean> inConversation = new BasicField<Boolean>(empty,
+                IN_CONVERSATION);
 
-		ChangeFieldEf endConversation = new ChangeFieldEf(inConversation,
-				EmptyCond.FALSE);
-		// Connect the nodes
-		for (ConversationNode n : c.getAllNodes()) {
-			for (int i = 0; i < n.getChildCount(); i++) {
-				if (n.getType() == ConversationNode.DIALOGUE) {
-					if (n.getChildCount() > 1) {
-						logger
-								.warn("Weird. A dialogue node with more than one child");
-					}
-					List<EAdEffect> effects = nodes.get(n);
-					EAdEffect nextEffect = nodes.get(n.getChild(0)).get(0);
-					effects.get(effects.size() - 1).addNextEffect(nextEffect);
-				} else {
-					addAnswers((OptionConversationNode) n);
-				}
-			}
-			// End condition
-			if (n.isTerminal()) {
-				List<EAdEffect> effects = nodes.get(n);
-				effects.get(effects.size() - 1).addNextEffect(endConversation);
-			}
-		}
-		EAdEffect root = nodes.get(c.getRootNode()).get(0);
-		return root;
-	}
+        ChangeFieldEf endConversation = new ChangeFieldEf(inConversation,
+                EmptyCond.FALSE);
+        // Connect the nodes
+        for (ConversationNode n : c.getAllNodes()) {
+            if (n.getType() == ConversationNode.DIALOGUE) {
+                DialogueConversationNode dn = (DialogueConversationNode) n;
+                if (dn.getChild(0) != null) {
+                    List<EAdEffect> effects = nodes.get(dn);
+                    EAdEffect nextEffect = nodes.get(dn.getChild(0)).get(0);
+                    effects.get(effects.size() - 1).addNextEffect(nextEffect);
+                }
+            } else {
+                addAnswers((OptionConversationNode) n);
+            }
+            // End condition
+            if (n.isTerminal()) {
+                List<EAdEffect> effects = nodes.get(n);
+                effects.get(effects.size() - 1).addNextEffect(endConversation);
+            }
+        }
+        EAdEffect root = nodes.get(c.getRootNode()).get(0);
+        return root;
+    }
 
-	/**
-	 * Converts a conversation node into an effect
-	 * 
-	 * @param n
-	 * @return
-	 */
-	public List<EAdEffect> convert(ConversationNode n) {
-		List<EAdEffect> node = null;
-		switch (n.getType()) {
-		case ConversationNode.DIALOGUE:
-			node = convertDialog((DialogueConversationNode) n);
-			break;
-		case ConversationNode.OPTION:
-			node = convertOption((OptionConversationNode) n);
-			break;
-		}
+    /**
+     * Converts a conversation node into an effect
+     *
+     * @param n
+     * @return
+     */
+    public List<EAdEffect> convert(ConversationNode n) {
+        List<EAdEffect> node = null;
+        switch (n.getType()) {
+            case ConversationNode.DIALOGUE:
+                node = convertDialog((DialogueConversationNode) n);
+                break;
+            case ConversationNode.OPTION:
+                node = convertOption((OptionConversationNode) n);
+                break;
+        }
 
-		// Add node effects
-		if (n.hasEffects()) {
-			List<EAdEffect> nextEffects = effectsConverter.convert(n
-					.getEffects());
-			node.addAll(nextEffects);
-		}
+        // Add node effects
+        if (n.hasEffects()) {
+            List<EAdEffect> nextEffects = effectsConverter.convert(n
+                    .getEffects());
+            if ( node == null ){
+                node = nextEffects;
+            }
+            else if ( nextEffects.size() > 0 ){
+                node.get(node.size() - 1).addNextEffect(nextEffects.get(0));
+                node.add(nextEffects.get(nextEffects.size() -  1));
+            }
+        }
 
-		return node;
-	}
+        return node;
+    }
 
-	/**
-	 * Converts a dialogue node into a list of effects
-	 * 
-	 * @param n
-	 * @return
-	 */
-	private List<EAdEffect> convertDialog(DialogueConversationNode n) {
-		ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
-		// If it has no lines, we return an empty effect
-		if (n.getLineCount() == 0) {
-			nodes.add(new EmptyEffect());
-			return nodes;
-		}
+    /**
+     * Converts a dialogue node into a list of effects
+     *
+     * @param n
+     * @return
+     */
+    private List<EAdEffect> convertDialog(DialogueConversationNode n) {
+        ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
+        // If it has no lines, we return an empty effect
+        if (n.getLineCount() == 0) {
+            nodes.add(new EmptyEffect());
+            return nodes;
+        }
 
-		EAdEffect lastEffect = null;
-		for (int i = 0; i < n.getLineCount(); i++) {
-			// XXX n.getAudioPath(i);
-			// XXX n.getSynthesizerVoice(line)
-			// XXX n.isKeepShowing()
+        EAdEffect lastEffect = null;
+        for (int i = 0; i < n.getLineCount(); i++) {
+            // XXX n.getAudioPath(i);
+            // XXX n.getSynthesizerVoice(line)
+            // XXX n.isKeepShowing()
 
-			EAdString text = stringsConverter.convert(n.getLineText(i));
-			SpeakEf nextEffect = modelQuerier.getSpeakFor(n.getLineName(i),
-					text);
-			List<EAdOperation> ops = stringsConverter.getOperations(n
-					.getLineText(i));
-			nextEffect.getCaption().getOperations().addAll(ops);
+            EAdString text = stringsConverter.convert(n.getLineText(i));
+            SpeakEf nextEffect = modelQuerier.getSpeakFor(n.getLineName(i),
+                    text);
+            List<EAdOperation> ops = stringsConverter.getOperations(n
+                    .getLineText(i));
+            nextEffect.getCaption().getOperations().addAll(ops);
 
-			// Set conditions
-			nextEffect.setNextEffectsAlways(true);
-			nextEffect.setCondition(conditionsConverter.convert(n
-					.getLineConditions(i)));
+            // Set conditions
+            nextEffect.setNextEffectsAlways(true);
+            nextEffect.setCondition(conditionsConverter.convert(n
+                    .getLineConditions(i)));
 
-			if (lastEffect != null) {
-				lastEffect.addNextEffect(nextEffect);
-			}
-			nodes.add(nextEffect);
-			lastEffect = nextEffect;
-		}
-		return nodes;
-	}
+            if (lastEffect != null) {
+                lastEffect.addNextEffect(nextEffect);
+            }
+            nodes.add(nextEffect);
+            lastEffect = nextEffect;
+        }
+        return nodes;
+    }
 
-	/**
-	 * Returns a list with only one node, with a question effect
-	 * 
-	 * @param n
-	 * @return
-	 */
-	private List<EAdEffect> convertOption(OptionConversationNode n) {
-		ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
-		QuestionEf node = new QuestionEf();
+    /**
+     * Returns a list with only one node, with a question effect
+     *
+     * @param n
+     * @return
+     */
+    private List<EAdEffect> convertOption(OptionConversationNode n) {
+        ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
+        QuestionEf node = new QuestionEf();
 
-		// XXX n.isTopPosition() n.isBottomPosition()
-		// XXX n.isPreListening();
-		// XXX n.isKeepShowing()
+        // XXX n.isTopPosition() n.isBottomPosition()
+        // XXX n.isPreListening();
+        // XXX n.isKeepShowing()
 
-		nodes.add(node);
-		return nodes;
-	}
+        nodes.add(node);
+        return nodes;
+    }
 
-	/**
-	 * Adds answers nodes to an option node
-	 * 
-	 * @param n
-	 */
-	private void addAnswers(OptionConversationNode n) {
-		QuestionEf question = (QuestionEf) nodes.get(n).get(0);
-		for (int i = 0; i < n.getLineCount(); i++) {
-			EAdString answer = stringsConverter.convert(n.getLineText(i));
-			List<EAdEffect> nextEffects = nodes.get(n.getChild(i));
-			if (nextEffects.size() > 0) {
-				EAdEffect nextEffect = nextEffects.get(0);
-				question.addAnswer(answer, nextEffect);
-			} else {
-				logger.debug("Weird. Answer with no next node.");
-			}
-		}
-	}
+    /**
+     * Adds answers nodes to an option node
+     *
+     * @param n
+     */
+    private void addAnswers(OptionConversationNode n) {
+        QuestionEf question = (QuestionEf) nodes.get(n).get(0);
+        for (int i = 0; i < n.getLineCount(); i++) {
+            EAdString answer = stringsConverter.convert(n.getLineText(i));
+            List<EAdEffect> nextEffects = nodes.get(n.getChild(i));
+            if (nextEffects.size() > 0) {
+                EAdEffect nextEffect = nextEffects.get(0);
+                question.addAnswer(answer, nextEffect);
+            } else {
+                logger.debug("Weird. Answer with no next node.");
+            }
+        }
+    }
 
 }

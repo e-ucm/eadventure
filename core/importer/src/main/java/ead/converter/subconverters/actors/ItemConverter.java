@@ -39,7 +39,6 @@ package ead.converter.subconverters.actors;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.ResourcedElement;
@@ -49,6 +48,7 @@ import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.converter.ModelQuerier;
+import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
@@ -65,9 +65,9 @@ public class ItemConverter extends ElementConverter {
 	public ItemConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
-			EffectsConverter effectsConverter) {
+			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
 		super(resourceConverter, utilsConverter, actionsConverter,
-				modelQuerier, conditionsConverter, effectsConverter);
+				modelQuerier, conditionsConverter, effectsConverter, stringsConverter);
 	}
 
 	public EAdSceneElementDef convert(Element a) {
@@ -94,7 +94,8 @@ public class ItemConverter extends ElementConverter {
 						.getEffects());
 				action.putEffects(cond, effects);
 			}
-			def.addBehavior(modelQuerier.getActionsInteraction(), action);
+
+            modelQuerier.addActionsInteraction( def, action );
 			// XXX For now, we use the default exit image
 			utilsConverter.addCursorChange(def, MouseHud.EXIT_CURSOR);
 		} else {

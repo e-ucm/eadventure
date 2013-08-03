@@ -37,33 +37,29 @@
 
 package ead.engine.core.assets;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import ead.engine.core.assets.fonts.FontHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.interfaces.features.Resourced;
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.assets.drawable.EAdDrawable;
 import ead.common.model.assets.multimedia.EAdVideo;
 import ead.common.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
+import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.factories.mapproviders.AssetHandlerMap;
 import ead.tools.GenericInjector;
 import ead.tools.SceneGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -372,12 +368,8 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 				while ((line = reader.readLine()) != null) {
 					text.append(line + "\n");
 				}
-			} catch (FileNotFoundException e) {
-
-			} catch (IOException e) {
-
-			} catch (GdxRuntimeException e) {
-
+			} catch (Exception e) {
+				logger.error("Error reading text file {}", path, e);
 			} finally {
 				try {
 					if (reader != null) {
@@ -411,7 +403,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	/**
 	 * retrieves a file handle for the path
 	 * 
-	 * @param path
+	 * @param uri
 	 * @return
 	 */
 	public FileHandle getFileHandleLocalized(String uri) {
@@ -464,4 +456,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	public boolean isPreloadingVideos() {
 		return false;
 	}
+
+    public boolean fileExists(String path){
+        FileHandle fh = getFileHandle(path);
+        return ( fh != null && fh.exists());
+    }
 }

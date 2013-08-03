@@ -68,12 +68,20 @@ import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Singleton
 public class UtilsConverter {
+
+    private static final Logger logger = LoggerFactory.getLogger("UtilsConverter");
 
 	private ConditionsConverter conditionsConverter;
 
@@ -90,6 +98,12 @@ public class UtilsConverter {
 		cursor = new BasicElement(MouseHud.CURSOR_ID);
 	}
 
+    /**
+     * Add conditions for the resources changes
+     * @param resources the list of resources
+     * @param e the element affected
+     * @param stateVar the variable controlling the state for the element
+     */
 	public void addResourcesConditions(List<Resources> resources, EAdElement e,
 			EAdVarDef<String> stateVar) {
 		if (resources.size() > 1) {
@@ -225,22 +239,82 @@ public class UtilsConverter {
 				getColor(borderColor)));
 	}
 
-	public EAdDrawable getBackground(String path) {
+    public EAdDrawable getBackground( String path ){
+        return getBackground(path, false);
+    }
+
+	public EAdDrawable getBackground(String path, boolean adjust) {
 		EAdDrawable drawable = resourcesConverter.getImage(path);
 		Dimension d = resourcesConverter.getSize(path);
 		// If dimension is greater than 600, we have to scale
 		if (d.getHeight() > 600) {
 			Matrix m = new Matrix();
-			float scale = 600.0f / (float) d.getHeight();
-			float diff = 800.0f - scale * 800.0f;
+			float scaleY = 600.0f / (float) d.getHeight();
+            float scaleX = adjust ?  800.0f / (float) d.getWidth() : scaleY;
+			float diff = 800.0f - scaleX * 800.0f;
 			if (diff > 0) {
 				m.translate(diff / 2.0f, 0.0f, true);
 			}
-			m.scale(scale, scale, true);
+			m.scale(scaleX, scaleY, true);
 			MatrixFilter filter = new MatrixFilter(m, 0.0f, 0.0f);
 			drawable = new FilteredDrawable(drawable, filter);
 		}
 
 		return drawable;
 	}
+
+    /**
+     * Takes the mask from a scene, and creates the resulting image of applying it to a background image.
+     * It writes the image in the foreground mask destiny path
+     *
+     * @param foregroundPath
+     * @param backgroundPath
+     * @return the new path for the foreground
+     */
+    public String applyForegroundMask(String foregroundPath,
+                                     String backgroundPath) {
+        BufferedImage foreground = resourcesConverter.loadImage(foregroundPath);
+        BufferedImage background = resourcesConverter.loadImage(backgroundPath);
+
+        int width = foreground.getWidth();
+        int height = foreground.getHeight();
+
+        int[] backgroundPixels = background.getRGB(0, 0, width, height, null,
+                0, width);
+        int[] maskPixels = foreground.getRGB(0, 0, width, height, null, 0,
+                width);
+
+        int[] resultPixels = new int[maskPixels.length];
+
+        for (int i = 0; i < backgroundPixels.length; i++) {
+            int color = backgroundPixels[i];
+            int mask = maskPixels[i];
+
+            if (mask != 0xffffffff) {
+                resultPixels[i] = color;
+            } else {
+                resultPixels[i] = 0x00000000;
+            }
+
+        }
+        BufferedImage result = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_ARGB);
+        result.getRaster().setDataElements(0, 0, width, height, resultPixels);
+        String newUri = resourcesConverter.getPath(foregroundPath);
+
+        if ( !newUri.endsWith(".png")){
+            newUri += ".png";
+        }
+
+        try {
+            ImageIO.write(result, "png", new File(resourcesConverter.getProjectFolder(), newUri.substring(1)));
+        } catch (IOException e) {
+            logger.error("Error creating foreground image {}", foregroundPath, e);
+        }
+
+        foreground.flush();
+        background.flush();
+        result.flush();
+        return newUri;
+    }
 }

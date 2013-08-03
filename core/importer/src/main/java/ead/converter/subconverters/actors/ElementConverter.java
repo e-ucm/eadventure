@@ -46,20 +46,26 @@ import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.DragEf;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.elements.scenes.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.params.guievents.MouseGEv;
+import ead.common.model.params.text.EAdString;
 import ead.converter.ModelQuerier;
+import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;
 import ead.converter.resources.ResourcesConverter;
 import ead.converter.subconverters.actors.actions.ActionsConverter;
 import ead.converter.subconverters.conditions.ConditionsConverter;
 import ead.converter.subconverters.effects.EffectsConverter;
+import ead.plugins.engine.bubbledescription.BubbleNameEv;
+import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 
 import java.util.ArrayList;
@@ -68,7 +74,7 @@ import java.util.List;
 @Singleton
 public abstract class ElementConverter {
 
-	protected ResourcesConverter resourceConverter;
+    protected ResourcesConverter resourceConverter;
 
 	protected UtilsConverter utilsConverter;
 
@@ -82,11 +88,13 @@ public abstract class ElementConverter {
 
 	private List<DropEvent> dropEvents;
 
+    private StringsConverter stringsConverter;
+
 	@Inject
 	public ElementConverter(ResourcesConverter resourceConverter,
 			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
 			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
-			EffectsConverter effectsConverter) {
+			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
 		this.resourceConverter = resourceConverter;
 		this.utilsConverter = utilsConverter;
 		this.actionsConverter = actionsConverter;
@@ -94,6 +102,7 @@ public abstract class ElementConverter {
 		this.conditionsConverter = conditionsConverter;
 		this.effectsConverter = effectsConverter;
 		this.dropEvents = new ArrayList<DropEvent>();
+        this.stringsConverter = stringsConverter;
 	}
 
 	public EAdSceneElementDef convert(Element a) {
@@ -102,6 +111,8 @@ public abstract class ElementConverter {
 		// Appearance
 		convert(a, getResourceType(), definition,
 				ResourcedElement.INITIAL_BUNDLE, SceneElementDef.appearance);
+        // Descriptions
+        addDescription(a, definition);
 		return definition;
 	}
 
@@ -132,14 +143,30 @@ public abstract class ElementConverter {
 		return definition;
 	}
 
+    public void addDescription(Element element, EAdSceneElementDef def ){
+        // XXX Multiple descriptions
+        if ( element.getDescriptions().size() > 0 ){
+            String name = element.getDescription(0).getName();
+            if ( !name.equals("")){
+                EAdString string = stringsConverter.convert(name);
+                def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
+            }
+            // Descriptions are only showed if the default click action is "show details"
+            if ( modelQuerier.getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_DETAILS ){
+                String description = element.getDescription(0).getName();
+                SpeakEf speakDesc = modelQuerier.getSpeakFor(Player.IDENTIFIER, stringsConverter.convert(description));
+                def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speakDesc);
+            }
+        }
+    }
+
 	public void addActions(Element element, EAdSceneElementDef def) {
 		// Add actions
 		if (element.getActions().size() > 0) {
 			EAdList<EAdSceneElementDef> actions = actionsConverter
-					.convert(element.getActions());
+					.convert(def, element.getActions());
 			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
-			def.addBehavior(modelQuerier.getActionsInteraction(),
-					new ActorActionsEf(def));
+            modelQuerier.addActionsInteraction(def, new ActorActionsEf(def));
 
 			// Add drag & drop
 			TriggerMacroEf drags = null;

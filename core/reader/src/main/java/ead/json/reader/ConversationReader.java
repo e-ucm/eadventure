@@ -37,6 +37,22 @@
 
 package ead.json.reader;
 
+import com.google.gson.internal.StringMap;
+import ead.common.model.assets.text.EAdFont;
+import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdElement;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.text.QuestionEf;
+import ead.common.model.elements.extra.EAdList;
+import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
+import ead.common.model.params.paint.EAdPaint;
+import ead.common.model.params.text.EAdString;
+import ead.reader.model.ObjectsFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -45,23 +61,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.internal.StringMap;
-
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.text.QuestionEf;
-import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.text.EAdString;
-import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class ConversationReader {
@@ -164,7 +163,9 @@ public class ConversationReader {
 						lastEffect.getNextEffects().add(nextEffect);
 						nextEffect = lastEffect;
 					}
-					question.addAnswer(line, nextEffect);
+                    EAdList<EAdEffect> answerEffects = new EAdList<EAdEffect>();
+                    answerEffects.add(nextEffect);
+					question.addAnswer(line, answerEffects);
 				}
 			}
 		} catch (Exception e) {

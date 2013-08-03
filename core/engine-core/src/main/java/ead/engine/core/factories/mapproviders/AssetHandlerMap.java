@@ -50,21 +50,17 @@ import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.model.assets.drawable.compounds.StateDrawable;
 import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.model.assets.drawable.filters.FilteredDrawable;
+import ead.common.model.assets.multimedia.Music;
 import ead.common.model.assets.multimedia.Sound;
 import ead.common.model.assets.text.BasicFont;
 import ead.common.model.assets.text.EAdFont;
 import ead.engine.core.assets.RuntimeAsset;
-import ead.engine.core.assets.drawables.RuntimeCaption;
-import ead.engine.core.assets.drawables.RuntimeComposedDrawable;
-import ead.engine.core.assets.drawables.RuntimeFilteredDrawable;
-import ead.engine.core.assets.drawables.RuntimeFramesAnimation;
-import ead.engine.core.assets.drawables.RuntimeImage;
-import ead.engine.core.assets.drawables.RuntimeNinePatchImage;
-import ead.engine.core.assets.drawables.RuntimeStateDrawable;
+import ead.engine.core.assets.drawables.*;
 import ead.engine.core.assets.drawables.shapes.GdxBezierShape;
 import ead.engine.core.assets.drawables.shapes.GdxCircleShape;
 import ead.engine.core.assets.drawables.shapes.GdxRectangleShape;
 import ead.engine.core.assets.fonts.RuntimeFont;
+import ead.engine.core.assets.multimedia.RuntimeMusic;
 import ead.engine.core.assets.multimedia.RuntimeSound;
 
 public class AssetHandlerMap
@@ -87,6 +83,7 @@ public class AssetHandlerMap
 				.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		factoryMap.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		factoryMap.put(Sound.class, RuntimeSound.class);
+        factoryMap.put(Music.class, RuntimeMusic.class);
 		factoryMap.put(NinePatchImage.class, RuntimeNinePatchImage.class);
 	}
 
