@@ -51,8 +51,8 @@ import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.PluginHandler;
-import ead.tools.PropertiesReader;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.PropertiesReader;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class PluginHandlerImpl implements PluginHandler {

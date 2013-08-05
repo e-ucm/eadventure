@@ -41,8 +41,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
 
 public class JavaXMLNode implements XMLNode {
 

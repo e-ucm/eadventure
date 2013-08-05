@@ -40,7 +40,7 @@ package ead.writer.model.writers.simplifiers.elements;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.ValueOp;
-import ead.tools.MathEvaluator;
+import es.eucm.ead.tools.MathEvaluator;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class OperationsSimplifier implements ObjectSimplifier<EAdOperation> {

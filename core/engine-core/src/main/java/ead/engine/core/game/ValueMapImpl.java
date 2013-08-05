@@ -48,8 +48,8 @@ import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.engine.core.game.interfaces.ValueMap;
-import ead.tools.StringHandler;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class ValueMapImpl implements ValueMap {
 

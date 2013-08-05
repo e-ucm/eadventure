@@ -60,9 +60,9 @@ import ead.engine.core.game.interfaces.*;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.tracking.GameTracker;
 import ead.reader.strings.StringsReader;
-import ead.tools.PropertiesReader;
-import ead.tools.StringHandler;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.PropertiesReader;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

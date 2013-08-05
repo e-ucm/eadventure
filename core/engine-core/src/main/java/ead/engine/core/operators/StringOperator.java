@@ -40,7 +40,7 @@ package ead.engine.core.operators;
 import es.eucm.ead.model.elements.operations.StringOp;
 import es.eucm.ead.model.params.text.EAdString;
 import ead.engine.core.game.interfaces.GameState;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 public class StringOperator implements Operator<StringOp> {
 

@@ -49,7 +49,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.tools.ConfigBackend;
+import es.eucm.ead.tools.ConfigBackend;
 
 public class ConfigBackendProperties extends ConfigBackend {
 

@@ -39,8 +39,8 @@ package ead.tools.gwt.reflection;
 
 import com.gwtent.reflection.client.TypeOracle;
 
-import ead.tools.reflection.ReflectionClass;
-import ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionClass;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 public class GwtReflectionClassLoader extends ReflectionClassLoader {
 

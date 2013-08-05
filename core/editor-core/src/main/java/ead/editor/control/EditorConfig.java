@@ -37,7 +37,7 @@
 
 package ead.editor.control;
 
-import ead.tools.ConfigBackend;
+import es.eucm.ead.tools.ConfigBackend;
 
 /**
  * Access to editor-wide options. May (in the future) be overriden by

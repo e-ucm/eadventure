@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import ead.reader.DOMTags;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNode;
 
 public abstract class AbstractReader<T> implements Reader<T> {
 

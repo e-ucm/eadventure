@@ -39,8 +39,8 @@ package ead.tools.java.reflection;
 
 import com.google.inject.Singleton;
 
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class JavaReflectionProvider implements ReflectionProvider {

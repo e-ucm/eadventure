@@ -47,8 +47,8 @@ import ead.reader.model.readers.MapReader;
 import ead.reader.model.readers.ObjectReader;
 import ead.reader.model.readers.ParamReader;
 import ead.reader.model.translators.StringTranslator;
-import ead.tools.reflection.ReflectionProvider;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

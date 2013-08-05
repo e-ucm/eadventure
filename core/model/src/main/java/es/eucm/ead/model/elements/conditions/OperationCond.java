@@ -66,9 +66,9 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	@Param
 	private es.eucm.ead.model.elements.conditions.enums.Comparator operator;
 
-    public OperationCond() {
-        super();
-    }
+	public OperationCond() {
+		super();
+	}
 
 	public OperationCond(EAdOperation op1, EAdOperation op2, Comparator operator) {
 		super();

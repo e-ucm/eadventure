@@ -44,8 +44,8 @@ import es.eucm.ead.model.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;
-import ead.tools.AbstractFactory;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.AbstractFactory;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class GdxFilterFactory extends AbstractFactory<RuntimeFilter<?>>

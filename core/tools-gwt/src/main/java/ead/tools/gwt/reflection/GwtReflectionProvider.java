@@ -46,8 +46,8 @@ import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 import com.gwtent.reflection.client.ReflectionRequiredException;
 
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class GwtReflectionProvider implements ReflectionProvider {

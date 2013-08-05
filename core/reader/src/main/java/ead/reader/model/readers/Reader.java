@@ -37,7 +37,7 @@
 
 package ead.reader.model.readers;
 
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNode;
 
 /**
  * Basic class for reading any type of element in eAdventure

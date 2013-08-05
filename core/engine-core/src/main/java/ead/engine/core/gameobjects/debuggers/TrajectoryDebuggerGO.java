@@ -81,7 +81,7 @@ import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
-import ead.tools.pathfinding.PathFinder;
+import es.eucm.ead.tools.pathfinding.PathFinder;
 
 /**
  * 

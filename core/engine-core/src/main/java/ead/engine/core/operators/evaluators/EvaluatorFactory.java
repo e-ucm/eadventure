@@ -42,8 +42,8 @@ import ead.engine.core.factories.mapproviders.EvaluatorsMapProvider;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.Operator;
 import ead.engine.core.operators.OperatorFactory;
-import ead.tools.AbstractFactory;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.AbstractFactory;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
 		Operator<EAdCondition> {

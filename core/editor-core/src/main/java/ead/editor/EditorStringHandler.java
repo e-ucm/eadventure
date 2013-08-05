@@ -45,7 +45,7 @@ import java.util.TreeMap;
 import com.google.inject.Singleton;
 
 import es.eucm.ead.model.params.text.EAdString;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 /**
  * A simple StringHandler, capable of managing language resolution.

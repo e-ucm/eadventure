@@ -44,7 +44,7 @@ import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.variables.VarDef;
 import ead.reader.DOMTags;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNode;
 import ead.writer.model.ModelVisitor;
 
 public class ParamWriter extends AbstractWriter<Object> {

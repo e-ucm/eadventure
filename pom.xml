@@ -101,38 +101,38 @@
                 <!-- Tools & Utils -->
                 <module>core/tools</module>
                 <module>core/tools-java</module>
-                <module>core/tools-gwt</module>
-                <module>core/utils</module>
+                <!--<module>core/tools-gwt</module>
+                <module>core/utils</module> -->
 
                 <!-- Engine resources -->
-                <module>core/engine-resources</module>
+                <!--<module>core/engine-resources</module> -->
                 <!-- Engine -->
-				<module>core/engine-core</module>
+				<!-- <module>core/engine-core</module> -->
 				<!-- Gdx -->
-				<module>core/engine-desktop</module>
+				<!-- <module>core/engine-desktop</module>
 				<module>core/engine-android</module>				
-
+-->
 				<!-- Reader -->
-                <module>core/reader</module>
+   <!--             <module>core/reader</module> -->
                 <!-- Writer -->
-                <module>core/writer</module>
+<!--                <module>core/writer</module>-->
 				<!-- Importer -->
-				<module>core/importer</module>
+<!--				<module>core/importer</module> -->
 				<!-- Exporter -->
-				<module>core/exporter</module>
+<!--				<module>core/exporter</module>-->
 
 				<!-- Demos -->
-				<module>demos/techdemo</module>
+<!--				<module>demos/techdemo</module>-->
 
 				<!-- GUI tools -->
-				<module>guitools/exportergui</module>
-				<module>guitools/enginegui</module>
+<!--				<module>guitools/exportergui</module>-->
+<!--				<module>guitools/enginegui</module> -->
 				<!-- Extensions -->
-				<module>extensions/plugins-engine</module>
-                <module>extensions/weev</module>
+<!--				<module>extensions/plugins-engine</module>-->
+<!--                <module>extensions/weev</module>-->
 
                 <!-- Editor -->
-                <module>core/editor-core</module>
+<!--                <module>core/editor-core</module>-->
 				<!-- <module>core/engine-html</module> -->
 			</modules>
 		</profile>

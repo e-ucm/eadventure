@@ -43,7 +43,7 @@ import java.util.Map;
 import es.eucm.ead.model.assets.drawable.filters.MatrixFilter;
 import es.eucm.ead.model.assets.drawable.filters.ShaderFilter;
 import ead.engine.core.assets.AssetHandler;
-import ead.tools.MapProvider;
+import es.eucm.ead.tools.MapProvider;
 
 public class FilterMapProvider implements
 		MapProvider<Class<?>, RuntimeFilter<?>> {

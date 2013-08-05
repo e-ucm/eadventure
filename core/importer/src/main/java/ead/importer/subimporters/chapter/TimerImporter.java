@@ -70,7 +70,7 @@ import es.eucm.ead.model.params.variables.VarDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 

@@ -49,8 +49,8 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.factories.mapproviders.AssetHandlerMap;
-import ead.tools.GenericInjector;
-import ead.tools.SceneGraph;
+import es.eucm.ead.tools.GenericInjector;
+import ead.engine.core.utils.SceneGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

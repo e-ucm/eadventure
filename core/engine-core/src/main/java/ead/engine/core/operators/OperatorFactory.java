@@ -45,9 +45,9 @@ import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
-import ead.tools.AbstractFactory;
-import ead.tools.StringHandler;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.AbstractFactory;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 /**
  * A factory with all {@link Operator} for all {@link EAdOperation}. The Game

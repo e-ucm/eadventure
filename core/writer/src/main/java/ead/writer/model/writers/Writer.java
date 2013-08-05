@@ -37,7 +37,7 @@
 
 package ead.writer.model.writers;
 
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNode;
 
 /**
  * Basic class for writing any type of element in eAdventure

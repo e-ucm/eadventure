@@ -41,8 +41,8 @@ import java.util.ArrayList;
 
 import org.w3c.dom.NodeList;
 
-import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
 
 public class JavaXMLNodeList implements XMLNodeList {
 

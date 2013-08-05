@@ -41,8 +41,8 @@ import es.eucm.ead.model.elements.extra.EAdList;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
-import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
 
 @SuppressWarnings("rawtypes")
 public class ListReader extends AbstractReader<EAdList> {

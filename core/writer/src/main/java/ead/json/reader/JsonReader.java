@@ -56,8 +56,8 @@ import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.reader.model.ObjectsFactory;
-import ead.tools.reflection.ReflectionProvider;
-import ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.xml.XMLParser;
 import ead.writer.AdventureWriter;
 
 public class JsonReader {

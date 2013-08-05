@@ -48,7 +48,7 @@ import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene {
 

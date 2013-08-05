@@ -62,9 +62,9 @@ import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
-import ead.tools.reflection.ReflectionClass;
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.reflection.ReflectionClass;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

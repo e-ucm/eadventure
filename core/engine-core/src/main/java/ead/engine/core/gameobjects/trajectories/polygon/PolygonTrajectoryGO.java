@@ -54,7 +54,7 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.trajectories.AbstractTrajectoryGO;
-import ead.tools.pathfinding.PathFinder;
+import es.eucm.ead.tools.pathfinding.PathFinder;
 
 public class PolygonTrajectoryGO extends
 		AbstractTrajectoryGO<PolygonTrajectory> {

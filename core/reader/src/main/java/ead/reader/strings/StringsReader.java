@@ -40,9 +40,9 @@ package ead.reader.strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.model.params.text.EAdString;
-import ead.tools.xml.XMLDocument;
-import ead.tools.xml.XMLNodeList;
-import ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

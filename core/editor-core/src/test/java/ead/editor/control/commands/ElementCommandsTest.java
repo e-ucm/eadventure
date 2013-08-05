@@ -58,7 +58,7 @@ import ead.editor.model.nodes.EngineNode;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import ead.tools.java.JavaToolsModule;
-import ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 /**
  * Class for testing the right functionality of generic Commands to modify the lists of EAdElement instances in the game model.

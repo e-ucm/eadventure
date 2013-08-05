@@ -67,7 +67,7 @@ import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.importer.subimporters.effects.TriggerSceneImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.ExitLook;

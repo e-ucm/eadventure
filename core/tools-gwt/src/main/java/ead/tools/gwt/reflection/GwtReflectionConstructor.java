@@ -39,7 +39,7 @@ package ead.tools.gwt.reflection;
 
 import com.gwtent.reflection.client.Constructor;
 
-import ead.tools.reflection.ReflectionConstructor;
+import es.eucm.ead.tools.reflection.ReflectionConstructor;
 
 public class GwtReflectionConstructor<T> implements ReflectionConstructor<T> {
 

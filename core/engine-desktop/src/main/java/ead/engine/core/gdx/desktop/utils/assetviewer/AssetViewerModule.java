@@ -57,14 +57,14 @@ import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;
 import ead.engine.core.tracking.GameTracker;
-import ead.tools.BasicSceneGraph;
-import ead.tools.GenericInjector;
-import ead.tools.SceneGraph;
-import ead.tools.StringHandler;
-import ead.tools.StringHandlerImpl;
+import ead.engine.core.utils.BasicSceneGraph;
+import es.eucm.ead.tools.GenericInjector;
+import ead.engine.core.utils.SceneGraph;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandlerImpl;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.reflection.JavaReflectionProvider;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class AssetViewerModule extends AbstractModule {
 

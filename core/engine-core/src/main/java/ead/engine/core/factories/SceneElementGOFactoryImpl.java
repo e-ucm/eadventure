@@ -45,8 +45,8 @@ import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.factories.mapproviders.SceneElementsMapProvider;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.tools.GenericInjector;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 /**
  * <p>

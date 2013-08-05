@@ -50,7 +50,7 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.tools.SceneGraph;
+import ead.engine.core.utils.SceneGraph;
 
 @Singleton
 public class GraphSceneLoader implements SceneLoader {

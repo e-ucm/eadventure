@@ -40,8 +40,8 @@ package ead.tools.java.xml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import ead.tools.xml.XMLDocument;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLNode;
 
 public class JavaXMLDocument implements XMLDocument {
 

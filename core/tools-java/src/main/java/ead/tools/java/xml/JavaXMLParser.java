@@ -56,8 +56,8 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import ead.tools.xml.XMLDocument;
-import ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLParser;
 
 public class JavaXMLParser implements XMLParser {
 

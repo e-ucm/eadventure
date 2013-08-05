@@ -41,7 +41,7 @@ import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.operations.AbstractOperation;
 
 public abstract class AbstractCondition extends AbstractOperation implements
-        EAdCondition {
+		EAdCondition {
 
 	public AbstractCondition() {
 		super();

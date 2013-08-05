@@ -64,8 +64,8 @@ import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.StringOperator;
 import ead.engine.core.operators.ValueOperator;
 import ead.engine.core.operators.evaluators.EvaluatorFactory;
-import ead.tools.StringHandler;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class OperatorsMapProvider extends
 		AbstractMapProvider<Class<?>, Operator<?>> {

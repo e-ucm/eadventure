@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.engine.core.assets.AssetHandlerImpl;
-import ead.tools.GenericInjector;
-import ead.tools.SceneGraph;
+import es.eucm.ead.tools.GenericInjector;
+import ead.engine.core.utils.SceneGraph;
 
 @Singleton
 public class AndroidAssetHandler extends AssetHandlerImpl {

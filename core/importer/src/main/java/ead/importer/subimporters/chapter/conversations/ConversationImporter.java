@@ -51,7 +51,7 @@ import es.eucm.ead.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;

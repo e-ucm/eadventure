@@ -61,7 +61,7 @@ import ead.importer.annotation.ImportAnnotator.Key;
 import ead.importer.annotation.ImportAnnotator.Type;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.adventure.DescriptorData.DefaultClickAction;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;

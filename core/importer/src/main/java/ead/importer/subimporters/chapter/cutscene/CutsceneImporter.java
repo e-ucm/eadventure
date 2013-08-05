@@ -56,7 +56,7 @@ import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.importer.subimporters.effects.TriggerSceneImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.animation.Transition;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;

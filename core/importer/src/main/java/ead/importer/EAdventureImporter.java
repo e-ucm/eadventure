@@ -61,7 +61,7 @@ import es.eucm.ead.model.params.text.EAdString;
 import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;
 import ead.writer.AdventureWriter;

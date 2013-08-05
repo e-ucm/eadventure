@@ -40,7 +40,7 @@ package ead.tools.gwt;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.tools.GenericInjector;
+import es.eucm.ead.tools.GenericInjector;
 
 @Singleton
 public class GwtInjector implements GenericInjector {

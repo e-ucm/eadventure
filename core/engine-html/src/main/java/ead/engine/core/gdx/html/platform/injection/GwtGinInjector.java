@@ -66,7 +66,7 @@ import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.gdx.html.platform.module.GwtModule;
 import ead.plugins.engine.bubbledescription.BubbleNameGO;
-import ead.tools.GenericInjector;
+import es.eucm.ead.tools.GenericInjector;
 import ead.tools.gwt.GWTToolsModule;
 
 @GinModules( { GwtModule.class, GWTToolsModule.class })

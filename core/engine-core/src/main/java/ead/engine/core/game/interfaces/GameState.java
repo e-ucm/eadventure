@@ -52,7 +52,7 @@ import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.operators.Operator;
-import ead.tools.MathEvaluator.OperationResolver;
+import es.eucm.ead.tools.MathEvaluator.OperationResolver;
 
 /**
  * The state of the game.

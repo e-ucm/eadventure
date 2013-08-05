@@ -49,7 +49,7 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 public class TextAreaGO extends SceneElementGO {
 

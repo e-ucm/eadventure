@@ -7,7 +7,7 @@ import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

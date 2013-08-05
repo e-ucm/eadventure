@@ -43,8 +43,8 @@ import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.EAdEvent;
 import ead.engine.core.factories.mapproviders.EventsMapProvider;
 import ead.engine.core.gameobjects.events.EventGO;
-import ead.tools.GenericInjector;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class EventGOFactoryImpl extends

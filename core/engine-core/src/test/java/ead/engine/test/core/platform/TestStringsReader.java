@@ -40,7 +40,7 @@ package ead.engine.test.core.platform;
 import java.util.Map;
 
 import es.eucm.ead.model.params.text.EAdString;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 public class TestStringsReader implements StringHandler {
 

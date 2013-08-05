@@ -43,8 +43,8 @@ import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
 import ead.engine.core.factories.mapproviders.TrajectoriesMapProvider;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
-import ead.tools.GenericInjector;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class TrajectoryFactoryImpl extends

@@ -49,7 +49,7 @@ import es.eucm.ead.model.params.text.EAdString;
  * elements, placed in eAdventure scene.
  */
 public interface EAdSceneElementDef extends EAdElement, ResourcedEvented,
-        WithBehavior, Variabled {
+		WithBehavior, Variabled {
 
 	/**
 	 * Sets the initial appearance for the scene element

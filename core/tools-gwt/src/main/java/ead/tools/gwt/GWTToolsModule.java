@@ -40,15 +40,15 @@ package ead.tools.gwt;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 
-import ead.tools.GenericInjector;
-import ead.tools.StringHandler;
-import ead.tools.StringHandlerImpl;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandlerImpl;
 import ead.tools.gwt.reflection.GwtReflectionClassLoader;
 import ead.tools.gwt.reflection.GwtReflectionProvider;
 import ead.tools.gwt.xml.GwtXMLParser;
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionProvider;
-import ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.xml.XMLParser;
 
 public class GWTToolsModule extends AbstractGinModule {
 

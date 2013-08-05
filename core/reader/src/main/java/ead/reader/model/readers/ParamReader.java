@@ -46,7 +46,7 @@ import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.variables.VarDef;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNode;
 
 /**
  * Parameters can be any type of object. Nodes with parameters have no children.

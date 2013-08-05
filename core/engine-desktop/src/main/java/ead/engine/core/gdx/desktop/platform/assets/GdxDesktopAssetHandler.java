@@ -61,8 +61,8 @@ import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.AssetHandlerImpl;
 import ead.engine.core.assets.SpecialAssetRenderer;
-import ead.tools.GenericInjector;
-import ead.tools.SceneGraph;
+import es.eucm.ead.tools.GenericInjector;
+import ead.engine.core.utils.SceneGraph;
 import ead.tools.java.JavaInjector;
 
 @Singleton

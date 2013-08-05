@@ -44,11 +44,11 @@ import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.reader.model.translators.MapClassTranslator;
-import ead.tools.reflection.ReflectionProvider;
-import ead.tools.xml.XMLDocument;
-import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
-import ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

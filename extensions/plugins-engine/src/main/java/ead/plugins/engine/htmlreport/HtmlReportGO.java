@@ -5,7 +5,7 @@ import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.params.text.EAdString;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 import javax.swing.*;
 import java.io.File;

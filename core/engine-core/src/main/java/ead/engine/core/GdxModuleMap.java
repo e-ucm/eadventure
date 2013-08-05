@@ -67,9 +67,9 @@ import ead.engine.core.tracking.DefaultGameTracker;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.tracking.selection.DefaultTrackerSelector;
 import ead.engine.core.tracking.selection.TrackerSelector;
-import ead.tools.BasicSceneGraph;
-import ead.tools.ModuleMap;
-import ead.tools.SceneGraph;
+import ead.engine.core.utils.BasicSceneGraph;
+import es.eucm.ead.tools.ModuleMap;
+import ead.engine.core.utils.SceneGraph;
 
 public class GdxModuleMap extends ModuleMap {
 

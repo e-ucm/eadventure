@@ -47,7 +47,7 @@ import com.google.inject.Guice;
 import ead.tools.java.JavaInjector;
 import ead.tools.java.JavaToolsModule;
 import ead.tools.java.reflection.JavaReflectionClassLoader;
-import ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 public class MainActivity extends AndroidApplication {
 	@Override

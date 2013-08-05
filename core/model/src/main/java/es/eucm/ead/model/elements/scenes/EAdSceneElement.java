@@ -50,7 +50,7 @@ import es.eucm.ead.model.params.util.Position;
  * 
  */
 public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
-        Evented {
+		Evented {
 
 	/**
 	 * Returns the definition for this scene element

@@ -42,8 +42,8 @@ import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
-import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
 
 public class GwtXMLNode implements XMLNode {
 

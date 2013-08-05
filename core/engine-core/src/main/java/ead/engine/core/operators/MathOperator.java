@@ -43,7 +43,7 @@ import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.operations.MathOp;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;
-import ead.tools.MathEvaluator;
+import es.eucm.ead.tools.MathEvaluator;
 
 /**
  * Calculates results for {@link MathOp}. The result returned by

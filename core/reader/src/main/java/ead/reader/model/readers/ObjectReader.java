@@ -45,11 +45,11 @@ import ead.reader.DOMTags;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
-import ead.tools.reflection.ReflectionClass;
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionField;
-import ead.tools.xml.XMLNode;
-import ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.reflection.ReflectionClass;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionField;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
 
 public class ObjectReader extends AbstractReader<Identified> {
 

@@ -52,7 +52,7 @@ import com.google.inject.Inject;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.utils.InvOrtographicCamera;
-import ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class AssetApplicationListener implements ApplicationListener {

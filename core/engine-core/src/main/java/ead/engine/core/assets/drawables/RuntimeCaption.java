@@ -53,7 +53,7 @@ import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.assets.fonts.RuntimeFont;
 import ead.engine.core.canvas.GdxCanvas;
 import ead.engine.core.game.interfaces.GameState;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 
 public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		RuntimeDrawable<EAdCaption> {

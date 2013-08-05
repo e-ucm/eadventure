@@ -49,10 +49,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.tools.reflection.ReflectionClass;
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.tools.reflection.ReflectionConstructor;
-import ead.tools.reflection.ReflectionField;
+import es.eucm.ead.tools.reflection.ReflectionClass;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionConstructor;
+import es.eucm.ead.tools.reflection.ReflectionField;
 
 public class JavaReflectionClass<T> implements ReflectionClass<T> {
 

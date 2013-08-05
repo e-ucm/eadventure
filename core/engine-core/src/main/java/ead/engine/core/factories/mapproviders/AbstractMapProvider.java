@@ -40,7 +40,7 @@ package ead.engine.core.factories.mapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import ead.tools.MapProvider;
+import es.eucm.ead.tools.MapProvider;
 
 public abstract class AbstractMapProvider<S, T> implements MapProvider<S, T> {
 

@@ -63,7 +63,7 @@ import ead.editor.model.EditorModel;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import ead.tools.java.JavaToolsModule;
-import ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 public class AbstractOptionTest extends JFrame {
 

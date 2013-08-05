@@ -40,8 +40,8 @@ package ead.tools.gwt.xml;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 
-import ead.tools.xml.XMLDocument;
-import ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLNode;
 
 public class GwtXMLDocument implements XMLDocument {
 

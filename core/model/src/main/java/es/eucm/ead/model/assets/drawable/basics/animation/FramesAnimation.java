@@ -47,7 +47,7 @@ import es.eucm.ead.model.elements.extra.EAdList;
  *
  */
 public class FramesAnimation extends AbstractAssetDescriptor implements
-        EAdDrawable {
+		EAdDrawable {
 
 	@Param
 	private EAdList<Frame> frames;
