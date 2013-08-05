@@ -35,57 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.reflection;
+package es.eucm.ead.tools.gwt.xml;
 
-import java.lang.annotation.Annotation;
+import com.google.gwt.xml.client.Document;
 
-import com.gwtent.reflection.client.Field;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLParser;
 
-import es.eucm.ead.tools.reflection.ReflectionClass;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.tools.reflection.ReflectionField;
+public class GwtXMLParser implements XMLParser {
 
-public class GwtReflectionField implements ReflectionField {
-
-	private Field field;
-
-	public GwtReflectionField(Field field) {
-		this.field = field;
+	@Override
+	public XMLDocument parse(String xml) {
+		Document doc = com.google.gwt.xml.client.XMLParser.parse(xml);
+		doc.getDocumentElement().normalize();
+		return new GwtXMLDocument(doc);
 	}
 
 	@Override
-	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-		return field.getAnnotation(annotationClass);
+	public XMLDocument createDocument() {
+		Document doc = com.google.gwt.xml.client.XMLParser.createDocument();
+		return new GwtXMLDocument(doc);
 	}
 
 	@Override
-	public String getName() {
-		return field.getName();
-	}
+	public void writeToFile(XMLDocument document, String file) {
+		// FIXME Not implemented
 
-	@Override
-	public ReflectionClass<?> getType() {
-		return ReflectionClassLoader.getReflectionClass(field
-				.getDeclaringClass());
-	}
-
-	@Override
-	public Object getFieldValue(Object object) {
-		return field.getFieldValue(object);
-	}
-
-	@Override
-	public void setFieldValue(Object object, Object value) {
-		try {
-			field.setFieldValue(object, value);
-		} catch (Exception e) {
-
-		}
-	}
-
-	@Override
-	public boolean isStatic() {
-		return field.isStatic();
 	}
 
 }

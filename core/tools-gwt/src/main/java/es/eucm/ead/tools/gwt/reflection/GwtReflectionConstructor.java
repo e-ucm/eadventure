@@ -35,32 +35,23 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.xml;
+package es.eucm.ead.tools.gwt.reflection;
 
-import com.google.gwt.xml.client.Document;
+import com.gwtent.reflection.client.Constructor;
 
-import es.eucm.ead.tools.xml.XMLDocument;
-import es.eucm.ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.reflection.ReflectionConstructor;
 
-public class GwtXMLParser implements XMLParser {
+public class GwtReflectionConstructor<T> implements ReflectionConstructor<T> {
 
-	@Override
-	public XMLDocument parse(String xml) {
-		Document doc = com.google.gwt.xml.client.XMLParser.parse(xml);
-		doc.getDocumentElement().normalize();
-		return new GwtXMLDocument(doc);
+	private Constructor<T> constructor;
+
+	public GwtReflectionConstructor(Constructor<T> constructor) {
+		this.constructor = constructor;
 	}
 
 	@Override
-	public XMLDocument createDocument() {
-		Document doc = com.google.gwt.xml.client.XMLParser.createDocument();
-		return new GwtXMLDocument(doc);
-	}
-
-	@Override
-	public void writeToFile(XMLDocument document, String file) {
-		// FIXME Not implemented
-
+	public T newInstance() {
+		return constructor.newInstance();
 	}
 
 }

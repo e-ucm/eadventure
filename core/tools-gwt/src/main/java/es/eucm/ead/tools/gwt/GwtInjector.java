@@ -35,26 +35,30 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.reflection;
+package es.eucm.ead.tools.gwt;
 
-import com.gwtent.reflection.client.TypeOracle;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import es.eucm.ead.tools.reflection.ReflectionClass;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.GenericInjector;
 
-public class GwtReflectionClassLoader extends ReflectionClassLoader {
+@Singleton
+public class GwtInjector implements GenericInjector {
 
-	@SuppressWarnings( { "rawtypes", "unchecked" })
-	@Override
-	protected ReflectionClass<?> getReflectionClassImpl(Class<?> clazz) {
-		return new GwtReflectionClass(clazz);
+	private Injector injector;
+
+	@Inject
+	public GwtInjector() {
+
 	}
 
-	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
-	protected ReflectionClass<?> getReflectionClassImpl(String clazz) {
-		return new GwtReflectionClass(TypeOracle.Instance.getClassType(clazz)
-				.getDeclaringClass());
+	public <T> T getInstance(Class<T> clazz) {
+		return injector == null ? null : injector.getInstance(clazz);
+	}
+
+	public void setInjector(Injector injector) {
+		this.injector = injector;
 	}
 
 }

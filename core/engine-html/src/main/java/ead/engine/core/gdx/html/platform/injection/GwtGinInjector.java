@@ -67,7 +67,7 @@ import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.engine.core.gdx.html.platform.module.GwtModule;
 import ead.plugins.engine.bubbledescription.BubbleNameGO;
 import es.eucm.ead.tools.GenericInjector;
-import ead.tools.gwt.GWTToolsModule;
+import es.eucm.ead.tools.gwt.GWTToolsModule;
 
 @GinModules( { GwtModule.class, GWTToolsModule.class })
 public interface GwtGinInjector extends Ginjector {

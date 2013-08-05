@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.reflection;
+package es.eucm.ead.tools.gwt.reflection;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

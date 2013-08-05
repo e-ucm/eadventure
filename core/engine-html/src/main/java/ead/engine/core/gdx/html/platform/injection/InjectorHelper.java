@@ -61,7 +61,7 @@ import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import ead.engine.core.gameobjects.widgets.TextAreaGO;
 import ead.plugins.engine.bubbledescription.BubbleNameGO;
-import ead.tools.gwt.Injector;
+import es.eucm.ead.tools.gwt.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

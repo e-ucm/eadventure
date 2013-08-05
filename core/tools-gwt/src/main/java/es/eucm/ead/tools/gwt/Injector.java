@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt;
+package es.eucm.ead.tools.gwt;
 
 public interface Injector {
 

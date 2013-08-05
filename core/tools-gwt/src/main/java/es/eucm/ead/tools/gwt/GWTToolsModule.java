@@ -35,30 +35,33 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt;
+package es.eucm.ead.tools.gwt;
 
-import com.google.inject.Inject;
+import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 
 import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandlerImpl;
+import es.eucm.ead.tools.gwt.reflection.GwtReflectionClassLoader;
+import es.eucm.ead.tools.gwt.reflection.GwtReflectionProvider;
+import es.eucm.ead.tools.gwt.xml.GwtXMLParser;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.xml.XMLParser;
 
-@Singleton
-public class GwtInjector implements GenericInjector {
-
-	private Injector injector;
-
-	@Inject
-	public GwtInjector() {
-
-	}
+public class GWTToolsModule extends AbstractGinModule {
 
 	@Override
-	public <T> T getInstance(Class<T> clazz) {
-		return injector == null ? null : injector.getInstance(clazz);
-	}
-
-	public void setInjector(Injector injector) {
-		this.injector = injector;
+	protected void configure() {
+		bind(StringHandler.class).to(StringHandlerImpl.class).in(
+				Singleton.class);
+		bind(ReflectionProvider.class).to(GwtReflectionProvider.class).in(
+				Singleton.class);
+		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
+		bind(XMLParser.class).to(GwtXMLParser.class).in(Singleton.class);
+		bind(ReflectionClassLoader.class).to(GwtReflectionClassLoader.class)
+				.in(Singleton.class);
 	}
 
 }

@@ -35,38 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.xml;
+package es.eucm.ead.tools.gwt.reflection;
 
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.Element;
+import com.gwtent.reflection.client.TypeOracle;
 
-import es.eucm.ead.tools.xml.XMLDocument;
-import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.reflection.ReflectionClass;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
-public class GwtXMLDocument implements XMLDocument {
+public class GwtReflectionClassLoader extends ReflectionClassLoader {
 
-	private XMLNode firstChild;
-
-	private Document document;
-
-	public GwtXMLDocument(Document document) {
-		this.firstChild = new GwtXMLNode(document.getFirstChild());
-		this.document = document;
-	}
-
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
-	public XMLNode getFirstChild() {
-		return firstChild;
+	protected ReflectionClass<?> getReflectionClassImpl(Class<?> clazz) {
+		return new GwtReflectionClass(clazz);
 	}
 
+	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
-	public XMLNode newNode(String tag) {
-		Element n = document.createElement(tag);
-		return new GwtXMLNode(n);
-	}
-
-	public void appendChild(XMLNode node) {
-		document.appendChild(((GwtXMLNode) node).getElement());
+	protected ReflectionClass<?> getReflectionClassImpl(String clazz) {
+		return new GwtReflectionClass(TypeOracle.Instance.getClassType(clazz)
+				.getDeclaringClass());
 	}
 
 }

@@ -35,39 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.xml;
+package es.eucm.ead.tools.gwt.xml;
 
-import java.util.ArrayList;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
 
-import com.google.gwt.xml.client.NodeList;
-
+import es.eucm.ead.tools.xml.XMLDocument;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
-public class GwtXMLNodeList implements XMLNodeList {
+public class GwtXMLDocument implements XMLDocument {
 
-	private ArrayList<XMLNode> nodes;
+	private XMLNode firstChild;
 
-	public GwtXMLNodeList(NodeList nodeList) {
-		nodes = new ArrayList<XMLNode>();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			nodes.add(new GwtXMLNode(nodeList.item(i)));
-		}
+	private Document document;
 
+	public GwtXMLDocument(Document document) {
+		this.firstChild = new GwtXMLNode(document.getFirstChild());
+		this.document = document;
 	}
 
 	@Override
-	public XMLNode item(int index) {
-		return nodes.get(index);
+	public XMLNode getFirstChild() {
+		return firstChild;
 	}
 
 	@Override
-	public int getLength() {
-		try {
-			return nodes.size();
-		} catch (Exception e) {
-			return 0;
-		}
+	public XMLNode newNode(String tag) {
+		Element n = document.createElement(tag);
+		return new GwtXMLNode(n);
+	}
+
+	public void appendChild(XMLNode node) {
+		document.appendChild(((GwtXMLNode) node).getElement());
 	}
 
 }

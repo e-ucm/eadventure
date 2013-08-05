@@ -35,33 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt;
+package es.eucm.ead.tools.gwt.xml;
 
-import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Singleton;
+import java.util.ArrayList;
 
-import es.eucm.ead.tools.GenericInjector;
-import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.StringHandlerImpl;
-import ead.tools.gwt.reflection.GwtReflectionClassLoader;
-import ead.tools.gwt.reflection.GwtReflectionProvider;
-import ead.tools.gwt.xml.GwtXMLParser;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.tools.reflection.ReflectionProvider;
-import es.eucm.ead.tools.xml.XMLParser;
+import com.google.gwt.xml.client.NodeList;
 
-public class GWTToolsModule extends AbstractGinModule {
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
+
+public class GwtXMLNodeList implements XMLNodeList {
+
+	private ArrayList<XMLNode> nodes;
+
+	public GwtXMLNodeList(NodeList nodeList) {
+		nodes = new ArrayList<XMLNode>();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			nodes.add(new GwtXMLNode(nodeList.item(i)));
+		}
+
+	}
 
 	@Override
-	protected void configure() {
-		bind(StringHandler.class).to(StringHandlerImpl.class).in(
-				Singleton.class);
-		bind(ReflectionProvider.class).to(GwtReflectionProvider.class).in(
-				Singleton.class);
-		bind(GenericInjector.class).to(GwtInjector.class).in(Singleton.class);
-		bind(XMLParser.class).to(GwtXMLParser.class).in(Singleton.class);
-		bind(ReflectionClassLoader.class).to(GwtReflectionClassLoader.class)
-				.in(Singleton.class);
+	public XMLNode item(int index) {
+		return nodes.get(index);
+	}
+
+	@Override
+	public int getLength() {
+		try {
+			return nodes.size();
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 
 }

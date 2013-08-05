@@ -45,7 +45,7 @@ import com.google.gwt.core.client.GWT;
 import ead.engine.core.gdx.html.platform.injection.GwtGinInjector;
 import ead.engine.core.gdx.html.platform.injection.InjectorHelper;
 import es.eucm.ead.tools.GenericInjector;
-import ead.tools.gwt.GwtInjector;
+import es.eucm.ead.tools.gwt.GwtInjector;
 
 public class GwtLauncher extends GwtApplication {
 	@Override

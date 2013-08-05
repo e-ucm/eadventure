@@ -35,23 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.tools.gwt.reflection;
+package es.eucm.ead.tools.gwt.reflection;
 
-import com.gwtent.reflection.client.Constructor;
+import java.lang.annotation.Annotation;
 
-import es.eucm.ead.tools.reflection.ReflectionConstructor;
+import com.gwtent.reflection.client.Field;
 
-public class GwtReflectionConstructor<T> implements ReflectionConstructor<T> {
+import es.eucm.ead.tools.reflection.ReflectionClass;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionField;
 
-	private Constructor<T> constructor;
+public class GwtReflectionField implements ReflectionField {
 
-	public GwtReflectionConstructor(Constructor<T> constructor) {
-		this.constructor = constructor;
+	private Field field;
+
+	public GwtReflectionField(Field field) {
+		this.field = field;
 	}
 
 	@Override
-	public T newInstance() {
-		return constructor.newInstance();
+	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+		return field.getAnnotation(annotationClass);
+	}
+
+	@Override
+	public String getName() {
+		return field.getName();
+	}
+
+	@Override
+	public ReflectionClass<?> getType() {
+		return ReflectionClassLoader.getReflectionClass(field
+				.getDeclaringClass());
+	}
+
+	@Override
+	public Object getFieldValue(Object object) {
+		return field.getFieldValue(object);
+	}
+
+	@Override
+	public void setFieldValue(Object object, Object value) {
+		try {
+			field.setFieldValue(object, value);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Override
+	public boolean isStatic() {
+		return field.isStatic();
 	}
 
 }
