@@ -129,12 +129,12 @@
 
                 <!-- GUI tools -->
                 <module>guitools/exportergui</module>
-                
+
                 <!-- Extensions -->
-<!--                <module>extensions/weev</module>-->
+                <module>extensions/weev</module>
 
                 <!-- Editor -->
-<!--                <module>core/editor-core</module>-->
+                <module>core/editor-core</module>
 			</modules>
 		</profile>
 		<profile>
