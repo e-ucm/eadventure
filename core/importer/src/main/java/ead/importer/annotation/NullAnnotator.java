@@ -37,8 +37,7 @@
 
 package ead.importer.annotation;
 
-import ead.importer.annotation.ImportAnnotator;
-import ead.common.model.elements.EAdElement;
+import es.eucm.ead.model.elements.EAdElement;
 
 import java.util.ArrayList;
 import org.slf4j.Logger;

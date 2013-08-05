@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 import com.gwtent.reflection.client.Reflectable;
 
-import ead.common.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdEffect;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;

@@ -39,7 +39,7 @@ package ead.writer;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;

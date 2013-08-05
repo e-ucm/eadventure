@@ -39,9 +39,9 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.effects.timedevents.HighlightSceneElementEf;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

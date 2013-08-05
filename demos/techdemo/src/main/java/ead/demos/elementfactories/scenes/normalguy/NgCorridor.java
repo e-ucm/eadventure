@@ -37,22 +37,22 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.elements.trajectories.Side;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.elements.trajectories.Side;
+import es.eucm.ead.model.elements.transitions.FadeInTransition;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCorridor extends EmptyScene {

@@ -40,7 +40,7 @@ package ead.engine.core.assets.multimedia;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
-import ead.common.model.assets.multimedia.Music;
+import es.eucm.ead.model.assets.multimedia.Music;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.AssetHandlerImpl;

@@ -37,7 +37,7 @@
 
 package ead.reader.model.readers;
 
-import ead.common.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;

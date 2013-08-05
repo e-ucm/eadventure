@@ -39,8 +39,8 @@ package ead.engine.core.gameobjects.effects;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.gameobjects.GameObject;
 
 public interface EffectGO<P extends EAdEffect> extends GameObject<P> {

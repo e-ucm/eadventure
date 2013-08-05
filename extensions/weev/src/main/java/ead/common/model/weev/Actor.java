@@ -37,7 +37,7 @@
 
 package ead.common.model.weev;
 
-import ead.common.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 
 /**
  * An actor (i.e. interactive element) in the WEEV model

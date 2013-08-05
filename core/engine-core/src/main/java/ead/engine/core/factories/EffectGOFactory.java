@@ -37,7 +37,7 @@
 
 package ead.engine.core.factories;
 
-import ead.common.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdEffect;
 import ead.engine.core.gameobjects.effects.EffectGO;
 
 public interface EffectGOFactory extends

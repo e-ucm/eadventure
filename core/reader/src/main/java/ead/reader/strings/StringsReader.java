@@ -39,7 +39,7 @@ package ead.reader.strings;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNodeList;
 import ead.tools.xml.XMLParser;

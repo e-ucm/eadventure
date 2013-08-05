@@ -52,7 +52,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.utils.assetviewer.AssetApplicationListener;

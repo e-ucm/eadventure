@@ -37,9 +37,9 @@
 
 package ead.common.model.elements.weev.world.impl;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.elements.scenes.BasicScene;
 import ead.common.model.weev.world.Space;
 
 /**

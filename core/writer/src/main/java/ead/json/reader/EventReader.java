@@ -46,15 +46,15 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.internal.StringMap;
 
-import ead.common.interfaces.features.Evented;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.WatchFieldEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.events.enums.WatchFieldEvType;
+import es.eucm.ead.model.interfaces.features.Evented;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.TimedEv;
+import es.eucm.ead.model.elements.events.WatchFieldEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.events.enums.TimedEvType;
+import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
 import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")

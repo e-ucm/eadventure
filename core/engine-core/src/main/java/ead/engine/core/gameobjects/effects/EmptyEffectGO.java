@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.EmptyEffect;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
 import ead.engine.core.game.interfaces.GameState;
 
 public class EmptyEffectGO extends AbstractEffectGO<EmptyEffect> {

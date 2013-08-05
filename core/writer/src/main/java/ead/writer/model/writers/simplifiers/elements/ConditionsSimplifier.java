@@ -37,12 +37,12 @@
 
 package ead.writer.model.writers.simplifiers.elements;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.ListedCond;
-import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.ListedCond;
+import es.eucm.ead.model.elements.conditions.NOTCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 import java.util.ArrayList;

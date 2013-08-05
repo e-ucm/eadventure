@@ -37,7 +37,7 @@
 
 package ead.common.model.weev.adaptation;
 
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.common.model.weev.WEEVElement;
 
 public interface AdaptationProfile extends WEEVElement {

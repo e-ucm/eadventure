@@ -62,7 +62,7 @@ import org.w3c.dom.NodeList;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.ActorFactory;
 import ead.editor.model.nodes.DependencyNode;

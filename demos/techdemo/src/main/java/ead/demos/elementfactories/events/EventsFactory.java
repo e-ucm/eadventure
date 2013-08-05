@@ -37,9 +37,9 @@
 
 package ead.demos.elementfactories.events;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 
 public class EventsFactory {
 

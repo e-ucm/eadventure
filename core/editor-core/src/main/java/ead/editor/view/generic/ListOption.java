@@ -61,7 +61,7 @@ import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.editor.R;
 import ead.editor.control.Command;
 import ead.editor.control.commands.ListCommand;

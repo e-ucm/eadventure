@@ -39,8 +39,8 @@ package ead.editor.view.scene.listener;
 
 import java.util.List;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * General interface able to listen to changes in some scene viewer

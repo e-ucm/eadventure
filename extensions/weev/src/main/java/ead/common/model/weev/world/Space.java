@@ -37,7 +37,7 @@
 
 package ead.common.model.weev.world;
 
-import ead.common.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.common.model.weev.common.Positioned;
 
 /**

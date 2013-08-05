@@ -37,12 +37,12 @@
 
 package ead.writer.model.writers;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.interfaces.features.Identified;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Identified;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.reader.DOMTags;
 import ead.tools.EAdUtils;
 import ead.tools.reflection.ReflectionClass;

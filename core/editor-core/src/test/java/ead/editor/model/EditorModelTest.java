@@ -43,8 +43,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -56,11 +54,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.enums.CommonStates;
 import ead.editor.EditorGuiceModule;
-import ead.editor.model.ModelIndex.Match;
-import ead.editor.model.nodes.DependencyNode;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import ead.tools.java.JavaToolsModule;

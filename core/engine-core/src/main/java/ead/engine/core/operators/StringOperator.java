@@ -37,8 +37,8 @@
 
 package ead.engine.core.operators;
 
-import ead.common.model.elements.operations.StringOp;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.operations.StringOp;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.engine.core.game.interfaces.GameState;
 import ead.tools.StringHandler;
 

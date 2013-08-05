@@ -41,7 +41,7 @@ import java.util.Map;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 

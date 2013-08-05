@@ -37,9 +37,9 @@
 
 package ead.common.test.params;
 
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.Paint;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
 
 public class PaintFillTest extends ParamsTest<Paint> {
 

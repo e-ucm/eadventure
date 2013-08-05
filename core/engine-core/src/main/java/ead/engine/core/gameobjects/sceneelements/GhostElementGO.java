@@ -41,8 +41,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.GhostElement;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

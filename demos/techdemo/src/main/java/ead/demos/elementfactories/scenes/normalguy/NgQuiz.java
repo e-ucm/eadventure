@@ -37,13 +37,13 @@ package ead.demos.elementfactories.scenes.normalguy;
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.text.QuestionEf;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.text.QuestionEf;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;

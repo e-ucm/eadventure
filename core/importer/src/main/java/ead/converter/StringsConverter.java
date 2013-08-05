@@ -39,12 +39,12 @@ package ead.converter;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.enums.Comparator;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.text.EAdString;
 
 import java.util.HashMap;
 import java.util.Map;

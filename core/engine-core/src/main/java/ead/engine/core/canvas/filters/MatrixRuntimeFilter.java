@@ -39,8 +39,8 @@ package ead.engine.core.canvas.filters;
 
 import com.badlogic.gdx.math.Matrix4;
 
-import ead.common.model.assets.drawable.filters.MatrixFilter;
-import ead.common.model.params.util.Matrix;
+import es.eucm.ead.model.assets.drawable.filters.MatrixFilter;
+import es.eucm.ead.model.params.util.Matrix;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;
 

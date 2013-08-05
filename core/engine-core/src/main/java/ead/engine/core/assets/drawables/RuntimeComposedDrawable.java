@@ -46,10 +46,10 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.model.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.model.params.util.Position;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.EAdBasicDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.EAdComposedDrawable;
+import es.eucm.ead.model.params.util.Position;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.canvas.GdxCanvas;

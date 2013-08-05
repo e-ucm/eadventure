@@ -3,19 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ead</groupId>
-	<artifactId>base</artifactId>
+	<groupId>es.eucm.ead</groupId>
+	<artifactId>ead-base</artifactId>
 	<version>2.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<prerequisites>
-		<maven>2.2.0</maven>
-	</prerequisites>
+
 	<!-- ===================================================================== -->
 	<!-- PROJECT INFO -->
 	<!-- ===================================================================== -->
 	<name>eAdventure Platform</name>
 	<description>
-		e-Adventure is an authoring tool for the creation of point-and-click games,
+		e-Adventure is an authoring tool for the creation of videogames,
 		especially designed for educational purposes.
 	</description>
 	<url>http://e-adventure.e-ucm.es</url>
@@ -38,8 +36,8 @@
 		</mailingList>
 	</mailingLists>
 	<issueManagement>
-		<system>Google code</system>
-		<url>http://code.google.com/p/eadventure/issues/list</url>
+		<system>Github</system>
+		<url>https://github.com/e-ucm/eadventure/issues</url>
 	</issueManagement>
 	<organization>
 		<name>e-UCM Research Team</name>
@@ -98,16 +96,17 @@
 			</activation>
 			<modules>
 				<module>build-tools</module>
-                <module>resources/engineassets</module>
 				<!-- Model: base for all the other projects -->
-				<module>core/model</module>
-				<!-- Tools & Utils -->
-				<module>core/tools</module>
-				<module>core/tools-java</module>
-				<module>core/tools-gwt</module>
-				<module>core/utils</module>
+                <module>core/model</module>
+                <!-- Tools & Utils -->
+                <module>core/tools</module>
+                <module>core/tools-java</module>
+                <module>core/tools-gwt</module>
+                <module>core/utils</module>
 
-				<!-- Engine -->
+                <!-- Engine resources -->
+                <module>core/engine-resources</module>
+                <!-- Engine -->
 				<module>core/engine-core</module>
 				<!-- Gdx -->
 				<module>core/engine-desktop</module>

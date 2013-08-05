@@ -47,8 +47,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.transitions.MaskTransition;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.transitions.MaskTransition;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.factories.EventGOFactory;

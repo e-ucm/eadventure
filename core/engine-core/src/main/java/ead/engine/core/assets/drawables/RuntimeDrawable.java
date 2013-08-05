@@ -41,7 +41,7 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import ead.common.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import ead.engine.core.assets.RuntimeAsset;
 import ead.engine.core.canvas.GdxCanvas;
 

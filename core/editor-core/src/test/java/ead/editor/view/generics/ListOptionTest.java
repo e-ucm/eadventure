@@ -41,7 +41,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JComponent;
 
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.ListOption;

@@ -39,7 +39,7 @@ package ead.tools;
 
 import java.util.Map;
 
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 
 /**
  * A handler to translate {@link EAdString} to readable text in a given language

@@ -45,8 +45,8 @@ import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Stack;
 
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;
 import ead.tools.reflection.ReflectionField;

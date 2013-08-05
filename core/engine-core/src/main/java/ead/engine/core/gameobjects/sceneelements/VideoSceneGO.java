@@ -42,14 +42,14 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.multimedia.EAdVideo;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.VideoScene;
-import ead.common.model.elements.widgets.Label;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.VideoScene;
+import es.eucm.ead.model.elements.widgets.Label;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.factories.EventGOFactory;

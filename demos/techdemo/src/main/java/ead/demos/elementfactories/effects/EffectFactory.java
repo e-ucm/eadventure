@@ -37,25 +37,25 @@
 
 package ead.demos.elementfactories.effects;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.basics.EAdCaption;
-import ead.common.model.assets.multimedia.Sound;
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.model.elements.effects.enums.InterpolationLoopType;
-import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.effects.enums.ShowTextAnimation;
-import ead.common.model.elements.effects.text.QuestionEf;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
-import ead.common.model.elements.predef.effects.MakeActiveElementEf;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.ead.model.elements.effects.enums.InterpolationType;
+import es.eucm.ead.model.elements.effects.enums.ShowTextAnimation;
+import es.eucm.ead.model.elements.effects.text.QuestionEf;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.predef.effects.ChangeAppearanceEf;
+import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.StringFactory.StringType;
 

@@ -37,9 +37,9 @@
 
 package ead.common.model.elements.weev.impl;
 
-import ead.common.interfaces.Element;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.common.model.weev.Actor;
 import ead.common.model.weev.WEEVModel;
 import ead.common.model.weev.adaptation.AdaptationStructure;

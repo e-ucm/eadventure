@@ -39,11 +39,11 @@ package ead.converter.subconverters;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.transitions.DisplaceTransition;
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
+import es.eucm.ead.model.elements.transitions.DisplaceTransition;
+import es.eucm.ead.model.elements.transitions.EAdTransition;
+import es.eucm.ead.model.elements.transitions.EmptyTransition;
+import es.eucm.ead.model.elements.transitions.FadeInTransition;
+import es.eucm.ead.model.elements.transitions.enums.DisplaceTransitionType;
 import es.eucm.eadventure.common.data.animation.Transition;
 import es.eucm.eadventure.common.data.chapter.Exit;
 

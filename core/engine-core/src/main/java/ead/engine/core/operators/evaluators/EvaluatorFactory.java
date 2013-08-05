@@ -37,7 +37,7 @@
 
 package ead.engine.core.operators.evaluators;
 
-import ead.common.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdCondition;
 import ead.engine.core.factories.mapproviders.EvaluatorsMapProvider;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.Operator;

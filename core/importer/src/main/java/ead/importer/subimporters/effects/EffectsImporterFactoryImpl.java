@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.importer.EAdElementImporter;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.tools.AbstractFactory;

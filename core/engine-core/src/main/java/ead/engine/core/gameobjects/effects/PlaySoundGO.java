@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
-import ead.common.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

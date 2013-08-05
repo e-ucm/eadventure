@@ -39,8 +39,8 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.EAdField;
 import ead.engine.core.game.interfaces.GameState;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {

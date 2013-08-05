@@ -45,10 +45,10 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.Rectangle;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.util.Rectangle;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;

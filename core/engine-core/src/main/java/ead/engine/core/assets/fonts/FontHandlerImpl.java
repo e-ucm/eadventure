@@ -46,9 +46,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.params.util.Rectangle;
 import ead.engine.core.assets.AssetHandler;
 
 @Singleton

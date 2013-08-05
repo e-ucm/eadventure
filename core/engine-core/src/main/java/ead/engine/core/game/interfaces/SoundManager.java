@@ -37,8 +37,8 @@
 
 package ead.engine.core.game.interfaces;
 
-import ead.common.model.assets.multimedia.EAdSound;
-import ead.common.model.assets.multimedia.Music;
+import es.eucm.ead.model.assets.multimedia.EAdSound;
+import es.eucm.ead.model.assets.multimedia.Music;
 
 /**
  * General interface for managing sound

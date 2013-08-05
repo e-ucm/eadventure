@@ -37,8 +37,8 @@
 
 package ead.tools;
 
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.EAdOperation;
 
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,

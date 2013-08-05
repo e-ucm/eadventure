@@ -39,10 +39,10 @@ package ead.writer.model.writers;
 
 import java.util.ArrayList;
 
-import ead.common.model.params.EAdParam;
-import ead.common.model.params.guievents.EAdGUIEvent;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.params.EAdParam;
+import es.eucm.ead.model.params.guievents.EAdGUIEvent;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.reader.DOMTags;
 import ead.tools.xml.XMLNode;
 import ead.writer.model.ModelVisitor;

@@ -40,10 +40,10 @@ package ead.engine.core.gdx.desktop.utils.assetviewer;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.fonts.FontHandler;
 import ead.engine.core.assets.fonts.FontHandlerImpl;

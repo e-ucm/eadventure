@@ -39,9 +39,9 @@ package ead.engine.core.gameobjects.trajectories.simple;
 
 import com.google.inject.Inject;
 
-import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.elements.enums.CommonStates;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

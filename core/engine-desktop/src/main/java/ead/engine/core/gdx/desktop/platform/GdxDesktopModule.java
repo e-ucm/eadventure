@@ -44,7 +44,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import ead.common.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import ead.engine.core.GdxModuleMap;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.SpecialAssetRenderer;

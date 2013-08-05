@@ -37,19 +37,19 @@
 
 package ead.writer.model.writers.simplifiers;
 
-import ead.common.interfaces.features.Variabled;
-import ead.common.model.assets.drawable.basics.EAdShape;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.behaviors.Behavior;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.behaviors.Behavior;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.tools.EAdUtils;
 import ead.tools.reflection.ReflectionClass;
 import ead.tools.reflection.ReflectionClassLoader;

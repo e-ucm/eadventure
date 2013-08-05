@@ -1,15 +1,14 @@
 package ead.plugins.engine.bubbledescription;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.assets.drawable.basics.NinePatchImage;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.elements.events.AbstractEvent;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.elements.events.AbstractEvent;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * An event that shows the name of the element under the mouse

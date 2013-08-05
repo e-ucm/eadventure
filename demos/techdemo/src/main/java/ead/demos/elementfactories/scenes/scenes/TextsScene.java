@@ -37,14 +37,14 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.compounds.ComposedDrawable;
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.assets.text.enums.FontStyle;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.assets.text.enums.FontStyle;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.text.EAdString;
 
 public class TextsScene extends EmptyScene {
 

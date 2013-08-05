@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.weev.impl;
 
-import ead.common.model.elements.BasicElement;
+import es.eucm.ead.model.elements.BasicElement;
 import ead.common.model.weev.WEEVElement;
 import ead.common.model.weev.common.Positioned;
 

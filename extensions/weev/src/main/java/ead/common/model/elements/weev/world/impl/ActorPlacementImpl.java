@@ -37,8 +37,8 @@
 
 package ead.common.model.elements.weev.world.impl;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import ead.common.model.weev.Actor;
 import ead.common.model.weev.world.ActorPlacement;
 import ead.common.model.weev.world.Space;

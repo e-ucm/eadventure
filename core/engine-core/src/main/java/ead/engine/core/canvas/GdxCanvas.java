@@ -43,10 +43,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.util.Matrix;
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.ead.model.params.util.Matrix;
+import es.eucm.ead.model.params.util.Rectangle;
 import ead.engine.core.assets.fonts.RuntimeFont;
 
 /**

@@ -37,11 +37,11 @@
 
 package ead.engine.core.assets;
 
-import ead.common.interfaces.features.Resourced;
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.multimedia.EAdVideo;
-import ead.common.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.interfaces.features.Resourced;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.assets.fonts.FontHandler;
 

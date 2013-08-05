@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
-import ead.common.model.elements.effects.PlayMusicEf;
+import es.eucm.ead.model.elements.effects.PlayMusicEf;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.SoundManager;
 

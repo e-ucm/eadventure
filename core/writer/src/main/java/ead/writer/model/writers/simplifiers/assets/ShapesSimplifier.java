@@ -37,7 +37,7 @@
 
 package ead.writer.model.writers.simplifiers.assets;
 
-import ead.common.model.assets.drawable.basics.EAdShape;
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class ShapesSimplifier implements ObjectSimplifier<EAdShape> {

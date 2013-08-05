@@ -37,19 +37,19 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.elements.transitions.FadeInTransition;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 

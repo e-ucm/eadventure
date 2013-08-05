@@ -41,8 +41,8 @@ import java.util.Map.Entry;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.RandomEf;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.RandomEf;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

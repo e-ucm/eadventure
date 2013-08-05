@@ -40,8 +40,8 @@ package ead.converter.subconverters.effects;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.timedevents.WaitEf;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
 

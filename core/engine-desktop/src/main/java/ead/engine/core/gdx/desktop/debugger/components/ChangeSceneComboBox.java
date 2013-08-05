@@ -37,9 +37,9 @@
 
 package ead.engine.core.gdx.desktop.debugger.components;
 
-import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.engine.core.gdx.desktop.debugger.hooks.ChapterLoadedHook;
 import ead.engine.core.gdx.desktop.debugger.hooks.DebuggerHook;
 import ead.engine.core.gdx.desktop.debugger.hooks.EffectsHook;

@@ -37,12 +37,12 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.multimedia.Sound;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
 
 public class SoundScene extends EmptyScene {
 

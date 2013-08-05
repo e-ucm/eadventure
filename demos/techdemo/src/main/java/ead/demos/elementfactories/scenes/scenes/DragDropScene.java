@@ -37,25 +37,25 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.model.assets.drawable.basics.shapes.BezierShape;
-import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.model.elements.effects.DragEf;
-import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.guievents.DragGEv;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.guievents.enums.DragGEvType;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.shapes.BalloonShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
+import es.eucm.ead.model.elements.effects.DragEf;
+import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.guievents.DragGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.guievents.enums.DragGEvType;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 
 public class DragDropScene extends EmptyScene {
 

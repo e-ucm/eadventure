@@ -41,7 +41,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
-import ead.common.model.assets.multimedia.EAdSound;
+import es.eucm.ead.model.assets.multimedia.EAdSound;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.AssetHandlerImpl;

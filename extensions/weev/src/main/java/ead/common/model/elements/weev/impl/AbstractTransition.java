@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.weev.impl;
 
-import ead.common.interfaces.Param;
+import es.eucm.ead.model.interfaces.Param;
 import ead.common.model.weev.Transition;
 
 public class AbstractTransition<S> extends AbstractPositionedWEEVElement

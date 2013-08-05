@@ -44,13 +44,13 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.internal.StringMap;
 
-import ead.common.model.elements.operations.ConcatenateStringsOp;
-import ead.common.model.elements.operations.ConditionedOp;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
+import es.eucm.ead.model.elements.operations.ConditionedOp;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")

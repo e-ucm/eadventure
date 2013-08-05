@@ -49,12 +49,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.params.EAdParam;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.params.EAdParam;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.editor.model.EditorModel;
 import ead.editor.model.visitor.ModelVisitorDriver;
 

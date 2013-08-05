@@ -39,7 +39,7 @@ package ead.engine.core.game.enginefilters;
 
 import java.util.Map;
 
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.engine.core.game.interfaces.GameState;
 
 public class EngineStringFilter extends

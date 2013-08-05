@@ -43,9 +43,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.scenes.BasicScene;
 import ead.engine.core.gdx.desktop.DesktopGame;
 
 /**

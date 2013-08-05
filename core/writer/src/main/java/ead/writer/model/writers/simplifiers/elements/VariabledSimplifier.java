@@ -41,8 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import ead.common.interfaces.features.Variabled;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class VariabledSimplifier implements ObjectSimplifier<Variabled> {

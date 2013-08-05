@@ -37,10 +37,10 @@
 
 package ead.converter.subconverters.effects;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.enums.MovementSpeed;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.enums.MovementSpeed;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import ead.converter.EAdElementsCache;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.*;

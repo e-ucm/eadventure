@@ -39,9 +39,9 @@ package ead.importer.subimporters.chapter.conversations;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.params.fills.ColorFill;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.params.fills.ColorFill;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;

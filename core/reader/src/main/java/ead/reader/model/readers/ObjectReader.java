@@ -39,8 +39,8 @@ package ead.reader.model.readers;
 
 import java.util.ArrayList;
 
-import ead.common.interfaces.Param;
-import ead.common.interfaces.features.Identified;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Identified;
 import ead.reader.DOMTags;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;

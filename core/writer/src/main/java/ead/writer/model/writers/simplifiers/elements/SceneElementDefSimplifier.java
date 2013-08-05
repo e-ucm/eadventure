@@ -37,7 +37,7 @@
 
 package ead.writer.model.writers.simplifiers.elements;
 
-import ead.common.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class SceneElementDefSimplifier implements

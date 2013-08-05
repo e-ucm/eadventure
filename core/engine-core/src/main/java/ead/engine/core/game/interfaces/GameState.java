@@ -43,13 +43,13 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.operators.Operator;
 import ead.tools.MathEvaluator.OperationResolver;

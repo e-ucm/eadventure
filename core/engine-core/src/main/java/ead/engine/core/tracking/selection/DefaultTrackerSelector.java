@@ -46,11 +46,11 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.guievents.EAdGUIEvent;
-import ead.common.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.params.guievents.EAdGUIEvent;
+import es.eucm.ead.model.params.guievents.MouseGEv;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 

@@ -43,7 +43,7 @@ import java.util.List;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.editor.view.scene.SimpleSceneViewer;
 import ead.editor.view.scene.go.EditableGameObject;
 

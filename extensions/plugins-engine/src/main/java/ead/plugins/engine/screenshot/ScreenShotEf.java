@@ -1,9 +1,9 @@
 package ead.plugins.engine.screenshot;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.effects.AbstractEffect;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.elements.effects.AbstractEffect;
+import es.eucm.ead.model.params.text.EAdString;
 
 /**
  * @author anserran

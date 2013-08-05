@@ -37,8 +37,8 @@
 
 package ead.converter.subconverters.effects.variables;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.RandomEf;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.RandomEf;
 import ead.converter.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 

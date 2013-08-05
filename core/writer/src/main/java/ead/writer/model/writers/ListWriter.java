@@ -37,7 +37,7 @@
 
 package ead.writer.model.writers;
 
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.reader.DOMTags;
 import ead.tools.xml.XMLNode;
 import ead.writer.model.ModelVisitor;

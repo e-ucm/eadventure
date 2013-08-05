@@ -50,7 +50,7 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.engine.core.game.interfaces.SoundManager;
 import ead.engine.core.gdx.desktop.platform.assets.GdxDesktopAssetHandler;

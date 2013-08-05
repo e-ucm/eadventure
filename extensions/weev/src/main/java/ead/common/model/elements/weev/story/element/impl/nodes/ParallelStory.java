@@ -38,7 +38,7 @@
 package ead.common.model.elements.weev.story.element.impl.nodes;
 
 import ead.common.model.elements.weev.story.element.impl.AbstractAreaNode;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 
 /**
  * Representation in the WEEV model of a parallel story line.

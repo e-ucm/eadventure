@@ -41,8 +41,6 @@
  */
 package ead.editor.model.visitor;
 
-import ead.common.model.elements.EAdElement;
-
 /**
  * A model visitor gets called whenever an asset or element is visited.
  * Fields do not trigger separate visits.

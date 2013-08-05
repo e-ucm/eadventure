@@ -43,7 +43,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.NinePatchImage;
+import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.canvas.GdxCanvas;

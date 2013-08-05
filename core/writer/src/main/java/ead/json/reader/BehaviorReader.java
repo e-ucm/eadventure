@@ -44,10 +44,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.internal.StringMap;
 
-import ead.common.interfaces.features.WithBehavior;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.params.guievents.EAdGUIEvent;
-import ead.common.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.interfaces.features.WithBehavior;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.params.guievents.EAdGUIEvent;
+import es.eucm.ead.model.params.guievents.MouseGEv;
 import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")

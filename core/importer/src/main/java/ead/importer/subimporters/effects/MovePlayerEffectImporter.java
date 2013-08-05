@@ -39,8 +39,8 @@ package ead.importer.subimporters.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;

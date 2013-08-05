@@ -37,7 +37,7 @@
 
 package ead.writer.model.writers.simplifiers.elements;
 
-import ead.common.model.elements.behaviors.Behavior;
+import es.eucm.ead.model.elements.behaviors.Behavior;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class BehaviorsSimplifier implements ObjectSimplifier<Behavior> {

@@ -44,8 +44,8 @@ import java.util.Map;
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.canvas.GdxCanvas;

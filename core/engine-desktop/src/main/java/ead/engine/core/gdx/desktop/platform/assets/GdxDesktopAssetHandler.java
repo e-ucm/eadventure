@@ -57,8 +57,8 @@ import com.google.inject.Key;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import ead.engine.core.assets.AssetHandlerImpl;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import ead.tools.GenericInjector;

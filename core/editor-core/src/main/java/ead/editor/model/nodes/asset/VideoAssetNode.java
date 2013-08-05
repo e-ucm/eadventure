@@ -39,7 +39,7 @@ package ead.editor.model.nodes.asset;
 
 import java.io.File;
 
-import ead.common.model.assets.multimedia.Video;
+import es.eucm.ead.model.assets.multimedia.Video;
 import ead.editor.R;
 
 /**

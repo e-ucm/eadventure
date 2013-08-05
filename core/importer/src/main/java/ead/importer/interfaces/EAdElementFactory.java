@@ -39,12 +39,12 @@ package ead.importer.interfaces;
 
 import java.util.Map;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 

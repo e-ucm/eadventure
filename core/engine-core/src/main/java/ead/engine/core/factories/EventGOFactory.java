@@ -37,7 +37,7 @@
 
 package ead.engine.core.factories;
 
-import ead.common.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.EAdEvent;
 import ead.engine.core.gameobjects.events.EventGO;
 
 public interface EventGOFactory extends

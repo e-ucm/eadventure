@@ -37,23 +37,23 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.assets.drawable.compounds.ComposedDrawable;
-import ead.common.model.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
-import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.paint.EAdFill;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.EAdComposedDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.elements.enums.CommonStates;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.paint.EAdFill;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class DrawablesScene extends EmptyScene {

@@ -39,9 +39,9 @@ package ead.engine.core.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ead.common.model.assets.multimedia.EAdSound;
-import ead.common.model.assets.multimedia.Music;
-import ead.common.model.elements.operations.SystemFields;
+import es.eucm.ead.model.assets.multimedia.EAdSound;
+import es.eucm.ead.model.assets.multimedia.Music;
+import es.eucm.ead.model.elements.operations.SystemFields;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.multimedia.RuntimeMusic;
 import ead.engine.core.assets.multimedia.RuntimeSound;

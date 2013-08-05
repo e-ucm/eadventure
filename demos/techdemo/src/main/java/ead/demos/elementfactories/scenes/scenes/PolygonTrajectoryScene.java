@@ -1,15 +1,15 @@
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.predef.effects.MakeActiveElementEf;
-import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.PolygonTrajectory;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
+import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.PolygonTrajectory;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class PolygonTrajectoryScene extends EmptyScene {

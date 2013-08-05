@@ -39,9 +39,9 @@ package ead.engine.core.gameobjects.sceneelements.transitions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.transitions.DisplaceTransition;
-import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.transitions.DisplaceTransition;
+import es.eucm.ead.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

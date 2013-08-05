@@ -37,8 +37,8 @@
 
 package ead.common.model.elements.weev.impl;
 
-import ead.common.interfaces.Element;
-import ead.common.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import ead.common.model.weev.Actor;
 
 /**

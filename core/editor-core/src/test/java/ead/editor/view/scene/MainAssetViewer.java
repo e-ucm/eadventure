@@ -52,8 +52,8 @@ import org.junit.Before;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.assets.drawable.basics.animation.Frame;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import ead.editor.EditorGuiceModule;
 import ead.editor.control.Controller;
 import ead.engine.core.assets.AssetHandler;

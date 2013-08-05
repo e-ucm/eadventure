@@ -37,8 +37,8 @@
 
 package ead.engine.core.assets.fonts;
 
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.params.util.Rectangle;
 
 /**
  * Interface for a cache of the system dependent {@link RuntimeFont}s

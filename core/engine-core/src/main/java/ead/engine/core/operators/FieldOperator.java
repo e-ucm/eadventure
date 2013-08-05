@@ -39,7 +39,7 @@ package ead.engine.core.operators;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdField;
 import ead.engine.core.game.interfaces.ValueMap;
 
 public class FieldOperator implements Operator<EAdField<?>> {

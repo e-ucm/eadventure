@@ -53,9 +53,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.params.util.Rectangle;
 import ead.editor.view.scene.go.EditableGameObject;
 import ead.editor.view.scene.listener.LoggerSceneListener;
 import ead.editor.view.scene.listener.SceneViewerInputProcessor;

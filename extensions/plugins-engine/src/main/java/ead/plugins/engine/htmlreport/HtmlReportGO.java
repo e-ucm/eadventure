@@ -1,8 +1,8 @@
 package ead.plugins.engine.htmlreport;
 
 import com.google.inject.Inject;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
 import ead.tools.StringHandler;

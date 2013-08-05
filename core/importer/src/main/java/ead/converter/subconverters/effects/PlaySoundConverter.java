@@ -37,9 +37,9 @@
 
 package ead.converter.subconverters.effects;
 
-import ead.common.model.assets.multimedia.Sound;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
 import ead.converter.resources.ResourcesConverter;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 

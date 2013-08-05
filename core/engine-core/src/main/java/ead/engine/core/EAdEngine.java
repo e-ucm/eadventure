@@ -47,7 +47,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.operations.SystemFields;
 import ead.engine.core.canvas.GdxCanvas;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.interfaces.GUI;

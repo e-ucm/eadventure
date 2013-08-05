@@ -45,8 +45,8 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.ListedCond;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.ListedCond;
 
 @Singleton
 public class ListedCondEvaluator implements Evaluator<ListedCond> {

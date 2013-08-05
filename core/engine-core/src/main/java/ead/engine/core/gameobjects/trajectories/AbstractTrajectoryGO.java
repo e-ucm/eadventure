@@ -40,8 +40,8 @@ package ead.engine.core.gameobjects.trajectories;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

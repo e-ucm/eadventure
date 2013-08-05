@@ -37,19 +37,19 @@
 
 package ead.engine.core.factories.mapproviders;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.*;
-import ead.common.model.elements.effects.hud.ModifyHUDEf;
-import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
-import ead.common.model.elements.effects.physics.PhysicsEf;
-import ead.common.model.elements.effects.sceneelements.ChangeColorEf;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.text.QuestionEf;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
-import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
-import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.*;
+import es.eucm.ead.model.elements.effects.hud.ModifyHUDEf;
+import es.eucm.ead.model.elements.effects.physics.PhApplyImpulseEf;
+import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
+import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.effects.text.QuestionEf;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.effects.timedevents.HighlightSceneElementEf;
+import es.eucm.ead.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import ead.engine.core.gameobjects.effects.*;
 import ead.engine.core.gameobjects.effects.sceneelement.ChangeColorGO;
 

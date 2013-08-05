@@ -39,14 +39,14 @@ package ead.importer.subimporters.chapter.scene.elements;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.GhostElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.Paint;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

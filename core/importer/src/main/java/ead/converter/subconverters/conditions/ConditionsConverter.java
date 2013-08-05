@@ -43,12 +43,12 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.ANDCond;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.ORCond;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.ANDCond;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.ORCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.operations.EAdField;
 import ead.converter.ModelQuerier;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;

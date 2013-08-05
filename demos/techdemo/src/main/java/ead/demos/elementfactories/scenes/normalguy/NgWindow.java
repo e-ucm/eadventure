@@ -37,9 +37,9 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.assets.multimedia.EAdVideo;
-import ead.common.model.assets.multimedia.Video;
-import ead.common.model.elements.scenes.VideoScene;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.assets.multimedia.Video;
+import es.eucm.ead.model.elements.scenes.VideoScene;
 
 public class NgWindow extends VideoScene {
 	public NgWindow() {

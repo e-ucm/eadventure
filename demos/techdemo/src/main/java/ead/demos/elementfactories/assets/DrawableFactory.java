@@ -37,13 +37,13 @@
 
 package ead.demos.elementfactories.assets;
 
-import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.Frame;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 
 public class DrawableFactory {
 

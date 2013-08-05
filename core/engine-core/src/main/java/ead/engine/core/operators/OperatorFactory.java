@@ -40,7 +40,7 @@ package ead.engine.core.operators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.EAdOperation;
 import ead.engine.core.factories.mapproviders.OperatorsMapProvider;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;

@@ -37,11 +37,11 @@
 
 package ead.engine.core.factories.mapproviders;
 
-import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.WatchFieldEv;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.events.ConditionedEv;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.TimedEv;
+import es.eucm.ead.model.elements.events.WatchFieldEv;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.gameobjects.events.SceneElementEvGO;

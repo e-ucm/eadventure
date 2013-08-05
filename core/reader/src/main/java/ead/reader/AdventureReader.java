@@ -39,8 +39,8 @@ package ead.reader;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.reader.model.XMLVisitor;
 import ead.reader.model.XMLVisitor.VisitorListener;
 import ead.reader.model.translators.MapClassTranslator;

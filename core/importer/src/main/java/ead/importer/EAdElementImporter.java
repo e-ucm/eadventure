@@ -37,7 +37,7 @@
 
 package ead.importer;
 
-import ead.common.model.elements.EAdElement;
+import es.eucm.ead.model.elements.EAdElement;
 
 /**
  * An importer for converting old model {@link AdventureData} objects into new

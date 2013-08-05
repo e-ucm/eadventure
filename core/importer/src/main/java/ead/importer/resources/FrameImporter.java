@@ -39,7 +39,7 @@ package ead.importer.resources;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.animation.Frame;
+import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
 import ead.importer.GenericImporter;
 import ead.importer.interfaces.ResourceImporter;
 

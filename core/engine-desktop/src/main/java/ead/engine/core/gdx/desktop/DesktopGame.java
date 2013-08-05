@@ -42,7 +42,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import ead.common.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.operations.SystemFields;
 import ead.engine.core.factories.EffectGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.interfaces.GUI;

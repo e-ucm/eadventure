@@ -37,7 +37,7 @@
 
 package ead.common.model.weev.story;
 
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.common.model.weev.WEEVElement;
 import ead.common.model.weev.story.elements.Comment;
 import ead.common.model.weev.story.elements.Node;

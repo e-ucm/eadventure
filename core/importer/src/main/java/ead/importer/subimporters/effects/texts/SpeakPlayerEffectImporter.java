@@ -39,10 +39,10 @@ package ead.importer.subimporters.effects.texts;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

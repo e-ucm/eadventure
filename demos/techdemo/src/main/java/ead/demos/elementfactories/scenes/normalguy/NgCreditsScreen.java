@@ -37,17 +37,17 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.enums.InterpolationLoopType;
-import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.ead.model.elements.effects.enums.InterpolationType;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 public class NgCreditsScreen extends EmptyScene {

@@ -39,14 +39,14 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.EAdTrajectory;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.params.variables.EAdVarDef;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.enums.CommonStates;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.factories.TrajectoryFactory;
 import ead.engine.core.game.interfaces.GUI;

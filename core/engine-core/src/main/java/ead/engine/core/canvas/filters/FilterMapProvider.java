@@ -40,8 +40,8 @@ package ead.engine.core.canvas.filters;
 import java.util.HashMap;
 import java.util.Map;
 
-import ead.common.model.assets.drawable.filters.MatrixFilter;
-import ead.common.model.assets.drawable.filters.ShaderFilter;
+import es.eucm.ead.model.assets.drawable.filters.MatrixFilter;
+import es.eucm.ead.model.assets.drawable.filters.ShaderFilter;
 import ead.engine.core.assets.AssetHandler;
 import ead.tools.MapProvider;
 

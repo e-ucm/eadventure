@@ -37,7 +37,7 @@
 
 package ead.editor.view.scene;
 
-import ead.common.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.editor.view.scene.listener.SceneListener;
 
 /**

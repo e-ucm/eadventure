@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.widgets;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import ead.common.model.elements.widgets.ComboBox;
+import es.eucm.ead.model.elements.widgets.ComboBox;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

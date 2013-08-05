@@ -41,10 +41,10 @@ import java.util.Collection;
 
 import com.google.gson.internal.StringMap;
 
-import ead.common.model.elements.trajectories.EAdTrajectory;
-import ead.common.model.elements.trajectories.Node;
-import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.Node;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 
 @SuppressWarnings("unchecked")
 public class TrajectoryReader {

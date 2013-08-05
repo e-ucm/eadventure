@@ -40,7 +40,7 @@ package ead.engine.core.canvas.filters;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
+import es.eucm.ead.model.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;

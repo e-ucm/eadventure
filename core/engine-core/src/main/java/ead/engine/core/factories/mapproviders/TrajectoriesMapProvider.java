@@ -37,10 +37,10 @@
 
 package ead.engine.core.factories.mapproviders;
 
-import ead.common.model.elements.trajectories.EAdTrajectory;
-import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.elements.trajectories.PolygonTrajectory;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.elements.trajectories.PolygonTrajectory;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import ead.engine.core.gameobjects.trajectories.polygon.PolygonTrajectoryGO;

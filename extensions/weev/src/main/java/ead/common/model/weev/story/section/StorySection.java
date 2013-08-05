@@ -37,8 +37,8 @@
 
 package ead.common.model.weev.story.section;
 
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.common.model.weev.story.StoryElement;
 
 /**

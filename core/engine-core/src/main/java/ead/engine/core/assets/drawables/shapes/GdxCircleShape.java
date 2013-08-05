@@ -40,11 +40,11 @@ package ead.engine.core.assets.drawables.shapes;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.shapes.CircleShape;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.paint.EAdFill;
-import ead.common.model.params.paint.EAdPaint;
+import es.eucm.ead.model.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.paint.EAdFill;
+import es.eucm.ead.model.params.paint.EAdPaint;
 import ead.engine.core.assets.AssetHandler;
 
 public class GdxCircleShape extends RuntimeShape<CircleShape> {

@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.hud.ModifyHUDEf;
+import es.eucm.ead.model.elements.effects.hud.ModifyHUDEf;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 

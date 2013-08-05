@@ -40,7 +40,7 @@ package ead.editor.model.nodes.asset;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import ead.common.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.Image;
 import ead.editor.R;
 import ead.utils.i18n.Resource;
 

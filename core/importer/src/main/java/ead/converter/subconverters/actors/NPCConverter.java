@@ -40,11 +40,11 @@ package ead.converter.subconverters.actors;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
-import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.elements.enums.CommonStates;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import ead.converter.ModelQuerier;
 import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;

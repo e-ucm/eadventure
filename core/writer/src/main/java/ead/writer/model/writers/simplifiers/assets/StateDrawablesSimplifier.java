@@ -37,8 +37,8 @@
 
 package ead.writer.model.writers.simplifiers.assets;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class StateDrawablesSimplifier implements

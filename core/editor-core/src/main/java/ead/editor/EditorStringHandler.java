@@ -44,7 +44,7 @@ import java.util.TreeMap;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.tools.StringHandler;
 
 /**

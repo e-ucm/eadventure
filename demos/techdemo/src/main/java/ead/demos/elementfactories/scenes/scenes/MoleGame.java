@@ -37,30 +37,30 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.Frame;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.enums.InterpolationLoopType;
-import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.ListOp;
-import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.operations.enums.ListOpType;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.variables.EAdVarDef;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.ead.model.elements.effects.enums.InterpolationType;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.TimedEv;
+import es.eucm.ead.model.elements.events.enums.TimedEvType;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ListOp;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.operations.enums.ListOpType;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.params.variables.VarDef;
 
 @SuppressWarnings("rawtypes")
 public class MoleGame extends EmptyScene {

@@ -1,11 +1,11 @@
 package ead.plugins.engine.htmlreport;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.effects.AbstractEffect;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.elements.effects.AbstractEffect;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.text.EAdString;
 
 /**
  * @author anserran

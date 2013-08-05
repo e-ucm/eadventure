@@ -39,29 +39,29 @@ package ead.converter.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
-import ead.common.model.assets.multimedia.Music;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.EmptyEffect;
-import ead.common.model.elements.effects.PlayMusicEf;
-import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.WatchFieldEv;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.huds.MouseHud;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.predef.effects.MakeActiveElementEf;
-import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.elements.scenes.*;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
+import es.eucm.ead.model.assets.multimedia.Music;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
+import es.eucm.ead.model.elements.effects.PlayMusicEf;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.WatchFieldEv;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.huds.MouseHud;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
+import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.converter.EAdElementsCache;
 import ead.converter.ModelQuerier;
 import ead.converter.StringsConverter;
@@ -207,7 +207,7 @@ public class SceneConverter {
 					scene.add(foreground);
 				}
 				foreground.setAppearance(utilsConverter.getResourceBundleId(i),
-						new ead.common.model.assets.drawable.basics.Image(
+						new es.eucm.ead.model.assets.drawable.basics.Image(
 								foregroundPath));
 			}
 

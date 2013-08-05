@@ -39,11 +39,11 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.BasicInventory;
-import ead.common.model.elements.effects.ModifyInventoryEf;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.elements.BasicInventory;
+import es.eucm.ead.model.elements.effects.ModifyInventoryEf;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

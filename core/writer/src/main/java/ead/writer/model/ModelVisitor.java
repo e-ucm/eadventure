@@ -37,13 +37,13 @@
 
 package ead.writer.model;
 
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.extra.EAdMap;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.EAdParam;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.params.EAdParam;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.reader.DOMTags;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLDocument;

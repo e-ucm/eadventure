@@ -37,7 +37,7 @@
 
 package ead.common.model.weev.story.elements;
 
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.common.model.weev.common.Retractable;
 import ead.common.model.weev.story.StoryElement;
 

@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.weev.story.section.impl;
 
-import ead.common.interfaces.Element;
+import es.eucm.ead.model.interfaces.Element;
 import ead.common.model.elements.weev.story.element.impl.AbstractNamedNode;
 import ead.common.model.weev.story.section.StorySectionEnd;
 

@@ -40,11 +40,11 @@ package ead.engine.core.factories.mapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import ead.common.model.elements.conditions.ANDCond;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.NOTCond;
-import ead.common.model.elements.conditions.ORCond;
-import ead.common.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.ANDCond;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.NOTCond;
+import es.eucm.ead.model.elements.conditions.ORCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.evaluators.EmptyCondEvaluator;

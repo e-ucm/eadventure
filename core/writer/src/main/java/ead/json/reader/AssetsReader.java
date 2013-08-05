@@ -47,24 +47,24 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.internal.StringMap;
 
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.Frame;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.assets.drawable.basics.enums.Alignment;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.assets.drawable.compounds.ComposedDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
-import ead.common.model.assets.drawable.filters.FilteredDrawable;
-import ead.common.model.assets.drawable.filters.MatrixFilter;
-import ead.common.model.assets.multimedia.Sound;
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.util.Matrix;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.basics.EAdBasicDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.assets.drawable.filters.FilteredDrawable;
+import es.eucm.ead.model.assets.drawable.filters.MatrixFilter;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.ead.model.params.util.Matrix;
 import ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")

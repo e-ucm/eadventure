@@ -37,7 +37,7 @@
 
 package ead.editor.view.panel;
 
-import ead.common.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import ead.editor.model.nodes.CharacterNode;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;

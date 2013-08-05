@@ -47,9 +47,9 @@ import aurelienribon.tweenengine.equations.Linear;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
 import ead.engine.core.game.interfaces.GameState;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf>

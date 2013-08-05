@@ -37,7 +37,7 @@
 
 package ead.engine.core.canvas.filters;
 
-import ead.common.model.assets.drawable.filters.EAdDrawableFilter;
+import es.eucm.ead.model.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;
 

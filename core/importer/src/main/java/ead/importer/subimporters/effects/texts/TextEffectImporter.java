@@ -37,20 +37,20 @@
 
 package ead.importer.subimporters.effects.texts;
 
-import ead.common.model.assets.drawable.basics.EAdCaption;
-import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.model.assets.multimedia.Sound;
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.Paint;
+import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
+import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.enums.Comparator;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

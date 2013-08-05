@@ -41,10 +41,10 @@ import java.awt.Point;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.assets.drawable.basics.shapes.AbstractShape;
-import ead.common.model.assets.drawable.basics.shapes.BezierShape;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.params.paint.EAdPaint;
+import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 
 @Singleton

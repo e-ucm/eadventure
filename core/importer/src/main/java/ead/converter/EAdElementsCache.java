@@ -38,10 +38,10 @@
 package ead.converter;
 
 import com.google.inject.Singleton;
-import ead.common.model.elements.EAdElement;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

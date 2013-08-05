@@ -37,8 +37,8 @@
 
 package ead.engine.core.operators;
 
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.operations.ConcatenateStringsOp;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
 import ead.engine.core.game.interfaces.GameState;
 
 public class ConcatenateStringsOperator implements

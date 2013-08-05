@@ -42,8 +42,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.params.util.Rectangle;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.AssetHandlerImpl;

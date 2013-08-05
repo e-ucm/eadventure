@@ -37,22 +37,22 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.EAdShape;
-import ead.common.model.assets.drawable.basics.shapes.CircleShape;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.effects.enums.PhShape;
-import ead.common.model.elements.effects.enums.PhType;
-import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
-import ead.common.model.elements.effects.physics.PhysicsEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.elements.effects.enums.PhShape;
+import es.eucm.ead.model.elements.effects.enums.PhType;
+import es.eucm.ead.model.elements.effects.physics.PhApplyImpulseEf;
+import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 
 public class PhysicsScene2 extends PhysicsScene {
 

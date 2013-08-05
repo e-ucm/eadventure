@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.sceneelements.transitions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.transitions.FadeInTransition;
+import es.eucm.ead.model.elements.transitions.FadeInTransition;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

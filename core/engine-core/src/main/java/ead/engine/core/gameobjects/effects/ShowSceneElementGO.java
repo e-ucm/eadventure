@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.ead.model.elements.effects.timedevents.ShowSceneElementEf;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

@@ -44,7 +44,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.filters.ShaderFilter;
+import es.eucm.ead.model.assets.drawable.filters.ShaderFilter;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.drawables.RuntimeDrawable;
 import ead.engine.core.canvas.GdxCanvas;

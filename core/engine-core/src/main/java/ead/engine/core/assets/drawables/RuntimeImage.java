@@ -50,7 +50,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.Image;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.AssetHandlerImpl;

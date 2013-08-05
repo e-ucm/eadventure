@@ -40,10 +40,10 @@ package ead.converter.subconverters.effects.variables;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.MathOp;
 import ead.converter.ModelQuerier;
 import ead.converter.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;

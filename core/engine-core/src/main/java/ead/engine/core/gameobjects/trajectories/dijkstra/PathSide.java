@@ -37,8 +37,8 @@
 
 package ead.engine.core.gameobjects.trajectories.dijkstra;
 
-import ead.common.model.elements.trajectories.Side;
-import ead.common.model.params.util.Position;
+import es.eucm.ead.model.elements.trajectories.Side;
+import es.eucm.ead.model.params.util.Position;
 
 /**
  * A side in the representation of the trajectory used to find the best path

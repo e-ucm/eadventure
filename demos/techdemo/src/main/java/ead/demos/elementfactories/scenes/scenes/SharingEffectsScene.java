@@ -37,21 +37,21 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.predef.effects.MakeActiveElementEf;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 
 public class SharingEffectsScene extends EmptyScene {
 

@@ -37,19 +37,19 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.predef.effects.MakeActiveElementEf;
-import ead.common.model.elements.predef.effects.SpeakSceneElementEf;
-import ead.common.model.elements.predef.events.ScrollWithSceneElementEv;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
+import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
+import es.eucm.ead.model.elements.predef.events.ScrollWithSceneElementEv;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 

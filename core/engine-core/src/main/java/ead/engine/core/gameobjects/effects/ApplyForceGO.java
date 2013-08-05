@@ -43,10 +43,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.enums.PhShape;
-import ead.common.model.elements.effects.physics.PhApplyImpulseEf;
-import ead.common.model.elements.effects.physics.PhysicsEf;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.effects.enums.PhShape;
+import es.eucm.ead.model.elements.effects.physics.PhApplyImpulseEf;
+import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.ValueMap;
 

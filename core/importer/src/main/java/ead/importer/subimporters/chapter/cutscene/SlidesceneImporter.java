@@ -43,30 +43,30 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.huds.InventoryHud;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.TimedEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.events.enums.TimedEvType;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.huds.InventoryHud;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.transitions.EAdTransition;
+import es.eucm.ead.model.elements.transitions.EmptyTransition;
+import es.eucm.ead.model.params.guievents.MouseGEv;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
@@ -255,7 +255,7 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 				}
 			}
 		} else {
-			for (ead.common.model.assets.drawable.basics.animation.Frame f : frames
+			for (es.eucm.ead.model.assets.drawable.basics.animation.Frame f : frames
 					.getFrames()) {
 				times.add(f.getTime());
 			}

@@ -1,10 +1,10 @@
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.elements.widgets.CheckBox;
-import ead.common.model.elements.widgets.Label;
-import ead.common.model.elements.widgets.TextArea;
-import ead.common.model.elements.widgets.containers.ColumnContainer;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.elements.widgets.CheckBox;
+import es.eucm.ead.model.elements.widgets.Label;
+import es.eucm.ead.model.elements.widgets.TextArea;
+import es.eucm.ead.model.elements.widgets.containers.ColumnContainer;
 
 public class WidgetsScene extends EmptyScene {
 

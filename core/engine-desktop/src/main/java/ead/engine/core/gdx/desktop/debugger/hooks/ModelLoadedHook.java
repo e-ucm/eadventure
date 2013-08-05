@@ -37,7 +37,7 @@
 
 package ead.engine.core.gdx.desktop.debugger.hooks;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;

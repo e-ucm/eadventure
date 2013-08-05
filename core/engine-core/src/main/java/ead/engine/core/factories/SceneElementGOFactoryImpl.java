@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.factories.mapproviders.SceneElementsMapProvider;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
 import ead.tools.GenericInjector;

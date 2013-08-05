@@ -37,13 +37,13 @@
 
 package ead.reader.model.readers;
 
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.guievents.DragGEv;
-import ead.common.model.params.guievents.KeyGEv;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.guievents.DragGEv;
+import es.eucm.ead.model.params.guievents.KeyGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.reader.model.ObjectsFactory;
 import ead.reader.model.XMLVisitor;
 import ead.tools.xml.XMLNode;

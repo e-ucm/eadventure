@@ -37,8 +37,8 @@
 
 package ead.common.model.elements.weev.story.element.impl.multiinteraction;
 
-import ead.common.interfaces.Element;
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.common.model.elements.weev.story.element.impl.AbstractAreaNode;
 import ead.common.model.weev.story.elements.Node;
 

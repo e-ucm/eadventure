@@ -55,8 +55,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.interfaces.features.Identified;
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.interfaces.features.Identified;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyEdge;
 import ead.editor.model.nodes.DependencyNode;

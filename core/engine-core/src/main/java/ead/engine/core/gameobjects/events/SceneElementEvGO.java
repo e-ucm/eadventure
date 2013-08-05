@@ -39,9 +39,9 @@ package ead.engine.core.gameobjects.events;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 

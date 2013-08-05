@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
 import ead.reader.AdventureReader;

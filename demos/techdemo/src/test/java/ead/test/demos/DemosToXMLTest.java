@@ -4,9 +4,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.demos.elementfactories.scenes.scenes.InitScene;
 import ead.tools.java.reflection.JavaReflectionProvider;
 import ead.tools.java.xml.JavaXMLParser;

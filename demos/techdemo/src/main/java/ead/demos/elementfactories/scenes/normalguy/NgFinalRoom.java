@@ -37,29 +37,29 @@
 
 package ead.demos.elementfactories.scenes.normalguy;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.enums.InterpolationLoopType;
-import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.effects.physics.PhysicsEf;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.SimpleTrajectory;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.ead.model.elements.effects.enums.InterpolationType;
+import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.elements.transitions.FadeInTransition;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.scenes.EmptyScene;
 
 /**

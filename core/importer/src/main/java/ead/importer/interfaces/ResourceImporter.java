@@ -42,8 +42,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
-import ead.common.interfaces.features.ResourcedEvented;
-import ead.common.model.assets.AssetDescriptor;
+import es.eucm.ead.model.interfaces.features.ResourcedEvented;
+import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 

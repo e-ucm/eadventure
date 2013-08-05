@@ -40,9 +40,9 @@ package ead.engine.core.gameobjects.widgets;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

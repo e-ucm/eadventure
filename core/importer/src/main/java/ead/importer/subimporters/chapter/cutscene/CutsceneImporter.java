@@ -37,19 +37,19 @@
 
 package ead.importer.subimporters.chapter.cutscene;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.QuitGameEf;
-import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.transitions.DisplaceTransition;
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.QuitGameEf;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.transitions.DisplaceTransition;
+import es.eucm.ead.model.elements.transitions.EAdTransition;
+import es.eucm.ead.model.elements.transitions.EmptyTransition;
+import es.eucm.ead.model.elements.transitions.FadeInTransition;
+import es.eucm.ead.model.elements.transitions.enums.DisplaceTransitionType;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

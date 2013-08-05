@@ -37,8 +37,8 @@
 
 package ead.common.model.elements.weev.story.element.impl.effects;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import ead.common.model.elements.weev.story.element.impl.AbstractEffect;
 import ead.common.model.elements.weev.story.element.impl.nodes.Timer;
 

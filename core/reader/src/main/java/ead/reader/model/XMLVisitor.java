@@ -37,10 +37,10 @@
 
 package ead.reader.model;
 
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.huds.MouseHud;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.huds.MouseHud;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.reader.DOMTags;
 import ead.reader.model.readers.ListReader;
 import ead.reader.model.readers.MapReader;

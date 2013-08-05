@@ -40,7 +40,7 @@ package ead.engine.core.factories;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.EAdEvent;
 import ead.engine.core.factories.mapproviders.EventsMapProvider;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.tools.GenericInjector;

@@ -50,11 +50,11 @@ import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
 import com.google.gson.reflect.TypeToken;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.reader.model.ObjectsFactory;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLParser;

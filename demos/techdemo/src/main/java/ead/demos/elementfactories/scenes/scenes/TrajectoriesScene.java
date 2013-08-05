@@ -37,26 +37,26 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.predef.effects.MakeActiveElementEf;
-import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.EAdTrajectory;
-import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.elements.trajectories.Side;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
+import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.elements.trajectories.Side;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 
 public class TrajectoriesScene extends EmptyScene {

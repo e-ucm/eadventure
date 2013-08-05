@@ -37,10 +37,10 @@
 
 package ead.engine.core.gameobjects.events;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.GameObject;
 import ead.engine.core.gameobjects.GameObjectImpl;

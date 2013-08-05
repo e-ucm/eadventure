@@ -37,7 +37,7 @@
 
 package ead.editor.control;
 
-import ead.common.model.elements.EAdElement;
+import es.eucm.ead.model.elements.EAdElement;
 import ead.editor.view.generic.OptionPanel;
 
 /**

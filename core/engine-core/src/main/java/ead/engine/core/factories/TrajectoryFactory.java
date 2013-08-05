@@ -37,7 +37,7 @@
 
 package ead.engine.core.factories;
 
-import ead.common.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
 import ead.engine.core.gameobjects.trajectories.TrajectoryGO;
 
 /**

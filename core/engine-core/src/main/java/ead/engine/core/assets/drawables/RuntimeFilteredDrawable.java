@@ -42,7 +42,7 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.filters.EAdFilteredDrawable;
+import es.eucm.ead.model.assets.drawable.filters.EAdFilteredDrawable;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.canvas.GdxCanvas;

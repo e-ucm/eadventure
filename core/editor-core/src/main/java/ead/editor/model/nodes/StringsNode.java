@@ -39,7 +39,7 @@ package ead.editor.model.nodes;
 
 import java.util.Map;
 
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.editor.model.EditorModel;
 
 /**

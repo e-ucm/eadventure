@@ -41,12 +41,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.DragEf;
-import ead.common.model.elements.huds.BottomHud;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.params.guievents.DragGEv;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.guievents.enums.DragGEvType;
+import es.eucm.ead.model.elements.effects.DragEf;
+import es.eucm.ead.model.elements.huds.BottomHud;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.params.guievents.DragGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.guievents.enums.DragGEvType;
 import ead.engine.core.events.DragEvent;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;

@@ -42,9 +42,9 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.scenes.GhostElement;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;

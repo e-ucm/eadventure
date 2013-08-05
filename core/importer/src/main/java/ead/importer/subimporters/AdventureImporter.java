@@ -39,9 +39,9 @@ package ead.importer.subimporters;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdChapter;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

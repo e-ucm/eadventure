@@ -39,15 +39,15 @@ package ead.engine.test.core.platform;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.Position;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.util.Position;
 import ead.tools.StringHandler;
 
 public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene {

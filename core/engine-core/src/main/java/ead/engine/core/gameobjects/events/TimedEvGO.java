@@ -39,8 +39,8 @@ package ead.engine.core.gameobjects.events;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.TimedEvType;
+import es.eucm.ead.model.elements.events.TimedEv;
+import es.eucm.ead.model.elements.events.enums.TimedEvType;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;
 

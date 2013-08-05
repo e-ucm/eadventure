@@ -37,12 +37,12 @@
 
 package ead.engine.core.gdx.desktop.debugger;
 
-import ead.common.model.elements.debuggers.FieldsDebugger;
-import ead.common.model.elements.debuggers.GhostDebugger;
-import ead.common.model.elements.debuggers.TrajectoryDebugger;
-import ead.common.model.elements.effects.AddChildEf;
-import ead.common.model.elements.effects.RemoveEf;
-import ead.common.model.elements.scenes.VideoScene;
+import es.eucm.ead.model.elements.debuggers.FieldsDebugger;
+import es.eucm.ead.model.elements.debuggers.GhostDebugger;
+import es.eucm.ead.model.elements.debuggers.TrajectoryDebugger;
+import es.eucm.ead.model.elements.effects.AddChildEf;
+import es.eucm.ead.model.elements.effects.RemoveEf;
+import es.eucm.ead.model.elements.scenes.VideoScene;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.enginefilters.EngineHook;
 import ead.engine.core.game.interfaces.GUI;

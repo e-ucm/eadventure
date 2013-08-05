@@ -42,10 +42,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.params.variables.VarDef;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.params.variables.VarDef;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;

@@ -39,7 +39,7 @@ package ead.engine.core.events;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
-import ead.common.model.params.guievents.EAdGUIEvent;
+import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 
 public class DragEvent extends InputEvent {
 

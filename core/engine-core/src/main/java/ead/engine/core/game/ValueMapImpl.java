@@ -44,9 +44,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.interfaces.features.Variabled;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.engine.core.game.interfaces.ValueMap;
 import ead.tools.StringHandler;
 import ead.tools.reflection.ReflectionProvider;

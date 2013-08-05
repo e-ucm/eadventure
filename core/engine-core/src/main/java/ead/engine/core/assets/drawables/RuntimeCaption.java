@@ -43,10 +43,10 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.EAdCaption;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.params.util.Rectangle;
 import ead.engine.core.assets.AbstractRuntimeAsset;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.fonts.FontHandler;

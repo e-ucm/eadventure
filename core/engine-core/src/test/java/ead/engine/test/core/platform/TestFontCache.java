@@ -37,7 +37,7 @@
 
 package ead.engine.test.core.platform;
 
-import ead.common.model.assets.text.EAdFont;
+import es.eucm.ead.model.assets.text.EAdFont;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.assets.fonts.FontHandlerImpl;
 

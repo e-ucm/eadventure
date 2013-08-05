@@ -40,10 +40,10 @@ package ead.converter.subconverters.effects;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.fills.Paint;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.fills.Paint;
 import ead.converter.ModelQuerier;
 import ead.converter.StringsConverter;
 import ead.converter.UtilsConverter;

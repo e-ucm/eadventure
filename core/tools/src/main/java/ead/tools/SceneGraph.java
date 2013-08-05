@@ -41,9 +41,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 
 public interface SceneGraph {
 

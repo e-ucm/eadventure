@@ -37,11 +37,11 @@
 
 package ead.demos.elementfactories.actions;
 
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.demos.elementfactories.EAdElementsFactory;
 
 public class ActionsFactory {

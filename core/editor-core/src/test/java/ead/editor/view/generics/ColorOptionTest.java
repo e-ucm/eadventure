@@ -37,11 +37,9 @@ package ead.editor.view.generics;
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.paint.EAdFill;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.paint.EAdFill;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.ColorOption;

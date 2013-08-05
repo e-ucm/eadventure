@@ -37,8 +37,8 @@
 
 package ead.engine.core.game.interfaces;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdChapter;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;

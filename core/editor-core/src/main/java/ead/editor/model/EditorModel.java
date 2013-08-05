@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.editor.EditorStringHandler;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.dock.ModelAccessor;

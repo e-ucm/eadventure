@@ -37,7 +37,7 @@
 
 package ead.editor.control.commands;
 
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.editor.control.Command;
 import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;

@@ -42,10 +42,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import ead.common.interfaces.features.Variabled;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 
 public class GameStateData {
 

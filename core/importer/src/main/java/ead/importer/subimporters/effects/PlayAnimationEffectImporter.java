@@ -39,13 +39,13 @@ package ead.importer.subimporters.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.util.Position;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.util.Position;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.ResourceImporter;

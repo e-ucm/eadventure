@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.TogglePauseEf;
+import es.eucm.ead.model.elements.effects.TogglePauseEf;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.game.interfaces.SoundManager;
 

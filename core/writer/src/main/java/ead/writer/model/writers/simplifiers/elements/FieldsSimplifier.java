@@ -40,8 +40,8 @@ package ead.writer.model.writers.simplifiers.elements;
 import java.util.HashMap;
 import java.util.Map;
 
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class FieldsSimplifier implements ObjectSimplifier<EAdField<?>> {

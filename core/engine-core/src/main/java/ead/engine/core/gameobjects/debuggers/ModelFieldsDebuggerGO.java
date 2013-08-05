@@ -41,13 +41,13 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.scenes.GroupElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.scenes.GroupElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.factories.EventGOFactory;
 import ead.engine.core.factories.SceneElementGOFactory;

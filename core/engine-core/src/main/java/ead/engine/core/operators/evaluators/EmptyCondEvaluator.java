@@ -39,7 +39,7 @@ package ead.engine.core.operators.evaluators;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
 
 @Singleton
 public class EmptyCondEvaluator implements Evaluator<EmptyCond> {

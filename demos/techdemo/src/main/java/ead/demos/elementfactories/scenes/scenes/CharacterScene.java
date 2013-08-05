@@ -37,23 +37,23 @@
 
 package ead.demos.elementfactories.scenes.scenes;
 
-import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.model.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.predef.sceneelements.Button;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.params.guievents.KeyGEv;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.text.EAdString;
-import ead.common.model.params.util.Position.Corner;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.enums.CommonStates;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.predef.sceneelements.Button;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.guievents.KeyGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.util.Position.Corner;
 import ead.demos.elementfactories.EAdElementsFactory;
 import ead.demos.elementfactories.scenes.normalguy.NgCommon;
 

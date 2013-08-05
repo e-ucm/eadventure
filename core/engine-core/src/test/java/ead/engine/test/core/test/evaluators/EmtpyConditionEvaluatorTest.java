@@ -43,7 +43,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import ead.common.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
 import ead.engine.core.operators.evaluators.EmptyCondEvaluator;
 
 public class EmtpyConditionEvaluatorTest {

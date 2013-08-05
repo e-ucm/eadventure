@@ -40,9 +40,9 @@ package ead.demos.elementfactories.scenes;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import ead.demos.elementfactories.scenes.normalguy.NgMainScreen;
 import ead.demos.elementfactories.scenes.scenes.CharacterScene;
 import ead.demos.elementfactories.scenes.scenes.ComplexElementScene;

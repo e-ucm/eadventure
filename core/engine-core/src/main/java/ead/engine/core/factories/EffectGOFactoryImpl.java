@@ -40,8 +40,7 @@ package ead.engine.core.factories;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.EAdEffect;
-import ead.engine.core.factories.EffectGOFactory;
+import es.eucm.ead.model.elements.EAdEffect;
 import ead.engine.core.factories.mapproviders.EffectsMapProvider;
 import ead.engine.core.gameobjects.effects.EffectGO;
 import ead.tools.GenericInjector;

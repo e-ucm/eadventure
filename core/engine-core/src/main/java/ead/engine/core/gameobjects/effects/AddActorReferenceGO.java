@@ -39,12 +39,12 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.AddActorReferenceEf;
-import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.effects.AddActorReferenceEf;
+import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.GameState;

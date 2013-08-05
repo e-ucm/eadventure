@@ -37,9 +37,9 @@
 
 package ead.writer.model.writers.simplifiers.elements;
 
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.elements.operations.MathOp;
-import ead.common.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.operations.ValueOp;
 import ead.tools.MathEvaluator;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
 

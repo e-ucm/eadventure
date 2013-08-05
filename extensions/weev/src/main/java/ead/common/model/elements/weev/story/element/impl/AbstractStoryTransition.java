@@ -37,7 +37,7 @@
 
 package ead.common.model.elements.weev.story.element.impl;
 
-import ead.common.interfaces.Param;
+import es.eucm.ead.model.interfaces.Param;
 import ead.common.model.elements.weev.impl.AbstractTransition;
 import ead.common.model.weev.story.elements.Effect;
 import ead.common.model.weev.story.elements.Node;

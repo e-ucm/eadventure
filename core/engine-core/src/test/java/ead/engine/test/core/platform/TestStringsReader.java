@@ -39,7 +39,7 @@ package ead.engine.test.core.platform;
 
 import java.util.Map;
 
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.tools.StringHandler;
 
 public class TestStringsReader implements StringHandler {

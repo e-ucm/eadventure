@@ -1,10 +1,10 @@
 package ead.plugins.engine.drag15;
 
-import ead.common.interfaces.Element;
-import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.AbstractEffect;
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.AbstractEffect;
+import es.eucm.ead.model.elements.extra.EAdList;
 
 /**
  * A plugin to handle drag & drop from 1.5

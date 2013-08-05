@@ -39,13 +39,13 @@ package ead.engine.core.gameobjects.trajectories.dijkstra;
 
 import com.google.inject.Inject;
 
-import ead.common.interfaces.features.enums.Orientation;
-import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.operations.SystemFields;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.params.util.Position;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.elements.enums.CommonStates;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.params.util.Position;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
