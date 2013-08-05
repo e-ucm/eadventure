@@ -128,8 +128,8 @@
                 <module>demos/techdemo</module>
 
                 <!-- GUI tools -->
-                <!--				<module>guitools/exportergui</module>-->
-                <!--				<module>guitools/enginegui</module> -->
+                <module>guitools/exportergui</module>
+                
                 <!-- Extensions -->
 <!--                <module>extensions/weev</module>-->
 

@@ -1,4 +1,4 @@
-package ead.guitools.exportergui;
+package es.eucm.ead.guitools.exportergui;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

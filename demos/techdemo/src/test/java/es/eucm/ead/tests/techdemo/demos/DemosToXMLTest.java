@@ -1,4 +1,4 @@
-package ead.test.demos;
+package es.eucm.ead.tests.techdemo.demos;
 
 import org.junit.Test;
 import org.slf4j.Logger;

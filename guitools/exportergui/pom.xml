@@ -3,30 +3,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
-	<groupId>ead.guitools</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>exportergui</artifactId>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+	<artifactId>ead-gui-exporter</artifactId>
 	<packaging>jar</packaging>
 	<name>Exporter GUI</name>
 	<description>This utility can import and export all types of eAdventure games</description>
 	<dependencies>
 		<!-- Desktop dependencies. Not used in GWT compilation -->
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>exporter</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>importer</artifactId>
-			<version>${project.version}</version>			
-		</dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-exporter</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-importer</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
             <artifactId>gdx</artifactId>
@@ -44,21 +42,4 @@
             <artifactId>gdx-backend-lwjgl-natives</artifactId>
         </dependency>
 	</dependencies>
-		<build>
-			<plugins>
-		        <plugin>
-		            <artifactId>maven-assembly-plugin</artifactId>
-		            <configuration>
-		                <archive>
-		                    <manifest>
-		                        <mainClass>ead.guitools.exportergui.ExporterGUI</mainClass>
-		                    </manifest>
-		                </archive>
-		                <descriptorRefs>
-		                    <descriptorRef>jar-with-dependencies</descriptorRef>
-		                </descriptorRefs>
-		            </configuration>
-		        </plugin>
-		    </plugins>
-    </build>
 </project>
