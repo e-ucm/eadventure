@@ -54,15 +54,11 @@ public class ListWriter extends AbstractWriter<EAdList<?>> {
 
 	@Override
 	public XMLNode write(EAdList<?> object) {
-		// Don't store empty lists
-		if (object.isEmpty()) {
-			return null;
-		}
 		total++;
 		XMLNode node = modelVisitor.newNode(DOMTags.LIST_TAG);
 		ListWriterVisitor listVisitor = new ListWriterVisitor(node);
 		for (Object o : object) {
-			modelVisitor.writeElement(o, listVisitor);
+			modelVisitor.writeElement(o, object, listVisitor);
 		}
 		return node;
 	}

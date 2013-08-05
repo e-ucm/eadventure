@@ -37,15 +37,9 @@
 
 package ead.reader.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.huds.MouseHud;
 import ead.common.model.params.variables.VarDef;
 import ead.reader.DOMTags;
 import ead.reader.model.readers.ListReader;
@@ -55,6 +49,12 @@ import ead.reader.model.readers.ParamReader;
 import ead.reader.model.translators.StringTranslator;
 import ead.tools.reflection.ReflectionProvider;
 import ead.tools.xml.XMLNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class XMLVisitor {
 
@@ -189,9 +189,10 @@ public class XMLVisitor {
 			loopsWithSameSize = 0;
 		}
 
-		// If we've been to much loops with the same size, we end the reading
+		// If we've been too much loops with the same size, we end the reading
 		// and report the remaining nodes
 		if (loopsWithSameSize >= MAX_LOOPS_WITH_SAME_SIZE) {
+            ArrayList<String> l = new ArrayList<String>();
 			for (VisitorStep s : stepsQueue) {
 				XMLNode n = s.getNode();
 				// If it's a reference, we create a BasicElement with the id.
@@ -199,10 +200,9 @@ public class XMLVisitor {
 					String id = n.getNodeText();
 					if (id != null) {
 						s.getListener().loaded(n, new BasicElement(id), false);
-						logger
-								.warn(
-										"{} is not present in the model. A BasicElement reference was generated",
-										n.getNodeText());
+                        if ( !l.contains(id)){
+                            l.add(id);
+                        }
 					}
 				} else {
 					logger.warn("{} node was impossilbe to read.", n
@@ -210,11 +210,36 @@ public class XMLVisitor {
 				}
 
 			}
+            logger.debug("{} references created: {}", l.size(), l.toString() );
 			return true;
 		}
 		return false;
 	}
 
+    public List<VisitorStep> getRefForId( String id ){
+        ArrayList<VisitorStep> list = new ArrayList<VisitorStep>();
+        for ( VisitorStep s: stepsQueue ){
+            XMLNode n = s.getNode();
+            if (n.getNodeName().equals("e") && n.getAttributesLength() < 2 ){
+                String i = n.getNodeText();
+                if ( i.equals(id)){
+                    list.add(s);
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<VisitorStep> getNodeWithId( String id ){
+        ArrayList<VisitorStep> list = new ArrayList<VisitorStep>();
+        for ( VisitorStep s: stepsQueue ){
+            XMLNode n = s.getNode();
+            if ( id.equals(n.getAttributeValue("i"))){
+                list.add(s);
+            }
+        }
+        return list;
+    }
 	public static interface VisitorListener {
 
 		/**
@@ -298,6 +323,8 @@ public class XMLVisitor {
 		fieldsTranslators.clear();
 		paramsTranslators.clear();
 		objectReader.clear();
+        // Engine objects
+        elementsFactory.putEAdElement(MouseHud.CURSOR_ID, new BasicElement(MouseHud.CURSOR_ID));
 	}
 
 	public void addLoadInitalValue(VarDef<?> v, String value) {

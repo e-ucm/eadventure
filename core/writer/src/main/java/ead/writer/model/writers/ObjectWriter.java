@@ -37,14 +37,6 @@
 
 package ead.writer.model.writers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.Identified;
@@ -60,6 +52,10 @@ import ead.tools.xml.XMLNode;
 import ead.writer.model.ModelVisitor;
 import ead.writer.model.ModelVisitor.VisitorListener;
 import ead.writer.model.writers.simplifiers.Simplifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 public class ObjectWriter extends AbstractWriter<Identified> {
 
@@ -104,6 +100,9 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 
 	private Simplifier simplifier;
 
+    private static final String[] ids = new String[]{"M9", "Ik", "NF", "yw", "yx", "Kc", "E9", "ZC", "11q", "12M", "15J", "143", "Xv", "Xx", "11w", "11z", "Lp", "HF", "Jn", "Ei", "HL", "XE", "yA", "FF", "xI", "E4", "xH"};
+    private static final List<String> l = Arrays.asList(ids);
+
 	public ObjectWriter(ModelVisitor modelVisitor) {
 		super(modelVisitor);
 		elements = new ArrayList<String>();
@@ -122,40 +121,30 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 		}
 
 		String id = object.getId();
-		if (id != null) {
-			logger.debug("Id found: {}", id);
-		}
+        if ( id == null ) {
+            object.setId(generateNewId());
 
-		// If simplifications are enabled, well, we simplify
-		if (modelVisitor.isSimplifcationsEnabled()) {
-			String oldId = object.getId();
-			Identified simplified = (Identified) simplifier.simplify(object);
+            // If simplifications are enabled, well, we simplify
+            if (modelVisitor.isSimplifcationsEnabled()) {
+                Identified simplified = (Identified) simplifier.simplify(object);
 
-			if (simplified != null) {
-				object = simplified;
-			}
-
-			// Keep track if the id changed
-			String newId = object.getId();
-			if (oldId != null && newId != null && !oldId.equals(newId)) {
-				idTranslations.put(oldId, newId);
-				id = newId;
-			}
-		}
-
-		XMLNode node;
-		if (id == null) {
-			boolean takenId = true;
-			while (takenId) {
-				id = EAdUtils.generateId(
-						asset ? ASSETS_PREFIX : ELEMENT_PREFIX,
-						asset ? assetOrdinal++ : elementOrdinal++);
-				takenId = (asset ? assets.contains(id) : elements.contains(id));
-				if (takenId)
-					logger.debug("Id {} is taken. Looking for another one...");
-			}
-			object.setId(id);
-		}
+                if (simplified != null && simplified != object) {
+                    if (simplified.getId() == null ){
+                        simplified.setId(generateNewId());
+                    }
+                    // Keep track if the id changed
+                    if (!object.getId().equals(simplified.getId())) {
+                        idTranslations.put(object.getId(), simplified.getId());
+                    }
+                    object = simplified;
+                }
+            }
+            id = object.getId();
+        }
+        XMLNode node;
+        if ( l.contains(id)){
+            logger.debug("{}", object);
+        }
 
 		if (asset) {
 			node = modelVisitor.newNode(DOMTags.ASSET_TAG);
@@ -163,7 +152,8 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 			node = modelVisitor.newNode(DOMTags.ELEMENT_TAG);
 		}
 
-		if ((asset && assets.contains(id)) || (!asset && elements.contains(id))) {
+        // If the object gets here with a taken Id, its a repeated element, so we create a reference
+		if (idTaken(id)) {
 			node.setText(id);
 		} else {
 			ReflectionClass<?> clazz = ReflectionClassLoader
@@ -215,7 +205,7 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 					if (f.getAnnotation(Param.class) != null) {
 						Object value = f.getFieldValue(object);
 						if (value != null) {
-							modelVisitor.writeElement(value,
+							modelVisitor.writeElement(value, object,
 									new ObjectWriterListener(translateField(f
 											.getName()), node));
 						}
@@ -226,6 +216,25 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 		}
 		return node;
 	}
+
+    private boolean idTaken(String id) {
+        return (asset ? assets.contains(id) : elements.contains(id));
+    }
+
+    public String generateNewId(){
+        boolean takenId = true;
+        String id = null;
+        while ( takenId ){
+            id = EAdUtils.generateId(
+                    asset ? ASSETS_PREFIX : ELEMENT_PREFIX,
+                    asset ? assetOrdinal++ : elementOrdinal++);
+            takenId = idTaken(id);
+            if ( takenId ){
+                logger.debug("Id {} is taken. Generating a new id...", id);
+            }
+        }
+        return id;
+    }
 
 	public void setAsset(boolean asset) {
 		this.asset = asset;

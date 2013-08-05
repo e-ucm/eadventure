@@ -37,19 +37,17 @@
 
 package ead.reader.strings;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.params.text.EAdString;
 import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNodeList;
 import ead.tools.xml.XMLParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Singleton
 public class StringsReader {
@@ -74,7 +72,6 @@ public class StringsReader {
 					String name = nl.item(i).getAttributeValue("name");
 					if (name != null) {
 						String value = nl.item(i).getNodeText();
-						logger.debug("{}:={}", new Object[] { name, value });
 						strings.put(new EAdString(name), value);
 					}
 				}

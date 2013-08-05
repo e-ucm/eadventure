@@ -110,19 +110,4 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 		this.element = element;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o instanceof BasicField) {
-			BasicField f = (BasicField) o;
-			return this.varDef.equals(f.getVarDef())
-					&& (this.getElement() == f.getElement() || (this
-							.getElement() != null && this.getElement().equals(
-							f.getElement())));
-		}
-		return false;
-	}
-
 }

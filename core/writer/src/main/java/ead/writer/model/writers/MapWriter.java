@@ -55,18 +55,14 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 
 	@Override
 	public XMLNode write(EAdMap object) {
-		// Don't store empty maps
-		if (object.isEmpty()) {
-			return null;
-		}
 		total++;
 		XMLNode node = modelVisitor.newNode(DOMTags.MAP_TAG);
 
 		MapWriterListener listener = new MapWriterListener(node);
 		for (Object key : object.keySet()) {
 			Object value = object.get(key);
-			modelVisitor.writeElement(key, listener);
-			modelVisitor.writeElement(value, listener);
+			modelVisitor.writeElement(key, object, listener);
+			modelVisitor.writeElement(value, object, listener);
 		}
 		return node;
 	}
@@ -81,6 +77,10 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 			this.map = map;
 			this.key = null;
 		}
+
+        public XMLNode getKey(){
+            return key;
+        }
 
 		@Override
 		public void load(XMLNode node, Object object) {

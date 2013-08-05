@@ -37,13 +37,16 @@
 
 package ead.writer.model.writers.simplifiers.elements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.ListedCond;
+import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.elements.conditions.enums.Comparator;
 import ead.writer.model.writers.simplifiers.ObjectSimplifier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 
@@ -62,8 +65,22 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 		if (condition instanceof ListedCond) {
 			condition = simplifyListed((ListedCond) condition);
 		}
+        else if ( condition instanceof NOTCond){
+            condition = simplifyNot((NOTCond) condition);
+        }
+
 		return condition;
 	}
+
+    private EAdCondition simplifyNot( NOTCond condition){
+        // If is the form NOT ( operation == value ) -> operation != value
+        EAdCondition nc = condition.getCondition();
+        if ( nc instanceof OperationCond){
+            Comparator oppositeComparator = getOppositeComparator(((OperationCond) nc).getOperator());
+            return new OperationCond(((OperationCond) nc).getOp1(), ((OperationCond) nc).getOp2(), oppositeComparator);
+        }
+        return condition;
+    }
 
 	private EAdCondition simplifyListed(ListedCond condition) {
 		// Conditions can be simplify as any boolean operation
@@ -98,7 +115,13 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 						conditionsAuxToAdd.add(c2);
 					}
 				}
-			}
+			} else if ( c instanceof NOTCond){
+                EAdCondition cond = simplifyNot((NOTCond) c);
+                if ( cond != c ){
+                    conditionsAux.add(c);
+                    conditionsAuxToAdd.add(cond);
+                }
+            }
 		}
 
 		for (EAdCondition c : conditionsAux) {
@@ -116,7 +139,25 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 		return condition;
 	}
 
-	@Override
+    private Comparator getOppositeComparator(Comparator operator) {
+        switch (operator){
+            case GREATER:
+                return Comparator.LESS_EQUAL;
+            case GREATER_EQUAL:
+                return Comparator.LESS;
+            case EQUAL:
+                return Comparator.DIFFERENT;
+            case LESS_EQUAL:
+                return Comparator.GREATER;
+            case LESS:
+                return Comparator.GREATER_EQUAL;
+            case DIFFERENT:
+                return Comparator.EQUAL;
+        }
+        return null;
+    }
+
+    @Override
 	public void clear() {
 
 	}

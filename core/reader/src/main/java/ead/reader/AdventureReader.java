@@ -37,16 +37,8 @@
 
 package ead.reader;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.reader.model.XMLVisitor;
@@ -57,6 +49,12 @@ import ead.tools.xml.XMLDocument;
 import ead.tools.xml.XMLNode;
 import ead.tools.xml.XMLNodeList;
 import ead.tools.xml.XMLParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class AdventureReader implements VisitorListener {

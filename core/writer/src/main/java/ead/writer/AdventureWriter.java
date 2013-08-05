@@ -78,7 +78,7 @@ public class AdventureWriter {
 
 	public void write(EAdAdventureModel model, VisitorListener listener) {
 		visitor.clear();
-		visitor.writeElement(model, listener);
+		visitor.writeElement(model, null, listener);
 	}
 
 	public void write(EAdAdventureModel model, String string) {

@@ -54,7 +54,7 @@ public class Button extends GroupElement {
 	public Button(EAdString string) {
 		super();
 		Caption caption = new Caption(string);
-		caption.setFont(new BasicFont(12));
+		caption.setFont(BasicFont.REGULAR);
 		caption.setTextPaint(ColorFill.BLACK);
 
 		SceneElement text = new SceneElement(caption);

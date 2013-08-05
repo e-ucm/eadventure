@@ -61,10 +61,6 @@ public class Label extends SceneElement {
 		setAppearance(c);
 	}
 
-	public void setFontSize(float size) {
-		c.getFont().setSize(size);
-	}
-
 	public void setColor(ColorFill color) {
 		c.setTextPaint(color);
 	}

@@ -37,14 +37,6 @@
 
 package ead.writer.model.writers.simplifiers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.assets.drawable.basics.EAdShape;
 import ead.common.model.assets.drawable.basics.Image;
@@ -65,12 +57,14 @@ import ead.writer.model.writers.simplifiers.assets.FramesAnimationSimplifier;
 import ead.writer.model.writers.simplifiers.assets.ImagesSimplifier;
 import ead.writer.model.writers.simplifiers.assets.ShapesSimplifier;
 import ead.writer.model.writers.simplifiers.assets.StateDrawablesSimplifier;
-import ead.writer.model.writers.simplifiers.elements.BehaviorsSimplifier;
-import ead.writer.model.writers.simplifiers.elements.ConditionsSimplifier;
-import ead.writer.model.writers.simplifiers.elements.FieldsSimplifier;
-import ead.writer.model.writers.simplifiers.elements.OperationsSimplifier;
-import ead.writer.model.writers.simplifiers.elements.SceneElementDefSimplifier;
-import ead.writer.model.writers.simplifiers.elements.VariabledSimplifier;
+import ead.writer.model.writers.simplifiers.elements.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Simplifier {
 
@@ -149,18 +143,18 @@ public class Simplifier {
 	public Object simplifyImpl(Object o) {
 		ReflectionClass<?> clazz = ReflectionClassLoader.getReflectionClass(o
 				.getClass());
-		for (ReflectionClass<?> i : clazz.getInterfaces()) {
-			ObjectSimplifier simplifier = simplifiers.get(i.getType());
-			if (simplifier != null) {
-				o = simplifier.simplify(o);
-			}
-		}
 
 		while (clazz != null) {
 			ObjectSimplifier simplifier = simplifiers.get(clazz.getType());
 			if (simplifier != null) {
 				o = simplifier.simplify(o);
 			}
+            for (ReflectionClass<?> i : clazz.getInterfaces()) {
+                simplifier = simplifiers.get(i.getType());
+                if (simplifier != null) {
+                    o = simplifier.simplify(o);
+                }
+            }
 			clazz = clazz.getSuperclass();
 		}
 		return o;

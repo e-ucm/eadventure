@@ -37,8 +37,6 @@
 
 package ead.common.model.elements.conditions;
 
-import java.util.List;
-
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
@@ -46,6 +44,8 @@ import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.operations.EAdField;
 import ead.common.model.elements.operations.EAdOperation;
 import ead.common.model.elements.operations.ValueOp;
+
+import java.util.List;
 
 /**
  * Condition comparing the values of two variables
@@ -65,6 +65,10 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 
 	@Param
 	private Comparator operator;
+
+    public OperationCond() {
+        super();
+    }
 
 	public OperationCond(EAdOperation op1, EAdOperation op2, Comparator operator) {
 		super();
@@ -88,10 +92,6 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 		this.operator = operator;
 	}
 
-	public OperationCond() {
-		super();
-	}
-
 	public OperationCond(EAdOperation operation, int value, Comparator operator) {
 		this(operation, new ValueOp(value), operator);
 	}
@@ -112,7 +112,7 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	}
 
 	/**
-	 * @param var1
+	 * @param op1
 	 *            the var1 to set
 	 */
 	public void setOp1(EAdOperation op1) {

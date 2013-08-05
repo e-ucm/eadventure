@@ -37,15 +37,6 @@
 
 package ead.writer.model;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ead.common.model.assets.AssetDescriptor;
 import ead.common.model.elements.EAdElement;
 import ead.common.model.elements.extra.EAdList;
@@ -62,253 +53,263 @@ import ead.writer.model.writers.ListWriter;
 import ead.writer.model.writers.MapWriter;
 import ead.writer.model.writers.ObjectWriter;
 import ead.writer.model.writers.ParamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ModelVisitor {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ModelVisitor");
+    private static final Logger logger = LoggerFactory
+            .getLogger("ModelVisitor");
 
-	private ReflectionProvider reflectionProvider;
+    private ReflectionProvider reflectionProvider;
 
-	private XMLParser xmlParser;
+    private XMLParser xmlParser;
 
-	private boolean addedToRoot;
+    private boolean addedToRoot;
 
-	private XMLNode classes;
+    private XMLNode classes;
 
-	private XMLNode fields;
+    private XMLNode fields;
 
-	private XMLNode params;
+    private XMLNode params;
 
-	private ParamWriter paramWriter;
+    private ParamWriter paramWriter;
 
-	private ListWriter listWriter;
+    private ListWriter listWriter;
 
-	private MapWriter mapWriter;
+    private MapWriter mapWriter;
 
-	private ObjectWriter objectWriter;
+    private ObjectWriter objectWriter;
 
-	private XMLDocument currentDocument;
+    private XMLDocument currentDocument;
 
-	private List<WriterStep> stepsQueue;
+    private List<WriterStep> stepsQueue;
 
-	private Map<Class<?>, String> classTranslations;
-	private Map<String, String> fieldsTranslations;
-	private Map<String, String> paramsTranslations;
+    private Map<Class<?>, String> classTranslations;
+    private Map<String, String> fieldsTranslations;
+    private Map<String, String> paramsTranslations;
 
-	private XMLNode root;
+    private XMLNode root;
 
-	private boolean simplificationsEnabled;
+    private boolean simplificationsEnabled;
 
-	public ModelVisitor(ReflectionProvider reflectionProvider, XMLParser parser) {
-		this.reflectionProvider = reflectionProvider;
-		this.reflectionProvider = reflectionProvider;
-		this.xmlParser = parser;
+    public ModelVisitor(ReflectionProvider reflectionProvider, XMLParser parser) {
+        this.reflectionProvider = reflectionProvider;
+        this.reflectionProvider = reflectionProvider;
+        this.xmlParser = parser;
 
-		this.stepsQueue = new ArrayList<WriterStep>();
-		this.classTranslations = new LinkedHashMap<Class<?>, String>();
-		this.fieldsTranslations = new LinkedHashMap<String, String>();
-		this.paramsTranslations = new LinkedHashMap<String, String>();
-		// writers
-		paramWriter = new ParamWriter(this);
-		listWriter = new ListWriter(this);
-		mapWriter = new MapWriter(this);
-		objectWriter = new ObjectWriter(this);
+        this.stepsQueue = new ArrayList<WriterStep>();
+        this.classTranslations = new LinkedHashMap<Class<?>, String>();
+        this.fieldsTranslations = new LinkedHashMap<String, String>();
+        this.paramsTranslations = new LinkedHashMap<String, String>();
+        // writers
+        paramWriter = new ParamWriter(this);
+        listWriter = new ListWriter(this);
+        mapWriter = new MapWriter(this);
+        objectWriter = new ObjectWriter(this);
 
-		simplificationsEnabled = true;
-	}
+        simplificationsEnabled = true;
+    }
 
-	public void writeElement(Object object, VisitorListener listener) {
-		stepsQueue.add(new WriterStep(object, listener));
-	}
+    public void writeElement(Object object, Object parent, VisitorListener listener) {
+        stepsQueue.add(new WriterStep(object, parent, listener));
+    }
 
-	@SuppressWarnings("rawtypes")
-	public boolean step() {
-		if (stepsQueue.isEmpty()) {
-			return true;
-		}
+    @SuppressWarnings("rawtypes")
+    public boolean step() {
+        if (stepsQueue.isEmpty()) {
+            return true;
+        }
 
-		WriterStep step = stepsQueue.remove(0);
-		Object o = step.getObject();
-		Class<?> clazz = o == null ? null : o.getClass();
-		VisitorListener listener = step.getListener();
+        WriterStep step = stepsQueue.remove(0);
+        Object o = step.getObject();
+        Class<?> clazz = o == null ? null : o.getClass();
+        VisitorListener listener = step.getListener();
 
-		XMLNode node = null;
-		if (o == null) {
-			// If the object is null, we don't care what tag to use. We just
-			// create an empty param. While reading, a null will be retrieved
-			node = newNode(DOMTags.PARAM_TAG);
-		} else if (reflectionProvider.isAssignableFrom(EAdParam.class, clazz)) {
-			node = paramWriter.write(o);
-		} else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
-				clazz)) {
-			objectWriter.setAsset(true);
-			node = objectWriter.write((AssetDescriptor) o);
-		} else if (reflectionProvider.isAssignableFrom(EAdElement.class, clazz)) {
-			objectWriter.setAsset(false);
-			node = objectWriter.write((EAdElement) o);
-		} else if (reflectionProvider.isAssignableFrom(EAdList.class, clazz)) {
-			node = listWriter.write((EAdList) o);
-		} else if (reflectionProvider.isAssignableFrom(EAdMap.class, clazz)) {
-			node = mapWriter.write((EAdMap) o);
-		} else {
-			node = paramWriter.write(o);
-		}
+        XMLNode node = null;
+        if (o == null) {
+            // If the object is null, we don't care what tag to use. We just
+            // create an empty param. While reading, a null will be retrieved
+            node = newNode(DOMTags.PARAM_TAG);
+        } else if (reflectionProvider.isAssignableFrom(EAdParam.class, clazz)) {
+            node = paramWriter.write(o);
+        } else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
+                clazz)) {
+            objectWriter.setAsset(true);
+            node = objectWriter.write((AssetDescriptor) o);
+        } else if (reflectionProvider.isAssignableFrom(EAdElement.class, clazz)) {
+            objectWriter.setAsset(false);
+            node = objectWriter.write((EAdElement) o);
+        } else if (reflectionProvider.isAssignableFrom(EAdList.class, clazz)) {
+            node = listWriter.write((EAdList) o);
+        } else if (reflectionProvider.isAssignableFrom(EAdMap.class, clazz)) {
+            node = mapWriter.write((EAdMap) o);
+        } else {
+            node = paramWriter.write(o);
+        }
 
-		if (node != null) {
-			listener.load(node, o);
-			if (!addedToRoot) {
-				root.append(node);
-				addedToRoot = true;
-			}
-		}
+        if (!addedToRoot) {
+            root.append(node);
+            addedToRoot = true;
+        }
+        listener.load(node, o);
 
-		if (stepsQueue.isEmpty()) {
-			logger.debug("Resolving references...");
-			objectWriter.resolveReferences();
-		}
-		// Debug output
-		if (stepsQueue.isEmpty() && logger.isDebugEnabled()) {
-			logger.debug("{} elements simplified.", objectWriter
-					.getSimplifications());
-			int total = 0;
-			for (Entry<Object, Map<EAdVarDef<?>, EAdField<?>>> e : objectWriter
-					.getFields().entrySet()) {
-				logger.debug("+{}", e.getKey());
-				for (Entry<EAdVarDef<?>, EAdField<?>> v : e.getValue()
-						.entrySet()) {
-					logger.debug("     |-- {}", v.getKey().getName());
-				}
-			}
-			for (Entry<Class<?>, Integer> e : objectWriter
-					.getClassProfilerAssets().entrySet()) {
-				List l = objectWriter.getSimplifier().getIdentified().get(
-						e.getKey());
-				int value = l == null ? 0 : l.size();
-				logger.debug("{}:{} | {}", new Object[] { e.getKey(),
-						e.getValue(), value });
-				total += e.getValue();
-			}
-			logger.debug("Total assets: {}", total);
-			total = 0;
-			for (Entry<Class<?>, Integer> e : objectWriter
-					.getClassProfilerElements().entrySet()) {
-				List l = objectWriter.getSimplifier().getIdentified().get(
-						e.getKey());
-				int value = l == null ? 0 : l.size();
-				logger.debug("{}:{} | {}", new Object[] { e.getKey(),
-						e.getValue(), value });
-				total += e.getValue();
-			}
-			logger.debug("Total eadelements: {}", total);
-			logger.debug("Total lists: " + listWriter.getTotal());
-			logger.debug("Total maps: " + mapWriter.getTotal());
-			logger.debug("Total params: " + paramWriter.getTotal());
-		}
-		return stepsQueue.isEmpty();
-	}
+        if (stepsQueue.isEmpty()) {
+            logger.debug("Resolving references...");
+            objectWriter.resolveReferences();
+        }
+        // Debug output
+        if (stepsQueue.isEmpty() && logger.isDebugEnabled()) {
+            logger.debug("{} elements simplified.", objectWriter
+                    .getSimplifications());
+            int total = 0;
+            for (Entry<Object, Map<EAdVarDef<?>, EAdField<?>>> e : objectWriter
+                    .getFields().entrySet()) {
+                for (Entry<EAdVarDef<?>, EAdField<?>> v : e.getValue()
+                        .entrySet()) {
+                }
+            }
+            for (Entry<Class<?>, Integer> e : objectWriter
+                    .getClassProfilerAssets().entrySet()) {
+                List l = objectWriter.getSimplifier().getIdentified().get(
+                        e.getKey());
+                int value = l == null ? 0 : l.size();
+                logger.debug("{}:{} | {}", new Object[]{e.getKey(),
+                        e.getValue(), value});
+                total += e.getValue();
+            }
+            logger.debug("Total assets: {}", total);
+            total = 0;
+            for (Entry<Class<?>, Integer> e : objectWriter
+                    .getClassProfilerElements().entrySet()) {
+                List l = objectWriter.getSimplifier().getIdentified().get(
+                        e.getKey());
+                int value = l == null ? 0 : l.size();
+                logger.debug("{}:{} | {}", new Object[]{e.getKey(),
+                        e.getValue(), value});
+                total += e.getValue();
+            }
+            logger.debug("Total eadelements: {}", total);
+            logger.debug("Total lists: " + listWriter.getTotal());
+            logger.debug("Total maps: " + mapWriter.getTotal());
+            logger.debug("Total params: " + paramWriter.getTotal());
+        }
+        return stepsQueue.isEmpty();
+    }
 
-	public void clear() {
-		// Create a new document
-		this.currentDocument = xmlParser.createDocument();
-		root = currentDocument.newNode(DOMTags.ROOT_TAG);
-		currentDocument.appendChild(root);
-		classes = currentDocument.newNode(DOMTags.CLASSES_TAG);
-		fields = currentDocument.newNode(DOMTags.FIELDS_TAG);
-		params = currentDocument.newNode(DOMTags.PARAMS_ABB_TAG);
-		root.append(classes);
-		root.append(fields);
-		root.append(params);
-		addedToRoot = false;
-		objectWriter.clear();
-		paramWriter.clear();
-		listWriter.clear();
-		mapWriter.clear();
-		stepsQueue.clear();
-		classTranslations.clear();
-		fieldsTranslations.clear();
-		paramsTranslations.clear();
-	}
+    public void clear() {
+        // Create a new document
+        this.currentDocument = xmlParser.createDocument();
+        root = currentDocument.newNode(DOMTags.ROOT_TAG);
+        currentDocument.appendChild(root);
+        classes = currentDocument.newNode(DOMTags.CLASSES_TAG);
+        fields = currentDocument.newNode(DOMTags.FIELDS_TAG);
+        params = currentDocument.newNode(DOMTags.PARAMS_ABB_TAG);
+        root.append(classes);
+        root.append(fields);
+        root.append(params);
+        addedToRoot = false;
+        objectWriter.clear();
+        paramWriter.clear();
+        listWriter.clear();
+        mapWriter.clear();
+        stepsQueue.clear();
+        classTranslations.clear();
+        fieldsTranslations.clear();
+        paramsTranslations.clear();
+    }
 
-	public String translateClass(Class<?> clazz) {
-		String value = classTranslations.get(clazz);
-		if (value == null) {
-			value = Integer.toHexString(classTranslations.size());
-			classTranslations.put(clazz, value);
-			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
-			entry.setAttribute(DOMTags.KEY_AT, value);
-			entry.setAttribute(DOMTags.VALUE_AT, clazz.getName());
-			classes.append(entry);
-		}
-		return value;
-	}
+    public String translateClass(Class<?> clazz) {
+        String value = classTranslations.get(clazz);
+        if (value == null) {
+            value = Integer.toHexString(classTranslations.size());
+            classTranslations.put(clazz, value);
+            XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+            entry.setAttribute(DOMTags.KEY_AT, value);
+            entry.setAttribute(DOMTags.VALUE_AT, clazz.getName());
+            classes.append(entry);
+        }
+        return value;
+    }
 
-	public String translateField(String field) {
-		String value = fieldsTranslations.get(field);
-		if (value == null) {
-			value = Integer.toHexString(fieldsTranslations.size());
-			fieldsTranslations.put(field, value);
-			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
-			entry.setAttribute(DOMTags.KEY_AT, value);
-			entry.setAttribute(DOMTags.VALUE_AT, field);
-			fields.append(entry);
-		}
-		return value;
-	}
+    public String translateField(String field) {
+        String value = fieldsTranslations.get(field);
+        if (value == null) {
+            value = Integer.toHexString(fieldsTranslations.size());
+            fieldsTranslations.put(field, value);
+            XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+            entry.setAttribute(DOMTags.KEY_AT, value);
+            entry.setAttribute(DOMTags.VALUE_AT, field);
+            fields.append(entry);
+        }
+        return value;
+    }
 
-	public String translateParam(String param) {
-		String value = paramsTranslations.get(param);
-		if (value == null) {
-			value = Integer.toHexString(paramsTranslations.size());
-			paramsTranslations.put(param, value);
-			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
-			entry.setAttribute(DOMTags.KEY_AT, value);
-			entry.setAttribute(DOMTags.VALUE_AT, param);
-			params.append(entry);
-		}
-		return value;
-	}
+    public String translateParam(String param) {
+        String value = paramsTranslations.get(param);
+        if (value == null) {
+            value = Integer.toHexString(paramsTranslations.size());
+            paramsTranslations.put(param, value);
+            XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+            entry.setAttribute(DOMTags.KEY_AT, value);
+            entry.setAttribute(DOMTags.VALUE_AT, param);
+            params.append(entry);
+        }
+        return value;
+    }
 
-	public XMLNode newNode(String tag) {
-		return currentDocument.newNode(tag);
-	}
+    public XMLNode newNode(String tag) {
+        return currentDocument.newNode(tag);
+    }
 
-	public XMLDocument getDocument() {
-		return currentDocument;
-	}
+    public XMLDocument getDocument() {
+        return currentDocument;
+    }
 
-	public static class WriterStep {
-		private VisitorListener listener;
-		private Object object;
+    public static class WriterStep {
+        private VisitorListener listener;
+        private Object object;
+        private Object parent;
 
-		public WriterStep(Object object, VisitorListener listener) {
-			super();
-			this.listener = listener;
-			this.object = object;
-		}
+        public WriterStep(Object object, Object parent, VisitorListener listener) {
+            super();
+            this.listener = listener;
+            this.object = object;
+            this.parent = parent;
+        }
 
-		public VisitorListener getListener() {
-			return listener;
-		}
+        public VisitorListener getListener() {
+            return listener;
+        }
 
-		public Object getObject() {
-			return object;
-		}
+        public Object getObject() {
+            return object;
+        }
 
-	}
+        public Object getParent() {
+            return parent;
+        }
 
-	public static interface VisitorListener {
+    }
 
-		void load(XMLNode node, Object object);
+    public static interface VisitorListener {
 
-	}
+        void load(XMLNode node, Object object);
 
-	public void setEnableSimplifcations(boolean enable) {
-		this.simplificationsEnabled = enable;
-	}
+    }
 
-	public boolean isSimplifcationsEnabled() {
-		return simplificationsEnabled;
-	}
+    public void setEnableSimplifcations(boolean enable) {
+        this.simplificationsEnabled = enable;
+    }
+
+    public boolean isSimplifcationsEnabled() {
+        return simplificationsEnabled;
+    }
 
 }
