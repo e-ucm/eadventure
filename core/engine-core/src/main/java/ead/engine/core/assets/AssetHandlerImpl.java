@@ -75,7 +75,7 @@ import java.util.Map;
 @Singleton
 public abstract class AssetHandlerImpl implements AssetHandler {
 
-	public static final String ENGINE_RESOURCES_PATH = "ead/engine/resources/";
+	public static final String ENGINE_RESOURCES_PATH = "es/eucm/ead/engine/resources/";
 
 	public static final String PROJECT_INTERNAL_PATH = "";
 
