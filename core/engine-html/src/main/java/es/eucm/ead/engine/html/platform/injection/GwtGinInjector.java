@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.html.platform.injection;
+package es.eucm.ead.engine.html.platform.injection;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.google.gwt.inject.client.GinModules;
@@ -64,7 +64,7 @@ import es.eucm.ead.engine.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
-import ead.engine.core.gdx.html.platform.module.GwtModule;
+import es.eucm.ead.engine.html.platform.module.GwtModule;
 import ead.plugins.engine.bubbledescription.BubbleNameGO;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.gwt.GWTToolsModule;

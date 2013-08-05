@@ -35,13 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.html.platform;
+package es.eucm.ead.engine.html.platform;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.ead.engine.game.GUIImpl;
-import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
+import es.eucm.ead.engine.html.platform.assets.GWTVideoRenderer;
 
 @Singleton
 public class GdxGWTGUI extends GUIImpl {

@@ -35,40 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.html.platform.module;
+package es.eucm.ead.engine.html;
 
-import java.util.Map.Entry;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.backends.gwt.GwtApplication;
+import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
+import com.google.gwt.core.client.GWT;
 
-import javax.inject.Singleton;
+import es.eucm.ead.engine.html.platform.injection.GwtGinInjector;
+import es.eucm.ead.engine.html.platform.injection.InjectorHelper;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.gwt.GwtInjector;
 
-import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.TypeLiteral;
-
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import es.eucm.ead.engine.GdxModuleMap;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import ead.engine.core.gdx.html.platform.GdxGWTAssetHandler;
-import ead.engine.core.gdx.html.platform.GdxGWTGUI;
-import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
-
-public class GwtModule extends AbstractGinModule {
-
-	@SuppressWarnings( { "rawtypes", "unchecked" })
+public class GwtLauncher extends GwtApplication {
 	@Override
-	protected void configure() {
-		GdxModuleMap map = new GdxModuleMap();
-		map.getBinds().put(AssetHandler.class, GdxGWTAssetHandler.class);
-		map.getBinds().put(GUI.class, GdxGWTGUI.class);
-		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
-			Class c1 = entry.getKey();
-			Class c2 = entry.getValue();
-			bind(c1).to(c2).in(Singleton.class);
-		}
-
-		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		}).to(GWTVideoRenderer.class).in(Singleton.class);
+	public GwtApplicationConfiguration getConfig() {
+		GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(800,
+				600);
+		return cfg;
 	}
 
+	@Override
+	public ApplicationListener getApplicationListener() {
+		GwtGinInjector injector = GWT.create(GwtGinInjector.class);
+
+		InjectorHelper helper = new InjectorHelper(injector);
+		GenericInjector i = injector.getGenericInjector();
+		((GwtInjector) i).setInjector(helper);
+
+		return injector.getEngine();
+	}
 }

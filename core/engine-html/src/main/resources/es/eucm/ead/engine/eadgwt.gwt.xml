@@ -20,5 +20,5 @@
 	<inherits name='com.google.gwt.inject.Inject' />
 	<!-- <inherits name='com.google.inject.GuiceTemp'/> -->
 
-	<source path="gdx/html" />
+	<source path="html" />
 </module>

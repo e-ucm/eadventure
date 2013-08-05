@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.html.platform.injection;
+package es.eucm.ead.engine.html.platform.injection;
 
 import es.eucm.ead.engine.assets.drawables.*;
 import es.eucm.ead.engine.assets.drawables.shapes.GdxBezierShape;

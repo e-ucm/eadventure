@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.html.platform.assets;
+package es.eucm.ead.engine.html.platform.assets;
 
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;

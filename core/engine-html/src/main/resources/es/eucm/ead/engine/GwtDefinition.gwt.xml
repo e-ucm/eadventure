@@ -21,8 +21,8 @@
 	<!-- <inherits name='com.google.inject.GuiceTemp'/> -->
 
 
-	<source path="gdx/html" />
-	<entry-point class='ead.engine.core.gdx.html.GwtLauncher' />
+	<source path="html" />
+	<entry-point class='es.eucm.ead.engine.html.GwtLauncher' />
 
 	<set-configuration-property name="gdx.assetpath"
 		value="resources/engineassets/" />

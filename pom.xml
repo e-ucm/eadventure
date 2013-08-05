@@ -110,13 +110,12 @@
                 <module>core/engine-resources</module>
                 <!-- Engine -->
                 <module>core/engine-core</module>
-                <!-- Gdx -->
                 <module>core/engine-desktop</module>
                 <module>core/engine-android</module>
-                <module>core/engine-html</module>
+                <!-- <module>core/engine-html</module> -->
 
                 <!-- Writer -->
-<!--                <module>core/writer</module>-->
+                <module>core/writer</module>
 				<!-- Importer -->
 <!--				<module>core/importer</module> -->
 				<!-- Exporter -->
