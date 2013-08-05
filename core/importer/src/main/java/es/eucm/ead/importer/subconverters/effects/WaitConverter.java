@@ -35,24 +35,23 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters.effects;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
-	}
+public class WaitConverter implements EffectConverter<WaitTimeEffect> {
 
 	@Override
-	public void clear() {
-		// Do nothing
-
+	public List<EAdEffect> convert(WaitTimeEffect e) {
+		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+		list.add(new WaitEf(e.getTime() * 1000));
+		return list;
 	}
+
 }

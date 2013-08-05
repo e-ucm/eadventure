@@ -75,9 +75,9 @@ public class ShapedElementImporter {
 			Rectangle oldObject) {
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
 			oldObject.setRectangular(true);
-			return new es.eucm.ead.model.params.util.Rectangle(oldObject.getX(),
-					oldObject.getY(), oldObject.getWidth(), oldObject
-							.getHeight());
+			return new es.eucm.ead.model.params.util.Rectangle(
+					oldObject.getX(), oldObject.getY(), oldObject.getWidth(),
+					oldObject.getHeight());
 
 		} else {
 			int maxX = Integer.MIN_VALUE;

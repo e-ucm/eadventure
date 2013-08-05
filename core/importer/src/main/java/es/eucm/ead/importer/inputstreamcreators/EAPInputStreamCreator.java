@@ -35,24 +35,60 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.inputstreamcreators;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import es.eucm.eadventure.common.loader.InputStreamCreator;
+import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+public class EAPInputStreamCreator implements InputStreamCreator {
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
+	private String absolutePath;
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("EAPInputStreamCreator");
+
+	public void setFile(String file) {
+		this.absolutePath = file;
 	}
 
 	@Override
-	public void clear() {
-		// Do nothing
+	public InputStream buildInputStream(String filePath) {
+		File f = new File(absolutePath, filePath);
+		try {
+			return new FileInputStream(f);
+		} catch (FileNotFoundException e) {
 
+		}
+		return null;
+	}
+
+	@Override
+	public URL buildURL(String path) {
+		try {
+			URL url = new File(absolutePath, path).toURI().toURL();
+			return url;
+		} catch (MalformedURLException e) {
+			logger.error("Problem building URL for path: '{}'", path, e);
+			return null;
+		}
+	}
+
+	@Override
+	public String[] listNames(String filePath) {
+		File dir = new File(absolutePath, filePath);
+		if (dir.exists() && dir.isDirectory()) {
+			return dir.list();
+		} else {
+			logger.warn("Path does not exist or is not a directory: '{}'",
+					filePath);
+			return new String[0];
+		}
 	}
 }

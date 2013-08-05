@@ -35,24 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import java.awt.Point;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import com.google.inject.Singleton;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
+import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.eadventure.common.data.chapter.Rectangle;
+
+@Singleton
+public class RectangleConverter {
+
+	public AbstractShape convert(Rectangle r, EAdPaint fill) {
+		AbstractShape shape = null;
+		if (r.isRectangular()) {
+			shape = new RectangleShape(r.getWidth(), r.getHeight(), fill);
+		} else {
+			BezierShape bezier = new BezierShape(fill);
+			boolean first = true;
+			for (Point p : r.getPoints()) {
+				if (first) {
+					bezier.moveTo(p.x, p.y);
+				} else {
+					bezier.lineTo(p.x, p.y);
+				}
+				first = false;
+			}
+			shape = bezier;
 		}
-		return f;
+		return shape;
 	}
 
-	@Override
-	public void clear() {
-		// Do nothing
-
-	}
 }

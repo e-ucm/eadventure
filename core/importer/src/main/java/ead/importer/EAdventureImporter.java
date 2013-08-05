@@ -58,7 +58,7 @@ import com.google.inject.Inject;
 
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.params.text.EAdString;
-import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
+import es.eucm.ead.importer.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import es.eucm.ead.tools.StringHandler;

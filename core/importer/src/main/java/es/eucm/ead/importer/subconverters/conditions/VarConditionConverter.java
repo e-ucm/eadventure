@@ -35,24 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters.conditions;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.enums.Comparator;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
+@Singleton
+public class VarConditionConverter {
+
+	private ModelQuerier modelQuerier;
+
+	@Inject
+	public VarConditionConverter(ModelQuerier modelQuerier) {
+		this.modelQuerier = modelQuerier;
+	}
+
+	public OperationCond convert(VarCondition oldObject) {
+		Comparator op = getComparator(oldObject.getState());
+		EAdField<Integer> var = modelQuerier.getVariable(oldObject.getId());
+		OperationCond condition = new OperationCond(var, oldObject.getValue(),
+				op);
+		return condition;
+	}
+
+	/**
+	 * Returns the corresponding comparator for the given operation constant
+	 * 
+	 * @param op
+	 * @return
+	 */
+	private Comparator getComparator(int op) {
+		switch (op) {
+		case VarCondition.VAR_EQUALS:
+			return Comparator.EQUAL;
+		case VarCondition.VAR_GREATER_EQUALS_THAN:
+			return Comparator.GREATER_EQUAL;
+		case VarCondition.VAR_GREATER_THAN:
+			return Comparator.GREATER;
+		case VarCondition.VAR_LESS_EQUALS_THAN:
+			return Comparator.LESS_EQUAL;
+		case VarCondition.VAR_LESS_THAN:
+			return Comparator.LESS;
+		case VarCondition.VAR_NOT_EQUALS:
+			return Comparator.DIFFERENT;
 		}
-		return f;
+		return Comparator.EQUAL;
 	}
 
-	@Override
-	public void clear() {
-		// Do nothing
-
-	}
 }

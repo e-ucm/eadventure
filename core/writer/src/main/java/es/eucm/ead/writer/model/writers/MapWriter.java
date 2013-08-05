@@ -78,9 +78,9 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 			this.key = null;
 		}
 
-        public XMLNode getKey(){
-            return key;
-        }
+		public XMLNode getKey() {
+			return key;
+		}
 
 		@Override
 		public void load(XMLNode node, Object object) {

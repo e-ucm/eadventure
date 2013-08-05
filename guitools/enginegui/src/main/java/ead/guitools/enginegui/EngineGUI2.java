@@ -1,6 +1,6 @@
 package ead.guitools.enginegui;
 
-import ead.converter.AdventureConverter;
+import es.eucm.ead.importer.AdventureConverter;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.tools.java.utils.FileUtils;
 

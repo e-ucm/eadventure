@@ -35,24 +35,48 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import com.google.inject.Singleton;
+import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.eadventure.common.data.chapter.Trajectory;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+/**
+ * @author anserran
+ *         Date: 17/05/13
+ *         Time: 16:05
+ */
+@Singleton
+public class TrajectoryConverter {
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
+	private SimpleTrajectory simpleTrajectory;
+
+	public TrajectoryConverter() {
+		simpleTrajectory = new SimpleTrajectory();
+		simpleTrajectory.setOnlyHorizontal(true);
+		simpleTrajectory.setFreeWalk(true);
 	}
 
-	@Override
-	public void clear() {
-		// Do nothing
+	public EAdTrajectory convert(Trajectory t) {
+		if (t == null) {
+			return simpleTrajectory;
+		}
+		NodeTrajectory trajectory = new NodeTrajectory();
 
+		t.deleteUnconnectedNodes();
+
+		for (Trajectory.Node n : t.getNodes()) {
+			trajectory.addNode(n.getID(), n.getX(), n.getY(), n.getScale());
+		}
+
+		for (Trajectory.Side s : t.getSides()) {
+			trajectory.addSide(s.getIDStart(), s.getIDEnd(), s.getLength());
+		}
+
+		trajectory.setInitial(t.getInitial().getID());
+
+		return trajectory;
 	}
 }

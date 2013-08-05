@@ -35,24 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters.effects.variables;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.RandomEf;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import java.util.ArrayList;
+import java.util.List;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
+/**
+ * @author anserran
+ *         Date: 17/05/13
+ *         Time: 13:26
+ */
+public class RandomEffectConverter implements
+		EffectsConverter.EffectConverter<RandomEffect> {
+
+	private final EffectsConverter effectsConverter;
+
+	public RandomEffectConverter(EffectsConverter effectsConverter) {
+		this.effectsConverter = effectsConverter;
 	}
 
 	@Override
-	public void clear() {
-		// Do nothing
+	public List<EAdEffect> convert(RandomEffect e) {
+		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+		RandomEf effect = new RandomEf();
+		List<EAdEffect> positiveEffect = effectsConverter.convert(e
+				.getPositiveEffect());
+		effect.addEffect(positiveEffect.get(0), e.getProbability());
 
+		List<EAdEffect> negativeEffect = effectsConverter.convert(e
+				.getNegativeEffect());
+		effect.addEffect(negativeEffect.get(0), 100.0f - e.getProbability());
+		list.add(effect);
+		return list;
 	}
 }

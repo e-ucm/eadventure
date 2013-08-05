@@ -35,24 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters.conditions;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
+@Singleton
+public class FlagConditionConverter {
+
+	private ModelQuerier modelQuerier;
+
+	@Inject
+	public FlagConditionConverter(ModelQuerier modelQuerier) {
+		this.modelQuerier = modelQuerier;
+	}
+
+	public OperationCond convert(FlagCondition oldObject) {
+		EAdField<Boolean> var = modelQuerier.getFlag(oldObject.getId());
+		OperationCond f = new OperationCond(var);
+		if (oldObject.isActiveState())
+			f.setOp2(OperationCond.TRUE);
+		else
+			f.setOp2(OperationCond.FALSE);
 		return f;
 	}
 
-	@Override
-	public void clear() {
-		// Do nothing
-
-	}
 }

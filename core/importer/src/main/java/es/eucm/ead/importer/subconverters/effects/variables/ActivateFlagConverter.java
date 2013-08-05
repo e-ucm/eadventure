@@ -35,24 +35,33 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters.effects.variables;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
+public class ActivateFlagConverter implements EffectConverter<ActivateEffect> {
+
+	private ModelQuerier modelQuerier;
+
+	public ActivateFlagConverter(ModelQuerier modelQuerier) {
+		this.modelQuerier = modelQuerier;
 	}
 
-	@Override
-	public void clear() {
-		// Do nothing
-
+	public List<EAdEffect> convert(ActivateEffect oldObject) {
+		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+		EAdField<?> var = modelQuerier.getFlag(oldObject.getTargetId());
+		ChangeFieldEf changeVar = new ChangeFieldEf(var, EmptyCond.TRUE);
+		list.add(changeVar);
+		return list;
 	}
+
 }

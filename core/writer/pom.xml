@@ -22,6 +22,11 @@
             <artifactId>ead-reader</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-tools-java</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
 		<!-- GSon -->
 		<dependency>

@@ -55,7 +55,7 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
-import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
+import es.eucm.ead.importer.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.auxiliar.EAdElementFactoryImpl;
 import ead.importer.auxiliar.ImporterImageLoaderFactory;
 import ead.importer.interfaces.EAdElementFactory;

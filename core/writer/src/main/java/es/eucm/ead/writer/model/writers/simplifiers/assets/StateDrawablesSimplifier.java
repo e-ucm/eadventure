@@ -42,7 +42,7 @@ import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 public class StateDrawablesSimplifier implements
-        ObjectSimplifier<StateDrawable> {
+		ObjectSimplifier<StateDrawable> {
 
 	public Object simplify(StateDrawable s) {
 		if (s.getStates().size() == 1) {

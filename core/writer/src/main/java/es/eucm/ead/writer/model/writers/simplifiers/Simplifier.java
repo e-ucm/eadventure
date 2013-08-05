@@ -149,12 +149,12 @@ public class Simplifier {
 			if (simplifier != null) {
 				o = simplifier.simplify(o);
 			}
-            for (ReflectionClass<?> i : clazz.getInterfaces()) {
-                simplifier = simplifiers.get(i.getType());
-                if (simplifier != null) {
-                    o = simplifier.simplify(o);
-                }
-            }
+			for (ReflectionClass<?> i : clazz.getInterfaces()) {
+				simplifier = simplifiers.get(i.getType());
+				if (simplifier != null) {
+					o = simplifier.simplify(o);
+				}
+			}
 			clazz = clazz.getSuperclass();
 		}
 		return o;

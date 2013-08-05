@@ -116,19 +116,21 @@
 
                 <!-- Writer -->
                 <module>core/writer</module>
-				<!-- Importer -->
-<!--				<module>core/importer</module> -->
-				<!-- Exporter -->
-<!--				<module>core/exporter</module>-->
 
-				<!-- Demos -->
-<!--				<module>demos/techdemo</module>-->
+                <!-- Plugins -->
+                <module>extensions/plugins-engine</module>
+                <!-- Importer -->
+                <module>core/importer</module>
+                <!-- Exporter -->
+                <!--				<module>core/exporter</module>-->
 
-				<!-- GUI tools -->
-<!--				<module>guitools/exportergui</module>-->
-<!--				<module>guitools/enginegui</module> -->
-				<!-- Extensions -->
-<!--				<module>extensions/plugins-engine</module>-->
+                <!-- Demos -->
+                <!--				<module>demos/techdemo</module>-->
+
+                <!-- GUI tools -->
+                <!--				<module>guitools/exportergui</module>-->
+                <!--				<module>guitools/enginegui</module> -->
+                <!-- Extensions -->
 <!--                <module>extensions/weev</module>-->
 
                 <!-- Editor -->

@@ -35,24 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer.model.writers.simplifiers.assets;
+package es.eucm.ead.importer.subconverters.actors;
 
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-public class FramesAnimationSimplifier implements
-		ObjectSimplifier<FramesAnimation> {
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.importer.StringsConverter;
+import es.eucm.ead.importer.UtilsConverter;
+import es.eucm.ead.importer.resources.ResourcesConverter;
+import es.eucm.ead.importer.subconverters.actors.actions.ActionsConverter;
+import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 
-	public Object simplify(FramesAnimation f) {
-		if (f.getFrameCount() == 1) {
-			return f.getFrame(0).getDrawable();
-		}
-		return f;
+@Singleton
+public class AtrezzoConverter extends ElementConverter {
+
+	@Inject
+	public AtrezzoConverter(ResourcesConverter resourceConverter,
+			UtilsConverter utilsConverter, ActionsConverter actionsConverter,
+			ModelQuerier modelQuerier, ConditionsConverter conditionsConverter,
+			EffectsConverter effectsConverter, StringsConverter stringsConverter) {
+		super(resourceConverter, utilsConverter, actionsConverter,
+				modelQuerier, conditionsConverter, effectsConverter,
+				stringsConverter);
 	}
 
 	@Override
-	public void clear() {
-		// Do nothing
-
+	public String getResourceType() {
+		return Atrezzo.RESOURCE_TYPE_IMAGE;
 	}
 }
