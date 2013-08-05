@@ -91,7 +91,7 @@ public class SoundManagerImpl implements SoundManager {
 
 		if (sound != null) {
 			backgroundMusic = (RuntimeMusic) assetHandler
-					.getRuntimeAsset(sound);
+					.getRuntimeAsset(sound, true);
 			backgroundMusic.play(loop, silence ? 0.0f : volume);
 		}
 	}

@@ -39,31 +39,12 @@ package ead.common.model.assets.text;
 
 import ead.common.interfaces.Param;
 import ead.common.model.assets.AbstractAssetDescriptor;
-import ead.common.model.assets.text.enums.FontStyle;
 
 /**
  * EAdFont represents a text font and its metrics
  *
  */
 public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
-
-	/**
-	 * Name of the font
-	 */
-	@Param
-	private String name;
-
-	/**
-	 * Size of the font
-	 */
-	@Param
-	private float size;
-
-	/**
-	 * Style of the font
-	 */
-	@Param
-	private FontStyle style;
 
 	/**
 	 * String to the *.ttf file for the name font
@@ -74,14 +55,8 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	/**
 	 * Regular EAdFont
 	 */
-	public static final BasicFont REGULAR = new BasicFont(13.0f);
-
-	/**
-	 * Regular bold font
-	 */
-
-	public static final BasicFont REGULAR_BOLD = new BasicFont(null, 13.0f,
-			FontStyle.BOLD);
+	public static final BasicFont REGULAR = new BasicFont(
+			"@binary/fonts/coolvetica-16");
 
 	/**
 	 * Big EAdFont
@@ -93,67 +68,13 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 
 	}
 
-	public BasicFont(float size) {
-		this("Arial", size);
-	}
-
-	@Override
-	public String getUri() {
-		return uri;
-	}
-
-	public BasicFont(float size, FontStyle style) {
-		this(null, size, style);
-	}
-
-	public BasicFont(String name, float size) {
-		this(name, size, FontStyle.PLAIN);
-	}
-
-	public BasicFont(String name, float size, FontStyle style) {
-		setName(name);
-		setSize(size);
-		setStyle(style);
-	}
-
 	public BasicFont(String uri) {
 		this.uri = uri;
 	}
 
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public float getSize() {
-		return size;
-	}
-
-	@Override
-	public void setSize(float size) {
-		this.size = size;
-	}
-
-	/**
-	 * @return the style
-	 */
-	@Override
-	public FontStyle getStyle() {
-		return style;
-	}
-
-	@Override
-	public void setStyle(FontStyle style) {
-		this.style = style;
+	public String getUri() {
+		return uri;
 	}
 
 	@Override
@@ -164,8 +85,6 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	@Override
 	public int hashCode() {
 		int hash = 3 * super.hashCode();
-		hash = 89 * hash + (this.name != null ? this.name.hashCode() : 0);
-		hash = 89 * hash + (this.style != null ? this.style.hashCode() : 0);
 		hash = 89 * hash + (this.uri != null ? this.uri.hashCode() : 0);
 		return hash;
 	}
@@ -176,14 +95,6 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 			return false;
 		}
 		final BasicFont other = (BasicFont) obj;
-		if ((this.name == null) ? (other.name != null) : !this.name
-				.equals(other.name)) {
-			return false;
-		}
-
-		if (this.style != other.style) {
-			return false;
-		}
 		if (this.uri != other.uri
 				&& (this.uri == null || !this.uri.equals(other.uri))) {
 			return false;

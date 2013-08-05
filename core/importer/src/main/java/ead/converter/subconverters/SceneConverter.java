@@ -192,7 +192,7 @@ public class SceneConverter {
 				background.setInitialBundle(utilsConverter
 						.getResourceBundleId(i));
 			}
-
+			// Foreground [SC - Fg]
 			String foregroundPath = r
 					.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
 			if (foregroundPath != null) {
@@ -227,6 +227,7 @@ public class SceneConverter {
 			utilsConverter.addResourcesConditions(s.getResources(), foreground,
 					SceneElement.VAR_BUNDLE_ID);
 		}
+		// [SC - Fg]
 		this.addForegroundMusicConditions(scene, s.getResources(), foreground);
 	}
 
@@ -399,8 +400,18 @@ public class SceneConverter {
 
 	}
 
+	/**
+	 * Foregrounds are imported os objects over the scene. A bundle could have an empty foreground. Then, the foreground
+     * should be invisible.
+     *
+     * Also, music of the scene is converted (since it shares conditions with the foreground)
+	 *
+	 * @param scene
+	 * @param resources
+	 * @param foreground
+	 */
 	private void addForegroundMusicConditions(BasicScene scene,
-			List<Resources> resources, SceneElement foreground) {
+                                              List<Resources> resources, SceneElement foreground) {
 		WatchFieldEv watchField = new WatchFieldEv();
 		boolean hasMusic = false;
 		TriggerMacroEf triggerMacroVisible = new TriggerMacroEf();
@@ -431,6 +442,7 @@ public class SceneConverter {
 				}
 			}
 
+            // Check for music [SC - Music]
 			String musicPath = r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC);
 			if (musicPath != null) {
 				hasMusic = true;

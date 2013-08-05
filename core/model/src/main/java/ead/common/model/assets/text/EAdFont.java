@@ -39,43 +39,11 @@ package ead.common.model.assets.text;
 
 import ead.common.interfaces.HasURI;
 import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.text.enums.FontStyle;
 
 /**
  * General interfaces for eAdventure text fonts
  * 
  */
 public interface EAdFont extends AssetDescriptor, HasURI {
-
-	/**
-	 * Returns the font name
-	 * 
-	 * @return the name
-	 */
-	String getName();
-
-	/**
-	 * Returns the font style
-	 * 
-	 * @return
-	 */
-	FontStyle getStyle();
-
-	/**
-	 * @return the size
-	 */
-	float getSize();
-
-	/**
-	 * @param size
-	 *            the size to set
-	 */
-	void setSize(float size);
-
-	/**
-	 * @param style
-	 *            the style to set
-	 */
-	void setStyle(FontStyle fontStyle);
 
 }

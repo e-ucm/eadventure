@@ -291,7 +291,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 	private void addAppearance(SceneElement timer, Timer oldTimer,
 			EAdField<Integer> currentTimeField) {
 		Caption text = new Caption(stringHandler.generateNewString());
-		text.setFont(new BasicFont(18));
+		text.setFont(BasicFont.BIG);
 
 		MathOp timeOperation = null;
 		if (oldTimer.isCountDown())

@@ -111,8 +111,10 @@ public abstract class ElementConverter {
 		// Appearance
 		convert(a, getResourceType(), definition,
 				ResourcedElement.INITIAL_BUNDLE, SceneElementDef.appearance);
-		// Descriptions
-		addDescription(a, definition);
+		// Descriptions (Player has no description)
+        if ( !Player.IDENTIFIER.endsWith(a.getId())){
+		    addDescription(a, definition);
+        }
 		return definition;
 	}
 

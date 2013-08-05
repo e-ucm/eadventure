@@ -37,9 +37,6 @@
 
 package ead.importer.subimporters.effects.texts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ead.common.model.assets.drawable.basics.EAdCaption;
 import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.model.assets.multimedia.Sound;
@@ -65,6 +62,9 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		EffectImporter<T, SpeakEf> {
 
@@ -72,7 +72,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	public static final String THOUGHT = "#O";
 	public static final String YELL = "#!";
 
-	protected static final EAdFont DEFAULT_FONT = new BasicFont(20.0f);
+	protected static final EAdFont DEFAULT_FONT = BasicFont.BIG;
 
 	protected static int ID_GENERATOR = 0;
 

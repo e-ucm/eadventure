@@ -59,8 +59,8 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 
 	private BitmapFont bitmapFont;
 
-	private static final String defaultFont = "@font/droid-12.fnt";
-	private static final String defaultFontPng = "@font/droid-12.png";
+	private static final String defaultFont = "@binary/font/coolvetica-16.fnt";
+	private static final String defaultFontPng = "@binary/font/coolvetica-16.png";
 
 	@Inject
 	public RuntimeFont(AssetHandler assetHandler) {
@@ -72,22 +72,6 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 		String fileName = null;
 		if (descriptor.getUri() != null) {
 			fileName = descriptor.getUri();
-		} else {
-			int size = Math.round(descriptor.getSize());
-			String modifier = "";
-			switch (descriptor.getStyle()) {
-			case BOLD:
-				modifier = "bold";
-				break;
-			case ITALIC:
-				modifier = "italic";
-				break;
-			default:
-				modifier = "";
-			}
-
-			fileName = "@font/droid-" + size
-					+ (modifier.equals("") ? "" : "-" + modifier);
 		}
 
 		String fontData = defaultFont;

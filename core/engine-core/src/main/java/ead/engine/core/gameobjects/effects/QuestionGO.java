@@ -144,7 +144,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		if (effect.getQuestion() != null) {
 			int fontSize = 20;
 			int padding = 8;
-			EAdFont font = new BasicFont(fontSize);
+			EAdFont font = BasicFont.REGULAR;
 			Caption caption = new Caption(effect.getQuestion());
 			caption.setFont(font);
 			caption.setPadding(padding);
@@ -173,7 +173,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		int delay = effect.getQuestion() != null ? 500 : 0;
 		int fontSize = 18;
 		int padding = 5;
-		EAdFont font = new BasicFont(fontSize);
+		EAdFont font = BasicFont.REGULAR;
 		Caption caption = new Caption(key);
 		caption.setFont(font);
 		caption.setPadding(padding);
