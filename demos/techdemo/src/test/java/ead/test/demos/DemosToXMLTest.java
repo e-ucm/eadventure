@@ -12,7 +12,7 @@ import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.java.xml.JavaXMLParser;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
 import es.eucm.ead.tools.java.utils.Log4jConfig.Slf4jLevel;
-import ead.writer.AdventureWriter;
+import es.eucm.ead.writer.AdventureWriter;
 
 public class DemosToXMLTest {
 

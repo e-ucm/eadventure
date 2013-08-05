@@ -62,7 +62,7 @@ import es.eucm.ead.tools.java.xml.JavaXMLParser;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.java.utils.FileUtils;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
-import ead.writer.AdventureWriter;
+import es.eucm.ead.writer.AdventureWriter;
 
 public class ImportWriteReadTest {
 

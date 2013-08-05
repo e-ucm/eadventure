@@ -84,8 +84,8 @@ import es.eucm.ead.tools.java.DataPrettifier;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;
 import es.eucm.ead.tools.java.utils.FileUtils;
-import ead.writer.AdventureWriter;
-import ead.writer.StringWriter;
+import es.eucm.ead.writer.AdventureWriter;
+import es.eucm.ead.writer.StringWriter;
 
 /**
  * Loads an EditorModel.
