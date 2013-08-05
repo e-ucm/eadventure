@@ -60,7 +60,7 @@ import ead.editor.control.CommandManagerImpl;
 import ead.editor.control.Controller;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.EditorModel;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;

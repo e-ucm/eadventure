@@ -55,7 +55,7 @@ import ead.editor.control.Controller;
 import ead.editor.model.EditorModel;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;

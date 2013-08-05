@@ -48,7 +48,7 @@ import ead.editor.model.nodes.DependencyNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.panel.asset.ImageAssetPanel;
-import ead.engine.core.assets.AssetHandlerImpl;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.tools.java.utils.FileUtils;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
 

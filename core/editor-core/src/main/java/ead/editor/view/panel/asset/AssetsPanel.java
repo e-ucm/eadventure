@@ -68,8 +68,8 @@ import ead.editor.view.components.NodeBrowserPanel;
 import ead.editor.view.components.PropertiesTablePanel;
 import ead.editor.view.components.ThumbnailPanel;
 import ead.editor.view.panel.AbstractElementPanel;
-import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
-import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 
 /**
  * A panel that displays all assets, by type. A preview is available

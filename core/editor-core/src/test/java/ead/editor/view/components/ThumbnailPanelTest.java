@@ -44,7 +44,7 @@ import es.eucm.ead.model.assets.drawable.basics.Image;
 import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
-import ead.engine.core.assets.AssetHandlerImpl;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

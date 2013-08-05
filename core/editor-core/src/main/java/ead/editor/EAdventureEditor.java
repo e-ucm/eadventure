@@ -47,7 +47,7 @@ import com.google.inject.Injector;
 import ead.editor.control.Controller;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
+import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -58,9 +58,9 @@ import es.eucm.ead.tools.java.utils.Log4jConfig.Slf4jLevel;
  * eAdventure editor launcher. This class has a main method.
  *
  * IMPORTANT: to re-generate resources, use
- * java -cp core/utils/target/utils-2.0.1-SNAPSHOT.jar
- *      ResourceCreator core/editor-core ead.editor
- *      etc/LICENSE.txt core/editor-core/src/main/java/ead/editor/R.java
+ * java -cp engine/utils/target/utils-2.0.1-SNAPSHOT.jar
+ *      ResourceCreator engine/editor-engine ead.editor
+ *      etc/LICENSE.txt engine/editor-engine/src/main/java/ead/editor/R.java
  */
 public class EAdventureEditor implements Launcher {
 

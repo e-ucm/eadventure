@@ -49,9 +49,9 @@ import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.assets.drawables.RuntimeDrawable;
-import ead.engine.core.canvas.GdxCanvas;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
+import es.eucm.ead.engine.canvas.GdxCanvas;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class EditableGameObject {

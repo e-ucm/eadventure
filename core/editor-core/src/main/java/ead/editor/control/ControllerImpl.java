@@ -48,10 +48,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import ead.editor.model.EditorModel;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.gdx.desktop.DesktopGame;
-import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
-import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.desktop.DesktopGame;
+import es.eucm.ead.engine.desktop.platform.GdxDesktopGUI;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
 
 /**
  * Default implementation for the {@link Controller}.
