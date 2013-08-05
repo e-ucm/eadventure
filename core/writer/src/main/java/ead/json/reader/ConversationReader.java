@@ -49,7 +49,7 @@ import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.text.EAdString;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

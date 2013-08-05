@@ -35,66 +35,40 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.readers;
+package es.eucm.ead.reader;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class DOMTags {
 
-import ead.reader.DOMTags;
-import ead.reader.model.ObjectsFactory;
-import ead.reader.model.XMLVisitor;
-import es.eucm.ead.tools.xml.XMLNode;
+	public static final String PACKAGE = "ead.common";
 
-public abstract class AbstractReader<T> implements Reader<T> {
+	public static final String ROOT_TAG = "adventure";
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("ElementReader");
+	public static final String ELEMENT_TAG = "e";
 
-	protected ObjectsFactory elementsFactory;
+	public static final String PARAM_TAG = "p";
 
-	protected XMLVisitor xmlVisitor;
+	public static final String ASSET_TAG = "a";
 
-	public AbstractReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
-		this.elementsFactory = elementsFactory;
-		this.xmlVisitor = xmlVisitor;
-	}
+	public static final String LIST_TAG = "l";
 
-	/**
-	 * Returns the class for the element contained in the given node
-	 * @param node
-	 * @return
-	 */
-	public Class<?> getNodeClass(XMLNode node) {
-		String clazz = node.getAttributeValue(DOMTags.CLASS_AT);
-		return clazz == null ? null : getNodeClass(clazz);
-	}
+	public static final String MAP_TAG = "m";
 
-	public Class<?> getNodeClass(String clazz) {
-		clazz = translateClass(clazz);
-		Class<?> c = null;
-		try {
-			c = elementsFactory.getClassFromName(clazz);
-		} catch (NullPointerException e) {
-			logger.error("Error resolving class {}", clazz, e);
-		}
-		return c;
-	}
+	public static final String CLASS_AT = "c";
 
-	/**
-	 * Translate the class into its complete name
-	 * @param clazz
-	 * @return
-	 */
-	public String translateClass(String clazz) {
-		return xmlVisitor.translateClazz(clazz);
-	}
+	public static final String ID_AT = "i";
 
-	public String translateField(String field) {
-		return xmlVisitor.translateField(field);
-	}
+	public static final String FIELD_AT = "f";
 
-	public String translateParam(String param) {
-		return xmlVisitor.translateParam(param);
-	}
+	public static final String CLASSES_TAG = "z";
+
+	public static final String ENTRY_TAG = "w";
+
+	public static final String KEY_AT = "k";
+
+	public static final String VALUE_AT = "v";
+
+	public static final String FIELDS_TAG = "y";
+
+	public static final String PARAMS_ABB_TAG = "n";
 
 }

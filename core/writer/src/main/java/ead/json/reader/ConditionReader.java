@@ -53,7 +53,7 @@ import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class ConditionReader {

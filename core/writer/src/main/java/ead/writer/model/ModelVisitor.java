@@ -44,7 +44,7 @@ import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import ead.reader.DOMTags;
+import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLDocument;
 import es.eucm.ead.tools.xml.XMLNode;

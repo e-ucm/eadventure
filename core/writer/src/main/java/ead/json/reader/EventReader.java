@@ -55,7 +55,7 @@ import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.events.enums.TimedEvType;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class EventReader {

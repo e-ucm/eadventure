@@ -60,7 +60,7 @@ import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 
 import java.util.Collection;
 

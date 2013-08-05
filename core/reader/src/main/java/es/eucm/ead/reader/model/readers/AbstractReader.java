@@ -35,58 +35,66 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.readers;
+package es.eucm.ead.reader.model.readers;
 
-import es.eucm.ead.model.elements.extra.EAdList;
-import ead.reader.model.ObjectsFactory;
-import ead.reader.model.XMLVisitor;
-import ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.DOMTags;
+import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.XMLVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
-@SuppressWarnings("rawtypes")
-public class ListReader extends AbstractReader<EAdList> {
+public abstract class AbstractReader<T> implements Reader<T> {
 
-	private static final EAdList EMPTY_LIST = new EAdList();
+	protected static final Logger logger = LoggerFactory
+			.getLogger("ElementReader");
 
-	public ListReader(ObjectsFactory elementsFactory, XMLVisitor visitor) {
-		super(elementsFactory, visitor);
+	protected ObjectsFactory elementsFactory;
+
+	protected XMLVisitor xmlVisitor;
+
+	public AbstractReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
+		this.elementsFactory = elementsFactory;
+		this.xmlVisitor = xmlVisitor;
 	}
 
-	@Override
-	public EAdList read(XMLNode node) {
-		if (node.hasChildNodes()) {
-			EAdList list = new EAdList();
-			XMLNodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				xmlVisitor.loadElement(children.item(i),
-						new ListVisitorListener(list));
-			}
-			return list;
-		} else {
-			return EMPTY_LIST;
-		}
-
+	/**
+	 * Returns the class for the element contained in the given node
+	 * @param node
+	 * @return
+	 */
+	public Class<?> getNodeClass(XMLNode node) {
+		String clazz = node.getAttributeValue(DOMTags.CLASS_AT);
+		return clazz == null ? null : getNodeClass(clazz);
 	}
 
-	public static class ListVisitorListener implements VisitorListener {
-		private EAdList list;
-
-		public ListVisitorListener(EAdList list) {
-			this.list = list;
+	public Class<?> getNodeClass(String clazz) {
+		clazz = translateClass(clazz);
+		Class<?> c = null;
+		try {
+			c = elementsFactory.getClassFromName(clazz);
+		} catch (NullPointerException e) {
+			logger.error("Error resolving class {}", clazz, e);
 		}
+		return c;
+	}
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public boolean loaded(XMLNode node, Object object,
-				boolean isNullInOrigin) {
-			if (object != null || isNullInOrigin) {
-				list.add(object);
-				return true;
-			}
-			return false;
-		}
+	/**
+	 * Translate the class into its complete name
+	 * @param clazz
+	 * @return
+	 */
+	public String translateClass(String clazz) {
+		return xmlVisitor.translateClazz(clazz);
+	}
 
+	public String translateField(String field) {
+		return xmlVisitor.translateField(field);
+	}
+
+	public String translateParam(String param) {
+		return xmlVisitor.translateParam(param);
 	}
 
 }

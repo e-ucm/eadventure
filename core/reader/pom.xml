@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
 	<groupId>ead</groupId>
 	<version>2.0.1-SNAPSHOT</version>
@@ -16,19 +16,14 @@
 	<packaging>jar</packaging>
 	<name>eAdventure Reader</name>
 	<description>
-    Generic reader
+    Reader for the eAdventure model.
   </description>
 	<dependencies>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>model</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-tools</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
 		<!-- tests -->
 		<dependency>

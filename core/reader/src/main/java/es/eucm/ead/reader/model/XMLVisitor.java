@@ -35,18 +35,18 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model;
+package es.eucm.ead.reader.model;
 
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.params.variables.VarDef;
-import ead.reader.DOMTags;
-import ead.reader.model.readers.ListReader;
-import ead.reader.model.readers.MapReader;
-import ead.reader.model.readers.ObjectReader;
-import ead.reader.model.readers.ParamReader;
-import ead.reader.model.translators.StringTranslator;
+import es.eucm.ead.reader.DOMTags;
+import es.eucm.ead.reader.model.readers.ListReader;
+import es.eucm.ead.reader.model.readers.MapReader;
+import es.eucm.ead.reader.model.readers.ObjectReader;
+import es.eucm.ead.reader.model.readers.ParamReader;
+import es.eucm.ead.reader.model.translators.StringTranslator;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
@@ -192,7 +192,7 @@ public class XMLVisitor {
 		// If we've been too much loops with the same size, we end the reading
 		// and report the remaining nodes
 		if (loopsWithSameSize >= MAX_LOOPS_WITH_SAME_SIZE) {
-            ArrayList<String> l = new ArrayList<String>();
+			ArrayList<String> l = new ArrayList<String>();
 			for (VisitorStep s : stepsQueue) {
 				XMLNode n = s.getNode();
 				// If it's a reference, we create a BasicElement with the id.
@@ -200,9 +200,9 @@ public class XMLVisitor {
 					String id = n.getNodeText();
 					if (id != null) {
 						s.getListener().loaded(n, new BasicElement(id), false);
-                        if ( !l.contains(id)){
-                            l.add(id);
-                        }
+						if (!l.contains(id)) {
+							l.add(id);
+						}
 					}
 				} else {
 					logger.warn("{} node was impossilbe to read.", n
@@ -210,36 +210,37 @@ public class XMLVisitor {
 				}
 
 			}
-            logger.debug("{} references created: {}", l.size(), l.toString() );
+			logger.debug("{} references created: {}", l.size(), l.toString());
 			return true;
 		}
 		return false;
 	}
 
-    public List<VisitorStep> getRefForId( String id ){
-        ArrayList<VisitorStep> list = new ArrayList<VisitorStep>();
-        for ( VisitorStep s: stepsQueue ){
-            XMLNode n = s.getNode();
-            if (n.getNodeName().equals("e") && n.getAttributesLength() < 2 ){
-                String i = n.getNodeText();
-                if ( i.equals(id)){
-                    list.add(s);
-                }
-            }
-        }
-        return list;
-    }
+	public List<VisitorStep> getRefForId(String id) {
+		ArrayList<VisitorStep> list = new ArrayList<VisitorStep>();
+		for (VisitorStep s : stepsQueue) {
+			XMLNode n = s.getNode();
+			if (n.getNodeName().equals("e") && n.getAttributesLength() < 2) {
+				String i = n.getNodeText();
+				if (i.equals(id)) {
+					list.add(s);
+				}
+			}
+		}
+		return list;
+	}
 
-    public List<VisitorStep> getNodeWithId( String id ){
-        ArrayList<VisitorStep> list = new ArrayList<VisitorStep>();
-        for ( VisitorStep s: stepsQueue ){
-            XMLNode n = s.getNode();
-            if ( id.equals(n.getAttributeValue("i"))){
-                list.add(s);
-            }
-        }
-        return list;
-    }
+	public List<VisitorStep> getNodeWithId(String id) {
+		ArrayList<VisitorStep> list = new ArrayList<VisitorStep>();
+		for (VisitorStep s : stepsQueue) {
+			XMLNode n = s.getNode();
+			if (id.equals(n.getAttributeValue("i"))) {
+				list.add(s);
+			}
+		}
+		return list;
+	}
+
 	public static interface VisitorListener {
 
 		/**
@@ -323,8 +324,9 @@ public class XMLVisitor {
 		fieldsTranslators.clear();
 		paramsTranslators.clear();
 		objectReader.clear();
-        // Engine objects
-        elementsFactory.putEAdElement(MouseHud.CURSOR_ID, new BasicElement(MouseHud.CURSOR_ID));
+		// Engine objects
+		elementsFactory.putEAdElement(MouseHud.CURSOR_ID, new BasicElement(
+				MouseHud.CURSOR_ID));
 	}
 
 	public void addLoadInitalValue(VarDef<?> v, String value) {

@@ -43,7 +43,7 @@ import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.variables.VarDef;
-import ead.reader.DOMTags;
+import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
 import ead.writer.model.ModelVisitor;
 

@@ -55,7 +55,7 @@ import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;
 import ead.writer.AdventureWriter;

@@ -35,15 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader;
+package es.eucm.ead.reader;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.EAdAdventureModel;
-import ead.reader.model.XMLVisitor;
-import ead.reader.model.XMLVisitor.VisitorListener;
-import ead.reader.model.translators.MapClassTranslator;
+import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.model.translators.MapClassTranslator;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLDocument;
 import es.eucm.ead.tools.xml.XMLNode;

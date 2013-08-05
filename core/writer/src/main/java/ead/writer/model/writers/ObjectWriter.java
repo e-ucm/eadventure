@@ -43,7 +43,7 @@ import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import ead.reader.DOMTags;
+import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.EAdUtils;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;

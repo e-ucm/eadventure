@@ -35,40 +35,22 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader;
+package es.eucm.ead.reader.model.readers;
 
-public class DOMTags {
+import es.eucm.ead.tools.xml.XMLNode;
 
-	public static final String PACKAGE = "ead.common";
+/**
+ * Basic class for reading any type of element in eAdventure
+ *
+ * @param <T>
+ */
+public interface Reader<T> {
 
-	public static final String ROOT_TAG = "adventure";
-
-	public static final String ELEMENT_TAG = "e";
-
-	public static final String PARAM_TAG = "p";
-
-	public static final String ASSET_TAG = "a";
-
-	public static final String LIST_TAG = "l";
-
-	public static final String MAP_TAG = "m";
-
-	public static final String CLASS_AT = "c";
-
-	public static final String ID_AT = "i";
-
-	public static final String FIELD_AT = "f";
-
-	public static final String CLASSES_TAG = "z";
-
-	public static final String ENTRY_TAG = "w";
-
-	public static final String KEY_AT = "k";
-
-	public static final String VALUE_AT = "v";
-
-	public static final String FIELDS_TAG = "y";
-
-	public static final String PARAMS_ABB_TAG = "n";
+	/**
+	 * Reads the element contained by the node
+	 * @param node
+	 * @return
+	 */
+	T read(XMLNode node);
 
 }

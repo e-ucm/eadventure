@@ -65,7 +65,7 @@ import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Matrix;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class AssetsReader {

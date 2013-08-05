@@ -43,7 +43,7 @@ import ead.engine.core.EAdEngine;
 import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.enginefilters.EngineFilter;
 import ead.engine.core.game.enginefilters.EngineHook;
-import ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 
 /**
  * Main game interface. Include the methods to update the game state, render the

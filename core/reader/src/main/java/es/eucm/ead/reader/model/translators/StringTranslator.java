@@ -35,22 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.readers;
+package es.eucm.ead.reader.model.translators;
 
-import es.eucm.ead.tools.xml.XMLNode;
-
-/**
- * Basic class for reading any type of element in eAdventure
- *
- * @param <T>
- */
-public interface Reader<T> {
+public interface StringTranslator {
 
 	/**
-	 * Reads the element contained by the node
-	 * @param node
+	 * Translate a short clazz name to its complete name
+	 * 
+	 * @param clazz
 	 * @return
 	 */
-	T read(XMLNode node);
+	String translate(String clazz);
 
 }

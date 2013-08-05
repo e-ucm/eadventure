@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model;
+package es.eucm.ead.reader.model;
 
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.assets.AssetDescriptor;

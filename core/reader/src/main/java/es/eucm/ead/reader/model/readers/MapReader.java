@@ -35,12 +35,12 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.readers;
+package es.eucm.ead.reader.model.readers;
 
 import es.eucm.ead.model.elements.extra.EAdMap;
-import ead.reader.model.ObjectsFactory;
-import ead.reader.model.XMLVisitor;
-import ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLNodeList;
 

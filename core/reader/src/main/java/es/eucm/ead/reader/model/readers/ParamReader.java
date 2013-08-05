@@ -35,16 +35,40 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.translators;
+package es.eucm.ead.reader.model.readers;
 
-public interface StringTranslator {
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.guievents.DragGEv;
+import es.eucm.ead.model.params.guievents.KeyGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.tools.xml.XMLNode;
 
-	/**
-	 * Translate a short clazz name to its complete name
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	String translate(String clazz);
+/**
+ * Parameters can be any type of object. Nodes with parameters have no children.
+ * 
+ */
+public class ParamReader extends AbstractReader<Object> {
+
+	public ParamReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
+		super(elementsFactory, xmlVisitor);
+	}
+
+	@Override
+	public Object read(XMLNode node) {
+		Class<?> clazz = getNodeClass(node);
+		String value = node.getNodeText();
+		if (clazz.isEnum() || clazz == VarDef.class || clazz == ColorFill.class
+				|| clazz == Paint.class || clazz == LinearGradientFill.class
+				|| clazz == MouseGEv.class || clazz == KeyGEv.class
+				|| clazz == DragGEv.class) {
+			value = translateParam(value);
+		}
+		return elementsFactory.getParam(value, clazz);
+	}
 
 }

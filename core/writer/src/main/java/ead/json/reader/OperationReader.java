@@ -51,7 +51,7 @@ import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.params.text.EAdString;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class OperationReader {

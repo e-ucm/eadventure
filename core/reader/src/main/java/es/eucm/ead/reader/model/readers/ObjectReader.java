@@ -35,16 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.readers;
+package es.eucm.ead.reader.model.readers;
 
 import java.util.ArrayList;
 
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
-import ead.reader.DOMTags;
-import ead.reader.model.ObjectsFactory;
-import ead.reader.model.XMLVisitor;
-import ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.DOMTags;
+import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionField;

@@ -53,7 +53,7 @@ import com.google.inject.Injector;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
-import ead.reader.AdventureReader;
+import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.tools.java.DataPrettifier;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;

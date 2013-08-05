@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.strings;
+package es.eucm.ead.reader.strings;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

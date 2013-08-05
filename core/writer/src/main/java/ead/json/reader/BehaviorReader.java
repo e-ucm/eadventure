@@ -48,7 +48,7 @@ import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 import es.eucm.ead.model.params.guievents.MouseGEv;
-import ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.ObjectsFactory;
 
 @SuppressWarnings("unchecked")
 public class BehaviorReader {

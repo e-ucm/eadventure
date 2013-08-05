@@ -59,7 +59,7 @@ import ead.engine.core.game.enginefilters.EngineStringFilter;
 import ead.engine.core.game.interfaces.*;
 import ead.engine.core.gameobjects.events.EventGO;
 import ead.engine.core.tracking.GameTracker;
-import ead.reader.strings.StringsReader;
+import es.eucm.ead.reader.strings.StringsReader;
 import es.eucm.ead.tools.PropertiesReader;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.xml.XMLNode;

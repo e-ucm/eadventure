@@ -103,16 +103,17 @@
                 <module>core/tools-java</module>
                 <module>core/tools-gwt</module>
 
+                <!-- Reader -->
+                <module>core/reader</module>
+
                 <!-- Engine resources -->
-                <!--<module>core/engine-resources</module> -->
+                <module>core/engine-resources</module>
                 <!-- Engine -->
-				<!-- <module>core/engine-core</module> -->
-				<!-- Gdx -->
-				<!-- <module>core/engine-desktop</module>
-				<module>core/engine-android</module>				
+                <!--				<module>core/engine-core</module>-->
+                <!-- Gdx -->
+                <!-- <module>core/engine-desktop</module>
+                <module>core/engine-android</module>
 -->
-				<!-- Reader -->
-   <!--             <module>core/reader</module> -->
                 <!-- Writer -->
 <!--                <module>core/writer</module>-->
 				<!-- Importer -->

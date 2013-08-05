@@ -56,7 +56,7 @@ import ead.engine.core.game.interfaces.GUI;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gameobjects.sceneelements.SceneGO;
-import ead.reader.AdventureReader;
+import es.eucm.ead.reader.AdventureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -35,21 +35,58 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.reader.model.translators;
+package es.eucm.ead.reader.model.readers;
 
-import java.util.Map;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLNodeList;
 
-public class MapClassTranslator implements StringTranslator {
+@SuppressWarnings("rawtypes")
+public class ListReader extends AbstractReader<EAdList> {
 
-	private Map<String, String> translations;
+	private static final EAdList EMPTY_LIST = new EAdList();
 
-	public MapClassTranslator(Map<String, String> translations) {
-		this.translations = translations;
+	public ListReader(ObjectsFactory elementsFactory, XMLVisitor visitor) {
+		super(elementsFactory, visitor);
 	}
 
 	@Override
-	public String translate(String clazz) {
-		return translations.get(clazz);
+	public EAdList read(XMLNode node) {
+		if (node.hasChildNodes()) {
+			EAdList list = new EAdList();
+			XMLNodeList children = node.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				xmlVisitor.loadElement(children.item(i),
+						new ListVisitorListener(list));
+			}
+			return list;
+		} else {
+			return EMPTY_LIST;
+		}
+
+	}
+
+	public static class ListVisitorListener implements VisitorListener {
+		private EAdList list;
+
+		public ListVisitorListener(EAdList list) {
+			this.list = list;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public boolean loaded(XMLNode node, Object object,
+				boolean isNullInOrigin) {
+			if (object != null || isNullInOrigin) {
+				list.add(object);
+				return true;
+			}
+			return false;
+		}
+
 	}
 
 }
