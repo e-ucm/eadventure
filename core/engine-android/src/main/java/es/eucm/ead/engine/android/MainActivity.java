@@ -35,26 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.android;
+package es.eucm.ead.engine.android;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import android.os.Bundle;
 
-import ead.engine.core.assets.AssetHandlerImpl;
-import es.eucm.ead.tools.GenericInjector;
-import ead.engine.core.utils.SceneGraph;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.inject.Guice;
 
-@Singleton
-public class AndroidAssetHandler extends AssetHandlerImpl {
+import es.eucm.ead.tools.java.JavaInjector;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
-	@Inject
-	public AndroidAssetHandler(GenericInjector injector, SceneGraph sceneGraph) {
-		super(injector, sceneGraph);
-	}
-
+public class MainActivity extends AndroidApplication {
 	@Override
-	public void getTextfileAsync(String path, TextHandler textHandler) {
-		// XXX
-		textHandler.handle("");
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
+		cfg.useGL20 = true;
+
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+
+		JavaInjector injector = new JavaInjector(Guice.createInjector(
+				new GdxAndroidModule(), new JavaToolsModule()));
+
+		ApplicationListener engine = injector
+				.getInstance(ApplicationListener.class);
+		initialize(engine, cfg);
 	}
 }

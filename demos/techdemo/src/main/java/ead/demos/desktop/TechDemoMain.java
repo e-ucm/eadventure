@@ -2,9 +2,9 @@ package ead.demos.desktop;
 
 import java.util.Map;
 
-import ead.engine.core.game.GameImpl;
-import ead.engine.core.game.enginefilters.AbstractEngineFilter;
-import ead.engine.core.gdx.desktop.DesktopGame;
+import es.eucm.ead.engine.game.GameImpl;
+import es.eucm.ead.engine.game.enginefilters.AbstractEngineFilter;
+import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 public class TechDemoMain {

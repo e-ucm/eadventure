@@ -12,14 +12,14 @@ import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position.Corner;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.assets.drawables.RuntimeCaption;
-import ead.engine.core.assets.drawables.RuntimeNinePatchImage;
-import ead.engine.core.factories.SceneElementGOFactory;
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.events.AbstractEventGO;
-import ead.engine.core.gameobjects.sceneelements.SceneElementGO;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
+import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 
 @Reflectable
 public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {

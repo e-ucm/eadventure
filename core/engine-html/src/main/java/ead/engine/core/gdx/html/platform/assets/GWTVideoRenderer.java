@@ -38,7 +38,7 @@
 package ead.engine.core.gdx.html.platform.assets;
 
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import ead.engine.core.assets.SpecialAssetRenderer;
+import es.eucm.ead.engine.assets.SpecialAssetRenderer;
 
 public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> {
 
@@ -115,7 +115,7 @@ public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> 
 																		}-*/;
 
 	public static native final void export()/*-{
-															$wnd.eadVideoEnded=$entry(@ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer::videoEnded());
+															$wnd.eadVideoEnded=$entry(@ead.engine.engine.gdx.html.platform.assets.GWTVideoRenderer::videoEnded());
 															}-*/;
 
 }

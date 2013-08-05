@@ -173,7 +173,7 @@ public class StringsConverter {
 	private EAdOperation createOperation(String condition) {
 		Comparator comparator;
 		String[] comparison;
-		// Look for comparators. Comparators checked are those checked in es.eucm.eadventure.engine.core.control.VarSummary
+		// Look for comparators. Comparators checked are those checked in es.eucm.eadventure.engine.engine.control.VarSummary
 		if (condition.contains(">=")) {
 			comparator = Comparator.GREATER_EQUAL;
 			comparison = condition.split(">=");

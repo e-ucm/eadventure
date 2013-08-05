@@ -225,5 +225,9 @@
 			<groupId>com.badlogic.gdx</groupId>
 			<artifactId>gdx-backend-gwt-sources</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>aurelienribon</groupId>
+            <artifactId>tweenengine-api-sources</artifactId>
+        </dependency>
 	</dependencies>
 </project>

@@ -10,9 +10,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-	<groupId>ead</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>reader</artifactId>
+	<artifactId>ead-reader</artifactId>
 	<packaging>jar</packaging>
 	<name>eAdventure Reader</name>
 	<description>
@@ -25,33 +23,27 @@
             <version>${parent.version}</version>
         </dependency>
 
-		<!-- tests -->
-		<dependency>
+        <!-- Guice -->
+        <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-guice</artifactId>
+        </dependency>
+        <!-- tests -->
+        <dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		<dependency>
+        <dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		<dependency>
+        <dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 		</dependency>
-		<dependency>
+        <dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.sonatype.sisu</groupId>
-			<artifactId>sisu-guice</artifactId>
-		</dependency>
-		
-		<!-- GSon -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.2</version>
 		</dependency>
 	</dependencies>
 </project>

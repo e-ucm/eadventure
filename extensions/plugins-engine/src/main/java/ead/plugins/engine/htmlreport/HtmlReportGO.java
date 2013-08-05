@@ -3,8 +3,8 @@ package ead.plugins.engine.htmlreport;
 import com.google.inject.Inject;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.params.text.EAdString;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.tools.StringHandler;
 
 import javax.swing.*;

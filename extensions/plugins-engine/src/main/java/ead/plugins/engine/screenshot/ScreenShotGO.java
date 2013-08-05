@@ -1,12 +1,12 @@
 package ead.plugins.engine.screenshot;
 
 import com.google.inject.Inject;
-import ead.engine.core.game.GameImpl;
-import ead.engine.core.game.enginefilters.EngineHook;
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.game.interfaces.Game;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import es.eucm.ead.engine.game.GameImpl;
+import es.eucm.ead.engine.game.enginefilters.EngineHook;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.tools.StringHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

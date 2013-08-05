@@ -35,24 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.android;
+package es.eucm.ead.engine.android;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GUIImpl;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.engine.utils.SceneGraph;
 
 @Singleton
-public class AndroidGdxGUI extends GUIImpl {
+public class AndroidAssetHandler extends AssetHandlerImpl {
 
-	public AndroidGdxGUI() {
-		super();
+	@Inject
+	public AndroidAssetHandler(GenericInjector injector, SceneGraph sceneGraph) {
+		super(injector, sceneGraph);
 	}
 
 	@Override
-	public void showSpecialResource(Object object, int x, int y,
-			boolean fullscreen) {
-		// FIXME show special resources
-
+	public void getTextfileAsync(String path, TextHandler textHandler) {
+		// XXX
+		textHandler.handle("");
 	}
-
 }

@@ -33,7 +33,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>ead.engine.core.gdx.desktop.Main</mainClass>
+							<mainClass>Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

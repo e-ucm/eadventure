@@ -40,7 +40,7 @@ package ead.engine.core.gdx.html.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.game.GUIImpl;
+import es.eucm.ead.engine.game.GUIImpl;
 import ead.engine.core.gdx.html.platform.assets.GWTVideoRenderer;
 
 @Singleton

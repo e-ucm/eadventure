@@ -102,7 +102,7 @@ public class ResourceCreator {
 			System.exit(-1);
 		}
 
-		String projectURL = args[0]; // .../eadventure.editor-core
+		String projectURL = args[0]; // .../eadventure.editor-engine
 		String packageName = args[1]; // ead.editor
 		String licenseFileName = args[2]; // etc/LICENSE.txt
 		PrintStream out = (args.length == 3) ? System.out : new PrintStream(

@@ -6,9 +6,9 @@ import com.google.inject.Inject;
 import com.gwtent.reflection.client.Reflectable;
 
 import es.eucm.ead.model.elements.EAdEffect;
-import ead.engine.core.game.interfaces.GUI;
-import ead.engine.core.game.interfaces.GameState;
-import ead.engine.core.gameobjects.effects.AbstractEffectGO;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 
 @Reflectable
 public class Drag15GO extends AbstractEffectGO<Drag15Ef> {

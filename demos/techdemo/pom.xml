@@ -54,7 +54,7 @@
 		<version>${gwt.version}</version> <executions> <execution> <goals> <goal>compile</goal> 
 		<goal>generateAsync</goal> <goal>test</goal> </goals> </execution> </executions> 
 		<configuration> <compileSourcesArtifacts> <artifact>ead:model</artifact> 
-		<artifact>ead:engine-core</artifact> <artifact>ead:engine-gdx</artifact> 
+		<artifact>ead:engine-engine</artifact> <artifact>ead:engine-gdx</artifact>
 		<artifact>ead:tools</artifact> <artifact>ead:tools-gwt</artifact> <artifact>ead:reader</artifact> 
 		<artifact>ead:engine-html</artifact> </compileSourcesArtifacts> <configuration> 
 		<buildOutputDirectory>${project.basedir}/src/main/webapp</buildOutputDirectory> 

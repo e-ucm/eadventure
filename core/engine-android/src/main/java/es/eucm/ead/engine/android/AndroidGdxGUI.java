@@ -35,34 +35,24 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.android;
+package es.eucm.ead.engine.android;
 
-import android.os.Bundle;
+import com.google.inject.Singleton;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.google.inject.Guice;
+import es.eucm.ead.engine.game.GUIImpl;
 
-import es.eucm.ead.tools.java.JavaInjector;
-import es.eucm.ead.tools.java.JavaToolsModule;
-import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+@Singleton
+public class AndroidGdxGUI extends GUIImpl {
 
-public class MainActivity extends AndroidApplication {
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-		cfg.useGL20 = true;
-
-		ReflectionClassLoader.init(new JavaReflectionClassLoader());
-
-		JavaInjector injector = new JavaInjector(Guice.createInjector(
-				new GdxAndroidModule(), new JavaToolsModule()));
-
-		ApplicationListener engine = injector
-				.getInstance(ApplicationListener.class);
-		initialize(engine, cfg);
+	public AndroidGdxGUI() {
+		super();
 	}
+
+	@Override
+	public void showSpecialResource(Object object, int x, int y,
+			boolean fullscreen) {
+		// FIXME show special resources
+
+	}
+
 }

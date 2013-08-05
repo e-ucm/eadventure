@@ -47,9 +47,9 @@ import com.google.gwt.http.client.Response;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.engine.core.assets.AssetHandlerImpl;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.tools.GenericInjector;
-import ead.engine.core.utils.SceneGraph;
+import es.eucm.ead.engine.utils.SceneGraph;
 
 @Singleton
 public class GdxGWTAssetHandler extends AssetHandlerImpl {

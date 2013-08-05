@@ -3,38 +3,30 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-	<groupId>ead</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>engine-android</artifactId>
+	<artifactId>ead-engine-android</artifactId>
 	<packaging>jar</packaging>
-	<name>eAdventure Gdx Android Engine</name>
+	<name>eAdventure Android Engine</name>
 	<description>
-		Android engine; requires ADK to build, generates android .apk
+		Android engine;
 	</description>
 
 	<dependencies>
-		<!-- Gdx already include support for slf4j -->
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-            <groupId>ead</groupId>
-            <artifactId>plugins-engine</artifactId>
-            <version>${project.version}</version>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-engine-core</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-tools-java</artifactId>
+            <version>${parent.version}</version>
         </dependency>
 
 		<!-- Android -->
@@ -77,23 +69,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>

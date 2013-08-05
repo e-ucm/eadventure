@@ -1,7 +1,7 @@
 package ead.guitools.enginegui;
 
 import ead.converter.AdventureConverter;
-import ead.engine.core.gdx.desktop.DesktopGame;
+import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.tools.java.utils.FileUtils;
 
 import javax.swing.*;

@@ -35,15 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gdx.android;
+package es.eucm.ead.engine.android;
 
 import java.util.Map.Entry;
 
 import com.google.inject.AbstractModule;
 
-import ead.engine.core.GdxModuleMap;
-import ead.engine.core.assets.AssetHandler;
-import ead.engine.core.game.interfaces.GUI;
+import es.eucm.ead.engine.GdxModuleMap;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.game.interfaces.GUI;
 
 public class GdxAndroidModule extends AbstractModule {
 

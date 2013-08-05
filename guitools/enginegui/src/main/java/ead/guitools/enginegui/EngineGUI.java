@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import ead.engine.core.gdx.desktop.DesktopGame;
+import es.eucm.ead.engine.desktop.DesktopGame;
 import ead.importer.AdventureImporter;
 import es.eucm.ead.tools.java.utils.FileUtils;
 
