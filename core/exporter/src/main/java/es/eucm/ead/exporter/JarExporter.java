@@ -35,8 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.exporter;
+package es.eucm.ead.exporter;
 
+import es.eucm.ead.tools.java.utils.FileUtils;
 import org.apache.maven.cli.MavenCli;
 
 import java.io.*;
@@ -66,8 +67,8 @@ public class JarExporter {
 				.getSystemResourceAsStream("desktop-pom.xml");
 		OutputStream os = null;
 		try {
-			ead.utils.FileUtils.copy(jarpom, new FileOutputStream(new File(
-					projectFolder, "pom.xml")));
+			FileUtils.copy(jarpom, new FileOutputStream(new File(
+                    projectFolder, "pom.xml")));
 			maven.doMain(new String[] { "-Dresources=" + resourcesFolder,
 					"clean", "compile", "assembly:single" }, projectFolder,
 					System.out, System.err);
@@ -79,7 +80,7 @@ public class JarExporter {
 				destiny += ".jar";
 				destinyFile = new File(destiny);
 			}
-			ead.utils.FileUtils.copy(new File(projectFolder + "/target",
+			FileUtils.copy(new File(projectFolder + "/target",
 					"game-1.0-jar-with-dependencies.jar"), destinyFile);
 		} catch (Exception e) {
 

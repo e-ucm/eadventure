@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.exporter;
+package es.eucm.ead.exporter;
 
 import java.util.Properties;
 
