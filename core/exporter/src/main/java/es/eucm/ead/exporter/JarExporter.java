@@ -67,8 +67,8 @@ public class JarExporter {
 				.getSystemResourceAsStream("desktop-pom.xml");
 		OutputStream os = null;
 		try {
-			FileUtils.copy(jarpom, new FileOutputStream(new File(
-                    projectFolder, "pom.xml")));
+			FileUtils.copy(jarpom, new FileOutputStream(new File(projectFolder,
+					"pom.xml")));
 			maven.doMain(new String[] { "-Dresources=" + resourcesFolder,
 					"clean", "compile", "assembly:single" }, projectFolder,
 					System.out, System.err);

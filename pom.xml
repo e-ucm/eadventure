@@ -125,7 +125,7 @@
                 <module>core/exporter</module>
 
                 <!-- Demos -->
-                <!--				<module>demos/techdemo</module>-->
+                <module>demos/techdemo</module>
 
                 <!-- GUI tools -->
                 <!--				<module>guitools/exportergui</module>-->

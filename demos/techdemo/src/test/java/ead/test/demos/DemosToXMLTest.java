@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
-import ead.demos.elementfactories.scenes.scenes.InitScene;
+import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.java.xml.JavaXMLParser;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
