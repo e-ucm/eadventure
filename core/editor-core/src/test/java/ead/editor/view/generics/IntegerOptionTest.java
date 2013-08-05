@@ -44,7 +44,7 @@ import ead.editor.model.nodes.EngineNode;
 import ead.editor.view.generic.IntegerOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 public class IntegerOptionTest extends AbstractOptionTest {
 

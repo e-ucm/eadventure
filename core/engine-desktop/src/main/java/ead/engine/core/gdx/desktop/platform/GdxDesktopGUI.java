@@ -44,7 +44,7 @@ import ead.engine.core.factories.SceneElementGOFactory;
 import ead.engine.core.game.GUIImpl;
 import ead.engine.core.game.interfaces.Game;
 import ead.engine.core.game.interfaces.GameState;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;

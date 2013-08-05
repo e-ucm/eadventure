@@ -38,9 +38,8 @@
 package ead.editor.view;
 
 import ead.editor.R;
-import ead.editor.view.SplashScreen;
-import ead.utils.i18n.Resource;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.i18n.Resource;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;

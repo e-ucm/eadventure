@@ -45,11 +45,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ead.editor.control.Command;
-import ead.editor.control.commands.CompositeCommand;
 import ead.editor.model.DefaultModelEvent;
 import ead.editor.model.EditorModel;
 import ead.editor.model.ModelEvent;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 import junit.framework.TestCase;
 
 public class CombineCommandListTest extends TestCase {

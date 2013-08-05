@@ -51,8 +51,8 @@ import ead.engine.core.game.interfaces.GameState;
 import ead.engine.core.gdx.desktop.debugger.DebuggerFrame;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopGUI;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
-import ead.tools.java.JavaToolsModule;
-import ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 import javax.swing.*;

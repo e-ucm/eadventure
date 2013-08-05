@@ -94,8 +94,8 @@ import ead.editor.view.panel.asset.ImageAssetPanel;
 import ead.editor.view.structure.StructureElement;
 import ead.editor.view.structure.StructurePanel;
 import ead.editor.view.toolbar.ToolPanel;
-import ead.utils.i18n.Resource;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.i18n.Resource;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 
 /**
  * Default implementation of the main editor window

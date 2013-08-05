@@ -19,7 +19,7 @@ import javax.swing.filechooser.FileFilter;
 
 import ead.engine.core.gdx.desktop.DesktopGame;
 import ead.importer.AdventureImporter;
-import ead.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.FileUtils;
 
 public class EngineGUI {
 

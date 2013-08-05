@@ -80,10 +80,10 @@ import ead.reader.AdventureReader;
 import ead.reader.strings.StringsReader;
 import es.eucm.ead.tools.PropertiesReader;
 import es.eucm.ead.tools.StringHandler;
-import ead.tools.java.DataPrettifier;
+import es.eucm.ead.tools.java.DataPrettifier;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;
-import ead.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.FileUtils;
 import ead.writer.AdventureWriter;
 import ead.writer.StringWriter;
 

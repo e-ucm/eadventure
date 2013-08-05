@@ -101,8 +101,7 @@
                 <!-- Tools & Utils -->
                 <module>core/tools</module>
                 <module>core/tools-java</module>
-                <!--<module>core/tools-gwt</module>
-                <module>core/utils</module> -->
+                <module>core/tools-gwt</module>
 
                 <!-- Engine resources -->
                 <!--<module>core/engine-resources</module> -->

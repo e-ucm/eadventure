@@ -37,13 +37,13 @@
 
 package ead.editor;
 
-import ead.utils.i18n.I18N;
+import es.eucm.ead.tools.java.utils.i18n.I18N;
 
 /**
  * Message index for this class (bound at run-time according to user preferences)
  *
  * This is an AUTOMATICALLY-GENERATED file - 
- * Run class ead.utils.i18n.ResourceCreator with parameters: 
+ * Run class ResourceCreator with parameters:
  *    "./core/editor-core" "ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/ead/editor/R.java"
  * to re-create or update this class
  */

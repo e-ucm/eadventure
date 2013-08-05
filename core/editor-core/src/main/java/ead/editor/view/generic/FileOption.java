@@ -57,7 +57,7 @@ import ead.editor.control.commands.ChangeFileCommand;
 import ead.editor.control.commands.FileCache;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
-import ead.utils.i18n.I18N;
+import es.eucm.ead.tools.java.utils.i18n.I18N;
 
 public class FileOption extends DefaultAbstractOption<File> {
 

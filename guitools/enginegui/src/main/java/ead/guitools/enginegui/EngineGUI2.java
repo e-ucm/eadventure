@@ -2,7 +2,7 @@ package ead.guitools.enginegui;
 
 import ead.converter.AdventureConverter;
 import ead.engine.core.gdx.desktop.DesktopGame;
-import ead.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.FileUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;

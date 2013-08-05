@@ -49,17 +49,17 @@ import ead.editor.view.SplashScreen;
 import ead.editor.view.SplashScreenImpl;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
-import ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import ead.utils.Log4jConfig;
-import ead.utils.Log4jConfig.Slf4jLevel;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig.Slf4jLevel;
 
 /**
  * eAdventure editor launcher. This class has a main method.
  *
  * IMPORTANT: to re-generate resources, use
  * java -cp core/utils/target/utils-2.0.1-SNAPSHOT.jar
- *      ead.utils.i18n.ResourceCreator core/editor-core ead.editor
+ *      ResourceCreator core/editor-core ead.editor
  *      etc/LICENSE.txt core/editor-core/src/main/java/ead/editor/R.java
  */
 public class EAdventureEditor implements Launcher {
@@ -112,7 +112,7 @@ public class EAdventureEditor implements Launcher {
 				//	  		  "ParamNodeVisitor", Log4jConfig.Slf4jLevel.Debug,
 				//            "ObjectFactory", Log4jConfig.Slf4jLevel.Debug
 				//			Internacionalizacion (i18n)
-				//            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
+				//            "I18N", Log4jConfig.Slf4jLevel.Debug,
 				});
 
 		// show splash

@@ -63,7 +63,7 @@ import ead.engine.core.assets.AssetHandlerImpl;
 import ead.engine.core.assets.SpecialAssetRenderer;
 import es.eucm.ead.tools.GenericInjector;
 import ead.engine.core.utils.SceneGraph;
-import ead.tools.java.JavaInjector;
+import es.eucm.ead.tools.java.JavaInjector;
 
 @Singleton
 public class GdxDesktopAssetHandler extends AssetHandlerImpl {

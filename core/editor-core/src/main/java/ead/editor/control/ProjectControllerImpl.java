@@ -49,7 +49,7 @@ import com.google.inject.Singleton;
 import ead.editor.control.change.ChangeListener;
 import ead.editor.model.EditorModel;
 import ead.engine.core.gdx.desktop.DesktopGame;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 
 /**
  * Default implementation for the {@link ProjectController}.

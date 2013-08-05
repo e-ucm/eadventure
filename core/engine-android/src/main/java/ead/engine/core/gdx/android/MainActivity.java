@@ -44,9 +44,9 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.inject.Guice;
 
-import ead.tools.java.JavaInjector;
-import ead.tools.java.JavaToolsModule;
-import ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.java.JavaInjector;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 public class MainActivity extends AndroidApplication {

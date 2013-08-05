@@ -41,7 +41,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.importer.EAdventureImporter.ImporterProgressListener;
-import ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.JavaToolsModule;
 
 public class Main {
 

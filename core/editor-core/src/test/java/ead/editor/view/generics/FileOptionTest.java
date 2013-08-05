@@ -50,7 +50,7 @@ import ead.editor.view.generic.FileNameOption;
 import ead.editor.view.generic.FileOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 public class FileOptionTest extends AbstractOptionTest {
 

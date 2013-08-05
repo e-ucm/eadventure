@@ -43,7 +43,7 @@ import ead.editor.view.generic.DropdownOption;
 import ead.editor.view.generic.OptionPanel;
 import ead.editor.view.generic.PanelImpl;
 import ead.editor.view.generics.DropdownOptionTest.ExampleClass.Series;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 public class DropdownOptionTest extends AbstractOptionTest {
 

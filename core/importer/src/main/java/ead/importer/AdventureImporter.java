@@ -40,7 +40,7 @@ package ead.importer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.JavaToolsModule;
 
 public class AdventureImporter {
 

@@ -48,7 +48,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.FileUtils;
 
 /**
  * A cache intended to allow undo/redo for file operations. The cache is backed

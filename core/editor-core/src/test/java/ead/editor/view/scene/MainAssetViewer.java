@@ -60,10 +60,10 @@ import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.gdx.desktop.platform.GdxDesktopModule;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.importer.BaseImporterModule;
-import ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import ead.utils.Log4jConfig;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 
 public class MainAssetViewer {
 

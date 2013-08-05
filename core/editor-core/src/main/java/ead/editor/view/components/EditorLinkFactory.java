@@ -43,7 +43,7 @@ package ead.editor.view.components;
 
 import ead.editor.control.Controller;
 import ead.editor.model.nodes.DependencyNode;
-import ead.utils.i18n.Resource;
+import es.eucm.ead.tools.java.utils.i18n.Resource;
 import javax.swing.ImageIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

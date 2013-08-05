@@ -67,7 +67,7 @@ import ead.editor.control.Command;
 import ead.editor.control.commands.ListCommand;
 import ead.editor.model.nodes.DependencyNode;
 import ead.editor.view.generic.accessors.Accessor;
-import ead.utils.i18n.Resource;
+import es.eucm.ead.tools.java.utils.i18n.Resource;
 
 /**
  * An option that allows a list of elements to be manipulated.

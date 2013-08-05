@@ -54,14 +54,14 @@ import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
 import ead.reader.AdventureReader;
-import ead.tools.java.DataPrettifier;
-import ead.tools.java.JavaToolsModule;
-import ead.tools.java.reflection.JavaReflectionClassLoader;
-import ead.tools.java.reflection.JavaReflectionProvider;
-import ead.tools.java.xml.JavaXMLParser;
+import es.eucm.ead.tools.java.DataPrettifier;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.xml.JavaXMLParser;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import ead.utils.FileUtils;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 import ead.writer.AdventureWriter;
 
 public class ImportWriteReadTest {

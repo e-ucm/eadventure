@@ -75,8 +75,8 @@ import ead.editor.view.generic.accessors.Accessor;
 import ead.editor.view.generic.accessors.ConvertingAccessor;
 import ead.editor.view.generic.accessors.IntrospectingAccessor;
 import ead.editor.view.panel.AbstractElementPanel;
-import ead.utils.FileUtils;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 
 /**
  * A panel that displays all assets, by type. A preview is available

@@ -62,8 +62,8 @@ import es.eucm.ead.tools.GenericInjector;
 import ead.engine.core.utils.SceneGraph;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.StringHandlerImpl;
-import ead.tools.java.JavaInjector;
-import ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.JavaInjector;
+import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class AssetViewerModule extends AbstractModule {

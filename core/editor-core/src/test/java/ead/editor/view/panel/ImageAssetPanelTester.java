@@ -49,8 +49,8 @@ import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.editor.view.panel.asset.ImageAssetPanel;
 import ead.engine.core.assets.AssetHandlerImpl;
-import ead.utils.FileUtils;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 public class ImageAssetPanelTester extends AbstractPanelTester {
 

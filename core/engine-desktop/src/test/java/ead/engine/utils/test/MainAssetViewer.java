@@ -61,7 +61,7 @@ import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.utils.swing.SwingUtilities;
+import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 
 public class MainAssetViewer implements Runnable {
 

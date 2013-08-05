@@ -44,7 +44,7 @@ import com.google.inject.Injector;
 
 import ead.engine.core.assets.AssetHandler;
 import ead.engine.core.gdx.desktop.utils.assetviewer.AssetViewerModule;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 /**
  * Tests video rendering

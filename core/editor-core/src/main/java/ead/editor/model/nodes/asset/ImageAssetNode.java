@@ -42,7 +42,7 @@ import java.io.File;
 
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import ead.editor.R;
-import ead.utils.i18n.Resource;
+import es.eucm.ead.tools.java.utils.i18n.Resource;
 
 /**
  * Image asset node

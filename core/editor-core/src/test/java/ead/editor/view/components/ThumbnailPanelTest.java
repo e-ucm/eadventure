@@ -45,7 +45,7 @@ import ead.editor.model.nodes.EditorNode;
 import ead.editor.model.nodes.EngineNode;
 import ead.editor.model.nodes.asset.ImageAssetNode;
 import ead.engine.core.assets.AssetHandlerImpl;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

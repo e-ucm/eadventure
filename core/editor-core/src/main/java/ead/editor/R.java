@@ -39,13 +39,13 @@ package ead.editor;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ead.utils.i18n.I18N;
+import es.eucm.ead.tools.java.utils.i18n.I18N;
 
 /**
  * Resource index for this package (statically compiled).
  *
  * This is an AUTOMATICALLY-GENERATED file - 
- * Run class ead.utils.i18n.ResourceCreator with parameters: 
+ * Run class ResourceCreator with parameters:
  *    "./core/editor-core" "ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/ead/editor/R.java"
  * to re-create or update this class
  */

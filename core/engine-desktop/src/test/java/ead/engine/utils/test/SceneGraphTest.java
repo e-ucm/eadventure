@@ -39,7 +39,7 @@ package ead.engine.utils.test;
 
 import ead.engine.core.utils.BasicSceneGraph;
 import ead.engine.core.utils.SceneGraph;
-import ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.params.guievents.MouseGEv;

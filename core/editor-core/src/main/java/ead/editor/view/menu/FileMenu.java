@@ -61,7 +61,7 @@ import ead.editor.control.Controller;
 import ead.editor.control.EditorConfig;
 import ead.editor.control.EditorConfig.EditorConf;
 import ead.editor.control.EditorConfigImpl;
-import ead.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.FileUtils;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;

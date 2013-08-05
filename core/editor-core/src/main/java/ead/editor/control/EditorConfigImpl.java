@@ -37,7 +37,7 @@
 
 package ead.editor.control;
 
-import ead.tools.java.ConfigBackendProperties;
+import es.eucm.ead.tools.java.ConfigBackendProperties;
 
 /**
  * Access to editor-wide options. Private implementation, delegates everything

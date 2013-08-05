@@ -5,7 +5,7 @@ import java.util.Map;
 import ead.engine.core.game.GameImpl;
 import ead.engine.core.game.enginefilters.AbstractEngineFilter;
 import ead.engine.core.gdx.desktop.DesktopGame;
-import ead.utils.Log4jConfig;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
 
 public class TechDemoMain {
 
