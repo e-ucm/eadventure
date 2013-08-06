@@ -37,18 +37,17 @@
 
 package es.eucm.ead.engine.assets.drawables;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
-
-import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.canvas.GdxCanvas;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RuntimeStateDrawable extends
 		AbstractRuntimeAsset<EAdStateDrawable> implements
@@ -65,12 +64,13 @@ public class RuntimeStateDrawable extends
 	@Inject
 	public RuntimeStateDrawable(AssetHandler assetHandler) {
 		super(assetHandler);
+		drawables = new HashMap<String, RuntimeDrawable<?>>();
 	}
 
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		drawables = new HashMap<String, RuntimeDrawable<?>>();
+		drawables.clear();
 		for (String s : descriptor.getStates()) {
 			EAdDrawable d = descriptor.getDrawable(s);
 			if (d != null) {

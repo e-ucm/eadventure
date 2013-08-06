@@ -38,16 +38,14 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.model.elements.effects.AddActorReferenceEf;
-import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
 
 public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 
@@ -71,7 +69,7 @@ public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 		ref.setPosition(effect.getPosition());
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, effect.getEffect());
-		((AbstractSceneElementEffect) effect.getEffect()).setSceneElement(ref);
+		effect.getEffect().setSceneElement(ref);
 		ref.getEvents().add(event);
 		gui.getScene().addSceneElement(sceneElementFactory.get(ref));
 	}

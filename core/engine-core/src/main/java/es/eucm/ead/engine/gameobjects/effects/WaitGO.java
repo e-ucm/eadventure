@@ -51,6 +51,7 @@ import es.eucm.ead.model.elements.scenes.GhostElement;
 
 public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 
+	private GhostElement e;
 	private int time;
 
 	private GUI gui;
@@ -61,6 +62,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 	public WaitGO(GUI gui, GameState gameState) {
 		super(gameState);
 		this.gui = gui;
+		e = new GhostElement();
+		e.setCatchAll(true);
 	}
 
 	@Override
@@ -68,8 +71,6 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 		super.initialize();
 		if (effect.isWaitUntilClick() || effect.isBlockInput()) {
 			time = effect.isWaitUntilClick() ? 1 : effect.getTime();
-			GhostElement e = new GhostElement();
-			e.setCatchAll(true);
 			SceneElementGO go = gui.getHUD(GUI.EFFECTS_HUD_ID);
 			eGO = go.addSceneElement(e);
 			eGO.setInputProcessor(this, false);

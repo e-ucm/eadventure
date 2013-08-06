@@ -46,6 +46,8 @@ import es.eucm.ead.engine.canvas.GdxCanvas;
 
 public class MatrixRuntimeFilter implements RuntimeFilter<MatrixFilter> {
 
+	private Matrix4 matrix4 = new Matrix4();
+
 	@Override
 	public void setFilter(RuntimeDrawable<?> drawable, MatrixFilter filter,
 			GdxCanvas c) {
@@ -53,9 +55,9 @@ public class MatrixRuntimeFilter implements RuntimeFilter<MatrixFilter> {
 		Matrix matrix = filter.getMatrix();
 		float deltaX = filter.getOriginX() * drawable.getWidth();
 		float deltaY = filter.getOriginY() * drawable.getHeight();
-		Matrix4 m = c.convertMatrix(matrix);
+		c.convertMatrix(matrix, matrix4);
 		c.setTransformMatrix(c.getTransformMatrix().trn(deltaX, deltaY, 0.0f)
-				.mul(m));
+				.mul(matrix4));
 
 	}
 

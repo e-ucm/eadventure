@@ -61,19 +61,12 @@ public class GdxCanvas extends SpriteBatch {
 
 	private Stack<Matrix4> matrixes;
 
+	private Matrix4 currentMatrix;
+
 	public GdxCanvas() {
 		matrixes = new Stack<Matrix4>();
-	}
-
-	/**
-	 * Sets the matrix
-	 * 
-	 * @param m
-	 */
-	public void setMatrix(Matrix m) {
-		setTransformMatrix(convertMatrix(m));
-		Gdx.gl20.glBindTexture(0, 0);
-		Gdx.gl20.glActiveTexture(0);
+		currentMatrix = new Matrix4();
+		currentMatrix.set(new float[16]);
 	}
 
 	/**
@@ -83,8 +76,8 @@ public class GdxCanvas extends SpriteBatch {
 	 * @param m
 	 * @return
 	 */
-	public Matrix4 convertMatrix(Matrix m) {
-		float[] val = new float[16];
+	public Matrix4 convertMatrix(Matrix m, Matrix4 dst) {
+		float[] val = dst.getValues();
 
 		float[] mat = m.getFlatMatrix();
 
@@ -104,7 +97,7 @@ public class GdxCanvas extends SpriteBatch {
 		val[13] = mat[7];
 		val[14] = 0;
 		val[15] = mat[8];
-		return new Matrix4(val);
+		return dst;
 	}
 
 	public void drawText(String text, int x, int y, RuntimeFont font,

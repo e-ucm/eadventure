@@ -114,18 +114,6 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 		return Math.round(bitmapFont.getLineHeight());
 	}
 
-	/**
-	 * Returns the string bounds
-	 * 
-	 * @param string
-	 *            string to be measured
-	 * @return the string bounds
-	 */
-	public Rectangle stringBounds(String string) {
-		TextBounds b = bitmapFont.getBounds(string);
-		return new Rectangle(0, 0, Math.round(b.width), Math.round(b.height));
-	}
-
 	public BitmapFont getBitmapFont() {
 		return bitmapFont;
 	}

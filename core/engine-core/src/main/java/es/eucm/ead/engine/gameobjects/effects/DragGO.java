@@ -80,10 +80,16 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 
 	private float diffY;
 
+	private DragEvent dragEvent;
+
+	private DragGEv dragGEv;
+
 	@Inject
 	public DragGO(GameState gameState, GUI gui) {
 		super(gameState);
 		this.gui = gui;
+		this.dragGEv = new DragGEv();
+		this.dragEvent = new DragEvent(dragGEv);
 	}
 
 	public void initialize() {
@@ -102,7 +108,7 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		mouseInitY = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
 		diffX = x - mouseInitX;
 		diffY = y - mouseInitY;
-		target.handle(new DragEvent(MouseGEv.MOUSE_START_DRAG));
+		target.handle(DragEvent.MOUSE_START_DRAG);
 	}
 
 	public void act(float delta) {
@@ -114,18 +120,26 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		if (go != currentGO) {
 			if (currentGO != null) {
 				// SceneElement id and definition id
-				currentGO.handle(new DragEvent(new DragGEv(target.getName(),
-						DragGEvType.EXITED)));
-				currentGO.handle(new DragEvent(new DragGEv(target.getElement()
-						.getDefinition().getId(), DragGEvType.EXITED)));
+				dragEvent.reset();
+				dragGEv.setCarryElement(target.getName());
+				dragGEv.setAction(DragGEvType.EXITED);
+				currentGO.handle(dragEvent);
+				dragEvent.reset();
+				dragGEv.setCarryElement(target.getElement().getDefinition()
+						.getId());
+				currentGO.handle(dragEvent);
 			}
 			currentGO = go;
 			if (currentGO != null) {
 				// SceneElement id and definition id
-				currentGO.handle(new DragEvent(new DragGEv(target.getName(),
-						DragGEvType.ENTERED)));
-				currentGO.handle(new DragEvent(new DragGEv(target.getElement()
-						.getDefinition().getId(), DragGEvType.ENTERED)));
+				dragEvent.reset();
+				dragGEv.setCarryElement(target.getName());
+				dragGEv.setAction(DragGEvType.ENTERED);
+				currentGO.handle(dragEvent);
+				dragEvent.reset();
+				dragGEv.setCarryElement(target.getElement().getDefinition()
+						.getId());
+				currentGO.handle(dragEvent);
 			}
 		}
 		done = !Gdx.input.isButtonPressed(Buttons.LEFT);
@@ -151,10 +165,15 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		target.handle(new DragEvent(MouseGEv.MOUSE_DROP));
 		if (currentGO != null) {
 			// SceneElement id and definition id
-			currentGO.handle(new DragEvent(new DragGEv(target.getName(),
-					DragGEvType.DROP)));
-			currentGO.handle(new DragEvent(new DragGEv(target.getElement()
-					.getDefinition().getId(), DragGEvType.DROP)));
+			dragEvent.reset();
+			dragGEv.setCarryElement(target.getName());
+			dragGEv.setAction(DragGEvType.DROP);
+			currentGO.handle(dragEvent);
+			dragEvent.reset();
+			dragGEv
+					.setCarryElement(target.getElement().getDefinition()
+							.getId());
+			currentGO.handle(dragEvent);
 		}
 		super.finish();
 	}

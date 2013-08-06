@@ -37,45 +37,13 @@
 
 package es.eucm.ead.engine.gameobjects.sceneelements;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.google.inject.Inject;
-
-import es.eucm.ead.model.interfaces.features.Oriented;
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
-import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdEvent;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.model.params.guievents.EAdGUIEvent;
-import es.eucm.ead.model.params.guievents.KeyGEv;
-import es.eucm.ead.model.params.guievents.MouseGEv;
-import es.eucm.ead.model.params.guievents.enums.KeyEventType;
-import es.eucm.ead.model.params.guievents.enums.KeyGEvCode;
-import es.eucm.ead.model.params.util.Position;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.canvas.GdxCanvas;
@@ -86,6 +54,29 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.interfaces.features.Oriented;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.model.params.guievents.EAdGUIEvent;
+import es.eucm.ead.model.params.guievents.KeyGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.guievents.enums.KeyEventType;
+import es.eucm.ead.model.params.guievents.enums.KeyGEvCode;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.variables.EAdVarDef;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -217,6 +208,11 @@ public class SceneElementGO extends Group implements
 
 	private Comparator<SceneElementGO> comparator;
 
+	// Aux
+	private List reorderList = new ArrayList();
+
+	private Map<EAdVarDef<?>, EAdField<?>> fields;
+
 	@Inject
 	public SceneElementGO(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
@@ -226,6 +222,7 @@ public class SceneElementGO extends Group implements
 		this.assetHandler = assetHandler;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
+		this.fields = new HashMap<EAdVarDef<?>, EAdField<?>>();
 
 		addListener(this);
 
@@ -242,6 +239,7 @@ public class SceneElementGO extends Group implements
 	@Override
 	public void setElement(EAdSceneElement element) {
 		this.element = element;
+		fields.clear();
 		resetVars();
 
 		setName(element.getId());
@@ -645,7 +643,12 @@ public class SceneElementGO extends Group implements
 	 * @param var
 	 */
 	public <S> EAdField<S> getField(EAdVarDef<S> var) {
-		return new BasicField<S>(getElement(), var);
+		EAdField<S> field = (EAdField<S>) fields.get(var);
+		if (field == null) {
+			field = new BasicField<S>(getElement(), var);
+			fields.put(var, field);
+		}
+		return field;
 	}
 
 	@Override
@@ -711,13 +714,13 @@ public class SceneElementGO extends Group implements
 		// Reorder list
 		if (reorder) {
 			if (comparator != null) {
-				List l = new ArrayList();
+				reorderList.clear();
 				for (Actor a : this.getChildren()) {
-					l.add(a);
+					reorderList.add(a);
 				}
 				getChildren().clear();
-				Collections.sort(l, comparator);
-				for (Object a : l) {
+				Collections.sort(reorderList, comparator);
+				for (Object a : reorderList) {
 					getChildren().add((Actor) a);
 				}
 			}

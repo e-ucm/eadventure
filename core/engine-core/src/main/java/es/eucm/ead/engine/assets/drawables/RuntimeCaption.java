@@ -37,23 +37,22 @@
 
 package es.eucm.ead.engine.assets.drawables;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
+import es.eucm.ead.engine.assets.fonts.RuntimeFont;
+import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
-import es.eucm.ead.engine.assets.fonts.RuntimeFont;
-import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.tools.StringHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		RuntimeDrawable<EAdCaption> {
@@ -132,6 +131,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		this.fontCache = fontCache;
 		this.gameState = valueMap;
 		this.stringsHandler = stringsHandler;
+		bounds = new Rectangle(0, 0, 0, 0);
+		lines = new ArrayList<String>();
+		widths = new ArrayList<Integer>();
 	}
 
 	/*
@@ -143,9 +145,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	public boolean loadAsset() {
 		super.loadAsset();
 		font = fontCache.get(descriptor.getFont());
+		lines.clear();
+		widths.clear();
 		text = getProcessedText();
-		lines = new ArrayList<String>();
-		widths = new ArrayList<Integer>();
 		wrapText();
 
 		// Draw bubble
@@ -220,10 +222,10 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		lines.clear();
 		widths.clear();
 		totalParts = 0;
-		bounds = new Rectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
+		bounds.setBounds(0, 0, 0, 0);
 
-		int preferredWidth = 0;
+		int preferredWidth;
 
 		switch (descriptor.getPreferredWidth()) {
 		case EAdCaption.AUTO_SIZE:
@@ -239,9 +241,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 
 		bounds.width = 0;
 		String[] words = text.split(" ");
-		if (words.length == 0) {
-			words = new String[] { text };
-		}
 
 		// Current line
 		String line = "";

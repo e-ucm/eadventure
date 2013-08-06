@@ -69,13 +69,15 @@ public class RuntimeFramesAnimation extends
 	@Inject
 	public RuntimeFramesAnimation(AssetHandler assetHandler) {
 		super(assetHandler);
+		frames = new ArrayList<RuntimeDrawable<?>>();
+		times = new ArrayList<Integer>();
 	}
 
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		frames = new ArrayList<RuntimeDrawable<?>>();
-		times = new ArrayList<Integer>();
+		frames.clear();
+		times.clear();
 		for (Frame f : descriptor.getFrames()) {
 			RuntimeDrawable<?> d = (RuntimeDrawable<?>) assetHandler
 					.getRuntimeAsset(f.getDrawable(), true);

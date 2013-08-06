@@ -38,7 +38,6 @@
 package es.eucm.ead.engine.assets.fonts;
 
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.params.util.Rectangle;
 
 /**
  * Interface for a cache of the system dependent {@link RuntimeFont}s
@@ -64,41 +63,6 @@ public interface FontHandler {
 	 * @return {@link RuntimeFont} associated to the given {@link EAdFont}
 	 */
 	public RuntimeFont get(EAdFont font);
-
-	/**
-	 * Returns the string width with the given font in the current context, -1
-	 * if font is not present in the cache
-	 * 
-	 * @param string
-	 *            String to be measured
-	 * @param font
-	 *            Font used in string measurement
-	 * @return the string width with the given font in the current context, -1
-	 *         if font is not present in the cache
-	 */
-	public int stringWidth(String string, EAdFont font);
-
-	/**
-	 * Returns one line's height with the given font, -1 if font is not present
-	 * in the cache
-	 * 
-	 * @param font
-	 *            Font used in string measurement
-	 * @return one line's height with the given font, -1 if font is not present
-	 *         in the cache
-	 */
-	public int lineHeight(EAdFont font);
-
-	/**
-	 * Returns the string bounds with the given {@link EAdFont}, <b>null</b> if
-	 * font is not present in the cache
-	 * 
-	 * @param string
-	 *            string to be measured
-	 * @return the string bounds, <b>null</b> if font is not present in the
-	 *         cache
-	 */
-	public Rectangle stringBounds(String string, EAdFont font);
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given

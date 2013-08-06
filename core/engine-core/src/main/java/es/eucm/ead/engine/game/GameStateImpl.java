@@ -37,27 +37,18 @@
 
 package es.eucm.ead.engine.game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Stack;
-
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenAccessor;
 import aurelienribon.tweenengine.TweenManager;
-
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
+import es.eucm.ead.engine.operators.OperatorFactory;
 import es.eucm.ead.engine.tracking.GameTracker;
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdElement;
@@ -67,11 +58,14 @@ import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.engine.operators.OperatorFactory;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 @Singleton
 public class GameStateImpl extends ValueMapImpl implements GameState,
@@ -421,7 +415,12 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 				int separatorIndex = text.indexOf(END_VAR_CHAR, i + 1);
 				if (separatorIndex != -1) {
 					String varName = text.substring(i + 1, separatorIndex);
-					Integer index = new Integer(varName);
+					int index = 0;
+					try {
+						index = Integer.parseInt(varName);
+					} catch (NumberFormatException e) {
+						logger.warn("{} is not a valid var index", varName);
+					}
 					Object o = operatorFactory.operate(Object.class, operations
 							.get(index));
 
@@ -489,11 +488,11 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 			int endVar = condition.indexOf(END_VAR_CHAR);
 			if (beginVar != -1 && endVar != -1 && endVar > beginVar) {
 
-				Integer indexCondition = 0;
+				int indexCondition;
 				String varName = "";
 				try {
 					varName = expression.substring(beginVar + 1, endVar);
-					indexCondition = new Integer(varName);
+					indexCondition = Integer.parseInt(varName);
 				} catch (NumberFormatException e) {
 					logger.warn(varName + " is not a valid index in "
 							+ expression);

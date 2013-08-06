@@ -37,19 +37,16 @@
 
 package es.eucm.ead.engine.assets.fonts;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.ead.model.assets.text.BasicFont;
-import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.params.util.Rectangle;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class FontHandlerImpl implements FontHandler {
@@ -94,59 +91,6 @@ public class FontHandlerImpl implements FontHandler {
 			this.addEAdFont(font);
 		}
 		return cache.get(font);
-	}
-
-	/**
-	 * Returns the string width with the given font in the current context, -1
-	 * if font is not present in the cache
-	 * 
-	 * @param string
-	 *            String to be measured
-	 * @param font
-	 *            Font used in string measurement
-	 * @return the string width with the given font in the current context, -1
-	 *         if font is not present in the cache
-	 */
-	@Override
-	public int stringWidth(String string, EAdFont font) {
-		if (cache.containsKey(font))
-			return cache.get(font).stringWidth(string);
-		else
-			return -1;
-	}
-
-	/**
-	 * Returns one line's height with the given font, -1 if font is not present
-	 * in the cache
-	 * 
-	 * @param font
-	 *            Font used in string measurement
-	 * @return one line's height with the given font, -1 if font is not present
-	 *         in the cache
-	 */
-	@Override
-	public int lineHeight(EAdFont font) {
-		if (cache.containsKey(font))
-			return cache.get(font).lineHeight();
-		else
-			return -1;
-	}
-
-	/**
-	 * Returns the string bounds with the given {@link BasicFont}, <b>null</b>
-	 * if font is not present in the cache
-	 * 
-	 * @param string
-	 *            string to be measured
-	 * @return the string bounds, <b>null</b> if font is not present in the
-	 *         cache
-	 */
-	@Override
-	public Rectangle stringBounds(String string, EAdFont font) {
-		if (cache.containsKey(font))
-			return cache.get(font).stringBounds(string);
-		else
-			return null;
 	}
 
 	/**

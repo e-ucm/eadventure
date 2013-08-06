@@ -37,16 +37,16 @@
 
 package es.eucm.ead.engine.factories;
 
-import java.util.ArrayList;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import es.eucm.ead.engine.factories.mapproviders.SceneElementsMapProvider;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.engine.factories.mapproviders.SceneElementsMapProvider;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -57,6 +57,8 @@ import es.eucm.ead.tools.reflection.ReflectionProvider;
 public class SceneElementGOFactoryImpl extends
 		GOFactoryImpl<EAdSceneElement, SceneElementGO> implements
 		SceneElementGOFactory {
+
+	private List<SceneElementGO> auxList = new ArrayList<SceneElementGO>();
 
 	@Inject
 	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider,
@@ -77,10 +79,10 @@ public class SceneElementGOFactoryImpl extends
 	}
 
 	public void clean() {
-		ArrayList<SceneElementGO> aux = new ArrayList<SceneElementGO>();
+		auxList.clear();
 		if (cache != null) {
-			aux.addAll(cache.values());
-			for (SceneElementGO go : aux) {
+			auxList.addAll(cache.values());
+			for (SceneElementGO go : auxList) {
 				go.free();
 			}
 		}

@@ -35,29 +35,31 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.events;
+package es.eucm.ead.tools.java.xml.sax;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import es.eucm.ead.model.params.guievents.EAdGUIEvent;
-import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLNode;
 
-public class DragEvent extends InputEvent {
+public class SaxXMLDocument implements XMLDocument {
 
-	public static final DragEvent MOUSE_START_DRAG = new DragEvent(
-			MouseGEv.MOUSE_START_DRAG);
+	private SaxXMLNode root;
 
-	private EAdGUIEvent dragEvent;
-
-	public DragEvent(EAdGUIEvent dragEvent) {
-		this.dragEvent = dragEvent;
+	@Override
+	public XMLNode getFirstChild() {
+		return root;
 	}
 
-	public EAdGUIEvent getDragEvent() {
-		return dragEvent;
+	@Override
+	public XMLNode newNode(String tag) {
+		return new SaxXMLNode(tag);
 	}
 
-	public void setDragEvent(EAdGUIEvent dragEvent) {
-		this.dragEvent = dragEvent;
+	@Override
+	public void appendChild(XMLNode node) {
+		setRoot((SaxXMLNode) node);
 	}
 
+	public void setRoot(SaxXMLNode root) {
+		this.root = root;
+	}
 }
