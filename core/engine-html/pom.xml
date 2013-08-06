@@ -40,6 +40,7 @@
 						<artifact>es.eucm.ead:ead-tools-gwt</artifact>
 						<artifact>es.eucm.ead:ead-reader</artifact>
 						<artifact>es.eucm.ead:ead-resources</artifact>
+						<artifact>es.e-ucm:ead-legacy-plugins-engine-core</artifact>
 					</compileSourcesArtifacts>
 					<configuration>
 						<buildOutputDirectory>${project.basedir}/war</buildOutputDirectory>
@@ -163,6 +164,11 @@
             <artifactId>ead-tools-gwt</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+			<groupId>${parent.groupId}</groupId>
+			<artifactId>ead-legacy-plugins-engine-core</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 
 		<!-- external -->
 		<dependency>

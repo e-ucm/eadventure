@@ -23,8 +23,8 @@
             <version>${parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>ead</groupId>
-            <artifactId>plugins-engine</artifactId>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-legacy-plugins-model</artifactId>
             <version>${parent.version}</version>
         </dependency>
 

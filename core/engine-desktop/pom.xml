@@ -32,6 +32,11 @@
             <artifactId>ead-engine-resources</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>ead-legacy-plugins-engine-desktop</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
         <!-- GDX -->
         <dependency>
             <groupId>com.badlogic.gdx</groupId>

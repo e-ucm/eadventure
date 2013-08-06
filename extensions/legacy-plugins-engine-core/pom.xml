@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>es.eucm.ead</groupId>
+		<artifactId>ead-base</artifactId>
+		<version>2.0.1-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>ead-legacy-plugins-engine-core</artifactId>
+	<packaging>jar</packaging>
+	<name>Legacy Plugins (Engine core)</name>
+	<description>Extension of engine core to implement complex features from eadventure 1.X</description>
+	<dependencies>
+		<dependency>
+			<groupId>${parent.groupId}</groupId>
+			<artifactId>ead-engine-core</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${parent.groupId}</groupId>
+			<artifactId>ead-legacy-plugins-model</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+	</dependencies>
+</project>

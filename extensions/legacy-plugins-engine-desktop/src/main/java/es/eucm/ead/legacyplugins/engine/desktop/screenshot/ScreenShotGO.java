@@ -1,4 +1,4 @@
-package ead.plugins.engine.screenshot;
+package es.eucm.ead.legacyplugins.engine.desktop.screenshot;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.GameImpl;
@@ -7,6 +7,7 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
+import es.eucm.ead.legacyplugins.model.ScreenShotEf;
 import es.eucm.ead.tools.StringHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

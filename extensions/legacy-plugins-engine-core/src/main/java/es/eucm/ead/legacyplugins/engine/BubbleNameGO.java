@@ -1,8 +1,16 @@
-package ead.plugins.engine.bubbledescription;
+package es.eucm.ead.legacyplugins.engine;
 
 import com.google.inject.Inject;
 import com.gwtent.reflection.client.Reflectable;
-
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
+import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
+import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
@@ -12,14 +20,6 @@ import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
-import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 
 @Reflectable
 public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {

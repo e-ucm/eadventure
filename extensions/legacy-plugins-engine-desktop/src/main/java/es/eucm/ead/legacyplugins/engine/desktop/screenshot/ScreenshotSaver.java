@@ -1,4 +1,4 @@
-package ead.plugins.engine.screenshot;
+package es.eucm.ead.legacyplugins.engine.desktop.screenshot;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;

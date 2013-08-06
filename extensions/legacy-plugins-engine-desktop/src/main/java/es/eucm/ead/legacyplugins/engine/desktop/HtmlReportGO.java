@@ -1,10 +1,11 @@
-package ead.plugins.engine.htmlreport;
+package es.eucm.ead.legacyplugins.engine.desktop;
 
 import com.google.inject.Inject;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
+import es.eucm.ead.legacyplugins.model.HtmlReportEf;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.tools.StringHandler;
 
 import javax.swing.*;

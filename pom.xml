@@ -117,8 +117,6 @@
                 <!-- Writer -->
                 <module>core/writer</module>
 
-                <!-- Plugins -->
-                <module>extensions/plugins-engine</module>
                 <!-- Importer -->
                 <module>core/importer</module>
                 <!-- Exporter -->
@@ -135,6 +133,10 @@
 
                 <!-- Editor -->
                 <module>core/editor-core</module>
+                <!-- Legacy Plugins -->
+                <module>extensions/legacy-plugins-model</module>
+                <module>extensions/legacy-plugins-engine-core</module>
+                <module>extensions/legacy-plugins-engine-desktop</module>
 			</modules>
 		</profile>
 		<profile>

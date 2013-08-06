@@ -28,6 +28,11 @@
             <artifactId>ead-tools-java</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+			<groupId>${parent.groupId}</groupId>
+			<artifactId>ead-legacy-plugins-engine-desktop</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 
 		<!-- Android -->
 		<dependency>

@@ -1,4 +1,4 @@
-package ead.plugins.engine.screenshot;
+package es.eucm.ead.legacyplugins.model;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
