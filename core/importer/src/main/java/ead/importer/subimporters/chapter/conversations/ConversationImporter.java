@@ -42,16 +42,16 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.TriggerMacroEf;
-import ead.common.model.elements.effects.text.QuestionEf;
-import ead.common.model.elements.extra.EAdList;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
+import es.eucm.ead.model.elements.effects.text.QuestionEf;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EffectsImporterFactory;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;

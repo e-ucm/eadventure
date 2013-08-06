@@ -3,40 +3,34 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-	<groupId>ead</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>exporter</artifactId>
+	<artifactId>ead-exporter</artifactId>
 	<packaging>jar</packaging>
 	<name>eAdventure Exporter</name>
 	<description>eAdventure game exporter.</description>
 	<dependencies>
         <dependency>
-            <groupId>ead</groupId>
-            <artifactId>resources</artifactId>
-            <version>${project.version}</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-java</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>ead</groupId>
-            <artifactId>utils</artifactId>
-            <version>${project.version}</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-resources</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
+
 		<!-- external -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant</artifactId>
-            <version>1.9.2</version>
         </dependency>
         <!-- tests -->
 		<dependency>

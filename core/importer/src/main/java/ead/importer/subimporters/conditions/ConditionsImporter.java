@@ -39,11 +39,11 @@ package ead.importer.subimporters.conditions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.ANDCond;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.ORCond;
-import ead.common.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.ANDCond;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.ORCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

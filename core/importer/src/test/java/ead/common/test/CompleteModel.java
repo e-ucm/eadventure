@@ -37,27 +37,27 @@
 
 package ead.common.test;
 
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.enums.Alignment;
-import ead.common.model.assets.drawable.basics.shapes.BalloonShape;
-import ead.common.model.assets.drawable.basics.shapes.CircleShape;
-import ead.common.model.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.model.assets.drawable.compounds.ComposedDrawable;
-import ead.common.model.assets.drawable.compounds.StateDrawable;
-import ead.common.model.assets.drawable.filters.FilteredDrawable;
-import ead.common.model.assets.drawable.filters.MatrixFilter;
-import ead.common.model.elements.BasicAdventureModel;
-import ead.common.model.elements.BasicChapter;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.LinearGradientFill;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.paint.EAdPaint;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
+import es.eucm.ead.model.assets.drawable.basics.shapes.BalloonShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
+import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
+import es.eucm.ead.model.assets.drawable.filters.FilteredDrawable;
+import es.eucm.ead.model.assets.drawable.filters.MatrixFilter;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.paint.EAdPaint;
+import es.eucm.ead.model.params.text.EAdString;
 
 /**
  * A complete model containing all possibles eAdventure elements. 

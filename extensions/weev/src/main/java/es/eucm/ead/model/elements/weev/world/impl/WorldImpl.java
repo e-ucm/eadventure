@@ -1,0 +1,93 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package es.eucm.ead.model.elements.weev.world.impl;
+
+import es.eucm.ead.model.elements.weev.impl.AbstractWEEVElement;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.weev.world.ActorPlacement;
+import es.eucm.ead.model.weev.world.Space;
+import es.eucm.ead.model.weev.world.SpaceLink;
+import es.eucm.ead.model.weev.world.World;
+
+/**
+ * Default implementation of the @{link World} interface
+ */
+@Element
+public class WorldImpl extends AbstractWEEVElement implements World {
+
+	private EAdList<Space> spaces;
+
+	private EAdList<SpaceLink> spaceLinks;
+
+	private EAdList<ActorPlacement> actorPlacements;
+
+	@Param
+	private Space initialSpace;
+
+	public WorldImpl() {
+		spaces = new EAdList<Space>();
+		spaceLinks = new EAdList<SpaceLink>();
+		actorPlacements = new EAdList<ActorPlacement>();
+	}
+
+	@Override
+	public EAdList<Space> getSpaces() {
+		return spaces;
+	}
+
+	@Override
+	public EAdList<SpaceLink> getSpaceLinks() {
+		return spaceLinks;
+	}
+
+	@Override
+	public EAdList<ActorPlacement> getActorPlacement() {
+		return actorPlacements;
+	}
+
+	@Override
+	public Space getInitialSpace() {
+		return initialSpace;
+	}
+
+	public void setInitialSpace(Space initialSpace) {
+		this.initialSpace = initialSpace;
+	}
+}

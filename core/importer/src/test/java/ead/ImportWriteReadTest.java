@@ -50,19 +50,19 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
-import ead.reader.AdventureReader;
-import ead.tools.java.DataPrettifier;
-import ead.tools.java.JavaToolsModule;
-import ead.tools.java.reflection.JavaReflectionClassLoader;
-import ead.tools.java.reflection.JavaReflectionProvider;
-import ead.tools.java.xml.JavaXMLParser;
-import ead.tools.reflection.ReflectionClassLoader;
-import ead.utils.FileUtils;
-import ead.utils.Log4jConfig;
-import ead.writer.AdventureWriter;
+import es.eucm.ead.reader.AdventureReader;
+import es.eucm.ead.tools.java.DataPrettifier;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.xml.JavaXMLParser;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.writer.AdventureWriter;
 
 public class ImportWriteReadTest {
 

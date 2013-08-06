@@ -39,9 +39,9 @@ package ead.importer.subimporters.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
-import ead.common.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.effects.timedevents.HighlightSceneElementEf;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;

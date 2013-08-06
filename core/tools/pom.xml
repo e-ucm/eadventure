@@ -3,37 +3,30 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-	<groupId>ead</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>tools</artifactId>
+	<artifactId>ead-tools</artifactId>
 	<packaging>jar</packaging>
 	<name>eAdventure Tools</name>
 	<description>
-    Contains multi-platform implementations and interfaces for different tools used across several projects  
+    Contains multi-platform implementations and interfaces for different tools used across several projects.
   </description>
 	<dependencies>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>model</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-model</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 		<!-- external -->
+        <!-- Guice -->
 		<dependency>
 			<groupId>org.sonatype.sisu</groupId>
 			<artifactId>sisu-guice</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.gwtent</groupId>
-			<artifactId>GwtEnt</artifactId>
-			<version>2.0RC1</version>
 		</dependency>
 
 		<!-- tests -->

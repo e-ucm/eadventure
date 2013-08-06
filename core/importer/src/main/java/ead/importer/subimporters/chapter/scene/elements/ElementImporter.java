@@ -37,27 +37,27 @@
 
 package ead.importer.subimporters.chapter.scene.elements;
 
-import ead.common.model.assets.drawable.basics.EAdShape;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.GhostElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.trajectories.NodeTrajectory;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.assets.drawable.basics.EAdShape;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.ConditionedEv;
+import es.eucm.ead.model.elements.events.enums.ConditionedEvType;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.guievents.MouseGEv;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.subimporters.chapter.scene.ShapedElementImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.InfluenceArea;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
@@ -100,20 +100,20 @@ public abstract class ElementImporter<T> implements
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
-			ead.common.model.params.util.Rectangle bounds,
+			es.eucm.ead.model.params.util.Rectangle bounds,
 			InfluenceArea influenceArea) {
 		boolean hasInfluenceArea = influenceArea != null
 				&& influenceArea.getWidth() != 0
 				&& influenceArea.getHeight() != 0;
 
-		ead.common.model.params.util.Rectangle rect = null;
+		es.eucm.ead.model.params.util.Rectangle rect = null;
 		if (hasInfluenceArea) {
-			rect = new ead.common.model.params.util.Rectangle(influenceArea
+			rect = new es.eucm.ead.model.params.util.Rectangle(influenceArea
 					.getX()
 					+ bounds.getX(), influenceArea.getY() + bounds.getY(),
 					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = new ead.common.model.params.util.Rectangle(bounds.getX()
+			rect = new es.eucm.ead.model.params.util.Rectangle(bounds.getX()
 					- INFLUENCE_MARGIN, bounds.getY() - INFLUENCE_MARGIN,
 					bounds.getWidth() + INFLUENCE_MARGIN * 2, bounds
 							.getHeight()

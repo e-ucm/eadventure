@@ -42,15 +42,15 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.multimedia.Video;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.VideoScene;
+import es.eucm.ead.model.assets.multimedia.Video;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.VideoScene;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.EffectsImporterFactory;
 import ead.importer.interfaces.ResourceImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
 
 /**

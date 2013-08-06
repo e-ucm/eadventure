@@ -37,10 +37,10 @@
 
 package ead.importer.interfaces;
 
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.extra.EAdList;
 import ead.importer.EAdElementImporter;
-import ead.tools.Factory;
+import es.eucm.ead.tools.Factory;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
 

@@ -39,14 +39,14 @@ package ead.importer.subimporters.chapter.conversations;
 
 import com.google.inject.Inject;
 
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.basics.EAdCaption;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.Paint;
-import ead.common.model.params.text.EAdString;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.text.EAdString;
 import ead.importer.GenericImporter;
 import ead.importer.interfaces.EAdElementFactory;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;

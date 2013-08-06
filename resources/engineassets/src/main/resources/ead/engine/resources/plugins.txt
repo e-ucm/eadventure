@@ -1,2 +1,0 @@
-[events]
-ead.plugins.engine.bubbledescription.BubbleNameEv=ead.plugins.engine.bubbledescription.BubbleNameGO

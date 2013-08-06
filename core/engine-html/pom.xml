@@ -12,8 +12,8 @@
 	<groupId>ead</groupId>
 	<version>2.0.1-SNAPSHOT</version>
 	<artifactId>engine-html</artifactId>
-	<packaging>war</packaging>
-	<name>eAdventure Gdx HTML</name>
+	<packaging>jar</packaging>
+	<name>eAdventure HTML Engine</name>
 	<description>
 		GDX / GWT e-Adventure engine; requires GWT SDK to build, generates web app
 	</description>
@@ -34,12 +34,13 @@
 				</executions>
 				<configuration>
 					<compileSourcesArtifacts>
-						<artifact>ead:model</artifact>
-						<artifact>ead:engine-core</artifact>
-						<artifact>ead:tools</artifact>
-						<artifact>ead:tools-gwt</artifact>
-						<artifact>ead:reader</artifact>
-						<artifact>ead:plugins-engine</artifact>
+                        <artifact>es.eucm.ead:ead-model</artifact>
+						<artifact>es.eucm.ead:ead-engine-core</artifact>
+						<artifact>es.eucm.ead:ead-tools</artifact>
+						<artifact>es.eucm.ead:ead-tools-gwt</artifact>
+						<artifact>es.eucm.ead:ead-reader</artifact>
+						<artifact>es.eucm.ead:ead-resources</artifact>
+						<artifact>es.e-ucm:ead-legacy-plugins-engine-core</artifact>
 					</compileSourcesArtifacts>
 					<configuration>
 						<buildOutputDirectory>${project.basedir}/war</buildOutputDirectory>
@@ -153,35 +154,20 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>model</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools-gwt</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>reader</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>plugins-engine</artifactId>
-			<version>${project.version}</version>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-gwt</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>ead-legacy-plugins-engine-core</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<!-- external -->
@@ -225,5 +211,9 @@
 			<groupId>com.badlogic.gdx</groupId>
 			<artifactId>gdx-backend-gwt-sources</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>aurelienribon</groupId>
+            <artifactId>tweenengine-api-sources</artifactId>
+        </dependency>
 	</dependencies>
 </project>

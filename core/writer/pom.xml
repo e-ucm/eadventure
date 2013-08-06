@@ -3,39 +3,39 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-	<groupId>ead</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>writer</artifactId>
+	<artifactId>ead-writer</artifactId>
 	<packaging>jar</packaging>
 	<name>eAdventure Writer</name>
 	<description>
     Generic writer
   </description>
 	<dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-reader</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-java</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+		<!-- GSon -->
 		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>model</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>reader</artifactId>
-			<version>${project.version}</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.2</version>
 		</dependency>
 
-		<!-- tests -->
+        <!-- tests -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -51,13 +51,6 @@
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
-		</dependency>
-		
-		<!-- GSon -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.2</version>
 		</dependency>
 	</dependencies>
 </project>

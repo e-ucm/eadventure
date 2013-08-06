@@ -37,8 +37,8 @@
 
 package ead.importer.subimporters.effects;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
