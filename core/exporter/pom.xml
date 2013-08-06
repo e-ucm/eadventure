@@ -16,9 +16,9 @@
 	<description>eAdventure game exporter.</description>
 	<dependencies>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>ead-tools-java</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
 		<!-- external -->

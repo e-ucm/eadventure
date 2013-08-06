@@ -26,7 +26,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>ead.resources.ResourcesGenerator</mainClass>
+                            <mainClass>es.eucm.ead.engine.resources.resources.ResourcesGenerator</mainClass>
                         </configuration>
                     </execution>
                 </executions>

@@ -15,9 +15,9 @@
 	<description>Extension of engine to implement complex features from eadventure 1.X (only for desktop)</description>
 	<dependencies>
 		<dependency>
-			<groupId>${parent.groupId}</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>ead-legacy-plugins-engine-core</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>

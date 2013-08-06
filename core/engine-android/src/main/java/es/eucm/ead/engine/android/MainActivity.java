@@ -59,7 +59,7 @@ public class MainActivity extends AndroidApplication {
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 
 		JavaInjector injector = new JavaInjector(Guice.createInjector(
-				new GdxAndroidModule(), new JavaToolsModule()));
+				new AndroidModule(), new JavaToolsModule()));
 
 		ApplicationListener engine = injector
 				.getInstance(ApplicationListener.class);

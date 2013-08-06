@@ -11,7 +11,7 @@
     </parent>
 
 	<artifactId>ead-engine-android</artifactId>
-	<packaging>jar</packaging>
+	<packaging>apklib</packaging>
 	<name>eAdventure Android Engine</name>
 	<description>
 		Android engine;
@@ -19,19 +19,19 @@
 
 	<dependencies>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>ead-engine-core</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>ead-tools-java</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-			<groupId>${parent.groupId}</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>ead-legacy-plugins-engine-desktop</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<!-- Android -->
@@ -56,6 +56,15 @@
 	</dependencies>
 	<build>
 		<plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>3.6.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <sdk><platform>17</platform></sdk>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -94,7 +103,7 @@
 											android-maven-plugin
 										</artifactId>
 										<versionRange>
-											[3.3.0,)
+											[3.6.1,)
 										</versionRange>
 										<goals>
 											<goal>
