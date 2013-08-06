@@ -64,7 +64,6 @@ core/engine-html/war/WEB-INF/classes*
 # android-compilation generated files and output; also, special lint.xml rules
 core/engine-android/gen/
 core/engine-android/bin/
-core/engine-android/libs/
 
 # engine configuration (if launched locally)
 core/engine-desktop/engine_configuration.xml

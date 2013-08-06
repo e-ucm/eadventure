@@ -37,30 +37,29 @@
 
 package es.eucm.ead.engine.desktop.platform;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.engine.GdxModuleMap;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
 import es.eucm.ead.engine.desktop.platform.assets.video.java.JavaVideoRenderer;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
 
-public class GdxDesktopModule extends AbstractModule {
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class DesktopModule extends AbstractModule {
 
 	private Map<Class<?>, Class<?>> binds;
 
-	public GdxDesktopModule() {
+	public DesktopModule() {
 
 	}
 
-	public GdxDesktopModule(Map<Class<?>, Class<?>> binds) {
+	public DesktopModule(Map<Class<?>, Class<?>> binds) {
 		this.binds = binds;
 	}
 

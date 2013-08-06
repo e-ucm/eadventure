@@ -134,7 +134,7 @@ public class AdventureReader implements VisitorListener {
 		}
 
 		if (paramsMap == null) {
-			logger.warn("No fields node found");
+			logger.warn("No params node found");
 		} else {
 			Map<String, String> classes = new HashMap<String, String>();
 			XMLNodeList entries = paramsMap.getChildNodes();

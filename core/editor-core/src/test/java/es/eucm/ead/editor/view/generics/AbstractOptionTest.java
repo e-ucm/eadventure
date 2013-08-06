@@ -48,6 +48,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -60,7 +61,6 @@ import es.eucm.ead.editor.control.CommandManagerImpl;
 import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.control.change.ChangeListener;
 import es.eucm.ead.editor.model.EditorModel;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -78,7 +78,7 @@ public class AbstractOptionTest extends JFrame {
 
 	public void prepareControllerAndModel() {
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxDesktopModule(), new EditorGuiceModule(),
+				new DesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

@@ -7,10 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Properties;
 
 public class AndroidExporterGUI extends JFrame {
 
-	public AndroidExporterGUI() {
+	public AndroidExporterGUI(AndroidExporterGUI.ExportListener listener) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "";
 		cfg.useGL20 = true;
@@ -24,7 +25,8 @@ public class AndroidExporterGUI extends JFrame {
 		this.pack();
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		final ExporterApplicationListener app = new ExporterApplicationListener();
+		final ExporterApplicationListener app = new ExporterApplicationListener(
+				this, listener);
 		new LwjglApplication(app, cfg, c);
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
@@ -32,5 +34,9 @@ public class AndroidExporterGUI extends JFrame {
 				app.saveProperties();
 			}
 		});
+	}
+
+	public static interface ExportListener {
+		void export(Properties properties);
 	}
 }

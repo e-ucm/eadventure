@@ -43,8 +43,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.ead.engine.desktop.debugger.DebuggerFrame;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import es.eucm.ead.engine.desktop.platform.GdxDesktopGUI;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.game.enginefilters.EngineFilter;
@@ -128,7 +128,7 @@ public class DesktopGame {
 
 	private void initInjector() {
 		if (injector == null)
-			injector = Guice.createInjector(new GdxDesktopModule(binds),
+			injector = Guice.createInjector(new DesktopModule(binds),
 					new JavaToolsModule());
 	}
 

@@ -99,12 +99,6 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 
 	private Simplifier simplifier;
 
-	private static final String[] ids = new String[] { "M9", "Ik", "NF", "yw",
-			"yx", "Kc", "E9", "ZC", "11q", "12M", "15J", "143", "Xv", "Xx",
-			"11w", "11z", "Lp", "HF", "Jn", "Ei", "HL", "XE", "yA", "FF", "xI",
-			"E4", "xH" };
-	private static final List<String> l = Arrays.asList(ids);
-
 	public ObjectWriter(ModelVisitor modelVisitor) {
 		super(modelVisitor);
 		elements = new ArrayList<String>();
@@ -145,9 +139,6 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 			id = object.getId();
 		}
 		XMLNode node;
-		if (l.contains(id)) {
-			logger.debug("{}", object);
-		}
 
 		if (asset) {
 			node = modelVisitor.newNode(DOMTags.ASSET_TAG);

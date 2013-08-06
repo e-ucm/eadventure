@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,7 +56,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.ead.editor.EditorGuiceModule;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -101,7 +101,7 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, });
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxDesktopModule(), new EditorGuiceModule(),
+				new DesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

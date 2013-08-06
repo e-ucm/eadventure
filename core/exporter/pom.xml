@@ -20,6 +20,11 @@
             <artifactId>ead-tools-java</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-resources</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
 		<!-- external -->
         <dependency>

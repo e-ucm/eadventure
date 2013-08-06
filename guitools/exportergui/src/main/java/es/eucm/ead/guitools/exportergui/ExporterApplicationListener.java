@@ -11,11 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.esotericsoftware.tablelayout.Value;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.Properties;
 
 public class ExporterApplicationListener implements ApplicationListener {
 
+	private AndroidExporterGUI.ExportListener exportListener;
 	private AssetManager assetManager;
 
 	private Stage stage;
@@ -25,9 +27,13 @@ public class ExporterApplicationListener implements ApplicationListener {
 	private TextField keystoreEdit;
 	private TextButton exportButton;
 	private Properties properties;
+	private JFrame frame;
 
-	public ExporterApplicationListener() {
+	public ExporterApplicationListener(JFrame frame,
+			AndroidExporterGUI.ExportListener listener) {
 		this.properties = new Properties();
+		this.exportListener = listener;
+		this.frame = frame;
 		loadProperties();
 	}
 
@@ -89,6 +95,8 @@ public class ExporterApplicationListener implements ApplicationListener {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
+				frame.setVisible(false);
+				exportListener.export(properties);
 				return true;
 			}
 		});
@@ -125,6 +133,7 @@ public class ExporterApplicationListener implements ApplicationListener {
 		File f = new File("exporter.android.properties");
 		InputStream is = null;
 		try {
+			f.createNewFile();
 			is = new FileInputStream(f);
 			properties.load(is);
 		} catch (Exception e) {

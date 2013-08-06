@@ -41,6 +41,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import junit.framework.TestCase;
 
 import org.junit.Before;
@@ -56,7 +57,6 @@ import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -106,7 +106,7 @@ public class TestChangeValueCommand extends TestCase {
 	 */
 	public void prepareControllerAndModel() {
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxDesktopModule(), new EditorGuiceModule(),
+				new DesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

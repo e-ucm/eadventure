@@ -35,55 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.model.elements.effects.physics;
+package es.eucm.ead.engine.android;
 
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import es.eucm.ead.model.elements.operations.MathOp;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import com.google.inject.AbstractModule;
+import es.eucm.ead.engine.GdxModuleMap;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.game.interfaces.GUI;
 
-@Element
-public class PhApplyImpulseEf extends AbstractSceneElementEffect {
+import java.util.Map.Entry;
 
-	@Param
-	private EAdOperation xForce;
+public class AndroidModule extends AbstractModule {
 
-	@Param
-	private EAdOperation yForce;
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	@Override
+	protected void configure() {
 
-	public PhApplyImpulseEf() {
-		this(null, null, null);
-	}
-
-	public PhApplyImpulseEf(EAdSceneElement element, MathOp xForce,
-			MathOp yForce) {
-		super();
-		this.xForce = xForce;
-		this.yForce = yForce;
-		this.setSceneElement(element);
-	}
-
-	public EAdOperation getxForce() {
-		return xForce;
-	}
-
-	public EAdOperation getyForce() {
-		return yForce;
-	}
-
-	public void setxForce(MathOp xForce) {
-		this.xForce = xForce;
-	}
-
-	public void setyForce(MathOp yForce) {
-		this.yForce = yForce;
-	}
-
-	public void setForce(MathOp xForce, MathOp yForce) {
-		this.xForce = xForce;
-		this.yForce = yForce;
+		GdxModuleMap map = new GdxModuleMap();
+		map.setBind(GUI.class, AndroidGdxGUI.class);
+		map.setBind(AssetHandler.class, AndroidAssetHandler.class);
+		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
+			Class c1 = entry.getKey();
+			Class c2 = entry.getValue();
+			bind(c1).to(c2);
+		}
 	}
 
 }

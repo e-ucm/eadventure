@@ -789,13 +789,13 @@
 				<version>13.0</version>
 			</dependency>
 			<!-- Injection management -->
-			<!-- <dependency>
+			<dependency>
 				<groupId>com.google.inject</groupId>
 				<artifactId>guice</artifactId>
 				<version>3.0</version>
 				<classifier>no_aop</classifier>
 				 <scope>compile</scope>
-			</dependency> -->
+			</dependency>
 			<!-- Patched version of guice, used by maven (in exporter). We use it for the rest of the project too, to avoid conflicts. -->
 			<dependency>
 				<groupId>org.sonatype.sisu</groupId>

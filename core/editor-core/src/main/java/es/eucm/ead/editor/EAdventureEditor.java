@@ -38,6 +38,7 @@
 package es.eucm.ead.editor;
 
 import es.eucm.ead.editor.view.SplashScreen;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +48,6 @@ import com.google.inject.Injector;
 
 import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.view.SplashScreenImpl;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -120,7 +120,7 @@ public class EAdventureEditor implements Launcher {
 		splashScreen.show();
 
 		// initialize launcher
-		Injector injector = Guice.createInjector(new GdxDesktopModule(),
+		Injector injector = Guice.createInjector(new DesktopModule(),
 				new BaseImporterModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 

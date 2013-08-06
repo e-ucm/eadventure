@@ -49,7 +49,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;
 
-import es.eucm.ead.editor.view.panel.AbstractElementPanel;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -63,7 +63,6 @@ import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.control.change.ChangeListener;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -87,7 +86,7 @@ public abstract class AbstractPanelTester extends JFrame {
 
 	public void prepareControllerAndModel() {
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxDesktopModule(), new EditorGuiceModule(),
+				new DesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

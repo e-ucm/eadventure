@@ -37,19 +37,21 @@
 
 package es.eucm.ead.model.elements.huds;
 
-import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.params.util.Position;
 
 @Element
 public class MouseHud extends BasicScene {
-
 	public static final String MOUSE_HUD_ID = "#predefined.hud.mouse";
 
 	public static final String CURSOR_ID = "#engine.cursor";
+
+	public static final BasicElement MOUSE_REF = new BasicElement(CURSOR_ID);
 
 	public static final String TAKE_CURSOR = "take";
 	public static final String EXAMINE_CURSOR = "examine";

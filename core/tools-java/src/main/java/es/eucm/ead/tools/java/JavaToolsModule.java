@@ -39,13 +39,12 @@ package es.eucm.ead.tools.java;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
-import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
-import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.JavaXMLParser;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.StringHandlerImpl;
+import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
+import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.xml.sax.SaxXMLParser;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;
@@ -59,7 +58,7 @@ public class JavaToolsModule extends AbstractModule {
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
 				Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
-		bind(XMLParser.class).to(JavaXMLParser.class).in(Singleton.class);
+		bind(XMLParser.class).to(SaxXMLParser.class).in(Singleton.class);
 		bind(ReflectionClassLoader.class).to(JavaReflectionClassLoader.class)
 				.in(Singleton.class);
 	}

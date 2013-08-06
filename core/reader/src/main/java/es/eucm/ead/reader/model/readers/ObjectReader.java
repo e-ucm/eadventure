@@ -37,8 +37,6 @@
 
 package es.eucm.ead.reader.model.readers;
 
-import java.util.ArrayList;
-
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.reader.DOMTags;
@@ -55,11 +53,8 @@ public class ObjectReader extends AbstractReader<Identified> {
 
 	public boolean asset;
 
-	private ArrayList<String> ids;
-
 	public ObjectReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
-		ids = new ArrayList<String>();
 	}
 
 	public void setAsset(boolean asset) {
@@ -85,14 +80,6 @@ public class ObjectReader extends AbstractReader<Identified> {
 				element = (Identified) elementsFactory.createObject(clazz);
 				String id = node.getAttributeValue(DOMTags.ID_AT);
 				element.setId(id);
-				if (ids.contains(id)) {
-					logger
-							.warn(
-									"Id {} is duplicated. Game won't work properly",
-									id);
-				} else {
-					ids.add(id);
-				}
 
 				if (asset) {
 					elementsFactory.putAsset(id, element);
@@ -167,7 +154,6 @@ public class ObjectReader extends AbstractReader<Identified> {
 
 	public void clear() {
 		asset = false;
-		ids.clear();
 	}
 
 }

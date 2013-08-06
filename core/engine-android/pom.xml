@@ -19,20 +19,51 @@
 
 	<dependencies>
         <dependency>
+            <!-- sisu-guice is not compatible with Android -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>ead-engine-core</artifactId>
             <version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-guice</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>ead-tools-java</artifactId>
             <version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-guice</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>ead-legacy-plugins-engine-desktop</artifactId>
 			<version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-guice</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-legacy-plugins-engine-core</artifactId>
+            <version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-guice</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
 
 		<!-- Android -->
 		<dependency>
@@ -46,13 +77,12 @@
 		<dependency>
 			<groupId>com.badlogic.gdx</groupId>
 			<artifactId>gdx-backend-android</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <classifier>no_aop</classifier>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

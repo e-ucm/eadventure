@@ -6,7 +6,7 @@
     <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15" />
     <application>
         <activity
-            android:name="MainActivity"
+            android:name="es.eucm.ead.engine.android.MainActivity"
             android:label="{app_name}"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">

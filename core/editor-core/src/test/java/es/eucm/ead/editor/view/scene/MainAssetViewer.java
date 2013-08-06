@@ -47,6 +47,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import org.junit.Before;
 
 import com.google.inject.Guice;
@@ -57,7 +58,6 @@ import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.editor.EditorGuiceModule;
 import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopModule;
 import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
 import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
@@ -98,7 +98,7 @@ public class MainAssetViewer {
 				Log4jConfig.Slf4jLevel.Debug, });
 
 		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new GdxDesktopModule(), new EditorGuiceModule(),
+				new DesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

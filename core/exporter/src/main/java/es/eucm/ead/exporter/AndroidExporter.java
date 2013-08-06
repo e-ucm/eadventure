@@ -37,23 +37,120 @@
 
 package es.eucm.ead.exporter;
 
+import es.eucm.ead.engine.resources.R;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import org.apache.maven.cli.MavenCli;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.util.Properties;
 
 public class AndroidExporter {
 
-	public void export(Properties properties) {
+	private static final Logger logger = LoggerFactory
+			.getLogger("AndroidExporter");
 
-		// Create temp file
-		// Copy build.xml
-		// Create src
-		// Create res/drawable, add icon
-		// Create manifest -> change title
-		// Create project.properties
-		// Find ead.engine-android.jar
-		// Find native libs
-		// Copy engine assets to temp
-		// Copy game assets to temp
-		// Launch ant
+	private MavenCli maven;
 
+	public AndroidExporter(MavenCli maven) {
+		this.maven = maven;
+	}
+
+	public AndroidExporter() {
+		this(new MavenCli());
+	}
+
+	public void export(String projectFolder, String resourcesFolder,
+			String destiny, Properties properties) {
+		// Copy android-pom.xml to project/android
+		InputStream apkpom = ClassLoader
+				.getSystemResourceAsStream("android-pom.xml");
+		InputStream manifest = ClassLoader
+				.getSystemResourceAsStream("AndroidManifest.xml");
+		OutputStream os = null;
+		try {
+			File androidFolder = new File(projectFolder + "/android");
+			FileUtils.deleteRecursive(androidFolder);
+			androidFolder.mkdirs();
+			File eadresourcesFolder = new File(androidFolder + "/eadresources");
+			eadresourcesFolder.mkdirs();
+
+			FileUtils.copy(apkpom, new FileOutputStream(new File(androidFolder,
+					"pom.xml")));
+			FileUtils.copy(manifest, new FileOutputStream(new File(
+					androidFolder, "AndroidManifest.xml")));
+
+			// Copy game assets to folder
+			FileUtils.copyRecursive(new File(resourcesFolder),
+					eadresourcesFolder, eadresourcesFolder);
+			// Copy engine assets to folder
+			for (String s : R.RESOURCES) {
+				InputStream ris = ClassLoader.getSystemResourceAsStream(s);
+				OutputStream ros = null;
+				try {
+					String fileName = s.substring(s.lastIndexOf('/') + 1);
+					String folder = s.substring(0, s.lastIndexOf('/'));
+					File rf = new File(eadresourcesFolder.getAbsolutePath()
+							+ '/' + folder);
+					rf.mkdirs();
+					ros = new FileOutputStream(new File(rf, fileName));
+					FileUtils.copy(ris, ros);
+				} catch (Exception e) {
+					logger.error("Problem copying resources {}", s, e);
+				} finally {
+					if (ris != null) {
+						ris.close();
+					}
+					if (ros != null) {
+						ros.close();
+					}
+				}
+			}
+
+			maven.doMain(new String[] {
+					"-Dresources=" + eadresourcesFolder.getAbsolutePath(),
+					"-Dandroid.sdk.path="
+							+ properties.getProperty("sdk_folder"), "clean",
+					"compile", "install", "android:deploy", "android:run" },
+					androidFolder.getAbsolutePath(), System.out, System.err);
+			// Copy apk to destiny
+			File destinyFile = new File(destiny);
+			if (destinyFile.isDirectory()) {
+				destinyFile = new File(destinyFile, "eAdventuregame.apk");
+			} else if (!destiny.endsWith(".apk")) {
+				destiny += ".apk";
+				destinyFile = new File(destiny);
+			}
+			FileUtils.copy(new File(
+					androidFolder.getAbsolutePath() + "/target",
+					"game-android.apk"), destinyFile);
+		} catch (Exception e) {
+			logger.error("Error exporting apk", e);
+		} finally {
+			if (apkpom != null) {
+				try {
+					apkpom.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+
+			if (manifest != null) {
+				try {
+					manifest.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
 	}
 }

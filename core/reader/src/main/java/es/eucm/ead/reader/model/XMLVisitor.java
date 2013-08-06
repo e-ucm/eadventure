@@ -138,7 +138,8 @@ public class XMLVisitor {
 
 		// First look for null in the node
 		// <p/> or <e/> or <a/> symbolizes null element
-		if (!node.hasChildNodes() && node.getAttributesLength() == 0) {
+		if (!node.hasChildNodes() && node.getAttributesLength() == 0
+				&& "".equals(node.getNodeText())) {
 			listener.loaded(node, null, true);
 		} else {
 			Object result = null;

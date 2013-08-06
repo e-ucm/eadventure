@@ -251,7 +251,8 @@ public class ObjectsFactory {
 		} else if (clazz == Integer.class || clazz == int.class) {
 			return Integer.parseInt(value);
 		} else if (clazz == Boolean.class || clazz == boolean.class) {
-			return value.equals("t") ? Boolean.TRUE : Boolean.FALSE;
+			return value.equals("t") || value.equals("true") ? Boolean.TRUE
+					: Boolean.FALSE;
 		} else if (clazz == Float.class || clazz == float.class) {
 			return Float.parseFloat(value);
 		} else if (clazz == Character.class || clazz == char.class) {

@@ -50,9 +50,9 @@ public class JarExporter {
 
 	private MavenCli maven;
 
-    public JarExporter(MavenCli maven){
-        this.maven = maven;
-    }
+	public JarExporter(MavenCli maven) {
+		this.maven = maven;
+	}
 
 	public JarExporter() {
 		this(new MavenCli());
@@ -71,13 +71,13 @@ public class JarExporter {
 				.getSystemResourceAsStream("desktop-pom.xml");
 		OutputStream os = null;
 		try {
-            File desktopFolder = new File(projectFolder + "/desktop");
-            desktopFolder.mkdirs();
+			File desktopFolder = new File(projectFolder + "/desktop");
+			desktopFolder.mkdirs();
 			FileUtils.copy(jarpom, new FileOutputStream(new File(desktopFolder,
 					"pom.xml")));
 			maven.doMain(new String[] { "-Dresources=" + resourcesFolder,
-					"clean", "compile", "assembly:single" }, desktopFolder.getAbsolutePath(),
-					System.out, System.err);
+					"clean", "compile", "assembly:single" }, desktopFolder
+					.getAbsolutePath(), System.out, System.err);
 			// Copy jar to destiny
 			File destinyFile = new File(destiny);
 			if (destinyFile.isDirectory()) {
@@ -86,7 +86,8 @@ public class JarExporter {
 				destiny += ".jar";
 				destinyFile = new File(destiny);
 			}
-			FileUtils.copy(new File(desktopFolder.getAbsolutePath() + "/target",
+			FileUtils.copy(new File(
+					desktopFolder.getAbsolutePath() + "/target",
 					"game-desktop-1.0-jar-with-dependencies.jar"), destinyFile);
 		} catch (Exception e) {
 
