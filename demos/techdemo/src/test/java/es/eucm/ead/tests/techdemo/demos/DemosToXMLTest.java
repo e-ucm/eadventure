@@ -55,9 +55,10 @@ public class DemosToXMLTest {
 		EAdAdventureModel model2 = reader.readXML(xml);
 		writer.write(model2, "src/main/resources/data2.xml");
 
+		File f = new File("src/main/resources/data2.xml");
 		assertTrue(FileUtils.isFileBinaryEqual(new File(
-				"src/main/resources/data.xml"), new File(
-				"src/main/resources/data2.xml")));
+				"src/main/resources/data.xml"), f));
+		f.delete();
 
 		//		AdventureReader reader = new AdventureReader(new JavaXMLParser());
 		//

@@ -3,6 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
 	<groupId>es.e-ucm.ead</groupId>
 	<artifactId>ead-base</artifactId>
 	<version>2.0.1-SNAPSHOT</version>
@@ -97,46 +103,46 @@
 			<modules>
 				<module>build-tools</module>
 				<!-- Model: base for all the other projects -->
-                <module>core/model</module>
-                <!-- Tools & Utils -->
-                <module>core/tools</module>
-                <module>core/tools-java</module>
-                <module>core/tools-gwt</module>
+				<module>core/model</module>
+				<!-- Tools & Utils -->
+				<module>core/tools</module>
+				<module>core/tools-java</module>
+				<module>core/tools-gwt</module>
 
-                <!-- Reader -->
-                <module>core/reader</module>
+				<!-- Reader -->
+				<module>core/reader</module>
 
-                <!-- Engine resources -->
-                <module>core/engine-resources</module>
-                <!-- Engine -->
-                <module>core/engine-core</module>
-                <module>core/engine-desktop</module>
-                <module>core/engine-android</module>
-                <!-- <module>core/engine-html</module> -->
+				<!-- Engine resources -->
+				<module>core/engine-resources</module>
+				<!-- Engine -->
+				<module>core/engine-core</module>
+				<module>core/engine-desktop</module>
+				<module>core/engine-android</module>
+				<!-- <module>core/engine-html</module> -->
 
-                <!-- Writer -->
-                <module>core/writer</module>
+				<!-- Writer -->
+				<module>core/writer</module>
 
-                <!-- Importer -->
-                <module>core/importer</module>
-                <!-- Exporter -->
-                <module>core/exporter</module>
+				<!-- Importer -->
+				<module>core/importer</module>
+				<!-- Exporter -->
+				<module>core/exporter</module>
 
-                <!-- Demos -->
-                <module>demos/techdemo</module>
+				<!-- Demos -->
+				<module>demos/techdemo</module>
 
-                <!-- GUI tools -->
-                <module>guitools/exportergui</module>
+				<!-- GUI tools -->
+				<module>guitools/exportergui</module>
 
-                <!-- Extensions -->
-                <module>extensions/weev</module>
+				<!-- Extensions -->
+				<module>extensions/weev</module>
 
-                <!-- Editor -->
-                <module>core/editor-core</module>
-                <!-- Legacy Plugins -->
-                <module>extensions/legacy-plugins-model</module>
-                <module>extensions/legacy-plugins-engine-core</module>
-                <module>extensions/legacy-plugins-engine-desktop</module>
+				<!-- Editor -->
+				<module>core/editor-core</module>
+				<!-- Legacy Plugins -->
+				<module>extensions/legacy-plugins-model</module>
+				<module>extensions/legacy-plugins-engine-core</module>
+				<module>extensions/legacy-plugins-engine-desktop</module>
 			</modules>
 		</profile>
 		<profile>
@@ -204,8 +210,8 @@
 				<version>2.8</version>
 				<configuration>
 					<addGroupIdToProjectName>true</addGroupIdToProjectName>
-                    <downloadSources>true</downloadSources>
-                    <downloadJavadocs>true</downloadJavadocs>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
 			</plugin>
 			<!-- Java compilation options -->
@@ -372,7 +378,7 @@
 							<dependency> <groupId>ead</groupId> <artifactId>build-tools</artifactId>
 							<version>${project.version}</version> </dependency> </dependencies> </plugin> -->
 						<!-- Aggregate results from Checkstyle, Cobertura, Clover, Surefire,
-							PMD, CPD, FindBugs, Taglist reports. -->
+						PMD, CPD, FindBugs, Taglist reports. -->
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>dashboard-maven-plugin</artifactId>
@@ -425,325 +431,317 @@
 						<!-- Currently Apache RAT maven plugin is in incubation phase and there
 							is no build in Apache Maven Plugins Snapshots Repository <plugin> <groupId>org.apache.rat</groupId>
 							<artifactId>apache-rat-plugin</artifactId> </plugin> -->
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>versions-maven-plugin</artifactId>
-							<version>1.2</version>
-							<reportSets>
-								<reportSet>
-									<reports>
-										<report>dependency-updates-report</report>
-										<report>plugin-updates-report</report>
-										<report>property-updates-report</report>
-									</reports>
-								</reportSet>
-							</reportSets>
-						</plugin>
-						<!-- Perform unit-test code-coverage analysis -->
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>cobertura-maven-plugin</artifactId>
-							<configuration>
-								<check>
-									<haltOnFailure>false</haltOnFailure>
-									<regexes>
-										<regex>
-											<pattern>ead.*</pattern>
-											<branchRate>90</branchRate>
-											<lineRate>90</lineRate>
-										</regex>
-									</regexes>
-								</check>
-								<instrumentation>
-									<includes>
-										<include>ead/**/*.class</include>
-									</includes>
-								</instrumentation>
-							</configuration>
-						</plugin>
-					</reportPlugins>
-				</configuration>
-			</plugin>
-		</plugins>
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>versions-maven-plugin</artifactId>
+								<version>1.2</version>
+								<reportSets>
+									<reportSet>
+										<reports>
+											<report>dependency-updates-report</report>
+											<report>plugin-updates-report</report>
+											<report>property-updates-report</report>
+										</reports>
+									</reportSet>
+								</reportSets>
+							</plugin>
+							<!-- Perform unit-test code-coverage analysis -->
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>cobertura-maven-plugin</artifactId>
+								<configuration>
+									<check>
+										<haltOnFailure>false</haltOnFailure>
+										<regexes>
+											<regex>
+												<pattern>ead.*</pattern>
+												<branchRate>90</branchRate>
+												<lineRate>90</lineRate>
+											</regex>
+										</regexes>
+									</check>
+									<instrumentation>
+										<includes>
+											<include>ead/**/*.class</include>
+										</includes>
+									</instrumentation>
+								</configuration>
+							</plugin>
+						</reportPlugins>
+					</configuration>
+				</plugin>
+			</plugins>
 		<!-- Plugin Management contains plugin elements in much the same way, except
 			that rather than configuring plugin information for this particular project
 			build, it is intended to configure project builds that inherit from this
 			one. -->
-		<pluginManagement>
-			<plugins>
-				<!-- ====================================================================== -->
-				<!-- Plugin management -->
-				<!-- ====================================================================== -->
+			<pluginManagement>
+				<plugins>
+					<!-- ====================================================================== -->
+					<!-- Plugin management -->
+					<!-- ====================================================================== -->
 
-				<!-- generate executables for shaded jars -->
-				<plugin>
-					<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
-					<artifactId>launch4j-plugin</artifactId>
-					<version>1.5.0.0</version>
-					<configuration>
-						<headerType>gui</headerType>
-						<outfile>target/${project.artifactId}-${project.version}.exe</outfile>
-						<jar>target/${project.artifactId}-${project.version}-unified.jar</jar>
-						<errTitle>Error - ${project.name}</errTitle>
-						<icon>src/main/resources/winExe.ico</icon>
-						<jre>
-							<minVersion>${launcher.minJvmVersion}</minVersion>
-							<maxVersion>${launcher.maxJvmVersion}</maxVersion>
-							<initialHeapSize>${launcher.initialHeapSize}</initialHeapSize>
-							<maxHeapSize>${launcher.maxHeapSize}</maxHeapSize>
-						</jre>
-						<versionInfo>
-							<fileVersion>${launcher.numericalVersion}</fileVersion>
-							<txtFileVersion>${project.version}</txtFileVersion>
-							<fileDescription>
-								${project.description}
-							</fileDescription>
-							<copyright>
-								${launcher.copyright}
-							</copyright>
-							<productVersion>${launcher.numericalVersion}</productVersion>
-							<txtProductVersion>${project.version}</txtProductVersion>
-							<productName>${project.name}</productName>
-							<internalName>${project.name}</internalName>
-							<originalFilename>${project.artifactId}.exe</originalFilename>
-						</versionInfo>
-					</configuration>
-				</plugin>
-				<!-- Java compilation options -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.1</version>
-					<configuration>
-						<source>${compile.source}</source>
-						<target>${compile.target}</target>
-						<showDeprecation>true</showDeprecation>
-						<compilerArgument>
-							-Xlint:unchecked,deprecation,fallthrough,finally
-						</compilerArgument>
-						<fork>true</fork>
-						<encoding>${project.build.sourceEncoding}</encoding>
-					</configuration>
-				</plugin>
-				<!-- Dependency manipulation (copy, unpack) and analysis -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.2</version>
-				</plugin>
-				<!-- Build a JAR of sources for use in IDEs and distribution to the repository -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<phase>package</phase>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<excludeResources>true</excludeResources>
-						<attach>true</attach>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.5</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-eclipse-plugin</artifactId>
-					<version>2.8</version>
-				</plugin>
-				<plugin>
-					<groupId>com.mycila.maven-license-plugin</groupId>
-					<artifactId>maven-license-plugin</artifactId>
-					<version>1.8.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.3.1</version>
-				</plugin>
-				<!-- build module jars -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.3.1</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							</manifest>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>jdepend-maven-plugin</artifactId>
-					<version>2.0-beta-2</version>
-				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											com.googlecode.maven-java-formatter-plugin
-										</groupId>
-										<artifactId>
-											maven-java-formatter-plugin
-										</artifactId>
-										<versionRange>
-											[0.3.1,)
-										</versionRange>
-										<goals>
-											<goal>format</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-	<!-- ====================================================================== -->
-	<!-- SOURCE CODE MANAGEMENT -->
-	<!-- ====================================================================== -->
-	<!-- <scm> <connection>scm:hg:https://eadventure.googlecode.com/hg/</connection>
-		<developerConnection>scm:hg:https://eadventure.googlecode.com/hg/</developerConnection>
-		<url>https://eadventure.googlecode.com/hg/</url> </scm> -->
+					<!-- generate executables for shaded jars -->
+					<plugin>
+						<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+						<artifactId>launch4j-plugin</artifactId>
+						<version>1.5.0.0</version>
+						<configuration>
+							<headerType>gui</headerType>
+							<outfile>target/${project.artifactId}-${project.version}.exe</outfile>
+							<jar>target/${project.artifactId}-${project.version}-unified.jar</jar>
+							<errTitle>Error - ${project.name}</errTitle>
+							<icon>src/main/resources/winExe.ico</icon>
+							<jre>
+								<minVersion>${launcher.minJvmVersion}</minVersion>
+								<maxVersion>${launcher.maxJvmVersion}</maxVersion>
+								<initialHeapSize>${launcher.initialHeapSize}</initialHeapSize>
+								<maxHeapSize>${launcher.maxHeapSize}</maxHeapSize>
+							</jre>
+							<versionInfo>
+								<fileVersion>${launcher.numericalVersion}</fileVersion>
+								<txtFileVersion>${project.version}</txtFileVersion>
+								<fileDescription>
+									${project.description}
+								</fileDescription>
+								<copyright>
+									${launcher.copyright}
+								</copyright>
+								<productVersion>${launcher.numericalVersion}</productVersion>
+								<txtProductVersion>${project.version}</txtProductVersion>
+								<productName>${project.name}</productName>
+								<internalName>${project.name}</internalName>
+								<originalFilename>${project.artifactId}.exe</originalFilename>
+							</versionInfo>
+						</configuration>
+					</plugin>
+					<!-- Java compilation options -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.3.1</version>
+						<configuration>
+							<source>${compile.source}</source>
+							<target>${compile.target}</target>
+							<showDeprecation>true</showDeprecation>
+							<compilerArgument>
+								-Xlint:unchecked,deprecation,fallthrough,finally
+							</compilerArgument>
+							<fork>true</fork>
+							<encoding>${project.build.sourceEncoding}</encoding>
+						</configuration>
+					</plugin>
+					<!-- Dependency manipulation (copy, unpack) and analysis -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.2</version>
+					</plugin>
+					<!-- Build a JAR of sources for use in IDEs and distribution to the repository -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.1.2</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<phase>package</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<excludeResources>true</excludeResources>
+							<attach>true</attach>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<version>2.5</version>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-eclipse-plugin</artifactId>
+						<version>2.8</version>
+					</plugin>
+					<plugin>
+						<groupId>com.mycila.maven-license-plugin</groupId>
+						<artifactId>maven-license-plugin</artifactId>
+						<version>1.8.0</version>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-install-plugin</artifactId>
+						<version>2.3.1</version>
+					</plugin>
+					<!-- build module jars -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<version>2.3.1</version>
+						<configuration>
+							<archive>
+								<manifest>
+									<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								</manifest>
+							</archive>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>jdepend-maven-plugin</artifactId>
+						<version>2.0-beta-2</version>
+					</plugin>
+					<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+					<plugin>
+						<groupId>org.eclipse.m2e</groupId>
+						<artifactId>lifecycle-mapping</artifactId>
+						<version>1.0.0</version>
+						<configuration>
+							<lifecycleMappingMetadata>
+								<pluginExecutions>
+									<pluginExecution>
+										<pluginExecutionFilter>
+											<groupId>
+												com.googlecode.maven-java-formatter-plugin
+											</groupId>
+											<artifactId>
+												maven-java-formatter-plugin
+											</artifactId>
+											<versionRange>
+												[0.3.1,)
+											</versionRange>
+											<goals>
+												<goal>format</goal>
+											</goals>
+										</pluginExecutionFilter>
+										<action>
+											<ignore></ignore>
+										</action>
+									</pluginExecution>
+								</pluginExecutions>
+							</lifecycleMappingMetadata>
+						</configuration>
+					</plugin>
+				</plugins>
+			</pluginManagement>
+		</build>
+		<!-- ====================================================================== -->
+		<!-- SOURCE CODE MANAGEMENT -->
+		<!-- ====================================================================== -->
+		<scm>
+			<connection>scm:git:git@github.com:e-ucm/eadventure.git</connection>
+			<developerConnection>scm:git:git@github.com:e-ucm/eadventure.git</developerConnection>
+			<url>git@github.com:e-ucm/eadventure.git</url>
+		</scm>
 
-	<!-- ====================================================================== -->
-	<!-- DISTRIBUTION MANAGEMENT -->
-	<!-- ====================================================================== -->
-	<distributionManagement>
-		<downloadUrl>http://sourceforge.net/projects/e-adventure/</downloadUrl>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>eadventure-maven-snapshots-scp</id>
-			<name>e-Adventure snapshot Repo</name>
-			<url>scp://emarchiori,e-adventure@web.sourceforge.net/htdocs/maven2-snapshots</url>
-			<layout>default</layout>
-		</snapshotRepository>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>eadventure-maven2-scp</id>
-			<name>e-Adventure maven2 repository</name>
-			<url>scp://emarchiori,e-adventure@web.sourceforge.net/htdocs/maven2</url>
-			<layout>default</layout>
-		</repository>
-		<site>
-			<id>eadventure-release-site</id>
-			<name>e-Adventure release Site</name>
-			<url>scp://emarchiori,e-adventure@web.sourceforge.net/htdocs/release/${project.version}</url>
-		</site>
-	</distributionManagement>
-	<!-- ====================================================================== -->
-	<!-- R E P O S I T O R I E S -->
-	<!-- ====================================================================== -->
-	<repositories>
-		<repository>
-			<id>maven repo</id>
-			<name>maven repo</name>
-			<url>http://repo1.maven.org/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>caprica</id>
-			<name>Caprica Software</name>
-			<url>http://www.capricasoftware.co.uk/repo</url>
-		</repository>
-		<repository>
-			<id>project github maven repo</id>
-			<name>project github maven repo</name>
-			<url>https://github.com/e-ucm/eadventure/raw/master/etc/repository/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>apache-snapshots</id>
-			<name>Apache Snapshot Repository</name>
-			<url>http://repository.apache.org/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-		<!-- Html2Image -->
-		<repository>
-			<id>yoava</id>
-			<name>AOL yoava</name>
-			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache-plugin-snapshot</id>
-			<name>Apache Snapshots Plugins</name>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<url>http://repository.apache.org/snapshots/</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>snapshots-codehaus-maven2</id>
-			<name>Codehaus Snapshots Pluginso</name>
-			<url>http://snapshots.repository.codehaus.org</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>mc-release</id>
-			<name>Local Maven repository of releases</name>
-			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
-	<!-- ====================================================================== -->
-	<!-- D E P E N D E N C I E S -->
-	<!-- ====================================================================== -->
-	<dependencies>
+		<!-- ====================================================================== -->
+		<!-- DISTRIBUTION MANAGEMENT -->
+		<!-- ====================================================================== -->
+		<distributionManagement>
+			<repository>
+				<id>sonatype-nexus-staging</id>
+				<name>Nexus Release Repository</name>
+				<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			</repository>
+			<snapshotRepository>
+				<id>sonatype-nexus-snapshots</id>
+				<name>Sonatype Nexus Snapshots</name>
+				<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			</snapshotRepository>
+		</distributionManagement>
+		<!-- ====================================================================== -->
+		<!-- R E P O S I T O R I E S -->
+		<!-- ====================================================================== -->
+		<repositories>
+			<repository>
+				<id>maven repo</id>
+				<name>maven repo</name>
+				<url>http://repo1.maven.org/maven2/</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</repository>
+			<repository>
+				<id>caprica</id>
+				<name>Caprica Software</name>
+				<url>http://www.capricasoftware.co.uk/repo</url>
+			</repository>
+			<repository>
+				<id>project github maven repo</id>
+				<name>project github maven repo</name>
+				<url>https://github.com/e-ucm/eadventure/raw/master/etc/repository/</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</repository>
+			<repository>
+				<id>apache-snapshots</id>
+				<name>Apache Snapshot Repository</name>
+				<url>http://repository.apache.org/snapshots/</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+				<releases>
+					<enabled>false</enabled>
+				</releases>
+			</repository>
+			<!-- Html2Image -->
+			<repository>
+				<id>yoava</id>
+				<name>AOL yoava</name>
+				<url>http://yoava.artifactoryonline.com/yoava/repo</url>
+			</repository>
+		</repositories>
+		<pluginRepositories>
+			<pluginRepository>
+				<id>apache-plugin-snapshot</id>
+				<name>Apache Snapshots Plugins</name>
+				<releases>
+					<enabled>false</enabled>
+				</releases>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+				<url>http://repository.apache.org/snapshots/</url>
+			</pluginRepository>
+			<pluginRepository>
+				<id>snapshots-codehaus-maven2</id>
+				<name>Codehaus Snapshots Pluginso</name>
+				<url>http://snapshots.repository.codehaus.org</url>
+				<layout>default</layout>
+				<releases>
+					<enabled>false</enabled>
+				</releases>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</pluginRepository>
+			<pluginRepository>
+				<id>mc-release</id>
+				<name>Local Maven repository of releases</name>
+				<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</pluginRepository>
+		</pluginRepositories>
+		<!-- ====================================================================== -->
+		<!-- D E P E N D E N C I E S -->
+		<!-- ====================================================================== -->
+		<dependencies>
 		<!-- All projects should declare a dependency on <dependency> <groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId> </dependency> (or slf4j-android; which
 			includes slf4j inside). Subprojects can choose their own implementations;
@@ -751,80 +749,80 @@
 			element. Example (basic logging): <dependency> <groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId> <optional>true</optional> </dependency>
 			No implementation specified means no logs are generated -->
-	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<!-- logging and variants -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.5</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>1.7.5</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-android</artifactId>
-				<version>1.6.1-RC1</version>
-			</dependency>
-			<!-- vlcj Video -->
-			<dependency>
-				<groupId>uk.co.caprica</groupId>
-				<artifactId>vlcj</artifactId>
-				<version>2.2.0</version>
-			</dependency>
-			<!-- JNA -->
-			<dependency>
-				<groupId>net.java.dev.jna</groupId>
-				<artifactId>jna</artifactId>
-				<version>3.4.0</version>
-			</dependency>
-			<!-- Google Guava -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>13.0</version>
-			</dependency>
-			<!-- Injection management -->
-			<dependency>
-				<groupId>com.google.inject</groupId>
-				<artifactId>guice</artifactId>
-				<version>3.0</version>
-				<classifier>no_aop</classifier>
-				 <scope>compile</scope>
-			</dependency>
-			<!-- Patched version of guice, used by maven (in exporter). We use it for the rest of the project too, to avoid conflicts. -->
-			<dependency>
-				<groupId>org.sonatype.sisu</groupId>
-				<artifactId>sisu-guice</artifactId>
-				<version>2.9.1</version>
-			</dependency>
+		</dependencies>
+		<dependencyManagement>
+			<dependencies>
+				<!-- logging and variants -->
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+					<version>1.7.5</version>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+					<version>1.7.5</version>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-android</artifactId>
+					<version>1.6.1-RC1</version>
+				</dependency>
+				<!-- vlcj Video -->
+				<dependency>
+					<groupId>uk.co.caprica</groupId>
+					<artifactId>vlcj</artifactId>
+					<version>2.2.0</version>
+				</dependency>
+				<!-- JNA -->
+				<dependency>
+					<groupId>net.java.dev.jna</groupId>
+					<artifactId>jna</artifactId>
+					<version>3.4.0</version>
+				</dependency>
+				<!-- Google Guava -->
+				<dependency>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+					<version>13.0</version>
+				</dependency>
+				<!-- Injection management -->
+				<dependency>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+					<version>3.0</version>
+					<classifier>no_aop</classifier>
+					<scope>compile</scope>
+				</dependency>
+				<!-- Patched version of guice, used by maven (in exporter). We use it for the rest of the project too, to avoid conflicts. -->
+				<dependency>
+					<groupId>org.sonatype.sisu</groupId>
+					<artifactId>sisu-guice</artifactId>
+					<version>2.9.1</version>
+				</dependency>
 
-			<!-- annotations for use with FindBugs -->
-			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>annotations</artifactId>
-				<version>2.0.1</version>
-			</dependency>
+				<!-- annotations for use with FindBugs -->
+				<dependency>
+					<groupId>com.google.code.findbugs</groupId>
+					<artifactId>annotations</artifactId>
+					<version>2.0.1</version>
+				</dependency>
 
-			<!-- testing libraries -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.8.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<version>1.8.1</version>
-				<scope>test</scope>
-			</dependency>
+				<!-- testing libraries -->
+				<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<version>4.8.1</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
+					<version>1.8.1</version>
+					<scope>test</scope>
+				</dependency>
 			<!-- <dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId>
-				<version>1.8.1</version> <scope>test</scope> </dependency> -->
+			<version>1.8.1</version> <scope>test</scope> </dependency> -->
 			<dependency>
 				<groupId>org.jmock</groupId>
 				<artifactId>jmock-junit4</artifactId>
