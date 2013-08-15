@@ -37,9 +37,54 @@
 
 package ead.importer.subimporters.books;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
+import com.google.inject.Inject;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.drawable.basics.Caption;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import es.eucm.ead.model.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.enums.Comparator;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.ead.model.elements.effects.enums.InterpolationType;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.events.ConditionedEv;
+import es.eucm.ead.model.elements.events.SceneElementEv;
+import es.eucm.ead.model.elements.events.enums.ConditionedEvType;
+import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.huds.InventoryHud;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ValueOp;
+import es.eucm.ead.model.elements.predef.effects.ChangeAppearanceEf;
+import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.util.Position;
+import es.eucm.ead.model.params.util.Position.Corner;
+import ead.importer.EAdElementImporter;
+import ead.importer.annotation.ImportAnnotator;
+import ead.importer.interfaces.ResourceImporter;
+import ead.importer.resources.ResourceImporterImpl;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.eadventure.common.data.chapter.book.Book;
+import es.eucm.eadventure.common.data.chapter.book.BookPage;
+import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
+import gui.ava.html.image.generator.HtmlImageGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -47,62 +92,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-
-import ead.common.model.assets.AssetDescriptor;
-import ead.common.model.assets.drawable.EAdDrawable;
-import ead.common.model.assets.drawable.basics.Caption;
-import ead.common.model.assets.drawable.basics.Image;
-import ead.common.model.assets.drawable.basics.shapes.CircleShape;
-import ead.common.model.assets.drawable.compounds.ComposedDrawable;
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.assets.text.enums.FontStyle;
-import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.model.elements.effects.enums.InterpolationLoopType;
-import ead.common.model.elements.effects.enums.InterpolationType;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.huds.InventoryHud;
-import ead.common.model.elements.operations.BasicField;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.ValueOp;
-import ead.common.model.elements.predef.effects.ChangeAppearanceEf;
-import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.EAdScene;
-import ead.common.model.elements.scenes.EAdSceneElement;
-import ead.common.model.elements.scenes.GroupElement;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.guievents.MouseGEv;
-import ead.common.model.params.util.Position;
-import ead.common.model.params.util.Position.Corner;
-import ead.importer.EAdElementImporter;
-import ead.importer.annotation.ImportAnnotator;
-import ead.importer.interfaces.ResourceImporter;
-import ead.importer.resources.ResourceImporterImpl;
-import ead.tools.StringHandler;
-import es.eucm.eadventure.common.data.chapter.book.Book;
-import es.eucm.eadventure.common.data.chapter.book.BookPage;
-import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
-import gui.ava.html.image.generator.HtmlImageGenerator;
 
 public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
@@ -155,10 +144,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
 	private Font titleFont = new Font("Arial", Font.PLAIN, 33);
-	private EAdFont titleEAdFont = new BasicFont("Arial", 33, FontStyle.PLAIN);
+	private EAdFont titleEAdFont = BasicFont.BIG;
 
 	private Font textFont = new Font("Arial", Font.PLAIN, 18);
-	private EAdFont textEAdFont = new BasicFont("Arial", 18, FontStyle.PLAIN);
+	private EAdFont textEAdFont = BasicFont.REGULAR;
 
 	private int paragraphDispY = 0;
 	private int paragraphColumn;

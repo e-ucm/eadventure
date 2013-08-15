@@ -55,7 +55,7 @@ import ead.importer.subimporters.effects.variables.DeactivateFlagImporter;
 import ead.importer.subimporters.effects.variables.DecrementVarImporter;
 import ead.importer.subimporters.effects.variables.IncrementVarImporter;
 import ead.importer.subimporters.effects.variables.SetValueImporter;
-import ead.tools.MapProvider;
+import es.eucm.ead.tools.MapProvider;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.ConsumeObjectEffect;

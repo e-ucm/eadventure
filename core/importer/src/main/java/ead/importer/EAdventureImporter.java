@@ -56,16 +56,16 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.params.text.EAdString;
-import ead.converter.inputstreamcreators.ImporterInputStreamCreator;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.importer.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
-import ead.tools.StringHandler;
-import ead.tools.java.reflection.JavaReflectionProvider;
-import ead.tools.java.xml.JavaXMLParser;
-import ead.writer.AdventureWriter;
-import ead.writer.StringWriter;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.xml.JavaXMLParser;
+import es.eucm.ead.writer.AdventureWriter;
+import es.eucm.ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;

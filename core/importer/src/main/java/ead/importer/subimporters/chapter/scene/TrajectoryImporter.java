@@ -38,7 +38,7 @@
 package ead.importer.subimporters.chapter.scene;
 
 import com.google.inject.Inject;
-import ead.common.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import es.eucm.eadventure.common.data.chapter.Trajectory;

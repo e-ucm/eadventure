@@ -4,55 +4,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>ead</groupId>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
         <version>2.0.1-SNAPSHOT</version>
-        <artifactId>base</artifactId>
-        <relativePath>../../</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <groupId>ead</groupId>
-    <version>2.0.1-SNAPSHOT</version>
-    <artifactId>engine-desktop</artifactId>
+
+    <artifactId>ead-engine-desktop</artifactId>
     <packaging>jar</packaging>
-    <name>eAdventure Gdx Desktop Engine</name>
+    <name>eAdventure Desktop Engine</name>
     <description>
         Java desktop application engine
     </description>
     <dependencies>
         <dependency>
-            <groupId>ead</groupId>
-            <artifactId>utils</artifactId>
-            <version>${project.version}</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-core</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>ead</groupId>
-            <artifactId>tools</artifactId>
-            <version>${project.version}</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-java</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>ead</groupId>
-            <artifactId>tools-java</artifactId>
-            <version>${project.version}</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-resources</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>ead</groupId>
-            <artifactId>reader</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ead</groupId>
-            <artifactId>engine-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ead</groupId>
-            <artifactId>plugins-engine</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ead</groupId>
-            <artifactId>resources</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <!-- GDX -->
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
@@ -61,10 +41,6 @@
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
             <artifactId>gdx-backend-lwjgl-natives</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.badlogic.gdx</groupId>
-            <artifactId>gdx-backend-lwjgl-sources</artifactId>
         </dependency>
         <dependency>
             <groupId>com.badlogic.gdx</groupId>
@@ -101,9 +77,6 @@
             <artifactId>vlcj</artifactId>
         </dependency>
 
-        <!-- Currently unused <dependency> <groupId>com.kitfox.svg</groupId> <artifactId>svg-salamander-tiny</artifactId>
-        <version>1.0.0</version> </dependency> -->
-
         <!-- tests -->
         <dependency>
             <groupId>junit</groupId>
@@ -118,114 +91,4 @@
             <artifactId>jmock-junit4</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>ead.engine.core.gdx.desktop.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    <profiles>
-        <profile>
-            <!-- generates releases with unified "desktop-engine-jar" and wrapping-exe -->
-            <id>release</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-eclipse-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
-                                <configuration>
-                                    <minimizeJar>false</minimizeJar>
-                                    <!-- 'true' would cause problems with Guice -->
-                                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                                    <shadedClassifierName>unified</shadedClassifierName>
-                                    <filters>
-                                        <filter>
-                                            <!-- TODO: fix the library instead -->
-                                            <artifact>org.jbox2d:jbox2d-library</artifact>
-                                            <excludes>
-                                                <exclude>org/slf4j/**</exclude>
-                                            </excludes>
-                                        </filter>
-                                        <filter>
-                                            <artifact>javax.media:jmf</artifact>
-                                            <excludes>
-                                                <exclude>META-INF/*.SF</exclude>
-                                                <exclude>META-INF/*.RSA</exclude>
-                                                <exclude>META-INF/*.DSA</exclude>
-                                            </excludes>
-                                        </filter>
-                                    </filters>
-                                    <transformers>
-                                        <transformer
-                                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                            <manifestEntries>
-                                                <Main-Class>ead.engine.core.gdx.desktop.EAdEngine</Main-Class>
-                                            </manifestEntries>
-                                        </transformer>
-                                    </transformers>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
-                        <artifactId>launch4j-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>l4j-gui</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>launch4j</goal>
-                                </goals>
-                                <configuration>
-                                    <classPath>
-                                        <mainClass>ead.engine.core.gdx.desktop.EAdEngine</mainClass>
-                                    </classPath>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

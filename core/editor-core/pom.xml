@@ -3,52 +3,30 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ead</groupId>
-		<version>2.0.1-SNAPSHOT</version>
-		<artifactId>base</artifactId>
-		<relativePath>../../</relativePath>
-	</parent>
-	<groupId>ead</groupId>
-	<version>2.0.1-SNAPSHOT</version>
-	<artifactId>editor-core</artifactId>
+    <parent>
+        <groupId>es.eucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+	<artifactId>ead-editor-core</artifactId>
 	<packaging>jar</packaging>
 	<name>eAdventure Editor</name>
 	<description>
 		Java desktop application e-Adventure editor
 	</description>
 	<dependencies>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>utils</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>tools-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>importer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>reader</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-desktop</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-desktop</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-importer</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
@@ -133,7 +111,7 @@
 										<transformer
 											implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 											<manifestEntries>
-												<Main-Class>ead.editor.EAdventureEditor</Main-Class>
+												<Main-Class>es.eucm.ead.editor.EAdventureEditor</Main-Class>
 											</manifestEntries>
 										</transformer>
 									</transformers>
@@ -153,7 +131,7 @@
 								</goals>
 								<configuration>
 									<classPath>
-										<mainClass>ead.editor.EAdventureEditor</mainClass>
+										<mainClass>es.eucm.ead.editor.EAdventureEditor</mainClass>
 									</classPath>
 								</configuration>
 							</execution>

@@ -37,7 +37,7 @@
 
 package ead.common.test.params;
 
-import ead.common.model.params.util.Rectangle;
+import es.eucm.ead.model.params.util.Rectangle;
 
 public class RectangleTest extends ParamsTest<Rectangle> {
 

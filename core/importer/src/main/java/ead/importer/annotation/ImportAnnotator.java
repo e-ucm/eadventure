@@ -37,7 +37,7 @@
 
 package ead.importer.annotation;
 
-import ead.common.model.elements.EAdElement;
+import es.eucm.ead.model.elements.EAdElement;
 
 /**
  * Used to annotate a group of imported elements with a key-value properties.

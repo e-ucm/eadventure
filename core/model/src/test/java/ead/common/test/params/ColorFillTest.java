@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import ead.common.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.ColorFill;
 
 public class ColorFillTest extends ParamsTest<ColorFill> {
 

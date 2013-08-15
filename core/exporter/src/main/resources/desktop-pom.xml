@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ead</groupId>
 	<version>1.0</version>
-	<artifactId>game</artifactId>
+	<artifactId>game-desktop</artifactId>
 	<packaging>jar</packaging>
 	<name>eAdventure Game exported</name>
 	<description>eAdventure game exported</description>
@@ -24,7 +24,7 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>ead2/</directory>
+				<directory>${resources}</directory>
 			</resource>
 		</resources>
 		<plugins>
@@ -33,7 +33,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>ead.engine.core.gdx.desktop.Main</mainClass>
+							<mainClass>es.eucm.ead.engine.desktop.Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -45,8 +45,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>engine-desktop</artifactId>
+			<groupId>es.eucm.ead</groupId>
+			<artifactId>ead-engine-desktop</artifactId>
 			<version>2.0.1-SNAPSHOT</version>
 		</dependency>	
 	</dependencies>

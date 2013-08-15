@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <adventure>
   <z>
-    <w k="0" v="ead.common.model.elements.BasicAdventureModel"/>
-    <w k="1" v="ead.common.model.params.text.EAdString"/>
+    <w k="0" v="es.eucm.ead.model.elements.BasicAdventureModel"/>
+    <w k="1" v="es.eucm.ead.model.params.text.EAdString"/>
     <w k="2" v="java.lang.Integer"/>
   </z>
   <y>

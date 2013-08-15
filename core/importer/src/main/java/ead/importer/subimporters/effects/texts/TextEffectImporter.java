@@ -37,33 +37,33 @@
 
 package ead.importer.subimporters.effects.texts;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ead.common.model.assets.drawable.basics.EAdCaption;
-import ead.common.model.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.model.assets.multimedia.Sound;
-import ead.common.model.assets.text.BasicFont;
-import ead.common.model.assets.text.EAdFont;
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
-import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.operations.EAdField;
-import ead.common.model.elements.operations.EAdOperation;
-import ead.common.model.params.fills.ColorFill;
-import ead.common.model.params.fills.Paint;
+import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
+import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.assets.text.BasicFont;
+import es.eucm.ead.model.assets.text.EAdFont;
+import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.enums.Comparator;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.Paint;
 import ead.importer.EAdElementImporter;
 import ead.importer.annotation.ImportAnnotator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import ead.importer.subimporters.effects.EffectImporter;
-import ead.tools.StringHandler;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		EffectImporter<T, SpeakEf> {
@@ -72,7 +72,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	public static final String THOUGHT = "#O";
 	public static final String YELL = "#!";
 
-	protected static final EAdFont DEFAULT_FONT = new BasicFont(20.0f);
+	protected static final EAdFont DEFAULT_FONT = BasicFont.BIG;
 
 	protected static int ID_GENERATOR = 0;
 
