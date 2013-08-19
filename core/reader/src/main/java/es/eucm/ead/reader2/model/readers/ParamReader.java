@@ -35,39 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.gwt.xml;
+package es.eucm.ead.reader2.model.readers;
 
-import java.util.ArrayList;
-
-import com.google.gwt.xml.client.NodeList;
-
+import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.model.params.fills.LinearGradientFill;
+import es.eucm.ead.model.params.fills.Paint;
+import es.eucm.ead.model.params.guievents.DragGEv;
+import es.eucm.ead.model.params.guievents.KeyGEv;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.reader2.model.ObjectsFactory;
+import es.eucm.ead.reader2.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
-public class GwtXMLNodeList implements XMLNodeList {
+/**
+ * Parameters can be any type of object. Nodes with parameters have no children.
+ */
+public class ParamReader extends AbstractReader<Object> {
 
-	private ArrayList<XMLNode> nodes;
-
-	public GwtXMLNodeList(NodeList nodeList) {
-		nodes = new ArrayList<XMLNode>();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			nodes.add(new GwtXMLNode(nodeList.item(i)));
-		}
-
+	public ParamReader(ObjectsFactory elementsFactory, ReaderVisitor xmlVisitor) {
+		super(elementsFactory, xmlVisitor);
 	}
 
 	@Override
-	public XMLNode item(int index) {
-		return nodes.get(index);
-	}
-
-	@Override
-	public int getLength() {
-		try {
-			return nodes.size();
-		} catch (Exception e) {
-			return 0;
+	public Object read(XMLNode node) {
+		Class<?> clazz = getNodeClass(node);
+		String value = node.getNodeText();
+		if (clazz.isEnum() || clazz == VarDef.class || clazz == ColorFill.class
+				|| clazz == Paint.class || clazz == LinearGradientFill.class
+				|| clazz == MouseGEv.class || clazz == KeyGEv.class
+				|| clazz == DragGEv.class) {
+			value = translateParam(value);
 		}
+		return objectsFactory.getParam(value, clazz);
 	}
 
 }

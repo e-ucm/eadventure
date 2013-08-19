@@ -37,22 +37,22 @@
 
 package es.eucm.ead.engine.gameobjects.effects;
 
+import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.GameLoaderImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.GameLoader;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.TransitionGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		SceneLoaderListener, TransitionGO.TransitionListener {
@@ -61,6 +61,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	public static BasicField<Boolean> IN_TRANSITION = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("in_transition", Boolean.class, false));
+	private final GameLoader gameLoader;
 
 	private GUI gui;
 
@@ -78,11 +79,13 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Inject
 	public ChangeSceneGO(GUI gui, GameState gameState,
-			SceneElementGOFactory sceneElementFactory, SceneLoader sceneLoader) {
+			SceneElementGOFactory sceneElementFactory, SceneLoader sceneLoader,
+			GameLoaderImpl gameLoader) {
 		super(gameState);
 		this.sceneLoader = sceneLoader;
 		this.gui = gui;
 		this.sceneElementFactory = sceneElementFactory;
+		this.gameLoader = gameLoader;
 	}
 
 	@Override
@@ -90,12 +93,14 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		super.initialize();
 		gameState.setValue(IN_TRANSITION, true);
 		finished = false;
-		EAdScene nextScene = (EAdScene) gameState.maybeDecodeField(effect
-				.getNextScene());
+		String nextSceneId = effect.getNextScene();
+		EAdScene nextScene;
 
 		// if null, return to previous scene
-		if (nextScene == null) {
+		if (nextSceneId == null) {
 			nextScene = gui.getPreviousScene();
+		} else {
+			nextScene = gameLoader.loadScene(nextSceneId);
 		}
 
 		// If next scene is different from current one

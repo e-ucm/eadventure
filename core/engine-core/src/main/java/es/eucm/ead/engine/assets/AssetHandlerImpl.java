@@ -43,14 +43,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
-import es.eucm.ead.model.interfaces.features.Resourced;
+import es.eucm.ead.engine.factories.mapproviders.AssetHandlerMap;
+import es.eucm.ead.engine.utils.SceneGraph;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.engine.factories.mapproviders.AssetHandlerMap;
+import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.tools.GenericInjector;
-import es.eucm.ead.engine.utils.SceneGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -460,5 +460,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	public boolean fileExists(String path) {
 		FileHandle fh = getFileHandle(path);
 		return (fh != null && fh.exists());
+	}
+
+	public String read(String file) {
+		return getTextFile(file);
 	}
 }

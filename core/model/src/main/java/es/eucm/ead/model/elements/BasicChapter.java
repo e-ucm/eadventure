@@ -37,14 +37,13 @@
 
 package es.eucm.ead.model.elements;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
@@ -57,42 +56,28 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	/**
 	 * Scenes of the game
 	 */
-	@Param
 	private EAdList<EAdScene> scenes;
+
+	private EAdScene initialScene;
 
 	/**
 	 * Actors of the game
 	 */
-	@Param
 	private EAdList<EAdSceneElementDef> actors;
-
-	@Param
-	private EAdString title;
-
-	@Param
-	private EAdString description;
-
-	@Param
-	private EAdScene initialScene;
 
 	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param adventureModel
-	 *            The parent adventure model
+	 *
 	 */
 	public BasicChapter() {
 		super();
 		scenes = new EAdList<EAdScene>();
 		actors = new EAdList<EAdSceneElementDef>();
 		events = new EAdList<EAdEvent>();
-		title = new EAdString("title");
-		description = new EAdString("desc");
 		vars = new EAdMap<EAdVarDef<?>, Object>();
-
 	}
 
 	/**
@@ -128,26 +113,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getTitle()
-	 */
-	@Override
-	public EAdString getTitle() {
-		return title;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getDescription()
-	 */
-	@Override
-	public EAdString getDescription() {
-		return description;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getInitialScreen()
 	 */
 	@Override
@@ -176,14 +141,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	@Override
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
-	}
-
-	public void setTitle(EAdString title) {
-		this.title = title;
-	}
-
-	public void setDescription(EAdString description) {
-		this.description = description;
 	}
 
 	public EAdScene getSceneById(String nextSceneId) {

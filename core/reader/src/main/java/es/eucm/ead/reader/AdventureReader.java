@@ -45,9 +45,7 @@ import es.eucm.ead.reader.model.XMLVisitor;
 import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 import es.eucm.ead.reader.model.translators.MapClassTranslator;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
-import es.eucm.ead.tools.xml.XMLDocument;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +79,7 @@ public class AdventureReader implements VisitorListener {
 	}
 
 	public void readXML(String xml, VisitorListener listener) {
-		XMLDocument document = xmlParser.parse(xml);
+		XMLNode document = xmlParser.parse(xml);
 		visitor.init();
 
 		XMLNode node = document.getFirstChild();
@@ -92,9 +90,7 @@ public class AdventureReader implements VisitorListener {
 
 		// This loop is to avoid some weird node GWT adds to the root element
 		// when there are errors
-		XMLNodeList list = node.getChildNodes();
-		for (int i = 0; i < list.getLength(); i++) {
-			XMLNode n = list.item(i);
+		for (XMLNode n : node.getChildren()) {
 			if (n.getNodeName().equals(DOMTags.ELEMENT_TAG)) {
 				adventure = n;
 			} else if (n.getNodeName().equals(DOMTags.CLASSES_TAG)) {
@@ -109,10 +105,8 @@ public class AdventureReader implements VisitorListener {
 		if (keyMap == null) {
 			logger.warn("No classes node found");
 		} else {
-			XMLNodeList entries = keyMap.getChildNodes();
 			Map<String, String> classes = new HashMap<String, String>();
-			for (int i = 0; i < entries.getLength(); i++) {
-				XMLNode n = entries.item(i);
+			for (XMLNode n : keyMap.getChildren()) {
 				String className = n.getAttributeValue(DOMTags.VALUE_AT);
 
 				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
@@ -123,10 +117,8 @@ public class AdventureReader implements VisitorListener {
 		if (fieldsMap == null) {
 			logger.warn("No fields node found");
 		} else {
-			XMLNodeList entries = fieldsMap.getChildNodes();
 			Map<String, String> classes = new HashMap<String, String>();
-			for (int i = 0; i < entries.getLength(); i++) {
-				XMLNode n = entries.item(i);
+			for (XMLNode n : fieldsMap.getChildren()) {
 				String className = n.getAttributeValue(DOMTags.VALUE_AT);
 				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
 			}
@@ -137,9 +129,7 @@ public class AdventureReader implements VisitorListener {
 			logger.warn("No params node found");
 		} else {
 			Map<String, String> classes = new HashMap<String, String>();
-			XMLNodeList entries = paramsMap.getChildNodes();
-			for (int i = 0; i < entries.getLength(); i++) {
-				XMLNode n = entries.item(i);
+			for (XMLNode n : paramsMap.getChildren()) {
 				String className = n.getAttributeValue(DOMTags.VALUE_AT);
 				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
 			}

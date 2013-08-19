@@ -56,7 +56,7 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 	@Override
 	public XMLNode write(EAdMap object) {
 		total++;
-		XMLNode node = modelVisitor.newNode(DOMTags.MAP_TAG);
+		XMLNode node = new XMLNode(DOMTags.MAP_TAG);
 
 		MapWriterListener listener = new MapWriterListener(node);
 		for (Object key : object.keySet()) {

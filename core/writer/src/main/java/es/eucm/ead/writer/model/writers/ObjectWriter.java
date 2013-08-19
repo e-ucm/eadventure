@@ -141,9 +141,9 @@ public class ObjectWriter extends AbstractWriter<Identified> {
 		XMLNode node;
 
 		if (asset) {
-			node = modelVisitor.newNode(DOMTags.ASSET_TAG);
+			node = new XMLNode(DOMTags.ASSET_TAG);
 		} else {
-			node = modelVisitor.newNode(DOMTags.ELEMENT_TAG);
+			node = new XMLNode(DOMTags.ELEMENT_TAG);
 		}
 
 		// If the object gets here with a taken Id, its a repeated element, so we create a reference

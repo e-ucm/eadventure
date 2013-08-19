@@ -68,7 +68,6 @@ public class CompleteModel extends BasicAdventureModel {
 	public CompleteModel() {
 		// FIXME more elements
 		BasicChapter chapter = new BasicChapter();
-		chapter.setTitle(new EAdString("A chapter"));
 		this.getChapters().add(chapter);
 		RectangleShape background = new RectangleShape(800, 600,
 				ColorFill.BLACK);

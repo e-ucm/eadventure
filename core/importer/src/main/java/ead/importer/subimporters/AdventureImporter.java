@@ -93,10 +93,6 @@ public class AdventureImporter implements
 			// XXX Add inventory with a specific plugin
 		}
 
-		stringsWriter.setString(model.getTitle(), oldData.getTitle());
-		stringsWriter.setString(model.getDescription(), oldData
-				.getDescription());
-
 		for (Chapter oldChapter : oldData.getChapters()) {
 			EAdChapter newChapter = chapterImporter.init(oldChapter);
 

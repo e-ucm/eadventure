@@ -46,9 +46,7 @@ import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
-import es.eucm.ead.tools.xml.XMLDocument;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLParser;
 import es.eucm.ead.writer.model.writers.ListWriter;
 import es.eucm.ead.writer.model.writers.MapWriter;
 import es.eucm.ead.writer.model.writers.ObjectWriter;
@@ -69,8 +67,6 @@ public class ModelVisitor {
 
 	private ReflectionProvider reflectionProvider;
 
-	private XMLParser xmlParser;
-
 	private boolean addedToRoot;
 
 	private XMLNode classes;
@@ -87,8 +83,6 @@ public class ModelVisitor {
 
 	private ObjectWriter objectWriter;
 
-	private XMLDocument currentDocument;
-
 	private List<WriterStep> stepsQueue;
 
 	private Map<Class<?>, String> classTranslations;
@@ -99,10 +93,9 @@ public class ModelVisitor {
 
 	private boolean simplificationsEnabled;
 
-	public ModelVisitor(ReflectionProvider reflectionProvider, XMLParser parser) {
+	public ModelVisitor(ReflectionProvider reflectionProvider) {
 		this.reflectionProvider = reflectionProvider;
 		this.reflectionProvider = reflectionProvider;
-		this.xmlParser = parser;
 
 		this.stepsQueue = new ArrayList<WriterStep>();
 		this.classTranslations = new LinkedHashMap<Class<?>, String>();
@@ -137,7 +130,7 @@ public class ModelVisitor {
 		if (o == null) {
 			// If the object is null, we don't care what tag to use. We just
 			// create an empty param. While reading, a null will be retrieved
-			node = newNode(DOMTags.PARAM_TAG);
+			node = new XMLNode(DOMTags.PARAM_TAG);
 		} else if (reflectionProvider.isAssignableFrom(EAdParam.class, clazz)) {
 			node = paramWriter.write(o);
 		} else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
@@ -206,12 +199,10 @@ public class ModelVisitor {
 
 	public void clear() {
 		// Create a new document
-		this.currentDocument = xmlParser.createDocument();
-		root = currentDocument.newNode(DOMTags.ROOT_TAG);
-		currentDocument.appendChild(root);
-		classes = currentDocument.newNode(DOMTags.CLASSES_TAG);
-		fields = currentDocument.newNode(DOMTags.FIELDS_TAG);
-		params = currentDocument.newNode(DOMTags.PARAMS_ABB_TAG);
+		this.root = new XMLNode(DOMTags.ROOT_TAG);
+		classes = new XMLNode(DOMTags.CLASSES_TAG);
+		fields = new XMLNode(DOMTags.FIELDS_TAG);
+		params = new XMLNode(DOMTags.PARAMS_ABB_TAG);
 		root.append(classes);
 		root.append(fields);
 		root.append(params);
@@ -231,7 +222,7 @@ public class ModelVisitor {
 		if (value == null) {
 			value = Integer.toHexString(classTranslations.size());
 			classTranslations.put(clazz, value);
-			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+			XMLNode entry = new XMLNode(DOMTags.ENTRY_TAG);
 			entry.setAttribute(DOMTags.KEY_AT, value);
 			entry.setAttribute(DOMTags.VALUE_AT, clazz.getName());
 			classes.append(entry);
@@ -244,7 +235,7 @@ public class ModelVisitor {
 		if (value == null) {
 			value = Integer.toHexString(fieldsTranslations.size());
 			fieldsTranslations.put(field, value);
-			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+			XMLNode entry = new XMLNode(DOMTags.ENTRY_TAG);
 			entry.setAttribute(DOMTags.KEY_AT, value);
 			entry.setAttribute(DOMTags.VALUE_AT, field);
 			fields.append(entry);
@@ -257,7 +248,7 @@ public class ModelVisitor {
 		if (value == null) {
 			value = Integer.toHexString(paramsTranslations.size());
 			paramsTranslations.put(param, value);
-			XMLNode entry = currentDocument.newNode(DOMTags.ENTRY_TAG);
+			XMLNode entry = new XMLNode(DOMTags.ENTRY_TAG);
 			entry.setAttribute(DOMTags.KEY_AT, value);
 			entry.setAttribute(DOMTags.VALUE_AT, param);
 			params.append(entry);
@@ -265,12 +256,8 @@ public class ModelVisitor {
 		return value;
 	}
 
-	public XMLNode newNode(String tag) {
-		return currentDocument.newNode(tag);
-	}
-
-	public XMLDocument getDocument() {
-		return currentDocument;
+	public XMLNode getRoot() {
+		return root;
 	}
 
 	public static class WriterStep {

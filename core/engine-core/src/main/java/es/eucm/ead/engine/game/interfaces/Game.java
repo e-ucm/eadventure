@@ -153,8 +153,6 @@ public interface Game extends VisitorListener {
 	 */
 	void restart(final boolean reloadModel);
 
-	void startGame();
-
 	/**
 	 * Returns the scene element factory
 	 * @return

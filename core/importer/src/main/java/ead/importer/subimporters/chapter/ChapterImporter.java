@@ -37,10 +37,10 @@
 
 package ead.importer.subimporters.chapter;
 
-import java.util.List;
-
 import com.google.inject.Inject;
-
+import ead.importer.EAdElementImporter;
+import ead.importer.annotation.ImportAnnotator;
+import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.EAdEvent;
@@ -49,9 +49,6 @@ import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.predef.effects.ChangeCursorEf;
 import es.eucm.ead.model.elements.scenes.EAdScene;
-import ead.importer.EAdElementImporter;
-import ead.importer.annotation.ImportAnnotator;
-import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -59,6 +56,8 @@ import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
+
+import java.util.List;
 
 /**
  * Chapter importer
@@ -104,10 +103,6 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
 				"description", oldChapter.getDescription());
 		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
-
-		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
-		stringHandler.setString(newChapter.getDescription(), oldChapter
-				.getDescription());
 
 		registerActiveAreas(oldChapter.getScenes());
 		registerOldElements(oldChapter.getAtrezzo());

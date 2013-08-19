@@ -37,13 +37,12 @@
 
 package es.eucm.ead.model.elements;
 
-import es.eucm.ead.model.interfaces.features.Evented;
-import es.eucm.ead.model.interfaces.features.Resourced;
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.interfaces.features.Evented;
+import es.eucm.ead.model.interfaces.features.Resourced;
+import es.eucm.ead.model.interfaces.features.Variabled;
 
 public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 
@@ -62,16 +61,6 @@ public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 	 * @return the actors of the chapter.
 	 */
 	EAdList<EAdSceneElementDef> getActors();
-
-	/**
-	 * @return The title of the chapter
-	 */
-	EAdString getTitle();
-
-	/**
-	 * @return The description of the chapter
-	 */
-	EAdString getDescription();
 
 	/**
 	 * @return The first screen in the game

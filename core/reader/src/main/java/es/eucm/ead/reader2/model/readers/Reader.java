@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader.model.readers;
+package es.eucm.ead.reader2.model.readers;
 
 import es.eucm.ead.tools.xml.XMLNode;
 

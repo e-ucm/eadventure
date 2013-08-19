@@ -89,7 +89,8 @@ public class JavaReflectionField implements ReflectionField {
 		try {
 			field.set(object, value);
 		} catch (Exception e) {
-			logger.error("Error setting field", e);
+			logger.warn("Error setting field {} := {}", new Object[] { field,
+					value });
 		}
 	}
 

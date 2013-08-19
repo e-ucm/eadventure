@@ -44,7 +44,7 @@ import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.StringHandlerImpl;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.sax.SaxXMLParser;
+import es.eucm.ead.tools.java.xml.SaxXMLParser;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;

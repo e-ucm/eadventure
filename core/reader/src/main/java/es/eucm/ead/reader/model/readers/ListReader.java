@@ -42,7 +42,6 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 import es.eucm.ead.reader.model.XMLVisitor;
 import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
 @SuppressWarnings("rawtypes")
 public class ListReader extends AbstractReader<EAdList> {
@@ -57,10 +56,8 @@ public class ListReader extends AbstractReader<EAdList> {
 	public EAdList read(XMLNode node) {
 		if (node.hasChildNodes()) {
 			EAdList list = new EAdList();
-			XMLNodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				xmlVisitor.loadElement(children.item(i),
-						new ListVisitorListener(list));
+			for (XMLNode n : node.getChildren()) {
+				xmlVisitor.loadElement(n, new ListVisitorListener(list));
 			}
 			return list;
 		} else {

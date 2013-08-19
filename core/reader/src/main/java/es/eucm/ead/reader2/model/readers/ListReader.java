@@ -35,98 +35,55 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.xml;
+package es.eucm.ead.reader2.model.readers;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.reader2.model.ObjectsFactory;
+import es.eucm.ead.reader2.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
-public class JavaXMLNode implements XMLNode {
+@SuppressWarnings("rawtypes")
+public class ListReader extends AbstractReader<EAdList> {
 
-	private Node node;
+	private static final EAdList EMPTY_LIST = new EAdList();
 
-	private XMLNodeList childNodes;
-
-	public JavaXMLNode(Node node) {
-		this.node = node;
-		childNodes = new JavaXMLNodeList(node.getChildNodes());
-	}
-
-	public Node getElement() {
-		return node;
+	public ListReader(ObjectsFactory elementsFactory, ReaderVisitor visitor) {
+		super(elementsFactory, visitor);
 	}
 
 	@Override
-	public String getNodeText() {
-		return node.getTextContent();
-	}
-
-	@Override
-	public XMLNodeList getChildNodes() {
-		return childNodes;
-	}
-
-	@Override
-	public String getNodeName() {
-		return node.getNodeName();
-	}
-
-	@Override
-	public boolean hasChildNodes() {
-		return node.hasChildNodes();
-	}
-
-	@Override
-	public XMLNode getFirstChild() {
-		if (hasChildNodes()) {
-			return getChildNodes().item(0);
+	public EAdList read(XMLNode node) {
+		if (node.hasChildNodes()) {
+			EAdList list = new EAdList();
+			for (XMLNode n : node.getChildren()) {
+				readerVisitor.loadElement(n, new ListVisitorListener(list));
+			}
+			return list;
 		} else {
-			return null;
+			return EMPTY_LIST;
 		}
 
 	}
 
-	@Override
-	public void setText(String text) {
-		node.setTextContent(text);
+	public static class ListVisitorListener implements
+			ReaderVisitor.VisitorListener {
+		private EAdList list;
 
-	}
+		public ListVisitorListener(EAdList list) {
+			this.list = list;
+		}
 
-	@Override
-	public void setAttribute(String key, String value) {
-		((Element) node).setAttribute(key, value);
-
-	}
-
-	@Override
-	public void append(XMLNode node) {
-		this.node.appendChild(((JavaXMLNode) node).getElement());
-	}
-
-	@Override
-	public String getAttributeValue(String atttributeName) {
-		if (node.hasAttributes()) {
-			NamedNodeMap map = node.getAttributes();
-			if (map != null) {
-				Node n = node.getAttributes().getNamedItem(atttributeName);
-				return n == null ? null : n.getNodeValue();
+		@SuppressWarnings("unchecked")
+		@Override
+		public boolean loaded(XMLNode node, Object object,
+				boolean isNullInOrigin) {
+			if (object != null || isNullInOrigin) {
+				list.add(object);
+				return true;
 			}
+			return false;
 		}
-		return null;
-	}
 
-	@Override
-	public int getAttributesLength() {
-		if (node.hasAttributes()) {
-			NamedNodeMap map = node.getAttributes();
-			if (map != null) {
-				return map.getLength();
-			}
-		}
-		return 0;
 	}
 
 }

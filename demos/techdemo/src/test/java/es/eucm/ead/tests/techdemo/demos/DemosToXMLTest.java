@@ -9,7 +9,7 @@ import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.java.utils.FileUtils;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
 import es.eucm.ead.tools.java.utils.Log4jConfig.Slf4jLevel;
-import es.eucm.ead.tools.java.xml.sax.SaxXMLParser;
+import es.eucm.ead.tools.java.xml.SaxXMLParser;
 import es.eucm.ead.writer.AdventureWriter;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class DemosToXMLTest {
 
 		logger.debug("Writing demo model to src/main/resources/data.xml");
 		AdventureWriter writer = new AdventureWriter(
-				new JavaReflectionProvider(), new SaxXMLParser());
+				new JavaReflectionProvider());
 		writer.write(model, "src/main/resources/data.xml");
 
 		AdventureReader reader = new AdventureReader(new SaxXMLParser(),
@@ -60,7 +60,7 @@ public class DemosToXMLTest {
 				"src/main/resources/data.xml"), f));
 		f.delete();
 
-		//		AdventureReader reader = new AdventureReader(new JavaXMLParser());
+		//		AdventureReader reader = new AdventureReader(new DomXMLParser());
 		//
 		//		ObjectFactory.init(new JavaReflectionProvider());
 		//		ReflectionClassLoader.init(new JavaReflectionClassLoader());

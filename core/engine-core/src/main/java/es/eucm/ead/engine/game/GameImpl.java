@@ -42,23 +42,21 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.enginefilters.EngineFilter;
 import es.eucm.ead.engine.game.enginefilters.EngineHook;
+import es.eucm.ead.engine.game.enginefilters.EngineStringFilter;
 import es.eucm.ead.engine.game.interfaces.*;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.EAdEvent;
-import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.LoadGameEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.game.enginefilters.EngineStringFilter;
 import es.eucm.ead.reader.strings.StringsReader;
 import es.eucm.ead.tools.PropertiesReader;
 import es.eucm.ead.tools.StringHandler;
@@ -90,6 +88,8 @@ public class GameImpl implements Game {
 	 * Default properties file. Loaded during initialization
 	 */
 	private static final String DEFAULT_PROPERTIES = "@ead.properties";
+
+	private GameLoader gameLoader;
 
 	/**
 	 * Game gui
@@ -182,7 +182,7 @@ public class GameImpl implements Game {
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
-			SoundManager soundManager) {
+			SoundManager soundManager, GameLoader gameLoader) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -195,6 +195,7 @@ public class GameImpl implements Game {
 		this.tracker = tracker;
 		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
+		this.gameLoader = gameLoader;
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
@@ -252,6 +253,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public void act(float delta) {
+		gameLoader.act(delta);
 		// Remove hooks and filters
 		for (int i = 0; i < this.filterNameDelete.size(); i++) {
 			removeFilterImpl(filterNameDelete.get(i), filterDelete.get(i));
@@ -304,41 +306,6 @@ public class GameImpl implements Game {
 
 		for (EventGO<?> e : events) {
 			e.act(delta);
-		}
-	}
-
-	public void startGame() {
-		assetHandler.preloadVideos();
-		if (adventure != null && adventure.getChapters().size() > 0) {
-			currentChapter = adventure.getChapters().get(0);
-			ChangeSceneEf initGame = new ChangeSceneEf(currentChapter
-					.getInitialScene());
-			gameState.addEffect(initGame);
-
-			logger.info("Init game events...");
-			events.clear();
-			for (EAdEvent e : currentChapter.getEvents()) {
-				EventGO<?> eventGO = eventFactory.get(e);
-				eventGO.setParent(null);
-				eventGO.initialize();
-				events.add(eventGO);
-			}
-
-			for (EAdEvent e : adventure.getEvents()) {
-				EventGO<?> eventGO = eventFactory.get(e);
-				eventGO.setParent(null);
-				eventGO.initialize();
-				events.add(eventGO);
-			}
-
-			// Start tracking
-			Boolean track = Boolean.parseBoolean(adventure.getProperties().get(
-					GameTracker.TRACKING_ENABLE));
-			if (track) {
-				tracker.startTracking(adventure);
-			}
-			doHook(GameImpl.HOOK_AFTER_MODEL_READ);
-			doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
 		}
 	}
 
@@ -529,7 +496,6 @@ public class GameImpl implements Game {
 					loadStrings();
 					gameState.addEffect(new LoadGameEf(true));
 				} else {
-					startGame();
 				}
 			}
 		});

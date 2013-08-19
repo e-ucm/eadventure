@@ -35,35 +35,66 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.xml;
+package es.eucm.ead.reader2.model.readers;
 
-import java.util.ArrayList;
-
-import org.w3c.dom.NodeList;
-
+import es.eucm.ead.reader.DOMTags;
+import es.eucm.ead.reader2.model.ObjectsFactory;
+import es.eucm.ead.reader2.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class JavaXMLNodeList implements XMLNodeList {
+public abstract class AbstractReader<T> implements Reader<T> {
 
-	private ArrayList<XMLNode> nodes;
+	protected static final Logger logger = LoggerFactory
+			.getLogger("ElementReader");
 
-	public JavaXMLNodeList(NodeList nodeList) {
-		nodes = new ArrayList<XMLNode>();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			nodes.add(new JavaXMLNode(nodeList.item(i)));
+	protected ObjectsFactory objectsFactory;
+
+	protected ReaderVisitor readerVisitor;
+
+	public AbstractReader(ObjectsFactory objectsFactory,
+			ReaderVisitor readerVisitor) {
+		this.objectsFactory = objectsFactory;
+		this.readerVisitor = readerVisitor;
+	}
+
+	/**
+	 * Returns the class for the element contained in the given node
+	 * @param node
+	 * @return
+	 */
+	public Class<?> getNodeClass(XMLNode node) {
+		String clazz = node.getAttributeValue(DOMTags.CLASS_AT);
+		return clazz == null ? null : getNodeClass(clazz);
+	}
+
+	public Class<?> getNodeClass(String clazz) {
+		clazz = translateClass(clazz);
+		Class<?> c = null;
+		try {
+			c = objectsFactory.getClassFromName(clazz);
+		} catch (NullPointerException e) {
+			logger.error("Error resolving class {}", clazz, e);
 		}
-
+		return c;
 	}
 
-	@Override
-	public XMLNode item(int index) {
-		return nodes.get(index);
+	/**
+	 * Translate the class into its complete name
+	 * @param clazz
+	 * @return
+	 */
+	public String translateClass(String clazz) {
+		return readerVisitor.translateClass(clazz);
 	}
 
-	@Override
-	public int getLength() {
-		return nodes.size();
+	public String translateField(String field) {
+		return readerVisitor.translateField(field);
+	}
+
+	public String translateParam(String param) {
+		return readerVisitor.translateParam(param);
 	}
 
 }

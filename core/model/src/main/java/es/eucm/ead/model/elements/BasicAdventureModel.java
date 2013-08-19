@@ -37,14 +37,11 @@
 
 package es.eucm.ead.model.elements;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
@@ -54,23 +51,18 @@ import es.eucm.ead.model.params.variables.EAdVarDef;
 public class BasicAdventureModel extends BasicElement implements
 		EAdAdventureModel {
 
-	@Param
-	public EAdString description;
-
-	@Param
-	private EAdString title;
-
-	@Param
+	/**
+	 * Not serialize (special treatment in writer)
+	 */
 	private EAdList<EAdChapter> chapters;
+
+	/**
+	 * Not serialize (special treatment in writer)
+	 */
+	private EAdChapter initialChapter;
 
 	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
-
-	@Param
-	private int gameWidth;
-
-	@Param
-	private int gameHeight;
 
 	@Param
 	/**
@@ -79,11 +71,10 @@ public class BasicAdventureModel extends BasicElement implements
 	private EAdList<EAdEvent> events;
 
 	@Param
-	private EAdList<EAdElement> depthControlList;
-
-	// This map is fulfilled with the values in ead.properties. That's why it
-	// hasn't got a @Param annotation
-	private Map<String, String> properties;
+	/**
+	 * List with all the identified used in the game across chapters
+	 */
+	private EAdList<Identified> identified;
 
 	/**
 	 * Constructs a {@link BasicAdventureModel}.
@@ -91,33 +82,12 @@ public class BasicAdventureModel extends BasicElement implements
 	public BasicAdventureModel() {
 		chapters = new EAdList<EAdChapter>();
 		vars = new EAdMap<EAdVarDef<?>, Object>();
-		description = new EAdString("desc");
-		title = new EAdString("title");
-		gameWidth = DEFAULT_WIDTH;
-		gameHeight = DEFAULT_HEIGHT;
-		depthControlList = new EAdList<EAdElement>();
-		properties = new LinkedHashMap<String, String>();
 		events = new EAdList<EAdEvent>();
+		identified = new EAdList<Identified>();
 	}
 
 	public EAdList<EAdChapter> getChapters() {
 		return chapters;
-	}
-
-	/**
-	 * @return the description
-	 */
-	@Override
-	public EAdString getDescription() {
-		return description;
-	}
-
-	/**
-	 * @return the title
-	 */
-	@Override
-	public EAdString getTitle() {
-		return title;
 	}
 
 	@Override
@@ -130,56 +100,12 @@ public class BasicAdventureModel extends BasicElement implements
 		vars.put(var, value);
 	}
 
-	public void setTitle(EAdString title) {
-		this.title = title;
-	}
-
-	public void setDescription(EAdString description) {
-		this.description = description;
-	}
-
-	public EAdList<EAdElement> getDepthControlList() {
-		return depthControlList;
-	}
-
-	@Override
-	public int getGameWidth() {
-		return gameWidth;
-	}
-
-	@Override
-	public int getGameHeight() {
-		return gameHeight;
-	}
-
-	public void setGameWidth(int width) {
-		this.gameWidth = width;
-	}
-
-	public void setGameHeight(int height) {
-		this.gameHeight = height;
-	}
-
-	@Override
-	public Map<String, String> getProperties() {
-		return properties;
-	}
-
-	@Override
-	public void setProperty(String key, String value) {
-		properties.put(key, value);
-	}
-
 	public void setChapters(EAdList<EAdChapter> chapters) {
 		this.chapters = chapters;
 	}
 
 	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
 		this.vars = vars;
-	}
-
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
 	}
 
 	public void addChapter(EAdChapter chapter) {
@@ -192,4 +118,27 @@ public class BasicAdventureModel extends BasicElement implements
 		return events;
 	}
 
+	public EAdChapter getInitialChapter() {
+		return initialChapter;
+	}
+
+	public void setInitialChapter(EAdChapter initialChapter) {
+		this.initialChapter = initialChapter;
+	}
+
+	public void addIdentified(Identified i) {
+		this.identified.add(i);
+	}
+
+	public EAdList<Identified> getIdentified() {
+		return identified;
+	}
+
+	public void setIdentified(EAdList<Identified> identified) {
+		this.identified = identified;
+	}
+
+	public void setEvents(EAdList<EAdEvent> events) {
+		this.events = events;
+	}
 }

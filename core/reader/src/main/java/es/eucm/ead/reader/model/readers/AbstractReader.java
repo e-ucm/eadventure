@@ -40,6 +40,7 @@ package es.eucm.ead.reader.model.readers;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.reader.model.ObjectsFactory;
 import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.reader2.model.readers.Reader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -38,29 +38,48 @@
 package es.eucm.ead.tools.gwt.xml;
 
 import com.google.gwt.xml.client.Document;
-
-import es.eucm.ead.tools.xml.XMLDocument;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NamedNodeMap;
+import com.google.gwt.xml.client.NodeList;
+import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
 
 public class GwtXMLParser implements XMLParser {
 
 	@Override
-	public XMLDocument parse(String xml) {
+	public XMLNode parse(String xml) {
 		Document doc = com.google.gwt.xml.client.XMLParser.parse(xml);
 		doc.getDocumentElement().normalize();
-		return new GwtXMLDocument(doc);
+		return generateNode((Element) doc.getFirstChild());
 	}
 
-	@Override
-	public XMLDocument createDocument() {
-		Document doc = com.google.gwt.xml.client.XMLParser.createDocument();
-		return new GwtXMLDocument(doc);
+	public XMLNode generateNode(Element n) {
+		XMLNode node = new XMLNode(n.getTagName());
+		// Extract text
+		NodeList nodes = n.getChildNodes();
+		String result = "";
+		try {
+			for (int i = 0; i < nodes.getLength(); i++) {
+				String value = nodes.item(i).getNodeValue();
+				if (value != null) {
+					result += (value.equals("null") ? "" : value);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		node.setText(result);
+		// Extract attributes
+		NamedNodeMap atts = n.getAttributes();
+		for (int i = 0; i < atts.getLength(); i++) {
+			node.setAttribute(atts.item(i).getNodeName(), atts.item(i)
+					.getNodeValue());
+		}
+		NodeList nl = n.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			XMLNode child = generateNode((Element) nl.item(i));
+			node.append(child);
+		}
+		return node;
 	}
-
-	@Override
-	public void writeToFile(XMLDocument document, String file) {
-		// FIXME Not implemented
-
-	}
-
 }

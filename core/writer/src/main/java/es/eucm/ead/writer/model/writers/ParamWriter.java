@@ -37,8 +37,6 @@
 
 package es.eucm.ead.writer.model.writers;
 
-import java.util.ArrayList;
-
 import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -46,6 +44,8 @@ import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.writer.model.ModelVisitor;
+
+import java.util.ArrayList;
 
 public class ParamWriter extends AbstractWriter<Object> {
 
@@ -62,7 +62,7 @@ public class ParamWriter extends AbstractWriter<Object> {
 			return null;
 		}
 
-		XMLNode node = modelVisitor.newNode(DOMTags.PARAM_TAG);
+		XMLNode node = new XMLNode(DOMTags.PARAM_TAG);
 		if (o != null) {
 			String translatedClass = translateClass(o.getClass());
 			node.setAttribute(DOMTags.CLASS_AT, translatedClass);

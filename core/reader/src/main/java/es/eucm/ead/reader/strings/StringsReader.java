@@ -40,8 +40,7 @@ package es.eucm.ead.reader.strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.tools.xml.XMLDocument;
-import es.eucm.ead.tools.xml.XMLNodeList;
+import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,13 +64,12 @@ public class StringsReader {
 	public Map<EAdString, String> readStrings(String xml) {
 		Map<EAdString, String> strings = new LinkedHashMap<EAdString, String>();
 		try {
-			XMLDocument doc = xmlParser.parse(xml);
+			XMLNode doc = xmlParser.parse(xml);
 			if (doc.getFirstChild().hasChildNodes()) {
-				XMLNodeList nl = doc.getFirstChild().getChildNodes();
-				for (int i = 0; i < nl.getLength(); i++) {
-					String name = nl.item(i).getAttributeValue("name");
+				for (XMLNode n : doc.getChildren()) {
+					String name = n.getAttributeValue("name");
 					if (name != null) {
-						String value = nl.item(i).getNodeText();
+						String value = n.getNodeText();
 						strings.put(new EAdString(name), value);
 					}
 				}

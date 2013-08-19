@@ -42,21 +42,17 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.interfaces.GameLoader;
 import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.LoadGameEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.predef.LoadingScreen;
-import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.reader.AdventureReader;
+import es.eucm.ead.reader2.AdventureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +61,7 @@ import java.util.Stack;
 public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 
 	private static final Logger logger = LoggerFactory.getLogger("LoadGame");
+	private GameLoader gameLoader;
 
 	private SceneElementGOFactory sceneElementFactory;
 
@@ -99,90 +96,13 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	}
 
 	@Inject
-	public LoadGameGO(GameState gameState, AdventureReader adventureReader,
-			SceneElementGOFactory sceneElementFactory,
-			AssetHandler assetHandler, Game game, GUI gui) {
+	public LoadGameGO(GameLoader gameLoader, GameState gameState) {
 		super(gameState);
-		this.reader = adventureReader;
-		this.sceneElementFactory = sceneElementFactory;
-		this.assetHandler = assetHandler;
-		this.game = game;
-		this.gui = gui;
-		assetsToLoad = new Stack<AssetDescriptor>();
+		this.gameLoader = gameLoader;
 	}
 
 	public void initialize() {
-		if (!assetHandler.fileExists("@data.xml")) {
-			done = true;
-		} else {
-			super.initialize();
-			if (effect.isReloadAssets()) {
-				assetHandler.clean();
-			}
-			done = false;
-			EAdScene loadingScreen = effect.getLoadingScene();
-			if (loadingScreen == null) {
-				loadingScreen = new LoadingScreen();
-			}
-			gui.setScene((SceneGO) sceneElementFactory.get(loadingScreen));
-			gameState.addEffect(HIDE_CURSOR);
-			reader.readXML(assetHandler.getTextFile("@data.xml"), game);
-			readingXML = true;
-		}
-	}
-
-	public void act(float delta) {
-		if (readingXML) {
-			for (int i = 0; i < 200; i++) {
-				if (reader.step()) {
-					break;
-				}
-			}
-
-			if (reader.step()) {
-				gameState.setValue(SystemFields.LOADING, 30);
-				readingAssets = true;
-				readingXML = false;
-				assetsToLoad.addAll(reader.getAssets());
-				logger.info("Loading {} assets", reader.getAssets().size());
-				assetsToLoadNumber = reader.getAssets().size();
-			}
-		} else if (readingAssets) {
-			for (int i = 0; i < 10; i++) {
-				if (assetsToLoad.isEmpty()) {
-					readingAssets = false;
-					done = true;
-					break;
-				}
-				AssetDescriptor a = assetsToLoad.pop();
-				if (!(a instanceof EAdVideo)) {
-					assetHandler.getRuntimeAsset(a);
-				} else {
-					assetHandler.addVideo((EAdVideo) a);
-				}
-			}
-			if (assetsToLoadNumber > 0) {
-				gameState.setValue(SystemFields.LOADING, (int) (30.0f + 70.f
-						* (float) (assetsToLoadNumber - assetsToLoad.size())
-						/ (float) assetsToLoadNumber));
-			} else {
-				gameState.setValue(SystemFields.LOADING, 100);
-			}
-		}
-	}
-
-	public boolean isFinished() {
-		return done;
-	}
-
-	public void finish() {
-		super.finish();
-		game.startGame();
-		gameState.addEffect(SHOW_CURSOR);
-	}
-
-	public boolean isQueueable() {
-		return true;
+		gameLoader.loadGame();
 	}
 
 }

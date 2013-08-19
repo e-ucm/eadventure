@@ -47,7 +47,6 @@ import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionField;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
 public class ObjectReader extends AbstractReader<Identified> {
 
@@ -88,9 +87,7 @@ public class ObjectReader extends AbstractReader<Identified> {
 				}
 
 				if (node.hasChildNodes()) {
-					XMLNodeList children = node.getChildNodes();
-					for (int i = 0; i < children.getLength(); i++) {
-						XMLNode child = children.item(i);
+					for (XMLNode child : node.getChildren()) {
 						String fieldName = child
 								.getAttributeValue(DOMTags.FIELD_AT);
 						fieldName = translateField(fieldName);

@@ -62,6 +62,7 @@ import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.reader.model.XMLVisitor;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;

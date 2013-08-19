@@ -42,7 +42,6 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 import es.eucm.ead.reader.model.XMLVisitor;
 import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLNodeList;
 
 @SuppressWarnings("rawtypes")
 public class MapReader extends AbstractReader<EAdMap> {
@@ -59,9 +58,8 @@ public class MapReader extends AbstractReader<EAdMap> {
 		if (node.hasChildNodes()) {
 			EAdMap map = new EAdMap();
 			MapVisitorListener listener = new MapVisitorListener(map);
-			XMLNodeList childNodes = node.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i++) {
-				xmlVisitor.loadElement(childNodes.item(i), listener);
+			for (XMLNode n : node.getChildren()) {
+				xmlVisitor.loadElement(n, listener);
 			}
 			return map;
 		} else {
@@ -109,7 +107,7 @@ public class MapReader extends AbstractReader<EAdMap> {
 						// The key and/or the value are references and they're
 						// not prepared to be added to the map
 						logger.error("Yeah, it happened!!!!");
-						// xmlVisitor.addMapKeyValue(map, key, object,
+						// readerVisitor.addMapKeyValue(map, key, object,
 						// keyReference, valueReference);
 					} else {
 						map.put(key, object);
@@ -117,7 +115,7 @@ public class MapReader extends AbstractReader<EAdMap> {
 				} catch (Exception e) {
 					// The key is not prepared to generate a valid hash. Let's
 					// wait until it is
-					// xmlVisitor.addMapKeyValue(map, key, object, keyReference,
+					// readerVisitor.addMapKeyValue(map, key, object, keyReference,
 					// valueReference);
 				} finally {
 					key = null;

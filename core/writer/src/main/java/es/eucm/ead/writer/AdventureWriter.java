@@ -38,12 +38,10 @@
 package es.eucm.ead.writer;
 
 import com.google.inject.Inject;
-
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
-import es.eucm.ead.tools.xml.XMLDocument;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.tools.xml.XMLParser;
+import es.eucm.ead.tools.xml.XMLWriter;
 import es.eucm.ead.writer.model.ModelVisitor;
 import es.eucm.ead.writer.model.ModelVisitor.VisitorListener;
 
@@ -51,16 +49,15 @@ public class AdventureWriter {
 
 	private ModelVisitor visitor;
 
-	private XMLParser xmlParser;
+	private XMLWriter xmlWriter;
 
 	@Inject
-	public AdventureWriter(ReflectionProvider reflectionProvider,
-			XMLParser parser) {
-		this.visitor = new ModelVisitor(reflectionProvider, parser);
-		this.xmlParser = parser;
+	public AdventureWriter(ReflectionProvider reflectionProvider) {
+		this.visitor = new ModelVisitor(reflectionProvider);
+		this.xmlWriter = new XMLWriter();
 	}
 
-	public XMLDocument write(EAdAdventureModel model) {
+	public XMLNode write(EAdAdventureModel model) {
 		write(model, new VisitorListener() {
 
 			@Override
@@ -73,7 +70,7 @@ public class AdventureWriter {
 		while (!done) {
 			done = visitor.step();
 		}
-		return visitor.getDocument();
+		return visitor.getRoot();
 	}
 
 	public void write(EAdAdventureModel model, VisitorListener listener) {
@@ -82,8 +79,7 @@ public class AdventureWriter {
 	}
 
 	public void write(EAdAdventureModel model, String string) {
-		XMLDocument doc = write(model);
-		xmlParser.writeToFile(doc, string);
+		String xml = xmlWriter.generateString(write(model));
 	}
 
 	/**
@@ -91,7 +87,7 @@ public class AdventureWriter {
 	 * can slow the writing process. Just a bit. Trust me, better slow it now
 	 * than while reading. You do NOT want that. You do not. That's why
 	 * simplification is enable by default)
-	 * 
+	 *
 	 * @param enable
 	 */
 	public void setEnableSimplifications(boolean enable) {

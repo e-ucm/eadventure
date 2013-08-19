@@ -51,19 +51,6 @@ public interface XMLParser {
 	 * @param xml
 	 * @return
 	 */
-	XMLDocument parse(String xml);
-
-	/**
-	 * Creates an xml document
-	 * @return
-	 */
-	XMLDocument createDocument();
-
-	/**
-	 * Writes the document to the given file
-	 * @param document
-	 * @param file
-	 */
-	void writeToFile(XMLDocument document, String file);
+	XMLNode parse(String xml);
 
 }

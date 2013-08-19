@@ -56,6 +56,7 @@ import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.OneShotEf;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.transitions.EAdTransition;
 import es.eucm.ead.model.elements.transitions.EmptyTransition;
@@ -417,7 +418,8 @@ public class EffectsReader {
 				nextScene = new BasicElement(ns);
 			}
 		}
-		ChangeSceneEf changeScene = new ChangeSceneEf(nextScene, transition);
+		ChangeSceneEf changeScene = new ChangeSceneEf((EAdScene) nextScene,
+				transition);
 		return changeScene;
 	}
 

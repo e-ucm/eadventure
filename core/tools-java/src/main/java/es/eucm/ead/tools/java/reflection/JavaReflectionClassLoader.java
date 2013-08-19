@@ -40,19 +40,33 @@ package es.eucm.ead.tools.java.reflection;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class JavaReflectionClassLoader extends ReflectionClassLoader {
+
+	private Map<Class<?>, JavaReflectionClass> classes;
+
+	public JavaReflectionClassLoader() {
+		classes = new HashMap<Class<?>, JavaReflectionClass>();
+	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(Class<?> clazz) {
-		return new JavaReflectionClass(clazz);
+		JavaReflectionClass c = classes.get(clazz);
+		if (c == null) {
+			c = new JavaReflectionClass(clazz);
+			classes.put(clazz, c);
+		}
+		return c;
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected ReflectionClass<?> getReflectionClassImpl(String clazz) {
 		try {
-			return new JavaReflectionClass(Class.forName(clazz));
+			return getReflectionClassImpl(Class.forName(clazz));
 		} catch (ClassNotFoundException e) {
 			logger.error("Class not found {}", clazz);
 		}

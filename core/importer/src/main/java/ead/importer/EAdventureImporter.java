@@ -63,7 +63,7 @@ import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.JavaXMLParser;
+import es.eucm.ead.tools.java.xml.DomXMLParser;
 import es.eucm.ead.writer.AdventureWriter;
 import es.eucm.ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
@@ -213,7 +213,7 @@ public class EAdventureImporter {
 
 		// Create data.xml
 		AdventureWriter writer = new AdventureWriter(
-				new JavaReflectionProvider(), new JavaXMLParser());
+				new JavaReflectionProvider());
 
 		writer.write(model, path
 				+ (path.charAt(path.length() - 1) == '/' ? "" : "/")

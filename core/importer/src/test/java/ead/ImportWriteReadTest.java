@@ -37,32 +37,30 @@
 
 package ead;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.File;
-import java.io.FilenameFilter;
-
-import org.junit.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import es.eucm.ead.model.elements.EAdAdventureModel;
 import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.tools.java.DataPrettifier;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.JavaXMLParser;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.java.utils.FileUtils;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.tools.java.xml.DomXMLParser;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.writer.AdventureWriter;
+import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FilenameFilter;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ImportWriteReadTest {
 
@@ -83,10 +81,9 @@ public class ImportWriteReadTest {
 				new JavaToolsModule());
 
 		importer = i.getInstance(EAdventureImporter.class);
-		reader = new AdventureReader(new JavaXMLParser(),
+		reader = new AdventureReader(new DomXMLParser(),
 				new JavaReflectionProvider());
-		writer = new AdventureWriter(new JavaReflectionProvider(),
-				new JavaXMLParser());
+		writer = new AdventureWriter(new JavaReflectionProvider());
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 	}
 

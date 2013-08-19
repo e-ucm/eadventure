@@ -37,19 +37,9 @@
 
 package es.eucm.ead.json.reader;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Collection;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
 import com.google.gson.reflect.TypeToken;
-
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
@@ -57,8 +47,15 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.reader.model.ObjectsFactory;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
-import es.eucm.ead.tools.xml.XMLParser;
 import es.eucm.ead.writer.AdventureWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Collection;
 
 public class JsonReader {
 
@@ -88,7 +85,7 @@ public class JsonReader {
 
 	private ConversationReader conversationsReader;
 
-	public JsonReader(ReflectionProvider reflectionProvider, XMLParser xmlParser) {
+	public JsonReader(ReflectionProvider reflectionProvider) {
 		gson = new Gson();
 		templateReader = new TemplateReader();
 		objectsFactory = new ObjectsFactory(reflectionProvider, null);
@@ -105,7 +102,7 @@ public class JsonReader {
 				operationReader, templateReader);
 		behaviorReader = new BehaviorReader(objectsFactory, effectsReader,
 				templateReader);
-		writer = new AdventureWriter(reflectionProvider, xmlParser);
+		writer = new AdventureWriter(reflectionProvider);
 	}
 
 	public EAdAdventureModel parseGame(String[] folders) {

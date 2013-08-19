@@ -53,14 +53,8 @@ import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactoryImpl;
 import es.eucm.ead.engine.factories.TrajectoryFactory;
 import es.eucm.ead.engine.factories.TrajectoryFactoryImpl;
-import es.eucm.ead.engine.game.GameImpl;
-import es.eucm.ead.engine.game.GameStateImpl;
-import es.eucm.ead.engine.game.PluginHandlerImpl;
-import es.eucm.ead.engine.game.SoundManagerImpl;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.game.interfaces.PluginHandler;
-import es.eucm.ead.engine.game.interfaces.SoundManager;
+import es.eucm.ead.engine.game.*;
+import es.eucm.ead.engine.game.interfaces.*;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import es.eucm.ead.engine.tracking.DefaultGameTracker;
@@ -70,6 +64,7 @@ import es.eucm.ead.engine.tracking.selection.TrackerSelector;
 import es.eucm.ead.engine.utils.BasicSceneGraph;
 import es.eucm.ead.tools.ModuleMap;
 import es.eucm.ead.engine.utils.SceneGraph;
+import es.eucm.ead.tools.TextFileReader;
 
 public class GdxModuleMap extends ModuleMap {
 
@@ -81,6 +76,7 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(EffectGOFactory.class, EffectGOFactoryImpl.class);
 		binds.put(EventGOFactory.class, EventGOFactoryImpl.class);
 
+		binds.put(TextFileReader.class, AssetHandler.class);
 		binds.put(AssetHandler.class, AssetHandlerImpl.class);
 		binds.put(FontHandler.class, FontHandlerImpl.class);
 
@@ -93,6 +89,7 @@ public class GdxModuleMap extends ModuleMap {
 		// Game
 		binds.put(GameState.class, GameStateImpl.class);
 		binds.put(Game.class, GameImpl.class);
+		binds.put(GameLoader.class, GameLoaderImpl.class);
 
 		// Tracking
 		binds.put(GameTracker.class, DefaultGameTracker.class);

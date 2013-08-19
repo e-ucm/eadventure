@@ -35,9 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.xml.sax;
+package es.eucm.ead.tools.java.xml;
 
-import es.eucm.ead.tools.xml.XMLDocument;
+import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -46,22 +46,23 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.*;
-import java.util.Map;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Stack;
 
 public class SaxXMLParser extends DefaultHandler implements XMLParser {
 
 	private SAXParser saxParser;
 
-	private SaxXMLDocument currentDocument;
+	private XMLNode currentDocument;
 
-	private Stack<SaxXMLNode> nodes;
+	private Stack<XMLNode> nodes;
 
 	private StringBuffer text;
 
 	public SaxXMLParser() {
-		nodes = new Stack<SaxXMLNode>();
+		nodes = new Stack<XMLNode>();
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 			saxParser = factory.newSAXParser();
@@ -72,7 +73,7 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 	}
 
 	@Override
-	public XMLDocument parse(String xml) {
+	public XMLNode parse(String xml) {
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
 		try {
 			saxParser.parse(is, this);
@@ -91,20 +92,18 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 	}
 
 	@Override
-	public XMLDocument createDocument() {
-		return new SaxXMLDocument();
-	}
-
-	@Override
 	public void startDocument() throws SAXException {
 		nodes.clear();
-		currentDocument = new SaxXMLDocument();
+		currentDocument = null;
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		SaxXMLNode node = new SaxXMLNode(qName, attributes);
+		XMLNode node = new XMLNode(qName, attributes);
+		if (currentDocument == null) {
+			currentDocument = node;
+		}
 		nodes.push(node);
 		text = new StringBuffer();
 	}
@@ -112,14 +111,13 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		SaxXMLNode node = nodes.pop();
-		if (!"".equals(text.toString())) {
+		XMLNode node = nodes.pop();
+		if (text != null && !"".equals(text.toString())) {
 			node.setText(text.toString());
+			text = new StringBuffer();
 		}
 		if (!nodes.empty()) {
 			nodes.peek().append(node);
-		} else {
-			currentDocument.appendChild(node);
 		}
 	}
 
@@ -129,46 +127,4 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 		text.append(ch, start, length);
 	}
 
-	@Override
-	public void writeToFile(XMLDocument document, String file) {
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter(file));
-			writer
-					.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-			SaxXMLNode node = (SaxXMLNode) document.getFirstChild();
-			writeNode(node, writer);
-		} catch (Exception e) {
-
-		} finally {
-			if (writer != null) {
-				try {
-					writer.close();
-				} catch (IOException e) {
-
-				}
-			}
-		}
-	}
-
-	private void writeNode(SaxXMLNode node, BufferedWriter writer)
-			throws IOException {
-		writer.write("<" + node.getNodeName());
-		// write attributes
-		for (Map.Entry<String, String> entry : node.getAttributes().entrySet()) {
-			writer
-					.write(" " + entry.getKey() + "=\"" + entry.getValue()
-							+ "\"");
-		}
-		if (node.hasChildNodes() || !"".equals(node.getNodeText())) {
-			writer.write(">");
-			writer.write(node.getNodeText());
-			for (SaxXMLNode n : node.getNodes()) {
-				writeNode(n, writer);
-			}
-			writer.write("</" + node.getNodeName() + ">");
-		} else {
-			writer.write("/>");
-		}
-	}
 }

@@ -38,8 +38,6 @@
 package es.eucm.ead.json.reader;
 
 import com.google.gson.internal.StringMap;
-import es.eucm.ead.model.elements.scenes.*;
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdSound;
 import es.eucm.ead.model.assets.multimedia.Video;
@@ -56,6 +54,8 @@ import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.ChangeAppearanceEf;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
+import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Rectangle;
@@ -102,7 +102,7 @@ public class SceneReader {
 		scene.setVideo(new Video((String) jsonScene.get("uri")));
 		EAdElement nextScene = new BasicElement(jsonScene.get("nextScene")
 				.toString());
-		scene.getFinalEffects().add(new ChangeSceneEf(nextScene));
+		scene.getFinalEffects().add(new ChangeSceneEf((EAdScene) nextScene));
 		return scene;
 	}
 

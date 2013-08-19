@@ -35,26 +35,62 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.xml;
+package es.eucm.ead.writer2.model.writers;
 
-/**
- * General interface for a list of nodes
- * 
- */
-public interface XMLNodeList {
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.reader.DOMTags;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.writer2.model.WriterContext;
+import es.eucm.ead.writer2.model.WriterVisitor;
 
-	/**
-	 * Returns the node at the given index
-	 * 
-	 * @param index
-	 * @return
-	 */
-	XMLNode item(int index);
+@SuppressWarnings("rawtypes")
+public class MapWriter implements Writer<EAdMap> {
 
-	/**
-	 * 
-	 * @return the length of the list
-	 */
-	int getLength();
+	private WriterVisitor writerVisitor;
 
+	public MapWriter(WriterVisitor writerVisitor) {
+		this.writerVisitor = writerVisitor;
+	}
+
+	@Override
+	public XMLNode write(EAdMap object, WriterContext context) {
+		XMLNode node = new XMLNode(DOMTags.MAP_TAG);
+
+		MapWriterListener listener = new MapWriterListener(node);
+		for (Object key : object.keySet()) {
+			Object value = object.get(key);
+			writerVisitor.writeElement(key, object, listener);
+			writerVisitor.writeElement(value, object, listener);
+		}
+		return node;
+	}
+
+	public static class MapWriterListener implements
+			WriterVisitor.VisitorListener {
+
+		private XMLNode map;
+
+		private XMLNode key;
+
+		public MapWriterListener(XMLNode map) {
+			this.map = map;
+			this.key = null;
+		}
+
+		public XMLNode getKey() {
+			return key;
+		}
+
+		@Override
+		public void load(XMLNode node, Object object) {
+			if (key == null) {
+				key = node;
+			} else {
+				map.append(key);
+				map.append(node);
+				key = null;
+			}
+		}
+
+	}
 }

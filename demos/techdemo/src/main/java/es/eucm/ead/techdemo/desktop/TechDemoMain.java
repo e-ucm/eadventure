@@ -6,7 +6,6 @@ import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.JavaXMLParser;
 import es.eucm.ead.writer.AdventureWriter;
 
 public class TechDemoMain {
@@ -18,7 +17,7 @@ public class TechDemoMain {
 		EAdAdventureModel model = new BasicAdventureModel();
 		model.getChapters().add(chapter);
 		AdventureWriter writer = new AdventureWriter(
-				new JavaReflectionProvider(), new JavaXMLParser());
+				new JavaReflectionProvider());
 		writer.write(model, "src/main/resources/data.xml");
 		g.setModel(null);
 		g.start();

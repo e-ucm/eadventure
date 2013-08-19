@@ -37,27 +37,14 @@
 
 package es.eucm.ead.model.elements;
 
-import java.util.Map;
-
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.params.text.EAdString;
 
 /**
  * Interface for an eAdventure game static model.
  */
 public interface EAdAdventureModel extends EAdElement, Variabled, Evented {
-
-	/**
-	 * Default width for games
-	 */
-	public static final int DEFAULT_WIDTH = 800;
-
-	/**
-	 * Default height for games
-	 */
-	public static final int DEFAULT_HEIGHT = 600;
 
 	/**
 	 * Returns the chapters of the adventures.
@@ -67,46 +54,10 @@ public interface EAdAdventureModel extends EAdElement, Variabled, Evented {
 	EAdList<EAdChapter> getChapters();
 
 	/**
-	 * @return the description of the adventure
+	 *
+	 * @return the initial chapter of the game
 	 */
-	EAdString getDescription();
+	EAdChapter getInitialChapter();
 
-	/**
-	 * @return the title of the adventure
-	 */
-	EAdString getTitle();
-
-	/**
-	 * Returns the width for this game
-	 * 
-	 * @return
-	 */
-	int getGameWidth();
-
-	/**
-	 * Returns the height for this game
-	 * 
-	 * @return
-	 */
-	int getGameHeight();
-
-	/**
-	 * Returns properties for this adventure (version of the editor, tracker
-	 * parameters...). These properties are usually read from the ead.properties
-	 * file
-	 * 
-	 * @return
-	 */
-	Map<String, String> getProperties();
-
-	/**
-	 * Sets the value for a property
-	 * 
-	 * @param key
-	 *            property key
-	 * @param value
-	 *            property value
-	 */
-	void setProperty(String key, String value);
-
+	void addChapter(EAdChapter chapter);
 }

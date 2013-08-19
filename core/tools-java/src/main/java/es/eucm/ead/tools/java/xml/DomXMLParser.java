@@ -37,37 +37,33 @@
 
 package es.eucm.ead.tools.java.xml;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
+import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.tools.xml.XMLParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import es.eucm.ead.tools.xml.XMLDocument;
-import es.eucm.ead.tools.xml.XMLParser;
-
-public class JavaXMLParser implements XMLParser {
+public class DomXMLParser implements XMLParser {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("JavaXMLParser");
+			.getLogger("DomXMLParser");
 
 	private DocumentBuilder dBuilder;
 	private TransformerFactory tf;
 
-	public JavaXMLParser() {
+	public DomXMLParser() {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		tf = TransformerFactory.newInstance();
 		try {
@@ -78,13 +74,13 @@ public class JavaXMLParser implements XMLParser {
 	}
 
 	@Override
-	public XMLDocument parse(String xml) {
+	public XMLNode parse(String xml) {
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
 
 		try {
 			Document doc = dBuilder.parse(is);
 			doc.getDocumentElement().normalize();
-			return new JavaXMLDocument(doc);
+			return generateNode((Element) doc.getFirstChild());
 		} catch (SAXException e) {
 			logger.error("Error reading xml: {}", e);
 		} catch (IOException e) {
@@ -101,32 +97,20 @@ public class JavaXMLParser implements XMLParser {
 		return null;
 	}
 
-	@Override
-	public XMLDocument createDocument() {
-		Document doc = dBuilder.newDocument();
-		return new JavaXMLDocument(doc);
-	}
-
-	@Override
-	public void writeToFile(XMLDocument document, String file) {
-		OutputStreamWriter outputStreamWriter = null;
-		try {
-			Transformer transformer = tf.newTransformer();
-			outputStreamWriter = new OutputStreamWriter(new FileOutputStream(
-					file), "UTF-8");
-			transformer.transform(new DOMSource(((JavaXMLDocument) document)
-					.getDocument()), new StreamResult(outputStreamWriter));
-		} catch (Exception e) {
-			logger.error("{}", e);
-		} finally {
-			if (outputStreamWriter != null)
-				try {
-					outputStreamWriter.close();
-				} catch (IOException e) {
-
-				}
+	public XMLNode generateNode(Element n) {
+		XMLNode node = new XMLNode(n.getTagName());
+		node.setText(n.getTextContent());
+		NamedNodeMap atts = n.getAttributes();
+		for (int i = 0; i < atts.getLength(); i++) {
+			node.setAttribute(atts.item(i).getNodeName(), atts.item(i)
+					.getNodeValue());
 		}
-
+		NodeList nl = n.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			XMLNode child = generateNode((Element) nl.item(i));
+			node.append(child);
+		}
+		return node;
 	}
 
 }

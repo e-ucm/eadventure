@@ -45,6 +45,7 @@ import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.effects.AddChildEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
@@ -52,10 +53,10 @@ import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 import es.eucm.ead.model.params.fills.ColorFill;
+import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.JavaXMLParser;
-import es.eucm.ead.writer.AdventureWriter;
 import es.eucm.ead.writer.StringWriter;
+import es.eucm.ead.writer2.AdventureWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import org.slf4j.Logger;
@@ -88,6 +89,8 @@ public class AdventureConverter {
 
 	private ResourcesConverter resourcesConverter;
 
+	private EAdAdventureModel model;
+
 	private Random rand;
 
 	public AdventureConverter() {
@@ -98,10 +101,13 @@ public class AdventureConverter {
 		modelQuerier = i.getInstance(ModelQuerier.class);
 		stringsConverter = i.getInstance(StringsConverter.class);
 		stringWriter = new StringWriter();
-		writer = new AdventureWriter(new JavaReflectionProvider(),
-				new JavaXMLParser());
+		writer = new AdventureWriter(new JavaReflectionProvider());
 		resourcesConverter = i.getInstance(ResourcesConverter.class);
 		rand = new Random();
+	}
+
+	public EAdAdventureModel getModel() {
+		return model;
 	}
 
 	/**
@@ -141,7 +147,7 @@ public class AdventureConverter {
 		SceneElementEv initEvent = new SceneElementEv();
 		initEvent.addEffect(SceneElementEvType.INIT, addEffectsGhost);
 
-		BasicAdventureModel model = new BasicAdventureModel();
+		model = new BasicAdventureModel();
 		model.getEvents().add(initEvent);
 
 		// Descriptions balloon (for mouse over)
@@ -161,7 +167,7 @@ public class AdventureConverter {
 				+ (destinyFolder.charAt(destinyFolder.length() - 1) == '/' ? ""
 						: "/");
 		// Create data.xml
-		writer.write(model, path + "data.xml");
+		writer.write(model, path, new JavaTextFileWriter());
 
 		// Create strings.xml
 		File f = new File(path, "strings.xml");

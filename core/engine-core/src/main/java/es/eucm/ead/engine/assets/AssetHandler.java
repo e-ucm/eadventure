@@ -39,11 +39,12 @@ package es.eucm.ead.engine.assets;
 
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
-import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.interfaces.features.Resourced;
+import es.eucm.ead.tools.TextFileReader;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ import java.util.List;
  * specific optimizations as necessary.
  * </p>
  */
-public interface AssetHandler {
+public interface AssetHandler extends TextFileReader {
 
 	/**
 	 * Initialize the asset handler, so assets can be loaded into the system

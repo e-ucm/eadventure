@@ -37,77 +37,133 @@
 
 package es.eucm.ead.tools.xml;
 
+import org.xml.sax.Attributes;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * General interface for XML nodes
  * 
  */
-public interface XMLNode {
+public class XMLNode {
+
+	private String tag;
+
+	private String text;
+
+	private Map<String, String> attributes;
+
+	private ArrayList<XMLNode> children;
+
+	public XMLNode(String tag) {
+		this.tag = tag;
+		this.text = "";
+		this.attributes = new HashMap<String, String>();
+		this.children = new ArrayList<XMLNode>();
+	}
+
+	public XMLNode(String tag, Attributes attributes) {
+		this(tag);
+		for (int i = 0; i < attributes.getLength(); i++) {
+			String key = attributes.getLocalName(i);
+			String value = attributes.getValue(i);
+			this.attributes.put(key, value);
+		}
+	}
 
 	/**
 	 * @return the text contained by this node
 	 */
-	String getNodeText();
-
-	/**
-	 * 
-	 * @return a list childs nodes from this node
-	 */
-	XMLNodeList getChildNodes();
+	public String getNodeText() {
+		return text;
+	}
 
 	/**
 	 * @return the node name
 	 */
-	String getNodeName();
+	public String getNodeName() {
+		return tag;
+	}
 
 	/**
-	 * 
+	 *
 	 * @return whether this node has child nodes or not
 	 */
-	boolean hasChildNodes();
+	public boolean hasChildNodes() {
+		return children.size() > 0;
+	}
 
 	/**
 	 * Returns the first child node
-	 * 
+	 *
 	 * @return
 	 */
-	XMLNode getFirstChild();
+	public XMLNode getFirstChild() {
+		return children.size() > 0 ? children.get(0) : null;
+	}
 
 	/**
 	 * Sets the contained text in this node
-	 * 
+	 *
 	 * @param text
 	 */
-	void setText(String text);
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	/**
 	 * Sets the value for the attribute
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
-	void setAttribute(String key, String value);
+	public void setAttribute(String key, String value) {
+		this.attributes.put(key, value);
+	}
 
 	/**
 	 * Appends a child to this node
-	 * 
+	 *
 	 * @param node
 	 */
-	void append(XMLNode node);
+	public void append(XMLNode node) {
+		this.children.add(node);
+	}
 
 	/**
 	 * Returns the value for a given attribute. Returns null if the attribute is
 	 * not present in the node
-	 * 
+	 *
 	 * @param atttributeName
 	 *            the attribute name
 	 * @return
 	 */
-	String getAttributeValue(String atttributeName);
+	public String getAttributeValue(String atttributeName) {
+		return attributes.get(atttributeName);
+	}
 
 	/**
 	 * Returns the number of attributes contained by this node
 	 * @return
 	 */
-	int getAttributesLength();
+	public int getAttributesLength() {
+		return attributes.size();
+	}
 
+	public Map<String, String> getAttributes() {
+		return attributes;
+	}
+
+	public List<XMLNode> getChildren() {
+		return children;
+	}
+
+	public void copy(XMLNode n) {
+		this.attributes = n.attributes;
+		this.text = n.text;
+		this.children = n.children;
+	}
 }
