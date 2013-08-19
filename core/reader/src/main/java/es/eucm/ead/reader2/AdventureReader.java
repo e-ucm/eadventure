@@ -28,20 +28,28 @@ public class AdventureReader {
 
 	private Object result;
 
+    private String path;
+
 	@Inject
 	public AdventureReader(ReflectionProvider reflectionProvider,
 			XMLParser parser, TextFileReader reader) {
 		this.reader = reader;
 		this.parser = parser;
 		this.readerVisitor = new ReaderVisitor(reflectionProvider);
+        this.path = "@";
 	}
+
+    public void setPath(String path){
+        this.path = path;
+    }
 
 	public Manifest getManifest() {
 		return (Manifest) read(XMLFileNames.MANIFEST);
 	}
 
 	public Object read(String file) {
-		XMLNode node = parser.parse(reader.read("@" + file));
+		XMLNode node = parser.parse(reader.read(path + file));
+        readerVisitor.init();
 		readerVisitor.loadElement(node, new ReaderVisitor.VisitorListener() {
 			@Override
 			public boolean loaded(XMLNode node, Object object,

@@ -7,9 +7,6 @@ import java.io.*;
 public class JavaTextFileReader implements TextFileReader {
 	@Override
 	public String read(String fileName) {
-        if ( fileName.startsWith("@")){
-            fileName = fileName.substring(1);
-        }
         String text = "";
 		File f = new File(fileName);
 		BufferedReader reader = null;

@@ -69,7 +69,7 @@ public class ObjectWriter implements Writer<Identified> {
 
 	}
 
-	public static class ObjectWriterListener implements
+    public static class ObjectWriterListener implements
 			WriterVisitor.VisitorListener {
 
 		private String fieldName;

@@ -19,9 +19,9 @@ public class IdGenerator {
 		exclusions = new ArrayList<String>();
 	}
 
-	public void addExclusion(String exclusion) {
-		exclusions.add(exclusion);
-	}
+    public void addExclusion(String id){
+        exclusions.add(id);
+    }
 
 	public void clear() {
 		// Init aux vars

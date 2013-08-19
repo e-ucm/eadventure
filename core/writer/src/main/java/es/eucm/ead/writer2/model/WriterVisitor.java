@@ -33,6 +33,7 @@ public class WriterVisitor {
 	private ObjectWriter objectWriter;
 
 	private List<WriterStep> stepsQueue;
+
 	private List<FinalStep> finalStepsQueue;
 
 	private WriterContext writerContext;
@@ -98,6 +99,9 @@ public class WriterVisitor {
 		while (!step())
 			;
 	}
+
+    public void clear(){
+    }
 
 	public static class WriterStep {
 		private VisitorListener listener;

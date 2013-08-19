@@ -62,4 +62,8 @@ public class ReferenceResolver {
 		}
 	}
 
+    public void clear() {
+        objects.clear();
+        pendingReferences.clear();
+    }
 }

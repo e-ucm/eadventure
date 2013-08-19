@@ -203,6 +203,7 @@ public class ObjectsFactory {
 			o = classType.getConstructor().newInstance();
 		}
 		identified.put(id, (Identified) o);
+        ((Identified) o).setId(id);
 		return o;
 	}
 

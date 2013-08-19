@@ -61,6 +61,10 @@ public class AdventureWriter implements WriterContext {
 	public void write(EAdAdventureModel model, String path,
 			TextFileWriter textFileWriter) {
 		documents.clear();
+        idGenerator.clear();
+        contextIds.clear();
+        referenceResolver.clear();
+        contextId = 0;
 
 		AdventureVisitorListener chapterListener = new AdventureVisitorListener(
 				XMLFileNames.CHAPTER);
@@ -204,6 +208,7 @@ public class AdventureWriter implements WriterContext {
 		if (object instanceof Identified) {
 			referenceResolver.check((Identified) object, node, this);
 			contextIds.add(((Identified) object).getId());
+            idGenerator.addExclusion(((Identified) object).getId());
 		}
 
 		return object;
