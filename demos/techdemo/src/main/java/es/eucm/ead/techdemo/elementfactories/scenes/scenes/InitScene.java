@@ -74,8 +74,9 @@ public class InitScene extends EmptyScene {
 	private EAdFont font = BasicFont.REGULAR;
 
 	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
+    private EAdScene[] scenes;
 
-	public InitScene() {
+    public InitScene() {
 		this.setId("InitScene");
 		this.setBackground(new SceneElement(new Image(
 				"@drawable/techdemo-bg.png")));
@@ -164,4 +165,7 @@ public class InitScene extends EmptyScene {
 		return "Scene Demo Chooser";
 	}
 
+    public List<EAdScene> getScenes() {
+        return sceneDemos;
+    }
 }

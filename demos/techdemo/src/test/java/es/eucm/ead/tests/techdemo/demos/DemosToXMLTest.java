@@ -36,6 +36,9 @@ public class DemosToXMLTest {
 		BasicChapter chapter = new BasicChapter(scene);
 		EAdAdventureModel model = new BasicAdventureModel();
 		model.getChapters().add(chapter);
+        for ( EAdScene s: scene.getScenes()){
+            chapter.addScene(s);
+        }
 
         String path = "src/main/resources/";
         String path2 = "src/main/resources/techdemo2/";

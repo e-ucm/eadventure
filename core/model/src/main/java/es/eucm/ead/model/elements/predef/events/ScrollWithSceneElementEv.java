@@ -50,6 +50,10 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 
 public class ScrollWithSceneElementEv extends SceneElementEv {
 
+	public ScrollWithSceneElementEv() {
+
+	}
+
 	public ScrollWithSceneElementEv(EAdElement scene, EAdElement character) {
 		EAdField<Float> xElement = new BasicField<Float>(character,
 				SceneElement.VAR_X);

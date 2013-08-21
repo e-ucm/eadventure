@@ -1,17 +1,54 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.ead.engine.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.reader2.AdventureReader;
 import es.eucm.ead.reader2.model.Manifest;
@@ -25,7 +62,7 @@ import java.util.Map;
 public class GameLoaderImpl implements GameLoader {
 	private Game game;
 	private AdventureReader reader;
-	private GUI gameState;
+	private GameState gameState;
 	private EventGOFactory eventFactory;
 	private SceneElementGOFactory sceneElementFactory;
 
@@ -40,12 +77,12 @@ public class GameLoaderImpl implements GameLoader {
 	private List<EventGO<?>> chapterEvents;
 
 	@Inject
-	public GameLoaderImpl(AdventureReader reader, Game game, GUI gui,
-			EventGOFactory eventFactory,
+	public GameLoaderImpl(AdventureReader reader, Game game,
+			GameState gameState, EventGOFactory eventFactory,
 			SceneElementGOFactory sceneElementFactory) {
 		this.game = game;
 		this.reader = reader;
-		this.gameState = gui;
+		this.gameState = gameState;
 		this.eventFactory = eventFactory;
 		this.sceneElementFactory = sceneElementFactory;
 		this.chapters = new HashMap<String, EAdChapter>();
@@ -90,8 +127,10 @@ public class GameLoaderImpl implements GameLoader {
 			}
 			i++;
 		}
-		loadScene(initialScene);
+		EAdScene scene = loadScene(initialScene);
+		ChangeSceneEf changeScene = new ChangeSceneEf(scene);
 		game.doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
+		gameState.addEffect(changeScene);
 	}
 
 	@Override
@@ -101,7 +140,6 @@ public class GameLoaderImpl implements GameLoader {
 			scene = reader.readScene(sceneId);
 			scenes.put(sceneId, scene);
 		}
-		gameState.setScene((SceneGO) sceneElementFactory.get(scene));
 		return scene;
 	}
 

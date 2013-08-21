@@ -56,7 +56,7 @@ public class XMLNode {
 
 	private Map<String, String> attributes;
 
-	private ArrayList<XMLNode> children;
+	private List<XMLNode> children;
 
 	public XMLNode(String tag) {
 		this.tag = tag;
@@ -165,5 +165,9 @@ public class XMLNode {
 		this.attributes = n.attributes;
 		this.text = n.text;
 		this.children = n.children;
+	}
+
+	public void setChildren(List<XMLNode> children) {
+		this.children = children;
 	}
 }

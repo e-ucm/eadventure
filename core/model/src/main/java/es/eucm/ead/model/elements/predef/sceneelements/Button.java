@@ -51,9 +51,9 @@ import es.eucm.ead.model.params.util.Position.Corner;
 
 public class Button extends GroupElement {
 
-    public Button(){
+	public Button() {
 
-    }
+	}
 
 	public Button(EAdString string) {
 		super();

@@ -47,6 +47,10 @@ public class Label extends SceneElement {
 
 	private Caption c;
 
+	public Label() {
+
+	}
+
 	public Label(String string) {
 		this(new EAdString(string));
 	}

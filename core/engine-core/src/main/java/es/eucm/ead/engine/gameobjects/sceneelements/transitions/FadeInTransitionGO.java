@@ -61,24 +61,20 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 		currentTime = 0;
 	}
 
-	public void setPreviousScene(SceneGO scene) {
-
-	}
-
 	public void act(float delta) {
 		if (nextScene != null) {
-			currentTime += delta;
-			sceneAlpha = (float) currentTime / (float) transition.getTime();
-			nextScene.setAlpha(sceneAlpha);
-		}
+            currentTime += delta;
+            sceneAlpha = (float) currentTime / (float) transition.getTime();
+            nextScene.setAlpha(sceneAlpha);
+        }
 
-		if (currentTime >= transition.getTime()) {
-			nextScene.setAlpha(1.0f);
-			super.finish();
-		} else {
-			super.act(delta);
-		}
-	}
+        if (currentTime >= transition.getTime()) {
+            nextScene.setAlpha(1.0f);
+            super.finish();
+        } else {
+            super.act(delta);
+        }
+    }
 
 	@Override
 	public void transition(SceneGO previousScene, SceneGO nextScene,
@@ -87,6 +83,7 @@ public class FadeInTransitionGO extends TransitionGO<FadeInTransition> {
 		currentTime = 0;
 		sceneAlpha = 0;
 		nextScene.setAlpha(0);
+        nextScene.setPosition(0,0);
 		addSceneElement(previousScene);
 		addSceneElement(nextScene);
 		previousScene.setZ(0);

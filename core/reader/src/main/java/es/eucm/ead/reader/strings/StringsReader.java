@@ -65,7 +65,7 @@ public class StringsReader {
 		Map<EAdString, String> strings = new LinkedHashMap<EAdString, String>();
 		try {
 			XMLNode doc = xmlParser.parse(xml);
-			if (doc.getFirstChild().hasChildNodes()) {
+			if (doc.hasChildNodes()) {
 				for (XMLNode n : doc.getChildren()) {
 					String name = n.getAttributeValue("name");
 					if (name != null) {

@@ -68,6 +68,10 @@ public class CheckBox extends GroupElement {
 	public static final EAdVarDef<Integer> CHECKED_INT = new VarDef<Integer>(
 			"checkbox_checked_int", Integer.class, 0);
 
+	public CheckBox() {
+
+	}
+
 	public CheckBox(boolean checked, String stringId, EAdFont font) {
 		setVarInitialValue(CHECKED, checked);
 		setVarInitialValue(CHECKED_INT, checked ? 1 : 0);

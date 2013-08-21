@@ -48,6 +48,10 @@ import es.eucm.ead.model.params.text.EAdString;
 
 public class SpeakSceneElementEf extends SpeakEf {
 
+	public SpeakSceneElementEf() {
+
+	}
+
 	public SpeakSceneElementEf(EAdElement element, EAdString text) {
 		super(text);
 		this.setElement(element);
