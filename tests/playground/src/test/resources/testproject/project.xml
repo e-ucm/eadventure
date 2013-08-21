@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Project Configuration</comment>
+<entry key="Chapter0.SceneId.Visible">true</entry>
+<entry key="Chapter0.Scene2.X">686</entry>
+<entry key="Chapter0.Scene1.Visible">true</entry>
+<entry key="Chapter0.SceneId.Y">71</entry>
+<entry key="Chapter0.Scene1.Y">248</entry>
+<entry key="Chapter0.SceneId.X">686</entry>
+<entry key="Chapter0.Scene1.X">169</entry>
+<entry key="Chapter0.Scene2.Visible">true</entry>
+<entry key="Chapter0.Scene2.Y">120</entry>
+</properties>
