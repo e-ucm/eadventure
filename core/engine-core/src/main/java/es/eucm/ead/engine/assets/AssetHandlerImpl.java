@@ -422,7 +422,11 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	}
 
 	public FileHandle getProjectFileHandle(String uri) {
-		return Gdx.files.absolute(resourcesUri + "/" + uri);
+		FileHandle fh = Gdx.files.absolute(resourcesUri + "/" + uri);
+		if (!fh.exists()) {
+			fh = Gdx.files.internal(resourcesUri + "/" + uri);
+		}
+		return fh;
 	}
 
 	public FileHandle getProjectInternal(String uri) {

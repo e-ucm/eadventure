@@ -144,7 +144,7 @@ public class ProjectControllerImpl implements ProjectController {
 		EditorModel em = controller.getModel();
 		DesktopGame game = new DesktopGame(false);
 		// FIXME: add project path
-		game.setModel( /* Project path */null);
+		game.setPath( /* Project path */null);
 		game.start();
 	}
 

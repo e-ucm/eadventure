@@ -87,7 +87,11 @@ public class DesktopGame {
 		effectFactory = injector.getInstance(EffectGOFactory.class);
 	}
 
-	public void setModel(String path) {
+	/**
+	 * Sets the path where all assets are stored
+	 * @param path
+	 */
+	public void setPath(String path) {
 		this.resourcesLocation = path;
 		if (game != null) {
 			game.setResourcesLocation(resourcesLocation);
