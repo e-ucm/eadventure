@@ -37,27 +37,28 @@
 
 package es.eucm.ead.exporter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Properties;
-
+import es.eucm.ead.engine.resources.R;
+import es.eucm.ead.tools.java.utils.FileUtils;
 import org.apache.maven.cli.MavenCli;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.ead.engine.resources.R;
-import es.eucm.ead.tools.java.utils.FileUtils;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class AndroidExporter {
 
 	public static final String SDK_HOME = "android_home";
 
+	public static final String PACKAGE_NAME = "package_name";
+
+	public static final String ICON = "icon";
+
 	private static final Logger logger = LoggerFactory
 			.getLogger("AndroidExporter");
+	public static final String TITLE = "title";
 
 	private PrintStream stdOut;
 
@@ -96,13 +97,15 @@ public class AndroidExporter {
 		// Copy android-pom.xml to project/android
 		InputStream apkpom = ClassLoader
 				.getSystemResourceAsStream("android-pom.xml");
-		InputStream manifest = ClassLoader
-				.getSystemResourceAsStream("AndroidManifest.xml");
+
+		InputStream manifest = generateManifest(properties);
 		OutputStream os = null;
 		try {
 			File androidFolder = FileUtils.createTempDir("eadandroid", "");
 			FileUtils.deleteRecursive(androidFolder);
 			androidFolder.mkdirs();
+			addTitle(androidFolder, properties);
+			addIcon(androidFolder, properties);
 
 			FileUtils.copy(apkpom, new FileOutputStream(new File(androidFolder,
 					"pom.xml")));
@@ -163,8 +166,8 @@ public class AndroidExporter {
 					destiny += ".apk";
 					destinyFile = new File(destiny);
 				}
-				/* FileUtils.copy(new File(androidFolder.getAbsolutePath()
-						+ "/target", "game-android.apk"), destinyFile);*/
+				FileUtils.copy(new File(androidFolder.getAbsolutePath()
+						+ "/target", "game-android.apk"), destinyFile);
 			}
 		} catch (Exception e) {
 			logger.error("Error exporting apk", e);
@@ -193,5 +196,65 @@ public class AndroidExporter {
 				}
 			}
 		}
+	}
+
+	private void addIcon(File androidFolder, Properties properties) {
+		String icon = properties.getProperty(ICON);
+		if (icon != null) {
+			File iconFile = new File(icon);
+			if (iconFile.exists()) {
+				File drawable = new File(androidFolder, "res/drawable/");
+				drawable.mkdirs();
+				try {
+					FileUtils.copy(iconFile, new File(drawable, "icon.png"));
+				} catch (IOException e) {
+					logger.error("Error copying {} to {}/icon.png",
+							new Object[] { iconFile, drawable }, e);
+				}
+			} else {
+				logger.warn("File {} for icon doesn't exist.", icon);
+			}
+		}
+	}
+
+	private void addTitle(File androidFolder, Properties properties) {
+		String title = properties.getProperty(AndroidExporter.TITLE,
+				"eAdventure game");
+		File values = new File(androidFolder, "res/values/");
+		values.mkdirs();
+		File strings = new File(values, "strings.xml");
+		Map<String, String> substitutions = new HashMap<String, String>();
+		substitutions.put("{title}", title);
+		OutputStream os = null;
+		try {
+			os = new FileOutputStream(strings);
+			FileUtils.substituteText(ClassLoader
+					.getSystemResourceAsStream("strings.xml"), os,
+					substitutions);
+		} catch (FileNotFoundException e) {
+			logger.error("Error generating strings.xml", e);
+		} finally {
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					logger.error("Error generation strings.xml", e);
+				}
+			}
+		}
+
+	}
+
+	private InputStream generateManifest(Properties properties) {
+		Map<String, String> substitutions = new HashMap<String, String>();
+		substitutions.put("{package}", properties.getProperty(PACKAGE_NAME,
+				"es.eucm.ead.android.game"));
+		InputStream manifest = ClassLoader
+				.getSystemResourceAsStream("AndroidManifest.xml");
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		FileUtils.substituteText(manifest, os, substitutions);
+		String result = os.toString();
+		InputStream is = new ByteArrayInputStream(result.getBytes());
+		return is;
 	}
 }

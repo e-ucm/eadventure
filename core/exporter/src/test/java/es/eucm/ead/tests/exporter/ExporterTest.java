@@ -17,7 +17,7 @@ public class ExporterTest {
 	public void testExport() {
 		AndroidExporter apkExporter = new AndroidExporter();
 		Properties properties = new Properties();
-		InputStream is = null;
+		InputStream is;
 		boolean error = false;
 		try {
 			is = ClassLoader.getSystemResourceAsStream("test.properties");
@@ -30,7 +30,11 @@ public class ExporterTest {
 				fail("You need to create a file named 'test.properties' with the form attribute=value. One of those lines must be android-sdk=path/to/android/sdk");
 			}
 		}
-
+		properties.setProperty(AndroidExporter.PACKAGE_NAME,
+				"es.eucm.ead.exporter.test.game");
+		properties.setProperty(AndroidExporter.TITLE, "Exporter Test Game");
+		properties.setProperty(AndroidExporter.ICON,
+				"src/test/resources/orangelogo.png");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream stream = new PrintStream(baos);
 		apkExporter.setStdErr(stream);

@@ -75,6 +75,7 @@ public class JarExporter {
 			desktopFolder.mkdirs();
 			FileUtils.copy(jarpom, new FileOutputStream(new File(desktopFolder,
 					"pom.xml")));
+
 			maven.doMain(new String[] { "-Dresources=" + resourcesFolder,
 					"clean", "compile", "assembly:single" }, desktopFolder
 					.getAbsolutePath(), System.out, System.err);

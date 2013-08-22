@@ -37,50 +37,41 @@
 
 package es.eucm.ead.tools.java.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Misc file utilities for use in EAdventure
- * 
+ *
  * @author mfreire
  */
 public class FileUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger("FileUtils");
-	/** All zip files start with these bytes */
+	/**
+	 * All zip files start with these bytes
+	 */
 	public static int[] zipMagic = new int[] { 0x50, 0x4b };
-	/** Size of buffer for stream operations */
+	/**
+	 * Size of buffer for stream operations
+	 */
 	private static final int BUFFER_SIZE = 1024;
 
 	/**
 	 * Returns the inputStream for a single zip-file entry.
-	 * 
-	 * @param zipFile
+	 *
+	 * @param zip
 	 * @param entryName
 	 * @return the requested input stream
-	 * @throws IOException
-	 *             on error
+	 * @throws IOException on error
 	 */
 	public static InputStream readEntryFromZip(ZipFile zip, String entryName)
 			throws IOException {
@@ -140,7 +131,7 @@ public class FileUtils {
 	/**
 	 * Writes an entry into a ZipFile. Can be called with any type of
 	 * InputStream or entry name. Will overwrite entry if it already exists.
-	 * 
+	 *
 	 * @param zipFile
 	 * @param entryName
 	 * @param is
@@ -220,11 +211,10 @@ public class FileUtils {
 	/**
 	 * Pump from input to output. Closes input, and optionally output, when
 	 * finished
-	 * 
+	 *
 	 * @param input
 	 * @param output
-	 * @param closeOutput
-	 *            if true, output will be closed when finished
+	 * @param closeOutput if true, output will be closed when finished
 	 * @throws IOException
 	 */
 	public static void copy(InputStream input, OutputStream output,
@@ -245,7 +235,7 @@ public class FileUtils {
 
 	/**
 	 * Pump from input to output. Closes both when finished
-	 * 
+	 *
 	 * @param input
 	 * @param output
 	 * @throws IOException
@@ -257,8 +247,9 @@ public class FileUtils {
 
 	/**
 	 * Copy one file to another. If the files are actually directories, will
-	 * copy them over recursively. If you do not wish to copy recursively, then 
+	 * copy them over recursively. If you do not wish to copy recursively, then
 	 * check your arguments first with isDirectory().
+	 *
 	 * @param source
 	 * @param target
 	 * @throws IOException
@@ -340,11 +331,9 @@ public class FileUtils {
 
 	/**
 	 * Check the first few bytes in a stream against a pattern.
-	 * 
-	 * @param is
-	 *            source to check
-	 * @param magic
-	 *            to check it against
+	 *
+	 * @param is    source to check
+	 * @param magic to check it against
 	 * @return true if first bytes match magic
 	 * @throws IOException
 	 */
@@ -373,16 +362,13 @@ public class FileUtils {
 
 	/**
 	 * Copies a directory recursively. Use wisely
-	 * 
-	 * @param src
-	 *            source file or directory to copy
-	 * @param dstDir
-	 *            target directory to place it into. If dstName is null, must
-	 *            exist, and dstDir/src must NOT exist.
-	 * @param dstName
-	 *            if not null, then src will be copied into dstName (and
-	 *            dstDir/src may exist without conflict). May be a file (if src
-	 *            is a file) or a folder (if src is a folder).
+	 *
+	 * @param src     source file or directory to copy
+	 * @param dstDir  target directory to place it into. If dstName is null, must
+	 *                exist, and dstDir/src must NOT exist.
+	 * @param dstName if not null, then src will be copied into dstName (and
+	 *                dstDir/src may exist without conflict). May be a file (if src
+	 *                is a file) or a folder (if src is a folder).
 	 */
 	public static void copyRecursive(File src, File dstDir, File dstName)
 			throws IOException {
@@ -424,9 +410,8 @@ public class FileUtils {
 
 	/**
 	 * Loads a file into a string, using UTF-8 encoding
-	 * 
-	 * @param f
-	 *            the file
+	 *
+	 * @param f the file
 	 * @return the string
 	 * @throws IOException
 	 */
@@ -450,11 +435,9 @@ public class FileUtils {
 
 	/**
 	 * Loads a zip entry into a string, using UTF-8 encoding
-	 * 
-	 * @param f
-	 *            the zip-file
-	 * @param e
-	 *            the entry-name
+	 *
+	 * @param f the zip-file
+	 * @param e the entry-name
 	 * @return the string
 	 * @throws IOException
 	 */
@@ -480,11 +463,9 @@ public class FileUtils {
 
 	/**
 	 * Writes a string into a file, using UTF-8 encoding
-	 * 
-	 * @param s
-	 *            the string
-	 * @param f
-	 *            the file
+	 *
+	 * @param s the string
+	 * @param f the file
 	 * @throws IOException
 	 */
 	public static void writeStringToFile(String s, File f) throws IOException {
@@ -502,7 +483,7 @@ public class FileUtils {
 
 	/**
 	 * Utility method to write generic to files
-	 * 
+	 *
 	 * @param is
 	 * @param f
 	 * @throws IOException
@@ -513,13 +494,10 @@ public class FileUtils {
 
 	/**
 	 * Writes a string into a file, using UTF-8 encoding
-	 * 
-	 * @param s
-	 *            the string
-	 * @param f
-	 *            the zip-file
-	 * @param e
-	 *            the path of the entry
+	 *
+	 * @param s the string
+	 * @param f the zip-file
+	 * @param e the path of the entry
 	 * @throws IOException
 	 */
 	public static void writeStringToZipEntry(String s, File f, String e)
@@ -564,7 +542,7 @@ public class FileUtils {
 
 	/**
 	 * Reads a text file and returns a string with it. Returns null if error
-	 * 
+	 *
 	 * @param f
 	 * @return
 	 */
@@ -592,5 +570,33 @@ public class FileUtils {
 			}
 		}
 		return error ? null : s.toString();
+	}
+
+	public static void substituteText(InputStream src, OutputStream dst,
+			Map<String, String> substitutions) {
+		BufferedReader reader;
+		reader = new BufferedReader(new InputStreamReader(src));
+		String line;
+		String lineSepartor = System.getProperty("line.separator");
+		try {
+			while ((line = reader.readLine()) != null) {
+				for (String key : substitutions.keySet()) {
+					if (line.contains(key)) {
+						line = line.replace(key, substitutions.get(key));
+					}
+					dst.write((line + lineSepartor).getBytes());
+				}
+			}
+		} catch (IOException e) {
+			logger.error("Error generating AndroidManifest.xml", e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					logger.error("Error", e);
+				}
+			}
+		}
 	}
 }

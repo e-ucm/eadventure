@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ead.engine.core.gdx.android.testproject"
+    package="{package}"
     android:versionCode="1"
     android:versionName="1.0" >
-    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15" />
+    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="17" />
     <application>
         <activity
             android:name="es.eucm.ead.engine.android.MainActivity"
-            android:label="{app_name}"
-            android:screenOrientation="landscape"
+            android:label="@string/title"
+            android:icon="@drawable/icon"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
