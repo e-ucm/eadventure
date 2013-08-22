@@ -37,32 +37,62 @@
 
 package es.eucm.ead.exporter;
 
-import es.eucm.ead.engine.resources.R;
-import es.eucm.ead.tools.java.utils.FileUtils;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Properties;
+
 import org.apache.maven.cli.MavenCli;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.Properties;
+import es.eucm.ead.engine.resources.R;
+import es.eucm.ead.tools.java.utils.FileUtils;
 
 public class AndroidExporter {
 
+	public static final String SDK_HOME = "android_home";
+
 	private static final Logger logger = LoggerFactory
 			.getLogger("AndroidExporter");
+
+	private PrintStream stdOut;
+
+	private PrintStream stdErr;
 
 	private MavenCli maven;
 
 	public AndroidExporter(MavenCli maven) {
 		this.maven = maven;
+		this.stdOut = System.out;
+		this.stdErr = System.err;
+	}
+
+	public PrintStream getStdOut() {
+		return stdOut;
+	}
+
+	public void setStdOut(PrintStream stdOut) {
+		this.stdOut = stdOut;
+	}
+
+	public PrintStream getStdErr() {
+		return stdErr;
+	}
+
+	public void setStdErr(PrintStream stdErr) {
+		this.stdErr = stdErr;
 	}
 
 	public AndroidExporter() {
 		this(new MavenCli());
 	}
 
-	public void export(String projectFolder, String resourcesFolder,
-			String destiny, Properties properties) {
+	public void export(String projectFolder, String destiny,
+			Properties properties, boolean installAndDeploy) {
 		// Copy android-pom.xml to project/android
 		InputStream apkpom = ClassLoader
 				.getSystemResourceAsStream("android-pom.xml");
@@ -70,11 +100,9 @@ public class AndroidExporter {
 				.getSystemResourceAsStream("AndroidManifest.xml");
 		OutputStream os = null;
 		try {
-			File androidFolder = new File(projectFolder + "/android");
+			File androidFolder = FileUtils.createTempDir("eadandroid", "");
 			FileUtils.deleteRecursive(androidFolder);
 			androidFolder.mkdirs();
-			File eadresourcesFolder = new File(androidFolder + "/eadresources");
-			eadresourcesFolder.mkdirs();
 
 			FileUtils.copy(apkpom, new FileOutputStream(new File(androidFolder,
 					"pom.xml")));
@@ -82,8 +110,8 @@ public class AndroidExporter {
 					androidFolder, "AndroidManifest.xml")));
 
 			// Copy game assets to folder
-			FileUtils.copyRecursive(new File(resourcesFolder),
-					eadresourcesFolder, eadresourcesFolder);
+			FileUtils.copyRecursive(new File(projectFolder), androidFolder,
+					androidFolder);
 			// Copy engine assets to folder
 			for (String s : R.RESOURCES) {
 				InputStream ris = ClassLoader.getSystemResourceAsStream(s);
@@ -91,8 +119,8 @@ public class AndroidExporter {
 				try {
 					String fileName = s.substring(s.lastIndexOf('/') + 1);
 					String folder = s.substring(0, s.lastIndexOf('/'));
-					File rf = new File(eadresourcesFolder.getAbsolutePath()
-							+ '/' + folder);
+					File rf = new File(androidFolder.getAbsolutePath() + '/'
+							+ folder);
 					rf.mkdirs();
 					ros = new FileOutputStream(new File(rf, fileName));
 					FileUtils.copy(ris, ros);
@@ -108,23 +136,36 @@ public class AndroidExporter {
 				}
 			}
 
-			maven.doMain(new String[] {
-					"-Dresources=" + eadresourcesFolder.getAbsolutePath(),
-					"-Dandroid.sdk.path="
-							+ properties.getProperty("sdk_folder"), "clean",
-					"compile", "install", "android:deploy", "android:run" },
-					androidFolder.getAbsolutePath(), System.out, System.err);
-			// Copy apk to destiny
-			File destinyFile = new File(destiny);
-			if (destinyFile.isDirectory()) {
-				destinyFile = new File(destinyFile, "eAdventuregame.apk");
-			} else if (!destiny.endsWith(".apk")) {
-				destiny += ".apk";
-				destinyFile = new File(destiny);
+			String[] mavenArguments;
+
+			if (installAndDeploy) {
+				mavenArguments = new String[] {
+						"-Dresources=" + androidFolder.getAbsolutePath(),
+						"-Dandroid.sdk.path="
+								+ properties.getProperty(SDK_HOME), "clean",
+						"compile", "install", "android:deploy", "android:run" };
+			} else {
+				mavenArguments = new String[] {
+						"-Dresources=" + androidFolder.getAbsolutePath(),
+						"-Dandroid.sdk.path="
+								+ properties.getProperty(SDK_HOME), "clean",
+						"compile", "install", };
 			}
-			FileUtils.copy(new File(
-					androidFolder.getAbsolutePath() + "/target",
-					"game-android.apk"), destinyFile);
+
+			maven.doMain(mavenArguments, androidFolder.getAbsolutePath(),
+					getStdOut(), getStdErr());
+			// Copy apk to destiny
+			if (destiny != null) {
+				File destinyFile = new File(destiny);
+				if (destinyFile.isDirectory()) {
+					destinyFile = new File(destinyFile, "eAdventuregame.apk");
+				} else if (!destiny.endsWith(".apk")) {
+					destiny += ".apk";
+					destinyFile = new File(destiny);
+				}
+				/* FileUtils.copy(new File(androidFolder.getAbsolutePath()
+						+ "/target", "game-android.apk"), destinyFile);*/
+			}
 		} catch (Exception e) {
 			logger.error("Error exporting apk", e);
 		} finally {

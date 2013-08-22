@@ -79,9 +79,10 @@
 			<artifactId>gdx-backend-android</artifactId>
 		</dependency>
         <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-guice</artifactId>
             <classifier>no_aop</classifier>
+            <version>3.0.0</version>
         </dependency>
 	</dependencies>
 	<build>
