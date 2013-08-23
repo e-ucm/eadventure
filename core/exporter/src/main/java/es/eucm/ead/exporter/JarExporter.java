@@ -44,7 +44,6 @@ import java.io.*;
 
 /**
  * Maven wrapper able to export projects to jar/exe
- * 
  */
 public class JarExporter {
 
@@ -59,26 +58,27 @@ public class JarExporter {
 	}
 
 	/**
-	 *
 	 * @param projectFolder folder containing a folder (name as parameter 'resourcesFolder') with all the assets of the game
-	 * @param resourcesFolder name of folder inside 'projectFolder' containing all the assets of the game
-	 * @param destiny destiny file to ouput the .jar
+	 * @param destiny       destiny file to ouput the .jar
 	 */
-	public void export(String projectFolder, String resourcesFolder,
-			String destiny) {
-		// Copy desktop-pom.xml to project/desktop
+	public void export(String projectFolder, String destiny, PrintStream out) {
+		// Copy desktop-pom.xml to desktop folder
 		InputStream jarpom = ClassLoader
 				.getSystemResourceAsStream("desktop-pom.xml");
 		OutputStream os = null;
 		try {
-			File desktopFolder = new File(projectFolder + "/desktop");
+			File desktopFolder = FileUtils.createTempDir("eaddesktop", "");
 			desktopFolder.mkdirs();
+
+			// Copy pom to temp folder
 			FileUtils.copy(jarpom, new FileOutputStream(new File(desktopFolder,
 					"pom.xml")));
 
-			maven.doMain(new String[] { "-Dresources=" + resourcesFolder,
-					"clean", "compile", "assembly:single" }, desktopFolder
-					.getAbsolutePath(), System.out, System.err);
+			// Generate the jar with maven
+			maven.doMain(new String[] { "-X", "-Dresources=" + projectFolder,
+					"clean", "compile", "install", "assembly:single" },
+					desktopFolder.getAbsolutePath(), out, out);
+
 			// Copy jar to destiny
 			File destinyFile = new File(destiny);
 			if (destinyFile.isDirectory()) {
@@ -87,9 +87,14 @@ public class JarExporter {
 				destiny += ".jar";
 				destinyFile = new File(destiny);
 			}
-			FileUtils.copy(new File(
-					desktopFolder.getAbsolutePath() + "/target",
-					"game-desktop-1.0-jar-with-dependencies.jar"), destinyFile);
+
+			// Copy to destiny file
+			if (destinyFile != null) {
+				FileUtils.copy(new File(desktopFolder.getAbsolutePath()
+						+ "/target",
+						"game-desktop-1.0-jar-with-dependencies.jar"),
+						destinyFile);
+			}
 		} catch (Exception e) {
 
 		} finally {

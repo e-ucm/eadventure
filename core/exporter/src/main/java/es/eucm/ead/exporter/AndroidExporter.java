@@ -94,7 +94,7 @@ public class AndroidExporter {
 
 	public void export(String projectFolder, String destiny,
 			Properties properties, boolean installAndDeploy) {
-		// Copy android-pom.xml to project/android
+		// Copy android-pom.xml to android folder
 		InputStream apkpom = ClassLoader
 				.getSystemResourceAsStream("android-pom.xml");
 

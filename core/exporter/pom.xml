@@ -31,11 +31,11 @@
 			<artifactId>ead-engine-resources</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>ead-test-resources</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>ead-test-resources</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -67,18 +67,13 @@
 			<version>3.0.5</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.aether</groupId>
+			<groupId>org.sonatype.aether</groupId>
 			<artifactId>aether-connector-wagon</artifactId>
-			<version>0.9.0.M2</version>
+			<version>1.13.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.wagon</groupId>
 			<artifactId>wagon-http</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.wagon</groupId>
-			<artifactId>wagon-file</artifactId>
 			<version>2.4</version>
 		</dependency>
 	</dependencies>
