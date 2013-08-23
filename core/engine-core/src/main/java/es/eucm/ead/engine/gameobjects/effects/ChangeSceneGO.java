@@ -115,6 +115,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		} else {
 			finished = true;
 		}
+		// We remove any remaining non-persistent effect in the scene
+		gameState.clearEffects(false);
 	}
 
 	@Override

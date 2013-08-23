@@ -37,7 +37,6 @@
 
 package es.eucm.ead.reader.model;
 
-import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.EAdElement;
@@ -48,6 +47,7 @@ import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.LinearGradientFill;
@@ -62,7 +62,6 @@ import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.reader.model.XMLVisitor;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
@@ -119,8 +118,6 @@ public class ObjectsFactory {
 		registeredVars.put("influence_area", NodeTrajectory.VAR_INFLUENCE_AREA);
 		registeredVars.put("bundle", SceneElement.VAR_BUNDLE_ID);
 		registeredVars.put("sound_on", SystemFields.SOUND_ON.getVarDef());
-		registeredVars.put("seconds_played", SystemFields.SECONDS_PLAYING
-				.getVarDef());
 
 	}
 

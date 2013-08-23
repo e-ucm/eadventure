@@ -114,15 +114,6 @@ public class SystemFields {
 	public static EAdField<Long> DEBUG_NATIVE_SIZE = new BasicField<Long>(null,
 			new VarDef<Long>("native_size", Long.class, 0l));
 
-	/**
-	 * System field holding the current scene id
-	 */
-	public static EAdField<String> CURRENT_SCENE = new BasicField<String>(null,
-			new VarDef<String>("current_scene", String.class, null));
-
 	public static EAdField<Boolean> SOUND_ON = new BasicField<Boolean>(null,
 			new VarDef<Boolean>("sound_on", Boolean.class, true));
-
-	public static final EAdField<Integer> SECONDS_PLAYING = new BasicField<Integer>(
-			null, new VarDef<Integer>("seconds_playing", Integer.class, 0));
 }

@@ -37,7 +37,6 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
-import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.enginefilters.EngineFilter;
 import es.eucm.ead.engine.game.enginefilters.EngineHook;
@@ -51,8 +50,6 @@ import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
  * etc.
  */
 public interface Game extends VisitorListener {
-
-	void setEAdEngine(EAdEngine eAdEngine);
 
 	/**
 	 * Returns the current adventure game model ({@link EAdAdventureModel})
@@ -116,11 +113,6 @@ public interface Game extends VisitorListener {
 	 * @return
 	 */
 	<T> T applyFilters(String filterName, T o, Object[] params);
-
-	/**
-	 * Restarts the game, deleting any stored state
-	 */
-	void restart(final boolean reloadModel);
 
 	/**
 	 * Returns the scene element factory

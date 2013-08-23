@@ -73,25 +73,11 @@ public interface GUI {
 			SceneElementGOFactory sceneElementFactory);
 
 	/**
-	 * Finalize the GUI. Destroy the graphic context. Once this method is
-	 * called, the engine is unable to load more games
-	 */
-	void finish();
-
-	/**
 	 * Returns the milliseconds since last update
 	 * 
 	 * @return
 	 */
 	int getSkippedMilliseconds();
-
-	/**
-	 * Returns ticks per second in the game - the same as FPS, since one logic
-	 * update produces one frame
-	 * 
-	 * @return
-	 */
-	int getTicksPerSecond();
 
 	/**
 	 * Adds a hud to the GUI

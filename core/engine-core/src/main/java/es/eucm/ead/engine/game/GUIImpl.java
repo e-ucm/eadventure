@@ -46,7 +46,6 @@ import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.operations.SystemFields;
@@ -193,8 +192,6 @@ public abstract class GUIImpl implements GUI {
 	 */
 	@Override
 	public void setScene(SceneGO newScene) {
-		// We remove any remaining non-persistent effect in the scene
-		gameState.clearEffects(false);
 
 		// We add the scene to stack if it is returnable
 		if (this.scene != null
@@ -206,8 +203,6 @@ public abstract class GUIImpl implements GUI {
 		}
 		// Set the scene
 		this.scene = newScene;
-		gameState.setValue(SystemFields.CURRENT_SCENE,
-				scene.getElement() == null ? null : scene.getElement().getId());
 		sceneRoot.getChildren().clear();
 		sceneRoot.addSceneElement(scene);
 	}
@@ -233,19 +228,6 @@ public abstract class GUIImpl implements GUI {
 	public int getSkippedMilliseconds() {
 		return gameState.isPaused() ? 0
 				: (int) (Gdx.graphics.getDeltaTime() * 1000);
-	}
-
-	@Override
-	public int getTicksPerSecond() {
-		return Gdx.graphics.getFramesPerSecond();
-	}
-
-	@Override
-	public void finish() {
-		if (gameState.getValue(game.getAdventureModel(),
-				BasicAdventureModel.EXIT_WHEN_CLOSE)) {
-			Gdx.app.exit();
-		}
 	}
 
 	public void reset() {

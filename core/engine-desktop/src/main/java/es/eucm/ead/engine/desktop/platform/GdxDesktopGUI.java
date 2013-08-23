@@ -44,6 +44,7 @@ import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GUIImpl;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -88,7 +89,10 @@ public class GdxDesktopGUI extends GUIImpl {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				finish();
+				if (gameState.getValue(game.getAdventureModel(),
+						BasicAdventureModel.EXIT_WHEN_CLOSE)) {
+					Gdx.app.exit();
+				}
 			}
 		});
 
@@ -167,14 +171,6 @@ public class GdxDesktopGUI extends GUIImpl {
 		}
 		ib.flip();
 		return ib;
-	}
-
-	@Override
-	public void finish() {
-		if (frame != null) {
-			frame.setVisible(false);
-		}
-		super.finish();
 	}
 
 	/**

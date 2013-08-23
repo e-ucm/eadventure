@@ -37,16 +37,14 @@
 
 package es.eucm.ead.tests.engine.desktop.utils;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
+import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.engine.desktop.DesktopGame;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Test to launch several instances of the engine
@@ -69,7 +67,6 @@ public class LaunchGameInstanceTest {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (game != null) {
-					game.exit();
 				}
 				game = new DesktopGame(false);
 				game.start();

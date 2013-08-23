@@ -37,10 +37,8 @@
 
 package es.eucm.ead.engine.game;
 
-import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
@@ -156,13 +154,7 @@ public class GameImpl implements Game {
 
 	private String currentLanguage = "";
 
-	private EAdEngine eAdEngine;
-
 	private SoundManager soundManager;
-	/**
-	 * Timestamp of last update
-	 */
-	private long lastUpdate;
 
 	// Aux
 	private ArrayList<String> hookNameDelete;
@@ -200,10 +192,6 @@ public class GameImpl implements Game {
 		filterDelete = new ArrayList<EngineFilter<?>>();
 	}
 
-	public void setEAdEngine(EAdEngine eAdEngine) {
-		this.eAdEngine = eAdEngine;
-	}
-
 	@Override
 	public EAdAdventureModel getAdventureModel() {
 		return adventure;
@@ -229,7 +217,6 @@ public class GameImpl implements Game {
 	@Override
 	public void dispose() {
 		tracker.stop();
-		gui.finish();
 	}
 
 	@Override
@@ -254,9 +241,6 @@ public class GameImpl implements Game {
 
 		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
 				.getSkippedMilliseconds());
-
-		gameState.setValue(SystemFields.SECONDS_PLAYING, (int) (System
-				.currentTimeMillis() - lastUpdate) / 1000);
 
 		// Scene
 		if (!gameState.isPaused()) {
@@ -450,32 +434,6 @@ public class GameImpl implements Game {
 	public boolean loaded(XMLNode node, Object object, boolean isNullInOrigin) {
 		this.adventure = (EAdAdventureModel) object;
 		return true;
-	}
-
-	@Override
-	public void restart(final boolean reloadModel) {
-		lastUpdate = System.currentTimeMillis();
-		Gdx.app.postRunnable(new Runnable() {
-
-			@Override
-			public void run() {
-				// The order is important here
-				eventFactory.clean();
-				sceneElementFactory.clean();
-				gameState.reset();
-				gui.reset();
-				soundManager.stopAll();
-				//eAdEngine.getStage().getActors().clear();
-				eAdEngine.getStage().addActor(gui.getRoot());
-				eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
-				// Read model
-				if (reloadModel) {
-					// Load strings
-					loadStrings();
-				} else {
-				}
-			}
-		});
 	}
 
 	@Override

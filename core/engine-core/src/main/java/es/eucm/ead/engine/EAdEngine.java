@@ -86,7 +86,6 @@ public class EAdEngine implements ApplicationListener {
 			GameLoader gameLoader) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
-		game.setEAdEngine(this);
 		this.gameLoader = gameLoader;
 		this.gameState = gameState;
 		this.gui = gui;
@@ -121,12 +120,19 @@ public class EAdEngine implements ApplicationListener {
 		Gdx.input.setInputProcessor(stage);
 
 		stage.addActor(new Logo());
-		stage.addActor(gui.getRoot());
-		stage.setKeyboardFocus(gui.getRoot());
+
 		scaleX = (float) width / 800.0f;
 		scaleY = (float) height / 600.0f;
 		gui.setScale(scaleX, scaleY);
-		game.restart(true);
+		Gdx.app.postRunnable(new Runnable() {
+
+			@Override
+			public void run() {
+				gui.reset();
+				stage.addActor(gui.getRoot());
+				stage.setKeyboardFocus(gui.getRoot());
+			}
+		});
 	}
 
 	@Override

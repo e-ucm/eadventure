@@ -137,8 +137,4 @@ public class DesktopGame {
 		return gui.getFrame();
 	}
 
-	public void exit() {
-		injector.getInstance(GUI.class).finish();
-	}
-
 }

@@ -105,8 +105,6 @@ public class ObjectsFactory {
 		registeredVars.put("influence_area", NodeTrajectory.VAR_INFLUENCE_AREA);
 		registeredVars.put("bundle", SceneElement.VAR_BUNDLE_ID);
 		registeredVars.put("sound_on", SystemFields.SOUND_ON.getVarDef());
-		registeredVars.put("seconds_played", SystemFields.SECONDS_PLAYING
-				.getVarDef());
 
 	}
 

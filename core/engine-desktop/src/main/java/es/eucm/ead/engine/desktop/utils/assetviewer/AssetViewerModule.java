@@ -88,19 +88,7 @@ public class AssetViewerModule extends AbstractModule {
 	public static class AssetViewerGUI implements GUI {
 
 		@Override
-		public void finish() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public int getSkippedMilliseconds() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public int getTicksPerSecond() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
