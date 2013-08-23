@@ -37,12 +37,12 @@
 
 package es.eucm.ead.model.elements.scenes;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
@@ -114,9 +114,8 @@ public class SceneElementDef extends ResourcedElement implements
 
 	/**
 	 * Sets the initial appearance for the scene element
-	 * 
-	 * @param appearance
-	 *            the initial appearance
+	 *
+	 * @param appearance the initial appearance
 	 */
 	@Override
 	public void setAppearance(EAdDrawable d) {
@@ -152,6 +151,14 @@ public class SceneElementDef extends ResourcedElement implements
 
 	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
 		this.vars = vars;
+	}
+
+	@Override
+	public <T> T getVarInitialValue(EAdVarDef<T> var) {
+		if (vars.containsKey(var)) {
+			return (T) vars.get(var);
+		}
+		return var.getInitialValue();
 	}
 
 }

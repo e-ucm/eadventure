@@ -346,11 +346,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	}
 
 	@Override
-	public void initialize() {
-
-	}
-
-	@Override
 	public void terminate() {
 
 	}

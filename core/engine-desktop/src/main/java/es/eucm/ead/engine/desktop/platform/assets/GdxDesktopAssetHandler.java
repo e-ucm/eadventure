@@ -37,33 +37,23 @@
 
 package es.eucm.ead.engine.desktop.platform.assets;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.google.inject.*;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
+import es.eucm.ead.engine.assets.SpecialAssetRenderer;
+import es.eucm.ead.engine.utils.SceneGraph;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.java.JavaInjector;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
-import com.badlogic.gdx.files.FileHandle;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-
-import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import es.eucm.ead.engine.assets.AssetHandlerImpl;
-import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.tools.GenericInjector;
-import es.eucm.ead.engine.utils.SceneGraph;
-import es.eucm.ead.tools.java.JavaInjector;
 
 @Singleton
 public class GdxDesktopAssetHandler extends AssetHandlerImpl {
@@ -173,45 +163,7 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 
 	@Override
 	public void getTextfileAsync(String path, TextHandler textHandler) {
-		String result = null;
-		InputStream is = ClassLoader.getSystemResourceAsStream(path);
-		if (is == null) {
-			File f = new File(path);
-			if (f.exists()) {
-				try {
-					is = new FileInputStream(f);
-				} catch (FileNotFoundException e) {
-
-				}
-			}
-		}
-
-		if (is != null) {
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is));
-
-			try {
-				String line = null;
-				result = "";
-				while ((line = reader.readLine()) != null) {
-					result += line + "\n";
-				}
-			} catch (IOException e) {
-				logger.error("Error reading file", e);
-				result = null;
-			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						logger.error("Error closing reader", e);
-					}
-				}
-			}
-		} else {
-			logger.warn("Unable to find resource {}", path);
-		}
-		textHandler.handle(result);
+		textHandler.handle(getTextFile(path));
 	}
 
 	@Override
@@ -241,6 +193,54 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 				preloading++;
 			}
 			return true;
+		}
+	}
+
+	@Override
+	public String getTextFile(String path) {
+		if (Gdx.files != null) {
+			return super.getTextFile(path);
+		} else {
+			String result = null;
+			InputStream is = ClassLoader.getSystemResourceAsStream(resourcesUri
+					+ path.substring(1));
+			if (is == null) {
+				File f = new File(path);
+				if (f.exists()) {
+					try {
+						is = new FileInputStream(f);
+					} catch (FileNotFoundException e) {
+
+					}
+				}
+			}
+
+			if (is != null) {
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(is));
+
+				try {
+					String line;
+					result = "";
+					while ((line = reader.readLine()) != null) {
+						result += line + "\n";
+					}
+				} catch (IOException e) {
+					logger.error("Error reading file", e);
+					result = null;
+				} finally {
+					if (reader != null) {
+						try {
+							reader.close();
+						} catch (IOException e) {
+							logger.error("Error closing reader", e);
+						}
+					}
+				}
+			} else {
+				logger.warn("Unable to find resource {}", path);
+			}
+			return result;
 		}
 	}
 

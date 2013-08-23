@@ -61,11 +61,6 @@ import java.util.List;
 public interface AssetHandler extends TextFileReader {
 
 	/**
-	 * Initialize the asset handler, so assets can be loaded into the system
-	 */
-	void initialize();
-
-	/**
 	 * Terminate the asset handler, so resources are freed accordingly
 	 */
 	void terminate();

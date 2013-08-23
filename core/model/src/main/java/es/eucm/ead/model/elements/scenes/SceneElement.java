@@ -211,6 +211,14 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		return vars;
 	}
 
+	@Override
+	public <T> T getVarInitialValue(EAdVarDef<T> var) {
+		if (vars.containsKey(var)) {
+			return (T) vars.get(var);
+		}
+		return var.getInitialValue();
+	}
+
 	public void setPosition(float x, float y) {
 		vars.put(VAR_X, x);
 		vars.put(VAR_Y, y);

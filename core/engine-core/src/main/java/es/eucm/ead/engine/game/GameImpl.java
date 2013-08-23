@@ -53,7 +53,6 @@ import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.effects.LoadGameEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.VarDef;
@@ -83,11 +82,6 @@ public class GameImpl implements Game {
 	public static final String HOOK_AFTER_CHAPTER_READ = "after_chapter_read";
 
 	public static final String HOOK_AFTER_RENDER = "after_render";
-
-	/**
-	 * Default properties file. Loaded during initialization
-	 */
-	private static final String DEFAULT_PROPERTIES = "@ead.properties";
 
 	private GameLoader gameLoader;
 
@@ -211,14 +205,6 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void setResourcesLocation(String path) {
-		this.path = path;
-		if (assetHandler != null) {
-			assetHandler.setResourcesLocation(path);
-		}
-	}
-
-	@Override
 	public EAdAdventureModel getAdventureModel() {
 		return adventure;
 	}
@@ -230,18 +216,13 @@ public class GameImpl implements Game {
 
 	@Override
 	public void initialize() {
-		// Set assets root
-		assetHandler.setResourcesLocation(path);
 		// Adds filters
 		addFilters();
-		// Load game properties
-		processProperties(assetHandler.getTextFile(DEFAULT_PROPERTIES));
 
 		// It is necessary to load the default properties before set up
 		// GUI initialization
 		gui.initialize(GameImpl.this, gameState, sceneElementFactory);
 
-		assetHandler.initialize();
 		pluginHandler.initialize();
 	}
 
@@ -270,9 +251,6 @@ public class GameImpl implements Game {
 
 		// TODO Update language. Check this every loop is probably too much
 		updateLanguage();
-
-		// We load one possible asset in the background
-		assetHandler.loadStep();
 
 		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
 				.getSkippedMilliseconds());
@@ -487,14 +465,13 @@ public class GameImpl implements Game {
 				gameState.reset();
 				gui.reset();
 				soundManager.stopAll();
-				eAdEngine.getStage().getActors().clear();
+				//eAdEngine.getStage().getActors().clear();
 				eAdEngine.getStage().addActor(gui.getRoot());
 				eAdEngine.getStage().setKeyboardFocus(gui.getRoot());
 				// Read model
 				if (reloadModel) {
 					// Load strings
 					loadStrings();
-					gameState.addEffect(new LoadGameEf(true));
 				} else {
 				}
 			}

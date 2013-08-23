@@ -38,12 +38,15 @@
 package es.eucm.ead.engine.game.interfaces;
 
 import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.reader2.model.Manifest;
 
 public interface GameLoader {
 
 	void loadGame();
 
 	void loadChapter(String chapterId);
+
+	Manifest loadManifest();
 
 	EAdScene loadScene(String sceneId);
 

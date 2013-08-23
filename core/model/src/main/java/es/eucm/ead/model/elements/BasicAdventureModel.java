@@ -43,6 +43,7 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * The eAdventure game model.
@@ -51,6 +52,22 @@ import es.eucm.ead.model.params.variables.EAdVarDef;
 public class BasicAdventureModel extends BasicElement implements
 		EAdAdventureModel {
 
+	public static final EAdVarDef<EAdMap> EFFECTS_BINDS = new VarDef<EAdMap>(
+			"effects_binds", EAdMap.class, null);
+	public static final EAdVarDef<EAdMap> EVENT_BINDS = new VarDef<EAdMap>(
+			"events_binds", EAdMap.class, null);
+	public static final EAdVarDef<EAdMap> SCENE_ELEMENT_BINDS = new VarDef<EAdMap>(
+			"scene_element_binds", EAdMap.class, null);
+	public static final EAdVarDef<Boolean> EXIT_WHEN_CLOSE = new VarDef<Boolean>(
+			"exitWhenClose", Boolean.class, true);
+	public static final EAdVarDef<Integer> GAME_WIDTH = new VarDef<Integer>(
+			"width", Integer.class, 800);
+	public static final EAdVarDef<Integer> GAME_HEIGHT = new VarDef<Integer>(
+			"height", Integer.class, 600);
+	public static final EAdVarDef<String> GAME_TITLE = new VarDef<String>(
+			"game_title", String.class, "eAdventure");
+	public static final EAdVarDef<Boolean> FULLSCREEN = new VarDef<Boolean>(
+			"fullscreen", Boolean.class, false);
 	/**
 	 * Not serialize (special treatment in writer)
 	 */
@@ -98,6 +115,14 @@ public class BasicAdventureModel extends BasicElement implements
 	@Override
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
+	}
+
+	@Override
+	public <T> T getVarInitialValue(EAdVarDef<T> var) {
+		if (vars.containsKey(var)) {
+			return (T) vars.get(var);
+		}
+		return var.getInitialValue();
 	}
 
 	public void setChapters(EAdList<EAdChapter> chapters) {

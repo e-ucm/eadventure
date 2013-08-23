@@ -105,6 +105,13 @@ public class GameLoaderImpl implements GameLoader {
 		game.doHook(GameImpl.HOOK_AFTER_MODEL_READ);
 	}
 
+	public Manifest loadManifest() {
+		if (currentManifest == null) {
+			currentManifest = reader.getManifest();
+		}
+		return currentManifest;
+	}
+
 	@Override
 	public void loadChapter(String chapterId) {
 		currentChapter = chapters.get(chapterId);

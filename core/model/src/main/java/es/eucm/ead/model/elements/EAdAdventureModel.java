@@ -59,5 +59,16 @@ public interface EAdAdventureModel extends EAdElement, Variabled, Evented {
 	 */
 	EAdChapter getInitialChapter();
 
+	/**
+	 * Adds a chapter to the adventure
+	 * @param chapter
+	 */
 	void addChapter(EAdChapter chapter);
+
+	/**
+	 * Sets the inital chapter for the adventure
+	 * @param initialChapter
+	 */
+	void setInitialChapter(EAdChapter initialChapter);
+
 }

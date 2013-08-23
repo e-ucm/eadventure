@@ -40,20 +40,22 @@ package es.eucm.ead.engine.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.huds.BottomHud;
-import es.eucm.ead.model.elements.huds.MouseHud;
-import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.predef.LoadingScreen;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.GroupElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.huds.BottomHud;
+import es.eucm.ead.model.elements.huds.MouseHud;
+import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.predef.LoadingScreen;
+import es.eucm.ead.model.elements.predef.sceneelements.LoaderSceneElement;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,6 +139,8 @@ public abstract class GUIImpl implements GUI {
 		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
 		// Add huds
 		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
+		// Add loader
+		root.addSceneElement(new LoaderSceneElement());
 	}
 
 	@Override
@@ -182,7 +186,7 @@ public abstract class GUIImpl implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.engine.GameState#setScene(es.eucm.eadventure.
 	 * engine.engine.gameobjects.SceneGO)
@@ -238,7 +242,8 @@ public abstract class GUIImpl implements GUI {
 
 	@Override
 	public void finish() {
-		if (gameState.getValue(SystemFields.EXIT_WHEN_CLOSE)) {
+		if (gameState.getValue(game.getAdventureModel(),
+				BasicAdventureModel.EXIT_WHEN_CLOSE)) {
 			Gdx.app.exit();
 		}
 	}

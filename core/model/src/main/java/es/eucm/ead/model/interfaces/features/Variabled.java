@@ -63,4 +63,12 @@ public interface Variabled {
 	 *            the initial value
 	 */
 	<T> void setVarInitialValue(EAdVarDef<T> var, T value);
+
+	/**
+	 * Returns the initial value for a variable
+	 * @param var
+	 * @param <T>
+	 * @return
+	 */
+	<T> T getVarInitialValue(EAdVarDef<T> var);
 }

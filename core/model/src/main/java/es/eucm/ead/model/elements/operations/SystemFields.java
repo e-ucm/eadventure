@@ -95,12 +95,6 @@ public class SystemFields {
 	public static final EAdField<Long> GAME_TIME = new BasicField<Long>(null,
 			new VarDef<Long>("game_time", Long.class, 0l));
 
-	public static final EAdField<Boolean> FULLSCREEN = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("fullscreen", Boolean.class, false));
-
-	public static final EAdField<Boolean> EXIT_WHEN_CLOSE = new BasicField<Boolean>(
-			null, new VarDef<Boolean>("exitWhenClose", Boolean.class, true));
-
 	public static EAdField<String> LANGUAGE = new BasicField<String>(null,
 			new VarDef<String>("language", String.class, ""));
 

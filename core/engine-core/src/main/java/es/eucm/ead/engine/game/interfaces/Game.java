@@ -52,38 +52,7 @@ import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
  */
 public interface Game extends VisitorListener {
 
-	/**
-	 * Container width
-	 */
-	public static final String WIDTH = "width";
-
-	/**
-	 * Container height
-	 */
-	public static final String HEIGHT = "height";
-
-	/**
-	 * Game is fullscreen
-	 */
-	public static final String FULLSCREEN = "fullscreen";
-
-	/**
-	 * Sets if System.exit must be called when the game is closed
-	 */
-	public static final String EXIT_WHEN_CLOSE = "exit_when_close";
-
 	void setEAdEngine(EAdEngine eAdEngine);
-
-	/**
-	 * 
-	 * Sets the current adventure game model ({@link EAdAdventureModel})
-	 * 
-	 * @param path
-	 *            the asset root path. It can be {@code null}
-	 * 
-	 * @return The adventure game model
-	 */
-	void setResourcesLocation(String path);
 
 	/**
 	 * Returns the current adventure game model ({@link EAdAdventureModel})

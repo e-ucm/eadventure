@@ -5,8 +5,7 @@ import es.eucm.ead.engine.desktop.DesktopGame;
 public class RunGame {
 
 	public static void main(String args[]) {
-		DesktopGame game = new DesktopGame();
-		game.setPath("convertedproject/");
+		DesktopGame game = new DesktopGame(true, "convertedproject/");
 		game.start();
 	}
 }

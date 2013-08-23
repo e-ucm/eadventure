@@ -42,134 +42,103 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.debugger.DebuggerFrame;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import es.eucm.ead.engine.desktop.platform.GdxDesktopGUI;
-import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.engine.factories.EffectGOFactory;
-import es.eucm.ead.engine.game.enginefilters.EngineFilter;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.model.elements.BasicAdventureModel;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.reader2.model.Manifest;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class DesktopGame {
 
 	private Injector injector;
 
+	private DebuggerFrame debuggerFrame;
+
 	private boolean exitAtClose;
 
-	private Map<Class<?>, Class<?>> binds;
+	private String path;
 
-	private Map<String, List<EngineFilter<?>>> filters;
-
-	private String resourcesLocation;
-
-	private Game game;
-
-	private DebuggerFrame debuggerFrame;
-	private EffectGOFactory effectFactory;
-
-	public DesktopGame(boolean exitAtClose) {
-		this.exitAtClose = exitAtClose;
-		this.binds = new HashMap<Class<?>, Class<?>>();
-		filters = new HashMap<String, List<EngineFilter<?>>>();
-		initInjector();
-		effectFactory = injector.getInstance(EffectGOFactory.class);
+	/**
+	 * Creates a desktop game that ends when the user press the exit button
+	 */
+	public DesktopGame() {
+		this(true);
 	}
 
 	/**
-	 * Sets the path where all assets are stored
-	 * @param path
+	 * Creates a desktop game
+	 *
+	 * @param exitAtClose whether the application should end win the user press the exit button
 	 */
-	public void setPath(String path) {
-		this.resourcesLocation = path;
-		if (game != null) {
-			game.setResourcesLocation(resourcesLocation);
-		}
+	public DesktopGame(boolean exitAtClose) {
+		this(exitAtClose, null);
 	}
 
-	public JFrame start() {
-		GameState gameState = injector.getInstance(GameState.class);
-		gameState.setValue(SystemFields.EXIT_WHEN_CLOSE, exitAtClose);
-		game = injector.getInstance(Game.class);
-		for (Entry<String, List<EngineFilter<?>>> e : filters.entrySet()) {
-			for (EngineFilter<?> f : e.getValue()) {
-				game.addFilter(e.getKey(), f);
-			}
-		}
-		game.setResourcesLocation(resourcesLocation);
-		ReflectionClassLoader.init(new JavaReflectionClassLoader());
-		ApplicationListener engine = injector
-				.getInstance(ApplicationListener.class);
-
-		// Prepare Gdx configuration
-		int width = gameState.getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "ead-engine";
-		cfg.useGL20 = true;
-		cfg.width = width;
-		cfg.height = height;
-		cfg.fullscreen = gameState.getValue(SystemFields.FULLSCREEN);
-		cfg.forceExit = gameState.getValue(SystemFields.EXIT_WHEN_CLOSE);
-
-		GdxDesktopGUI gui = (GdxDesktopGUI) injector.getInstance(GUI.class);
-
-		gui.create(width, height);
-		new LwjglApplication(engine, cfg, gui.getCanvas());
-		return gui.getFrame();
+	public DesktopGame(boolean exitAtClose, String path) {
+		this.exitAtClose = exitAtClose;
+		this.path = path;
+		initInjector();
 	}
 
 	private void initInjector() {
 		if (injector == null)
-			injector = Guice.createInjector(new DesktopModule(binds),
+			injector = Guice.createInjector(new DesktopModule(),
 					new JavaToolsModule());
 	}
 
-	public DesktopGame() {
-		this(true);
+	public JFrame start() {
+		// Init class loader
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
+
+		// If we have the resources in a path
+		if (path != null) {
+			AssetHandler assetHandler = injector
+					.getInstance(AssetHandler.class);
+			assetHandler.setResourcesLocation(path);
+		}
+
+		// Load the manifest
+		GameLoader gameLoader = injector.getInstance(GameLoader.class);
+		Manifest manifest = gameLoader.loadManifest();
+		EAdAdventureModel model = manifest.getModel();
+		model.setVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE,
+				this.exitAtClose);
+
+		// Prepare Gdx configuration
+		int width = model.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
+		int height = model.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.title = model.getVarInitialValue(BasicAdventureModel.GAME_TITLE);
+		cfg.useGL20 = true;
+		cfg.width = width;
+		cfg.height = height;
+		cfg.fullscreen = model
+				.getVarInitialValue(BasicAdventureModel.FULLSCREEN);
+		cfg.forceExit = model
+				.getVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE);
+
+		// FIXME This has to go
+		GdxDesktopGUI gui = (GdxDesktopGUI) injector.getInstance(GUI.class);
+		gui.create(width, height);
+
+		ApplicationListener engine = injector
+				.getInstance(ApplicationListener.class);
+		new LwjglApplication(engine, cfg, gui.getCanvas());
+
+		return gui.getFrame();
 	}
 
 	public void exit() {
 		injector.getInstance(GUI.class).finish();
 	}
 
-	public void addFilter(String filterName, EngineFilter<?> filter) {
-		List<EngineFilter<?>> filtersList = filters.get(filterName);
-		if (filtersList == null) {
-			filtersList = new ArrayList<EngineFilter<?>>();
-			filters.put(filterName, filtersList);
-		}
-		filtersList.add(filter);
-	}
-
-	public Game getGame() {
-		return game;
-	}
-
-	public void setDebug(boolean debug) {
-		initInjector();
-		if (debug) {
-			if (debuggerFrame == null) {
-				debuggerFrame = new DebuggerFrame(injector
-						.getInstance(Game.class));
-			}
-			debuggerFrame.setVisible(debug);
-		}
-	}
-
-	public EffectGOFactory getEffectFactory() {
-
-		return effectFactory;
-	}
 }

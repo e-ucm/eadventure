@@ -48,19 +48,12 @@ import es.eucm.ead.engine.desktop.platform.assets.video.java.JavaVideoRenderer;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
 public class DesktopModule extends AbstractModule {
 
-	private Map<Class<?>, Class<?>> binds;
-
 	public DesktopModule() {
 
-	}
-
-	public DesktopModule(Map<Class<?>, Class<?>> binds) {
-		this.binds = binds;
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
@@ -70,11 +63,6 @@ public class DesktopModule extends AbstractModule {
 		GdxModuleMap map = new GdxModuleMap();
 		map.setBind(AssetHandler.class, GdxDesktopAssetHandler.class);
 		map.setBind(GUI.class, GdxDesktopGUI.class);
-		if (binds != null) {
-			for (Entry<Class<?>, Class<?>> e : binds.entrySet()) {
-				map.setBind(e.getKey(), e.getValue());
-			}
-		}
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();

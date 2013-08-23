@@ -167,6 +167,14 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 		this.vars = vars;
 	}
 
+	@Override
+	public <T> T getVarInitialValue(EAdVarDef<T> var) {
+		if (vars.containsKey(var)) {
+			return (T) vars.get(var);
+		}
+		return var.getInitialValue();
+	}
+
 	public void addScene(EAdScene scene) {
 		if (this.initialScene == null) {
 			this.initialScene = scene;
