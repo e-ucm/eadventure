@@ -39,14 +39,15 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Linear;
-
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.EAdCondition;
@@ -55,18 +56,13 @@ import es.eucm.ead.model.elements.effects.enums.ChangeActorActions;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdGroupElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-import es.eucm.ead.model.elements.scenes.GhostElement;
-import es.eucm.ead.model.elements.scenes.GroupElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.*;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 		EventListener {
 
+	private Game game;
 	private SceneElementGOFactory sceneElementFactory;
 
 	private GUI gui;
@@ -77,10 +73,11 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 
 	@Inject
 	public ActorActionsGO(SceneElementGOFactory sceneElementFactory,
-			GameState gameState, GUI gui) {
+			GameState gameState, GUI gui, Game game) {
 		super(gameState);
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
+		this.game = game;
 	}
 
 	public void initialize() {
@@ -149,12 +146,12 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 									new BasicField<Float>(element,
 											SceneElement.VAR_X), 0, 5000.0f)
 									.ease(Linear.INOUT).targetRelative(targetX)
-									.start(gameState.getTweenManager());
+									.start(game.getTweenManager());
 							Tween.to(
 									new BasicField<Float>(element,
 											SceneElement.VAR_Y), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetY)
-									.start(gameState.getTweenManager());
+									.start(game.getTweenManager());
 							hud.getSceneElements().add(element);
 							accAngle += angle;
 						}

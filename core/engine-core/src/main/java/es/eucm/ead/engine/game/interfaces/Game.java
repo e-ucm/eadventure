@@ -37,6 +37,7 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
+import aurelienribon.tweenengine.TweenManager;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.enginefilters.EngineFilter;
 import es.eucm.ead.engine.game.enginefilters.EngineHook;
@@ -119,5 +120,7 @@ public interface Game extends VisitorListener {
 	 * @return
 	 */
 	SceneElementGOFactory getSceneElementFactory();
+
+	TweenManager getTweenManager();
 
 }

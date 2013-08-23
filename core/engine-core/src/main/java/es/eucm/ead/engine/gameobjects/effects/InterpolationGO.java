@@ -44,9 +44,8 @@ import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Cubic;
 import aurelienribon.tweenengine.equations.Linear;
-
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.operations.EAdField;
@@ -57,9 +56,12 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 
 	private int finished;
 
+	private Game game;
+
 	@Inject
-	public InterpolationGO(GameState gameState) {
+	public InterpolationGO(GameState gameState, Game game) {
 		super(gameState);
+		this.game = game;
 	}
 
 	@Override
@@ -111,7 +113,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 				}
 
 				t.setCallback(this);
-				gameState.getTweenManager().add(t);
+				game.getTweenManager().add(t);
 				finished++;
 			}
 			i++;

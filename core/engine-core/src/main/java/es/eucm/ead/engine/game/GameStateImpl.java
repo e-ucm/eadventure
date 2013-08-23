@@ -37,8 +37,6 @@
 
 package es.eucm.ead.engine.game;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenAccessor;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
@@ -53,7 +51,6 @@ import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.scenes.EAdScene;
@@ -68,8 +65,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 @Singleton
-public class GameStateImpl extends ValueMapImpl implements GameState,
-		TweenAccessor<EAdField<?>> {
+public class GameStateImpl extends ValueMapImpl implements GameState {
 
 	private static final char BEGIN_VAR_CHAR = '[';
 
@@ -117,8 +113,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 	// Auxiliary variable, to avoid new every loop
 	private ArrayList<EffectGO<?>> finishedEffects;
 
-	private TweenManager tweenManager;
-
 	private GameStateData gameStateData;
 
 	@Inject
@@ -138,10 +132,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 		// Field watcher
 		fieldWatchers = new HashMap<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>>();
 
-		// Init tween manager
-		this.tweenManager = new TweenManager();
-		Tween.registerAccessor(EAdField.class, this);
-		Tween.registerAccessor(BasicField.class, this);
 	}
 
 	@Override
@@ -225,8 +215,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 	public void update(float delta) {
 
 		if (!isPaused()) {
-			// Tween manager
-			tweenManager.update(delta);
 
 			// Effects
 			finishedEffects.clear();
@@ -366,10 +354,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 		setValue(element, var, result);
 	}
 
-	public TweenManager getTweenManager() {
-		return tweenManager;
-	}
-
 	@Override
 	public int getValues(EAdField<?> field, int type, float[] values) {
 		switch (type) {
@@ -469,7 +453,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 
 	/**
 	 * Evaluates conditional expressions (#boolean_var? value_1 : value_2 )
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 */
@@ -573,7 +557,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState,
 		}
 		effectFactory.clean();
 		effects.clear();
-		tweenManager.killAll();
 		this.setPaused(false);
 		fieldWatchers.clear();
 		valuesMap.clear();

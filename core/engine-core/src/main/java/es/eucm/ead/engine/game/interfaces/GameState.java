@@ -37,13 +37,11 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
-import java.util.List;
-
+import aurelienribon.tweenengine.TweenAccessor;
 import aurelienribon.tweenengine.TweenManager;
-
 import com.badlogic.gdx.scenes.scene2d.Event;
-
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
+import es.eucm.ead.engine.operators.Operator;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -51,13 +49,15 @@ import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.engine.operators.Operator;
 import es.eucm.ead.tools.MathEvaluator.OperationResolver;
+
+import java.util.List;
 
 /**
  * The state of the game.
  */
-public interface GameState extends ValueMap, OperationResolver {
+public interface GameState extends ValueMap, OperationResolver,
+		TweenAccessor<EAdField<?>> {
 
 	/**
 	 * Evaluates a condition, using the required evaluator, based on a given
@@ -167,13 +167,6 @@ public interface GameState extends ValueMap, OperationResolver {
 	 *            TODO
 	 */
 	void update(float delta);
-
-	/**
-	 * Returns the tween manager
-	 * 
-	 * @return
-	 */
-	TweenManager getTweenManager();
 
 	/**
 	 * <p>

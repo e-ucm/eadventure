@@ -37,6 +37,8 @@
 
 package es.eucm.ead.engine.game;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
@@ -51,6 +53,8 @@ import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.VarDef;
@@ -156,6 +160,8 @@ public class GameImpl implements Game {
 
 	private SoundManager soundManager;
 
+	private TweenManager tweenManager;
+
 	// Aux
 	private ArrayList<String> hookNameDelete;
 	private ArrayList<EngineHook> hookDelete;
@@ -168,7 +174,8 @@ public class GameImpl implements Game {
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
-			SoundManager soundManager, GameLoader gameLoader) {
+			SoundManager soundManager, GameLoader gameLoader,
+			TweenManager tweenManager) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -182,6 +189,10 @@ public class GameImpl implements Game {
 		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
 		this.gameLoader = gameLoader;
+		// Init tween manager
+		this.tweenManager = new TweenManager();
+		Tween.registerAccessor(EAdField.class, gameState);
+		Tween.registerAccessor(BasicField.class, gameState);
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
@@ -217,11 +228,14 @@ public class GameImpl implements Game {
 	@Override
 	public void dispose() {
 		tracker.stop();
+		tweenManager.killAll();
 	}
 
 	@Override
 	public void act(float delta) {
 		gameLoader.act(delta);
+		// Tween manager
+		tweenManager.update(delta);
 		// Remove hooks and filters
 		for (int i = 0; i < this.filterNameDelete.size(); i++) {
 			removeFilterImpl(filterNameDelete.get(i), filterDelete.get(i));
@@ -439,5 +453,9 @@ public class GameImpl implements Game {
 	@Override
 	public SceneElementGOFactory getSceneElementFactory() {
 		return sceneElementFactory;
+	}
+
+	public TweenManager getTweenManager() {
+		return tweenManager;
 	}
 }
