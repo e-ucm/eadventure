@@ -46,11 +46,9 @@ import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GameStateImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.engine.utils.BasicSceneGraph;
 import es.eucm.ead.engine.utils.SceneGraph;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -117,7 +115,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void initialize(Game game, GameState gameState,
+		public void initialize(GameState gameState,
 				SceneElementGOFactory sceneElementFactory) {
 			// TODO Auto-generated method stub
 
@@ -182,10 +180,8 @@ public class AssetViewerModule extends AbstractModule {
 	public static class AssetVariableMap extends GameStateImpl {
 
 		public AssetVariableMap(StringHandler stringHandler,
-				SceneElementGOFactory sceneElementFactory,
-				ReflectionProvider reflectionProvider, GameTracker tracker) {
-			super(stringHandler, sceneElementFactory, reflectionProvider,
-					tracker);
+				ReflectionProvider reflectionProvider) {
+			super(stringHandler, reflectionProvider);
 		}
 
 		@Override

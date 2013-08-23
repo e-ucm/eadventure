@@ -241,7 +241,7 @@ public class GameImpl implements Game {
 
 		// It is necessary to load the default properties before set up
 		// GUI initialization
-		gui.initialize(GameImpl.this, gameState, sceneElementFactory);
+		gui.initialize(gameState, sceneElementFactory);
 
 		pluginHandler.initialize();
 	}

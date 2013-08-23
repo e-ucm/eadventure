@@ -39,24 +39,22 @@ package es.eucm.ead.engine.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.operators.OperatorFactory;
-import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 @Singleton
@@ -76,16 +74,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	protected OperatorFactory operatorFactory;
 
 	/**
-	 * Game tracker
-	 */
-	private GameTracker tracker;
-
-	/**
-	 * Scene Element factory
-	 */
-	private SceneElementGOFactory sceneElementFactory;
-
-	/**
 	 * If the game state is paused
 	 */
 	private boolean paused;
@@ -95,15 +83,10 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	 */
 	private Map<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> fieldWatchers;
 
-	private GameStateData gameStateData;
-
 	@Inject
 	public GameStateImpl(StringHandler stringHandler,
-			SceneElementGOFactory sceneElementFactory,
-			ReflectionProvider reflectionProvider, GameTracker tracker) {
+			ReflectionProvider reflectionProvider) {
 		super(reflectionProvider, stringHandler);
-		this.sceneElementFactory = sceneElementFactory;
-		this.tracker = tracker;
 		this.operatorFactory = new OperatorFactory(reflectionProvider, this,
 				stringHandler);
 
@@ -132,37 +115,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	@Override
 	public void setPaused(boolean paused) {
 		this.paused = paused;
-	}
-
-	private GameStateData clone(GameStateData state) {
-		ArrayList<EAdEffect> effectsList = new ArrayList<EAdEffect>();
-		for (EAdEffect eff : state.getEffects()) {
-			effectsList.add(eff);
-		}
-
-		Stack<EAdScene> stack = new Stack<EAdScene>();
-		for (EAdScene s : state.getPreviousSceneStack()) {
-			stack.add(s);
-		}
-
-		Map<EAdVarDef<?>, Object> systemVars = new HashMap<EAdVarDef<?>, Object>();
-		systemVars.putAll(state.getSystemVars());
-
-		Map<Variabled, Map<EAdVarDef<?>, Object>> originalElementVars = state
-				.getElementVars();
-		Map<Variabled, Map<EAdVarDef<?>, Object>> elementVars = new HashMap<Variabled, Map<EAdVarDef<?>, Object>>();
-		for (Entry<Variabled, Map<EAdVarDef<?>, Object>> entry : originalElementVars
-				.entrySet()) {
-			Map<EAdVarDef<?>, Object> map = new HashMap<EAdVarDef<?>, Object>();
-			map.putAll(entry.getValue());
-			elementVars.put(entry.getKey(), map);
-		}
-
-		ArrayList<Variabled> updateList = new ArrayList<Variabled>();
-		updateList.addAll(state.getUpdateList());
-
-		return new GameStateData(state.getScene(), effectsList, stack,
-				systemVars, elementVars, updateList);
 	}
 
 	@Override
@@ -278,6 +230,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	 * Evaluates conditional expressions (#boolean_var? value_1 : value_2 )
 	 *
 	 * @param expression
+	 * @param operations
 	 * @return
 	 */
 	private String evaluateExpression(String expression,
@@ -312,7 +265,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 
 				if (o != null && o instanceof Boolean) {
 					Boolean b = (Boolean) o;
-					if (b.booleanValue())
+					if (b)
 						return trueValue;
 					else
 						return falseValue;

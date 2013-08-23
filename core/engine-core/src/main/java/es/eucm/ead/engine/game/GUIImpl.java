@@ -42,7 +42,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
@@ -66,8 +65,6 @@ public abstract class GUIImpl implements GUI {
 	 * Logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
-
-	protected Game game;
 
 	protected GameState gameState;
 
@@ -107,10 +104,9 @@ public abstract class GUIImpl implements GUI {
 		this.scaleY = scaleY;
 	}
 
-	public void initialize(final Game game, GameState gameState,
+	public void initialize(GameState gameState,
 			SceneElementGOFactory sceneElementFactory) {
 		this.loadingScreen = new LoadingScreen();
-		this.game = game;
 		this.gameState = gameState;
 		this.sceneElementFactory = sceneElementFactory;
 		reset();

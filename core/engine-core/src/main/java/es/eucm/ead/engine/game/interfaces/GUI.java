@@ -69,7 +69,7 @@ public interface GUI {
 	 * @param the
 	 *            game
 	 */
-	void initialize(Game game, GameState gameState,
+	void initialize(GameState gameState,
 			SceneElementGOFactory sceneElementFactory);
 
 	/**
