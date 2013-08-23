@@ -46,7 +46,6 @@ import aurelienribon.tweenengine.equations.Cubic;
 import aurelienribon.tweenengine.equations.Linear;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
@@ -56,12 +55,9 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 
 	private int finished;
 
-	private Game game;
-
 	@Inject
-	public InterpolationGO(GameState gameState, Game game) {
-		super(gameState);
-		this.game = game;
+	public InterpolationGO(Game game) {
+		super(game);
 	}
 
 	@Override
@@ -85,9 +81,9 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		int i = 0;
 		for (EAdField<?> f : effect.getFields()) {
 			EAdOperation op = effect.getInitialValues().get(i);
-			Number n1 = gameState.operate(Number.class, op);
+			Number n1 = game.getGameState().operate(Number.class, op);
 			EAdOperation opR = effect.getEndValues().get(i);
-			Number n2 = gameState.operate(Number.class, opR);
+			Number n2 = game.getGameState().operate(Number.class, opR);
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();
 				float endValue = n2.floatValue();

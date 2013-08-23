@@ -38,15 +38,14 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.effects.EmptyEffect;
 
 public class EmptyEffectGO extends AbstractEffectGO<EmptyEffect> {
 
 	@Inject
-	public EmptyEffectGO(GameState gameState) {
-		super(gameState);
+	public EmptyEffectGO(Game game) {
+		super(game);
 	}
 
 	public void setElement(EmptyEffect e) {

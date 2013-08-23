@@ -40,9 +40,9 @@ package es.eucm.ead.engine.gameobjects.effects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.events.DragEvent;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.DragEf;
@@ -85,8 +85,8 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 	private DragGEv dragGEv;
 
 	@Inject
-	public DragGO(GameState gameState, GUI gui) {
-		super(gameState);
+	public DragGO(Game game, GUI gui) {
+		super(game);
 		this.gui = gui;
 		this.dragGEv = new DragGEv();
 		this.dragEvent = new DragEvent(dragGEv);
@@ -104,14 +104,15 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		parent.removeActor(target);
 		target.setZ(0);
 		hud.addSceneElement(target);
-		mouseInitX = gameState.getValue(SystemFields.MOUSE_SCENE_X);
-		mouseInitY = gameState.getValue(SystemFields.MOUSE_SCENE_Y);
+		mouseInitX = game.getGameState().getValue(SystemFields.MOUSE_SCENE_X);
+		mouseInitY = game.getGameState().getValue(SystemFields.MOUSE_SCENE_Y);
 		diffX = x - mouseInitX;
 		diffY = y - mouseInitY;
 		target.handle(DragEvent.MOUSE_START_DRAG);
 	}
 
 	public void act(float delta) {
+		GameState gameState = this.game.getGameState();
 		target.setX(gameState.getValue(SystemFields.MOUSE_SCENE_X) + diffX);
 		target.setY(gameState.getValue(SystemFields.MOUSE_SCENE_Y) + diffY);
 		SceneElementGO go = gui.getScene().getFirstGOIn(
@@ -155,9 +156,11 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 			target.setY(y);
 		} else {
 			// XXX Objects can get outside of the window
-			target.setX(x + gameState.getValue(SystemFields.MOUSE_SCENE_X)
+			target.setX(x
+					+ game.getGameState().getValue(SystemFields.MOUSE_SCENE_X)
 					- mouseInitX);
-			target.setY(y + gameState.getValue(SystemFields.MOUSE_SCENE_Y)
+			target.setY(y
+					+ game.getGameState().getValue(SystemFields.MOUSE_SCENE_Y)
 					- mouseInitY);
 		}
 		target.setZ(z);

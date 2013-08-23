@@ -40,14 +40,12 @@ package es.eucm.ead.engine.gameobjects.sceneelements;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.GhostElement;
-import es.eucm.ead.engine.factories.EventGOFactory;
 
 public class GhostElementGO extends SceneElementGO {
 
@@ -57,9 +55,9 @@ public class GhostElementGO extends SceneElementGO {
 
 	@Inject
 	public GhostElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
 	public void setElement(EAdSceneElement e) {

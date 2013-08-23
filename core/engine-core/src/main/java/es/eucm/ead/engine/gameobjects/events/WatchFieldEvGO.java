@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
@@ -51,15 +51,15 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	private boolean fieldUpdated;
 
 	@Inject
-	public WatchFieldEvGO(GameState gameState) {
-		super(gameState);
+	public WatchFieldEvGO(Game game) {
+		super(game);
 	}
 
 	public void setElement(WatchFieldEv ev) {
 		super.setElement(ev);
 		fieldUpdated = true;
 		for (EAdField<?> f : ev.getFields())
-			gameState.addFieldWatcher(this, f);
+			gameState.getGameState().addFieldWatcher(this, f);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	}
 
 	public void release() {
-		gameState.removeFieldWatcher(this);
+		gameState.getGameState().removeFieldWatcher(this);
 	}
 
 }

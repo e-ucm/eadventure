@@ -42,8 +42,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.ValueMap;
 import es.eucm.ead.model.elements.effects.enums.PhShape;
 import es.eucm.ead.model.elements.effects.physics.PhApplyImpulseEf;
@@ -53,16 +52,16 @@ import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 
 	@Inject
-	public ApplyForceGO(GameState gameState) {
-		super(gameState);
+	public ApplyForceGO(Game game) {
+		super(game);
 	}
 
 	@Override
 	public void initialize() {
 		super.initialize();
-		float x = gameState.operate(Float.class, effect.getxForce());
-		float y = gameState.operate(Float.class, effect.getyForce());
-		ValueMap valueMap = gameState;
+		float x = game.getGameState().operate(Float.class, effect.getxForce());
+		float y = game.getGameState().operate(Float.class, effect.getyForce());
+		ValueMap valueMap = game.getGameState();
 		Object finalElement = valueMap.maybeDecodeField(effect
 				.getSceneElement());
 		Body b = valueMap.getValue(finalElement, PhysicsEffectGO.VAR_PH_BODY);

@@ -37,21 +37,19 @@
 
 package es.eucm.ead.engine.gameobjects.debuggers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.GhostElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GhostDebuggerGO extends SceneElementGO {
 
@@ -61,9 +59,9 @@ public class GhostDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public GhostDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 		currentSceneElements = new ArrayList<GhostElementGO>();
 	}
 

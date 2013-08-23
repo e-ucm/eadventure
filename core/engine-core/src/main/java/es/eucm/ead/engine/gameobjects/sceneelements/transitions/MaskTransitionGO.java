@@ -46,16 +46,14 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.transitions.MaskTransition;
 import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.transitions.MaskTransition;
 
 public class MaskTransitionGO extends TransitionGO<MaskTransition> {
 
@@ -71,9 +69,9 @@ public class MaskTransitionGO extends TransitionGO<MaskTransition> {
 
 	@Inject
 	public MaskTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
 	public void setElement(EAdSceneElement e) {

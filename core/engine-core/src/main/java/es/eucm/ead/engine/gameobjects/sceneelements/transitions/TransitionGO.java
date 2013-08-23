@@ -39,15 +39,13 @@ package es.eucm.ead.engine.gameobjects.sceneelements.transitions;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.transitions.EAdTransition;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.transitions.EAdTransition;
 
 public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 
@@ -60,9 +58,9 @@ public abstract class TransitionGO<T extends EAdTransition> extends SceneGO {
 	protected SceneGO nextScene;
 
 	public TransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory gameObjectFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, game, eventFactory);
 	}
 
 	@SuppressWarnings("unchecked")

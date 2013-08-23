@@ -39,12 +39,10 @@ package es.eucm.ead.engine.gameobjects.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.widgets.ComboBox;
 
@@ -55,9 +53,9 @@ public class ComboBoxGO extends SceneElementGO {
 	private SelectBox selectBox;
 
 	public ComboBoxGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 		Skin s = null;
 		selectBox = new SelectBox(new Object[0], s);
 	}

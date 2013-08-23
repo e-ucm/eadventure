@@ -38,24 +38,17 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.SoundManager;
 import es.eucm.ead.model.elements.effects.PlaySoundEf;
-import es.eucm.ead.engine.factories.EventGOFactory;
 
 public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 
 	private SoundManager soundManager;
 
 	@Inject
-	public PlaySoundGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, SoundManager soundManager,
-			EventGOFactory eventFactory) {
-		super(gameState);
+	public PlaySoundGO(Game game, SoundManager soundManager) {
+		super(game);
 		this.soundManager = soundManager;
 	}
 

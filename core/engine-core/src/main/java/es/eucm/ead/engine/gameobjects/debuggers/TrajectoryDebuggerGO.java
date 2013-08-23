@@ -37,22 +37,15 @@
 
 package es.eucm.ead.engine.gameobjects.debuggers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
+import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.factories.TrajectoryFactory;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
-import org.poly2tri.geometry.polygon.Polygon;
-import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
-import org.poly2tri.triangulation.point.TPoint;
-
-import com.google.inject.Inject;
-
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
@@ -62,26 +55,20 @@ import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.EAdComposedDrawable;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
-import es.eucm.ead.model.elements.trajectories.Node;
-import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
-import es.eucm.ead.model.elements.trajectories.PolygonTrajectory;
-import es.eucm.ead.model.elements.trajectories.Side;
-import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.elements.trajectories.*;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.tools.pathfinding.PathFinder;
+import org.poly2tri.geometry.polygon.Polygon;
+import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
+import org.poly2tri.triangulation.point.TPoint;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -108,10 +95,9 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public TrajectoryDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory,
-			TrajectoryFactory trajectoryFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory, TrajectoryFactory trajectoryFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 		this.trajectoryFactory = trajectoryFactory;
 		barriers = new ArrayList<EAdShape>();
 	}

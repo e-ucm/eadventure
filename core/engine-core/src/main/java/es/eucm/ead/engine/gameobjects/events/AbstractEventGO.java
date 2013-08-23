@@ -37,13 +37,13 @@
 
 package es.eucm.ead.engine.gameobjects.events;
 
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.GameObjectImpl;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdEvent;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.gameobjects.GameObject;
 
 /**
  * Basic game object for events
@@ -58,9 +58,9 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends
 	 */
 	protected EAdSceneElement parent;
 
-	protected GameState gameState;
+	protected Game gameState;
 
-	public AbstractEventGO(GameState gameState) {
+	public AbstractEventGO(Game gameState) {
 		this.gameState = gameState;
 	}
 

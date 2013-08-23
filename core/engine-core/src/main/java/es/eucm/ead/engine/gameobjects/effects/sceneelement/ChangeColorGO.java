@@ -38,20 +38,18 @@
 package es.eucm.ead.engine.gameobjects.effects.sceneelement;
 
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GameState;
 
 public class ChangeColorGO extends SceneElementEffectGO<ChangeColorEf> {
 
 	private SceneElementGOFactory sceneElementFactory;
 
 	@Inject
-	public ChangeColorGO(GameState gameState,
-			SceneElementGOFactory sceneElementFactory) {
-		super(gameState);
+	public ChangeColorGO(Game game, SceneElementGOFactory sceneElementFactory) {
+		super(game);
 		this.sceneElementFactory = sceneElementFactory;
 	}
 

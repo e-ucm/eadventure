@@ -38,26 +38,17 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.game.interfaces.Game;
 
 public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 	@Inject
-	public TriggerMacroGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, Game gameController,
-			EventGOFactory eventFactory) {
-		super(gameState);
+	public TriggerMacroGO(Game game) {
+		super(game);
 	}
 
 	@Override
@@ -68,7 +59,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 		for (int i = 0; i < effect.getMacros().size() && macro == null; i++) {
 			EAdCondition c = effect.getConditions().get(i);
-			if (gameState.evaluate(c)) {
+			if (game.getGameState().evaluate(c)) {
 				macro = effect.getMacros().get(i);
 				break;
 			}
@@ -76,7 +67,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 		if (macro != null) {
 			for (EAdEffect e : macro) {
-				gameState.addEffect(e, action, parent);
+				game.addEffect(e, action, parent);
 			}
 		}
 	}

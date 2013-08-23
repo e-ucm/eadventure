@@ -37,15 +37,12 @@
 
 package es.eucm.ead.engine.gameobjects.sceneelements;
 
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.SpecialAssetRenderer;
+import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
@@ -54,8 +51,8 @@ import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.elements.widgets.Label;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.factories.EventGOFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VideoSceneGO extends SceneGO {
 
@@ -77,9 +74,9 @@ public class VideoSceneGO extends SceneGO {
 
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory gameObjectFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, game, eventFactory);
 		this.component = null;
 		this.error = false;
 	}
@@ -139,11 +136,11 @@ public class VideoSceneGO extends SceneGO {
 		specialAssetRenderer.reset();
 		if (videoScene.getFinalEffects().size() == 0) {
 			ChangeSceneEf ef = new ChangeSceneEf();
-			gameState.addEffect(ef);
+			game.addEffect(ef);
 
 		} else {
 			for (EAdEffect e : videoScene.getFinalEffects()) {
-				gameState.addEffect(e);
+				game.addEffect(e);
 			}
 		}
 

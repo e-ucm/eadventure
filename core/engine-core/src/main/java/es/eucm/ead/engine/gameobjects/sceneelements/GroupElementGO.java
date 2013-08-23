@@ -38,12 +38,10 @@
 package es.eucm.ead.engine.gameobjects.sceneelements;
 
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.scenes.EAdGroupElement;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 
@@ -51,9 +49,9 @@ public class GroupElementGO extends SceneElementGO {
 
 	@Inject
 	public GroupElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, gameObjectFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory gameObjectFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, gameObjectFactory, game, eventFactory);
 	}
 
 	public void setElement(EAdSceneElement element) {

@@ -137,7 +137,7 @@ public class GameLoaderImpl implements GameLoader {
 		EAdScene scene = loadScene(initialScene);
 		ChangeSceneEf changeScene = new ChangeSceneEf(scene);
 		game.doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
-		gameState.addEffect(changeScene);
+		game.addEffect(changeScene);
 	}
 
 	@Override

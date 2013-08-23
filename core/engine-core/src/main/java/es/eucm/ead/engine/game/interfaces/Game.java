@@ -38,12 +38,18 @@
 package es.eucm.ead.engine.game.interfaces;
 
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.enginefilters.EngineFilter;
 import es.eucm.ead.engine.game.enginefilters.EngineHook;
+import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+
+import java.util.List;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
@@ -122,5 +128,45 @@ public interface Game extends VisitorListener {
 	SceneElementGOFactory getSceneElementFactory();
 
 	TweenManager getTweenManager();
+
+	/**
+	 * Adds an effect without any gui action associated
+	 *
+	 * @param e
+	 *            the effect
+	 */
+	void addEffect(EAdEffect e);
+
+	/**
+	 * Returns a list with all game objects linked to the current effects.
+	 *
+	 * @return a list with all game objects linked to the current effects.
+	 */
+	List<EffectGO<?>> getEffects();
+
+	/**
+	 * Adds a new effect to the effects' tail
+	 *
+	 * @param e
+	 *            the new effect
+	 * @param action
+	 *            the action that launched the effect
+	 * @param parent
+	 *            scene element who launched the effect
+	 * @return the effect game object create from the effect element
+	 */
+	EffectGO<?> addEffect(EAdEffect e, Event action, EAdSceneElement parent);
+
+	/**
+	 * Clears all the current effects
+	 *
+	 * @param persisten
+	 *            sets if persistent effects should also be deleted
+	 */
+	void clearEffects(boolean persistent);
+
+	GameState getGameState();
+
+	GUI getGUI();
 
 }

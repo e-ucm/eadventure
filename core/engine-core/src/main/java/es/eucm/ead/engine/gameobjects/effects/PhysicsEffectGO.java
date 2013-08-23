@@ -38,18 +38,13 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.interfaces.ValueMap;
 import es.eucm.ead.model.elements.effects.enums.PhShape;
 import es.eucm.ead.model.elements.effects.enums.PhType;
 import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
@@ -59,8 +54,6 @@ import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
 
 public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 
@@ -83,9 +76,9 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 			"ph_world", World.class, null);
 
 	@Inject
-	public PhysicsEffectGO(GameState gameState, GUI gui) {
-		super(gameState);
-		this.gui = gui;
+	public PhysicsEffectGO(Game game) {
+		super(game);
+		this.gui = game.getGUI();
 	}
 
 	@Override
@@ -97,7 +90,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 		world.setContinuousPhysics(true);
 		world.setWarmStarting(true);
 		world.setAutoClearForces(true);
-		ValueMap valueMap = gameState;
+		ValueMap valueMap = game.getGameState();
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
 		velocityIterations = 24;
@@ -129,14 +122,15 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		timeStep = gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE) / 1000.0f;
+		timeStep = game.getGameState().getValue(
+				SystemFields.ELAPSED_TIME_PER_UPDATE) / 1000.0f;
 		world.step(timeStep, velocityIterations, positionIterations);
 
 		EAdScene scene = (EAdScene) gui.getScene().getElement();
 
 		if (scene != null) {
 			for (EAdSceneElement e : scene.getSceneElements()) {
-				ValueMap valueMap = gameState;
+				ValueMap valueMap = game.getGameState();
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 

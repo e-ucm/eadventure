@@ -38,8 +38,7 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.events.ConditionedEv;
 import es.eucm.ead.model.elements.events.enums.ConditionedEvType;
 
@@ -50,8 +49,8 @@ public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 	private boolean firstCheck;
 
 	@Inject
-	public ConditionEvGO(GameState gameState) {
-		super(gameState);
+	public ConditionEvGO(Game game) {
+		super(game);
 	}
 
 	public void setElement(ConditionedEv event) {
@@ -62,7 +61,7 @@ public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 
 	@Override
 	public void act(float delta) {
-		if (gameState.evaluate(element.getCondition())) {
+		if (gameState.getGameState().evaluate(element.getCondition())) {
 			if (!triggered) {
 				runEffects(element
 						.getEffectsForEvent(ConditionedEvType.CONDITIONS_MET));

@@ -41,9 +41,8 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
@@ -59,9 +58,9 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 	private SceneElementGO eGO;
 
 	@Inject
-	public WaitGO(GUI gui, GameState gameState) {
-		super(gameState);
-		this.gui = gui;
+	public WaitGO(Game game) {
+		super(game);
+		this.gui = game.getGUI();
 		e = new GhostElement();
 		e.setCatchAll(true);
 	}
@@ -81,7 +80,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf> implements EventListener {
 
 	public void act(float delta) {
 		if (!effect.isWaitUntilClick()) {
-			time -= gameState.getValue(SystemFields.ELAPSED_TIME_PER_UPDATE);
+			time -= game.getGameState().getValue(
+					SystemFields.ELAPSED_TIME_PER_UPDATE);
 		}
 	}
 

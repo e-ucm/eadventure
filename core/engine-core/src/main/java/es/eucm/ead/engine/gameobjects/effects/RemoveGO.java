@@ -38,9 +38,8 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.RemoveEf;
 
@@ -49,9 +48,9 @@ public class RemoveGO extends AbstractEffectGO<RemoveEf> {
 	private GUI gui;
 
 	@Inject
-	public RemoveGO(GameState gameState, GUI gui) {
-		super(gameState);
-		this.gui = gui;
+	public RemoveGO(Game game) {
+		super(game);
+		this.gui = game.getGUI();
 	}
 
 	public void initialize() {

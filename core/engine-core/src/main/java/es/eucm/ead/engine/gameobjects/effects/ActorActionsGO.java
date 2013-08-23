@@ -62,7 +62,6 @@ import es.eucm.ead.model.params.util.Position.Corner;
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 		EventListener {
 
-	private Game game;
 	private SceneElementGOFactory sceneElementFactory;
 
 	private GUI gui;
@@ -72,12 +71,10 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	private SceneElementGO actions;
 
 	@Inject
-	public ActorActionsGO(SceneElementGOFactory sceneElementFactory,
-			GameState gameState, GUI gui, Game game) {
-		super(gameState);
+	public ActorActionsGO(SceneElementGOFactory sceneElementFactory, Game game) {
+		super(game);
 		this.sceneElementFactory = sceneElementFactory;
-		this.gui = gui;
-		this.game = game;
+		this.gui = game.getGUI();
 	}
 
 	public void initialize() {
@@ -97,6 +94,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	protected EAdGroupElement getVisualRepresentation() {
 		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElementDef ref = effect.getActionElement();
+			GameState gameState = this.game.getGameState();
 			if (ref != null) {
 				EAdList<EAdSceneElementDef> list = gameState.getValue(ref,
 						ActorActionsEf.VAR_ACTIONS);
@@ -146,12 +144,12 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 									new BasicField<Float>(element,
 											SceneElement.VAR_X), 0, 5000.0f)
 									.ease(Linear.INOUT).targetRelative(targetX)
-									.start(game.getTweenManager());
+									.start(this.game.getTweenManager());
 							Tween.to(
 									new BasicField<Float>(element,
 											SceneElement.VAR_Y), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetY)
-									.start(game.getTweenManager());
+									.start(this.game.getTweenManager());
 							hud.getSceneElements().add(element);
 							accAngle += angle;
 						}

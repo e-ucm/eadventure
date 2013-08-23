@@ -38,26 +38,25 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.operations.EAdField;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
 	@Inject
-	public ChangeFieldGO(GameState gameState) {
-		super(gameState);
+	public ChangeFieldGO(Game game) {
+		super(game);
 	}
 
 	@Override
 	public void initialize() {
 		for (EAdField<?> v : effect.getFields()) {
-			gameState.setValue(v, effect.getOperation());
+			game.getGameState().setValue(v, effect.getOperation());
 		}
 		if (effect.getParentVar() != null && parent != null) {
-			gameState.setValue(parent, effect.getParentVar(), effect
-					.getOperation());
+			game.getGameState().setValue(parent, effect.getParentVar(),
+					effect.getOperation());
 		}
 	}
 

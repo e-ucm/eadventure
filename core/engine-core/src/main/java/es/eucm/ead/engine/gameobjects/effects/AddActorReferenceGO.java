@@ -40,7 +40,7 @@ package es.eucm.ead.engine.gameobjects.effects;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.effects.AddActorReferenceEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
@@ -55,10 +55,10 @@ public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 
 	@Inject
 	public AddActorReferenceGO(SceneElementGOFactory sceneElementFactory,
-			GUI gui, GameState gameState) {
-		super(gameState);
+			Game game) {
+		super(game);
 		this.sceneElementFactory = sceneElementFactory;
-		this.gui = gui;
+		this.gui = game.getGUI();
 	}
 
 	@Override

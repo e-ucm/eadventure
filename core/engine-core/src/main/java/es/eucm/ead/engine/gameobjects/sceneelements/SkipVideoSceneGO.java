@@ -41,8 +41,7 @@ import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
@@ -61,9 +60,9 @@ public class SkipVideoSceneGO extends SceneGO {
 
 	@Inject
 	public SkipVideoSceneGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
 	public void setElement(EAdSceneElement element) {
@@ -73,11 +72,11 @@ public class SkipVideoSceneGO extends SceneGO {
 	public void act(float delta) {
 		if (videoScene.getFinalEffects().size() == 0) {
 			ChangeSceneEf ef = new ChangeSceneEf();
-			gameState.addEffect(ef);
+			game.addEffect(ef);
 
 		} else {
 			for (EAdEffect e : videoScene.getFinalEffects()) {
-				gameState.addEffect(e);
+				game.addEffect(e);
 			}
 		}
 	}

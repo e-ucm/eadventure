@@ -70,10 +70,10 @@ public class EffectsHook implements EngineHook {
 
 	@Override
 	public void execute(Game game, GameState gameState, GUI gui) {
-		synchronized (gameState) {
+		synchronized (game) {
 			while (!effects.isEmpty()) {
 				EAdEffect e = effects.remove(0);
-				gameState.addEffect(e);
+				game.addEffect(e);
 			}
 		}
 	}

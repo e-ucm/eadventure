@@ -38,8 +38,14 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.TrajectoryFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
+import es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.scenes.BasicScene;
@@ -48,13 +54,6 @@ import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.factories.TrajectoryFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
-import es.eucm.ead.engine.gameobjects.effects.sceneelement.SceneElementEffectGO;
-import es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO;
 
 /**
  * Game object for {@link MoveSceneElementEf} effect
@@ -80,10 +79,10 @@ public class MoveSceneElementGO extends
 	private boolean cancelMovement;
 
 	@Inject
-	public MoveSceneElementGO(GameState gameState,
+	public MoveSceneElementGO(Game game,
 			SceneElementGOFactory sceneElementFactory,
 			TrajectoryFactory trajectoryFactory, GUI gui) {
-		super(gameState);
+		super(game);
 		this.trajectoryFactory = trajectoryFactory;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = gui;
@@ -92,7 +91,7 @@ public class MoveSceneElementGO extends
 	@Override
 	public void initialize() {
 		super.initialize();
-		ValueMap valueMap = gameState;
+		GameState gameState = this.game.getGameState();
 		float endX = 0;
 		float endY = 0;
 		cancelMovement = false;
@@ -126,7 +125,7 @@ public class MoveSceneElementGO extends
 
 			if (effect.isUseTrajectory()) {
 
-				EAdTrajectory sceneTrajectory = valueMap.getValue(gui
+				EAdTrajectory sceneTrajectory = gameState.getValue(gui
 						.getScene().getElement(),
 						BasicScene.VAR_TRAJECTORY_DEFINITION);
 				if (sceneTrajectory != null) {
@@ -166,7 +165,7 @@ public class MoveSceneElementGO extends
 				|| !this.effect.isUseTrajectory()) {
 			super.finish();
 		}
-		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
+		game.getGameState().setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
 
 		if (trajectory != null) {
@@ -176,9 +175,9 @@ public class MoveSceneElementGO extends
 
 	public void stop() {
 		super.stop();
-		gameState.setValue(sceneElement, SceneElement.VAR_STATE,
+		game.getGameState().setValue(sceneElement, SceneElement.VAR_STATE,
 				CommonStates.DEFAULT.toString());
-		gameState.setValue(sceneElement, VAR_ELEMENT_MOVING,
+		game.getGameState().setValue(sceneElement, VAR_ELEMENT_MOVING,
 				(MoveSceneElementGO) null);
 		if (trajectory != null) {
 			//			trajectoryFactory.remove(trajectory);

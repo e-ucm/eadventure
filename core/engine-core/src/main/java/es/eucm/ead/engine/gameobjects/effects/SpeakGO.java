@@ -41,7 +41,11 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.basics.EAdShape;
@@ -61,11 +65,6 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
 
 public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener {
 
@@ -106,9 +105,9 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	private int currentTime;
 
 	@Inject
-	public SpeakGO(GameState gameState, GUI gui,
+	public SpeakGO(Game game, GUI gui,
 			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
-		super(gameState);
+		super(game);
 		this.gui = gui;
 		this.sceneElementFactory = sceneElementFactory;
 		this.assetHandler = assetHandler;
@@ -119,14 +118,15 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		super.initialize();
 		if (effect.getStateField() != null) {
 			EAdElement element = effect.getStateField().getElement();
-			MoveSceneElementGO moving = gameState.getValue(element,
+			MoveSceneElementGO moving = game.getGameState().getValue(element,
 					MoveSceneElementGO.VAR_ELEMENT_MOVING);
 			if (moving != null) {
 				moving.stop();
 			}
-			previousState = gameState.getValue(effect.getStateField());
-			gameState.setValue(effect.getStateField(), CommonStates.TALKING
-					.toString());
+			previousState = game.getGameState()
+					.getValue(effect.getStateField());
+			game.getGameState().setValue(effect.getStateField(),
+					CommonStates.TALKING.toString());
 		}
 		finished = false;
 		alpha = 0.0f;
@@ -143,8 +143,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected EAdGroupElement getVisualRepresentation2() {
-		//		int width = gameState.getValue(SystemFields.GAME_WIDTH);
-		//		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
 		//		int horizontalMargin = width / MARGIN_PROPORTION;
 		//		int verticalMargin = height / MARGIN_PROPORTION;
 		//		int left = horizontalMargin;
@@ -162,8 +160,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	}
 
 	protected EAdGroupElement getVisualRepresentation() {
-		int width = gameState.getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValue(SystemFields.GAME_HEIGHT);
+		int width = game.getGameState().getValue(SystemFields.GAME_WIDTH);
+		int height = game.getGameState().getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
@@ -175,10 +173,10 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 		if (effect.getX() != null && effect.getY() != null) {
 
-			int xOrigin = gameState.operate(Float.class, effect.getX())
-					.intValue();
-			int yOrigin = gameState.operate(Float.class, effect.getY())
-					.intValue();
+			int xOrigin = game.getGameState().operate(Float.class,
+					effect.getX()).intValue();
+			int yOrigin = game.getGameState().operate(Float.class,
+					effect.getY()).intValue();
 
 			xOrigin += (int) effectsHud.getX();
 			yOrigin += (int) effectsHud.getY();
@@ -271,7 +269,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		bubbleDialog.setAlpha(alpha);
 
 		if (caption.getCurrentPart() == caption.getTotalParts() - 1) {
-			gameState.setValue(dots, SceneElement.VAR_BUNDLE_ID, "done");
+			game.getGameState().setValue(dots, SceneElement.VAR_BUNDLE_ID,
+					"done");
 		}
 	}
 
@@ -288,7 +287,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 	public void end() {
 		if (effect.getStateField() != null) {
-			gameState.setValue(effect.getStateField(), previousState);
+			game.getGameState().setValue(effect.getStateField(), previousState);
 		}
 		bubbleDialog.remove();
 	}

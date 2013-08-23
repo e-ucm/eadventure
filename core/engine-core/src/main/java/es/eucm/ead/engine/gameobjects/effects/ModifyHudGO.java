@@ -38,16 +38,15 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.model.elements.effects.hud.ModifyHUDEf;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.effects.sceneelement.SceneElementEffectGO;
+import es.eucm.ead.model.elements.effects.hud.ModifyHUDEf;
 
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 
 	@Inject
-	public ModifyHudGO(GameState gameState) {
-		super(gameState);
+	public ModifyHudGO(Game game) {
+		super(game);
 	}
 
 	public void initialize() {

@@ -38,19 +38,18 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.BasicInventory;
 import es.eucm.ead.model.elements.effects.ModifyInventoryEf;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.engine.game.interfaces.GUI;
 
 /**
  * <p>
- * Game object for the {@link EAdModifiyActorState} effect
+ * Game object for the {@link ModifyInventoryEf} effect
  * </p>
  * <p>
  * This effect places the actor in the appropriate list in the game state, be it
@@ -64,9 +63,9 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 	private GUI gui;
 
 	@Inject
-	public ModifyInventoryGO(GUI gui, GameState gameState) {
-		super(gameState);
-		this.gui = gui;
+	public ModifyInventoryGO(Game game) {
+		super(game);
+		this.gui = game.getGUI();
 	}
 
 	@Override
@@ -79,13 +78,13 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 				inventory.addSceneElement(new SceneElement(effect
 						.getSceneElementDef()));
 				if (effect.isRemoveFromScene()) {
-					EAdSceneElement sceneElement = gameState.getValue(effect
-							.getSceneElementDef(),
-							SceneElementDef.VAR_SCENE_ELEMENT);
+					EAdSceneElement sceneElement = game.getGameState()
+							.getValue(effect.getSceneElementDef(),
+									SceneElementDef.VAR_SCENE_ELEMENT);
 					if (sceneElement != null) {
-						gameState.setValue(sceneElement,
+						game.getGameState().setValue(sceneElement,
 								SceneElement.VAR_VISIBLE, false);
-						gameState.setValue(sceneElement,
+						game.getGameState().setValue(sceneElement,
 								SceneElement.VAR_ENABLE, true);
 					}
 				}

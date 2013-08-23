@@ -39,22 +39,20 @@ package es.eucm.ead.engine.gameobjects.debuggers;
 
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.GroupElementGO;
+import es.eucm.ead.model.elements.operations.SystemFields;
 
 public class ProfilerDebuggerGO extends GroupElementGO {
 
 	@Inject
 	public ProfilerDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
 	public void act(float delta) {

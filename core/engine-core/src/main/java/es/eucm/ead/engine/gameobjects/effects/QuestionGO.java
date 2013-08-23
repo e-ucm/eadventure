@@ -38,6 +38,9 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
 import es.eucm.ead.model.assets.text.BasicFont;
@@ -59,9 +62,6 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -83,11 +83,10 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 	private ArrayList<EAdList<EAdEffect>> effects;
 
 	@Inject
-	public QuestionGO(GameState gameState, GUI gui,
-			SceneElementGOFactory sceneElementFactory) {
-		super(gameState);
+	public QuestionGO(Game game, SceneElementGOFactory sceneElementFactory) {
+		super(game);
 		this.sceneElementFactory = sceneElementFactory;
-		this.gui = gui;
+		this.gui = game.getGUI();
 		answers = new ArrayList<EAdString>();
 		effects = new ArrayList<EAdList<EAdEffect>>();
 	}

@@ -1,7 +1,7 @@
 package es.eucm.ead.legacyplugins.engine.desktop;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.legacyplugins.model.HtmlReportEf;
 import es.eucm.ead.model.elements.operations.EAdOperation;
@@ -25,8 +25,8 @@ public class HtmlReportGO extends AbstractEffectGO<HtmlReportEf> {
 	private StringHandler stringHandler;
 
 	@Inject
-	public HtmlReportGO(GameState gameState, StringHandler stringHandler) {
-		super(gameState);
+	public HtmlReportGO(Game game, StringHandler stringHandler) {
+		super(game);
 		this.stringHandler = stringHandler;
 	}
 
@@ -92,8 +92,8 @@ public class HtmlReportGO extends AbstractEffectGO<HtmlReportEf> {
 								.write("<!DOCTYPE html><html><head><meta charset='utf-8'/> </head><style>div {\tmargin: auto;\twidth: 800px;}h1 {\tfont-size: 16px;    font-family: 'Lucida Sans Unicode','Lucida Grande',Sans-Serif;}#gradient-style {    border-collapse: collapse;    font-family: 'Lucida Sans Unicode','Lucida Grande',Sans-Serif;    font-size: 12px;    margin: 20px;    text-align: left;    width: 480px;}#gradient-style th {    background: url('http://media.smashingmagazine.com/images/express-css-table-design/table-images/gradhead.png') repeat-x scroll 0 0 #B9C9FE;    border-bottom: 1px solid #FFFFFF;    border-top: 2px solid #D3DDFF;    color: #003399;    font-size: 13px;    font-weight: normal;    padding: 8px;}#gradient-style td {    background: url('http://media.smashingmagazine.com/images/express-css-table-design/table-images/gradback.png') repeat-x scroll 0 0 #E8EDFF;    border-bottom: 1px solid #FFFFFF;    border-top: 1px solid #FFFFFF;    color: #666699;    padding: 8px;}#gradient-style tfoot tr td {    background: none repeat scroll 0 0 #E8EDFF;    color: #9999CC;    font-size: 12px;}#gradient-style tbody tr:hover td {    background: url('http://media.smashingmagazine.com/images/express-css-table-design/table-images/gradhover.png') repeat-x scroll 0 0 #D0DAFD;    color: #333399;}</style><body><div><h1>Informe final:</h1><table id='gradient-style'><thead><tr><th>Variable</th><th>Valor</td></tr></thead><tbody>");
 						int i = 0;
 						for (EAdOperation operation : effect.getOperations()) {
-							String value = gameState.operate(Object.class,
-									operation)
+							String value = game.getGameState().operate(
+									Object.class, operation)
 									+ "";
 							String label = stringHandler.getString(effect
 									.getLabels().get(i));

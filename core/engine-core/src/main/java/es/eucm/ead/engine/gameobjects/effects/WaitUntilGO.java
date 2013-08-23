@@ -38,19 +38,18 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.effects.WaitUntilEf;
-import es.eucm.ead.engine.game.interfaces.GameState;
 
 public class WaitUntilGO extends AbstractEffectGO<WaitUntilEf> {
 
 	@Inject
-	public WaitUntilGO(GameState gameState) {
-		super(gameState);
+	public WaitUntilGO(Game game) {
+		super(game);
 	}
 
 	public boolean isFinished() {
-		return gameState.evaluate(effect.getWaitCondition());
+		return game.getGameState().evaluate(effect.getWaitCondition());
 	}
 
 	@Override

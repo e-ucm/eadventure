@@ -37,13 +37,14 @@
 
 package es.eucm.ead.engine.gameobjects.debuggers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.assets.drawable.basics.shapes.CircleShape;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
@@ -51,12 +52,9 @@ import es.eucm.ead.model.elements.widgets.Label;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A debugger showing all the fields and their values of the element under the
@@ -88,9 +86,9 @@ public class FieldsDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public FieldsDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 		this.vars = new ArrayList<EAdVarDef<?>>();
 		this.bounds = new ArrayList<Bounds>();
 		this.labels = new ArrayList<SceneElementGO>();

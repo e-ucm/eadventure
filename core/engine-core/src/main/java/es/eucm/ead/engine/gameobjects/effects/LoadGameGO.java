@@ -43,7 +43,6 @@ import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
-import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.LoadGameEf;
@@ -66,8 +65,6 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	private SceneElementGOFactory sceneElementFactory;
 
 	private GUI gui;
-
-	private Game game;
 
 	private AssetHandler assetHandler;
 
@@ -96,8 +93,8 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	}
 
 	@Inject
-	public LoadGameGO(GameLoader gameLoader, GameState gameState) {
-		super(gameState);
+	public LoadGameGO(GameLoader gameLoader, Game game) {
+		super(game);
 		this.gameLoader = gameLoader;
 	}
 

@@ -39,15 +39,10 @@ package es.eucm.ead.engine.desktop.utils.assetviewer;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandlerImpl;
-import es.eucm.ead.engine.factories.EffectGOFactory;
+import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GameStateImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
@@ -55,11 +50,14 @@ import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.engine.utils.BasicSceneGraph;
-import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.engine.utils.SceneGraph;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.StringHandlerImpl;
 import es.eucm.ead.tools.java.JavaInjector;
@@ -185,10 +183,9 @@ public class AssetViewerModule extends AbstractModule {
 
 		public AssetVariableMap(StringHandler stringHandler,
 				SceneElementGOFactory sceneElementFactory,
-				EffectGOFactory effectFactory,
 				ReflectionProvider reflectionProvider, GameTracker tracker) {
-			super(stringHandler, sceneElementFactory, effectFactory,
-					reflectionProvider, tracker);
+			super(stringHandler, sceneElementFactory, reflectionProvider,
+					tracker);
 		}
 
 		@Override

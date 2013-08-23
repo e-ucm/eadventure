@@ -38,9 +38,8 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.events.TimedEv;
 import es.eucm.ead.model.elements.events.enums.TimedEvType;
 
@@ -53,8 +52,8 @@ public class TimedEvGO extends AbstractEventGO<TimedEv> {
 	private GUI gui;
 
 	@Inject
-	public TimedEvGO(GUI gui, GameState gameState) {
-		super(gameState);
+	public TimedEvGO(GUI gui, Game game) {
+		super(game);
 		this.gui = gui;
 	}
 

@@ -39,23 +39,28 @@ package es.eucm.ead.engine.game;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.enginefilters.EngineFilter;
 import es.eucm.ead.engine.game.enginefilters.EngineHook;
 import es.eucm.ead.engine.game.enginefilters.EngineStringFilter;
 import es.eucm.ead.engine.game.interfaces.*;
+import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.strings.StringsReader;
@@ -156,11 +161,24 @@ public class GameImpl implements Game {
 
 	private List<EventGO<?>> events;
 
+	// Auxiliary variable, to avoid new every loop
+	private ArrayList<EffectGO<?>> finishedEffects;
+
+	/**
+	 * A list with the current effects
+	 */
+	private List<EffectGO<?>> effects;
+
 	private String currentLanguage = "";
 
 	private SoundManager soundManager;
 
 	private TweenManager tweenManager;
+
+	/**
+	 * Effects factory
+	 */
+	private EffectGOFactory effectFactory;
 
 	// Aux
 	private ArrayList<String> hookNameDelete;
@@ -174,8 +192,8 @@ public class GameImpl implements Game {
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
-			SoundManager soundManager, GameLoader gameLoader,
-			TweenManager tweenManager) {
+			EffectGOFactory effectFactory, SoundManager soundManager,
+			GameLoader gameLoader) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -189,6 +207,7 @@ public class GameImpl implements Game {
 		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
 		this.gameLoader = gameLoader;
+		this.effectFactory = effectFactory;
 		// Init tween manager
 		this.tweenManager = new TweenManager();
 		Tween.registerAccessor(EAdField.class, gameState);
@@ -196,6 +215,8 @@ public class GameImpl implements Game {
 		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
+		effects = new ArrayList<EffectGO<?>>();
+		finishedEffects = new ArrayList<EffectGO<?>>();
 		// Aux
 		hookNameDelete = new ArrayList<String>();
 		hookDelete = new ArrayList<EngineHook>();
@@ -228,7 +249,13 @@ public class GameImpl implements Game {
 	@Override
 	public void dispose() {
 		tracker.stop();
+		// All this down here should be called when restarting the engine without exiting
 		tweenManager.killAll();
+		for (EffectGO<?> e : effects) {
+			effectFactory.remove(e);
+		}
+		effectFactory.clean();
+		effects.clear();
 	}
 
 	@Override
@@ -248,8 +275,7 @@ public class GameImpl implements Game {
 		hookNameDelete.clear();
 		hookDelete.clear();
 
-		gameState.update(delta);
-
+		updateEffects(delta);
 		// TODO Update language. Check this every loop is probably too much
 		updateLanguage();
 
@@ -457,5 +483,118 @@ public class GameImpl implements Game {
 
 	public TweenManager getTweenManager() {
 		return tweenManager;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see es.eucm.eadventure.engine.engine.GameState#getEffects()
+	 */
+	@Override
+	public List<EffectGO<?>> getEffects() {
+		return effects;
+	}
+
+	@Override
+	public void clearEffects(boolean clearPersistents) {
+		for (EffectGO<?> effect : this.getEffects()) {
+			if (!effect.getElement().isPersistent() || clearPersistents) {
+				effect.stop();
+			}
+		}
+		logger.debug("Effects cleared");
+	}
+
+	@Override
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	@Override
+	public GUI getGUI() {
+		return gui;
+	}
+
+	@Override
+	public void addEffect(EAdEffect e) {
+		this.addEffect(e, null, null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see es.eucm.eadventure.engine.engine.GameState#addEffect(int,
+	 * es.eucm.eadventure.common.model.effects.EAdEffect)
+	 */
+	@Override
+	public EffectGO<?> addEffect(EAdEffect e, Event action,
+			EAdSceneElement parent) {
+		if (e != null) {
+			if (gameState.evaluate(e.getCondition())) {
+				logger.debug("{} launched", e);
+				EffectGO<?> effectGO = effectFactory.get(e);
+				if (effectGO == null) {
+					logger.warn("No game object for effect {}", e.getClass());
+					return null;
+				}
+				effectGO.setGUIAction(action);
+				effectGO.setParent(parent);
+				effectGO.initialize();
+				if (effectGO.isQueueable() && !effectGO.isFinished()) {
+					tracker.track(effectGO);
+					effects.add(effectGO);
+				} else {
+					effectGO.finish();
+					tracker.track(effectGO);
+					effectFactory.remove(effectGO);
+				}
+				return effectGO;
+			} else if (e.isNextEffectsAlways()) {
+				logger.debug("{} discarded. But next effects launched", e);
+				for (EAdEffect ne : e.getNextEffects())
+					addEffect(ne);
+			} else {
+				logger.debug("{} discarded", e);
+			}
+		}
+		return null;
+
+	}
+
+	public void updateEffects(float delta) {
+
+		if (!gameState.isPaused()) {
+
+			// Effects
+			finishedEffects.clear();
+			boolean block = false;
+			int i = 0;
+			while (i < getEffects().size()) {
+				EffectGO<?> effectGO = effects.get(i);
+				i++;
+
+				if (block)
+					continue;
+
+				if (effectGO.isStopped() || effectGO.isFinished()) {
+					finishedEffects.add(effectGO);
+					if (effectGO.isFinished())
+						effectGO.finish();
+				} else {
+					if (effectGO.isBlocking())
+						// If effect is blocking, get out of the loop
+						block = true;
+
+					effectGO.act(delta);
+				}
+
+			}
+
+			// Delete finished effects
+			for (EffectGO<?> e : finishedEffects) {
+				effects.remove(e);
+				effectFactory.remove(e);
+			}
+		}
 	}
 }

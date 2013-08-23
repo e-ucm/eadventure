@@ -38,12 +38,11 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.gameobjects.effects.ChangeSceneGO;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.gameobjects.effects.ChangeSceneGO;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
@@ -57,8 +56,8 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	private boolean inTransition;
 
 	@Inject
-	public SceneElementEvGO(GameState gameState) {
-		super(gameState);
+	public SceneElementEvGO(Game game) {
+		super(game);
 	}
 
 	public void setElement(SceneElementEv ev) {
@@ -72,7 +71,8 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	public void act(float delta) {
 
 		if (inTransition) {
-			inTransition = gameState.getValue(ChangeSceneGO.IN_TRANSITION);
+			inTransition = gameState.getGameState().getValue(
+					ChangeSceneGO.IN_TRANSITION);
 			if (inTransition) {
 				return;
 			}
@@ -83,10 +83,10 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 		}
 
 		if (checks == 0) {
-			boolean init = gameState.getValue(element, INIT);
+			boolean init = gameState.getGameState().getValue(element, INIT);
 			if (!init) {
 				runEffects(element.getEffectsForEvent(SceneElementEvType.INIT));
-				gameState.setValue(element, INIT, true);
+				gameState.getGameState().setValue(element, INIT, true);
 			}
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED));
 		}

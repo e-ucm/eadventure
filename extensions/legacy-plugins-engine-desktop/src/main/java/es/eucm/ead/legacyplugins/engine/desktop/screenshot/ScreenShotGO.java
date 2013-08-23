@@ -33,13 +33,9 @@ public class ScreenShotGO extends AbstractEffectGO<ScreenShotEf> implements
 
 	private boolean finished;
 
-	private Game game;
-
 	@Inject
-	public ScreenShotGO(Game game, GameState gameState,
-			StringHandler stringHandler) {
-		super(gameState);
-		this.game = game;
+	public ScreenShotGO(Game game, StringHandler stringHandler) {
+		super(game);
 		this.stringHandler = stringHandler;
 	}
 

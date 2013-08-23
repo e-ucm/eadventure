@@ -38,15 +38,9 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.timedevents.ShowSceneElementEf;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
 
 public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 
@@ -55,11 +49,8 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	private int time;
 
 	@Inject
-	public ShowSceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, Game gameController,
-			EventGOFactory eventFactory) {
-		super(gameState);
+	public ShowSceneElementGO(Game game) {
+		super(game);
 	}
 
 	@Override

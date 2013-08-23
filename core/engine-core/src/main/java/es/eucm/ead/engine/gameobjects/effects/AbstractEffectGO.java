@@ -38,8 +38,7 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
-
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 
@@ -49,7 +48,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	/**
 	 * The game state
 	 */
-	protected GameState gameState;
+	protected Game game;
 
 	/**
 	 * The input action
@@ -71,8 +70,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	 */
 	protected P effect;
 
-	public AbstractEffectGO(GameState gameState) {
-		this.gameState = gameState;
+	public AbstractEffectGO(Game game) {
+		this.game = game;
 	}
 
 	public P getElement() {
@@ -87,7 +86,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	public void initialize() {
 		stopped = false;
 		for (EAdEffect e : effect.getSimultaneousEffects()) {
-			gameState.addEffect(e, action, parent);
+			game.addEffect(e, action, parent);
 		}
 	}
 
@@ -115,7 +114,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	public void finish() {
 		stopped = true;
 		for (EAdEffect e : effect.getNextEffects()) {
-			gameState.addEffect(e, action, parent);
+			game.addEffect(e, action, parent);
 		}
 	}
 

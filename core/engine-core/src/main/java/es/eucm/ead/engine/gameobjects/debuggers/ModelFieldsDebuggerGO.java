@@ -37,12 +37,11 @@
 
 package es.eucm.ead.engine.gameobjects.debuggers;
 
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.elements.operations.BasicField;
@@ -51,15 +50,11 @@ import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
+
+import java.util.Map;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class ModelFieldsDebuggerGO extends SceneElementGO {
-
-	private Game game;
 
 	private int currentLength = -1;
 
@@ -71,10 +66,9 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public ModelFieldsDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory, Game game) {
-		super(assetHandler, sceneElementFactory, gui, gameState, eventFactory);
-		this.game = game;
+			SceneElementGOFactory sceneElementFactory,
+			EventGOFactory eventFactory, Game game) {
+		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
 	public void act(float delta) {

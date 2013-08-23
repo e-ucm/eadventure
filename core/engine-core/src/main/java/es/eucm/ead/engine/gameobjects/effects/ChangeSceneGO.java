@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GameLoaderImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
-import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.TransitionGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
@@ -78,12 +78,11 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	private boolean finished;
 
 	@Inject
-	public ChangeSceneGO(GUI gui, GameState gameState,
-			SceneElementGOFactory sceneElementFactory, SceneLoader sceneLoader,
-			GameLoaderImpl gameLoader) {
-		super(gameState);
+	public ChangeSceneGO(SceneElementGOFactory sceneElementFactory,
+			SceneLoader sceneLoader, GameLoaderImpl gameLoader, Game game) {
+		super(game);
 		this.sceneLoader = sceneLoader;
-		this.gui = gui;
+		this.gui = this.game.getGUI();
 		this.sceneElementFactory = sceneElementFactory;
 		this.gameLoader = gameLoader;
 	}
@@ -91,7 +90,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void initialize() {
 		super.initialize();
-		gameState.setValue(IN_TRANSITION, true);
+		game.getGameState().setValue(IN_TRANSITION, true);
 		finished = false;
 		String nextSceneId = effect.getNextScene();
 		EAdScene nextScene;
@@ -116,7 +115,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 			finished = true;
 		}
 		// We remove any remaining non-persistent effect in the scene
-		gameState.clearEffects(false);
+		game.clearEffects(false);
 	}
 
 	@Override
@@ -143,7 +142,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Override
 	public void transitionEnded() {
-		gameState.setValue(IN_TRANSITION, false);
+		game.getGameState().setValue(IN_TRANSITION, false);
 		gui.setScene(nextScene);
 		nextScene.setPosition(0, 0);
 		nextScene.setAlpha(1);

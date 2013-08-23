@@ -7,7 +7,7 @@ import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
 import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
@@ -47,10 +47,10 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 	private RuntimeNinePatchImage ninePatch;
 
 	@Inject
-	public BubbleNameGO(GameState gameState, GUI gui,
-			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
-		super(gameState);
-		this.gui = gui;
+	public BubbleNameGO(Game game, SceneElementGOFactory sceneElementFactory,
+			AssetHandler assetHandler) {
+		super(game);
+		this.gui = game.getGUI();
 		this.sceneElementFactory = sceneElementFactory;
 		this.assetHandler = assetHandler;
 	}
@@ -92,15 +92,16 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 		if (s != current) {
 			current = s;
 			if (current != null) {
-				EAdString name = gameState.getValue(current.getElement(),
-						BubbleNameEv.VAR_BUBBLE_NAME);
-				EAdList operations = gameState.getValue(current.getElement(),
+				EAdString name = gameState.getGameState().getValue(
+						current.getElement(), BubbleNameEv.VAR_BUBBLE_NAME);
+				EAdList operations = gameState.getGameState().getValue(
+						current.getElement(),
 						BubbleNameEv.VAR_BUBBLE_OPERATIONS);
 				if (operations != null && operations.size() > 0) {
 					caption.getCaption().getOperations().clear();
 					caption.getCaption().getOperations().addAll(operations);
 				}
-				gameState.setValue(currentDescription, name);
+				gameState.getGameState().setValue(currentDescription, name);
 				if (name != null) {
 					bubble.act(delta);
 					bubble.setVisible(true);

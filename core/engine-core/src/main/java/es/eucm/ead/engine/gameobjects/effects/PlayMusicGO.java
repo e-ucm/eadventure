@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.SoundManager;
 import es.eucm.ead.model.elements.effects.PlayMusicEf;
 
@@ -47,8 +47,8 @@ public class PlayMusicGO extends AbstractEffectGO<PlayMusicEf> {
 	private SoundManager soundManager;
 
 	@Inject
-	public PlayMusicGO(GameState gameState, SoundManager soundManager) {
-		super(gameState);
+	public PlayMusicGO(Game game, SoundManager soundManager) {
+		super(game);
 		this.soundManager = soundManager;
 	}
 

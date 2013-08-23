@@ -51,6 +51,7 @@ import es.eucm.ead.engine.events.DragEvent;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
@@ -91,6 +92,11 @@ public class SceneElementGO extends Group implements
 	 * Scene element factory
 	 */
 	protected SceneElementGOFactory sceneElementFactory;
+
+	/**
+	 * Game
+	 */
+	protected Game game;
 
 	/**
 	 * Game state
@@ -215,13 +221,14 @@ public class SceneElementGO extends Group implements
 
 	@Inject
 	public SceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, GUI gui,
-			GameState gameState, EventGOFactory eventFactory) {
+			SceneElementGOFactory sceneElementFactory, Game game,
+			EventGOFactory eventFactory) {
+		this.game = game;
 		this.eventFactory = eventFactory;
-		this.gameState = gameState;
+		this.gameState = game.getGameState();
 		this.assetHandler = assetHandler;
 		this.sceneElementFactory = sceneElementFactory;
-		this.gui = gui;
+		this.gui = game.getGUI();
 		this.fields = new HashMap<EAdVarDef<?>, EAdField<?>>();
 
 		addListener(this);
@@ -390,7 +397,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Adds an scene element as a child of this element
 	 * 
-	 * @param sceneElement
+	 * @param element
 	 * @return the game object created for the element
 	 */
 	public SceneElementGO addSceneElement(EAdSceneElement element) {
@@ -591,12 +598,11 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets an input processor for this element. This processor will process the
-	 * actions before
-	 * {@link SceneElementGO#processAction(ead.engine.core.input.InputAction)}
+	 * actions before the default process
 	 * 
 	 * @param processor
 	 * @param transmitToChildren
-	 *            TODO
+	 *
 	 */
 	public void setInputProcessor(EventListener processor,
 			boolean transmitToChildren) {
@@ -623,7 +629,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Sets the state for this element
 	 * 
-	 * @param string
+	 * @param state
 	 */
 	public void setState(String state) {
 		this.state = state;
@@ -703,7 +709,7 @@ public class SceneElementGO extends Group implements
 	private void addEffects(EAdList<EAdEffect> list, Event action) {
 		if (list != null && list.size() > 0) {
 			for (EAdEffect e : list) {
-				gameState.addEffect(e, action, element);
+				game.addEffect(e, action, element);
 			}
 		}
 	}
