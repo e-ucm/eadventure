@@ -24,7 +24,6 @@ public class TechDemoMain {
 		AdventureWriter writer = new AdventureWriter(
 				new JavaReflectionProvider());
 		writer.write(model, "src/main/resources/", new JavaTextFileWriter());
-		g.setPath(null);
 		g.start();
 	}
 

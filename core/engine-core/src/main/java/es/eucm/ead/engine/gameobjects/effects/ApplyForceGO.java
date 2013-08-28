@@ -66,7 +66,7 @@ public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 				.getSceneElement());
 		Body b = valueMap.getValue(finalElement, PhysicsEffectGO.VAR_PH_BODY);
 		if (b != null) {
-			b.applyForce(new Vector2(x, y), b.getWorldCenter());
+			b.applyForce(new Vector2(x, y), b.getWorldCenter(), true);
 		} else {
 			World w = valueMap.getValue(null, PhysicsEffectGO.VAR_PH_WORLD);
 			if (w != null) {
@@ -83,7 +83,7 @@ public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 						.getValue(finalElement, PhysicsEffectGO.VAR_PH_BODY);
 				if (b != null) {
 					b.setType(BodyType.DynamicBody);
-					b.applyForce(new Vector2(x, y), b.getWorldCenter());
+					b.applyForce(new Vector2(x, y), b.getWorldCenter(), true);
 				}
 			}
 		}

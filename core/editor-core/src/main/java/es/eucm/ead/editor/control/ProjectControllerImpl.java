@@ -37,19 +37,17 @@
 
 package es.eucm.ead.editor.control;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Singleton;
-
 import es.eucm.ead.editor.control.change.ChangeListener;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Default implementation for the {@link ProjectController}.
@@ -143,8 +141,6 @@ public class ProjectControllerImpl implements ProjectController {
 	public void doRun() {
 		EditorModel em = controller.getModel();
 		DesktopGame game = new DesktopGame(false);
-		// FIXME: add project path
-		game.setPath( /* Project path */null);
 		game.start();
 	}
 

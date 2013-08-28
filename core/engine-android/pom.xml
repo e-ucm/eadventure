@@ -75,7 +75,7 @@
 
 		<!-- Gdx Android dependencies -->
 		<dependency>
-			<groupId>com.badlogic.gdx</groupId>
+			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-backend-android</artifactId>
 		</dependency>
         <dependency>

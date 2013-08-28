@@ -26,20 +26,12 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.badlogic.gdx</groupId>
+            <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.badlogic.gdx</groupId>
-            <artifactId>gdx-natives</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.badlogic.gdx</groupId>
+            <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-backend-lwjgl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.badlogic.gdx</groupId>
-            <artifactId>gdx-backend-lwjgl-natives</artifactId>
         </dependency>
 	</dependencies>
 </project>

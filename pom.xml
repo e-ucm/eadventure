@@ -105,30 +105,30 @@
 				<!-- Model: base for all the other projects -->
 				<module>core/model</module>
 				<!-- Tools & Utils -->
-                <module>core/tools</module>
-                <module>core/tools-java</module>
-                <module>core/tools-gwt</module>
+				<module>core/tools</module>
+				<module>core/tools-java</module>
+				<module>core/tools-gwt</module>
 
-                <!-- Reader -->
-                <module>core/reader</module>
+				<!-- Reader -->
+				<module>core/reader</module>
 
-                <!-- Resources -->
-                <module>core/engine-resources</module>
-                <!-- Engine -->
-                <module>core/engine-core</module>
-                <module>core/engine-desktop</module>
-                <module>core/engine-android</module>
-                <!-- <module>core/engine-html</module> -->
+				<!-- Resources -->
+				<module>core/engine-resources</module>
+				<!-- Engine -->
+				<module>core/engine-core</module>
+				<module>core/engine-desktop</module>
+				<module>core/engine-android</module>
+				<!-- <module>core/engine-html</module> -->
 
-                <!-- Writer -->
-                <module>core/writer</module>
+				<!-- Writer -->
+				<module>core/writer</module>
 
-                <!-- Importer -->
-                <module>core/importer</module>
-                <!-- Exporter -->
-                <module>core/exporter</module>
+				<!-- Importer -->
+				<module>core/importer</module>
+				<!-- Exporter -->
+				<module>core/exporter</module>
 
-                <!-- Tests -->
+				<!-- Tests -->
 				<module>tests/techdemo</module>
 				<module>tests/playground</module>
 
@@ -198,6 +198,8 @@
 		<launcher.initialHeapSize>128</launcher.initialHeapSize>
 		<launcher.maxHeapSize>512</launcher.maxHeapSize>
 		<launcher.numericalVersion>2.0.1.0</launcher.numericalVersion>
+		<!-- libGDX version -->
+		<gdx.version>0.9.9-SNAPSHOT</gdx.version>
 	</properties>
 	<!-- ====================================================================== -->
 	<!-- B U I L D -->
@@ -306,17 +308,17 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- ====================================================================== -->
 			<!-- Report plugins -->
 			<!-- ====================================================================== -->
@@ -680,6 +682,15 @@
 					<enabled>true</enabled>
 				</releases>
 			</repository>
+			<!-- SNAPSHOTS from libGDX -->
+			<repository>
+				<id>sonatype-nexus-snapshots</id>
+				<name>Sonatype Nexus Snapshots</name>
+				<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</repository>
 			<repository>
 				<id>caprica</id>
 				<name>Caprica Software</name>
@@ -800,12 +811,12 @@
 				</dependency>
 				<!-- Injection management -->
 				<!-- Patched version of guice, used by maven (in exporter). We use it for the rest of the project too, to avoid conflicts. -->
-                <dependency>
-                    <groupId>org.sonatype.sisu</groupId>
-                    <artifactId>sisu-guice</artifactId>
-                    <version>3.1.6</version>
-                </dependency>
-                <!-- annotations for use with FindBugs -->
+				<dependency>
+					<groupId>org.sonatype.sisu</groupId>
+					<artifactId>sisu-guice</artifactId>
+					<version>3.1.6</version>
+				</dependency>
+				<!-- annotations for use with FindBugs -->
 				<dependency>
 					<groupId>com.google.code.findbugs</groupId>
 					<artifactId>annotations</artifactId>
@@ -842,54 +853,24 @@
 
 			<!-- GDX -->
 			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
+				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx</artifactId>
-				<version>0.98</version>
+				<version>${gdx.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
+				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl</artifactId>
-				<version>0.98</version>
+				<version>${gdx.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-backend-lwjgl-natives</artifactId>
-				<version>0.98</version>
-			</dependency>
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-backend-lwjgl-sources</artifactId>
-				<version>0.98</version>
-			</dependency>
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-natives</artifactId>
-				<version>0.98</version>
-			</dependency>
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-sources</artifactId>
-				<version>0.98</version>
-			</dependency>
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
+				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-backend-android</artifactId>
-				<version>0.98</version>
+				<version>${gdx.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-backend-android-sources</artifactId>
-				<version>0.98</version>
-			</dependency>
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
+				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-backend-gwt</artifactId>
-				<version>0.98</version>
-			</dependency>
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-backend-gwt-sources</artifactId>
-				<version>0.98</version>
+				<version>${gdx.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>aurelienribon</groupId>
