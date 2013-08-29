@@ -37,16 +37,15 @@
 
 package es.eucm.ead.engine.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.elements.huds.MouseHud;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.predef.LoadingScreen;
 import es.eucm.ead.model.elements.predef.sceneelements.LoaderSceneElement;
 import es.eucm.ead.model.elements.scenes.EAdScene;
@@ -64,8 +63,6 @@ public abstract class GUIImpl implements GUI {
 	 * Logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
-
-	protected GameState gameState;
 
 	protected SceneElementGO root;
 
@@ -92,9 +89,8 @@ public abstract class GUIImpl implements GUI {
 	private float scaleY;
 
 	@Inject
-	public GUIImpl() {
-		super();
-		logger.info("Created GUI");
+	public GUIImpl(SceneElementGOFactory sceneElementFactory) {
+		this.sceneElementFactory = sceneElementFactory;
 		previousSceneStack = new Stack<EAdScene>();
 	}
 
@@ -103,11 +99,8 @@ public abstract class GUIImpl implements GUI {
 		this.scaleY = scaleY;
 	}
 
-	public void initialize(GameState gameState,
-			SceneElementGOFactory sceneElementFactory) {
+	public void initialize() {
 		this.loadingScreen = new LoadingScreen();
-		this.gameState = gameState;
-		this.sceneElementFactory = sceneElementFactory;
 		reset();
 	}
 
@@ -211,8 +204,8 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	public SceneElementGO getGameObjectUnderPointer() {
-		Actor a = root.hit(gameState.getValue(SystemFields.MOUSE_X), gameState
-				.getValue(SystemFields.MOUSE_Y), true);
+		Actor a = root.hit(Gdx.input.getX() / scaleX,
+				Gdx.input.getY() / scaleY, true);
 		if (a instanceof SceneElementGO) {
 			return (SceneElementGO) a;
 		}

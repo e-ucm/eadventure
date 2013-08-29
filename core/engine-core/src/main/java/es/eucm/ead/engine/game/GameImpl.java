@@ -214,9 +214,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public void initialize() {
-		// It is necessary to load the default properties before set up
-		// GUI initialization
-		gui.initialize(gameState, sceneElementFactory);
+		gui.initialize();
 	}
 
 	@Override

@@ -148,14 +148,10 @@ public class EAdEngine implements ApplicationListener {
 		stage.act(game.getSkippedMilliseconds());
 		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
 		stage.screenToStageCoordinates(sceneMouseCoordinates);
-		gameState.setValue(SystemFields.MOUSE_SCENE_X, Float
-				.valueOf(sceneMouseCoordinates.x));
-		gameState.setValue(SystemFields.MOUSE_SCENE_Y, Float
-				.valueOf(sceneMouseCoordinates.y));
-		gameState.setValue(SystemFields.MOUSE_X, Float.valueOf(Gdx.input.getX()
-				/ scaleX));
-		gameState.setValue(SystemFields.MOUSE_Y, Float.valueOf(Gdx.input.getY()
-				/ scaleY));
+		gameState.setValue(SystemFields.MOUSE_SCENE_X, sceneMouseCoordinates.x);
+		gameState.setValue(SystemFields.MOUSE_SCENE_Y, sceneMouseCoordinates.y);
+		gameState.setValue(SystemFields.MOUSE_X, Gdx.input.getX() / scaleX);
+		gameState.setValue(SystemFields.MOUSE_Y, Gdx.input.getY() / scaleY);
 		stage.draw();
 		game.doHook(GameImpl.HOOK_AFTER_RENDER);
 	}

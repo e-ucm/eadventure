@@ -40,6 +40,7 @@ package es.eucm.ead.engine.html.platform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GUIImpl;
 import es.eucm.ead.engine.html.platform.assets.GWTVideoRenderer;
 
@@ -49,8 +50,8 @@ public class GdxGWTGUI extends GUIImpl {
 	private GWTVideoRenderer renderer;
 
 	@Inject
-	public GdxGWTGUI() {
-		super();
+	public GdxGWTGUI(SceneElementGOFactory sceneElementGOFactory) {
+		super(sceneElementGOFactory);
 	}
 
 	@Override

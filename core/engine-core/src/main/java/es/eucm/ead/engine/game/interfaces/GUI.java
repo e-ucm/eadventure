@@ -62,15 +62,9 @@ public interface GUI {
 	public static final String DEBBUGERS_HUD_ID = "#engine.huds.debugger";
 
 	/**
-	 * Initialize the GUI. Creates the graphic context and and shows it.
-	 * 
-	 * @param debuggerHandler
-	 *            TODO
-	 * @param the
-	 *            game
+	 * Initialize the GUI once the graphic context has been initialized
 	 */
-	void initialize(GameState gameState,
-			SceneElementGOFactory sceneElementFactory);
+	void initialize();
 
 	/**
 	 * Adds a hud to the GUI

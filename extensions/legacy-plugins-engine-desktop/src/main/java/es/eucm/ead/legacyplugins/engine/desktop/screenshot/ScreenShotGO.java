@@ -2,7 +2,7 @@ package es.eucm.ead.legacyplugins.engine.desktop.screenshot;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.GameImpl;
-import es.eucm.ead.engine.game.enginefilters.EngineHook;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;

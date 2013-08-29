@@ -43,7 +43,6 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandlerImpl;
 import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GameStateImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.GameState;
@@ -84,12 +83,6 @@ public class AssetViewerModule extends AbstractModule {
 	public static class AssetViewerGUI implements GUI {
 
 		@Override
-		public int getSkippedMilliseconds() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
 		public void addHud(SceneElementGO hud) {
 			// TODO Auto-generated method stub
 
@@ -115,8 +108,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void initialize(GameState gameState,
-				SceneElementGOFactory sceneElementFactory) {
+		public void initialize() {
 			// TODO Auto-generated method stub
 
 		}

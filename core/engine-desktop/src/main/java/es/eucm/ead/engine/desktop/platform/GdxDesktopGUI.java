@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.GUIImpl;
-import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -66,8 +65,8 @@ public class GdxDesktopGUI extends GUIImpl {
 	private Component component;
 
 	@Inject
-	public GdxDesktopGUI() {
-		super();
+	public GdxDesktopGUI(SceneElementGOFactory sceneElementFactory) {
+		super(sceneElementFactory);
 	}
 
 	public void create(int width, int height) {
@@ -97,9 +96,8 @@ public class GdxDesktopGUI extends GUIImpl {
 	}
 
 	@Override
-	public void initialize(GameState gameState,
-			SceneElementGOFactory sceneElementFactory) {
-		super.initialize(gameState, sceneElementFactory);
+	public void initialize() {
+		super.initialize();
 
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {
