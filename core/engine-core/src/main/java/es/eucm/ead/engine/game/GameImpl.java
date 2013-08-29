@@ -43,10 +43,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
@@ -54,7 +52,6 @@ import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.engine.tracking.GameTracker;
-import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.EAdEffect;
@@ -62,17 +59,10 @@ import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.reader.strings.StringsReader;
-import es.eucm.ead.tools.PropertiesReader;
-import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 @Singleton
 public class GameImpl implements Game {
@@ -93,24 +83,19 @@ public class GameImpl implements Game {
 	private GUI gui;
 
 	/**
-	 * String handler
-	 */
-	private StringHandler stringHandler;
-
-	/**
-	 * Scene element game objects factory
-	 */
-	private SceneElementGOFactory sceneElementFactory;
-
-	/**
-	 * Asset handler
-	 */
-	private AssetHandler assetHandler;
-
-	/**
 	 * Game state
 	 */
 	private GameState gameState;
+
+	/**
+	 * Game tween manager
+	 */
+	private TweenManager tweenManager;
+
+	/**
+	 * If the game state is paused
+	 */
+	private boolean paused;
 
 	/**
 	 * Events factory
@@ -126,16 +111,6 @@ public class GameImpl implements Game {
 	 * Game tracker
 	 */
 	private GameTracker tracker;
-
-	/**
-	 * Strings reader
-	 */
-	private StringsReader stringsReader;
-
-	/**
-	 * Assets path root
-	 */
-	private String path;
 
 	/**
 	 * Current adventure model
@@ -154,43 +129,25 @@ public class GameImpl implements Game {
 	 */
 	private List<EffectGO<?>> effects;
 
-	private String currentLanguage = "";
-
-	private TweenManager tweenManager;
-
 	/**
 	 * Effects factory
 	 */
 	private EffectGOFactory effectFactory;
-
-	/**
-	 * If the game state is paused
-	 */
-	private boolean paused;
 
 	// Aux
 	private ArrayList<String> hookNameDelete;
 	private ArrayList<EngineHook> hookDelete;
 
 	@Inject
-	public GameImpl(GUI gui, StringHandler stringHandler, GameState gameState,
-			SceneElementGOFactory sceneElementFactory,
-			AssetHandler assetHandler, EventGOFactory eventFactory,
-			GameTracker tracker, StringsReader stringsReader,
-			EffectGOFactory effectFactory) {
+	public GameImpl(GUI gui, GameState gameState, EventGOFactory eventFactory,
+			GameTracker tracker, EffectGOFactory effectFactory) {
 		this.gui = gui;
-		this.stringHandler = stringHandler;
-		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
-		this.assetHandler = assetHandler;
-		this.stringsReader = stringsReader;
-		this.adventure = null;
+		this.tweenManager = new TweenManager();
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
-		this.adventure = new BasicAdventureModel();
 		this.effectFactory = effectFactory;
 		// Init tween manager
-		this.tweenManager = new TweenManager();
 		Tween.registerAccessor(EAdField.class, gameState);
 		Tween.registerAccessor(BasicField.class, gameState);
 		hooks = new HashMap<String, List<EngineHook>>();
@@ -200,6 +157,36 @@ public class GameImpl implements Game {
 		// Aux
 		hookNameDelete = new ArrayList<String>();
 		hookDelete = new ArrayList<EngineHook>();
+	}
+
+	@Override
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	@Override
+	public GUI getGUI() {
+		return gui;
+	}
+
+	@Override
+	public TweenManager getTweenManager() {
+		return tweenManager;
+	}
+
+	@Override
+	public boolean isPaused() {
+		return paused;
+	}
+
+	@Override
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
+	@Override
+	public int getSkippedMilliseconds() {
+		return isPaused() ? 0 : (int) (Gdx.graphics.getDeltaTime() * 1000);
 	}
 
 	@Override
@@ -241,8 +228,6 @@ public class GameImpl implements Game {
 		hookDelete.clear();
 
 		updateEffects(delta);
-		// TODO Update language. Check this every loop is probably too much
-		updateLanguage();
 
 		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				getSkippedMilliseconds());
@@ -253,17 +238,6 @@ public class GameImpl implements Game {
 		}
 
 		doHook(HOOK_AFTER_UPDATE);
-	}
-
-	private void updateLanguage() {
-		String newLanguage = gameState.getValue(SystemFields.LANGUAGE);
-
-		if (newLanguage != null && !newLanguage.equals(currentLanguage)) {
-			currentLanguage = newLanguage;
-			stringHandler.setLanguage(currentLanguage);
-			assetHandler.setLanguage(currentLanguage);
-		}
-
 	}
 
 	private void updateGameEvents(float delta) {
@@ -308,108 +282,6 @@ public class GameImpl implements Game {
 		}
 	}
 
-	private void processProperties(String text) {
-		Map<String, Map<String, String>> map = PropertiesReader.parse(
-				"defaultProperties", text);
-		for (Entry<String, Map<String, String>> e : map.entrySet()) {
-			String type = e.getKey();
-			if (type == null || type.equals("String")) {
-				for (Entry<String, String> e2 : e.getValue().entrySet()) {
-					VarDef<String> varDef = new VarDef<String>(e2.getKey(),
-							String.class, e2.getValue());
-					gameState.setValue(null, varDef, e2.getValue());
-				}
-			} else if (type.equals("Integer")) {
-				for (Entry<String, String> e2 : e.getValue().entrySet()) {
-					try {
-						Integer i = Integer.parseInt(e2.getValue());
-						VarDef<Integer> varDef = new VarDef<Integer>(e2
-								.getKey(), Integer.class, i);
-						gameState.setValue(null, varDef, i);
-					} catch (NumberFormatException ex) {
-						logger.warn("{} is not a number valid for property {}",
-								new Object[] { e2.getValue(), e2.getKey() });
-					}
-				}
-			} else if (type.equals("Float")) {
-				for (Entry<String, String> e2 : e.getValue().entrySet()) {
-					try {
-						Float i = Float.parseFloat(e2.getValue());
-						VarDef<Float> varDef = new VarDef<Float>(e2.getKey(),
-								Float.class, i);
-						gameState.setValue(null, varDef, i);
-					} catch (NumberFormatException ex) {
-						logger.warn("{} is not a number valid for property {}",
-								new Object[] { e2.getValue(), e2.getKey() });
-					}
-				}
-			} else if (type.equals("Boolean")) {
-				for (Entry<String, String> e2 : e.getValue().entrySet()) {
-					try {
-						Boolean b = Boolean.parseBoolean(e2.getValue());
-						VarDef<Boolean> varDef = new VarDef<Boolean>(e2
-								.getKey(), Boolean.class, b);
-						gameState.setValue(null, varDef, b);
-					} catch (NumberFormatException ex) {
-						logger.warn("{} is not a number valid for property {}",
-								new Object[] { e2.getValue(), e2.getKey() });
-					}
-				}
-			} else {
-				logger.warn("{} is not a valid type in ead.properties", type);
-			}
-		}
-	}
-
-	private void loadStrings() {
-		stringHandler.clear();
-		// Map containing all the files with strings (keys) and its associated
-		// language (value)
-		Map<String, String> stringFiles = new HashMap<String, String>();
-
-		for (Entry<String, String> file : stringFiles.entrySet()) {
-			String strings = assetHandler.getTextFile(file.getKey());
-			String language = file.getValue();
-			if (strings == null || strings.equals("")) {
-				logger
-						.info(
-								"{} language was not loaded. Maybe the strings.xml file associated is not present",
-								language);
-			} else {
-				stringHandler.addLanguage(language);
-				Map<EAdString, String> stringsMap = stringsReader
-						.readStrings(strings);
-				if (stringsMap != null) {
-					stringHandler.addStrings(stringsMap);
-					logger.info("{} language loaded", language);
-				} else {
-					logger.info("{} language not loaded. See previous erros.",
-							language);
-				}
-			}
-		}
-	}
-
-	@Override
-	public boolean loaded(XMLNode node, Object object, boolean isNullInOrigin) {
-		this.adventure = (EAdAdventureModel) object;
-		return true;
-	}
-
-	@Override
-	public SceneElementGOFactory getSceneElementFactory() {
-		return sceneElementFactory;
-	}
-
-	public TweenManager getTweenManager() {
-		return tweenManager;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.engine.engine.GameState#getEffects()
-	 */
 	@Override
 	public List<EffectGO<?>> getEffects() {
 		return effects;
@@ -423,16 +295,6 @@ public class GameImpl implements Game {
 			}
 		}
 		logger.debug("Effects cleared");
-	}
-
-	@Override
-	public GameState getGameState() {
-		return gameState;
-	}
-
-	@Override
-	public GUI getGUI() {
-		return gui;
 	}
 
 	@Override
@@ -516,20 +378,5 @@ public class GameImpl implements Game {
 				effectFactory.remove(e);
 			}
 		}
-	}
-
-	@Override
-	public int getSkippedMilliseconds() {
-		return isPaused() ? 0 : (int) (Gdx.graphics.getDeltaTime() * 1000);
-	}
-
-	@Override
-	public boolean isPaused() {
-		return paused;
-	}
-
-	@Override
-	public void setPaused(boolean paused) {
-		this.paused = paused;
 	}
 }

@@ -60,7 +60,6 @@ public class StringHandlerImpl implements StringHandler {
 	public StringHandlerImpl() {
 		defaultStrings = new HashMap<EAdString, String>();
 		loadedStrings = new HashMap<String, Map<EAdString, String>>();
-		loadedStrings.put("", defaultStrings);
 		strings = defaultStrings;
 		language = "";
 	}
@@ -123,6 +122,10 @@ public class StringHandlerImpl implements StringHandler {
 	@Override
 	public Map<EAdString, String> getStrings() {
 		return strings;
+	}
+
+	public boolean isLanguageLoaded(String language) {
+		return loadedStrings.containsKey(language);
 	}
 
 	@Override

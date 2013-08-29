@@ -57,6 +57,7 @@ import es.eucm.ead.engine.game.interfaces.GameLoader;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.tools.StringHandler;
 
 @Singleton
 public class EAdEngine implements ApplicationListener {
@@ -68,6 +69,8 @@ public class EAdEngine implements ApplicationListener {
 	private GameLoader gameLoader;
 
 	private GUI gui;
+
+	private StringHandler stringHandler;
 
 	private Stage stage;
 
@@ -83,12 +86,13 @@ public class EAdEngine implements ApplicationListener {
 
 	@Inject
 	public EAdEngine(Game game, GameState gameState, GUI gui,
-			GameLoader gameLoader) {
+			GameLoader gameLoader, StringHandler stringHandler) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
 		this.gameLoader = gameLoader;
 		this.gameState = gameState;
 		this.gui = gui;
+		this.stringHandler = stringHandler;
 		this.sceneMouseCoordinates = new Vector2();
 	}
 
@@ -133,6 +137,10 @@ public class EAdEngine implements ApplicationListener {
 				stage.setKeyboardFocus(gui.getRoot());
 			}
 		});
+
+		// Set default language
+		// FIXME detect language from system
+		stringHandler.setLanguage("");
 	}
 
 	@Override

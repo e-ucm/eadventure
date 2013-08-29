@@ -40,8 +40,6 @@ package es.eucm.ead.tools.java;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import es.eucm.ead.tools.GenericInjector;
-import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.StringHandlerImpl;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.java.xml.SaxXMLParser;
@@ -53,8 +51,6 @@ public class JavaToolsModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(StringHandler.class).to(StringHandlerImpl.class).in(
-				Singleton.class);
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
 				Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);

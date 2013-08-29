@@ -38,23 +38,18 @@
 package es.eucm.ead.engine;
 
 import com.badlogic.gdx.ApplicationListener;
-
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandlerImpl;
 import es.eucm.ead.engine.canvas.filters.FilterFactory;
 import es.eucm.ead.engine.canvas.filters.GdxFilterFactory;
-import es.eucm.ead.engine.factories.EffectGOFactory;
-import es.eucm.ead.engine.factories.EffectGOFactoryImpl;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.EventGOFactoryImpl;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactoryImpl;
-import es.eucm.ead.engine.factories.TrajectoryFactory;
-import es.eucm.ead.engine.factories.TrajectoryFactoryImpl;
+import es.eucm.ead.engine.factories.*;
 import es.eucm.ead.engine.game.*;
-import es.eucm.ead.engine.game.interfaces.*;
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.SoundManager;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import es.eucm.ead.engine.tracking.DefaultGameTracker;
@@ -62,8 +57,9 @@ import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.engine.tracking.selection.DefaultTrackerSelector;
 import es.eucm.ead.engine.tracking.selection.TrackerSelector;
 import es.eucm.ead.engine.utils.BasicSceneGraph;
-import es.eucm.ead.tools.ModuleMap;
 import es.eucm.ead.engine.utils.SceneGraph;
+import es.eucm.ead.tools.ModuleMap;
+import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.TextFileReader;
 
 public class GdxModuleMap extends ModuleMap {
@@ -79,6 +75,7 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(TextFileReader.class, AssetHandler.class);
 		binds.put(AssetHandler.class, AssetHandlerImpl.class);
 		binds.put(FontHandler.class, FontHandlerImpl.class);
+		binds.put(StringHandler.class, EngineStringHandler.class);
 
 		binds.put(SoundManager.class, SoundManagerImpl.class);
 

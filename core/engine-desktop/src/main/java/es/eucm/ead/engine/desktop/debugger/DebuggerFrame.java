@@ -37,22 +37,19 @@
 
 package es.eucm.ead.engine.desktop.debugger;
 
+import es.eucm.ead.engine.desktop.debugger.components.ChangeSceneComboBox;
+import es.eucm.ead.engine.desktop.debugger.hooks.ChapterLoadedHook;
+import es.eucm.ead.engine.desktop.debugger.hooks.EffectsHook;
+import es.eucm.ead.engine.desktop.debugger.hooks.ModelLoadedHook;
+import es.eucm.ead.engine.game.GameImpl;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.debuggers.FieldsDebugger;
 import es.eucm.ead.model.elements.debuggers.GhostDebugger;
 import es.eucm.ead.model.elements.debuggers.TrajectoryDebugger;
 import es.eucm.ead.model.elements.effects.AddChildEf;
 import es.eucm.ead.model.elements.effects.RemoveEf;
-import es.eucm.ead.model.elements.scenes.VideoScene;
-import es.eucm.ead.engine.game.GameImpl;
-import es.eucm.ead.engine.game.interfaces.EngineHook;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.gameobjects.sceneelements.SkipVideoSceneGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.VideoSceneGO;
-import es.eucm.ead.engine.desktop.debugger.components.ChangeSceneComboBox;
-import es.eucm.ead.engine.desktop.debugger.hooks.ChapterLoadedHook;
-import es.eucm.ead.engine.desktop.debugger.hooks.EffectsHook;
-import es.eucm.ead.engine.desktop.debugger.hooks.ModelLoadedHook;
 
 import javax.swing.*;
 import java.awt.*;
@@ -145,13 +142,13 @@ public class DebuggerFrame extends JFrame {
 		skipVideos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				if (skipVideos.isSelected()) {
+				/*if (skipVideos.isSelected()) {
 					game.getSceneElementFactory().put(VideoScene.class,
 							SkipVideoSceneGO.class);
 				} else {
 					game.getSceneElementFactory().put(VideoScene.class,
 							VideoSceneGO.class);
-				}
+				}*/
 			}
 		});
 		GridBagLayout layout = new GridBagLayout();

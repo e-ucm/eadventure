@@ -202,8 +202,10 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 			return super.getTextFile(path);
 		} else {
 			String result = null;
-			InputStream is = ClassLoader.getSystemResourceAsStream(resourcesUri
-					+ path.substring(1));
+			InputStream is = ClassLoader
+					.getSystemResourceAsStream((resourcesUri == null ? ""
+							: resourcesUri)
+							+ path.substring(1));
 			if (is == null) {
 				File f = new File(path);
 				if (f.exists()) {

@@ -92,16 +92,16 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 		if (s != current) {
 			current = s;
 			if (current != null) {
-				EAdString name = gameState.getGameState().getValue(
+				EAdString name = game.getGameState().getValue(
 						current.getElement(), BubbleNameEv.VAR_BUBBLE_NAME);
-				EAdList operations = gameState.getGameState().getValue(
+				EAdList operations = game.getGameState().getValue(
 						current.getElement(),
 						BubbleNameEv.VAR_BUBBLE_OPERATIONS);
 				if (operations != null && operations.size() > 0) {
 					caption.getCaption().getOperations().clear();
 					caption.getCaption().getOperations().addAll(operations);
 				}
-				gameState.getGameState().setValue(currentDescription, name);
+				game.getGameState().setValue(currentDescription, name);
 				if (name != null) {
 					bubble.act(delta);
 					bubble.setVisible(true);

@@ -54,7 +54,7 @@ import java.util.List;
  * current game state, evaluate conditions according to the current game state,
  * etc.
  */
-public interface Game extends VisitorListener {
+public interface Game {
 
 	/**
 	 * Returns the current adventure game model ({@link EAdAdventureModel})
@@ -105,12 +105,6 @@ public interface Game extends VisitorListener {
 	void removeHook(String hookName, EngineHook hook);
 
 	void doHook(String hookName);
-
-	/**
-	 * Returns the scene element factory
-	 * @return
-	 */
-	SceneElementGOFactory getSceneElementFactory();
 
 	TweenManager getTweenManager();
 
