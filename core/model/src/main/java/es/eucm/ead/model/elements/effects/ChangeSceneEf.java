@@ -55,7 +55,7 @@ import es.eucm.ead.model.elements.transitions.EmptyTransition;
 public class ChangeSceneEf extends AbstractEffect {
 
 	@Param
-	private String nextScene;
+	private String nextSceneId;
 
 	@Param
 	private EAdTransition transition;
@@ -63,8 +63,6 @@ public class ChangeSceneEf extends AbstractEffect {
 	/**
 	 * Construct a new EAdChangeScene effect
 	 * 
-	 * @param id
-	 *            The id of the effect
 	 */
 	public ChangeSceneEf() {
 		this(null, EmptyTransition.instance());
@@ -80,7 +78,7 @@ public class ChangeSceneEf extends AbstractEffect {
 	 */
 	public ChangeSceneEf(EAdElement nextScene, EAdTransition transition) {
 		super();
-		this.nextScene = nextScene == null ? null : nextScene.getId();
+		this.nextSceneId = nextScene == null ? null : nextScene.getId();
 		this.transition = transition;
 	}
 
@@ -92,8 +90,8 @@ public class ChangeSceneEf extends AbstractEffect {
 	 * @return the nextScene. It could be a scene, or a field pointing to a
 	 *         scene
 	 */
-	public String getNextScene() {
-		return nextScene;
+	public String getNextSceneId() {
+		return nextSceneId;
 	}
 
 	/**
@@ -103,11 +101,11 @@ public class ChangeSceneEf extends AbstractEffect {
 	 *            the previous scene
 	 */
 	public void setNextScene(EAdElement nextScene) {
-		this.nextScene = nextScene == null ? null : nextScene.getId();
+		this.nextSceneId = nextScene == null ? null : nextScene.getId();
 	}
 
-	public void setNextScene(String nextScene) {
-		this.nextScene = nextScene;
+	public void setNextSceneId(String nextScene) {
+		this.nextSceneId = nextScene;
 	}
 
 	public EAdTransition getTransition() {
@@ -119,7 +117,7 @@ public class ChangeSceneEf extends AbstractEffect {
 	}
 
 	public String toString() {
-		return "nextScene:" + nextScene;
+		return "nextScene:" + nextSceneId;
 	}
 
 }

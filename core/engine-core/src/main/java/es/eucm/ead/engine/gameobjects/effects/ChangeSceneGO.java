@@ -92,7 +92,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		super.initialize();
 		game.getGameState().setValue(IN_TRANSITION, true);
 		finished = false;
-		String nextSceneId = effect.getNextScene();
+		String nextSceneId = effect.getNextSceneId();
 		EAdScene nextScene;
 
 		// if null, return to previous scene

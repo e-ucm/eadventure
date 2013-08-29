@@ -54,7 +54,7 @@ public class ConverterObjectVisitor {
 			@Override
 			public void visit(Object o) {
 				if (o instanceof ChangeSceneEf) {
-					System.out.println(((ChangeSceneEf) o).getNextScene());
+					System.out.println(((ChangeSceneEf) o).getNextSceneId());
 				}
 			}
 		});
