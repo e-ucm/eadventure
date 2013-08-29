@@ -80,8 +80,6 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(AssetHandler.class, AssetHandlerImpl.class);
 		binds.put(FontHandler.class, FontHandlerImpl.class);
 
-		binds.put(PluginHandler.class, PluginHandlerImpl.class);
-
 		binds.put(SoundManager.class, SoundManagerImpl.class);
 
 		binds.put(FilterFactory.class, GdxFilterFactory.class);

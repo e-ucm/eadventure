@@ -101,11 +101,6 @@ public class GameImpl implements Game {
 	private StringHandler stringHandler;
 
 	/**
-	 * Plugin handler
-	 */
-	private PluginHandler pluginHandler;
-
-	/**
 	 * Scene element game objects factory
 	 */
 	private SceneElementGOFactory sceneElementFactory;
@@ -186,7 +181,7 @@ public class GameImpl implements Game {
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
-			PluginHandler pluginHandler, GameState gameState,
+			GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
@@ -196,7 +191,6 @@ public class GameImpl implements Game {
 		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
 		this.assetHandler = assetHandler;
-		this.pluginHandler = pluginHandler;
 		this.stringsReader = stringsReader;
 		this.adventure = null;
 		this.eventFactory = eventFactory;
@@ -238,8 +232,6 @@ public class GameImpl implements Game {
 		// It is necessary to load the default properties before set up
 		// GUI initialization
 		gui.initialize(gameState, sceneElementFactory);
-
-		pluginHandler.initialize();
 	}
 
 	@Override
