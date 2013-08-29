@@ -90,8 +90,6 @@ public class GameImpl implements Game {
 
 	public static final String HOOK_AFTER_RENDER = "after_render";
 
-	private GameLoader gameLoader;
-
 	/**
 	 * Game gui
 	 */
@@ -192,8 +190,7 @@ public class GameImpl implements Game {
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
-			EffectGOFactory effectFactory, SoundManager soundManager,
-			GameLoader gameLoader) {
+			EffectGOFactory effectFactory, SoundManager soundManager) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -206,7 +203,6 @@ public class GameImpl implements Game {
 		this.tracker = tracker;
 		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
-		this.gameLoader = gameLoader;
 		this.effectFactory = effectFactory;
 		// Init tween manager
 		this.tweenManager = new TweenManager();
@@ -260,7 +256,6 @@ public class GameImpl implements Game {
 
 	@Override
 	public void act(float delta) {
-		gameLoader.act(delta);
 		// Tween manager
 		tweenManager.update(delta);
 		// Remove hooks and filters

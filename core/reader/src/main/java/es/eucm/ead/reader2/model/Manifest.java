@@ -37,15 +37,13 @@
 
 package es.eucm.ead.reader2.model;
 
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.interfaces.features.Identified;
 
-public class Manifest implements Identified {
-
-	private String id;
+public class Manifest extends BasicElement {
 
 	/**
 	 * List of chapter ids in the game
@@ -142,16 +140,6 @@ public class Manifest implements Identified {
 		return model;
 	}
 
-	@Override
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public void addInitScene(String id) {
 		this.initialScenes.add(id);
 	}
@@ -166,5 +154,45 @@ public class Manifest implements Identified {
 
 	public EAdList<String> getInitialScenesIds() {
 		return this.initialScenes;
+	}
+
+	public EAdList<String> getChapters() {
+		return chapters;
+	}
+
+	public void setChapters(EAdList<String> chapters) {
+		this.chapters = chapters;
+	}
+
+	public EAdList<String> getInitialScenes() {
+		return initialScenes;
+	}
+
+	public void setInitialScenes(EAdList<String> initialScenes) {
+		this.initialScenes = initialScenes;
+	}
+
+	public EAdMap<String, String> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(EAdMap<String, String> classes) {
+		this.classes = classes;
+	}
+
+	public EAdMap<String, String> getFields() {
+		return fields;
+	}
+
+	public void setFields(EAdMap<String, String> fields) {
+		this.fields = fields;
+	}
+
+	public EAdMap<String, String> getParams() {
+		return params;
+	}
+
+	public void setParams(EAdMap<String, String> params) {
+		this.params = params;
 	}
 }

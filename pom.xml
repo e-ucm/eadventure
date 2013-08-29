@@ -118,7 +118,7 @@
 				<module>core/engine-core</module>
 				<module>core/engine-desktop</module>
 				<module>core/engine-android</module>
-				<!-- <module>core/engine-html</module> -->
+				<module>core/engine-html</module>
 
 				<!-- Writer -->
 				<module>core/writer</module>

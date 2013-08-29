@@ -115,7 +115,7 @@ public class GWTVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> 
 																		}-*/;
 
 	public static native final void export()/*-{
-															$wnd.eadVideoEnded=$entry(@ead.engine.engine.gdx.html.platform.assets.GWTVideoRenderer::videoEnded());
+															$wnd.eadVideoEnded=$entry(@es.eucm.ead.engine.html.platform.assets.GWTVideoRenderer::videoEnded());
 															}-*/;
 
 }

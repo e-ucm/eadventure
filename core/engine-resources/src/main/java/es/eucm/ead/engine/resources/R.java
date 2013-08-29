@@ -19,6 +19,7 @@ public static final String[] RESOURCES = new String[]{
   "es/eucm/ead/engine/resources/drawable/balloon_in.png",
   "es/eucm/ead/engine/resources/drawable/usewith-pressed.png",
   "es/eucm/ead/engine/resources/drawable/dot.png",
+  "es/eucm/ead/engine/resources/drawable/loader.png",
   "es/eucm/ead/engine/resources/drawable/default_left_over_arrow.png",
   "es/eucm/ead/engine/resources/drawable/default_left_arrow.png",
   "es/eucm/ead/engine/resources/drawable/loading.png",

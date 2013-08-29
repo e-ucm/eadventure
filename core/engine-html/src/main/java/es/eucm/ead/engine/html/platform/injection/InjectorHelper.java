@@ -60,7 +60,7 @@ import es.eucm.ead.engine.gameobjects.trajectories.dijkstra.NodeTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
-import ead.plugins.engine.bubbledescription.BubbleNameGO;
+import es.eucm.ead.legacyplugins.engine.BubbleNameGO;
 import es.eucm.ead.tools.gwt.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -152,6 +152,7 @@ public class GameLoaderImpl implements GameLoader {
 
 	@Override
 	public void act(float delta) {
+		// FIXME move this to gameimpl
 		for (EventGO<?> e : adventureEvents) {
 			e.act(delta);
 		}

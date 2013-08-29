@@ -136,4 +136,8 @@ public class NinePatchImage extends AbstractAssetDescriptor implements
 		return image;
 	}
 
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
 }

@@ -65,7 +65,7 @@ import es.eucm.ead.engine.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
 import es.eucm.ead.engine.html.platform.module.GwtModule;
-import ead.plugins.engine.bubbledescription.BubbleNameGO;
+import es.eucm.ead.legacyplugins.engine.BubbleNameGO;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.gwt.GWTToolsModule;
 

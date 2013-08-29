@@ -10,16 +10,127 @@
     </parent>
 
 	<artifactId>ead-engine-html</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>eAdventure HTML Engine</name>	
+
 	<properties>
-		<gwt.module>ead.engine.core.GwtDefinition</gwt.module>
+		<gwt.module>es.eucm.ead.engine.Engine</gwt.module>
 		<gwt.version>2.5.0</gwt.version>
-		<gwt.runTarget>ead.engine.core.platform/GwtLauncher.java</gwt.runTarget>
+		<gwt.runTarget>es.eucm.ead.engine.html/GwtLauncher.java</gwt.runTarget>
 		<!-- switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output-->
 		<gwt.logLevel>DEBUG</gwt.logLevel> 
 		<gwt.style>PRETTY</gwt.style>
 	</properties>
+
+	<dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-gwt</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-legacy-plugins-engine-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- Sources for GWT -->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-model</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-core</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-gwt</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-legacy-plugins-engine-core</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-legacy-plugins-model</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-reader</artifactId>
+            <version>${project.parent.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+		<!-- external -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtent</groupId>
+			<artifactId>GwtEnt</artifactId>
+			<version>2.0RC1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<optional>true</optional>
+		</dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-backend-gwt</artifactId>
+            <version>${gdx.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx</artifactId>
+			<version>${gdx.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>aurelienribon</groupId>
+            <artifactId>tweenengine-api-sources</artifactId>
+            <version>1</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-backend-gwt</artifactId>
+			<version>${gdx.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 	<description>
 		GDX / GWT e-Adventure engine; requires GWT SDK to build, generates web app
 	</description>
@@ -29,33 +140,30 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
 				<version>${gwt.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>generateAsync</goal>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
-					<compileSourcesArtifacts>
-                        <artifact>es.eucm.ead:ead-model</artifact>
-						<artifact>es.eucm.ead:ead-engine-core</artifact>
-						<artifact>es.eucm.ead:ead-tools</artifact>
-						<artifact>es.eucm.ead:ead-tools-gwt</artifact>
-						<artifact>es.eucm.ead:ead-reader</artifact>
-						<artifact>es.eucm.ead:ead-resources</artifact>
-						<artifact>es.e-ucm:ead-legacy-plugins-engine-core</artifact>
-					</compileSourcesArtifacts>
 					<configuration>
 						<buildOutputDirectory>${project.basedir}/war</buildOutputDirectory>
 						<webappDirectory>${project.basedir}/war</webappDirectory>
 						<module>${gwt.module}</module>
 					</configuration>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
+			<!-- war stuff -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+                <configuration>
+                    <warName>eadengine</warName>
+                </configuration>
 			</plugin>
-			
 			<!-- This configuration is used to store Eclipse m2e settings only. It 
 			has no influence on the Maven build itself. -->
 			<plugin>
@@ -108,12 +216,6 @@
 					</lifecycleMappingMetadata>
 				</configuration>
 			</plugin>
-			<!-- war stuff -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -131,59 +233,4 @@
 		</profile>
 	</profiles>
 
-	<dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>ead-engine-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>ead-tools-gwt</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>ead-legacy-plugins-engine-core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-
-		<!-- external -->
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<version>${gwt.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt.inject</groupId>
-			<artifactId>gin</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.gwtent</groupId>
-			<artifactId>GwtEnt</artifactId>
-			<version>2.0RC1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-backend-gwt</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>aurelienribon</groupId>
-            <artifactId>tweenengine-api-sources</artifactId>
-        </dependency>
-	</dependencies>
 </project>

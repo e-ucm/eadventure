@@ -49,6 +49,8 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class SaxXMLParser extends DefaultHandler implements XMLParser {
@@ -100,7 +102,11 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		XMLNode node = new XMLNode(qName, attributes);
+		Map<String, String> atts = new HashMap<String, String>();
+		for (int i = 0; i < attributes.getLength(); i++) {
+			atts.put(attributes.getLocalName(i), attributes.getValue(i));
+		}
+		XMLNode node = new XMLNode(qName, atts);
 		if (currentDocument == null) {
 			currentDocument = node;
 		}

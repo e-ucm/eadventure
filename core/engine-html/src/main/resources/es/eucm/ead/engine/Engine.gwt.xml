@@ -3,12 +3,14 @@
 <module rename-to="eadengine">
     <inherits name='aurelienribon.tweenengine' />
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
-	<inherits name='ead.tools.gwttools' />
-	<inherits name='ead.common.model' />
-	<inherits name='ead.engine.enginecore' />
-	<inherits name='ead.tools.gwttools' />
-	<inherits name='ead.reader.reader' />
-	<inherits name='ead.plugins.engine.pluginsengine' />
+
+	<inherits name='es.eucm.ead.model' />
+	<inherits name='es.eucm.ead.tools' />
+	<inherits name='es.eucm.ead.reader' />
+	<inherits name='es.eucm.ead.engine' />
+	<inherits name='es.eucm.ead.legacyplugins.engine' />
+
+	<!-- Other libraries -->
 	<inherits name='java.util.lib' />
 	<inherits name='org.slf4j.slf4j' />
 	<inherits name='org.poly2tri.poly2tri' />
@@ -18,14 +20,13 @@
 
 	<!-- Inherit the GIN (guice for gwt) module -->
 	<inherits name='com.google.gwt.inject.Inject' />
-	<!-- <inherits name='com.google.inject.GuiceTemp'/> -->
 
 
 	<source path="html" />
 	<entry-point class='es.eucm.ead.engine.html.GwtLauncher' />
 
 	<set-configuration-property name="gdx.assetpath"
-		value="resources/engineassets/" />
+		value="core/engine-resources/src/main/resources" />
 	<set-configuration-property name="gdx.assetoutputpath"
 		value="core/engine-html/src/main/webapp/" />
 </module>

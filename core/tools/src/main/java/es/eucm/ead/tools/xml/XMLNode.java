@@ -37,8 +37,6 @@
 
 package es.eucm.ead.tools.xml;
 
-import org.xml.sax.Attributes;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,11 +63,11 @@ public class XMLNode {
 		this.children = new ArrayList<XMLNode>();
 	}
 
-	public XMLNode(String tag, Attributes attributes) {
+	public XMLNode(String tag, Map<String, String> attributes) {
 		this(tag);
-		for (int i = 0; i < attributes.getLength(); i++) {
-			String key = attributes.getLocalName(i);
-			String value = attributes.getValue(i);
+		for (Map.Entry<String, String> e : attributes.entrySet()) {
+			String key = e.getKey();
+			String value = e.getValue();
 			this.attributes.put(key, value);
 		}
 	}

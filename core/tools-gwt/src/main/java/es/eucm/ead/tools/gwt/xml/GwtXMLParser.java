@@ -37,10 +37,7 @@
 
 package es.eucm.ead.tools.gwt.xml;
 
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NamedNodeMap;
-import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.*;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
 
@@ -77,8 +74,11 @@ public class GwtXMLParser implements XMLParser {
 		}
 		NodeList nl = n.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
-			XMLNode child = generateNode((Element) nl.item(i));
-			node.append(child);
+			Node item = nl.item(i);
+			if (item instanceof Element) {
+				XMLNode child = generateNode((Element) item);
+				node.append(child);
+			}
 		}
 		return node;
 	}

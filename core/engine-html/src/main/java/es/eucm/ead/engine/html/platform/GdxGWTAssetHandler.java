@@ -60,12 +60,6 @@ public class GdxGWTAssetHandler extends AssetHandlerImpl {
 	}
 
 	@Override
-	public void initialize() {
-		super.initialize();
-		setLoaded(true);
-	}
-
-	@Override
 	public void getTextfileAsync(String path, TextHandler textHandler) {
 		try {
 			new RequestBuilder(RequestBuilder.GET, path).sendRequest("",
