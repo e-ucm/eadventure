@@ -107,10 +107,10 @@ public class MaskTransitionGO extends TransitionGO<MaskTransition> {
 	public void act(float delta) {
 		super.act(delta);
 		offset.x -= (delta / transition.getTime()) * 1600;
-		nextScene.setY(0);
-		nextScene.setX(0);
 		if (nextScene != null) {
-			remainingTime -= gui.getSkippedMilliseconds();
+			nextScene.setY(0);
+			nextScene.setX(0);
+			remainingTime -= game.getSkippedMilliseconds();
 			if (remainingTime <= 0) {
 				nextScene.setVisible(true);
 				super.finish();

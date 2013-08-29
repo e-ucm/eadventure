@@ -38,7 +38,6 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.events.TimedEv;
 import es.eucm.ead.model.elements.events.enums.TimedEvType;
@@ -49,12 +48,9 @@ public class TimedEvGO extends AbstractEventGO<TimedEv> {
 
 	private int repeats;
 
-	private GUI gui;
-
 	@Inject
-	public TimedEvGO(GUI gui, Game game) {
+	public TimedEvGO(Game game) {
 		super(game);
-		this.gui = gui;
 	}
 
 	@Override
@@ -71,7 +67,7 @@ public class TimedEvGO extends AbstractEventGO<TimedEv> {
 				this.runEffects(element
 						.getEffectsForEvent(TimedEvType.START_TIME));
 			}
-			elapsedTime += gui.getSkippedMilliseconds();
+			elapsedTime += game.getSkippedMilliseconds();
 			if (elapsedTime > element.getTime()) {
 				this.runEffects(element
 						.getEffectsForEvent(TimedEvType.END_TIME));

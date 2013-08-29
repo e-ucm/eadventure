@@ -81,6 +81,13 @@ public interface Game extends VisitorListener {
 	void initialize();
 
 	/**
+	 * Returns the milliseconds since last update
+	 *
+	 * @return
+	 */
+	int getSkippedMilliseconds();
+
+	/**
 	 * Updates the game state
 	 * 
 	 * @param delta
@@ -146,5 +153,17 @@ public interface Game extends VisitorListener {
 	GameState getGameState();
 
 	GUI getGUI();
+
+	/**
+	 * @return true if the game loop is paused
+	 */
+	boolean isPaused();
+
+	/**
+	 * Change the paused status of the game loop
+	 *
+	 * @param paused sets if the game is paused
+	 */
+	void setPaused(boolean paused);
 
 }

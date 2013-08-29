@@ -73,13 +73,6 @@ public interface GUI {
 			SceneElementGOFactory sceneElementFactory);
 
 	/**
-	 * Returns the milliseconds since last update
-	 * 
-	 * @return
-	 */
-	int getSkippedMilliseconds();
-
-	/**
 	 * Adds a hud to the GUI
 	 * 
 	 * 

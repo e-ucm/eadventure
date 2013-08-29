@@ -59,7 +59,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 		super.setElement(ev);
 		fieldUpdated = true;
 		for (EAdField<?> f : ev.getFields())
-			gameState.getGameState().addFieldWatcher(this, f);
+			game.getGameState().addFieldWatcher(this, f);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 			fieldUpdated = false;
 			for (EAdEffect e : element
 					.getEffectsForEvent(WatchFieldEvType.WATCH)) {
-				gameState.addEffect(e);
+				game.addEffect(e);
 			}
 		}
 	}
@@ -79,7 +79,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	}
 
 	public void release() {
-		gameState.getGameState().removeFieldWatcher(this);
+		game.getGameState().removeFieldWatcher(this);
 	}
 
 }

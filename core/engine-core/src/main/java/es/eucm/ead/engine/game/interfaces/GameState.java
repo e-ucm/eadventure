@@ -38,20 +38,12 @@
 package es.eucm.ead.engine.game.interfaces;
 
 import aurelienribon.tweenengine.TweenAccessor;
-import aurelienribon.tweenengine.TweenManager;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import es.eucm.ead.engine.gameobjects.effects.EffectGO;
-import es.eucm.ead.engine.operators.Operator;
 import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.MathEvaluator.OperationResolver;
-
-import java.util.List;
 
 /**
  * The state of the game.
@@ -60,87 +52,62 @@ public interface GameState extends ValueMap, OperationResolver,
 		TweenAccessor<EAdField<?>> {
 
 	/**
-	 * Evaluates a condition, using the required evaluator, based on a given
-	 * {@link ValeMap}.
-	 * 
-	 * @param <T>
-	 *            The actual condition class
-	 * @param condition
-	 *            The condition to be evaluated
-	 * @return The result of evaluating the condition according to the given set
-	 *         of values
+	 * Evaluates a condition, using the required evaluator
+	 *
+	 * @param <T>       The actual condition class
+	 * @param condition The condition to be evaluated
+	 * @return The result of evaluating the condition according to the current
+	 *         values of the game state
 	 */
 	<T extends EAdCondition> boolean evaluate(T condition);
 
 	/**
 	 * <p>
 	 * Calculates the result of the given {@link EAdOperation} with the current
-	 * values in the {@link ValueMap}
+	 * game state
 	 * </p>
-	 * The value should be stored in the {@link ValueMap} by the actual
-	 * {@link Operator}
-	 * 
-	 * @param <T>
-	 * @param eAdVar
-	 *            the class for the result
-	 * @param eAdOperation
-	 *            operation to be done
+	 *
+	 * @param <T>          the operation class
+	 * @param eAdVar       the class for the result
+	 * @param eAdOperation operation to be done
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
 	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
 
 	/**
-	 * Sets the variable to the result value of the operation
-	 * 
-	 * @param var
-	 * @param operation
+	 * Sets the field to the result value of the operation
+	 *
+	 * @param field     the field
+	 * @param operation the operation
 	 */
-	<S> void setValue(EAdField<S> var, EAdOperation operation);
+	<S> void setValue(EAdField<S> field, EAdOperation operation);
 
 	/**
-	 * Sets the variable value for the given element
-	 * 
-	 * @param element
-	 *            the element holding the variable. If the element is
-	 *            {@code null}, it's considered that the variable belongs to the
-	 *            system
-	 * @param var
-	 *            the variable definition
-	 * @param operation
-	 *            the operation whose result will be assigned to the variable
+	 * Sets the element's variable value to the given operation
+	 *
+	 * @param element   the element holding the variable. If the element is
+	 *                  {@code null}, it's considered that the variable belongs to the
+	 *                  system (it's a global field)
+	 * @param var       the variable definition
+	 * @param operation the operation whose result will be assigned to the variable
 	 */
 	<S> void setValue(Object element, EAdVarDef<S> var, EAdOperation operation);
-
-	/**
-	 * @return true if the game loop is paused
-	 */
-	boolean isPaused();
-
-	/**
-	 * Change the paused status of the game loop
-	 * 
-	 * @param paused
-	 */
-	void setPaused(boolean paused);
 
 	/**
 	 * <p>
 	 * Substitutes the variables in a text for its values.
 	 * </p>
-	 * 
 	 * <p>
 	 * The text format for the correct substitution should be:
 	 * </p>
-	 * 
 	 * <ul>
 	 * <li><b>[op_index]:</b> The index of the operation whose result will be
 	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
 	 * <li><b>{[condition]? true text : false text } </b> A conditional text,
 	 * depending of the operation whose index is {@code condition} value.</p>
-	 * 
-	 * @param text
-	 *            the text to be processed by the value map
+	 *
+	 * @param text the text to be processed by the value map
 	 * @return the processed text
 	 */
 	String processTextVars(String text, EAdList<EAdOperation> operations);
@@ -148,16 +115,16 @@ public interface GameState extends ValueMap, OperationResolver,
 	/**
 	 * Adds a field watcher that is notified every time the given field is
 	 * updated
-	 * 
-	 * @param fieldWatcher
-	 * @param field
+	 *
+	 * @param fieldWatcher the field watcher
+	 * @param field        the field to watch
 	 */
 	void addFieldWatcher(FieldWatcher fieldWatcher, EAdField<?> field);
 
 	/**
 	 * Removes a field watcher
-	 * 
-	 * @param fieldWatcher
+	 *
+	 * @param fieldWatcher the field watcher to remove
 	 */
 	void removeFieldWatcher(FieldWatcher fieldWatcher);
 

@@ -58,10 +58,10 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends
 	 */
 	protected EAdSceneElement parent;
 
-	protected Game gameState;
+	protected Game game;
 
-	public AbstractEventGO(Game gameState) {
-		this.gameState = gameState;
+	public AbstractEventGO(Game game) {
+		this.game = game;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends
 	protected void runEffects(EAdList<EAdEffect> effects) {
 		if (effects != null) {
 			for (EAdEffect effect : effects)
-				gameState.addEffect(effect, null, parent);
+				game.addEffect(effect, null, parent);
 		}
 
 	}

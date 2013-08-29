@@ -54,8 +54,8 @@ public class TogglePauseGO extends AbstractEffectGO<TogglePauseEf> {
 
 	public void initialize() {
 		super.initialize();
-		game.getGameState().setPaused(!game.getGameState().isPaused());
-		soundManager.setPause(game.getGameState().isPaused());
+		game.setPaused(!game.isPaused());
+		soundManager.setPause(game.isPaused());
 	}
 
 }

@@ -144,8 +144,8 @@ public class EAdEngine implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		game.act(gui.getSkippedMilliseconds());
-		stage.act(gui.getSkippedMilliseconds());
+		game.act(game.getSkippedMilliseconds());
+		stage.act(game.getSkippedMilliseconds());
 		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
 		stage.screenToStageCoordinates(sceneMouseCoordinates);
 		gameState.setValue(SystemFields.MOUSE_SCENE_X, Float

@@ -69,7 +69,7 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
 	public void act(float delta) {
 		if (nextScene != null) {
-			currentTime += gui.getSkippedMilliseconds();
+			currentTime += game.getSkippedMilliseconds();
 
 			float dispX = getDisp(true, currentTime);
 			float dispY = getDisp(false, currentTime);
@@ -100,8 +100,10 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 		}
 
 		if (currentTime >= transition.getTime()) {
-			nextScene.setX(0);
-			nextScene.setY(0);
+			if (nextScene != null) {
+				nextScene.setX(0);
+				nextScene.setY(0);
+			}
 			super.finish();
 		} else {
 			super.act(delta);
@@ -111,8 +113,7 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	private float getDisp(boolean horizontal, int currentTime) {
 		if ((horizontal && transition.getType() == DisplaceTransitionType.HORIZONTAL)
 				|| (!horizontal && transition.getType() == DisplaceTransitionType.VERTICAL)) {
-			float value = (float) currentTime / (float) transition.getTime();
-			return value;
+			return (float) currentTime / (float) transition.getTime();
 
 		} else
 			return 0;
@@ -122,14 +123,10 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 	@Override
 	public void transition(SceneGO previousScene, SceneGO nextScene,
 			TransitionListener l) {
-		super.transition(previousScene, nextScene, l);
-		setPreviousScene(previousScene);
-		addSceneElement(previousScene);
-		addSceneElement(nextScene);
-	}
-
-	public void setPreviousScene(SceneGO scene) {
 		currentTime = 0;
 		x1 = x2 = y1 = y2 = 0;
+		super.transition(previousScene, nextScene, l);
+		addSceneElement(previousScene);
+		addSceneElement(nextScene);
 	}
 }

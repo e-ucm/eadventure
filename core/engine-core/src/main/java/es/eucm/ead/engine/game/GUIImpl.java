@@ -37,7 +37,6 @@
 
 package es.eucm.ead.engine.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
@@ -218,12 +217,6 @@ public abstract class GUIImpl implements GUI {
 			return (SceneElementGO) a;
 		}
 		return null;
-	}
-
-	@Override
-	public int getSkippedMilliseconds() {
-		return gameState.isPaused() ? 0
-				: (int) (Gdx.graphics.getDeltaTime() * 1000);
 	}
 
 	public void reset() {

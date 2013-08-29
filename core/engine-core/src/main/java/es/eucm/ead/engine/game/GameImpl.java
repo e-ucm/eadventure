@@ -39,6 +39,7 @@ package es.eucm.ead.engine.game;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,7 +48,9 @@ import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.EngineHook;
-import es.eucm.ead.engine.game.interfaces.*;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.engine.tracking.GameTracker;
@@ -160,13 +163,17 @@ public class GameImpl implements Game {
 	 */
 	private EffectGOFactory effectFactory;
 
+	/**
+	 * If the game state is paused
+	 */
+	private boolean paused;
+
 	// Aux
 	private ArrayList<String> hookNameDelete;
 	private ArrayList<EngineHook> hookDelete;
 
 	@Inject
-	public GameImpl(GUI gui, StringHandler stringHandler,
-			GameState gameState,
+	public GameImpl(GUI gui, StringHandler stringHandler, GameState gameState,
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
@@ -239,11 +246,11 @@ public class GameImpl implements Game {
 		// TODO Update language. Check this every loop is probably too much
 		updateLanguage();
 
-		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, gui
-				.getSkippedMilliseconds());
+		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+				getSkippedMilliseconds());
 
 		// Scene
-		if (!gameState.isPaused()) {
+		if (!isPaused()) {
 			updateGameEvents(delta);
 		}
 
@@ -263,7 +270,7 @@ public class GameImpl implements Game {
 
 	private void updateGameEvents(float delta) {
 		Long l = gameState.getValue(SystemFields.GAME_TIME);
-		l += gui.getSkippedMilliseconds();
+		l += getSkippedMilliseconds();
 		gameState.setValue(SystemFields.GAME_TIME, l);
 
 		for (EventGO<?> e : events) {
@@ -478,7 +485,7 @@ public class GameImpl implements Game {
 
 	public void updateEffects(float delta) {
 
-		if (!gameState.isPaused()) {
+		if (!isPaused()) {
 
 			// Effects
 			finishedEffects.clear();
@@ -511,5 +518,20 @@ public class GameImpl implements Game {
 				effectFactory.remove(e);
 			}
 		}
+	}
+
+	@Override
+	public int getSkippedMilliseconds() {
+		return isPaused() ? 0 : (int) (Gdx.graphics.getDeltaTime() * 1000);
+	}
+
+	@Override
+	public boolean isPaused() {
+		return paused;
+	}
+
+	@Override
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 	}
 }

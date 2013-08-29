@@ -61,7 +61,7 @@ public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 
 	@Override
 	public void act(float delta) {
-		if (gameState.getGameState().evaluate(element.getCondition())) {
+		if (game.getGameState().evaluate(element.getCondition())) {
 			if (!triggered) {
 				runEffects(element
 						.getEffectsForEvent(ConditionedEvType.CONDITIONS_MET));

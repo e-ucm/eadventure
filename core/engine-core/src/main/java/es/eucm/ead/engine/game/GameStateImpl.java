@@ -74,11 +74,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	protected OperatorFactory operatorFactory;
 
 	/**
-	 * If the game state is paused
-	 */
-	private boolean paused;
-
-	/**
 	 * Map containing field watchers by element and variable
 	 */
 	private Map<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> fieldWatchers;
@@ -108,18 +103,8 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	}
 
 	@Override
-	public boolean isPaused() {
-		return paused;
-	}
-
-	@Override
-	public void setPaused(boolean paused) {
-		this.paused = paused;
-	}
-
-	@Override
-	public <S> void setValue(EAdField<S> var, EAdOperation operation) {
-		setValue(var.getElement(), var.getVarDef(), operation);
+	public <S> void setValue(EAdField<S> field, EAdOperation operation) {
+		setValue(field.getElement(), field.getVarDef(), operation);
 	}
 
 	@Override
@@ -229,9 +214,9 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	/**
 	 * Evaluates conditional expressions (#boolean_var? value_1 : value_2 )
 	 *
-	 * @param expression
-	 * @param operations
-	 * @return
+	 * @param expression the expression to evaluate
+	 * @param operations a list of operations. In the expression, [i] will be substituted by the result of operations[i]
+	 * @return the expression evaluated
 	 */
 	private String evaluateExpression(String expression,
 			EAdList<EAdOperation> operations) {
@@ -288,6 +273,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		notifyWatchers(element, varDef);
 	}
 
+	@SuppressWarnings( { "all" })
 	private void notifyWatchers(Object element, EAdVarDef<?> varDef) {
 		Map<EAdVarDef<?>, List<FieldWatcher>> map = fieldWatchers.get(element);
 		if (map != null) {
@@ -328,7 +314,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 
 	@Override
 	public void reset() {
-		this.setPaused(false);
 		fieldWatchers.clear();
 		valuesMap.clear();
 		updateList.clear();

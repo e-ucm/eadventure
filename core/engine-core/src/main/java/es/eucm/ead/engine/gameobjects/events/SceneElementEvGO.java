@@ -71,7 +71,7 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	public void act(float delta) {
 
 		if (inTransition) {
-			inTransition = gameState.getGameState().getValue(
+			inTransition = game.getGameState().getValue(
 					ChangeSceneGO.IN_TRANSITION);
 			if (inTransition) {
 				return;
@@ -83,10 +83,10 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 		}
 
 		if (checks == 0) {
-			boolean init = gameState.getGameState().getValue(element, INIT);
+			boolean init = game.getGameState().getValue(element, INIT);
 			if (!init) {
 				runEffects(element.getEffectsForEvent(SceneElementEvType.INIT));
-				gameState.getGameState().setValue(element, INIT, true);
+				game.getGameState().setValue(element, INIT, true);
 			}
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED));
 		}

@@ -250,7 +250,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		}
 
 		if (finished) {
-			alpha -= 0.003f * gui.getSkippedMilliseconds();
+			alpha -= 0.003f * game.getSkippedMilliseconds();
 			if (alpha <= 0.0f) {
 				alpha = 0.0f;
 				gone = true;
@@ -259,7 +259,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 			if (alpha >= 1.0f) {
 				finished = finished || caption.getTimesRead() > 0;
 			} else {
-				alpha += 0.003f * gui.getSkippedMilliseconds();
+				alpha += 0.003f * game.getSkippedMilliseconds();
 				if (alpha > 1.0f) {
 					alpha = 1.0f;
 				}
