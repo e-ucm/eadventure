@@ -46,9 +46,7 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.enginefilters.EngineFilter;
-import es.eucm.ead.engine.game.enginefilters.EngineHook;
-import es.eucm.ead.engine.game.enginefilters.EngineStringFilter;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.*;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
@@ -77,10 +75,6 @@ import java.util.Map.Entry;
 public class GameImpl implements Game {
 
 	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
-
-	public static final String FILTER_STRING_FILES = "stringFiles";
-
-	public static final String FILTER_PROCESS_ACTION = "action_generated";
 
 	public static final String HOOK_AFTER_UPDATE = "after_update";
 
@@ -121,11 +115,6 @@ public class GameImpl implements Game {
 	private EventGOFactory eventFactory;
 
 	/**
-	 * Engine filters
-	 */
-	private Map<String, List<EngineFilter<?>>> filters;
-
-	/**
 	 * Engine hooks
 	 */
 	private Map<String, List<EngineHook>> hooks;
@@ -164,8 +153,6 @@ public class GameImpl implements Game {
 
 	private String currentLanguage = "";
 
-	private SoundManager soundManager;
-
 	private TweenManager tweenManager;
 
 	/**
@@ -176,8 +163,6 @@ public class GameImpl implements Game {
 	// Aux
 	private ArrayList<String> hookNameDelete;
 	private ArrayList<EngineHook> hookDelete;
-	private ArrayList<String> filterNameDelete;
-	private ArrayList<EngineFilter<?>> filterDelete;
 
 	@Inject
 	public GameImpl(GUI gui, StringHandler stringHandler,
@@ -185,7 +170,7 @@ public class GameImpl implements Game {
 			SceneElementGOFactory sceneElementFactory,
 			AssetHandler assetHandler, EventGOFactory eventFactory,
 			GameTracker tracker, StringsReader stringsReader,
-			EffectGOFactory effectFactory, SoundManager soundManager) {
+			EffectGOFactory effectFactory) {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneElementFactory = sceneElementFactory;
@@ -195,14 +180,12 @@ public class GameImpl implements Game {
 		this.adventure = null;
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
-		this.soundManager = soundManager;
 		this.adventure = new BasicAdventureModel();
 		this.effectFactory = effectFactory;
 		// Init tween manager
 		this.tweenManager = new TweenManager();
 		Tween.registerAccessor(EAdField.class, gameState);
 		Tween.registerAccessor(BasicField.class, gameState);
-		filters = new HashMap<String, List<EngineFilter<?>>>();
 		hooks = new HashMap<String, List<EngineHook>>();
 		events = new ArrayList<EventGO<?>>();
 		effects = new ArrayList<EffectGO<?>>();
@@ -210,8 +193,6 @@ public class GameImpl implements Game {
 		// Aux
 		hookNameDelete = new ArrayList<String>();
 		hookDelete = new ArrayList<EngineHook>();
-		filterNameDelete = new ArrayList<String>();
-		filterDelete = new ArrayList<EngineFilter<?>>();
 	}
 
 	@Override
@@ -226,9 +207,6 @@ public class GameImpl implements Game {
 
 	@Override
 	public void initialize() {
-		// Adds filters
-		addFilters();
-
 		// It is necessary to load the default properties before set up
 		// GUI initialization
 		gui.initialize(gameState, sceneElementFactory);
@@ -250,12 +228,7 @@ public class GameImpl implements Game {
 	public void act(float delta) {
 		// Tween manager
 		tweenManager.update(delta);
-		// Remove hooks and filters
-		for (int i = 0; i < this.filterNameDelete.size(); i++) {
-			removeFilterImpl(filterNameDelete.get(i), filterDelete.get(i));
-		}
-		filterNameDelete.clear();
-		filterDelete.clear();
+		// Remove hooks
 		for (int i = 0; i < this.hookNameDelete.size(); i++) {
 			removeHookImpl(hookNameDelete.get(i), hookDelete.get(i));
 		}
@@ -298,45 +271,6 @@ public class GameImpl implements Game {
 		}
 	}
 
-	@Override
-	public void addFilter(String filterName, EngineFilter<?> filter) {
-
-		List<EngineFilter<?>> filtersList = filters.get(filterName);
-		if (filtersList == null) {
-			filtersList = new ArrayList<EngineFilter<?>>();
-			filters.put(filterName, filtersList);
-		}
-
-		filtersList.add(filter);
-		Collections.sort(filtersList);
-	}
-
-	public void removeFilter(String filterName, EngineFilter<?> filter) {
-		this.filterNameDelete.add(filterName);
-		this.filterDelete.add(filter);
-	}
-
-	private void removeFilterImpl(String filterName, EngineFilter<?> filter) {
-		List<EngineFilter<?>> filtersList = filters.get(filterName);
-		if (filtersList != null) {
-			filtersList.remove(filter);
-		}
-	}
-
-	@SuppressWarnings( { "unchecked", "rawtypes" })
-	@Override
-	public <T> T applyFilters(String filterName, T o, Object[] params) {
-		List<EngineFilter<?>> filtersList = filters.get(filterName);
-		T result = o;
-		if (filtersList != null) {
-			for (EngineFilter f : filtersList) {
-				result = (T) f.filter(o, params);
-			}
-		}
-		return result;
-
-	}
-
 	public void addHook(String hookName, EngineHook hook) {
 		List<EngineHook> hooksList = hooks.get(hookName);
 		if (hooksList == null) {
@@ -367,10 +301,6 @@ public class GameImpl implements Game {
 				h.execute(this, gameState, gui);
 			}
 		}
-	}
-
-	private void addFilters() {
-		addFilter(FILTER_STRING_FILES, new EngineStringFilter());
 	}
 
 	private void processProperties(String text) {
@@ -431,8 +361,6 @@ public class GameImpl implements Game {
 		// Map containing all the files with strings (keys) and its associated
 		// language (value)
 		Map<String, String> stringFiles = new HashMap<String, String>();
-		stringFiles = applyFilters(FILTER_STRING_FILES, stringFiles,
-				new Object[] { gameState });
 
 		for (Entry<String, String> file : stringFiles.entrySet()) {
 			String strings = assetHandler.getTextFile(file.getKey());

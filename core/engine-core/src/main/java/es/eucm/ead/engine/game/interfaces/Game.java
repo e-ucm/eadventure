@@ -40,8 +40,6 @@ package es.eucm.ead.engine.game.interfaces;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.enginefilters.EngineFilter;
-import es.eucm.ead.engine.game.enginefilters.EngineHook;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
@@ -95,31 +93,11 @@ public interface Game extends VisitorListener {
 	 */
 	void dispose();
 
-	/**
-	 * Adds an engine filter to the given filter name
-	 * 
-	 * @param filterName
-	 * @param filter
-	 */
-	void addFilter(String filterName, EngineFilter<?> filter);
-
-	void removeFilter(String filterName, EngineFilter<?> filter);
-
 	void addHook(String hookName, EngineHook hook);
 
 	void removeHook(String hookName, EngineHook hook);
 
 	void doHook(String hookName);
-
-	/**
-	 * Applies filters
-	 * 
-	 * @param filterName
-	 * @param o
-	 * @param params
-	 * @return
-	 */
-	<T> T applyFilters(String filterName, T o, Object[] params);
 
 	/**
 	 * Returns the scene element factory

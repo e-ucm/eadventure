@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.desktop.debugger.hooks;
 
 import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.engine.game.enginefilters.EngineHook;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;

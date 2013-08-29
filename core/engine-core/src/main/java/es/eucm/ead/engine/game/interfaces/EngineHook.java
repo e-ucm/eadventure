@@ -35,29 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.game.enginefilters;
+package es.eucm.ead.engine.game.interfaces;
 
-public abstract class AbstractEngineFilter<T> implements EngineFilter<T> {
+public interface EngineHook extends Comparable<EngineHook> {
 
-	private int priority;
-
-	public AbstractEngineFilter(int priority) {
-		this.priority = priority;
-	}
-
-	@Override
-	public int compareTo(EngineFilter<?> f) {
-		return priority - f.getPriority();
-	}
-
-	@Override
-	public int getPriority() {
-		return this.priority;
-	}
-
-	@Override
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
+	void execute(Game game, GameState gameState, GUI gui);
 
 }

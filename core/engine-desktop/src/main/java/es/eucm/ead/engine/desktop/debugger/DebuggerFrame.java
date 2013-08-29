@@ -44,7 +44,7 @@ import es.eucm.ead.model.elements.effects.AddChildEf;
 import es.eucm.ead.model.elements.effects.RemoveEf;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.engine.game.GameImpl;
-import es.eucm.ead.engine.game.enginefilters.EngineHook;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SkipVideoSceneGO;
