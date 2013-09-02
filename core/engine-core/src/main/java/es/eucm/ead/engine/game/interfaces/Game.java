@@ -39,13 +39,11 @@ package es.eucm.ead.engine.game.interfaces;
 
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.scenes.scene2d.Event;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
 
 import java.util.List;
 
@@ -58,22 +56,46 @@ public interface Game {
 
 	/**
 	 * Returns the current adventure game model ({@link EAdAdventureModel})
-	 * 
+	 *
 	 * @return The adventure game model
 	 */
 	EAdAdventureModel getAdventureModel();
 
 	/**
 	 * Returns the current chapter
-	 * 
+	 *
 	 * @return
 	 */
 	EAdChapter getCurrentChapter();
 
 	/**
+	 * Sets the current adventure
+	 * @param adventure the current adventure
+	 */
+	void setAdventure(EAdAdventureModel adventure);
+
+	/**
+	 * Sets the current chapter
+	 * @param chapter the current chapter
+	 */
+	void setChapter(EAdChapter chapter);
+
+	/**
+	 * Returns the game state
+	 *
+	 * @return
+	 */
+	GameState getGameState();
+
+	/**
+	 * @return Returns the gui
+	 */
+	GUI getGUI();
+
+	/**
 	 * Initialize the whole engine, loading default properties, string, creating
 	 * the GUI.
-	 * 
+	 * <p/>
 	 * This method first read ead.properties, and then create the game context
 	 * with its data. After that, it reads the strings (from strings.xml, or any
 	 * of its i18n), and then reads the model (from data.xml).
@@ -89,9 +111,8 @@ public interface Game {
 
 	/**
 	 * Updates the game state
-	 * 
-	 * @param delta
-	 *            TODO
+	 *
+	 * @param delta TODO
 	 */
 	void act(float delta);
 
@@ -111,8 +132,7 @@ public interface Game {
 	/**
 	 * Adds an effect without any gui action associated
 	 *
-	 * @param e
-	 *            the effect
+	 * @param e the effect
 	 */
 	void addEffect(EAdEffect e);
 
@@ -126,12 +146,9 @@ public interface Game {
 	/**
 	 * Adds a new effect to the effects' tail
 	 *
-	 * @param e
-	 *            the new effect
-	 * @param action
-	 *            the action that launched the effect
-	 * @param parent
-	 *            scene element who launched the effect
+	 * @param e      the new effect
+	 * @param action the action that launched the effect
+	 * @param parent scene element who launched the effect
 	 * @return the effect game object create from the effect element
 	 */
 	EffectGO<?> addEffect(EAdEffect e, Event action, EAdSceneElement parent);
@@ -139,14 +156,9 @@ public interface Game {
 	/**
 	 * Clears all the current effects
 	 *
-	 * @param persisten
-	 *            sets if persistent effects should also be deleted
+	 * @param persisten sets if persistent effects should also be deleted
 	 */
 	void clearEffects(boolean persistent);
-
-	GameState getGameState();
-
-	GUI getGUI();
 
 	/**
 	 * @return true if the game loop is paused

@@ -45,12 +45,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.game.interfaces.EngineHook;
-import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.interfaces.*;
+import es.eucm.ead.engine.gameobjects.EventedGO;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
-import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
@@ -113,26 +110,29 @@ public class GameImpl implements Game {
 	private GameTracker tracker;
 
 	/**
-	 * Current adventure model
+	 * Current adventure
 	 */
 	private EAdAdventureModel adventure;
 
-	private EAdChapter currentChapter;
-
-	private List<EventGO<?>> events;
-
-	// Auxiliary variable, to avoid new every loop
-	private ArrayList<EffectGO<?>> finishedEffects;
+	/**
+	 * Current chapter
+	 */
+	private EAdChapter chapter;
 
 	/**
-	 * A list with the current effects
+	 * Current adventure game object
 	 */
-	private List<EffectGO<?>> effects;
+	private EventedGO adventureGO;
 
 	/**
-	 * Effects factory
+	 * Current chapter game object
 	 */
-	private EffectGOFactory effectFactory;
+	private EventedGO chapterGO;
+
+	/**
+	 * Effects handler. Deals with adding, removing and updating effects
+	 */
+	private EffectsHandler effectsHandler;
 
 	// Aux
 	private ArrayList<String> hookNameDelete;
@@ -146,17 +146,17 @@ public class GameImpl implements Game {
 		this.tweenManager = new TweenManager();
 		this.eventFactory = eventFactory;
 		this.tracker = tracker;
-		this.effectFactory = effectFactory;
+		this.effectsHandler = new EffectsHandler(gameState, effectFactory);
 		// Init tween manager
 		Tween.registerAccessor(EAdField.class, gameState);
 		Tween.registerAccessor(BasicField.class, gameState);
 		hooks = new HashMap<String, List<EngineHook>>();
-		events = new ArrayList<EventGO<?>>();
-		effects = new ArrayList<EffectGO<?>>();
-		finishedEffects = new ArrayList<EffectGO<?>>();
 		// Aux
 		hookNameDelete = new ArrayList<String>();
 		hookDelete = new ArrayList<EngineHook>();
+		// Adventure and chapter game object
+		adventureGO = new EventedGO(eventFactory);
+		chapterGO = new EventedGO(eventFactory);
 	}
 
 	@Override
@@ -167,6 +167,18 @@ public class GameImpl implements Game {
 	@Override
 	public GUI getGUI() {
 		return gui;
+	}
+
+	@Override
+	public void setAdventure(EAdAdventureModel adventure) {
+		this.adventure = adventure;
+		adventureGO.setElement(adventure);
+	}
+
+	@Override
+	public void setChapter(EAdChapter chapter) {
+		this.chapter = chapter;
+		chapterGO.setElement(chapter);
 	}
 
 	@Override
@@ -196,7 +208,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public EAdChapter getCurrentChapter() {
-		return currentChapter;
+		return chapter;
 	}
 
 	@Override
@@ -209,17 +221,10 @@ public class GameImpl implements Game {
 		tracker.stop();
 		// All this down here should be called when restarting the engine without exiting
 		tweenManager.killAll();
-		for (EffectGO<?> e : effects) {
-			effectFactory.remove(e);
-		}
-		effectFactory.clean();
-		effects.clear();
 	}
 
 	@Override
 	public void act(float delta) {
-		// Tween manager
-		tweenManager.update(delta);
 		// Remove hooks
 		for (int i = 0; i < this.hookNameDelete.size(); i++) {
 			removeHookImpl(hookNameDelete.get(i), hookDelete.get(i));
@@ -227,27 +232,23 @@ public class GameImpl implements Game {
 		hookNameDelete.clear();
 		hookDelete.clear();
 
-		updateEffects(delta);
-
 		gameState.setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				getSkippedMilliseconds());
 
 		// Scene
 		if (!isPaused()) {
-			updateGameEvents(delta);
+			effectsHandler.act(delta);
+			// Tween manager
+			tweenManager.update(delta);
+			this.adventureGO.act(delta);
+			this.chapterGO.act(delta);
 		}
 
 		doHook(HOOK_AFTER_UPDATE);
-	}
-
-	private void updateGameEvents(float delta) {
+		// Update game time
 		Long l = gameState.getValue(SystemFields.GAME_TIME);
 		l += getSkippedMilliseconds();
 		gameState.setValue(SystemFields.GAME_TIME, l);
-
-		for (EventGO<?> e : events) {
-			e.act(delta);
-		}
 	}
 
 	public void addHook(String hookName, EngineHook hook) {
@@ -284,22 +285,17 @@ public class GameImpl implements Game {
 
 	@Override
 	public List<EffectGO<?>> getEffects() {
-		return effects;
+		return effectsHandler.getEffects();
 	}
 
 	@Override
 	public void clearEffects(boolean clearPersistents) {
-		for (EffectGO<?> effect : this.getEffects()) {
-			if (!effect.getElement().isPersistent() || clearPersistents) {
-				effect.stop();
-			}
-		}
-		logger.debug("Effects cleared");
+		effectsHandler.clearEffects(clearPersistents);
 	}
 
 	@Override
 	public void addEffect(EAdEffect e) {
-		this.addEffect(e, null, null);
+		addEffect(e, null, null);
 	}
 
 	/*
@@ -311,72 +307,8 @@ public class GameImpl implements Game {
 	@Override
 	public EffectGO<?> addEffect(EAdEffect e, Event action,
 			EAdSceneElement parent) {
-		if (e != null) {
-			if (gameState.evaluate(e.getCondition())) {
-				logger.debug("{} launched", e);
-				EffectGO<?> effectGO = effectFactory.get(e);
-				if (effectGO == null) {
-					logger.warn("No game object for effect {}", e.getClass());
-					return null;
-				}
-				effectGO.setGUIAction(action);
-				effectGO.setParent(parent);
-				effectGO.initialize();
-				if (effectGO.isQueueable() && !effectGO.isFinished()) {
-					tracker.track(effectGO);
-					effects.add(effectGO);
-				} else {
-					effectGO.finish();
-					tracker.track(effectGO);
-					effectFactory.remove(effectGO);
-				}
-				return effectGO;
-			} else if (e.isNextEffectsAlways()) {
-				logger.debug("{} discarded. But next effects launched", e);
-				for (EAdEffect ne : e.getNextEffects())
-					addEffect(ne);
-			} else {
-				logger.debug("{} discarded", e);
-			}
-		}
-		return null;
+		return effectsHandler.addEffect(e, action, parent);
 
 	}
 
-	public void updateEffects(float delta) {
-
-		if (!isPaused()) {
-
-			// Effects
-			finishedEffects.clear();
-			boolean block = false;
-			int i = 0;
-			while (i < getEffects().size()) {
-				EffectGO<?> effectGO = effects.get(i);
-				i++;
-
-				if (block)
-					continue;
-
-				if (effectGO.isStopped() || effectGO.isFinished()) {
-					finishedEffects.add(effectGO);
-					if (effectGO.isFinished())
-						effectGO.finish();
-				} else {
-					if (effectGO.isBlocking())
-						// If effect is blocking, get out of the loop
-						block = true;
-
-					effectGO.act(delta);
-				}
-
-			}
-
-			// Delete finished effects
-			for (EffectGO<?> e : finishedEffects) {
-				effects.remove(e);
-				effectFactory.remove(e);
-			}
-		}
-	}
 }

@@ -78,6 +78,7 @@ public class SceneElementsMapProvider
 		AbstractMapProvider<Class<? extends EAdSceneElement>, Class<? extends SceneElementGO>> {
 
 	public SceneElementsMapProvider() {
+		// Scene elements
 		factoryMap.put(SceneElement.class, SceneElementGO.class);
 		factoryMap.put(GhostElement.class, GhostElementGO.class);
 		factoryMap.put(GroupElement.class, GroupElementGO.class);

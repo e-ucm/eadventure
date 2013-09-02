@@ -35,19 +35,58 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.game.interfaces;
+package es.eucm.ead.engine.gameobjects;
 
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.reader2.model.Manifest;
+import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.gameobjects.events.EventGO;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.interfaces.features.Evented;
 
-public interface GameLoader {
+import java.util.ArrayList;
+import java.util.List;
 
-	void loadGame();
+public class EventedGO implements GameObject<Evented> {
 
-	void loadChapter(String chapterId);
+	private final EventGOFactory eventFactory;
 
-	Manifest loadManifest();
+	private Evented element;
 
-	EAdScene loadScene(String sceneId);
+	private List<EventGO> events;
 
+	public EventedGO(EventGOFactory eventFactory) {
+		this.eventFactory = eventFactory;
+		this.events = new ArrayList<EventGO>();
+	}
+
+	@Override
+	public void setElement(Evented element) {
+		this.element = element;
+		events.clear();
+		for (EAdEvent e : element.getEvents()) {
+			EventGO ev = eventFactory.get(e);
+			ev.setParent(null);
+			ev.setElement(e);
+			ev.initialize();
+			events.add(ev);
+		}
+	}
+
+	@Override
+	public Evented getElement() {
+		return element;
+	}
+
+	@Override
+	public void act(float delta) {
+		for (EventGO e : events) {
+			e.act(delta);
+		}
+	}
+
+	@Override
+	public void release() {
+		for (EventGO e : events) {
+			e.release();
+		}
+	}
 }
