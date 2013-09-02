@@ -73,8 +73,8 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 	public void set(SceneElementGO movingElement, float destinyX,
 			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
-		startX = movingElement.getRelativeX();
-		startY = movingElement.getRelativeY();
+		startX = movingElement.getX();
+		startY = movingElement.getY();
 		if (trajectory.isOnlyHorizontal()) {
 			this.destinyY = startY;
 		}

@@ -92,16 +92,12 @@ public abstract class GUIImpl implements GUI {
 	public GUIImpl(SceneElementGOFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
 		previousSceneStack = new Stack<EAdScene>();
+		this.loadingScreen = new LoadingScreen();
 	}
 
 	public void setScale(float scaleX, float scaleY) {
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
-	}
-
-	public void initialize() {
-		this.loadingScreen = new LoadingScreen();
-		reset();
 	}
 
 	public void addHierarchy() {

@@ -37,24 +37,22 @@
 
 package es.eucm.ead.engine.gameobjects.trajectories.polygon;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.inject.Inject;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import org.poly2tri.geometry.polygon.Polygon;
-import org.poly2tri.geometry.polygon.PolygonPoint;
-
-import com.google.inject.Inject;
-
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
+import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.trajectories.PolygonTrajectory;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.util.Position;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
 import es.eucm.ead.tools.pathfinding.PathFinder;
+import org.poly2tri.geometry.polygon.Polygon;
+import org.poly2tri.geometry.polygon.PolygonPoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PolygonTrajectoryGO extends
 		AbstractTrajectoryGO<PolygonTrajectory> {
@@ -105,8 +103,8 @@ public class PolygonTrajectoryGO extends
 	public void set(SceneElementGO movingElement, float destinyX,
 			float destinyY, SceneElementGO target) {
 		super.set(movingElement, destinyX, destinyY, target);
-		float startX = movingElement.getRelativeX();
-		float startY = movingElement.getRelativeY();
+		float startX = movingElement.getX();
+		float startY = movingElement.getY();
 		path = pathFinder.getPath(startX, startY, destinyX, destinyY);
 		currentPath = path;
 		currentTarget = 0;

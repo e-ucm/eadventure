@@ -431,16 +431,8 @@ public class SceneElementGO extends Group implements
 	 */
 	public void setX(float x) {
 		updateRelatives = true;
-		super.setX(x);
+		super.setX(x - this.getOriginX());
 		gameState.setValue(getElement(), SceneElement.VAR_X, x);
-	}
-
-	public float getX() {
-		return super.getX() - this.getOriginX();
-	}
-
-	public float getRelativeX() {
-		return super.getX();
 	}
 
 	private void updateRelatives() {
@@ -488,16 +480,8 @@ public class SceneElementGO extends Group implements
 	 */
 	public void setY(float y) {
 		updateRelatives = true;
-		super.setY(y);
+		super.setY(y - this.getOriginY());
 		gameState.setValue(getElement(), SceneElement.VAR_Y, y);
-	}
-
-	public float getY() {
-		return super.getY() - this.getOriginY();
-	}
-
-	public float getRelativeY() {
-		return super.getY();
 	}
 
 	public void setDispX(float dispX) {
@@ -574,14 +558,6 @@ public class SceneElementGO extends Group implements
 	 */
 	public float getScale() {
 		return scale;
-	}
-
-	public float getScaleX() {
-		return super.getScaleX() * scale;
-	}
-
-	public float getScaleY() {
-		return super.getScaleY() * scale;
 	}
 
 	/**
@@ -1186,13 +1162,13 @@ public class SceneElementGO extends Group implements
 
 	public void setScaleX(float scaleX) {
 		updateRelatives = true;
-		super.setScaleX(scaleX);
+		super.setScaleX(scaleX * scale);
 		gameState.setValue(getElement(), SceneElement.VAR_SCALE_X, scaleX);
 	}
 
 	public void setScaleY(float scaleY) {
 		updateRelatives = true;
-		super.setScaleY(scaleY);
+		super.setScaleY(scaleY * scale);
 		gameState.setValue(getElement(), SceneElement.VAR_SCALE_Y, scaleY);
 	}
 

@@ -108,12 +108,6 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public void initialize() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void setScene(SceneGO scene) {
 			// TODO Auto-generated method stub
 

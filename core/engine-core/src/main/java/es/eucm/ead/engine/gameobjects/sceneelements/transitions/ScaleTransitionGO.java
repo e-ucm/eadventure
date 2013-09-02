@@ -76,8 +76,8 @@ public class ScaleTransitionGO extends TransitionGO<ScaleTransition> {
 		previousScene.setZ(transition.isTargetNext() ? 50 : 100);
 		SceneElementGO scaling = (transition.isTargetNext() ? nextScene
 				: previousScene);
-		oldX = scaling.getRelativeX();
-		oldY = scaling.getRelativeY();
+		oldX = scaling.getX();
+		oldY = scaling.getY();
 		oldDispX = scaling.getDispX();
 		oldDispY = scaling.getDispY();
 

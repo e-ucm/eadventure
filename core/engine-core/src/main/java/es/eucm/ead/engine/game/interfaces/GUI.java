@@ -62,11 +62,6 @@ public interface GUI {
 	public static final String DEBBUGERS_HUD_ID = "#engine.huds.debugger";
 
 	/**
-	 * Initialize the GUI once the graphic context has been initialized
-	 */
-	void initialize();
-
-	/**
 	 * Adds a hud to the GUI
 	 * 
 	 * 

@@ -96,9 +96,8 @@ public class GdxDesktopGUI extends GUIImpl {
 	}
 
 	@Override
-	public void initialize() {
-		super.initialize();
-
+	public void reset() {
+		super.reset();
 		// Set transparent mouse
 		Gdx.app.postRunnable(new Runnable() {
 

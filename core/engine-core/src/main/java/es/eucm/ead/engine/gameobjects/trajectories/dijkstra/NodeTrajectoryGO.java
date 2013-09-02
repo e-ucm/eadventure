@@ -117,8 +117,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		finished = false;
 		firstUpdate = true;
 		initScale = 1.0f;
-		initX = movingElement.getRelativeX();
-		initY = movingElement.getRelativeY();
+		initX = movingElement.getX();
+		initY = movingElement.getY();
 		targetScale = 1.0f;
 		currentTime = 0;
 		totalTime = 0;

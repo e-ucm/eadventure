@@ -93,16 +93,6 @@ public interface Game {
 	GUI getGUI();
 
 	/**
-	 * Initialize the whole engine, loading default properties, string, creating
-	 * the GUI.
-	 * <p/>
-	 * This method first read ead.properties, and then create the game context
-	 * with its data. After that, it reads the strings (from strings.xml, or any
-	 * of its i18n), and then reads the model (from data.xml).
-	 */
-	void initialize();
-
-	/**
 	 * Returns the milliseconds since last update
 	 *
 	 * @return

@@ -99,7 +99,6 @@ public class EAdEngine implements ApplicationListener {
 	@Override
 	public void create() {
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		game.initialize();
 
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
@@ -170,10 +169,6 @@ public class EAdEngine implements ApplicationListener {
 		scaleX = (float) width / 800.0f;
 		scaleY = (float) height / 600.0f;
 		gui.setScale(scaleX, scaleY);
-	}
-
-	public Stage getStage() {
-		return stage;
 	}
 
 	@Override

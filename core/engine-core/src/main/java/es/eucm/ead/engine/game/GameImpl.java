@@ -95,11 +95,6 @@ public class GameImpl implements Game {
 	private boolean paused;
 
 	/**
-	 * Events factory
-	 */
-	private EventGOFactory eventFactory;
-
-	/**
 	 * Engine hooks
 	 */
 	private Map<String, List<EngineHook>> hooks;
@@ -144,7 +139,6 @@ public class GameImpl implements Game {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.tweenManager = new TweenManager();
-		this.eventFactory = eventFactory;
 		this.tracker = tracker;
 		this.effectsHandler = new EffectsHandler(gameState, effectFactory);
 		// Init tween manager
@@ -171,12 +165,14 @@ public class GameImpl implements Game {
 
 	@Override
 	public void setAdventure(EAdAdventureModel adventure) {
+		logger.debug("Setting adventure");
 		this.adventure = adventure;
 		adventureGO.setElement(adventure);
 	}
 
 	@Override
 	public void setChapter(EAdChapter chapter) {
+		logger.debug("Setting chapter");
 		this.chapter = chapter;
 		chapterGO.setElement(chapter);
 	}
@@ -209,11 +205,6 @@ public class GameImpl implements Game {
 	@Override
 	public EAdChapter getCurrentChapter() {
 		return chapter;
-	}
-
-	@Override
-	public void initialize() {
-		gui.initialize();
 	}
 
 	@Override
@@ -298,12 +289,6 @@ public class GameImpl implements Game {
 		addEffect(e, null, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.engine.engine.GameState#addEffect(int,
-	 * es.eucm.eadventure.common.model.effects.EAdEffect)
-	 */
 	@Override
 	public EffectGO<?> addEffect(EAdEffect e, Event action,
 			EAdSceneElement parent) {

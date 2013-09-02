@@ -97,8 +97,8 @@ public class DragGO extends AbstractEffectGO<DragEf> {
 		done = false;
 		target = (SceneElementGO) action.getTarget();
 		parent = (SceneElementGO) target.getParent();
-		x = target.getRelativeX();
-		y = target.getRelativeY();
+		x = target.getX();
+		y = target.getY();
 		z = target.getZ();
 		hud = gui.getHUD(BottomHud.ID);
 		parent.removeActor(target);
