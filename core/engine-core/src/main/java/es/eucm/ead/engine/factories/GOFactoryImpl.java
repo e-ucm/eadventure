@@ -41,6 +41,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import org.slf4j.Logger;
@@ -149,6 +150,17 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 
 	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {
 		classMap.put(clazz1, clazz2);
+	}
+
+	@Override
+	public void put(EAdMap<String, String> binds) {
+		if (binds != null) {
+			for (Map.Entry<String, String> e : binds.entrySet()) {
+				Class c1 = reflectionProvider.getClassforName(e.getKey());
+				Class c2 = reflectionProvider.getClassforName(e.getValue());
+				put(c1, c2);
+			}
+		}
 	}
 
 	private T getInstance(Class<?> clazz) {

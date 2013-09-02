@@ -58,9 +58,13 @@ import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.tools.StringHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EAdEngine implements ApplicationListener {
+
+	private Logger logger = LoggerFactory.getLogger("EAdEngine");
 
 	private Game game;
 

@@ -37,8 +37,9 @@
 
 package es.eucm.ead.engine.factories;
 
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.engine.gameobjects.GameObject;
+import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**
  * <p>
@@ -74,6 +75,8 @@ public interface GameObjectFactory<S extends EAdElement, T extends GameObject<?>
 	 *            game object class
 	 */
 	void put(Class<? extends S> clazz1, Class<? extends T> clazz2);
+
+	void put(EAdMap<String, String> binds);
 
 	boolean remove(S element);
 

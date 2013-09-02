@@ -39,8 +39,12 @@ package es.eucm.ead.engine.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.engine.factories.EffectGOFactory;
+import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
@@ -53,6 +57,9 @@ import java.util.Map;
 
 @Singleton
 public class GameLoaderImpl implements GameLoader {
+	private EventGOFactory eventFactory;
+	private EffectGOFactory effectFactory;
+	private SceneElementGOFactory sceneElementFactory;
 	private Game game;
 
 	private AdventureReader reader;
@@ -66,17 +73,31 @@ public class GameLoaderImpl implements GameLoader {
 	private Map<String, EAdScene> scenes;
 
 	@Inject
-	public GameLoaderImpl(AdventureReader reader, Game game) {
+	public GameLoaderImpl(AdventureReader reader, Game game,
+			EventGOFactory eventGOFactory, EffectGOFactory effectGOFactory,
+			SceneElementGOFactory sceneElementGOFactory) {
 		this.game = game;
 		this.reader = reader;
 		this.chapters = new HashMap<String, EAdChapter>();
 		this.scenes = new HashMap<String, EAdScene>();
+		this.eventFactory = eventGOFactory;
+		this.effectFactory = effectGOFactory;
+		this.sceneElementFactory = sceneElementGOFactory;
 	}
 
+	@SuppressWarnings( { "all" })
 	@Override
 	public void loadGame() {
 		currentManifest = reader.getManifest();
 		EAdAdventureModel adventure = currentManifest.getModel();
+		// Load plugins
+		eventFactory.put(adventure
+				.getVarInitialValue(BasicAdventureModel.EVENTS_BINDS));
+		effectFactory.put(adventure
+				.getVarInitialValue(BasicAdventureModel.EFFECTS_BINDS));
+		sceneElementFactory.put(adventure
+				.getVarInitialValue(BasicAdventureModel.SCENES_ELEMENT_BINDS));
+
 		game.setAdventure(adventure);
 		loadChapter(currentManifest.getInitialChapter());
 		game.doHook(GameImpl.HOOK_AFTER_MODEL_READ);

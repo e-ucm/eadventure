@@ -44,8 +44,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.debugger.DebuggerFrame;
+import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopGUI;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
 import es.eucm.ead.model.elements.BasicAdventureModel;
@@ -95,6 +95,10 @@ public class DesktopGame {
 					new JavaToolsModule());
 	}
 
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public JFrame start() {
 		// Init class loader
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
@@ -126,14 +130,14 @@ public class DesktopGame {
 		cfg.forceExit = model
 				.getVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE);
 
-		// FIXME This has to go
-		GdxDesktopGUI gui = (GdxDesktopGUI) injector.getInstance(GUI.class);
-		gui.create(width, height);
+		//	cfg.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 
+		// FIXME This has to go
+		DesktopGUI gui = (DesktopGUI) injector.getInstance(GUI.class);
 		ApplicationListener engine = injector
 				.getInstance(ApplicationListener.class);
 		new LwjglApplication(engine, cfg, gui.getCanvas());
-
+		//	new LwjglApplication(engine, cfg);
 		return gui.getFrame();
 	}
 

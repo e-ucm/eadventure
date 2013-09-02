@@ -312,6 +312,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	@Override
 	public void setResourcesLocation(String uri) {
+		if (!uri.endsWith("/")) {
+			uri += "/";
+		}
 		this.resourcesUri = uri;
 	}
 

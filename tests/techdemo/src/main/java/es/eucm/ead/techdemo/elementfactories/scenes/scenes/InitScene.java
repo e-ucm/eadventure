@@ -47,9 +47,8 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.model.elements.transitions.DisplaceTransition;
+import es.eucm.ead.model.elements.transitions.EmptyTransition;
 import es.eucm.ead.model.elements.transitions.FadeInTransition;
-import es.eucm.ead.model.elements.transitions.enums.DisplaceTransitionType;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -91,9 +90,11 @@ public class InitScene extends EmptyScene {
 					+ ".description");
 			Button b = new Button(name);
 			b.setPosition(x, y);
+			/*			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(s,
+			 new DisplaceTransition(1000,
+			 DisplaceTransitionType.VERTICAL, true)));*/
 			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(s,
-					new DisplaceTransition(1000,
-							DisplaceTransitionType.VERTICAL, true)));
+					EmptyTransition.instance()));
 			this.getSceneElements().add(b);
 			SceneElement goBackButton = new SceneElement(goBack);
 			goBackButton.setInitialScale(0.5f);

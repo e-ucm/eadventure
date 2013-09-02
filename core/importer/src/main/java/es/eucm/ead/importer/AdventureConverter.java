@@ -50,6 +50,7 @@ import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.effects.AddChildEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 import es.eucm.ead.model.params.fills.ColorFill;
@@ -157,6 +158,14 @@ public class AdventureConverter {
 		event.setFont(new BasicFont("@binary/fonts/coolvetica-16"));
 		event.setTextPaint(ColorFill.WHITE);
 		model.getEvents().add(event);
+
+		EAdMap<String, String> eventPlugins = new EAdMap<String, String>();
+		eventPlugins.put(BubbleNameEv.class.getName(),
+				"es.eucm.ead.legacyplugins.engine.BubbleNameGO");
+
+		model
+				.setVarInitialValue(BasicAdventureModel.EVENTS_BINDS,
+						eventPlugins);
 
 		for (Chapter c : adventureData.getChapters()) {
 			EAdChapter chapter = chapterConverter.convert(c);
