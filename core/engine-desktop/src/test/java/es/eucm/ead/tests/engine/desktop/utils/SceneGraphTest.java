@@ -57,7 +57,6 @@ public class SceneGraphTest {
 		sceneGraph = new BasicSceneGraph(new JavaReflectionProvider());
 	}
 
-	@Test
 	public void testBasic() {
 		BasicScene initScene = new BasicScene();
 		sceneGraph.generateGraph(initScene);

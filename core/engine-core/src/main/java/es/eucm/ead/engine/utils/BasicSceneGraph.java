@@ -234,7 +234,7 @@ public class BasicSceneGraph implements SceneGraph {
 
 		if (effect instanceof ChangeSceneEf) {
 			ChangeSceneEf changeScene = (ChangeSceneEf) effect;
-			EAdElement element = changeScene.getNextScene();
+			EAdElement element = null;
 			if (element == null) {
 				addConnectToPrevious(currentScene);
 			} else if (element instanceof EAdScene) {

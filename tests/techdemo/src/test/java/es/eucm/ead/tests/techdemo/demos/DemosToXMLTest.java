@@ -12,6 +12,7 @@ import es.eucm.ead.tools.EAdUtils;
 import es.eucm.ead.tools.java.JavaTextFileReader;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
+import es.eucm.ead.tools.java.utils.FileUtils;
 import es.eucm.ead.tools.java.xml.SaxXMLParser;
 import es.eucm.ead.writer2.AdventureWriter;
 import org.junit.Test;
@@ -77,6 +78,7 @@ public class DemosToXMLTest {
 				assertTrue(EAdUtils.equals(scene1, scene2, false));
 			}
 		}
+		FileUtils.deleteRecursive(new File(path2));
 
 	}
 }
