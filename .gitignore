@@ -48,6 +48,13 @@ test/resources/result*
 
 # gwt settings, output and support
 
+#################
+## NetBeans
+#################
+
+nb-configuration.xml
+nbactions.xml
+
 core/engine-html/.gwt/
 core/engine-html/gwt-unitCache*
 core/engine-html/war/ead*
