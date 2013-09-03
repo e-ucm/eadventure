@@ -49,14 +49,13 @@ import com.google.inject.Singleton;
 
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.tools.GenericInjector;
-import es.eucm.ead.engine.utils.SceneGraph;
 
 @Singleton
 public class GdxGWTAssetHandler extends AssetHandlerImpl {
 
 	@Inject
-	public GdxGWTAssetHandler(GenericInjector injector, SceneGraph sceneGraph) {
-		super(injector, sceneGraph);
+	public GdxGWTAssetHandler(GenericInjector injector) {
+		super(injector);
 	}
 
 	@Override

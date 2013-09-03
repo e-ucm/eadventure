@@ -52,6 +52,7 @@ import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLWriter;
 import es.eucm.ead.writer2.model.ReferenceResolver;
+import es.eucm.ead.writer2.model.SceneGraph;
 import es.eucm.ead.writer2.model.WriterContext;
 import es.eucm.ead.writer2.model.WriterVisitor;
 import org.slf4j.Logger;
@@ -83,6 +84,8 @@ public class AdventureWriter implements WriterContext {
 
 	private ReferenceResolver referenceResolver;
 
+	private SceneGraph sceneGraph;
+
 	private int contextId;
 
 	private EAdMap<String, String> paramsTranslation;
@@ -93,6 +96,7 @@ public class AdventureWriter implements WriterContext {
 		idGenerator = new IdGenerator();
 		xmlWriter = new XMLWriter();
 		referenceResolver = new ReferenceResolver();
+		sceneGraph = new SceneGraph();
 		visitor = new WriterVisitor(reflectionProvider, this);
 		documents = new HashMap<String, XMLNode>();
 		contextIds = new ArrayList<String>();
@@ -126,6 +130,7 @@ public class AdventureWriter implements WriterContext {
 		paramsTranslation.clear();
 		fieldsTranslation.clear();
 		classesTranslation.clear();
+		sceneGraph.clear();
 		contextId = 0;
 
 		AdventureVisitorListener chapterListener = new AdventureVisitorListener(
@@ -152,6 +157,7 @@ public class AdventureWriter implements WriterContext {
 		}
 
 		Manifest manifest = generateManifest(model);
+		manifest.setSceneGraph(sceneGraph.getGraph());
 
 		// Write manifest.xml
 		boolean oldEnableTranslations = this.enableTranslations;
@@ -298,6 +304,8 @@ public class AdventureWriter implements WriterContext {
 			contextIds.add(((Identified) object).getId());
 			idGenerator.addExclusion(((Identified) object).getId());
 		}
+
+		sceneGraph.process(object);
 
 		return object;
 	}

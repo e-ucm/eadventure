@@ -166,4 +166,5 @@ public class BasicAdventureModel extends BasicElement implements
 	public void setEvents(EAdList<EAdEvent> events) {
 		this.events = events;
 	}
+
 }

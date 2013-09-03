@@ -128,9 +128,6 @@ public class EAdEngine implements ApplicationListener {
 		scaleY = (float) height / 600.0f;
 		gui.setScale(scaleX, scaleY);
 
-		// Set default language
-		// FIXME detect language from system
-		stringHandler.setLanguage("");
 	}
 
 	@Override

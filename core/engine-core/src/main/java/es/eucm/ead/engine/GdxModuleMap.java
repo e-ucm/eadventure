@@ -56,8 +56,6 @@ import es.eucm.ead.engine.tracking.DefaultGameTracker;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.engine.tracking.selection.DefaultTrackerSelector;
 import es.eucm.ead.engine.tracking.selection.TrackerSelector;
-import es.eucm.ead.engine.utils.BasicSceneGraph;
-import es.eucm.ead.engine.utils.SceneGraph;
 import es.eucm.ead.tools.ModuleMap;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.TextFileReader;
@@ -91,8 +89,6 @@ public class GdxModuleMap extends ModuleMap {
 		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);
 
 		binds.put(SceneLoader.class, DefaultSceneLoader.class);
-
-		binds.put(SceneGraph.class, BasicSceneGraph.class);
 
 		binds.put(ApplicationListener.class, EAdEngine.class);
 

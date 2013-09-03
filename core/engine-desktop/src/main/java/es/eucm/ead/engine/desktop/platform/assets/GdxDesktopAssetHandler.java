@@ -42,7 +42,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.*;
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.utils.SceneGraph;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.tools.GenericInjector;
@@ -67,9 +66,8 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 	private Integer preloading;
 
 	@Inject
-	public GdxDesktopAssetHandler(GenericInjector injector,
-			SceneGraph sceneGraph) {
-		super(injector, sceneGraph);
+	public GdxDesktopAssetHandler(GenericInjector injector) {
+		super(injector);
 		zipped = false;
 		tempFiles = new HashMap<String, String>();
 		preloading = 0;

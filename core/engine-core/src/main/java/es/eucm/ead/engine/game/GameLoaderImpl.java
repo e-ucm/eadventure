@@ -53,6 +53,7 @@ import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.reader2.AdventureReader;
 import es.eucm.ead.reader2.model.Manifest;
+import es.eucm.ead.tools.StringHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +64,7 @@ public class GameLoaderImpl implements GameLoader {
 	private EffectGOFactory effectFactory;
 	private SceneElementGOFactory sceneElementFactory;
 	private Game game;
+	private StringHandler stringHandler;
 
 	private AdventureReader reader;
 
@@ -77,7 +79,8 @@ public class GameLoaderImpl implements GameLoader {
 	@Inject
 	public GameLoaderImpl(AdventureReader reader, Game game,
 			EventGOFactory eventGOFactory, EffectGOFactory effectGOFactory,
-			SceneElementGOFactory sceneElementGOFactory, EAdEngine engine) {
+			SceneElementGOFactory sceneElementGOFactory, EAdEngine engine,
+			StringHandler stringHandler) {
 		this.engine = engine;
 		this.game = game;
 		this.reader = reader;
@@ -86,6 +89,7 @@ public class GameLoaderImpl implements GameLoader {
 		this.eventFactory = eventGOFactory;
 		this.effectFactory = effectGOFactory;
 		this.sceneElementFactory = sceneElementGOFactory;
+		this.stringHandler = stringHandler;
 	}
 
 	@SuppressWarnings( { "all" })
@@ -103,6 +107,9 @@ public class GameLoaderImpl implements GameLoader {
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
+
+				// FIXME detect language
+				stringHandler.setLanguage("");
 				game.getGUI().reset();
 				engine.getStage().addActor(game.getGUI().getRoot());
 				engine.getStage().setKeyboardFocus(game.getGUI().getRoot());

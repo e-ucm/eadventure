@@ -44,7 +44,6 @@ import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.factories.mapproviders.AssetHandlerMap;
-import es.eucm.ead.engine.utils.SceneGraph;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
@@ -109,19 +108,17 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	protected String resourcesUri;
 	private boolean cacheEnabled;
 	private ArrayList<AssetDescriptor> assetsQueue;
-	private SceneGraph sceneGraph;
 	protected String currentLanguage;
 	protected List<EAdVideo> videos;
 
 	@Inject
-	public AssetHandlerImpl(GenericInjector injector, SceneGraph sceneGraph) {
+	public AssetHandlerImpl(GenericInjector injector) {
 		this.injector = injector;
 		this.classMap = new AssetHandlerMap().getMap();
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 		specialRenderers = new HashMap<AssetDescriptor, SpecialAssetRenderer<?, ?>>();
 		cacheEnabled = true;
 		assetsQueue = new ArrayList<AssetDescriptor>();
-		this.sceneGraph = sceneGraph;
 		this.videos = new ArrayList<EAdVideo>();
 	}
 
@@ -131,7 +128,8 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	}
 
 	public void queueSceneToLoad(EAdScene scene) {
-		List<AssetDescriptor> list = sceneGraph.getSceneAssets().get(scene);
+		// FIXME
+		/*List<AssetDescriptor> list = sceneGraph.getSceneAssets().get(scene);
 		if (list == null) {
 			logger.warn("Assets for scene {} were empty in the scene graph",
 					scene.getId());
@@ -147,7 +145,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 			if (i > 0) {
 				logger.info("{} assets will be loaded", i);
 			}
-		}
+		}*/
 
 	}
 
