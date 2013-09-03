@@ -253,7 +253,7 @@
 					<aggregate>true</aggregate>
 					<excludes>
 						<exclude>*.*</exclude>
-						<exclude>**/.so</exclude>
+						<exclude>**/*.so</exclude>
 						<exclude>**/.*</exclude>
 						<exclude>**/*.txt</exclude>
 						<exclude>**/*.xml</exclude>
