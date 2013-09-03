@@ -93,8 +93,8 @@ import bibliothek.gui.dock.common.mode.ExtendedMode;
 
 import es.eucm.ead.editor.control.ViewController;
 import es.eucm.ead.editor.view.menu.AbstractEditorMenu;
-import es.eucm.ead.tools.java.utils.i18n.Resource;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.i18n.Resource;
+import es.eucm.ead.editor.util.SwingUtilities;
 
 /**
  * Default implementation of the main editor window

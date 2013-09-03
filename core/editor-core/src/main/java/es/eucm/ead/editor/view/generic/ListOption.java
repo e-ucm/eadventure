@@ -67,11 +67,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.tools.java.utils.i18n.Resource;
+import es.eucm.ead.editor.util.i18n.Resource;
 
 /**
  * An option that allows a list of elements to be manipulated.
- * 
+ *
  * @author mfreire
  * @param <T>
  */
@@ -98,7 +98,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	/**
 	 * Allows easier customization of classes
-	 * 
+	 *
 	 * @param <T>
 	 */
 	public static class ColumnSpec<T> {
@@ -272,7 +272,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	/**
 	 * Called to get settings for the "meat" columns.
-	 * 
+	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -415,7 +415,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
-	 * 
+	 *
 	 * @param o
 	 */
 	protected void remove(T o, int index) {
@@ -426,7 +426,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 	/**
 	 * Allows user to choose from available elements to add one to the list
-	 * 
+	 *
 	 * @return
 	 */
 	protected T chooseElementToAdd() {
@@ -437,7 +437,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Adds an object to the list. Triggered either externally or via
 	 * button-click.
-	 * 
+	 *
 	 * @param o
 	 */
 	protected void add(T o) {
@@ -447,7 +447,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Moves an object one position up. Triggered either externally or via
 	 * button-click.
-	 * 
+	 *
 	 * @param o
 	 */
 	protected void moveUp(T o, int index) {
@@ -464,7 +464,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
-	 * 
+	 *
 	 * @param o
 	 */
 	protected void moveDown(T o, int index) {
@@ -481,7 +481,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Consider contents to have changed, even if the list-reference does not
 	 * change.
-	 * 
+	 *
 	 * @param oldValue
 	 * @param newValue
 	 * @return

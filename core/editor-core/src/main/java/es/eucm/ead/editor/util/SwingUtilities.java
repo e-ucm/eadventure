@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.utils.swing;
+package es.eucm.ead.editor.util;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -61,7 +61,7 @@ import javax.swing.JScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.ead.tools.java.utils.i18n.I18N;
+import es.eucm.ead.editor.util.i18n.I18N;
 
 abstract public class SwingUtilities {
 

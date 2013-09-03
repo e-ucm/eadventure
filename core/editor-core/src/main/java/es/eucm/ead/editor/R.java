@@ -40,13 +40,13 @@ package es.eucm.ead.editor;
 import java.util.Set;
 import java.util.TreeSet;
 
-import es.eucm.ead.tools.java.utils.i18n.I18N;
+import es.eucm.ead.editor.util.i18n.I18N;
 
 /**
  * Resource index for this package (statically compiled).
  *
- * This is an AUTOMATICALLY-GENERATED file - 
- * Run class es.eucm.ead.tools.java.utils.i18n.ResourceCreator with parameters: 
+ * This is an AUTOMATICALLY-GENERATED file -
+ * Run class es.eucm.ead.tools.java.utils.i18n.ResourceCreator with parameters:
  *    "./core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
  * to re-create or update this class
  */

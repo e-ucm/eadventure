@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.utils.i18n;
+package es.eucm.ead.editor.util.i18n;
 
 import java.io.BufferedReader;
 import java.io.File;

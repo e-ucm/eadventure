@@ -50,8 +50,8 @@ import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.view.SplashScreenImpl;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.tools.java.utils.Log4jConfig;
-import es.eucm.ead.tools.java.utils.Log4jConfig.Slf4jLevel;
+import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.editor.util.Log4jConfig.Slf4jLevel;
 
 /**
  * eAdventure editor launcher. This class has a main method.
@@ -86,11 +86,15 @@ public class EAdventureEditor implements Launcher {
 		// Locale.setDefault(new Locale("es", "ES"));
 
 		// Initialize logging
-		Log4jConfig.configForConsole(Slf4jLevel.Info, new Object[] {
+		Log4jConfig.configForConsole(Slf4jLevel.Debug, new Object[] {
 
-		//"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
-				//"EditorModel", Log4jConfig.Slf4jLevel.Debug,
-				//"EditorModelLoader", Log4jConfig.Slf4jLevel.Debug,
+		// AdventureConverter
+				"Converter", Log4jConfig.Slf4jLevel.Debug,
+				// recursion into bits of model when importing
+				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
+				// access to the model
+				"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+		//"EditorModelLoader", Log4jConfig.Slf4jLevel.Debug,
 
 				// "ModelIndex", Slf4jLevel.Debug,
 				// "EditorModelLoader", Slf4jLevel.Debug,

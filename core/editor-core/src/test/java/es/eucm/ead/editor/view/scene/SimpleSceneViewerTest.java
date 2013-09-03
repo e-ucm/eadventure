@@ -46,7 +46,7 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position.Corner;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.SwingUtilities;
 
 public class SimpleSceneViewerTest {
 

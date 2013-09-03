@@ -80,8 +80,8 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 		}
 
 		if (!trajectory.isFreeWalk()) {
-			this.destinationX = Math.min(trajectory.getRight(), Math.max(trajectory
-					.getLeft(), this.destinationX));
+			this.destinationX = Math.min(trajectory.getRight(), Math.max(
+					trajectory.getLeft(), this.destinationX));
 			if (!trajectory.isOnlyHorizontal()) {
 				this.destinationY = Math.max(trajectory.getTop(), Math.min(
 						trajectory.getBottom(), this.destinationY));

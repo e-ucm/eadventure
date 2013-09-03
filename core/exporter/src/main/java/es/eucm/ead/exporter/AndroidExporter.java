@@ -161,7 +161,8 @@ public class AndroidExporter {
 			if (destination != null) {
 				File destinationFile = new File(destination);
 				if (destinationFile.isDirectory()) {
-					destinationFile = new File(destinationFile, "eAdventuregame.apk");
+					destinationFile = new File(destinationFile,
+							"eAdventuregame.apk");
 				} else if (!destination.endsWith(".apk")) {
 					destination += ".apk";
 					destinationFile = new File(destination);

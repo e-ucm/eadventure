@@ -76,7 +76,7 @@ import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.editor.view.components.FileDrop;
 import es.eucm.ead.editor.view.generic.TextOption;
 import es.eucm.ead.tools.java.utils.FileUtils;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.SwingUtilities;
 
 /**
  * A panel that displays all assets, by type. A preview is available

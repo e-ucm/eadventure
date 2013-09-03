@@ -35,13 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.utils;
+package es.eucm.ead.editor.util;
 
 /**
  * Simple configuration for log4j logging. Should be called from "main" files or
  * unit-tests in this directory. A single check for log4j existence is performed
  * during initial class-loading, to bail out cleanly if it is not present.
- * 
+ *
  * @author mfreire
  */
 public class Log4jConfig {
@@ -101,7 +101,7 @@ public class Log4jConfig {
 	 * Initial log4j configuration. Fails if no log4j present; should be called
 	 * only from main(), but can be called repeatedly without ill effects (only
 	 * the 1st call will set the pattern, though).
-	 * 
+	 *
 	 * @param defaultLevel
 	 * @param otherLevels
 	 *            if you want loggers "A" and "B" to use Debug, and logger "C"
@@ -139,7 +139,7 @@ public class Log4jConfig {
 
 	/**
 	 * Sets a logger to a level.
-	 * 
+	 *
 	 * @param loggerName
 	 * @param level
 	 */

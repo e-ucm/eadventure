@@ -35,26 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.utils.swing;
+/**
+ * Internationalization utility classes.
+ *
+ */
 
-import es.eucm.ead.tools.java.utils.i18n.CommonMessages;
-import es.eucm.ead.tools.java.utils.i18n.I18N;
-
-class Messages extends CommonMessages {
-
-	public static String exception_dialog_title;
-
-	public static String exception_dialog_type_error;
-
-	public static String exception_dialog_type_exception;
-
-	public static String exception_dialog_button_close;
-
-	public static String exception_dialog_caused_by;
-
-	public static String exception_dialog_message;
-
-	static {
-		I18N.initializeMessages(Messages.class.getName(), Messages.class);
-	}
-}
+package es.eucm.ead.editor.util.i18n;

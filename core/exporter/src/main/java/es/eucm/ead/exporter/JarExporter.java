@@ -82,7 +82,8 @@ public class JarExporter {
 			// Copy jar to destination
 			File destinationFile = new File(destination);
 			if (destinationFile.isDirectory()) {
-				destinationFile = new File(destinationFile, "eAdventuregame.jar");
+				destinationFile = new File(destinationFile,
+						"eAdventuregame.jar");
 			} else if (!destination.endsWith(".jar")) {
 				destination += ".jar";
 				destinationFile = new File(destination);

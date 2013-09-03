@@ -65,8 +65,8 @@ public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
 	 * @param target
 	 *            the target element trying to reach (it could be {@code null}
 	 */
-	void set(SceneElementGO movingElement, float destinationX, float destinationY,
-			SceneElementGO target);
+	void set(SceneElementGO movingElement, float destinationX,
+			float destinationY, SceneElementGO target);
 
 	/**
 	 * Returns true when the trajectory is completed

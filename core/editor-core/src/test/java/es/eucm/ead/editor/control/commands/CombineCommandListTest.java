@@ -49,7 +49,7 @@ import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.model.DefaultModelEvent;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.ModelEvent;
-import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.editor.util.Log4jConfig;
 import junit.framework.TestCase;
 
 public class CombineCommandListTest extends TestCase {

@@ -50,7 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.eucm.ead.editor.control.Controller;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.SwingUtilities;
 
 /**
  *

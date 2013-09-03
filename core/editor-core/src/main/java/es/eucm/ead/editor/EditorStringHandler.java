@@ -126,8 +126,11 @@ public class EditorStringHandler implements StringHandler {
 	}
 
 	public Map<EAdString, String> getStrings(String lang) {
-		if ( ! strings.containsKey(lang)) {
-			logger.warn("Requested language '{}' has no strings; returning an empty map instead", lang);
+		if (!strings.containsKey(lang)) {
+			logger
+					.warn(
+							"Requested language '{}' has no strings; returning an empty map instead",
+							lang);
 			strings.put(lang, new HashMap<EAdString, String>());
 		}
 		return strings.get(lang);
