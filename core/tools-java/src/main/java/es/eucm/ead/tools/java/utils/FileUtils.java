@@ -118,12 +118,19 @@ public class FileUtils {
 	public static boolean folderContainsEntry(File folder, String nameRegexp)
 			throws IOException {
 		if (!folder.isDirectory()) {
-			throw new IOException("Folder cannot be read");
+			throw new IOException("Folder '" + folder
+					+ "' cannot be read -- not a folder");
 		}
-		for (File f : folder.listFiles()) {
-			if (f.getName().matches(nameRegexp)) {
-				return true;
+		try {
+			for (File f : folder.listFiles()) {
+				if (f.getName().matches(nameRegexp)) {
+					return true;
+				}
 			}
+		} catch (Exception e) {
+			// probably no permissions
+			throw new IOException("Folder '" + folder
+					+ "' cannot be read -- no permissions?");
 		}
 		return false;
 	}

@@ -84,6 +84,7 @@ public class QueryNode extends EditorNode {
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
+
 		result = model.search(new ModelQuery(queryString));
 	}
 

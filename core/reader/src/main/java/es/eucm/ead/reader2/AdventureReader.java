@@ -51,6 +51,9 @@ import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+
 @Singleton
 public class AdventureReader {
 
@@ -98,6 +101,29 @@ public class AdventureReader {
 		readerVisitor.finish();
 		return result;
 
+	}
+
+	public EAdAdventureModel readFullModel() {
+		Manifest manifest = getManifest();
+		EAdAdventureModel model =  manifest.getModel();
+		int chapterIndex = 0;
+		for (String cid : manifest.getChapterIds()) {
+			BasicChapter c = (BasicChapter)readChapter(cid);
+			model.addChapter(c);
+			if (cid.equals(manifest.getInitialChapter())) {
+				model.setInitialChapter(c);
+			}
+			String sid = manifest.getInitialScenes().get(chapterIndex);
+			EAdScene s = readScene(sid);
+			c.addScene(s);
+			c.setInitialScene(s);
+
+			// FIXME: no way to locate all scenes of chapter...
+
+			chapterIndex ++;
+		}
+
+		return model;
 	}
 
 	public EAdChapter readChapter(String chapterId) {

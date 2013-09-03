@@ -74,15 +74,19 @@ public class FileMenu extends AbstractEditorMenu {
 
 	private static final Logger logger = LoggerFactory.getLogger("FileMenu");
 
+	public static final String EAdventure2FileNameRegex = "manifest[.]xml";
+
+	public static final String EAdventure1FileNameRegex = "descriptor[.]xml";
+
 	@Inject
 	public FileMenu(Controller controller) {
 		super(controller, Messages.file_menu);
 	}
 
 	private static FileFilter ead2LoadFolderFilter = new EAdFileFilter(".eap",
-			"data[.]xml", "EAdventure 2 project folders", false);
+			EAdventure2FileNameRegex, "EAdventure 2 project folders", false);
 	private static FileFilter ead1LoadFileFilter = new EAdFileFilter(".ead",
-			"descriptor[.]xml", "EAdventure 1 project files", false);
+			EAdventure1FileNameRegex, "EAdventure 1 project files", false);
 	private static EAdFileView eadFileView = new EAdFileView();
 
 	/**
@@ -397,7 +401,7 @@ public class FileMenu extends AbstractEditorMenu {
 		} else if (ec.containsKey(EditorConf.LastDirectory)) {
 			currentDirectory = new File(ec.getValue(EditorConf.LastDirectory));
 		}
-		if (currentDirectory.isDirectory()) {
+		if (currentDirectory.isDirectory() && currentDirectory.canRead()) {
 			jfc.setCurrentDirectory(currentDirectory);
 		}
 
@@ -480,6 +484,10 @@ public class FileMenu extends AbstractEditorMenu {
 
 		@Override
 		public boolean accept(File file) {
+			if (!file.exists()) {
+				return false;
+			}
+
 			if (file.isDirectory() && !strict) {
 				return true;
 			} else if (file.isDirectory() && strict) {
@@ -519,9 +527,9 @@ public class FileMenu extends AbstractEditorMenu {
 	private static class EAdFileView extends FileView {
 
 		private static FileFilter ead2Strict = new EAdFileFilter(".eap",
-				"data[.]xml", "EAdventure 2 project folders", true);
+				EAdventure2FileNameRegex, "EAdventure 2 project folders", true);
 		private static FileFilter ead1Strict = new EAdFileFilter(".ead",
-				"descriptor[.]xml", "EAdventure 1 project files", true);
+				EAdventure1FileNameRegex, "EAdventure 1 project files", true);
 		private static Icon ead2Icon = new ImageIcon(EAdFileView.class
 				.getClassLoader().getResource(R.Drawable.EditorIcon16x16_png));
 		private static Icon ead1xIcon = new ImageIcon(EAdFileView.class

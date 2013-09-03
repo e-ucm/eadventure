@@ -48,7 +48,6 @@ import com.google.inject.Injector;
 
 import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.view.SplashScreenImpl;
-import ead.importer.BaseImporterModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.java.utils.Log4jConfig;
@@ -121,8 +120,7 @@ public class EAdventureEditor implements Launcher {
 
 		// initialize launcher
 		Injector injector = Guice.createInjector(new DesktopModule(),
-				new BaseImporterModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector

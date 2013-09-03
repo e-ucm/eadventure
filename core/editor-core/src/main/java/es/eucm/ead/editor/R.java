@@ -45,8 +45,8 @@ import es.eucm.ead.tools.java.utils.i18n.I18N;
  * Resource index for this package (statically compiled).
  *
  * This is an AUTOMATICALLY-GENERATED file - 
- * Run class ResourceCreator with parameters:
- *    "./engine/editor-engine" "ead.editor" "etc/LICENSE.txt" "./engine/editor-engine/src/main/java/ead/editor/R.java"
+ * Run class es.eucm.ead.tools.java.utils.i18n.ResourceCreator with parameters: 
+ *    "./core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
  * to re-create or update this class
  */
 @edu.umd.cs.findbugs.annotations.SuppressFBWarnings

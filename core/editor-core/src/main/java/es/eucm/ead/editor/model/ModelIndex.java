@@ -472,7 +472,7 @@ public class ModelIndex implements EditorModel.ModelListener {
 					model.getNodesById());
 			return sr;
 		} catch (Exception e) {
-			logger.error("Error parsing or looking up query '{}' in index",
+			logger.warn("Error parsing or looking up query '{}' in index",
 					queryText, e);
 		}
 		return new SearchResult();

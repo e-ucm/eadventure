@@ -36,8 +36,8 @@ def main():
             "\n\t" + project +
             "\n\t" + package + "===>")
         subprocess.call(["java", 
-            "-cp", "core/utils/target/classes",
-            "ead.utils.i18n.ResourceCreator",
+            "-cp", "core/tools-java/target/classes",
+            "es.eucm.ead.tools.java.utils.i18n.ResourceCreator",
             project, package, 
             "etc/LICENSE.txt"
 #  			,])   
