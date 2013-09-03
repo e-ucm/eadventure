@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java;
+package es.eucm.ead.editor.util;
 
 import java.io.File;
 import java.io.FileInputStream;

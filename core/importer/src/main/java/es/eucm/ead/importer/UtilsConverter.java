@@ -266,7 +266,7 @@ public class UtilsConverter {
 
 	/**
 	 * Takes the mask from a scene, and creates the resulting image of applying it to a background image.
-	 * It writes the image in the foreground mask destiny path
+	 * It writes the image in the foreground mask destination path
 	 *
 	 * @param foregroundPath
 	 * @param backgroundPath

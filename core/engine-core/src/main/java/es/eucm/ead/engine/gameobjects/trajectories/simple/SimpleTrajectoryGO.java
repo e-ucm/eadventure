@@ -70,26 +70,26 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 		super(gameState, sceneElementFactory);
 	}
 
-	public void set(SceneElementGO movingElement, float destinyX,
-			float destinyY, SceneElementGO target) {
-		super.set(movingElement, destinyX, destinyY, target);
+	public void set(SceneElementGO movingElement, float destinationX,
+			float destinationY, SceneElementGO target) {
+		super.set(movingElement, destinationX, destinationY, target);
 		startX = movingElement.getX();
 		startY = movingElement.getY();
 		if (trajectory.isOnlyHorizontal()) {
-			this.destinyY = startY;
+			this.destinationY = startY;
 		}
 
 		if (!trajectory.isFreeWalk()) {
-			this.destinyX = Math.min(trajectory.getRight(), Math.max(trajectory
-					.getLeft(), this.destinyX));
+			this.destinationX = Math.min(trajectory.getRight(), Math.max(
+					trajectory.getLeft(), this.destinationX));
 			if (!trajectory.isOnlyHorizontal()) {
-				this.destinyY = Math.max(trajectory.getTop(), Math.min(
-						trajectory.getBottom(), this.destinyY));
+				this.destinationY = Math.max(trajectory.getTop(), Math.min(
+						trajectory.getBottom(), this.destinationY));
 			}
 		}
 
-		diffX = this.destinyX - startX;
-		diffY = this.destinyY - startY;
+		diffX = this.destinationX - startX;
+		diffY = this.destinationY - startY;
 		float distance = (float) Math.sqrt(diffX * diffX + diffY * diffY);
 		totalTime = distance * TIME_PER_UNIT;
 		currentTime = 0;
@@ -116,8 +116,8 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 		currentPath.clear();
 		currentPath.add(startX);
 		currentPath.add(startY);
-		currentPath.add(this.destinyX);
-		currentPath.add(this.destinyY);
+		currentPath.add(this.destinationX);
+		currentPath.add(this.destinationY);
 	}
 
 	@Override

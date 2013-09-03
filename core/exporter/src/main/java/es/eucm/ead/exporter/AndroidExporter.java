@@ -92,7 +92,7 @@ public class AndroidExporter {
 		this(new MavenCli());
 	}
 
-	public void export(String projectFolder, String destiny,
+	public void export(String projectFolder, String destination,
 			Properties properties, boolean installAndDeploy) {
 		// Copy android-pom.xml to android folder
 		InputStream apkpom = ClassLoader
@@ -157,17 +157,18 @@ public class AndroidExporter {
 
 			maven.doMain(mavenArguments, androidFolder.getAbsolutePath(),
 					getStdOut(), getStdErr());
-			// Copy apk to destiny
-			if (destiny != null) {
-				File destinyFile = new File(destiny);
-				if (destinyFile.isDirectory()) {
-					destinyFile = new File(destinyFile, "eAdventuregame.apk");
-				} else if (!destiny.endsWith(".apk")) {
-					destiny += ".apk";
-					destinyFile = new File(destiny);
+			// Copy apk to destination
+			if (destination != null) {
+				File destinationFile = new File(destination);
+				if (destinationFile.isDirectory()) {
+					destinationFile = new File(destinationFile,
+							"eAdventuregame.apk");
+				} else if (!destination.endsWith(".apk")) {
+					destination += ".apk";
+					destinationFile = new File(destination);
 				}
 				FileUtils.copy(new File(androidFolder.getAbsolutePath()
-						+ "/target", "game-android.apk"), destinyFile);
+						+ "/target", "game-android.apk"), destinationFile);
 			}
 		} catch (Exception e) {
 			logger.error("Error exporting apk", e);

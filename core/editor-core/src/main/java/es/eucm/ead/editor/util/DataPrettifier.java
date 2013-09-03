@@ -40,7 +40,7 @@
  * and open the template in the editor.
  */
 
-package es.eucm.ead.tools.java;
+package es.eucm.ead.editor.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.utils.i18n;
+package es.eucm.ead.editor.util.i18n;
 
 import es.eucm.ead.tools.java.utils.clazz.ClassLoaderUtils;
 
@@ -247,13 +247,13 @@ public abstract class I18N {
 	}
 
 	/**
-	 * Resolves all references within a string. A reference is something of 
-	 * the form {key}, which is replaced by props.get(key). Replacement is 
+	 * Resolves all references within a string. A reference is something of
+	 * the form {key}, which is replaced by props.get(key). Replacement is
 	 * performed until no references remain, or until a set limit of
 	 * replacement-iterations is reached.
-	 * 
+	 *
 	 * The final, substituted value is stored in its key for further reference.
-	 * 
+	 *
 	 * @param input
 	 * @param props
 	 * @return substituted value
@@ -585,7 +585,7 @@ public abstract class I18N {
 
 	/**
 	 * Build all the possible names for the file corresponding to fieldName
-	 * 
+	 *
 	 * @param fieldName The name of the field
 	 * @param locale The current locale
 	 * @return The list of possible file names

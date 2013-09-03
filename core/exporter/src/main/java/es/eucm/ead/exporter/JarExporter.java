@@ -59,9 +59,9 @@ public class JarExporter {
 
 	/**
 	 * @param projectFolder folder containing a folder (name as parameter 'resourcesFolder') with all the assets of the game
-	 * @param destiny       destiny file to ouput the .jar
+	 * @param destination       destination file to ouput the .jar
 	 */
-	public void export(String projectFolder, String destiny, PrintStream out) {
+	public void export(String projectFolder, String destination, PrintStream out) {
 		// Copy desktop-pom.xml to desktop folder
 		InputStream jarpom = ClassLoader
 				.getSystemResourceAsStream("desktop-pom.xml");
@@ -79,21 +79,22 @@ public class JarExporter {
 					"clean", "compile", "install", "assembly:single" },
 					desktopFolder.getAbsolutePath(), out, out);
 
-			// Copy jar to destiny
-			File destinyFile = new File(destiny);
-			if (destinyFile.isDirectory()) {
-				destinyFile = new File(destinyFile, "eAdventuregame.jar");
-			} else if (!destiny.endsWith(".jar")) {
-				destiny += ".jar";
-				destinyFile = new File(destiny);
+			// Copy jar to destination
+			File destinationFile = new File(destination);
+			if (destinationFile.isDirectory()) {
+				destinationFile = new File(destinationFile,
+						"eAdventuregame.jar");
+			} else if (!destination.endsWith(".jar")) {
+				destination += ".jar";
+				destinationFile = new File(destination);
 			}
 
-			// Copy to destiny file
-			if (destinyFile != null) {
+			// Copy to destination file
+			if (destinationFile != null) {
 				FileUtils.copy(new File(desktopFolder.getAbsolutePath()
 						+ "/target",
 						"game-desktop-1.0-jar-with-dependencies.jar"),
-						destinyFile);
+						destinationFile);
 			}
 		} catch (Exception e) {
 

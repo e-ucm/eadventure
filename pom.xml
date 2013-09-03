@@ -254,8 +254,11 @@
 					<excludes>
 						<exclude>*.*</exclude>
 						<exclude>**/.*</exclude>
+						<exclude>**/*.so</exclude>
 						<exclude>**/*.txt</exclude>
 						<exclude>**/*.xml</exclude>
+						<exclude>**/*.fnt</exclude>
+						<exclude>**/*.glsl</exclude>
 						<exclude>**/*.properties</exclude>
 						<exclude>**/resources/**</exclude>
 						<exclude>**/poly2tri/**</exclude>
@@ -277,14 +280,8 @@
 						<id>check-headers</id>
 						<phase>verify</phase>
 						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>reformat-headers</id>
-						<phase>build</phase>
-						<goals>
 							<goal>format</goal>
+							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -300,17 +297,6 @@
 					<configFile>${project.parent.basedir}/etc/eclipse-formatter.xml</configFile>
 					<lineEnding>KEEP</lineEnding>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
 				<executions>
 					<execution>
 						<goals>

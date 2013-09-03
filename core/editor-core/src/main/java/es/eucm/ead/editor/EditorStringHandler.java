@@ -42,6 +42,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.inject.Singleton;
 
 import es.eucm.ead.model.params.text.EAdString;
@@ -52,6 +54,9 @@ import es.eucm.ead.tools.StringHandler;
  */
 @Singleton
 public class EditorStringHandler implements StringHandler {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(EditorStringHandler.class);
 
 	/**
 	 * Map with all strings.
@@ -121,6 +126,13 @@ public class EditorStringHandler implements StringHandler {
 	}
 
 	public Map<EAdString, String> getStrings(String lang) {
+		if (!strings.containsKey(lang)) {
+			logger
+					.warn(
+							"Requested language '{}' has no strings; returning an empty map instead",
+							lang);
+			strings.put(lang, new HashMap<EAdString, String>());
+		}
 		return strings.get(lang);
 	}
 

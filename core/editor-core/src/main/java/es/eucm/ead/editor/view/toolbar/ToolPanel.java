@@ -57,7 +57,7 @@ import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.QueryNode;
 import es.eucm.ead.editor.view.menu.AbstractEditorMenu;
 import es.eucm.ead.editor.view.menu.Messages;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.SwingUtilities;
 import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

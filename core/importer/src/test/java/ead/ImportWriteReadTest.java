@@ -43,12 +43,10 @@ import ead.importer.EAdventureImporter;
 import ead.importer.ImporterModule;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.reader.AdventureReader;
-import es.eucm.ead.tools.java.DataPrettifier;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.java.utils.FileUtils;
-import es.eucm.ead.tools.java.utils.Log4jConfig;
 import es.eucm.ead.tools.java.xml.DomXMLParser;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.writer.AdventureWriter;
@@ -72,7 +70,6 @@ public class ImportWriteReadTest {
 	private AdventureWriter writer;
 
 	public ImportWriteReadTest() {
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, null);
 	}
 
 	@Before
@@ -141,12 +138,6 @@ public class ImportWriteReadTest {
 
 		} finally {
 			if (errors) {
-
-				for (File f : tmpDir.listFiles(new EndsInXmlFilter())) {
-					File dest = new File(f.getParentFile(), "pretty-"
-							+ f.getName());
-					DataPrettifier.prettify(f, dest);
-				}
 				fail("see " + tmpDir + " for details");
 			} else {
 				FileUtils.deleteRecursive(tmpDir);

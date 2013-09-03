@@ -100,12 +100,12 @@ public class PolygonTrajectoryGO extends
 	}
 
 	@Override
-	public void set(SceneElementGO movingElement, float destinyX,
-			float destinyY, SceneElementGO target) {
-		super.set(movingElement, destinyX, destinyY, target);
+	public void set(SceneElementGO movingElement, float destinationX,
+			float destinationY, SceneElementGO target) {
+		super.set(movingElement, destinationX, destinationY, target);
 		float startX = movingElement.getX();
 		float startY = movingElement.getY();
-		path = pathFinder.getPath(startX, startY, destinyX, destinyY);
+		path = pathFinder.getPath(startX, startY, destinationX, destinationY);
 		currentPath = path;
 		currentTarget = 0;
 		updateEnd = true;

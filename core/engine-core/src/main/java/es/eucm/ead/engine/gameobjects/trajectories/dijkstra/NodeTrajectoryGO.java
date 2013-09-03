@@ -96,14 +96,14 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	}
 
 	@Override
-	public void set(SceneElementGO movingElement, float destinyX,
-			float destinyY, SceneElementGO target) {
-		super.set(movingElement, destinyX, destinyY, target);
+	public void set(SceneElementGO movingElement, float destinationX,
+			float destinationY, SceneElementGO target) {
+		super.set(movingElement, destinationX, destinationY, target);
 		this.sceneElement = (SceneElement) movingElement.getElement();
 		currentTime = 0;
 
 		path = generator.getTrajectory(this.trajectory, movingElement
-				.getElement(), destinyX, destinyY, target);
+				.getElement(), destinationX, destinationY, target);
 
 		currentPath.clear();
 		for (PathSide side : path.getSides()) {
@@ -112,8 +112,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 		}
 
 		currentSide = 0;
-		targetX = destinyX;
-		targetY = destinyY;
+		targetX = destinationX;
+		targetY = destinationY;
 		finished = false;
 		firstUpdate = true;
 		initScale = 1.0f;

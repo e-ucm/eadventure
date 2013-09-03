@@ -68,6 +68,7 @@ public class TriggerMacroConverter implements
 
 	public List<EAdEffect> convert(MacroReferenceEffect e) {
 		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+
 		TriggerMacroEf effect = new TriggerMacroEf();
 		EAdList<EAdEffect> macro = modelQuerier.getMacro(e.getTargetId());
 		effect.putEffects(EmptyCond.TRUE, macro);
@@ -78,6 +79,12 @@ public class TriggerMacroConverter implements
 		effect.addSimultaneousEffect(macroIn);
 
 		ChangeFieldEf macroOut = new ChangeFieldEf(field, EmptyCond.FALSE);
+
+		// Avoid processing empty macros
+		if (macro.isEmpty()) {
+			return list;
+		}
+
 		// Look for the last effect in the queue, and add the macro-out.
 		EAdEffect lastEffect = macro.get(macro.size() - 1);
 		boolean done = false;

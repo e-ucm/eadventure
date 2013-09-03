@@ -47,7 +47,7 @@ import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.accessors.ConvertingAccessor;
 import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
-import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.editor.util.Log4jConfig;
 
 import java.awt.*;
 

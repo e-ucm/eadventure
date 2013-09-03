@@ -38,8 +38,8 @@
 package es.eucm.ead.editor.view;
 
 import es.eucm.ead.editor.R;
-import es.eucm.ead.tools.java.utils.i18n.Resource;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.i18n.Resource;
+import es.eucm.ead.editor.util.SwingUtilities;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;

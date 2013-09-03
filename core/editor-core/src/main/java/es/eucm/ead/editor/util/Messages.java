@@ -35,37 +35,25 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tools.java.utils.i18n;
+package es.eucm.ead.editor.util;
 
-/**
- * Common internationalized messages.
- *
- */
-public class CommonMessages {
+import es.eucm.ead.editor.util.i18n.I18N;
 
-	public static String argument_must_not_be_null;
+class Messages {
 
-	public static String argument_has_invalid_value;
+	public static String exception_dialog_title;
 
-	public static String argument_has_invalid_type;
+	public static String exception_dialog_type_error;
 
-	public static String argument_must_be;
+	public static String exception_dialog_type_exception;
 
-	public static String error_during_clonation;
+	public static String exception_dialog_button_close;
 
-	public static String unexpected_error;
+	public static String exception_dialog_caused_by;
 
-	public static String ok;
+	public static String exception_dialog_message;
 
-	public static String cancel;
-
-	public static String yes;
-
-	public static String no;
-
-	public static String delete;
 	static {
-		I18N.initializeMessages(CommonMessages.class.getName(),
-				CommonMessages.class);
+		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }

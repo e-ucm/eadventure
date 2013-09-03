@@ -41,7 +41,7 @@ import com.google.inject.Singleton;
 import es.eucm.ead.editor.control.change.ChangeListener;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.engine.desktop.DesktopGame;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+import es.eucm.ead.editor.util.SwingUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -54,7 +54,7 @@ import es.eucm.ead.editor.model.nodes.QueryNode;
 import es.eucm.ead.editor.model.nodes.asset.AssetNode;
 import es.eucm.ead.editor.model.nodes.asset.ImageAssetNode;
 import es.eucm.ead.editor.model.nodes.asset.VideoAssetNode;
-import es.eucm.ead.tools.java.utils.Log4jConfig;
+import es.eucm.ead.editor.util.Log4jConfig;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

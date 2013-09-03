@@ -31,11 +31,6 @@
 			<artifactId>ead-engine-resources</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>ead-test-resources</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-backend-gwt</artifactId>

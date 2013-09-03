@@ -42,14 +42,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.zip.ZipFile;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -74,31 +73,35 @@ import es.eucm.ead.editor.model.nodes.asset.AssetFactory;
 import es.eucm.ead.editor.model.nodes.asset.AssetsNode;
 import es.eucm.ead.editor.model.visitor.ModelVisitor;
 import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
+import es.eucm.ead.importer.AdventureConverter;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
-import es.eucm.ead.reader.AdventureReader;
+import es.eucm.ead.reader2.AdventureReader;
 import es.eucm.ead.reader.strings.StringsReader;
 import es.eucm.ead.tools.PropertiesReader;
 import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.java.DataPrettifier;
+import es.eucm.ead.tools.TextFileReader;
+import es.eucm.ead.editor.util.DataPrettifier;
+import es.eucm.ead.tools.java.JavaTextFileReader;
+import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;
 import es.eucm.ead.tools.java.utils.FileUtils;
-import es.eucm.ead.writer.AdventureWriter;
+import es.eucm.ead.writer2.AdventureWriter;
 import es.eucm.ead.writer.StringWriter;
 
 /**
  * Loads an EditorModel.
- * 
+ *
  * EditorModels contain each 'Identified' element in the XML wrapped up in a
  * DependencyNode (which hosts lookup information and dependencies).
  * Non-identified elements (maps and lists) are provided transient,
  * lookup-by-value DependencyNodes, as are
- * 
+ *
  * Imported editorModels are passed through a series of factories to build
  * EditorNodes. Loaded models have these EditorNodes restored from their
  * editor.xml file.
- * 
+ *
  * @author mfreire
  */
 public class EditorModelLoader {
@@ -109,7 +112,7 @@ public class EditorModelLoader {
 	/**
 	 * Importer for old models
 	 */
-	private EAdventureImporter importer;
+	private AdventureConverter converter;
 	/**
 	 * True only during a loading operation
 	 */
@@ -118,6 +121,14 @@ public class EditorModelLoader {
 	 * Reader for DOM models
 	 */
 	private AdventureReader reader;
+	/**
+	 * Reader for zipped DOM models
+	 */
+	private AdventureReader zipReader;
+	/**
+	 * Internal zip-file reader, used to provide folder-like access to zip files
+	 */
+	private ZipTextFileReader zipTextFileReader;
 	/**
 	 * Writer for DOM models
 	 */
@@ -147,14 +158,6 @@ public class EditorModelLoader {
 	 * Name of file with strings
 	 */
 	private static final String stringsFile = "strings.xml";
-	/**
-	 * Name of file with engine properties
-	 */
-	private static final String enginePropertiesFile = "ead.properties";
-	/**
-	 * Name of all-important data-file with engine properties
-	 */
-	private static final String engineModelFile = "data.xml";
 
 	/**
 	 * Model to load or save; must be set before any operation is performed
@@ -162,16 +165,19 @@ public class EditorModelLoader {
 	private EditorModelImpl model;
 
 	@Inject
-	public EditorModelLoader(XMLParser parser, EAdventureImporter importer,
-			AdventureWriter writer, ImportAnnotator annotator,
+	public EditorModelLoader(XMLParser parser, ImportAnnotator annotator,
 			ReflectionProvider reflectionProvider) {
 
 		this.parser = parser;
-		this.reader = new AdventureReader(parser, reflectionProvider);
-		this.importer = importer;
-		this.writer = writer;
+		this.reader = new AdventureReader(reflectionProvider, parser,
+				new JavaTextFileReader());
+		this.zipTextFileReader = new ZipTextFileReader();
+		this.zipReader = new AdventureReader(reflectionProvider, parser,
+				zipTextFileReader);
+		this.writer = new AdventureWriter(reflectionProvider);
 		this.importAnnotator = (EditorAnnotator) annotator;
 		this.saveDir = null;
+		this.converter = new AdventureConverter();
 
 		importNodeFactories.add(new ActorFactory());
 		importNodeFactories.add(new AssetFactory());
@@ -183,22 +189,24 @@ public class EditorModelLoader {
 
 	/**
 	 * Exports the editor model into a zip file.
-	 * 
+	 *
 	 * @param target
 	 *            ; if null, previous target is assumed
 	 * @throws IOException
+	 * //FIXME: Folder
 	 */
 	public void exportGame(File target) throws IOException {
-		importer.createGameFile((EAdAdventureModel) model.getEngineModel(),
-				saveDir.getAbsolutePath(), target.getAbsolutePath(), ".eap",
-				"Editor project, exported", true);
+		writer.write((EAdAdventureModel) model.getEngineModel(), saveDir
+				.getAbsolutePath(), new JavaTextFileWriter());
+		//	target.getAbsolutePath(), ".eap",
+		//				"Editor project, exported", true);
 		// always adds the mappings, to allow editing it once again
-		writeEditorNodes(target);
+		//		writeEditorNodes(target);
 	}
 
 	/**
 	 * Writes the editor mappings to an editor.xml file.
-	 * 
+	 *
 	 * @param dest
 	 * @return number of mappings written
 	 */
@@ -228,7 +236,7 @@ public class EditorModelLoader {
 
 	/**
 	 * Reads the editor mappings from an editor.xml file.
-	 * 
+	 *
 	 * @param source
 	 * @return number of mappings read
 	 */
@@ -307,7 +315,7 @@ public class EditorModelLoader {
 	private class EditorModelVisitor implements ModelVisitor {
 		/**
 		 * Visits a node
-		 * 
+		 *
 		 * @see ModelVisitor#visitObject
 		 */
 		@Override
@@ -339,7 +347,7 @@ public class EditorModelLoader {
 
 		/**
 		 * Visits a node property. Mostly used for indexing
-		 * 
+		 *
 		 * @see ModelVisitor#visitProperty
 		 */
 		@Override
@@ -378,7 +386,7 @@ public class EditorModelLoader {
 	/**
 	 * Loads data from an EAdventure1.x game file. Saves this as an EAdventure
 	 * 2.x editor file.
-	 * 
+	 *
 	 * @param fin
 	 *            old-version file to import from
 	 * @param fout
@@ -398,10 +406,10 @@ public class EditorModelLoader {
 		saveDir = fout;
 		ProgressProxy pp = new ProgressProxy(0, 0.5f);
 		model.updateProgress(0, "Starting import...");
-		importer.addProgressListener(pp);
-		model.setEngineModel(importer.importGame(fin.getAbsolutePath(), fout
-				.getAbsolutePath()));
-		importer.removeProgressListener(pp);
+		//		converter.addProgressListener(pp);
+		converter.convert(fin.getAbsolutePath(), fout.getAbsolutePath());
+		model.setEngineModel(converter.getModel());
+		//		converter.removeProgressListener(pp);
 		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(fout);
 
@@ -435,7 +443,7 @@ public class EditorModelLoader {
 	 * Loads the editor model. Discards the current editing session. The file
 	 * must have been built with save(). Any presentation-related data should be
 	 * added after this is called, using FileUtils.readEntryFromZip(source, ...)
-	 * 
+	 *
 	 * @param sourceDir
 	 * @throws IOException
 	 */
@@ -449,14 +457,14 @@ public class EditorModelLoader {
 		// read
 		saveDir = sourceDir;
 		model.updateProgress(10, "Reading engine model ...");
-		String xml;
 		if (sourceDir.isFile()) {
-			xml = FileUtils.loadZipEntryToString(saveDir, engineModelFile);
+			zipTextFileReader.setBase(saveDir);
+			zipReader.setPath(saveDir.getAbsolutePath());
+			model.setEngineModel(zipReader.readFullModel());
 		} else {
-			xml = FileUtils
-					.loadFileToString(new File(saveDir, engineModelFile));
+			reader.setPath(saveDir.getAbsolutePath());
+			model.setEngineModel(reader.readFullModel());
 		}
-		model.setEngineModel(reader.readXML(xml));
 		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(saveDir);
 
@@ -506,13 +514,9 @@ public class EditorModelLoader {
 			String strings, properties;
 			if (base.isFile()) {
 				strings = FileUtils.loadZipEntryToString(base, stringsFile);
-				properties = FileUtils.loadZipEntryToString(base,
-						enginePropertiesFile);
 			} else {
 				strings = FileUtils
 						.loadFileToString(new File(base, stringsFile));
-				properties = FileUtils.loadFileToString(new File(base,
-						enginePropertiesFile));
 			}
 
 			// FIXME - only reads the current-language versions
@@ -543,7 +547,6 @@ public class EditorModelLoader {
 	private void saveStringsAndProperties(File base) {
 		try {
 			ByteArrayOutputStream stringOutput = new ByteArrayOutputStream();
-			ByteArrayOutputStream propertiesOutput = new ByteArrayOutputStream();
 
 			// FIXME - only writes the current-language versions
 			StringWriter sw = new StringWriter();
@@ -551,24 +554,14 @@ public class EditorModelLoader {
 			logger.info("Wrote {} strings", model.getStringHandler()
 					.getStrings().size());
 
-			Properties p = new Properties();
-			p.putAll(model.getEngineProperties());
-			p.store(propertiesOutput, "Saved from editor on "
-					+ (new GregorianCalendar()));
-
 			if (base.isFile()) {
 				ByteArrayInputStream bis;
 				bis = new ByteArrayInputStream(stringOutput.toByteArray());
 				FileUtils.appendEntryToZip(base, stringsFile, bis);
-				bis = new ByteArrayInputStream(propertiesOutput.toByteArray());
-				FileUtils.appendEntryToZip(base, enginePropertiesFile, bis);
 			} else {
 				ByteArrayInputStream bis;
 				bis = new ByteArrayInputStream(stringOutput.toByteArray());
 				FileUtils.writeToFile(bis, new File(base, stringsFile));
-				bis = new ByteArrayInputStream(propertiesOutput.toByteArray());
-				FileUtils
-						.writeToFile(bis, new File(base, enginePropertiesFile));
 			}
 
 			logger.info("Wrote {} engine properties", model
@@ -583,7 +576,7 @@ public class EditorModelLoader {
 	 * resources, plus editor-specific model nodes. Does not include anything
 	 * presentation- related; that should be appended via
 	 * FileUtils.appendEntryToZip(target, ...)
-	 * 
+	 *
 	 * @param target
 	 *            ; if null, previous target is assumed
 	 * @throws IOException
@@ -648,7 +641,7 @@ public class EditorModelLoader {
 
 	/**
 	 * Returns a file that is relative to this save-file
-	 * 
+	 *
 	 * @param name
 	 *            of file to return, relative to save-file
 	 */
@@ -664,7 +657,7 @@ public class EditorModelLoader {
 	/**
 	 * Writes the data.xml file, optionally with a human-readable copy. Also
 	 * includes internationalized strings and engine properties
-	 * 
+	 *
 	 * @param dest
 	 *            destination file
 	 * @param humanReadable
@@ -675,13 +668,21 @@ public class EditorModelLoader {
 			throws IOException {
 
 		// data
-		File destFile = new File(dest, "data.xml");
-		writer.write((EAdAdventureModel) model.getEngineModel(), destFile
-				.getAbsolutePath());
+		writer.write((EAdAdventureModel) model.getEngineModel(), dest
+				.getAbsolutePath(), new JavaTextFileWriter());
 
 		if (humanReadable) {
-			DataPrettifier.prettify(destFile, new File(dest, "pretty-"
-					+ destFile.getName()));
+			for (File f : dest.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.equals("manifest.xml")
+							|| name.endsWith(".scene")
+							|| name.endsWith(".chapter");
+				}
+			})) {
+				DataPrettifier.prettify(f, new File(dest, "pretty-"
+						+ f.getName()));
+			}
 		}
 
 		// strings and props
@@ -709,6 +710,25 @@ public class EditorModelLoader {
 		@Override
 		public void update(int progress, String text) {
 			model.updateProgress(start + (int) (progress * factor), text);
+		}
+	}
+
+	private static class ZipTextFileReader implements TextFileReader {
+		private File zipFile;
+
+		public void setBase(File zipFile) {
+			this.zipFile = zipFile;
+		}
+
+		@Override
+		public String read(String entryName) {
+			try {
+				return FileUtils.loadZipEntryToString(zipFile, entryName);
+			} catch (IOException ioe) {
+				logger.warn("Could not read file {}: {}", zipFile + "::"
+						+ entryName, ioe.toString());
+				return "ERROR";
+			}
 		}
 	}
 }

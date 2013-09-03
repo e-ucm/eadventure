@@ -35,9 +35,78 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Internationalization utility classes.
- * 
- */
+package es.eucm.ead.editor.util;
 
-package es.eucm.ead.tools.java.utils.i18n;
+/**
+ * Generic pointer class.
+ *
+ * @param <T> Type of the element to point at.
+ */
+public class Pointer<T> {
+
+	/**
+	 * Referenced element;
+	 */
+	public T reference;
+
+	/**
+	 * Creates an empty {link Pointer}.
+	 */
+	public Pointer() {
+		this(null);
+	}
+
+	/**
+	 * Creates a {link Pointer} to the specified element.
+	 *
+	 * @param reference Element to point at.
+	 */
+	public Pointer(T reference) {
+		this.reference = reference;
+	}
+
+	/**
+	 * Returns the referenced element.
+	 *
+	 * @return the referenced element.
+	 */
+	public T getReference() {
+		return reference;
+	}
+
+	/**
+	 * Establishs the referenced element.
+	 *
+	 * @param reference Element to reference.
+	 */
+	public void setReference(T reference) {
+		this.reference = reference;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((reference == null) ? 0 : reference.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		@SuppressWarnings("rawtypes")
+		Pointer other = (Pointer) obj;
+		if (reference == null) {
+			if (other.reference != null)
+				return false;
+		} else if (!reference.equals(other.reference))
+			return false;
+		return true;
+	}
+}

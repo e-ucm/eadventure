@@ -114,18 +114,18 @@ public class AdventureConverter {
 	}
 
 	/**
-	 * Converts the adventure in file to the new format, and stores the converted game in destinyFolder. If destinyFolder is null, a temp file is created
+	 * Converts the adventure in file to the new format, and stores the converted game in destinationFolder. If destinationFolder is null, a temp file is created
 	 * @param file
-	 * @param destinyFolder
-	 * @return the destiny folder path
+	 * @param destinationFolder
+	 * @return the destination folder path
 	 */
-	public String convert(String file, String destinyFolder) {
+	public String convert(String file, String destinationFolder) {
 
-		if (destinyFolder == null) {
+		if (destinationFolder == null) {
 			String tempFolder = System.getProperty("java.io.tmpdir");
 			File tmpDir = new File(tempFolder + File.separator
 					+ "eAdventureTemp" + rand.nextInt());
-			destinyFolder = tmpDir.getAbsolutePath();
+			destinationFolder = tmpDir.getAbsolutePath();
 		}
 
 		// Reset attributes
@@ -134,7 +134,7 @@ public class AdventureConverter {
 		resourcesConverter.clear();
 
 		logger.debug("Converting {}", file);
-		resourceConverter.setPath(destinyFolder);
+		resourceConverter.setPath(destinationFolder);
 
 		adventureData = oldReader.loadGame(file);
 		modelQuerier.setAdventureData(adventureData);
@@ -186,8 +186,8 @@ public class AdventureConverter {
 			model.addChapter(chapter);
 		}
 
-		String path = destinyFolder
-				+ (destinyFolder.charAt(destinyFolder.length() - 1) == '/' ? ""
+		String path = destinationFolder
+				+ (destinationFolder.charAt(destinationFolder.length() - 1) == '/' ? ""
 						: "/");
 		// Create data.xml
 		writer.write(model, path, new JavaTextFileWriter());
@@ -202,7 +202,7 @@ public class AdventureConverter {
 					file, e);
 		}
 
-		return destinyFolder;
+		return destinationFolder;
 
 	}
 

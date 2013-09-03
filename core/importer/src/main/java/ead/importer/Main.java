@@ -47,7 +47,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		String source = args[0];
-		String destiny = args[1];
+		String destination = args[1];
 		String format = "none";
 		if (args.length > 3) {
 			if (args[2].equals("-f")) {
@@ -77,7 +77,7 @@ public class Main {
 
 		});
 
-		importer.importGame(source, destiny, format);
+		importer.importGame(source, destination, format);
 	}
 
 }

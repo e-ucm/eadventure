@@ -69,8 +69,14 @@ import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Singleton
 public class CutsceneConverter {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(CutsceneConverter.class);
 
 	public static final VarDef<Boolean> IN_CUTSCENE = new VarDef<Boolean>(
 			"in_cutscene", Boolean.class, false);
@@ -189,6 +195,13 @@ public class CutsceneConverter {
 			// Slides
 
 			// XXX scene music
+		}
+
+		// avoid epty cutscenes
+		if (cutscene.isEmpty()) {
+			logger.error("No scenes in cutscene {} (id {})", cs.getName(), cs
+					.getId());
+			return cutscene;
 		}
 
 		// Add conditioned resources

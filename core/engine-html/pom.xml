@@ -11,14 +11,14 @@
 
 	<artifactId>ead-engine-html</artifactId>
 	<packaging>war</packaging>
-	<name>eAdventure HTML Engine</name>	
+	<name>eAdventure HTML Engine</name>
 
 	<properties>
 		<gwt.module>es.eucm.ead.engine.Engine</gwt.module>
 		<gwt.version>2.5.0</gwt.version>
 		<gwt.runTarget>es.eucm.ead.engine.html/GwtLauncher.java</gwt.runTarget>
 		<!-- switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output-->
-		<gwt.logLevel>DEBUG</gwt.logLevel> 
+		<gwt.logLevel>INFO</gwt.logLevel>
 		<gwt.style>PRETTY</gwt.style>
 	</properties>
 
@@ -154,7 +154,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 			<!-- war stuff -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -164,7 +164,7 @@
                     <warName>eadengine</warName>
                 </configuration>
 			</plugin>
-			<!-- This configuration is used to store Eclipse m2e settings only. It 
+			<!-- This configuration is used to store Eclipse m2e settings only. It
 			has no influence on the Maven build itself. -->
 			<plugin>
 				<groupId>org.eclipse.m2e</groupId>
