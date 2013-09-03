@@ -1139,6 +1139,14 @@ public class SceneElementGO extends Group implements
 		}
 	}
 
+	public float getRelativeX() {
+		return getX() + getOriginX();
+	}
+
+	public float getRelativeY() {
+		return getY() + getOriginY();
+	}
+
 	public void setWidth(float width) {
 		updateRelatives = true;
 		super.setWidth(width);

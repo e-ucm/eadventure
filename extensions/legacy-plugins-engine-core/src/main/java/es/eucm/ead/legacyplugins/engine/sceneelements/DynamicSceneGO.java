@@ -47,7 +47,16 @@ public class DynamicSceneGO extends SceneGO {
 		if (adjust) {
 			if (firstPerson) {
 				// [GE - Arrows]
-
+				float x = gui.getMouseX();
+				float deltaX = delta * 0.5f;
+				if (x < sceneWidth * 0.1f && this.getX() < 0) {
+					this.setX(Math.min(0, this.getRelativeX() + deltaX));
+				} else if (x > gameWidth * 0.9f
+						&& this.getX() > gameWidth - sceneWidth) {
+					this.setX(Math.max(gameWidth - sceneWidth, this
+							.getRelativeX()
+							- deltaX));
+				}
 			} else {
 				// [GE - Follow]
 				EAdSceneElement s = gameState

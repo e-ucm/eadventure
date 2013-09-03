@@ -158,6 +158,16 @@ public class AssetViewerModule extends AbstractModule {
 
 		}
 
+		@Override
+		public float getMouseY() {
+			return 0; //To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public float getMouseX() {
+			return 0; //To change body of implemented methods use File | Settings | File Templates.
+		}
+
 	}
 
 	public static class AssetVariableMap extends GameStateImpl {
