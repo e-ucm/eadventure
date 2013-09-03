@@ -61,7 +61,7 @@ import java.util.TreeSet;
  * classpath, and should be regenerated as part of the release process. This
  * method is much quicker than scanning jar-files at execution time.
  * Messages.java files have a similar structure and workflow.
- * 
+ *
  * R.java files imitate a similar mechanism developed for Android applications;
  * you can read more about it at
  * http://developer.android.com/guide/topics/resources/accessing-resources.html
@@ -73,7 +73,7 @@ public class ResourceCreator {
 	/**
 	 * Generate the R.java file with the 'R' class for the given project and
 	 * package
-	 * 
+	 *
 	 * @param args
 	 *            projecteURL: the location of the project for which the R file
 	 *            must be generated packageName: the name of the main package in
@@ -237,9 +237,11 @@ public class ResourceCreator {
 			br = new BufferedReader(new InputStreamReader(
 					new FileInputStream(f), "UTF-8"));
 			while (br.ready()) {
-				out.println(" * " + br.readLine());
+				String read = trimRight(br.readLine());
+				out.println((read.isEmpty() ? " *" : " * ") + read);
 			}
 			out.println(" */");
+			out.println();
 		} catch (IOException e) {
 			System.err.println("Error adding license from '"
 					+ f.getAbsolutePath() + "'");
@@ -253,6 +255,21 @@ public class ResourceCreator {
 		}
 	}
 
+	private static String trimRight(String s) {
+		boolean onlySpacesFound = true;
+		int lastChar = 0;
+		int pos = 0;
+		for (char c : s.toCharArray()) {
+			if (!Character.isSpaceChar(c)) {
+				onlySpacesFound = false;
+				lastChar = pos;
+			}
+			pos++;
+		}
+
+		return onlySpacesFound ? "" : s.substring(0, lastChar + 1);
+	}
+
 	/**
 	 * Write resource-list into R class. Notice that "qualifiers" (-something
 	 * extensions in the leading directories) are ignored, to allow for
@@ -262,7 +279,7 @@ public class ResourceCreator {
 	 * es_ES/SplashScreenLogo_png drawable/conditions/vars.png becomes
 	 * conditions__vars_png drawable-es_ES/SplashScreenLogo.png becomes
 	 * es_ES/conditions__vars_png
-	 * 
+	 *
 	 * @param location
 	 *            the location of the resources
 	 * @param className
@@ -344,7 +361,7 @@ public class ResourceCreator {
 	/**
 	 * Write message-list into Messages class. Only messages that exist in the
 	 * default language are included.
-	 * 
+	 *
 	 * @param location
 	 *            the location of the source .properties file
 	 * @param className
@@ -386,7 +403,7 @@ public class ResourceCreator {
 
 	/**
 	 * Recursive method to visit all the sub-folders in the resource structure.
-	 * 
+	 *
 	 * @param files
 	 * @param currentPath
 	 * @param currentDir

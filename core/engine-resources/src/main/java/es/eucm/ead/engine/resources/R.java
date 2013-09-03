@@ -1,65 +1,54 @@
-/**
- * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
- *    <e-UCM> research group.
- *   
- *    Copyright 2005-2010 <e-UCM> research group.
- *  
- *    You can access a list of all the contributors to eAdventure at:
- *          http://e-adventure.e-ucm.es/contributors
- *  
- *    <e-UCM> is a research group of the Department of Software Engineering
- *          and Artificial Intelligence at the Complutense University of Madrid
- *          (School of Computer Science).
- *  
- *          C Profesor Jose Garcia Santesmases sn,
- *          28040 Madrid (Madrid), Spain.
- *  
- *          For more info please visit:  <http://e-adventure.e-ucm.es> or
- *          <http://www.e-ucm.es>
- *  
- * ****************************************************************************
- *  
- *  This file is part of eAdventure, version 2.0
- *  
- *      eAdventure is free software: you can redistribute it and/or modify
- *      it under the terms of the GNU Lesser General Public License as published by
- *      the Free Software Foundation, either version 3 of the License, or
- *      (at your option) any later version.
- *  
- *      eAdventure is distributed in the hope that it will be useful,
- *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *      GNU Lesser General Public License for more details.
- *  
- *      You should have received a copy of the GNU Lesser General Public License
- *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
- */
 package es.eucm.ead.engine.resources;
 
-import java.util.Set;
-import java.util.TreeSet;
-
-import es.eucm.ead.tools.java.utils.i18n.I18N;
-
-/**
- * Resource index for this package (statically compiled).
- *
- * This is an AUTOMATICALLY-GENERATED file - 
- * Run class es.eucm.ead.tools.java.utils.i18n.ResourceCreator with parameters: 
- *    "./core/engine-resources" "es.eucm.ead.engine.resources" "etc/LICENSE.txt" "./core/engine-resources/src/main/java/es/eucm/ead/engine/resources/R.java"
- * to re-create or update this class
- */
-@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 public class R {
-
-	public static class Drawable {
-
-		static {
-			Set<String> files = new TreeSet<String>();
-
-
-			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
-		}
-	}
+public static final String[] RESOURCES = new String[]{
+  "es/eucm/ead/engine/resources/drawable/speak_out.png",
+  "es/eucm/ead/engine/resources/drawable/dot.png",
+  "es/eucm/ead/engine/resources/drawable/bubblename.png",
+  "es/eucm/ead/engine/resources/drawable/checkboxon.png",
+  "es/eucm/ead/engine/resources/drawable/usewith-pressed.png",
+  "es/eucm/ead/engine/resources/drawable/dots.png",
+  "es/eucm/ead/engine/resources/drawable/default_right_arrow.png",
+  "es/eucm/ead/engine/resources/drawable/use-normal.png",
+  "es/eucm/ead/engine/resources/drawable/loadingbar.png",
+  "es/eucm/ead/engine/resources/drawable/speak_in.png",
+  "es/eucm/ead/engine/resources/drawable/giveto-pressed.png",
+  "es/eucm/ead/engine/resources/drawable/loader.png",
+  "es/eucm/ead/engine/resources/drawable/button_pressed.png",
+  "es/eucm/ead/engine/resources/drawable/button_normal.png",
+  "es/eucm/ead/engine/resources/drawable/talk-normal.png",
+  "es/eucm/ead/engine/resources/drawable/examine-normal.png",
+  "es/eucm/ead/engine/resources/drawable/default_right_over_arrow.png",
+  "es/eucm/ead/engine/resources/drawable/talk_cursor.png",
+  "es/eucm/ead/engine/resources/drawable/default_cursor.png",
+  "es/eucm/ead/engine/resources/drawable/checkboxoff.png",
+  "es/eucm/ead/engine/resources/drawable/balloon_out.png",
+  "es/eucm/ead/engine/resources/drawable/exit.png",
+  "es/eucm/ead/engine/resources/drawable/giveto-normal.png",
+  "es/eucm/ead/engine/resources/drawable/grab.png",
+  "es/eucm/ead/engine/resources/drawable/grab-pressed.png",
+  "es/eucm/ead/engine/resources/drawable/balloon_in.png",
+  "es/eucm/ead/engine/resources/drawable/examine-pressed.png",
+  "es/eucm/ead/engine/resources/drawable/take_cursor.png",
+  "es/eucm/ead/engine/resources/drawable/drag-pressed.png",
+  "es/eucm/ead/engine/resources/drawable/default_left_over_arrow.png",
+  "es/eucm/ead/engine/resources/drawable/drag-normal.png",
+  "es/eucm/ead/engine/resources/drawable/loading.png",
+  "es/eucm/ead/engine/resources/drawable/use-pressed.png",
+  "es/eucm/ead/engine/resources/drawable/examine_cursor.png",
+  "es/eucm/ead/engine/resources/drawable/default_left_arrow.png",
+  "es/eucm/ead/engine/resources/drawable/grab-normal.png",
+  "es/eucm/ead/engine/resources/drawable/usewith-normal.png",
+  "es/eucm/ead/engine/resources/drawable/talk-pressed.png",
+  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-32.png",
+  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.fnt",
+  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-32.fnt",
+  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.png",
+  "es/eucm/ead/engine/resources/plugins.txt",
+  "es/eucm/ead/engine/resources/gdx/plugins.txt",
+  "es/eucm/ead/engine/resources/es_ES/drawable/loading.png",
+  "es/eucm/ead/engine/resources/es_ES/engine_strings.xml",
+  "es/eucm/ead/engine/resources/engine_strings.xml",
+  "es/eucm/ead/engine/resources/it_IT/engine_strings.xml"
+};
 }
-

@@ -105,10 +105,10 @@ public class AdventureReader {
 
 	public EAdAdventureModel readFullModel() {
 		Manifest manifest = getManifest();
-		EAdAdventureModel model =  manifest.getModel();
+		EAdAdventureModel model = manifest.getModel();
 		int chapterIndex = 0;
 		for (String cid : manifest.getChapterIds()) {
-			BasicChapter c = (BasicChapter)readChapter(cid);
+			BasicChapter c = (BasicChapter) readChapter(cid);
 			model.addChapter(c);
 			if (cid.equals(manifest.getInitialChapter())) {
 				model.setInitialChapter(c);
@@ -120,7 +120,7 @@ public class AdventureReader {
 
 			// FIXME: no way to locate all scenes of chapter...
 
-			chapterIndex ++;
+			chapterIndex++;
 		}
 
 		return model;

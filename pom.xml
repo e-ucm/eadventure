@@ -253,6 +253,7 @@
 					<aggregate>true</aggregate>
 					<excludes>
 						<exclude>*.*</exclude>
+						<exclude>**/.so</exclude>
 						<exclude>**/.*</exclude>
 						<exclude>**/*.txt</exclude>
 						<exclude>**/*.xml</exclude>
@@ -277,12 +278,8 @@
 						<id>check-headers</id>
 						<phase>verify</phase>
 						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-					<execution>
-						<goals>
 							<goal>format</goal>
+							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
