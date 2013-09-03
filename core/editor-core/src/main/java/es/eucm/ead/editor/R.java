@@ -156,8 +156,8 @@ public class R {
 			files.add("toolbar/search.png");
 			files.add("toolbar/undo.png");
 
-			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
+			I18N.initializeResources(Drawable.class.getName(), Drawable.class,
+					files);
 		}
 	}
 }
-

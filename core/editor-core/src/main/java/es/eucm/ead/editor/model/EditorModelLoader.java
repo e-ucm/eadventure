@@ -169,9 +169,11 @@ public class EditorModelLoader {
 			ReflectionProvider reflectionProvider) {
 
 		this.parser = parser;
-		this.reader = new AdventureReader(reflectionProvider, parser, new JavaTextFileReader());
+		this.reader = new AdventureReader(reflectionProvider, parser,
+				new JavaTextFileReader());
 		this.zipTextFileReader = new ZipTextFileReader();
-		this.zipReader = new AdventureReader(reflectionProvider, parser, zipTextFileReader);
+		this.zipReader = new AdventureReader(reflectionProvider, parser,
+				zipTextFileReader);
 		this.writer = new AdventureWriter(reflectionProvider);
 		this.importAnnotator = (EditorAnnotator) annotator;
 		this.saveDir = null;
@@ -713,6 +715,7 @@ public class EditorModelLoader {
 
 	private static class ZipTextFileReader implements TextFileReader {
 		private File zipFile;
+
 		public void setBase(File zipFile) {
 			this.zipFile = zipFile;
 		}
@@ -722,7 +725,8 @@ public class EditorModelLoader {
 			try {
 				return FileUtils.loadZipEntryToString(zipFile, entryName);
 			} catch (IOException ioe) {
-				logger.warn("Could not read file {}: {}", zipFile + "::" + entryName, ioe.toString());
+				logger.warn("Could not read file {}: {}", zipFile + "::"
+						+ entryName, ioe.toString());
 				return "ERROR";
 			}
 		}
