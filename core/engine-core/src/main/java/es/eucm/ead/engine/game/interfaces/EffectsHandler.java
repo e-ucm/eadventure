@@ -39,6 +39,7 @@ package es.eucm.ead.engine.game.interfaces;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 import es.eucm.ead.engine.factories.EffectFactory;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;

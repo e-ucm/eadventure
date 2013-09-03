@@ -38,10 +38,10 @@
 package es.eucm.ead.engine.operators.evaluators;
 
 import es.eucm.ead.engine.factories.mapproviders.EvaluatorsMapProvider;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
+import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.operators.Operator;
-import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.engine.operators.OperatorFactory;
+import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.tools.AbstractFactory;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
@@ -49,9 +49,9 @@ public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
 		Operator<EAdCondition> {
 
 	public EvaluatorFactory(ReflectionProvider interfacesProvider,
-			ValueMap valueMap, OperatorFactory operatorFactory) {
+			OperatorFactory operatorFactory) {
 		super(null, interfacesProvider);
-		setMap(new EvaluatorsMapProvider(valueMap, this, operatorFactory));
+		setMap(new EvaluatorsMapProvider(this, operatorFactory));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,7 +62,7 @@ public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
 
 	/**
 	 * Evaluates a condition, using the required evaluator, based on a given
-	 * {@link ValeMap}.
+	 * {@link ValueMap}.
 	 * 
 	 * @param <T>
 	 *            The actual condition class

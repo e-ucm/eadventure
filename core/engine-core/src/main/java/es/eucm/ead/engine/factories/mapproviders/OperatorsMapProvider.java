@@ -53,7 +53,7 @@ import es.eucm.ead.model.elements.operations.ListOp;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.StringOp;
 import es.eucm.ead.model.elements.operations.ValueOp;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.operators.ConcatenateStringsOperator;
 import es.eucm.ead.engine.operators.ConditionedOperator;
 import es.eucm.ead.engine.operators.FieldOperator;

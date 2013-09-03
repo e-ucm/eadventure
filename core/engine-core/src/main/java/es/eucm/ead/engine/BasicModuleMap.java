@@ -35,19 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.game.interfaces;
+package es.eucm.ead.engine;
 
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.reader2.model.Manifest;
+import com.badlogic.gdx.ApplicationListener;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
+import es.eucm.ead.engine.canvas.filters.FilterFactory;
+import es.eucm.ead.engine.canvas.filters.GdxFilterFactory;
+import es.eucm.ead.engine.game.EngineStringHandler;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
+import es.eucm.ead.engine.tracking.DefaultGameTracker;
+import es.eucm.ead.engine.tracking.GameTracker;
+import es.eucm.ead.engine.tracking.selection.DefaultTrackerSelector;
+import es.eucm.ead.engine.tracking.selection.TrackerSelector;
+import es.eucm.ead.tools.ModuleMap;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.TextFileReader;
 
-public interface GameLoader {
+public class BasicModuleMap extends ModuleMap {
 
-	void loadGame();
+	public BasicModuleMap() {
 
-	void loadChapter(String chapterId);
+		binds.put(TextFileReader.class, AssetHandler.class);
+		binds.put(AssetHandler.class, AssetHandlerImpl.class);
+		binds.put(StringHandler.class, EngineStringHandler.class);
 
-	Manifest loadManifest();
+		binds.put(FilterFactory.class, GdxFilterFactory.class);
 
-	EAdScene loadScene(String sceneId);
+		// Tracking
+		binds.put(GameTracker.class, DefaultGameTracker.class);
+		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);
+
+		binds.put(SceneLoader.class, DefaultSceneLoader.class);
+
+		binds.put(ApplicationListener.class, EAdEngine.class);
+
+	}
 
 }

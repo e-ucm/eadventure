@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.operators.evaluators;
 
 import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
+import es.eucm.ead.engine.game.ValueMap;
 
 /**
  * <p>
@@ -62,7 +62,7 @@ public interface Evaluator<T extends EAdCondition> {
 	 * 
 	 * @param condition
 	 *            The condition to evaluate
-	 * @return A boolean result of evaluating the condition
+	 * @return A boolean result after evaluating the condition
 	 */
 	public boolean evaluate(T condition);
 

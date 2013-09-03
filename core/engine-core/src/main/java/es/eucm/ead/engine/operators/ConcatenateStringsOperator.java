@@ -37,7 +37,7 @@
 
 package es.eucm.ead.engine.operators;
 
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
 

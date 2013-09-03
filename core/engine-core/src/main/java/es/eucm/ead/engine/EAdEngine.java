@@ -50,10 +50,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.canvas.GdxCanvas;
-import es.eucm.ead.engine.game.GameImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.tools.StringHandler;
@@ -148,7 +147,7 @@ public class EAdEngine implements ApplicationListener {
 		gameState.setValue(SystemFields.MOUSE_X, Gdx.input.getX() / scaleX);
 		gameState.setValue(SystemFields.MOUSE_Y, Gdx.input.getY() / scaleY);
 		stage.draw();
-		game.doHook(GameImpl.HOOK_AFTER_RENDER);
+		game.doHook(Game.HOOK_AFTER_RENDER);
 	}
 
 	@Override

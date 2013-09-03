@@ -40,12 +40,9 @@ package es.eucm.ead.engine.desktop.utils.assetviewer;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.assets.fonts.FontHandler;
-import es.eucm.ead.engine.assets.fonts.FontHandlerImpl;
 import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
-import es.eucm.ead.engine.game.GameStateImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -63,13 +60,11 @@ public class AssetViewerModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
 		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class).in(
 				Singleton.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);
-		bind(GameState.class).to(AssetVariableMap.class).in(Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
 				Singleton.class);
@@ -170,7 +165,7 @@ public class AssetViewerModule extends AbstractModule {
 
 	}
 
-	public static class AssetVariableMap extends GameStateImpl {
+	public static class AssetVariableMap extends GameState {
 
 		public AssetVariableMap(StringHandler stringHandler,
 				ReflectionProvider reflectionProvider) {

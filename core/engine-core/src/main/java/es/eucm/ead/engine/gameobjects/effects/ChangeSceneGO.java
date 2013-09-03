@@ -39,10 +39,9 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.GameLoaderImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.TransitionGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
@@ -79,7 +78,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Inject
 	public ChangeSceneGO(SceneElementFactory sceneElementFactory,
-			SceneLoader sceneLoader, GameLoaderImpl gameLoader, Game game) {
+			SceneLoader sceneLoader, GameLoader gameLoader, Game game) {
 		super(game);
 		this.sceneLoader = sceneLoader;
 		this.gui = this.game.getGUI();

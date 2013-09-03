@@ -44,7 +44,7 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.canvas.GdxCanvas;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.elements.operations.SystemFields;

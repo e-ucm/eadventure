@@ -37,9 +37,10 @@
 
 package es.eucm.ead.engine.game;
 
+import aurelienribon.tweenengine.TweenAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.operators.OperatorFactory;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdElement;
@@ -49,6 +50,7 @@ import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
+import es.eucm.ead.tools.MathEvaluator;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
@@ -59,7 +61,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 @Singleton
-public class GameStateImpl extends ValueMapImpl implements GameState {
+public class GameState extends ValueMap implements
+		MathEvaluator.OperationResolver, TweenAccessor<EAdField<?>> {
 
 	private static final char BEGIN_VAR_CHAR = '[';
 
@@ -80,7 +83,7 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	private Map<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> fieldWatchers;
 
 	@Inject
-	public GameStateImpl(StringHandler stringHandler,
+	public GameState(StringHandler stringHandler,
 			ReflectionProvider reflectionProvider) {
 		super(reflectionProvider, stringHandler);
 		this.operatorFactory = new OperatorFactory(reflectionProvider, this,
@@ -91,7 +94,14 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 
 	}
 
-	@Override
+	/**
+	 * Evaluates a condition, using the required evaluator
+	 *
+	 * @param <T>       The actual condition class
+	 * @param condition The condition to be evaluated
+	 * @return The result of evaluating the condition according to the current
+	 *         values of the game state
+	 */
 	public <T extends EAdCondition> boolean evaluate(T condition) {
 		if (condition == null) {
 			return true;
@@ -103,12 +113,25 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		return operatorFactory.operate(eAdVar, eAdOperation);
 	}
 
-	@Override
+	/**
+	 * Sets the field to the result value of the operation
+	 *
+	 * @param field     the field
+	 * @param operation the operation
+	 */
 	public <S> void setValue(EAdField<S> field, EAdOperation operation) {
 		setValue(field.getElement(), field.getVarDef(), operation);
 	}
 
-	@Override
+	/**
+	 * Sets the element's variable value to the given operation
+	 *
+	 * @param element   the element holding the variable. If the element is
+	 *                  {@code null}, it's considered that the variable belongs to the
+	 *                  system (it's a global field)
+	 * @param var       the variable definition
+	 * @param operation the operation whose result will be assigned to the variable
+	 */
 	public <S> void setValue(Identified element, EAdVarDef<S> var,
 			EAdOperation operation) {
 		S result = operatorFactory.operate(var.getType(), operation);
@@ -120,7 +143,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		notifyWatchers(element, varDef);
 	}
 
-	@Override
 	public int getValues(EAdField<?> field, int type, float[] values) {
 		switch (type) {
 		default:
@@ -135,7 +157,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
-	@Override
 	public void setValues(EAdField field, int type, float[] values) {
 		switch (type) {
 		default:
@@ -152,6 +173,22 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	// TEXT PROCESSING
 	// ---------------------------------//
 
+	/**
+	 * <p>
+	 * Substitutes the variables in a text for its values.
+	 * </p>
+	 * <p>
+	 * The text format for the correct substitution should be:
+	 * </p>
+	 * <ul>
+	 * <li><b>[op_index]:</b> The index of the operation whose result will be
+	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
+	 * <li><b>{[condition]? true text : false text } </b> A conditional text,
+	 * depending of the operation whose index is {@code condition} value.</p>
+	 *
+	 * @param text the text to be processed by the value map
+	 * @return the processed text
+	 */
 	public String processTextVars(String text, EAdList<EAdOperation> operations) {
 		text = processConditionalExpressions(text, operations);
 		return processVars(text, operations);
@@ -287,7 +324,13 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		}
 	}
 
-	@Override
+	/**
+	 * Adds a field watcher that is notified every time the given field is
+	 * updated
+	 *
+	 * @param fieldWatcher the field watcher
+	 * @param field        the field to watch
+	 */
 	public void addFieldWatcher(FieldWatcher fieldWatcher, EAdField<?> field) {
 		Map<EAdVarDef<?>, List<FieldWatcher>> map = fieldWatchers.get(field
 				.getElement());
@@ -303,7 +346,11 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		list.add(fieldWatcher);
 	}
 
-	@Override
+	/**
+	 * Removes a field watcher
+	 *
+	 * @param fieldWatcher the field watcher to remove
+	 */
 	public void removeFieldWatcher(FieldWatcher fieldWatcher) {
 		for (Entry<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> e : fieldWatchers
 				.entrySet()) {
@@ -313,10 +360,20 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		}
 	}
 
-	@Override
+	/**
+	 * Resets the game state to its initial state
+	 */
 	public void reset() {
 		fieldWatchers.clear();
 		valuesMap.clear();
 		updateList.clear();
+	}
+
+	public interface FieldWatcher {
+		/**
+		 * Call whenever the field is updated
+		 */
+		void fieldUpdated();
+
 	}
 }

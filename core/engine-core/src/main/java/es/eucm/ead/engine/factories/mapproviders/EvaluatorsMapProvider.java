@@ -37,30 +37,20 @@
 
 package es.eucm.ead.engine.factories.mapproviders;
 
+import es.eucm.ead.engine.operators.OperatorFactory;
+import es.eucm.ead.engine.operators.evaluators.*;
+import es.eucm.ead.model.elements.conditions.*;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import es.eucm.ead.engine.operators.evaluators.EmptyCondEvaluator;
-import es.eucm.ead.engine.operators.evaluators.Evaluator;
-import es.eucm.ead.engine.operators.evaluators.ListedCondEvaluator;
-import es.eucm.ead.model.elements.conditions.ANDCond;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.conditions.NOTCond;
-import es.eucm.ead.model.elements.conditions.ORCond;
-import es.eucm.ead.model.elements.conditions.OperationCond;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
-import es.eucm.ead.engine.operators.OperatorFactory;
-import es.eucm.ead.engine.operators.evaluators.EvaluatorFactory;
-import es.eucm.ead.engine.operators.evaluators.NOTCondEvaluator;
-import es.eucm.ead.engine.operators.evaluators.OperationCondEvaluator;
 
 public class EvaluatorsMapProvider extends
 		AbstractMapProvider<Class<?>, Evaluator<?>> {
 
 	private static Map<Class<?>, Evaluator<?>> tempMap = new HashMap<Class<?>, Evaluator<?>>();
 
-	public EvaluatorsMapProvider(ValueMap valueMap,
-			EvaluatorFactory evaluatorFactory, OperatorFactory operatorFactory) {
+	public EvaluatorsMapProvider(EvaluatorFactory evaluatorFactory,
+			OperatorFactory operatorFactory) {
 		super();
 		factoryMap.put(EmptyCond.class, new EmptyCondEvaluator());
 		factoryMap.put(OperationCond.class, new OperationCondEvaluator(

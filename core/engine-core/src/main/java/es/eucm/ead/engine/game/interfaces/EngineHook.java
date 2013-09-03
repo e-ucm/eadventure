@@ -37,6 +37,9 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameState;
+
 public interface EngineHook extends Comparable<EngineHook> {
 
 	void execute(Game game, GameState gameState, GUI gui);

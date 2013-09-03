@@ -37,7 +37,7 @@
 
 package es.eucm.ead.engine.game;
 
-import es.eucm.ead.engine.game.interfaces.ValueMap;
+import aurelienribon.tweenengine.TweenAccessor;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.interfaces.features.Variabled;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ValueMapImpl implements ValueMap {
+public class ValueMap implements TweenAccessor<EAdField<?>> {
 
 	protected static final Logger logger = LoggerFactory.getLogger("ValueMap");
 
@@ -80,7 +80,7 @@ public class ValueMapImpl implements ValueMap {
 	 */
 	private boolean updateEnable;
 
-	public ValueMapImpl(ReflectionProvider reflectionProvider,
+	public ValueMap(ReflectionProvider reflectionProvider,
 			StringHandler stringHandler) {
 		this.stringHandler = stringHandler;
 		this.reflectionProvider = reflectionProvider;
@@ -90,13 +90,26 @@ public class ValueMapImpl implements ValueMap {
 		updateEnable = true;
 	}
 
-	@Override
+	/**
+	 * Sets the field to given value
+	 *
+	 * @param field the field
+	 * @param value the value to the field
+	 */
 	public <S> void setValue(EAdField<S> field, S value) {
 		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
 	@SuppressWarnings("all")
-	@Override
+	/**
+	 * Sets the value a variable in a element
+	 *
+	 * @param element
+	 *            the element
+	 * @param varDef
+	 *            the var definition
+	 * @param value
+	 */
 	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
 		if (value == null
 				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
@@ -115,6 +128,12 @@ public class ValueMapImpl implements ValueMap {
 
 			valMap.put(varDef, (S) value);
 			if (updateEnable)
+				/**
+				 * If the value map contains values for this element
+				 *
+				 * @param element
+				 * @return
+				 */
 				addUpdatedElement(element);
 
 		} else {
@@ -131,12 +150,30 @@ public class ValueMapImpl implements ValueMap {
 		}
 	}
 
-	@Override
-	public <S> S getValue(EAdField<S> var) {
-		return getValue(var.getElement(), var.getVarDef());
+	/**
+	 * Returns the value of the field
+	 *
+	 * @param <S>   field type
+	 * @param field the field to be consulted
+	 * @return the value of the field
+	 */
+	public <S> S getValue(EAdField<S> field) {
+		return getValue(field.getElement(), field.getVarDef());
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * Returns the value of the variable in the given element
+	 *
+	 *
+	 *
+	 * @param element
+	 *            the element. If the element is {@code null}, is considered as
+	 *            a system variable
+	 * @param varDef
+	 *            the variable definition to be consulted
+	 * @return the variable's value
+	 */
 	public <S> S getValue(Identified element, EAdVarDef<S> varDef) {
 		Map<EAdVarDef<?>, Object> valMap = valuesMap.get(element == null ? null
 				: maybeDecodeField(element).getId());
@@ -157,12 +194,25 @@ public class ValueMapImpl implements ValueMap {
 
 	}
 
-	@Override
+	/**
+	 * Returns the variables associated to an element, whose values are
+	 * different from the defaults
+	 *
+	 * @param element the element. If the element is null, it returns system vars
+	 * @return a map with the variables
+	 */
 	public Map<EAdVarDef<?>, Object> getElementVars(Identified element) {
 		return valuesMap.get(maybeDecodeField(element).getId());
 	}
 
-	@Override
+	/**
+	 * Returns the final element associated to the given element. It could be
+	 * the element itself, but if the element is a field (with type
+	 * {@link es.eucm.ead.model.elements.EAdElement}), the element pointed by the field will be returned,
+	 *
+	 * @param element the element
+	 * @return the final element pointed by the element
+	 */
 	public Identified maybeDecodeField(Identified element) {
 		if (element != null && element instanceof EAdField<?>) {
 			EAdField<?> field = (EAdField<?>) element;
@@ -172,7 +222,16 @@ public class ValueMapImpl implements ValueMap {
 		return element;
 	}
 
-	@Override
+	/**
+	 * Checks if the value map contains updated variables' values for the given
+	 * element. If it does, true is returned, and the element checking for
+	 * updates should read the variables he is interested in. The element is
+	 * deleted for the update list of the value map until another of its fields
+	 * is updated
+	 *
+	 * @param element the element
+	 * @return if any element's field has been updated since last check
+	 */
 	public boolean checkForUpdates(Object element) {
 		if (updateList.contains(element)) {
 			updateList.remove(element);
@@ -183,7 +242,7 @@ public class ValueMapImpl implements ValueMap {
 
 	/**
 	 * Adds an element to the update list
-	 * 
+	 *
 	 * @param element the element to add
 	 */
 	private void addUpdatedElement(Object element) {
@@ -192,18 +251,39 @@ public class ValueMapImpl implements ValueMap {
 		}
 	}
 
-	@Override
+	/**
+	 * Sets if the updates list is enable and it is recording all fields changes
+	 *
+	 * @param enable if it's enable or not
+	 */
 	public void setUpdateListEnable(boolean enable) {
 		updateEnable = enable;
 	}
 
-	@Override
+	/**
+	 * Removes all fields associated to the given element
+	 *
+	 * @param element the element
+	 */
 	public void remove(Identified element) {
 		valuesMap.remove(maybeDecodeField(element).getId());
 	}
 
+	/**
+	 * @param element the element to check
+	 * @return If the value map contains values for this element
+	 */
 	public boolean contains(Identified element) {
 		return valuesMap.get(element.getId()) != null;
 	}
 
+	@Override
+	public int getValues(EAdField<?> eAdField, int i, float[] floats) {
+		return 0;
+	}
+
+	@Override
+	public void setValues(EAdField<?> eAdField, int i, float[] floats) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 }

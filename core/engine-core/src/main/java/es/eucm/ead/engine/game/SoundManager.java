@@ -39,20 +39,19 @@ package es.eucm.ead.engine.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.assets.multimedia.EAdSound;
-import es.eucm.ead.model.assets.multimedia.Music;
-import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.multimedia.RuntimeMusic;
 import es.eucm.ead.engine.assets.multimedia.RuntimeSound;
-import es.eucm.ead.engine.game.interfaces.GameState;
-import es.eucm.ead.engine.game.interfaces.SoundManager;
+import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.model.assets.multimedia.EAdSound;
+import es.eucm.ead.model.assets.multimedia.Music;
+import es.eucm.ead.model.elements.operations.SystemFields;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class SoundManagerImpl implements SoundManager {
+public class SoundManager {
 
 	private RuntimeMusic backgroundMusic;
 
@@ -65,7 +64,7 @@ public class SoundManagerImpl implements SoundManager {
 	private GameState gameState;
 
 	@Inject
-	public SoundManagerImpl(AssetHandler assetHandler, GameState gameState) {
+	public SoundManager(AssetHandler assetHandler, GameState gameState) {
 		this.assetHandler = assetHandler;
 		this.gameState = gameState;
 		this.silence = false;
@@ -73,7 +72,17 @@ public class SoundManagerImpl implements SoundManager {
 		gameState.setValue(SystemFields.SOUND_ON, !isSilence());
 	}
 
-	@Override
+	/**
+	 * Plays a sound
+	 *
+	 * @param sound
+	 *            the sound
+	 * @param overlay
+	 *            If true, the sound is played always. If false, the sound is
+	 *            played only if it's not playing
+	 * @param volume
+	 *            the volume between 0.0 and 1.0
+	 */
 	public void playSound(EAdSound sound, boolean overlay, float volume) {
 		RuntimeSound s = (RuntimeSound) assetHandler.getRuntimeAsset(sound);
 		s.play(overlay, silence ? 0.0f : volume);
@@ -82,7 +91,14 @@ public class SoundManagerImpl implements SoundManager {
 		}
 	}
 
-	@Override
+	/**
+	 * Stops the current background music (if any) and plays the given one
+	 *
+	 * @param sound
+	 *            the new background music
+	 * @param volume
+	 *            the volume between 0.0 and 1.0
+	 */
 	public void playBackgroundMusic(Music sound, boolean loop, float volume) {
 		if (backgroundMusic != null) {
 			backgroundMusic.stop();
@@ -100,6 +116,11 @@ public class SoundManagerImpl implements SoundManager {
 		setSilence(!silence);
 	}
 
+	/**
+	 * Silence all sounds
+	 *
+	 * @param silence
+	 */
 	public void setSilence(boolean silence) {
 		this.silence = silence;
 		float volume = silence ? 0.0f : 1.0f;
@@ -116,7 +137,11 @@ public class SoundManagerImpl implements SoundManager {
 		return silence;
 	}
 
-	@Override
+	/**
+	 * Pauses (or plays) all sounds currently played
+	 *
+	 * @param paused
+	 */
 	public void setPause(boolean paused) {
 		// FIXME currently, the API sound doesn't allow to pause
 		// sounds..
@@ -126,7 +151,9 @@ public class SoundManagerImpl implements SoundManager {
 
 	}
 
-	@Override
+	/**
+	 * Stops all current sounds
+	 */
 	public void stopAll() {
 		if (backgroundMusic != null) {
 			backgroundMusic.stop();

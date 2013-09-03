@@ -44,8 +44,8 @@ import javax.inject.Singleton;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.TypeLiteral;
 
+import es.eucm.ead.engine.BasicModuleMap;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import es.eucm.ead.engine.GdxModuleMap;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
 import es.eucm.ead.engine.game.interfaces.GUI;
@@ -58,7 +58,7 @@ public class GwtModule extends AbstractGinModule {
 	@SuppressWarnings( { "rawtypes", "unchecked" })
 	@Override
 	protected void configure() {
-		GdxModuleMap map = new GdxModuleMap();
+		BasicModuleMap map = new BasicModuleMap();
 		map.getBinds().put(AssetHandler.class, GdxGWTAssetHandler.class);
 		map.getBinds().put(GUI.class, GdxGWTGUI.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {

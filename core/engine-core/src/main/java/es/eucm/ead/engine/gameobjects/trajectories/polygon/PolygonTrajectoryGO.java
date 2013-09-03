@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.trajectories.polygon;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
 import es.eucm.ead.model.elements.enums.CommonStates;

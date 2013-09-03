@@ -7,7 +7,7 @@ import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
 import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;

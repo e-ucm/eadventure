@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.android;
 
 import com.google.inject.AbstractModule;
-import es.eucm.ead.engine.GdxModuleMap;
+import es.eucm.ead.engine.BasicModuleMap;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.game.interfaces.GUI;
 
@@ -50,7 +50,7 @@ public class AndroidModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
-		GdxModuleMap map = new GdxModuleMap();
+		BasicModuleMap map = new BasicModuleMap();
 		map.setBind(GUI.class, AndroidGdxGUI.class);
 		map.setBind(AssetHandler.class, AndroidAssetHandler.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {

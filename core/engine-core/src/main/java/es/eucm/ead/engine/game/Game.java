@@ -45,7 +45,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.factories.EventFactory;
-import es.eucm.ead.engine.game.interfaces.*;
+import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.EffectsHandler;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.EventedGO;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.tracking.GameTracker;
@@ -62,7 +65,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 @Singleton
-public class GameImpl implements Game {
+public class Game {
 
 	private static final Logger logger = LoggerFactory.getLogger("Game");
 
@@ -134,7 +137,7 @@ public class GameImpl implements Game {
 	private ArrayList<EngineHook> hookDelete;
 
 	@Inject
-	public GameImpl(GUI gui, GameState gameState, EventFactory eventFactory,
+	public Game(GUI gui, GameState gameState, EventFactory eventFactory,
 			GameTracker tracker, EffectFactory effectFactory) {
 		this.gui = gui;
 		this.gameState = gameState;
@@ -153,68 +156,103 @@ public class GameImpl implements Game {
 		chapterGO = new EventedGO(eventFactory);
 	}
 
-	@Override
+	/**
+	 * Returns the game state
+	 *
+	 * @return
+	 */
 	public GameState getGameState() {
 		return gameState;
 	}
 
-	@Override
+	/**
+	 * @return Returns the gui
+	 */
 	public GUI getGUI() {
 		return gui;
 	}
 
-	@Override
+	/**
+	 * Sets the current adventure
+	 * @param adventure the current adventure
+	 */
 	public void setAdventure(EAdAdventureModel adventure) {
 		logger.debug("Setting adventure");
 		this.adventure = adventure;
 		adventureGO.setElement(adventure);
 	}
 
-	@Override
+	/**
+	 * Sets the current chapter
+	 * @param chapter the current chapter
+	 */
 	public void setChapter(EAdChapter chapter) {
 		logger.debug("Setting chapter");
 		this.chapter = chapter;
 		chapterGO.setElement(chapter);
 	}
 
-	@Override
 	public TweenManager getTweenManager() {
 		return tweenManager;
 	}
 
-	@Override
+	/**
+	 * @return true if the game loop is paused
+	 */
 	public boolean isPaused() {
 		return paused;
 	}
 
-	@Override
+	/**
+	 * Change the paused status of the game loop
+	 *
+	 * @param paused sets if the game is paused
+	 */
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}
 
-	@Override
+	/**
+	 * Returns the milliseconds since last update
+	 *
+	 * @return
+	 */
 	public int getSkippedMilliseconds() {
 		return isPaused() ? 0 : (int) (Gdx.graphics.getDeltaTime() * 1000);
 	}
 
-	@Override
+	/**
+	 * Returns the current adventure game model ({@link EAdAdventureModel})
+	 *
+	 * @return The adventure game model
+	 */
 	public EAdAdventureModel getAdventureModel() {
 		return adventure;
 	}
 
-	@Override
+	/**
+	 * Returns the current chapter
+	 *
+	 * @return
+	 */
 	public EAdChapter getCurrentChapter() {
 		return chapter;
 	}
 
-	@Override
+	/**
+	 * Disposes all the resources allocated by the engine and destroys the GUI
+	 */
 	public void dispose() {
 		tracker.stop();
 		// All this down here should be called when restarting the engine without exiting
 		tweenManager.killAll();
 	}
 
-	@Override
+	/**
+	 * Updates the game state
+	 *
+	 * @param delta milliseconds since last update
+	 */
 	public void act(float delta) {
 		// Remove hooks
 		for (int i = 0; i < this.hookNameDelete.size(); i++) {
@@ -274,22 +312,41 @@ public class GameImpl implements Game {
 		}
 	}
 
-	@Override
+	/**
+	 * Returns a list with all game objects linked to the current effects.
+	 *
+	 * @return a list with all game objects linked to the current effects.
+	 */
 	public List<EffectGO<?>> getEffects() {
 		return effectsHandler.getEffects();
 	}
 
-	@Override
+	/**
+	 * Clears all the current effects
+	 *
+	 * @param clearPersistents sets if persistent effects should also be deleted
+	 */
 	public void clearEffects(boolean clearPersistents) {
 		effectsHandler.clearEffects(clearPersistents);
 	}
 
-	@Override
+	/**
+	 * Adds an effect without any gui action associated
+	 *
+	 * @param e the effect
+	 */
 	public void addEffect(EAdEffect e) {
 		addEffect(e, null, null);
 	}
 
-	@Override
+	/**
+	 * Adds a new effect to the effects' tail
+	 *
+	 * @param e      the new effect
+	 * @param action the action that launched the effect
+	 * @param parent scene element who launched the effect
+	 * @return the effect game object create from the effect element
+	 */
 	public EffectGO<?> addEffect(EAdEffect e, Event action,
 			EAdSceneElement parent) {
 		return effectsHandler.addEffect(e, action, parent);

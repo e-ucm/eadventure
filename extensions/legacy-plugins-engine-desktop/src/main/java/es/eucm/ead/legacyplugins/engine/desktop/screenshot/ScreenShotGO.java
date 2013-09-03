@@ -1,11 +1,10 @@
 package es.eucm.ead.legacyplugins.engine.desktop.screenshot;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.GameImpl;
 import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.legacyplugins.model.ScreenShotEf;
 import es.eucm.ead.tools.StringHandler;
@@ -104,7 +103,7 @@ public class ScreenShotGO extends AbstractEffectGO<ScreenShotEf> implements
 	}
 
 	public void finish() {
-		game.addHook(GameImpl.HOOK_AFTER_RENDER, this);
+		game.addHook(Game.HOOK_AFTER_RENDER, this);
 		super.finish();
 	}
 
@@ -119,7 +118,7 @@ public class ScreenShotGO extends AbstractEffectGO<ScreenShotEf> implements
 
 	@Override
 	public void execute(Game game, GameState gameState, GUI gui) {
-		game.removeHook(GameImpl.HOOK_AFTER_RENDER, this);
+		game.removeHook(Game.HOOK_AFTER_RENDER, this);
 		try {
 			ScreenshotSaver.saveScreenshot(file);
 		} catch (IOException e) {

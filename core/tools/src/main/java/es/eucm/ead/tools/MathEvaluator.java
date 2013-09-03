@@ -570,6 +570,18 @@ public class MathEvaluator {
 
 	public interface OperationResolver {
 
+		/**
+		 * <p>
+		 * Calculates the result of the given {@link EAdOperation} with the current
+		 * game state
+		 * </p>
+		 *
+		 * @param <T>          the operation class
+		 * @param clazz       the class for the result
+		 * @param operation operation to be done
+		 * @return operation's result. If operation is {@code null}, a null is
+		 *         returned.
+		 */
 		<T extends EAdOperation, S> S operate(Class<S> clazz, T operation);
 	}
 }

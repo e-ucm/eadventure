@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.events.TimedEv;
 import es.eucm.ead.model.elements.events.enums.TimedEvType;
 

@@ -38,15 +38,13 @@
 package es.eucm.ead.engine.operators;
 
 import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
 
 /**
  * 
  * Takes an {@link EAdOperation} and calculates its result through
- * {@link Operator#operate(EAdVar, EAdOperation)}
+ * {@link Operator#operate(Class, EAdOperation)}
  * 
- * @param <T extends EAdOperation> This parameter represents the operation in
- *        the model that this Operator performs
+ * @param <T> lass of the operation
  */
 public interface Operator<T extends EAdOperation> {
 
@@ -54,12 +52,10 @@ public interface Operator<T extends EAdOperation> {
 	 * <p>
 	 * Calculates the result of an {@link EAdOperation}
 	 * </p>
-	 * The operator must make sure to store the new value in the
-	 * {@link ValueMap} if possible.
 	 * 
 	 * 
 	 * @param clazz
-	 *            the expect class for the result
+	 *            the expected class for the result
 	 * @param operation
 	 *            the operation to calculate
 	 * 
