@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.reader.model.translators.MapClassTranslator;
 import es.eucm.ead.reader2.model.Manifest;
 import es.eucm.ead.reader2.model.ReaderVisitor;
 import es.eucm.ead.reader2.model.XMLFileNames;
@@ -84,7 +85,14 @@ public class AdventureReader {
 	}
 
 	public Manifest getManifest() {
-		return (Manifest) read(XMLFileNames.MANIFEST);
+		Manifest m = (Manifest) read(XMLFileNames.MANIFEST);
+		readerVisitor
+				.addClazzTranslator(new MapClassTranslator(m.getClasses()));
+		readerVisitor
+				.addFieldsTranslator(new MapClassTranslator(m.getFields()));
+		readerVisitor
+				.addParamsTranslator(new MapClassTranslator(m.getParams()));
+		return m;
 	}
 
 	public Object read(String file) {

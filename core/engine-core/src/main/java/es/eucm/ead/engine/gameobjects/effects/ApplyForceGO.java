@@ -37,17 +37,10 @@
 
 package es.eucm.ead.engine.gameobjects.effects;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.ValueMap;
-import es.eucm.ead.model.elements.effects.enums.PhShape;
 import es.eucm.ead.model.elements.effects.physics.PhApplyImpulseEf;
-import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 
 public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 
@@ -64,7 +57,7 @@ public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 		ValueMap valueMap = game.getGameState();
 		Object finalElement = valueMap.maybeDecodeField(effect
 				.getSceneElement());
-		Body b = valueMap.getValue(finalElement, PhysicsEffectGO.VAR_PH_BODY);
+		/*Body b = valueMap.getValue(finalElement, PhysicsEffectGO.VAR_PH_BODY);
 		if (b != null) {
 			b.applyForce(new Vector2(x, y), b.getWorldCenter(), true);
 		} else {
@@ -86,7 +79,7 @@ public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 					b.applyForce(new Vector2(x, y), b.getWorldCenter(), true);
 				}
 			}
-		}
+		}*/
 	}
 
 }

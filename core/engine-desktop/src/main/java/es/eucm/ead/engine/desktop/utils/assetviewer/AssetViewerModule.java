@@ -48,8 +48,6 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.engine.utils.BasicSceneGraph;
-import es.eucm.ead.engine.utils.SceneGraph;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.scenes.EAdScene;
@@ -73,7 +71,6 @@ public class AssetViewerModule extends AbstractModule {
 		bind(GUI.class).to(AssetViewerGUI.class).in(Singleton.class);
 		bind(GameState.class).to(AssetVariableMap.class).in(Singleton.class);
 		bind(GenericInjector.class).to(JavaInjector.class).in(Singleton.class);
-		bind(SceneGraph.class).to(BasicSceneGraph.class).in(Singleton.class);
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class).in(
 				Singleton.class);
 

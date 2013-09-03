@@ -48,11 +48,6 @@ import es.eucm.ead.tools.reflection.ReflectionProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>
- * Default implementation of the {@link GameObjectFactor}.
- * </p>
- */
 @Singleton
 public class SceneElementGOFactoryImpl extends
 		GOFactoryImpl<EAdSceneElement, SceneElementGO> implements
@@ -63,15 +58,15 @@ public class SceneElementGOFactoryImpl extends
 	@Inject
 	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider,
 			GenericInjector injector) {
-		super(true, reflectionProvider, injector);
+		super("#se.", true, reflectionProvider, injector);
 		SceneElementsMapProvider provider = new SceneElementsMapProvider();
 		setClassMap(provider.getMap());
 	}
 
 	@Override
 	public SceneElementGO get(String id) {
-		for (EAdSceneElement key : cache.keySet()) {
-			if (key.getId() != null && key.getId().equals(id)) {
+		for (String key : cache.keySet()) {
+			if (key != null && key.equals(id)) {
 				return cache.get(key);
 			}
 		}

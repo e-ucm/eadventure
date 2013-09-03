@@ -50,7 +50,7 @@ import com.google.inject.Singleton;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.DesktopGame;
-import es.eucm.ead.engine.desktop.platform.GdxDesktopGUI;
+import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
 
 /**
@@ -83,7 +83,7 @@ public class ControllerImpl implements Controller {
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			GdxDesktopGUI gdxGui, AssetHandler assetHandler,
+			DesktopGUI gdxGui, AssetHandler assetHandler,
 			Provider<AssetViewer> assetViewerProvider) {
 
 		this.editorConfig = editorConfig;

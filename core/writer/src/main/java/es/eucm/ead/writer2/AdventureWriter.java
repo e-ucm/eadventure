@@ -39,16 +39,20 @@ package es.eucm.ead.writer2;
 
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.reader2.model.Manifest;
 import es.eucm.ead.reader2.model.XMLFileNames;
+import es.eucm.ead.tools.EAdUtils;
+import es.eucm.ead.tools.IdGenerator;
 import es.eucm.ead.tools.TextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLWriter;
 import es.eucm.ead.writer2.model.ReferenceResolver;
+import es.eucm.ead.writer2.model.SceneGraph;
 import es.eucm.ead.writer2.model.WriterContext;
 import es.eucm.ead.writer2.model.WriterVisitor;
 import org.slf4j.Logger;
@@ -76,17 +80,39 @@ public class AdventureWriter implements WriterContext {
 
 	private boolean enableSimplifications;
 
+	private boolean enableTranslations = true;
+
 	private ReferenceResolver referenceResolver;
 
+	private SceneGraph sceneGraph;
+
 	private int contextId;
+
+	private EAdMap<String, String> paramsTranslation;
+	private EAdMap<String, String> fieldsTranslation;
+	private EAdMap<String, String> classesTranslation;
 
 	public AdventureWriter(ReflectionProvider reflectionProvider) {
 		idGenerator = new IdGenerator();
 		xmlWriter = new XMLWriter();
 		referenceResolver = new ReferenceResolver();
+		sceneGraph = new SceneGraph();
 		visitor = new WriterVisitor(reflectionProvider, this);
 		documents = new HashMap<String, XMLNode>();
 		contextIds = new ArrayList<String>();
+		paramsTranslation = new EAdMap<String, String>();
+		fieldsTranslation = new EAdMap<String, String>();
+		classesTranslation = new EAdMap<String, String>();
+	}
+
+	/**
+	 * Sets if the writer must enable translations for classes, maps and params.
+	 * This reduces the size of model files, but uglyfies the XML. It's set to true by default
+	 *
+	 * @param enableTranslations whether classes, maps and params translations is enabled
+	 */
+	public void setEnableTranslations(boolean enableTranslations) {
+		this.enableTranslations = enableTranslations;
 	}
 
 	/**
@@ -101,6 +127,10 @@ public class AdventureWriter implements WriterContext {
 		idGenerator.clear();
 		contextIds.clear();
 		referenceResolver.clear();
+		paramsTranslation.clear();
+		fieldsTranslation.clear();
+		classesTranslation.clear();
+		sceneGraph.clear();
 		contextId = 0;
 
 		AdventureVisitorListener chapterListener = new AdventureVisitorListener(
@@ -127,8 +157,12 @@ public class AdventureWriter implements WriterContext {
 		}
 
 		Manifest manifest = generateManifest(model);
+		manifest.setSceneGraph(sceneGraph.getGraph());
 
 		// Write manifest.xml
+		boolean oldEnableTranslations = this.enableTranslations;
+		// The manifest is written without translations
+		this.enableTranslations = false;
 		visitor.writeElement(null, null, changeContext);
 		visitor.writeElement(manifest, null,
 				new WriterVisitor.VisitorListener() {
@@ -138,6 +172,7 @@ public class AdventureWriter implements WriterContext {
 					}
 				});
 		visitor.finish();
+		this.enableTranslations = oldEnableTranslations;
 
 		// Resolve reference
 		referenceResolver.resolveReferences();
@@ -163,6 +198,9 @@ public class AdventureWriter implements WriterContext {
 		manifest.clear();
 
 		manifest.setId(this.generateNewId());
+		manifest.setClasses(EAdUtils.invertMap(classesTranslation));
+		manifest.setFields(EAdUtils.invertMap(fieldsTranslation));
+		manifest.setParams(EAdUtils.invertMap(paramsTranslation));
 
 		// Set model
 		manifest.setModel(model);
@@ -226,16 +264,35 @@ public class AdventureWriter implements WriterContext {
 
 	@Override
 	public String translateClass(Class<?> type) {
+		if (enableTranslations) {
+			return getTranslation(type.getName(), classesTranslation);
+		}
 		return type.getName();
+	}
+
+	private String getTranslation(String string,
+			EAdMap<String, String> mapTranslations) {
+		String value = mapTranslations.get(string);
+		if (value == null) {
+			value = EAdUtils.generateId("", mapTranslations.size());
+			mapTranslations.put(string, value);
+		}
+		return value;
 	}
 
 	@Override
 	public String translateField(String name) {
+		if (enableTranslations) {
+			return getTranslation(name, fieldsTranslation);
+		}
 		return name;
 	}
 
 	@Override
 	public String translateParam(String param) {
+		if (enableTranslations) {
+			return getTranslation(param, paramsTranslation);
+		}
 		return param;
 	}
 
@@ -247,6 +304,8 @@ public class AdventureWriter implements WriterContext {
 			contextIds.add(((Identified) object).getId());
 			idGenerator.addExclusion(((Identified) object).getId());
 		}
+
+		sceneGraph.process(object);
 
 		return object;
 	}

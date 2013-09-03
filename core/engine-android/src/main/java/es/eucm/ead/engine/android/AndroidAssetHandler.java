@@ -42,14 +42,13 @@ import com.google.inject.Singleton;
 
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.tools.GenericInjector;
-import es.eucm.ead.engine.utils.SceneGraph;
 
 @Singleton
 public class AndroidAssetHandler extends AssetHandlerImpl {
 
 	@Inject
-	public AndroidAssetHandler(GenericInjector injector, SceneGraph sceneGraph) {
-		super(injector, sceneGraph);
+	public AndroidAssetHandler(GenericInjector injector) {
+		super(injector);
 	}
 
 	@Override

@@ -301,11 +301,8 @@ public class ReaderVisitor {
 	}
 
 	public void init() {
-		clazzTranslators.clear();
 		objectsFactory.clear();
 		stepsQueue.clear();
-		fieldsTranslators.clear();
-		paramsTranslators.clear();
 	}
 
 	public static interface FinalStep {

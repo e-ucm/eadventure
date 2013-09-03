@@ -84,6 +84,9 @@ public class Manifest extends BasicElement {
 	@Param
 	private EAdAdventureModel model;
 
+	@Param
+	private EAdMap<String, EAdList<String>> sceneGraph;
+
 	/**
 	 * Creates an empty manifest. You need to call {@link Manifest#clear()} to init its fields
 	 */
@@ -194,5 +197,13 @@ public class Manifest extends BasicElement {
 
 	public void setParams(EAdMap<String, String> params) {
 		this.params = params;
+	}
+
+	public EAdMap<String, EAdList<String>> getSceneGraph() {
+		return sceneGraph;
+	}
+
+	public void setSceneGraph(EAdMap<String, EAdList<String>> sceneGraph) {
+		this.sceneGraph = sceneGraph;
 	}
 }

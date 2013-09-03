@@ -120,9 +120,6 @@ public class ObjectWriter implements Writer<Identified> {
 
 		@Override
 		public void load(XMLNode node, Object object) {
-			if (fieldName.equals("elementToAdd")) {
-				logger.debug("h");
-			}
 			node.setAttribute(DOMTags.FIELD_AT, fieldName);
 			parent.append(node);
 		}

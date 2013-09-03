@@ -64,7 +64,7 @@ import java.util.*;
 @Singleton
 public class GameImpl implements Game {
 
-	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
+	private static final Logger logger = LoggerFactory.getLogger("Game");
 
 	public static final String HOOK_AFTER_UPDATE = "after_update";
 

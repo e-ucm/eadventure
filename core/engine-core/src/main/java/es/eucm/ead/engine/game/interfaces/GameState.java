@@ -42,6 +42,7 @@ import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.MathEvaluator.OperationResolver;
 
@@ -92,7 +93,8 @@ public interface GameState extends ValueMap, OperationResolver,
 	 * @param var       the variable definition
 	 * @param operation the operation whose result will be assigned to the variable
 	 */
-	<S> void setValue(Object element, EAdVarDef<S> var, EAdOperation operation);
+	<S> void setValue(Identified element, EAdVarDef<S> var,
+			EAdOperation operation);
 
 	/**
 	 * <p>

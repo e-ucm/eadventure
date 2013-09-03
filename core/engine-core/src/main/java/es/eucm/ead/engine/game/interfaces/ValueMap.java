@@ -37,11 +37,12 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
-import java.util.Map;
-
 import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.variables.EAdVarDef;
+
+import java.util.Map;
 
 /**
  * The value map interfaces allows for the definition of key-value pairs of
@@ -62,15 +63,14 @@ public interface ValueMap {
 
 	/**
 	 * Sets the value a variable in a element
-	 * 
+	 *
 	 * @param element
 	 *            the element
 	 * @param varDef
 	 *            the var definition
 	 * @param value
-	 *            the value for the variable
 	 */
-	<S> void setValue(Object element, EAdVarDef<S> varDef, S value);
+	<S> void setValue(Identified element, EAdVarDef<S> varDef, S value);
 
 	// Gets
 
@@ -87,6 +87,8 @@ public interface ValueMap {
 	/**
 	 * Returns the value of the variable in the given element
 	 * 
+	 *
+	 *
 	 * @param element
 	 *            the element. If the element is {@code null}, is considered as
 	 *            a system variable
@@ -94,28 +96,31 @@ public interface ValueMap {
 	 *            the variable definition to be consulted
 	 * @return the variable's value
 	 */
-	<S> S getValue(Object element, EAdVarDef<S> varDef);
+	<S> S getValue(Identified element, EAdVarDef<S> varDef);
 
 	/**
 	 * Returns the variables associated to an element, whose values are
 	 * different from the defaults
 	 * 
+	 *
 	 * @param element
 	 *            the element. If the element is null, it returns system vars
 	 * @return a map with the variables
 	 */
-	Map<EAdVarDef<?>, Object> getElementVars(Object element);
+	Map<EAdVarDef<?>, Object> getElementVars(Identified element);
 
 	/**
 	 * Returns the final element associated to the given element. It could be
 	 * the element itself, but if the element is a field (with type
 	 * {@link EAdElement}), the element pointed by the field will be returned,
 	 * 
+	 *
+	 *
 	 * @param element
 	 *            the element
 	 * @return the final element pointed by the element
 	 */
-	Object maybeDecodeField(Object element);
+	Identified maybeDecodeField(Identified element);
 
 	/**
 	 * Checks if the value map contains updated variables' values for the given
@@ -141,17 +146,18 @@ public interface ValueMap {
 
 	/**
 	 * Removes all fields associated to the given element
-	 * 
+	 *
 	 * @param element
 	 *            the element
 	 */
-	void remove(Object element);
+	void remove(Identified element);
 
 	/**
 	 * If the value map contains values for this element
+	 *
 	 * @param element
 	 * @return
 	 */
-	boolean contains(Object element);
+	boolean contains(Identified element);
 
 }

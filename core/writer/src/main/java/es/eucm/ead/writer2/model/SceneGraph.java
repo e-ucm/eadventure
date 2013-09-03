@@ -35,26 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.utils;
+package es.eucm.ead.writer2.model;
 
-import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.EAdScene;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+public class SceneGraph {
 
-public interface SceneGraph {
+	private static final Logger logger = LoggerFactory.getLogger("SceneGraph");
 
-	public Set<EAdScene> getScenes();
+	private EAdMap<String, EAdList<String>> graph;
 
-	public Map<EAdScene, List<EAdScene>> getGraph();
+	private String currentScene;
 
-	public List<EAdEffect> getEffectsVisited();
+	public SceneGraph() {
+		graph = new EAdMap<String, EAdList<String>>();
+	}
 
-	public void generateGraph(EAdScene initialScene);
+	public void process(Object o) {
+		if (o instanceof EAdScene) {
+			currentScene = ((EAdScene) o).getId();
+		} else if (o instanceof ChangeSceneEf) {
+			String nextScene = ((ChangeSceneEf) o).getNextSceneId();
+			addConnection(nextScene);
+		}
+	}
 
-	public Map<EAdScene, List<AssetDescriptor>> getSceneAssets();
+	private void addConnection(String nextScene) {
+		if (currentScene == null) {
+			logger
+					.warn("Found change scene with current scene set to null. Weird.");
+		} else {
+			EAdList<String> connections = graph.get(currentScene);
+			if (connections == null) {
+				connections = new EAdList<String>();
+				graph.put(currentScene, connections);
+			}
+			if (!connections.contains(nextScene)) {
+				logger.debug("{} -> {}",
+						new Object[] { currentScene, nextScene });
+				connections.add(nextScene);
+			}
+		}
+	}
 
+	public EAdMap<String, EAdList<String>> getGraph() {
+		return graph;
+	}
+
+	public void clear() {
+		graph.clear();
+	}
 }

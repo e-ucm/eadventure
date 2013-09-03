@@ -53,20 +53,21 @@ import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.game.GameImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameLoader;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.tools.StringHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EAdEngine implements ApplicationListener {
 
+	private Logger logger = LoggerFactory.getLogger("EAdEngine");
+
 	private Game game;
 
 	private GameState gameState;
-
-	private GameLoader gameLoader;
 
 	private GUI gui;
 
@@ -86,10 +87,9 @@ public class EAdEngine implements ApplicationListener {
 
 	@Inject
 	public EAdEngine(Game game, GameState gameState, GUI gui,
-			GameLoader gameLoader, StringHandler stringHandler) {
+			StringHandler stringHandler) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
-		this.gameLoader = gameLoader;
 		this.gameState = gameState;
 		this.gui = gui;
 		this.stringHandler = stringHandler;
@@ -127,19 +127,7 @@ public class EAdEngine implements ApplicationListener {
 		scaleX = (float) width / 800.0f;
 		scaleY = (float) height / 600.0f;
 		gui.setScale(scaleX, scaleY);
-		Gdx.app.postRunnable(new Runnable() {
 
-			@Override
-			public void run() {
-				gui.reset();
-				stage.addActor(gui.getRoot());
-				stage.setKeyboardFocus(gui.getRoot());
-			}
-		});
-
-		// Set default language
-		// FIXME detect language from system
-		stringHandler.setLanguage("");
 	}
 
 	@Override
@@ -171,6 +159,10 @@ public class EAdEngine implements ApplicationListener {
 		gui.setScale(scaleX, scaleY);
 	}
 
+	public Stage getStage() {
+		return stage;
+	}
+
 	@Override
 	public void pause() {
 	}
@@ -186,8 +178,6 @@ public class EAdEngine implements ApplicationListener {
 		private float alpha = 0.0f;
 
 		private float initialTime = 1000f;
-
-		private float middleTime = 2000f;
 
 		public Logo() {
 			Texture texture = new Texture(Gdx.files
@@ -210,15 +200,6 @@ public class EAdEngine implements ApplicationListener {
 			} else if (initialTime <= 0.0f) {
 				alpha += delta / 2000.0f;
 				alpha = Math.min(1.0f, alpha);
-			}
-
-			if (alpha >= 0.9f) {
-				middleTime -= delta;
-			}
-
-			if (middleTime < 0.0f) {
-				gameLoader.loadGame();
-				this.remove();
 			}
 		}
 	}

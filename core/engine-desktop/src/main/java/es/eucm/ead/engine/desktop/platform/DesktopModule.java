@@ -62,7 +62,7 @@ public class DesktopModule extends AbstractModule {
 
 		GdxModuleMap map = new GdxModuleMap();
 		map.setBind(AssetHandler.class, GdxDesktopAssetHandler.class);
-		map.setBind(GUI.class, GdxDesktopGUI.class);
+		map.setBind(GUI.class, DesktopGUI.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();
 			Class c2 = entry.getValue();

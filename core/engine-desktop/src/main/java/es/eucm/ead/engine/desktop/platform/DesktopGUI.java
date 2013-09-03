@@ -47,6 +47,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,7 +58,9 @@ import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
 @Singleton
-public class GdxDesktopGUI extends GUIImpl {
+public class DesktopGUI extends GUIImpl {
+
+	private static final Logger logger = LoggerFactory.getLogger("DesktopGUI");
 
 	private JFrame frame;
 
@@ -65,7 +69,7 @@ public class GdxDesktopGUI extends GUIImpl {
 	private Component component;
 
 	@Inject
-	public GdxDesktopGUI(SceneElementGOFactory sceneElementFactory) {
+	public DesktopGUI(SceneElementGOFactory sceneElementFactory) {
 		super(sceneElementFactory);
 	}
 
@@ -107,7 +111,7 @@ public class GdxDesktopGUI extends GUIImpl {
 					Mouse.setNativeCursor(new Cursor(16, 16, 0, 0, 1,
 							getCursor(), null));
 				} catch (LWJGLException e) {
-
+					logger.error("Error hiding cursor", e);
 				}
 			}
 		});

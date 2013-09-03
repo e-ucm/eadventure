@@ -37,19 +37,14 @@
 
 package es.eucm.ead.tools;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.RandomAccess;
-import java.util.Stack;
-
 import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionField;
+
+import java.util.*;
 
 public class EAdUtils {
 
@@ -199,5 +194,13 @@ public class EAdUtils {
 			}
 		}
 		return prefix + id;
+	}
+
+	public static <T, S> EAdMap<S, T> invertMap(EAdMap<T, S> map) {
+		EAdMap<S, T> map2 = new EAdMap<S, T>();
+		for (Map.Entry<T, S> e : map.entrySet()) {
+			map2.put(e.getValue(), e.getKey());
+		}
+		return map2;
 	}
 }

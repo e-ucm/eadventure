@@ -54,9 +54,9 @@ public class BasicAdventureModel extends BasicElement implements
 
 	public static final EAdVarDef<EAdMap> EFFECTS_BINDS = new VarDef<EAdMap>(
 			"effects_binds", EAdMap.class, null);
-	public static final EAdVarDef<EAdMap> EVENT_BINDS = new VarDef<EAdMap>(
+	public static final EAdVarDef<EAdMap> EVENTS_BINDS = new VarDef<EAdMap>(
 			"events_binds", EAdMap.class, null);
-	public static final EAdVarDef<EAdMap> SCENE_ELEMENT_BINDS = new VarDef<EAdMap>(
+	public static final EAdVarDef<EAdMap> SCENES_ELEMENT_BINDS = new VarDef<EAdMap>(
 			"scene_element_binds", EAdMap.class, null);
 	public static final EAdVarDef<Boolean> EXIT_WHEN_CLOSE = new VarDef<Boolean>(
 			"exitWhenClose", Boolean.class, true);
@@ -166,4 +166,5 @@ public class BasicAdventureModel extends BasicElement implements
 	public void setEvents(EAdList<EAdEvent> events) {
 		this.events = events;
 	}
+
 }
