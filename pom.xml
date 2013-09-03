@@ -253,10 +253,12 @@
 					<aggregate>true</aggregate>
 					<excludes>
 						<exclude>*.*</exclude>
-						<exclude>**/*.so</exclude>
 						<exclude>**/.*</exclude>
+						<exclude>**/*.so</exclude>
 						<exclude>**/*.txt</exclude>
 						<exclude>**/*.xml</exclude>
+						<exclude>**/*.fnt</exclude>
+						<exclude>**/*.glsl</exclude>
 						<exclude>**/*.properties</exclude>
 						<exclude>**/resources/**</exclude>
 						<exclude>**/poly2tri/**</exclude>
