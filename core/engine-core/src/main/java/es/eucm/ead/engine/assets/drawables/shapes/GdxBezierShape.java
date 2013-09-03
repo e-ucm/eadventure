@@ -37,20 +37,19 @@
 
 package es.eucm.ead.engine.assets.drawables.shapes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.model.assets.drawable.basics.shapes.BezierShape;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.LinearGradientFill;
 import es.eucm.ead.model.params.paint.EAdPaint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GdxBezierShape extends RuntimeShape<BezierShape> {
 
@@ -180,8 +179,8 @@ public class GdxBezierShape extends RuntimeShape<BezierShape> {
 
 			float previousX = 0;
 			float previousY = 0;
-			float currentX = 0;
-			float currentY = 0;
+			float currentX;
+			float currentY;
 			for (int k = 0; k < shape.size(); k += 2) {
 				currentX = shape.get(k);
 				currentY = shape.get(k + 1);

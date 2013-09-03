@@ -104,7 +104,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	 * runtime assets
 	 */
 	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap;
-	private boolean loaded = false;
 	protected String resourcesUri;
 	private boolean cacheEnabled;
 	private ArrayList<AssetDescriptor> assetsQueue;
@@ -168,7 +167,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	 * es.eucm.eadventure.engine.engine.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.resources.assets.AssetDescriptor)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("all")
 	@Override
 	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
 			T descriptor) {
@@ -208,15 +207,14 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		RuntimeAsset<T> runtimeAsset = getRuntimeAsset(descriptor);
 		if (runtimeAsset == null) {
 			logger.warn("No runtime asset for {}", descriptor);
-		}
-		if (load && !runtimeAsset.isLoaded()) {
+		} else if (load && !runtimeAsset.isLoaded()) {
 			runtimeAsset.loadAsset();
 		}
 		return runtimeAsset;
 	}
 
 	@Override
-	public <T extends EAdDrawable, GraphicContext> RuntimeDrawable<T> getDrawableAsset(
+	public <T extends EAdDrawable> RuntimeDrawable<T> getDrawableAsset(
 			T descriptor) {
 		return (RuntimeDrawable<T>) getRuntimeAsset(descriptor);
 	}
@@ -246,26 +244,14 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		return getRuntimeAsset(descriptor);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.engine.platform.AssetHandler#getRuntimeAsset(
-	 * es.eucm.eadventure.common.model.EAdElement, java.lang.String)
-	 */
 	@Override
 	public RuntimeAsset<?> getRuntimeAsset(Resourced element, String id) {
 		return getRuntimeAsset(element, null, id);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.engine.platform.AssetHandler#isLoaded()
-	 */
 	@Override
 	public boolean isLoaded() {
-		return loaded;
+		return Gdx.files != null;
 	}
 
 	private ArrayList<AssetDescriptor> descriptorsToRemove = new ArrayList<AssetDescriptor>();
@@ -304,10 +290,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		}
 	}
 
-	protected void setLoaded(boolean loaded) {
-		this.loaded = loaded;
-	}
-
 	@Override
 	public void setResourcesLocation(String uri) {
 		if (!uri.endsWith("/")) {
@@ -337,7 +319,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	}
 
 	public void remove(AssetDescriptor assetDescriptor) {
-		RuntimeAsset<?> asset = null;
+		RuntimeAsset<?> asset;
 		synchronized (cache) {
 			asset = cache.remove(assetDescriptor);
 		}
@@ -356,13 +338,13 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		FileHandle fh = getFileHandleLocalized(path.substring(1));
 
 		if (fh != null) {
-			StringBuilder text = new StringBuilder();
+			String text = "";
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(fh.reader());
-				String line = null;
+				String line;
 				while ((line = reader.readLine()) != null) {
-					text.append(line + "\n");
+					text += (line + "\n");
 				}
 			} catch (Exception e) {
 				logger.error("Error reading text file {}", path, e);
@@ -372,10 +354,10 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 						reader.close();
 					}
 				} catch (IOException e) {
-
+					logger.error("Error reading text file {}", e);
 				}
 			}
-			return text.toString();
+			return text;
 		}
 		return null;
 	}
@@ -399,8 +381,8 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	/**
 	 * retrieves a file handle for the path
 	 * 
-	 * @param uri
-	 * @return
+	 * @param uri the uri
+	 * @return the file handle
 	 */
 	public FileHandle getFileHandleLocalized(String uri) {
 		if (resourcesUri != null) {

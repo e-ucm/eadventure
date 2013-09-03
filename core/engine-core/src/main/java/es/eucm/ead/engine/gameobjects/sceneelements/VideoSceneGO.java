@@ -70,7 +70,6 @@ public class VideoSceneGO extends SceneGO {
 
 	private EAdVideo video;
 
-	private Label label;
 
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
@@ -83,7 +82,7 @@ public class VideoSceneGO extends SceneGO {
 
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
-		label = new Label("Loading...");
+		Label label = new Label("Loading...");
 		label.setColor(ColorFill.WHITE);
 		label.setPosition(Corner.CENTER, 400, 300);
 		this.addSceneElement(label);

@@ -121,12 +121,11 @@ public interface AssetHandler extends TextFileReader {
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
 			boolean load);
 
-	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T> getDrawableAsset(
-			T descriptor);
+	<T extends EAdDrawable> RuntimeDrawable<T> getDrawableAsset(T descriptor);
 
 	/**
 	 * Sets the font handler. The Asset handler cleans it when needed
-	 * @param fontHandler
+	 * @param fontHandler the font handler
 	 */
 	void setFontHandler(FontHandler fontHandler);
 

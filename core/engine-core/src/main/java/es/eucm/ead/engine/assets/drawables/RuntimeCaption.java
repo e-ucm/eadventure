@@ -57,16 +57,6 @@ import java.util.List;
 public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		RuntimeDrawable<EAdCaption> {
 
-	/**
-	 * Average time used to read one word, in milliseconds
-	 */
-	private static final int TIME_FOR_WORD = 1000;
-
-	/**
-	 * Minimum time a text will be shown
-	 */
-	private static final int MINIMUM_TIME_TEXT = 10000;
-
 	protected String text;
 
 	protected List<String> lines;
@@ -98,11 +88,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	 * Times the text has been read (shown entirely at the screen)
 	 */
 	protected int timesRead;
-
-	/**
-	 * Time the current text must be shown to be completely read
-	 */
-	private int timeShown;
 
 	/**
 	 * Times the text loops after it gets to its last part. If -1, loops
@@ -160,7 +145,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	}
 
 	private String getProcessedText() {
-		String text = null;
+		String text;
 		if (descriptor.getOperations().size() > 0) {
 			text = gameState.processTextVars(stringsHandler
 					.getString(descriptor.getText()), descriptor
@@ -255,7 +240,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			if (currentLineWidth + nextWordWidth <= preferredWidth) {
 				currentLineWidth += nextWordWidth;
 				line += words[contWord++] + " ";
-			} else if (line != "") {
+			} else if (!"".equals(line)) {
 				lines.add(line);
 				currentLineWidth = font.stringWidth(line);
 				widths.add(currentLineWidth);
@@ -270,7 +255,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			}
 		}
 
-		if (line != "") {
+		if (!"".equals(line)) {
 			lines.add(line);
 			currentLineWidth = font.stringWidth(line);
 			widths.add(currentLineWidth);
@@ -278,7 +263,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 					: bounds.width;
 		}
 
-		int preferredHeight = 0;
+		int preferredHeight;
 		switch (descriptor.getPreferredHeight()) {
 		case EAdCaption.SCREEN_SIZE:
 			preferredHeight = gameState.getValue(SystemFields.GAME_HEIGHT);
@@ -361,7 +346,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 					currentPart = totalParts - 1;
 			}
 		}
-		updateTimeShown();
 	}
 
 	public int getCurrentPart() {
@@ -372,30 +356,11 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		return totalParts;
 	}
 
-	/**
-	 * Updates the time a text must be shown to be completely read
-	 */
-	private void updateTimeShown() {
-		// FIXME Deberia venir de un controlador con las opciones de la rapidez
-		// de lectura del texto
-		int multiplier = 1;
-		timeShown = 0;
-		for (String s : getText()) {
-			timeShown += (int) (TIME_FOR_WORD * s.split(" ").length * multiplier);
-		}
-
-		if (timeShown < (int) (MINIMUM_TIME_TEXT * multiplier))
-			timeShown = (int) (MINIMUM_TIME_TEXT * multiplier);
-	}
-
 	public List<String> getText() {
 		int beginIndex = currentPart * linesInPart;
 		int lastIndex = beginIndex + linesInPart;
 		lastIndex = lastIndex > lines.size() ? lines.size() : lastIndex;
 		return lines.subList(beginIndex, lastIndex);
-	}
-
-	public void setHasBuble(boolean b) {
 	}
 
 	/**
@@ -424,7 +389,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 		currentPart = 0;
 		timesRead = 0;
 		loops = 0;
-		updateTimeShown();
 	}
 
 	public EAdCaption getCaption() {
@@ -448,7 +412,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 			shape.render(c);
 		}
 
-		int xOffset = 0;
+		int xOffset;
 		int yOffset = getAssetDescriptor().getPadding();
 		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0) {
 			yOffset += (bounds.height - getAssetDescriptor().getPadding() * 2 - ((lines

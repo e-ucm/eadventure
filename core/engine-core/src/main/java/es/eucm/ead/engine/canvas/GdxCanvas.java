@@ -37,17 +37,15 @@
 
 package es.eucm.ead.engine.canvas;
 
-import java.util.Stack;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-
+import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Matrix;
 import es.eucm.ead.model.params.util.Rectangle;
-import es.eucm.ead.engine.assets.fonts.RuntimeFont;
+
+import java.util.Stack;
 
 /**
  * <p>
@@ -55,26 +53,21 @@ import es.eucm.ead.engine.assets.fonts.RuntimeFont;
  * contexts (e.g. Graphics2D in Java)
  * </p>
  * 
- * @param <S>
  */
 public class GdxCanvas extends SpriteBatch {
 
 	private Stack<Matrix4> matrixes;
 
-	private Matrix4 currentMatrix;
-
 	public GdxCanvas() {
 		matrixes = new Stack<Matrix4>();
-		currentMatrix = new Matrix4();
-		currentMatrix.set(new float[16]);
 	}
 
 	/**
-	 * Creates a {@link Matrix4} compatible with Gdx equivalent to
-	 * {@link EAdMatrix}
-	 * 
-	 * @param m
-	 * @return
+	 * Creates a {@link Matrix4} compatible with Gdx
+	 *
+	 * @param m matrix
+	 * @param dst destination matrix
+	 * @return the compatible matrix
 	 */
 	public Matrix4 convertMatrix(Matrix m, Matrix4 dst) {
 		float[] val = dst.getValues();

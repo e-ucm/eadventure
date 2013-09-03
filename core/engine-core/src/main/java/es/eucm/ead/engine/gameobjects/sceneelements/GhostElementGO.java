@@ -86,7 +86,7 @@ public class GhostElementGO extends SceneElementGO {
 	}
 
 	public boolean contains(float x, float y) {
-		return catchAll ? true : super.contains(x, y);
+		return catchAll || super.contains(x, y);
 	}
 
 }

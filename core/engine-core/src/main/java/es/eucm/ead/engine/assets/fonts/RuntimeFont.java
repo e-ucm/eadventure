@@ -39,14 +39,11 @@ package es.eucm.ead.engine.assets.fonts;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.params.util.Rectangle;
 
 /**
  * Represents a runtime font. Unlike {@link EAdFont}, which only contains static
@@ -95,8 +92,6 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 	 * 
 	 * @param string
 	 *            String to be measured
-	 * @param font
-	 *            Font used in string measurement
 	 * @return the string width with the given font in the current context
 	 */
 	public int stringWidth(String string) {
@@ -105,9 +100,7 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 
 	/**
 	 * Returns one line's height with the given font
-	 * 
-	 * @param font
-	 *            Font used in string measurement
+	 *
 	 * @return one line's height with the given font
 	 */
 	public int lineHeight() {
@@ -129,7 +122,4 @@ public class RuntimeFont extends AbstractRuntimeAsset<EAdFont> {
 		// Do nothing
 	}
 
-	public EAdFont getEAdFont() {
-		return descriptor;
-	}
 }

@@ -119,7 +119,7 @@ public interface GUI {
 	 * necessary.
 	 * </p>
 	 * 
-	 * @param screen
+	 * @param scene
 	 *            the current {@link es.eucm.ead.engine.gameobjects.sceneelements.SceneGO}.
 	 */
 	void setScene(SceneGO scene);

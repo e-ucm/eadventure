@@ -37,27 +37,24 @@
 
 package es.eucm.ead.engine.assets.drawables;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
-
-import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.engine.canvas.GdxCanvas;
+import es.eucm.ead.model.assets.drawable.basics.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
- * Represents a runtime engine image, associated with an {@link AssetDescritpor}
+ * Represents a runtime engine image
  * 
  */
 public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
@@ -93,9 +90,7 @@ public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 		super.loadAsset();
 
 		if (hasAtlas) {
-			AtlasRegion region = atlas.findRegion(descriptor.getUri()
-					.substring(1));
-			textureRegion = region;
+			textureRegion = atlas.findRegion(descriptor.getUri().substring(1));
 		}
 
 		if (textureRegion == null) {

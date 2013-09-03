@@ -161,7 +161,7 @@ public class GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
 		if (remove((S) gameObject.getElement())) {
 			Pool<T> pool = pools.get(gameObject.getClass());
 			if (pool != null) {
-				pool.free((T) gameObject);
+				pool.free(gameObject);
 				gameObject.release();
 			}
 		}
@@ -182,10 +182,11 @@ public class GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
 	 * @param clazz2
 	 *            game object class
 	 */
+
 	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {
 		classMap.put(clazz1, clazz2);
 	}
-
+@SuppressWarnings("unchecked")
 	public void put(EAdMap<String, String> binds) {
 		if (binds != null) {
 			for (Map.Entry<String, String> e : binds.entrySet()) {
