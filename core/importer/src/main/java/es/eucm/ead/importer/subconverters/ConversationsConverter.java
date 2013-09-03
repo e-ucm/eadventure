@@ -69,8 +69,8 @@ import java.util.Map;
 @Singleton
 public class ConversationsConverter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ConversationConverter");
+	static private Logger logger = LoggerFactory
+			.getLogger(ConversationsConverter.class);
 
 	public static final VarDef<Boolean> IN_CONVERSATION = new VarDef<Boolean>(
 			"in_conversation", Boolean.class, true);

@@ -65,8 +65,8 @@ import es.eucm.ead.editor.util.i18n.I18N;
 
 abstract public class SwingUtilities {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("SwingUtilities");
+	static private Logger logger = LoggerFactory
+			.getLogger(SwingUtilities.class);
 
 	/**
 	 * <p> Executes {@code doRun.run()} method synchronously with the AWT Event

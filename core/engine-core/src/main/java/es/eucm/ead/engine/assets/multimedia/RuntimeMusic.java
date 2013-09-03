@@ -49,8 +49,7 @@ import org.slf4j.LoggerFactory;
 
 public class RuntimeMusic extends AbstractRuntimeAsset<Music> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("RuntimeMusic");
+	static private Logger logger = LoggerFactory.getLogger(RuntimeMusic.class);
 
 	private FileHandle fh;
 

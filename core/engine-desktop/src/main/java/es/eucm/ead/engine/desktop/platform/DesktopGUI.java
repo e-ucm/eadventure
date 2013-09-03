@@ -66,7 +66,7 @@ import es.eucm.ead.engine.game.GUIImpl;
 @Singleton
 public class DesktopGUI extends GUIImpl {
 
-	private static final Logger logger = LoggerFactory.getLogger("DesktopGUI");
+	static private Logger logger = LoggerFactory.getLogger(DesktopGUI.class);
 
 	private JFrame frame;
 

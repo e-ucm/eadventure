@@ -47,7 +47,8 @@ import es.eucm.ead.model.params.variables.VarDef;
 
 public class LoggerSceneListener implements SceneListener {
 
-	private final static Logger logger = LoggerFactory.getLogger("SceneLoader");
+	static private Logger logger = LoggerFactory
+			.getLogger(LoggerSceneListener.class);
 
 	@Override
 	public <T> void updateInitialValue(VarDef<T> var, EAdSceneElement element,

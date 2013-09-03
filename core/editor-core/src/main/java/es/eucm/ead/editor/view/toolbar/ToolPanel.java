@@ -75,7 +75,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ToolPanel implements ChangeListener<String> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ToolPanel");
+	static private Logger logger = LoggerFactory.getLogger(ToolPanel.class);
 
 	/**
 	 * The pane where the tools are drawn

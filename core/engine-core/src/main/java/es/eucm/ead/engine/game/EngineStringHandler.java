@@ -51,8 +51,8 @@ import java.util.Map;
 @Singleton
 public class EngineStringHandler extends StringHandlerImpl {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EngineStringHandler");
+	static private Logger logger = LoggerFactory
+			.getLogger(EngineStringHandler.class);
 
 	/**
 	 * Strings reader

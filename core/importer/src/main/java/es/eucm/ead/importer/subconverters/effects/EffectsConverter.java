@@ -64,8 +64,8 @@ import java.util.*;
 @Singleton
 public class EffectsConverter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EffectsConverter");
+	static private Logger logger = LoggerFactory
+			.getLogger(EffectsConverter.class);
 	private ResourcesConverter resourcesConverter;
 
 	private ModelQuerier modelQuerier;
@@ -191,10 +191,10 @@ public class EffectsConverter {
 	 * the other, so most of cases you'll only need to use the first element of
 	 * the list (For example, to add it to scene element with an addBehavior
 	 * method)
-	 * 
+	 *
 	 * You'll also use the last effect of the list when you need to add more
 	 * affects AFTER all the effects on the list has been executed
-	 * 
+	 *
 	 * @param ef
 	 * @return
 	 */

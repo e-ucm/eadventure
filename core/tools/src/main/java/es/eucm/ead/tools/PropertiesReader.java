@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Class to read properties files in the following form
- * 
+ *
  * <pre>
  * [section1]
  * key1=value1
@@ -56,18 +56,18 @@ import org.slf4j.LoggerFactory;
  * key5=value5
  * ...
  * </pre>
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public class PropertiesReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("PropertiesReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(PropertiesReader.class);
 
 	/**
 	 * Parse a string with properties
-	 * 
+	 *
 	 * @param propertiesIdentifier
 	 *            an identifier to be used in possible logger messages
 	 * @param properties

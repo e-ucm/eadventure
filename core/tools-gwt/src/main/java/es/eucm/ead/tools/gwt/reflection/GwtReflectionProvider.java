@@ -52,8 +52,8 @@ import es.eucm.ead.tools.reflection.ReflectionProvider;
 @Singleton
 public class GwtReflectionProvider implements ReflectionProvider {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ReflectionProvider");
+	static private Logger logger = LoggerFactory
+			.getLogger(GwtReflectionProvider.class);
 
 	public GwtReflectionProvider() {
 		ReflectionClassLoader.init(new GwtReflectionClassLoader());

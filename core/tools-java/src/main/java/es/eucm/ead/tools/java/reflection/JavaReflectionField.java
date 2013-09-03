@@ -49,8 +49,8 @@ import java.lang.reflect.Modifier;
 
 public class JavaReflectionField implements ReflectionField {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ReflectionField");
+	static private Logger logger = LoggerFactory
+			.getLogger(JavaReflectionField.class);
 
 	private Field field;
 

@@ -57,8 +57,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ZoomablePanelHolder extends JPanel {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ZoomablePanelHolder");
+	static private Logger logger = LoggerFactory
+			.getLogger(ZoomablePanelHolder.class);
 
 	public ZoomablePanelHolder(Component child) {
 		GrowableScrollPane scrollPane = new GrowableScrollPane();

@@ -48,14 +48,14 @@ import org.slf4j.LoggerFactory;
  * Sweep-line, Constrained Delauney Triangulation (CDT) See: Domiter, V. and
  * Zalik, B.(2008)'Sweep-line algorithm for constrained Delaunay triangulation',
  * International Journal of Geographical Information Science
- * 
+ *
  * "FlipScan" Constrained Edge Algorithm invented by author of this code.
- * 
- * Author: Thomas �hl�n, thahlen@gmail.com 
+ *
+ * Author: Thomas �hl�n, thahlen@gmail.com
  */
 
 public class DTSweep {
-	private final static Logger logger = LoggerFactory.getLogger(DTSweep.class);
+	private static Logger logger = LoggerFactory.getLogger(DTSweep.class);
 
 	private final static double PI_div2 = Math.PI / 2;
 	private final static double PI_3div4 = 3 * Math.PI / 4;
@@ -80,7 +80,7 @@ public class DTSweep {
 
 	/**
 	 * Start sweeping the Y-sorted point set from bottom to top
-	 * 
+	 *
 	 * @param tcx
 	 */
 	private static void sweep(DTSweepContext tcx) {
@@ -108,8 +108,8 @@ public class DTSweep {
 	}
 
 	/**
-	 * If this is a Delaunay Triangulation of a pointset we need to 
-	 * fill so the triangle mesh gets a ConvexHull 
+	 * If this is a Delaunay Triangulation of a pointset we need to
+	 * fill so the triangle mesh gets a ConvexHull
 	 * @param tcx
 	 */
 	private static void finalizationConvexHull(DTSweepContext tcx) {
@@ -127,10 +127,10 @@ public class DTSweep {
 
 		// Lets remove triangles connected to the two "algorithm" points
 
-		// XXX: When the first the nodes are points in a triangle we need to do a flip before 
+		// XXX: When the first the nodes are points in a triangle we need to do a flip before
 		//      removing triangles or we will lose a valid triangle.
 		//      Same for last three nodes!
-		// !!! If I implement ConvexHull for lower right and left boundary this fix should not be 
+		// !!! If I implement ConvexHull for lower right and left boundary this fix should not be
 		//     needed and the removed triangles will be added again by default
 		n1 = tcx.aFront.tail.prev;
 		if (n1.triangle.contains(n1.next.point)
@@ -151,7 +151,7 @@ public class DTSweep {
 			tcx.mapTriangleToNodes(t1);
 		}
 
-		// Lower right boundary 
+		// Lower right boundary
 		first = tcx.aFront.head.point;
 		n2 = tcx.aFront.tail.prev;
 		t1 = n2.triangle;
@@ -239,7 +239,7 @@ public class DTSweep {
 	 * Find closes node to the left of the new point and
 	 * create a new triangle. If needed new holes and basins
 	 * will be filled to.
-	 * 
+	 *
 	 * @param tcx
 	 * @param point
 	 * @return
@@ -254,7 +254,7 @@ public class DTSweep {
 		}
 		newNode = newFrontTriangle(tcx, point, node);
 
-		// Only need to check +epsilon since point never have smaller 
+		// Only need to check +epsilon since point never have smaller
 		// x value than node due to how we fetch nodes from the front
 		if (point.getX() <= node.point.getX() + EPSILON) {
 			fill(tcx, node);
@@ -267,7 +267,7 @@ public class DTSweep {
 
 	/**
 	 * Creates a new front triangle and legalize it
-	 * 
+	 *
 	 * @param tcx
 	 * @param point
 	 * @param node
@@ -302,8 +302,8 @@ public class DTSweep {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @param tcx
 	 * @param edge
 	 * @param node
@@ -323,7 +323,7 @@ public class DTSweep {
 			}
 
 			// For now we will do all needed filling
-			// TODO: integrate with flip process might give some better performance 
+			// TODO: integrate with flip process might give some better performance
 			//       but for now this avoid the issue with cases that needs both flips and fills
 			fillEdgeEvent(tcx, edge, node);
 
@@ -386,7 +386,7 @@ public class DTSweep {
 		if (node.point.getX() < edge.p.getX()) // needed?
 		{
 			if (orient2d(node.point, node.next.point, node.next.next.point) == Orientation.CCW) {
-				// Concave 
+				// Concave
 				fillRightConcaveEdgeEvent(tcx, edge, node);
 			} else {
 				// Convex
@@ -457,7 +457,7 @@ public class DTSweep {
 		}
 		if (node.point.getX() > edge.p.getX()) {
 			if (orient2d(node.point, node.prev.point, node.prev.prev.point) == Orientation.CW) {
-				// Concave 
+				// Concave
 				fillLeftConcaveEdgeEvent(tcx, edge, node);
 			} else {
 				// Convex
@@ -518,7 +518,7 @@ public class DTSweep {
 		if (o1 == Orientation.Collinear) {
 			if (triangle.contains(eq, p1)) {
 				triangle.markConstrainedEdge(eq, p1);
-				// We are modifying the constraint maybe it would be better to 
+				// We are modifying the constraint maybe it would be better to
 				// not change the given constraint and just keep a variable for the new constraint
 				tcx.edgeEvent.constrainedEdge.q = p1;
 				triangle = triangle.neighborAcross(point);
@@ -538,7 +538,7 @@ public class DTSweep {
 		if (o2 == Orientation.Collinear) {
 			if (triangle.contains(eq, p2)) {
 				triangle.markConstrainedEdge(eq, p2);
-				// We are modifying the constraint maybe it would be better to 
+				// We are modifying the constraint maybe it would be better to
 				// not change the given constraint and just keep a variable for the new constraint
 				tcx.edgeEvent.constrainedEdge.q = p2;
 				triangle = triangle.neighborAcross(point);
@@ -606,7 +606,7 @@ public class DTSweep {
 						&& ep == tcx.edgeEvent.constrainedEdge.p) {
 					if (tcx.isDebugEnabled()) {
 						System.out.println("[FLIP] - constrained edge done");
-					} // TODO: remove                    
+					} // TODO: remove
 					t.markConstrainedEdge(ep, eq);
 					ot.markConstrainedEdge(ep, eq);
 					legalize(tcx, t);
@@ -615,7 +615,7 @@ public class DTSweep {
 					if (tcx.isDebugEnabled()) {
 						System.out.println("[FLIP] - subedge done");
 					} // TODO: remove
-					// XXX: I think one of the triangles should be legalized here?                    
+					// XXX: I think one of the triangles should be legalized here?
 				}
 			} else {
 				if (tcx.isDebugEnabled()) {
@@ -634,10 +634,10 @@ public class DTSweep {
 	}
 
 	/**
-	 * When we need to traverse from one triangle to the next we need 
+	 * When we need to traverse from one triangle to the next we need
 	 * the point in current triangle that is the opposite point to the next
-	 * triangle. 
-	 * 
+	 * triangle.
+	 *
 	 * @param ep
 	 * @param eq
 	 * @param ot
@@ -651,7 +651,7 @@ public class DTSweep {
 			// Right
 			return ot.pointCCW(op);
 		} else if (o2d == Orientation.CCW) {
-			// Left                
+			// Left
 			return ot.pointCW(op);
 		} else {
 			// TODO: implement support for point on constraint edge
@@ -663,12 +663,12 @@ public class DTSweep {
 	/**
 	 * After a flip we have two triangles and know that only one will still be
 	 * intersecting the edge. So decide which to contiune with and legalize the other
-	 * 
+	 *
 	 * @param tcx
 	 * @param o - should be the result of an orient2d( eq, op, ep )
 	 * @param t - triangle 1
 	 * @param ot - triangle 2
-	 * @param p - a point shared by both triangles 
+	 * @param p - a point shared by both triangles
 	 * @param op - another point shared by both triangles
 	 * @return returns the triangle still intersecting the edge
 	 */
@@ -694,10 +694,10 @@ public class DTSweep {
 
 	/**
 	 * Scan part of the FlipScan algorithm<br>
-	 * When a triangle pair isn't flippable we will scan for the next 
-	 * point that is inside the flip triangle scan area. When found 
+	 * When a triangle pair isn't flippable we will scan for the next
+	 * point that is inside the flip triangle scan area. When found
 	 * we generate a new flipEdgeEvent
-	 * 
+	 *
 	 * @param tcx
 	 * @param ep - last point on the edge we are traversing
 	 * @param eq - first point on the edge we are traversing
@@ -734,8 +734,8 @@ public class DTSweep {
 		if (inScanArea) {
 			// flip with new edge op->eq
 			flipEdgeEvent(tcx, eq, op, ot, op);
-			// TODO: Actually I just figured out that it should be possible to 
-			//       improve this by getting the next ot and op before the the above 
+			// TODO: Actually I just figured out that it should be possible to
+			//       improve this by getting the next ot and op before the the above
 			//       flip and continue the flipScanEdgeEvent here
 			// set new ot and op here and loop back to inScanArea test
 			// also need to set a new flipTriangle first
@@ -748,9 +748,9 @@ public class DTSweep {
 	}
 
 	/**
-	 * Fills holes in the Advancing Front 
-	 * 
-	 * 
+	 * Fills holes in the Advancing Front
+	 *
+	 *
 	 * @param tcx
 	 * @param n
 	 */
@@ -795,11 +795,11 @@ public class DTSweep {
 	private static boolean isLargeHole(AdvancingFrontNode node) {
 		double angle = angle(node.point, node.next.point, node.prev.point);
 		//XXX: don't see angle being in range [-pi/2,0] due to how advancing front works
-		//        return (angle > PI_div2) || (angle < -PI_div2); 
+		//        return (angle > PI_div2) || (angle < -PI_div2);
 		return (angle > PI_div2) || (angle < 0);
 
 		// ISSUE 48: http://code.google.com/p/poly2tri/issues/detail?id=48
-		// TODO: Adding this fix suggested in issues 48 caused some 
+		// TODO: Adding this fix suggested in issues 48 caused some
 		//       triangulations to fail so commented it out for now.
 		//
 		// Also haven't been able to produce a triangulation that gives the
@@ -807,8 +807,8 @@ public class DTSweep {
 
 		//        AdvancingFrontNode nextNode = node.next;
 		//        AdvancingFrontNode prevNode = node.prev;
-		//        if( !AngleExceeds90Degrees(node.point, 
-		//                                   nextNode.point, 
+		//        if( !AngleExceeds90Degrees(node.point,
+		//                                   nextNode.point,
 		//                                   prevNode.point))
 		//        {
 		//            return false;
@@ -817,9 +817,9 @@ public class DTSweep {
 		//        // Check additional points on front.
 		//        AdvancingFrontNode next2Node = nextNode.next;
 		//        // "..Plus.." because only want angles on same side as point being added.
-		//        if(    (next2Node != null) 
-		//            && !AngleExceedsPlus90DegreesOrIsNegative(node.point, 
-		//                                                      next2Node.point, 
+		//        if(    (next2Node != null)
+		//            && !AngleExceedsPlus90DegreesOrIsNegative(node.point,
+		//                                                      next2Node.point,
 		//                                                      prevNode.point))
 		//        {
 		//            return false;
@@ -827,9 +827,9 @@ public class DTSweep {
 		//
 		//        AdvancingFrontNode prev2Node = prevNode.prev;
 		//        // "..Plus.." because only want angles on same side as point being added.
-		//        if(    (prev2Node != null) 
-		//            && !AngleExceedsPlus90DegreesOrIsNegative(node.point, 
-		//                                                      nextNode.point, 
+		//        if(    (prev2Node != null)
+		//            && !AngleExceedsPlus90DegreesOrIsNegative(node.point,
+		//                                                      nextNode.point,
 		//                                                      prev2Node.point))
 		//        {
 		//            return false;
@@ -839,8 +839,8 @@ public class DTSweep {
 
 	//    private static boolean AngleExceeds90Degrees
 	//    (
-	//        TriangulationPoint origin, 
-	//        TriangulationPoint pa, 
+	//        TriangulationPoint origin,
+	//        TriangulationPoint pa,
 	//        TriangulationPoint pb
 	//    )
 	//    {
@@ -851,8 +851,8 @@ public class DTSweep {
 	//
 	//    private static boolean AngleExceedsPlus90DegreesOrIsNegative
 	//    (
-	//        TriangulationPoint origin, 
-	//        TriangulationPoint pa, 
+	//        TriangulationPoint origin,
+	//        TriangulationPoint pa,
 	//        TriangulationPoint pb
 	//    )
 	//    {
@@ -863,9 +863,9 @@ public class DTSweep {
 	/**
 	 * Fills a basin that has formed on the Advancing Front to the right
 	 * of given node.<br>
-	 * First we decide a left,bottom and right node that forms the 
+	 * First we decide a left,bottom and right node that forms the
 	 * boundaries of the basin. Then we do a reqursive fill.
-	 * 
+	 *
 	 * @param tcx
 	 * @param node - starting node, this or next node will be left node
 	 */
@@ -909,7 +909,7 @@ public class DTSweep {
 
 	/**
 	 * Recursive algorithm to fill a Basin with triangles
-	 * 
+	 *
 	 * @param tcx
 	 * @param node - bottomNode
 	 * @param cnt - counter used to alternate on even and odd numbers
@@ -965,7 +965,7 @@ public class DTSweep {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node - middle node
 	 * @return the angle between p-a and p-b in range [-pi,pi]
 	 */
@@ -1008,7 +1008,7 @@ public class DTSweep {
 		DelaunayTriangle triangle = new DelaunayTriangle(node.prev.point,
 				node.point, node.next.point);
 		// TODO: should copy the cEdge value from neighbor triangles
-		//       for now cEdge values are copied during the legalize 
+		//       for now cEdge values are copied during the legalize
 		triangle.markNeighbor(node.prev.triangle);
 		triangle.markNeighbor(node.triangle);
 		tcx.addToList(triangle);
@@ -1048,14 +1048,14 @@ public class DTSweep {
 				// If this is a Constrained Edge or a Delaunay Edge(only during recursive legalization)
 				// then we should not try to legalize
 				if (ot.cEdge[oi] || ot.dEdge[oi]) {
-					t.cEdge[i] = ot.cEdge[oi]; // XXX: have no good way of setting this property when creating new triangles so lets set it here                     
+					t.cEdge[i] = ot.cEdge[oi]; // XXX: have no good way of setting this property when creating new triangles so lets set it here
 					continue;
 				}
 				inside = smartIncircle(p, t.pointCCW(p), t.pointCW(p), op);
 				if (inside) {
 					boolean notLegalized;
 
-					// Lets mark this shared edge as Delaunay 
+					// Lets mark this shared edge as Delaunay
 					t.dEdge[i] = true;
 					ot.dEdge[oi] = true;
 
@@ -1077,7 +1077,7 @@ public class DTSweep {
 
 					// Reset the Delaunay edges, since they only are valid Delaunay edges
 					// until we add a new triangle or point.
-					// XXX: need to think about this. Can these edges be tried after we 
+					// XXX: need to think about this. Can these edges be tried after we
 					//      return to previous recursive level?
 					t.dEdge[i] = false;
 					ot.dEdge[oi] = false;
@@ -1096,7 +1096,7 @@ public class DTSweep {
 	 *<pre>
 	 *       n2                    n2
 	 *  P +-----+             P +-----+
-	 *    | t  /|               |\  t |  
+	 *    | t  /|               |\  t |
 	 *    |   / |               | \   |
 	 *  n1|  /  |n3           n1|  \  |n3
 	 *    | /   |    after CW   |   \ |
@@ -1142,8 +1142,8 @@ public class DTSweep {
 
 		// Remap neighbors
 		// XXX: might optimize the markNeighbor by keeping track of
-		//      what side should be assigned to what neighbor after the 
-		//      rotation. Now mark neighbor does lots of testing to find 
+		//      what side should be assigned to what neighbor after the
+		//      rotation. Now mark neighbor does lots of testing to find
 		//      the right side.
 		t.clearNeighbors();
 		ot.clearNeighbors();

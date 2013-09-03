@@ -51,7 +51,8 @@ import java.util.Map;
 @Singleton
 public class FontHandlerImpl implements FontHandler {
 
-	protected Logger logger = LoggerFactory.getLogger("FontCacheImpl");
+	static private Logger logger = LoggerFactory
+			.getLogger(FontHandlerImpl.class);
 
 	protected Map<EAdFont, RuntimeFont> cache;
 
@@ -67,7 +68,7 @@ public class FontHandlerImpl implements FontHandler {
 
 	/**
 	 * Puts a runtime font in the cache
-	 * 
+	 *
 	 * @param font
 	 *            {@link BasicFont}
 	 * @param rFont
@@ -80,7 +81,7 @@ public class FontHandlerImpl implements FontHandler {
 
 	/**
 	 * Returns {@link RuntimeFont} associated to the given {@link BasicFont}
-	 * 
+	 *
 	 * @param font
 	 *            the {@link BasicFont}
 	 * @return {@link RuntimeFont} associated to the given {@link BasicFont}
@@ -96,7 +97,7 @@ public class FontHandlerImpl implements FontHandler {
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given
 	 * {@link BasicFont}
-	 * 
+	 *
 	 * @param font
 	 *            given {@link BasicFont}
 	 */

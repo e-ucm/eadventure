@@ -51,8 +51,8 @@ import es.eucm.ead.model.elements.conditions.ListedCond;
 @Singleton
 public class ListedCondEvaluator implements Evaluator<ListedCond> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ListedConditionEvaluator");
+	static private Logger logger = LoggerFactory
+			.getLogger(ListedCondEvaluator.class);
 
 	private EvaluatorFactory evaluatorFactory;
 

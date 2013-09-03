@@ -56,8 +56,7 @@ import java.util.List;
 
 public class WriterVisitor {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("WriterVisitor");
+	static private Logger logger = LoggerFactory.getLogger(WriterVisitor.class);
 
 	private ReflectionProvider reflectionProvider;
 

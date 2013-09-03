@@ -51,7 +51,7 @@ import java.util.zip.ZipOutputStream;
 
 public class WarExporter {
 
-	private static final Logger logger = LoggerFactory.getLogger("WarExporter");
+	static private Logger logger = LoggerFactory.getLogger(WarExporter.class);
 
 	private static final String DEFAULT_WAR_PATH = "/home/eva/repositories/eadventure/core/engine-html/target/eadengine.war";
 	private static final byte[] BUFFER = new byte[4096 * 1024];

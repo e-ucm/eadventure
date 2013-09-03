@@ -81,8 +81,8 @@ import java.util.List;
 @Singleton
 public class UtilsConverter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("UtilsConverter");
+	static private Logger logger = LoggerFactory
+			.getLogger(UtilsConverter.class);
 
 	private ConditionsConverter conditionsConverter;
 
@@ -138,7 +138,7 @@ public class UtilsConverter {
 
 	/**
 	 * Watches the var in the definition
-	 * 
+	 *
 	 * @param sceneElement
 	 * @param varState
 	 */
@@ -155,7 +155,7 @@ public class UtilsConverter {
 
 	/**
 	 * Simplifies a state drawables to its minimum
-	 * 
+	 *
 	 * @param drawable
 	 * @return
 	 */
@@ -171,7 +171,7 @@ public class UtilsConverter {
 	/**
 	 * Add a event to watch a condition, and set the field to the value of the
 	 * condition
-	 * 
+	 *
 	 * @param field
 	 * @param c
 	 */
@@ -193,7 +193,7 @@ public class UtilsConverter {
 	/**
 	 * Add mouse enter and mouse exit behavior to change the cursor when is over
 	 * the given element
-	 * 
+	 *
 	 * @param e
 	 *            the element
 	 * @param bundleId
@@ -208,7 +208,7 @@ public class UtilsConverter {
 
 	/**
 	 * Returns a string transforming the given old color
-	 * 
+	 *
 	 * @param oldColor
 	 * @return
 	 */
@@ -230,7 +230,7 @@ public class UtilsConverter {
 
 	/**
 	 * Get the proper paint for two colors in the old format
-	 * 
+	 *
 	 * @param fillColor
 	 * @param borderColor
 	 * @return

@@ -49,8 +49,8 @@ import es.eucm.ead.model.elements.conditions.NOTCond;
 public class NOTCondEvaluator implements Evaluator<NOTCond> {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger("NOTConditionEvaluator");
+	static private Logger logger = LoggerFactory
+			.getLogger(NOTCondEvaluator.class);
 
 	private EvaluatorFactory evaluatorFactory;
 

@@ -26,7 +26,8 @@ import static org.junit.Assert.assertTrue;
 
 public class DemosToXMLTest {
 
-	private static final Logger logger = LoggerFactory.getLogger("DemosToXml");
+	static private Logger logger = LoggerFactory
+			.getLogger(DemosToXMLTest.class);
 
 	@Test
 	public void testWriteDemo() throws IOException {
@@ -52,6 +53,7 @@ public class DemosToXMLTest {
 				new JavaReflectionProvider());
 		AdventureReader reader = new AdventureReader(
 				new JavaReflectionProvider(), new SaxXMLParser(), fileReader);
+
 		writer.write(model, path, fileWriter);
 		writer.write(model, path2, fileWriter);
 

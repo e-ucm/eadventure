@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
 public class GraphExporter {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("GraphExporter");
+			.getLogger(GraphExporter.class);
 
 	public static void export(DirectedGraph<DependencyNode, DependencyEdge> g,
 			File target) {

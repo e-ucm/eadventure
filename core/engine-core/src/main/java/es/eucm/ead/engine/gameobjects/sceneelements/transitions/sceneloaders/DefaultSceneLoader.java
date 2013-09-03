@@ -55,7 +55,8 @@ import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 @Singleton
 public class DefaultSceneLoader implements SceneLoader {
 
-	private static final Logger logger = LoggerFactory.getLogger("SceneLoader");
+	static private Logger logger = LoggerFactory
+			.getLogger(DefaultSceneLoader.class);
 
 	private SceneElementGOFactory sceneElementFactory;
 

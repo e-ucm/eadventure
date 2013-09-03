@@ -107,7 +107,7 @@ import es.eucm.ead.writer.StringWriter;
 public class EditorModelLoader {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("EditorModelLoader");
+			.getLogger(EditorModelLoader.class);
 
 	/**
 	 * Importer for old models
@@ -409,7 +409,8 @@ public class EditorModelLoader {
 		//		converter.addProgressListener(pp);
 		converter.convert(fin.getAbsolutePath(), fout.getAbsolutePath());
 		model.setEngineModel(converter.getModel());
-		logger.info("{} chapters in model", model.getEngineModel().getChapters().size());
+		logger.info("{} chapters in model", model.getEngineModel()
+				.getChapters().size());
 
 		//		converter.removeProgressListener(pp);
 		model.updateProgress(52, "Reading strings and engine properties ...");
@@ -459,16 +460,22 @@ public class EditorModelLoader {
 		// read
 		saveDir = sourceDir;
 		model.updateProgress(10, "Reading engine model ...");
-		if (sourceDir.isFile()) {
-			zipTextFileReader.setBase(saveDir);
-			zipReader.setPath(saveDir.getAbsolutePath());
-			model.setEngineModel(zipReader.readFullModel());
-		} else {
-			reader.setPath(saveDir.getAbsolutePath());
-			model.setEngineModel(reader.readFullModel());
+		try {
+			if (sourceDir.isFile()) {
+				zipTextFileReader.setBase(saveDir);
+				zipReader.setPath(saveDir.getAbsolutePath()
+						+ File.separatorChar);
+				model.setEngineModel(zipReader.readFullModel());
+			} else {
+				reader.setPath(saveDir.getAbsolutePath() + File.separatorChar);
+				model.setEngineModel(reader.readFullModel());
+			}
+			model.updateProgress(52,
+					"Reading strings and engine properties ...");
+			loadStringsAndProperties(saveDir);
+		} catch (Exception e) {
+			throw new IOException("could not load from " + sourceDir, e);
 		}
-		model.updateProgress(52, "Reading strings and engine properties ...");
-		loadStringsAndProperties(saveDir);
 
 		// build editor model
 		logger.info("Model loaded; building graph...");

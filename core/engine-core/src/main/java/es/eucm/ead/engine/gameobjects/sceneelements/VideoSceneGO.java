@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
 
 public class VideoSceneGO extends SceneGO {
 
-	private static final Logger logger = LoggerFactory.getLogger("VideoScene");
+	static private Logger logger = LoggerFactory.getLogger(VideoSceneGO.class);
 
 	private SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer;
 

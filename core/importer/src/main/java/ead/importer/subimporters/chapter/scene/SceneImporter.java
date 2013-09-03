@@ -91,12 +91,11 @@ import java.util.Map;
 
 /**
  * Scenes importer
- * 
+ *
  */
 public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("SceneImporter");
+	static private Logger logger = LoggerFactory.getLogger(SceneImporter.class);
 
 	/**
 	 * String handler

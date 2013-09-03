@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ActorPanel extends AbstractElementPanel<CharacterNode> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ActorPanel");
+	static private Logger logger = LoggerFactory.getLogger(ActorPanel.class);
 
 	private SceneElementDef actor;
 

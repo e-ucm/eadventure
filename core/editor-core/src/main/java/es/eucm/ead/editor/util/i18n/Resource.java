@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Resource {
 
-	private static final Logger logger = LoggerFactory.getLogger("Resource");
+	static private Logger logger = LoggerFactory.getLogger(Resource.class);
 
 	private static BufferedImage placeholderImage;
 	private static Font placeholderFont;

@@ -60,7 +60,7 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 @SuppressWarnings("unchecked")
 public class EventReader {
 
-	private static final Logger logger = LoggerFactory.getLogger("EventReader");
+	static private Logger logger = LoggerFactory.getLogger(EventReader.class);
 
 	private ObjectsFactory objectsFactory;
 	private EffectsReader effectsReader;

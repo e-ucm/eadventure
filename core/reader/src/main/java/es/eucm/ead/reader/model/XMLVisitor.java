@@ -58,7 +58,7 @@ import java.util.List;
 
 public class XMLVisitor {
 
-	private static final Logger logger = LoggerFactory.getLogger("XMLVisitor");
+	static private Logger logger = LoggerFactory.getLogger(XMLVisitor.class);
 
 	private static final int MAX_LOOPS_WITH_SAME_SIZE = 1000;
 

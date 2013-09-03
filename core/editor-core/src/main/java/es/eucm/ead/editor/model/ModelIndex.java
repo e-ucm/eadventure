@@ -84,7 +84,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ModelIndex implements EditorModel.ModelListener {
 
-	private static final Logger logger = LoggerFactory.getLogger("ModelIndex");
+	private static Logger logger = LoggerFactory.getLogger(ModelIndex.class);
 	public static final String editorIdFieldName = "editor-id";
 
 	public static final String editorIdQueryField = "eid";

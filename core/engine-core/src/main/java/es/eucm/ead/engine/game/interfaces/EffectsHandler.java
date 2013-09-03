@@ -50,7 +50,8 @@ import java.util.List;
 
 public class EffectsHandler {
 
-	private static Logger logger = LoggerFactory.getLogger("EffectsHandler");
+	static private Logger logger = LoggerFactory
+			.getLogger(EffectsHandler.class);
 
 	/**
 	 * Effects factory

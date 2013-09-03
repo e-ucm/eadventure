@@ -48,8 +48,8 @@ import es.eucm.ead.tools.xml.XMLNode;
 
 public abstract class AbstractReader<T> implements Reader<T> {
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("ElementReader");
+	static protected Logger logger = LoggerFactory
+			.getLogger(AbstractReader.class);
 
 	protected ObjectsFactory elementsFactory;
 

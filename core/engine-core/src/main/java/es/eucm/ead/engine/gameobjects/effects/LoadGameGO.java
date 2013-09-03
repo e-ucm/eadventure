@@ -59,7 +59,7 @@ import java.util.Stack;
 
 public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 
-	private static final Logger logger = LoggerFactory.getLogger("LoadGame");
+	static private Logger logger = LoggerFactory.getLogger(LoadGameGO.class);
 	private GameLoader gameLoader;
 
 	private SceneElementGOFactory sceneElementFactory;

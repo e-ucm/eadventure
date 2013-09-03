@@ -50,8 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("RuntimeSound");
+	static private Logger logger = LoggerFactory.getLogger(RuntimeSound.class);
 
 	private Sound sound;
 
@@ -102,7 +101,7 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
 	/**
 	 * Plays the sound
-	 * 
+	 *
 	 * @param overlay
 	 *            If true, the sound is played always. If false, the sound is
 	 *            played only if it's not playing

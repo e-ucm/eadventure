@@ -55,8 +55,8 @@ import es.eucm.ead.tools.reflection.ReflectionProvider;
  */
 public class OperatorFactory extends AbstractFactory<Operator<?>> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("Operator Factory");
+	static private Logger logger = LoggerFactory
+			.getLogger(OperatorFactory.class);
 
 	public OperatorFactory(ReflectionProvider interfacesProvider,
 			GameState gameState, StringHandler sh) {
@@ -72,7 +72,7 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 	 * </p>
 	 * The value should be stored in the {@link es.eucm.ead.engine.game.interfaces.ValueMap} by the actual
 	 * {@link Operator}
-	 * 
+	 *
 	 * @param <T>
 	 * @param eAdVar
 	 *            the class for the result

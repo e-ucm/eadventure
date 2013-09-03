@@ -51,8 +51,8 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 
 	private String absolutePath;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EAPInputStreamCreator");
+	static private Logger logger = LoggerFactory
+			.getLogger(EAPInputStreamCreator.class);
 
 	public void setFile(String file) {
 		this.absolutePath = file;

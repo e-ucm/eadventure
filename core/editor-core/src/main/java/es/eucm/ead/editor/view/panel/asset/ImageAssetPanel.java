@@ -86,8 +86,8 @@ import es.eucm.ead.editor.util.SwingUtilities;
  */
 public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ImageAssetPanel");
+	static private Logger logger = LoggerFactory
+			.getLogger(ImageAssetPanel.class);
 	private static FileCache fileCache;
 	private ImageAssetNode imageAsset;
 	private File imageFile;

@@ -62,7 +62,7 @@ public abstract class GUIImpl implements GUI {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
+	static private Logger logger = LoggerFactory.getLogger(GUIImpl.class);
 
 	protected SceneElementGO root;
 

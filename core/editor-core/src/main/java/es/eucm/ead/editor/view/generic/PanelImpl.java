@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
 
 public class PanelImpl implements OptionPanel {
 
-	private static final Logger logger = LoggerFactory.getLogger("OPanel");
+	static private Logger logger = LoggerFactory.getLogger(PanelImpl.class);
 
 	private List<Option> elements;
 

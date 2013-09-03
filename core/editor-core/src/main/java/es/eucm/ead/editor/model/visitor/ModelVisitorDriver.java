@@ -73,7 +73,7 @@ import es.eucm.ead.editor.model.nodes.EngineNode;
 public class ModelVisitorDriver {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("ModelVisitorDriver");
+			.getLogger(ModelVisitorDriver.class);
 
 	// drivers are reusable; they keep no internal information
 	private ElementDriver elementDriver = new ElementDriver();

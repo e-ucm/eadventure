@@ -54,8 +54,7 @@ import java.util.List;
 public abstract class RuntimeShape<T extends AbstractShape> extends
 		AbstractRuntimeAsset<T> implements RuntimeDrawable<T> {
 
-	protected final static Logger logger = LoggerFactory
-			.getLogger("RuntimeBezierShape");
+	static private Logger logger = LoggerFactory.getLogger(RuntimeShape.class);
 
 	private TextureRegion textureRegion;
 

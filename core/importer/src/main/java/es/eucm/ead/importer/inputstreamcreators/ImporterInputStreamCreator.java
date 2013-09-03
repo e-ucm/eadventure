@@ -49,8 +49,8 @@ import es.eucm.eadventure.common.loader.InputStreamCreator;
 public class ImporterInputStreamCreator implements InputStreamCreator {
 
 	private InputStreamCreator currentStreamCreator;
-	private static final Logger logger = LoggerFactory
-			.getLogger("ImporterInputStreamCreator");
+	static private Logger logger = LoggerFactory
+			.getLogger(ImporterInputStreamCreator.class);
 
 	private EAPInputStreamCreator eapInputStreamCreator;
 

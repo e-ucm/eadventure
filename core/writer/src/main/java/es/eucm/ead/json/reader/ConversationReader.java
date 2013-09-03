@@ -65,7 +65,8 @@ import java.util.Map.Entry;
 @SuppressWarnings("unchecked")
 public class ConversationReader {
 
-	private Logger logger = LoggerFactory.getLogger("ConversationReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(ConversationReader.class);
 
 	private Map<String, EAdEffect> segmentsStart;
 	private Map<String, EAdEffect> segmentsEnd;

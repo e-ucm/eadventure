@@ -58,6 +58,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Singleton
 public class GameStateImpl extends ValueMapImpl implements GameState {
 
@@ -68,6 +71,8 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	private static final char BEGIN_CONDITION_CHAR = '(';
 
 	private static final char END_CONDITION_CHAR = ')';
+
+	private static Logger logger = LoggerFactory.getLogger(GameStateImpl.class);
 
 	/**
 	 * Operator factory

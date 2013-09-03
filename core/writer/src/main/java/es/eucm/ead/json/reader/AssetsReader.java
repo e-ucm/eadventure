@@ -70,8 +70,7 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 @SuppressWarnings("unchecked")
 public class AssetsReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("AssetsReader");
+	static private Logger logger = LoggerFactory.getLogger(AssetsReader.class);
 
 	private ObjectsFactory objectsFactory;
 

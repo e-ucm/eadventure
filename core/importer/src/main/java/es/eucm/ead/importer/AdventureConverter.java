@@ -70,7 +70,8 @@ public class AdventureConverter {
 
 	public static final String EFFECTS_GHOST_ID = "#engine.import.effects_ghost";
 
-	private static final Logger logger = LoggerFactory.getLogger("Converter");
+	static private Logger logger = LoggerFactory
+			.getLogger(AdventureConverter.class);
 
 	private OldReader oldReader;
 

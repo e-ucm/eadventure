@@ -80,13 +80,13 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * 
+ *
  */
 public class SceneElementGO extends Group implements
 		GameObject<EAdSceneElement>, Oriented, EventListener {
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("SceneElementGO");
+	static protected Logger logger = LoggerFactory
+			.getLogger(SceneElementGO.class);
 
 	/**
 	 * Scene element factory
@@ -396,7 +396,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Adds an scene element as a child of this element
-	 * 
+	 *
 	 * @param element
 	 * @return the game object created for the element
 	 */
@@ -408,7 +408,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets position for this element
-	 * 
+	 *
 	 * @param position
 	 */
 	public void setPosition(Position position) {
@@ -426,7 +426,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets x position for this element
-	 * 
+	 *
 	 * @param x
 	 */
 	public void setX(float x) {
@@ -475,7 +475,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets y position for this element
-	 * 
+	 *
 	 * @param y
 	 */
 	public void setY(float y) {
@@ -498,7 +498,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Returns displacement proportion in x coordination
-	 * 
+	 *
 	 * @return
 	 */
 	public float getDispX() {
@@ -507,7 +507,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Returns displacement proportion in x coordination
-	 * 
+	 *
 	 * @return
 	 */
 	public float getDispY() {
@@ -516,7 +516,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Return the z order for this element
-	 * 
+	 *
 	 * @return
 	 */
 	public int getZ() {
@@ -525,7 +525,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets the z order for this element
-	 * 
+	 *
 	 * @param z
 	 */
 	public void setZ(int z) {
@@ -540,7 +540,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets scale for this element
-	 * 
+	 *
 	 * @param scale
 	 */
 	public void setScale(float scale) {
@@ -553,7 +553,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Returns the current scale of the element
-	 * 
+	 *
 	 * @return
 	 */
 	public float getScale() {
@@ -562,7 +562,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets the alpha for this element
-	 * 
+	 *
 	 * @param alpha
 	 */
 	public void setAlpha(float alpha) {
@@ -575,7 +575,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Sets an input processor for this element. This processor will process the
 	 * actions before the default process
-	 * 
+	 *
 	 * @param processor
 	 * @param transmitToChildren
 	 *
@@ -595,7 +595,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Returns the drawable that represents this element
-	 * 
+	 *
 	 * @return
 	 */
 	public RuntimeDrawable<?> getDrawable() {
@@ -604,7 +604,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets the state for this element
-	 * 
+	 *
 	 * @param state
 	 */
 	public void setState(String state) {
@@ -621,7 +621,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Returns the field for this variable of this element
-	 * 
+	 *
 	 * @param var
 	 */
 	public <S> EAdField<S> getField(EAdVarDef<S> var) {
@@ -669,7 +669,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Sets a comparator to automatically reorder the scene elements (modifies
 	 * drawing order)
-	 * 
+	 *
 	 * @param comparator
 	 */
 	public void setComparator(Comparator<SceneElementGO> comparator) {
@@ -678,7 +678,7 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Launches a list of effects
-	 * 
+	 *
 	 * @param list
 	 * @param action
 	 */

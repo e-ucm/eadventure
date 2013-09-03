@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
  */
 public class EditorLink extends JButton implements ActionListener {
 
-	private static final Logger logger = LoggerFactory.getLogger("EditorLink");
+	static private Logger logger = LoggerFactory.getLogger(EditorLink.class);
 
 	private Controller controller;
 	private String editorId;

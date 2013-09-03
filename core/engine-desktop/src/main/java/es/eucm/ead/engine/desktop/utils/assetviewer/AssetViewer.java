@@ -65,7 +65,7 @@ import es.eucm.ead.engine.utils.assetviewer.AssetApplicationListener;
 public class AssetViewer {
 
 	private static final org.slf4j.Logger logger = LoggerFactory
-			.getLogger("AssetViewer");
+static private Logger logger = LoggerFactory.getLogger(AssetViewer.class);
 
 	private static LwjglAWTCanvas sharedContext;
 	private LwjglAWTCanvas canvas;

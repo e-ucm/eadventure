@@ -23,7 +23,7 @@ import java.io.IOException;
 public class ScreenShotGO extends AbstractEffectGO<ScreenShotEf> implements
 		EngineHook {
 
-	private static final Logger logger = LoggerFactory.getLogger("ScreenShot");
+	static private Logger logger = LoggerFactory.getLogger(ScreenShotGO.class);
 
 	private static JFileChooser fileChooser;
 

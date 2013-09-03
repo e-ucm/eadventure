@@ -49,8 +49,8 @@ import es.eucm.ead.engine.operators.OperatorFactory;
 @Singleton
 public class OperationCondEvaluator implements Evaluator<OperationCond> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("VarConditionEvaluator");
+	static private Logger logger = LoggerFactory
+			.getLogger(OperationCondEvaluator.class);
 
 	private OperatorFactory operatorFactory;
 

@@ -68,7 +68,7 @@ import java.util.Map;
 
 public class Simplifier {
 
-	private static final Logger logger = LoggerFactory.getLogger("Simplifier");
+	static private Logger logger = LoggerFactory.getLogger(Simplifier.class);
 
 	private Map<Class<?>, List<Object>> objectsLists;
 

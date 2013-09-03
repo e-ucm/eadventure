@@ -84,14 +84,14 @@ import es.eucm.eadventure.common.loader.Loader;
 
 /**
  * Resource Importer
- * 
- * 
+ *
+ *
  */
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ResourceImporterImpl");
+	static private Logger logger = LoggerFactory
+			.getLogger(ResourceImporterImpl.class);
 
 	/**
 	 * Conditions importer
@@ -357,7 +357,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	/**
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
-	 * 
+	 *
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset

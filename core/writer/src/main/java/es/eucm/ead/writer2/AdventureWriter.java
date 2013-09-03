@@ -65,8 +65,8 @@ import java.util.Map;
 
 public class AdventureWriter implements WriterContext {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("AdventureWriter");
+	static private Logger logger = LoggerFactory
+			.getLogger(AdventureWriter.class);
 
 	private IdGenerator idGenerator;
 

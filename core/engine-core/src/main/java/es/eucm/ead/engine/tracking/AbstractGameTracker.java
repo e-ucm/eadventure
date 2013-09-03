@@ -55,8 +55,8 @@ public abstract class AbstractGameTracker implements GameTracker {
 
 	private TrackerSelector selector;
 
-	protected final static Logger logger = LoggerFactory
-			.getLogger("GameTracker");
+	static private Logger logger = LoggerFactory
+			.getLogger(AbstractGameTracker.class);
 
 	public AbstractGameTracker(TrackerSelector selector) {
 		tracking = false;

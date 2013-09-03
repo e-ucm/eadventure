@@ -58,7 +58,7 @@ import es.eucm.eadventure.common.loader.incidences.Incidence;
 @Singleton
 public class OldReader {
 
-	private static final Logger logger = LoggerFactory.getLogger("OldReader");
+	static private Logger logger = LoggerFactory.getLogger(OldReader.class);
 
 	private ImporterInputStreamCreator inputStreamCreator;
 

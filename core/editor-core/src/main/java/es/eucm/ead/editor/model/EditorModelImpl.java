@@ -75,7 +75,8 @@ import es.eucm.ead.editor.model.visitor.ModelVisitor;
  */
 public class EditorModelImpl implements EditorModel {
 
-	private static final Logger logger = LoggerFactory.getLogger("EditorModel");
+	private static Logger logger = LoggerFactory
+			.getLogger(EditorModelImpl.class);
 
 	/**
 	 * A large number, hard to reach counting from 0 upwards

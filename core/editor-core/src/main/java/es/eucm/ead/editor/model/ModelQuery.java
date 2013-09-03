@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ModelQuery {
 
-	private static final Logger logger = LoggerFactory.getLogger("ModelQuery");
+	private static Logger logger = LoggerFactory.getLogger(ModelQuery.class);
 
 	/**
 	 * The parts of the query

@@ -73,7 +73,7 @@ import es.eucm.eadventure.common.loader.incidences.Incidence;
 
 /**
  * An importer for old games from 1.x version
- * 
+ *
  */
 public class EAdventureImporter {
 
@@ -103,8 +103,8 @@ public class EAdventureImporter {
 
 	private List<ImporterProgressListener> listeners;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EAdventureImporter");
+	static private Logger logger = LoggerFactory
+			.getLogger(EAdventureImporter.class);
 
 	@Inject
 	public EAdventureImporter(
@@ -125,7 +125,7 @@ public class EAdventureImporter {
 
 	/**
 	 * Imports and old game form 1.x version
-	 * 
+	 *
 	 * @param eadFile
 	 *            original ead file
 	 * @param destination
@@ -193,7 +193,7 @@ public class EAdventureImporter {
 
 	/**
 	 * Creates a game file.
-	 * 
+	 *
 	 * @param model
 	 *            to save
 	 * @param path
@@ -289,7 +289,7 @@ public class EAdventureImporter {
 	/**
 	 * Adds all files in folder to the supplied zipOutputStream. Optionally
 	 * includes their full paths too.
-	 * 
+	 *
 	 * @param zip
 	 *            destination stream
 	 * @param folder
@@ -338,7 +338,7 @@ public class EAdventureImporter {
 
 	/**
 	 * Loads an old model AdventureData
-	 * 
+	 *
 	 */
 	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();

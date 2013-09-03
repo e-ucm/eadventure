@@ -54,8 +54,8 @@ import es.eucm.ead.engine.tracking.selection.TrackerSelector;
 @Singleton
 public class DefaultGameTracker extends AbstractGameTracker {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultTracker");
+	static private Logger logger = LoggerFactory
+			.getLogger(DefaultGameTracker.class);
 
 	@Inject
 	public DefaultGameTracker(TrackerSelector selector) {

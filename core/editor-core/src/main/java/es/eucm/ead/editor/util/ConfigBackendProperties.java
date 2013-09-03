@@ -53,7 +53,8 @@ import es.eucm.ead.tools.ConfigBackend;
 
 public class ConfigBackendProperties extends ConfigBackend {
 
-	public static Logger logger = LoggerFactory.getLogger("ConfigBackend");
+	private Logger logger = LoggerFactory
+			.getLogger(ConfigBackendProperties.class);
 
 	private Properties props = new Properties();
 	private File saveFile;

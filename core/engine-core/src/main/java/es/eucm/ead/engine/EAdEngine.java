@@ -63,7 +63,7 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class EAdEngine implements ApplicationListener {
 
-	private Logger logger = LoggerFactory.getLogger("EAdEngine");
+	static private Logger logger = LoggerFactory.getLogger(EAdEngine.class);
 
 	private Game game;
 

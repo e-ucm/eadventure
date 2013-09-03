@@ -69,7 +69,7 @@ import es.eucm.ead.engine.game.interfaces.SoundManager;
 public class JavaVideoRenderer implements
 		SpecialAssetRenderer<EAdVideo, Component> {
 	private static Logger logger = LoggerFactory
-			.getLogger("DesktopVideoRenderer");
+static private Logger logger = LoggerFactory.getLogger(JavaVideoRenderer.class);
 
 	private static boolean loaded = false;
 

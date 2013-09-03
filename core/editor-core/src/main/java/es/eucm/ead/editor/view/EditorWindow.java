@@ -105,7 +105,7 @@ public class EditorWindow implements ViewController {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("EWindowImpl");
+	static private Logger logger = LoggerFactory.getLogger(EditorWindow.class);
 	/**
 	 * Main left panel in the editor; contains list-of-tools
 	 */

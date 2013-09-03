@@ -55,8 +55,8 @@ import org.slf4j.LoggerFactory;
  */
 public class EditorLinkFactory {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EditorLinkFactory");
+	static private Logger logger = LoggerFactory
+			.getLogger(EditorLinkFactory.class);
 
 	public static EditorLink createLink(int id, Controller controller) {
 		return createLink(controller.getModel().getNode(id), controller);

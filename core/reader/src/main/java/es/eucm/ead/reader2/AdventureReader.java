@@ -58,8 +58,8 @@ import es.eucm.ead.model.elements.EAdAdventureModel;
 @Singleton
 public class AdventureReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("AdventureReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(AdventureReader.class);
 
 	private TextFileReader reader;
 
@@ -96,7 +96,14 @@ public class AdventureReader {
 	}
 
 	public Object read(String file) {
-		XMLNode node = parser.parse(reader.read(path + file));
+		String xml = reader.read(path + file);
+		XMLNode node = null;
+
+		try {
+			node = parser.parse(xml);
+		} catch (Exception e) {
+			throw new RuntimeException("Error reading '" + path + file + "'");
+		}
 		readerVisitor.init();
 		readerVisitor.loadElement(node, new ReaderVisitor.VisitorListener() {
 			@Override

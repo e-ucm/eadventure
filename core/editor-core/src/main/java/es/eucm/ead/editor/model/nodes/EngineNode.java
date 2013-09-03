@@ -65,7 +65,7 @@ import es.eucm.ead.model.params.variables.VarDef;
  */
 public class EngineNode<T> extends DependencyNode<T> {
 
-	public static final Logger log = LoggerFactory.getLogger(EngineNode.class);
+	private static Logger logger = LoggerFactory.getLogger(EngineNode.class);
 
 	public static final int maxDependencies = 10;
 

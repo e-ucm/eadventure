@@ -50,8 +50,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class ReflectionClassLoader {
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("ReflectionClassLoader");
+	static protected Logger logger = LoggerFactory
+			.getLogger(ReflectionClassLoader.class);
 
 	private static ReflectionClassLoader reflectionClassLoader;
 

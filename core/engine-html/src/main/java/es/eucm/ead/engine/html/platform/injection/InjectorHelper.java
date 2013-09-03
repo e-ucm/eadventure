@@ -67,7 +67,8 @@ import org.slf4j.LoggerFactory;
 
 public class InjectorHelper implements Injector {
 
-	private static final Logger logger = LoggerFactory.getLogger("GwtInjector");
+	static private Logger logger = LoggerFactory
+			.getLogger(InjectorHelper.class);
 
 	private GwtGinInjector ginjector;
 

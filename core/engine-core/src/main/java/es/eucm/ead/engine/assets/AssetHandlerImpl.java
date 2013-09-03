@@ -88,8 +88,8 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	/**
 	 * The class logger
 	 */
-	protected static final Logger logger = LoggerFactory
-			.getLogger("AbstractAssetHandler");
+	static private Logger logger = LoggerFactory
+			.getLogger(AssetHandlerImpl.class);
 	/**
 	 * A cache of the runtime assets for each asset descriptor
 	 */
@@ -163,7 +163,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.engine.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.resources.assets.AssetDescriptor)
@@ -223,7 +223,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.engine.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.model.EAdElement,
@@ -248,7 +248,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.engine.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.model.EAdElement, java.lang.String)
@@ -260,7 +260,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.engine.platform.AssetHandler#isLoaded()
 	 */
 	@Override
@@ -398,7 +398,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	/**
 	 * retrieves a file handle for the path
-	 * 
+	 *
 	 * @param uri
 	 * @return
 	 */

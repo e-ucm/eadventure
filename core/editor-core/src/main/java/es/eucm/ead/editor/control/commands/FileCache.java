@@ -60,7 +60,7 @@ import es.eucm.ead.tools.java.utils.FileUtils;
  */
 public class FileCache {
 
-	private static final Logger logger = LoggerFactory.getLogger("FileCache");
+	private static Logger logger = LoggerFactory.getLogger(FileCache.class);
 
 	/**
 	 * Base directory for file access; allows safe relative filenames.
@@ -157,7 +157,7 @@ public class FileCache {
 
 		/**
 		 * Returns a hash for a file's meta-data. Reads file size,
-		 * creation & modification time (but not file-contents) into a string. 
+		 * creation & modification time (but not file-contents) into a string.
 		 * Different strings implies
 		 * "different" files (different attributes; but contents *may* be the same)
 		 */

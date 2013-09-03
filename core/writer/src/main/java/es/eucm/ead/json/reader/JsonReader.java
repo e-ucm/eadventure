@@ -59,7 +59,7 @@ import java.util.Collection;
 
 public class JsonReader {
 
-	private static final Logger logger = LoggerFactory.getLogger("JsonReader");
+	static private Logger logger = LoggerFactory.getLogger(JsonReader.class);
 
 	private Gson gson;
 

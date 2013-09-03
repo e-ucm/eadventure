@@ -55,7 +55,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class FileUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger("FileUtils");
+	static private Logger logger = LoggerFactory.getLogger(FileUtils.class);
 	/**
 	 * All zip files start with these bytes
 	 */

@@ -60,7 +60,7 @@ public class VLC2VideoRenderer implements
 		SpecialAssetRenderer<EAdVideo, Component>, MediaPlayerEventListener {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("VLCDesktopVideoRenderer");
+static private Logger logger = LoggerFactory.getLogger(VLC2VideoRenderer.class);
 	private static EmbeddedMediaPlayerComponent mediaPlayerComponent;
 	private static MediaPlayer mediaPlayer;
 

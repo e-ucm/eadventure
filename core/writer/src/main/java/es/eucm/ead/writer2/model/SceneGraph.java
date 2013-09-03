@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 
 public class SceneGraph {
 
-	private static final Logger logger = LoggerFactory.getLogger("SceneGraph");
+	static private Logger logger = LoggerFactory.getLogger(SceneGraph.class);
 
 	private EAdMap<String, EAdList<String>> graph;
 

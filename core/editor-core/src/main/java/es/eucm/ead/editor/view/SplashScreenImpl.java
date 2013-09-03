@@ -60,8 +60,9 @@ public class SplashScreenImpl implements SplashScreen {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger("SplashScreenImpl");
+	static private Logger logger = LoggerFactory
+			.getLogger(SplashScreenImpl.class);
+
 	/**
 	 * The splash screen dialog
 	 */

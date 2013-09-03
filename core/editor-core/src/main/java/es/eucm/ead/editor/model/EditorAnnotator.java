@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class EditorAnnotator implements ImportAnnotator {
 	private static final Logger logger = LoggerFactory
-			.getLogger("EditorAnnotator");
+			.getLogger(EditorAnnotator.class);
 
 	private ArrayList<EAdElement> stack = new ArrayList<EAdElement>();
 	private HashMap<EAdElement, ArrayList<Annotation>> annotations = new HashMap<EAdElement, ArrayList<Annotation>>();

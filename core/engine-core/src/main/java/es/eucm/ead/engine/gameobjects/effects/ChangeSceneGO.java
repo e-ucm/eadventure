@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		SceneLoaderListener, TransitionGO.TransitionListener {
 
-	private static final Logger logger = LoggerFactory.getLogger("ChangeScene");
+	static private Logger logger = LoggerFactory.getLogger(ChangeSceneGO.class);
 
 	public static BasicField<Boolean> IN_TRANSITION = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("in_transition", Boolean.class, false));

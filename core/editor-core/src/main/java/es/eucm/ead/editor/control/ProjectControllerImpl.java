@@ -55,7 +55,8 @@ import java.util.ArrayList;
 @Singleton
 public class ProjectControllerImpl implements ProjectController {
 
-	private static final Logger logger = LoggerFactory.getLogger("FileMenu");
+	private static Logger logger = LoggerFactory
+			.getLogger(ProjectControllerImpl.class);
 
 	private Controller controller;
 	private ArrayList<ChangeListener<String>> listeners = new ArrayList<ChangeListener<String>>();

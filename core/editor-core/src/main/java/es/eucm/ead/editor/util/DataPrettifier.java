@@ -75,7 +75,8 @@ import org.xml.sax.InputSource;
  */
 public class DataPrettifier {
 
-	private static Logger logger = LoggerFactory.getLogger("DataPrettifier");
+	static private Logger logger = LoggerFactory
+			.getLogger(DataPrettifier.class);
 
 	static final public HashSet<String> translatedAttributes = new HashSet<String>();
 	static final public String keymapElement = "keyMap";

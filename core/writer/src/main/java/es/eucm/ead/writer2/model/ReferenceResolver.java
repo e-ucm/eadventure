@@ -49,8 +49,8 @@ import java.util.Map;
 
 public class ReferenceResolver {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ReferenceResolver");
+	static private Logger logger = LoggerFactory
+			.getLogger(ReferenceResolver.class);
 
 	private Map<String, XMLNode> objects;
 

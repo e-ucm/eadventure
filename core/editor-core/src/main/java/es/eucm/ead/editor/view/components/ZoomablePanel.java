@@ -59,8 +59,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ZoomablePanel extends JPanel {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ZoomablePanelHolder");
+	static private Logger logger = LoggerFactory.getLogger(ZoomablePanel.class);
 
 	private double zoomFactor = 1.08;
 	private boolean zoomXAxis = true;

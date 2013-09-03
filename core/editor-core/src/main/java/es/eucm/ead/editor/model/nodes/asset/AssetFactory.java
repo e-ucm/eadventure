@@ -61,7 +61,7 @@ import es.eucm.ead.editor.model.nodes.EditorNode;
  */
 public class AssetFactory implements EditorNodeFactory {
 	private static final Logger logger = LoggerFactory
-			.getLogger("AssetFactory");
+			.getLogger(AssetFactory.class);
 
 	/**
 	 * Find and create EditorNodes for actors

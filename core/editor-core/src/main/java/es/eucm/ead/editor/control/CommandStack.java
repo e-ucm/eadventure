@@ -50,8 +50,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CommandStack extends Command {
 
-	private static Logger logger = LoggerFactory.getLogger(CommandStack.class
-			.getSimpleName());
+	private static Logger logger = LoggerFactory.getLogger(CommandStack.class);
 
 	public static final String commandName = "CommandStack";
 

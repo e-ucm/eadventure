@@ -67,8 +67,8 @@ import java.util.Map;
 
 public class ObjectsFactory {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ElementsFactory");
+	static private Logger logger = LoggerFactory
+			.getLogger(ObjectsFactory.class);
 	private ReflectionProvider reflectionProvider;
 	private Map<Class<?>, Map<String, Object>> paramsMap;
 	private Map<String, Identified> identified;

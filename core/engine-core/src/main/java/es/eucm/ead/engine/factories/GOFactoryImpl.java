@@ -55,8 +55,7 @@ import java.util.Map;
 public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 		implements GameObjectFactory<S, T> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("GameObjectFactoryImpl");
+	static private Logger logger = LoggerFactory.getLogger(GOFactoryImpl.class);
 
 	private ReflectionProvider reflectionProvider;
 

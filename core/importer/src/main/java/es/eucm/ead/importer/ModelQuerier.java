@@ -84,7 +84,7 @@ import java.util.Map;
 @Singleton
 public class ModelQuerier {
 
-	private static Logger logger = LoggerFactory.getLogger("ModelQuerier");
+	static private Logger logger = LoggerFactory.getLogger(ModelQuerier.class);
 
 	private ConditionsConverter conditionConverter;
 

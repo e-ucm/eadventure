@@ -46,8 +46,8 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractReader<T> implements Reader<T> {
 
-	protected static final Logger logger = LoggerFactory
-			.getLogger("ElementReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(AbstractReader.class);
 
 	protected ObjectsFactory objectsFactory;
 

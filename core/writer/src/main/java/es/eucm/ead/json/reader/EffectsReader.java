@@ -76,8 +76,7 @@ import java.util.Iterator;
 @SuppressWarnings("unchecked")
 public class EffectsReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EffectsReader");
+	static private Logger logger = LoggerFactory.getLogger(EffectsReader.class);
 
 	private ObjectsFactory objectsFactory;
 

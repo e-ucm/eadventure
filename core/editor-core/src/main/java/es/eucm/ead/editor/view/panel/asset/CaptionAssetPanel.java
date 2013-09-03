@@ -63,8 +63,8 @@ import es.eucm.ead.editor.view.generic.accessors.MapAccessor;
  */
 public class CaptionAssetPanel extends AbstractElementPanel<CaptionAssetNode> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ImageAssetPanel");
+	static private Logger logger = LoggerFactory
+			.getLogger(CaptionAssetPanel.class);
 	private Caption caption;
 
 	public CaptionAssetPanel() {

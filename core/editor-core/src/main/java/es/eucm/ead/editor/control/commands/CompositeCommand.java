@@ -60,7 +60,7 @@ import es.eucm.ead.editor.model.MergeableModelChange;
 public class CompositeCommand extends Command {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("CombineCommandList");
+			.getLogger(CompositeCommand.class);
 
 	protected String commandName;
 

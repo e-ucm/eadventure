@@ -51,8 +51,8 @@ import java.util.Map;
 @Singleton
 public class EAdElementsCache {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ElementsCache");
+	static private Logger logger = LoggerFactory
+			.getLogger(EAdElementsCache.class);
 
 	private Map<String, EAdElement> elements;
 

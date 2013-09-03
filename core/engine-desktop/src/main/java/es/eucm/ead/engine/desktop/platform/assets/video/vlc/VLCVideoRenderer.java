@@ -74,7 +74,7 @@ public class VLCVideoRenderer implements
 	 * Logger
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger("VLCDesktopVideoRenderer");
+static private Logger logger = LoggerFactory.getLogger(VLCVideoRenderer.class);
 
 	/**
 	 * The vlcj media player (controls, etc.)

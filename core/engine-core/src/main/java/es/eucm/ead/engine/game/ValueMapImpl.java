@@ -53,7 +53,7 @@ import java.util.Map;
 
 public class ValueMapImpl implements ValueMap {
 
-	protected static final Logger logger = LoggerFactory.getLogger("ValueMap");
+	static private Logger logger = LoggerFactory.getLogger(ValueMapImpl.class);
 
 	/**
 	 * Reflection provider
@@ -183,7 +183,7 @@ public class ValueMapImpl implements ValueMap {
 
 	/**
 	 * Adds an element to the update list
-	 * 
+	 *
 	 * @param element the element to add
 	 */
 	private void addUpdatedElement(Object element) {

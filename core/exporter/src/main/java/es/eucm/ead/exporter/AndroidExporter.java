@@ -56,8 +56,8 @@ public class AndroidExporter {
 
 	public static final String ICON = "icon";
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("AndroidExporter");
+	static private Logger logger = LoggerFactory
+			.getLogger(AndroidExporter.class);
 	public static final String TITLE = "title";
 
 	private PrintStream stdOut;

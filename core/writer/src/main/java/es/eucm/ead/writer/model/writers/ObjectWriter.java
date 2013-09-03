@@ -37,6 +37,10 @@
 
 package es.eucm.ead.writer.model.writers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
@@ -54,12 +58,9 @@ import es.eucm.ead.writer.model.writers.simplifiers.Simplifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-
 public class ObjectWriter extends AbstractWriter<Identified> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ObjectWriter");
+	static private Logger logger = LoggerFactory.getLogger(ObjectWriter.class);
 
 	public static final String ASSETS_PREFIX = "@";
 

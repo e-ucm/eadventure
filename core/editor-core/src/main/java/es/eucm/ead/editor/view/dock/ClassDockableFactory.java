@@ -60,7 +60,8 @@ import es.eucm.ead.editor.model.nodes.DependencyNode;
  */
 public class ClassDockableFactory implements
 		MultipleCDockableFactory<DefaultMultipleCDockable, ElementLayout> {
-	Logger logger = LoggerFactory.getLogger("cdf");
+	static private Logger logger = LoggerFactory
+			.getLogger(ClassDockableFactory.class);
 
 	private Class<? extends ElementPanel> controlClass;
 	private Class<? extends DependencyNode> modelClass;

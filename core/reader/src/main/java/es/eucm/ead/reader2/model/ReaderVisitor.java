@@ -55,7 +55,7 @@ import java.util.List;
 public class ReaderVisitor {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("ReaderVisitor");
+			.getLogger(ReaderVisitor.class);
 
 	private static final int MAX_LOOPS_WITH_SAME_SIZE = 1000;
 
@@ -114,7 +114,7 @@ public class ReaderVisitor {
 
 	/**
 	 * Adds an element to load to the stack
-	 * 
+	 *
 	 * @param node
 	 * @param listener
 	 */
@@ -138,9 +138,11 @@ public class ReaderVisitor {
 		XMLNode node = step.getNode();
 		VisitorListener listener = step.getListener();
 
-		// First look for null in the node
-		// <p/> or <e/> or <a/> symbolizes null element
-		if (!node.hasChildNodes()
+		if (node == null) {
+			// First look for null in the node
+			// <p/> or <e/> or <a/> symbolizes null element
+			logger.warn("null element read; ignoring");
+		} else if (!node.hasChildNodes()
 				&& node.getAttributesLength() == 0
 				&& ("".equals(node.getNodeText()) || node.getNodeText() == null)) {
 			listener.loaded(node, null, true);
@@ -156,7 +158,7 @@ public class ReaderVisitor {
 			} else if (node.getNodeName().equals(DOMTags.MAP_TAG)) {
 				result = mapReader.read(node);
 			} else {
-				logger.warn(" could not read node {} with name {}", node
+				logger.warn(" could not read node {} with name {}", node, node
 						.getNodeName());
 				error = true;
 			}
@@ -249,7 +251,7 @@ public class ReaderVisitor {
 
 		/**
 		 * Returns if the object was correctly processed
-		 * 
+		 *
 		 * @param node
 		 * @param object
 		 * @param isNullInOrigin

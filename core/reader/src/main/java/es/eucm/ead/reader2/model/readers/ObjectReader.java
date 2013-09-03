@@ -50,9 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ObjectReader extends AbstractReader<Identified> {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("ObjectReader");
+	static private Logger logger = LoggerFactory.getLogger(ObjectReader.class);
 
 	public ObjectReader(ObjectsFactory objectsFactory,
 			ReaderVisitor readerVisitor) {

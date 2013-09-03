@@ -57,8 +57,7 @@ import java.io.InputStream;
 
 public class DomXMLParser implements XMLParser {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("DomXMLParser");
+	static private Logger logger = LoggerFactory.getLogger(DomXMLParser.class);
 
 	private DocumentBuilder dBuilder;
 	private TransformerFactory tf;

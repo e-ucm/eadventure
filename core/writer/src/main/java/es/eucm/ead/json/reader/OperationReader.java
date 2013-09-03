@@ -56,8 +56,8 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 @SuppressWarnings("unchecked")
 public class OperationReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("OperationReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(OperationReader.class);
 
 	private ConditionReader conditionReader;
 	private ObjectsFactory objectsFactory;

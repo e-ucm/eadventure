@@ -58,12 +58,12 @@ import es.eucm.ead.engine.canvas.GdxCanvas;
 
 /**
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
- * 
+ *
  */
 public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 		RuntimeDrawable<Image> {
 
-	private static final Logger logger = LoggerFactory.getLogger("GdxImage");
+	static private Logger logger = LoggerFactory.getLogger(RuntimeImage.class);
 
 	private FileHandle fh;
 	private TextureRegion textureRegion;

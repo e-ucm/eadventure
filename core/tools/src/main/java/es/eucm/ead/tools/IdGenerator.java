@@ -45,7 +45,7 @@ import java.util.List;
 
 public class IdGenerator {
 
-	private static final Logger logger = LoggerFactory.getLogger("IdGenerator");
+	static private Logger logger = LoggerFactory.getLogger(IdGenerator.class);
 
 	private int idsOrdinal;
 

@@ -72,7 +72,7 @@ import javax.swing.JFrame;
  */
 public class FileMenu extends AbstractEditorMenu {
 
-	private static final Logger logger = LoggerFactory.getLogger("FileMenu");
+	static private Logger logger = LoggerFactory.getLogger(FileMenu.class);
 
 	public static final String EAdventure2FileNameRegex = "manifest[.]xml";
 

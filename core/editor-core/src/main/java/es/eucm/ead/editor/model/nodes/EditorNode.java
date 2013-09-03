@@ -58,7 +58,7 @@ import es.eucm.ead.editor.model.ModelIndex;
  */
 public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 
-	private static final Logger logger = LoggerFactory.getLogger("EditorNode");
+	private static Logger logger = LoggerFactory.getLogger(EditorNode.class);
 
 	public static final int THUMBNAIL_SIZE = 128;
 	private static final BufferedImage defaultThumbnail = new BufferedImage(

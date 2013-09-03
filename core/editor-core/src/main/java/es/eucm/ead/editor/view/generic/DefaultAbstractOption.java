@@ -54,8 +54,8 @@ import es.eucm.ead.editor.model.nodes.DependencyNode;
  */
 public abstract class DefaultAbstractOption<S> extends AbstractOption<S> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultAOption");
+	static private Logger logger = LoggerFactory
+			.getLogger(DefaultAbstractOption.class);
 
 	/**
 	 * Descriptor of the field represented by this option

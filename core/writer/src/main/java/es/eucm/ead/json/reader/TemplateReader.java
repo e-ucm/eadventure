@@ -51,8 +51,8 @@ import com.google.gson.internal.StringMap;
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class TemplateReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("TemplateReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(TemplateReader.class);
 	private Map<String, StringMap<Object>> templates;
 	private StringMap<Object> templateValues;
 
@@ -73,7 +73,7 @@ public class TemplateReader {
 
 	/**
 	 * Extends all templates inside an object
-	 * 
+	 *
 	 * @param o
 	 * @param templateValues
 	 */
@@ -130,7 +130,7 @@ public class TemplateReader {
 
 	/**
 	 * Substitutes all template values in an object
-	 * 
+	 *
 	 * @param object
 	 * @param templateValues
 	 */

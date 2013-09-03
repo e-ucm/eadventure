@@ -52,8 +52,7 @@ import org.slf4j.LoggerFactory;
 
 public class ObjectWriter implements Writer<Identified> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ObjectWriter");
+	static private Logger logger = LoggerFactory.getLogger(ObjectWriter.class);
 
 	private WriterVisitor modelVisitor;
 

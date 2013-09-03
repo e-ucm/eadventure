@@ -56,7 +56,8 @@ import es.eucm.ead.editor.control.CommandManager;
  */
 public abstract class AbstractOption<S> implements Option<S> {
 
-	private static final Logger logger = LoggerFactory.getLogger("AOption");
+	static private Logger logger = LoggerFactory
+			.getLogger(AbstractOption.class);
 
 	/**
 	 * Label on the component

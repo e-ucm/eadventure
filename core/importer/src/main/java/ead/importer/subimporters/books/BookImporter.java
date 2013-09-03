@@ -139,8 +139,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	 */
 	public static final int TITLE_HEIGHT = 50;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("BookImporter");
+	static private Logger logger = LoggerFactory.getLogger(BookImporter.class);
 
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
 	private Font titleFont = new Font("Arial", Font.PLAIN, 33);

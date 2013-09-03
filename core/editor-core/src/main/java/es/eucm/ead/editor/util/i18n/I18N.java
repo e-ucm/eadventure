@@ -82,8 +82,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class I18N {
 
-	private static final Logger logger = LoggerFactory.getLogger(I18N.class
-			.getName());
+	private static Logger logger = LoggerFactory
+			.getLogger(I18N.class.getName());
 
 	private static final String referenceValueRegex = "[{]([a-z][a-z0-9_]+)[}]";
 

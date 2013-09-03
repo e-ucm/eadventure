@@ -77,7 +77,7 @@ import es.eucm.ead.editor.util.i18n.Resource;
  */
 public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ListOption");
+	static private Logger logger = LoggerFactory.getLogger(ListOption.class);
 
 	private JPanel controlPanel;
 	private JXTable tableControl;

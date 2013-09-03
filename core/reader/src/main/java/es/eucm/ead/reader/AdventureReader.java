@@ -60,7 +60,8 @@ public class AdventureReader implements VisitorListener {
 	private XMLParser xmlParser;
 	private XMLVisitor visitor;
 	private EAdAdventureModel model;
-	private static Logger logger = LoggerFactory.getLogger("AdventureReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(AdventureReader.class);
 
 	@Inject
 	public AdventureReader(XMLParser parser,

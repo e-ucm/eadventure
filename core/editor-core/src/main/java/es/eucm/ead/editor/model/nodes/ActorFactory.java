@@ -53,7 +53,7 @@ import java.util.HashSet;
  */
 public class ActorFactory implements EditorNodeFactory {
 	private static final Logger logger = LoggerFactory
-			.getLogger("ActorFactory");
+			.getLogger(ActorFactory.class);
 
 	/**
 	 * Find and create EditorNodes for actors

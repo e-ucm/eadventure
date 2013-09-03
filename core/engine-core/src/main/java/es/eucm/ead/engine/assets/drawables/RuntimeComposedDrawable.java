@@ -57,7 +57,7 @@ import es.eucm.ead.model.params.util.Position;
 /**
  * Represents a runtime engine composed drawable, associated with an
  * {@link AssetDescritpor}
- * 
+ *
  */
 public class RuntimeComposedDrawable extends
 		AbstractRuntimeAsset<EAdComposedDrawable> implements
@@ -66,7 +66,8 @@ public class RuntimeComposedDrawable extends
 	/**
 	 * Logger
 	 */
-	private Logger logger = LoggerFactory.getLogger("RuntimeComposedDrawable");
+	static private Logger logger = LoggerFactory
+			.getLogger(RuntimeComposedDrawable.class);
 
 	protected ArrayList<RuntimeDrawable<?>> drawables;
 

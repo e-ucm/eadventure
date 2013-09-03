@@ -64,7 +64,7 @@ import org.w3c.dom.Element;
  */
 public class QueryNode extends EditorNode {
 
-	private static final Logger logger = LoggerFactory.getLogger("QueryNode");
+	private static Logger logger = LoggerFactory.getLogger(QueryNode.class);
 	private String queryString;
 	private SearchResult result;
 	private EditorModelImpl model;

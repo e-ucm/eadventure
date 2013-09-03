@@ -25,8 +25,8 @@ import java.util.Map;
 @Singleton
 public class ResourcesConverter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ResourceConverter");
+	static private Logger logger = LoggerFactory
+			.getLogger(ResourcesConverter.class);
 
 	public static final String DRAWABLE = "drawable";
 
@@ -66,7 +66,7 @@ public class ResourcesConverter {
 
 	/**
 	 * Returns a image in the new model with a path from the old model
-	 * 
+	 *
 	 * @param imagePath
 	 * @return
 	 */
@@ -107,7 +107,7 @@ public class ResourcesConverter {
 
 	/**
 	 * Returns the path on the new model for a given path in the old model
-	 * 
+	 *
 	 * @param oldPath
 	 * @return
 	 */
@@ -142,7 +142,7 @@ public class ResourcesConverter {
 
 	/**
 	 * Copy one file from old path to the new path
-	 * 
+	 *
 	 * @param oldPath
 	 * @param newPath
 	 * @return
@@ -195,7 +195,7 @@ public class ResourcesConverter {
 
 	/**
 	 * Returns a frames animation for the given file
-	 * 
+	 *
 	 * @param assetPath
 	 *            it should end in *.eaa, *_01.png, *_01.jpg...
 	 * @return
@@ -288,7 +288,7 @@ public class ResourcesConverter {
 	/**
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
-	 * 
+	 *
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset

@@ -53,7 +53,7 @@ import es.eucm.ead.editor.control.Controller;
  */
 public class RunMenu extends AbstractEditorMenu {
 
-	private static final Logger logger = LoggerFactory.getLogger("RunMenu");
+	static private Logger logger = LoggerFactory.getLogger(RunMenu.class);
 
 	@Inject
 	public RunMenu(Controller controller) {

@@ -74,8 +74,8 @@ import java.util.Map;
 
 public class ObjectsFactory {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ElementsFactory");
+	static private Logger logger = LoggerFactory
+			.getLogger(ObjectsFactory.class);
 
 	private Map<Class<?>, Map<String, Object>> paramsMap;
 
@@ -188,7 +188,7 @@ public class ObjectsFactory {
 
 	/**
 	 * Constructs and EAdParam from its literal representation
-	 * 
+	 *
 	 * @param value
 	 *            text value representing the param
 	 * @param clazz
@@ -268,7 +268,7 @@ public class ObjectsFactory {
 
 	/**
 	 * Returns the class object for the given class string
-	 * 
+	 *
 	 * @param clazz
 	 * @return
 	 */
@@ -301,7 +301,7 @@ public class ObjectsFactory {
 
 	/**
 	 * Create an object of the given class
-	 * 
+	 *
 	 * @param clazz
 	 * @return
 	 */

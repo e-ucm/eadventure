@@ -54,8 +54,8 @@ import es.eucm.ead.editor.util.Log4jConfig;
 
 public class ImageAssetPanelTester extends AbstractPanelTester {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ImageAssetPanelTester");
+	static private Logger logger = LoggerFactory
+			.getLogger(ImageAssetPanelTester.class);
 
 	private static File tmpDir;
 

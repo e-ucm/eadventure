@@ -64,8 +64,14 @@ import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Singleton
 public class ChapterConverter {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(ChapterConverter.class);
 
 	private SceneConverter sceneConverter;
 
@@ -171,6 +177,10 @@ public class ChapterConverter {
 				chapter.addScene(s);
 			}
 			if (c.getInitialGeneralScene() == cs) {
+				if (cutscene.isEmpty()) {
+					logger
+							.error("Cannot import chapter: empty cutscene as first entry");
+				}
 				chapter.setInitialScene(cutscene.get(0));
 			}
 		}

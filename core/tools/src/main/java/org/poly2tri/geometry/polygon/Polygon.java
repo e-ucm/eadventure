@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Polygon implements Triangulatable {
-	private final static Logger logger = LoggerFactory.getLogger(Polygon.class);
+	private static Logger logger = LoggerFactory.getLogger(Polygon.class);
 
 	protected ArrayList<TriangulationPoint> _points = new ArrayList<TriangulationPoint>();
 	protected ArrayList<TriangulationPoint> _steinerPoints;
@@ -25,7 +25,7 @@ public class Polygon implements Triangulatable {
 
 	/**
 	 * To create a polygon we need atleast 3 separate points
-	 * 
+	 *
 	 * @param p1
 	 * @param p2
 	 * @param p3
@@ -44,7 +44,7 @@ public class Polygon implements Triangulatable {
 
 	/**
 	 * Requires atleast 3 points
-	 * @param points - ordered list of points forming the polygon. 
+	 * @param points - ordered list of points forming the polygon.
 	 *                 No duplicates are allowed
 	 */
 	public Polygon(List<PolygonPoint> points) {
@@ -99,7 +99,7 @@ public class Polygon implements Triangulatable {
 	}
 
 	/**
-	 * Assumes: that given polygon is fully inside the current polygon 
+	 * Assumes: that given polygon is fully inside the current polygon
 	 * @param poly - a subtraction polygon
 	 */
 	public void addHole(Polygon poly) {
@@ -112,14 +112,14 @@ public class Polygon implements Triangulatable {
 	}
 
 	/**
-	 * Will insert a point in the polygon after given point 
-	 * 
+	 * Will insert a point in the polygon after given point
+	 *
 	 * @param a
 	 * @param b
 	 * @param p
 	 */
 	public void insertPointAfter(PolygonPoint a, PolygonPoint newPoint) {
-		// Validate that 
+		// Validate that
 		int index = _points.indexOf(a);
 		if (index != -1) {
 			newPoint.setNext(a.getNext());
@@ -151,7 +151,7 @@ public class Polygon implements Triangulatable {
 
 	/**
 	 * Will add a point after the last point added
-	 * 
+	 *
 	 * @param p
 	 */
 	public void addPoint(PolygonPoint p) {

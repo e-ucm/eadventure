@@ -62,8 +62,7 @@ import java.util.Map.Entry;
 
 public class ModelVisitor {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ModelVisitor");
+	static private Logger logger = LoggerFactory.getLogger(ModelVisitor.class);
 
 	private ReflectionProvider reflectionProvider;
 

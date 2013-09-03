@@ -47,7 +47,8 @@ import java.util.Map.Entry;
 
 public class StringHandlerImpl implements StringHandler {
 
-	private Logger logger = LoggerFactory.getLogger("StringHandlerImpl");
+	static private Logger logger = LoggerFactory
+			.getLogger(StringHandlerImpl.class);
 
 	private Map<String, Map<EAdString, String>> loadedStrings;
 

@@ -58,8 +58,8 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 @SuppressWarnings("unchecked")
 public class ConditionReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ConditionReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(ConditionReader.class);
 
 	private OperationReader operationReader;
 

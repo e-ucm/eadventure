@@ -75,7 +75,8 @@ import java.util.Map;
 @Singleton
 public class ActionsConverter {
 
-	private static Logger logger = LoggerFactory.getLogger("ActionsConverter");
+	static private Logger logger = LoggerFactory
+			.getLogger(ActionsConverter.class);
 
 	private static Image[] actionImages = new Image[] {
 			new Image("@drawable/drag-normal.png"),

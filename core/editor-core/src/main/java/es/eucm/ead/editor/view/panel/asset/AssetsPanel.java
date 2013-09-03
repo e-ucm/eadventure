@@ -79,7 +79,7 @@ import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
  */
 public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 
-	private static final Logger logger = LoggerFactory.getLogger("AssetsPanel");
+	static private Logger logger = LoggerFactory.getLogger(AssetsPanel.class);
 	private AssetsNode assetsNode;
 	private JSplitPane split;
 	private JTabbedPane tabs;

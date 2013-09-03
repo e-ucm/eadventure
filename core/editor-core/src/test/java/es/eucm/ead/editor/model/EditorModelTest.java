@@ -68,8 +68,8 @@ import es.eucm.ead.editor.util.Log4jConfig;
  */
 public class EditorModelTest {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EditorModelTest");
+	static private Logger logger = LoggerFactory
+			.getLogger(EditorModelTest.class);
 	private EditorModel model;
 
 	private static File tmpDir;
@@ -100,8 +100,7 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
 				Log4jConfig.Slf4jLevel.Debug, });
 
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new DesktopModule(), new EditorGuiceModule(),
+		Injector injector = Guice.createInjector(new DesktopModule(), new EditorGuiceModule(),
 				new JavaToolsModule());
 
 		// init reflection

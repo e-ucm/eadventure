@@ -65,8 +65,7 @@ import es.eucm.ead.model.params.text.EAdString;
 @Singleton
 public class StringWriter {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultStringFileHandler");
+	static private Logger logger = LoggerFactory.getLogger(StringWriter.class);
 
 	public boolean write(OutputStream outputStream,
 			Map<EAdString, String> strings) {

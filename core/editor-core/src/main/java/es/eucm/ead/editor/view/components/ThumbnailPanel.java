@@ -81,8 +81,8 @@ import es.eucm.ead.editor.model.nodes.EditorNode;
  */
 public class ThumbnailPanel extends NodeBrowserPanel {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("ThumbnailPanel");
+	static private Logger logger = LoggerFactory
+			.getLogger(ThumbnailPanel.class);
 
 	private JPanel inner;
 

@@ -63,7 +63,7 @@ import static org.junit.Assert.fail;
 public class ImportWriteReadTest {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("ImportWriteReadTest");
+			.getLogger(ImportWriteReadTest.class);
 
 	private EAdventureImporter importer;
 	private AdventureReader reader;

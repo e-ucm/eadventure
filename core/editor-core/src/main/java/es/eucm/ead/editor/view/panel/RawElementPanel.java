@@ -60,8 +60,8 @@ import org.slf4j.LoggerFactory;
  */
 public class RawElementPanel extends AbstractElementPanel<DependencyNode> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("RawElementPanel");
+	static private Logger logger = LoggerFactory
+			.getLogger(RawElementPanel.class);
 
 	private JPanel inner = new JPanel();
 

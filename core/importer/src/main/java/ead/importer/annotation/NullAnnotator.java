@@ -49,8 +49,7 @@ import org.slf4j.LoggerFactory;
  * @author mfreire
  */
 public class NullAnnotator implements ImportAnnotator {
-	private static final Logger logger = LoggerFactory
-			.getLogger("NullAnnotator");
+	static private Logger logger = LoggerFactory.getLogger(NullAnnotator.class);
 
 	private static ArrayList<EAdElement> stack = new ArrayList<EAdElement>();
 

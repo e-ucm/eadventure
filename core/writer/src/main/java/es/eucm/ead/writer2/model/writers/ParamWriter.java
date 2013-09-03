@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class ParamWriter implements Writer<Object> {
 
-	private static final Logger logger = LoggerFactory.getLogger("ParamWriter");
+	static private Logger logger = LoggerFactory.getLogger(ParamWriter.class);
 
 	private WriterVisitor writerVisitor;
 

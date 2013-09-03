@@ -51,8 +51,7 @@ import java.util.Map;
 @Singleton
 public class StringsReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("StringsReader");
+	static private Logger logger = LoggerFactory.getLogger(StringsReader.class);
 
 	private XMLParser xmlParser;
 

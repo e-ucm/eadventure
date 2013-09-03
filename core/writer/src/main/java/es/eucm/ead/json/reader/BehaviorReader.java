@@ -53,8 +53,8 @@ import es.eucm.ead.reader.model.ObjectsFactory;
 @SuppressWarnings("unchecked")
 public class BehaviorReader {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("BehaviorReader");
+	static private Logger logger = LoggerFactory
+			.getLogger(BehaviorReader.class);
 
 	private ObjectsFactory objectsFactory;
 
