@@ -47,7 +47,6 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.predef.LoadingScreen;
-import es.eucm.ead.model.elements.predef.sceneelements.LoaderSceneElement;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.GroupElement;
@@ -122,8 +121,6 @@ public abstract class GUIImpl implements GUI {
 		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
 		// Add huds
 		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
-		// Add loader
-		root.addSceneElement(new LoaderSceneElement());
 	}
 
 	@Override
@@ -197,6 +194,14 @@ public abstract class GUIImpl implements GUI {
 
 	public SceneElementGO getRoot() {
 		return root;
+	}
+
+	public float getMouseX() {
+		return Gdx.input.getX() / scaleX;
+	}
+
+	public float getMouseY() {
+		return Gdx.input.getY() / scaleY;
 	}
 
 	public SceneElementGO getGameObjectUnderPointer() {

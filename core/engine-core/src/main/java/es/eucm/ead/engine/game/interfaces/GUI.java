@@ -162,4 +162,12 @@ public interface GUI {
 	 */
 	void setScale(float scaleX, float scaleY);
 
+	/**
+	 * Returns
+	 * @return
+	 */
+	float getMouseY();
+
+	float getMouseX();
+
 }

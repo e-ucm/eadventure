@@ -117,6 +117,7 @@ public class ModelQuerier {
 	private ArrayList<Macro> macrosToLoad;
 
 	private ArrayList<GlobalState> globalStatesToLoad;
+	private boolean firstPersonGame;
 
 	@Inject
 	public ModelQuerier(EAdElementsCache elementsCache) {
@@ -420,5 +421,9 @@ public class ModelQuerier {
 		npcBubbles.clear();
 		npcTexts.clear();
 		variableFields.clear();
+	}
+
+	public boolean isFirstPersonGame() {
+		return this.getAventureData().getPlayerMode() != AdventureData.MODE_PLAYER_3RDPERSON;
 	}
 }

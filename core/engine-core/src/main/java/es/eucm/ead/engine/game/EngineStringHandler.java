@@ -84,6 +84,8 @@ public class EngineStringHandler extends StringHandlerImpl {
 	}
 
 	private void loadStrings(String language) {
+
+		logger.debug("Loading language {}", language);
 		// Map containing all the files with strings (keys) and its associated
 		// language (value)
 		String strings = assetHandler.getTextFile("@strings" + language

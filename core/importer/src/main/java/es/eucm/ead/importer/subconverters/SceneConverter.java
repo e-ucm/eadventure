@@ -49,6 +49,7 @@ import es.eucm.ead.importer.subconverters.actors.NPCConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
 import es.eucm.ead.model.assets.multimedia.Music;
@@ -212,10 +213,8 @@ public class SceneConverter {
 			}
 
 			int finalWidth = (int) (d.getWidth() * scale);
-			boolean hasScroll = finalWidth > 800;
-			if (hasScroll) {
-
-			}
+			// [GE - Arrows] [GE - Follow]
+			scene.setVarInitialValue(LegacyVars.SCENE_WIDTH, finalWidth);
 
 			i++;
 		}
