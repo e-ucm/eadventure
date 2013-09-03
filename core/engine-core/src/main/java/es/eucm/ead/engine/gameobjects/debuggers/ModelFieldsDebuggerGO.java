@@ -39,8 +39,8 @@ package es.eucm.ead.engine.gameobjects.debuggers;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
@@ -66,8 +66,8 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public ModelFieldsDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory,
-			EventGOFactory eventFactory, Game game) {
+			SceneElementFactory sceneElementFactory, EventFactory eventFactory,
+			Game game) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 

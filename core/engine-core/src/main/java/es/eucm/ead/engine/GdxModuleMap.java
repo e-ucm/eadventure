@@ -44,7 +44,6 @@ import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.assets.fonts.FontHandlerImpl;
 import es.eucm.ead.engine.canvas.filters.FilterFactory;
 import es.eucm.ead.engine.canvas.filters.GdxFilterFactory;
-import es.eucm.ead.engine.factories.*;
 import es.eucm.ead.engine.game.*;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
@@ -63,12 +62,6 @@ import es.eucm.ead.tools.TextFileReader;
 public class GdxModuleMap extends ModuleMap {
 
 	public GdxModuleMap() {
-
-		// Factories
-		binds.put(TrajectoryFactory.class, TrajectoryFactoryImpl.class);
-		binds.put(SceneElementGOFactory.class, SceneElementGOFactoryImpl.class);
-		binds.put(EffectGOFactory.class, EffectGOFactoryImpl.class);
-		binds.put(EventGOFactory.class, EventGOFactoryImpl.class);
 
 		binds.put(TextFileReader.class, AssetHandler.class);
 		binds.put(AssetHandler.class, AssetHandlerImpl.class);

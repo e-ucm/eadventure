@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.GameLoaderImpl;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
@@ -67,7 +67,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	private SceneLoader sceneLoader;
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private TransitionGO<?> transition;
 
@@ -78,7 +78,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	private boolean finished;
 
 	@Inject
-	public ChangeSceneGO(SceneElementGOFactory sceneElementFactory,
+	public ChangeSceneGO(SceneElementFactory sceneElementFactory,
 			SceneLoader sceneLoader, GameLoaderImpl gameLoader, Game game) {
 		super(game);
 		this.sceneLoader = sceneLoader;

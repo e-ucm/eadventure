@@ -41,9 +41,9 @@ import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.EAdEngine;
-import es.eucm.ead.engine.factories.EffectGOFactory;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EffectFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
 import es.eucm.ead.model.elements.BasicAdventureModel;
@@ -60,9 +60,9 @@ import java.util.Map;
 
 @Singleton
 public class GameLoaderImpl implements GameLoader {
-	private EventGOFactory eventFactory;
-	private EffectGOFactory effectFactory;
-	private SceneElementGOFactory sceneElementFactory;
+	private EventFactory eventFactory;
+	private EffectFactory effectFactory;
+	private SceneElementFactory sceneElementFactory;
 	private Game game;
 	private StringHandler stringHandler;
 
@@ -78,17 +78,17 @@ public class GameLoaderImpl implements GameLoader {
 
 	@Inject
 	public GameLoaderImpl(AdventureReader reader, Game game,
-			EventGOFactory eventGOFactory, EffectGOFactory effectGOFactory,
-			SceneElementGOFactory sceneElementGOFactory, EAdEngine engine,
+			EventFactory eventFactory, EffectFactory effectFactory,
+			SceneElementFactory sceneElementFactory, EAdEngine engine,
 			StringHandler stringHandler) {
 		this.engine = engine;
 		this.game = game;
 		this.reader = reader;
 		this.chapters = new HashMap<String, EAdChapter>();
 		this.scenes = new HashMap<String, EAdScene>();
-		this.eventFactory = eventGOFactory;
-		this.effectFactory = effectGOFactory;
-		this.sceneElementFactory = sceneElementGOFactory;
+		this.eventFactory = eventFactory;
+		this.effectFactory = effectFactory;
+		this.sceneElementFactory = sceneElementFactory;
 		this.stringHandler = stringHandler;
 	}
 

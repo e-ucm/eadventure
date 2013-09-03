@@ -38,17 +38,17 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.effects.AddChildEf;
 
 public class AddChildGO extends AbstractEffectGO<AddChildEf> {
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	@Inject
-	public AddChildGO(Game game, SceneElementGOFactory sceneElementFactory) {
+	public AddChildGO(Game game, SceneElementFactory sceneElementFactory) {
 		super(game);
 		this.sceneElementFactory = sceneElementFactory;
 	}

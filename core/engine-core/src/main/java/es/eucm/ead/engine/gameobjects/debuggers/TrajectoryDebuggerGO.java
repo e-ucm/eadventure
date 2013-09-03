@@ -39,8 +39,8 @@ package es.eucm.ead.engine.gameobjects.debuggers;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.factories.TrajectoryFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
@@ -95,8 +95,8 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public TrajectoryDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory, TrajectoryFactory trajectoryFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory, TrajectoryFactory trajectoryFactory) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 		this.trajectoryFactory = trajectoryFactory;
 		barriers = new ArrayList<EAdShape>();

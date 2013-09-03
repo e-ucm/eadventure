@@ -39,8 +39,8 @@ package es.eucm.ead.engine.gameobjects.sceneelements.transitions;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.operations.SystemFields;
@@ -59,8 +59,8 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory gameObjectFactory, Game game,
+			EventFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, game, eventFactory);
 		width = gameState.getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValue(SystemFields.GAME_HEIGHT);

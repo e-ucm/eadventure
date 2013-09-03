@@ -46,7 +46,7 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.ValueMap;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.operations.BasicField;
@@ -67,7 +67,7 @@ import es.eucm.ead.model.params.util.Rectangle;
 @Singleton
 public class DijkstraNodeTrajectoryGenerator {
 
-	private SceneElementGOFactory gameObjectFactory;
+	private SceneElementFactory gameObjectFactory;
 
 	/**
 	 * The values in the game
@@ -75,7 +75,7 @@ public class DijkstraNodeTrajectoryGenerator {
 	private ValueMap valueMap;
 
 	public DijkstraNodeTrajectoryGenerator(
-			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
+			SceneElementFactory gameObjectFactory, ValueMap valueMap) {
 		this.gameObjectFactory = gameObjectFactory;
 		this.valueMap = valueMap;
 	}

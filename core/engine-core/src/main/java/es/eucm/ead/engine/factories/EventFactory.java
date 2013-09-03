@@ -37,10 +37,24 @@
 
 package es.eucm.ead.engine.factories;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.factories.mapproviders.EventsMapProvider;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
-public interface EventGOFactory extends
+@Singleton
+public class EventFactory extends
 		GameObjectFactory<EAdEvent, EventGO<? extends EAdEvent>> {
+
+	@Inject
+	public EventFactory(ReflectionProvider reflectionProvider,
+			GenericInjector injector) {
+		super("#ev.", false, reflectionProvider, injector);
+		EventsMapProvider provider = new EventsMapProvider();
+		setClassMap(provider.getMap());
+	}
 
 }

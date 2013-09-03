@@ -40,8 +40,8 @@ package es.eucm.ead.engine.gameobjects.widgets;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
@@ -61,8 +61,8 @@ public class TextAreaGO extends SceneElementGO {
 
 	@Inject
 	public TextAreaGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory, StringHandler stringHandler) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory, StringHandler stringHandler) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 		this.stringHandler = stringHandler;
 	}

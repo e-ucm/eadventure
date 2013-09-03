@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.factories.TrajectoryFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
@@ -70,7 +70,7 @@ public class MoveSceneElementGO extends
 
 	private TrajectoryFactory trajectoryFactory;
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private GUI gui;
 
@@ -80,7 +80,7 @@ public class MoveSceneElementGO extends
 
 	@Inject
 	public MoveSceneElementGO(Game game,
-			SceneElementGOFactory sceneElementFactory,
+			SceneElementFactory sceneElementFactory,
 			TrajectoryFactory trajectoryFactory, GUI gui) {
 		super(game);
 		this.trajectoryFactory = trajectoryFactory;

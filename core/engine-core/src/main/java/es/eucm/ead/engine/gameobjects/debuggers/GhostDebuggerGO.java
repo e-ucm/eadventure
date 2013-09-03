@@ -41,8 +41,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.GhostElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
@@ -59,8 +59,8 @@ public class GhostDebuggerGO extends SceneElementGO {
 
 	@Inject
 	public GhostDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 		currentSceneElements = new ArrayList<GhostElementGO>();
 	}

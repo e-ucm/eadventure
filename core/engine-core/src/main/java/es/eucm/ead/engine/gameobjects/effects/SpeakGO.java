@@ -43,7 +43,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
@@ -70,7 +70,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 
 	private GUI gui;
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private AssetHandler assetHandler;
 
@@ -105,8 +105,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	private int currentTime;
 
 	@Inject
-	public SpeakGO(Game game, GUI gui,
-			SceneElementGOFactory sceneElementFactory, AssetHandler assetHandler) {
+	public SpeakGO(Game game, GUI gui, SceneElementFactory sceneElementFactory,
+			AssetHandler assetHandler) {
 		super(game);
 		this.gui = gui;
 		this.sceneElementFactory = sceneElementFactory;

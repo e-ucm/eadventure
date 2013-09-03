@@ -40,7 +40,7 @@ package es.eucm.ead.engine.desktop.platform;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.GUIImpl;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -68,7 +68,7 @@ public class DesktopGUI extends GUIImpl {
 	private Component component;
 
 	@Inject
-	public DesktopGUI(SceneElementGOFactory sceneElementFactory) {
+	public DesktopGUI(SceneElementFactory sceneElementFactory) {
 		super(sceneElementFactory);
 	}
 

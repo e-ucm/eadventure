@@ -37,23 +37,24 @@
 
 package es.eucm.ead.engine.factories;
 
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.factories.mapproviders.EffectsMapProvider;
+import es.eucm.ead.engine.gameobjects.effects.EffectGO;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
-public interface SceneElementGOFactory extends
-		GameObjectFactory<EAdSceneElement, SceneElementGO> {
+@Singleton
+public class EffectFactory extends
+		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {
 
-	/**
-	 * Gets and element represented by the given id, if the element is already
-	 * contained in the cache. Returns null if there is no element with such id
-	 * 
-	 * @param id
-	 */
-	SceneElementGO get(String id);
-
-	/**
-	 * Remove all elements from the cache
-	 */
-	void clean();
+	@Inject
+	public EffectFactory(ReflectionProvider reflectionProvider,
+			GenericInjector injector) {
+		super("#ef.", false, reflectionProvider, injector);
+		EffectsMapProvider provider = new EffectsMapProvider();
+		setClassMap(provider.getMap());
+	}
 
 }

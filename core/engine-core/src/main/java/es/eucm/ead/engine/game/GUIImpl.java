@@ -40,7 +40,7 @@ package es.eucm.ead.engine.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
@@ -81,14 +81,14 @@ public abstract class GUIImpl implements GUI {
 
 	private EAdScene loadingScreen;
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private float scaleX;
 
 	private float scaleY;
 
 	@Inject
-	public GUIImpl(SceneElementGOFactory sceneElementFactory) {
+	public GUIImpl(SceneElementFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
 		previousSceneStack = new Stack<EAdScene>();
 		this.loadingScreen = new LoadingScreen();

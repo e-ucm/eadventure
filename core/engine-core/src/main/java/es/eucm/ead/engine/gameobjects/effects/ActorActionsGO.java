@@ -45,7 +45,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
@@ -62,7 +62,7 @@ import es.eucm.ead.model.params.util.Position.Corner;
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 		EventListener {
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private GUI gui;
 
@@ -71,7 +71,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	private SceneElementGO actions;
 
 	@Inject
-	public ActorActionsGO(SceneElementGOFactory sceneElementFactory, Game game) {
+	public ActorActionsGO(SceneElementFactory sceneElementFactory, Game game) {
 		super(game);
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = game.getGUI();

@@ -43,8 +43,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.factories.EffectGOFactory;
-import es.eucm.ead.engine.factories.EventGOFactory;
+import es.eucm.ead.engine.factories.EffectFactory;
+import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.game.interfaces.*;
 import es.eucm.ead.engine.gameobjects.EventedGO;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
@@ -134,8 +134,8 @@ public class GameImpl implements Game {
 	private ArrayList<EngineHook> hookDelete;
 
 	@Inject
-	public GameImpl(GUI gui, GameState gameState, EventGOFactory eventFactory,
-			GameTracker tracker, EffectGOFactory effectFactory) {
+	public GameImpl(GUI gui, GameState gameState, EventFactory eventFactory,
+			GameTracker tracker, EffectFactory effectFactory) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.tweenManager = new TweenManager();

@@ -40,11 +40,11 @@ package es.eucm.ead.engine.gameobjects.trajectories;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
 
 public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 		TrajectoryGO<T> {
@@ -65,10 +65,10 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected List<Float> currentPath;
 
-	protected SceneElementGOFactory sceneElementFactory;
+	protected SceneElementFactory sceneElementFactory;
 
 	public AbstractTrajectoryGO(GameState gameState,
-			SceneElementGOFactory sceneElementFactory) {
+			SceneElementFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
 		this.gameState = gameState;
 		this.currentPath = new ArrayList<Float>();

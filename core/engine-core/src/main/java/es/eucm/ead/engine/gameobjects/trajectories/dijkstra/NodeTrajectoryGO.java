@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.trajectories.dijkstra;
 
 import com.google.inject.Inject;
 
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
@@ -88,7 +88,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	private EAdSceneElement sceneElement;
 
 	@Inject
-	public NodeTrajectoryGO(SceneElementGOFactory sceneElementFactory,
+	public NodeTrajectoryGO(SceneElementFactory sceneElementFactory,
 			GameState gameState) {
 		super(gameState, sceneElementFactory);
 		this.generator = new DijkstraNodeTrajectoryGenerator(

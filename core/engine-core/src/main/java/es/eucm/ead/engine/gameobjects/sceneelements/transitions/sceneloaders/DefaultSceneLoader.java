@@ -40,7 +40,7 @@ package es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +57,7 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	private static final Logger logger = LoggerFactory.getLogger("SceneLoader");
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private List<AssetDescriptor> currentAssets;
 
@@ -76,7 +76,7 @@ public class DefaultSceneLoader implements SceneLoader {
 	protected SceneGO oldSceneGO;
 
 	@Inject
-	public DefaultSceneLoader(SceneElementGOFactory sceneElementFactory) {
+	public DefaultSceneLoader(SceneElementFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
 		currentAssets = new ArrayList<AssetDescriptor>();
 		goList = new ArrayList<EAdSceneElement>();

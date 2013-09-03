@@ -40,8 +40,8 @@ package es.eucm.ead.engine.gameobjects.sceneelements;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.EAdEffect;
@@ -74,8 +74,8 @@ public class VideoSceneGO extends SceneGO {
 
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
-			SceneElementGOFactory gameObjectFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory gameObjectFactory, Game game,
+			EventFactory eventFactory) {
 		super(assetHandler, gameObjectFactory, game, eventFactory);
 		this.component = null;
 		this.error = false;

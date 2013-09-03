@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameLoader;
@@ -62,7 +62,7 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	private static final Logger logger = LoggerFactory.getLogger("LoadGame");
 	private GameLoader gameLoader;
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private GUI gui;
 

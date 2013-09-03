@@ -37,14 +37,12 @@
 
 package es.eucm.ead.tests.engine.desktop.platform.assets;
 
-import java.io.File;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewerModule;
-import es.eucm.ead.tools.java.utils.Log4jConfig;
+
+import java.io.File;
 
 /**
  * Tests video rendering
@@ -58,9 +56,6 @@ public class VLCDesktopVideoRendererTest {
 	private AssetHandler ah;
 
 	public VLCDesktopVideoRendererTest() {
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info,
-				new Object[] {});
-
 		Injector i = Guice.createInjector(new AssetViewerModule());
 		ah = i.getInstance(AssetHandler.class);
 		ah.setCacheEnabled(false);

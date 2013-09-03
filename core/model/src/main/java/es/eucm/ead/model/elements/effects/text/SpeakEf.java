@@ -65,19 +65,19 @@ public class SpeakEf extends AbstractEffect {
 			255, 220), ColorFill.BLACK, 2);
 
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation x;
+	private EAdOperation x;
 
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation y;
+	private EAdOperation y;
 
 	@Param
-	private es.eucm.ead.model.assets.drawable.basics.Caption caption;
+	private Caption caption;
 
 	@Param
 	private EAdPaint bubbleColor;
 
 	@Param
-	private es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType ballonType;
+	private BalloonType ballonType;
 
 	@Param
 	private EAdField<String> stateField;

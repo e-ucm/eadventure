@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.trajectories.simple;
 
 import com.google.inject.Inject;
 
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
@@ -66,7 +66,7 @@ public class SimpleTrajectoryGO extends AbstractTrajectoryGO<SimpleTrajectory> {
 
 	@Inject
 	public SimpleTrajectoryGO(GameState gameState,
-			SceneElementGOFactory sceneElementFactory) {
+			SceneElementFactory sceneElementFactory) {
 		super(gameState, sceneElementFactory);
 	}
 

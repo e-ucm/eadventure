@@ -48,8 +48,8 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.events.DragEvent;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.engine.game.interfaces.GameState;
@@ -91,7 +91,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Scene element factory
 	 */
-	protected SceneElementGOFactory sceneElementFactory;
+	protected SceneElementFactory sceneElementFactory;
 
 	/**
 	 * Game
@@ -116,7 +116,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Event factory
 	 */
-	private EventGOFactory eventFactory;
+	private EventFactory eventFactory;
 
 	/**
 	 * Scene element
@@ -221,8 +221,8 @@ public class SceneElementGO extends Group implements
 
 	@Inject
 	public SceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory) {
 		this.game = game;
 		this.eventFactory = eventFactory;
 		this.gameState = game.getGameState();

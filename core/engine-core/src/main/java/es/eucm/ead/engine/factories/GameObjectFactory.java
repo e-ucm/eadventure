@@ -37,9 +37,19 @@
 
 package es.eucm.ead.engine.factories;
 
+import com.badlogic.gdx.utils.Pool;
+import com.google.inject.Singleton;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.IdGenerator;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -51,44 +61,172 @@ import es.eucm.ead.model.elements.extra.EAdMap;
  * of a given class.
  * </p>
  */
-public interface GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
+@Singleton
+public class GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
 
+	private static final Logger logger = LoggerFactory
+			.getLogger("GameObjectFactoryImpl");
+
+	private ReflectionProvider reflectionProvider;
+
+	private GenericInjector injector;
+
+	private IdGenerator idGenerator;
+
+	private boolean useCache;
+
+	private String idPrefix;
+
+	protected Map<String, T> cache;
+
+	protected Map<Class<?>, Pool<T>> pools;
+
+	private Map<Class<? extends S>, Class<? extends T>> classMap;
+
+	public GameObjectFactory(String idPrefix, boolean useCache,
+			ReflectionProvider reflectionProvider, GenericInjector injector) {
+		this.useCache = useCache;
+		this.idPrefix = idPrefix;
+		this.idGenerator = new IdGenerator();
+		if (useCache) {
+			cache = new HashMap<String, T>();
+		}
+		this.reflectionProvider = reflectionProvider;
+		this.injector = injector;
+		// Pools
+		this.pools = new HashMap<Class<?>, Pool<T>>();
+	}
+
+	public void setClassMap(Map<Class<? extends S>, Class<? extends T>> classMap) {
+		this.classMap = classMap;
+	}
+
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	/**
 	 * Returns a {@link GameObject} in the engine's runtime model for a
 	 * {@link EAdElement} in the eAdventure game model
-	 * 
+	 *
 	 * @param <T>
 	 *            The type of the {@link EAdElement}
 	 * @param element
 	 *            The element
 	 * @return The game object of that element
 	 */
-	T get(S element);
+	public T get(S element) {
+		if (element == null)
+			return null;
+
+		GameObject temp = null;
+		if (useCache && element.getId() != null) {
+			temp = cache.get(element.getId());
+
+			if (temp != null)
+				return (T) temp;
+		}
+
+		Class<?> elementClass = element.getClass();
+		Class<?> runtimeClass = classMap.get(elementClass);
+		while (elementClass != null && runtimeClass == null) {
+			runtimeClass = classMap.get(elementClass);
+			elementClass = reflectionProvider.getSuperclass(elementClass);
+		}
+
+		if (runtimeClass == null) {
+			logger.error("No game element mapped for class {}", element
+					.getClass());
+		} else {
+			temp = (GameObject) getInstance(runtimeClass);
+			if (temp == null) {
+				logger.error("No instance for game object of class {}", element
+						.getClass());
+			} else {
+				if (element.getId() == null) {
+					element.setId(idGenerator.generateNewId(idPrefix));
+				}
+				temp.setElement(element);
+				if (useCache) {
+					cache.put(element.getId(), (T) temp);
+				}
+			}
+		}
+		return (T) temp;
+	}
+
+	public boolean remove(S element) {
+		return cache == null || cache.remove(element.getId()) != null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void remove(T gameObject) {
+		if (remove((S) gameObject.getElement())) {
+			Pool<T> pool = pools.get(gameObject.getClass());
+			if (pool != null) {
+				pool.free((T) gameObject);
+				gameObject.release();
+			}
+		}
+	}
+
+	public void clean() {
+		pools.clear();
+		if (cache != null)
+			cache.clear();
+	}
 
 	/**
 	 * Adds a new relation between some model class and its engine
 	 * interpretation
-	 * 
+	 *
 	 * @param clazz1
 	 *            model class
 	 * @param clazz2
 	 *            game object class
 	 */
-	void put(Class<? extends S> clazz1, Class<? extends T> clazz2);
+	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {
+		classMap.put(clazz1, clazz2);
+	}
 
-	void put(EAdMap<String, String> binds);
+	public void put(EAdMap<String, String> binds) {
+		if (binds != null) {
+			for (Map.Entry<String, String> e : binds.entrySet()) {
+				Class c1 = reflectionProvider.getClassforName(e.getKey());
+				Class c2 = reflectionProvider.getClassforName(e.getValue());
+				put(c1, c2);
+			}
+		}
+	}
 
-	boolean remove(S element);
+	private T getInstance(Class<?> clazz) {
+		Pool<T> pool = pools.get(clazz);
+		if (pool == null) {
+			pool = new GameObjectPool(clazz);
+			pools.put(clazz, pool);
+		}
+		return pool.obtain();
+	}
 
-	void remove(T element);
+	public class GameObjectPool extends Pool<T> {
+
+		private Class<?> clazz;
+
+		public GameObjectPool(Class<?> clazz) {
+			this.clazz = clazz;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected T newObject() {
+			return (T) injector.getInstance(clazz);
+		}
+
+	}
 
 	/**
 	 * Returns how many elements are contained by the cache of this factory
-	 * 
+	 *
 	 * @return
 	 */
-	int getCacheSize();
-
-	void clean();
-
+	public int getCacheSize() {
+		return cache != null ? cache.size() : 0;
+	}
 }

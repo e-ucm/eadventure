@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.game.interfaces;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
-import es.eucm.ead.engine.factories.EffectGOFactory;
+import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
@@ -55,7 +55,7 @@ public class EffectsHandler {
 	/**
 	 * Effects factory
 	 */
-	private EffectGOFactory effectFactory;
+	private EffectFactory effectFactory;
 
 	/**
 	 * Game state
@@ -72,7 +72,7 @@ public class EffectsHandler {
 	 */
 	private ArrayList<EffectGO<?>> finishedEffects;
 
-	public EffectsHandler(GameState gameState, EffectGOFactory effectFactory) {
+	public EffectsHandler(GameState gameState, EffectFactory effectFactory) {
 		this.effectFactory = effectFactory;
 		this.gameState = gameState;
 		effects = new ArrayList<EffectGO<?>>();
