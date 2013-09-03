@@ -25,6 +25,7 @@ public class TechDemoMain {
 				new JavaReflectionProvider());
 		writer.write(model, "src/main/resources/", new JavaTextFileWriter());
 		g.start();
+		g.load();
 	}
 
 }

@@ -87,6 +87,7 @@ public class ReferenceResolver {
 	}
 
 	public void resolveReferences() {
+		logger.debug("Resolving references...");
 		for (Map.Entry<Integer, Map<String, XMLNode>> e : pendingReferences
 				.entrySet()) {
 			for (Map.Entry<String, XMLNode> ee : e.getValue().entrySet()) {
@@ -106,6 +107,7 @@ public class ReferenceResolver {
 				}
 			}
 		}
+		logger.debug("References resolved.");
 	}
 
 	public void clear() {

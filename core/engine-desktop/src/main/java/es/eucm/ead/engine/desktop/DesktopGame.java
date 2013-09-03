@@ -63,6 +63,8 @@ public class DesktopGame {
 
 	private DebuggerFrame debuggerFrame;
 
+	private GameLoader gameLoader;
+
 	private boolean exitAtClose;
 
 	private String path;
@@ -111,7 +113,7 @@ public class DesktopGame {
 		}
 
 		// Load the manifest
-		GameLoader gameLoader = injector.getInstance(GameLoader.class);
+		gameLoader = injector.getInstance(GameLoader.class);
 		Manifest manifest = gameLoader.loadManifest();
 		EAdAdventureModel model = manifest.getModel();
 		model.setVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE,
@@ -141,4 +143,7 @@ public class DesktopGame {
 		return gui.getFrame();
 	}
 
+	public void load() {
+		gameLoader.loadGame();
+	}
 }

@@ -37,8 +37,10 @@
 
 package es.eucm.ead.engine.game;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.factories.EffectGOFactory;
 import es.eucm.ead.engine.factories.EventGOFactory;
 import es.eucm.ead.engine.factories.SceneElementGOFactory;
@@ -70,10 +72,13 @@ public class GameLoaderImpl implements GameLoader {
 
 	private Map<String, EAdScene> scenes;
 
+	private EAdEngine engine;
+
 	@Inject
 	public GameLoaderImpl(AdventureReader reader, Game game,
 			EventGOFactory eventGOFactory, EffectGOFactory effectGOFactory,
-			SceneElementGOFactory sceneElementGOFactory) {
+			SceneElementGOFactory sceneElementGOFactory, EAdEngine engine) {
+		this.engine = engine;
 		this.game = game;
 		this.reader = reader;
 		this.chapters = new HashMap<String, EAdChapter>();
@@ -87,7 +92,7 @@ public class GameLoaderImpl implements GameLoader {
 	@Override
 	public void loadGame() {
 		currentManifest = reader.getManifest();
-		EAdAdventureModel adventure = currentManifest.getModel();
+		final EAdAdventureModel adventure = currentManifest.getModel();
 		// Load plugins
 		eventFactory.put(adventure
 				.getVarInitialValue(BasicAdventureModel.EVENTS_BINDS));
@@ -95,10 +100,17 @@ public class GameLoaderImpl implements GameLoader {
 				.getVarInitialValue(BasicAdventureModel.EFFECTS_BINDS));
 		sceneElementFactory.put(adventure
 				.getVarInitialValue(BasicAdventureModel.SCENES_ELEMENT_BINDS));
-
-		game.setAdventure(adventure);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				game.getGUI().reset();
+				engine.getStage().addActor(game.getGUI().getRoot());
+				engine.getStage().setKeyboardFocus(game.getGUI().getRoot());
+				game.setAdventure(adventure);
+				game.doHook(GameImpl.HOOK_AFTER_MODEL_READ);
+			}
+		});
 		loadChapter(currentManifest.getInitialChapter());
-		game.doHook(GameImpl.HOOK_AFTER_MODEL_READ);
 	}
 
 	public Manifest loadManifest() {
@@ -125,9 +137,14 @@ public class GameLoaderImpl implements GameLoader {
 			i++;
 		}
 		EAdScene scene = loadScene(initialScene);
-		ChangeSceneEf changeScene = new ChangeSceneEf(scene);
-		game.doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
-		game.addEffect(changeScene);
+		final ChangeSceneEf changeScene = new ChangeSceneEf(scene);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				game.doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
+				game.addEffect(changeScene);
+			}
+		});
 	}
 
 	@Override
