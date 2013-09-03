@@ -7,6 +7,7 @@ target/
 
 # test output
 test/resources/result*
+/tests/techdemo/src/main/resources
 
 #########################
 # Local & Generated
@@ -18,6 +19,8 @@ test/resources/result*
 # generated resources
 **/R.java
 
+/core/engine-html/src/main/webapp/assets/
+
 # web output
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
@@ -25,13 +28,13 @@ war/WEB-INF/lib/
 *.war
 
 # engine configuration (if launched locally)
-core/engine-desktop/engine_configuration.xml
+/core/engine-desktop/engine_configuration.xml
 
 # editor-generated preferences file
-core/editor-core/ead-editor-config.xml
+/core/editor-core/ead-editor-config.xml
 
 # guitools prefs
-guitools/enginegui/enginegui.properties
+/guitools/enginegui/enginegui.properties
 
 #########################
 # Eclipse
@@ -94,24 +97,27 @@ nbactions.xml
 # GWT
 #########################
 
-core/engine-html/.gwt/
-core/engine-html/gwt-unitCache*
-core/engine-html/war/ead*
-core/engine-html/war/assets*
+/core/engine-html/.gwt/
+/core/engine-html/gwt-unitCache*
+/core/engine-html/war/ead*
+/core/engine-html/war/assets*
+
+# copied over
+#/core/engine-html/src/main/webapp/assets
 
 #########################
 # Android
 #########################
 
-core/engine-android/libs/android-support-v4.jar
+/core/engine-android/libs/android-support-v4.jar
 
 # android-compilation generated files and output; also, special lint.xml rules
-core/engine-android/gen/
-core/engine-android/bin/
+/core/engine-android/gen/
+/core/engine-android/bin/
 
-core/engine-android/assets
-core/engine-android/gen/
-core/engine-android/bin/
-core/engine-android/proguard.cfg
+/core/engine-android/assets
+/core/engine-android/gen/
+/core/engine-android/bin/
+/core/engine-android/proguard.cfg
 
 
