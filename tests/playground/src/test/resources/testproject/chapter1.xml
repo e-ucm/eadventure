@@ -7,7 +7,7 @@
 		<name/>
 		<default-initial-position x="400" y="300"/>
 		<exits>
-			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="120" idTarget="Scene2" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="310" x="425" y="421">
+			<exit destinationX="-2147483648" destinationY="-2147483648" hasInfluenceArea="no" height="120" idTarget="Scene2" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="310" x="425" y="421">
 				<exit-look text=""/>
 			</exit>
 		</exits>
@@ -19,7 +19,7 @@
 		<name/>
 		<default-initial-position x="400" y="300"/>
 		<exits>
-			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="123" idTarget="End" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="311" x="423" y="420">
+			<exit destinationX="-2147483648" destinationY="-2147483648" hasInfluenceArea="no" height="123" idTarget="End" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="311" x="423" y="420">
 				<exit-look text=""/>
 			</exit>
 		</exits>

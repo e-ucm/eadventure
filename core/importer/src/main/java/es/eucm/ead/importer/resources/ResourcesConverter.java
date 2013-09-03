@@ -32,7 +32,7 @@ public class ResourcesConverter {
 
 	public static final String BINARY = "binary";
 
-	private String destinyPath;
+	private String destinationPath;
 
 	private OldReader oldReader;
 
@@ -50,16 +50,16 @@ public class ResourcesConverter {
 		assets = new LinkedHashMap<String, AssetDescriptor>();
 	}
 
-	public void setPath(String destinyPath) {
-		this.destinyPath = destinyPath;
+	public void setPath(String destinationPath) {
+		this.destinationPath = destinationPath;
 		this.urisCorrespondences.clear();
 		createFolders();
 	}
 
 	private void createFolders() {
-		File f = new File(destinyPath + "/" + DRAWABLE);
+		File f = new File(destinationPath + "/" + DRAWABLE);
 		f.mkdirs();
-		f = new File(destinyPath + "/" + BINARY);
+		f = new File(destinationPath + "/" + BINARY);
 		f.mkdirs();
 
 	}
@@ -73,8 +73,8 @@ public class ResourcesConverter {
 	public EAdDrawable getImage(String imagePath) {
 		AssetDescriptor asset = assets.get(imagePath);
 		if (asset == null) {
-			String destinyImagePath = getPath(imagePath);
-			asset = new Image(destinyImagePath);
+			String destinationImagePath = getPath(imagePath);
+			asset = new Image(destinationImagePath);
 			assets.put(imagePath, asset);
 		}
 		return (EAdDrawable) asset;
@@ -88,8 +88,8 @@ public class ResourcesConverter {
 	public EAdSound getSound(String soundPath) {
 		AssetDescriptor asset = assets.get(soundPath);
 		if (asset == null) {
-			String destinySoundPath = getPath(soundPath);
-			asset = new Sound(destinySoundPath);
+			String destinationSoundPath = getPath(soundPath);
+			asset = new Sound(destinationSoundPath);
 			assets.put(soundPath, asset);
 		}
 		return (EAdSound) asset;
@@ -98,8 +98,8 @@ public class ResourcesConverter {
 	public Music getMusic(String musicPath) {
 		AssetDescriptor asset = assets.get(musicPath);
 		if (asset == null) {
-			String destinySoundPath = getPath(musicPath);
-			asset = new Music(destinySoundPath);
+			String destinationSoundPath = getPath(musicPath);
+			asset = new Music(destinationSoundPath);
 			assets.put(musicPath, asset);
 		}
 		return (Music) asset;
@@ -149,7 +149,7 @@ public class ResourcesConverter {
 	 */
 	public boolean copyFile(String oldPath, String newPath) {
 
-		File toResourceFile = new File(destinyPath, newPath);
+		File toResourceFile = new File(destinationPath, newPath);
 		InputStream in = null;
 		OutputStream out = null;
 		boolean success = false;
@@ -349,6 +349,6 @@ public class ResourcesConverter {
 	 * @return
 	 */
 	public String getProjectFolder() {
-		return destinyPath;
+		return destinationPath;
 	}
 }

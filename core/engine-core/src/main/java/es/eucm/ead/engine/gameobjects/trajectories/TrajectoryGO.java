@@ -58,14 +58,14 @@ public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
 	 * 
 	 * @param movingElement
 	 *            the moving element
-	 * @param destinyX
-	 *            destiny coordinate x
-	 * @param destinyY
-	 *            destiny coordinate y
+	 * @param destinationX
+	 *            destination coordinate x
+	 * @param destinationY
+	 *            destination coordinate y
 	 * @param target
 	 *            the target element trying to reach (it could be {@code null}
 	 */
-	void set(SceneElementGO movingElement, float destinyX, float destinyY,
+	void set(SceneElementGO movingElement, float destinationX, float destinationY,
 			SceneElementGO target);
 
 	/**

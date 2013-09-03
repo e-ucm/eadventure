@@ -165,8 +165,8 @@ public class JsonReader {
 			effectsReader.readEffects(effects);
 	}
 
-	public void write(EAdAdventureModel model, String destiny) {
-		writer.write(model, destiny);
+	public void write(EAdAdventureModel model, String destination) {
+		writer.write(model, destination);
 	}
 
 	public boolean addAssets(String file) {

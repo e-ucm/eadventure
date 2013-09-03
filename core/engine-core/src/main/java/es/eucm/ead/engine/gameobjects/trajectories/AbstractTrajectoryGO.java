@@ -57,9 +57,9 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected EAdSceneElement sceneElement;
 
-	protected float destinyX;
+	protected float destinationX;
 
-	protected float destinyY;
+	protected float destinationY;
 
 	protected SceneElementGO target;
 
@@ -83,12 +83,12 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 	}
 
 	@Override
-	public void set(SceneElementGO movingElement, float destinyX,
-			float destinyY, SceneElementGO target) {
+	public void set(SceneElementGO movingElement, float destinationX,
+			float destinationY, SceneElementGO target) {
 		this.movingElement = movingElement;
 		this.sceneElement = movingElement.getElement();
-		this.destinyX = destinyX;
-		this.destinyY = destinyY;
+		this.destinationX = destinationX;
+		this.destinationY = destinationY;
 		this.target = target;
 	}
 
