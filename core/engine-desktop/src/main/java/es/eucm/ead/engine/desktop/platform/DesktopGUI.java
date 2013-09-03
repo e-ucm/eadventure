@@ -43,6 +43,7 @@ import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.IntBuffer;
 
 import javax.swing.JFrame;
@@ -122,13 +123,28 @@ public class DesktopGUI extends GUIImpl {
 		});
 	}
 
+	static public void doInEDTNow(Runnable doRun) {
+		if (javax.swing.SwingUtilities.isEventDispatchThread()) {
+			doRun.run();
+		} else {
+			try {
+				javax.swing.SwingUtilities.invokeAndWait(doRun);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			} catch (InvocationTargetException e) {
+				// FIXME: showExceptionDialog(e);
+				e.printStackTrace(System.err);
+			}
+		}
+	}
+
 	@Override
 	public void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen) {
 		if (object == component) {
 
 		} else if (object == null) {
-			SwingUtilities.doInEDTNow(new Runnable() {
+			doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
 					canvas.setCursor(java.awt.Cursor.getDefaultCursor());
@@ -143,7 +159,7 @@ public class DesktopGUI extends GUIImpl {
 			});
 		} else if (object != component) {
 			component = (Component) object;
-			SwingUtilities.doInEDTNow(new Runnable() {
+			doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
 					canvas.setVisible(false);

@@ -483,8 +483,7 @@ public class EditorModelImpl implements EditorModel {
 				if (isLoading) {
 					logger.error(
 							"Loaded EAdElement {} of type {} had no editor ID",
-							new String[] { oid,
-									targetContent.getClass().getSimpleName() });
+							oid, targetContent.getClass().getSimpleName());
 					throw new IllegalStateException("Corrupted save-file: "
 							+ "no eid assigned to loaded objects");
 				} else {
@@ -501,7 +500,7 @@ public class EditorModelImpl implements EditorModel {
 		} else {
 			logger.error(
 					"Tried to wrap non-Identified of type {} in an editorID",
-					new String[] { targetContent.getClass().getSimpleName() });
+					targetContent.getClass().getSimpleName());
 			throw new IllegalStateException("Cannot continue load or import");
 		}
 		return node;

@@ -160,11 +160,9 @@ public class ModelVisitorDriver {
 	 */
 	@SuppressWarnings("unchecked")
 	public void driveInto(Object o, Object source, String sourceName) {
-		logger.debug("Driving into target of type {} [{}]", new String[] {
-				o.getClass().getName(),
-				(o instanceof EAdElement ? ((EAdElement) o).getId() : o
-						.getClass().getSimpleName()
-						+ "@" + o.hashCode()) });
+		logger.debug("Driving into target of type {} [{}]", o.getClass()
+				.getName(), (o instanceof EAdElement ? ((EAdElement) o).getId()
+				: o.getClass().getSimpleName() + "@" + o.hashCode()));
 
 		if (v == null) {
 			throw new IllegalStateException("No visitor defined. End of visit.");

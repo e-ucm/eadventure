@@ -86,14 +86,14 @@ public class EAdventureEditor implements Launcher {
 		// Locale.setDefault(new Locale("es", "ES"));
 
 		// Initialize logging
-		Log4jConfig.configForConsole(Slf4jLevel.Debug, new Object[] {
-
+		Log4jConfig.configForConsole(Slf4jLevel.Info, new Object[] {
 		// AdventureConverter
 				"Converter", Log4jConfig.Slf4jLevel.Debug,
 				// recursion into bits of model when importing
 				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
 				// access to the model
 				"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+
 		//"EditorModelLoader", Log4jConfig.Slf4jLevel.Debug,
 
 				// "ModelIndex", Slf4jLevel.Debug,

@@ -45,9 +45,9 @@ import es.eucm.ead.editor.util.i18n.I18N;
 /**
  * Resource index for this package (statically compiled).
  *
- * This is an AUTOMATICALLY-GENERATED file -
- * Run class es.eucm.ead.tools.java.utils.i18n.ResourceCreator with parameters:
- *    "./core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
+ * This is an AUTOMATICALLY-GENERATED file - 
+ * Run class es.eucm.ead.editor.util.i18n.ResourceCreator with parameters: 
+ *    "core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
  * to re-create or update this class
  */
 @edu.umd.cs.findbugs.annotations.SuppressFBWarnings
@@ -156,8 +156,8 @@ public class R {
 			files.add("toolbar/search.png");
 			files.add("toolbar/undo.png");
 
-			I18N.initializeResources(Drawable.class.getName(), Drawable.class,
-					files);
+			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
 		}
 	}
 }
+

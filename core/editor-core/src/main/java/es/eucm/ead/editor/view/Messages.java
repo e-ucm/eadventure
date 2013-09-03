@@ -42,9 +42,9 @@ import es.eucm.ead.editor.util.i18n.I18N;
 /**
  * Message index for this class (bound at run-time according to user preferences)
  *
- * This is an AUTOMATICALLY-GENERATED file -
- * Run class es.eucm.ead.tools.java.utils.i18n.ResourceCreator with parameters:
- *    "./core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "./core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
+ * This is an AUTOMATICALLY-GENERATED file - 
+ * Run class es.eucm.ead.editor.util.i18n.ResourceCreator with parameters: 
+ *    "core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
  * to re-create or update this class
  */
 @edu.umd.cs.findbugs.annotations.SuppressFBWarnings
@@ -57,3 +57,4 @@ public class Messages {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }
+

@@ -409,6 +409,8 @@ public class EditorModelLoader {
 		//		converter.addProgressListener(pp);
 		converter.convert(fin.getAbsolutePath(), fout.getAbsolutePath());
 		model.setEngineModel(converter.getModel());
+		logger.info("{} chapters in model", model.getEngineModel().getChapters().size());
+
 		//		converter.removeProgressListener(pp);
 		model.updateProgress(52, "Reading strings and engine properties ...");
 		loadStringsAndProperties(fout);

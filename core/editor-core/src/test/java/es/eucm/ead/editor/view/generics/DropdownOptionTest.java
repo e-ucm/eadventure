@@ -58,17 +58,17 @@ public class DropdownOptionTest extends AbstractOptionTest {
 		p1.add(new DropdownOption<Series>("name1", "toolTip1", model, "a",
 				node1, Series.values(), new String[] { "option x", "option y",
 						"option z" }));
-		p1.add(new DropdownOption("name2", "toolTip2", model, "b", node1,
-				Series.values(), new String[] { "option x", "option y",
+		p1.add(new DropdownOption<Series>("name2", "toolTip2", model, "b",
+				node1, Series.values(), new String[] { "option x", "option y",
 						"option z" }));
 		p1.add(new DropdownOption("name3", "toolTip3", model, "c", node1,
 				new Object[] { "XX", "YY", "ZZ" }));
 		OptionPanel p2 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
-		p2.add(new DropdownOption("name1", "toolTip1", model, "a", node1,
-				Series.values()));
-		p2.add(new DropdownOption("name2", "toolTip2", model, "b", node1,
-				new Series[] { Series.X, Series.Y, Series.Z }));
+		p2.add(new DropdownOption<Series>("name1", "toolTip1", model, "a",
+				node1, Series.values()));
+		p2.add(new DropdownOption<Series>("name2", "toolTip2", model, "b",
+				node1, new Series[] { Series.X, Series.Y, Series.Z }));
 		p2.add(new DropdownOption("name3", "toolTip3", model, "c", node1,
 				new Object[] { "X" + "X", "Y" + "Y", "Z" + "Z" }));
 		OptionPanel p3 = new PanelImpl("Test0",
