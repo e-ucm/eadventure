@@ -154,10 +154,12 @@ public class AdventureConverter {
 		model.getEvents().add(initEvent);
 
 		// Add some vars
+		// [AD - Title]
+		model.setVarInitialValue(BasicAdventureModel.GAME_TITLE, modelQuerier
+				.getAventureData().getTitle());
+		// Add some legacy vars
 		model.setVarInitialValue(LegacyVars.FIRST_PERSON, modelQuerier
 				.isFirstPersonGame());
-
-		// Descriptions balloon (for mouse over)
 		BubbleNameEv event = new BubbleNameEv();
 		event.setBubble(new NinePatchImage("@drawable/bubblename.png", 15, 15,
 				15, 15));
