@@ -54,7 +54,7 @@ public class EventGOFactoryImpl extends
 	@Inject
 	public EventGOFactoryImpl(ReflectionProvider reflectionProvider,
 			GenericInjector injector) {
-		super(false, reflectionProvider, injector);
+		super("#ev.", false, reflectionProvider, injector);
 		EventsMapProvider provider = new EventsMapProvider();
 		setClassMap(provider.getMap());
 	}

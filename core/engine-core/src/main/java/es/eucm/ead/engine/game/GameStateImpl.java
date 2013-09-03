@@ -46,6 +46,7 @@ import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.StringHandler;
@@ -108,10 +109,15 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 	}
 
 	@Override
-	public <S> void setValue(Object element, EAdVarDef<S> var,
+	public <S> void setValue(Identified element, EAdVarDef<S> var,
 			EAdOperation operation) {
 		S result = operatorFactory.operate(var.getType(), operation);
 		setValue(element, var, result);
+	}
+
+	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
+		super.setValue(element, varDef, value);
+		notifyWatchers(element, varDef);
 	}
 
 	@Override
@@ -266,11 +272,6 @@ public class GameStateImpl extends ValueMapImpl implements GameState {
 		}
 
 		return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
-	}
-
-	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
-		super.setValue(element, varDef, value);
-		notifyWatchers(element, varDef);
 	}
 
 	@SuppressWarnings( { "all" })

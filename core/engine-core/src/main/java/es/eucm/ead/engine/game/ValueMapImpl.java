@@ -37,19 +37,19 @@
 
 package es.eucm.ead.engine.game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import es.eucm.ead.engine.game.interfaces.ValueMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.interfaces.features.Identified;
+import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ValueMapImpl implements ValueMap {
 
@@ -68,7 +68,7 @@ public class ValueMapImpl implements ValueMap {
 	/**
 	 * Contains all variables values
 	 */
-	protected Map<Object, Map<EAdVarDef<?>, Object>> valuesMap;
+	protected Map<String, Map<EAdVarDef<?>, Object>> valuesMap;
 
 	/**
 	 * Contains the elements with variables updated
@@ -84,7 +84,7 @@ public class ValueMapImpl implements ValueMap {
 			StringHandler stringHandler) {
 		this.stringHandler = stringHandler;
 		this.reflectionProvider = reflectionProvider;
-		valuesMap = new HashMap<Object, Map<EAdVarDef<?>, Object>>();
+		valuesMap = new HashMap<String, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
 		updateList = new ArrayList<Object>();
 		updateEnable = true;
@@ -95,17 +95,19 @@ public class ValueMapImpl implements ValueMap {
 		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
+	@SuppressWarnings("all")
 	@Override
-	public <S> void setValue(Object element, EAdVarDef<S> varDef, S value) {
+	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
 		if (value == null
 				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
 						.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = valuesMap
-					.get(maybeDecodeField(element));
+					.get(element == null ? null : maybeDecodeField(element)
+							.getId());
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
-				valuesMap.put(element, valMap);
+				valuesMap.put(element == null ? null : element.getId(), valMap);
 
 				// Sets initial values, if any
 				addInitVariables(element, valMap);
@@ -135,13 +137,13 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S> S getValue(Object element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = valuesMap
-				.get(maybeDecodeField(element));
+	public <S> S getValue(Identified element, EAdVarDef<S> varDef) {
+		Map<EAdVarDef<?>, Object> valMap = valuesMap.get(element == null ? null
+				: maybeDecodeField(element).getId());
 
 		if (valMap == null) {
 			valMap = new HashMap<EAdVarDef<?>, Object>();
-			valuesMap.put(element, valMap);
+			valuesMap.put(element == null ? null : element.getId(), valMap);
 
 			// Sets initial values, if any
 			addInitVariables(element, valMap);
@@ -156,16 +158,16 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public Map<EAdVarDef<?>, Object> getElementVars(Object element) {
-		return valuesMap.get(maybeDecodeField(element));
+	public Map<EAdVarDef<?>, Object> getElementVars(Identified element) {
+		return valuesMap.get(maybeDecodeField(element).getId());
 	}
 
 	@Override
-	public Object maybeDecodeField(Object element) {
+	public Identified maybeDecodeField(Identified element) {
 		if (element != null && element instanceof EAdField<?>) {
 			EAdField<?> field = (EAdField<?>) element;
 			Object result = getValue(field.getElement(), field.getVarDef());
-			return maybeDecodeField(result);
+			return maybeDecodeField((Identified) result);
 		}
 		return element;
 	}
@@ -180,9 +182,9 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	/**
-	 * Adds ana element to the update list
+	 * Adds an element to the update list
 	 * 
-	 * @param element
+	 * @param element the element to add
 	 */
 	private void addUpdatedElement(Object element) {
 		if (element != null && !updateList.contains(element)) {
@@ -196,12 +198,12 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	@Override
-	public void remove(Object element) {
-		valuesMap.remove(maybeDecodeField(element));
+	public void remove(Identified element) {
+		valuesMap.remove(maybeDecodeField(element).getId());
 	}
 
-	public boolean contains(Object element) {
-		return valuesMap.get(element) != null;
+	public boolean contains(Identified element) {
+		return valuesMap.get(element.getId()) != null;
 	}
 
 }

@@ -66,8 +66,6 @@ public class GameLoaderImpl implements GameLoader {
 
 	private Manifest currentManifest;
 
-	private EAdChapter currentChapter;
-
 	private Map<String, EAdChapter> chapters;
 
 	private Map<String, EAdScene> scenes;
@@ -112,7 +110,7 @@ public class GameLoaderImpl implements GameLoader {
 
 	@Override
 	public void loadChapter(String chapterId) {
-		currentChapter = chapters.get(chapterId);
+		EAdChapter currentChapter = chapters.get(chapterId);
 		if (currentChapter == null) {
 			currentChapter = reader.readChapter(chapterId);
 			chapters.put(chapterId, currentChapter);

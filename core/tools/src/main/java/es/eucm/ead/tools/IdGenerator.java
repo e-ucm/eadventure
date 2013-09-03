@@ -35,9 +35,8 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer2;
+package es.eucm.ead.tools;
 
-import es.eucm.ead.tools.EAdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

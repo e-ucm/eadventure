@@ -42,6 +42,7 @@ import es.eucm.ead.engine.game.interfaces.Game;
 import es.eucm.ead.model.elements.effects.timedevents.HighlightSceneElementEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.interfaces.features.Identified;
 
 public class HighlightSceneElementGO extends
 		AbstractEffectGO<HighlightSceneElementEf> {
@@ -52,7 +53,7 @@ public class HighlightSceneElementGO extends
 
 	private boolean started;
 
-	private Object highLightElement;
+	private Identified highLightElement;
 
 	@Inject
 	public HighlightSceneElementGO(Game game) {

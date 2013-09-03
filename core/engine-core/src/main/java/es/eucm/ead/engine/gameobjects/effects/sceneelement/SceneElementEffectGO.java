@@ -42,6 +42,7 @@ import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.interfaces.features.Identified;
 
 public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		extends AbstractEffectGO<T> {
@@ -55,7 +56,7 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 	@Override
 	public void initialize() {
 		super.initialize();
-		Object sceneElement = game.getGameState().maybeDecodeField(
+		Identified sceneElement = game.getGameState().maybeDecodeField(
 				effect.getSceneElement());
 
 		if (sceneElement instanceof EAdSceneElement) {

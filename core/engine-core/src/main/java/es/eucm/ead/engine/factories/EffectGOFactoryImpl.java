@@ -54,7 +54,7 @@ public class EffectGOFactoryImpl extends
 	@Inject
 	public EffectGOFactoryImpl(ReflectionProvider reflectionProvider,
 			GenericInjector injector) {
-		super(false, reflectionProvider, injector);
+		super("#ef.", false, reflectionProvider, injector);
 		EffectsMapProvider provider = new EffectsMapProvider();
 		setClassMap(provider.getMap());
 	}

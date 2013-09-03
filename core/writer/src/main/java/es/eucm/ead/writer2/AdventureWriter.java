@@ -46,6 +46,7 @@ import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.reader2.model.Manifest;
 import es.eucm.ead.reader2.model.XMLFileNames;
 import es.eucm.ead.tools.EAdUtils;
+import es.eucm.ead.tools.IdGenerator;
 import es.eucm.ead.tools.TextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;

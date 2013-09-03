@@ -43,6 +43,7 @@ import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.IdGenerator;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,19 +62,25 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 
 	private GenericInjector injector;
 
+	private IdGenerator idGenerator;
+
 	private boolean useCache;
 
-	protected Map<S, T> cache;
+	private String idPrefix;
+
+	protected Map<String, T> cache;
 
 	protected Map<Class<?>, Pool<T>> pools;
 
 	private Map<Class<? extends S>, Class<? extends T>> classMap;
 
-	public GOFactoryImpl(boolean useCache,
+	public GOFactoryImpl(String idPrefix, boolean useCache,
 			ReflectionProvider reflectionProvider, GenericInjector injector) {
 		this.useCache = useCache;
+		this.idPrefix = idPrefix;
+		this.idGenerator = new IdGenerator();
 		if (useCache) {
-			cache = new HashMap<S, T>();
+			cache = new HashMap<String, T>();
 		}
 		this.reflectionProvider = reflectionProvider;
 		this.injector = injector;
@@ -92,8 +99,8 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 			return null;
 
 		GameObject temp = null;
-		if (useCache) {
-			temp = cache.get(element);
+		if (useCache && element.getId() != null) {
+			temp = cache.get(element.getId());
 
 			if (temp != null)
 				return (T) temp;
@@ -115,9 +122,12 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 				logger.error("No instance for game object of class {}", element
 						.getClass());
 			} else {
+				if (element.getId() == null) {
+					element.setId(idGenerator.generateNewId(idPrefix));
+				}
 				temp.setElement(element);
 				if (useCache) {
-					cache.put(element, (T) temp);
+					cache.put(element.getId(), (T) temp);
 				}
 			}
 		}
@@ -125,10 +135,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<?>>
 	}
 
 	public boolean remove(S element) {
-		if (cache != null) {
-			return (cache.remove(element) != null);
-		}
-		return true;
+		return cache == null || cache.remove(element.getId()) != null;
 	}
 
 	@SuppressWarnings("unchecked")
