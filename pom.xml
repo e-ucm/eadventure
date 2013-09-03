@@ -281,8 +281,6 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>reformat-headers</id>
-						<phase>build</phase>
 						<goals>
 							<goal>format</goal>
 						</goals>
@@ -300,17 +298,6 @@
 					<configFile>${project.parent.basedir}/etc/eclipse-formatter.xml</configFile>
 					<lineEnding>KEEP</lineEnding>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
 				<executions>
 					<execution>
 						<goals>

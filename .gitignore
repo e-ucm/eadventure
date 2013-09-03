@@ -1,7 +1,41 @@
-/core/engine-android/libs/android-support-v4.jar
-#################
-## Eclipse
-#################
+#########################
+# Maven
+#########################
+
+# general output
+target/
+
+# test output
+test/resources/result*
+
+#########################
+# Local & Generated
+#########################
+
+# local, unversioned files
+/local/
+
+# generated resources
+**/R.java
+
+# web output
+war/WEB-INF/deploy/
+war/WEB-INF/classes/
+war/WEB-INF/lib/
+*.war
+
+# engine configuration (if launched locally)
+core/engine-desktop/engine_configuration.xml
+
+# editor-generated preferences file
+core/editor-core/ead-editor-config.xml
+
+# guitools prefs
+guitools/enginegui/enginegui.properties
+
+#########################
+# Eclipse
+#########################
 
 *.pydevproject
 .project
@@ -35,33 +69,20 @@ local.properties
 
 # ignore all compilation output
 **.class
-target/
-
-# test output
-test/resources/result*
 
 # eclipse settings
 *.prefs
 
-# generated resources
-**/R.java
-
-# gwt settings, output and support
-
-#################
-## NetBeans
-#################
+#########################
+# NetBeans
+#########################
 
 nb-configuration.xml
 nbactions.xml
 
-core/engine-html/.gwt/
-core/engine-html/gwt-unitCache*
-core/engine-html/war/ead*
-core/engine-html/war/assets*
-core/engine-html/war/WEB-INF/deploy*
-core/engine-html/war/WEB-INF/lib*
-core/engine-html/war/WEB-INF/classes*
+#########################
+# Java output / logs
+#########################
 
 # jvm error files
 **/hs_err*.log
@@ -69,36 +90,28 @@ core/engine-html/war/WEB-INF/classes*
 # Logs
 *.log
 
+#########################
+# GWT
+#########################
+
+core/engine-html/.gwt/
+core/engine-html/gwt-unitCache*
+core/engine-html/war/ead*
+core/engine-html/war/assets*
+
+#########################
+# Android
+#########################
+
+core/engine-android/libs/android-support-v4.jar
+
 # android-compilation generated files and output; also, special lint.xml rules
 core/engine-android/gen/
 core/engine-android/bin/
-
-# engine configuration (if launched locally)
-core/engine-desktop/engine_configuration.xml
-
-# editor-generated preferences file
-core/editor-core/ead-editor-config.xml
-
-# local, unversioned files
-local/
-demos/firstaidgame/gwt-unitCache
-demos/firstaidgame/war/firstaid
-demos/firstaidgame/.gwt/
 
 core/engine-android/assets
 core/engine-android/gen/
 core/engine-android/bin/
 core/engine-android/proguard.cfg
 
-war/WEB-INF/deploy/
-war/WEB-INF/classes/
-guitools/enginegui/enginegui.properties
 
-core/engine-html/src/main/webapp/assets
-core/engine-desktop/src/main/resources/ead/engine/resources
-classes/
-
-resources/engine.war
-ead-editor-config.xml
-*.properties
-demos/techdemo/src/main/resources/data.xml
