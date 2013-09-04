@@ -1152,16 +1152,14 @@ public class SceneElementGO extends Group implements
 		updateRelatives = true;
 		super.setWidth(width);
 		setOriginX(width * dispX);
-		gameState.setValue(element, SceneElement.VAR_WIDTH,
-				(int) width);
+		gameState.setValue(element, SceneElement.VAR_WIDTH, (int) width);
 	}
 
 	public void setHeight(float height) {
 		updateRelatives = true;
 		super.setHeight(height);
 		setOriginY(height * dispY);
-		gameState.setValue(element, SceneElement.VAR_HEIGHT,
-				(int) height);
+		gameState.setValue(element, SceneElement.VAR_HEIGHT, (int) height);
 	}
 
 	public void setMouseOver(boolean mouseOver) {

@@ -186,7 +186,8 @@ public class GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
 	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {
 		classMap.put(clazz1, clazz2);
 	}
-@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
 	public void put(EAdMap<String, String> binds) {
 		if (binds != null) {
 			for (Map.Entry<String, String> e : binds.entrySet()) {

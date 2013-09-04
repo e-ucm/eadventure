@@ -46,8 +46,8 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.debugger.DebuggerFrame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.GameLoader;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.reader2.model.Manifest;
@@ -116,21 +116,17 @@ public class DesktopGame {
 		gameLoader = injector.getInstance(GameLoader.class);
 		Manifest manifest = gameLoader.loadManifest();
 		EAdAdventureModel model = manifest.getModel();
-		model.setVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE,
-				this.exitAtClose);
 
 		// Prepare Gdx configuration
-		int width = model.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
-		int height = model.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+		int width = 400;
+		int height = 300;
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = model.getVarInitialValue(BasicAdventureModel.GAME_TITLE);
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = model
-				.getVarInitialValue(BasicAdventureModel.FULLSCREEN);
-		cfg.forceExit = model
-				.getVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE);
+		cfg.fullscreen = false;
+		cfg.forceExit = this.exitAtClose;
 
 		//	cfg.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 

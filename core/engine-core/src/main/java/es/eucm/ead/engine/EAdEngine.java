@@ -50,9 +50,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.canvas.GdxCanvas;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.tools.StringHandler;
@@ -84,6 +84,16 @@ public class EAdEngine implements ApplicationListener {
 
 	private float scaleY;
 
+	/**
+	 * Reference width for the game. This width is independent from the window size. It's in stage relative units
+	 */
+	private float gameWidth;
+
+	/**
+	 * Reference height for the game. This height is independent from the window size. It's in stage relative units
+	 */
+	private float gameHeight;
+
 	@Inject
 	public EAdEngine(Game game, GameState gameState, GUI gui,
 			StringHandler stringHandler) {
@@ -93,6 +103,15 @@ public class EAdEngine implements ApplicationListener {
 		this.gui = gui;
 		this.stringHandler = stringHandler;
 		this.sceneMouseCoordinates = new Vector2();
+		this.gameWidth = gameHeight = -1;
+	}
+
+	public void setGameWidth(float gameWidth) {
+		this.gameWidth = gameWidth;
+	}
+
+	public void setGameHeight(float gameHeight) {
+		this.gameHeight = gameHeight;
 	}
 
 	@Override
@@ -123,10 +142,6 @@ public class EAdEngine implements ApplicationListener {
 
 		stage.addActor(new Logo());
 
-		scaleX = (float) width / 800.0f;
-		scaleY = (float) height / 600.0f;
-		gui.setScale(scaleX, scaleY);
-
 	}
 
 	@Override
@@ -152,10 +167,12 @@ public class EAdEngine implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
-		scaleX = (float) width / 800.0f;
-		scaleY = (float) height / 600.0f;
-		gui.setScale(scaleX, scaleY);
+		stage.setViewport(width, height, false);
+		if (gameWidth > 0) {
+			scaleX = (float) width / gameWidth;
+			scaleY = (float) height / gameHeight;
+			stage.getRoot().setScale(scaleX, scaleY);
+		}
 	}
 
 	public Stage getStage() {

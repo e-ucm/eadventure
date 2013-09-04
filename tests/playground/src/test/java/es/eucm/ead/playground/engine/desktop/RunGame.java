@@ -7,5 +7,6 @@ public class RunGame {
 	public static void main(String args[]) {
 		DesktopGame game = new DesktopGame(true, "convertedproject/");
 		game.start();
+		game.load();
 	}
 }

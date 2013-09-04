@@ -102,7 +102,6 @@ public abstract class GUIImpl implements GUI {
 	public void addHierarchy() {
 		root = sceneElementFactory.get(new GroupElement());
 		root.getElement().setId("#engine.root");
-		root.setScale(scaleX, scaleY);
 		hudRoot = sceneElementFactory.get(new GroupElement());
 		hudRoot.getElement().setId("#engine.huds");
 		sceneRoot = sceneElementFactory.get(new GroupElement());
@@ -197,16 +196,15 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	public float getMouseX() {
-		return Gdx.input.getX() / scaleX;
+		return Gdx.input.getX() * scaleX;
 	}
 
 	public float getMouseY() {
-		return Gdx.input.getY() / scaleY;
+		return Gdx.input.getY() * scaleY;
 	}
 
 	public SceneElementGO getGameObjectUnderPointer() {
-		Actor a = root.hit(Gdx.input.getX() / scaleX,
-				Gdx.input.getY() / scaleY, true);
+		Actor a = root.hit(getMouseX(), getMouseY(), true);
 		if (a instanceof SceneElementGO) {
 			return (SceneElementGO) a;
 		}
