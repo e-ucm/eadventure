@@ -37,6 +37,7 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.scenes.EAdScene;
@@ -59,6 +60,8 @@ public interface GUI {
 	 * {@link GUI#getHUD(String)}
 	 */
 	public static final String DEBBUGERS_HUD_ID = "#engine.huds.debugger";
+
+	void setStage(Stage stage);
 
 	/**
 	 * Adds a hud to the GUI
@@ -153,20 +156,5 @@ public interface GUI {
 	 * Resets the GUI. The GUI recovers its initial state
 	 */
 	void reset();
-
-	/**
-	 * Set root scale (to adjust to the window size)
-	 * @param scaleX
-	 * @param scaleY
-	 */
-	void setScale(float scaleX, float scaleY);
-
-	/**
-	 * Returns
-	 * @return
-	 */
-	float getMouseY();
-
-	float getMouseX();
 
 }

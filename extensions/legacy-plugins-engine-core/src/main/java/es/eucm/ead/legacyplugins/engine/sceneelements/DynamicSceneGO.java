@@ -47,7 +47,7 @@ public class DynamicSceneGO extends SceneGO {
 		if (adjust) {
 			if (firstPerson) {
 				// [GE - Arrows]
-				float x = gui.getMouseX();
+				float x = gameState.getValue(SystemFields.MOUSE_X);
 				float deltaX = delta * 0.5f;
 				if (x < sceneWidth * 0.1f && this.getX() < 0) {
 					this.setX(Math.min(0, this.getRelativeX() + deltaX));

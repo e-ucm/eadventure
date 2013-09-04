@@ -55,14 +55,13 @@ import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.tools.StringHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EAdEngine implements ApplicationListener {
 
-	private Logger logger = LoggerFactory.getLogger("EAdEngine");
+	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
 
 	private Game game;
 
@@ -70,19 +69,9 @@ public class EAdEngine implements ApplicationListener {
 
 	private GUI gui;
 
-	private StringHandler stringHandler;
-
 	private Stage stage;
 
-	private InvOrtographicCamera c;
-
-	private SpriteBatch spriteBatch;
-
 	private Vector2 sceneMouseCoordinates;
-
-	private float scaleX;
-
-	private float scaleY;
 
 	/**
 	 * Reference width for the game. This width is independent from the window size. It's in stage relative units
@@ -95,13 +84,11 @@ public class EAdEngine implements ApplicationListener {
 	private float gameHeight;
 
 	@Inject
-	public EAdEngine(Game game, GameState gameState, GUI gui,
-			StringHandler stringHandler) {
+	public EAdEngine(Game game, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
 		this.gameState = gameState;
 		this.gui = gui;
-		this.stringHandler = stringHandler;
 		this.sceneMouseCoordinates = new Vector2();
 		this.gameWidth = gameHeight = -1;
 	}
@@ -116,6 +103,7 @@ public class EAdEngine implements ApplicationListener {
 
 	@Override
 	public void create() {
+		logger.debug("Creating graphic context");
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		int width = Gdx.graphics.getWidth();
@@ -124,11 +112,11 @@ public class EAdEngine implements ApplicationListener {
 		gameState.setValue(SystemFields.GAME_WIDTH, width);
 		gameState.setValue(SystemFields.GAME_HEIGHT, height);
 
-		spriteBatch = new GdxCanvas();
+		GdxCanvas spriteBatch = new GdxCanvas();
 		stage = new Stage(width, height, true, spriteBatch);
 		spriteBatch.enableBlending();
 
-		c = new InvOrtographicCamera();
+		InvOrtographicCamera c = new InvOrtographicCamera();
 		float centerX = width / 2;
 		float centerY = height / 2;
 
@@ -137,7 +125,7 @@ public class EAdEngine implements ApplicationListener {
 		c.viewportHeight = height;
 
 		stage.setCamera(c);
-
+		gui.setStage(stage);
 		Gdx.input.setInputProcessor(stage);
 
 		stage.addActor(new Logo());
@@ -156,11 +144,12 @@ public class EAdEngine implements ApplicationListener {
 		game.act(game.getSkippedMilliseconds());
 		stage.act(game.getSkippedMilliseconds());
 		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
-		stage.screenToStageCoordinates(sceneMouseCoordinates);
+		stage.getRoot().parentToLocalCoordinates(sceneMouseCoordinates);
+		gameState.setValue(SystemFields.MOUSE_X, sceneMouseCoordinates.x);
+		gameState.setValue(SystemFields.MOUSE_Y, sceneMouseCoordinates.y);
+		gui.getScene().parentToLocalCoordinates(sceneMouseCoordinates);
 		gameState.setValue(SystemFields.MOUSE_SCENE_X, sceneMouseCoordinates.x);
 		gameState.setValue(SystemFields.MOUSE_SCENE_Y, sceneMouseCoordinates.y);
-		gameState.setValue(SystemFields.MOUSE_X, Gdx.input.getX() / scaleX);
-		gameState.setValue(SystemFields.MOUSE_Y, Gdx.input.getY() / scaleY);
 		stage.draw();
 		game.doHook(Game.HOOK_AFTER_RENDER);
 	}
@@ -169,14 +158,10 @@ public class EAdEngine implements ApplicationListener {
 	public void resize(int width, int height) {
 		stage.setViewport(width, height, false);
 		if (gameWidth > 0) {
-			scaleX = (float) width / gameWidth;
-			scaleY = (float) height / gameHeight;
+			float scaleX = (float) width / gameWidth;
+			float scaleY = (float) height / gameHeight;
 			stage.getRoot().setScale(scaleX, scaleY);
 		}
-	}
-
-	public Stage getStage() {
-		return stage;
 	}
 
 	@Override

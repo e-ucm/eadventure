@@ -37,6 +37,7 @@
 
 package es.eucm.ead.engine.desktop.utils.assetviewer;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
@@ -73,6 +74,11 @@ public class AssetViewerModule extends AbstractModule {
 	}
 
 	public static class AssetViewerGUI implements GUI {
+
+		@Override
+		public void setStage(Stage stage) {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
 
 		@Override
 		public void addHud(SceneElementGO hud) {
@@ -147,20 +153,9 @@ public class AssetViewerModule extends AbstractModule {
 
 		}
 
-		@Override
 		public void setScale(float scaleX, float scaleY) {
 			// TODO Auto-generated method stub
 
-		}
-
-		@Override
-		public float getMouseY() {
-			return 0; //To change body of implemented methods use File | Settings | File Templates.
-		}
-
-		@Override
-		public float getMouseX() {
-			return 0; //To change body of implemented methods use File | Settings | File Templates.
 		}
 
 	}
