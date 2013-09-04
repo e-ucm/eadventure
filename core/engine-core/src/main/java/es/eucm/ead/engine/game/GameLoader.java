@@ -114,6 +114,7 @@ public class GameLoader {
 						.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
 				int height = adventure
 						.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+
 				engine.setGameWidth(width);
 				engine.setGameHeight(height);
 				engine

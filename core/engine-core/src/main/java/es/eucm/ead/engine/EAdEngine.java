@@ -95,10 +95,12 @@ public class EAdEngine implements ApplicationListener {
 
 	public void setGameWidth(float gameWidth) {
 		this.gameWidth = gameWidth;
+		gameState.setValue(SystemFields.GAME_WIDTH, (int) gameWidth);
 	}
 
 	public void setGameHeight(float gameHeight) {
 		this.gameHeight = gameHeight;
+		gameState.setValue(SystemFields.GAME_HEIGHT, (int) gameHeight);
 	}
 
 	@Override
@@ -108,9 +110,6 @@ public class EAdEngine implements ApplicationListener {
 
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
-
-		gameState.setValue(SystemFields.GAME_WIDTH, width);
-		gameState.setValue(SystemFields.GAME_HEIGHT, height);
 
 		GdxCanvas spriteBatch = new GdxCanvas();
 		stage = new Stage(width, height, true, spriteBatch);

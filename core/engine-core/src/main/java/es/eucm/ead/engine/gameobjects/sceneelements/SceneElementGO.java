@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.sceneelements;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
@@ -50,9 +50,9 @@ import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.events.DragEvent;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.model.assets.AssetDescriptor;
@@ -206,11 +206,11 @@ public class SceneElementGO extends Group implements
 
 	private boolean updateRelatives;
 
-	private float center[];
+	private Vector2 center;
 
-	private float topLeft[];
+	private Vector2 topLeft;
 
-	private float bottomRight[];
+	private Vector2 bottomRight;
 
 	private Comparator<SceneElementGO> comparator;
 
@@ -234,9 +234,9 @@ public class SceneElementGO extends Group implements
 		addListener(this);
 
 		// Relative positions
-		center = new float[3];
-		topLeft = new float[3];
-		bottomRight = new float[3];
+		center = new Vector2();
+		topLeft = new Vector2();
+		bottomRight = new Vector2();
 
 		statesList = new ArrayList<String>();
 		eventGOList = new ArrayList<EventGO<?>>();
@@ -380,12 +380,12 @@ public class SceneElementGO extends Group implements
 	 * Sets some variables
 	 */
 	protected void setExtraVars() {
-		gameState.setValue(element, SceneElement.VAR_LEFT, topLeft[0]);
-		gameState.setValue(element, SceneElement.VAR_TOP, topLeft[1]);
-		gameState.setValue(element, SceneElement.VAR_BOTTOM, bottomRight[1]);
-		gameState.setValue(element, SceneElement.VAR_RIGHT, bottomRight[0]);
-		gameState.setValue(element, SceneElement.VAR_CENTER_X, center[0]);
-		gameState.setValue(element, SceneElement.VAR_CENTER_Y, center[1]);
+		gameState.setValue(element, SceneElement.VAR_LEFT, topLeft.x);
+		gameState.setValue(element, SceneElement.VAR_TOP, topLeft.y);
+		gameState.setValue(element, SceneElement.VAR_RIGHT, bottomRight.x);
+		gameState.setValue(element, SceneElement.VAR_BOTTOM, bottomRight.y);
+		gameState.setValue(element, SceneElement.VAR_CENTER_X, center.x);
+		gameState.setValue(element, SceneElement.VAR_CENTER_Y, center.y);
 
 	}
 
@@ -436,41 +436,40 @@ public class SceneElementGO extends Group implements
 	}
 
 	private void updateRelatives() {
-		center[0] = getWidth() / 2;
-		center[1] = getHeight() / 2;
-		topLeft[0] = 0;
-		topLeft[1] = 0;
-		bottomRight[0] = getWidth();
-		bottomRight[1] = getHeight();
-		Matrix4 m = computeTransform();
-		Matrix4.mulVec(m.val, center);
-		Matrix4.mulVec(m.val, topLeft);
-		Matrix4.mulVec(m.val, bottomRight);
+		center.x = getWidth() / 2;
+		center.y = getHeight() / 2;
+		topLeft.x = 0;
+		topLeft.y = 0;
+		bottomRight.y = getWidth();
+		bottomRight.x = getHeight();
+		this.localToStageCoordinates(center);
+		this.localToStageCoordinates(topLeft);
+		this.localToStageCoordinates(bottomRight);
 		setExtraVars();
 	}
 
 	public float getCenterX() {
-		return center[0];
+		return center.x;
 	}
 
 	public float getCenterY() {
-		return center[1];
+		return center.y;
 	}
 
 	public float getRight() {
-		return bottomRight[0];
+		return bottomRight.x;
 	}
 
 	public float getBottom() {
-		return bottomRight[1];
+		return bottomRight.y;
 	}
 
 	public float getTop() {
-		return topLeft[1];
+		return topLeft.y;
 	}
 
 	public float getLeft() {
-		return topLeft[0];
+		return topLeft.x;
 	}
 
 	/**

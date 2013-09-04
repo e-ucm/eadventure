@@ -169,7 +169,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		int top = verticalMargin;
 		int bottom = height / HEIGHT_PROPORTION + top;
 
-		EAdShape rectangle = null;
+		EAdShape rectangle;
 
 		if (effect.getX() != null && effect.getY() != null) {
 
