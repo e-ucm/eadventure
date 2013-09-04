@@ -86,6 +86,7 @@ public class EffectsMapProvider
 		factoryMap.put(TogglePauseEf.class, TogglePauseGO.class);
 		factoryMap.put(DragEf.class, DragGO.class);
 		factoryMap.put(LoadGameEf.class, LoadGameGO.class);
+		factoryMap.put(ChangeChapterEf.class, ChangeChapterGO.class);
 
 		// Physics
 		factoryMap.put(PhysicsEf.class, PhysicsEffectGO.class);
