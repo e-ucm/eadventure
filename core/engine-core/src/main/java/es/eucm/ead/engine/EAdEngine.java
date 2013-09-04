@@ -108,8 +108,8 @@ public class EAdEngine implements ApplicationListener {
 		logger.debug("Creating graphic context");
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-		int width = Gdx.graphics.getWidth();
-		int height = Gdx.graphics.getHeight();
+		int width = 800;
+		int height = 600;
 
 		GdxCanvas spriteBatch = new GdxCanvas();
 		stage = new Stage(width, height, true, spriteBatch);

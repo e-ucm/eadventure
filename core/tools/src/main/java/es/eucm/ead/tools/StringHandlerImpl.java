@@ -57,6 +57,8 @@ public class StringHandlerImpl implements StringHandler {
 
 	private String language;
 
+	private int ordinal;
+
 	public StringHandlerImpl() {
 		defaultStrings = new HashMap<EAdString, String>();
 		loadedStrings = new HashMap<String, Map<EAdString, String>>();
@@ -130,11 +132,9 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public EAdString generateNewString() {
-		EAdString s = new EAdString("generatedString"
-				+ (int) (Math.random() * 1000000000));
+		EAdString s = new EAdString("generatedString" + ordinal++);
 		while (strings.containsKey(s)) {
-			s = new EAdString("generatedString"
-					+ (int) (Math.random() * 1000000000));
+			s = new EAdString("generatedString" + ordinal++);
 		}
 		return s;
 	}

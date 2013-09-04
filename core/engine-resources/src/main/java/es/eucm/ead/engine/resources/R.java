@@ -2,7 +2,6 @@ package es.eucm.ead.engine.resources;
 
 public class R {
 public static final String[] RESOURCES = new String[]{
-  "es/eucm/ead/engine/resources/ead.properties",
   "es/eucm/ead/engine/resources/plugins.txt",
   "es/eucm/ead/engine/resources/drawable/drag-normal.png",
   "es/eucm/ead/engine/resources/drawable/talk-pressed.png",

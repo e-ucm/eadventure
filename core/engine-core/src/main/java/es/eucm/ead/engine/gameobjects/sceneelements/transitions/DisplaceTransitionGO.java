@@ -104,6 +104,8 @@ public class DisplaceTransitionGO extends TransitionGO<DisplaceTransition> {
 				nextScene.setX(0);
 				nextScene.setY(0);
 			}
+			previousScene.setX(0);
+			previousScene.setY(0);
 			super.finish();
 		} else {
 			super.act(delta);
