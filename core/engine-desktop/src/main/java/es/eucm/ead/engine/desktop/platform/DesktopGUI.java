@@ -72,32 +72,6 @@ public class DesktopGUI extends GUIImpl {
 		super(sceneElementFactory);
 	}
 
-	public void create(int width, int height) {
-		frame = new JFrame();
-
-		// Sets a null cursor (so the in-game one is used)
-		frame.setCursor(frame.getToolkit().createCustomCursor(
-				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
-				new Point(0, 0), "null"));
-		canvas = new Canvas();
-		canvas.setSize(width, height);
-		frame.add(canvas);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				Gdx.app.exit();
-			}
-		});
-
-		// Frame needs to be visible so Gdx can create the right context
-		frame.setResizable(false);
-		frame.setVisible(true);
-	}
-
 	@Override
 	public void reset() {
 		super.reset();
@@ -192,7 +166,37 @@ public class DesktopGUI extends GUIImpl {
 		return frame;
 	}
 
-	public Canvas getCanvas() {
+	public Canvas createCanvas(int width, int height, boolean exitOnClose) {
+		create(width, height, exitOnClose);
 		return canvas;
+	}
+
+	private void create(int width, int height, boolean exitOnClose) {
+		frame = new JFrame();
+
+		// Sets a null cursor (so the in-game one is used)
+		frame.setCursor(frame.getToolkit().createCustomCursor(
+				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB),
+				new Point(0, 0), "null"));
+		canvas = new Canvas();
+		canvas.setSize(width, height);
+		frame.add(canvas);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Gdx.app.exit();
+
+			}
+		});
+		if (!exitOnClose) {
+			frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		}
+
+		// Frame needs to be visible so Gdx can create the right context
+		frame.setResizable(false);
+		frame.setVisible(true);
 	}
 }

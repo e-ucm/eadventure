@@ -47,14 +47,7 @@ import java.io.*;
  */
 public class JarExporter {
 
-	private MavenCli maven;
-
-	public JarExporter(MavenCli maven) {
-		this.maven = maven;
-	}
-
 	public JarExporter() {
-		this(new MavenCli());
 	}
 
 	/**
@@ -75,6 +68,7 @@ public class JarExporter {
 					"pom.xml")));
 
 			// Generate the jar with maven
+			MavenCli maven = new MavenCli();
 			maven.doMain(new String[] { "-X", "-Dresources=" + projectFolder,
 					"clean", "compile", "install", "assembly:single" },
 					desktopFolder.getAbsolutePath(), out, out);

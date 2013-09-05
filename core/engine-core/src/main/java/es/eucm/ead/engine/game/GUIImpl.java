@@ -39,6 +39,7 @@ package es.eucm.ead.engine.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
@@ -83,9 +84,7 @@ public abstract class GUIImpl implements GUI {
 
 	private SceneElementFactory sceneElementFactory;
 
-	private float scaleX;
-
-	private float scaleY;
+	private Stage stage;
 
 	@Inject
 	public GUIImpl(SceneElementFactory sceneElementFactory) {
@@ -94,15 +93,13 @@ public abstract class GUIImpl implements GUI {
 		this.loadingScreen = new LoadingScreen();
 	}
 
-	public void setScale(float scaleX, float scaleY) {
-		this.scaleX = scaleX;
-		this.scaleY = scaleY;
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	public void addHierarchy() {
 		root = sceneElementFactory.get(new GroupElement());
 		root.getElement().setId("#engine.root");
-		root.setScale(scaleX, scaleY);
 		hudRoot = sceneElementFactory.get(new GroupElement());
 		hudRoot.getElement().setId("#engine.huds");
 		sceneRoot = sceneElementFactory.get(new GroupElement());
@@ -121,6 +118,11 @@ public abstract class GUIImpl implements GUI {
 		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
 		// Add huds
 		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
+
+		// Add to stage
+		stage.clear();
+		stage.addActor(root);
+		stage.setKeyboardFocus(root);
 	}
 
 	@Override
@@ -196,17 +198,8 @@ public abstract class GUIImpl implements GUI {
 		return root;
 	}
 
-	public float getMouseX() {
-		return Gdx.input.getX() / scaleX;
-	}
-
-	public float getMouseY() {
-		return Gdx.input.getY() / scaleY;
-	}
-
 	public SceneElementGO getGameObjectUnderPointer() {
-		Actor a = root.hit(Gdx.input.getX() / scaleX,
-				Gdx.input.getY() / scaleY, true);
+		Actor a = stage.hit(Gdx.input.getX(), Gdx.input.getY(), true);
 		if (a instanceof SceneElementGO) {
 			return (SceneElementGO) a;
 		}

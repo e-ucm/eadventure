@@ -35,30 +35,23 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tests.exporter;
+package es.eucm.ead.engine.gameobjects.effects;
 
-import es.eucm.ead.exporter.JarExporter;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameLoader;
+import es.eucm.ead.model.elements.effects.ChangeChapterEf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+public class ChangeChapterGO extends AbstractEffectGO<ChangeChapterEf> {
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+	private GameLoader gameLoader;
 
-public class JarExporterTest {
-
-	// FIXME It doesn't work from mvn test
-	//@Test
-	public void testJarExport() {
-		JarExporter exporter = new JarExporter();
-
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		exporter.export("src/test/resources", null, new PrintStream(os));
-		String result = os.toString();
-		if (result.contains("BUILD SUCCESS")) {
-			assertTrue(result.contains("BUILD SUCCESS"));
-		} else {
-			fail(result);
-		}
+	public ChangeChapterGO(GameLoader gameLoader, Game game) {
+		super(game);
+		this.gameLoader = gameLoader;
 	}
+
+	public void initialize() {
+		gameLoader.loadChapter(effect.getChapterId());
+	}
+
 }

@@ -58,16 +58,12 @@ public class BasicAdventureModel extends BasicElement implements
 			"events_binds", EAdMap.class, null);
 	public static final EAdVarDef<EAdMap> SCENES_ELEMENT_BINDS = new VarDef<EAdMap>(
 			"scene_element_binds", EAdMap.class, null);
-	public static final EAdVarDef<Boolean> EXIT_WHEN_CLOSE = new VarDef<Boolean>(
-			"exitWhenClose", Boolean.class, true);
 	public static final EAdVarDef<Integer> GAME_WIDTH = new VarDef<Integer>(
 			"width", Integer.class, 800);
 	public static final EAdVarDef<Integer> GAME_HEIGHT = new VarDef<Integer>(
 			"height", Integer.class, 600);
 	public static final EAdVarDef<String> GAME_TITLE = new VarDef<String>(
 			"game_title", String.class, "eAdventure");
-	public static final EAdVarDef<Boolean> FULLSCREEN = new VarDef<Boolean>(
-			"fullscreen", Boolean.class, false);
 	/**
 	 * Not serialize (special treatment in writer)
 	 */

@@ -108,10 +108,18 @@ public class GameLoader {
 				// FIXME detect language
 				stringHandler.setLanguage("");
 				game.getGUI().reset();
-				engine.getStage().addActor(game.getGUI().getRoot());
-				engine.getStage().setKeyboardFocus(game.getGUI().getRoot());
 				game.setAdventure(adventure);
 				game.doHook(Game.HOOK_AFTER_MODEL_READ);
+				int width = adventure
+						.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
+				int height = adventure
+						.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+
+				engine.setGameWidth(width);
+				engine.setGameHeight(height);
+				engine
+						.resize(Gdx.graphics.getWidth(), Gdx.graphics
+								.getHeight());
 			}
 		});
 		loadChapter(currentManifest.getInitialChapter());

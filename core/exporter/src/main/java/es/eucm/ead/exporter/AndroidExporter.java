@@ -64,10 +64,7 @@ public class AndroidExporter {
 
 	private PrintStream stdErr;
 
-	private MavenCli maven;
-
-	public AndroidExporter(MavenCli maven) {
-		this.maven = maven;
+	public AndroidExporter( ) {
 		this.stdOut = System.out;
 		this.stdErr = System.err;
 	}
@@ -86,10 +83,6 @@ public class AndroidExporter {
 
 	public void setStdErr(PrintStream stdErr) {
 		this.stdErr = stdErr;
-	}
-
-	public AndroidExporter() {
-		this(new MavenCli());
 	}
 
 	public void export(String projectFolder, String destination,
@@ -145,16 +138,16 @@ public class AndroidExporter {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
 						"-Dandroid.sdk.path="
-								+ properties.getProperty(SDK_HOME), "clean",
+								+ properties.getProperty(SDK_HOME), "-X", "clean",
 						"compile", "install", "android:deploy", "android:run" };
 			} else {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
 						"-Dandroid.sdk.path="
-								+ properties.getProperty(SDK_HOME), "clean",
+								+ properties.getProperty(SDK_HOME), "-X", "clean",
 						"compile", "install", };
 			}
-
+			MavenCli maven = new MavenCli();
 			maven.doMain(mavenArguments, androidFolder.getAbsolutePath(),
 					getStdOut(), getStdErr());
 			// Copy apk to destination

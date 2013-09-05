@@ -35,30 +35,20 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.tests.exporter;
+package es.eucm.ead.model.elements.effects;
 
-import es.eucm.ead.exporter.JarExporter;
+import es.eucm.ead.model.interfaces.Param;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+public class ChangeChapterEf extends AbstractEffect {
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+	@Param
+	private String chapterId;
 
-public class JarExporterTest {
+	public String getChapterId() {
+		return chapterId;
+	}
 
-	// FIXME It doesn't work from mvn test
-	//@Test
-	public void testJarExport() {
-		JarExporter exporter = new JarExporter();
-
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		exporter.export("src/test/resources", null, new PrintStream(os));
-		String result = os.toString();
-		if (result.contains("BUILD SUCCESS")) {
-			assertTrue(result.contains("BUILD SUCCESS"));
-		} else {
-			fail(result);
-		}
+	public void setChapterId(String chapterId) {
+		this.chapterId = chapterId;
 	}
 }

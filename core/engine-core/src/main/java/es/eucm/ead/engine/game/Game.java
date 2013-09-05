@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.factories.EventFactory;
-import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.game.interfaces.EffectsHandler;
 import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
@@ -180,6 +179,7 @@ public class Game {
 		logger.debug("Setting adventure");
 		this.adventure = adventure;
 		adventureGO.setElement(adventure);
+		reset();
 	}
 
 	/**
@@ -190,6 +190,7 @@ public class Game {
 		logger.debug("Setting chapter");
 		this.chapter = chapter;
 		chapterGO.setElement(chapter);
+		reset();
 	}
 
 	public TweenManager getTweenManager() {
@@ -244,7 +245,13 @@ public class Game {
 	 */
 	public void dispose() {
 		tracker.stop();
-		// All this down here should be called when restarting the engine without exiting
+	}
+
+	/**
+	 * Resets all necessary in the game to start a new chapter (effects, tweens...)
+	 */
+	public void reset() {
+		effectsHandler.clearEffects(true);
 		tweenManager.killAll();
 	}
 

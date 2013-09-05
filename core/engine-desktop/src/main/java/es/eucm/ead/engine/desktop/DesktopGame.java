@@ -43,14 +43,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.desktop.debugger.DebuggerFrame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.GameLoader;
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.reader2.model.Manifest;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -61,13 +57,15 @@ public class DesktopGame {
 
 	private Injector injector;
 
-	private DebuggerFrame debuggerFrame;
-
 	private GameLoader gameLoader;
 
 	private boolean exitAtClose;
 
-	private String path;
+	private int windowWidth = 800;
+
+	private int windowHeight = 600;
+
+	private boolean fullscreen;
 
 	/**
 	 * Creates a desktop game that ends when the user press the exit button
@@ -87,63 +85,77 @@ public class DesktopGame {
 
 	public DesktopGame(boolean exitAtClose, String path) {
 		this.exitAtClose = exitAtClose;
-		this.path = path;
 		initInjector();
+		setPath(path);
 	}
 
 	private void initInjector() {
-		if (injector == null)
+		if (injector == null) {
 			injector = Guice.createInjector(new DesktopModule(),
 					new JavaToolsModule());
+			gameLoader = injector.getInstance(GameLoader.class);
+		}
 	}
 
 	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public JFrame start() {
-		// Init class loader
-		ReflectionClassLoader.init(new JavaReflectionClassLoader());
-
 		// If we have the resources in a path
 		if (path != null) {
 			AssetHandler assetHandler = injector
 					.getInstance(AssetHandler.class);
 			assetHandler.setResourcesLocation(path);
 		}
+	}
 
-		// Load the manifest
-		gameLoader = injector.getInstance(GameLoader.class);
-		Manifest manifest = gameLoader.loadManifest();
-		EAdAdventureModel model = manifest.getModel();
-		model.setVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE,
-				this.exitAtClose);
-
+	/**
+	 * Creates the frame that contains the game
+	 *
+	 * @return
+	 */
+	public JFrame start() {
+		// Init class loader
+		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 		// Prepare Gdx configuration
-		int width = model.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
-		int height = model.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+		int width = windowWidth;
+		int height = windowHeight;
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = model.getVarInitialValue(BasicAdventureModel.GAME_TITLE);
+		cfg.title = "";
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		cfg.fullscreen = model
-				.getVarInitialValue(BasicAdventureModel.FULLSCREEN);
-		cfg.forceExit = model
-				.getVarInitialValue(BasicAdventureModel.EXIT_WHEN_CLOSE);
+		cfg.fullscreen = fullscreen;
+		cfg.forceExit = this.exitAtClose;
 
-		//	cfg.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
-
-		// FIXME This has to go
 		DesktopGUI gui = (DesktopGUI) injector.getInstance(GUI.class);
 		ApplicationListener engine = injector
 				.getInstance(ApplicationListener.class);
-		new LwjglApplication(engine, cfg, gui.getCanvas());
-		//	new LwjglApplication(engine, cfg);
-		return gui.getFrame();
+		if (cfg.fullscreen) {
+			cfg.setFromDisplayMode(LwjglApplicationConfiguration
+					.getDesktopDisplayMode());
+			new LwjglApplication(engine, cfg);
+			return null;
+		} else {
+			new LwjglApplication(engine, cfg, gui.createCanvas(width, height,
+					exitAtClose));
+			return gui.getFrame();
+		}
 	}
 
+	/**
+	 * Loads the game in the given path
+	 */
 	public void load() {
 		gameLoader.loadGame();
+	}
+
+	public void setWindowWidth(int windowWidth) {
+		this.windowWidth = windowWidth;
+	}
+
+	public void setWindowHeight(int windowHeight) {
+		this.windowHeight = windowHeight;
+	}
+
+	public void setFullscreen(boolean fullscreen) {
+		this.fullscreen = fullscreen;
 	}
 }

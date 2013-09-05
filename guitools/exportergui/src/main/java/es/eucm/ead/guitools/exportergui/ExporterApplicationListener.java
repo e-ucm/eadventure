@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.esotericsoftware.tablelayout.Value;
+import es.eucm.ead.exporter.AndroidExporter;
 
 import javax.swing.*;
 import java.io.*;
@@ -62,18 +63,18 @@ public class ExporterApplicationListener implements ApplicationListener {
 		table.row();
 		table.add(
 				uiUtils.createSelectfile("SDK Folder", "SDK folder",
-						"sdk_folder", properties)).width(Value.percentWidth(1));
+						AndroidExporter.SDK_HOME, properties)).width(Value.percentWidth(1));
 		table.row();
 		table.add(
 				uiUtils.createTextfield("Package name", "Package name",
-						"package", properties)).width(Value.percentWidth(1));
+						AndroidExporter.PACKAGE_NAME, properties)).width(Value.percentWidth(1));
 		table.row();
 		table.add(
-				uiUtils.createTextfield("Title", "Package name", "title",
+				uiUtils.createTextfield("Title", "Package name", AndroidExporter.TITLE,
 						properties)).width(Value.percentWidth(1));
 		table.row();
 		table.add(
-				uiUtils.createSelectfile("Icon", "Package name", "icon",
+				uiUtils.createSelectfile("Icon", "Package name", AndroidExporter.ICON,
 						properties)).width(Value.percentWidth(1));
 		table.row();
 		table.add(

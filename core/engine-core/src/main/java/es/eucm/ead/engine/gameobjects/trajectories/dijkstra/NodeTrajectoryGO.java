@@ -188,8 +188,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 			totalTime = ((side.getLength() / PIXELS_PER_SECOND) * 1000);
 
 			gameState.setValue(movingElement.getElement(),
-					NodeTrajectory.VAR_CURRENT_SIDE, side
-					.getSide());
+					NodeTrajectory.VAR_CURRENT_SIDE, side.getSide());
 
 			updateDirection();
 			currentSide++;
@@ -201,21 +200,21 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 	private void updateDirection() {
 		direction.set(targetX - initX, targetY - initY);
-		int quadrant = (int) (( (direction.angle() + 45) % 360 ) / 90);
+		int quadrant = (int) (((direction.angle() + 45) % 360) / 90);
 		Orientation tempDirection;
-		switch(quadrant){
-			case 0:
-				tempDirection = Orientation.E;
-				break;
-			case 1:
-				tempDirection = Orientation.S;
-				break;
-			case 2:
-				tempDirection = Orientation.W;
-				break;
-			default:
-				tempDirection = Orientation.N;
-				break;
+		switch (quadrant) {
+		case 0:
+			tempDirection = Orientation.E;
+			break;
+		case 1:
+			tempDirection = Orientation.S;
+			break;
+		case 2:
+			tempDirection = Orientation.W;
+			break;
+		default:
+			tempDirection = Orientation.N;
+			break;
 		}
 		movingElement.setOrientation(tempDirection);
 	}

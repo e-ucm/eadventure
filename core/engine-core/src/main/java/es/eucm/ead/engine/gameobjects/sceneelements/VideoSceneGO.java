@@ -70,7 +70,6 @@ public class VideoSceneGO extends SceneGO {
 
 	private EAdVideo video;
 
-
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementFactory gameObjectFactory, Game game,

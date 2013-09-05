@@ -50,12 +50,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.canvas.GdxCanvas;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.tools.StringHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,46 +69,53 @@ public class EAdEngine implements ApplicationListener {
 
 	private GUI gui;
 
-	private StringHandler stringHandler;
-
 	private Stage stage;
-
-	private InvOrtographicCamera c;
-
-	private SpriteBatch spriteBatch;
 
 	private Vector2 sceneMouseCoordinates;
 
-	private float scaleX;
+	/**
+	 * Reference width for the game. This width is independent from the window size. It's in stage relative units
+	 */
+	private float gameWidth;
 
-	private float scaleY;
+	/**
+	 * Reference height for the game. This height is independent from the window size. It's in stage relative units
+	 */
+	private float gameHeight;
 
 	@Inject
-	public EAdEngine(Game game, GameState gameState, GUI gui,
-			StringHandler stringHandler) {
+	public EAdEngine(Game game, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
 		this.game = game;
 		this.gameState = gameState;
 		this.gui = gui;
-		this.stringHandler = stringHandler;
 		this.sceneMouseCoordinates = new Vector2();
+		this.gameWidth = gameHeight = -1;
+	}
+
+	public void setGameWidth(float gameWidth) {
+		this.gameWidth = gameWidth;
+		gameState.setValue(SystemFields.GAME_WIDTH, (int) gameWidth);
+	}
+
+	public void setGameHeight(float gameHeight) {
+		this.gameHeight = gameHeight;
+		gameState.setValue(SystemFields.GAME_HEIGHT, (int) gameHeight);
 	}
 
 	@Override
 	public void create() {
+		logger.debug("Creating graphic context");
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-		int width = Gdx.graphics.getWidth();
-		int height = Gdx.graphics.getHeight();
+		int width = 800;
+		int height = 600;
 
-		gameState.setValue(SystemFields.GAME_WIDTH, width);
-		gameState.setValue(SystemFields.GAME_HEIGHT, height);
-
-		spriteBatch = new GdxCanvas();
+		GdxCanvas spriteBatch = new GdxCanvas();
 		stage = new Stage(width, height, true, spriteBatch);
 		spriteBatch.enableBlending();
 
-		c = new InvOrtographicCamera();
+		InvOrtographicCamera c = new InvOrtographicCamera();
 		float centerX = width / 2;
 		float centerY = height / 2;
 
@@ -118,14 +124,10 @@ public class EAdEngine implements ApplicationListener {
 		c.viewportHeight = height;
 
 		stage.setCamera(c);
-
+		gui.setStage(stage);
 		Gdx.input.setInputProcessor(stage);
 
 		stage.addActor(new Logo());
-
-		scaleX = (float) width / 800.0f;
-		scaleY = (float) height / 600.0f;
-		gui.setScale(scaleX, scaleY);
 
 	}
 
@@ -141,25 +143,24 @@ public class EAdEngine implements ApplicationListener {
 		game.act(game.getSkippedMilliseconds());
 		stage.act(game.getSkippedMilliseconds());
 		sceneMouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY());
-		stage.screenToStageCoordinates(sceneMouseCoordinates);
+		stage.getRoot().parentToLocalCoordinates(sceneMouseCoordinates);
+		gameState.setValue(SystemFields.MOUSE_X, sceneMouseCoordinates.x);
+		gameState.setValue(SystemFields.MOUSE_Y, sceneMouseCoordinates.y);
+		gui.getScene().parentToLocalCoordinates(sceneMouseCoordinates);
 		gameState.setValue(SystemFields.MOUSE_SCENE_X, sceneMouseCoordinates.x);
 		gameState.setValue(SystemFields.MOUSE_SCENE_Y, sceneMouseCoordinates.y);
-		gameState.setValue(SystemFields.MOUSE_X, Gdx.input.getX() / scaleX);
-		gameState.setValue(SystemFields.MOUSE_Y, Gdx.input.getY() / scaleY);
 		stage.draw();
 		game.doHook(Game.HOOK_AFTER_RENDER);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
-		scaleX = (float) width / 800.0f;
-		scaleY = (float) height / 600.0f;
-		gui.setScale(scaleX, scaleY);
-	}
-
-	public Stage getStage() {
-		return stage;
+		stage.setViewport(width, height, false);
+		if (gameWidth > 0) {
+			float scaleX = (float) width / gameWidth;
+			float scaleY = (float) height / gameHeight;
+			stage.getRoot().setScale(scaleX, scaleY);
+		}
 	}
 
 	@Override
