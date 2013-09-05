@@ -319,6 +319,7 @@ public class ObjectsFactory {
 		}
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void execute() {
 			Object value = getObject(initialValue, varDef.getType());
 			if (value == null) {

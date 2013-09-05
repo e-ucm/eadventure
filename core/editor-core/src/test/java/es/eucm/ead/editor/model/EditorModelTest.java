@@ -100,8 +100,8 @@ public class EditorModelTest {
 				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
 				Log4jConfig.Slf4jLevel.Debug, });
 
-		Injector injector = Guice.createInjector(new DesktopModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector

@@ -155,7 +155,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	/**
 	 * Creates a basic scene element
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @param appearance
@@ -198,7 +198,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	/**
 	 * Sets the initial orientation for the actor reference
-	 * 
+	 *
 	 * @param orientation
 	 *            the orientation
 	 */
@@ -212,6 +212,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T getVarInitialValue(EAdVarDef<T> var) {
 		if (vars.containsKey(var)) {
 			return (T) vars.get(var);
@@ -244,7 +245,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	/**
 	 * Sets the initial scale for the scene element
-	 * 
+	 *
 	 * @param scale
 	 *            the initial scale
 	 */
@@ -259,7 +260,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 
 	/**
 	 * Sets the initial appearance for the scene element
-	 * 
+	 *
 	 * @param appearance
 	 *            the initial appearance
 	 */

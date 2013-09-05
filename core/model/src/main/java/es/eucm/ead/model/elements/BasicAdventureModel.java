@@ -114,6 +114,7 @@ public class BasicAdventureModel extends BasicElement implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T getVarInitialValue(EAdVarDef<T> var) {
 		if (vars.containsKey(var)) {
 			return (T) vars.get(var);
@@ -129,6 +130,7 @@ public class BasicAdventureModel extends BasicElement implements
 		this.vars = vars;
 	}
 
+	@Override
 	public void addChapter(EAdChapter chapter) {
 		this.chapters.add(chapter);
 

@@ -19,9 +19,11 @@ test/resources/result*
 # generated resources
 **/R.java
 
-/core/engine-html/src/main/webapp/assets/
+# location of ADK (see same-location test.properties.template)
+/core/exporter/src/test/resources/test.properties
 
 # web output
+/core/engine-html/src/main/webapp/assets/
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
 war/WEB-INF/lib/

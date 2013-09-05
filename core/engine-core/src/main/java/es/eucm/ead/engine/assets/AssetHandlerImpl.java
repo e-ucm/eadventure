@@ -88,7 +88,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	/**
 	 * The class logger
 	 */
-	static private Logger logger = LoggerFactory
+	protected static Logger logger = LoggerFactory
 			.getLogger(AssetHandlerImpl.class);
 	/**
 	 * A cache of the runtime assets for each asset descriptor
@@ -380,15 +380,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	/**
 	 * retrieves a file handle for the path
-<<<<<<< HEAD
-	 *
-	 * @param uri
-	 * @return
-=======
 	 *
 	 * @param uri the uri
 	 * @return the file handle
->>>>>>> bd5e8694420746a914ab0ed3ebe96239b362941d
 	 */
 	public FileHandle getFileHandleLocalized(String uri) {
 		if (resourcesUri != null) {

@@ -63,8 +63,8 @@ import es.eucm.ead.engine.game.SoundManager;
  * Video renderer for desktop (and applets) using vlcj library {@link http
  * ://code.google.com/p/vlcj/}
  * </p>
- * 
- * 
+ *
+ *
  */
 @Singleton
 public class VLCVideoRenderer implements
@@ -73,8 +73,8 @@ public class VLCVideoRenderer implements
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
-static private Logger logger = LoggerFactory.getLogger(VLCVideoRenderer.class);
+	static private Logger logger = LoggerFactory
+			.getLogger(VLCVideoRenderer.class);
 
 	/**
 	 * The vlcj media player (controls, etc.)
@@ -318,7 +318,7 @@ static private Logger logger = LoggerFactory.getLogger(VLCVideoRenderer.class);
 
 	/**
 	 * Set the finished flag
-	 * 
+	 *
 	 * @param b
 	 *            The new value for finished
 	 */
@@ -334,7 +334,7 @@ static private Logger logger = LoggerFactory.getLogger(VLCVideoRenderer.class);
 
 	/**
 	 * Set the started flag
-	 * 
+	 *
 	 * @param b
 	 *            The new value for started
 	 */

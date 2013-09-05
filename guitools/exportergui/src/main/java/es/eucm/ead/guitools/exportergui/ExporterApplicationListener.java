@@ -63,19 +63,23 @@ public class ExporterApplicationListener implements ApplicationListener {
 		table.row();
 		table.add(
 				uiUtils.createSelectfile("SDK Folder", "SDK folder",
-						AndroidExporter.SDK_HOME, properties)).width(Value.percentWidth(1));
+						AndroidExporter.SDK_HOME, properties)).width(
+				Value.percentWidth(1));
 		table.row();
 		table.add(
 				uiUtils.createTextfield("Package name", "Package name",
-						AndroidExporter.PACKAGE_NAME, properties)).width(Value.percentWidth(1));
+						AndroidExporter.PACKAGE_NAME, properties)).width(
+				Value.percentWidth(1));
 		table.row();
 		table.add(
-				uiUtils.createTextfield("Title", "Package name", AndroidExporter.TITLE,
-						properties)).width(Value.percentWidth(1));
+				uiUtils.createTextfield("Title", "Package name",
+						AndroidExporter.TITLE, properties)).width(
+				Value.percentWidth(1));
 		table.row();
 		table.add(
-				uiUtils.createSelectfile("Icon", "Package name", AndroidExporter.ICON,
-						properties)).width(Value.percentWidth(1));
+				uiUtils.createSelectfile("Icon", "Package name",
+						AndroidExporter.ICON, properties)).width(
+				Value.percentWidth(1));
 		table.row();
 		table.add(
 				uiUtils.createCheckbox("Sign apk", "Sign apk", "sign_apk",

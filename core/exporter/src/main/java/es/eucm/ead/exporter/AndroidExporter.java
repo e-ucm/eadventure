@@ -64,7 +64,7 @@ public class AndroidExporter {
 
 	private PrintStream stdErr;
 
-	public AndroidExporter( ) {
+	public AndroidExporter() {
 		this.stdOut = System.out;
 		this.stdErr = System.err;
 	}
@@ -137,15 +137,18 @@ public class AndroidExporter {
 			if (installAndDeploy) {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
+						"-DfailIfNoTests=false",
 						"-Dandroid.sdk.path="
-								+ properties.getProperty(SDK_HOME), "-X", "clean",
-						"compile", "install", "android:deploy", "android:run" };
+								+ properties.getProperty(SDK_HOME), "-X",
+						"clean", "compile", "install", "android:deploy",
+						"android:run" };
 			} else {
 				mavenArguments = new String[] {
 						"-Dresources=" + androidFolder.getAbsolutePath(),
+						"-DfailIfNoTests=false",
 						"-Dandroid.sdk.path="
-								+ properties.getProperty(SDK_HOME), "-X", "clean",
-						"compile", "install", };
+								+ properties.getProperty(SDK_HOME), "-X",
+						"clean", "compile", "install", };
 			}
 			MavenCli maven = new MavenCli();
 			maven.doMain(mavenArguments, androidFolder.getAbsolutePath(),

@@ -59,8 +59,8 @@ import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
 public class VLC2VideoRenderer implements
 		SpecialAssetRenderer<EAdVideo, Component>, MediaPlayerEventListener {
 
-	private static final Logger logger = LoggerFactory
-static private Logger logger = LoggerFactory.getLogger(VLC2VideoRenderer.class);
+	static private Logger logger = LoggerFactory
+			.getLogger(VLC2VideoRenderer.class);
 	private static EmbeddedMediaPlayerComponent mediaPlayerComponent;
 	private static MediaPlayer mediaPlayer;
 
@@ -151,7 +151,7 @@ static private Logger logger = LoggerFactory.getLogger(VLC2VideoRenderer.class);
 
 	/**
 	 * Set the finished flag
-	 * 
+	 *
 	 * @param b
 	 *            The new value for finished
 	 */
@@ -167,7 +167,7 @@ static private Logger logger = LoggerFactory.getLogger(VLC2VideoRenderer.class);
 
 	/**
 	 * Set the started flag
-	 * 
+	 *
 	 * @param b
 	 *            The new value for started
 	 */

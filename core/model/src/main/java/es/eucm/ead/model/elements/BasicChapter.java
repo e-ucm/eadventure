@@ -82,7 +82,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	/**
 	 * Creates a chapter with the initial scene
-	 * 
+	 *
 	 * @param initScene
 	 */
 	public BasicChapter(EAdScene initScene) {
@@ -92,7 +92,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getScenes()
 	 */
 	@Override
@@ -102,7 +102,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getActors()
 	 */
 	@Override
@@ -112,7 +112,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getInitialScreen()
 	 */
 	@Override
@@ -122,7 +122,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	/**
 	 * Set the initial screen of the game
-	 * 
+	 *
 	 * @param scene
 	 */
 	public void setInitialScene(EAdScene scene) {
@@ -168,6 +168,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T getVarInitialValue(EAdVarDef<T> var) {
 		if (vars.containsKey(var)) {
 			return (T) vars.get(var);

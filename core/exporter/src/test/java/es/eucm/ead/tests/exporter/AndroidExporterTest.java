@@ -61,10 +61,25 @@ public class AndroidExporterTest {
 			properties.load(is);
 			error = properties.get(AndroidExporter.SDK_HOME) == null;
 		} catch (Exception e) {
+			System.err.println(e);
 			error = true;
 		} finally {
 			if (error) {
-				fail("You need to create a file named 'test.properties' with the form attribute=value. One of those lines must be android-sdk=path/to/android/sdk");
+				if (properties != null) {
+					System.err.println("Invalid properties file found");
+					for (String k : properties.stringPropertyNames()) {
+						System.err.println("\t'" + k + "' : '"
+								+ properties.getProperty(k) + "'");
+					}
+				} else {
+					System.err.println("No properties file found");
+				}
+
+				fail("You need to create a text file named 'test.properties' "
+						+ "with a line that reads '"
+						+ AndroidExporter.SDK_HOME
+						+ "'=path/to/android/sdk'"
+						+ "(See /src/test/resources/test.properties.template for a template)");
 			}
 		}
 		properties.setProperty(AndroidExporter.PACKAGE_NAME,

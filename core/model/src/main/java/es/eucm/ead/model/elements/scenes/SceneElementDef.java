@@ -122,10 +122,12 @@ public class SceneElementDef extends ResourcedElement implements
 		addAsset(SceneElementDef.appearance, d);
 	}
 
+	@Override
 	public void setOverAppearance(String bundle, EAdDrawable drawable) {
 		addAsset(bundle, SceneElementDef.appearance, drawable);
 	}
 
+	@Override
 	public void setOverAppearance(EAdDrawable drawable) {
 		addAsset(SceneElementDef.overAppearance, drawable);
 	}
@@ -154,11 +156,11 @@ public class SceneElementDef extends ResourcedElement implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T getVarInitialValue(EAdVarDef<T> var) {
 		if (vars.containsKey(var)) {
 			return (T) vars.get(var);
 		}
 		return var.getInitialValue();
 	}
-
 }
