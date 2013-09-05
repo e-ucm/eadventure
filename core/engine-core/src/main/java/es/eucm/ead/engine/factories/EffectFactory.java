@@ -35,19 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.game.interfaces;
+package es.eucm.ead.engine.factories;
 
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.reader2.model.Manifest;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.factories.mapproviders.EffectsMapProvider;
+import es.eucm.ead.engine.gameobjects.effects.EffectGO;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
-public interface GameLoader {
+@Singleton
+public class EffectFactory extends
+		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {
 
-	void loadGame();
-
-	void loadChapter(String chapterId);
-
-	Manifest loadManifest();
-
-	EAdScene loadScene(String sceneId);
+	@Inject
+	public EffectFactory(ReflectionProvider reflectionProvider,
+			GenericInjector injector) {
+		super("#ef.", false, reflectionProvider, injector);
+		EffectsMapProvider provider = new EffectsMapProvider();
+		setClassMap(provider.getMap());
+	}
 
 }

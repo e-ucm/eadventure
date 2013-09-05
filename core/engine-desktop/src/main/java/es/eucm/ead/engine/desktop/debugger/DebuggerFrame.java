@@ -41,10 +41,9 @@ import es.eucm.ead.engine.desktop.debugger.components.ChangeSceneComboBox;
 import es.eucm.ead.engine.desktop.debugger.hooks.ChapterLoadedHook;
 import es.eucm.ead.engine.desktop.debugger.hooks.EffectsHook;
 import es.eucm.ead.engine.desktop.debugger.hooks.ModelLoadedHook;
-import es.eucm.ead.engine.game.GameImpl;
 import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.debuggers.FieldsDebugger;
 import es.eucm.ead.model.elements.debuggers.GhostDebugger;
 import es.eucm.ead.model.elements.debuggers.TrajectoryDebugger;
@@ -76,10 +75,10 @@ public class DebuggerFrame extends JFrame {
 		setTitle("eAdventure Debugger");
 		this.game = g;
 		hooks = new HashMap<String, EngineHook>();
-		hooks.put(GameImpl.HOOK_AFTER_UPDATE, effectsHook = new EffectsHook());
-		hooks.put(GameImpl.HOOK_AFTER_MODEL_READ,
+		hooks.put(Game.HOOK_AFTER_UPDATE, effectsHook = new EffectsHook());
+		hooks.put(Game.HOOK_AFTER_MODEL_READ,
 				modelLoadedHook = new ModelLoadedHook());
-		hooks.put(GameImpl.HOOK_AFTER_CHAPTER_READ,
+		hooks.put(Game.HOOK_AFTER_CHAPTER_READ,
 				chapterLoadedHook = new ChapterLoadedHook());
 		for (Map.Entry<String, EngineHook> e : hooks.entrySet()) {
 			game.addHook(e.getKey(), e.getValue());

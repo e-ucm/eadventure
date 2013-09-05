@@ -38,9 +38,9 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
 import es.eucm.ead.model.assets.text.BasicFont;
@@ -70,7 +70,7 @@ import java.util.Random;
 public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		Comparator<Object> {
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private GUI gui;
 
@@ -83,7 +83,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 	private ArrayList<EAdList<EAdEffect>> effects;
 
 	@Inject
-	public QuestionGO(Game game, SceneElementGOFactory sceneElementFactory) {
+	public QuestionGO(Game game, SceneElementFactory sceneElementFactory) {
 		super(game);
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = game.getGUI();

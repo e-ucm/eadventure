@@ -38,8 +38,8 @@
 package es.eucm.ead.engine.gameobjects.events;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;

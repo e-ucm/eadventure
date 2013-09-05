@@ -37,44 +37,79 @@
 
 package es.eucm.ead.engine.assets.fonts;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.assets.text.EAdFont;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Interface for a cache of the system dependent {@link RuntimeFont}s
- * 
- */
-public interface FontHandler {
+import java.util.HashMap;
+import java.util.Map;
+
+@Singleton
+public class FontHandler {
+
+	protected Logger logger = LoggerFactory.getLogger("FontCache");
+
+	protected Map<EAdFont, RuntimeFont> cache;
+
+	protected AssetHandler assetHandler;
+
+	@Inject
+	public FontHandler(AssetHandler assetHandler) {
+		logger.info("New instance of FontHandler");
+		this.cache = new HashMap<EAdFont, RuntimeFont>();
+		this.assetHandler = assetHandler;
+		assetHandler.setFontHandler(this);
+	}
 
 	/**
 	 * Puts a runtime font in the cache
-	 * 
+	 *
 	 * @param font
-	 *            {@link EAdFont}
+	 *            {@link BasicFont}
 	 * @param rFont
-	 *            {@link RuntimeFont} associated to the given {@link EAdFont}
+	 *            {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
-	public void put(EAdFont font, RuntimeFont rFont);
+	public void put(EAdFont font, RuntimeFont rFont) {
+		cache.put(font, rFont);
+	}
 
 	/**
-	 * Returns {@link RuntimeFont} associated to the given {@link EAdFont}
-	 * 
+	 * Returns {@link RuntimeFont} associated to the given {@link BasicFont}
+	 *
 	 * @param font
-	 *            the {@link EAdFont}
-	 * @return {@link RuntimeFont} associated to the given {@link EAdFont}
+	 *            the {@link BasicFont}
+	 * @return {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
-	public RuntimeFont get(EAdFont font);
+	public RuntimeFont get(EAdFont font) {
+		if (!cache.containsKey(font)) {
+			this.addEAdFont(font);
+		}
+		return cache.get(font);
+	}
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given
-	 * {@link EAdFont}
-	 * 
+	 * {@link BasicFont}
+	 *
 	 * @param font
-	 *            given {@link EAdFont}
+	 *            given {@link BasicFont}
 	 */
-	public void addEAdFont(EAdFont font);
+	public void addEAdFont(EAdFont font) {
+		RuntimeFont runtimeFont = (RuntimeFont) assetHandler
+				.getRuntimeAsset(font);
+		if (!cache.containsKey(font)) {
+			cache.put(font, runtimeFont);
+		}
+	}
 
 	/**
 	 * Cleans the fonts in the cache
 	 */
-	public void clean();
+	public void clean() {
+		this.cache.clear();
+	}
 }

@@ -49,21 +49,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class SceneElementGOFactoryImpl extends
-		GOFactoryImpl<EAdSceneElement, SceneElementGO> implements
-		SceneElementGOFactory {
+public class SceneElementFactory extends
+		GameObjectFactory<EAdSceneElement, SceneElementGO> {
 
 	private List<SceneElementGO> auxList = new ArrayList<SceneElementGO>();
 
 	@Inject
-	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider,
+	public SceneElementFactory(ReflectionProvider reflectionProvider,
 			GenericInjector injector) {
 		super("#se.", true, reflectionProvider, injector);
 		SceneElementsMapProvider provider = new SceneElementsMapProvider();
 		setClassMap(provider.getMap());
 	}
 
-	@Override
 	public SceneElementGO get(String id) {
 		for (String key : cache.keySet()) {
 			if (key != null && key.equals(id)) {

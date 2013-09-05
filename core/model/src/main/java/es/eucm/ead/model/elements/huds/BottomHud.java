@@ -38,10 +38,10 @@
 package es.eucm.ead.model.elements.huds;
 
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
 
-public class BottomHud extends BasicScene {
+public class BottomHud extends GroupElement {
 
 	public static String ID = "#engine.hud.bottomhud";
 

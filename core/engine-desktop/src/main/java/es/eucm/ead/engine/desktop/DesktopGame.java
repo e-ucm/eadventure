@@ -47,7 +47,7 @@ import es.eucm.ead.engine.desktop.debugger.DebuggerFrame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.reader2.model.Manifest;

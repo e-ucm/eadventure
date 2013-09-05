@@ -42,6 +42,7 @@ import com.google.inject.Injector;
 import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.ChapterConverter;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.elements.BasicAdventureModel;
@@ -52,6 +53,7 @@ import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.huds.BottomHud;
+import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
@@ -152,7 +154,13 @@ public class AdventureConverter {
 		model = new BasicAdventureModel();
 		model.getEvents().add(initEvent);
 
-		// Descriptions balloon (for mouse over)
+		// Add some vars
+		// [AD - Title]
+		model.setVarInitialValue(BasicAdventureModel.GAME_TITLE, modelQuerier
+				.getAventureData().getTitle());
+		// Add some legacy vars
+		model.setVarInitialValue(LegacyVars.FIRST_PERSON, modelQuerier
+				.isFirstPersonGame());
 		BubbleNameEv event = new BubbleNameEv();
 		event.setBubble(new NinePatchImage("@drawable/bubblename.png", 15, 15,
 				15, 15));
@@ -160,13 +168,21 @@ public class AdventureConverter {
 		event.setTextPaint(ColorFill.WHITE);
 		model.getEvents().add(event);
 
+		// Setting plugins
 		EAdMap<String, String> eventPlugins = new EAdMap<String, String>();
 		eventPlugins.put(BubbleNameEv.class.getName(),
 				"es.eucm.ead.legacyplugins.engine.BubbleNameGO");
+		// [GE - Arrow] [GE - Follow]
+		EAdMap<String, String> sceneElementPlugins = new EAdMap<String, String>();
+		sceneElementPlugins
+				.put(BasicScene.class.getName(),
+						"es.eucm.ead.legacyplugins.engine.sceneelements.DynamicSceneGO");
 
 		model
 				.setVarInitialValue(BasicAdventureModel.EVENTS_BINDS,
 						eventPlugins);
+		model.setVarInitialValue(BasicAdventureModel.SCENES_ELEMENT_BINDS,
+				sceneElementPlugins);
 
 		for (Chapter c : adventureData.getChapters()) {
 			EAdChapter chapter = chapterConverter.convert(c);

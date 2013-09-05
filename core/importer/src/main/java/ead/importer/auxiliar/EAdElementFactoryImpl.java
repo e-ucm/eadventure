@@ -37,16 +37,12 @@
 
 package ead.importer.auxiliar;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-
-import es.eucm.ead.model.assets.drawable.basics.EAdImage;
+import ead.importer.EAdElementImporter;
+import ead.importer.GenericImporter;
+import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.EAdCondition;
@@ -57,15 +53,17 @@ import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.params.variables.VarDef;
-import ead.importer.EAdElementImporter;
-import ead.importer.GenericImporter;
-import ead.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class EAdElementFactoryImpl implements EAdElementFactory {
@@ -74,7 +72,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private Map<String, Map<String, EAdField<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
 	private List<EAdSceneElementDef> draggableActors;
-	private Map<String, EAdImage> defaultCursors;
+	private Map<String, Image> defaultCursors;
 
 	private Map<String, Object> oldType;
 
@@ -101,7 +99,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		chapterVars = new LinkedHashMap<String, Map<String, EAdField<?>>>();
 		chapterGlobalStates = new LinkedHashMap<String, Map<String, EAdCondition>>();
 		oldType = new LinkedHashMap<String, Object>();
-		defaultCursors = new LinkedHashMap<String, EAdImage>();
+		defaultCursors = new LinkedHashMap<String, Image>();
 		this.injector = injector;
 	}
 

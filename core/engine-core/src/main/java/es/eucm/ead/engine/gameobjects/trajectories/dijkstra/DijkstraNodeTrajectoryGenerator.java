@@ -37,17 +37,9 @@
 
 package es.eucm.ead.engine.gameobjects.trajectories.dijkstra;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Singleton;
-
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.ValueMap;
+import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
@@ -59,6 +51,8 @@ import es.eucm.ead.model.elements.trajectories.Side;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Rectangle;
 
+import java.util.*;
+
 /**
  * Dijkstra's algorithm based {@link es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO} for {@link NodeTrajectory}
  * trajectory types.
@@ -67,7 +61,7 @@ import es.eucm.ead.model.params.util.Rectangle;
 @Singleton
 public class DijkstraNodeTrajectoryGenerator {
 
-	private SceneElementGOFactory gameObjectFactory;
+	private SceneElementFactory gameObjectFactory;
 
 	/**
 	 * The values in the game
@@ -75,7 +69,7 @@ public class DijkstraNodeTrajectoryGenerator {
 	private ValueMap valueMap;
 
 	public DijkstraNodeTrajectoryGenerator(
-			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
+			SceneElementFactory gameObjectFactory, ValueMap valueMap) {
 		this.gameObjectFactory = gameObjectFactory;
 		this.valueMap = valueMap;
 	}

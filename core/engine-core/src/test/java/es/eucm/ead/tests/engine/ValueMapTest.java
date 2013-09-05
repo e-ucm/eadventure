@@ -37,12 +37,10 @@
 
 package es.eucm.ead.tests.engine;
 
+import com.google.inject.Inject;
+import es.eucm.ead.engine.game.ValueMap;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.inject.Inject;
-
-import es.eucm.ead.engine.game.interfaces.ValueMap;
 
 public class ValueMapTest {
 

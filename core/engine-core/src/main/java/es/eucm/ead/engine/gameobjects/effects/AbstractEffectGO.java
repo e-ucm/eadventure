@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 

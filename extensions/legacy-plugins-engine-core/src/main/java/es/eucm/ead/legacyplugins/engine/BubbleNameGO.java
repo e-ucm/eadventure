@@ -5,9 +5,9 @@ import com.gwtent.reflection.client.Reflectable;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
 import es.eucm.ead.engine.assets.drawables.RuntimeNinePatchImage;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
@@ -34,7 +34,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
 	private SceneElementGO current;
 
-	private SceneElementGOFactory sceneElementFactory;
+	private SceneElementFactory sceneElementFactory;
 
 	private SceneElementGO bubble;
 
@@ -47,7 +47,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 	private RuntimeNinePatchImage ninePatch;
 
 	@Inject
-	public BubbleNameGO(Game game, SceneElementGOFactory sceneElementFactory,
+	public BubbleNameGO(Game game, SceneElementFactory sceneElementFactory,
 			AssetHandler assetHandler) {
 		super(game);
 		this.gui = game.getGUI();

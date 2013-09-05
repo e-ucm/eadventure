@@ -37,36 +37,29 @@
 
 package es.eucm.ead.tests.engine.desktop.utils;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewerModule;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.drawable.basics.shapes.BalloonShape;
 import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
 import es.eucm.ead.model.params.fills.ColorFill;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
-import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer.ImageGrabber;
-import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewerModule;
-import es.eucm.ead.tools.java.utils.swing.SwingUtilities;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class MainAssetViewer implements Runnable {
 
 	public static void main(String args[]) throws Exception {
-		SwingUtilities.doInEDT(new MainAssetViewer());
+		//SwingUtilities.doInEDT(new MainAssetViewer());
 	}
 
 	@Override

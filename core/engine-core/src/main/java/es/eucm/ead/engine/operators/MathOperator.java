@@ -40,7 +40,7 @@ package es.eucm.ead.engine.operators;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.tools.MathEvaluator;
 

@@ -37,11 +37,11 @@
 
 package es.eucm.ead.engine.operators;
 
-import java.util.Random;
-
-import es.eucm.ead.engine.game.interfaces.ValueMap;
+import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.ListOp;
+
+import java.util.Random;
 
 public class ListOperator implements Operator<ListOp> {
 

@@ -46,7 +46,7 @@ import es.eucm.ead.engine.assets.drawables.shapes.GdxCircleShape;
 import es.eucm.ead.engine.assets.drawables.shapes.GdxRectangleShape;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.assets.multimedia.RuntimeSound;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.debuggers.FieldsDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.GhostDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.ProfilerDebuggerGO;

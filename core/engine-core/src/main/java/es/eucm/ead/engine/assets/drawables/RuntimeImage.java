@@ -57,8 +57,8 @@ import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.engine.canvas.GdxCanvas;
 
 /**
- * Represents a runtime engine image, associated with an {@link AssetDescritpor}
- *
+ * Represents a runtime engine image
+ * 
  */
 public class RuntimeImage extends AbstractRuntimeAsset<Image> implements
 		RuntimeDrawable<Image> {

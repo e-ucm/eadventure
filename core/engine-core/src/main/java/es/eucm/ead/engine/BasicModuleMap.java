@@ -35,25 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.factories;
+package es.eucm.ead.engine;
 
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import com.badlogic.gdx.ApplicationListener;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.assets.AssetHandlerImpl;
+import es.eucm.ead.engine.canvas.filters.FilterFactory;
+import es.eucm.ead.engine.canvas.filters.GdxFilterFactory;
+import es.eucm.ead.engine.game.EngineStringHandler;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.DefaultSceneLoader;
+import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
+import es.eucm.ead.engine.tracking.DefaultGameTracker;
+import es.eucm.ead.engine.tracking.GameTracker;
+import es.eucm.ead.engine.tracking.selection.DefaultTrackerSelector;
+import es.eucm.ead.engine.tracking.selection.TrackerSelector;
+import es.eucm.ead.tools.ModuleMap;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.TextFileReader;
 
-public interface SceneElementGOFactory extends
-		GameObjectFactory<EAdSceneElement, SceneElementGO> {
+public class BasicModuleMap extends ModuleMap {
 
-	/**
-	 * Gets and element represented by the given id, if the element is already
-	 * contained in the cache. Returns null if there is no element with such id
-	 * 
-	 * @param id
-	 */
-	SceneElementGO get(String id);
+	public BasicModuleMap() {
 
-	/**
-	 * Remove all elements from the cache
-	 */
-	void clean();
+		binds.put(TextFileReader.class, AssetHandler.class);
+		binds.put(AssetHandler.class, AssetHandlerImpl.class);
+		binds.put(StringHandler.class, EngineStringHandler.class);
+
+		binds.put(FilterFactory.class, GdxFilterFactory.class);
+
+		// Tracking
+		binds.put(GameTracker.class, DefaultGameTracker.class);
+		binds.put(TrackerSelector.class, DefaultTrackerSelector.class);
+
+		binds.put(SceneLoader.class, DefaultSceneLoader.class);
+
+		binds.put(ApplicationListener.class, EAdEngine.class);
+
+	}
 
 }

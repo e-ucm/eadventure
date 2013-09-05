@@ -37,7 +37,7 @@
 
 package es.eucm.ead.engine.gameobjects.events;
 
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.GameObjectImpl;
 import es.eucm.ead.model.elements.EAdEffect;

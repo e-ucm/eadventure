@@ -37,7 +37,6 @@
 
 package es.eucm.ead.engine.game.interfaces;
 
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.scenes.EAdScene;
@@ -120,7 +119,7 @@ public interface GUI {
 	 * necessary.
 	 * </p>
 	 * 
-	 * @param screen
+	 * @param scene
 	 *            the current {@link es.eucm.ead.engine.gameobjects.sceneelements.SceneGO}.
 	 */
 	void setScene(SceneGO scene);
@@ -161,5 +160,13 @@ public interface GUI {
 	 * @param scaleY
 	 */
 	void setScale(float scaleX, float scaleY);
+
+	/**
+	 * Returns
+	 * @return
+	 */
+	float getMouseY();
+
+	float getMouseX();
 
 }

@@ -82,9 +82,7 @@ public class RuntimeMusic extends AbstractRuntimeAsset<Music> {
 	@Override
 	public void freeMemory() {
 		super.freeMemory();
-		if (music == null) {
-			return;
-		} else {
+		if (music != null) {
 			music.dispose();
 			music = null;
 		}

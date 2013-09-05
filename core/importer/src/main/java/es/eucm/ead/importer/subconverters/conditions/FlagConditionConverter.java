@@ -56,6 +56,7 @@ public class FlagConditionConverter {
 	}
 
 	public OperationCond convert(FlagCondition oldObject) {
+		// [COND - Flag]
 		EAdField<Boolean> var = modelQuerier.getFlag(oldObject.getId());
 		OperationCond f = new OperationCond(var);
 		if (oldObject.isActiveState())

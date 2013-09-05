@@ -37,23 +37,22 @@
 
 package es.eucm.ead.importer.subconverters.conditions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.conditions.ANDCond;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.ORCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class ConditionsConverter {
@@ -85,6 +84,8 @@ public class ConditionsConverter {
 	 */
 	public EAdCondition convert(Conditions oldObject) {
 		fieldsInLastCond.clear();
+
+		// [COND - AndOr]
 		ANDCond newCondition = new ANDCond();
 
 		if (oldObject.getSimpleConditions().size() == 0
@@ -129,6 +130,7 @@ public class ConditionsConverter {
 			fieldsInLastCond.add((EAdField<?>) cond.getOp1());
 			return cond;
 		} else if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
+			// [COND - State]
 			EAdCondition cond = modelQuerier.getGlobalState(c.getId());
 			cond.addFields(fieldsInLastCond);
 			return cond;

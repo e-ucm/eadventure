@@ -47,7 +47,7 @@ public interface EAdShape extends EAdBasicDrawable, Cloneable {
 
 	/**
 	 * Return the color with which to draw the shape.
-	 * 
+	 *
 	 * @return The color of the shape
 	 */
 	EAdPaint getPaint();

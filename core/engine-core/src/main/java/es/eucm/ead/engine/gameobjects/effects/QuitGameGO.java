@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.model.elements.effects.QuitGameEf;
 

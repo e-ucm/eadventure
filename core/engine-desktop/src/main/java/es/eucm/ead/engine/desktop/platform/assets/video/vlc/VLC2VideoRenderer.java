@@ -52,7 +52,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.game.interfaces.SoundManager;
+import es.eucm.ead.engine.game.SoundManager;
 import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
 
 @Singleton

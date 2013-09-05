@@ -42,8 +42,7 @@ import es.eucm.ead.model.assets.AssetDescriptor;
 /**
  * A platform-independent description of an asset in the runtime environment
  *
- * @param <T>
- *            The type of the {@link AssetDescriptor}
+ * @param <T> The type of the {@link AssetDescriptor}
  */
 public interface RuntimeAsset<T extends AssetDescriptor> {
 
@@ -69,15 +68,12 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	/**
 	 * Set the descriptor of the asset
 	 *
-	 * @param descriptor
-	 *            the {@link AssetDescriptor}
+	 * @param descriptor the {@link AssetDescriptor}
 	 */
 	void setDescriptor(T descriptor);
 
 	/**
-	 * Returns the asset descriptor for this runtime asset
-	 *
-	 * @return
+	 * @return Returns the asset descriptor for this runtime asset
 	 */
 	T getAssetDescriptor();
 

@@ -49,6 +49,7 @@ import es.eucm.ead.importer.subconverters.actors.NPCConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
 import es.eucm.ead.model.assets.multimedia.Music;
@@ -212,10 +213,8 @@ public class SceneConverter {
 			}
 
 			int finalWidth = (int) (d.getWidth() * scale);
-			boolean hasScroll = finalWidth > 800;
-			if (hasScroll) {
-
-			}
+			// [GE - Arrows] [GE - Follow]
+			scene.setVarInitialValue(LegacyVars.SCENE_WIDTH, finalWidth);
 
 			i++;
 		}
@@ -240,6 +239,7 @@ public class SceneConverter {
 		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
 			SceneElement playerRef = new SceneElement(
 					(EAdSceneElementDef) elementsCache.get(Player.IDENTIFIER));
+			// [SC - Player Layer]
 			if (s.isAllowPlayerLayer() && s.getPlayerLayer() != -1) {
 				playerRef.setInitialZ(s.getPlayerLayer());
 			} else {
@@ -270,6 +270,7 @@ public class SceneConverter {
 					.getTargetId());
 			SceneElement sceneElement = new SceneElement(def);
 			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
+			// [ER - Layer]
 			sceneElement.setInitialZ(e.getLayer());
 			sceneElement.setInitialScale(e.getScale());
 			// XXX Influence area
@@ -283,6 +284,7 @@ public class SceneConverter {
 			}
 
 			// Add visibility condition
+			// [ER - Conditions]
 			utilsConverter.addWatchCondition(sceneElement, sceneElement
 					.getField(SceneElement.VAR_VISIBLE), e.getConditions());
 		}
@@ -298,17 +300,21 @@ public class SceneConverter {
 				exit.setPosition(Corner.TOP_LEFT, e.getX(), e.getY());
 			}
 
+			// [EXIT - CondInactive] [EXIT - Conditions]
 			EAdCondition cond = conditionsConverter.convert(e.getConditions());
 
 			EAdEffect effectWhenClick;
 
 			// Next scene
+			// [EXIT - Next]
 			ChangeSceneEf nextScene = new ChangeSceneEf();
 			nextScene.setNextScene(new BasicElement(e.getNextSceneId()));
+			// [EXIT - Transition]
 			nextScene.setTransition(transitionConverter.getTransitionExit(e
 					.getTransitionType(), e.getTransitionTime()));
 
 			// Add effects
+			// [EXIT - Effects]
 			List<EAdEffect> effects = effectConverter.convert(e.getEffects());
 			if (effects.size() > 0) {
 				effectWhenClick = effects.get(0);
@@ -318,6 +324,7 @@ public class SceneConverter {
 			}
 
 			// Add next effects
+			// [EXIT - PostEffects]
 			effects = effectConverter.convert(e.getPostEffects());
 			if (effects.size() > 0) {
 				nextScene.getNextEffects().add(effects.get(0));
@@ -340,6 +347,7 @@ public class SceneConverter {
 			// Add the exit to the scene
 			scene.add(exit);
 
+			// [EXIT - NotEffects]
 			// If it has not-effects
 			if (e.isHasNotEffects()) {
 				TriggerMacroEf triggerMacro = new TriggerMacroEf();
@@ -376,13 +384,16 @@ public class SceneConverter {
 	private void addActiveZones(BasicScene scene, Scene s) {
 		int i = 0;
 		for (ActiveArea a : s.getActiveAreas()) {
+			// [AA - Shape]
 			AbstractShape shape = rectangleConverter.convert(a,
 					ACTIVE_AREA_FILL);
 			GhostElement activeArea = new GhostElement(shape);
 			// Add actions
+			// [AA - Actions]
 			elementConverter.addActions(a, activeArea.getDefinition());
 			elementConverter.addDescription(a, activeArea.getDefinition());
 
+			// [AA - Id]
 			activeArea.setId(a.getId());
 			if (a.isRectangular()) {
 				activeArea.setPosition(Corner.TOP_LEFT, a.getX(), a.getY());
@@ -391,6 +402,7 @@ public class SceneConverter {
 			activeArea.setInitialZ(ACTIVE_AREA_Z + i);
 			elementsCache.put(activeArea);
 			// Add visibility condition
+			// [AA - Conditions]
 			utilsConverter.addWatchCondition(activeArea, activeArea
 					.getField(SceneElement.VAR_VISIBLE), a.getConditions());
 

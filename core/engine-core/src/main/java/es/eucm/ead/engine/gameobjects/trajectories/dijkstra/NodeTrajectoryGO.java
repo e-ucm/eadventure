@@ -37,18 +37,18 @@
 
 package es.eucm.ead.engine.gameobjects.trajectories.dijkstra;
 
+import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
-
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.util.Position;
 
 public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
@@ -87,8 +87,10 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 	private EAdSceneElement sceneElement;
 
+	private Vector2 direction = new Vector2();
+
 	@Inject
-	public NodeTrajectoryGO(SceneElementGOFactory sceneElementFactory,
+	public NodeTrajectoryGO(SceneElementFactory sceneElementFactory,
 			GameState gameState) {
 		super(gameState, sceneElementFactory);
 		this.generator = new DijkstraNodeTrajectoryGenerator(
@@ -99,7 +101,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	public void set(SceneElementGO movingElement, float destinationX,
 			float destinationY, SceneElementGO target) {
 		super.set(movingElement, destinationX, destinationY, target);
-		this.sceneElement = (SceneElement) movingElement.getElement();
+		this.sceneElement = movingElement.getElement();
 		currentTime = 0;
 
 		path = generator.getTrajectory(this.trajectory, movingElement
@@ -186,8 +188,8 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 			totalTime = ((side.getLength() / PIXELS_PER_SECOND) * 1000);
 
 			gameState.setValue(movingElement.getElement(),
-					NodeTrajectory.VAR_CURRENT_SIDE, ((PathSide) side)
-							.getSide());
+					NodeTrajectory.VAR_CURRENT_SIDE, side
+					.getSide());
 
 			updateDirection();
 			currentSide++;
@@ -198,25 +200,23 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 	}
 
 	private void updateDirection() {
-
-		float xv = targetX - initX;
-		float yv = targetY - initY;
-		double module = Math.sqrt(xv * xv + yv * yv);
-		float c = (float) Math.min(1, Math.max(0, xv / module));
-		double angle = Math.acos(c) * Math.signum(-yv);
-
-		Orientation tempDirection = Orientation.W;
-
-		if (-0.00001f < angle && angle < 0.00001f) {
-			tempDirection = initX > targetX ? Orientation.W : Orientation.E;
-		} else if (angle < 3 * Math.PI / 4 && angle >= Math.PI / 4) {
-			tempDirection = Orientation.N;
-		} else if (angle < Math.PI / 4 && angle >= -Math.PI / 4) {
-			tempDirection = Orientation.E;
-		} else if (angle < -Math.PI / 4 && angle >= -3 * Math.PI / 4) {
-			tempDirection = Orientation.S;
+		direction.set(targetX - initX, targetY - initY);
+		int quadrant = (int) (( (direction.angle() + 45) % 360 ) / 90);
+		Orientation tempDirection;
+		switch(quadrant){
+			case 0:
+				tempDirection = Orientation.E;
+				break;
+			case 1:
+				tempDirection = Orientation.S;
+				break;
+			case 2:
+				tempDirection = Orientation.W;
+				break;
+			default:
+				tempDirection = Orientation.N;
+				break;
 		}
-
 		movingElement.setOrientation(tempDirection);
 	}
 

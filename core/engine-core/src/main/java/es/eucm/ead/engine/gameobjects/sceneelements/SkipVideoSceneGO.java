@@ -39,9 +39,9 @@ package es.eucm.ead.engine.gameobjects.sceneelements;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
@@ -60,8 +60,8 @@ public class SkipVideoSceneGO extends SceneGO {
 
 	@Inject
 	public SkipVideoSceneGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 

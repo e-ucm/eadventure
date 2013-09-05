@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.operators;
 
 import es.eucm.ead.engine.factories.mapproviders.OperatorsMapProvider;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.operators.evaluators.EvaluatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 			GameState gameState, StringHandler sh) {
 		super(null, interfacesProvider);
 		setMap(new OperatorsMapProvider(this, gameState, new EvaluatorFactory(
-				reflectionProvider, gameState, this), interfacesProvider, sh));
+				reflectionProvider, this), interfacesProvider, sh));
 	}
 
 	/**

@@ -48,11 +48,11 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.events.DragEvent;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.model.assets.AssetDescriptor;
@@ -80,7 +80,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- *
+ * 
  */
 public class SceneElementGO extends Group implements
 		GameObject<EAdSceneElement>, Oriented, EventListener {
@@ -91,7 +91,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Scene element factory
 	 */
-	protected SceneElementGOFactory sceneElementFactory;
+	protected SceneElementFactory sceneElementFactory;
 
 	/**
 	 * Game
@@ -116,7 +116,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Event factory
 	 */
-	private EventGOFactory eventFactory;
+	private EventFactory eventFactory;
 
 	/**
 	 * Scene element
@@ -221,8 +221,8 @@ public class SceneElementGO extends Group implements
 
 	@Inject
 	public SceneElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory) {
 		this.game = game;
 		this.eventFactory = eventFactory;
 		this.gameState = game.getGameState();
@@ -396,8 +396,8 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Adds an scene element as a child of this element
-	 *
-	 * @param element
+	 * 
+	 * @param element the element to add
 	 * @return the game object created for the element
 	 */
 	public SceneElementGO addSceneElement(EAdSceneElement element) {
@@ -408,8 +408,8 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets position for this element
-	 *
-	 * @param position
+	 * 
+	 * @param position the new position
 	 */
 	public void setPosition(Position position) {
 		setX(position.getX());
@@ -426,8 +426,8 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets x position for this element
-	 *
-	 * @param x
+	 * 
+	 * @param x the x coordinate
 	 */
 	public void setX(float x) {
 		updateRelatives = true;
@@ -475,8 +475,8 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets y position for this element
-	 *
-	 * @param y
+	 * 
+	 * @param y the y coordinate
 	 */
 	public void setY(float y) {
 		updateRelatives = true;
@@ -497,27 +497,27 @@ public class SceneElementGO extends Group implements
 	}
 
 	/**
-	 * Returns displacement proportion in x coordination
 	 *
 	 * @return
+	 * Returns displacement proportion in x coordination
 	 */
 	public float getDispX() {
 		return dispX;
 	}
 
-	/**
-	 * Returns displacement proportion in x coordination
+	/** * Returns displacement proportion in x coordination
 	 *
 	 * @return
+	 * Returns displacement proportion in x coordination
 	 */
 	public float getDispY() {
 		return dispY;
 	}
 
 	/**
-	 * Return the z order for this element
 	 *
 	 * @return
+	 * Return the z order for this element
 	 */
 	public int getZ() {
 		return z;
@@ -525,8 +525,8 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets the z order for this element
-	 *
-	 * @param z
+	 * 
+	 * @param z the z order
 	 */
 	public void setZ(int z) {
 		if (this.z != z) {
@@ -540,8 +540,8 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Sets scale for this element
-	 *
-	 * @param scale
+	 * 
+	 * @param scale the scale
 	 */
 	public void setScale(float scale) {
 		if (scale != this.scale) {
@@ -552,18 +552,18 @@ public class SceneElementGO extends Group implements
 	}
 
 	/**
-	 * Returns the current scale of the element
 	 *
 	 * @return
+	 * Returns the current scale of the element
 	 */
 	public float getScale() {
 		return scale;
 	}
 
 	/**
-	 * Sets the alpha for this element
 	 *
 	 * @param alpha
+	 * Sets the alpha for this element
 	 */
 	public void setAlpha(float alpha) {
 		if (alpha != this.getColor().a) {
@@ -575,9 +575,9 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Sets an input processor for this element. This processor will process the
 	 * actions before the default process
-	 *
-	 * @param processor
-	 * @param transmitToChildren
+	 * 
+	 * @param processor the processor
+	 * @param transmitToChildren if event must be transmitted to children
 	 *
 	 */
 	public void setInputProcessor(EventListener processor,
@@ -594,18 +594,18 @@ public class SceneElementGO extends Group implements
 	}
 
 	/**
-	 * Returns the drawable that represents this element
 	 *
 	 * @return
+	 * Returns the drawable that represents this element
 	 */
 	public RuntimeDrawable<?> getDrawable() {
 		return currentDrawable;
 	}
 
 	/**
-	 * Sets the state for this element
 	 *
 	 * @param state
+	 * Sets the state for this element
 	 */
 	public void setState(String state) {
 		this.state = state;
@@ -621,9 +621,10 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Returns the field for this variable of this element
-	 *
-	 * @param var
+	 * 
+	 * @param var the var definition
 	 */
+	@SuppressWarnings("unchecked")
 	public <S> EAdField<S> getField(EAdVarDef<S> var) {
 		EAdField<S> field = (EAdField<S>) fields.get(var);
 		if (field == null) {
@@ -669,8 +670,8 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Sets a comparator to automatically reorder the scene elements (modifies
 	 * drawing order)
-	 *
-	 * @param comparator
+	 * 
+	 * @param comparator the comparator
 	 */
 	public void setComparator(Comparator<SceneElementGO> comparator) {
 		this.comparator = comparator;
@@ -678,9 +679,9 @@ public class SceneElementGO extends Group implements
 
 	/**
 	 * Launches a list of effects
-	 *
-	 * @param list
-	 * @param action
+	 * 
+	 * @param list the list
+	 * @param action the action that launched the effects
 	 */
 	private void addEffects(EAdList<EAdEffect> list, Event action) {
 		if (list != null && list.size() > 0) {
@@ -1139,12 +1140,20 @@ public class SceneElementGO extends Group implements
 		}
 	}
 
+	public float getRelativeX() {
+		return getX() + getOriginX();
+	}
+
+	public float getRelativeY() {
+		return getY() + getOriginY();
+	}
+
 	public void setWidth(float width) {
 		updateRelatives = true;
 		super.setWidth(width);
 		setOriginX(width * dispX);
 		gameState.setValue(element, SceneElement.VAR_WIDTH,
-				(Integer) (int) width);
+				(int) width);
 	}
 
 	public void setHeight(float height) {
@@ -1152,12 +1161,11 @@ public class SceneElementGO extends Group implements
 		super.setHeight(height);
 		setOriginY(height * dispY);
 		gameState.setValue(element, SceneElement.VAR_HEIGHT,
-				(Integer) (int) height);
+				(int) height);
 	}
 
 	public void setMouseOver(boolean mouseOver) {
-		gameState.setValue(element, SceneElement.VAR_MOUSE_OVER, Boolean
-				.valueOf(mouseOver));
+		gameState.setValue(element, SceneElement.VAR_MOUSE_OVER, mouseOver);
 	}
 
 	public void setScaleX(float scaleX) {

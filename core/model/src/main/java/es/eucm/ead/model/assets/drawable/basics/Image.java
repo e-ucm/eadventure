@@ -37,6 +37,7 @@
 
 package es.eucm.ead.model.assets.drawable.basics;
 
+import es.eucm.ead.model.interfaces.HasURI;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.AbstractAssetDescriptor;
 
@@ -44,7 +45,8 @@ import es.eucm.ead.model.assets.AbstractAssetDescriptor;
  * An image asset
  *
  */
-public class Image extends AbstractAssetDescriptor implements EAdImage {
+public class Image extends AbstractAssetDescriptor implements EAdBasicDrawable,
+		HasURI {
 
 	@Param
 	private String uri;

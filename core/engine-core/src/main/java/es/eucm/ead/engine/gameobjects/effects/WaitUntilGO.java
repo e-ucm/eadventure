@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.WaitUntilEf;
 
 public class WaitUntilGO extends AbstractEffectGO<WaitUntilEf> {

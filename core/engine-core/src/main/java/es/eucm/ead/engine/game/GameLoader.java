@@ -41,11 +41,9 @@ import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.EAdEngine;
-import es.eucm.ead.engine.factories.EffectGOFactory;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameLoader;
+import es.eucm.ead.engine.factories.EffectFactory;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
@@ -59,10 +57,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class GameLoaderImpl implements GameLoader {
-	private EventGOFactory eventFactory;
-	private EffectGOFactory effectFactory;
-	private SceneElementGOFactory sceneElementFactory;
+public class GameLoader {
+	private EventFactory eventFactory;
+	private EffectFactory effectFactory;
+	private SceneElementFactory sceneElementFactory;
 	private Game game;
 	private StringHandler stringHandler;
 
@@ -77,23 +75,22 @@ public class GameLoaderImpl implements GameLoader {
 	private EAdEngine engine;
 
 	@Inject
-	public GameLoaderImpl(AdventureReader reader, Game game,
-			EventGOFactory eventGOFactory, EffectGOFactory effectGOFactory,
-			SceneElementGOFactory sceneElementGOFactory, EAdEngine engine,
+	public GameLoader(AdventureReader reader, Game game,
+			EventFactory eventFactory, EffectFactory effectFactory,
+			SceneElementFactory sceneElementFactory, EAdEngine engine,
 			StringHandler stringHandler) {
 		this.engine = engine;
 		this.game = game;
 		this.reader = reader;
 		this.chapters = new HashMap<String, EAdChapter>();
 		this.scenes = new HashMap<String, EAdScene>();
-		this.eventFactory = eventGOFactory;
-		this.effectFactory = effectGOFactory;
-		this.sceneElementFactory = sceneElementGOFactory;
+		this.eventFactory = eventFactory;
+		this.effectFactory = effectFactory;
+		this.sceneElementFactory = sceneElementFactory;
 		this.stringHandler = stringHandler;
 	}
 
 	@SuppressWarnings( { "all" })
-	@Override
 	public void loadGame() {
 		currentManifest = reader.getManifest();
 		final EAdAdventureModel adventure = currentManifest.getModel();
@@ -114,7 +111,7 @@ public class GameLoaderImpl implements GameLoader {
 				engine.getStage().addActor(game.getGUI().getRoot());
 				engine.getStage().setKeyboardFocus(game.getGUI().getRoot());
 				game.setAdventure(adventure);
-				game.doHook(GameImpl.HOOK_AFTER_MODEL_READ);
+				game.doHook(Game.HOOK_AFTER_MODEL_READ);
 			}
 		});
 		loadChapter(currentManifest.getInitialChapter());
@@ -127,7 +124,6 @@ public class GameLoaderImpl implements GameLoader {
 		return currentManifest;
 	}
 
-	@Override
 	public void loadChapter(String chapterId) {
 		EAdChapter currentChapter = chapters.get(chapterId);
 		if (currentChapter == null) {
@@ -148,13 +144,12 @@ public class GameLoaderImpl implements GameLoader {
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
-				game.doHook(GameImpl.HOOK_AFTER_CHAPTER_READ);
+				game.doHook(Game.HOOK_AFTER_CHAPTER_READ);
 				game.addEffect(changeScene);
 			}
 		});
 	}
 
-	@Override
 	public EAdScene loadScene(String sceneId) {
 		EAdScene scene = scenes.get(sceneId);
 		if (scene == null) {

@@ -40,8 +40,8 @@ package es.eucm.ead.engine.desktop.debugger.hooks;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.engine.game.interfaces.EngineHook;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.interfaces.Game;
-import es.eucm.ead.engine.game.interfaces.GameState;
+import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameState;
 
 /**
  * @author anserran

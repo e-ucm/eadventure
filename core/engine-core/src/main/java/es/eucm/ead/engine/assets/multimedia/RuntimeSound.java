@@ -82,7 +82,7 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 		if (sound == null) {
 			return;
 		}
-		if (sound != null && id != -1) {
+		if (id != -1) {
 			sound.setVolume(id, volume);
 		}
 	}
@@ -116,7 +116,7 @@ public class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 		}
 		if (override || id == -1) {
 			id = sound.play(volume);
-		} else if (id != -1) {
+		} else {
 			sound.stop(id);
 			id = sound.play(volume);
 		}

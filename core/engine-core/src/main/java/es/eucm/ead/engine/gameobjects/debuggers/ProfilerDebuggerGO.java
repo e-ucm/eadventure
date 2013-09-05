@@ -40,9 +40,9 @@ package es.eucm.ead.engine.gameobjects.debuggers;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.GroupElementGO;
 import es.eucm.ead.model.elements.operations.SystemFields;
 
@@ -50,8 +50,8 @@ public class ProfilerDebuggerGO extends GroupElementGO {
 
 	@Inject
 	public ProfilerDebuggerGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 

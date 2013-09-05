@@ -37,18 +37,11 @@
 
 package es.eucm.ead.engine.desktop.platform;
 
-import java.awt.Canvas;
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.IntBuffer;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
+import com.badlogic.gdx.Gdx;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.game.GUIImpl;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
@@ -56,12 +49,12 @@ import org.lwjgl.input.Mouse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Gdx;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.GUIImpl;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.nio.IntBuffer;
 
 @Singleton
 public class DesktopGUI extends GUIImpl {
@@ -75,7 +68,7 @@ public class DesktopGUI extends GUIImpl {
 	private Component component;
 
 	@Inject
-	public DesktopGUI(SceneElementGOFactory sceneElementFactory) {
+	public DesktopGUI(SceneElementFactory sceneElementFactory) {
 		super(sceneElementFactory);
 	}
 

@@ -41,9 +41,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.factories.EventGOFactory;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.factories.EventFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 
@@ -55,8 +55,8 @@ public class GhostElementGO extends SceneElementGO {
 
 	@Inject
 	public GhostElementGO(AssetHandler assetHandler,
-			SceneElementGOFactory sceneElementFactory, Game game,
-			EventGOFactory eventFactory) {
+			SceneElementFactory sceneElementFactory, Game game,
+			EventFactory eventFactory) {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
@@ -86,7 +86,7 @@ public class GhostElementGO extends SceneElementGO {
 	}
 
 	public boolean contains(float x, float y) {
-		return catchAll ? true : super.contains(x, y);
+		return catchAll || super.contains(x, y);
 	}
 
 }

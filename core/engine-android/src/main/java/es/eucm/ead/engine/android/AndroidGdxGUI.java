@@ -39,15 +39,15 @@ package es.eucm.ead.engine.android;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.factories.SceneElementGOFactory;
+import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.GUIImpl;
 
 @Singleton
 public class AndroidGdxGUI extends GUIImpl {
 
 	@Inject
-	public AndroidGdxGUI(SceneElementGOFactory sceneElementGOFactory) {
-		super(sceneElementGOFactory);
+	public AndroidGdxGUI(SceneElementFactory sceneElementFactory) {
+		super(sceneElementFactory);
 	}
 
 	@Override

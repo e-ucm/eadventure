@@ -40,7 +40,7 @@ package es.eucm.ead.engine.desktop.platform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import es.eucm.ead.engine.GdxModuleMap;
+import es.eucm.ead.engine.BasicModuleMap;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
 import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
@@ -60,7 +60,7 @@ public class DesktopModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
-		GdxModuleMap map = new GdxModuleMap();
+		BasicModuleMap map = new BasicModuleMap();
 		map.setBind(AssetHandler.class, GdxDesktopAssetHandler.class);
 		map.setBind(GUI.class, DesktopGUI.class);
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {

@@ -37,34 +37,32 @@
 
 package es.eucm.ead.engine.assets.drawables;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Texture;
-
 import es.eucm.ead.engine.assets.RuntimeAsset;
-import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.engine.canvas.GdxCanvas;
+import es.eucm.ead.model.assets.drawable.EAdDrawable;
+
+import java.util.List;
 
 /**
  * <p>
  * Represents a {@link es.eucm.ead.engine.assets.RuntimeAsset} that can be directly drawn into the screen
  * </p>
- * 
- * @param <T>
- *            The class of the {@link EAdDrawable} object
+ *
+ * @param <T> The class of the {@link EAdDrawable} object
  */
 public interface RuntimeDrawable<T extends EAdDrawable> extends RuntimeAsset<T> {
 
 	/**
 	 * Returns the width of the asset
-	 * 
+	 *
 	 * @return the width of the asset
 	 */
 	int getWidth();
 
 	/**
 	 * Returns the height of the asset
-	 * 
+	 *
 	 * @return the height of the asset
 	 */
 	int getHeight();
@@ -72,32 +70,25 @@ public interface RuntimeDrawable<T extends EAdDrawable> extends RuntimeAsset<T> 
 	/**
 	 * Render the asset at (0, 0) position (transformations are applied in the
 	 * canvas)
-	 * 
-	 * @param c
-	 *            The canvas where to render the asset
+	 *
+	 * @param c The canvas where to render the asset
 	 */
 	void render(GdxCanvas c);
 
 	/**
-	 * Returns if this asset contains the given coordinates
-	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
-	 * @return
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @return Returns if this asset contains the given coordinates
 	 */
 	boolean contains(int x, int y);
 
 	/**
 	 * Some drawables need more data to decide their state
-	 * 
 	 */
 	RuntimeDrawable<?> getDrawable(int time, List<String> states, int level);
 
 	/**
-	 * Returns the OpenGL texture handle
-	 * @return
+	 * @return Returns the OpenGL texture handle
 	 */
 	Texture getTextureHandle();
 

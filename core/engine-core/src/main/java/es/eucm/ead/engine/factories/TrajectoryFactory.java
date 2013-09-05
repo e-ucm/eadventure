@@ -37,14 +37,28 @@
 
 package es.eucm.ead.engine.factories;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.factories.mapproviders.TrajectoriesMapProvider;
 import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
 import es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO;
+import es.eucm.ead.tools.GenericInjector;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 /**
  * A factory with all {@link TrajectoryGO} for all
  * {@link EAdTrajectory}.
  */
-public interface TrajectoryFactory extends
+@Singleton
+public class TrajectoryFactory extends
 		GameObjectFactory<EAdTrajectory, TrajectoryGO<? extends EAdTrajectory>> {
+
+	@Inject
+	public TrajectoryFactory(ReflectionProvider reflectionProvider,
+			GenericInjector injector) {
+		super("#tr.", false, reflectionProvider, injector);
+		TrajectoriesMapProvider mapProvider = new TrajectoriesMapProvider();
+		this.setClassMap(mapProvider.getMap());
+	}
 
 }

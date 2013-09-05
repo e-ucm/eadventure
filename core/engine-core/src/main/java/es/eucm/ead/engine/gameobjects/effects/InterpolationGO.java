@@ -45,7 +45,7 @@ import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Cubic;
 import aurelienribon.tweenengine.equations.Linear;
 import com.google.inject.Inject;
-import es.eucm.ead.engine.game.interfaces.Game;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;

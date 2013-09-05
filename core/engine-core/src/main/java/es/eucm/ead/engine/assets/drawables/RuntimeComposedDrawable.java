@@ -37,27 +37,24 @@
 
 package es.eucm.ead.engine.assets.drawables;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.canvas.GdxCanvas;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.graphics.Texture;
-import com.google.inject.Inject;
-
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.EAdBasicDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.EAdComposedDrawable;
 import es.eucm.ead.model.params.util.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * Represents a runtime engine composed drawable, associated with an
- * {@link AssetDescritpor}
- *
+ * Represents a runtime engine composed drawable
  */
 public class RuntimeComposedDrawable extends
 		AbstractRuntimeAsset<EAdComposedDrawable> implements
@@ -81,15 +78,13 @@ public class RuntimeComposedDrawable extends
 	public RuntimeComposedDrawable(AssetHandler assetHandler) {
 		super(assetHandler);
 		this.drawables = new ArrayList<RuntimeDrawable<?>>();
-		logger.info("New instance");
 	}
 
 	public void setDescriptor(EAdComposedDrawable e) {
 		super.setDescriptor(e);
 		drawables.clear();
 		for (EAdBasicDrawable d : e.getAssetList()) {
-			drawables
-					.add((RuntimeDrawable<?>) assetHandler.getDrawableAsset(d));
+			drawables.add(assetHandler.getDrawableAsset(d));
 		}
 	}
 

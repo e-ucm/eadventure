@@ -40,20 +40,15 @@ package es.eucm.ead.engine.assets;
 /**
  * Renderer for special assets (e.g. video), which need to be rendered
  * independently of the rest of the elements in the game.
- * 
- * @param <S>
- *            The type of the asset
- * @param <T>
- *            The type of the component used to render the asset
+ *
+ * @param <S> The type of the asset
+ * @param <T> The type of the component used to render the asset
  */
 public interface SpecialAssetRenderer<S, T> {
 
 	/**
-	 * The platform-dependent component or element used to rendered the asset
-	 * 
-	 * @param asset
-	 *            the asset to be rendered
-	 * @return
+	 * @param asset the asset to be rendered
+	 * @return The platform-dependent component or element used to rendered the asset
 	 */
 	T getComponent(S asset);
 
