@@ -70,7 +70,7 @@ public class MathOp extends AbstractOperation {
 
 	/**
 	 * Creates a literal expression with the given expression
-	 * 
+	 *
 	 * @param parent
 	 * @param id
 	 * @param expression
@@ -83,14 +83,14 @@ public class MathOp extends AbstractOperation {
 		this.expression = expression;
 		if (fields != null) {
 			for (EAdField<?> f : fields) {
-				operationsList.add(f);
+				operations.add(f);
 			}
 		}
 	}
 
 	/**
 	 * Sets the literal expression to be evaluated
-	 * 
+	 *
 	 * @param expression
 	 */
 	public void setExpression(String expression) {
@@ -99,7 +99,7 @@ public class MathOp extends AbstractOperation {
 
 	/**
 	 * Returns the literal expression to be evaluated
-	 * 
+	 *
 	 * @return the literal expression to be evaluated
 	 */
 	public String getExpression() {
@@ -108,7 +108,7 @@ public class MathOp extends AbstractOperation {
 
 	/**
 	 * Returns an expression to increment a variable with the given value
-	 * 
+	 *
 	 * @param var
 	 *            the variable to be incremented
 	 * @param increment
@@ -131,7 +131,7 @@ public class MathOp extends AbstractOperation {
 	public String toString() {
 		String s = expression;
 		int i = 0;
-		for (EAdOperation f : operationsList) {
+		for (EAdOperation f : operations) {
 			s = s.replace("[" + i + "]", f + "");
 			i++;
 		}

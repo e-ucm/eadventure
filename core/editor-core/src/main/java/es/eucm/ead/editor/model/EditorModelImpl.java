@@ -213,6 +213,10 @@ public class EditorModelImpl implements EditorModel {
 	 * @return the (possibly-altered) eid
 	 */
 	public static String decorateIdWithEid(String id, int eid) {
+		if (id == null) {
+			return "__" + eid + "__";
+		}
+
 		Matcher m = editorIdPattern.matcher(id);
 		if (m.find() && m.group(1).equals("" + eid)) {
 			return id;
@@ -232,9 +236,14 @@ public class EditorModelImpl implements EditorModel {
 		if (o instanceof Identified) {
 			Identified i = (Identified) o;
 
-			Matcher m = editorIdPattern.matcher(i.getId());
-			if (m.find()) {
-				return Integer.parseInt(m.group(1));
+			if (i.getId() != null) {
+				Matcher m = editorIdPattern.matcher(i.getId());
+				if (m.find()) {
+					return Integer.parseInt(m.group(1));
+				}
+			} else {
+				logger.warn("null ID for {}; some kind of ID was expected", o
+						.toString());
 			}
 		}
 
@@ -245,7 +254,7 @@ public class EditorModelImpl implements EditorModel {
 	 * Returns the DependencyNode for an object that is wrapped in an editorNode.
 	 * This works in two ways. First, if it has an editor-id tag, it is used.
 	 * Otherwise, it must have been an unmarked object (list, map, resource, ...);
-	 * and it the unpersisted-to-editorNode map is used instead.
+	 * and the transientCollection-->editorNode map is used instead.
 	 */
 	@Override
 	public DependencyNode getNodeFor(Object content) {

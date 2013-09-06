@@ -216,9 +216,10 @@ public class ObjectsFactory {
 						clazz).getType();
 				return clazz2;
 			} catch (Exception e) {
-				logger.warn(
-						"Not match for class {}. Object.class was returned",
-						clazz);
+				logger
+						.warn(
+								"Not match for class {}. Returning 'Object.class' instead",
+								clazz);
 				return Object.class;
 			}
 		}

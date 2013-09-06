@@ -47,11 +47,18 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import es.eucm.ead.editor.control.Controller;
+import es.eucm.ead.editor.model.EditorModel;
+import es.eucm.ead.editor.model.EditorModelLoader;
+import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
 import es.eucm.ead.editor.view.SplashScreenImpl;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.editor.util.Log4jConfig.Slf4jLevel;
+import es.eucm.ead.editor.view.generic.AbstractOption;
+import es.eucm.ead.editor.view.panel.asset.ImageAssetPanel;
+import es.eucm.ead.reader2.AdventureReader;
+import es.eucm.ead.reader2.model.readers.ObjectReader;
 
 /**
  * eAdventure editor launcher. This class has a main method.
@@ -87,12 +94,20 @@ public class EAdventureEditor implements Launcher {
 
 		// Initialize logging
 		Log4jConfig.configForConsole(Slf4jLevel.Info, new Object[] {
-		// AdventureConverter
-				"Converter", Log4jConfig.Slf4jLevel.Debug,
+
+				// AdventureConverter
+				ObjectReader.class, Slf4jLevel.Debug, AdventureReader.class,
+				Slf4jLevel.Debug,
 				// recursion into bits of model when importing
-				"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Debug,
+				EditorModelLoader.class, Slf4jLevel.Debug,
 				// access to the model
-				"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+				EditorModel.class, Slf4jLevel.Debug, ModelVisitorDriver.class,
+				Slf4jLevel.Debug,
+
+				// image previews
+				ImageAssetPanel.class, Slf4jLevel.Debug,
+				// image previews
+				AbstractOption.class, Slf4jLevel.Debug
 
 		//"EditorModelLoader", Log4jConfig.Slf4jLevel.Debug,
 

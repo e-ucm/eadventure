@@ -140,7 +140,9 @@ public class Log4jConfig {
 					}
 					if (otherLevels != null) {
 						for (int i = 0; i < otherLevels.length; i += 2) {
-							String loggerName = (String) otherLevels[i];
+							String loggerName = (otherLevels[i] instanceof Class) ? ((Class) otherLevels[i])
+									.getName()
+									: (String) otherLevels[i];
 							Slf4jLevel level = (Slf4jLevel) otherLevels[i + 1];
 							setLevel(loggerName, level);
 						}

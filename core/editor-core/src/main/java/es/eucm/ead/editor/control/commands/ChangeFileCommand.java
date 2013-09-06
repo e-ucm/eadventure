@@ -71,10 +71,10 @@ public class ChangeFileCommand extends ChangeFieldCommand<File> {
 
 	/**
 	 * Builds a new ChangeFileCommand
-	 * @param newSource 
+	 * @param newSource
 	 * @param fieldDescriptor
 	 * @param fileCache
-	 * @param changed  
+	 * @param changed
 	 *
 	 */
 	public ChangeFileCommand(File newSource, Accessor<File> fieldDescriptor,

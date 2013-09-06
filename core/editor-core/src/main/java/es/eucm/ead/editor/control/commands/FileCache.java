@@ -80,7 +80,7 @@ public class FileCache {
 	 * @param b
 	 * @return the bytes, encoded in hex.
 	 */
-	private String showBytes(byte[] b) {
+	private static String showBytes(byte[] b) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < b.length; i++) {
 			sb.append(String.format("%02x", b[i]));
@@ -143,14 +143,27 @@ public class FileCache {
 			}
 		}
 
+		private String dump() {
+			return this + " a: " + Arrays.asList(attributes)
+					+ (hash != null ? " c10: " + showBytes(hash) : "no-hash");
+		}
+
 		public boolean sameAsFor(File f, boolean deep) throws IOException {
+			if (logger.isInfoEnabled()) {
+				logger.info("this: " + dump());
+			}
 			Key k = new Key();
 			k.addAttributes(f);
+			if (logger.isInfoEnabled()) {
+				logger.info("other1: " + k.dump());
+			}
 			if (Arrays.deepEquals(attributes, k.attributes)) {
 				k.addContents(f);
-				if (!deep || Arrays.equals(hash, k.hash)) {
-					return true;
+				if (logger.isInfoEnabled()) {
+					logger.info("other2: " + k.dump());
 				}
+				// FIXME: 'deep' is being ignored
+				return Arrays.equals(hash, k.hash);
 			}
 			return false;
 		}

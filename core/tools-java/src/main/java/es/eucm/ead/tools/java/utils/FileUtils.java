@@ -595,13 +595,13 @@ public class FileUtils {
 				}
 			}
 		} catch (IOException e) {
-			logger.error("Error generating AndroidManifest.xml", e);
+			logger.error("Error performing text substitutions", e);
 		} finally {
 			if (reader != null) {
 				try {
 					reader.close();
-				} catch (IOException e) {
-					logger.error("Error", e);
+				} catch (IOException ce) {
+					logger.error("Error closing reader", ce);
 				}
 			}
 		}

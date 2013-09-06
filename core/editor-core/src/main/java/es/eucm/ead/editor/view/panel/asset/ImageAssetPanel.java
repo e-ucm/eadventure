@@ -108,7 +108,10 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 		if (f != null
 				&& f.getName().toLowerCase().matches(".*[.](png|jpg|jpeg)")
 				&& f.exists()) {
-			fileOption.updateValue(f);
+			if (!f.getAbsolutePath().equals(
+					imageAsset.getFile().getAbsolutePath())) {
+				fileOption.updateValue(f);
+			}
 			imageFile = f;
 			jpCanvas.refreshImage();
 		} else {

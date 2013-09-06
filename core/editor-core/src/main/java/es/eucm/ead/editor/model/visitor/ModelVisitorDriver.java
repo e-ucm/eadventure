@@ -60,6 +60,7 @@ import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EditorNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
+import es.eucm.ead.model.elements.EAdChapter;
 
 /**
  * Visits parts of the model. Given a ModelVisitor and a start, the visitor
@@ -227,6 +228,13 @@ public class ModelVisitorDriver {
 		@Override
 		public void drive(EAdElement target, Object source, String sourceName) {
 			processParams(target);
+			if (target instanceof EAdAdventureModel) {
+				processParam(target, "chapters");
+				processParam(target, "initialChapter");
+			} else if (target instanceof EAdChapter) {
+				processParam(target, "scenes");
+				processParam(target, "initialScene");
+			}
 		}
 	}
 
@@ -332,12 +340,7 @@ public class ModelVisitorDriver {
 					Param param = field.getAnnotation(Param.class);
 					String fieldName = field.getName();
 					if (param != null) {
-						Object o = readProperty(data, fieldName);
-						if (!isEmpty(o)) {
-							logger.debug("\t'{}' has a '{}' property!",
-									new Object[] { data, fieldName });
-							driveInto(o, data, fieldName);
-						}
+						processParam(data, fieldName);
 					}
 				} catch (Exception e) {
 					logger.error("Could not access properties of {}, from {}",
@@ -348,6 +351,15 @@ public class ModelVisitorDriver {
 		}
 
 		logger.debug("Finished properties of {}", data);
+	}
+
+	private void processParam(Object data, String fieldName) {
+		Object o = readProperty(data, fieldName);
+		if (!isEmpty(o)) {
+			logger.debug("\t'{}' has a '{}' property!", new Object[] { data,
+					fieldName });
+			driveInto(o, data, fieldName);
+		}
 	}
 
 	/**
