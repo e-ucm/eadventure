@@ -137,9 +137,6 @@ public class StructurePanel extends JPanel implements ChangeListener<String> {
 
 	@Override
 	public void processChange(String event) {
-		boolean somethingLoaded = controller.getModel().getEngineModel() != null;
-		for (StructureElement e : elements) {
-			e.setEnabled(somethingLoaded);
-		}
+		// nothing to do
 	}
 }

@@ -63,7 +63,7 @@ public interface ModelEvent {
 	DependencyNode[] getAdded();
 
 	/**
-	 * @return Array (possibly empty; never null) of removed dependency-nodes
+	 * @return Array (possibly empty; never null) of changed dependency-nodes
 	 * The array is guaranteed to be sorted-by-id
 	 */
 	DependencyNode[] getChanged();

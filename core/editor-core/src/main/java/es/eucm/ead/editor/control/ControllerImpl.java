@@ -39,7 +39,6 @@ package es.eucm.ead.editor.control;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
 
 import javax.swing.Action;
 
@@ -52,6 +51,7 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
+import java.util.LinkedHashMap;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -76,7 +76,7 @@ public class ControllerImpl implements Controller {
 	 * Action map. Contains all actions, generally bound to menu items or
 	 * the like.
 	 */
-	private HashMap<String, Action> actionMap = new HashMap<String, Action>();
+	private LinkedHashMap<String, Action> actionMap = new LinkedHashMap<String, Action>();
 
 	@Inject
 	public ControllerImpl(EditorConfig editorConfig, EditorModel editorModel,

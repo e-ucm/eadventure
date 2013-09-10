@@ -58,6 +58,7 @@ public interface Controller {
 
 	/**
 	 * Retrieves all actions.
+	 * @return a collection of all actions in the controller
 	 */
 	Collection<Action> getActions();
 

@@ -97,6 +97,9 @@ public class R {
 		public static String sidePanel__npcs_png;
 		public static String sidePanel__player_png;
 		public static String sidePanel__scenes_png;
+		public static String sidePanel__test1_png;
+		public static String sidePanel__test2_png;
+		public static String sidePanel__test3_png;
 		public static String toolbar__backward_png;
 		public static String toolbar__forward_png;
 		public static String toolbar__redo_png;
@@ -150,14 +153,17 @@ public class R {
 			files.add("sidePanel/npcs.png");
 			files.add("sidePanel/player.png");
 			files.add("sidePanel/scenes.png");
+			files.add("sidePanel/test1.png");
+			files.add("sidePanel/test2.png");
+			files.add("sidePanel/test3.png");
 			files.add("toolbar/backward.png");
 			files.add("toolbar/forward.png");
 			files.add("toolbar/redo.png");
 			files.add("toolbar/search.png");
 			files.add("toolbar/undo.png");
 
-			I18N.initializeResources(Drawable.class.getName(), Drawable.class,
-					files);
+			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
 		}
 	}
 }
+
