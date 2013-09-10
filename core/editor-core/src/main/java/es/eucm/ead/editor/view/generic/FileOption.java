@@ -61,6 +61,7 @@ import es.eucm.ead.editor.util.i18n.I18N;
 
 public class FileOption extends DefaultAbstractOption<File> {
 
+	private JPanel controls;
 	private JTextField textField;
 	private JButton chooserButton;
 	private FileCache fileCache;
@@ -72,6 +73,7 @@ public class FileOption extends DefaultAbstractOption<File> {
 		super(title, toolTipText, fieldDescriptor, changed);
 		this.fileCache = fileCache;
 		this.buttonText = buttonText;
+		validityConstraint.getList().add(new FileMustExistsAndBeReadable());
 	}
 
 	public FileOption(String title, String toolTipText, String buttonText,
@@ -80,10 +82,11 @@ public class FileOption extends DefaultAbstractOption<File> {
 		super(title, toolTipText, object, fieldName, changed);
 		this.fileCache = fileCache;
 		this.buttonText = buttonText;
+		validityConstraint.getList().add(new FileMustExistsAndBeReadable());
 	}
 
 	@Override
-	protected File getControlValue() {
+	public File getControlValue() {
 		return new File(textField.getText());
 	}
 
@@ -94,7 +97,7 @@ public class FileOption extends DefaultAbstractOption<File> {
 
 	@Override
 	protected JComponent createControl() {
-		final JPanel controls = new JPanel(new BorderLayout(4, 0));
+		controls = new JPanel(new BorderLayout(4, 0));
 		textField = new JTextField(getTitle(), 20);
 		textField.setToolTipText(getToolTipText());
 		textField.setText(fieldDescriptor.read().getPath());
@@ -129,18 +132,6 @@ public class FileOption extends DefaultAbstractOption<File> {
 		});
 		controls.add(chooserButton, BorderLayout.EAST);
 		return controls;
-	}
-
-	/**
-	 * Should return whether a value is valid or not. Invalid values will
-	 * not generate updates, and will therefore not affect either model or other
-	 * views.
-	 * @param value
-	 * @return whether it is valid or not; default is "always-true"
-	 */
-	@Override
-	protected boolean isValid(File value) {
-		return value.isFile() && value.canRead();
 	}
 
 	@Override
@@ -184,4 +175,17 @@ public class FileOption extends DefaultAbstractOption<File> {
 		}
 		return f;
 	}
+	
+	public class FileMustExistsAndBeReadable implements Constraint {
+		@Override
+		public boolean isValid() {
+			return getControlValue().exists() && getControlValue().canRead();
+		}
+		@Override
+		public String getTooltip() {
+			return (isValid() ? "" : Messages.file_must_be_readable);
+		}
+		@Override
+		public void validityChanged() {}
+	}	
 }

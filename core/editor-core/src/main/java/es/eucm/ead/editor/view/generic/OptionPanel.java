@@ -76,6 +76,7 @@ public interface OptionPanel extends Option {
 
 	/**
 	 * @param element The element to be added to the panel
+	 * @return the updated instance of the OptionPanel; nice for chaining
 	 */
 	OptionPanel add(Option element);
 
@@ -83,5 +84,4 @@ public interface OptionPanel extends Option {
 	 * @return the layout policy for this panel
 	 */
 	LayoutPolicy getLayoutPolicy();
-
 }

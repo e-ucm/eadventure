@@ -232,9 +232,9 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	 */
 	private class DeleteButtonWidget extends AbstractCellEditor implements
 			TableCellEditor, TableCellRenderer {
-		private JButton deleteButton = createMinimalButton(R.Drawable.interface__delete_png);
-		private JPanel fillerPanel = new JPanel();
-		private JPanel buttonPanel = new JPanel(new BorderLayout());
+		private final JButton deleteButton = createMinimalButton(R.Drawable.interface__delete_png);
+		private final JPanel fillerPanel = new JPanel();
+		private final JPanel buttonPanel = new JPanel(new BorderLayout());
 		private Object v; // whatever was last set for editing
 		private int deletePos;
 
@@ -399,7 +399,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	}
 
 	@Override
-	protected EAdList<T> getControlValue() {
+	public EAdList<T> getControlValue() {
 		return fieldDescriptor.read();
 	}
 

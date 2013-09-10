@@ -59,8 +59,7 @@ public class IntegerOption extends DefaultAbstractOption<Integer> {
 	 * @param object
 	 * @param fieldName
 	 * @param node
-	 * @param min
-	 * @param max
+	 * @param model describes valid values
 	 */
 	public IntegerOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, SpinnerNumberModel model) {

@@ -43,14 +43,26 @@ import es.eucm.ead.editor.view.generic.TextOption;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.editor.view.generic.AbstractConstraint;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TextOptionTest extends AbstractOptionTest {
 
+	static private Logger logger = LoggerFactory
+			.getLogger(TextOptionTest.class);
+
+	TextOption ox, oy, oz;
+
 	public TextOptionTest() {
 		model = new ExampleClass();
+
 		init();
 
 		DependencyNode node1 = new EngineNode<String>(1, "test1");
+		DependencyNode node2 = new EngineNode<String>(2, "test2");
+		DependencyNode node3 = new EngineNode<String>(3, "test3");
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
@@ -65,14 +77,58 @@ public class TextOptionTest extends AbstractOptionTest {
 		p1.add(new TextOption("desc2", "toolTipDesc2", model, "description",
 				TextOption.ExpectedLength.LONG, node1));
 
+		ox = new TextOption("X", "toolTipX", new IntrospectingAccessor<String>(
+				model, "x"), TextOption.ExpectedLength.SHORT, node2, node3);
+		oy = new TextOption("Y1", "toolTipY", new IntrospectingAccessor<String>(
+				model, "y"), TextOption.ExpectedLength.SHORT, node2, node3);
+		oz = new TextOption("Y2", "toolTipY", new IntrospectingAccessor<String>(
+				model, "y"), TextOption.ExpectedLength.SHORT, node2, node3);
+		MagicConstraint mc = new MagicConstraint();
+		mc.install();
+		
+		p1.add(ox);
+		p1.add(oy);
+		p1.add(oz);
+
 		controller.getModel().addModelListener(p1);
 		childPanel.add(p1.getComponent(commandManager));
+	}
+
+	private class MagicConstraint extends AbstractConstraint {
+		public MagicConstraint() {
+			super("algo magico", ox, oy, oz);
+		}
+		public boolean isValid() {
+			logger.debug("Have '" + ox.getControlValue() 
+					+ "' + '" + oy.getControlValue() + "'");
+			
+			return //oz.getControlValue().equals(oy.getControlValue()) && 
+					(ox.getControlValue() + oy.getControlValue()).equals("abracadabra");
+		}
 	}
 
 	public static class ExampleClass {
 
 		public String name = "initial name";
 		public String description = "initial description";
+		public String x = "abra";
+		public String y = "cadabra";
+
+		public String getX() {
+			return x;
+		}
+
+		public void setX(String x) {
+			this.x = x;
+		}
+
+		public String getY() {
+			return y;
+		}
+
+		public void setY(String y) {
+			this.y = y;
+		}
 
 		public String getName() {
 			return name;

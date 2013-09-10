@@ -190,6 +190,9 @@ public class ChangeFieldCommand<T> extends Command {
 				logger.info("Combined command");
 				return true;
 			}
+		} else if (other instanceof EmptyCommand) {
+			// simply make it dissapear
+			return true;
 		}
 		return false;
 	}

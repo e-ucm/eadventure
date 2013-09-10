@@ -108,7 +108,7 @@ public class ColorOption extends DefaultAbstractOption<Color> {
 	}
 
 	@Override
-	protected Color getControlValue() {
+	public Color getControlValue() {
 		return controlValue;
 	}
 

@@ -40,6 +40,7 @@ package es.eucm.ead.editor.util;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.NDC;
 import org.apache.log4j.PatternLayout;
 
 /**
@@ -110,6 +111,19 @@ public class Log4jConfig {
 		}
 	}
 
+	public static void pushNDC(String value) {
+		NDC.push(value);
+	}
+
+	public static void popNDC() {
+		NDC.pop();
+	}
+	
+	public static void configForConsole(final Slf4jLevel defaultLevel) {
+		configForConsole(defaultLevel, new Object[] {});
+	}
+
+
 	/**
 	 * Initial log4j configuration. Fails if no log4j present; should be called
 	 * only from main(), but can be called repeatedly without ill effects (only
@@ -136,7 +150,7 @@ public class Log4jConfig {
 					if (!root.getAllAppenders().hasMoreElements()) {
 						root.setLevel(defaultLevel.getLog4jLevel());
 						root.addAppender(new ConsoleAppender(new PatternLayout(
-								"%-5p [%c{1}|%t]: %m%n")));
+								"%-5p %x [%c{1}|%t]: %m%n")));
 					}
 					if (otherLevels != null) {
 						for (int i = 0; i < otherLevels.length; i += 2) {

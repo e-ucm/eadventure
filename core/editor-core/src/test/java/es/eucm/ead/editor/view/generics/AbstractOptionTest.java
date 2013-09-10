@@ -62,6 +62,7 @@ import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.control.change.ChangeListener;
 import es.eucm.ead.editor.model.EditorModel;
 import ead.importer.BaseImporterModule;
+import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
@@ -85,6 +86,8 @@ public class AbstractOptionTest extends JFrame {
 		ReflectionClassLoader.init(injector
 				.getInstance(ReflectionClassLoader.class));
 
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug);
+		
 		EditorModel editorModel = injector.getInstance(EditorModel.class);
 		MockitoAnnotations.initMocks(this);
 		when(controller.getModel()).thenReturn(editorModel);

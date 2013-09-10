@@ -37,35 +37,25 @@
 
 package es.eucm.ead.editor.view.generic;
 
-import es.eucm.ead.editor.control.CommandManager;
-import es.eucm.ead.editor.model.EditorModel;
-
-import javax.swing.JComponent;
+import es.eucm.ead.editor.util.i18n.I18N;
 
 /**
- * An option in the user interface.
- * <p>
- * Exposes a control that can display and/or modify a piece of the underlying
- * model. Titles are intended as always-visible labels. Tooltips are only
- * displayed on-demand.
+ * Message index for this class (bound at run-time according to user preferences)
  *
- * @param <S>
+ * This is an AUTOMATICALLY-GENERATED file - 
+ * Run class es.eucm.ead.editor.util.i18n.ResourceCreator with parameters: 
+ *    "core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
+ * to re-create or update this class
  */
-public interface Option<S> extends EditorModel.ModelListener {
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+public class Messages {
 
-	/**
-	 * @return the title to be used in the interface (can be null)
-	 */
-	String getTitle();
+	public static String file_must_be_readable;
+	public static String file_must_exist;
+	public static String path_must_exist;
 
-	/**
-	 * @return a component for this element
-	 */
-	JComponent getComponent(CommandManager manager);
-
-	/**
-	 * @return the tooltiptext for the interface, to help users (should not be
-	 *         left null)
-	 */
-	String getToolTipText();
+	static {
+		I18N.initializeMessages(Messages.class.getName(), Messages.class);
+	}
 }
+
