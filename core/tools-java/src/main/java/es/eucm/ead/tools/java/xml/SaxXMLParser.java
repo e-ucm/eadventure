@@ -39,6 +39,8 @@ package es.eucm.ead.tools.java.xml;
 
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -54,6 +56,8 @@ import java.util.Map;
 import java.util.Stack;
 
 public class SaxXMLParser extends DefaultHandler implements XMLParser {
+
+	private static Logger logger = LoggerFactory.getLogger(SaxXMLParser.class);
 
 	private SAXParser saxParser;
 
@@ -76,13 +80,23 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 
 	@Override
 	public XMLNode parse(String xml) {
+		return parse(xml, null);
+	}
+
+
+	@Override
+	public XMLNode parse(String xml, ErrorHandler errorHandler) {
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
 		try {
 			saxParser.parse(is, this);
 		} catch (IOException e) {
-
+			logger.error("Error while parsing", e);
 		} catch (SAXException e) {
-
+			if (errorHandler != null){
+				errorHandler.error(e.getMessage());
+			} else {
+				logger.error("Error while parsing", e);
+			}
 		} finally {
 			try {
 				is.close();

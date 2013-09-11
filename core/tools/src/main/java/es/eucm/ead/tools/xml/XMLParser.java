@@ -39,18 +39,35 @@ package es.eucm.ead.tools.xml;
 
 /**
  * General interface for XML parsers
- * 
+ *
  * @author anserran
- * 
  */
 public interface XMLParser {
 
 	/**
 	 * Parses xml and returns a document
-	 * 
-	 * @param xml
-	 * @return
+	 *
+	 * @param xml the xml
+	 * @return the document processed
 	 */
 	XMLNode parse(String xml);
+
+	/**
+	 * Parses xml and returns a document
+	 *
+	 * @param xml          the xml
+	 * @param errorHandler an error handler. {@link ErrorHandler#error(String)} will be called if some error occurs while parsing
+	 * @return the document processed
+	 */
+	XMLNode parse(String xml, ErrorHandler errorHandler);
+
+	public interface ErrorHandler {
+		/**
+		 * Notifies an error
+		 *
+		 * @param message the error message
+		 */
+		void error(String message);
+	}
 
 }

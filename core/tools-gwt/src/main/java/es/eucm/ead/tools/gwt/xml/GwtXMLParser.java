@@ -45,9 +45,21 @@ public class GwtXMLParser implements XMLParser {
 
 	@Override
 	public XMLNode parse(String xml) {
-		Document doc = com.google.gwt.xml.client.XMLParser.parse(xml);
-		doc.getDocumentElement().normalize();
-		return generateNode((Element) doc.getFirstChild());
+		return parse(xml, null);
+	}
+
+	@Override
+	public XMLNode parse(String xml, ErrorHandler errorHandler) {
+		try {
+			Document doc = com.google.gwt.xml.client.XMLParser.parse(xml);
+			doc.getDocumentElement().normalize();
+			return generateNode((Element) doc.getFirstChild());
+		} catch (DOMException e) {
+			if ( errorHandler != null ){
+				errorHandler.error("Invalid XML.");
+			}
+			return null;
+		}
 	}
 
 	public XMLNode generateNode(Element n) {
