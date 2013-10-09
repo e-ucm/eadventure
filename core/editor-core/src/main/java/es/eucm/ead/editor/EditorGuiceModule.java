@@ -54,6 +54,8 @@ import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.EditorModelImpl;
 import es.eucm.ead.editor.view.EditorWindow;
 import ead.importer.annotation.ImportAnnotator;
+import es.eucm.ead.editor.control.ScriptController;
+import es.eucm.ead.editor.control.ScriptControllerImpl;
 
 /**
  * Google Guice ({@link http://code.google.com/p/google-guice/}) module to
@@ -72,6 +74,7 @@ public class EditorGuiceModule extends AbstractModule {
 		bind(ProjectController.class).to(ProjectControllerImpl.class);
 		bind(NavigationController.class).to(NavigationControllerImpl.class);
 		bind(ViewController.class).to(EditorWindow.class);
+		bind(ScriptController.class).to(ScriptControllerImpl.class);
 
 		bind(Launcher.class).to(EAdventureEditor.class);
 		bind(ImportAnnotator.class).to(EditorAnnotator.class);

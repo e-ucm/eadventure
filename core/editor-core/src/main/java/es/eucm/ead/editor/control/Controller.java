@@ -100,6 +100,12 @@ public interface Controller {
 	 * Returns the view controller. In charge of creating, hiding and
 	 * displaying views.
 	 */
+	ScriptController getScriptController();
+
+	/**
+	 * Returns the view controller. In charge of creating, hiding and
+	 * displaying views.
+	 */
 	ViewController getViewController();
 
 	/**

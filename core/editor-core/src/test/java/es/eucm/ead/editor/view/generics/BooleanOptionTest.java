@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class BooleanOptionTest extends AbstractOptionTest {
 
 	BooleanOption ba, bb, bc, ba2, bb2, bc2;
-	
+
 	public BooleanOptionTest() {
 		model = new ExampleClass();
 		init();
@@ -72,25 +72,26 @@ public class BooleanOptionTest extends AbstractOptionTest {
 				OptionPanel.LayoutPolicy.VerticalEquallySpaced, 4);
 		p3.add(p1);
 		p3.add(p2);
-		
+
 		AbstractConstraint c1 = new OneInThree(ba, bb, bc);
 		c1.install();
 		AbstractConstraint c2 = new OneInThree(ba2, bb2, bc2);
 		c2.install();
-		
+
 		controller.getModel().addModelListener(p3);
 		childPanel.add(p3.getComponent(commandManager));
 	}
-	
+
 	private class OneInThree extends AbstractConstraint {
 		public OneInThree(BooleanOption a, BooleanOption b, BooleanOption c) {
 			super("Max: 1 in 3", a, b, c);
 		}
+
 		@Override
 		public boolean isValid() {
 			int total = 0;
 			for (AbstractOption<?> o : options) {
-				total += (Boolean)o.getControlValue() ? 1: 0;
+				total += (Boolean) o.getControlValue() ? 1 : 0;
 			}
 			//logger.debug("total ")
 			return total == 1;

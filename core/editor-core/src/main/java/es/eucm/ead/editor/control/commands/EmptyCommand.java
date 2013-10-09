@@ -81,7 +81,7 @@ public class EmptyCommand<T> extends Command {
 	public ModelEvent performCommand(EditorModel em) {
 		return new DefaultModelEvent("Empty", this, null, null, changed);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return true;

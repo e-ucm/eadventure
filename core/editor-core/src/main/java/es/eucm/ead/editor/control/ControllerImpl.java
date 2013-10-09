@@ -67,6 +67,8 @@ public class ControllerImpl implements Controller {
 	private NavigationController navigationController;
 	private ViewController viewController;
 	private CommandManager commandManager;
+	private ScriptController scriptController;
+
 	private DesktopGame game;
 
 	private AssetHandler assetHandler;
@@ -83,8 +85,8 @@ public class ControllerImpl implements Controller {
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			DesktopGUI gdxGui, AssetHandler assetHandler,
-			Provider<AssetViewer> assetViewerProvider) {
+			ScriptController scriptController, DesktopGUI gdxGui,
+			AssetHandler assetHandler, Provider<AssetViewer> assetViewerProvider) {
 
 		this.editorConfig = editorConfig;
 		this.editorModel = editorModel;
@@ -92,6 +94,8 @@ public class ControllerImpl implements Controller {
 		this.navigationController = navigationController;
 		this.viewController = viewControler;
 		this.commandManager = commandManager;
+		this.scriptController = scriptController;
+
 		this.assetHandler = assetHandler;
 		this.assetViewerProvider = assetViewerProvider;
 	}
@@ -179,5 +183,10 @@ public class ControllerImpl implements Controller {
 				.getAbsolutePath());
 		assetHandler.setCacheEnabled(false);
 		return assetHandler;
+	}
+
+	@Override
+	public ScriptController getScriptController() {
+		return scriptController;
 	}
 }

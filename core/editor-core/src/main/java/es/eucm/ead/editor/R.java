@@ -66,9 +66,13 @@ public class R {
 		public static String assets__caption_png;
 		public static String assets__editor_png;
 		public static String assets__engine_png;
+		public static String assets__helpcmd_png;
 		public static String assets__image_png;
+		public static String assets__log_png;
 		public static String assets__query_png;
 		public static String assets__rectangle_png;
+		public static String assets__run_png;
+		public static String assets__runcmd_png;
 		public static String assets__template_png;
 		public static String assets__video_png;
 		public static String conditions__flag16_png;
@@ -121,9 +125,13 @@ public class R {
 			files.add("assets/caption.png");
 			files.add("assets/editor.png");
 			files.add("assets/engine.png");
+			files.add("assets/helpcmd.png");
 			files.add("assets/image.png");
+			files.add("assets/log.png");
 			files.add("assets/query.png");
 			files.add("assets/rectangle.png");
+			files.add("assets/run.png");
+			files.add("assets/runcmd.png");
 			files.add("assets/template.png");
 			files.add("assets/video.png");
 			files.add("conditions/flag16.png");
@@ -162,8 +170,8 @@ public class R {
 			files.add("toolbar/search.png");
 			files.add("toolbar/undo.png");
 
-			I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);
+			I18N.initializeResources(Drawable.class.getName(), Drawable.class,
+					files);
 		}
 	}
 }
-

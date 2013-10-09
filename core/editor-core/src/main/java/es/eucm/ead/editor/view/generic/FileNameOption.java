@@ -57,39 +57,51 @@ public class FileNameOption extends TextOption {
 			Accessor<String> fieldDescriptor, boolean fileMustExist,
 			DependencyNode node) {
 		super(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL, node);
-		validityConstraint.getList().add(fileMustExist ? new FileMustExist() : new ParentPathMustExist());
+		validityConstraint.getList()
+				.add(
+						fileMustExist ? new FileMustExist()
+								: new ParentPathMustExist());
 	}
 
 	public FileNameOption(String title, String toolTipText, Object object,
 			String fieldName, boolean fileMustExist, DependencyNode node) {
 		super(title, toolTipText, object, fieldName, ExpectedLength.NORMAL,
 				node);
-		validityConstraint.getList().add(fileMustExist ? new FileMustExist() : new ParentPathMustExist());
+		validityConstraint.getList()
+				.add(
+						fileMustExist ? new FileMustExist()
+								: new ParentPathMustExist());
 	}
-	
+
 	public class FileMustExist implements Constraint {
 		@Override
 		public boolean isValid() {
 			return resolveFile(getControlValue()).exists();
 		}
+
 		@Override
 		public String getTooltip() {
 			return (isValid() ? "" : Messages.file_must_exist);
 		}
+
 		@Override
-		public void validityChanged() {}
+		public void validityChanged() {
+		}
 	}
-	
+
 	public class ParentPathMustExist implements Constraint {
 		@Override
 		public boolean isValid() {
 			return resolveFile(getControlValue()).getParentFile().isDirectory();
 		}
+
 		@Override
 		public String getTooltip() {
 			return (isValid() ? "" : Messages.path_must_exist);
 		}
+
 		@Override
-		public void validityChanged() {}
+		public void validityChanged() {
+		}
 	}
 }

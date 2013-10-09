@@ -50,10 +50,10 @@ import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.EditorModelLoader;
 import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
+import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.editor.view.SplashScreenImpl;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.editor.util.Log4jConfig.Slf4jLevel;
 import es.eucm.ead.editor.view.generic.AbstractOption;
 import es.eucm.ead.editor.view.panel.asset.ImageAssetPanel;
@@ -89,8 +89,6 @@ public class EAdventureEditor implements Launcher {
 		// The following line is used by MacOS X to set the application name correctly
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
-
-		// Locale.setDefault(new Locale("es", "ES"));
 
 		// Initialize logging
 		Log4jConfig.configForConsole(Slf4jLevel.Info, new Object[] {

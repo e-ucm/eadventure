@@ -134,11 +134,11 @@ public abstract class AbstractOption<S> implements Option<S> {
 		}
 		this.changed = changed == null ? new DependencyNode[0] : changed;
 	}
-	
+
 	public ArrayList<Constraint> getConstraints() {
 		return validityConstraint.getList();
 	}
-	
+
 	/**
 	 * Will be called when the model changes. Uses changeConsideredRelevant
 	 * to avoid acting on non-changes.
@@ -254,7 +254,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 	protected boolean isValid() {
 		return validityConstraint.isValid();
 	}
-	
+
 	/**
 	 * Set validity. Should be called only from within the 
 	 * @param valid 
@@ -312,7 +312,8 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * (type is Event).
 	 */
 	private void uncontestedUpdate(S nextValue, UpdateType type) {
-		Log4jConfig.pushNDC((""+type).charAt(0) + "@" + (""+this.hashCode()).substring(7));
+		Log4jConfig.pushNDC(("" + type).charAt(0) + "@"
+				+ ("" + this.hashCode()).substring(7));
 		if (!isValid()) {
 			if (currentlyValid) {
 				// add an undoable operation to reset to the previous, valid values
@@ -326,7 +327,7 @@ public abstract class AbstractOption<S> implements Option<S> {
 			logger.debug("Update invalid: {}", nextValue);
 			// ignore - non-valid values are not written to the model
 		} else if (!changeConsideredRelevant(oldValue, nextValue)) {
-			if ( ! currentlyValid) {
+			if (!currentlyValid) {
 				validityConstraint.validityChanged();
 			}
 			currentlyValid = true;
@@ -338,19 +339,19 @@ public abstract class AbstractOption<S> implements Option<S> {
 				logger.debug("Update to {}", nextValue);
 			}
 			isUpdating = true;
-			if (type.equals(UpdateType.Synthetic) 
+			if (type.equals(UpdateType.Synthetic)
 					|| type.equals(UpdateType.Event)) {
 				// the user did not set the control -- it needs to be set here
 				setControlValue(nextValue);
 			}
-			if ( ! type.equals(UpdateType.Event)) {
+			if (!type.equals(UpdateType.Event)) {
 				// if incoming event, then the model has already been changed
 				manager.performCommand(createUpdateCommand());
 			}
 			valueUpdated(oldValue, nextValue);
 			oldValue = nextValue;
 			isUpdating = false;
-			if ( ! currentlyValid) {
+			if (!currentlyValid) {
 				validityConstraint.validityChanged();
 			}
 			currentlyValid = true;

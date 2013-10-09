@@ -43,10 +43,12 @@ import java.awt.event.KeyEvent;
 import com.google.inject.Inject;
 import es.eucm.ead.editor.R;
 import es.eucm.ead.editor.control.Controller;
+import es.eucm.ead.editor.model.EditorModelImpl;
+import es.eucm.ead.editor.model.nodes.LogNode;
+import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.tools.java.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * Default implementation of the editor menu.
  */
 public class EditMenu extends AbstractEditorMenu {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(EditMenu.class);
 
 	@Inject
@@ -107,7 +109,7 @@ public class EditMenu extends AbstractEditorMenu {
 						R.Drawable.sidePanel__adaptationProfiles_png),
 				new EditorAction(Messages.edit_menu_assessment_profiles,
 						KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK,
-						R.Drawable.sidePanel__assessmentProfiles_png), 
+						R.Drawable.sidePanel__assessmentProfiles_png),
 				null, // this is a separator
 				new TestAction(Messages.edit_menu_test1, KeyEvent.VK_1,
 						KeyEvent.CTRL_DOWN_MASK,
@@ -118,8 +120,9 @@ public class EditMenu extends AbstractEditorMenu {
 				new TestAction(Messages.edit_menu_test3, KeyEvent.VK_3,
 						KeyEvent.CTRL_DOWN_MASK,
 						R.Drawable.sidePanel__test3_png),
-		};
-
+				null, // this is a separator
+				new ConsoleAction(Messages.edit_menu_console, KeyEvent.VK_O,
+						KeyEvent.ALT_DOWN_MASK, R.Drawable.assets__log_png)};
 		for (AbstractEditorAction<String> a : as) {
 			if (a == null) {
 				addSeparator();
@@ -138,37 +141,42 @@ public class EditMenu extends AbstractEditorMenu {
 		}
 	}
 
-	public class TestAction extends EditorAction {		
-		
+	public class TestAction extends EditorAction {
+
 		public TestAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);
 		}
+
 		public void actionPerformed(ActionEvent e) {
 			logger.info(e.getActionCommand());
-			switch (e.getActionCommand().substring(e.getActionCommand().length()-1).charAt(0)) {
-				case '1': {
-					logger.info("testing import...");
-					File dest = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/x");
-					if (dest.exists()) {
-						try {
-							FileUtils.deleteRecursive(dest);
-						} catch (IOException ex) {
-							logger.info("Could not delete previous version", ex);
-						}
+			switch (e.getActionCommand().substring(
+					e.getActionCommand().length() - 1).charAt(0)) {
+			case '1': {
+				logger.info("testing import...");
+				File dest = new File(
+						"/home/mfreire/code/e-ucm/e-adventure-1.x/games/x");
+				if (dest.exists()) {
+					try {
+						FileUtils.deleteRecursive(dest);
+					} catch (IOException ex) {
+						logger.info("Could not delete previous version", ex);
 					}
-					File source = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/simple");
-					controller.getProjectController().doImport(
-							source.getAbsolutePath(), dest.getAbsolutePath());
-					logger.info("... import finished");
-					break;
 				}
-				case '2': {
-					break;				
-				}
-				case '3': {
-					break;	
-				}
-				default: throw new IllegalArgumentException(e.getActionCommand());
+				File source = new File(
+						"/home/mfreire/code/e-ucm/e-adventure-1.x/games/simple");
+				controller.getProjectController().doImport(
+						source.getAbsolutePath(), dest.getAbsolutePath());
+				logger.info("... import finished");
+				break;
+			}
+			case '2': {
+				break;
+			}
+			case '3': {
+				break;
+			}
+			default:
+				throw new IllegalArgumentException(e.getActionCommand());
 			}
 		}
 
@@ -177,7 +185,27 @@ public class EditMenu extends AbstractEditorMenu {
 			setEnabled(true);
 		}
 	}
-	
+
+	public class ConsoleAction extends EditorAction {
+
+		public ConsoleAction(String name, int gkey, int gmask, String iconUrl) {
+			super(name, gkey, gmask, iconUrl);
+		}
+
+		public void processChange(String o) {
+			setEnabled(true);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			logger.info(e.getActionCommand());
+			LogNode ln = new LogNode(controller.getModel().generateId(null));
+			((EditorModelImpl) controller.getModel())
+					.registerNode(ln, "addLog");
+			controller.getViewController()
+					.addView("log", "" + ln.getId(), true);
+		}
+	}
+
 	public class EditorAction extends AbstractEditorAction<String> {
 		public EditorAction(String name, int gkey, int gmask, String iconUrl) {
 			super(name, gkey, gmask, iconUrl);

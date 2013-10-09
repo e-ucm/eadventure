@@ -87,7 +87,7 @@ public class AbstractOptionTest extends JFrame {
 				.getInstance(ReflectionClassLoader.class));
 
 		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Debug);
-		
+
 		EditorModel editorModel = injector.getInstance(EditorModel.class);
 		MockitoAnnotations.initMocks(this);
 		when(controller.getModel()).thenReturn(editorModel);

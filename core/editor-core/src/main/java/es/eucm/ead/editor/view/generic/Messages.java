@@ -58,4 +58,3 @@ public class Messages {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }
-

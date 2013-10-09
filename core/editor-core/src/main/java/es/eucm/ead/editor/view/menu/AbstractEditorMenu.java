@@ -196,12 +196,12 @@ public abstract class AbstractEditorMenu extends JMenu {
 	 * An abstract editor action.
 	 * Registers shortcuts, mnemonics and icons
 	 */
-	public abstract class AbstractEditorAction<E> extends AbstractAction
+	public static abstract class AbstractEditorAction<E> extends AbstractAction
 			implements ChangeListener<E> {
 
 		/**
 		 * Creates an action without an accelerator
-		 * @param nameAndMnemonic a string like "_This example", where the
+		 * @param name a string like "_This example", where the
 		 * 't' would be chosen as the mnemonic key, and the underscore would not
 		 * be included in the actual menuitem name
 		 */
@@ -212,10 +212,11 @@ public abstract class AbstractEditorMenu extends JMenu {
 
 		/**
 		 * Creates an action with an accelerator
-		 * @param nameAndMnemonic a string like "_This example", where the
+		 * @param name a string like "_This example", where the
 		 * 't' would be chosen as the mnemonic key, and the underscore would not
 		 * be included in the actual menuitem name
 		 * @param globalKey
+		 * @param globalModifiers
 		 */
 		public AbstractEditorAction(String name, int globalKey,
 				int globalModifiers) {

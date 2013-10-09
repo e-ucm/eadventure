@@ -35,57 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.editor.control;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package es.eucm.ead.editor.model.nodes;
 
-import es.eucm.ead.editor.control.change.ChangeNotifier;
+import es.eucm.ead.editor.R;
+import es.eucm.ead.editor.model.EditorModel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
 /**
- * Interface for the controller of the system. This controller is in charge of
- * keeping the project in scope.
+ * This node represents a query.
+ * It is not persisted as an "editor-node", as it can be regenerated on-demand
+ * by repeating the query.
+ *
+ * @author mfreire
  */
-public interface ProjectController extends ChangeNotifier<String> {
+public class LogNode extends EditorNode {
+
+	private static Logger logger = LoggerFactory.getLogger(LogNode.class);
+
+	public LogNode(int id) {
+		super(id);
+	}
+
+	@Override
+	public String getLinkIcon() {
+		return R.Drawable.assets__log_png;
+	}
 
 	/**
-	 * Load a project from an URL
-	 *
-	 * @param projectURL The URL for the project
+	 * Writes inner contents to an XML snippet.
+	 * @param sb
 	 */
-	void load(String projectURL);
+	@Override
+	public void writeInner(StringBuilder sb) {
+	}
 
 	/**
-	 * Load a project from an URL
-	 *
-	 * @param sourceURL The URL for the old project
-	 * @param projectURL The URL for the new project
+	 * Reads inner contents from an XML snippet.
+	 * @param e
 	 */
-	void doImport(String sourceURL, String projectURL);
+	@Override
+	public void restoreInner(Element e, EditorModel em) {
+	}
 
 	/**
-	 * Save the project
+	 * Generates a one-line description with as much information as possible.
+	 * @return a human-readable description of this node
 	 */
-	void save();
-
-	/**
-	 * Save the project in a new location
-	 *
-	 * @param projectURL The new URL location for the project
-	 */
-	void saveAs(String projectURL);
-
-	/**
-	 * Create a new project
-	 */
-	void newProject();
-
-	/**
-	 * Set the actual super-controller.
-	 * @param controller the main controller, providing access to model, views,
-	 * and more
-	 */
-	void setController(Controller controller);
-
-	/**
-	 * Launches current game
-	 */
-	void doRun();
+	@Override
+	public String getTextualDescription(EditorModel m) {
+		return "Message log";
+	}
 }

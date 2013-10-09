@@ -177,6 +177,12 @@ public class EditorModelImpl implements EditorModel {
 		return nodesById.get(id);
 	}
 
+	public void registerNode(DependencyNode n, String eventType) {
+		nodesById.put(n.getId(), n);
+		fireModelEvent(new DefaultModelEvent(eventType, this,
+				new DependencyNode[] { n }, null));
+	}
+
 	/**
 	 * Gets a unique ID. All new DependencyNodes should get their IDs this way.
 	 * Uses a static field to store the last assigned ID; standard disclaimers

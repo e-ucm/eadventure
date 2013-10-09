@@ -56,9 +56,11 @@ public class Messages {
 	public static String edit_menu_assessment_profiles;
 	public static String edit_menu_atrezzo;
 	public static String edit_menu_books;
+	public static String edit_menu_console;
 	public static String edit_menu_conversations;
 	public static String edit_menu_cutscenes;
 	public static String edit_menu_items;
+	public static String edit_menu_log;
 	public static String edit_menu_npcs;
 	public static String edit_menu_player;
 	public static String edit_menu_redo;
@@ -111,4 +113,3 @@ public class Messages {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }
-

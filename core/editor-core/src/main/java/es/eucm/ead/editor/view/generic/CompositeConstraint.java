@@ -24,13 +24,13 @@ public class CompositeConstraint implements Constraint {
 			sb.append("<br>\n");
 		}
 		int last = sb.lastIndexOf("<br>\n");
-		if (last != -1 ) {
+		if (last != -1) {
 			sb.replace(last, sb.length(), "");
 		}
 		sb.append("</html>");
 		return sb.toString();
 	}
-	
+
 	public ArrayList<Constraint> getList() {
 		return all;
 	}
@@ -38,7 +38,8 @@ public class CompositeConstraint implements Constraint {
 	@Override
 	public boolean isValid() {
 		for (Constraint c : all) {
-			if ( ! c.isValid()) return false;
+			if (!c.isValid())
+				return false;
 		}
 		return true;
 	}

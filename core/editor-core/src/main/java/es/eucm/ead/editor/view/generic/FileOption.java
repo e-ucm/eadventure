@@ -175,17 +175,20 @@ public class FileOption extends DefaultAbstractOption<File> {
 		}
 		return f;
 	}
-	
+
 	public class FileMustExistsAndBeReadable implements Constraint {
 		@Override
 		public boolean isValid() {
 			return getControlValue().exists() && getControlValue().canRead();
 		}
+
 		@Override
 		public String getTooltip() {
 			return (isValid() ? "" : Messages.file_must_be_readable);
 		}
+
 		@Override
-		public void validityChanged() {}
-	}	
+		public void validityChanged() {
+		}
+	}
 }

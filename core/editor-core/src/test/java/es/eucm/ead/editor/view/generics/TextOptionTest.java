@@ -79,13 +79,15 @@ public class TextOptionTest extends AbstractOptionTest {
 
 		ox = new TextOption("X", "toolTipX", new IntrospectingAccessor<String>(
 				model, "x"), TextOption.ExpectedLength.SHORT, node2, node3);
-		oy = new TextOption("Y1", "toolTipY", new IntrospectingAccessor<String>(
-				model, "y"), TextOption.ExpectedLength.SHORT, node2, node3);
-		oz = new TextOption("Y2", "toolTipY", new IntrospectingAccessor<String>(
-				model, "y"), TextOption.ExpectedLength.SHORT, node2, node3);
+		oy = new TextOption("Y1", "toolTipY",
+				new IntrospectingAccessor<String>(model, "y"),
+				TextOption.ExpectedLength.SHORT, node2, node3);
+		oz = new TextOption("Y2", "toolTipY",
+				new IntrospectingAccessor<String>(model, "y"),
+				TextOption.ExpectedLength.SHORT, node2, node3);
 		MagicConstraint mc = new MagicConstraint();
 		mc.install();
-		
+
 		p1.add(ox);
 		p1.add(oy);
 		p1.add(oz);
@@ -98,12 +100,13 @@ public class TextOptionTest extends AbstractOptionTest {
 		public MagicConstraint() {
 			super("algo magico", ox, oy, oz);
 		}
+
 		public boolean isValid() {
-			logger.debug("Have '" + ox.getControlValue() 
-					+ "' + '" + oy.getControlValue() + "'");
-			
+			logger.debug("Have '" + ox.getControlValue() + "' + '"
+					+ oy.getControlValue() + "'");
+
 			return //oz.getControlValue().equals(oy.getControlValue()) && 
-					(ox.getControlValue() + oy.getControlValue()).equals("abracadabra");
+			(ox.getControlValue() + oy.getControlValue()).equals("abracadabra");
 		}
 	}
 
