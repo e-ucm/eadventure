@@ -37,10 +37,7 @@
 
 package es.eucm.ead.engine.tracking;
 
-import java.util.Map;
-
 import com.badlogic.gdx.scenes.scene2d.Event;
-
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.EAdAdventureModel;
@@ -48,80 +45,60 @@ import es.eucm.ead.model.elements.EAdAdventureModel;
 /**
  * General interface for game engine trackers. Methods defined by this interface
  * can be extended if required
- * 
  */
 public interface GameTracker {
 
-	public static final String TRACKING_ENABLE = "tracking_enabled";
-
-	public static final String GAME_KEY = "gamekey";
-
-	public static final String SERVER_URL = "server_url";
-
-	public static final String MAX_TRACES = "max_traces";
-
 	/**
 	 * Starts the tracking
-	 * 
-	 * @param model
-	 *            the game model to be tracked
+	 *
+	 * @param model the game model to be tracked
 	 */
 	void startTracking(EAdAdventureModel model);
 
 	/**
 	 * Tracks an input action executed over the target
-	 * 
-	 * @param action
-	 *            the performed action
-	 * @param target
-	 *            the game object receiving the action
+	 *
+	 * @param action the performed action
+	 * @param target the game object receiving the action
 	 */
-	void track(Event action, SceneElementGO target);
+	void input(Event action, SceneElementGO target);
 
 	/**
 	 * Tracks a launched effect
-	 * 
-	 * @param effect
-	 *            the launched effect
+	 *
+	 * @param effect the launched effect
 	 */
-	void track(EffectGO<?> effect);
+	void effect(EffectGO<?> effect);
 
 	/**
-	 * Track a trace related to the given tag
-	 * 
-	 * @param tag
-	 * @param trace
+	 * A phase starts
+	 *
+	 * @param phaseId the phase id
 	 */
-	void tag(String tag, Map<String, Object> trace);
+	void phaseStart(String phaseId);
 
 	/**
-	 * 
-	 * @param phaseId
+	 * A phase ends
+	 *
+	 * @param phaseId the phase id
 	 */
-	void startPhase(String phaseId);
+	void phaseEnd(String phaseId);
 
 	/**
-	 * 
-	 * @param phaseId
-	 */
-	void endPhase(String phaseId);
-
-	/**
-	 * 
-	 * @param varId
-	 * @param newValue
+	 * A variable has been updated
+	 *
+	 * @param varId    variable id
+	 * @param newValue new value for the variable
 	 */
 	void varUpdate(String varId, Object newValue);
 
 	/**
 	 * The game has ended
 	 */
-	void endGame();
+	void gameEnd();
 
 	/**
-	 * Returns if it is currently sending tracking data
-	 * 
-	 * @return
+	 * @return Returns if it is currently sending tracking data
 	 */
 	boolean isTracking();
 
@@ -129,10 +106,5 @@ public interface GameTracker {
 	 * Stops the tracking
 	 */
 	void stop();
-
-	/**
-	 * Resumes the tracking, in case it was stopped
-	 */
-	void resume();
 
 }

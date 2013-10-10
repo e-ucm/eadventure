@@ -40,10 +40,8 @@ package es.eucm.ead.engine.game;
 import aurelienribon.tweenengine.TweenAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.operators.OperatorFactory;
 import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
@@ -53,15 +51,14 @@ import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.MathEvaluator;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GameState extends ValueMap implements
@@ -85,7 +82,7 @@ public class GameState extends ValueMap implements
 	/**
 	 * Map containing field watchers by element and variable
 	 */
-	private Map<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> fieldWatchers;
+	private Map<String, Map<String, List<FieldWatcher>>> fieldWatchers;
 
 	@Inject
 	public GameState(StringHandler stringHandler,
@@ -95,7 +92,7 @@ public class GameState extends ValueMap implements
 				stringHandler);
 
 		// Field watcher
-		fieldWatchers = new HashMap<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>>();
+		fieldWatchers = new HashMap<String, Map<String, List<FieldWatcher>>>();
 
 	}
 
@@ -145,7 +142,7 @@ public class GameState extends ValueMap implements
 
 	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
 		super.setValue(element, varDef, value);
-		notifyWatchers(element, varDef);
+		notifyWatchers(element, varDef, value);
 	}
 
 	public int getValues(EAdField<?> field, int type, float[] values) {
@@ -317,13 +314,17 @@ public class GameState extends ValueMap implements
 	}
 
 	@SuppressWarnings( { "all" })
-	private void notifyWatchers(Object element, EAdVarDef<?> varDef) {
-		Map<EAdVarDef<?>, List<FieldWatcher>> map = fieldWatchers.get(element);
-		if (map != null) {
-			List<FieldWatcher> list = map.get(varDef);
-			if (list != null) {
-				for (FieldWatcher fw : list) {
-					fw.fieldUpdated();
+	private <T> void notifyWatchers(Object element, EAdVarDef<T> varDef, T value) {
+		if (element instanceof Identified) {
+			Map<String, List<FieldWatcher>> map = fieldWatchers
+					.get(element == null ? null : ((Identified) element)
+							.getId());
+			if (map != null) {
+				List<FieldWatcher> list = map.get(varDef.getName());
+				if (list != null) {
+					for (FieldWatcher fw : list) {
+						fw.fieldUpdated(element, varDef, value);
+					}
 				}
 			}
 		}
@@ -337,16 +338,28 @@ public class GameState extends ValueMap implements
 	 * @param field        the field to watch
 	 */
 	public void addFieldWatcher(FieldWatcher fieldWatcher, EAdField<?> field) {
-		Map<EAdVarDef<?>, List<FieldWatcher>> map = fieldWatchers.get(field
-				.getElement());
+		addFieldWatcher(fieldWatcher, field.getElement() == null ? null : field
+				.getElement().getId(), field.getVarDef().getName());
+	}
+
+	/**
+	 * Adds a field watcher that is notified every time the given field is
+	 * updated
+	 *
+	 * @param elementId the element's id
+	 * @param varName   the variable name
+	 */
+	public void addFieldWatcher(FieldWatcher fieldWatcher, String elementId,
+			String varName) {
+		Map<String, List<FieldWatcher>> map = fieldWatchers.get(elementId);
 		if (map == null) {
-			map = new HashMap<EAdVarDef<?>, List<FieldWatcher>>();
-			fieldWatchers.put(field.getElement(), map);
+			map = new HashMap<String, List<FieldWatcher>>();
+			fieldWatchers.put(elementId, map);
 		}
-		List<FieldWatcher> list = map.get(field.getVarDef());
+		List<FieldWatcher> list = map.get(varName);
 		if (list == null) {
 			list = new ArrayList<FieldWatcher>();
-			map.put(field.getVarDef(), list);
+			map.put(varName, list);
 		}
 		list.add(fieldWatcher);
 	}
@@ -357,7 +370,7 @@ public class GameState extends ValueMap implements
 	 * @param fieldWatcher the field watcher to remove
 	 */
 	public void removeFieldWatcher(FieldWatcher fieldWatcher) {
-		for (Entry<EAdElement, Map<EAdVarDef<?>, List<FieldWatcher>>> e : fieldWatchers
+		for (Entry<String, Map<String, List<FieldWatcher>>> e : fieldWatchers
 				.entrySet()) {
 			for (List<FieldWatcher> l : e.getValue().values()) {
 				l.remove(fieldWatcher);
@@ -378,7 +391,7 @@ public class GameState extends ValueMap implements
 		/**
 		 * Call whenever the field is updated
 		 */
-		void fieldUpdated();
+		<T> void fieldUpdated(Object o, EAdVarDef<T> field, T value);
 
 	}
 }

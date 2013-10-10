@@ -37,66 +37,90 @@
 
 package es.eucm.ead.engine.tracking;
 
-import es.eucm.ead.engine.gameobjects.effects.EffectGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
+import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.interfaces.features.Identified;
+import es.eucm.ead.model.params.variables.EAdVarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
+public abstract class AbstractGameTracker implements GameTracker,
+		GameState.FieldWatcher {
 
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.engine.tracking.selection.TrackerSelector;
+	private static final Logger logger = LoggerFactory
+			.getLogger(AbstractGameTracker.class);
 
-public abstract class AbstractGameTracker implements GameTracker {
+	protected GameState gameState;
 
 	protected EAdAdventureModel model;
 
 	private boolean tracking;
 
-	private TrackerSelector selector;
-
-	static private Logger logger = LoggerFactory
-			.getLogger(AbstractGameTracker.class);
-
-	public AbstractGameTracker(TrackerSelector selector) {
-		tracking = false;
-		this.selector = selector;
+	public AbstractGameTracker(GameState gameState) {
+		this.gameState = gameState;
 	}
 
+	@Override
 	public void startTracking(EAdAdventureModel model) {
 		this.model = model;
-		tracking = true;
-		startTrackingImpl(model);
+		tracking = startTrackingImpl(model);
 	}
 
-	protected abstract void startTrackingImpl(EAdAdventureModel model);
+	/**
+	 * Starts the tracking
+	 *
+	 * @param model the model of the game
+	 * @return if tracking was successfully started
+	 */
+	protected abstract boolean startTrackingImpl(EAdAdventureModel model);
 
-	public void track(Event action, SceneElementGO target) {
-		if (isTracking() && selector.accept(action, target)) {
-			trackImpl(action, target);
-		}
-	}
-
-	protected abstract void trackImpl(Event action, SceneElementGO target);
-
-	public void track(EffectGO<?> effect) {
-		if (isTracking() && selector.accept(effect)) {
-			trackImpl(effect);
-		}
-	}
-
-	protected abstract void trackImpl(EffectGO<?> effect);
-
+	/**
+	 * @return if the tracker is successfully sending traces
+	 */
 	public boolean isTracking() {
 		return tracking;
 	}
 
+	/**
+	 * Stops the tracking
+	 */
 	public void stop() {
 		tracking = false;
 	}
 
-	public void resume() {
-		tracking = true;
+	/**
+	 * A watched field has been update
+	 *
+	 * @param o     the object owner of the field
+	 * @param var   the variable
+	 * @param value the new value for the variable in the object
+	 * @param <T>   the class of the value
+	 */
+	public <T> void fieldUpdated(Object o, EAdVarDef<T> var, T value) {
+		String varName = (o instanceof Identified ? ((Identified) o).getId()
+				+ "." : "")
+				+ var.getName();
+		varUpdate(varName, value);
+	}
+
+	/**
+	 * Watches a field
+	 * @param fieldName the field name
+	 */
+	public void watchField(String fieldName) {
+		String[] parts = fieldName.split(".");
+		switch (parts.length) {
+		case 1:
+			gameState.addFieldWatcher(this, null, parts[0]);
+			break;
+		case 2:
+			gameState.addFieldWatcher(this, parts[0], parts[1]);
+			break;
+		default:
+			logger.warn("{} is not a valid field name. It won't be watched.",
+					fieldName);
+			break;
+		}
 	}
 
 }

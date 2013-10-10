@@ -55,7 +55,7 @@ public class GwtXMLParser implements XMLParser {
 			doc.getDocumentElement().normalize();
 			return generateNode((Element) doc.getFirstChild());
 		} catch (DOMException e) {
-			if ( errorHandler != null ){
+			if (errorHandler != null) {
 				errorHandler.error("Invalid XML.");
 			}
 			return null;

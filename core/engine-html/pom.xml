@@ -76,6 +76,12 @@
             <version>${project.parent.version}</version>
             <classifier>sources</classifier>
         </dependency>
+        <!-- GLEANER -->
+        <dependency>
+            <groupId>es.e-ucm.gleaner</groupId>
+            <artifactId>gleaner-tracker-gwt</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>

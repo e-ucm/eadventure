@@ -96,6 +96,7 @@ public class CharacterScene extends EmptyScene {
 		NgCommon.init();
 		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 		element.setPosition(Corner.CENTER, 400, 300);
+		element.setId("normalguy");
 
 		SceneElementEv event = new SceneElementEv();
 

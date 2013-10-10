@@ -2,7 +2,6 @@ package es.eucm.ead.engine.resources;
 
 public class R {
 public static final String[] RESOURCES = new String[]{
-  "es/eucm/ead/engine/resources/plugins.txt",
   "es/eucm/ead/engine/resources/drawable/drag-normal.png",
   "es/eucm/ead/engine/resources/drawable/talk-pressed.png",
   "es/eucm/ead/engine/resources/drawable/button_pressed.png",
@@ -41,6 +40,7 @@ public static final String[] RESOURCES = new String[]{
   "es/eucm/ead/engine/resources/drawable/loadingbar.png",
   "es/eucm/ead/engine/resources/drawable/button_normal.png",
   "es/eucm/ead/engine/resources/drawable/bubblename.png",
+  "es/eucm/ead/engine/resources/gleaner.config",
   "es/eucm/ead/engine/resources/es_ES/drawable/loading.png",
   "es/eucm/ead/engine/resources/es_ES/engine_strings.xml",
   "es/eucm/ead/engine/resources/it_IT/engine_strings.xml",
@@ -48,7 +48,6 @@ public static final String[] RESOURCES = new String[]{
   "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.fnt",
   "es/eucm/ead/engine/resources/binary/fonts/coolvetica-32.fnt",
   "es/eucm/ead/engine/resources/binary/fonts/coolvetica-32.png",
-  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.png",
-  "es/eucm/ead/engine/resources/gdx/plugins.txt"
+  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.png"
 };
 }

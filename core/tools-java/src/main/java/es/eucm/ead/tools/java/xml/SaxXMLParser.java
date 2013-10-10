@@ -83,7 +83,6 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 		return parse(xml, null);
 	}
 
-
 	@Override
 	public XMLNode parse(String xml, ErrorHandler errorHandler) {
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
@@ -92,7 +91,7 @@ public class SaxXMLParser extends DefaultHandler implements XMLParser {
 		} catch (IOException e) {
 			logger.error("Error while parsing", e);
 		} catch (SAXException e) {
-			if (errorHandler != null){
+			if (errorHandler != null) {
 				errorHandler.error(e.getMessage());
 			} else {
 				logger.error("Error while parsing", e);
