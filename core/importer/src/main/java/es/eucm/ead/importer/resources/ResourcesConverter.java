@@ -2,6 +2,7 @@ package es.eucm.ead.importer.resources;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.importer.OldReader;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.Image;
@@ -10,7 +11,7 @@ import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.multimedia.EAdSound;
 import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.assets.multimedia.Sound;
-import es.eucm.ead.importer.OldReader;
+import es.eucm.ead.model.assets.multimedia.Video;
 import es.eucm.eadventure.common.data.animation.Animation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +104,16 @@ public class ResourcesConverter {
 			assets.put(musicPath, asset);
 		}
 		return (Music) asset;
+	}
+
+	public Video getVideo(String videoPath){
+		AssetDescriptor asset = assets.get(videoPath);
+		if ( asset == null ){
+			String destinationVideoPath = getPath(videoPath);
+			asset = new Video(destinationVideoPath);
+			assets.put(destinationVideoPath, asset);
+		}
+		return (Video) asset;
 	}
 
 	/**

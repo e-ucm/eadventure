@@ -37,11 +37,11 @@
 
 package es.eucm.ead.model.elements.scenes;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 
 @Element
 public class VideoScene extends BasicScene implements EAdScene {
@@ -62,6 +62,7 @@ public class VideoScene extends BasicScene implements EAdScene {
 
 	/**
 	 * Effects launched when the video ends
+	 *
 	 * @return
 	 */
 	public EAdList<EAdEffect> getFinalEffects() {
@@ -77,4 +78,12 @@ public class VideoScene extends BasicScene implements EAdScene {
 		return false;
 	}
 
+	/**
+	 * Adds a new a affect that will be launched after the video finishes
+	 *
+	 * @param e the effect
+	 */
+	public void addFinalEffect(EAdEffect e) {
+		this.finalEffects.add(e);
+	}
 }

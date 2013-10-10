@@ -39,7 +39,11 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.importer.UtilsConverter;
+import es.eucm.ead.importer.resources.ResourcesConverter;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
+import es.eucm.ead.model.assets.multimedia.Video;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdElement;
@@ -54,23 +58,21 @@ import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.importer.UtilsConverter;
-import es.eucm.ead.importer.resources.ResourcesConverter;
-import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.Frame;
 import es.eucm.eadventure.common.data.animation.Transition;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
+import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CutsceneConverter {
@@ -126,6 +128,7 @@ public class CutsceneConverter {
 			// We import every slide as an independent scene
 			String slidesPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
 			if (slidesPath.endsWith(".eaa")) {
+				// [SS - Slides]
 				Animation anim = resourceConverter.getAnimation(slidesPath);
 				int i = 0;
 				for (Frame f : anim.getFrames()) {
@@ -147,6 +150,7 @@ public class CutsceneConverter {
 						// If it's last frame, we link with the next scene, ad
 						// we add the next effects
 						if (i == anim.getFrames().size() - 1) {
+							// [SS - NextScene]
 							nextSlide.setNextScene(getNextScene(cs));
 							List<EAdEffect> effects = effectsConverter
 									.convert(cs.getEffects());
@@ -162,9 +166,10 @@ public class CutsceneConverter {
 
 						// Add transition, if any
 						// For the last scene, we add the next transition
+						// [SS - Transition]
 						if (i == anim.getFrames().size() - 1) {
 							nextSlide.setTransition(transitionConverter
-									.getTransition(cs.getTransitionType(), cs
+									.getTransitionNextScene(cs.getTransitionType(), cs
 											.getTransitionTime()));
 						} else {
 							// If the animation has transitions, we add it
@@ -197,7 +202,7 @@ public class CutsceneConverter {
 			// XXX scene music
 		}
 
-		// avoid epty cutscenes
+		// avoid empty cutscenes
 		if (cutscene.isEmpty()) {
 			logger.error("No scenes in cutscene {} (id {})", cs.getName(), cs
 					.getId());
@@ -231,19 +236,34 @@ public class CutsceneConverter {
 	}
 
 	public List<EAdScene> convertVideoScene(Cutscene cs) {
-		// XXX
-		return null;
+		// [VI - Video]
+		Videoscene vs = (Videoscene) cs;
+		// XXX Not working when there's more than one resource
+		Video video = resourceConverter.getVideo(vs.getResources().get(0).getAssetPath(Videoscene.RESOURCE_TYPE_VIDEO));
+
+		VideoScene videoScene = new VideoScene();
+		videoScene.setVideo(video);
+
+		// [VI - NextScene]
+		EAdElement nextScene = getNextScene(cs);
+		videoScene.addFinalEffect(new ChangeSceneEf(nextScene));
+
+		ArrayList<EAdScene> scenes = new ArrayList<EAdScene>();
+		scenes.add(videoScene);
+		return scenes;
 	}
 
 	private EAdElement getNextScene(Cutscene cs) {
 		EAdElement nextScene = null;
 		switch (cs.getNext()) {
+		// [CS - PrevScene]
 		case Slidescene.GOBACK:
 			nextScene = null;
 			break;
 		case Slidescene.ENDCHAPTER:
 			// XXX
 			break;
+		// [CS - NewScene]
 		case Slidescene.NEWSCENE:
 			nextScene = new BasicElement(cs.getTargetId());
 			break;

@@ -64,14 +64,16 @@ public class DesktopModule extends AbstractModule {
 		this.binds = binds;
 	}
 
-	@SuppressWarnings( { "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	protected void configure() {
 		BasicModuleMap map = new BasicModuleMap();
 		map.setBind(AssetHandler.class, GdxDesktopAssetHandler.class);
 		map.setBind(GUI.class, DesktopGUI.class);
-		for (Entry<Class<?>, Class<?>> e : binds.entrySet()) {
-			map.setBind(e.getKey(), e.getValue());
+		if (binds != null) {
+			for (Entry<Class<?>, Class<?>> e : binds.entrySet()) {
+				map.setBind(e.getKey(), e.getValue());
+			}
 		}
 		for (Entry<Class<?>, Class<?>> entry : map.getBinds().entrySet()) {
 			Class c1 = entry.getKey();

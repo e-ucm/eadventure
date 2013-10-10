@@ -63,6 +63,8 @@ public class DesktopGame {
 
 	private Map<Class<?>, Class<?>> binds;
 
+	private String path;
+
 	private boolean exitAtClose;
 
 	private int windowWidth = 800;
@@ -98,12 +100,18 @@ public class DesktopGame {
 			injector = Guice.createInjector(new DesktopModule(binds),
 					new JavaToolsModule());
 			gameLoader = injector.getInstance(GameLoader.class);
+			// If we have the resources in a path
+			if (path != null) {
+				AssetHandler assetHandler = injector
+						.getInstance(AssetHandler.class);
+				assetHandler.setResourcesLocation(path);
+			}
 		}
 	}
 
 	public void setPath(String path) {
-		// If we have the resources in a path
-		if (path != null) {
+		this.path = path;
+		if ( injector != null ){
 			AssetHandler assetHandler = injector
 					.getInstance(AssetHandler.class);
 			assetHandler.setResourcesLocation(path);
