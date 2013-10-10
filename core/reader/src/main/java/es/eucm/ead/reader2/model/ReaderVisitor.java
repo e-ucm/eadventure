@@ -37,7 +37,6 @@
 
 package es.eucm.ead.reader2.model;
 
-import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.reader.model.translators.StringTranslator;
 import es.eucm.ead.reader2.model.readers.ListReader;
@@ -78,10 +77,6 @@ public class ReaderVisitor {
 	private List<StringTranslator> fieldsTranslators;
 
 	private List<StringTranslator> paramsTranslators;
-
-	private int lastSize = 0;
-
-	private int loopsWithSameSize = 0;
 
 	public ReaderVisitor(ReflectionProvider reflectionProvider) {
 		stepsQueue = new ArrayList<VisitorStep>();
@@ -132,7 +127,6 @@ public class ReaderVisitor {
 		if (stepsQueue.isEmpty()) {
 			return true;
 		}
-		boolean done = false;
 
 		VisitorStep step = stepsQueue.remove(0);
 		XMLNode node = step.getNode();
@@ -145,10 +139,13 @@ public class ReaderVisitor {
 		} else if (!node.hasChildNodes()
 				&& node.getAttributesLength() == 0
 				&& ("".equals(node.getNodeText()) || node.getNodeText() == null)) {
-			listener.loaded(node, null, true);
+			if (node.getNodeName().equals("p")) {
+				listener.loaded(node, null, true);
+			} else {
+				listener.loaded(node, ListReader.EMPTY_LIST, false);
+			}
 		} else {
 			Object result = null;
-			boolean error = false;
 			if (node.getNodeName().equals(DOMTags.PARAM_TAG)) {
 				result = paramReader.read(node);
 			} else if (node.getNodeName().equals(DOMTags.LIST_TAG)) {
@@ -160,54 +157,11 @@ public class ReaderVisitor {
 			} else {
 				logger.warn(" could not read node {} with name {}", node, node
 						.getNodeName());
-				error = true;
 			}
-
-			// Sometimes we can't generate elements reference because the
-			// original
-			// object didn't appear yet. When that happens, we obtain a null
-			// result.
-			// We send the step to the end of the queue, for later
-			if (!listener.loaded(node, result, false) && !error) {
-				stepsQueue.add(step);
-			}
+			listener.loaded(node, result, false);
 		}
 
-		// We check queue size, looking for elements impossible to read
-		// (usually, references to ids not defined)
-		int newSize = stepsQueue.size();
-		if (newSize == lastSize) {
-			loopsWithSameSize++;
-		} else {
-			lastSize = newSize;
-			loopsWithSameSize = 0;
-		}
-
-		// If we've been too much loops with the same size, we end the reading
-		// and report the remaining nodes
-		if (loopsWithSameSize >= MAX_LOOPS_WITH_SAME_SIZE) {
-			ArrayList<String> l = new ArrayList<String>();
-			for (VisitorStep s : stepsQueue) {
-				XMLNode n = s.getNode();
-				// If it's a reference, we create a BasicElement with the id.
-				if (n.getNodeName().equals("e") && n.getAttributesLength() < 2) {
-					String id = n.getNodeText();
-					if (id != null) {
-						s.getListener().loaded(n, new BasicElement(id), false);
-						if (!l.contains(id)) {
-							l.add(id);
-						}
-					}
-				} else {
-					logger.warn("{} node was impossilbe to read.", n
-							.getNodeText());
-				}
-
-			}
-			logger.debug("{} references created: {}", l.size(), l.toString());
-			done = true;
-		}
-		done = done || stepsQueue.isEmpty();
+		boolean done = stepsQueue.isEmpty();
 		if (done) {
 			logger.debug("Executing {} final steps", finalStepsQueue.size());
 			for (FinalStep f : finalStepsQueue) {
@@ -254,9 +208,8 @@ public class ReaderVisitor {
 		 *
 		 * @param node
 		 * @param object
-		 * @param isNullInOrigin
-		 *            Says if the object is null because data.xml says so, not
-		 *            because it is not still loaded
+		 * @param isNullInOrigin Says if the object is null because data.xml says so, not
+		 *                       because it is not still loaded
 		 * @return
 		 */
 		boolean loaded(XMLNode node, Object object, boolean isNullInOrigin);

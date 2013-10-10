@@ -41,7 +41,6 @@ import java.lang.annotation.Annotation;
 
 /**
  * General interface for reflection fields
- * 
  */
 public interface ReflectionField {
 
@@ -49,7 +48,7 @@ public interface ReflectionField {
 
 	/**
 	 * Returns the field name
-	 * 
+	 *
 	 * @return
 	 */
 	String getName();
@@ -58,23 +57,27 @@ public interface ReflectionField {
 
 	/**
 	 * Returns the value for the field in the given object
-	 * 
+	 *
 	 * @param object
 	 * @return
 	 */
 	Object getFieldValue(Object object);
 
 	/**
-	 * Sets the value for in this field in the given object 
+	 * Sets the value for in this field in the given object
+	 *
 	 * @param object
 	 * @param value
 	 */
 	void setFieldValue(Object object, Object value);
 
 	/**
-	 * Returns if the attribute was defined as static
-	 * @return
+	 * @return Returns if the attribute was defined as static
 	 */
 	boolean isStatic();
 
+	/**
+	 * @return Returns if the attribute was defined as transient
+	 */
+	boolean isTransient();
 }

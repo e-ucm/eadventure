@@ -99,4 +99,9 @@ public class JavaReflectionField implements ReflectionField {
 		return Modifier.isStatic(field.getModifiers());
 	}
 
+	@Override
+	public boolean isTransient() {
+		return Modifier.isTransient(field.getModifiers());
+	}
+
 }

@@ -189,10 +189,8 @@ public class ObjectsFactory {
 	/**
 	 * Constructs and EAdParam from its literal representation
 	 *
-	 * @param value
-	 *            text value representing the param
-	 * @param clazz
-	 *            the parameter class
+	 * @param value text value representing the param
+	 * @param clazz the parameter class
 	 * @return
 	 */
 	@SuppressWarnings( { "unchecked", "rawtypes" })
@@ -227,11 +225,12 @@ public class ObjectsFactory {
 					boolean forLater = false;
 					if (values.length == 3) {
 						initialValue = this.getObject(values[2], c);
-						forLater = initialValue == null;
+						forLater = initialValue == null
+								&& !"null".equals(values[2]);
 					}
 					p = new VarDef(values[0], c, initialValue);
 					if (forLater) {
-						xmlVisitor.addLoadInitalValue((VarDef) p, values[3]);
+						xmlVisitor.addLoadInitalValue((VarDef) p, values[2]);
 					}
 				} catch (Exception e) {
 					logger.warn("VarDef with representation {} poorly parsed",
@@ -240,6 +239,11 @@ public class ObjectsFactory {
 			}
 		}
 		return p;
+	}
+
+	private EAdList getList(String value) {
+		//EAdList list =
+		return null;
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
@@ -254,7 +258,7 @@ public class ObjectsFactory {
 		} else if (clazz == Float.class || clazz == float.class) {
 			return Float.parseFloat(value);
 		} else if (clazz == Character.class || clazz == char.class) {
-			return new Character(value.charAt(0));
+			return value.charAt(0);
 		} else if (clazz == Class.class) {
 			return getClassFromName(value);
 		} else if (clazz.isEnum()) {

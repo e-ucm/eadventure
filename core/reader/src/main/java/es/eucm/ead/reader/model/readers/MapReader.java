@@ -75,11 +75,8 @@ public class MapReader extends AbstractReader<EAdMap> {
 
 		private Object key;
 
-		private boolean keyReference, valueReference;
-
 		public MapVisitorListener(EAdMap map) {
 			this.map = map;
-			this.keyReference = valueReference = false;
 			this.waitingKey = true;
 		}
 
@@ -87,48 +84,13 @@ public class MapReader extends AbstractReader<EAdMap> {
 		@Override
 		public boolean loaded(XMLNode node, Object object,
 				boolean isNullInOrigin) {
-			// If object is null, element is pending to be loaded, it's
-			// a reference
-			if (object == null && !isNullInOrigin) {
-				object = node.getNodeText();
-				if (waitingKey) {
-					keyReference = true;
-				} else {
-					valueReference = true;
-				}
-			}
-
 			if (waitingKey) {
 				key = object;
 				waitingKey = false;
 			} else {
-				try {
-					if (keyReference || valueReference) {
-						// The key and/or the value are references and they're
-						// not prepared to be added to the map
-						logger.error("Yeah, it happened!!!!");
-						// readerVisitor.addMapKeyValue(map, key, object,
-						// keyReference, valueReference);
-					} else {
-						map.put(key, object);
-					}
-				} catch (Exception e) {
-					// The key is not prepared to generate a valid hash. Let's
-					// wait until it is
-					// readerVisitor.addMapKeyValue(map, key, object, keyReference,
-					// valueReference);
-				} finally {
-					key = null;
-					keyReference = false;
-					valueReference = false;
-					waitingKey = true;
-				}
+				map.put(key, object);
 			}
-
-			// We return true because we have another mechanism to deal with
-			// references in maps, and we don't want the step to be added again
 			return true;
-
 		}
 
 	}

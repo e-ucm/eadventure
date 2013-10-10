@@ -37,6 +37,7 @@
 
 package es.eucm.ead.reader2.model;
 
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.operations.SystemFields;
@@ -109,6 +110,10 @@ public class ObjectsFactory {
 	}
 
 	public Object getObjectById(String id) {
+		if (!identified.containsKey(id)) {
+			logger.info("Creating reference for element with id {}", id);
+			identified.put(id, new BasicElement(id));
+		}
 		return identified.get(id);
 	}
 

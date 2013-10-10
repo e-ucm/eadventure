@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE game-descriptor SYSTEM "descriptor.dtd">
+<game-descriptor versionNumber="412">
+	<title>Título de la aventura</title>
+	<description/>
+	<configuration defaultClickAction="showDetails" dragBehaviour="considerNonTargets" keepShowing="no" keyboard-navigation="disabled" perspective="regular">
+		<gui inventoryPosition="none" type="contextual"/>
+		<mode playerTransparent="no"/>
+		<graphics mode="windowed"/>
+	</configuration>
+	<contents>
+		<chapter path="chapter1.xml">
+			<title>La Dama Boba</title>
+			<description/>
+		</chapter>
+	</contents>
+</game-descriptor>

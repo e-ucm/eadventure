@@ -132,6 +132,9 @@ public class BasicAdventureModel extends BasicElement implements
 
 	@Override
 	public void addChapter(EAdChapter chapter) {
+		if (initialChapter == null) {
+			this.initialChapter = chapter;
+		}
 		this.chapters.add(chapter);
 
 	}

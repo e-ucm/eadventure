@@ -63,7 +63,7 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	/**
 	 * Actors of the game
 	 */
-	private EAdList<EAdSceneElementDef> actors;
+	private transient EAdList<EAdSceneElementDef> actors;
 
 	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;

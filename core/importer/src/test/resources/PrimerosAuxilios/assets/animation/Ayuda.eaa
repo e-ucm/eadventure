@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
+<animation id="Ayuda" slides="yes" usetransitions="yes"><documentation>Ayuda</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="40" type="image" uri="assets/animation/Ayuda1.jpg" waitforclick="yes"/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="40" type="image" uri="assets/animation/Ayuda2.jpg" waitforclick="yes"/><transition time="0" type="none"/></animation>

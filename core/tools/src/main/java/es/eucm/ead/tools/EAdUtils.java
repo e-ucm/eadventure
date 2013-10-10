@@ -39,7 +39,7 @@ package es.eucm.ead.tools;
 
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionField;
@@ -60,7 +60,8 @@ public class EAdUtils {
 										 * '*', '·', '[', ']', '`', '´'
 										 */};
 
-	private static Stack<Object> elements = new Stack<Object>();
+	private static Stack<Object> elements1 = new Stack<Object>();
+	private static Stack<Object> elements2 = new Stack<Object>();
 
 	private static boolean ignoreId;
 
@@ -73,113 +74,112 @@ public class EAdUtils {
 	}
 
 	public static boolean equals(Object o1, Object o2, boolean ignoreId) {
-		elements.clear();
+		return equals(o1, o2, ignoreId, null);
+	}
+
+	public static boolean equals(Object o1, Object o2, boolean ignoreId,
+			NotEqualHandler handler) {
+		elements1.clear();
+		elements2.clear();
 		EAdUtils.ignoreId = ignoreId;
-		return equalsImpl(o1, o2);
+		return equalsImpl(o1, o2, handler);
 	}
 
-	public static boolean equalsImpl(Object o1, Object o2) {
-		if (o1 == o2) {
-			return true;
-		}
+	private static boolean equalsImpl(Object o1, Object o2,
+			NotEqualHandler handler) {
+		boolean result = checkStack(o1, o2);
 
-		if (o1 == null || o2 == null) {
-			return false;
-		}
+		if (result && elements1.indexOf(o1) == -1) {
+			push(o1, o2);
+			if (o1 == o2) {
+				result = true;
+			} else if (o1 == null || o2 == null) {
+				result = false;
+			} else if (o1.getClass() != o2.getClass()) {
+				if (o1 instanceof BasicElement && o2 instanceof BasicElement) {
+					result = ((BasicElement) o1).getId().equals(
+							((BasicElement) o2).getId());
+				} else {
+					result = false;
+				}
+			} else if (o1 instanceof Number || o1 instanceof String
+					|| o1 instanceof Boolean
+					|| o1.getClass() == BasicElement.class) {
+				result = o1.equals(o2);
+			} else if (o1 instanceof List) {
+				List<?> list1 = (List<?>) o1;
+				List<?> list2 = (List<?>) o2;
+				result = (list1.size() == list2.size());
+				for (int i = 0; i < list1.size() && result; i++) {
+					result = result
+							&& equalsImpl(list1.get(i), list2.get(i), handler);
+				}
+			} else if (o1 instanceof Map) {
+				Map<?, ?> map1 = (Map<?, ?>) o1;
+				Map<?, ?> map2 = (Map<?, ?>) o2;
+				result = map1.size() == map2.size();
 
-		if (o1.getClass() != o2.getClass()) {
-			return false;
-		}
+				Iterator<?> it1 = map1.keySet().iterator();
+				Iterator<?> it2 = map2.keySet().iterator();
+				while (result && it1.hasNext()) {
+					Object v1 = it1.next();
+					Object v2 = it2.next();
+					result = result && equalsImpl(v1, v2, handler);
+				}
 
-		if (o1 instanceof EAdSceneElement || o1 instanceof BasicElement) {
-			return o1.equals(o2);
-		} else if (o1 instanceof Number || o1 instanceof String
-				|| o1 instanceof Boolean || o1.getClass() == BasicElement.class) {
-			return o1.equals(o2);
-		} else if (o1 instanceof List) {
-			List<?> list1 = (List<?>) o1;
-			List<?> list2 = (List<?>) o2;
-			if (list1.size() != list2.size()) {
-				return false;
-			}
-			for (int i = 0; i < list1.size(); i++) {
-				if (checkStack(list1.get(i))) {
-					continue;
+				it1 = map1.values().iterator();
+				it2 = map2.values().iterator();
+				while (result && it1.hasNext()) {
+					Object v1 = it1.next();
+					Object v2 = it2.next();
+					result = equalsImpl(v1, v2, handler);
 				}
-				elements.push(o1);
-				if (!equalsImpl(list1.get(i), list2.get(i))) {
-					return false;
-				}
-				elements.pop();
-			}
-			return true;
-		} else if (o1 instanceof Map) {
-			Map<?, ?> map1 = (Map<?, ?>) o1;
-			Map<?, ?> map2 = (Map<?, ?>) o2;
-			if (map1.size() != map2.size()) {
-				return false;
-			}
+			} else if (o1 instanceof Identified && o2 instanceof Identified) {
+				ReflectionClass<?> clazz = ReflectionClassLoader
+						.getReflectionClass(o1.getClass());
+				while (clazz != null) {
+					for (ReflectionField f : clazz.getFields()) {
 
-			Iterator<?> it1 = map1.keySet().iterator();
-			Iterator<?> it2 = map2.keySet().iterator();
-			while (it1.hasNext()) {
-				Object v1 = it1.next();
-				Object v2 = it2.next();
-				if (checkStack(v1)) {
-					continue;
-				}
-				elements.push(v1);
-				if (!equalsImpl(v1, v2)) {
-					return false;
-				}
-				elements.pop();
-			}
+						if (!result) {
+							break;
+						}
 
-			it1 = map1.values().iterator();
-			it2 = map2.values().iterator();
-			while (it1.hasNext()) {
-				Object v1 = it1.next();
-				Object v2 = it2.next();
-				if (checkStack(v1)) {
-					continue;
-				}
-				elements.push(v1);
-				if (!equalsImpl(v1, v2)) {
-					return false;
-				}
-				elements.pop();
-			}
-			return true;
-		}
-
-		ReflectionClass<?> clazz = ReflectionClassLoader.getReflectionClass(o1
-				.getClass());
-		while (clazz != null) {
-			for (ReflectionField f : clazz.getFields()) {
-				if (!f.isStatic()) {
-					if (ignoreId && f.getName().equals("id")) {
-						continue;
+						if (!f.isStatic() && !f.isTransient()) {
+							if (ignoreId && f.getName().equals("id")) {
+								continue;
+							}
+							Object v1 = f.getFieldValue(o1);
+							Object v2 = f.getFieldValue(o2);
+							result = result && equalsImpl(v1, v2, handler);
+						}
 					}
-					Object v1 = f.getFieldValue(o1);
-					Object v2 = f.getFieldValue(o2);
-					if (checkStack(v1)) {
-						continue;
-					}
-					elements.push(v1);
-					if (!equalsImpl(v1, v2)) {
-						return false;
-					}
-					elements.pop();
+					clazz = clazz.getSuperclass();
 				}
+			} else {
+				result = o1.equals(o2);
 			}
-			clazz = clazz.getSuperclass();
+			pop();
 		}
-		return true;
+		if (!result && handler != null) {
+			handler.notEqual(o1, o2);
+		}
+		return result;
 	}
 
-	private static boolean checkStack(Object o) {
-		return !elements.isEmpty() && elements.peek() != o
-				&& elements.contains(o);
+	private static void push(Object o1, Object o2) {
+		elements1.push(o1);
+		elements2.push(o2);
+	}
+
+	private static void pop() {
+		elements1.pop();
+		elements2.pop();
+	}
+
+	private static boolean checkStack(Object o1, Object o2) {
+		int index1 = elements1.indexOf(o1);
+		int index2 = elements2.indexOf(o2);
+		return index1 == index2;
 	}
 
 	public static String generateId(String prefix, int ordinal) {
@@ -202,5 +202,9 @@ public class EAdUtils {
 			map2.put(e.getValue(), e.getKey());
 		}
 		return map2;
+	}
+
+	public interface NotEqualHandler {
+		void notEqual(Object o1, Object o2);
 	}
 }

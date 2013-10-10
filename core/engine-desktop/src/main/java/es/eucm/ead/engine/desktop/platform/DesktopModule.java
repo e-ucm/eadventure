@@ -64,7 +64,7 @@ public class DesktopModule extends AbstractModule {
 		this.binds = binds;
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
 	protected void configure() {
 		BasicModuleMap map = new BasicModuleMap();

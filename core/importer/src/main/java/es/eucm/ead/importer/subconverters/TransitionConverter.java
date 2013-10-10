@@ -86,24 +86,24 @@ public class TransitionConverter {
 		}
 	}
 
-	public EAdTransition getTransitionNextScene(int type, int time ){
-		switch (type){
-			case NextScene.FADE_IN:
-				return new FadeInTransition(time);
-			case NextScene.TOP_TO_BOTTOM:
-				return new DisplaceTransition(time,
-						DisplaceTransitionType.VERTICAL, true);
-			case NextScene.BOTTOM_TO_TOP:
-				return new DisplaceTransition(time,
-						DisplaceTransitionType.VERTICAL, false);
-			case NextScene.RIGHT_TO_LEFT:
-				return new DisplaceTransition(time,
-						DisplaceTransitionType.HORIZONTAL, false);
-			case NextScene.LEFT_TO_RIGHT:
-				return new DisplaceTransition(time,
-						DisplaceTransitionType.HORIZONTAL, true);
-			default:
-				return EmptyTransition.instance();
+	public EAdTransition getTransitionNextScene(int type, int time) {
+		switch (type) {
+		case NextScene.FADE_IN:
+			return new FadeInTransition(time);
+		case NextScene.TOP_TO_BOTTOM:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, true);
+		case NextScene.BOTTOM_TO_TOP:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, false);
+		case NextScene.RIGHT_TO_LEFT:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, false);
+		case NextScene.LEFT_TO_RIGHT:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, true);
+		default:
+			return EmptyTransition.instance();
 		}
 	}
 

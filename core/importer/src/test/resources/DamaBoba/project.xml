@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Project Configuration</comment>
+<entry key="Chapter0.Duelo.Y">20</entry>
+<entry key="Chapter0.Duelo.X">6</entry>
+<entry key="Chapter0.Cover.Y">503</entry>
+<entry key="Chapter0.Cover.X">302</entry>
+<entry key="Chapter0.Final.Visible">true</entry>
+<entry key="Chapter0.Cover.Visible">true</entry>
+<entry key="Chapter0.Final.Y">286</entry>
+<entry key="Chapter0.Jardin.Visible">true</entry>
+<entry key="Chapter0.Final.X">192</entry>
+<entry key="Chapter0.Habitacion_Nise.Y">532</entry>
+<entry key="Chapter0.Jardin_Vuelta.Y">55</entry>
+<entry key="Chapter0.Habitacion_Nise.X">549</entry>
+<entry key="Chapter0.Jardin_Vuelta.X">210</entry>
+<entry key="Chapter0.Casa.Y">510</entry>
+<entry key="Chapter0.Casa.X">103</entry>
+<entry key="Chapter0.Jardin_Vuelta.Visible">true</entry>
+<entry key="Chapter0.Habitacion_Nise.Visible">true</entry>
+<entry key="Chapter0.Casa_vuelta.Visible">true</entry>
+<entry key="Chapter0.Casa.Visible">true</entry>
+<entry key="Chapter0.Agustinos.Y">105</entry>
+<entry key="Chapter0.Agustinos.X">241</entry>
+<entry key="Chapter0.Agustinos.Visible">true</entry>
+<entry key="Chapter0.Juego_Nise.Visible">true</entry>
+<entry key="Chapter0.Juego_Nise.Y">104</entry>
+<entry key="Chapter0.Feedback.Visible">true</entry>
+<entry key="Chapter0.Juego_Nise.X">145</entry>
+<entry key="Chapter0.Jardin.Y">20</entry>
+<entry key="Chapter0.Jardin.X">679</entry>
+<entry key="autosave">yes</entry>
+<entry key="Chapter0.Result.Y">568</entry>
+<entry key="Chapter0.Duelo.Visible">true</entry>
+<entry key="Chapter0.Result.X">609</entry>
+<entry key="Chapter0.Gran_Salon.Visible">true</entry>
+<entry key="Chapter0.Feedback.Y">24</entry>
+<entry key="Chapter0.Feedback.X">322</entry>
+<entry key="Chapter0.Juego_Finea.Visible">true</entry>
+<entry key="Chapter0.Casa_vuelta.Y">385</entry>
+<entry key="Chapter0.Gran_Salon.Y">409</entry>
+<entry key="Chapter0.Casa_vuelta.X">435</entry>
+<entry key="Chapter0.Gran_Salon.X">327</entry>
+<entry key="Chapter0.Juego_Finea.Y">349</entry>
+<entry key="Chapter0.Juego_Finea.X">100</entry>
+<entry key="Chapter0.Result.Visible">true</entry>
+</properties>

@@ -39,8 +39,8 @@ package es.eucm.ead.importer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.interfaces.features.Evented;
-import es.eucm.ead.model.interfaces.features.WithBehavior;
+import es.eucm.ead.importer.resources.ResourcesConverter;
+import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 import es.eucm.ead.model.assets.drawable.filters.FilteredDrawable;
@@ -58,14 +58,14 @@ import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.ChangeAppearanceEf;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.interfaces.features.Evented;
+import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Matrix;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.importer.resources.ResourcesConverter;
-import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import org.slf4j.Logger;
@@ -101,9 +101,10 @@ public class UtilsConverter {
 
 	/**
 	 * Add conditions for the resources changes
+	 *
 	 * @param resources the list of resources
-	 * @param e the element affected
-	 * @param stateVar the variable controlling the state for the element
+	 * @param e         the element affected
+	 * @param stateVar  the variable controlling the state for the element
 	 */
 	public void addResourcesConditions(List<Resources> resources, EAdElement e,
 			EAdVarDef<String> stateVar) {
@@ -194,10 +195,8 @@ public class UtilsConverter {
 	 * Add mouse enter and mouse exit behavior to change the cursor when is over
 	 * the given element
 	 *
-	 * @param e
-	 *            the element
-	 * @param bundleId
-	 *            cursor bundle id
+	 * @param e        the element
+	 * @param bundleId cursor bundle id
 	 */
 	public void addCursorChange(WithBehavior e, String bundleId) {
 		e.addBehavior(MouseGEv.MOUSE_ENTERED, new ChangeAppearanceEf(cursor,
@@ -277,47 +276,51 @@ public class UtilsConverter {
 		BufferedImage foreground = resourcesConverter.loadImage(foregroundPath);
 		BufferedImage background = resourcesConverter.loadImage(backgroundPath);
 
-		int width = foreground.getWidth();
-		int height = foreground.getHeight();
-
-		int[] backgroundPixels = background.getRGB(0, 0, width, height, null,
-				0, width);
-		int[] maskPixels = foreground.getRGB(0, 0, width, height, null, 0,
-				width);
-
-		int[] resultPixels = new int[maskPixels.length];
-
-		for (int i = 0; i < backgroundPixels.length; i++) {
-			int color = backgroundPixels[i];
-			int mask = maskPixels[i];
-
-			if (mask != 0xffffffff) {
-				resultPixels[i] = color;
-			} else {
-				resultPixels[i] = 0x00000000;
-			}
-
-		}
-		BufferedImage result = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
-		result.getRaster().setDataElements(0, 0, width, height, resultPixels);
 		String newUri = resourcesConverter.getPath(foregroundPath);
 
 		if (!newUri.endsWith(".png")) {
 			newUri += ".png";
 		}
 
-		try {
-			ImageIO.write(result, "png", new File(resourcesConverter
-					.getProjectFolder(), newUri.substring(1)));
-		} catch (IOException e) {
-			logger.error("Error creating foreground image {}", foregroundPath,
-					e);
-		}
+		if (foreground != null && background != null) {
+			int width = foreground.getWidth();
+			int height = foreground.getHeight();
 
-		foreground.flush();
-		background.flush();
-		result.flush();
+			int[] backgroundPixels = background.getRGB(0, 0, width, height,
+					null, 0, width);
+			int[] maskPixels = foreground.getRGB(0, 0, width, height, null, 0,
+					width);
+
+			int[] resultPixels = new int[maskPixels.length];
+
+			for (int i = 0; i < backgroundPixels.length; i++) {
+				int color = backgroundPixels[i];
+				int mask = maskPixels[i];
+
+				if (mask != 0xffffffff) {
+					resultPixels[i] = color;
+				} else {
+					resultPixels[i] = 0x00000000;
+				}
+
+			}
+			BufferedImage result = new BufferedImage(width, height,
+					BufferedImage.TYPE_INT_ARGB);
+			result.getRaster().setDataElements(0, 0, width, height,
+					resultPixels);
+
+			try {
+				ImageIO.write(result, "png", new File(resourcesConverter
+						.getProjectFolder(), newUri.substring(1)));
+			} catch (IOException e) {
+				logger.error("Error creating foreground image {}",
+						foregroundPath, e);
+			}
+
+			foreground.flush();
+			background.flush();
+			result.flush();
+		}
 		return newUri;
 	}
 }

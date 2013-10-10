@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
+<animation id="Inicio" slides="yes" usetransitions="yes"><documentation>Set of slides of the slidescene</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="40" type="image" uri="assets/animation/Portada2.png" waitforclick="yes"/><transition time="0" type="none"/></animation>

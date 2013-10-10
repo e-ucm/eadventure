@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE game-descriptor SYSTEM "descriptor.dtd">
+<game-descriptor versionNumber="331">
+	<title>Juego sobre primeros auxilios</title>
+	<description>Este juego permite simular diferentes situaciones típicas donde se pueden aplicar concpetos básicos de primeros auxilios. Estas situaciones son principalmente el atragantamiento, el dolor torácico y el encontrarnos con una persona inconsciente.</description>
+	<configuration defaultClickAction="showActions" keepShowing="yes" perspective="regular">
+		<gui inventoryPosition="none" type="contextual">
+			<cursors>
+				<cursor type="default" uri="gui/cursors/default_cursor.png"/>
+				<cursor type="over" uri="gui/cursors/action_cursor.png"/>
+				<cursor type="action" uri="gui/cursors/action_cursor.png"/>
+				<cursor type="exit" uri="gui/cursors/action_cursor.png"/>
+			</cursors>
+			<buttons>
+				<button action="talk" type="normal" uri="gui/buttons/Talk-Normal.png"/>
+				<button action="talk" type="highlighted" uri="gui/buttons/Talk-Pressed.png"/>
+				<button action="use-grab" type="normal" uri="gui/buttons/Use-Normal.png"/>
+				<button action="use-grab" type="highlighted" uri="gui/buttons/Use-Pressed.png"/>
+				<button action="examine" type="normal" uri="gui/buttons/Examine-Normal.png"/>
+				<button action="examine" type="highlighted" uri="gui/buttons/Examine-Pressed.png"/>
+			</buttons>
+		</gui>
+		<mode playerTransparent="yes"/>
+		<graphics mode="windowed"/>
+	</configuration>
+	<contents>
+		<chapter path="chapter1.xml">
+			<title>Juego de primeros auxilios</title>
+			<description>Este capitulo enseña diferentes procedimientos necesarios en primeros auxilios.</description>
+		</chapter>
+	</contents>
+</game-descriptor>

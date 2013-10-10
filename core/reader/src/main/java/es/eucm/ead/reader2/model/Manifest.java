@@ -58,6 +58,12 @@ public class Manifest extends BasicElement {
 	private EAdList<String> initialScenes;
 
 	/**
+	 * Map relating chapters ids wit their scenes
+	 */
+	@Param
+	private EAdMap<String, EAdList<String>> chaptersScenes;
+
+	/**
 	 * Id of the initial chapter
 	 */
 	@Param
@@ -125,6 +131,11 @@ public class Manifest extends BasicElement {
 		} else {
 			params.clear();
 		}
+		if (chaptersScenes == null) {
+			chaptersScenes = new EAdMap<String, EAdList<String>>();
+		} else {
+			chaptersScenes.clear();
+		}
 	}
 
 	public void addChapterId(String id) {
@@ -153,10 +164,6 @@ public class Manifest extends BasicElement {
 
 	public EAdList<String> getChapterIds() {
 		return this.chapters;
-	}
-
-	public EAdList<String> getInitialScenesIds() {
-		return this.initialScenes;
 	}
 
 	public EAdList<String> getChapters() {
@@ -205,5 +212,22 @@ public class Manifest extends BasicElement {
 
 	public void setSceneGraph(EAdMap<String, EAdList<String>> sceneGraph) {
 		this.sceneGraph = sceneGraph;
+	}
+
+	public EAdMap<String, EAdList<String>> getChaptersScenes() {
+		return chaptersScenes;
+	}
+
+	public void setChaptersScenes(EAdMap<String, EAdList<String>> chaptersScenes) {
+		this.chaptersScenes = chaptersScenes;
+	}
+
+	public void addScene(String chapterId, String sceneId) {
+		EAdList<String> scenes = chaptersScenes.get(chapterId);
+		if (scenes == null) {
+			scenes = new EAdList<String>();
+			chaptersScenes.put(chapterId, scenes);
+		}
+		scenes.add(sceneId);
 	}
 }

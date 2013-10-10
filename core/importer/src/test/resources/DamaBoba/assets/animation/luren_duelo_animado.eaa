@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
+<animation id="luren_duelo_animado" slides="no" usetransitions="yes"><documentation>Walking up</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="140" type="image" uri="assets/animation/lauren_duelo_peque.gif" waitforclick="no"/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="140" type="image" uri="assets/animation/lauren_duelo_peque_2.gif" waitforclick="no"/><transition time="0" type="none"/></animation>

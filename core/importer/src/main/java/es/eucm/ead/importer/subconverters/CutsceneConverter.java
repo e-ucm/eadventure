@@ -169,7 +169,8 @@ public class CutsceneConverter {
 						// [SS - Transition]
 						if (i == anim.getFrames().size() - 1) {
 							nextSlide.setTransition(transitionConverter
-									.getTransitionNextScene(cs.getTransitionType(), cs
+									.getTransitionNextScene(cs
+											.getTransitionType(), cs
 											.getTransitionTime()));
 						} else {
 							// If the animation has transitions, we add it
@@ -239,7 +240,8 @@ public class CutsceneConverter {
 		// [VI - Video]
 		Videoscene vs = (Videoscene) cs;
 		// XXX Not working when there's more than one resource
-		Video video = resourceConverter.getVideo(vs.getResources().get(0).getAssetPath(Videoscene.RESOURCE_TYPE_VIDEO));
+		Video video = resourceConverter.getVideo(vs.getResources().get(0)
+				.getAssetPath(Videoscene.RESOURCE_TYPE_VIDEO));
 
 		VideoScene videoScene = new VideoScene();
 		videoScene.setVideo(video);

@@ -212,4 +212,8 @@ public class AdventureConverter {
 	public void setEnableSimplifications(boolean enableSimplifications) {
 		writer.setEnableSimplifications(enableSimplifications);
 	}
+
+	public void setEnableTranslations(boolean enableTranslations) {
+		writer.setEnableTranslations(enableTranslations);
+	}
 }

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
+<animation id="anim327" slides="no" usetransitions="yes"><documentation/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="100" type="image" uri="assets/animation/desf_electrodos.png" waitforclick="no"/><transition time="0" type="none"/></animation>

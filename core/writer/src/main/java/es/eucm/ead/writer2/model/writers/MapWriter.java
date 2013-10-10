@@ -43,6 +43,9 @@ import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.writer2.model.WriterContext;
 import es.eucm.ead.writer2.model.WriterVisitor;
 
+import java.util.Map;
+import java.util.Set;
+
 @SuppressWarnings("rawtypes")
 public class MapWriter implements Writer<EAdMap> {
 
@@ -57,10 +60,10 @@ public class MapWriter implements Writer<EAdMap> {
 		XMLNode node = new XMLNode(DOMTags.MAP_TAG);
 
 		MapWriterListener listener = new MapWriterListener(node);
-		for (Object key : object.keySet()) {
-			Object value = object.get(key);
-			writerVisitor.writeElement(key, object, listener);
-			writerVisitor.writeElement(value, object, listener);
+		Set<Map.Entry> set = object.entrySet();
+		for (Map.Entry entry : set) {
+			writerVisitor.writeElement(entry.getKey(), object, listener);
+			writerVisitor.writeElement(entry.getValue(), object, listener);
 		}
 		return node;
 	}

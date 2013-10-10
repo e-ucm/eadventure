@@ -106,9 +106,9 @@ public class ResourcesConverter {
 		return (Music) asset;
 	}
 
-	public Video getVideo(String videoPath){
+	public Video getVideo(String videoPath) {
 		AssetDescriptor asset = assets.get(videoPath);
-		if ( asset == null ){
+		if (asset == null) {
 			String destinationVideoPath = getPath(videoPath);
 			asset = new Video(destinationVideoPath);
 			assets.put(destinationVideoPath, asset);
@@ -336,7 +336,7 @@ public class ResourcesConverter {
 			Dimension d = new Dimension(img.getWidth(), img.getHeight());
 			img.flush();
 			return d;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return new Dimension(1, 1);
 		}
 	}

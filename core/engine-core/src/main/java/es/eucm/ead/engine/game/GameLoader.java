@@ -147,7 +147,7 @@ public class GameLoader {
 		String initialScene = null;
 		for (String id : currentManifest.getChapterIds()) {
 			if (chapterId.equals(id)) {
-				initialScene = currentManifest.getInitialScenesIds().get(i);
+				initialScene = currentManifest.getInitialScenes().get(i);
 			}
 			i++;
 		}

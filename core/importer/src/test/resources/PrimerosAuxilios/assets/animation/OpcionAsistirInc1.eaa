@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
+<animation id="OpcionAsistirInc1" slides="no" usetransitions="yes"><documentation>Hacia arriba</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="100" type="image" uri="assets/animation/DSC_0433 ayuda dt inc1_01.jpg" waitforclick="no"/><transition time="0" type="none"/></animation>

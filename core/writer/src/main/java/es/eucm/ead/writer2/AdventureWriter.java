@@ -226,6 +226,9 @@ public class AdventureWriter implements WriterContext {
 				}
 			}
 			manifest.addInitScene(scene.getId());
+			for (EAdScene s : chapter.getScenes()) {
+				manifest.addScene(chapter.getId(), s.getId());
+			}
 		}
 
 		// Initial chapter

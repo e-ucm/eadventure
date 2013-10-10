@@ -37,13 +37,12 @@
 
 package es.eucm.ead.tools.gwt.reflection;
 
-import java.lang.annotation.Annotation;
-
 import com.gwtent.reflection.client.Field;
-
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionField;
+
+import java.lang.annotation.Annotation;
 
 public class GwtReflectionField implements ReflectionField {
 
@@ -86,6 +85,12 @@ public class GwtReflectionField implements ReflectionField {
 	@Override
 	public boolean isStatic() {
 		return field.isStatic();
+	}
+
+	@Override
+	public boolean isTransient() {
+		// XXX Is transient GWT
+		return false;
 	}
 
 }

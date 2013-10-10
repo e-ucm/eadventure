@@ -66,10 +66,6 @@ public class VarDef<T> extends AbstractParam implements EAdVarDef<T> {
 	 *            variable's type
 	 * @param initialValue
 	 *            variable's initial value
-	 * @param constant
-	 *            if the variable is constant
-	 * @param global
-	 *            if the variable is global
 	 */
 	public VarDef(String name, Class<T> type, T initialValue) {
 		this.name = name;

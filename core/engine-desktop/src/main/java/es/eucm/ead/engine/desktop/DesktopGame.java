@@ -111,7 +111,7 @@ public class DesktopGame {
 
 	public void setPath(String path) {
 		this.path = path;
-		if ( injector != null ){
+		if (injector != null) {
 			AssetHandler assetHandler = injector
 					.getInstance(AssetHandler.class);
 			assetHandler.setResourcesLocation(path);

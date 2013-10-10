@@ -39,7 +39,11 @@ package es.eucm.ead.reader2;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.reader.model.translators.MapClassTranslator;
 import es.eucm.ead.reader2.model.Manifest;
@@ -51,9 +55,6 @@ import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdAdventureModel;
 
 @Singleton
 public class AdventureReader {
@@ -118,26 +119,42 @@ public class AdventureReader {
 
 	}
 
+	/**
+	 * Reads the full model
+	 *
+	 * @return the complete model of the game
+	 */
 	public EAdAdventureModel readFullModel() {
+		// Manifest
 		Manifest manifest = getManifest();
+
+		// Model
 		EAdAdventureModel model = manifest.getModel();
 		int chapterIndex = 0;
-		for (String cid : manifest.getChapterIds()) {
-			BasicChapter c = (BasicChapter) readChapter(cid);
+
+		EAdMap<String, EAdList<String>> chaptersScenes = manifest
+				.getChaptersScenes();
+
+		for (String chapterId : manifest.getChapterIds()) {
+			// Chapters
+			BasicChapter c = (BasicChapter) readChapter(chapterId);
 			model.addChapter(c);
-			if (cid.equals(manifest.getInitialChapter())) {
+			if (chapterId.equals(manifest.getInitialChapter())) {
 				model.setInitialChapter(c);
 			}
-			String sid = manifest.getInitialScenes().get(chapterIndex);
-			EAdScene s = readScene(sid);
-			c.addScene(s);
-			c.setInitialScene(s);
 
-			// FIXME: no way to locate all scenes of chapter...
-
-			chapterIndex++;
+			// Scenes
+			String initialSceneId = manifest.getInitialScenes().get(
+					chapterIndex++);
+			EAdList<String> chapterScenes = chaptersScenes.get(chapterId);
+			for (String sceneId : chapterScenes) {
+				EAdScene s = readScene(sceneId);
+				c.addScene(s);
+				if (sceneId.equals(initialSceneId)) {
+					c.setInitialScene(s);
+				}
+			}
 		}
-
 		return model;
 	}
 

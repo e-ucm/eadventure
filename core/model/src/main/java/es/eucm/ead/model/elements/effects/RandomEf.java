@@ -54,7 +54,7 @@ public class RandomEf extends AbstractEffect {
 	 * Effect's list
 	 */
 	@Param
-	private es.eucm.ead.model.elements.extra.EAdMap<EAdEffect, Float> effects;
+	private EAdMap<EAdEffect, Float> effects;
 
 	public RandomEf() {
 		super();
