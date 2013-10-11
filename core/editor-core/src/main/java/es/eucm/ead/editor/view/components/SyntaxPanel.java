@@ -63,10 +63,10 @@ public class SyntaxPanel extends JPanel {
 			previousReference = c;
 			ComponentAdapter nextAdapter = new ComponentAdapter() {
 				private boolean isUpdating = false;
-				private Dimension oldSize;
+				private final Dimension oldSize = new Dimension(0,0);
 				@Override
 				public void componentResized(ComponentEvent e) {
-					if (oldSize != null && oldSize.equals(c.getSize())) {
+					if (oldSize.equals(c.getSize())) {
 						return; 
 					} else {
 						oldSize.setSize(c.getSize());

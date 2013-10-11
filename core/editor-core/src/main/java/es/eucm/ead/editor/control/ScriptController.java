@@ -6,6 +6,7 @@
 package es.eucm.ead.editor.control;
 
 import es.eucm.ead.editor.view.components.OutputLogPanel;
+import javax.script.ScriptContext;
 
 /**
  * Controls script retrieval, launching and execution. Scripts are also used
@@ -24,8 +25,23 @@ public interface ScriptController {
 	 * Runs a script.
 	 * @param script to execute
 	 * @param out optional output (null = ignore output)
+	 * @param context to execute code in
 	 * @param source optional source of code
 	 * @return result of executing script
 	 */
-	public Object eval(String script, OutputLogPanel out, String source);
+	public Object eval(String script, OutputLogPanel out, ScriptContext context, String source);
+	
+
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
+	void setController(Controller controller);	
+	
+	/**
+	 * Requests the script execution context
+	 * @return the private scope
+	 */
+	ScriptContext getContext();
 }

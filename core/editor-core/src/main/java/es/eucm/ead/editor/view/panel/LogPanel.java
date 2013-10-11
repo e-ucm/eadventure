@@ -52,6 +52,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.script.ScriptContext;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -70,7 +71,7 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 
 	static private Logger logger = LoggerFactory.getLogger(LogPanel.class);
 
-	private OutputLogPanel olp;
+	private OutputLogPanel log;
 	private CommandLinePanel clp;
 	private JPanel executePanel;
 	private final JButton helpButton;
@@ -80,10 +81,14 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 	private JSplitPane verticalSplit;
 	private JCheckBox expandedCommandToggle;
 	
+	public OutputLogPanel getLog() {
+		return log;
+	}
+	
 	public LogPanel() {
-		olp = new OutputLogPanel();
-		olp.setText(Log4jConfig.getBuffer());
-		olp.setReferenceComponent(this, 30);
+		log = new OutputLogPanel();
+		log.setText(Log4jConfig.getBuffer());
+		log.setReferenceComponent(this, 30);
 
 		clp = new CommandLinePanel();
 		clp.setMinimumSize(new Dimension(100, 15));
@@ -93,16 +98,20 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clp.pushToHistory();
-				controller.getScriptController().eval(clp.getText(), olp, "executeAction");
+				ScriptContext sc = controller.getScriptController().getContext();
+				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("panel", LogPanel.this);
+				controller.getScriptController().eval(clp.getText(), log, sc, "executeAction");
 			}
 		};
 		helpAction = new AbstractEditorAction("_helpCmd", KeyEvent.VK_H,
 				KeyEvent.CTRL_DOWN_MASK, R.Drawable.assets__helpcmd_png) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				olp.append("Welcome to the informative help screen!\n");
+				ScriptContext sc = controller.getScriptController().getContext();
+				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("cmd.panel", LogPanel.this);
+				controller.getScriptController().eval("help", log, sc, "helpRequested");
 			}
-		};				
+		};
 		
 		executeButton = new JButton(executeAction);
 		executeButton.setText("");
@@ -143,7 +152,9 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 		clp.setInteractive(new Runnable() {
 			@Override
 			public void run() {
-				controller.getScriptController().eval(clp.getText(), olp, "keyboardEnter");
+				ScriptContext sc = controller.getScriptController().getContext();
+				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("panel", LogPanel.this);
+				controller.getScriptController().eval(clp.getText(), log, sc, "keyboardEnter");
 			}
 		});		
 	}
@@ -180,7 +191,7 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 		executePanel = new JPanel(new GridBagLayout());
 		
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		verticalSplit.setTopComponent(olp);
+		verticalSplit.setTopComponent(log);
 		verticalSplit.setOneTouchExpandable(true);
 		verticalSplit.setBottomComponent(executePanel);
 
@@ -193,6 +204,6 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 
 	@Override
 	public void logChanged(String change) {
-		olp.append(change);
+		log.append(change);
 	}
 }

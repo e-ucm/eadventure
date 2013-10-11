@@ -9,6 +9,7 @@ import es.eucm.ead.editor.view.components.OutputLogPanel;
 import es.eucm.ead.tools.java.utils.FileUtils;
 import java.io.IOException;
 import java.io.Writer;
+import static java.lang.System.out;
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -16,8 +17,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.org.mozilla.javascript.Context;
-import sun.org.mozilla.javascript.ContextFactory;
 
 /**
  *
@@ -31,6 +30,8 @@ public class ScriptControllerImpl implements ScriptController {
 	private ScriptEngineManager mgr = new ScriptEngineManager();
 	private ScriptEngine jsEngine;
 
+	private Controller controller;
+	
 	public ScriptControllerImpl() {
 		jsEngine = mgr.getEngineByName("JavaScript");
 		ScriptContext sc = jsEngine.getContext();
@@ -51,28 +52,33 @@ public class ScriptControllerImpl implements ScriptController {
 			@Override
 			public void close() throws IOException {}
 		});
-		refreshScripts();
 	}
 
+	@Override
+	public ScriptContext getContext() {
+		return jsEngine.getContext();
+	}
+	
 	@Override
 	public void refreshScripts() {
 		logger.info("Refreshing scripts...");
 		
-		jsEngine.setBindings(jsEngine.createBindings(),
-				ScriptContext.GLOBAL_SCOPE);
+		Bindings b = jsEngine.createBindings();
+		b.put("controller", controller);
+		jsEngine.setBindings(b,	ScriptContext.GLOBAL_SCOPE);
 		try {
 			String r = FileUtils.loadResourceToString("/scripts/env.js");
-			eval(r, null, "refresh");
+			eval(r, null, getContext(), "refresh");
 		} catch (IOException ex) {
 			logger.warn("Error reading resource", ex);
 		}
 	}
 	
 	@Override
-	public Object eval(String script, OutputLogPanel out, String source) {
+	public Object eval(String script, OutputLogPanel out, ScriptContext context, String source) {
 		try {
 			long ms = System.currentTimeMillis();
-			Object output = jsEngine.eval(script);
+			Object output = jsEngine.eval(script, context);
 			ms = System.currentTimeMillis() - ms;
 			if (out != null) {
 				out.append("Evaluated " + script.length() 
@@ -97,5 +103,17 @@ public class ScriptControllerImpl implements ScriptController {
 			}
 			return null;
 		}
+	}
+	
+
+	/**
+	 * Set the actual super-controller.
+	 * @param controller the main controller, providing access to model, views,
+	 * and more
+	 */
+	@Override
+	public void setController(Controller controller) {
+		this.controller = controller;
+		refreshScripts();		
 	}
 }

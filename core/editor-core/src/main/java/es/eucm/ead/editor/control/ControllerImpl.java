@@ -106,6 +106,7 @@ public class ControllerImpl implements Controller {
 		navigationController.setController(this);
 		viewController.setController(this);
 		commandManager.setController(this);
+		scriptController.setController(this);
 	}
 
 	@Override
