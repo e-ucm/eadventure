@@ -122,7 +122,7 @@ public class EditMenu extends AbstractEditorMenu {
 						R.Drawable.sidePanel__test3_png),
 				null, // this is a separator
 				new ConsoleAction(Messages.edit_menu_console, KeyEvent.VK_O,
-						KeyEvent.ALT_DOWN_MASK, R.Drawable.assets__log_png)};
+						KeyEvent.ALT_DOWN_MASK, R.Drawable.assets__log_png) };
 		for (AbstractEditorAction<String> a : as) {
 			if (a == null) {
 				addSeparator();

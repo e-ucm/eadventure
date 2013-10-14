@@ -88,8 +88,8 @@ public class Log4jConfig {
 
 	static private void writeInBuffer(String text) {
 		synchronized (mutex) {
-			while ( ! outputBuffer.isEmpty() && 
-					totalBufferLength + text.length() > maxBufferLength) {
+			while (!outputBuffer.isEmpty()
+					&& totalBufferLength + text.length() > maxBufferLength) {
 				int removed = outputBuffer.pop().length();
 				totalBufferLength -= removed;
 			}
@@ -242,13 +242,12 @@ public class Log4jConfig {
 			new Runnable() {
 				@Override
 				public void run() {
-					Logger.getLogger(loggerName)
-							.setLevel(Level.toLevel(level));
+					Logger.getLogger(loggerName).setLevel(Level.toLevel(level));
 				}
 			}.run();
 		}
 	}
-	
+
 	/**
 	 * Sets a logger to a level.
 	 *

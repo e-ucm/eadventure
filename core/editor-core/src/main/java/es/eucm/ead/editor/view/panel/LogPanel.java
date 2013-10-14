@@ -80,11 +80,11 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 	private Action helpAction;
 	private JSplitPane verticalSplit;
 	private JCheckBox expandedCommandToggle;
-	
+
 	public OutputLogPanel getLog() {
 		return log;
 	}
-	
+
 	public LogPanel() {
 		log = new OutputLogPanel();
 		log.setText(Log4jConfig.getBuffer());
@@ -98,21 +98,27 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clp.pushToHistory();
-				ScriptContext sc = controller.getScriptController().getContext();
-				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("panel", LogPanel.this);
-				controller.getScriptController().eval(clp.getText(), log, sc, "executeAction");
+				ScriptContext sc = controller.getScriptController()
+						.getContext();
+				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("panel",
+						LogPanel.this);
+				controller.getScriptController().eval(clp.getText(), log, sc,
+						"executeAction");
 			}
 		};
 		helpAction = new AbstractEditorAction("_helpCmd", KeyEvent.VK_H,
 				KeyEvent.CTRL_DOWN_MASK, R.Drawable.assets__helpcmd_png) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScriptContext sc = controller.getScriptController().getContext();
-				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("cmd.panel", LogPanel.this);
-				controller.getScriptController().eval("help", log, sc, "helpRequested");
+				ScriptContext sc = controller.getScriptController()
+						.getContext();
+				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("cmd.panel",
+						LogPanel.this);
+				controller.getScriptController().eval("help", log, sc,
+						"helpRequested");
 			}
 		};
-		
+
 		executeButton = new JButton(executeAction);
 		executeButton.setText("");
 		helpButton = new JButton(helpAction);
@@ -129,8 +135,8 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 			}
 		});
 	}
-	
-	private void setInteractive() {		
+
+	private void setInteractive() {
 		GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1f, 1f,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
 						4, 4, 4, 4), 0, 0);
@@ -152,14 +158,17 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 		clp.setInteractive(new Runnable() {
 			@Override
 			public void run() {
-				ScriptContext sc = controller.getScriptController().getContext();
-				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("panel", LogPanel.this);
-				controller.getScriptController().eval(clp.getText(), log, sc, "keyboardEnter");
+				ScriptContext sc = controller.getScriptController()
+						.getContext();
+				sc.getBindings(ScriptContext.ENGINE_SCOPE).put("panel",
+						LogPanel.this);
+				controller.getScriptController().eval(clp.getText(), log, sc,
+						"keyboardEnter");
 			}
-		});		
+		});
 	}
-	
-	private void setNonInteractive() {		
+
+	private void setNonInteractive() {
 		GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 3, 1f, 1f,
 				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
 						4, 4, 4, 4), 0, 0);
@@ -178,18 +187,18 @@ public class LogPanel extends AbstractElementPanel<CharacterNode> implements
 		executePanel.revalidate();
 
 		verticalSplit.setResizeWeight(.5);
-		verticalSplit.setDividerLocation(.5);	
+		verticalSplit.setDividerLocation(.5);
 		clp.setReferenceComponent(this, 80);
 		clp.setInteractive(null);
 	}
-	
+
 	@Override
 	protected void rebuild() {
 		removeAll();
 		setLayout(new BorderLayout());
 
 		executePanel = new JPanel(new GridBagLayout());
-		
+
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		verticalSplit.setTopComponent(log);
 		verticalSplit.setOneTouchExpandable(true);
