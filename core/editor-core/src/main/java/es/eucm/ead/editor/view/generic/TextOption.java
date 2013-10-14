@@ -51,6 +51,7 @@ import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
+import javax.swing.border.Border;
 
 public class TextOption extends DefaultAbstractOption<String> {
 
@@ -61,6 +62,7 @@ public class TextOption extends DefaultAbstractOption<String> {
 	private ExpectedLength expectedLength;
 
 	protected JTextComponent textField;
+	protected Border defaultBorder;
 
 	public TextOption(String title, String toolTipText, Object object,
 			String fieldName, ExpectedLength expectedLength, DependencyNode node) {
@@ -79,6 +81,11 @@ public class TextOption extends DefaultAbstractOption<String> {
 			Accessor<String> fieldDescriptor, DependencyNode... changed) {
 		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL,
 				changed);
+	}
+
+	@Override
+	protected void update() {
+		super.update();
 	}
 
 	@Override
@@ -138,8 +145,10 @@ public class TextOption extends DefaultAbstractOption<String> {
 		if (expectedLength.equals(ExpectedLength.LONG)) {
 			JScrollPane jsp = new JScrollPane(textField);
 			jsp.setMinimumSize(new Dimension(0, 40));
+			defaultBorder = jsp.getBorder();
 			return jsp;
 		} else {
+			defaultBorder = textField.getBorder();
 			return textField;
 		}
 	}

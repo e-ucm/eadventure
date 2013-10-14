@@ -74,7 +74,7 @@ public class BooleanOption extends DefaultAbstractOption<Boolean> {
 	}
 
 	@Override
-	protected Boolean getControlValue() {
+	public Boolean getControlValue() {
 		return checkBox.isSelected();
 	}
 

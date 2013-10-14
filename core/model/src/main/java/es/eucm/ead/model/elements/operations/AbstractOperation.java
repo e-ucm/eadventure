@@ -48,35 +48,37 @@ public abstract class AbstractOperation extends BasicElement implements
 	 * List of the variables
 	 */
 	@Param
-	protected EAdList<EAdOperation> operationsList;
+	protected EAdList<EAdOperation> operations;
 
 	public AbstractOperation() {
 		super();
-		operationsList = new EAdList<EAdOperation>();
+		operations = new EAdList<EAdOperation>();
 	}
 
+	@Override
 	public EAdList<EAdOperation> getOperations() {
-		return operationsList;
+		return operations;
 	}
 
-	public void setOperationsList(EAdList<EAdOperation> operationsList) {
-		this.operationsList = operationsList;
+	public void setOperations(EAdList<EAdOperation> operationsList) {
+		this.operations = operationsList;
 	}
 
 	public void addOperation(EAdOperation operation) {
-		this.operationsList.add(operation);
+		this.operations.add(operation);
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
 		if (o instanceof AbstractOperation) {
 			AbstractOperation ao = (AbstractOperation) o;
-			if (ao.operationsList.size() == this.operationsList.size()) {
-				for (int i = 0; i < ao.operationsList.size(); i++) {
-					EAdOperation op1 = ao.operationsList.get(i);
-					EAdOperation op2 = this.operationsList.get(i);
+			if (ao.operations.size() == this.operations.size()) {
+				for (int i = 0; i < ao.operations.size(); i++) {
+					EAdOperation op1 = ao.operations.get(i);
+					EAdOperation op2 = this.operations.get(i);
 					if (!op1.equals(op2)) {
 						return false;
 					}

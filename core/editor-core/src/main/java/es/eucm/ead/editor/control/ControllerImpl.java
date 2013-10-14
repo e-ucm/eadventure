@@ -39,7 +39,6 @@ package es.eucm.ead.editor.control;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
 
 import javax.swing.Action;
 
@@ -52,6 +51,7 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
+import java.util.LinkedHashMap;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -67,6 +67,8 @@ public class ControllerImpl implements Controller {
 	private NavigationController navigationController;
 	private ViewController viewController;
 	private CommandManager commandManager;
+	private ScriptController scriptController;
+
 	private DesktopGame game;
 
 	private AssetHandler assetHandler;
@@ -76,15 +78,15 @@ public class ControllerImpl implements Controller {
 	 * Action map. Contains all actions, generally bound to menu items or
 	 * the like.
 	 */
-	private HashMap<String, Action> actionMap = new HashMap<String, Action>();
+	private LinkedHashMap<String, Action> actionMap = new LinkedHashMap<String, Action>();
 
 	@Inject
 	public ControllerImpl(EditorConfig editorConfig, EditorModel editorModel,
 			ProjectController projectController,
 			NavigationController navigationController,
 			ViewController viewControler, CommandManager commandManager,
-			DesktopGUI gdxGui, AssetHandler assetHandler,
-			Provider<AssetViewer> assetViewerProvider) {
+			ScriptController scriptController, DesktopGUI gdxGui,
+			AssetHandler assetHandler, Provider<AssetViewer> assetViewerProvider) {
 
 		this.editorConfig = editorConfig;
 		this.editorModel = editorModel;
@@ -92,6 +94,8 @@ public class ControllerImpl implements Controller {
 		this.navigationController = navigationController;
 		this.viewController = viewControler;
 		this.commandManager = commandManager;
+		this.scriptController = scriptController;
+
 		this.assetHandler = assetHandler;
 		this.assetViewerProvider = assetViewerProvider;
 	}
@@ -102,6 +106,7 @@ public class ControllerImpl implements Controller {
 		navigationController.setController(this);
 		viewController.setController(this);
 		commandManager.setController(this);
+		scriptController.setController(this);
 	}
 
 	@Override
@@ -179,5 +184,10 @@ public class ControllerImpl implements Controller {
 				.getAbsolutePath());
 		assetHandler.setCacheEnabled(false);
 		return assetHandler;
+	}
+
+	@Override
+	public ScriptController getScriptController() {
+		return scriptController;
 	}
 }

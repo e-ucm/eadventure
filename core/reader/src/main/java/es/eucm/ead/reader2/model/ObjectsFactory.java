@@ -225,9 +225,10 @@ public class ObjectsFactory {
 				return ReflectionClassLoader.getReflectionClass(clazz)
 						.getType();
 			} catch (Exception e) {
-				logger.warn(
-						"Not match for class {}. Object.class was returned",
-						clazz);
+				logger
+						.warn(
+								"Not match for class {}. Returning 'Object.class' instead",
+								clazz);
 				return Object.class;
 			}
 		}

@@ -85,7 +85,7 @@ public interface ProjectController extends ChangeNotifier<String> {
 	void setController(Controller controller);
 
 	/**
-	 * Launches a game
+	 * Launches current game
 	 */
 	void doRun();
 }

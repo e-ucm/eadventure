@@ -45,9 +45,9 @@ import javax.swing.JComponent;
 /**
  * An option in the user interface.
  * <p>
- * This type of interface element allows for the display and modification of the
- * value of a field though the use of a {@link es.eucm.ead.editor.view.generic.accessors.Accessor}. Optionally a
- * title and tooltiptext can be defined for the element.
+ * Exposes a control that can display and/or modify a piece of the underlying
+ * model. Titles are intended as always-visible labels. Tooltips are only
+ * displayed on-demand.
  *
  * @param <S>
  */

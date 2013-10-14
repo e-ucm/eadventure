@@ -84,7 +84,7 @@ public interface ViewController {
 	void saveViews();
 
 	/**
-	 * Saves view state
+	 * Cleans view state
 	 */
 	void clearViews();
 

@@ -58,6 +58,7 @@ public interface Controller {
 
 	/**
 	 * Retrieves all actions.
+	 * @return a collection of all actions in the controller
 	 */
 	Collection<Action> getActions();
 
@@ -94,6 +95,12 @@ public interface Controller {
 	 * navigation in views.
 	 */
 	NavigationController getNavigationController();
+
+	/**
+	 * Returns the view controller. In charge of creating, hiding and
+	 * displaying views.
+	 */
+	ScriptController getScriptController();
 
 	/**
 	 * Returns the view controller. In charge of creating, hiding and

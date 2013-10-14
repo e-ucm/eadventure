@@ -416,7 +416,35 @@ public class FileUtils {
 	}
 
 	/**
-	 * Loads a file into a string, using UTF-8 encoding
+	 * Loads a resource in the current class-path into a string, using UTF-8 encoding.
+	 * Performs EOL conversion
+	 *
+	 * @param name the resource
+	 * @return the string
+	 * @throws IOException
+	 */
+	public static String loadResourceToString(String name) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		BufferedReader r = null;
+		try {
+			r = new BufferedReader(new InputStreamReader(FileUtils.class
+					.getResourceAsStream(name), Charset.forName("UTF-8")));
+			String line;
+			String separator = System.lineSeparator();
+			while ((line = r.readLine()) != null) {
+				sb.append(line).append(separator);
+			}
+			return sb.toString();
+		} finally {
+			if (r != null) {
+				r.close();
+			}
+		}
+	}
+
+	/**
+	 * Loads a file into a string, using UTF-8 encoding.
+	 * Performs EOL conversion
 	 *
 	 * @param f the file
 	 * @return the string
@@ -429,8 +457,9 @@ public class FileUtils {
 			r = new BufferedReader(new InputStreamReader(
 					new FileInputStream(f), Charset.forName("UTF-8")));
 			String line;
+			String separator = System.lineSeparator();
 			while ((line = r.readLine()) != null) {
-				sb.append(line);
+				sb.append(line).append(separator);
 			}
 			return sb.toString();
 		} finally {
@@ -595,13 +624,13 @@ public class FileUtils {
 				}
 			}
 		} catch (IOException e) {
-			logger.error("Error generating AndroidManifest.xml", e);
+			logger.error("Error performing text substitutions", e);
 		} finally {
 			if (reader != null) {
 				try {
 					reader.close();
-				} catch (IOException e) {
-					logger.error("Error", e);
+				} catch (IOException ce) {
+					logger.error("Error closing reader", ce);
 				}
 			}
 		}

@@ -39,19 +39,23 @@ package es.eucm.ead.editor.util;
 
 import es.eucm.ead.editor.util.i18n.I18N;
 
-class Messages {
-
-	public static String exception_dialog_title;
-
-	public static String exception_dialog_type_error;
-
-	public static String exception_dialog_type_exception;
+/**
+ * Message index for this class (bound at run-time according to user preferences)
+ *
+ * This is an AUTOMATICALLY-GENERATED file - 
+ * Run class es.eucm.ead.editor.util.i18n.ResourceCreator with parameters: 
+ *    "core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
+ * to re-create or update this class
+ */
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+public class Messages {
 
 	public static String exception_dialog_button_close;
-
 	public static String exception_dialog_caused_by;
-
 	public static String exception_dialog_message;
+	public static String exception_dialog_title;
+	public static String exception_dialog_type_error;
+	public static String exception_dialog_type_exception;
 
 	static {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);

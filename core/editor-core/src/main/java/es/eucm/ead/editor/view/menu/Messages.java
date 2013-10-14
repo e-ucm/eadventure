@@ -56,13 +56,18 @@ public class Messages {
 	public static String edit_menu_assessment_profiles;
 	public static String edit_menu_atrezzo;
 	public static String edit_menu_books;
+	public static String edit_menu_console;
 	public static String edit_menu_conversations;
 	public static String edit_menu_cutscenes;
 	public static String edit_menu_items;
+	public static String edit_menu_log;
 	public static String edit_menu_npcs;
 	public static String edit_menu_player;
 	public static String edit_menu_redo;
 	public static String edit_menu_scenes;
+	public static String edit_menu_test1;
+	public static String edit_menu_test2;
+	public static String edit_menu_test3;
 	public static String edit_menu_undo;
 	public static String file_menu;
 	public static String file_menu_confirm_destructive_op;

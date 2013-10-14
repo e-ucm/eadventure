@@ -92,9 +92,11 @@ import bibliothek.gui.dock.common.intern.CommonDockable;
 import bibliothek.gui.dock.common.mode.ExtendedMode;
 
 import es.eucm.ead.editor.control.ViewController;
+import es.eucm.ead.editor.model.nodes.LogNode;
 import es.eucm.ead.editor.view.menu.AbstractEditorMenu;
 import es.eucm.ead.editor.util.i18n.Resource;
 import es.eucm.ead.editor.util.SwingUtilities;
+import es.eucm.ead.editor.view.panel.LogPanel;
 
 /**
  * Default implementation of the main editor window
@@ -229,8 +231,8 @@ public class EditorWindow implements ViewController {
 			d.setExtendedMode(ExtendedMode.MAXIMIZED);
 			logger.info("Expect dockable {} to be visible now!", id);
 		} else {
-			DependencyNode node = controller.getModel().getElement(id);
 
+			DependencyNode node = controller.getModel().getElement(id);
 			ClassDockableFactory f = null;
 			Class parentClass = node.getClass();
 			while (f == null) {
@@ -465,5 +467,7 @@ public class EditorWindow implements ViewController {
 		registerElementPanelFactory(CaptionAssetNode.class,
 				CaptionAssetPanel.class);
 		registerElementPanelFactory(AssetsNode.class, AssetsPanel.class);
+
+		registerElementPanelFactory(LogNode.class, LogPanel.class);
 	}
 }

@@ -44,8 +44,6 @@ import es.eucm.ead.editor.view.generic.accessors.Accessor;
 
 public class FileNameOption extends TextOption {
 
-	private boolean fileMustExist = false;
-
 	/**
 	 * Resolves the actual file this field refers to.
 	 * @param value
@@ -59,26 +57,51 @@ public class FileNameOption extends TextOption {
 			Accessor<String> fieldDescriptor, boolean fileMustExist,
 			DependencyNode node) {
 		super(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL, node);
-		this.fileMustExist = fileMustExist;
+		validityConstraint.getList()
+				.add(
+						fileMustExist ? new FileMustExist()
+								: new ParentPathMustExist());
 	}
 
 	public FileNameOption(String title, String toolTipText, Object object,
 			String fieldName, boolean fileMustExist, DependencyNode node) {
 		super(title, toolTipText, object, fieldName, ExpectedLength.NORMAL,
 				node);
-		this.fileMustExist = fileMustExist;
+		validityConstraint.getList()
+				.add(
+						fileMustExist ? new FileMustExist()
+								: new ParentPathMustExist());
 	}
 
-	/**
-	 * Should return whether a value is valid or not. Invalid values will
-	 * not generate updates, and will therefore not affect either model or other
-	 * views.
-	 * @param value
-	 * @return whether it is valid or not; default is "always-true"
-	 */
-	@Override
-	protected boolean isValid(String value) {
-		File f = resolveFile(value);
-		return (fileMustExist && f.exists()) || f.getParentFile().isDirectory();
+	public class FileMustExist implements Constraint {
+		@Override
+		public boolean isValid() {
+			return resolveFile(getControlValue()).exists();
+		}
+
+		@Override
+		public String getTooltip() {
+			return (isValid() ? "" : Messages.file_must_exist);
+		}
+
+		@Override
+		public void validityChanged() {
+		}
+	}
+
+	public class ParentPathMustExist implements Constraint {
+		@Override
+		public boolean isValid() {
+			return resolveFile(getControlValue()).getParentFile().isDirectory();
+		}
+
+		@Override
+		public String getTooltip() {
+			return (isValid() ? "" : Messages.path_must_exist);
+		}
+
+		@Override
+		public void validityChanged() {
+		}
 	}
 }

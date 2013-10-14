@@ -60,8 +60,8 @@ public class ObjectReader extends AbstractReader<Identified> {
 	@Override
 	public Identified read(XMLNode node) {
 
-		// If the node has text, it's a reference to an object already defined
-		if (!"".equals(node.getNodeText())) {
+		// If the node has text, it must be a reference to a previous object
+		if (!node.getNodeText().isEmpty()) {
 			return (Identified) objectsFactory
 					.getObjectById(node.getNodeText());
 		} else {

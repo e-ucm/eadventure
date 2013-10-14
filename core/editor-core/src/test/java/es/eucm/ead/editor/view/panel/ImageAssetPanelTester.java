@@ -66,7 +66,7 @@ public class ImageAssetPanelTester extends AbstractPanelTester {
 			try {
 				tmpDir = FileUtils.createTempDir("ead", "asset-test");
 				File src = new File(
-						"../../demos/firstaidgame/src/main/resources/drawable");
+						"../../tests/techdemo/src/main/resources/drawable");
 				FileUtils.copy(src, new File(tmpDir, "drawable"));
 			} catch (IOException ioe) {
 				logger.error("Could not create or initialize tmpDir {}",
@@ -106,7 +106,7 @@ public class ImageAssetPanelTester extends AbstractPanelTester {
 		if (target == null) {
 			target = new ImageAssetNode(2);
 			target.addChild(new EngineNode<Image>(1, new Image(
-					"@drawable/assets_animation_telefono.png")));
+					"@drawable/man_stand_w_1.png")));
 			target.setBase(new File(getDir(),
 					AssetHandlerImpl.PROJECT_INTERNAL_PATH));
 		}

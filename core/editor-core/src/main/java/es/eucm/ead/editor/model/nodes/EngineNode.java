@@ -75,6 +75,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 	/**
 	 * Generates a one-line description with as much information as possible.
+	 * @param m model (required to resolve editor ids)
 	 * @return a human-readable description of this node
 	 */
 	@Override

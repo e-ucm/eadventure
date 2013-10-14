@@ -43,8 +43,13 @@ import es.eucm.ead.editor.view.generic.BooleanOption;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.editor.view.generic.AbstractConstraint;
+import es.eucm.ead.editor.view.generic.AbstractOption;
+import java.util.ArrayList;
 
 public class BooleanOptionTest extends AbstractOptionTest {
+
+	BooleanOption ba, bb, bc, ba2, bb2, bc2;
 
 	public BooleanOptionTest() {
 		model = new ExampleClass();
@@ -55,20 +60,42 @@ public class BooleanOptionTest extends AbstractOptionTest {
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
-		p1.add(new BooleanOption("name1", "toolTip1", model, "a", node1));
-		p1.add(new BooleanOption("name2", "toolTip2", model, "b", node1));
-		p1.add(new BooleanOption("name3", "toolTip3", model, "c", node1));
+		p1.add(ba = new BooleanOption("name1", "toolTip1", model, "a", node1));
+		p1.add(bb = new BooleanOption("name2", "toolTip2", model, "b", node1));
+		p1.add(bc = new BooleanOption("name3", "toolTip3", model, "c", node1));
 		OptionPanel p2 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);
-		p2.add(new BooleanOption("name1", "toolTip1", model, "a", node1));
-		p2.add(new BooleanOption("name2", "toolTip2", model, "b", node1));
-		p2.add(new BooleanOption("name3", "toolTip3", model, "c", node1));
+		p2.add(ba2 = new BooleanOption("name1", "toolTip1", model, "a", node1));
+		p2.add(bb2 = new BooleanOption("name2", "toolTip2", model, "b", node1));
+		p2.add(bc2 = new BooleanOption("name3", "toolTip3", model, "c", node1));
 		OptionPanel p3 = new PanelImpl("Test0",
 				OptionPanel.LayoutPolicy.VerticalEquallySpaced, 4);
 		p3.add(p1);
 		p3.add(p2);
+
+		AbstractConstraint c1 = new OneInThree(ba, bb, bc);
+		c1.install();
+		AbstractConstraint c2 = new OneInThree(ba2, bb2, bc2);
+		c2.install();
+
 		controller.getModel().addModelListener(p3);
 		childPanel.add(p3.getComponent(commandManager));
+	}
+
+	private class OneInThree extends AbstractConstraint {
+		public OneInThree(BooleanOption a, BooleanOption b, BooleanOption c) {
+			super("Max: 1 in 3", a, b, c);
+		}
+
+		@Override
+		public boolean isValid() {
+			int total = 0;
+			for (AbstractOption<?> o : options) {
+				total += (Boolean) o.getControlValue() ? 1 : 0;
+			}
+			//logger.debug("total ")
+			return total == 1;
+		}
 	}
 
 	public static class ExampleClass {
