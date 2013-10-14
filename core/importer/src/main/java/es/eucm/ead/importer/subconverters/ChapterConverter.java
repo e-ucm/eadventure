@@ -39,33 +39,34 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.interfaces.features.WithBehavior;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.params.guievents.DragGEv;
-import es.eucm.ead.model.params.guievents.enums.DragGEvType;
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.actors.AtrezzoConverter;
 import es.eucm.ead.importer.subconverters.actors.ElementConverter.DropEvent;
 import es.eucm.ead.importer.subconverters.actors.ItemConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
+import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.interfaces.features.WithBehavior;
+import es.eucm.ead.model.params.guievents.DragGEv;
+import es.eucm.ead.model.params.guievents.enums.DragGEvType;
 import es.eucm.eadventure.common.data.chapter.Chapter;
+import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
-
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 @Singleton
 public class ChapterConverter {
@@ -87,13 +88,16 @@ public class ChapterConverter {
 
 	private ModelQuerier modelQuerier;
 
+	private TimerConverter timerConverter;
+
 	@Inject
 	public ChapterConverter(SceneConverter sceneConverter,
 			CutsceneConverter cutsceneConverter,
 			EAdElementsCache elementsCache, AtrezzoConverter atrezzoConverter,
 			ModelQuerier modelQuerier, ItemConverter itemConverter,
 			NPCConverter npcConverter,
-			ConversationsConverter conversationsConverter) {
+			ConversationsConverter conversationsConverter,
+			TimerConverter timerConverter) {
 		this.sceneConverter = sceneConverter;
 		this.cutsceneConverter = cutsceneConverter;
 		this.elementsCache = elementsCache;
@@ -101,6 +105,7 @@ public class ChapterConverter {
 		this.modelQuerier = modelQuerier;
 		this.itemConverter = itemConverter;
 		this.npcConverter = npcConverter;
+		this.timerConverter = timerConverter;
 		modelQuerier.setConversationsConverter(conversationsConverter);
 	}
 
@@ -201,6 +206,13 @@ public class ChapterConverter {
 
 		npcConverter.getDropEvents().clear();
 		itemConverter.getDropEvents().clear();
+
+		// Import timers
+		// [TI - Chapter]
+		for (Timer t : c.getTimers()) {
+			EAdEvent timer = timerConverter.convert(t);
+			chapter.getEvents().add(timer);
+		}
 
 		return chapter;
 	}

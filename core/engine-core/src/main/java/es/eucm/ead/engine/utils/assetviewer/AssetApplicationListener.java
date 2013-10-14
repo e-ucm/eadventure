@@ -37,8 +37,6 @@
 
 package es.eucm.ead.engine.utils.assetviewer;
 
-import java.util.List;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
@@ -48,11 +46,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.google.inject.Inject;
-
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
-import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
+
+import java.util.List;
 
 @SuppressWarnings( { "unchecked", "rawtypes" })
 public class AssetApplicationListener implements ApplicationListener {
@@ -78,8 +76,7 @@ public class AssetApplicationListener implements ApplicationListener {
 	private List<String> states;
 
 	@Inject
-	public AssetApplicationListener(FontHandler fontHandler,
-			ReflectionProvider reflectionProvider) {
+	public AssetApplicationListener(ReflectionProvider reflectionProvider) {
 		//XXX	canvas = new GenericCanvas();
 		transformation = new Matrix4();
 		transformation.idt();

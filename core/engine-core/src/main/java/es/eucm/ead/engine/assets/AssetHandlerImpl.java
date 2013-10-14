@@ -42,11 +42,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
-import es.eucm.ead.engine.assets.fonts.FontHandler;
+import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.factories.mapproviders.AssetHandlerMap;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.tools.GenericInjector;
@@ -79,11 +80,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	public static final String PROJECT_INTERNAL_PATH = "";
 
 	protected GenericInjector injector;
-
-	/**
-	 * Font handler
-	 */
-	private FontHandler fontHandler;
 
 	/**
 	 * The class logger
@@ -119,11 +115,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		cacheEnabled = true;
 		assetsQueue = new ArrayList<AssetDescriptor>();
 		this.videos = new ArrayList<EAdVideo>();
-	}
-
-	@Override
-	public void setFontHandler(FontHandler fontHandler) {
-		this.fontHandler = fontHandler;
 	}
 
 	public void queueSceneToLoad(EAdScene scene) {
@@ -285,9 +276,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 			a.freeMemory();
 		}
 		cache.clear();
-		if (fontHandler != null) {
-			fontHandler.clean();
-		}
 	}
 
 	@Override
@@ -446,5 +434,9 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	public String read(String file) {
 		return getTextFile(file);
+	}
+
+	public RuntimeFont getFont(EAdFont font) {
+		return (RuntimeFont) getRuntimeAsset(font);
 	}
 }

@@ -38,10 +38,11 @@
 package es.eucm.ead.engine.assets;
 
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
-import es.eucm.ead.engine.assets.fonts.FontHandler;
+import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
+import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.tools.TextFileReader;
@@ -68,13 +69,10 @@ public interface AssetHandler extends TextFileReader {
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
 	 * element for the selected bundle
-	 * 
-	 * @param element
-	 *            The element with the asset
-	 * @param bundleId
-	 *            The selected bundle
-	 * @param id
-	 *            The id of the asset
+	 *
+	 * @param element  The element with the asset
+	 * @param bundleId The selected bundle
+	 * @param id       The id of the asset
 	 * @return The platform-independent runtime asset
 	 * @see RuntimeAsset
 	 */
@@ -84,11 +82,9 @@ public interface AssetHandler extends TextFileReader {
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
 	 * element, with no asset bundle
-	 * 
-	 * @param element
-	 *            The element with the asset
-	 * @param id
-	 *            The id of the asset
+	 *
+	 * @param element The element with the asset
+	 * @param id      The id of the asset
 	 * @return The platform-independent runtime asset
 	 * @see RuntimeAsset
 	 */
@@ -96,11 +92,9 @@ public interface AssetHandler extends TextFileReader {
 
 	/**
 	 * Returns the runtime asset for a given asset descriptor
-	 * 
-	 * @param <T>
-	 *            The type of the asset descriptor
-	 * @param descriptor
-	 *            The descriptor of the asset
+	 *
+	 * @param <T>        The type of the asset descriptor
+	 * @param descriptor The descriptor of the asset
 	 * @return The runtime asset
 	 * @see RuntimeAsset
 	 * @see AssetDescriptor
@@ -111,11 +105,9 @@ public interface AssetHandler extends TextFileReader {
 	 * Returns the runtime asset for a given asset descriptor. It loads it if
 	 * parameter load is true. Otherwise, asset must be loaded through
 	 * {@link RuntimeAsset#loadAsset()}
-	 * 
-	 * @param descriptor
-	 *            the asset descriptor
-	 * @param load
-	 *            if the asset must be loaded
+	 *
+	 * @param descriptor the asset descriptor
+	 * @param load       if the asset must be loaded
 	 * @return the runtime asset
 	 */
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
@@ -124,14 +116,16 @@ public interface AssetHandler extends TextFileReader {
 	<T extends EAdDrawable> RuntimeDrawable<T> getDrawableAsset(T descriptor);
 
 	/**
-	 * Sets the font handler. The Asset handler cleans it when needed
-	 * @param fontHandler the font handler
+	 * Returns the runtime font for the given font descriptor
+	 *
+	 * @param font font descriptor
+	 * @return the runtime font
 	 */
-	void setFontHandler(FontHandler fontHandler);
+	RuntimeFont getFont(EAdFont font);
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded
-	 * 
+	 *
 	 * @return true if assets loaded
 	 */
 	boolean isLoaded();
@@ -139,26 +133,23 @@ public interface AssetHandler extends TextFileReader {
 	/**
 	 * Frees and removes all the assets contained in the cache, except for the
 	 * ones in the exceptions list
-	 * 
-	 * @param exceptions
-	 *            list with assets not to be deleted
+	 *
+	 * @param exceptions list with assets not to be deleted
 	 */
 	void clean(List<AssetDescriptor> exceptions);
 
 	/**
 	 * Sets the resources location
-	 * 
-	 * @param uri
-	 *            uri point to the resources locatin root
+	 *
+	 * @param uri uri point to the resources locatin root
 	 */
 	void setResourcesLocation(String uri);
 
 	/**
 	 * Returns a set of strings containing the text file in the given path.
 	 * Useful to read some configuration files at multi-platform level
-	 * 
-	 * @param path
-	 *            textFile path
+	 *
+	 * @param path textFile path
 	 * @return
 	 */
 	String getTextFile(String path);
@@ -167,7 +158,7 @@ public interface AssetHandler extends TextFileReader {
 	 * Loads a text and passes it to a handle. This method should only be used
 	 * in special cases, wherever {@link AssetHandler#getTextFile(String)} is
 	 * not available
-	 * 
+	 *
 	 * @param path
 	 * @param textHandler
 	 */
@@ -176,7 +167,7 @@ public interface AssetHandler extends TextFileReader {
 	/**
 	 * Sets if the cache is enable for this asset handler. Cache is enabled by
 	 * default.
-	 * 
+	 *
 	 * @param enable
 	 */
 	void setCacheEnabled(boolean enable);
@@ -184,15 +175,14 @@ public interface AssetHandler extends TextFileReader {
 	/**
 	 * Queues the scene to load all its assets. This method DOES NOT load the
 	 * assets. {@link AssetHandler#loadStep()} must be used in order to do that.
-	 * 
-	 * @param scene
-	 *            the scene whose assets must be loaded
+	 *
+	 * @param scene the scene whose assets must be loaded
 	 */
 	void queueSceneToLoad(EAdScene scene);
 
 	/**
 	 * Loads one asset of the queue.
-	 * 
+	 *
 	 * @return if there are assets left to be loaded
 	 */
 	boolean loadStep();
@@ -204,6 +194,7 @@ public interface AssetHandler extends TextFileReader {
 
 	/**
 	 * Returns if there's a file with the given path
+	 *
 	 * @param path
 	 * @return
 	 */
@@ -223,50 +214,49 @@ public interface AssetHandler extends TextFileReader {
 	/**
 	 * Removes the asset descriptor from the cache, and frees whatever resources
 	 * its runtime asset had
-	 * 
+	 *
 	 * @param assetDescriptor
 	 */
 	void remove(AssetDescriptor assetDescriptor);
 
 	/**
 	 * Sets the current language
-	 * 
+	 *
 	 * @param currentLanguage
 	 */
 	void setLanguage(String currentLanguage);
 
 	/**
 	 * Returns how many elements are contained by the asset handler cache
-	 * 
+	 *
 	 * @return
 	 */
 	int getCacheSize();
 
 	/**
 	 * Makes aware the asset handler of an existing video
-	 * 
-	 * @param v
-	 *            video asset
+	 *
+	 * @param v video asset
 	 */
 	void addVideo(EAdVideo v);
 
 	/**
 	 * Preloads the video in a separate thread (when possible)
-	 * 
+	 *
 	 * @return true if the preloading is possible
 	 */
 	boolean preloadVideos();
 
 	/**
 	 * Return if it is preloading videos
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isPreloadingVideos();
 
 	/**
 	 * Returns an special asset renderer (for example, for a video)
-	 * 
+	 *
 	 * @param specialAsset
 	 * @return
 	 */

@@ -189,7 +189,12 @@ public class Game {
 	public void setChapter(EAdChapter chapter) {
 		logger.debug("Setting chapter");
 		this.chapter = chapter;
-		chapterGO.setElement(chapter);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				chapterGO.setElement(Game.this.chapter);
+			}
+		});
 		reset();
 	}
 

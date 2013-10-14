@@ -123,9 +123,9 @@ public class GameLoader {
 				engine
 						.resize(Gdx.graphics.getWidth(), Gdx.graphics
 								.getHeight());
+				loadChapter(currentManifest.getInitialChapter());
 			}
 		});
-		loadChapter(currentManifest.getInitialChapter());
 		gameTracker.startTracking(currentManifest.getModel());
 	}
 

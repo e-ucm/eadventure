@@ -41,7 +41,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AbstractRuntimeAsset;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.assets.fonts.FontHandler;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.game.GameState;
@@ -70,8 +69,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	protected float alpha;
 
 	protected int lineHeight;
-
-	protected FontHandler fontCache;
 
 	private int linesInPart;
 
@@ -110,10 +107,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	private RuntimeDrawable shape;
 
 	@Inject
-	public RuntimeCaption(FontHandler fontCache, GameState valueMap,
-			StringHandler stringsHandler, AssetHandler assetHandler) {
+	public RuntimeCaption(GameState valueMap, StringHandler stringsHandler,
+			AssetHandler assetHandler) {
 		super(assetHandler);
-		this.fontCache = fontCache;
 		this.gameState = valueMap;
 		this.stringsHandler = stringsHandler;
 		bounds = new Rectangle(0, 0, 0, 0);
@@ -129,7 +125,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<EAdCaption> implements
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		font = fontCache.get(descriptor.getFont());
+		font = assetHandler.getFont(descriptor.getFont());
 		lines.clear();
 		widths.clear();
 		text = getProcessedText();

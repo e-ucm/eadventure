@@ -43,6 +43,8 @@ import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.ChapterConverter;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
+import es.eucm.ead.legacyplugins.model.TimerEv;
+import es.eucm.ead.legacyplugins.model.elements.ClockDisplay;
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.elements.BasicAdventureModel;
@@ -172,11 +174,16 @@ public class AdventureConverter {
 		EAdMap<String, String> eventPlugins = new EAdMap<String, String>();
 		eventPlugins.put(BubbleNameEv.class.getName(),
 				"es.eucm.ead.legacyplugins.engine.BubbleNameGO");
+		eventPlugins.put(TimerEv.class.getName(),
+				"es.eucm.ead.legacyplugins.engine.events.TimerGO");
 		// [GE - Arrow] [GE - Follow]
 		EAdMap<String, String> sceneElementPlugins = new EAdMap<String, String>();
 		sceneElementPlugins
 				.put(BasicScene.class.getName(),
 						"es.eucm.ead.legacyplugins.engine.sceneelements.DynamicSceneGO");
+		sceneElementPlugins
+				.put(ClockDisplay.class.getName(),
+						"es.eucm.ead.legacyplugins.engine.sceneelements.ClockDisplayGO");
 
 		model
 				.setVarInitialValue(BasicAdventureModel.EVENTS_BINDS,

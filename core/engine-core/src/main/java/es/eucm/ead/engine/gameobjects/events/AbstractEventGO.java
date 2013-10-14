@@ -86,7 +86,6 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends
 			for (EAdEffect effect : effects)
 				game.addEffect(effect, null, parent);
 		}
-
 	}
 
 }
