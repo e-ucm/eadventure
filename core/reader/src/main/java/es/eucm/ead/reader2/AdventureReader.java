@@ -98,7 +98,7 @@ public class AdventureReader {
 
 	public Object read(String file) {
 		String xml = reader.read(path + file);
-		XMLNode node = null;
+		XMLNode node;
 
 		try {
 			node = parser.parse(xml);

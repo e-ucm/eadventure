@@ -88,6 +88,11 @@ public class ObjectsFactory {
 		addDefaultVars();
 	}
 
+	public void clear() {
+		paramsMap.clear();
+		identified.clear();
+	}
+
 	private void addDefaultVars() {
 		registeredVars.put("alpha", SceneElement.VAR_ALPHA);
 		registeredVars.put("visible", SceneElement.VAR_VISIBLE);
@@ -122,7 +127,7 @@ public class ObjectsFactory {
 	 *
 	 * @param value text value representing the param
 	 * @param clazz the parameter class
-	 * @return
+	 * @return the param
 	 */
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	private EAdParam constructEAdParam(String value, Class<?> clazz) {
@@ -184,7 +189,7 @@ public class ObjectsFactory {
 		} else if (clazz == Float.class || clazz == float.class) {
 			return Float.parseFloat(value);
 		} else if (clazz == Character.class || clazz == char.class) {
-			return new Character(value.charAt(0));
+			return value.charAt(0);
 		} else if (clazz == Class.class) {
 			return getClassFromName(value);
 		} else if (clazz.isEnum()) {
@@ -199,8 +204,8 @@ public class ObjectsFactory {
 	/**
 	 * Returns the class object for the given class string
 	 *
-	 * @param clazz
-	 * @return
+	 * @param clazz the string class
+	 * @return the class
 	 */
 	public Class<?> getClassFromName(String clazz) {
 		if (clazz.equals("java.lang.Float")) {
@@ -217,9 +222,8 @@ public class ObjectsFactory {
 			return String.class;
 		} else {
 			try {
-				Class<?> clazz2 = ReflectionClassLoader.getReflectionClass(
-						clazz).getType();
-				return clazz2;
+				return ReflectionClassLoader.getReflectionClass(clazz)
+						.getType();
 			} catch (Exception e) {
 				logger.warn(
 						"Not match for class {}. Object.class was returned",
@@ -232,20 +236,23 @@ public class ObjectsFactory {
 	/**
 	 * Create an object of the given class
 	 *
-	 * @param clazz
-	 * @return
+	 * @param clazz the class
+	 * @param id    the element id
+	 * @return the object created
 	 */
 	public Object createObject(Class<?> clazz, String id) {
 		ReflectionClass<?> classType = ReflectionClassLoader
 				.getReflectionClass(clazz);
-		Object o = null;
-		if (classType.getConstructor() != null) {
-			o = classType.getConstructor().newInstance();
-		} else {
-			logger.warn("No empty constructor for {}", clazz);
+		Object o = identified.get(id);
+		if (o == null) {
+			if (classType.getConstructor() != null) {
+				o = classType.getConstructor().newInstance();
+				identified.put(id, (Identified) o);
+				((Identified) o).setId(id);
+			} else {
+				logger.warn("No empty constructor for {}", clazz);
+			}
 		}
-		identified.put(id, (Identified) o);
-		((Identified) o).setId(id);
 		return o;
 	}
 
@@ -277,10 +284,6 @@ public class ObjectsFactory {
 		}
 
 		return result;
-	}
-
-	public void clear() {
-		identified.clear();
 	}
 
 	@SuppressWarnings("rawtypes")

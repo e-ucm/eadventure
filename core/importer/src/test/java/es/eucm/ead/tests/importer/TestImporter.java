@@ -24,34 +24,40 @@ public class TestImporter {
 
 	private final String ROOT = "src/test/resources/";
 
-	private final String[] GAMES = new String[] { "DamaBoba", "PrimerosAuxilios" };
+	private final String[] GAMES = new String[] { "Minimum", "Minimum",
+			"DamaBoba"/*, "PrimerosAuxilios"*/};
 
 	private final File TEMP = new File("temp/");
 
 	@Before
 	public void setUp() {
-		converter = new AdventureConverter();
-		converter.setEnableTranslations(false);
-		reader = new AdventureReader(new JavaReflectionProvider(),
-				new SaxXMLParser(), new JavaTextFileReader());
 		TEMP.mkdirs();
 	}
 
 	@Test
 	public void testImports() {
 		for (String g : GAMES) {
+			converter = new AdventureConverter();
+			converter.setEnableTranslations(false);
+			reader = new AdventureReader(new JavaReflectionProvider(),
+					new SaxXMLParser(), new JavaTextFileReader());
 			String destiny = converter
 					.convert(ROOT + g, TEMP.getAbsolutePath());
 			EAdAdventureModel modelConverted = converter.getModel();
 			reader.setPath(destiny + "/");
 			EAdAdventureModel modelRead = reader.readFullModel();
+			EAdUtils.NotEqualHandler notEqualHandler = new EAdUtils.NotEqualHandler() {
+				@Override
+				public void notEqual(Object o1, Object o2) {
+					System.out.println(o1 + " is not equal to " + o2);
+				}
+			};
+			assertTrue(EAdUtils.equals(modelConverted, modelConverted, false,
+					notEqualHandler));
+			assertTrue(EAdUtils.equals(modelRead, modelRead, false,
+					notEqualHandler));
 			assertTrue(EAdUtils.equals(modelConverted, modelRead, false,
-					new EAdUtils.NotEqualHandler() {
-						@Override
-						public void notEqual(Object o1, Object o2) {
-							System.out.println(o1 + " is not equal to " + o2);
-						}
-					}));
+					notEqualHandler));
 		}
 		try {
 			FileUtils.deleteRecursive(TEMP);

@@ -123,15 +123,16 @@ public class AdventureWriter implements WriterContext {
 	 */
 	public void write(EAdAdventureModel model, String path,
 			TextFileWriter textFileWriter) {
-		documents.clear();
 		idGenerator.clear();
 		contextIds.clear();
+		visitor.clear();
+		documents.clear();
 		referenceResolver.clear();
+		sceneGraph.clear();
+		contextId = 0;
 		paramsTranslation.clear();
 		fieldsTranslation.clear();
 		classesTranslation.clear();
-		sceneGraph.clear();
-		contextId = 0;
 
 		AdventureVisitorListener chapterListener = new AdventureVisitorListener(
 				XMLFileNames.CHAPTER);

@@ -78,7 +78,7 @@ public class WriterVisitor {
 		this.writerContext = writerContext;
 		stepsQueue = new ArrayList<WriterStep>();
 		// writers
-		paramWriter = new ParamWriter(this);
+		paramWriter = new ParamWriter();
 		listWriter = new ListWriter(this);
 		mapWriter = new MapWriter(this);
 		objectWriter = new ObjectWriter(this);
@@ -99,7 +99,7 @@ public class WriterVisitor {
 		Class<?> clazz = o == null ? null : o.getClass();
 		VisitorListener listener = step.getListener();
 
-		XMLNode node = null;
+		XMLNode node;
 		if (o == null) {
 			// If the object is null, we don't care what tag to use. We just
 			// create an empty param. While reading, a null will be retrieved
@@ -129,6 +129,7 @@ public class WriterVisitor {
 	}
 
 	public void clear() {
+		stepsQueue.clear();
 	}
 
 	public static class WriterStep {

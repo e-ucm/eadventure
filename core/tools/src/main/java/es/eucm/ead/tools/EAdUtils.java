@@ -93,22 +93,19 @@ public class EAdUtils {
 			NotEqualHandler handler) {
 		boolean result = checkStack(o1, o2);
 		boolean alreadyCompared = checkCompared(o1, o2);
-		if ( alreadyCompared ){
+		if (alreadyCompared) {
 			result = true;
-		}
-		else if (result && elements1.indexOf(o1) == -1) {
+		} else if (result && elements1.indexOf(o1) == -1) {
 			push(o1, o2);
 			if (o1 == o2) {
 				result = true;
 			} else if (o1 == null || o2 == null) {
 				result = false;
 			} else if (o1.getClass() != o2.getClass()) {
-				if (o1 instanceof BasicElement && o2 instanceof BasicElement) {
-					result = ((BasicElement) o1).getId().equals(
-							((BasicElement) o2).getId());
-				} else {
-					result = false;
-				}
+				result = o1 instanceof BasicElement
+						&& o2 instanceof BasicElement
+						&& ((BasicElement) o1).getId().equals(
+								((BasicElement) o2).getId());
 			} else if (o1 instanceof Number || o1 instanceof String
 					|| o1 instanceof Boolean
 					|| o1.getClass() == BasicElement.class) {
@@ -118,8 +115,7 @@ public class EAdUtils {
 				List<?> list2 = (List<?>) o2;
 				result = (list1.size() == list2.size());
 				for (int i = 0; i < list1.size() && result; i++) {
-					result = result
-							&& equalsImpl(list1.get(i), list2.get(i), handler);
+					result = equalsImpl(list1.get(i), list2.get(i), handler);
 				}
 			} else if (o1 instanceof Map) {
 				Map<?, ?> map1 = (Map<?, ?>) o1;
@@ -191,7 +187,7 @@ public class EAdUtils {
 		return index1 == index2;
 	}
 
-	private static boolean checkCompared(Object o1, Object o2){
+	private static boolean checkCompared(Object o1, Object o2) {
 		int index1 = compared1.indexOf(o1);
 		int index2 = compared2.indexOf(o2);
 		return index1 != -1 && index1 == index2;

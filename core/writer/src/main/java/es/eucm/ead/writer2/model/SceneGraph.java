@@ -88,6 +88,7 @@ public class SceneGraph {
 	}
 
 	public void clear() {
+		currentScene = null;
 		graph.clear();
 	}
 }

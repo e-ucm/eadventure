@@ -44,19 +44,12 @@ import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.writer2.model.WriterContext;
-import es.eucm.ead.writer2.model.WriterVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ParamWriter implements Writer<Object> {
 
 	static private Logger logger = LoggerFactory.getLogger(ParamWriter.class);
-
-	private WriterVisitor writerVisitor;
-
-	public ParamWriter(WriterVisitor writerVisitor) {
-		this.writerVisitor = writerVisitor;
-	}
 
 	@Override
 	public XMLNode write(Object o, WriterContext context) {
@@ -65,35 +58,32 @@ public class ParamWriter implements Writer<Object> {
 		}
 
 		XMLNode node = new XMLNode(DOMTags.PARAM_TAG);
-		if (o != null) {
-			String translatedClass = context.translateClass(o.getClass());
-			node.setAttribute(DOMTags.CLASS_AT, translatedClass);
-			String value;
-			if (o instanceof VarDef || o instanceof EAdPaint
-					|| o instanceof Enum || o instanceof EAdGUIEvent) {
-				value = context.translateParam(o.toString());
-			} else if (o instanceof EAdParam) {
-				value = ((EAdParam) o).toStringData();
-			} else if (o instanceof Class) {
-				value = ((Class<?>) o).getName();
-			} else if (o instanceof Boolean) {
-				value = ((Boolean) o).booleanValue() ? "t" : "f";
-			} else if (o instanceof Number) {
-				value = o.toString();
-				if (value.endsWith(".0")) {
-					value = value.substring(0, value.length() - 2);
-				}
-			} else if (o instanceof String) {
-				value = o.toString();
-			} else {
-				logger
-						.warn(
-								"No writer for class {}. Using its string representation",
-								o.getClass());
-				value = o.toString();
+		String translatedClass = context.translateClass(o.getClass());
+		node.setAttribute(DOMTags.CLASS_AT, translatedClass);
+		String value;
+		if (o instanceof VarDef || o instanceof EAdPaint || o instanceof Enum
+				|| o instanceof EAdGUIEvent) {
+			value = context.translateParam(o.toString());
+		} else if (o instanceof EAdParam) {
+			value = ((EAdParam) o).toStringData();
+		} else if (o instanceof Class) {
+			value = ((Class<?>) o).getName();
+		} else if (o instanceof Boolean) {
+			value = ((Boolean) o).booleanValue() ? "t" : "f";
+		} else if (o instanceof Number) {
+			value = o.toString();
+			if (value.endsWith(".0")) {
+				value = value.substring(0, value.length() - 2);
 			}
-			node.setText(value);
+		} else if (o instanceof String) {
+			value = o.toString();
+		} else {
+			logger.warn(
+					"No writer for class {}. Using its string representation",
+					o.getClass());
+			value = o.toString();
 		}
+		node.setText(value);
 
 		return node;
 	}
