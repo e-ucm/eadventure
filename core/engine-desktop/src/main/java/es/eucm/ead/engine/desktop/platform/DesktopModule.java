@@ -43,8 +43,8 @@ import com.google.inject.TypeLiteral;
 import es.eucm.ead.engine.BasicModuleMap;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
-import es.eucm.ead.engine.desktop.platform.assets.video.java.JavaVideoRenderer;
+import es.eucm.ead.engine.desktop.platform.assets.DesktopAssetHandler;
+import es.eucm.ead.engine.desktop.platform.assets.video.vlc.VLC2VideoRenderer;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
 
@@ -68,7 +68,7 @@ public class DesktopModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		BasicModuleMap map = new BasicModuleMap();
-		map.setBind(AssetHandler.class, GdxDesktopAssetHandler.class);
+		map.setBind(AssetHandler.class, DesktopAssetHandler.class);
 		map.setBind(GUI.class, DesktopGUI.class);
 		if (binds != null) {
 			for (Entry<Class<?>, Class<?>> e : binds.entrySet()) {
@@ -81,10 +81,10 @@ public class DesktopModule extends AbstractModule {
 			bind(c1).to(c2).in(Singleton.class);
 		}
 
-		//		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		//		}).to(VLC2VideoRenderer.class);
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		}).to(JavaVideoRenderer.class);
+		}).to(VLC2VideoRenderer.class);
+		//bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		//}).to(JavaVideoRenderer.class);
 	}
 
 }

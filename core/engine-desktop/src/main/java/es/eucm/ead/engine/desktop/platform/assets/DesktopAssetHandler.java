@@ -55,7 +55,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 @Singleton
-public class GdxDesktopAssetHandler extends AssetHandlerImpl {
+public class DesktopAssetHandler extends AssetHandlerImpl {
 
 	private ZipFile zipFile;
 
@@ -66,7 +66,7 @@ public class GdxDesktopAssetHandler extends AssetHandlerImpl {
 	private Integer preloading;
 
 	@Inject
-	public GdxDesktopAssetHandler(GenericInjector injector) {
+	public DesktopAssetHandler(GenericInjector injector) {
 		super(injector);
 		zipped = false;
 		tempFiles = new HashMap<String, String>();

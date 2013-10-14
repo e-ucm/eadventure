@@ -41,7 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
+import es.eucm.ead.engine.desktop.platform.assets.DesktopAssetHandler;
 import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
@@ -61,7 +61,7 @@ public class AssetViewerModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(AssetHandler.class).to(GdxDesktopAssetHandler.class).in(
+		bind(AssetHandler.class).to(DesktopAssetHandler.class).in(
 				Singleton.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class).in(
 				Singleton.class);

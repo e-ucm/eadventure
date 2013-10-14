@@ -56,13 +56,12 @@ public class BasicFont extends AbstractAssetDescriptor implements EAdFont {
 	 * Regular EAdFont
 	 */
 	public static final BasicFont REGULAR = new BasicFont(
-			"@binary/fonts/coolvetica-16");
+			"@binary/fonts/ubuntu-16");
 
 	/**
 	 * Big EAdFont
 	 */
-	public static final BasicFont BIG = new BasicFont(
-			"@binary/fonts/coolvetica-32");
+	public static final BasicFont BIG = new BasicFont("@binary/fonts/ubuntu-32");
 
 	public BasicFont() {
 

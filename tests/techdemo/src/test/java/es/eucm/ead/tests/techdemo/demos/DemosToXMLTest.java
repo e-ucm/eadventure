@@ -72,13 +72,6 @@ public class DemosToXMLTest {
 			reader.setPath(path2);
 			EAdChapter chapter2 = reader.readChapter(c);
 			assertTrue(EAdUtils.equals(chapter1, chapter2, false));
-			for (String s : manifest2.getInitialScenesIds()) {
-				reader.setPath(path);
-				EAdScene scene1 = reader.readScene(s);
-				reader.setPath(path2);
-				EAdScene scene2 = reader.readScene(s);
-				assertTrue(EAdUtils.equals(scene1, scene2, false));
-			}
 		}
 		FileUtils.deleteRecursive(new File(path2));
 

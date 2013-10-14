@@ -46,8 +46,16 @@ public static final String[] RESOURCES = new String[]{
   "es/eucm/ead/engine/resources/it_IT/engine_strings.xml",
   "es/eucm/ead/engine/resources/engine_strings.xml",
   "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.fnt",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-16.fnt",
   "es/eucm/ead/engine/resources/binary/fonts/coolvetica-32.fnt",
   "es/eucm/ead/engine/resources/binary/fonts/coolvetica-32.png",
-  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.png"
+  "es/eucm/ead/engine/resources/binary/fonts/coolvetica-16.png",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-32.fnt",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-32.png",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-32-bold.fnt",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-16.png",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-16-bold.png",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-16-bold.fnt",
+  "es/eucm/ead/engine/resources/binary/fonts/ubuntu-32-bold.png"
 };
 }

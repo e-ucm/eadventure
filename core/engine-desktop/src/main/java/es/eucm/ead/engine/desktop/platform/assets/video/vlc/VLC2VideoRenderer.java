@@ -37,23 +37,20 @@
 
 package es.eucm.ead.engine.desktop.platform.assets.video.vlc;
 
-import java.awt.Component;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.engine.assets.SpecialAssetRenderer;
+import es.eucm.ead.engine.desktop.platform.assets.DesktopAssetHandler;
+import es.eucm.ead.engine.game.SoundManager;
+import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import es.eucm.ead.engine.assets.SpecialAssetRenderer;
-import es.eucm.ead.engine.game.SoundManager;
-import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
+import java.awt.*;
 
 @Singleton
 public class VLC2VideoRenderer implements
@@ -83,7 +80,7 @@ public class VLC2VideoRenderer implements
 		init();
 	}
 
-	private GdxDesktopAssetHandler assetHandler;
+	private DesktopAssetHandler assetHandler;
 
 	private SoundManager soundManager;
 
@@ -95,7 +92,7 @@ public class VLC2VideoRenderer implements
 	private boolean wasSilence;
 
 	@Inject
-	public VLC2VideoRenderer(GdxDesktopAssetHandler assetHandler,
+	public VLC2VideoRenderer(DesktopAssetHandler assetHandler,
 			SoundManager soundManager) {
 		this.assetHandler = assetHandler;
 		this.soundManager = soundManager;

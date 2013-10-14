@@ -174,8 +174,9 @@ public class ActionsConverter {
 	/**
 	 * Converts a list of actions to a list scene element definitions
 	 *
-	 * @param ac
-	 * @return
+	 * @param owner the owner of the actions
+	 * @param ac    the list of actions
+	 * @return the list of actions converted
 	 */
 	public EAdList<EAdSceneElementDef> convert(EAdSceneElementDef owner,
 			List<Action> ac) {

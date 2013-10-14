@@ -56,7 +56,7 @@ import javax.media.PrefetchCompleteEvent;
 import javax.media.RealizeCompleteEvent;
 import javax.media.StopEvent;
 
-import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
+import es.eucm.ead.engine.desktop.platform.assets.DesktopAssetHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +81,7 @@ public class JavaVideoRenderer implements
 
 	private static String CODEC_CLASS_NAME = "net.sourceforge.jffmpeg.VideoDecoder";
 
-	private GdxDesktopAssetHandler assetHandler;
+	private DesktopAssetHandler assetHandler;
 
 	private Component video;
 
@@ -90,7 +90,7 @@ public class JavaVideoRenderer implements
 	private boolean wasSilence;
 
 	@Inject
-	public JavaVideoRenderer(GdxDesktopAssetHandler assetHandler,
+	public JavaVideoRenderer(DesktopAssetHandler assetHandler,
 			SoundManager soundManager) {
 		this.assetHandler = assetHandler;
 		this.soundManager = soundManager;

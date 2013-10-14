@@ -42,7 +42,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
 
-import es.eucm.ead.engine.desktop.platform.assets.GdxDesktopAssetHandler;
+import es.eucm.ead.engine.desktop.platform.assets.DesktopAssetHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +114,7 @@ public class VLCVideoRenderer implements
 	/**
 	 * The eAd asset handler
 	 */
-	private GdxDesktopAssetHandler assetHandler;
+	private DesktopAssetHandler assetHandler;
 
 	/**
 	 * Sets if VLC has been successfully loaded
@@ -140,7 +140,7 @@ public class VLCVideoRenderer implements
 	}
 
 	@Inject
-	public VLCVideoRenderer(GdxDesktopAssetHandler assetHandler,
+	public VLCVideoRenderer(DesktopAssetHandler assetHandler,
 			SoundManager soundManager) {
 		this.assetHandler = assetHandler;
 		this.soundManager = soundManager;

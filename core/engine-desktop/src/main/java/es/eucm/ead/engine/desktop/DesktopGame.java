@@ -137,7 +137,6 @@ public class DesktopGame {
 		cfg.height = height;
 		cfg.fullscreen = fullscreen;
 		cfg.forceExit = this.exitAtClose;
-
 		DesktopGUI gui = (DesktopGUI) injector.getInstance(GUI.class);
 		ApplicationListener engine = injector
 				.getInstance(ApplicationListener.class);

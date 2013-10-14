@@ -131,7 +131,9 @@ public class VideoSceneGO extends SceneGO {
 
 	private void removeVideoComponent() {
 		component = null;
-		specialAssetRenderer.reset();
+		if (specialAssetRenderer != null) {
+			specialAssetRenderer.reset();
+		}
 		if (videoScene.getFinalEffects().size() == 0) {
 			ChangeSceneEf ef = new ChangeSceneEf();
 			game.addEffect(ef);
