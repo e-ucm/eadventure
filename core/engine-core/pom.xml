@@ -30,6 +30,11 @@
             <groupId>aurelienribon</groupId>
             <artifactId>tweenengine-api</artifactId>
         </dependency>
+        <!-- GLEANER -->
+        <dependency>
+            <groupId>es.e-ucm.gleaner</groupId>
+            <artifactId>gleaner-tracker</artifactId>
+        </dependency>
 
 		<!-- external -->
 		<dependency>

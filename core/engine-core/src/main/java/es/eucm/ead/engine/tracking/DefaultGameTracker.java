@@ -37,20 +37,19 @@
 
 package es.eucm.ead.engine.tracking;
 
-import java.util.Map;
-
-import es.eucm.ead.engine.gameobjects.effects.EffectGO;
-import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.gameobjects.effects.EffectGO;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.engine.tracking.selection.TrackerSelector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Example implementation of a game tracker
+ */
 @Singleton
 public class DefaultGameTracker extends AbstractGameTracker {
 
@@ -58,53 +57,43 @@ public class DefaultGameTracker extends AbstractGameTracker {
 			.getLogger(DefaultGameTracker.class);
 
 	@Inject
-	public DefaultGameTracker(TrackerSelector selector) {
-		super(selector);
+	public DefaultGameTracker(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
-	protected void trackImpl(Event action, SceneElementGO target) {
+	public void input(Event action, SceneElementGO target) {
 		logger.info("Action: {} over {}", action, target.getElement());
 	}
 
 	@Override
-	protected void trackImpl(EffectGO<?> effect) {
+	public void effect(EffectGO<?> effect) {
 		logger.info("Effect: {}", effect);
 	}
 
 	@Override
-	protected void startTrackingImpl(EAdAdventureModel model) {
+	protected boolean startTrackingImpl(EAdAdventureModel model) {
 		logger.info("Tracking starts.");
+		return true;
 	}
 
 	@Override
-	public void tag(String tag, Map<String, Object> trace) {
-		// TODO Auto-generated method stub
-
+	public void phaseStart(String phaseId) {
+		logger.info("Start phase: {}", phaseId);
 	}
 
 	@Override
-	public void startPhase(String phaseId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endPhase(String phaseId) {
-		// TODO Auto-generated method stub
-
+	public void phaseEnd(String phaseId) {
+		logger.info("End phase: {}", phaseId);
 	}
 
 	@Override
 	public void varUpdate(String varId, Object newValue) {
-		// TODO Auto-generated method stub
-
+		logger.info("Var updated: {} := {}", new Object[] { varId, newValue });
 	}
 
 	@Override
-	public void endGame() {
-		// TODO Auto-generated method stub
-
+	public void gameEnd() {
+		logger.info("End game");
 	}
-
 }

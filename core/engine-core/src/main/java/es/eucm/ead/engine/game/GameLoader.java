@@ -44,6 +44,7 @@ import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
+import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
@@ -63,6 +64,7 @@ public class GameLoader {
 	private SceneElementFactory sceneElementFactory;
 	private Game game;
 	private StringHandler stringHandler;
+	private GameTracker gameTracker;
 
 	private AdventureReader reader;
 
@@ -78,7 +80,7 @@ public class GameLoader {
 	public GameLoader(AdventureReader reader, Game game,
 			EventFactory eventFactory, EffectFactory effectFactory,
 			SceneElementFactory sceneElementFactory, EAdEngine engine,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, GameTracker gameTracker) {
 		this.engine = engine;
 		this.game = game;
 		this.reader = reader;
@@ -88,6 +90,7 @@ public class GameLoader {
 		this.effectFactory = effectFactory;
 		this.sceneElementFactory = sceneElementFactory;
 		this.stringHandler = stringHandler;
+		this.gameTracker = gameTracker;
 	}
 
 	@SuppressWarnings( { "all" })
@@ -123,6 +126,7 @@ public class GameLoader {
 			}
 		});
 		loadChapter(currentManifest.getInitialChapter());
+		gameTracker.startTracking(currentManifest.getModel());
 	}
 
 	public Manifest loadManifest() {

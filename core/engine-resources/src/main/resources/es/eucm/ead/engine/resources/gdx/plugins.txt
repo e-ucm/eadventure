@@ -1,3 +1,0 @@
-[effects]
-ead.common.model.elements.effects.physics.PhysicsEffect=ead.engine.core.gdx.gameobjects.GdxPhysicsEffectGO
-ead.common.model.elements.effects.physics.PhApplyImpulseEf=ead.engine.core.gdx.gameobjects.GdxApplyForceGO

@@ -1,6 +1,8 @@
 package es.eucm.ead.techdemo.desktop;
 
 import es.eucm.ead.engine.desktop.DesktopGame;
+import es.eucm.ead.engine.tracking.GameTracker;
+import es.eucm.ead.engine.tracking.gleaner.GleanerGameTracker;
 import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
@@ -9,11 +11,15 @@ import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.writer2.AdventureWriter;
+import es.eucm.gleaner.tracker.JerseyTracker;
+import es.eucm.gleaner.tracker.Tracker;
 
 public class TechDemoMain {
 
 	public static void main(String[] args) {
 		DesktopGame g = new DesktopGame();
+		g.setBind(GameTracker.class, GleanerGameTracker.class);
+		g.setBind(Tracker.class, JerseyTracker.class);
 		InitScene scene = new InitScene();
 		BasicChapter chapter = new BasicChapter(scene);
 		for (EAdScene s : scene.getScenes()) {

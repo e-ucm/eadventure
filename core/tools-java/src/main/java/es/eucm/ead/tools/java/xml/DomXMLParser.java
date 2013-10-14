@@ -74,6 +74,11 @@ public class DomXMLParser implements XMLParser {
 
 	@Override
 	public XMLNode parse(String xml) {
+		return parse(xml, null);
+	}
+
+	@Override
+	public XMLNode parse(String xml, ErrorHandler errorHandler) {
 		InputStream is = new ByteArrayInputStream(xml.getBytes());
 
 		try {
@@ -81,7 +86,11 @@ public class DomXMLParser implements XMLParser {
 			doc.getDocumentElement().normalize();
 			return generateNode((Element) doc.getFirstChild());
 		} catch (SAXException e) {
-			logger.error("Error reading xml: {}", e);
+			if (errorHandler != null) {
+				errorHandler.error(e.getMessage());
+			} else {
+				logger.error("Error reading xml: {}", e);
+			}
 		} catch (IOException e) {
 			logger.error("Error reading xml: {}", e);
 		} finally {

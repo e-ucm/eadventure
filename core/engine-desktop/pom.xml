@@ -44,7 +44,13 @@
             <version>${gdx.version}</version>
             <classifier>natives-desktop</classifier>
         </dependency>
-            
+
+        <!-- GLEANER -->
+        <dependency>
+            <groupId>es.e-ucm.gleaner</groupId>
+            <artifactId>gleaner-tracker-java</artifactId>
+        </dependency>
+
         <!-- external -->
         <dependency>
             <groupId>org.slf4j</groupId>

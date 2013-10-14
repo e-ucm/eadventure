@@ -1,2 +1,0 @@
-[events]
-es.eucm.ead.legacyplugins.model.BubbleNameEv=es.eucm.ead.legacyplugins.engine.BubbleNameGO

@@ -52,12 +52,16 @@ import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DesktopGame {
 
 	private Injector injector;
 
 	private GameLoader gameLoader;
+
+	private Map<Class<?>, Class<?>> binds;
 
 	private boolean exitAtClose;
 
@@ -72,6 +76,7 @@ public class DesktopGame {
 	 */
 	public DesktopGame() {
 		this(true);
+		binds = new HashMap<Class<?>, Class<?>>();
 	}
 
 	/**
@@ -85,13 +90,12 @@ public class DesktopGame {
 
 	public DesktopGame(boolean exitAtClose, String path) {
 		this.exitAtClose = exitAtClose;
-		initInjector();
 		setPath(path);
 	}
 
 	private void initInjector() {
 		if (injector == null) {
-			injector = Guice.createInjector(new DesktopModule(),
+			injector = Guice.createInjector(new DesktopModule(binds),
 					new JavaToolsModule());
 			gameLoader = injector.getInstance(GameLoader.class);
 		}
@@ -112,6 +116,7 @@ public class DesktopGame {
 	 * @return
 	 */
 	public JFrame start() {
+		initInjector();
 		// Init class loader
 		ReflectionClassLoader.init(new JavaReflectionClassLoader());
 		// Prepare Gdx configuration
@@ -157,5 +162,9 @@ public class DesktopGame {
 
 	public void setFullscreen(boolean fullscreen) {
 		this.fullscreen = fullscreen;
+	}
+
+	public void setBind(Class<?> clazz, Class<?> bindTo) {
+		binds.put(clazz, bindTo);
 	}
 }

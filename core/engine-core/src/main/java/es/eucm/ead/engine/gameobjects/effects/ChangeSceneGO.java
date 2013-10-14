@@ -39,13 +39,14 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.TransitionGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoader;
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
+import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.scenes.EAdScene;
@@ -76,14 +77,18 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	private boolean finished;
 
+	private GameTracker gameTracker;
+
 	@Inject
 	public ChangeSceneGO(SceneElementFactory sceneElementFactory,
-			SceneLoader sceneLoader, GameLoader gameLoader, Game game) {
+			SceneLoader sceneLoader, GameLoader gameLoader, Game game,
+			GameTracker gameTracker) {
 		super(game);
 		this.sceneLoader = sceneLoader;
 		this.gui = this.game.getGUI();
 		this.sceneElementFactory = sceneElementFactory;
 		this.gameLoader = gameLoader;
+		this.gameTracker = gameTracker;
 	}
 
 	@Override
@@ -102,12 +107,16 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		}
 
 		// If next scene is different from current one
-		if (nextScene == null || nextScene != gui.getScene().getElement()) {
+		if (nextScene != gui.getScene().getElement()) {
 			previousScene = gui.getScene();
 			transition = (TransitionGO<?>) sceneElementFactory.get(effect
 					.getTransition());
+
 			logger.debug("Transition {} -> {}", new Object[] { previousScene,
 					nextScene });
+			gameTracker.phaseEnd(previousScene.getName());
+			gameTracker.phaseStart(nextScene.getId());
+
 			sceneLoader.loadScene(nextScene, this);
 			gui.setScene(transition);
 		} else {
