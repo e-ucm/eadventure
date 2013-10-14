@@ -102,7 +102,7 @@ public class WarExporter {
 					os));
 			for (String a : assets) {
 				writer.write(a);
-				writer.newLine();
+				writer.write("\n");
 			}
 			writer.flush();
 			os.closeEntry();

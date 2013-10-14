@@ -73,8 +73,7 @@ public class ReferenceResolver {
 					&& !context.containsId(i.getId())) {
 				if (contextRefs == null) {
 					contextRefs = new HashMap<String, XMLNode>();
-					pendingReferences.put(new Integer(context.getContextId()),
-							contextRefs);
+					pendingReferences.put(context.getContextId(), contextRefs);
 				}
 				contextRefs.put(i.getId(), node);
 			}

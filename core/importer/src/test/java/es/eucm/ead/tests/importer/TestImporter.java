@@ -24,8 +24,7 @@ public class TestImporter {
 
 	private final String ROOT = "src/test/resources/";
 
-	private final String[] GAMES = new String[] { "PrimerosAuxilios",
-			"DamaBoba" };
+	private final String[] GAMES = new String[] { "DamaBoba", "PrimerosAuxilios" };
 
 	private final File TEMP = new File("temp/");
 

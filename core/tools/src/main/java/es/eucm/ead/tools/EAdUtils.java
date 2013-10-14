@@ -62,6 +62,8 @@ public class EAdUtils {
 
 	private static Stack<Object> elements1 = new Stack<Object>();
 	private static Stack<Object> elements2 = new Stack<Object>();
+	private static ArrayList<Object> compared1 = new ArrayList<Object>();
+	private static ArrayList<Object> compared2 = new ArrayList<Object>();
 
 	private static boolean ignoreId;
 
@@ -81,6 +83,8 @@ public class EAdUtils {
 			NotEqualHandler handler) {
 		elements1.clear();
 		elements2.clear();
+		compared1.clear();
+		compared2.clear();
 		EAdUtils.ignoreId = ignoreId;
 		return equalsImpl(o1, o2, handler);
 	}
@@ -88,8 +92,11 @@ public class EAdUtils {
 	private static boolean equalsImpl(Object o1, Object o2,
 			NotEqualHandler handler) {
 		boolean result = checkStack(o1, o2);
-
-		if (result && elements1.indexOf(o1) == -1) {
+		boolean alreadyCompared = checkCompared(o1, o2);
+		if ( alreadyCompared ){
+			result = true;
+		}
+		else if (result && elements1.indexOf(o1) == -1) {
 			push(o1, o2);
 			if (o1 == o2) {
 				result = true;
@@ -163,6 +170,8 @@ public class EAdUtils {
 		if (!result && handler != null) {
 			handler.notEqual(o1, o2);
 		}
+		compared1.add(o1);
+		compared2.add(o2);
 		return result;
 	}
 
@@ -180,6 +189,12 @@ public class EAdUtils {
 		int index1 = elements1.indexOf(o1);
 		int index2 = elements2.indexOf(o2);
 		return index1 == index2;
+	}
+
+	private static boolean checkCompared(Object o1, Object o2){
+		int index1 = compared1.indexOf(o1);
+		int index2 = compared2.indexOf(o2);
+		return index1 != -1 && index1 == index2;
 	}
 
 	public static String generateId(String prefix, int ordinal) {

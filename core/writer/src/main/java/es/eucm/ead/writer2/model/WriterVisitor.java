@@ -70,8 +70,6 @@ public class WriterVisitor {
 
 	private List<WriterStep> stepsQueue;
 
-	private List<FinalStep> finalStepsQueue;
-
 	private WriterContext writerContext;
 
 	public WriterVisitor(ReflectionProvider reflectionProvider,
@@ -79,17 +77,11 @@ public class WriterVisitor {
 		this.reflectionProvider = reflectionProvider;
 		this.writerContext = writerContext;
 		stepsQueue = new ArrayList<WriterStep>();
-		finalStepsQueue = new ArrayList<FinalStep>();
-
 		// writers
 		paramWriter = new ParamWriter(this);
 		listWriter = new ListWriter(this);
 		mapWriter = new MapWriter(this);
 		objectWriter = new ObjectWriter(this);
-	}
-
-	public void addFinalStep(FinalStep step) {
-		finalStepsQueue.add(step);
 	}
 
 	public void writeElement(Object object, Object parent,
@@ -163,10 +155,6 @@ public class WriterVisitor {
 			return parent;
 		}
 
-	}
-
-	public static interface FinalStep {
-		void execute();
 	}
 
 	public static interface VisitorListener {
