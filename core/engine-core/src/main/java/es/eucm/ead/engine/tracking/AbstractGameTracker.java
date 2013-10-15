@@ -39,8 +39,6 @@ package es.eucm.ead.engine.tracking;
 
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.interfaces.features.Identified;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,16 +89,14 @@ public abstract class AbstractGameTracker implements GameTracker,
 	/**
 	 * A watched field has been update
 	 *
-	 * @param o     the object owner of the field
-	 * @param var   the variable
+	 * @param id     the object owner of the field
+	 * @param varName   the variable
 	 * @param value the new value for the variable in the object
 	 * @param <T>   the class of the value
 	 */
-	public <T> void fieldUpdated(Object o, EAdVarDef<T> var, T value) {
-		String varName = (o instanceof Identified ? ((Identified) o).getId()
-				+ "." : "")
-				+ var.getName();
-		varUpdate(varName, value);
+	public <T> void fieldUpdated(String id, String varName, T value) {
+		String field = (id != null ? id + "." : "") + varName;
+		varUpdate(field, value);
 	}
 
 	/**

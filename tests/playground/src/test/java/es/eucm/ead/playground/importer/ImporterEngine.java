@@ -12,6 +12,7 @@ public class ImporterEngine {
 		String convertedFolder = converter.convert(TEST, null);
 
 		DesktopGame game = new DesktopGame();
+		game.setDebug(true);
 		game.setPath(convertedFolder);
 		game.start();
 		game.load();

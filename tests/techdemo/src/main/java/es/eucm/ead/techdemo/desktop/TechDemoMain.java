@@ -18,8 +18,10 @@ public class TechDemoMain {
 
 	public static void main(String[] args) {
 		DesktopGame g = new DesktopGame();
+		g.setDebug(true);
 		g.setBind(GameTracker.class, GleanerGameTracker.class);
 		g.setBind(Tracker.class, JerseyTracker.class);
+		g.setPath("src/main/resources");
 		InitScene scene = new InitScene();
 		BasicChapter chapter = new BasicChapter(scene);
 		for (EAdScene s : scene.getScenes()) {

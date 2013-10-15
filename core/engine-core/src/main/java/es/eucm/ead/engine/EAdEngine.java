@@ -50,9 +50,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.canvas.GdxCanvas;
+import es.eucm.ead.engine.debugger.SimpleDebugger;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import org.slf4j.Logger;
@@ -82,6 +85,7 @@ public class EAdEngine implements ApplicationListener {
 	 * Reference height for the game. This height is independent from the window size. It's in stage relative units
 	 */
 	private float gameHeight;
+	private boolean debug;
 
 	@Inject
 	public EAdEngine(Game game, GameState gameState, GUI gui) {
@@ -125,10 +129,18 @@ public class EAdEngine implements ApplicationListener {
 
 		stage.setCamera(c);
 		gui.setStage(stage);
+
 		Gdx.input.setInputProcessor(stage);
 
 		stage.addActor(new Logo());
 
+	}
+
+	public void addDebug(GameLoader gameLoader) {
+		if (debug) {
+			SceneElementGO debuggerHud = gui.getHUD(GUI.DEBBUGERS_HUD_ID);
+			debuggerHud.addActor(new SimpleDebugger(game, gameLoader));
+		}
 	}
 
 	@Override
@@ -163,12 +175,30 @@ public class EAdEngine implements ApplicationListener {
 		}
 	}
 
+	/**
+	 * @return the stage of the engine
+	 */
+	public Stage getStage() {
+		return stage;
+	}
+
+	/**
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
 	@Override
 	public void pause() {
 	}
 
 	@Override
 	public void resume() {
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 
 	public class Logo extends Actor {

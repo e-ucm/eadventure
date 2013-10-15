@@ -230,4 +230,5 @@ public class Manifest extends BasicElement {
 		}
 		scenes.add(sceneId);
 	}
+
 }

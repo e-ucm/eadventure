@@ -44,12 +44,10 @@ import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
-import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.paint.EAdPaint;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 import java.util.Map;
 
@@ -74,7 +72,7 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 	public void act(float delta) {
 		super.act(delta);
 
-		Map<EAdVarDef<?>, Object> values = gameState.getElementVars(game
+		Map<String, Object> values = gameState.getElementVars(game
 				.getAdventureModel());
 
 		if (values == null || values.size() == 0) {
@@ -93,11 +91,9 @@ public class ModelFieldsDebuggerGO extends SceneElementGO {
 				}
 				GroupElement fields = new GroupElement();
 				fields.setInitialEnable(false);
-				for (EAdVarDef<?> var : values.keySet()) {
-					Caption c = new Caption(var.getName() + ": [0]");
+				for (String var : values.keySet()) {
+					Caption c = new Caption(var + ": [0]");
 					c.setPadding(1);
-					c.getOperations().add(
-							new BasicField(game.getAdventureModel(), var));
 					c.setBubblePaint(bubblePaint);
 					SceneElement field = new SceneElement(c);
 					field.setPosition(x, y);

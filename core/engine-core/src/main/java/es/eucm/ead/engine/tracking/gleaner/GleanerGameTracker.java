@@ -194,4 +194,5 @@ public class GleanerGameTracker extends AbstractGameTracker {
 	public void gameEnd() {
 		tracker.gameEnd();
 	}
+
 }

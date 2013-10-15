@@ -102,19 +102,20 @@ public class AdventureReader {
 
 		try {
 			node = parser.parse(xml);
+			readerVisitor.init();
+			readerVisitor.loadElement(node,
+					new ReaderVisitor.VisitorListener() {
+						@Override
+						public boolean loaded(XMLNode node, Object object,
+								boolean isNullInOrigin) {
+							result = object;
+							return true;
+						}
+					});
+			readerVisitor.finish();
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading '" + path + file + "'");
+			logger.error("{}", e);
 		}
-		readerVisitor.init();
-		readerVisitor.loadElement(node, new ReaderVisitor.VisitorListener() {
-			@Override
-			public boolean loaded(XMLNode node, Object object,
-					boolean isNullInOrigin) {
-				result = object;
-				return true;
-			}
-		});
-		readerVisitor.finish();
 		return result;
 
 	}

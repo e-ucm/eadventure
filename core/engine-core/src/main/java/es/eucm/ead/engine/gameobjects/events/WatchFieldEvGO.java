@@ -44,7 +44,6 @@ import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
 import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.params.variables.EAdVarDef;
 
 public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 		GameState.FieldWatcher {
@@ -59,8 +58,9 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	public void setElement(WatchFieldEv ev) {
 		super.setElement(ev);
 		fieldUpdated = true;
-		for (EAdField<?> f : ev.getFields())
+		for (EAdField<?> f : ev.getFields()) {
 			game.getGameState().addFieldWatcher(this, f);
+		}
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	}
 
 	@Override
-	public <T> void fieldUpdated(Object o, EAdVarDef<T> field, T value) {
+	public <T> void fieldUpdated(String name, String field, T value) {
 		fieldUpdated = true;
 	}
 }
