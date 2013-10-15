@@ -76,6 +76,7 @@ import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
 import es.eucm.ead.importer.AdventureConverter;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
+import es.eucm.ead.editor.model.nodes.SceneFactory;
 import es.eucm.ead.reader2.AdventureReader;
 import es.eucm.ead.reader.strings.StringsReader;
 import es.eucm.ead.tools.PropertiesReader;
@@ -112,7 +113,7 @@ public class EditorModelLoader {
 	/**
 	 * Importer for old models
 	 */
-	private AdventureConverter converter;
+	private final AdventureConverter converter;
 	/**
 	 * True only during a loading operation
 	 */
@@ -120,23 +121,23 @@ public class EditorModelLoader {
 	/**
 	 * Reader for DOM models
 	 */
-	private AdventureReader reader;
+	private final AdventureReader reader;
 	/**
 	 * Reader for zipped DOM models
 	 */
-	private AdventureReader zipReader;
+	private final AdventureReader zipReader;
 	/**
 	 * Internal zip-file reader, used to provide folder-like access to zip files
 	 */
-	private ZipTextFileReader zipTextFileReader;
+	private final ZipTextFileReader zipTextFileReader;
 	/**
 	 * Writer for DOM models
 	 */
-	private AdventureWriter writer;
+	private final AdventureWriter writer;
 	/**
 	 * Parser for XML documents
 	 */
-	private XMLParser parser;
+	private final XMLParser parser;
 	/**
 	 * Current project directory; used to save & load
 	 */
@@ -144,12 +145,12 @@ public class EditorModelLoader {
 	/**
 	 * An import annotator that can reconstitute a bit of an existing import
 	 */
-	private EditorAnnotator importAnnotator;
+	private final EditorAnnotator importAnnotator;
 
 	/**
 	 * A list of editor node factories for imports
 	 */
-	private ArrayList<EditorNodeFactory> importNodeFactories = new ArrayList<EditorNodeFactory>();
+	private final ArrayList<EditorNodeFactory> importNodeFactories = new ArrayList<EditorNodeFactory>();
 	/**
 	 * Name of file with editor-node descriptions
 	 */
@@ -181,10 +182,19 @@ public class EditorModelLoader {
 
 		importNodeFactories.add(new ActorFactory());
 		importNodeFactories.add(new AssetFactory());
+		importNodeFactories.add(new SceneFactory());
 	}
 
 	public void setModel(EditorModelImpl model) {
 		this.model = model;
+	}
+
+	/**
+	 * Useful for mocking save dirs.
+	 * @param saveDir to use instead of default or previous.
+	 */
+	public void setSaveDir(File saveDir) {
+		this.saveDir = saveDir;
 	}
 
 	/**

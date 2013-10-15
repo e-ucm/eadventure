@@ -365,8 +365,8 @@ public class ModelVisitorDriver {
 	/**
 	 * Utility method to find a property descriptor for a single property
 	 *
-	 * @param c
-	 * @param fieldName
+	 * @param object to look into
+	 * @param fieldName to find within object
 	 * @return
 	 */
 	public static Object readProperty(Object object, String fieldName) {

@@ -177,6 +177,15 @@ public class EditorModelImpl implements EditorModel {
 		return nodesById.get(id);
 	}
 
+	/**
+	 * Registers a dependencyNode, launching the appropriate event to inform
+	 * listeners. The node must not depend upon others (or have all dependencies
+	 * already wired-in). This is ideal for editor-windows that are not actually
+	 * tied into the current model.
+	 * 
+	 * @param n the node
+	 * @param eventType the event-type
+	 */
 	public void registerNode(DependencyNode n, String eventType) {
 		nodesById.put(n.getId(), n);
 		fireModelEvent(new DefaultModelEvent(eventType, this,
@@ -257,7 +266,9 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	/**
-	 * Returns the DependencyNode for an object that is wrapped in an editorNode.
+	 * Returns the DependencyNode that wraps a given content.
+	 * @param content to locate
+	 * @return the DependencyNode for an object that is wrapped in an editorNode.
 	 * This works in two ways. First, if it has an editor-id tag, it is used.
 	 * Otherwise, it must have been an unmarked object (list, map, resource, ...);
 	 * and the transientCollection-->editorNode map is used instead.
@@ -338,9 +349,9 @@ public class EditorModelImpl implements EditorModel {
 
 	private class LinkStillThereVisitor implements ModelVisitor {
 
-		private int sourceId;
-		private int targetId;
-		private String type;
+		private final int sourceId;
+		private final int targetId;
+		private final String type;
 		private boolean found = false;
 
 		public LinkStillThereVisitor(DependencyEdge e) {
@@ -378,9 +389,9 @@ public class EditorModelImpl implements EditorModel {
 
 	private class UpdateOutgoingLinksVisitor implements ModelVisitor {
 
-		private Set<DependencyNode> changed;
-		private Set<DependencyNode> added;
-		private DependencyNode sourceNode;
+		private final Set<DependencyNode> changed;
+		private final Set<DependencyNode> added;
+		private final DependencyNode sourceNode;
 
 		private UpdateOutgoingLinksVisitor(DependencyNode sourceNode,
 				Set<DependencyNode> added, Set<DependencyNode> changed) {
@@ -430,6 +441,10 @@ public class EditorModelImpl implements EditorModel {
 	 * Attempts to add a new node-and-edge to the graph.
 	 * The source may be null (for the root).
 	 *
+	 * @param source node (null if root)
+	 * @param type textual name of edge
+	 * @param targetContent to wrap in a node if applicable
+	 * @param isLoading to distinguish between load & create
 	 * @return the new node if added, or null if already existing (and
 	 *         therefore, it makes no sense to continue adding recursively from
 	 *         there on).
@@ -624,6 +639,7 @@ public class EditorModelImpl implements EditorModel {
 
 	/**
 	 * Adds a new EditorNode to the dependency-tracking graph
+	 * @param e the node to register
 	 */
 	public void registerEditorNodeWithGraph(EditorNode e) {
 		nodesById.put(e.getId(), e);
@@ -688,7 +704,7 @@ public class EditorModelImpl implements EditorModel {
 	 * Queries all fields in all nodes for the provided text. This
 	 * variant provides details of any matches.
 	 *
-	 * @param queryText
+	 * @param query
 	 * @return a list of all matching nodes, ranked by relevance
 	 */
 	@Override
@@ -698,6 +714,7 @@ public class EditorModelImpl implements EditorModel {
 
 	/**
 	 * Retrieves a list of all indexed fields.
+	 * @return a list of all indexed fields.
 	 */
 	public List<String> getAllSearchableFields() {
 		return nodeIndex.getIndexedFieldNames();

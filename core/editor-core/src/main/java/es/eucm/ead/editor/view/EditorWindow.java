@@ -93,10 +93,12 @@ import bibliothek.gui.dock.common.mode.ExtendedMode;
 
 import es.eucm.ead.editor.control.ViewController;
 import es.eucm.ead.editor.model.nodes.LogNode;
+import es.eucm.ead.editor.model.nodes.SceneNode;
 import es.eucm.ead.editor.view.menu.AbstractEditorMenu;
 import es.eucm.ead.editor.util.i18n.Resource;
 import es.eucm.ead.editor.util.SwingUtilities;
 import es.eucm.ead.editor.view.panel.LogPanel;
+import es.eucm.ead.editor.view.panel.ScenePanel;
 
 /**
  * Default implementation of the main editor window
@@ -467,6 +469,7 @@ public class EditorWindow implements ViewController {
 		registerElementPanelFactory(CaptionAssetNode.class,
 				CaptionAssetPanel.class);
 		registerElementPanelFactory(AssetsNode.class, AssetsPanel.class);
+		registerElementPanelFactory(SceneNode.class, ScenePanel.class);
 
 		registerElementPanelFactory(LogNode.class, LogPanel.class);
 	}

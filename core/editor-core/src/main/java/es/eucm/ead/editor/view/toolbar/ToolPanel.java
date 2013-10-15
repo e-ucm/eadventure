@@ -201,5 +201,6 @@ public class ToolPanel implements ChangeListener<String> {
 
 		searchField.addActionListener(queryListener);
 		searchButton.addActionListener(queryListener);
+		searchButton.setToolTipText(Messages.toolbar_search_button);
 	}
 }

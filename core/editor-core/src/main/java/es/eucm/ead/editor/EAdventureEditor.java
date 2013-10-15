@@ -93,16 +93,7 @@ public class EAdventureEditor implements Launcher {
 		// Initialize logging
 		Log4jConfig.configForConsole(Slf4jLevel.Info, new Object[] {
 
-				// AdventureConverter
-				ObjectReader.class, Slf4jLevel.Debug, AdventureReader.class,
-				Slf4jLevel.Debug,
-				// recursion into bits of model when importing
-				EditorModelLoader.class, Slf4jLevel.Debug,
-				// access to the model
-				EditorModel.class, Slf4jLevel.Debug, ModelVisitorDriver.class,
-				Slf4jLevel.Debug,
-
-				// image previews
+		// image previews
 				ImageAssetPanel.class, Slf4jLevel.Debug,
 				// image previews
 				AbstractOption.class, Slf4jLevel.Debug

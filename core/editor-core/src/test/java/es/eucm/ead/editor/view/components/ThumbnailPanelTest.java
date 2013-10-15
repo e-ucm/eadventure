@@ -40,14 +40,22 @@
 
 package es.eucm.ead.editor.view.components;
 
-import es.eucm.ead.editor.view.components.PropertiesTablePanel;
-import es.eucm.ead.editor.view.components.ThumbnailPanel;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import es.eucm.ead.editor.EditorGuiceModule;
+import es.eucm.ead.editor.control.Controller;
+import es.eucm.ead.editor.model.EditorModelImpl;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.editor.model.nodes.EditorNode;
-import es.eucm.ead.editor.model.nodes.EngineNode;
 import es.eucm.ead.editor.model.nodes.asset.ImageAssetNode;
 import es.eucm.ead.engine.assets.AssetHandlerImpl;
 import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.interfaces.features.Identified;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,19 +75,33 @@ import javax.swing.JTabbedPane;
 public class ThumbnailPanelTest extends JPanel {
 
 	public static void main(String[] args) {
+		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info);
 
-		Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info,
-				new Object[] {});
+		// initialize launcher & reflection
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
+		ReflectionClassLoader.init(injector
+				.getInstance(ReflectionClassLoader.class));
+		Controller c = injector.getInstance(Controller.class);
+		EditorModelImpl mi = (EditorModelImpl) c.getModel();
+		mi.getLoader().setSaveDir(new File("src/main/resources/"));
+
+		final AssetViewer rootAssetViewer = c.createAssetViewer();
 
 		final ArrayList<EditorNode> ians = new ArrayList<EditorNode>();
+		Identified root = new BasicElement();
+		root.setId("fakeRoot");
+		mi.addNode(null, null, root, false);
 		for (int i = 0; i < 100; i++) {
 			ImageAssetNode ian = new ImageAssetNode(i);
-			ian.addChild(new EngineNode<Image>(i + 100, new Image(
-					"@drawable/assets_animation_telefono.png")));
-			ian.setBase(new File(
-					"../../demos/firstaidgame/src/main/resources/",
+			Image image = new Image("@drawable/EditorIcon128x128.png");
+			image.setId("id" + i);
+			mi.addNode(mi.getNodeFor(root), "mock", image, false);
+			ian.addChild(mi.getNodeFor(image));
+			ian.setBase(new File("src/main/resources/",
 					AssetHandlerImpl.PROJECT_INTERNAL_PATH));
 			ians.add(ian);
+			mi.registerEditorNodeWithGraph(ian);
 		}
 		final ThumbnailPanel tnp = new ThumbnailPanel();
 
@@ -91,9 +113,22 @@ public class ThumbnailPanelTest extends JPanel {
 				tnp.setNodes(ians);
 			}
 		});
+		JButton jbg = new JButton("grab a capture");
+		jbg.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Image i = (Image) ians.get(0).getFirst().getContent();
+				System.err.println("Setting drawable to something: " + i + " "
+						+ i.getUri());
+				rootAssetViewer.setDrawable(i);
+			}
+		});
 
 		PropertiesTablePanel ptp = new PropertiesTablePanel();
 		ptp.setNodes(ians);
+
+		ptp.setController(c);
 
 		JTabbedPane jtp = new JTabbedPane();
 		jtp.add("Icons", tnp);
@@ -102,9 +137,14 @@ public class ThumbnailPanelTest extends JPanel {
 		JFrame jf = new JFrame();
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.add(jtp);
-		jf.add(jb, BorderLayout.SOUTH);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(jb);
+		buttonPanel.add(jbg);
+		jf.add(buttonPanel, BorderLayout.SOUTH);
 		jf.setSize(800, 600);
 		jf.setLocationRelativeTo(null);
 		jf.setVisible(true);
+		jtp.add("assetViewer", rootAssetViewer.getCanvas());
+
 	}
 }

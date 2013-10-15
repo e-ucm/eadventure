@@ -69,8 +69,8 @@ public class AssetViewer {
 
 	private static LwjglAWTCanvas sharedContext;
 	private LwjglAWTCanvas canvas;
-	private AssetApplicationListener app;
-	private AssetHandler assetHandler;
+	private final AssetApplicationListener app;
+	private final AssetHandler assetHandler;
 
 	@Inject
 	public AssetViewer(AssetHandler assetHandler, AssetApplicationListener app) {
@@ -154,8 +154,11 @@ public class AssetViewer {
 			@SuppressWarnings("rawtypes")
 			@Override
 			public void run() {
-				app.setDrawable((RuntimeDrawable) assetHandler
+				RuntimeDrawable rd = ((RuntimeDrawable) assetHandler
 						.getRuntimeAsset(drawable));
+				logger.info("Running setDrawable: to {} ({}: {}x{})", drawable
+						.getId(), rd, rd.getWidth(), rd.getHeight());
+				app.setDrawable(rd);
 			}
 		});
 	}

@@ -35,84 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.editor.model.nodes.asset;
+package es.eucm.ead.editor.view.panel;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import es.eucm.ead.editor.R;
-import es.eucm.ead.model.assets.drawable.basics.Image;
-import es.eucm.ead.editor.util.i18n.Resource;
+import es.eucm.ead.editor.model.nodes.SceneNode;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Image asset node
+ * An elementPanel that can display anything, in a non-editable fashion.
  *
  * @author mfreire
  */
-public class ImageAssetNode extends AssetNode {
-	static private Logger logger = LoggerFactory
-			.getLogger(ImageAssetNode.class);
+public class ScenePanel extends AbstractElementPanel<SceneNode> {
 
-	public ImageAssetNode(int id) {
-		super(id);
-	}
+	static private Logger logger = LoggerFactory.getLogger(ScenePanel.class);
+
+	private BasicScene scene;
 
 	@Override
-	public String getLinkText() {
-		try {
-			String s = ((Image) getDescriptor()).getUri().toString();
-			return s.substring(s.lastIndexOf("drawable") + "drawable".length()
-					+ 1);
-		} catch (Exception e) {
-			logger.warn("error finding link text", e);
-			return "???";
-		}
-	}
-
-	public File resolveUri(String uri) {
-		return new File(uri.replace("@", base.getAbsolutePath()
-				+ File.separator));
-	}
-
-	public File getFile() {
-		String uri = ((Image) getDescriptor()).getUri().toString();
-		return resolveUri(uri);
-	}
-
-	public File getSource() {
-		if (sources.isEmpty()) {
-			setSource(getFile());
-		}
-		return new File(sources.get(0));
-	}
-
-	public void setSource(File file) {
-		if (sources.isEmpty()) {
-			sources.add(file.getPath());
-		} else {
-			sources.set(0, file.getPath());
-		}
-	}
-
-	@Override
-	public void updateThumbnail() {
-		BufferedImage fullImage = Resource.loadExternalImage(getFile());
-		if (fullImage != null) {
-			setThumbnail(fullImage);
-		} else {
-			logger.warn("No thumbnail could be generated from '{}'", getFile());
-		}
-	}
-
-	@Override
-	public int getAssetSize() {
-		return (int) getFile().length();
-	}
-
-	@Override
-	public String getLinkIcon() {
-		return R.Drawable.assets__image_png;
+	protected void rebuild() {
+		this.scene = (BasicScene) target.getFirst().getContent();
+		removeAll();
+		setLayout(new FlowLayout());
+		add(new JLabel("This is a scene panel for ID " + scene.getId()));
+		add(new JSeparator(JSeparator.HORIZONTAL));
+		
+		revalidate();
 	}
 }

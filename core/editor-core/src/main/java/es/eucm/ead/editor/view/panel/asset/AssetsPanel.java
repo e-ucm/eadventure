@@ -207,10 +207,6 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 		public void setNode(final EditorNode node) {
 			logger.info("Setting preview to node {}", node.getId());
 
-			if (node == null) {
-				return;
-			}
-
 			previewedNode = node;
 
 			if (rootAssetViewer == null) {
@@ -290,6 +286,9 @@ public class AssetsPanel extends AbstractElementPanel<AssetsNode> {
 			logger.info("Setting {} nodes for category {}", new Object[] {
 					nodesByCategory.get(s).size(), s });
 			thumbPanels.get(s).setNodes(nodesByCategory.get(s));
+		}
+		if (thumbPanels.containsKey("Image")) {
+			tabs.setSelectedComponent(thumbPanels.get("Image"));
 		}
 		tabs.revalidate();
 		previewer.revalidate();

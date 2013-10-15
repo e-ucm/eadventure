@@ -439,12 +439,16 @@ public class ModelIndex implements EditorModel.ModelListener {
 
 	/**
 	 * Query the index. The fields
-	 * "id", "is" and "has" are interpreted as follows:
+	 * "eid", "is" and "has" are interpreted as follows:
 	 * <ul>
 	 * <li>eid - exact editor-id match
 	 * <li>is - node class-name match
 	 * <li>has - node contents class-name match
 	 * </ul>
+	 * @param field field that is being searched
+	 * @param queryText contents of the query
+	 * @param quick 
+	 * @return an object with the results of the search
 	 */
 	public SearchResult search(String field, String queryText, boolean quick) {
 

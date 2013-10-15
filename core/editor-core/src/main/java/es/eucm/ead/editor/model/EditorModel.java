@@ -72,16 +72,11 @@ public interface EditorModel extends ModelAccessor {
 
 	/**
 	 * Updates incoming and outgoing dependencies for a set of nodes.
-	 * @param nodes to update
 	 * @param changed existing nodes that have had their edges changed
 	 *     are placed here.
 	 * @param added nodes that have been added (discovered through edge-traversal)
 	 *	   are placed here.
-	 * @return the set of additional nodes affected by this change, excluding the
-	 * original node. For example, if incomingDependencies(a) = (d-->a, c-[-]->a)
-	 * and outgoingDependencies(a) = (a-[+]->b, a-->d), where [+] indicates an edge
-	 * that is to be created and [-] one that is to be deleted, then
-	 * updateDependencies(a) would return {b, c}
+	 * @param nodes to update
 	 */
 	void updateDependencies(Set<DependencyNode> changed,
 			Set<DependencyNode> added, DependencyNode... nodes);
@@ -142,6 +137,7 @@ public interface EditorModel extends ModelAccessor {
 	public static interface ModelListener {
 		/**
 		 * Called whenever parts of the model change.
+		 * @param event describing the change
 		 */
 		public void modelChanged(ModelEvent event);
 	}
