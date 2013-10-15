@@ -104,6 +104,7 @@ public class ScriptControllerImpl implements ScriptController {
 
 		Bindings b = jsEngine.createBindings();
 		b.put("controller", controller);
+
 		jsEngine.setBindings(b, ScriptContext.GLOBAL_SCOPE);
 		try {
 			String r = FileUtils.loadResourceToString("/scripts/env.js");

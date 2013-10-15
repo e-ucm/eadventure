@@ -104,6 +104,7 @@ public class Messages {
 	public static String run_menu_run_browser;
 	public static String run_menu_run_desktop;
 	public static String toolbar_search;
+	public static String toolbar_search_button;
 	public static String window_menu;
 	public static String window_menu_clear;
 	public static String window_menu_next;
