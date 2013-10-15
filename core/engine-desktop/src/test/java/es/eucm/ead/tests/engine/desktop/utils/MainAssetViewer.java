@@ -59,26 +59,24 @@ import java.io.File;
 public class MainAssetViewer implements Runnable {
 
 	public static void main(String args[]) throws Exception {
-		//SwingUtilities.doInEDT(new MainAssetViewer());
+		new MainAssetViewer().run();
 	}
 
 	@Override
 	public void run() {
 
-		final Image standNorth = new Image("@drawable/man_stand_n.png");
+		final Image standNorth = new Image("@drawable/default_left_arrow.png");
 		final BalloonShape shape = new BalloonShape(10, 10, 100, 100,
 				BalloonType.CLOUD);
 		shape.setPaint(ColorFill.WHITE);
 
 		FramesAnimation frames2 = new FramesAnimation();
-		frames2.addFrame(new Frame("@drawable/man_walk_w_1.png", 500));
-		frames2.addFrame(new Frame("@drawable/man_walk_w_2.png", 500));
+		frames2.addFrame(new Frame("@drawable/default_left_arrow.png", 500));
+		frames2.addFrame(new Frame("@drawable/default_right_arrow.png", 500));
 
 		Injector i = Guice.createInjector(new AssetViewerModule());
 		AssetHandler ah = i.getInstance(AssetHandler.class);
 		ah.setCacheEnabled(false);
-		ah.setResourcesLocation(new File(
-				"../../demos/techdemo/src/main/resources/").getPath());
 
 		AssetViewer viewer1 = i.getInstance(AssetViewer.class);
 		AssetViewer viewer8 = i.getInstance(AssetViewer.class);
@@ -98,9 +96,9 @@ public class MainAssetViewer implements Runnable {
 		viewer7.setDrawable(frames2);
 
 		FramesAnimation frames = new FramesAnimation();
-		Frame standSouth = new Frame("@drawable/man_stand_s_1.png", 1000);
+		Frame standSouth = new Frame("@drawable/default_left_arrow.png", 1000);
 		frames.addFrame(standSouth);
-		frames.addFrame(new Frame("@drawable/man_stand_s_2.png", 200));
+		frames.addFrame(new Frame("@drawable/default_left_arrow.png", 200));
 
 		viewer2.setDrawable(frames);
 

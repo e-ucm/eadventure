@@ -43,10 +43,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
+import es.eucm.ead.engine.canvas.GdxCanvas;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
@@ -59,7 +59,7 @@ public class AssetApplicationListener implements ApplicationListener {
 	public int patternSize = DEFAULT_PATTERN_SIZE;
 
 	private InvOrtographicCamera camera;
-	private SpriteBatch spriteBatch;
+	private GdxCanvas spriteBatch;
 	private Graphics graphics;
 	private Texture squareTexture;
 
@@ -77,7 +77,6 @@ public class AssetApplicationListener implements ApplicationListener {
 
 	@Inject
 	public AssetApplicationListener(ReflectionProvider reflectionProvider) {
-		//XXX	canvas = new GenericCanvas();
 		transformation = new Matrix4();
 		transformation.idt();
 		idt.idt();
@@ -114,7 +113,7 @@ public class AssetApplicationListener implements ApplicationListener {
 
 	@Override
 	public void create() {
-		spriteBatch = new SpriteBatch();
+		spriteBatch = new GdxCanvas();
 		spriteBatch.enableBlending();
 		spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA,
 				GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -173,7 +172,7 @@ public class AssetApplicationListener implements ApplicationListener {
 		spriteBatch.setTransformMatrix(transformation);
 
 		if (currentDrawable != null) {
-			//currentDrawable.getDrawable(time, states, 0).render(canvas);
+			currentDrawable.getDrawable(time, states, 0).render(spriteBatch);
 		}
 
 		spriteBatch.end();
