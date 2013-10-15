@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.ead.engine.debugger;
 
 import com.badlogic.gdx.Gdx;
@@ -17,6 +54,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 
@@ -28,7 +66,15 @@ public class SimpleDebugger extends Group {
 
 	private final Button button;
 
+	private final GameLoader gameLoader;
+
+	private Array<String> history;
+
+	private int historyPointer = -1;
+
 	public SimpleDebugger(Game game, GameLoader gameLoader) {
+		this.history = new Array<String>();
+		this.gameLoader = gameLoader;
 		final CommandInterpreter commandInterpreter = new CommandInterpreter(
 				game, gameLoader);
 		BitmapFont font = new BitmapFont(
@@ -79,11 +125,21 @@ public class SimpleDebugger extends Group {
 				switch (keycode) {
 				case Input.Keys.ENTER:
 					String command = interpreter.getText();
+					if (history.size == 0 || !history.peek().equals(command)) {
+						history.add(command);
+						historyPointer = history.size;
+					}
 					result.setText(commandInterpreter.interpret(command));
 					interpreter.setText("");
 					break;
 				case Input.Keys.ESCAPE:
 					setVisible(false);
+					break;
+				case Input.Keys.UP:
+					previousCommand();
+					break;
+				case Input.Keys.DOWN:
+					nextCommand();
 					break;
 				}
 				return true;
@@ -120,9 +176,30 @@ public class SimpleDebugger extends Group {
 		});
 	}
 
+	private void updateCommand() {
+		if (historyPointer == history.size) {
+			interpreter.setText("");
+		} else {
+			interpreter.setText(history.get(historyPointer));
+		}
+	}
+
+	private void nextCommand() {
+		historyPointer = Math.min(historyPointer + 1, history.size);
+		updateCommand();
+	}
+
+	private void previousCommand() {
+		historyPointer = Math.max(historyPointer - 1, 0);
+		updateCommand();
+	}
+
 	public void setVisible(boolean visible) {
 		result.setVisible(visible);
 		interpreter.setVisible(visible);
+		if (visible) {
+			gameLoader.getEngine().getStage().setKeyboardFocus(interpreter);
+		}
 	}
 
 	@Override

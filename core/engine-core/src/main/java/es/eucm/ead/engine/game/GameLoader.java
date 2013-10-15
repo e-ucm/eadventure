@@ -78,8 +78,6 @@ public class GameLoader {
 
 	private String currentChapterId;
 
-	private String currentSceneId;
-
 	@Inject
 	public GameLoader(AdventureReader reader, Game game,
 			EventFactory eventFactory, EffectFactory effectFactory,
@@ -169,7 +167,6 @@ public class GameLoader {
 	}
 
 	public EAdScene loadScene(String sceneId) {
-		currentSceneId = sceneId;
 		EAdScene scene = scenes.get(sceneId);
 		if (scene == null) {
 			scene = reader.readScene(sceneId);
@@ -180,10 +177,6 @@ public class GameLoader {
 
 	public String getCurrentChapterId() {
 		return currentChapterId;
-	}
-
-	public String getCurrentSceneId() {
-		return currentSceneId;
 	}
 
 	public EAdEngine getEngine() {
