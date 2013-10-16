@@ -51,10 +51,10 @@ import es.eucm.ead.tools.TextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLWriter;
+import es.eucm.ead.writer.model.WriterVisitor;
 import es.eucm.ead.writer.model.writers.ReferenceResolver;
 import es.eucm.ead.writer.model.writers.SceneGraph;
 import es.eucm.ead.writer.model.writers.WriterContext;
-import es.eucm.ead.writer.model.WriterVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,7 +119,6 @@ public class AdventureWriter implements WriterContext {
 	 * Generates the xml documents necessaries to represent the given model.
 	 *
 	 * @param model the game model
-	 * @return a map with all the xml documents to represent the game. The key is a string: the name of the file to store its associated xml
 	 */
 	public void write(EAdAdventureModel model, String path,
 			TextFileWriter textFileWriter) {
@@ -138,20 +137,17 @@ public class AdventureWriter implements WriterContext {
 				XMLFileNames.CHAPTER);
 		AdventureVisitorListener sceneListener = new AdventureVisitorListener(
 				XMLFileNames.SCENE);
-		WriterVisitor.VisitorListener changeContext = new WriterVisitor.VisitorListener() {
-			@Override
-			public void load(XMLNode node, Object object) {
-				contextId++;
-				contextIds.clear();
-			}
-		};
+
+		ChangeContextListener changeContext = new ChangeContextListener(null);
 		// Write chapters
 		for (EAdChapter c : model.getChapters()) {
 			visitor.writeElement(null, null, changeContext);
 			visitor.writeElement(c, null, chapterListener);
 			visitor.finish();
+			ChangeContextListener changeContextScene = new ChangeContextListener(
+					c.getId());
 			for (EAdScene s : c.getScenes()) {
-				visitor.writeElement(null, null, changeContext);
+				visitor.writeElement(null, null, changeContextScene);
 				visitor.writeElement(s, null, sceneListener);
 				visitor.finish();
 			}
@@ -331,6 +327,28 @@ public class AdventureWriter implements WriterContext {
 		public void load(XMLNode node, Object object) {
 			documents
 					.put(((Identified) object).getId() + "." + extension, node);
+		}
+	}
+
+	public class ChangeContextListener implements WriterVisitor.VisitorListener {
+
+		private String chapterId;
+
+		public ChangeContextListener(String chapterId) {
+			this.chapterId = chapterId;
+		}
+
+		@Override
+		public void load(XMLNode node, Object object) {
+			contextId++;
+			contextIds.clear();
+			// We add the chapter id to the context to avoid de regeneration of
+			// the chapter XML inside the scenes. Instead, a reference will be used.
+			// The chapter will be available during reader, since chapter all always
+			// reade before scenes.
+			if (chapterId != null) {
+				contextIds.add(chapterId);
+			}
 		}
 	}
 
