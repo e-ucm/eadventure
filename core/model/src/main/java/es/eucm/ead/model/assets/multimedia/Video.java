@@ -74,28 +74,4 @@ public class Video extends AbstractAssetDescriptor implements EAdVideo {
 	public void setStream(boolean stream) {
 		this.stream = stream;
 	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7 * super.hashCode();
-		hash = 53 * hash + (this.stream ? 1 : 0);
-		hash = 53 * hash + (this.uri != null ? this.uri.hashCode() : 0);
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
-			return false;
-		}
-		final Video other = (Video) obj;
-		if (this.stream != other.stream) {
-			return false;
-		}
-		if (this.uri != other.uri
-				&& (this.uri == null || !this.uri.equals(other.uri))) {
-			return false;
-		}
-		return true;
-	}
 }

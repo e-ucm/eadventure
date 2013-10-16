@@ -46,7 +46,6 @@ import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.factories.mapproviders.AssetHandlerMap;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.interfaces.features.Resourced;
@@ -104,7 +103,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 	private boolean cacheEnabled;
 	private ArrayList<AssetDescriptor> assetsQueue;
 	protected String currentLanguage;
-	protected List<EAdVideo> videos;
 
 	@Inject
 	public AssetHandlerImpl(GenericInjector injector) {
@@ -114,7 +112,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		specialRenderers = new HashMap<AssetDescriptor, SpecialAssetRenderer<?, ?>>();
 		cacheEnabled = true;
 		assetsQueue = new ArrayList<AssetDescriptor>();
-		this.videos = new ArrayList<EAdVideo>();
 	}
 
 	public void queueSceneToLoad(EAdScene scene) {
@@ -405,26 +402,6 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 
 	public int getCacheSize() {
 		return cache != null ? cache.size() : 0;
-	}
-
-	public void addVideo(EAdVideo video) {
-		videos.add(video);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends AssetDescriptor> SpecialAssetRenderer<T, ?> getSpecialAssetRenderer(
-			T specialAsset) {
-		return (SpecialAssetRenderer<T, ?>) this.specialRenderers
-				.get(specialAsset);
-	}
-
-	public boolean preloadVideos() {
-		return false;
-	}
-
-	public boolean isPreloadingVideos() {
-		return false;
 	}
 
 	public boolean fileExists(String path) {

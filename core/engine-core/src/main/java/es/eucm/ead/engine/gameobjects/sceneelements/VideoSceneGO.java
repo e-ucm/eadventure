@@ -73,10 +73,12 @@ public class VideoSceneGO extends SceneGO {
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler,
 			SceneElementFactory gameObjectFactory, Game game,
-			EventFactory eventFactory) {
+			EventFactory eventFactory,
+			SpecialAssetRenderer<EAdVideo, ?> videoRenderer) {
 		super(assetHandler, gameObjectFactory, game, eventFactory);
 		this.component = null;
 		this.error = false;
+		this.specialAssetRenderer = videoRenderer;
 	}
 
 	public void setElement(EAdSceneElement element) {
@@ -90,22 +92,12 @@ public class VideoSceneGO extends SceneGO {
 				VideoScene.video);
 		this.toStart = false;
 		this.error = false;
+		this.component = null;
 	}
 
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		specialAssetRenderer = assetHandler.getSpecialAssetRenderer(video);
-		// Check for the renderer
-		if (specialAssetRenderer == null && !assetHandler.isPreloadingVideos()) {
-			error = true;
-		}
-
-		// We'll wait
-		if (!error && specialAssetRenderer == null) {
-			return;
-		}
-
 		if (error || specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
 			removeVideoComponent();
