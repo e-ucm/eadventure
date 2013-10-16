@@ -390,6 +390,9 @@ public class SceneConverter {
 			GhostElement activeArea = new GhostElement(shape);
 			// Add actions
 			// [AA - Actions]
+			if ("Victima".equals(a.getId())) {
+				System.out.println();
+			}
 			elementConverter.addActions(a, activeArea.getDefinition());
 			elementConverter.addDescription(a, activeArea.getDefinition());
 

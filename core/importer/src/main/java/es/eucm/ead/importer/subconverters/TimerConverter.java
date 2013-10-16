@@ -43,7 +43,9 @@ import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.legacyplugins.model.TimerEv;
+import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.data.chapter.Timer;
 
 @Singleton
@@ -91,11 +93,15 @@ public class TimerConverter {
 			timer.setStopCondition(conditionsConverter.convert(t.getEndCond()));
 		}
 		// [TI - Effects]
-		timer.setExpiredEffects(effectsConverter.convert(t.getEffects()));
+		EAdList<EAdEffect> expiredEffects = new EAdList<EAdEffect>();
+		expiredEffects.add(effectsConverter.convert(t.getEffects()).get(0));
+		timer.setExpiredEffects(expiredEffects);
 		// [TI - StopEffects]
 		if (t.isUsesEndCondition()) {
-			timer.setStoppedEffects(effectsConverter
-					.convert(t.getPostEffects()));
+			EAdList<EAdEffect> stoppedEffects = new EAdList<EAdEffect>();
+			stoppedEffects.add(effectsConverter.convert(t.getPostEffects())
+					.get(0));
+			timer.setStoppedEffects(stoppedEffects);
 		}
 		return timer;
 	}

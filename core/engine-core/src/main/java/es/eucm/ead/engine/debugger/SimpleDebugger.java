@@ -114,6 +114,7 @@ public class SimpleDebugger extends Group {
 		TextField.TextFieldStyle tfStyle = new TextField.TextFieldStyle();
 		tfStyle.font = font;
 		tfStyle.background = background;
+		tfStyle.selection = cursor;
 		tfStyle.fontColor = Color.WHITE;
 		tfStyle.cursor = cursor;
 		interpreter = new TextField("", tfStyle);

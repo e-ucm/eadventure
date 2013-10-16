@@ -37,22 +37,22 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.text.SpeakEf;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.UtilsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("rawtypes")
 public class SpeakEffectConverter implements EffectConverter {
