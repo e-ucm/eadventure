@@ -119,6 +119,7 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @param value the value
 	 */
 	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
+		addInitialVars(element);
 		this.setValue(element == null ? null : maybeDecodeField(element)
 				.getId(), varDef.getName(), value);
 	}
@@ -286,12 +287,13 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	}
 
 	@Override
-	public int getValues(EAdField<?> eAdField, int i, float[] floats) {
-		return 0;
+	public int getValues(EAdField<?> eAdField, int tweentype, float[] floats) {
+		floats[0] = (Float) getValue(eAdField);
+		return 1;
 	}
 
 	@Override
-	public void setValues(EAdField<?> eAdField, int i, float[] floats) {
-		//To change body of implemented methods use File | Settings | File Templates.
+	public void setValues(EAdField eAdField, int tweentype, float[] floats) {
+		setValue(eAdField, floats[0]);
 	}
 }
