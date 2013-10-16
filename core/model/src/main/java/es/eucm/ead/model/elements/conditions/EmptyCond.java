@@ -89,7 +89,7 @@ public class EmptyCond extends AbstractCondition {
 		return false;
 	}
 
-	public void addFields(List<EAdField<?>> fields) {
+	public void extractFields(List<EAdField<?>> fields) {
 
 	}
 

@@ -37,10 +37,10 @@
 
 package es.eucm.ead.model.elements;
 
-import java.util.List;
-
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.EAdOperation;
+
+import java.util.List;
 
 /**
  * A condition in the eAdventure model
@@ -50,8 +50,8 @@ public interface EAdCondition extends EAdOperation {
 	/**
 	 * Adds all the fields contained by this condition to the given list
 	 * 
-	 * @param fieldsInLastCond
+	 * @param fields
 	 */
-	void addFields(List<EAdField<?>> fields);
+	void extractFields(List<EAdField<?>> fields);
 
 }

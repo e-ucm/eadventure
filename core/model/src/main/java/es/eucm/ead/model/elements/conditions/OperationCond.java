@@ -139,7 +139,7 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 		return op1 + " " + operator + " than " + op2;
 	}
 
-	public void addFields(List<EAdField<?>> fields) {
+	public void extractFields(List<EAdField<?>> fields) {
 		if (op1 instanceof EAdField) {
 			fields.add((EAdField<?>) op1);
 		}
