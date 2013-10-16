@@ -67,7 +67,7 @@ public class SceneElementDef extends ResourcedElement implements
 			"documentation", EAdString.class, null);
 
 	@Param
-	private es.eucm.ead.model.elements.extra.EAdMap<EAdVarDef<?>, Object> vars;
+	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	public static final String appearance = "appearance";
 

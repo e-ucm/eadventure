@@ -61,19 +61,19 @@ public class TestImporter {
 
 	private final String ROOT = "src/test/resources/";
 
-	private final String[] GAMES = new String[] { "Minimum", "Minimum",
-			"DamaBoba"/*, "PrimerosAuxilios"*/};
+	private final String[] GAMES = new String[] { "Minimum", "DamaBoba",
+			"PrimerosAuxilios" };
 
 	private final File TEMP = new File("temp/");
 
 	@Before
 	public void setUp() {
-		TEMP.mkdirs();
 	}
 
 	@Test
 	public void testImports() {
 		for (String g : GAMES) {
+			TEMP.mkdirs();
 			converter = new AdventureConverter();
 			converter.setEnableTranslations(false);
 			reader = new AdventureReader(new JavaReflectionProvider(),
@@ -95,11 +95,12 @@ public class TestImporter {
 					notEqualHandler));
 			assertTrue(EAdUtils.equals(modelConverted, modelRead, false,
 					notEqualHandler));
-		}
-		try {
-			FileUtils.deleteRecursive(TEMP);
-		} catch (IOException e) {
-			e.printStackTrace();
+
+			try {
+				FileUtils.deleteRecursive(TEMP);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

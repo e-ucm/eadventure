@@ -68,7 +68,7 @@ public class ParamWriter implements Writer<Object> {
 		} else if (o instanceof Class) {
 			value = ((Class<?>) o).getName();
 		} else if (o instanceof Boolean) {
-			value = ((Boolean) o).booleanValue() ? "t" : "f";
+			value = (Boolean) o ? "t" : "f";
 		} else if (o instanceof Number) {
 			value = o.toString();
 			if (value.endsWith(".0")) {

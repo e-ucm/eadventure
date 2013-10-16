@@ -80,12 +80,12 @@ public class EffectsConverter {
 
 	private UtilsConverter utilsConverter;
 
-	private static EAdField<Boolean> ghostEffectsVisible = new BasicField<Boolean>(
+	private EAdField<Boolean> ghostEffectsVisible = new BasicField<Boolean>(
 			new BasicElement(AdventureConverter.EFFECTS_GHOST_ID),
 			SceneElement.VAR_VISIBLE);
-	public static ChangeFieldEf showGhostEffects = new ChangeFieldEf(
+	public ChangeFieldEf showGhostEffects = new ChangeFieldEf(
 			ghostEffectsVisible, EmptyCond.TRUE);
-	public static ChangeFieldEf hideGhostEffects = new ChangeFieldEf(
+	public ChangeFieldEf hideGhostEffects = new ChangeFieldEf(
 			ghostEffectsVisible, EmptyCond.FALSE);
 
 	@Inject
@@ -107,7 +107,8 @@ public class EffectsConverter {
 		converters = new HashMap<Class<?>, EffectConverter<?>>();
 		converters.put(MacroReferenceEffect.class, new TriggerMacroConverter(
 				modelQuerier));
-		ChangeSceneConverter changeSceneConverter = new ChangeSceneConverter();
+		ChangeSceneConverter changeSceneConverter = new ChangeSceneConverter(
+				this);
 		converters.put(TriggerSceneEffect.class, changeSceneConverter);
 		converters.put(TriggerCutsceneEffect.class, changeSceneConverter);
 		converters.put(TriggerLastSceneEffect.class, changeSceneConverter);

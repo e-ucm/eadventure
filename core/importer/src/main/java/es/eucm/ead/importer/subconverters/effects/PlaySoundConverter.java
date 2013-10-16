@@ -46,11 +46,6 @@ import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author anserran
- *         Date: 17/05/13
- *         Time: 13:36
- */
 public class PlaySoundConverter implements
 		EffectsConverter.EffectConverter<PlaySoundEffect> {
 

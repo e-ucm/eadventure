@@ -57,14 +57,20 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	public static final ValueOp TRUE = new ValueOp(Boolean.TRUE);
 	public static final ValueOp FALSE = new ValueOp(Boolean.FALSE);
 
-	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation op1;
+	static {
+		// Set engine ids for statics
+		TRUE.setId("#engine.value.true");
+		FALSE.setId("#engine.value.false");
+	}
 
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation op2;
+	private EAdOperation op1;
 
 	@Param
-	private es.eucm.ead.model.elements.conditions.enums.Comparator operator;
+	private EAdOperation op2;
+
+	@Param
+	private Comparator operator;
 
 	public OperationCond() {
 		super();

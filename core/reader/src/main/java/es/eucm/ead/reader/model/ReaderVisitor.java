@@ -57,8 +57,6 @@ public class ReaderVisitor {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ReaderVisitor.class);
 
-	private static final int MAX_LOOPS_WITH_SAME_SIZE = 1000;
-
 	private ObjectsFactory objectsFactory;
 
 	private ParamReader paramReader;
@@ -143,7 +141,7 @@ public class ReaderVisitor {
 			if (node.getNodeName().equals("p")) {
 				listener.loaded(node, null, true);
 			} else {
-				listener.loaded(node, ListReader.EMPTY_LIST, false);
+				listener.loaded(node, listReader.EMPTY_LIST, false);
 			}
 		} else {
 			Object result = null;

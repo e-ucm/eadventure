@@ -131,6 +131,7 @@ public class WriterVisitor {
 
 	public void clear() {
 		stepsQueue.clear();
+		objectWriter.clear();
 	}
 
 	public static class WriterStep {

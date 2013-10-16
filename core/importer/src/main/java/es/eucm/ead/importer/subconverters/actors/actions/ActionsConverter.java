@@ -80,7 +80,7 @@ public class ActionsConverter {
 	static private Logger logger = LoggerFactory
 			.getLogger(ActionsConverter.class);
 
-	private static Image[] actionImages = new Image[] {
+	private final Image[] actionImages = new Image[] {
 			new Image("@drawable/drag-normal.png"),
 			new Image("@drawable/giveto-normal.png"),
 			new Image("@drawable/grab-normal.png"),
@@ -90,7 +90,7 @@ public class ActionsConverter {
 			new Image("@drawable/talk-normal.png"),
 			new Image("@drawable/use-normal.png") };
 
-	private static Image[] actionImagesOver = new Image[] {
+	private final Image[] actionImagesOver = new Image[] {
 			new Image("@drawable/drag-pressed.png"),
 			new Image("@drawable/giveto-pressed.png"),
 			new Image("@drawable/grab-pressed.png"),

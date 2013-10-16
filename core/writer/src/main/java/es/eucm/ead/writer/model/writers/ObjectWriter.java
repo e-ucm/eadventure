@@ -49,14 +49,20 @@ import es.eucm.ead.writer.model.WriterVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ObjectWriter implements Writer<Identified> {
 
 	static private Logger logger = LoggerFactory.getLogger(ObjectWriter.class);
 
 	private WriterVisitor modelVisitor;
 
+	private Map<String, Object> pointers;
+
 	public ObjectWriter(WriterVisitor modelVisitor) {
 		this.modelVisitor = modelVisitor;
+		this.pointers = new HashMap<String, Object>();
 	}
 
 	@Override
@@ -67,41 +73,60 @@ public class ObjectWriter implements Writer<Identified> {
 
 		XMLNode node = new XMLNode(DOMTags.ELEMENT_TAG);
 
-		// Set id
-		if (object.getId() == null) {
-			object.setId(context.generateNewId());
-		} else if (context.containsId(object.getId())) {
+		if (object.getId() != null && context.containsId(object.getId())) {
 			node.setText(object.getId());
-			return node;
-		}
-		object = (Identified) context.process(object, node);
-		if (object.getClass() == BasicElement.class) {
-			node.setText(object.getId());
-			return node;
-		}
+		} else {
+			// Set id if necessary
+			if (object.getId() == null) {
+				object.setId(context.generateNewId());
+			}
 
-		node.setAttribute(DOMTags.ID_AT, object.getId());
-		ReflectionClass<?> clazz = ReflectionClassLoader
-				.getReflectionClass(object.getClass());
-		node.setAttribute(DOMTags.CLASS_AT, context.translateClass(clazz
-				.getType()));
-		while (clazz != null) {
-			for (ReflectionField f : clazz.getFields()) {
-				// Only store fields annotated with param
-				if (f.getAnnotation(Param.class) != null) {
-					Object value = f.getFieldValue(object);
-					if (value != null) {
-						modelVisitor.writeElement(value, object,
-								new ObjectWriterListener(context
-										.translateField(f.getName()), node));
+			object = (Identified) context.process(object, node);
+			// If it's a reference
+			if (object.getClass() == BasicElement.class) {
+				node.setText(object.getId());
+			} else {
+				node.setAttribute(DOMTags.ID_AT, object.getId());
+				ReflectionClass<?> clazz = ReflectionClassLoader
+						.getReflectionClass(object.getClass());
+				node.setAttribute(DOMTags.CLASS_AT, context
+						.translateClass(clazz.getType()));
+				while (clazz != null) {
+					for (ReflectionField f : clazz.getFields()) {
+						// Only store fields annotated with param
+						if (f.getAnnotation(Param.class) != null) {
+							Object value = f.getFieldValue(object);
+							if (value != null) {
+								modelVisitor.writeElement(value, object,
+										new ObjectWriterListener(context
+												.translateField(f.getName()),
+												node));
+							}
+						}
 					}
+					clazz = clazz.getSuperclass();
 				}
 			}
-			clazz = clazz.getSuperclass();
 		}
-
+		// Detect duplicated ids
+		Object o = pointers.get(object.getId());
+		if (o != null && o != object) {
+			if (o.getClass() != BasicElement.class
+					&& object.getClass() != BasicElement.class) {
+				logger.warn("Duplicated id {}", object.getId());
+			}
+		} else {
+			// We don't add references to the pointers list
+			if (object.getClass() != BasicElement.class) {
+				pointers.put(object.getId(), object);
+			}
+		}
 		return node;
 
+	}
+
+	public void clear() {
+		pointers.clear();
 	}
 
 	public static class ObjectWriterListener implements

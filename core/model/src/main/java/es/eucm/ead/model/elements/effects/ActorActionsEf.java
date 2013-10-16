@@ -37,13 +37,12 @@
 
 package es.eucm.ead.model.elements.effects;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.enums.ChangeActorActions;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
 
@@ -55,7 +54,7 @@ public class ActorActionsEf extends AbstractEffect {
 			"actions", EAdList.class, null);
 
 	public static final EAdVarDef<EAdCondition> VAR_ACTION_COND = new VarDef<EAdCondition>(
-			"action_cond", EAdCondition.class, EmptyCond.TRUE);
+			"action_cond", EAdCondition.class, null);
 
 	@Param
 	private EAdSceneElementDef actionElement;

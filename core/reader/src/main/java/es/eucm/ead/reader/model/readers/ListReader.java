@@ -45,7 +45,7 @@ import es.eucm.ead.tools.xml.XMLNode;
 @SuppressWarnings("rawtypes")
 public class ListReader extends AbstractReader<EAdList> {
 
-	public static final EAdList EMPTY_LIST = new EAdList();
+	public final EAdList EMPTY_LIST = new EAdList();
 
 	public ListReader(ObjectsFactory elementsFactory, ReaderVisitor visitor) {
 		super(elementsFactory, visitor);

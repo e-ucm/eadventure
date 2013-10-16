@@ -45,7 +45,7 @@ import es.eucm.ead.tools.xml.XMLNode;
 @SuppressWarnings("rawtypes")
 public class MapReader extends AbstractReader<EAdMap> {
 
-	private static final EAdMap EMPTY_MAP = new EAdMap();
+	private final EAdMap EMPTY_MAP = new EAdMap();
 
 	public MapReader(ObjectsFactory elementsFactory, ReaderVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);

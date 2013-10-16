@@ -174,7 +174,7 @@ public class ObjectsFactory {
 					p = new VarDef(values[0], c, initialValue);
 					if (forLater) {
 						readerVisitor.addFinalStep(new VarInitStep(
-								(EAdVarDef) p, values[3]));
+								(EAdVarDef) p, values[2]));
 					}
 				} catch (Exception e) {
 					logger.warn("VarDef with representation {} poorly parsed",

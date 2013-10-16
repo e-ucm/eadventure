@@ -89,4 +89,5 @@ public interface WriterContext {
 	 * @param node
 	 */
 	Object process(Object object, XMLNode node);
+
 }
