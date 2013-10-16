@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader2.model;
+package es.eucm.ead.reader.model;
 
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.EAdAdventureModel;

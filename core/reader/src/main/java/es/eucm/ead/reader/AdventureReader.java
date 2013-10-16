@@ -39,123 +39,134 @@ package es.eucm.ead.reader;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.reader.model.XMLVisitor;
-import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.reader.model.translators.MapClassTranslator;
+import es.eucm.ead.reader.model.Manifest;
+import es.eucm.ead.reader.model.ReaderVisitor;
+import es.eucm.ead.reader.model.XMLFileNames;
+import es.eucm.ead.tools.TextFileReader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 @Singleton
-public class AdventureReader implements VisitorListener {
+public class AdventureReader {
 
-	private XMLParser xmlParser;
-	private XMLVisitor visitor;
-	private EAdAdventureModel model;
 	static private Logger logger = LoggerFactory
 			.getLogger(AdventureReader.class);
 
+	private TextFileReader reader;
+
+	private XMLParser parser;
+
+	private ReaderVisitor readerVisitor;
+
+	private Object result;
+
+	private String path;
+
 	@Inject
-	public AdventureReader(XMLParser parser,
-			ReflectionProvider reflectionProvider) {
-		this.xmlParser = parser;
-		this.visitor = new XMLVisitor(reflectionProvider);
+	public AdventureReader(ReflectionProvider reflectionProvider,
+			XMLParser parser, TextFileReader reader) {
+		this.reader = reader;
+		this.parser = parser;
+		this.readerVisitor = new ReaderVisitor(reflectionProvider);
+		this.path = "@";
 	}
 
-	public EAdAdventureModel readXML(String xml) {
-		readXML(xml, this);
-		boolean done = false;
-		while (!done) {
-			done = visitor.step();
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public Manifest getManifest() {
+		Manifest m = (Manifest) read(XMLFileNames.MANIFEST);
+		readerVisitor
+				.addClazzTranslator(new MapClassTranslator(m.getClasses()));
+		readerVisitor
+				.addFieldsTranslator(new MapClassTranslator(m.getFields()));
+		readerVisitor
+				.addParamsTranslator(new MapClassTranslator(m.getParams()));
+		return m;
+	}
+
+	public Object read(String file) {
+		String xml = reader.read(path + file);
+		XMLNode node;
+
+		try {
+			node = parser.parse(xml);
+			readerVisitor.loadElement(node,
+					new ReaderVisitor.VisitorListener() {
+						@Override
+						public boolean loaded(XMLNode node, Object object,
+								boolean isNullInOrigin) {
+							result = object;
+							return true;
+						}
+					});
+			readerVisitor.finish();
+		} catch (Exception e) {
+			logger.error("{}", e);
+		}
+		return result;
+
+	}
+
+	/**
+	 * Reads the full model
+	 *
+	 * @return the complete model of the game
+	 */
+	public EAdAdventureModel readFullModel() {
+		// Manifest
+		Manifest manifest = getManifest();
+
+		// Model
+		EAdAdventureModel model = manifest.getModel();
+		int chapterIndex = 0;
+
+		EAdMap<String, EAdList<String>> chaptersScenes = manifest
+				.getChaptersScenes();
+
+		for (String chapterId : manifest.getChapterIds()) {
+			// Chapters
+			BasicChapter c = (BasicChapter) readChapter(chapterId);
+			model.addChapter(c);
+			if (chapterId.equals(manifest.getInitialChapter())) {
+				model.setInitialChapter(c);
+			}
+
+			// Scenes
+			String initialSceneId = manifest.getInitialScenes().get(
+					chapterIndex++);
+			EAdList<String> chapterScenes = chaptersScenes.get(chapterId);
+			for (String sceneId : chapterScenes) {
+				EAdScene s = readScene(sceneId);
+				c.addScene(s);
+				if (sceneId.equals(initialSceneId)) {
+					c.setInitialScene(s);
+				}
+			}
 		}
 		return model;
 	}
 
-	public void readXML(String xml, VisitorListener listener) {
-		XMLNode document = xmlParser.parse(xml);
-		visitor.init();
-
-		XMLNode node = document.getFirstChild();
-		XMLNode adventure = null;
-		XMLNode keyMap = null;
-		XMLNode fieldsMap = null;
-		XMLNode paramsMap = null;
-
-		// This loop is to avoid some weird node GWT adds to the root element
-		// when there are errors
-		for (XMLNode n : node.getChildren()) {
-			if (n.getNodeName().equals(DOMTags.ELEMENT_TAG)) {
-				adventure = n;
-			} else if (n.getNodeName().equals(DOMTags.CLASSES_TAG)) {
-				keyMap = n;
-			} else if (n.getNodeName().equals(DOMTags.FIELDS_TAG)) {
-				fieldsMap = n;
-			} else if (n.getNodeName().equals(DOMTags.PARAMS_ABB_TAG)) {
-				paramsMap = n;
-			}
-		}
-
-		if (keyMap == null) {
-			logger.warn("No classes node found");
-		} else {
-			Map<String, String> classes = new HashMap<String, String>();
-			for (XMLNode n : keyMap.getChildren()) {
-				String className = n.getAttributeValue(DOMTags.VALUE_AT);
-
-				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
-			}
-			visitor.addClazzTranslator(new MapClassTranslator(classes));
-		}
-
-		if (fieldsMap == null) {
-			logger.warn("No fields node found");
-		} else {
-			Map<String, String> classes = new HashMap<String, String>();
-			for (XMLNode n : fieldsMap.getChildren()) {
-				String className = n.getAttributeValue(DOMTags.VALUE_AT);
-				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
-			}
-			visitor.addFieldsTranslator(new MapClassTranslator(classes));
-		}
-
-		if (paramsMap == null) {
-			logger.warn("No params node found");
-		} else {
-			Map<String, String> classes = new HashMap<String, String>();
-			for (XMLNode n : paramsMap.getChildren()) {
-				String className = n.getAttributeValue(DOMTags.VALUE_AT);
-				classes.put(n.getAttributeValue(DOMTags.KEY_AT), className);
-			}
-			visitor.addParamsTranslator(new MapClassTranslator(classes));
-		}
-
-		if (adventure == null) {
-			logger.warn("No model node found");
-		} else {
-			visitor.loadElement(adventure, listener);
-		}
+	public EAdChapter readChapter(String chapterId) {
+		return (EAdChapter) read(chapterId + "." + XMLFileNames.CHAPTER);
 	}
 
-	public boolean step() {
-		return visitor.step();
+	public EAdScene readScene(String sceneId) {
+		return (EAdScene) read(sceneId + "." + XMLFileNames.SCENE);
 	}
 
-	@Override
-	public boolean loaded(XMLNode node, Object object, boolean isNullInOrigin) {
-		this.model = (EAdAdventureModel) object;
-		return true;
+	public void clear() {
+		readerVisitor.clear();
 	}
-
-	public Collection<AssetDescriptor> getAssets() {
-		return visitor.getAssets();
-	}
-
 }

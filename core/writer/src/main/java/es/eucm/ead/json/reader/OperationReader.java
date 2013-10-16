@@ -37,21 +37,14 @@
 
 package es.eucm.ead.json.reader;
 
-import java.util.Collection;
-
+import com.google.gson.internal.StringMap;
+import es.eucm.ead.model.elements.operations.*;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.reader.ObjectsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.internal.StringMap;
-
-import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
-import es.eucm.ead.model.elements.operations.ConditionedOp;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.operations.MathOp;
-import es.eucm.ead.model.elements.operations.ValueOp;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import java.util.Collection;
 
 @SuppressWarnings("unchecked")
 public class OperationReader {

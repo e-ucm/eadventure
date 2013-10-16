@@ -40,52 +40,36 @@ package es.eucm.ead.reader.model.readers;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.reader.DOMTags;
-import es.eucm.ead.reader.model.ObjectsFactory;
-import es.eucm.ead.reader.model.XMLVisitor;
-import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionField;
 import es.eucm.ead.tools.xml.XMLNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ObjectReader extends AbstractReader<Identified> {
+	static private Logger logger = LoggerFactory.getLogger(ObjectReader.class);
 
-	public boolean asset;
-
-	public ObjectReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
-		super(elementsFactory, xmlVisitor);
-	}
-
-	public void setAsset(boolean asset) {
-		this.asset = asset;
+	public ObjectReader(ObjectsFactory objectsFactory,
+			ReaderVisitor readerVisitor) {
+		super(objectsFactory, readerVisitor);
 	}
 
 	@Override
 	public Identified read(XMLNode node) {
-		Identified element = null;
 
-		if (node.getAttributesLength() < 2) {
-			if (asset) {
-				element = elementsFactory.getAsset(node.getNodeText());
-			} else {
-				element = elementsFactory.getEAdElement(node.getNodeText());
-			}
-
-			return element;
-
+		// If the node has text, it must be a reference to a previous object
+		if (!node.getNodeText().isEmpty()) {
+			return (Identified) objectsFactory
+					.getObjectById(node.getNodeText());
 		} else {
 			Class<?> clazz = this.getNodeClass(node);
 			if (clazz != null) {
-				element = (Identified) elementsFactory.createObject(clazz);
 				String id = node.getAttributeValue(DOMTags.ID_AT);
-				element.setId(id);
-
-				if (asset) {
-					elementsFactory.putAsset(id, element);
-				} else {
-					elementsFactory.putEAdElement(id, element);
-				}
-
+				Identified object = (Identified) objectsFactory.createObject(
+						clazz, id);
 				if (node.hasChildNodes()) {
 					for (XMLNode child : node.getChildren()) {
 						String fieldName = child
@@ -94,8 +78,8 @@ public class ObjectReader extends AbstractReader<Identified> {
 						ReflectionField field = getField(clazz, fieldName);
 
 						if (field != null) {
-							xmlVisitor.loadElement(child,
-									new ObjectVisitorListener(element, field));
+							readerVisitor.loadElement(child,
+									new ObjectVisitorListener(object, field));
 						} else {
 							logger
 									.warn(
@@ -104,10 +88,22 @@ public class ObjectReader extends AbstractReader<Identified> {
 						}
 					}
 				}
+				return object;
 			}
-			return element;
+			logger.warn("Node with no class {}", node);
+			return null;
 		}
+	}
 
+	/**
+	 * Returns the class for the element contained in the given node
+	 *
+	 * @param node
+	 * @return
+	 */
+	public Class<?> getNodeClass(XMLNode node) {
+		String clazz = node.getAttributeValue(DOMTags.CLASS_AT);
+		return clazz == null ? null : getNodeClass(clazz);
 	}
 
 	public ReflectionField getField(Class<?> clazz, String fieldName) {
@@ -126,7 +122,19 @@ public class ObjectReader extends AbstractReader<Identified> {
 		return null;
 	}
 
-	public static class ObjectVisitorListener implements VisitorListener {
+	public Class<?> getNodeClass(String clazz) {
+		clazz = translateClass(clazz);
+		Class<?> c = null;
+		try {
+			c = objectsFactory.getClassFromName(clazz);
+		} catch (NullPointerException e) {
+			logger.error("Error resolving class {}", clazz, e);
+		}
+		return c;
+	}
+
+	public static class ObjectVisitorListener implements
+			ReaderVisitor.VisitorListener {
 
 		private Object parent;
 
@@ -148,9 +156,4 @@ public class ObjectReader extends AbstractReader<Identified> {
 		}
 
 	}
-
-	public void clear() {
-		asset = false;
-	}
-
 }

@@ -50,5 +50,5 @@ public interface Writer<T> {
 	 * @param object
 	 * @return
 	 */
-	XMLNode write(T object);
+	XMLNode write(T object, WriterContext context);
 }

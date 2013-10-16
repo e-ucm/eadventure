@@ -40,30 +40,28 @@ package es.eucm.ead.writer.model.writers;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.writer.model.ModelVisitor;
-import es.eucm.ead.writer.model.ModelVisitor.VisitorListener;
+import es.eucm.ead.writer.model.WriterVisitor;
 
-public class ListWriter extends AbstractWriter<EAdList<?>> {
+public class ListWriter implements Writer<EAdList<?>> {
 
-	private int total;
+	private WriterVisitor writerVisitor;
 
-	public ListWriter(ModelVisitor modelVisitor) {
-		super(modelVisitor);
-		total = 0;
+	public ListWriter(WriterVisitor writerVisitor) {
+		this.writerVisitor = writerVisitor;
 	}
 
 	@Override
-	public XMLNode write(EAdList<?> object) {
-		total++;
+	public XMLNode write(EAdList<?> object, WriterContext context) {
 		XMLNode node = new XMLNode(DOMTags.LIST_TAG);
 		ListWriterVisitor listVisitor = new ListWriterVisitor(node);
 		for (Object o : object) {
-			modelVisitor.writeElement(o, object, listVisitor);
+			writerVisitor.writeElement(o, object, listVisitor);
 		}
 		return node;
 	}
 
-	public static class ListWriterVisitor implements VisitorListener {
+	public static class ListWriterVisitor implements
+			WriterVisitor.VisitorListener {
 
 		private XMLNode list;
 
@@ -76,14 +74,6 @@ public class ListWriter extends AbstractWriter<EAdList<?>> {
 			list.append(node);
 		}
 
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void clear() {
-		total = 0;
 	}
 
 }

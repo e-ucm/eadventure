@@ -37,16 +37,7 @@
 
 package es.eucm.ead.json.reader;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.internal.StringMap;
-
-import es.eucm.ead.model.interfaces.features.Evented;
 import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.EAdEvent;
 import es.eucm.ead.model.elements.events.SceneElementEv;
@@ -55,7 +46,14 @@ import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.events.enums.TimedEvType;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.model.interfaces.features.Evented;
+import es.eucm.ead.reader.ObjectsFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class EventReader {
@@ -106,7 +104,7 @@ public class EventReader {
 			Collection<String> targets = (Collection<String>) e.get("targets");
 			for (String target : targets) {
 				Evented evented = (Evented) objectsFactory
-						.getEAdElement(target);
+						.getObjectById(target);
 				evented.getEvents().add(event);
 			}
 		}

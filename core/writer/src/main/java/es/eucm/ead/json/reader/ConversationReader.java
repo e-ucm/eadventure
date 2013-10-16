@@ -49,7 +49,7 @@ import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.ObjectsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,7 +119,7 @@ public class ConversationReader {
 		}
 		EAdEffect effect = segmentsStart.get(conv.get("start"));
 		effect.setId(currentId);
-		objectsFactory.putEAdElement(effect.getId(), effect);
+		objectsFactory.putIdentified(effect);
 		return effect;
 	}
 
@@ -135,7 +135,7 @@ public class ConversationReader {
 				EAdString text = new EAdString(currentId + ".line." + id++);
 				Boolean random = (Boolean) q.get("random");
 				if (random != null) {
-					question.setRandomAnswers(random.booleanValue());
+					question.setRandomAnswers(random);
 				}
 				strings.put(text, string);
 				question.setQuestion(text);
@@ -233,7 +233,7 @@ public class ConversationReader {
 			if (type.equals("line")) {
 				String character = (String) n.get("character");
 				EAdElement sceneElement = (EAdElement) objectsFactory
-						.getEAdElement(character);
+						.getObjectById(character);
 				String line = (String) n.get("line");
 				EAdString text = new EAdString(currentId + ".line." + id++);
 				strings.put(text, line);
@@ -258,7 +258,7 @@ public class ConversationReader {
 			} else if (type.equals("effects")) {
 				Collection<String> eff = (Collection<String>) n.get("effects");
 				for (String ref : eff) {
-					effect = (EAdEffect) objectsFactory.getEAdElement(ref);
+					effect = (EAdEffect) objectsFactory.getObjectById(ref);
 				}
 			} else if (type.equals("effect")) {
 				StringMap<Object> e = (StringMap<Object>) n.get("effect");

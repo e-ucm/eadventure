@@ -10,7 +10,7 @@ import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.writer2.AdventureWriter;
+import es.eucm.ead.writer.AdventureWriter;
 import es.eucm.gleaner.tracker.JerseyTracker;
 import es.eucm.gleaner.tracker.Tracker;
 

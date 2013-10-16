@@ -1,7 +1,7 @@
 package es.eucm.ead.playground.importer;
 
 import es.eucm.ead.importer.AdventureConverter;
-import es.eucm.ead.reader2.model.XMLFileNames;
+import es.eucm.ead.reader.model.XMLFileNames;
 import org.junit.Test;
 
 import java.io.File;

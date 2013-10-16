@@ -50,8 +50,8 @@ import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.EAdChapter;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.reader2.AdventureReader;
-import es.eucm.ead.reader2.model.Manifest;
+import es.eucm.ead.reader.AdventureReader;
+import es.eucm.ead.reader.model.Manifest;
 import es.eucm.ead.tools.StringHandler;
 
 import java.util.HashMap;

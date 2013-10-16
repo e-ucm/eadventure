@@ -37,61 +37,301 @@
 
 package es.eucm.ead.writer;
 
-import com.google.inject.Inject;
 import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.interfaces.features.Identified;
+import es.eucm.ead.reader.model.Manifest;
+import es.eucm.ead.reader.model.XMLFileNames;
+import es.eucm.ead.tools.EAdUtils;
+import es.eucm.ead.tools.IdGenerator;
+import es.eucm.ead.tools.TextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import es.eucm.ead.tools.xml.XMLWriter;
-import es.eucm.ead.writer.model.ModelVisitor;
-import es.eucm.ead.writer.model.ModelVisitor.VisitorListener;
+import es.eucm.ead.writer.model.writers.ReferenceResolver;
+import es.eucm.ead.writer.model.writers.SceneGraph;
+import es.eucm.ead.writer.model.writers.WriterContext;
+import es.eucm.ead.writer.model.WriterVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class AdventureWriter {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-	private ModelVisitor visitor;
+public class AdventureWriter implements WriterContext {
+
+	static private Logger logger = LoggerFactory
+			.getLogger(AdventureWriter.class);
+
+	private IdGenerator idGenerator;
+
+	private List<String> contextIds;
 
 	private XMLWriter xmlWriter;
 
-	@Inject
+	private WriterVisitor visitor;
+
+	private Map<String, XMLNode> documents;
+
+	private boolean enableSimplifications;
+
+	private boolean enableTranslations = true;
+
+	private ReferenceResolver referenceResolver;
+
+	private SceneGraph sceneGraph;
+
+	private int contextId;
+
+	private EAdMap<String, String> paramsTranslation;
+	private EAdMap<String, String> fieldsTranslation;
+	private EAdMap<String, String> classesTranslation;
+
 	public AdventureWriter(ReflectionProvider reflectionProvider) {
-		this.visitor = new ModelVisitor(reflectionProvider);
-		this.xmlWriter = new XMLWriter();
-	}
-
-	public XMLNode write(EAdAdventureModel model) {
-		write(model, new VisitorListener() {
-
-			@Override
-			public void load(XMLNode node, Object object) {
-				// Do nothing
-			}
-
-		});
-		boolean done = false;
-		while (!done) {
-			done = visitor.step();
-		}
-		return visitor.getRoot();
-	}
-
-	public void write(EAdAdventureModel model, VisitorListener listener) {
-		visitor.clear();
-		visitor.writeElement(model, null, listener);
-	}
-
-	public void write(EAdAdventureModel model, String string) {
-		String xml = xmlWriter.generateString(write(model));
+		idGenerator = new IdGenerator();
+		xmlWriter = new XMLWriter();
+		referenceResolver = new ReferenceResolver();
+		sceneGraph = new SceneGraph();
+		visitor = new WriterVisitor(reflectionProvider, this);
+		documents = new HashMap<String, XMLNode>();
+		contextIds = new ArrayList<String>();
+		paramsTranslation = new EAdMap<String, String>();
+		fieldsTranslation = new EAdMap<String, String>();
+		classesTranslation = new EAdMap<String, String>();
 	}
 
 	/**
-	 * Sets if simplifications of the model must be performed while writing (it
-	 * can slow the writing process. Just a bit. Trust me, better slow it now
-	 * than while reading. You do NOT want that. You do not. That's why
-	 * simplification is enable by default)
+	 * Sets if the writer must enable translations for classes, maps and params.
+	 * This reduces the size of model files, but uglyfies the XML. It's set to true by default
 	 *
-	 * @param enable
+	 * @param enableTranslations whether classes, maps and params translations is enabled
 	 */
-	public void setEnableSimplifications(boolean enable) {
-		visitor.setEnableSimplifcations(enable);
+	public void setEnableTranslations(boolean enableTranslations) {
+		this.enableTranslations = enableTranslations;
+	}
+
+	/**
+	 * Generates the xml documents necessaries to represent the given model.
+	 *
+	 * @param model the game model
+	 * @return a map with all the xml documents to represent the game. The key is a string: the name of the file to store its associated xml
+	 */
+	public void write(EAdAdventureModel model, String path,
+			TextFileWriter textFileWriter) {
+		idGenerator.clear();
+		contextIds.clear();
+		visitor.clear();
+		documents.clear();
+		referenceResolver.clear();
+		sceneGraph.clear();
+		contextId = 0;
+		paramsTranslation.clear();
+		fieldsTranslation.clear();
+		classesTranslation.clear();
+
+		AdventureVisitorListener chapterListener = new AdventureVisitorListener(
+				XMLFileNames.CHAPTER);
+		AdventureVisitorListener sceneListener = new AdventureVisitorListener(
+				XMLFileNames.SCENE);
+		WriterVisitor.VisitorListener changeContext = new WriterVisitor.VisitorListener() {
+			@Override
+			public void load(XMLNode node, Object object) {
+				contextId++;
+				contextIds.clear();
+			}
+		};
+		// Write chapters
+		for (EAdChapter c : model.getChapters()) {
+			visitor.writeElement(null, null, changeContext);
+			visitor.writeElement(c, null, chapterListener);
+			visitor.finish();
+			for (EAdScene s : c.getScenes()) {
+				visitor.writeElement(null, null, changeContext);
+				visitor.writeElement(s, null, sceneListener);
+				visitor.finish();
+			}
+		}
+
+		Manifest manifest = generateManifest(model);
+		manifest.setSceneGraph(sceneGraph.getGraph());
+
+		// Write manifest.xml
+		boolean oldEnableTranslations = this.enableTranslations;
+		// The manifest is written without translations
+		this.enableTranslations = false;
+		visitor.writeElement(null, null, changeContext);
+		visitor.writeElement(manifest, null,
+				new WriterVisitor.VisitorListener() {
+					@Override
+					public void load(XMLNode node, Object object) {
+						documents.put(XMLFileNames.MANIFEST, node);
+					}
+				});
+		visitor.finish();
+		this.enableTranslations = oldEnableTranslations;
+
+		// Resolve reference
+		referenceResolver.resolveReferences();
+
+		if (!path.endsWith("/")) {
+			path += "/";
+		}
+		for (Map.Entry<String, XMLNode> e : documents.entrySet()) {
+			textFileWriter.write(xmlWriter.generateString(e.getValue()), path
+					+ e.getKey());
+		}
+	}
+
+	/**
+	 * Generate the manifest for the given model
+	 *
+	 * @param model
+	 * @return
+	 */
+	public Manifest generateManifest(EAdAdventureModel model) {
+		Manifest manifest = new Manifest();
+		// We need to clear to initialize the manifest
+		manifest.clear();
+
+		manifest.setId(this.generateNewId());
+		manifest.setClasses(EAdUtils.invertMap(classesTranslation));
+		manifest.setFields(EAdUtils.invertMap(fieldsTranslation));
+		manifest.setParams(EAdUtils.invertMap(paramsTranslation));
+
+		// Set model
+		manifest.setModel(model);
+		// Chapters list
+		for (EAdChapter chapter : model.getChapters()) {
+			manifest.addChapterId(chapter.getId());
+			// Initial list
+			EAdScene scene = chapter.getInitialScene();
+			if (scene == null) {
+				logger.warn("Chapter {} has no initial scene.");
+				if (chapter.getScenes().size() > 0) {
+					logger.warn("Using first scene in the list.");
+					scene = chapter.getScenes().get(0);
+				} else {
+					logger
+							.warn(
+									"Chapter {} has no scenes. That is a problem. An empty scene has been generated.",
+									chapter.getId());
+					scene = new BasicScene();
+					scene
+							.setId(idGenerator
+									.generateNewId("placeholder_scene_"));
+				}
+			}
+			manifest.addInitScene(scene.getId());
+			for (EAdScene s : chapter.getScenes()) {
+				manifest.addScene(chapter.getId(), s.getId());
+			}
+		}
+
+		// Initial chapter
+		EAdChapter initialChapter = model.getInitialChapter();
+		if (initialChapter == null) {
+			if (model.getChapters().size() > 0) {
+				logger
+						.warn("This game has no initial chapter. Using first chapter in the list by default");
+				initialChapter = model.getChapters().get(0);
+			} else {
+				logger.warn("This game has no chapters.");
+			}
+		}
+
+		if (initialChapter != null) {
+			manifest.setInitialChapter(initialChapter.getId());
+		}
+
+		return manifest;
+	}
+
+	@Override
+	public int getContextId() {
+		return contextId;
+	}
+
+	@Override
+	public String generateNewId() {
+		return idGenerator.generateNewId("");
+	}
+
+	@Override
+	public boolean containsId(String id) {
+		return contextIds.contains(id);
+	}
+
+	@Override
+	public String translateClass(Class<?> type) {
+		if (enableTranslations) {
+			return getTranslation(type.getName(), classesTranslation);
+		}
+		return type.getName();
+	}
+
+	private String getTranslation(String string,
+			EAdMap<String, String> mapTranslations) {
+		String value = mapTranslations.get(string);
+		if (value == null) {
+			value = EAdUtils.generateId("", mapTranslations.size());
+			mapTranslations.put(string, value);
+		}
+		return value;
+	}
+
+	@Override
+	public String translateField(String name) {
+		if (enableTranslations) {
+			return getTranslation(name, fieldsTranslation);
+		}
+		return name;
+	}
+
+	@Override
+	public String translateParam(String param) {
+		if (enableTranslations) {
+			return getTranslation(param, paramsTranslation);
+		}
+		return param;
+	}
+
+	@Override
+	public Object process(Object object, XMLNode node) {
+
+		if (object instanceof Identified) {
+			referenceResolver.check((Identified) object, node, this);
+			contextIds.add(((Identified) object).getId());
+			idGenerator.addExclusion(((Identified) object).getId());
+		}
+
+		sceneGraph.process(object);
+
+		return object;
+	}
+
+	public void setEnableSimplifications(boolean enableSimplifications) {
+		this.enableSimplifications = enableSimplifications;
+	}
+
+	public class AdventureVisitorListener implements
+			WriterVisitor.VisitorListener {
+
+		private String extension;
+
+		public AdventureVisitorListener(String extension) {
+			this.extension = extension;
+		}
+
+		@Override
+		public void load(XMLNode node, Object object) {
+			documents
+					.put(((Identified) object).getId() + "." + extension, node);
+		}
 	}
 
 }

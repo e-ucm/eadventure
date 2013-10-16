@@ -61,7 +61,7 @@ import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.writer.StringWriter;
-import es.eucm.ead.writer2.AdventureWriter;
+import es.eucm.ead.writer.AdventureWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import org.slf4j.Logger;

@@ -39,7 +39,7 @@ package es.eucm.ead.tests.importer;
 
 import es.eucm.ead.importer.AdventureConverter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.reader2.AdventureReader;
+import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.tools.EAdUtils;
 import es.eucm.ead.tools.java.JavaTextFileReader;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;

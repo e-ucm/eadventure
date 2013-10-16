@@ -38,17 +38,16 @@
 package es.eucm.ead.reader.model.readers;
 
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.reader.model.ObjectsFactory;
-import es.eucm.ead.reader.model.XMLVisitor;
-import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
 
 @SuppressWarnings("rawtypes")
 public class ListReader extends AbstractReader<EAdList> {
 
-	private static final EAdList EMPTY_LIST = new EAdList();
+	public static final EAdList EMPTY_LIST = new EAdList();
 
-	public ListReader(ObjectsFactory elementsFactory, XMLVisitor visitor) {
+	public ListReader(ObjectsFactory elementsFactory, ReaderVisitor visitor) {
 		super(elementsFactory, visitor);
 	}
 
@@ -57,7 +56,7 @@ public class ListReader extends AbstractReader<EAdList> {
 		if (node.hasChildNodes()) {
 			EAdList list = new EAdList();
 			for (XMLNode n : node.getChildren()) {
-				xmlVisitor.loadElement(n, new ListVisitorListener(list));
+				readerVisitor.loadElement(n, new ListVisitorListener(list));
 			}
 			return list;
 		} else {
@@ -66,7 +65,8 @@ public class ListReader extends AbstractReader<EAdList> {
 
 	}
 
-	public static class ListVisitorListener implements VisitorListener {
+	public static class ListVisitorListener implements
+			ReaderVisitor.VisitorListener {
 		private EAdList list;
 
 		public ListVisitorListener(EAdList list) {

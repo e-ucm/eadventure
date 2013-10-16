@@ -37,23 +37,16 @@
 
 package es.eucm.ead.json.reader;
 
-import java.util.Collection;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.internal.StringMap;
-
 import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.ANDCond;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.conditions.NOTCond;
-import es.eucm.ead.model.elements.conditions.ORCond;
-import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.*;
 import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 
 @SuppressWarnings("unchecked")
 public class ConditionReader {
@@ -62,10 +55,6 @@ public class ConditionReader {
 			.getLogger(ConditionReader.class);
 
 	private OperationReader operationReader;
-
-	public ConditionReader(ObjectsFactory objectsFactory) {
-
-	}
 
 	public void setOperationReader(OperationReader operationReader) {
 		this.operationReader = operationReader;

@@ -35,55 +35,58 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader2.model.readers;
+package es.eucm.ead.writer.model.writers;
 
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.reader2.model.ObjectsFactory;
-import es.eucm.ead.reader2.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
 
-@SuppressWarnings("rawtypes")
-public class ListReader extends AbstractReader<EAdList> {
+public interface WriterContext {
 
-	public static final EAdList EMPTY_LIST = new EAdList();
+	/**
+	 * An id for the context
+	 * @return
+	 */
+	int getContextId();
 
-	public ListReader(ObjectsFactory elementsFactory, ReaderVisitor visitor) {
-		super(elementsFactory, visitor);
-	}
+	/**
+	 * Generates a new id, valid for this context
+	 * @return
+	 */
+	String generateNewId();
 
-	@Override
-	public EAdList read(XMLNode node) {
-		if (node.hasChildNodes()) {
-			EAdList list = new EAdList();
-			for (XMLNode n : node.getChildren()) {
-				readerVisitor.loadElement(n, new ListVisitorListener(list));
-			}
-			return list;
-		} else {
-			return EMPTY_LIST;
-		}
+	/**
+	 * Returns if the given id has already been processed by this context
+	 * @param id
+	 * @return
+	 */
+	boolean containsId(String id);
 
-	}
+	/**
+	 * Translate the class to a symbolic string
+	 * @param type
+	 * @return
+	 */
+	String translateClass(Class<?> type);
 
-	public static class ListVisitorListener implements
-			ReaderVisitor.VisitorListener {
-		private EAdList list;
+	/**
+	 * Translates the field to a symbolic string
+	 * @param name
+	 * @return
+	 */
+	String translateField(String name);
 
-		public ListVisitorListener(EAdList list) {
-			this.list = list;
-		}
+	/**
+	 * Translates the param to a symbolic string
+	 * @param param
+	 * @return
+	 */
+	String translateParam(String param);
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public boolean loaded(XMLNode node, Object object,
-				boolean isNullInOrigin) {
-			if (object != null || isNullInOrigin) {
-				list.add(object);
-				return true;
-			}
-			return false;
-		}
-
-	}
-
+	/**
+	 * Process the object that is going to be written. This method can be used to analyze de model from the context,
+	 * since ALL objects in the model pass over here.
+	 *
+	 * @param object
+	 * @param node
+	 */
+	Object process(Object object, XMLNode node);
 }

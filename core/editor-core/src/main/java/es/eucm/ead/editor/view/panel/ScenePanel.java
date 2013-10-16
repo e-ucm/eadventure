@@ -63,7 +63,7 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 		setLayout(new FlowLayout());
 		add(new JLabel("This is a scene panel for ID " + scene.getId()));
 		add(new JSeparator(JSeparator.HORIZONTAL));
-		
+
 		revalidate();
 	}
 }

@@ -35,14 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader2.model;
+package es.eucm.ead.reader.model;
 
 import es.eucm.ead.reader.DOMTags;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.reader.model.readers.ListReader;
+import es.eucm.ead.reader.model.readers.MapReader;
+import es.eucm.ead.reader.model.readers.ObjectReader;
+import es.eucm.ead.reader.model.readers.ParamReader;
 import es.eucm.ead.reader.model.translators.StringTranslator;
-import es.eucm.ead.reader2.model.readers.ListReader;
-import es.eucm.ead.reader2.model.readers.MapReader;
-import es.eucm.ead.reader2.model.readers.ObjectReader;
-import es.eucm.ead.reader2.model.readers.ParamReader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
@@ -146,7 +147,11 @@ public class ReaderVisitor {
 			}
 		} else {
 			Object result = null;
-			if (node.getNodeName().equals(DOMTags.PARAM_TAG)) {
+			if (objectsFactory.containsIdentified(node
+					.getAttributeValue(DOMTags.ID_AT))) {
+				result = objectsFactory.getObjectById(node
+						.getAttributeValue(DOMTags.ID_AT));
+			} else if (node.getNodeName().equals(DOMTags.PARAM_TAG)) {
 				result = paramReader.read(node);
 			} else if (node.getNodeName().equals(DOMTags.LIST_TAG)) {
 				result = listReader.read(node);
@@ -255,7 +260,7 @@ public class ReaderVisitor {
 		return translate(param, paramsTranslators);
 	}
 
-	public void init() {
+	public void clear() {
 		objectsFactory.clear();
 		stepsQueue.clear();
 	}

@@ -77,7 +77,7 @@ import es.eucm.ead.importer.AdventureConverter;
 import ead.importer.EAdventureImporter;
 import ead.importer.annotation.ImportAnnotator;
 import es.eucm.ead.editor.model.nodes.SceneFactory;
-import es.eucm.ead.reader2.AdventureReader;
+import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.reader.strings.StringsReader;
 import es.eucm.ead.tools.PropertiesReader;
 import es.eucm.ead.tools.StringHandler;
@@ -88,7 +88,7 @@ import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLParser;
 import es.eucm.ead.tools.java.utils.FileUtils;
-import es.eucm.ead.writer2.AdventureWriter;
+import es.eucm.ead.writer.AdventureWriter;
 import es.eucm.ead.writer.StringWriter;
 
 /**

@@ -51,7 +51,7 @@ import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.operations.BasicField;
 import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.reader2.AdventureReader;
+import es.eucm.ead.reader.AdventureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

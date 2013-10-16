@@ -35,46 +35,22 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer2.model.writers;
+package es.eucm.ead.reader.model.readers;
 
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.writer2.model.WriterContext;
-import es.eucm.ead.writer2.model.WriterVisitor;
 
-public class ListWriter implements Writer<EAdList<?>> {
+/**
+ * Basic class for reading any type of element in eAdventure
+ *
+ * @param <T>
+ */
+public interface Reader<T> {
 
-	private WriterVisitor writerVisitor;
-
-	public ListWriter(WriterVisitor writerVisitor) {
-		this.writerVisitor = writerVisitor;
-	}
-
-	@Override
-	public XMLNode write(EAdList<?> object, WriterContext context) {
-		XMLNode node = new XMLNode(DOMTags.LIST_TAG);
-		ListWriterVisitor listVisitor = new ListWriterVisitor(node);
-		for (Object o : object) {
-			writerVisitor.writeElement(o, object, listVisitor);
-		}
-		return node;
-	}
-
-	public static class ListWriterVisitor implements
-			WriterVisitor.VisitorListener {
-
-		private XMLNode list;
-
-		public ListWriterVisitor(XMLNode list) {
-			this.list = list;
-		}
-
-		@Override
-		public void load(XMLNode node, Object object) {
-			list.append(node);
-		}
-
-	}
+	/**
+	 * Reads the element contained by the node
+	 * @param node
+	 * @return
+	 */
+	T read(XMLNode node);
 
 }

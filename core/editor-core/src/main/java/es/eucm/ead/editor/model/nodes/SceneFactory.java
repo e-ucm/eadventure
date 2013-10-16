@@ -86,12 +86,9 @@ public class SceneFactory implements EditorNodeFactory {
 
 		// now, register them
 		for (EditorNode en : newNodes) {
-			logger
-					.info(
-							"Registered {} as scene-node of type {}",
-							new Object[] { en.getId(),
-									en.getClass().getSimpleName(),
-									en.getFirst().getId() });
+			logger.info("Registered {} as scene-node of type {}", new Object[] {
+					en.getId(), en.getClass().getSimpleName(),
+					en.getFirst().getId() });
 			model.registerEditorNodeWithGraph(en);
 		}
 	}

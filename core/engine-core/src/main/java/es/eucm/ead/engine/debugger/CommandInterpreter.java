@@ -49,7 +49,7 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.ToggleSoundEf;
-import es.eucm.ead.reader2.model.Manifest;
+import es.eucm.ead.reader.model.Manifest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

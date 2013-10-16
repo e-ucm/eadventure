@@ -40,34 +40,35 @@ package es.eucm.ead.writer.model.writers;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.writer.model.ModelVisitor;
-import es.eucm.ead.writer.model.ModelVisitor.VisitorListener;
+import es.eucm.ead.writer.model.WriterVisitor;
+
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("rawtypes")
-public class MapWriter extends AbstractWriter<EAdMap> {
+public class MapWriter implements Writer<EAdMap> {
 
-	private int total;
+	private WriterVisitor writerVisitor;
 
-	public MapWriter(ModelVisitor modelVisitor) {
-		super(modelVisitor);
-		total = 0;
+	public MapWriter(WriterVisitor writerVisitor) {
+		this.writerVisitor = writerVisitor;
 	}
 
 	@Override
-	public XMLNode write(EAdMap object) {
-		total++;
+	public XMLNode write(EAdMap object, WriterContext context) {
 		XMLNode node = new XMLNode(DOMTags.MAP_TAG);
 
 		MapWriterListener listener = new MapWriterListener(node);
-		for (Object key : object.keySet()) {
-			Object value = object.get(key);
-			modelVisitor.writeElement(key, object, listener);
-			modelVisitor.writeElement(value, object, listener);
+		Set<Map.Entry> set = object.entrySet();
+		for (Map.Entry entry : set) {
+			writerVisitor.writeElement(entry.getKey(), object, listener);
+			writerVisitor.writeElement(entry.getValue(), object, listener);
 		}
 		return node;
 	}
 
-	public static class MapWriterListener implements VisitorListener {
+	public static class MapWriterListener implements
+			WriterVisitor.VisitorListener {
 
 		private XMLNode map;
 
@@ -93,13 +94,5 @@ public class MapWriter extends AbstractWriter<EAdMap> {
 			}
 		}
 
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void clear() {
-		total = 0;
 	}
 }

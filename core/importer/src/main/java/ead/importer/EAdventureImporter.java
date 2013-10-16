@@ -37,39 +37,27 @@
 
 package ead.importer;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
-
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.importer.inputstreamcreators.ImporterInputStreamCreator;
 import ead.importer.interfaces.EAdElementFactory;
 import ead.importer.interfaces.ResourceImporter;
+import es.eucm.ead.importer.inputstreamcreators.ImporterInputStreamCreator;
+import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.tools.java.xml.DomXMLParser;
 import es.eucm.ead.writer.AdventureWriter;
 import es.eucm.ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * An importer for old games from 1.x version
@@ -135,7 +123,6 @@ public class EAdventureImporter {
 	 *            format for the output file. Can be "none" to make a folder
 	 *            with the game, or "ead" or "zip" to pack the game in a zip
 	 *            file
-	 * @return An {@link EAdventureModel} complete with all game information
 	 */
 	public EAdAdventureModel importGame(String eadFile, String destination,
 			String format) {
@@ -215,9 +202,9 @@ public class EAdventureImporter {
 		AdventureWriter writer = new AdventureWriter(
 				new JavaReflectionProvider());
 
-		writer.write(model, path
-				+ (path.charAt(path.length() - 1) == '/' ? "" : "/")
-				+ "data.xml");
+		/*		writer.write(model, path
+		 + (path.charAt(path.length() - 1) == '/' ? "" : "/")
+		 + "data.xml");*/
 
 		// Create strings.xml
 		File f = new File(path, "strings.xml");
