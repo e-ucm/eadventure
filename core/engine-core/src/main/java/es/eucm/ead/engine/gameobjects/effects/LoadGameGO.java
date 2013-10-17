@@ -37,12 +37,14 @@
 
 package es.eucm.ead.engine.gameobjects.effects;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
+import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.LoadGameEf;
@@ -99,7 +101,7 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	}
 
 	public void initialize() {
-		gameLoader.loadGame();
+		gameLoader.loadGame((EAdEngine) Gdx.app.getApplicationListener());
 	}
 
 }

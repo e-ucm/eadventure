@@ -76,7 +76,7 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 		EAdCondition nc = condition.getCondition();
 		if (nc instanceof OperationCond) {
 			Comparator oppositeComparator = getOppositeComparator(((OperationCond) nc)
-					.getOperator());
+					.getComparator());
 			return new OperationCond(((OperationCond) nc).getOp1(),
 					((OperationCond) nc).getOp2(), oppositeComparator);
 		}

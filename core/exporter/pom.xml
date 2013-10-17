@@ -1,80 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>es.e-ucm.ead</groupId>
-		<artifactId>ead-base</artifactId>
-		<version>2.0.1-SNAPSHOT</version>
-		<relativePath>../../pom.xml</relativePath>
-	</parent>
+    <parent>
+        <groupId>es.e-ucm.ead</groupId>
+        <artifactId>ead-base</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-	<artifactId>ead-exporter</artifactId>
-	<packaging>jar</packaging>
-	<name>eAdventure Exporter</name>
-	<description>eAdventure game exporter.</description>
-	<dependencies>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>ead-tools-java</artifactId>
-			<version>${project.parent.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.sonatype.sisu</groupId>
-					<artifactId>sisu-guice</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>ead-engine-resources</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
+    <artifactId>ead-exporter</artifactId>
+    <packaging>jar</packaging>
+    <name>eAdventure Exporter</name>
+    <description>eAdventure game exporter.</description>
+    <build>
+        <plugins>
+            <!-- This generates an exporter with all the dependencies. The jar generated is intended to be used from console -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>es.eucm.ead.exporter.ExporterMain</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-tools-java</artifactId>
+            <version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-guice</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>ead-engine-resources</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-backend-gwt</artifactId>
             <version>${gdx.version}</version>
         </dependency>
-		<!-- external -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.4</version>
-		</dependency>
-		<!-- tests -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock-junit4</artifactId>
-		</dependency>
-		<!-- Maven Embeder dependencies -->
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-embedder</artifactId>
-			<version>3.0.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.sonatype.aether</groupId>
-			<artifactId>aether-connector-wagon</artifactId>
-			<version>1.13.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.wagon</groupId>
-			<artifactId>wagon-http</artifactId>
-			<version>2.1</version>
-		</dependency>
-	</dependencies>
+        <!-- external -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.4</version>
+        </dependency>
+        <!-- tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-junit4</artifactId>
+        </dependency>
+        <!-- Maven Embeder dependencies -->
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-embedder</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-connector-wagon</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-http</artifactId>
+            <version>2.1</version>
+        </dependency>
+    </dependencies>
 </project>

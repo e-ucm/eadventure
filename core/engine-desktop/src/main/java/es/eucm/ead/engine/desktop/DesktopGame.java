@@ -161,13 +161,6 @@ public class DesktopGame {
 		this.debug = debug;
 	}
 
-	/**
-	 * Loads the game in the given path
-	 */
-	public void load() {
-		gameLoader.loadGame();
-	}
-
 	public void setWindowWidth(int windowWidth) {
 		this.windowWidth = windowWidth;
 	}

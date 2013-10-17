@@ -74,16 +74,13 @@ public class GameLoader {
 
 	private Map<String, EAdScene> scenes;
 
-	private EAdEngine engine;
-
 	private String currentChapterId;
 
 	@Inject
 	public GameLoader(AdventureReader reader, Game game,
 			EventFactory eventFactory, EffectFactory effectFactory,
-			SceneElementFactory sceneElementFactory, EAdEngine engine,
+			SceneElementFactory sceneElementFactory,
 			StringHandler stringHandler, GameTracker gameTracker) {
-		this.engine = engine;
 		this.game = game;
 		this.reader = reader;
 		this.chapters = new HashMap<String, EAdChapter>();
@@ -96,7 +93,7 @@ public class GameLoader {
 	}
 
 	@SuppressWarnings( { "all" })
-	public void loadGame() {
+	public void loadGame(EAdEngine engine) {
 		currentManifest = reader.getManifest();
 		final EAdAdventureModel adventure = currentManifest.getModel();
 		// Load plugins
@@ -106,29 +103,22 @@ public class GameLoader {
 				.getVarInitialValue(BasicAdventureModel.EFFECTS_BINDS));
 		sceneElementFactory.put(adventure
 				.getVarInitialValue(BasicAdventureModel.SCENES_ELEMENT_BINDS));
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
 
-				// FIXME detect language
-				stringHandler.setLanguage("");
-				game.getGUI().reset();
-				game.setAdventure(adventure);
-				game.doHook(Game.HOOK_AFTER_MODEL_READ);
-				int width = adventure
-						.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
-				int height = adventure
-						.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+		// FIXME detect language
+		stringHandler.setLanguage("");
+		game.getGUI().reset();
+		game.setAdventure(adventure);
+		game.doHook(Game.HOOK_AFTER_MODEL_READ);
+		int width = adventure
+				.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
+		int height = adventure
+				.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
 
-				engine.addDebug(GameLoader.this);
-				engine.setGameWidth(width);
-				engine.setGameHeight(height);
-				engine
-						.resize(Gdx.graphics.getWidth(), Gdx.graphics
-								.getHeight());
-				loadChapter(currentManifest.getInitialChapter());
-			}
-		});
+		engine.setGameWidth(width);
+		engine.setGameHeight(height);
+		engine.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		loadChapter(currentManifest.getInitialChapter());
+
 		gameTracker.startTracking(currentManifest.getModel());
 	}
 
@@ -179,7 +169,7 @@ public class GameLoader {
 		return currentChapterId;
 	}
 
-	public EAdEngine getEngine() {
-		return engine;
+	public Game getGame() {
+		return game;
 	}
 }

@@ -55,6 +55,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 
@@ -66,15 +67,12 @@ public class SimpleDebugger extends Group {
 
 	private final Button button;
 
-	private final GameLoader gameLoader;
-
 	private Array<String> history;
 
 	private int historyPointer = -1;
 
 	public SimpleDebugger(Game game, GameLoader gameLoader) {
 		this.history = new Array<String>();
-		this.gameLoader = gameLoader;
 		final CommandInterpreter commandInterpreter = new CommandInterpreter(
 				game, gameLoader);
 		BitmapFont font = new BitmapFont(
@@ -164,17 +162,18 @@ public class SimpleDebugger extends Group {
 		this.addActor(interpreter);
 		setVisible(false);
 		this.addActor(button);
-		gameLoader.getEngine().getStage().addListener(new InputListener() {
-			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
-				switch (keycode) {
-				case Input.Keys.F12:
-					setVisible(true);
-					break;
-				}
-				return false;
-			}
-		});
+		((EAdEngine) Gdx.app.getApplicationListener()).getStage().addListener(
+				new InputListener() {
+					@Override
+					public boolean keyDown(InputEvent event, int keycode) {
+						switch (keycode) {
+						case Input.Keys.F12:
+							setVisible(true);
+							break;
+						}
+						return false;
+					}
+				});
 	}
 
 	private void updateCommand() {
@@ -199,7 +198,8 @@ public class SimpleDebugger extends Group {
 		result.setVisible(visible);
 		interpreter.setVisible(visible);
 		if (visible) {
-			gameLoader.getEngine().getStage().setKeyboardFocus(interpreter);
+			((EAdEngine) Gdx.app.getApplicationListener()).getStage()
+					.setKeyboardFocus(interpreter);
 		}
 	}
 

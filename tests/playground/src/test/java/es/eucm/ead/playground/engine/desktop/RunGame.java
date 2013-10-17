@@ -8,6 +8,5 @@ public class RunGame {
 		DesktopGame game = new DesktopGame(true, "convertedproject/");
 		game.setFullscreen(true);
 		game.start();
-		game.load();
 	}
 }

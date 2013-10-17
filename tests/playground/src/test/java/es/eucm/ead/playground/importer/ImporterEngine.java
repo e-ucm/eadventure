@@ -16,6 +16,5 @@ public class ImporterEngine {
 		game.setDebug(true);
 		game.setPath(convertedFolder);
 		game.start();
-		game.load();
 	}
 }

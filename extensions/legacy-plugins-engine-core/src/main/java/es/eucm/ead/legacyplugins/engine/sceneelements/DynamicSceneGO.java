@@ -1,6 +1,7 @@
 package es.eucm.ead.legacyplugins.engine.sceneelements;
 
 import com.google.inject.Inject;
+import com.gwtent.reflection.client.Reflectable;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
@@ -15,6 +16,7 @@ import es.eucm.ead.model.elements.scenes.EAdSceneElement;
  * Override standard scene behavior to implement behavior of old scenes
  * [GE - Arrows] [GE - Follow]
  */
+@Reflectable
 public class DynamicSceneGO extends SceneGO {
 
 	private boolean firstPerson;

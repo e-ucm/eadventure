@@ -72,6 +72,8 @@ public class EAdEngine implements ApplicationListener {
 
 	private GUI gui;
 
+	private GameLoader gameLoader;
+
 	private Stage stage;
 
 	private Vector2 sceneMouseCoordinates;
@@ -88,9 +90,10 @@ public class EAdEngine implements ApplicationListener {
 	private boolean debug;
 
 	@Inject
-	public EAdEngine(Game game, GameState gameState, GUI gui) {
+	public EAdEngine(GameLoader gameLoader, GameState gameState, GUI gui) {
 		ShaderProgram.pedantic = false;
-		this.game = game;
+		this.gameLoader = gameLoader;
+		this.game = gameLoader.getGame();
 		this.gameState = gameState;
 		this.gui = gui;
 		this.sceneMouseCoordinates = new Vector2();
@@ -134,9 +137,11 @@ public class EAdEngine implements ApplicationListener {
 
 		stage.addActor(new Logo());
 
+		gameLoader.loadGame(this);
+		addDebug();
 	}
 
-	public void addDebug(GameLoader gameLoader) {
+	public void addDebug() {
 		if (debug) {
 			SceneElementGO debuggerHud = gui.getHUD(GUI.DEBBUGERS_HUD_ID);
 			debuggerHud.addActor(new SimpleDebugger(game, gameLoader));

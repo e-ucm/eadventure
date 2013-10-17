@@ -35,39 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.engine.gameobjects.effects;
+package es.eucm.ead.exporter;
 
-import com.badlogic.gdx.Gdx;
-import com.google.inject.Inject;
-import es.eucm.ead.engine.EAdEngine;
-import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.engine.game.GameLoader;
-import es.eucm.ead.engine.gameobjects.GameObject;
-import es.eucm.ead.model.elements.effects.QuitGameEf;
+public class ExporterMain {
 
-/**
- * <p>
- * {@link GameObject} for the {@link QuitGameEf} effect
- * </p>
- * 
- */
-public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
+	public static void main(String args[]) {
+		int type = 0;
+		String warDirectory = null;
+		String source = null;
+		String destiny = null;
 
-	private GameLoader gameLoader;
+		try {
+			if ("-war".equals(args[0])) {
+				type = 2;
+				warDirectory = args[1];
+				source = args[2];
+				destiny = args[3];
 
-	@Inject
-	public QuitGameGO(Game game, GameLoader gameLoader) {
-		super(game);
-		this.gameLoader = gameLoader;
-	}
+			}
 
-	@Override
-	public void initialize() {
-		super.initialize();
-		if (effect.isRestart()) {
-			gameLoader.loadGame((EAdEngine) Gdx.app.getApplicationListener());
-		} else {
-			Gdx.app.exit();
+			switch (type) {
+			case 2:
+				System.out.println("Exporting war...");
+				WarExporter exporter = new WarExporter();
+				exporter.setWarPath(warDirectory);
+				exporter.export(source, destiny);
+				break;
+			}
+			System.out.println("Success.");
+		} catch (Exception e) {
+			System.out.println("Invalid command.");
 		}
 	}
 

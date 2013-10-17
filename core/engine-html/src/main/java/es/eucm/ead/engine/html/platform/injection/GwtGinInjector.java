@@ -66,6 +66,9 @@ import es.eucm.ead.engine.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
 import es.eucm.ead.engine.html.platform.module.GwtModule;
 import es.eucm.ead.legacyplugins.engine.BubbleNameGO;
+import es.eucm.ead.legacyplugins.engine.events.TimerGO;
+import es.eucm.ead.legacyplugins.engine.sceneelements.ClockDisplayGO;
+import es.eucm.ead.legacyplugins.engine.sceneelements.DynamicSceneGO;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.gwt.GWTToolsModule;
 
@@ -214,4 +217,9 @@ public interface GwtGinInjector extends Ginjector {
 	// FIXME This CAN NOT be here
 	BubbleNameGO getBubbleNameGO();
 
+	DynamicSceneGO getDynamicSceneGO();
+
+	TimerGO getTimerGO();
+
+	ClockDisplayGO getClockDisplayGO();
 }
