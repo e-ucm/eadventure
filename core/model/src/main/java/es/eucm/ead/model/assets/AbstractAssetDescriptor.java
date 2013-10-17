@@ -38,9 +38,7 @@
 package es.eucm.ead.model.assets;
 
 import com.gwtent.reflection.client.Reflectable;
-
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.interfaces.features.Identified;
 
 /**
  * Classes that implement this interface represent an asset. An asset is any
@@ -75,15 +73,7 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 
 	public String toString() {
 		return BasicElement.classToString(this.getClass())
-				+ (id != null ? id.toString() : "");
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof Identified) {
-			String id2 = ((Identified) o).getId();
-			return id == null ? super.equals(o) : id == id2 || id.equals(id2);
-		}
-		return false;
+				+ (id != null ? id : "");
 	}
 
 	public int hashCode() {

@@ -45,4 +45,15 @@ import es.eucm.ead.model.interfaces.features.Identified;
  */
 @Reflectable(relationTypes = true)
 public interface EAdElement extends Identified {
+
+	Object getExtraParam(String paramId);
+
+	/**
+	 * Puts an extra parameter in the element. Usually, this method
+	 * is used to set extra properties in elements that later on are used by plugins
+	 *
+	 * @param paramId the parameter identifier
+	 * @param param   the parameter value
+	 */
+	void putExtraParam(String paramId, Object param);
 }

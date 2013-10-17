@@ -37,11 +37,12 @@
 
 package ead.importer.annotation;
 
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.EAdElement;
-
-import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 /**
  * An annotator that does not record anything.
@@ -53,7 +54,7 @@ public class NullAnnotator implements ImportAnnotator {
 
 	private static ArrayList<EAdElement> stack = new ArrayList<EAdElement>();
 
-	private static class PlaceHolder implements EAdElement {
+	private static class PlaceHolder extends BasicElement {
 		private String id;
 
 		public PlaceHolder(String id) {
