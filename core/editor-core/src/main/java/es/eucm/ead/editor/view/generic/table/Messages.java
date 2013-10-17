@@ -35,54 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.editor.model.nodes;
+package es.eucm.ead.editor.view.generic.table;
 
-import java.util.ArrayList;
-
-import es.eucm.ead.editor.model.EditorAnnotator;
-import es.eucm.ead.editor.model.EditorModelImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.editor.view.generic.*;
+import es.eucm.ead.editor.util.i18n.I18N;
 
 /**
- * A factory that creates asset nodes
- * @author mfreire
+ * Message index for this class (bound at run-time according to user preferences)
+ *
+ * This is an AUTOMATICALLY-GENERATED file - 
+ * Run class es.eucm.ead.editor.util.i18n.ResourceCreator with parameters: 
+ *    "core/editor-core" "es.eucm.ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/es/eucm/ead/editor/R.java"
+ * to re-create or update this class
  */
-public class SceneFactory implements EditorNodeFactory {
-	private static final Logger logger = LoggerFactory
-			.getLogger(SceneFactory.class);
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+public class Messages {
 
-	/**
-	 * Find and create EditorNodes for actors
-	 * @param annotator annotations for nodes (by ID)
-	 * @param model where the nodes should be inserted, via registerEditorNode
-	 */
-	@Override
-	public void createNodes(EditorModelImpl model, EditorAnnotator annotator) {
+	public static String options_table_upArrow;
+	public static String options_table_downArrow;
+	public static String options_table_delete;
+	public static String options_table_add;
 
-		ArrayList<EditorNode> newNodes = new ArrayList<EditorNode>();
-
-		for (DependencyNode n : model.getNodesById().values()) {
-			if (!(n instanceof EngineNode)
-					|| !(n.getContent() instanceof BasicScene)) {
-				continue;
-			}
-
-			BasicScene bs = (BasicScene) n.getContent();
-			EditorNode sn = new SceneNode(model.generateId(null));
-			sn.addChild(n);
-			n.setManager(sn);
-			newNodes.add(sn);
-		}
-
-		// now, register them
-		for (EditorNode en : newNodes) {
-			logger.info("Registered {} as scene-node of type {}", new Object[] {
-					en.getId(), en.getClass().getSimpleName(),
-					en.getFirst().getId() });
-			model.registerEditorNodeWithGraph(en);
-		}
+	static {
+		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }

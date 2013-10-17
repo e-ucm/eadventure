@@ -38,10 +38,17 @@
 package es.eucm.ead.editor.view.panel;
 
 import es.eucm.ead.editor.model.nodes.SceneNode;
+import es.eucm.ead.editor.view.generic.table.ListOption;
+import es.eucm.ead.editor.view.generic.OptionPanel;
+import es.eucm.ead.editor.view.generic.OptionPanel.LayoutPolicy;
+import es.eucm.ead.editor.view.generic.PanelImpl;
+import es.eucm.ead.editor.view.generic.TextOption;
+import es.eucm.ead.editor.view.generic.table.MapOption;
+import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
 import es.eucm.ead.model.elements.scenes.BasicScene;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
+import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.params.variables.EAdVarDef;
+import java.awt.BorderLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,10 +67,70 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 	protected void rebuild() {
 		this.scene = (BasicScene) target.getFirst().getContent();
 		removeAll();
-		setLayout(new FlowLayout());
-		add(new JLabel("This is a scene panel for ID " + scene.getId()));
-		add(new JSeparator(JSeparator.HORIZONTAL));
-		
+		setLayout(new BorderLayout());
+
+		OptionPanel op = new PanelImpl("Scene properties",
+				LayoutPolicy.VerticalBlocks, 4);
+		op.add(new TextOption("Scene ID", "The unique ID for the scene", scene,
+				"id", TextOption.ExpectedLength.SHORT, target.getFirst()));
+
+		op.add(new ListOption<EAdSceneElement>("Elements",
+				"Contained sceneElements", scene, "sceneElements",
+				EAdSceneElement.class, target.getFirst()) {
+
+			@Override
+			public ColumnSpec<EAdSceneElement>[] getExtraColumns() {
+				return new ColumnSpec[] { new ColumnSpec("ID", String.class,
+						false, 50) {
+					@Override
+					public Object getValue(int index, Object o) {
+						return ((EAdSceneElement) o).getId();
+					}
+				} };
+			}
+		});
+		op.add(new MapOption<EAdVarDef, Object>("Vars", "Available varDefs",
+				scene, "vars", EAdVarDef.class, target.getFirst()) {
+
+			@Override
+			public ColumnSpec<Object>[] getKeyColumns() {
+				return new ColumnSpec[] {
+						new ColumnSpec("Name", String.class, false, 50) {
+							@Override
+							public Object getValue(int index, Object o) {
+								return indexToKey(index).getName();
+							}
+						},
+						new ColumnSpec("Type", String.class, false, 50) {
+							@Override
+							public Object getValue(int index, Object o) {
+								return indexToKey(index).getType()
+										.getSimpleName();
+							}
+						},
+						new ColumnSpec("Initial v.", String.class, false, 60) {
+							@Override
+							public Object getValue(int index, Object o) {
+								return indexToKey(index).getInitialValue()
+										.toString();
+							}
+						} };
+			}
+
+			@Override
+			public ColumnSpec<Object>[] getValueColumns() {
+				return new ColumnSpec[] { new ColumnSpec("Value", String.class,
+						false, 50) {
+					@Override
+					public Object getValue(int index, Object o) {
+						return o.toString();
+					}
+				} };
+			}
+		});
+
+		add(op.getComponent(controller.getCommandManager()),
+				BorderLayout.CENTER);
 		revalidate();
 	}
 }
