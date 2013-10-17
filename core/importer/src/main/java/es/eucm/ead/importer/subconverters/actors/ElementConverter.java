@@ -46,7 +46,7 @@ import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.actors.actions.ActionsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
-import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
@@ -151,9 +151,9 @@ public abstract class ElementConverter {
 			String name = element.getDescription(0).getName();
 			if (!name.equals("")) {
 				EAdString string = stringsConverter.convert(name, true);
-				def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
-				def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_OPERATIONS,
-						stringsConverter.getOperations(name));
+				def.putProperty(LegacyVars.BUBBLE_NAME, string);
+				def.putProperty(LegacyVars.BUBBLE_OPERATIONS, stringsConverter
+						.getOperations(name));
 			}
 			// Descriptions are only showed if the default click action is "show details"
 			if (modelQuerier.getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_DETAILS) {

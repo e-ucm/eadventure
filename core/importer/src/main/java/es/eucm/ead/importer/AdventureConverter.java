@@ -158,10 +158,10 @@ public class AdventureConverter {
 
 		// Add some vars
 		// [AD - Title]
-		model.setVarInitialValue(BasicAdventureModel.GAME_TITLE, modelQuerier
+		model.putProperty(BasicAdventureModel.GAME_TITLE, modelQuerier
 				.getAventureData().getTitle());
 		// Add some legacy vars
-		model.setVarInitialValue(LegacyVars.FIRST_PERSON, modelQuerier
+		model.putProperty(LegacyVars.FIRST_PERSON, modelQuerier
 				.isFirstPersonGame());
 		BubbleNameEv event = new BubbleNameEv();
 		event.setBubble(new NinePatchImage("@drawable/bubblename.png", 15, 15,
@@ -185,10 +185,8 @@ public class AdventureConverter {
 				.put(ClockDisplay.class.getName(),
 						"es.eucm.ead.legacyplugins.engine.sceneelements.ClockDisplayGO");
 
-		model
-				.setVarInitialValue(BasicAdventureModel.EVENTS_BINDS,
-						eventPlugins);
-		model.setVarInitialValue(BasicAdventureModel.SCENES_ELEMENT_BINDS,
+		model.putProperty(BasicAdventureModel.EVENTS_BINDS, eventPlugins);
+		model.putProperty(BasicAdventureModel.SCENES_ELEMENT_BINDS,
 				sceneElementPlugins);
 
 		for (Chapter c : adventureData.getChapters()) {

@@ -44,7 +44,7 @@ import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
-import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
@@ -357,7 +357,7 @@ public class ActionsConverter {
 		}
 		// In eAd1, expressions are not evaluated for action names
 		EAdString string = stringsConverter.convert(name, false);
-		def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
+		def.putProperty(LegacyVars.BUBBLE_NAME, string);
 	}
 
 	/**

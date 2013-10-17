@@ -48,7 +48,6 @@ import es.eucm.ead.importer.subconverters.actors.ElementConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
-import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
@@ -214,7 +213,7 @@ public class SceneConverter {
 
 			int finalWidth = (int) (d.getWidth() * scale);
 			// [GE - Arrows] [GE - Follow]
-			scene.setVarInitialValue(LegacyVars.SCENE_WIDTH, finalWidth);
+			scene.putProperty(LegacyVars.SCENE_WIDTH, finalWidth);
 
 			i++;
 		}
@@ -339,7 +338,7 @@ public class SceneConverter {
 			if (!"".equals(exitLook.getExitText())) {
 				EAdString text = stringsConverter.convert(exitLook
 						.getExitText(), false);
-				exit.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, text);
+				exit.putProperty(LegacyVars.BUBBLE_NAME, text);
 			}
 			// XXX For now, we use the default exit image
 			utilsConverter.addCursorChange(exit, MouseHud.EXIT_CURSOR);
@@ -390,9 +389,6 @@ public class SceneConverter {
 			GhostElement activeArea = new GhostElement(shape);
 			// Add actions
 			// [AA - Actions]
-			if ("Victima".equals(a.getId())) {
-				System.out.println();
-			}
 			elementConverter.addActions(a, activeArea.getDefinition());
 			elementConverter.addDescription(a, activeArea.getDefinition());
 

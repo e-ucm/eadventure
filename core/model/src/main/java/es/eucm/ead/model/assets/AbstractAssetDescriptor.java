@@ -76,8 +76,4 @@ public abstract class AbstractAssetDescriptor implements AssetDescriptor {
 				+ (id != null ? id : "");
 	}
 
-	public int hashCode() {
-		return id == null ? super.hashCode() : getId().hashCode();
-	}
-
 }

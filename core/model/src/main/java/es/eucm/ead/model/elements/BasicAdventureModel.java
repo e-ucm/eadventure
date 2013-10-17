@@ -43,7 +43,6 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.model.params.variables.VarDef;
 
 /**
  * The eAdventure game model.
@@ -52,18 +51,12 @@ import es.eucm.ead.model.params.variables.VarDef;
 public class BasicAdventureModel extends BasicElement implements
 		EAdAdventureModel {
 
-	public static final EAdVarDef<EAdMap> EFFECTS_BINDS = new VarDef<EAdMap>(
-			"effects_binds", EAdMap.class, null);
-	public static final EAdVarDef<EAdMap> EVENTS_BINDS = new VarDef<EAdMap>(
-			"events_binds", EAdMap.class, null);
-	public static final EAdVarDef<EAdMap> SCENES_ELEMENT_BINDS = new VarDef<EAdMap>(
-			"scene_element_binds", EAdMap.class, null);
-	public static final EAdVarDef<Integer> GAME_WIDTH = new VarDef<Integer>(
-			"width", Integer.class, 800);
-	public static final EAdVarDef<Integer> GAME_HEIGHT = new VarDef<Integer>(
-			"height", Integer.class, 600);
-	public static final EAdVarDef<String> GAME_TITLE = new VarDef<String>(
-			"game_title", String.class, "eAdventure");
+	public static final String EFFECTS_BINDS = "#effects_binds";
+	public static final String EVENTS_BINDS = "#events_binds";
+	public static final String SCENES_ELEMENT_BINDS = "#scene_element_binds";
+	public static final String GAME_WIDTH = "#game_width";
+	public static final String GAME_HEIGHT = "#game_height";
+	public static final String GAME_TITLE = "#game_title";
 	/**
 	 * Not serialize (special treatment in writer)
 	 */

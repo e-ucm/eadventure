@@ -40,7 +40,6 @@ package es.eucm.ead.model.elements;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.interfaces.features.Identified;
 
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements
@@ -54,7 +53,7 @@ public class BasicElement implements EAdElement {
 	private String id;
 
 	@Param
-	private EAdMap<String, Object> extraParams;
+	private EAdMap<String, Object> properties;
 
 	/**
 	 * Creates a reference to an element
@@ -80,24 +79,22 @@ public class BasicElement implements EAdElement {
 	}
 
 	@Override
-	public Object getExtraParam(String paramId) {
-		return extraParams == null ? null : extraParams.get(paramId);
+	@SuppressWarnings("unchecked")
+	public <T> T getProperty(String paramId, T defaultValue) {
+		return (T) (properties == null ? defaultValue : properties
+				.containsKey(paramId) ? properties.get(paramId) : defaultValue);
 	}
 
 	@Override
-	public void putExtraParam(String paramId, Object param) {
-		if (extraParams == null) {
-			extraParams = new EAdMap<String, Object>();
+	public void putProperty(String paramId, Object param) {
+		if (properties == null) {
+			properties = new EAdMap<String, Object>();
 		}
-		extraParams.put(paramId, param);
+		properties.put(paramId, param);
 	}
 
 	public String toString() {
 		return classToString(this.getClass()) + (id != null ? id : "");
-	}
-
-	public int hashCode() {
-		return id == null ? super.hashCode() : getId().hashCode();
 	}
 
 	/**
@@ -115,11 +112,11 @@ public class BasicElement implements EAdElement {
 
 	// Required for GWT
 
-	public EAdMap<String, Object> getExtraParams() {
-		return extraParams;
+	public EAdMap<String, Object> getProperties() {
+		return properties;
 	}
 
-	public void setExtraParams(EAdMap<String, Object> extraParams) {
-		this.extraParams = extraParams;
+	public void setProperties(EAdMap<String, Object> properties) {
+		this.properties = properties;
 	}
 }

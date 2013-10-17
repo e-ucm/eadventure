@@ -37,9 +37,9 @@ public class DynamicSceneGO extends SceneGO {
 	@Override
 	public void setElement(EAdSceneElement element) {
 		super.setElement(element);
-		firstPerson = game.getAdventureModel().getVarInitialValue(
-				LegacyVars.FIRST_PERSON);
-		sceneWidth = element.getVarInitialValue(LegacyVars.SCENE_WIDTH);
+		firstPerson = game.getAdventureModel().getProperty(
+				LegacyVars.FIRST_PERSON, false);
+		sceneWidth = element.getProperty(LegacyVars.SCENE_WIDTH, 800);
 		adjust = sceneWidth > 800;
 		gameWidth = gameState.getValue(SystemFields.GAME_WIDTH);
 	}
