@@ -38,16 +38,16 @@
 package es.eucm.ead.editor.model;
 
 import com.google.inject.Singleton;
-
-import es.eucm.ead.model.elements.EAdElement;
 import ead.importer.annotation.ImportAnnotator;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.EAdElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An annotator that can be used to build EditorNodes.
@@ -98,7 +98,7 @@ public class EditorAnnotator implements ImportAnnotator {
 		}
 	}
 
-	public static class PlaceHolder implements EAdElement {
+	public static class PlaceHolder extends BasicElement {
 		private String id;
 
 		private PlaceHolder(String id) {

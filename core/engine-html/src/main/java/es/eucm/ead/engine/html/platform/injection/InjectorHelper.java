@@ -42,6 +42,7 @@ import es.eucm.ead.engine.assets.drawables.shapes.GdxBezierShape;
 import es.eucm.ead.engine.assets.drawables.shapes.GdxCircleShape;
 import es.eucm.ead.engine.assets.drawables.shapes.GdxRectangleShape;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
+import es.eucm.ead.engine.assets.multimedia.RuntimeMusic;
 import es.eucm.ead.engine.assets.multimedia.RuntimeSound;
 import es.eucm.ead.engine.gameobjects.debuggers.FieldsDebuggerGO;
 import es.eucm.ead.engine.gameobjects.debuggers.GhostDebuggerGO;
@@ -87,148 +88,153 @@ public class InjectorHelper implements Injector {
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
 		Object o = null;
-		// Game objects
 		// Effects
-		if (clazz == ModifyHudGO.class)
-			o = ginjector.getModifyHudGO();
-		else if (clazz == ModifyInventoryGO.class)
-			o = ginjector.getModifyInventoryGO();
-		else if (clazz == AddActorReferenceGO.class)
-			o = ginjector.getAddActorReferenceGO();
-		else if (clazz == PhysicsEffectGO.class)
-			o = ginjector.getPhysicsEffectGO();
-		else if (clazz == LoadGameGO.class)
-			o = ginjector.getLoadGameGO();
-		else if (clazz == HighlightSceneElementGO.class)
-			o = ginjector.getHighlightSceneElementGO();
+		if (clazz == TogglePauseGO.class)
+			o = ginjector.getTogglePauseGO();
 		else if (clazz == ShowSceneElementGO.class)
 			o = ginjector.getShowSceneElementGO();
-		else if (clazz == DragGO.class)
-			o = ginjector.getDragGO();
-		else if (clazz == ToggleSoundGO.class)
-			o = ginjector.getToggleSoundGO();
-		else if (clazz == TogglePauseGO.class)
-			o = ginjector.getTogglePauseGO();
+		else if (clazz == LoadGameGO.class)
+			o = ginjector.getLoadGameGO();
 		else if (clazz == RandomGO.class)
 			o = ginjector.getRandomGO();
+		else if (clazz == ModifyHudGO.class)
+			o = ginjector.getModifyHudGO();
+		else if (clazz == ChangeSceneGO.class)
+			o = ginjector.getChangeSceneGO();
 		else if (clazz == RemoveGO.class)
 			o = ginjector.getRemoveGO();
+		else if (clazz == SpeakGO.class)
+			o = ginjector.getSpeakGO();
+		else if (clazz == ActorActionsGO.class)
+			o = ginjector.getActorActionsGO();
+		else if (clazz == PhysicsEffectGO.class)
+			o = ginjector.getPhysicsEffectGO();
+		else if (clazz == ChangeFieldGO.class)
+			o = ginjector.getChangeFieldGO();
+		else if (clazz == ChangeChapterGO.class)
+			o = ginjector.getChangeChapterGO();
+		else if (clazz == DragGO.class)
+			o = ginjector.getDragGO();
 		else if (clazz == QuitGameGO.class)
 			o = ginjector.getQuitGameGO();
-		else if (clazz == ApplyForceGO.class)
-			o = ginjector.getApplyForceGO();
+		else if (clazz == AddChildGO.class)
+			o = ginjector.getAddChildGO();
+		else if (clazz == EmptyEffectGO.class)
+			o = ginjector.getEmptyEffectGO();
+		else if (clazz == WaitUntilGO.class)
+			o = ginjector.getWaitUntilGO();
+		else if (clazz == QuestionGO.class)
+			o = ginjector.getQuestionGO();
+		else if (clazz == ToggleSoundGO.class)
+			o = ginjector.getToggleSoundGO();
+		else if (clazz == PlayMusicGO.class)
+			o = ginjector.getPlayMusicGO();
+		else if (clazz == HighlightSceneElementGO.class)
+			o = ginjector.getHighlightSceneElementGO();
+		else if (clazz == ChangeColorGO.class)
+			o = ginjector.getChangeColorGO();
+		else if (clazz == WaitGO.class)
+			o = ginjector.getWaitGO();
+		else if (clazz == TriggerMacroGO.class)
+			o = ginjector.getTriggerMacroGO();
 		else if (clazz == MoveSceneElementGO.class)
 			o = ginjector.getMoveSceneElementGO();
 		else if (clazz == InterpolationGO.class)
 			o = ginjector.getInterpolationGO();
-		else if (clazz == WaitGO.class)
-			o = ginjector.getWaitGO();
-		else if (clazz == EmptyEffectGO.class)
-			o = ginjector.getEmptyEffectGO();
-		else if (clazz == AddChildGO.class)
-			o = ginjector.getAddChildGO();
-		else if (clazz == ActorActionsGO.class)
-			o = ginjector.getActorActionsGO();
-		else if (clazz == TriggerMacroGO.class)
-			o = ginjector.getTriggerMacroGO();
-		else if (clazz == WaitUntilGO.class)
-			o = ginjector.getWaitUntilGO();
-		else if (clazz == SpeakGO.class)
-			o = ginjector.getSpeakGO();
-		else if (clazz == ChangeFieldGO.class)
-			o = ginjector.getChangeFieldGO();
+		else if (clazz == ModifyInventoryGO.class)
+			o = ginjector.getModifyInventoryGO();
+		else if (clazz == AddActorReferenceGO.class)
+			o = ginjector.getAddActorReferenceGO();
 		else if (clazz == PlaySoundGO.class)
 			o = ginjector.getPlaySoundGO();
-		else if (clazz == ChangeSceneGO.class)
-			o = ginjector.getChangeSceneGO();
-		else if (clazz == QuestionGO.class)
-			o = ginjector.getQuestionGO();
-		else if (clazz == ChangeColorGO.class)
-			o = ginjector.getChangeColorGO();
+		else if (clazz == ApplyForceGO.class)
+			o = ginjector.getApplyForceGO();
 		// SceneElements
-		else if (clazz == TimedEvGO.class)
-			o = ginjector.getTimedEvGO();
 		else if (clazz == WatchFieldEvGO.class)
 			o = ginjector.getWatchFieldEvGO();
-		else if (clazz == ConditionEvGO.class)
-			o = ginjector.getConditionEvGO();
 		else if (clazz == SceneElementEvGO.class)
 			o = ginjector.getSceneElementEvGO();
+		else if (clazz == TimedEvGO.class)
+			o = ginjector.getTimedEvGO();
+		else if (clazz == ConditionEvGO.class)
+			o = ginjector.getConditionEvGO();
 		// Events
-		else if (clazz == VideoSceneGO.class)
-			o = ginjector.getVideoSceneGO();
-		else if (clazz == EmptyTransitionGO.class)
-			o = ginjector.getEmptyTransitionGO();
-		else if (clazz == ProfilerDebuggerGO.class)
-			o = ginjector.getProfilerDebuggerGO();
-		else if (clazz == MouseHudGO.class)
-			o = ginjector.getMouseHudGO();
-		else if (clazz == DisplaceTransitionGO.class)
-			o = ginjector.getDisplaceTransitionGO();
+		else if (clazz == GhostDebuggerGO.class)
+			o = ginjector.getGhostDebuggerGO();
 		else if (clazz == SceneElementGO.class)
 			o = ginjector.getSceneElementGO();
-		else if (clazz == SceneGO.class)
-			o = ginjector.getSceneGO();
-		else if (clazz == MaskTransitionGO.class)
-			o = ginjector.getMaskTransitionGO();
 		else if (clazz == GroupElementGO.class)
 			o = ginjector.getGroupElementGO();
+		else if (clazz == MaskTransitionGO.class)
+			o = ginjector.getMaskTransitionGO();
+		else if (clazz == SceneGO.class)
+			o = ginjector.getSceneGO();
+		else if (clazz == SceneGO.class)
+			o = ginjector.getSceneGO();
+		else if (clazz == TrajectoryDebuggerGO.class)
+			o = ginjector.getTrajectoryDebuggerGO();
+		else if (clazz == ScaleTransitionGO.class)
+			o = ginjector.getScaleTransitionGO();
+		else if (clazz == FieldsDebuggerGO.class)
+			o = ginjector.getFieldsDebuggerGO();
+		else if (clazz == VideoSceneGO.class)
+			o = ginjector.getVideoSceneGO();
+		else if (clazz == DisplaceTransitionGO.class)
+			o = ginjector.getDisplaceTransitionGO();
+		else if (clazz == ProfilerDebuggerGO.class)
+			o = ginjector.getProfilerDebuggerGO();
+		else if (clazz == FadeInTransitionGO.class)
+			o = ginjector.getFadeInTransitionGO();
+		else if (clazz == GhostElementGO.class)
+			o = ginjector.getGhostElementGO();
+		else if (clazz == MouseHudGO.class)
+			o = ginjector.getMouseHudGO();
 		else if (clazz == SceneGO.class)
 			o = ginjector.getSceneGO();
 		else if (clazz == TextAreaGO.class)
 			o = ginjector.getTextAreaGO();
-		else if (clazz == GhostElementGO.class)
-			o = ginjector.getGhostElementGO();
-		else if (clazz == SceneGO.class)
-			o = ginjector.getSceneGO();
-		else if (clazz == FieldsDebuggerGO.class)
-			o = ginjector.getFieldsDebuggerGO();
-		else if (clazz == FadeInTransitionGO.class)
-			o = ginjector.getFadeInTransitionGO();
-		else if (clazz == TrajectoryDebuggerGO.class)
-			o = ginjector.getTrajectoryDebuggerGO();
-		else if (clazz == GhostDebuggerGO.class)
-			o = ginjector.getGhostDebuggerGO();
-		else if (clazz == ScaleTransitionGO.class)
-			o = ginjector.getScaleTransitionGO();
+		else if (clazz == EmptyTransitionGO.class)
+			o = ginjector.getEmptyTransitionGO();
 		// Trajectories
-		else if (clazz == NodeTrajectoryGO.class)
-			o = ginjector.getNodeTrajectoryGO();
 		else if (clazz == SimpleTrajectoryGO.class)
 			o = ginjector.getSimpleTrajectoryGO();
+		else if (clazz == NodeTrajectoryGO.class)
+			o = ginjector.getNodeTrajectoryGO();
 		else if (clazz == PolygonTrajectoryGO.class)
 			o = ginjector.getPolygonTrajectoryGO();
 		// Assets
-		else if (clazz == GdxRectangleShape.class)
-			o = ginjector.getGdxRectangleShape();
-		else if (clazz == RuntimeCaption.class)
-			o = ginjector.getRuntimeCaption();
-		else if (clazz == RuntimeFont.class)
-			o = ginjector.getRuntimeFont();
-		else if (clazz == RuntimeComposedDrawable.class)
-			o = ginjector.getRuntimeComposedDrawable();
-		else if (clazz == RuntimeFramesAnimation.class)
-			o = ginjector.getRuntimeFramesAnimation();
-		else if (clazz == RuntimeStateDrawable.class)
-			o = ginjector.getRuntimeStateDrawable();
 		else if (clazz == GdxCircleShape.class)
 			o = ginjector.getGdxCircleShape();
+		else if (clazz == RuntimeCaption.class)
+			o = ginjector.getRuntimeCaption();
+		else if (clazz == RuntimeImage.class)
+			o = ginjector.getRuntimeImage();
+		else if (clazz == RuntimeFont.class)
+			o = ginjector.getRuntimeFont();
+		else if (clazz == RuntimeStateDrawable.class)
+			o = ginjector.getRuntimeStateDrawable();
+		else if (clazz == RuntimeFilteredDrawable.class)
+			o = ginjector.getRuntimeFilteredDrawable();
+		else if (clazz == GdxBezierShape.class)
+			o = ginjector.getGdxBezierShape();
 		else if (clazz == RuntimeStateDrawable.class)
 			o = ginjector.getRuntimeStateDrawable();
 		else if (clazz == RuntimeNinePatchImage.class)
 			o = ginjector.getRuntimeNinePatchImage();
-		else if (clazz == RuntimeSound.class)
-			o = ginjector.getRuntimeSound();
-		else if (clazz == GdxBezierShape.class)
-			o = ginjector.getGdxBezierShape();
-		else if (clazz == RuntimeFilteredDrawable.class)
-			o = ginjector.getRuntimeFilteredDrawable();
-		else if (clazz == RuntimeImage.class)
-			o = ginjector.getRuntimeImage();
-		else if (clazz == RuntimeFilteredDrawable.class)
-			o = ginjector.getRuntimeFilteredDrawable();
 		else if (clazz == RuntimeFont.class)
 			o = ginjector.getRuntimeFont();
+		else if (clazz == RuntimeMusic.class)
+			o = ginjector.getRuntimeMusic();
+		else if (clazz == RuntimeSound.class)
+			o = ginjector.getRuntimeSound();
+		else if (clazz == RuntimeComposedDrawable.class)
+			o = ginjector.getRuntimeComposedDrawable();
+		else if (clazz == RuntimeFramesAnimation.class)
+			o = ginjector.getRuntimeFramesAnimation();
+		else if (clazz == GdxRectangleShape.class)
+			o = ginjector.getGdxRectangleShape();
+		else if (clazz == RuntimeFilteredDrawable.class)
+			o = ginjector.getRuntimeFilteredDrawable();
 		// Plugins FIXME
 		else if (clazz == BubbleNameGO.class)
 			o = ginjector.getBubbleNameGO();
