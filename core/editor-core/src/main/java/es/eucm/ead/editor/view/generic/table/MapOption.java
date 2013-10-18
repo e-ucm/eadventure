@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @param <V> value-type (for underlying list)
  */
 public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
-		implements TableLikeControl<V> {
+		implements TableLikeControl<V, K> {
 
 	static private Logger logger = LoggerFactory.getLogger(MapOption.class);
 
@@ -203,9 +203,10 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 		chooseMoreButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				V choice = chooseElementToAdd();
-				if (choice != null) {
-					add(choice);
+				V value = chooseElementToAdd();
+				K key = chooseKeyToAdd();
+				if (value != null) {
+					add(value, key);
 				}
 			}
 		});
@@ -235,8 +236,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	}
 
 	@Override
-	public void remove(int index) {
-		K key = indexToKey(index);
+	public void remove(K key) {
 		V o = oldValue.get(key);
 		logger.info("Removing {} (at {})", new Object[] { o, key });
 		Command c = new MapCommand.RemoveFromMap<K, V>(oldValue, key, changed);
@@ -250,11 +250,19 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 		return null;
 	}
 
-	// FIXME - unimplemented
+	/**
+	 * Launches UI prompt to add a key to a list element
+	 */
 	@Override
-	public void add(V added) {
+	public K chooseKeyToAdd() {
+		logger.info("User wants to CHOOSE a KEY to ADD something! Madness!!");
+		return null;
+	}
+
+	@Override
+	public void add(V added, K key) {
 		logger.info("Adding {}", oldValue);
-		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, null,
+		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, key,
 				changed);
 		executeCommand(c);
 	}
@@ -264,8 +272,8 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * button-click.
 	 */
 	@Override
-	public void moveUp(int index) {
-		// no applicable
+	public void moveUp(K index) {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -273,10 +281,18 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * button-click.
 	 */
 	@Override
-	public void moveDown(int index) {
-		// not applicable
+	public void moveDown(K index) {
+		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Returns the key for a given row
+	 */
+	@Override
+	public K keyForRow(int row) {
+		return indexToKey(row);
+	}	
+	
 	/**
 	 * Consider contents to have changed, even if the list-reference does not
 	 * change.

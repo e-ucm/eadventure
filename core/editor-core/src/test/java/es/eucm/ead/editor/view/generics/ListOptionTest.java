@@ -71,11 +71,6 @@ public class ListOptionTest extends AbstractOptionTest {
 			int cosa = 1;
 
 			@Override
-			public void add(String added) {
-				super.add(added); //To change body of generated methods, choose Tools | Templates.
-			}
-
-			@Override
 			public String chooseElementToAdd() {
 				return "Elemento " + (++cosa);
 			}

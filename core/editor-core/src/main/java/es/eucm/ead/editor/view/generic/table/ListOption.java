@@ -71,7 +71,7 @@ import es.eucm.ead.model.elements.extra.EAdList;
  * @param <T>
  */
 public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
-		TableLikeControl<T> {
+		TableLikeControl<T, Integer> {
 
 	static private Logger logger = LoggerFactory.getLogger(ListOption.class);
 
@@ -202,7 +202,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 			public void actionPerformed(ActionEvent ae) {
 				T choice = chooseElementToAdd();
 				if (choice != null) {
-					add(choice);
+					add(choice, oldValue.size()-1);
 				}
 			}
 		});
@@ -232,7 +232,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 	}
 
 	@Override
-	public void remove(int index) {
+	public void remove(Integer index) {
 		T o = oldValue.get(index);
 		logger.info("Removing {} (at {})", new Object[] { o, index });
 		Command c = new ListCommand.RemoveFromList<T>(oldValue, o, changed);
@@ -245,8 +245,16 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 		return null;
 	}
 
+	/**
+	 * Launches UI prompt to add a key to a list element
+	 */
 	@Override
-	public void add(T added) {
+	public Integer chooseKeyToAdd() {
+		throw new UnsupportedOperationException();
+	}	
+	
+	@Override
+	public void add(T added, Integer index) {
 		logger.info("Adding {}", oldValue);
 		Command c = new ListCommand.AddToList<T>(oldValue, added, oldValue
 				.size(), changed);
@@ -258,7 +266,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 	 * button-click.
 	 */
 	@Override
-	public void moveUp(int index) {
+	public void moveUp(Integer index) {
 		T o = oldValue.get(index);
 
 		logger.info("MovingUp {} (at {})", new Object[] { o, index });
@@ -276,7 +284,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 	 * button-click.
 	 */
 	@Override
-	public void moveDown(int index) {
+	public void moveDown(Integer index) {
 		T o = oldValue.get(index);
 		logger.info("MovingDown {} (at {})", new Object[] { o, index });
 		if (index == tableModel.getRowCount() - 1) {
@@ -288,6 +296,14 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 		executeCommand(c);
 	}
 
+	/**
+	 * Returns the key for a given row
+	 */
+	@Override
+	public Integer keyForRow(int row) {
+		return row;
+	}
+	
 	/**
 	 * Consider contents to have changed, even if the list-reference does not
 	 * change.

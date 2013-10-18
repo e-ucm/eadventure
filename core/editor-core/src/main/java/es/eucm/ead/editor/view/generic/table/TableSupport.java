@@ -39,10 +39,10 @@ public class TableSupport {
 	 * @param <T>
 	 */
 	public static class ColumnSpec<T> {
-		private String name;
-		private Class<?> clazz;
-		private boolean editable;
-		private int width;
+		private final String name;
+		private final Class<?> clazz;
+		private final boolean editable;
+		private final int width;
 		private TableCellRenderer renderer;
 		private TableCellEditor editor;
 
@@ -120,21 +120,21 @@ public class TableSupport {
 	/**
 	 * Renderer and editor for vertical 'move' buttons
 	 */
-	public static class MoveButtonWidget extends AbstractCellEditor implements
+	public static class MoveButtonWidget<T> extends AbstractCellEditor implements
 			TableCellEditor, TableCellRenderer {
-		private JButton upButton = createMinimalButton(
+		private final JButton upButton = createMinimalButton(
 				R.Drawable.interface__upArrow_png,
 				Messages.options_table_upArrow);
-		private JButton downButton = createMinimalButton(
+		private final JButton downButton = createMinimalButton(
 				R.Drawable.interface__downArrow_png,
 				Messages.options_table_downArrow);
-		private JPanel fillerPanel = new JPanel();
-		private JPanel buttonPanel = new JPanel(new BorderLayout());
+		private final JPanel fillerPanel = new JPanel();
+		private final JPanel buttonPanel = new JPanel(new BorderLayout());
 		private Object v; // whatever was last set for editing
 		private int editPos;
-		private TableLikeControl control;
+		private TableLikeControl<T, Integer> control;
 
-		public MoveButtonWidget(TableLikeControl control) {
+		public MoveButtonWidget(TableLikeControl<T, Integer> control) {
 			this.control = control;
 
 			upButton.addActionListener(new ActionListener() {
@@ -178,18 +178,18 @@ public class TableSupport {
 	/**
 	 * Renderer and editor for 'delete' buttons
 	 */
-	public static class DeleteButtonWidget extends AbstractCellEditor implements
+	public static class DeleteButtonWidget<T, K> extends AbstractCellEditor implements
 			TableCellEditor, TableCellRenderer {
 		private final JButton deleteButton = createMinimalButton(
 				R.Drawable.interface__delete_png, Messages.options_table_delete);
 		private final JPanel fillerPanel = new JPanel();
 		private final JPanel buttonPanel = new JPanel(new BorderLayout());
 		private Object v; // whatever was last set for editing
-		private int deletePos;
+		private K deletePos;
 
-		private TableLikeControl control;
+		private TableLikeControl<T, K> control;
 
-		public DeleteButtonWidget(TableLikeControl control) {
+		public DeleteButtonWidget(TableLikeControl<T, K> control) {
 			this.control = control;
 
 			deleteButton.addActionListener(new ActionListener() {
@@ -218,7 +218,7 @@ public class TableSupport {
 		public Component getTableCellEditorComponent(JTable table,
 				Object value, boolean isSelected, int row, int column) {
 			this.v = value;
-			this.deletePos = row;
+			this.deletePos = control.keyForRow(row);
 			return buttonPanel;
 		}
 	}
