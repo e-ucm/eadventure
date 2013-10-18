@@ -52,7 +52,7 @@ import es.eucm.ead.model.params.variables.VarDef;
  * 
  */
 @Element
-public class GroupElement extends SceneElement implements EAdGroupElement {
+public class GroupElement extends SceneElement {
 
 	/**
 	 * A variable defining if this container must update its width to the
@@ -69,14 +69,14 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 			"autoSizeV", Boolean.class, Boolean.TRUE);
 
 	@Param
-	protected EAdList<EAdSceneElement> sceneElements;
+	protected EAdList<SceneElement> sceneElements;
 
 	public GroupElement() {
 		super();
-		sceneElements = new EAdList<EAdSceneElement>();
+		sceneElements = new EAdList<SceneElement>();
 	}
 
-	public GroupElement(EAdSceneElementDef definition) {
+	public GroupElement(SceneElementDef definition) {
 		this();
 		this.setDefinition(definition);
 	}
@@ -100,8 +100,7 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 
 	}
 
-	@Override
-	public EAdList<EAdSceneElement> getSceneElements() {
+	public EAdList<SceneElement> getSceneElements() {
 		return sceneElements;
 	}
 
@@ -109,11 +108,11 @@ public class GroupElement extends SceneElement implements EAdGroupElement {
 	 * Adds an element to the group
 	 * @param e
 	 */
-	public void addSceneElement(EAdSceneElement e) {
+	public void addSceneElement(SceneElement e) {
 		this.sceneElements.add(e);
 	}
 
-	public void setSceneElements(EAdList<EAdSceneElement> sceneElements) {
+	public void setSceneElements(EAdList<SceneElement> sceneElements) {
 		this.sceneElements = sceneElements;
 	}
 

@@ -44,8 +44,7 @@ import es.eucm.ead.model.elements.effects.enums.InterpolationType;
 import es.eucm.ead.model.elements.effects.hud.ModifyHUDEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
@@ -76,7 +75,7 @@ public class ShapeScene extends EmptyScene {
 		EAdDrawable rectangleAsset2 = shapeFactory.getElement(
 				ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size,
 				Paint.BLACK_ON_WHITE);
-		EAdSceneElement e = EAdElementsFactory.getInstance()
+		SceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(rectangleAsset1,
 						rectangleAsset2, x + 20, margin);
 		e.setVarInitialValue(SceneElement.VAR_SCALE, 0.5f);
@@ -165,13 +164,13 @@ public class ShapeScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
-						new BasicField<Float>(rotatingRectangle,
+						new ElementField<Float>(rotatingRectangle,
 								SceneElement.VAR_ROTATION), 0, 360.0f, 2000,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 		SceneElementEv event = EAdElementsFactory.getInstance()
 				.getEventsFactory().getEvent(SceneElementEvType.INIT,
 						interpolation);
-		rotatingRectangle.getEvents().add(event);
+		rotatingRectangle.addEvent(event);
 		getSceneElements().add(rotatingRectangle);
 
 		SceneElement rotatingRectangle2 = new SceneElement(rotatingRectangle
@@ -183,7 +182,7 @@ public class ShapeScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
-						new BasicField<Float>(rotatingRectangle2,
+						new ElementField<Float>(rotatingRectangle2,
 								SceneElement.VAR_ROTATION), 0,
 						(float) (Math.PI * 2.0), 2000,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);

@@ -37,11 +37,10 @@
 
 package es.eucm.ead.model.elements.trajectories;
 
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
@@ -52,7 +51,7 @@ import es.eucm.ead.model.params.variables.VarDef;
  * 
  */
 @Element
-public class NodeTrajectory extends BasicElement implements EAdTrajectory {
+public class NodeTrajectory extends Trajectory {
 
 	/**
 	 * Variable's definition for whether a barrier is on or not
@@ -76,7 +75,7 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 	private EAdList<Side> sides;
 
 	@Param
-	private EAdList<EAdSceneElement> barriers;
+	private EAdList<SceneElement> barriers;
 
 	@Param
 	private Node initial;
@@ -84,7 +83,7 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 	public NodeTrajectory() {
 		nodes = new EAdList<Node>();
 		sides = new EAdList<Side>();
-		barriers = new EAdList<EAdSceneElement>();
+		barriers = new EAdList<SceneElement>();
 		initial = null;
 	}
 
@@ -162,11 +161,11 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 		return sides;
 	}
 
-	public void addBarrier(EAdSceneElement barrier) {
+	public void addBarrier(SceneElement barrier) {
 		barriers.add(barrier);
 	}
 
-	public EAdList<EAdSceneElement> getBarriers() {
+	public EAdList<SceneElement> getBarriers() {
 		return barriers;
 	}
 
@@ -178,7 +177,7 @@ public class NodeTrajectory extends BasicElement implements EAdTrajectory {
 		this.sides = sides;
 	}
 
-	public void setBarriers(EAdList<EAdSceneElement> barriers) {
+	public void setBarriers(EAdList<SceneElement> barriers) {
 		this.barriers = barriers;
 	}
 

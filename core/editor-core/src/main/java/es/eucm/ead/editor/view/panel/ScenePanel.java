@@ -38,10 +38,11 @@
 package es.eucm.ead.editor.view.panel;
 
 import es.eucm.ead.editor.model.nodes.SceneNode;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,11 +55,11 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 
 	static private Logger logger = LoggerFactory.getLogger(ScenePanel.class);
 
-	private BasicScene scene;
+	private Scene scene;
 
 	@Override
 	protected void rebuild() {
-		this.scene = (BasicScene) target.getFirst().getContent();
+		this.scene = (Scene) target.getFirst().getContent();
 		removeAll();
 		setLayout(new FlowLayout());
 		add(new JLabel("This is a scene panel for ID " + scene.getId()));

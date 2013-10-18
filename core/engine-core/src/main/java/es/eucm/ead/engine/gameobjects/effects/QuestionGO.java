@@ -39,13 +39,13 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.effects.RemoveEf;
 import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
@@ -80,7 +80,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 
 	private ArrayList<EAdString> answers;
 
-	private ArrayList<EAdList<EAdEffect>> effects;
+	private ArrayList<EAdList<Effect>> effects;
 
 	@Inject
 	public QuestionGO(Game game, SceneElementFactory sceneElementFactory) {
@@ -88,7 +88,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = game.getGUI();
 		answers = new ArrayList<EAdString>();
-		effects = new ArrayList<EAdList<EAdEffect>>();
+		effects = new ArrayList<EAdList<Effect>>();
 	}
 
 	public void initialize() {
@@ -132,7 +132,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 			int index = (effect.isRandomAnswers() ? r.nextInt(answers.size())
 					: 0);
 			EAdString s = answers.remove(index);
-			EAdList<EAdEffect> e = effects.remove(index);
+			EAdList<Effect> e = effects.remove(index);
 			setUpAnswer(question, i++, s, e, selectEffect, inEffect, outEffect);
 		}
 		return question;
@@ -160,15 +160,15 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 					questionElement, SceneElement.VAR_ALPHA, 0, 1.0f, 500);
 			event.addEffect(SceneElementEvType.INIT, interpolation);
 
-			questionElement.getEvents().add(event);
+			questionElement.addEvent(event);
 
 			y += fontSize * 2 + padding * 2;
 		}
 	}
 
 	private void setUpAnswer(GroupElement question, int pos, EAdString key,
-			EAdList<EAdEffect> value, EAdEffect selectEffect,
-			EAdEffect inEffect, EAdEffect outEffect) {
+			EAdList<Effect> value, Effect selectEffect, Effect inEffect,
+			Effect outEffect) {
 		int delay = effect.getQuestion() != null ? 500 : 0;
 		int fontSize = 18;
 		int padding = 5;
@@ -195,7 +195,7 @@ public class QuestionGO extends AbstractEffectGO<QuestionEf> implements
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 		event.addEffect(SceneElementEvType.INIT, interpolation);
 
-		answerElement.getEvents().add(event);
+		answerElement.addEvent(event);
 
 		question.getSceneElements().add(answerElement);
 	}

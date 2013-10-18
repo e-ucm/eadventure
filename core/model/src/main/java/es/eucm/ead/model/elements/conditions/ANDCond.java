@@ -38,18 +38,17 @@
 package es.eucm.ead.model.elements.conditions;
 
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.conditions.enums.ConditionOperator;
 import es.eucm.ead.model.elements.extra.EAdList;
 
 @Element
 public class ANDCond extends ListedCond {
 
-	public ANDCond(EAdCondition... condition) {
+	public ANDCond(Condition... condition) {
 		super(ConditionOperator.AND, condition);
 	}
 
-	public ANDCond(EAdList<EAdCondition> conditions) {
+	public ANDCond(EAdList<Condition> conditions) {
 		super(ConditionOperator.AND, conditions);
 	}
 

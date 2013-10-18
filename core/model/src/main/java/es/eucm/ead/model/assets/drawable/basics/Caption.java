@@ -37,13 +37,13 @@
 
 package es.eucm.ead.model.assets.drawable.basics;
 
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.AbstractAssetDescriptor;
 import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -85,7 +85,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	private int padding;
 
 	@Param
-	private EAdList<EAdOperation> operations;
+	private EAdList<Operation> operations;
 
 	@Param
 	private Alignment alignment;
@@ -104,7 +104,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 		preferredWidth = AUTO_SIZE;
 		padding = DEFAULT_PADDING;
 		alignment = Alignment.CENTER;
-		operations = new EAdList<EAdOperation>();
+		operations = new EAdList<Operation>();
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	}
 
 	@Override
-	public EAdList<EAdOperation> getOperations() {
+	public EAdList<Operation> getOperations() {
 		return operations;
 	}
 
@@ -246,7 +246,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 		return hasBubble;
 	}
 
-	public void setOperations(EAdList<EAdOperation> operations) {
+	public void setOperations(EAdList<Operation> operations) {
 		this.operations = operations;
 	}
 
@@ -255,7 +255,7 @@ public class Caption extends AbstractAssetDescriptor implements EAdCaption {
 	 * 
 	 * @param op
 	 */
-	public void addOperation(EAdOperation op) {
+	public void addOperation(Operation op) {
 		operations.add(op);
 	}
 

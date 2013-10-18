@@ -39,7 +39,7 @@ package es.eucm.ead.model.elements.effects;
 
 import es.eucm.ead.model.interfaces.Param;
 
-public class ChangeChapterEf extends AbstractEffect {
+public class ChangeChapterEf extends Effect {
 
 	@Param
 	private String chapterId;

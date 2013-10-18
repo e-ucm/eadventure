@@ -37,15 +37,11 @@
 
 package es.eucm.ead.model.elements.predef.events;
 
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.operations.MathOp;
-import es.eucm.ead.model.elements.operations.SystemFields;
+import es.eucm.ead.model.elements.operations.*;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 
 public class ScrollWithSceneElementEv extends SceneElementEv {
@@ -54,27 +50,27 @@ public class ScrollWithSceneElementEv extends SceneElementEv {
 
 	}
 
-	public ScrollWithSceneElementEv(EAdElement scene, EAdElement character) {
-		EAdField<Float> xElement = new BasicField<Float>(character,
+	public ScrollWithSceneElementEv(BasicElement scene, BasicElement character) {
+		ElementField<Float> xElement = new ElementField<Float>(character,
 				SceneElement.VAR_X);
-		EAdField<Float> yElement = new BasicField<Float>(character,
+		ElementField<Float> yElement = new ElementField<Float>(character,
 				SceneElement.VAR_Y);
-		EAdField<Float> xScene = new BasicField<Float>(scene,
+		ElementField<Float> xScene = new ElementField<Float>(scene,
 				SceneElement.VAR_X);
-		EAdField<Float> yScene = new BasicField<Float>(scene,
+		ElementField<Float> yScene = new ElementField<Float>(scene,
 				SceneElement.VAR_Y);
-		EAdField<Integer> widthScene = new BasicField<Integer>(scene,
+		ElementField<Integer> widthScene = new ElementField<Integer>(scene,
 				SceneElement.VAR_WIDTH);
-		EAdField<Integer> heightScene = new BasicField<Integer>(scene,
+		ElementField<Integer> heightScene = new ElementField<Integer>(scene,
 				SceneElement.VAR_HEIGHT);
 
 		// [0] = x-element
 		// [1] = width
 		// [2] = scene-width
 		String expression = " -( ([1] - [2]) min ( 0 max ([0] - ([2] / 2 )) ))";
-		EAdOperation opX = new MathOp(expression, xElement, widthScene,
+		Operation opX = new MathOp(expression, xElement, widthScene,
 				SystemFields.GAME_WIDTH);
-		EAdOperation opY = new MathOp(expression, yElement, heightScene,
+		Operation opY = new MathOp(expression, yElement, heightScene,
 				SystemFields.GAME_HEIGHT);
 
 		ChangeFieldEf effectX = new ChangeFieldEf();

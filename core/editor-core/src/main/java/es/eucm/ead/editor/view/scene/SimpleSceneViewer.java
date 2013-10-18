@@ -37,10 +37,6 @@
 
 package es.eucm.ead.editor.view.scene;
 
-import java.awt.Canvas;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import com.badlogic.gdx.graphics.Color;
@@ -52,15 +48,18 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.editor.view.scene.go.EditableGameObject;
 import es.eucm.ead.editor.view.scene.listener.LoggerSceneListener;
 import es.eucm.ead.editor.view.scene.listener.SceneViewerInputProcessor;
 import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewerModule;
 import es.eucm.ead.engine.utils.InvOrtographicCamera;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.util.Rectangle;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleSceneViewer extends AbstractSceneViewer implements
 		ApplicationListener {
@@ -87,15 +86,15 @@ public class SimpleSceneViewer extends AbstractSceneViewer implements
 	}
 
 	@Override
-	public void setScene(EAdScene scene) {
+	public void setScene(Scene scene) {
 		super.setScene(scene);
 		addGameObject(scene.getBackground());
-		for (EAdSceneElement element : scene.getSceneElements()) {
+		for (SceneElement element : scene.getSceneElements()) {
 			addGameObject(element);
 		}
 	}
 
-	private void addGameObject(final EAdSceneElement sceneElement) {
+	private void addGameObject(final SceneElement sceneElement) {
 
 		lwjglCanvas.postRunnable(new Runnable() {
 

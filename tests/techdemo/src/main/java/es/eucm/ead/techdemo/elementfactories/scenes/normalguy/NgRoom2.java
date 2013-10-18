@@ -54,13 +54,11 @@ import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
@@ -150,21 +148,22 @@ public class NgRoom2 extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getInterpolationEffect(
-						new BasicField<Float>(topFan, SceneElement.VAR_ROTATION),
-						0, (float) (Math.PI * 2.0), 500,
+						new ElementField<Float>(topFan,
+								SceneElement.VAR_ROTATION), 0,
+						(float) (Math.PI * 2.0), 500,
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR);
 
 		topFan.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, interpolation);
 
 		int height = 427; // Top fan's vertical position
 
-		EAdField<Integer> mouseX = new BasicField<Integer>(null,
+		ElementField<Integer> mouseX = new ElementField<Integer>(null,
 				new VarDef<Integer>("integer", Integer.class, 0));
-		EAdField<Integer> mouseY = new BasicField<Integer>(null,
+		ElementField<Integer> mouseY = new ElementField<Integer>(null,
 				new VarDef<Integer>("integer", Integer.class, 0));
-		EAdField<Float> canyonX = new BasicField<Float>(topFan,
+		ElementField<Float> canyonX = new ElementField<Float>(topFan,
 				SceneElement.VAR_X);
-		EAdField<Float> canyonY = new BasicField<Float>(topFan,
+		ElementField<Float> canyonY = new ElementField<Float>(topFan,
 				SceneElement.VAR_Y);
 
 		// Bullet generation
@@ -172,7 +171,7 @@ public class NgRoom2 extends EmptyScene {
 		circle.setPaint(new LinearGradientFill(ColorFill.TRANSPARENT,
 				ColorFill.TRANSPARENT, 20, 20));
 		//circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY, ColorFill.LIGHT_GRAY, 20, 20));
-		EAdSceneElementDef bullet = new SceneElementDef(circle);
+		SceneElementDef bullet = new SceneElementDef(circle);
 
 		PhApplyImpulseEf applyForce = new PhApplyImpulseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
@@ -201,7 +200,7 @@ public class NgRoom2 extends EmptyScene {
 	/**
 	 * Sets door behavior
 	 */
-	public void setDoor(EAdScene corridor) {
+	public void setDoor(Scene corridor) {
 		// Principal character moving to the door
 		MoveSceneElementEf move = moveNg(715, 515);
 		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
@@ -261,7 +260,7 @@ public class NgRoom2 extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.ADDED, effect);
 
-		getEvents().add(event);
+		addEvent(event);
 
 		addGround(effect);
 	}

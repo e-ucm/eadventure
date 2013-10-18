@@ -37,28 +37,28 @@
 
 package es.eucm.ead.model.elements.effects;
 
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.transitions.EmptyTransition;
+import es.eucm.ead.model.elements.transitions.Transition;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdElement;
-import es.eucm.ead.model.elements.transitions.EAdTransition;
-import es.eucm.ead.model.elements.transitions.EmptyTransition;
 
 /**
  * <p>
  * Change the current scene, if the next scene is set to null, go to previous
  * possible scene. Next scene can be defined with an element (an EAdField, an
- * EAdScene) or with the scene id
+ * Scene) or with the scene id
  * </p>
  * 
  */
 @Element
-public class ChangeSceneEf extends AbstractEffect {
+public class ChangeSceneEf extends Effect {
 
 	@Param
 	private String nextSceneId;
 
 	@Param
-	private EAdTransition transition;
+	private Transition transition;
 
 	/**
 	 * Construct a new EAdChangeScene effect
@@ -76,13 +76,13 @@ public class ChangeSceneEf extends AbstractEffect {
 	 * @param nextScene
 	 *            The next scene where to go, can be null to go back to previous
 	 */
-	public ChangeSceneEf(EAdElement nextScene, EAdTransition transition) {
+	public ChangeSceneEf(BasicElement nextScene, Transition transition) {
 		super();
 		this.nextSceneId = nextScene == null ? null : nextScene.getId();
 		this.transition = transition;
 	}
 
-	public ChangeSceneEf(EAdElement scene) {
+	public ChangeSceneEf(BasicElement scene) {
 		this(scene, EmptyTransition.instance());
 	}
 
@@ -96,11 +96,11 @@ public class ChangeSceneEf extends AbstractEffect {
 
 	/**
 	 * @param nextScene
-	 *            the nextScene to set. It should be an EAdScene or a field with
-	 *            EAdScene type. If it is neither, then the effect returns to
+	 *            the nextScene to set. It should be an Scene or a field with
+	 *            Scene type. If it is neither, then the effect returns to
 	 *            the previous scene
 	 */
-	public void setNextScene(EAdElement nextScene) {
+	public void setNextScene(BasicElement nextScene) {
 		this.nextSceneId = nextScene == null ? null : nextScene.getId();
 	}
 
@@ -108,11 +108,11 @@ public class ChangeSceneEf extends AbstractEffect {
 		this.nextSceneId = nextScene;
 	}
 
-	public EAdTransition getTransition() {
+	public Transition getTransition() {
 		return transition;
 	}
 
-	public void setTransition(EAdTransition transition) {
+	public void setTransition(Transition transition) {
 		this.transition = transition;
 	}
 

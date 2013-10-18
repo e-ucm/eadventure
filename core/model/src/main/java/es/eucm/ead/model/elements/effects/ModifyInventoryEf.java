@@ -40,16 +40,16 @@ package es.eucm.ead.model.elements.effects;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.effects.enums.InventoryEffectAction;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 
 @Element
-public class ModifyInventoryEf extends AbstractEffect {
+public class ModifyInventoryEf extends Effect {
 
 	@Param
 	private InventoryEffectAction modification;
 
 	@Param
-	private EAdSceneElementDef sceneElementDef;
+	private SceneElementDef sceneElementDef;
 
 	@Param
 	private boolean removeFromScene;
@@ -58,12 +58,12 @@ public class ModifyInventoryEf extends AbstractEffect {
 		this(null, InventoryEffectAction.ADD_TO_INVENTORY);
 	}
 
-	public ModifyInventoryEf(EAdSceneElementDef actor,
+	public ModifyInventoryEf(SceneElementDef actor,
 			InventoryEffectAction modification) {
 		this(actor, modification, true);
 	}
 
-	public ModifyInventoryEf(EAdSceneElementDef actor,
+	public ModifyInventoryEf(SceneElementDef actor,
 			InventoryEffectAction modification, boolean removeFromScene) {
 		super();
 		this.modification = modification;
@@ -79,11 +79,11 @@ public class ModifyInventoryEf extends AbstractEffect {
 		return modification;
 	}
 
-	public void setSceneElementDef(EAdSceneElementDef actor) {
+	public void setSceneElementDef(SceneElementDef actor) {
 		this.sceneElementDef = actor;
 	}
 
-	public EAdSceneElementDef getSceneElementDef() {
+	public SceneElementDef getSceneElementDef() {
 		return sceneElementDef;
 	}
 

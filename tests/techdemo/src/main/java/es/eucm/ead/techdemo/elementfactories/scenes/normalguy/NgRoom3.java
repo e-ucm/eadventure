@@ -43,7 +43,7 @@ import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 import es.eucm.ead.model.elements.transitions.FadeInTransition;
@@ -123,7 +123,7 @@ public class NgRoom3 extends EmptyScene {
 	/**
 	 * Sets door behavior
 	 */
-	public void setDoor(EAdScene corridor) {
+	public void setDoor(Scene corridor) {
 		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(corridor,
 				new FadeInTransition(1000));
 		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToPreviousScene);

@@ -29,7 +29,7 @@ public class PolygonTrajectoryScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, effect);
-		element.getEvents().add(event);
+		element.addEvent(event);
 		getSceneElements().add(element);
 		addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementToMouseEf());

@@ -41,10 +41,10 @@ import aurelienribon.tweenengine.TweenAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.operators.OperatorFactory;
-import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
@@ -62,7 +62,7 @@ import java.util.Map.Entry;
 
 @Singleton
 public class GameState extends ValueMap implements
-		MathEvaluator.OperationResolver, TweenAccessor<EAdField<?>> {
+		MathEvaluator.OperationResolver, TweenAccessor<ElementField<?>> {
 
 	private static final char BEGIN_VAR_CHAR = '[';
 
@@ -104,14 +104,14 @@ public class GameState extends ValueMap implements
 	 * @return The result of evaluating the condition according to the current
 	 *         values of the game state
 	 */
-	public <T extends EAdCondition> boolean evaluate(T condition) {
+	public <T extends Condition> boolean evaluate(T condition) {
 		if (condition == null) {
 			return true;
 		}
 		return operatorFactory.operate(Boolean.class, condition);
 	}
 
-	public <T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation) {
+	public <T extends Operation, S> S operate(Class<S> eAdVar, T eAdOperation) {
 		return operatorFactory.operate(eAdVar, eAdOperation);
 	}
 
@@ -121,7 +121,7 @@ public class GameState extends ValueMap implements
 	 * @param field     the field
 	 * @param operation the operation
 	 */
-	public <S> void setValue(EAdField<S> field, EAdOperation operation) {
+	public <S> void setValue(ElementField<S> field, Operation operation) {
 		setValue(field.getElement(), field.getVarDef(), operation);
 	}
 
@@ -135,7 +135,7 @@ public class GameState extends ValueMap implements
 	 * @param operation the operation whose result will be assigned to the variable
 	 */
 	public <S> void setValue(Identified element, EAdVarDef<S> var,
-			EAdOperation operation) {
+			Operation operation) {
 		S result = operatorFactory.operate(var.getType(), operation);
 		setValue(element, var, result);
 	}
@@ -145,7 +145,7 @@ public class GameState extends ValueMap implements
 		notifyWatchers(elementId, varName, value);
 	}
 
-	public int getValues(EAdField<?> field, int type, float[] values) {
+	public int getValues(ElementField<?> field, int type, float[] values) {
 		switch (type) {
 		default:
 			Object o = getValue(field);
@@ -159,7 +159,7 @@ public class GameState extends ValueMap implements
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
-	public void setValues(EAdField field, int type, float[] values) {
+	public void setValues(ElementField field, int type, float[] values) {
 		switch (type) {
 		default:
 			if (field.getVarDef().getType() == Float.class) {
@@ -191,12 +191,12 @@ public class GameState extends ValueMap implements
 	 * @param text the text to be processed by the value map
 	 * @return the processed text
 	 */
-	public String processTextVars(String text, EAdList<EAdOperation> operations) {
+	public String processTextVars(String text, EAdList<Operation> operations) {
 		text = processConditionalExpressions(text, operations);
 		return processVars(text, operations);
 	}
 
-	private String processVars(String text, EAdList<EAdOperation> operations) {
+	private String processVars(String text, EAdList<Operation> operations) {
 		boolean done = false;
 		while (!done) {
 			int i = text.indexOf(BEGIN_VAR_CHAR);
@@ -231,7 +231,7 @@ public class GameState extends ValueMap implements
 	}
 
 	private String processConditionalExpressions(String text,
-			EAdList<EAdOperation> fields) {
+			EAdList<Operation> fields) {
 		String newText = "";
 		if (text != null) {
 			int i = 0;
@@ -264,7 +264,7 @@ public class GameState extends ValueMap implements
 	 * @return the expression evaluated
 	 */
 	private String evaluateExpression(String expression,
-			EAdList<EAdOperation> operations) {
+			EAdList<Operation> operations) {
 
 		if (expression.contains("?") && expression.contains(":")) {
 			int questionMark = expression.indexOf('?');
@@ -333,7 +333,7 @@ public class GameState extends ValueMap implements
 	 * @param fieldWatcher the field watcher
 	 * @param field        the field to watch
 	 */
-	public void addFieldWatcher(FieldWatcher fieldWatcher, EAdField<?> field) {
+	public void addFieldWatcher(FieldWatcher fieldWatcher, ElementField<?> field) {
 		addFieldWatcher(fieldWatcher, field.getElement() == null ? null : field
 				.getElement().getId(), field.getVarDef().getName());
 	}

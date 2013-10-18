@@ -37,9 +37,9 @@
 
 package es.eucm.ead.model.elements.operations;
 
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.params.text.EAdString;
 
 /**
@@ -48,25 +48,25 @@ import es.eucm.ead.model.params.text.EAdString;
  * 
  */
 @Element
-public class StringOp extends AbstractOperation {
+public class StringOp extends Operation {
 
 	@Param
-	private EAdElement string;
+	private BasicElement string;
 
 	public StringOp() {
 
 	}
 
-	public StringOp(EAdElement string) {
+	public StringOp(BasicElement string) {
 		super();
 		this.string = string;
 	}
 
-	public EAdElement getString() {
+	public BasicElement getString() {
 		return string;
 	}
 
-	public void setString(EAdElement string) {
+	public void setString(BasicElement string) {
 		this.string = string;
 	}
 

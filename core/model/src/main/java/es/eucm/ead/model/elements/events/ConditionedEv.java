@@ -37,17 +37,17 @@
 
 package es.eucm.ead.model.elements.events;
 
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Conditioned;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
 
 @Element
-public class ConditionedEv extends AbstractEvent implements Conditioned {
+public class ConditionedEv extends Event implements Conditioned {
 
 	@Param
-	private EAdCondition condition;
+	private Condition condition;
 
 	@Param
 	private boolean runNotMetConditions;
@@ -57,18 +57,18 @@ public class ConditionedEv extends AbstractEvent implements Conditioned {
 		runNotMetConditions = true;
 	}
 
-	public ConditionedEv(EAdCondition condition) {
+	public ConditionedEv(Condition condition) {
 		super();
 		this.condition = condition;
 	}
 
 	@Override
-	public EAdCondition getCondition() {
+	public Condition getCondition() {
 		return condition;
 	}
 
 	@Override
-	public void setCondition(EAdCondition condition) {
+	public void setCondition(Condition condition) {
 		this.condition = condition;
 	}
 

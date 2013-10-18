@@ -37,6 +37,22 @@
 
 package es.eucm.ead.editor.model.visitor;
 
+import es.eucm.ead.editor.EditorStringHandler;
+import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.model.nodes.EditorNode;
+import es.eucm.ead.editor.model.nodes.EngineNode;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.params.EAdParam;
+import es.eucm.ead.model.params.text.EAdString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -44,23 +60,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import es.eucm.ead.editor.EditorStringHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdElement;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.params.EAdParam;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.editor.model.nodes.EditorNode;
-import es.eucm.ead.editor.model.nodes.EngineNode;
-import es.eucm.ead.model.elements.EAdChapter;
 
 /**
  * Visits parts of the model. Given a ModelVisitor and a start, the visitor
@@ -97,7 +96,7 @@ public class ModelVisitorDriver {
 	 * @param data model to visit
 	 * @param v visitor
 	 */
-	public void visit(EAdAdventureModel data, ModelVisitor v,
+	public void visit(AdventureGame data, ModelVisitor v,
 			EditorStringHandler esh) {
 		this.v = v;
 		this.esh = esh;
@@ -141,7 +140,7 @@ public class ModelVisitorDriver {
 			return editorNodeDriver;
 		} else if (o instanceof EngineNode) {
 			return engineNodeDriver;
-		} else if (o instanceof EAdElement) {
+		} else if (o instanceof BasicElement) {
 			return elementDriver;
 		} else if (o instanceof EAdList) {
 			return listDriver;
@@ -162,8 +161,8 @@ public class ModelVisitorDriver {
 	@SuppressWarnings("unchecked")
 	public void driveInto(Object o, Object source, String sourceName) {
 		logger.debug("Driving into target of type {} [{}]", o.getClass()
-				.getName(), (o instanceof EAdElement ? ((EAdElement) o).getId()
-				: o.getClass().getSimpleName() + "@" + o.hashCode()));
+				.getName(), (o instanceof BasicElement ? ((BasicElement) o)
+				.getId() : o.getClass().getSimpleName() + "@" + o.hashCode()));
 
 		if (v == null) {
 			throw new IllegalStateException("No visitor defined. End of visit.");
@@ -223,15 +222,15 @@ public class ModelVisitorDriver {
 	/**
 	 * visits an EAdElement.
 	 */
-	private class ElementDriver implements VisitorDriver<EAdElement> {
+	private class ElementDriver implements VisitorDriver<BasicElement> {
 
 		@Override
-		public void drive(EAdElement target, Object source, String sourceName) {
+		public void drive(BasicElement target, Object source, String sourceName) {
 			processParams(target);
-			if (target instanceof EAdAdventureModel) {
+			if (target instanceof AdventureGame) {
 				processParam(target, "chapters");
 				processParam(target, "initialChapter");
-			} else if (target instanceof EAdChapter) {
+			} else if (target instanceof Chapter) {
 				processParam(target, "scenes");
 				processParam(target, "initialScene");
 			}

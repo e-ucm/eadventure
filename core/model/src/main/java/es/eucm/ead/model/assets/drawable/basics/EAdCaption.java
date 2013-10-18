@@ -40,7 +40,7 @@ package es.eucm.ead.model.assets.drawable.basics;
 import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.text.EAdString;
 
@@ -154,7 +154,7 @@ public interface EAdCaption extends EAdBasicDrawable {
 	 * 
 	 * @return a list of fields
 	 */
-	EAdList<EAdOperation> getOperations();
+	EAdList<Operation> getOperations();
 
 	/**
 	 * Returns the alignment for the text

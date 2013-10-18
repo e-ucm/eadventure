@@ -37,7 +37,7 @@
 
 package es.eucm.ead.techdemo.elementfactories.scenes.normalguy;
 
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 
 public class NgSceneCreator {
 
@@ -50,7 +50,7 @@ public class NgSceneCreator {
 	private static NgWindow window;
 	private static NgFinalRoom finalRoom;
 	private static NgCreditsScreen credits;
-	private static EAdScene initialScene;
+	private static Scene initialScene;
 
 	// Coordinates in the corridor
 	private static int room1_x;
@@ -69,7 +69,7 @@ public class NgSceneCreator {
 	 * Singleton pattern
 	 * @return
 	 */
-	public static NgSceneCreator getInstance(EAdScene initScene) {
+	public static NgSceneCreator getInstance(Scene initScene) {
 		initialScene = initScene;
 		return instance;
 	}
@@ -112,15 +112,15 @@ public class NgSceneCreator {
 		finalRoom.setHouse(corridor);
 	}
 
-	public static EAdScene getRoom1() {
+	public static Scene getRoom1() {
 		return room1;
 	}
 
-	public static EAdScene getRoom2() {
+	public static Scene getRoom2() {
 		return room2;
 	}
 
-	public static EAdScene getCredits() {
+	public static Scene getCredits() {
 		return credits;
 	}
 

@@ -38,7 +38,7 @@
 package es.eucm.ead.tests.importer;
 
 import es.eucm.ead.importer.AdventureConverter;
-import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.AdventureGame;
 import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.tools.EAdUtils;
 import es.eucm.ead.tools.java.JavaTextFileReader;
@@ -80,9 +80,9 @@ public class TestImporter {
 					new SaxXMLParser(), new JavaTextFileReader());
 			String destiny = converter
 					.convert(ROOT + g, TEMP.getAbsolutePath());
-			EAdAdventureModel modelConverted = converter.getModel();
+			AdventureGame modelConverted = converter.getModel();
 			reader.setPath(destiny + "/");
-			EAdAdventureModel modelRead = reader.readFullModel();
+			AdventureGame modelRead = reader.readFullModel();
 			EAdUtils.NotEqualHandler notEqualHandler = new EAdUtils.NotEqualHandler() {
 				@Override
 				public void notEqual(Object o1, Object o2) {

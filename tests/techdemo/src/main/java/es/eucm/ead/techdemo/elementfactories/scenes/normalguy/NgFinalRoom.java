@@ -47,10 +47,9 @@ import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
@@ -101,7 +100,7 @@ public class NgFinalRoom extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.ADDED, effect);
 
-		// getEvents().add(event);
+		// addEvent(event);
 		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);
 
 		addGround(effect);
@@ -131,7 +130,7 @@ public class NgFinalRoom extends EmptyScene {
 		getSceneElements().add(ng);
 	}
 
-	public void setHouse(EAdScene corridor) {
+	public void setHouse(Scene corridor) {
 		// Principal character moving to the house
 		MoveSceneElementEf move = moveNg(630, 300);
 		house.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
@@ -168,19 +167,19 @@ public class NgFinalRoom extends EmptyScene {
 	}
 
 	private void addSky() {
-		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
+		SceneElementDef backgroundDef = getBackground().getDefinition();
 		backgroundDef.addAsset(SceneElementDef.appearance, new Image(
 				"@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
+		InterpolationEf effect = new InterpolationEf(new ElementField<Float>(
 				getBackground(), SceneElement.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
 		event.addEffect(SceneElementEvType.INIT, effect);
 
-		this.getBackground().getEvents().add(event);
+		this.getBackground().addEvent(event);
 
 	}
 

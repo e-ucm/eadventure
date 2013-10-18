@@ -37,11 +37,11 @@
 
 package es.eucm.ead.model.elements.widgets;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.text.EAdString;
 
 @Element
@@ -51,14 +51,14 @@ public class ComboBox extends SceneElement {
 	private EAdList<EAdString> strings;
 
 	@Param
-	private EAdList<EAdEffect> selectionEffects;
+	private EAdList<Effect> selectionEffects;
 
 	public ComboBox() {
 		strings = new EAdList<EAdString>();
-		selectionEffects = new EAdList<EAdEffect>();
+		selectionEffects = new EAdList<Effect>();
 	}
 
-	public void addString(EAdString string, EAdEffect selectionEffect) {
+	public void addString(EAdString string, Effect selectionEffect) {
 		strings.add(string);
 		selectionEffects.add(selectionEffect);
 	}
@@ -71,11 +71,11 @@ public class ComboBox extends SceneElement {
 		this.strings = strings;
 	}
 
-	public EAdList<EAdEffect> getSelectionEffects() {
+	public EAdList<Effect> getSelectionEffects() {
 		return selectionEffects;
 	}
 
-	public void setSelectionEffects(EAdList<EAdEffect> selectionEffects) {
+	public void setSelectionEffects(EAdList<Effect> selectionEffects) {
 		this.selectionEffects = selectionEffects;
 	}
 

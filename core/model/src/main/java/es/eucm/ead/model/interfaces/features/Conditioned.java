@@ -37,7 +37,7 @@
 
 package es.eucm.ead.model.interfaces.features;
 
-import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.Condition;
 
 /**
  * An element affected by a condition
@@ -49,13 +49,13 @@ public interface Conditioned {
 	 * 
 	 * @return The condition
 	 */
-	EAdCondition getCondition();
+	Condition getCondition();
 
 	/**
 	 * Sets the actual condition
 	 * 
 	 * @param condition The condition
 	 */
-	void setCondition(EAdCondition condition);
+	void setCondition(Condition condition);
 
 }

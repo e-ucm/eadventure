@@ -37,16 +37,16 @@
 
 package es.eucm.ead.importer.subconverters.effects.variables;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetValueConverter implements EffectConverter<SetValueEffect> {
 
@@ -57,9 +57,9 @@ public class SetValueConverter implements EffectConverter<SetValueEffect> {
 	}
 
 	@Override
-	public List<EAdEffect> convert(SetValueEffect oldObject) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
-		EAdField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
+	public List<Effect> convert(SetValueEffect oldObject) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
+		ElementField<?> var = modelQuerier.getVariable(oldObject.getTargetId());
 		ChangeFieldEf effect = new ChangeFieldEf(var, new ValueOp(oldObject
 				.getValue()));
 		list.add(effect);

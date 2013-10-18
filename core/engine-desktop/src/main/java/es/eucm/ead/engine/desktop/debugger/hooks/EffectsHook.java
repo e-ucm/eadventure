@@ -37,11 +37,11 @@
 
 package es.eucm.ead.engine.desktop.debugger.hooks;
 
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.engine.game.interfaces.EngineHook;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.model.elements.effects.Effect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +51,13 @@ import java.util.List;
  */
 public class EffectsHook implements EngineHook {
 
-	private List<EAdEffect> effects;
+	private List<Effect> effects;
 
 	public EffectsHook() {
-		effects = new ArrayList<EAdEffect>();
+		effects = new ArrayList<Effect>();
 	}
 
-	public void addEffect(EAdEffect e) {
+	public void addEffect(Effect e) {
 		synchronized (effects) {
 			effects.add(e);
 		}
@@ -72,7 +72,7 @@ public class EffectsHook implements EngineHook {
 	public void execute(Game game, GameState gameState, GUI gui) {
 		synchronized (game) {
 			while (!effects.isEmpty()) {
-				EAdEffect e = effects.remove(0);
+				Effect e = effects.remove(0);
 				game.addEffect(e);
 			}
 		}

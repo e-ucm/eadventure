@@ -40,14 +40,13 @@ package es.eucm.ead.model.elements.widgets;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.ConditionedEv;
 import es.eucm.ead.model.elements.events.enums.ConditionedEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
@@ -81,25 +80,26 @@ public class CheckBox extends GroupElement {
 		setAppearance(CHECKED_BUNDLE, new Image("@drawable/checkboxon.png"));
 
 		ConditionedEv event = new ConditionedEv();
-		EAdField<Boolean> checkedField = new BasicField<Boolean>(this, CHECKED);
-		EAdField<String> bundleField = new BasicField<String>(this,
+		ElementField<Boolean> checkedField = new ElementField<Boolean>(this,
+				CHECKED);
+		ElementField<String> bundleField = new ElementField<String>(this,
 				SceneElement.VAR_BUNDLE_ID);
 
-		EAdCondition c = new OperationCond(checkedField);
+		Condition c = new OperationCond(checkedField);
 		event.setCondition(c);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
 				bundleField, new ValueOp(CHECKED_BUNDLE)));
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
 				bundleField, new ValueOp(SceneElementDef.INITIAL_BUNDLE)));
 
-		EAdField<Integer> checkedFieldInt = new BasicField<Integer>(this,
+		ElementField<Integer> checkedFieldInt = new ElementField<Integer>(this,
 				CHECKED_INT);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, new ChangeFieldEf(
 				checkedFieldInt, new ValueOp(1)));
 		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, new ChangeFieldEf(
 				checkedFieldInt, new ValueOp(0)));
 
-		getEvents().add(event);
+		addEvent(event);
 		ChangeFieldEf changeCheck = new ChangeFieldEf(checkedField,
 				new NOTCond(c));
 		addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeCheck);

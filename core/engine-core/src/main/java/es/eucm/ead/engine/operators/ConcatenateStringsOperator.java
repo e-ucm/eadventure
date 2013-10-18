@@ -38,8 +38,8 @@
 package es.eucm.ead.engine.operators;
 
 import es.eucm.ead.engine.game.GameState;
-import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
+import es.eucm.ead.model.elements.operations.Operation;
 
 public class ConcatenateStringsOperator implements
 		Operator<ConcatenateStringsOp> {
@@ -59,7 +59,7 @@ public class ConcatenateStringsOperator implements
 					.getPrefix();
 			String suffix = operation.getSufix() == null ? "" : operation
 					.getSufix();
-			for (EAdOperation f : operation.getOperations()) {
+			for (Operation f : operation.getOperations()) {
 				result += preffix + valueMap.operate(Object.class, f) + suffix;
 			}
 			return (S) result;

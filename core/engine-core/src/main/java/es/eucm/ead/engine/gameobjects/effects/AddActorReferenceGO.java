@@ -44,7 +44,7 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.AddActorReferenceEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 
 public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
@@ -64,13 +64,13 @@ public class AddActorReferenceGO extends AbstractEffectGO<AddActorReferenceEf> {
 	@Override
 	public void initialize() {
 		super.initialize();
-		EAdSceneElementDef actor = effect.getActor();
+		SceneElementDef actor = effect.getActor();
 		SceneElement ref = new SceneElement(actor);
 		ref.setPosition(effect.getPosition());
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, effect.getEffect());
 		effect.getEffect().setSceneElement(ref);
-		ref.getEvents().add(event);
+		ref.addEvent(event);
 		gui.getScene().addSceneElement(sceneElementFactory.get(ref));
 	}
 

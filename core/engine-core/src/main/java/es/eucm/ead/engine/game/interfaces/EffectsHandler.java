@@ -41,8 +41,8 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,8 +98,7 @@ public class EffectsHandler {
 	 * @param parent scene element who launched the effect
 	 * @return the effect game object create from the effect element
 	 */
-	public EffectGO<?> addEffect(EAdEffect e, Event action,
-			EAdSceneElement parent) {
+	public EffectGO<?> addEffect(Effect e, Event action, SceneElement parent) {
 		if (e != null) {
 			if (gameState.evaluate(e.getCondition())) {
 				logger.debug("{} launched", e);
@@ -120,7 +119,7 @@ public class EffectsHandler {
 				return effectGO;
 			} else if (e.isNextEffectsAlways()) {
 				logger.debug("{} discarded. But next effects launched", e);
-				for (EAdEffect ne : e.getNextEffects())
+				for (Effect ne : e.getNextEffects())
 					addEffect(ne, null, null);
 			} else {
 				logger.debug("{} discarded", e);

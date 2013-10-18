@@ -42,25 +42,23 @@ import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.assets.multimedia.Sound;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.effects.*;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.effects.text.QuestionEf;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.OneShotEf;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.transitions.EAdTransition;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.transitions.EmptyTransition;
 import es.eucm.ead.model.elements.transitions.FadeInTransition;
 import es.eucm.ead.model.elements.transitions.ScaleTransition;
+import es.eucm.ead.model.elements.transitions.Transition;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -97,8 +95,8 @@ public class EffectsReader {
 		this.sceneReader = sceneReader;
 	}
 
-	public EAdEffect read(StringMap<Object> e) {
-		EAdEffect effect = null;
+	public Effect read(StringMap<Object> e) {
+		Effect effect = null;
 		String type = (String) e.get("type");
 		if (type == null) {
 			logger.error("Effect without type {}", e);
@@ -156,7 +154,7 @@ public class EffectsReader {
 
 			StringMap<Object> cond = (StringMap<Object>) e.get("cond");
 			if (cond != null) {
-				EAdCondition condition = conditionsReader.read(cond);
+				Condition condition = conditionsReader.read(cond);
 				effect.setCondition(condition);
 			}
 
@@ -182,14 +180,14 @@ public class EffectsReader {
 		return effect;
 	}
 
-	private EAdEffect getQuit(StringMap<Object> e) {
+	private Effect getQuit(StringMap<Object> e) {
 		QuitGameEf effect = new QuitGameEf();
 		Boolean restart = (Boolean) e.get("restart");
 		effect.setRestart(restart != null ? restart : false);
 		return effect;
 	}
 
-	private EAdEffect getQuestion(StringMap<Object> e) {
+	private Effect getQuestion(StringMap<Object> e) {
 		String question = (String) e.get("question");
 		QuestionEf effect = new QuestionEf();
 		effect.setQuestion(new EAdString(question));
@@ -197,7 +195,7 @@ public class EffectsReader {
 				.get("answers");
 		for (StringMap<Object> a : answers) {
 			EAdString text = new EAdString((String) a.get("string"));
-			EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
+			EAdList<Effect> effects = new EAdList<Effect>();
 			Collection<StringMap<Object>> effs = ((Collection<StringMap<Object>>) a
 					.get("effects"));
 			for (StringMap<Object> ef : effs) {
@@ -212,11 +210,11 @@ public class EffectsReader {
 		return effect;
 	}
 
-	private EAdEffect getGoToPosition(StringMap<Object> e) {
+	private Effect getGoToPosition(StringMap<Object> e) {
 		MoveSceneElementEf move = new MoveSceneElementEf();
 		move.setXtarget(new ValueOp(((Number) e.get("x")).floatValue()));
 		move.setYtarget(new ValueOp(((Number) e.get("y")).floatValue()));
-		EAdSceneElement element = (EAdSceneElement) objectsFactory
+		SceneElement element = (SceneElement) objectsFactory
 				.getObjectById((String) e.get("sceneElement"));
 		move.setSceneElement(element);
 		Boolean useTrajectory = (Boolean) e.get("useTrajectory");
@@ -224,17 +222,17 @@ public class EffectsReader {
 		return move;
 	}
 
-	private EAdEffect getOneShot(StringMap<Object> e) {
-		EAdEffect effect = this.read((StringMap<Object>) e.get("effect"));
+	private Effect getOneShot(StringMap<Object> e) {
+		Effect effect = this.read((StringMap<Object>) e.get("effect"));
 		return new OneShotEf(effect);
 	}
 
-	private EAdEffect getGoTo(StringMap<Object> e) {
+	private Effect getGoTo(StringMap<Object> e) {
 		MoveSceneElementEf effect = new MoveSceneElementEf();
 		effect.setUseTrajectory(true);
 		String target = (String) e.get("target");
 		if (target != null) {
-			EAdElement element = (EAdElement) objectsFactory
+			BasicElement element = (BasicElement) objectsFactory
 					.getObjectById(target);
 			effect.setSceneElement(element);
 		} else {
@@ -242,45 +240,43 @@ public class EffectsReader {
 		}
 		String sceneElement = (String) e.get("sceneElement");
 		if (sceneElement != null)
-			effect.setTarget((EAdSceneElement) objectsFactory
+			effect.setTarget((SceneElement) objectsFactory
 					.getObjectById(sceneElement));
 		return effect;
 	}
 
-	private EAdEffect getRemove(StringMap<Object> e) {
+	private Effect getRemove(StringMap<Object> e) {
 		String target = (String) e.get("target");
-		return new RemoveEf((EAdSceneElement) objectsFactory
-				.getObjectById(target));
+		return new RemoveEf((SceneElement) objectsFactory.getObjectById(target));
 	}
 
-	private EAdEffect getAddChild(StringMap<Object> e) {
+	private Effect getAddChild(StringMap<Object> e) {
 		String parent = (String) e.get("parent");
-		EAdSceneElement sceneElement = sceneReader
+		SceneElement sceneElement = sceneReader
 				.parseSceneElement((StringMap<Object>) e.get("sceneElement"));
 		return new AddChildEf(parent, sceneElement);
 	}
 
-	private EAdEffect getTriggerMacro(StringMap<Object> e) {
+	private Effect getTriggerMacro(StringMap<Object> e) {
 		TriggerMacroEf triggerMacro = new TriggerMacroEf();
 		Collection<StringMap<Object>> conditions = (Collection<StringMap<Object>>) e
 				.get("conditions");
 		Collection<String> effects = (Collection<String>) e.get("effects");
 		Iterator<String> i = effects.iterator();
 		for (StringMap<Object> c : conditions) {
-			EAdCondition cond = conditionsReader.read(c);
-			EAdEffect effect = (EAdEffect) objectsFactory.getObjectById(i
-					.next());
+			Condition cond = conditionsReader.read(c);
+			Effect effect = (Effect) objectsFactory.getObjectById(i.next());
 			triggerMacro.putEffect(cond, effect);
 		}
 		return triggerMacro;
 	}
 
-	private EAdEffect getSpeak(StringMap<Object> e) {
+	private Effect getSpeak(StringMap<Object> e) {
 		String string = (String) e.get("string");
 		String sceneElement = (String) e.get("sceneElement");
-		EAdElement element = null;
+		BasicElement element = null;
 		if (sceneElement != null) {
-			element = (EAdElement) objectsFactory.getObjectById(sceneElement);
+			element = (BasicElement) objectsFactory.getObjectById(sceneElement);
 		}
 		SpeakSceneElementEf speak = new SpeakSceneElementEf(element,
 				new EAdString(string));
@@ -317,13 +313,12 @@ public class EffectsReader {
 		return speak;
 	}
 
-	private EAdEffect getSequenceRef(StringMap<Object> e) {
-		EAdEffect first = null;
-		EAdEffect effect = null;
+	private Effect getSequenceRef(StringMap<Object> e) {
+		Effect first = null;
+		Effect effect = null;
 		Collection<String> ef = (Collection<String>) e.get("sequence");
 		for (String eff : ef) {
-			EAdEffect nextEffect = (EAdEffect) objectsFactory
-					.getObjectById(eff);
+			Effect nextEffect = (Effect) objectsFactory.getObjectById(eff);
 			if (first == null) {
 				first = nextEffect;
 				effect = first;
@@ -335,13 +330,13 @@ public class EffectsReader {
 		return first;
 	}
 
-	private EAdEffect getSequence(StringMap<Object> e) {
-		EAdEffect first = null;
-		EAdEffect effect = null;
+	private Effect getSequence(StringMap<Object> e) {
+		Effect first = null;
+		Effect effect = null;
 		Collection<StringMap<Object>> ef = (Collection<StringMap<Object>>) e
 				.get("sequence");
 		for (StringMap<Object> eff : ef) {
-			EAdEffect nextEffect = read(eff);
+			Effect nextEffect = read(eff);
 			if (first == null) {
 				first = nextEffect;
 				effect = first;
@@ -353,16 +348,16 @@ public class EffectsReader {
 		return first;
 	}
 
-	private EAdEffect getRef(StringMap<Object> e) {
+	private Effect getRef(StringMap<Object> e) {
 		String ref = (String) e.get("ref");
-		EAdEffect reference = (EAdEffect) objectsFactory.getObjectById(ref);
+		Effect reference = (Effect) objectsFactory.getObjectById(ref);
 		if (reference == null) {
 			logger.warn("Reference to effect {} not found", ref);
 		}
 		return reference;
 	}
 
-	private EAdEffect getWait(StringMap<Object> e) {
+	private Effect getWait(StringMap<Object> e) {
 		WaitEf effect = new WaitEf();
 		Boolean waitUntilClick = (Boolean) e.get("waitUntilClick");
 		if (waitUntilClick != null) {
@@ -381,7 +376,7 @@ public class EffectsReader {
 		return effect;
 	}
 
-	private EAdEffect getPlaySound(StringMap<Object> e) {
+	private Effect getPlaySound(StringMap<Object> e) {
 		Boolean background = (Boolean) e.get("background");
 		String uri = (String) e.get("uri");
 		if (background != null && background) {
@@ -392,9 +387,9 @@ public class EffectsReader {
 		}
 	}
 
-	private EAdEffect getChangeScene(StringMap<Object> e) {
+	private Effect getChangeScene(StringMap<Object> e) {
 		StringMap<Object> t = (StringMap<Object>) e.get("transition");
-		EAdTransition transition = EmptyTransition.instance();
+		Transition transition = EmptyTransition.instance();
 		if (t != null) {
 			Number time = (Number) t.get("time");
 			if (t.get("type").equals("fadein")) {
@@ -407,9 +402,9 @@ public class EffectsReader {
 			}
 		}
 		String ns = (String) e.get("nextScene");
-		EAdElement nextScene = null;
+		BasicElement nextScene = null;
 		if (ns != null) {
-			nextScene = (EAdElement) objectsFactory.getObjectById(ns);
+			nextScene = (BasicElement) objectsFactory.getObjectById(ns);
 			if (nextScene == null) {
 				nextScene = new BasicElement(ns);
 			}
@@ -417,12 +412,12 @@ public class EffectsReader {
 		return new ChangeSceneEf(nextScene, transition);
 	}
 
-	private void addNextEffects(EAdEffect effect, StringMap<Object> e) {
+	private void addNextEffects(Effect effect, StringMap<Object> e) {
 		Collection<Object> nextEffects = (Collection<Object>) e
 				.get("nextEffects");
 		if (nextEffects != null) {
 			for (Object o : nextEffects) {
-				EAdEffect nextEffect = read((StringMap<Object>) o);
+				Effect nextEffect = read((StringMap<Object>) o);
 				effect.getNextEffects().add(nextEffect);
 			}
 		}
@@ -430,15 +425,15 @@ public class EffectsReader {
 				.get("simultaneousEffects");
 		if (simultaneousEffects != null) {
 			for (Object o : simultaneousEffects) {
-				EAdEffect sEffect = read((StringMap<Object>) o);
+				Effect sEffect = read((StringMap<Object>) o);
 				effect.getSimultaneousEffects().add(sEffect);
 			}
 		}
 	}
 
-	private EAdEffect getChangeField(StringMap<Object> e) {
+	private Effect getChangeField(StringMap<Object> e) {
 		ChangeFieldEf changeField = new ChangeFieldEf();
-		EAdOperation operation = operationReader.read((StringMap<Object>) e
+		Operation operation = operationReader.read((StringMap<Object>) e
 				.get("operation"));
 		Collection<String> fields = (Collection<String>) e.get("fields");
 		for (String f : fields) {
@@ -449,7 +444,7 @@ public class EffectsReader {
 		return changeField;
 	}
 
-	private EAdEffect getInterpolation(StringMap<Object> e) {
+	private Effect getInterpolation(StringMap<Object> e) {
 		InterpolationEf interpolation = new InterpolationEf();
 		Number start = (Number) e.get("start");
 		Number end = (Number) e.get("end");

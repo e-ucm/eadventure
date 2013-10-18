@@ -40,16 +40,15 @@ package es.eucm.ead.importer.subconverters.effects;
 import es.eucm.ead.importer.subconverters.CutsceneConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.WaitUntilEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.eadventure.common.data.chapter.effects.Effect;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
@@ -67,8 +66,9 @@ public class ChangeSceneConverter implements EffectConverter {
 	}
 
 	@Override
-	public List<EAdEffect> convert(Effect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+	public List<Effect> convert(
+			es.eucm.eadventure.common.data.chapter.effects.Effect e) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
 		// Normal scenes
 		if (e instanceof TriggerSceneEffect) {
 			TriggerSceneEffect ef = (TriggerSceneEffect) e;
@@ -81,11 +81,11 @@ public class ChangeSceneConverter implements EffectConverter {
 			// When a cutscene is triggered, all the effects after it must wait
 			// to be launched until the cutscene ends. We make sure that
 			// IN_CUTSCENE is set to true before launching any other effect
-			BasicField<Boolean> field = new BasicField<Boolean>(nextScene,
+			ElementField<Boolean> field = new ElementField<Boolean>(nextScene,
 					CutsceneConverter.IN_CUTSCENE);
 			changeScene.getSimultaneousEffects().add(
 					new ChangeFieldEf(field, EmptyCond.TRUE));
-			EAdCondition cond = new NOTCond(new OperationCond(field));
+			Condition cond = new NOTCond(new OperationCond(field));
 			WaitUntilEf waitUntil = new WaitUntilEf(cond);
 			waitUntil.setPersistent(true);
 			changeScene.getNextEffects().add(waitUntil);

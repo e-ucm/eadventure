@@ -37,18 +37,17 @@
 
 package es.eucm.ead.writer.model.writers.simplifiers;
 
-import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.assets.drawable.basics.EAdShape;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.behaviors.Behavior;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.tools.EAdUtils;
 import es.eucm.ead.tools.reflection.ReflectionClass;
@@ -85,10 +84,9 @@ public class Simplifier {
 		// Simplifiers
 		fieldsSimplifier = new FieldsSimplifier();
 
-		simplifiers.put(Behavior.class, new BehaviorsSimplifier());
-		simplifiers.put(EAdCondition.class, new ConditionsSimplifier());
-		simplifiers.put(EAdField.class, fieldsSimplifier);
-		simplifiers.put(EAdOperation.class, new OperationsSimplifier());
+		simplifiers.put(Condition.class, new ConditionsSimplifier());
+		simplifiers.put(ElementField.class, fieldsSimplifier);
+		simplifiers.put(Operation.class, new OperationsSimplifier());
 		simplifiers.put(SceneElementDef.class, new SceneElementDefSimplifier());
 		simplifiers.put(Variabled.class, new VariabledSimplifier());
 		simplifiers.put(FramesAnimation.class, new FramesAnimationSimplifier());
@@ -108,8 +106,8 @@ public class Simplifier {
 
 	public Object simplify(Object o) {
 		Object oldObject = o;
-		if (o instanceof EAdSceneElement || o.getClass() == BasicElement.class) {
-			// EAdSceneElement can not be simplified
+		if (o instanceof SceneElement || o.getClass() == BasicElement.class) {
+			// SceneElement can not be simplified
 			// BaiscElement are already simplified
 			return o;
 		}
@@ -205,7 +203,7 @@ public class Simplifier {
 		return null;
 	}
 
-	public Map<Object, Map<EAdVarDef<?>, EAdField<?>>> getFields() {
+	public Map<Object, Map<EAdVarDef<?>, ElementField<?>>> getFields() {
 		return fieldsSimplifier.getFields();
 	}
 

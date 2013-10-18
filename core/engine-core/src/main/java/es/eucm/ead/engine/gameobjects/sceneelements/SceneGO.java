@@ -42,8 +42,8 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 import java.util.Comparator;
 
@@ -58,9 +58,9 @@ public class SceneGO extends GroupElementGO implements
 		setComparator(this);
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
-		EAdSceneElement bg = ((EAdScene) element).getBackground();
+		SceneElement bg = ((Scene) element).getBackground();
 		if (bg != null) {
 			SceneElementGO bgGO = sceneElementFactory.get(bg);
 			addSceneElement(bgGO);
@@ -74,7 +74,7 @@ public class SceneGO extends GroupElementGO implements
 	}
 
 	public boolean getReturnable() {
-		return ((EAdScene) element).getReturnable();
+		return ((Scene) element).getReturnable();
 	}
 
 }

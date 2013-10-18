@@ -37,18 +37,21 @@
 
 package es.eucm.ead.model.elements;
 
+import com.gwtent.reflection.client.Reflectable;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Identified;
 
 /**
- * Implementation of a basic {@link EAdElement}. Most of the model elements
+ * Implementation of a basic element. Most of the model elements
  * inherits from this basis class.
  * 
  * They can also be used as reference of other elements
  */
 @Element
-public class BasicElement implements EAdElement {
+@Reflectable(relationTypes = true)
+public class BasicElement implements Identified {
 
 	private String id;
 
@@ -78,19 +81,30 @@ public class BasicElement implements EAdElement {
 		this.id = id;
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
-	public <T> T getProperty(String paramId, T defaultValue) {
+	/**
+	 *
+	 * @param propertyId
+	 * @param defaultValue the default value in case the property is not defined for the {@link EAdElement}
+	 * @param <T>
+	 * @return
+	 */
+	public <T> T getProperty(String propertyId, T defaultValue) {
 		return (T) (properties == null ? defaultValue : properties
-				.containsKey(paramId) ? properties.get(paramId) : defaultValue);
+				.containsKey(propertyId) ? properties.get(propertyId)
+				: defaultValue);
 	}
 
-	@Override
-	public void putProperty(String paramId, Object param) {
+	/**
+	 * Puts a property
+	 * @param propertyId the parameter identifier
+	 * @param value   the parameter value
+	 */
+	public void putProperty(String propertyId, Object value) {
 		if (properties == null) {
 			properties = new EAdMap<String, Object>();
 		}
-		properties.put(paramId, param);
+		properties.put(propertyId, value);
 	}
 
 	public String toString() {
@@ -102,7 +116,7 @@ public class BasicElement implements EAdElement {
 	 * be used instead, and can be handy for debugging purposes
 	 * Default-generated ids use this, for instance.
 	 * 
-	 * @param o
+	 * @param c
 	 * @return
 	 */
 	public static String classToString(Class<?> c) {

@@ -46,7 +46,7 @@ import es.eucm.ead.model.interfaces.Param;
  * 
  */
 @Element
-public class ConcatenateStringsOp extends AbstractOperation {
+public class ConcatenateStringsOp extends Operation {
 
 	@Param
 	private String prefix;

@@ -37,25 +37,8 @@
 
 package es.eucm.ead.editor.view.panel;
 
-import static org.mockito.Mockito.when;
-
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.WindowConstants;
-
-import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import es.eucm.ead.editor.EditorGuiceModule;
 import es.eucm.ead.editor.control.CommandManager;
 import es.eucm.ead.editor.control.CommandManagerImpl;
@@ -63,9 +46,17 @@ import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.control.change.ChangeListener;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
-import ead.importer.BaseImporterModule;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
+import static org.mockito.Mockito.when;
 
 public abstract class AbstractPanelTester extends JFrame {
 
@@ -85,9 +76,8 @@ public abstract class AbstractPanelTester extends JFrame {
 	abstract DependencyNode getTarget();
 
 	public void prepareControllerAndModel() {
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new DesktopModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector

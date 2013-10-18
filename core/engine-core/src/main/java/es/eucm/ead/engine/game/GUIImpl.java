@@ -48,9 +48,8 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.predef.LoadingScreen;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.GroupElement;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,14 +72,14 @@ public abstract class GUIImpl implements GUI {
 	/**
 	 * Stack with all visited scenes
 	 */
-	private Stack<EAdScene> previousSceneStack;
+	private Stack<Scene> previousSceneStack;
 
 	/**
 	 * Current scene
 	 */
 	private SceneGO scene;
 
-	private EAdScene loadingScreen;
+	private Scene loadingScreen;
 
 	private SceneElementFactory sceneElementFactory;
 
@@ -89,7 +88,7 @@ public abstract class GUIImpl implements GUI {
 	@Inject
 	public GUIImpl(SceneElementFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
-		previousSceneStack = new Stack<EAdScene>();
+		previousSceneStack = new Stack<Scene>();
 		this.loadingScreen = new LoadingScreen();
 	}
 
@@ -126,7 +125,7 @@ public abstract class GUIImpl implements GUI {
 	}
 
 	@Override
-	public EAdScene getPreviousScene() {
+	public Scene getPreviousScene() {
 		if (previousSceneStack.isEmpty()) {
 			return null;
 		}
@@ -182,7 +181,7 @@ public abstract class GUIImpl implements GUI {
 				&& scene.getReturnable()
 				&& (previousSceneStack.isEmpty() || previousSceneStack.peek() != scene
 						.getElement())) {
-			previousSceneStack.push((EAdScene) scene.getElement());
+			previousSceneStack.push((Scene) scene.getElement());
 		}
 		// Set the scene
 		this.scene = newScene;
@@ -190,7 +189,7 @@ public abstract class GUIImpl implements GUI {
 		sceneRoot.addSceneElement(scene);
 	}
 
-	public SceneElementGO getSceneElement(EAdSceneElement element) {
+	public SceneElementGO getSceneElement(SceneElement element) {
 		return sceneElementFactory.get(element);
 	}
 

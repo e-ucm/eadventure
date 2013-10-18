@@ -37,11 +37,9 @@
 
 package es.eucm.ead.model.elements.predef.effects;
 
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.text.EAdString;
@@ -52,31 +50,31 @@ public class SpeakSceneElementEf extends SpeakEf {
 
 	}
 
-	public SpeakSceneElementEf(EAdElement element, EAdString text) {
+	public SpeakSceneElementEf(BasicElement element, EAdString text) {
 		super(text);
 		this.setElement(element);
 	}
 
-	public void setElement(EAdElement element) {
-		if (element instanceof EAdSceneElement) {
+	public void setElement(BasicElement element) {
+		if (element instanceof SceneElement) {
 			setOrigin(element);
-			setStateField(new BasicField<String>(element,
+			setStateField(new ElementField<String>(element,
 					SceneElement.VAR_STATE));
-		} else if (element instanceof EAdSceneElementDef) {
-			BasicField<EAdSceneElement> fieldElement = new BasicField<EAdSceneElement>(
+		} else if (element instanceof SceneElementDef) {
+			ElementField<SceneElement> fieldElement = new ElementField<SceneElement>(
 					element, SceneElementDef.VAR_SCENE_ELEMENT);
 			setOrigin(fieldElement);
-			setStateField(new BasicField<String>(fieldElement,
+			setStateField(new ElementField<String>(fieldElement,
 					SceneElement.VAR_STATE));
 		} else if (element != null) {
 			setOrigin(element);
 		}
 	}
 
-	private void setOrigin(EAdElement element) {
-		BasicField<Float> centerX = new BasicField<Float>(element,
+	private void setOrigin(BasicElement element) {
+		ElementField<Float> centerX = new ElementField<Float>(element,
 				SceneElement.VAR_CENTER_X);
-		BasicField<Float> centerY = new BasicField<Float>(element,
+		ElementField<Float> centerY = new ElementField<Float>(element,
 				SceneElement.VAR_CENTER_Y);
 
 		setPosition(centerX, centerY);

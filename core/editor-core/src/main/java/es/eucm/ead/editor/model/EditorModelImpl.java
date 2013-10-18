@@ -37,37 +37,29 @@
 
 package es.eucm.ead.editor.model;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import es.eucm.ead.editor.EditorStringHandler;
-import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
-import org.jgrapht.graph.ListenableDirectedGraph;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
-
-import es.eucm.ead.model.interfaces.features.Identified;
-import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.editor.EditorStringHandler;
 import es.eucm.ead.editor.model.nodes.DependencyEdge;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EditorNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
 import es.eucm.ead.editor.model.visitor.ModelVisitor;
+import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.interfaces.features.Identified;
+import org.jgrapht.graph.ListenableDirectedGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Contains a full model of what is being edited. This is a super-set of an
- * EAdAdventureModel, encompassing both engine-related model objects and
+ * AdventureGame, encompassing both engine-related model objects and
  * resources, assets, and strings. Everything is searchable, and dependencies
  * are tracked as objects are changed.
  *
@@ -136,7 +128,7 @@ public class EditorModelImpl implements EditorModel {
 	/**
 	 * Engine model
 	 */
-	private EAdAdventureModel engineModel;
+	private AdventureGame engineModel;
 
 	/**
 	 * Loader - in charge  of save/load operations
@@ -512,9 +504,11 @@ public class EditorModelImpl implements EditorModel {
 			} else {
 				// content is eadElement, but has no editor-id: add it
 				if (isLoading) {
-					logger.error(
-							"Loaded EAdElement {} of type {} had no editor ID",
-							oid, targetContent.getClass().getSimpleName());
+					logger
+							.error(
+									"Loaded BasicElement {} of type {} had no editor ID",
+									oid, targetContent.getClass()
+											.getSimpleName());
 					throw new IllegalStateException("Corrupted save-file: "
 							+ "no eid assigned to loaded objects");
 				} else {
@@ -570,7 +564,7 @@ public class EditorModelImpl implements EditorModel {
 		this.lastElementNodeId = lastElementNodeId;
 	}
 
-	public void setEngineModel(EAdAdventureModel engineModel) {
+	public void setEngineModel(AdventureGame engineModel) {
 		this.engineModel = engineModel;
 	}
 
@@ -684,7 +678,7 @@ public class EditorModelImpl implements EditorModel {
 	}
 
 	@Override
-	public EAdAdventureModel getEngineModel() {
+	public AdventureGame getEngineModel() {
 		return engineModel;
 	}
 

@@ -37,21 +37,13 @@
 
 package es.eucm.ead.editor.model.nodes;
 
-import es.eucm.ead.editor.model.nodes.asset.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import es.eucm.ead.editor.model.EditorAnnotator;
 import es.eucm.ead.editor.model.EditorModelImpl;
+import es.eucm.ead.model.elements.scenes.Scene;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.assets.drawable.basics.Caption;
-import es.eucm.ead.model.assets.drawable.basics.Image;
-import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
-import es.eucm.ead.model.assets.multimedia.Video;
-import es.eucm.ead.model.elements.scenes.BasicScene;
 
 /**
  * A factory that creates asset nodes
@@ -73,11 +65,11 @@ public class SceneFactory implements EditorNodeFactory {
 
 		for (DependencyNode n : model.getNodesById().values()) {
 			if (!(n instanceof EngineNode)
-					|| !(n.getContent() instanceof BasicScene)) {
+					|| !(n.getContent() instanceof Scene)) {
 				continue;
 			}
 
-			BasicScene bs = (BasicScene) n.getContent();
+			Scene bs = (Scene) n.getContent();
 			EditorNode sn = new SceneNode(model.generateId(null));
 			sn.addChild(n);
 			n.setManager(sn);

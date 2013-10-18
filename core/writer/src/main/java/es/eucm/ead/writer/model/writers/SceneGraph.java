@@ -40,7 +40,7 @@ package es.eucm.ead.writer.model.writers;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,8 +57,8 @@ public class SceneGraph {
 	}
 
 	public void process(Object o) {
-		if (o instanceof EAdScene) {
-			currentScene = ((EAdScene) o).getId();
+		if (o instanceof Scene) {
+			currentScene = ((Scene) o).getId();
 		} else if (o instanceof ChangeSceneEf) {
 			String nextScene = ((ChangeSceneEf) o).getNextSceneId();
 			addConnection(nextScene);

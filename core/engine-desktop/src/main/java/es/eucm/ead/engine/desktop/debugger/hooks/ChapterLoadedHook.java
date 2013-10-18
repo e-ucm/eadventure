@@ -37,22 +37,22 @@
 
 package es.eucm.ead.engine.desktop.debugger.hooks;
 
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.engine.game.interfaces.EngineHook;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.model.elements.Chapter;
 
 /**
  * @author anserran
  *         Date: 17/05/13
  *         Time: 12:02
  */
-public class ChapterLoadedHook extends DebuggerHook<EAdChapter> implements
+public class ChapterLoadedHook extends DebuggerHook<Chapter> implements
 		EngineHook {
 	@Override
 	public void execute(Game game, GameState gameState, GUI gui) {
-		EAdChapter c = game.getCurrentChapter();
+		Chapter c = game.getCurrentChapter();
 		super.fireListeners(c);
 	}
 

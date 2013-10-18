@@ -37,14 +37,14 @@
 
 package es.eucm.ead.engine.gameobjects.events;
 
-import es.eucm.ead.model.elements.EAdEvent;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.engine.gameobjects.GameObject;
+import es.eucm.ead.model.elements.events.Event;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
-public interface EventGO<T extends EAdEvent> extends GameObject<T> {
+public interface EventGO<T extends Event> extends GameObject<T> {
 
 	void initialize();
 
-	void setParent(EAdSceneElement element);
+	void setParent(SceneElement element);
 
 }

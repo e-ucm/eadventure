@@ -42,7 +42,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.variables.VarDef;
 
 public class LoggerSceneListener implements SceneListener {
@@ -51,7 +51,7 @@ public class LoggerSceneListener implements SceneListener {
 			.getLogger(LoggerSceneListener.class);
 
 	@Override
-	public <T> void updateInitialValue(VarDef<T> var, EAdSceneElement element,
+	public <T> void updateInitialValue(VarDef<T> var, SceneElement element,
 			T value) {
 		logger.debug("Varirable {} change its value to {} in element {}", var
 				.toString(), value.toString(), element.getId());
@@ -59,7 +59,7 @@ public class LoggerSceneListener implements SceneListener {
 	}
 
 	@Override
-	public void updateSelection(List<EAdSceneElement> sceneElements) {
+	public void updateSelection(List<SceneElement> sceneElements) {
 		logger.debug("Selection udpated. {} elements selected",
 				sceneElements == null ? 0 : sceneElements.size());
 

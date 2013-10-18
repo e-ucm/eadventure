@@ -2,7 +2,7 @@ package es.eucm.ead.legacyplugins.model;
 
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.events.AbstractEvent;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -13,7 +13,7 @@ import es.eucm.ead.model.params.paint.EAdPaint;
  * 
  */
 @Element
-public class BubbleNameEv extends AbstractEvent {
+public class BubbleNameEv extends Event {
 
 	@Param
 	private NinePatchImage bubble;

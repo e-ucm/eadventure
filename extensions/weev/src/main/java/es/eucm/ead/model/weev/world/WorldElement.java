@@ -43,6 +43,6 @@ import es.eucm.ead.model.weev.common.Positioned;
 /**
  * An element of the {@link World} description
  */
-public interface WorldElement extends WEEVElement, Positioned {
+public abstract class WorldElement extends WEEVElement implements Positioned {
 
 }

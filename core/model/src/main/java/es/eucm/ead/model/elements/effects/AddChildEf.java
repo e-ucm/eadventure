@@ -39,22 +39,22 @@ package es.eucm.ead.model.elements.effects;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 @Element
-public class AddChildEf extends AbstractEffect {
+public class AddChildEf extends Effect {
 
 	@Param
 	private String parentId;
 
 	@Param
-	private EAdSceneElement elementToAdd;
+	private SceneElement elementToAdd;
 
 	public AddChildEf() {
 
 	}
 
-	public AddChildEf(String id, EAdSceneElement sceneElement) {
+	public AddChildEf(String id, SceneElement sceneElement) {
 		this.parentId = id;
 		this.elementToAdd = sceneElement;
 	}
@@ -67,11 +67,11 @@ public class AddChildEf extends AbstractEffect {
 		this.parentId = parentId;
 	}
 
-	public EAdSceneElement getElementToAdd() {
+	public SceneElement getElementToAdd() {
 		return elementToAdd;
 	}
 
-	public void setElementToAdd(EAdSceneElement elementToAdd) {
+	public void setElementToAdd(SceneElement elementToAdd) {
 		this.elementToAdd = elementToAdd;
 	}
 

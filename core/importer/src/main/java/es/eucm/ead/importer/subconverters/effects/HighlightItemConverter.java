@@ -37,19 +37,18 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.InterpolationEf;
-import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.importer.EAdElementsCache;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.InterpolationEf;
+import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HighlightItemConverter implements
 		EffectConverter<HighlightItemEffect> {
@@ -61,8 +60,8 @@ public class HighlightItemConverter implements
 	}
 
 	@Override
-	public List<EAdEffect> convert(HighlightItemEffect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+	public List<Effect> convert(HighlightItemEffect e) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
 
 		float red = 0.0f;
 		float green = 0.0f;
@@ -87,7 +86,7 @@ public class HighlightItemConverter implements
 		}
 
 		ChangeColorEf changeColor = new ChangeColorEf(red, green, blue);
-		BasicField<EAdSceneElement> sceneElementField = new BasicField<EAdSceneElement>(
+		ElementField<SceneElement> sceneElementField = new ElementField<SceneElement>(
 				elementsCache.get(e.getTargetId()),
 				SceneElementDef.VAR_SCENE_ELEMENT);
 		changeColor.setSceneElement(sceneElementField);

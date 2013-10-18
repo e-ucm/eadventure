@@ -16,8 +16,7 @@ import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position.Corner;
@@ -44,7 +43,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
 	private SceneElementGO bubble;
 
-	private EAdField<EAdString> currentDescription;
+	private ElementField<EAdString> currentDescription;
 
 	private AssetHandler assetHandler;
 
@@ -64,7 +63,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 	@Override
 	public void setElement(BubbleNameEv element) {
 		super.setElement(element);
-		currentDescription = new BasicField<EAdString>(element, NAME);
+		currentDescription = new ElementField<EAdString>(element, NAME);
 		SceneElement e = new SceneElement();
 		e.setId("#engine.huds.namesbubble");
 		e.setInitialZ(500);

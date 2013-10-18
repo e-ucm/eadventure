@@ -42,15 +42,14 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.google.inject.Inject;
+import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.game.interfaces.GUI;
-import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.enums.PhShape;
 import es.eucm.ead.model.elements.effects.enums.PhType;
 import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
@@ -96,11 +95,11 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 		velocityIterations = 24;
 		positionIterations = 8;
 
-		for (EAdSceneElement e : effect.getElements()) {
+		for (SceneElement e : effect.getElements()) {
 			createBody(world, e, valueMap);
 		}
 
-		for (EAdSceneElement e : effect.getJoints()) {
+		for (SceneElement e : effect.getJoints()) {
 			createBody(world, e, valueMap);
 		}
 
@@ -108,8 +107,8 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 		jd.collideConnected = false;
 
 		for (int i = 0; i < effect.getJoints().size() - 1; i += 2) {
-			EAdSceneElement e1 = effect.getJoints().get(i);
-			EAdSceneElement e2 = effect.getJoints().get(i + 1);
+			SceneElement e1 = effect.getJoints().get(i);
+			SceneElement e2 = effect.getJoints().get(i + 1);
 			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
 			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
 			jd.initialize(b2, b1, new Vector2(b1.getPosition().x, b1
@@ -126,10 +125,10 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 				SystemFields.ELAPSED_TIME_PER_UPDATE) / 1000.0f;
 		world.step(timeStep, velocityIterations, positionIterations);
 
-		EAdScene scene = (EAdScene) gui.getScene().getElement();
+		Scene scene = (Scene) gui.getScene().getElement();
 
 		if (scene != null) {
-			for (EAdSceneElement e : scene.getSceneElements()) {
+			for (SceneElement e : scene.getSceneElements()) {
 				ValueMap valueMap = game.getGameState();
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
@@ -156,8 +155,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEf> {
 		return false;
 	}
 
-	public static void createBody(World world, EAdSceneElement e,
-			ValueMap valueMap) {
+	public static void createBody(World world, SceneElement e, ValueMap valueMap) {
 		float x = valueMap.getValue(e, SceneElement.VAR_X) / WORLD_SCALE;
 		float y = valueMap.getValue(e, SceneElement.VAR_Y) / WORLD_SCALE;
 		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH)

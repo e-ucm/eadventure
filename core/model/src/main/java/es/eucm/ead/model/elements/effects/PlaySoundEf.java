@@ -47,7 +47,7 @@ import es.eucm.ead.model.assets.multimedia.EAdSound;
  * 
  */
 @Element
-public class PlaySoundEf extends AbstractEffect {
+public class PlaySoundEf extends Effect {
 
 	@Param
 	private es.eucm.ead.model.assets.multimedia.EAdSound sound;

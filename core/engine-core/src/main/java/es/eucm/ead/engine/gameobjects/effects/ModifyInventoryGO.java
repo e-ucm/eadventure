@@ -43,7 +43,7 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.elements.BasicInventory;
 import es.eucm.ead.model.elements.effects.ModifyInventoryEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 
@@ -78,9 +78,9 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 				inventory.addSceneElement(new SceneElement(effect
 						.getSceneElementDef()));
 				if (effect.isRemoveFromScene()) {
-					EAdSceneElement sceneElement = game.getGameState()
-							.getValue(effect.getSceneElementDef(),
-									SceneElementDef.VAR_SCENE_ELEMENT);
+					SceneElement sceneElement = game.getGameState().getValue(
+							effect.getSceneElementDef(),
+							SceneElementDef.VAR_SCENE_ELEMENT);
 					if (sceneElement != null) {
 						game.getGameState().setValue(sceneElement,
 								SceneElement.VAR_VISIBLE, false);

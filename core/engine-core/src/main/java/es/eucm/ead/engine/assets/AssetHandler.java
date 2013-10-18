@@ -42,7 +42,7 @@ import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.tools.TextFileReader;
 
@@ -177,7 +177,7 @@ public interface AssetHandler extends TextFileReader {
 	 *
 	 * @param scene the scene whose assets must be loaded
 	 */
-	void queueSceneToLoad(EAdScene scene);
+	void queueSceneToLoad(Scene scene);
 
 	/**
 	 * Loads one asset of the queue.

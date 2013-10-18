@@ -39,31 +39,31 @@ package es.eucm.ead.model.elements.effects;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 /**
  * Removes an scene element from the scene
  *
  */
 @Element
-public class RemoveEf extends AbstractEffect {
+public class RemoveEf extends Effect {
 
 	@Param
-	private EAdSceneElement element;
+	private SceneElement element;
 
 	public RemoveEf() {
 
 	}
 
-	public RemoveEf(EAdSceneElement element) {
+	public RemoveEf(SceneElement element) {
 		this.element = element;
 	}
 
-	public EAdSceneElement getElement() {
+	public SceneElement getElement() {
 		return element;
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		this.element = element;
 	}
 

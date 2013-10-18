@@ -37,18 +37,18 @@
 
 package es.eucm.ead.model.elements.effects.physics;
 
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
 import es.eucm.ead.model.elements.effects.enums.PhShape;
 import es.eucm.ead.model.elements.effects.enums.PhType;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
-public class PhysicsEf extends AbstractEffect {
+public class PhysicsEf extends Effect {
 
 	public static final EAdVarDef<PhType> VAR_PH_TYPE = new VarDef<PhType>(
 			"ph_type", PhType.class, PhType.STATIC);
@@ -69,39 +69,39 @@ public class PhysicsEf extends AbstractEffect {
 	 * Elements that are affect by the physics
 	 */
 	@Param
-	private EAdList<EAdSceneElement> elements;
+	private EAdList<SceneElement> elements;
 
 	@Param
-	private EAdList<EAdSceneElement> joints;
+	private EAdList<SceneElement> joints;
 
 	public PhysicsEf() {
 		super();
-		elements = new EAdList<EAdSceneElement>();
-		joints = new EAdList<EAdSceneElement>();
+		elements = new EAdList<SceneElement>();
+		joints = new EAdList<SceneElement>();
 	}
 
-	public void addSceneElement(EAdSceneElement element) {
+	public void addSceneElement(SceneElement element) {
 		this.elements.add(element);
 	}
 
-	public void addJoint(EAdSceneElement e1, EAdSceneElement e2) {
+	public void addJoint(SceneElement e1, SceneElement e2) {
 		joints.add(e1);
 		joints.add(e2);
 	}
 
-	public EAdList<EAdSceneElement> getElements() {
+	public EAdList<SceneElement> getElements() {
 		return elements;
 	}
 
-	public EAdList<EAdSceneElement> getJoints() {
+	public EAdList<SceneElement> getJoints() {
 		return joints;
 	}
 
-	public void setElements(EAdList<EAdSceneElement> elements) {
+	public void setElements(EAdList<SceneElement> elements) {
 		this.elements = elements;
 	}
 
-	public void setJoints(EAdList<EAdSceneElement> joints) {
+	public void setJoints(EAdList<SceneElement> joints) {
 		this.joints = joints;
 	}
 

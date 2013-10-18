@@ -56,12 +56,10 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
 import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.features.Oriented;
@@ -82,8 +80,8 @@ import java.util.Map.Entry;
 /**
  * 
  */
-public class SceneElementGO extends Group implements
-		GameObject<EAdSceneElement>, Oriented, EventListener {
+public class SceneElementGO extends Group implements GameObject<SceneElement>,
+		Oriented, EventListener {
 
 	static protected Logger logger = LoggerFactory
 			.getLogger(SceneElementGO.class);
@@ -121,7 +119,7 @@ public class SceneElementGO extends Group implements
 	/**
 	 * Scene element
 	 */
-	protected EAdSceneElement element;
+	protected SceneElement element;
 
 	/**
 	 * Displacement in x coordinate
@@ -217,7 +215,7 @@ public class SceneElementGO extends Group implements
 	// Aux
 	private List reorderList = new ArrayList();
 
-	private Map<EAdVarDef<?>, EAdField<?>> fields;
+	private Map<EAdVarDef<?>, ElementField<?>> fields;
 
 	@Inject
 	public SceneElementGO(AssetHandler assetHandler,
@@ -229,7 +227,7 @@ public class SceneElementGO extends Group implements
 		this.assetHandler = assetHandler;
 		this.sceneElementFactory = sceneElementFactory;
 		this.gui = game.getGUI();
-		this.fields = new HashMap<EAdVarDef<?>, EAdField<?>>();
+		this.fields = new HashMap<EAdVarDef<?>, ElementField<?>>();
 
 		addListener(this);
 
@@ -244,7 +242,7 @@ public class SceneElementGO extends Group implements
 
 	@SuppressWarnings( { "unchecked", "rawtypes" })
 	@Override
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		this.element = element;
 		fields.clear();
 		resetVars();
@@ -292,9 +290,9 @@ public class SceneElementGO extends Group implements
 		this.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	private void initEvents(EAdList<EAdEvent> events) {
-		if (element.getEvents() != null) {
-			for (EAdEvent event : events) {
+	private void initEvents(EAdList<Event> events) {
+		if (events != null) {
+			for (Event event : events) {
 				EventGO<?> eventGO = eventFactory.get(event);
 				eventGO.setParent(element);
 				eventGO.initialize();
@@ -390,7 +388,7 @@ public class SceneElementGO extends Group implements
 	}
 
 	@Override
-	public EAdSceneElement getElement() {
+	public SceneElement getElement() {
 		return element;
 	}
 
@@ -400,7 +398,7 @@ public class SceneElementGO extends Group implements
 	 * @param element the element to add
 	 * @return the game object created for the element
 	 */
-	public SceneElementGO addSceneElement(EAdSceneElement element) {
+	public SceneElementGO addSceneElement(SceneElement element) {
 		SceneElementGO go = sceneElementFactory.get(element);
 		addSceneElement(go);
 		return go;
@@ -624,10 +622,10 @@ public class SceneElementGO extends Group implements
 	 * @param var the var definition
 	 */
 	@SuppressWarnings("unchecked")
-	public <S> EAdField<S> getField(EAdVarDef<S> var) {
-		EAdField<S> field = (EAdField<S>) fields.get(var);
+	public <S> ElementField<S> getField(EAdVarDef<S> var) {
+		ElementField<S> field = (ElementField<S>) fields.get(var);
 		if (field == null) {
-			field = new BasicField<S>(getElement(), var);
+			field = new ElementField<S>(getElement(), var);
 			fields.put(var, field);
 		}
 		return field;
@@ -654,7 +652,7 @@ public class SceneElementGO extends Group implements
 		invalidateOrder();
 	}
 
-	public SceneElementGO getChild(EAdSceneElement e) {
+	public SceneElementGO getChild(SceneElement e) {
 		if (e.getId() != null) {
 			return (SceneElementGO) super.findActor(e.getId());
 		}
@@ -682,9 +680,10 @@ public class SceneElementGO extends Group implements
 	 * @param list the list
 	 * @param action the action that launched the effects
 	 */
-	private void addEffects(EAdList<EAdEffect> list, Event action) {
+	private void addEffects(EAdList<Effect> list,
+			com.badlogic.gdx.scenes.scene2d.Event action) {
 		if (list != null && list.size() > 0) {
-			for (EAdEffect e : list) {
+			for (Effect e : list) {
 				game.addEffect(e, action, element);
 			}
 		}
@@ -795,7 +794,7 @@ public class SceneElementGO extends Group implements
 	}
 
 	@Override
-	public boolean handle(Event event) {
+	public boolean handle(com.badlogic.gdx.scenes.scene2d.Event event) {
 		if (inputProcessor != null) {
 			inputProcessor.handle(event);
 		}
@@ -826,7 +825,7 @@ public class SceneElementGO extends Group implements
 
 		if (!event.isCancelled()) {
 			// Effects in the scene element instance
-			EAdList<EAdEffect> list = element.getEffects(getGUIEvent(event));
+			EAdList<Effect> list = element.getEffects(getGUIEvent(event));
 			int size = list == null ? 0 : list.size();
 			addEffects(list, event);
 
@@ -842,7 +841,7 @@ public class SceneElementGO extends Group implements
 		return event.isCancelled();
 	}
 
-	public EAdGUIEvent getGUIEvent(Event e) {
+	public EAdGUIEvent getGUIEvent(com.badlogic.gdx.scenes.scene2d.Event e) {
 		EAdGUIEvent guiEvent = null;
 		// First check DragEvent, because it is also an InputEvent
 		if (e instanceof DragEvent) {

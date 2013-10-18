@@ -37,33 +37,26 @@
 
 package es.eucm.ead.editor.view.scene;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import es.eucm.ead.editor.EditorGuiceModule;
+import es.eucm.ead.editor.control.Controller;
+import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.editor.util.SwingUtilities;
+import es.eucm.ead.engine.assets.AssetHandler;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
+import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
+import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
+import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import org.junit.Before;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import org.junit.Before;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
-import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.editor.EditorGuiceModule;
-import es.eucm.ead.editor.control.Controller;
-import es.eucm.ead.engine.assets.AssetHandler;
-import es.eucm.ead.engine.desktop.utils.assetviewer.AssetViewer;
-import ead.importer.BaseImporterModule;
-import es.eucm.ead.tools.java.JavaToolsModule;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.editor.util.Log4jConfig;
-import es.eucm.ead.editor.util.SwingUtilities;
 
 public class MainAssetViewer {
 
@@ -97,9 +90,8 @@ public class MainAssetViewer {
 				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
 				Log4jConfig.Slf4jLevel.Debug, });
 
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new DesktopModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector

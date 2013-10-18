@@ -1,8 +1,8 @@
 package es.eucm.ead.legacyplugins.model;
 
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.events.AbstractEvent;
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
@@ -12,22 +12,22 @@ import es.eucm.ead.model.params.text.EAdString;
  * Event to represent old eadventure timers
  */
 @Element
-public class TimerEv extends AbstractEvent {
+public class TimerEv extends Event {
 
 	@Param
 	private int time;
 
 	@Param
-	private EAdCondition initCondition;
+	private Condition initCondition;
 
 	@Param
-	private EAdCondition stopCondition;
+	private Condition stopCondition;
 
 	@Param
-	private EAdList<EAdEffect> expiredEffects;
+	private EAdList<Effect> expiredEffects;
 
 	@Param
-	private EAdList<EAdEffect> stoppedEffects;
+	private EAdList<Effect> stoppedEffects;
 
 	@Param
 	private EAdString displayName;
@@ -55,35 +55,35 @@ public class TimerEv extends AbstractEvent {
 		this.time = time;
 	}
 
-	public EAdCondition getInitCondition() {
+	public Condition getInitCondition() {
 		return initCondition;
 	}
 
-	public void setInitCondition(EAdCondition initCondition) {
+	public void setInitCondition(Condition initCondition) {
 		this.initCondition = initCondition;
 	}
 
-	public EAdCondition getStopCondition() {
+	public Condition getStopCondition() {
 		return stopCondition;
 	}
 
-	public void setStopCondition(EAdCondition stopCondition) {
+	public void setStopCondition(Condition stopCondition) {
 		this.stopCondition = stopCondition;
 	}
 
-	public EAdList<EAdEffect> getExpiredEffects() {
+	public EAdList<Effect> getExpiredEffects() {
 		return expiredEffects;
 	}
 
-	public void setExpiredEffects(EAdList<EAdEffect> expiredEffects) {
+	public void setExpiredEffects(EAdList<Effect> expiredEffects) {
 		this.expiredEffects = expiredEffects;
 	}
 
-	public EAdList<EAdEffect> getStoppedEffects() {
+	public EAdList<Effect> getStoppedEffects() {
 		return stoppedEffects;
 	}
 
-	public void setStoppedEffects(EAdList<EAdEffect> stoppedEffects) {
+	public void setStoppedEffects(EAdList<Effect> stoppedEffects) {
 		this.stoppedEffects = stoppedEffects;
 	}
 

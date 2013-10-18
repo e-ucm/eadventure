@@ -39,7 +39,7 @@ package es.eucm.ead.editor.view.scene.listener;
 
 import java.util.List;
 
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.variables.VarDef;
 
 /**
@@ -58,7 +58,7 @@ public interface SceneListener {
 	 * @param value
 	 *            the value for the var
 	 */
-	<T> void updateInitialValue(VarDef<T> var, EAdSceneElement element, T value);
+	<T> void updateInitialValue(VarDef<T> var, SceneElement element, T value);
 
 	/**
 	 * Notifies that the elements selected in the scene viewer have changed.
@@ -67,6 +67,6 @@ public interface SceneListener {
 	 *            a list with the selected elements. {@code null} if there is no
 	 *            selection
 	 */
-	void updateSelection(List<EAdSceneElement> sceneElements);
+	void updateSelection(List<SceneElement> sceneElements);
 
 }

@@ -38,9 +38,9 @@
 package es.eucm.ead.tests.engine.desktop.utils;
 
 import es.eucm.ead.engine.desktop.DesktopGame;
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.scenes.Scene;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -55,10 +55,10 @@ public class LaunchGameInstanceTest {
 	private static DesktopGame game = null;
 
 	public static void main(String args[]) {
-		final BasicAdventureModel model = new BasicAdventureModel();
-		BasicChapter chapter1 = new BasicChapter();
+		final AdventureGame model = new AdventureGame();
+		Chapter chapter1 = new Chapter();
 		model.getChapters().add(chapter1);
-		BasicScene scene = new BasicScene();
+		Scene scene = new Scene();
 		chapter1.setInitialScene(scene);
 
 		JButton b = new JButton("Launch engine");

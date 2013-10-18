@@ -37,10 +37,10 @@
 
 package es.eucm.ead.model.elements.effects.hud;
 
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdElement;
-import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class ModifyHUDEf extends AbstractSceneElementEffect {
 	 *            if true, the element is added to the basic HUD. if false, the
 	 *            element is removed from the basic HUD
 	 */
-	public ModifyHUDEf(EAdElement element, boolean add) {
+	public ModifyHUDEf(BasicElement element, boolean add) {
 		this.setSceneElement(element);
 		this.add = add;
 	}

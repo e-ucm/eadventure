@@ -54,7 +54,7 @@ import es.eucm.ead.model.assets.drawable.EAdDrawable;
  * 
  */
 @Element
-public class GhostElement extends SceneElement implements EAdGhostElement {
+public class GhostElement extends SceneElement {
 
 	@Param
 	private boolean catchAll;
@@ -70,8 +70,6 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 	/**
 	 * Creates a ghost element
 	 * 
-	 * @param appearance
-	 *            the appearance
 	 * @param interactionArea
 	 *            the interaction area. Could be {@code null}
 	 */
@@ -79,10 +77,19 @@ public class GhostElement extends SceneElement implements EAdGhostElement {
 		super(interactionArea);
 	}
 
+	/**
+	 *
+	 * @return if captures all input event, ignoring the interaction area
+	 */
 	public boolean isCatchAll() {
 		return catchAll;
 	}
 
+	/**
+	 *
+	 * @param catchAll
+	 *            if captures all input event, ignoring the interaction area
+	 */
 	public void setCatchAll(boolean catchAll) {
 		this.catchAll = catchAll;
 	}

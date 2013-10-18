@@ -114,7 +114,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.ADDED, effect);
 
-		getEvents().add(event);
+		addEvent(event);
 
 		//getBackground().addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
 

@@ -39,11 +39,10 @@ package es.eucm.ead.importer.subconverters.conditions;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.conditions.enums.Comparator;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 
 @Singleton
@@ -59,7 +58,7 @@ public class VarConditionConverter {
 	public OperationCond convert(VarCondition oldObject) {
 		// [COND - Variable]
 		Comparator op = getComparator(oldObject.getState());
-		EAdField<Integer> var = modelQuerier.getVariable(oldObject.getId());
+		ElementField<Integer> var = modelQuerier.getVariable(oldObject.getId());
 		OperationCond condition = new OperationCond(var, oldObject.getValue(),
 				op);
 		return condition;

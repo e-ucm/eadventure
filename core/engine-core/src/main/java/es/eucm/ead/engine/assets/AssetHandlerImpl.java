@@ -47,7 +47,7 @@ import es.eucm.ead.engine.factories.mapproviders.AssetHandlerMap;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.features.Resourced;
 import es.eucm.ead.tools.GenericInjector;
 import org.slf4j.Logger;
@@ -114,7 +114,7 @@ public abstract class AssetHandlerImpl implements AssetHandler {
 		assetsQueue = new ArrayList<AssetDescriptor>();
 	}
 
-	public void queueSceneToLoad(EAdScene scene) {
+	public void queueSceneToLoad(Scene scene) {
 		// FIXME
 		/*List<AssetDescriptor> list = sceneGraph.getSceneAssets().get(scene);
 		if (list == null) {

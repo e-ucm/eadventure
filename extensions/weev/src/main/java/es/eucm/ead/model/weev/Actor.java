@@ -37,11 +37,9 @@
 
 package es.eucm.ead.model.weev;
 
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-
 /**
  * An actor (i.e. interactive element) in the WEEV model
  */
-public interface Actor extends EAdSceneElementDef, WEEVElement {
+public interface Actor extends WEEVElement {
 
 }

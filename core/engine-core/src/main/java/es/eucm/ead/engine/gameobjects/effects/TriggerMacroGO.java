@@ -39,8 +39,8 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.extra.EAdList;
 
@@ -55,10 +55,10 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 	public void initialize() {
 		super.initialize();
 
-		EAdList<EAdEffect> macro = null;
+		EAdList<Effect> macro = null;
 
 		for (int i = 0; i < effect.getMacros().size() && macro == null; i++) {
-			EAdCondition c = effect.getConditions().get(i);
+			Condition c = effect.getConditions().get(i);
 			if (game.getGameState().evaluate(c)) {
 				macro = effect.getMacros().get(i);
 				break;
@@ -66,7 +66,7 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 		}
 
 		if (macro != null) {
-			for (EAdEffect e : macro) {
+			for (Effect e : macro) {
 				game.addEffect(e, action, parent);
 			}
 		}

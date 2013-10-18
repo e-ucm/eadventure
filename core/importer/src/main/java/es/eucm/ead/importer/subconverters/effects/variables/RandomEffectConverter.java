@@ -37,9 +37,9 @@
 
 package es.eucm.ead.importer.subconverters.effects.variables;
 
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.RandomEf;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.RandomEf;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 
 import java.util.ArrayList;
@@ -55,14 +55,14 @@ public class RandomEffectConverter implements
 	}
 
 	@Override
-	public List<EAdEffect> convert(RandomEffect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+	public List<Effect> convert(RandomEffect e) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
 		RandomEf effect = new RandomEf();
-		List<EAdEffect> positiveEffect = effectsConverter.convert(e
+		List<Effect> positiveEffect = effectsConverter.convert(e
 				.getPositiveEffect());
 		effect.addEffect(positiveEffect.get(0), e.getProbability());
 
-		List<EAdEffect> negativeEffect = effectsConverter.convert(e
+		List<Effect> negativeEffect = effectsConverter.convert(e
 				.getNegativeEffect());
 		effect.addEffect(negativeEffect.get(0), 100.0f - e.getProbability());
 		list.add(effect);

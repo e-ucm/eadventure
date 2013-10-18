@@ -40,7 +40,7 @@ package es.eucm.ead.engine.gameobjects.effects;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
@@ -51,7 +51,7 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 
 	@Override
 	public void initialize() {
-		for (EAdField<?> v : effect.getFields()) {
+		for (ElementField<?> v : effect.getFields()) {
 			game.getGameState().setValue(v, effect.getOperation());
 		}
 		if (effect.getParentVar() != null && parent != null) {

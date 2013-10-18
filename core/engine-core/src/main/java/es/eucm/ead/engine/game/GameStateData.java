@@ -37,23 +37,23 @@
 
 package es.eucm.ead.engine.game;
 
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.params.variables.EAdVarDef;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import es.eucm.ead.model.interfaces.features.Variabled;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.params.variables.EAdVarDef;
-
 public class GameStateData {
 
-	private EAdScene currentScene;
+	private Scene currentScene;
 
-	private List<EAdEffect> currentEffects;
+	private List<Effect> currentEffects;
 
-	private Stack<EAdScene> previousSceneStack;
+	private Stack<Scene> previousSceneStack;
 
 	private Map<EAdVarDef<?>, Object> systemVars;
 
@@ -61,8 +61,8 @@ public class GameStateData {
 
 	private ArrayList<Variabled> updateList;
 
-	public GameStateData(EAdScene currentScene, List<EAdEffect> currentEffects,
-			Stack<EAdScene> previousSceneStack,
+	public GameStateData(Scene currentScene, List<Effect> currentEffects,
+			Stack<Scene> previousSceneStack,
 			Map<EAdVarDef<?>, Object> systemVars,
 			Map<Variabled, Map<EAdVarDef<?>, Object>> map,
 			ArrayList<Variabled> updateList) {
@@ -75,15 +75,15 @@ public class GameStateData {
 		this.updateList = updateList;
 	}
 
-	public EAdScene getScene() {
+	public Scene getScene() {
 		return currentScene;
 	}
 
-	public List<EAdEffect> getEffects() {
+	public List<Effect> getEffects() {
 		return currentEffects;
 	}
 
-	public Stack<EAdScene> getPreviousSceneStack() {
+	public Stack<Scene> getPreviousSceneStack() {
 		return previousSceneStack;
 	}
 

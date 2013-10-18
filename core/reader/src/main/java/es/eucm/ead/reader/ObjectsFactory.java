@@ -40,8 +40,7 @@ package es.eucm.ead.reader;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
@@ -340,9 +339,9 @@ public class ObjectsFactory {
 		}
 	}
 
-	public EAdField<?> getField(String element, String varName) {
+	public ElementField<?> getField(String element, String varName) {
 		if (registeredVars.containsKey(varName)) {
-			return new BasicField(new BasicElement(element), registeredVars
+			return new ElementField(new BasicElement(element), registeredVars
 					.get(varName));
 		} else {
 			return null;

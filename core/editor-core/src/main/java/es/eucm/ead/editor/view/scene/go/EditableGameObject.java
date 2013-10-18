@@ -45,7 +45,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.google.inject.Inject;
 
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
@@ -94,7 +94,7 @@ public class EditableGameObject {
 	private Matrix4 matrix;
 	private Matrix4 invMatrix;
 
-	private EAdSceneElement element;
+	private SceneElement element;
 
 	private List<String> states;
 
@@ -128,7 +128,7 @@ public class EditableGameObject {
 				(int) height);
 	}
 
-	public void setSceneElement(EAdSceneElement element) {
+	public void setSceneElement(SceneElement element) {
 		this.element = element;
 		for (Entry<EAdVarDef<?>, Object> var : element.getVars().entrySet()) {
 			if (var.getKey().equals(SceneElement.VAR_X)) {
@@ -192,7 +192,7 @@ public class EditableGameObject {
 		}
 	}
 
-	public EAdSceneElement getSceneElement() {
+	public SceneElement getSceneElement() {
 		return element;
 	}
 

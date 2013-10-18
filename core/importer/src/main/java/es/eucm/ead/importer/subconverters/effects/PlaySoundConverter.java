@@ -37,10 +37,10 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import es.eucm.ead.model.assets.multimedia.Sound;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.PlaySoundEf;
 import es.eucm.ead.importer.resources.ResourcesConverter;
+import es.eucm.ead.model.assets.multimedia.Sound;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.PlaySoundEf;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 
 import java.util.ArrayList;
@@ -56,8 +56,8 @@ public class PlaySoundConverter implements
 	}
 
 	@Override
-	public List<EAdEffect> convert(PlaySoundEffect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+	public List<Effect> convert(PlaySoundEffect e) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
 		PlaySoundEf effect = new PlaySoundEf();
 		String newString = resourcesConverter.getPath(e.getPath());
 

@@ -39,9 +39,10 @@ package es.eucm.ead.editor.model.nodes;
 
 import es.eucm.ead.editor.model.EditorAnnotator;
 import es.eucm.ead.editor.model.EditorModelImpl;
-import es.eucm.ead.model.elements.EAdElement;
 
 import java.util.ArrayList;
+
+import es.eucm.ead.model.elements.BasicElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,15 +68,15 @@ public class ActorFactory implements EditorNodeFactory {
 
 		for (DependencyNode n : model.getNodesById().values()) {
 			if (!(n instanceof EngineNode)
-					|| !(n.getContent() instanceof EAdElement)) {
+					|| !(n.getContent() instanceof BasicElement)) {
 				continue;
 			}
-			EAdElement e = (EAdElement) n.getContent();
+			BasicElement e = (BasicElement) n.getContent();
 			HashSet<String> notes = annotator.get(e, "actor");
 			if (notes.isEmpty()) {
 				continue;
 			}
-			for (EAdElement child : annotator.getChildren(e)) {
+			for (BasicElement child : annotator.getChildren(e)) {
 				logger.debug("Child: {}", child);
 			}
 

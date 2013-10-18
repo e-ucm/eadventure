@@ -37,13 +37,13 @@
 
 package es.eucm.ead.engine.desktop.debugger.hooks;
 
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.engine.game.interfaces.EngineHook;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.EngineHook;
+import es.eucm.ead.engine.game.interfaces.GUI;
+import es.eucm.ead.model.elements.AdventureGame;
 
-public class ModelLoadedHook extends DebuggerHook<EAdAdventureModel> implements
+public class ModelLoadedHook extends DebuggerHook<AdventureGame> implements
 		EngineHook {
 
 	@Override

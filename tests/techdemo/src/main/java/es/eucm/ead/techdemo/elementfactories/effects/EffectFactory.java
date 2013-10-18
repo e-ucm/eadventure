@@ -40,7 +40,7 @@ package es.eucm.ead.techdemo.elementfactories.effects;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.multimedia.Sound;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.effects.PlaySoundEf;
 import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
@@ -50,24 +50,24 @@ import es.eucm.ead.model.elements.effects.text.QuestionEf;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.effects.timedevents.ShowSceneElementEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.elements.predef.effects.ChangeAppearanceEf;
 import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.techdemo.elementfactories.EAdElementsFactory;
 import es.eucm.ead.techdemo.elementfactories.StringFactory.StringType;
 
 public class EffectFactory {
 
-	public ChangeAppearanceEf getChangeAppearance(EAdElement element,
+	public ChangeAppearanceEf getChangeAppearance(BasicElement element,
 			String bundle) {
 		ChangeAppearanceEf effect = new ChangeAppearanceEf(element, bundle);
 		return effect;
 	}
 
-	public InterpolationEf getInterpolationEffect(EAdField<?> var,
+	public InterpolationEf getInterpolationEffect(ElementField<?> var,
 			float startValue, float endValue, int time,
 			InterpolationLoopType loop, InterpolationType interpolationType) {
 		InterpolationEf interpolation = new InterpolationEf(var, startValue,
@@ -118,14 +118,14 @@ public class EffectFactory {
 		return this.getShowText(text, x, y, ShowTextAnimation.NONE);
 	}
 
-	public ChangeFieldEf getChangeVarValueEffect(EAdField<?> var,
-			EAdOperation operation) {
+	public ChangeFieldEf getChangeVarValueEffect(ElementField<?> var,
+			Operation operation) {
 		ChangeFieldEf effect = new ChangeFieldEf(var, operation);
 		return effect;
 
 	}
 
-	public MakeActiveElementEf getMakeActiveElement(EAdSceneElement element) {
+	public MakeActiveElementEf getMakeActiveElement(SceneElement element) {
 		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 		return effect;
 	}

@@ -37,19 +37,19 @@
 
 package es.eucm.ead.techdemo.elementfactories.scenes.scenes;
 
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.sceneelements.Button;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.guievents.KeyGEv;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
@@ -105,13 +105,15 @@ public class CharacterScene extends EmptyScene {
 						.getInstance().getEffectFactory().getMakeActiveElement(
 								element));
 
-		element.getEvents().add(event);
+		element.addEvent(event);
 
 		this.getSceneElements().add(element);
 
-		EAdEffect goUpEffect = EAdElementsFactory.getInstance()
-				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<Orientation>(element, VAR_ORIENTATION),
+		Effect goUpEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						new ElementField<Orientation>(element, VAR_ORIENTATION),
 						new ValueOp(Orientation.N));
 		SceneElement goUpArrow = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(
@@ -121,9 +123,11 @@ public class CharacterScene extends EmptyScene {
 
 		element.addBehavior(KeyGEv.KEY_ARROW_UP, goUpEffect);
 
-		EAdEffect goDownEffect = EAdElementsFactory.getInstance()
-				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<Orientation>(element, VAR_ORIENTATION),
+		Effect goDownEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						new ElementField<Orientation>(element, VAR_ORIENTATION),
 						new ValueOp(Orientation.S));
 		SceneElement goDownArrow = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(
@@ -133,9 +137,11 @@ public class CharacterScene extends EmptyScene {
 
 		element.addBehavior(KeyGEv.KEY_ARROW_DOWN, goDownEffect);
 
-		EAdEffect goLeftEffect = EAdElementsFactory.getInstance()
-				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<Orientation>(element, VAR_ORIENTATION),
+		Effect goLeftEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						new ElementField<Orientation>(element, VAR_ORIENTATION),
 						new ValueOp(Orientation.W));
 		SceneElement goLeftArrow = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(
@@ -145,9 +151,11 @@ public class CharacterScene extends EmptyScene {
 
 		element.addBehavior(KeyGEv.KEY_ARROW_LEFT, goLeftEffect);
 
-		EAdEffect goRightEffect = EAdElementsFactory.getInstance()
-				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<Orientation>(element, VAR_ORIENTATION),
+		Effect goRightEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						new ElementField<Orientation>(element, VAR_ORIENTATION),
 						new ValueOp(Orientation.E));
 		SceneElement goRightArrow = EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(
@@ -158,9 +166,9 @@ public class CharacterScene extends EmptyScene {
 		element.addBehavior(KeyGEv.KEY_ARROW_RIGHT, goRightEffect);
 
 		// Change state buttons
-		EAdEffect standEffect = EAdElementsFactory.getInstance()
+		Effect standEffect = EAdElementsFactory.getInstance()
 				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<String>(element, VAR_STATE),
+						new ElementField<String>(element, VAR_STATE),
 						new ValueOp(CommonStates.DEFAULT.toString()));
 		//		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 		//				.getSceneElementFactory()
@@ -171,18 +179,18 @@ public class CharacterScene extends EmptyScene {
 		stand.setPosition(Corner.CENTER, 600, 250);
 		getSceneElements().add(stand);
 
-		EAdEffect talkEffect = EAdElementsFactory.getInstance()
-				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<String>(element, VAR_STATE),
+		Effect talkEffect = EAdElementsFactory.getInstance().getEffectFactory()
+				.getChangeVarValueEffect(
+						new ElementField<String>(element, VAR_STATE),
 						new ValueOp(CommonStates.TALKING.toString()));
 		Button talk = new Button(new EAdString("techDemo.CharacterScene.Talk"));
 		talk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
 		getSceneElements().add(talk);
 
-		EAdEffect walkEffect = EAdElementsFactory.getInstance()
-				.getEffectFactory().getChangeVarValueEffect(
-						new BasicField<String>(element, VAR_STATE),
+		Effect walkEffect = EAdElementsFactory.getInstance().getEffectFactory()
+				.getChangeVarValueEffect(
+						new ElementField<String>(element, VAR_STATE),
 						new ValueOp(CommonStates.WALKING.toString()));
 		Button walk = new Button(new EAdString("techDemo.CharacterScene.Walk"));
 		walk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, walkEffect);

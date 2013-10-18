@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.tracking;
 
 import es.eucm.ead.engine.game.GameState;
-import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.AdventureGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ public abstract class AbstractGameTracker implements GameTracker,
 
 	protected GameState gameState;
 
-	protected EAdAdventureModel model;
+	protected AdventureGame model;
 
 	private boolean tracking;
 
@@ -59,7 +59,7 @@ public abstract class AbstractGameTracker implements GameTracker,
 	}
 
 	@Override
-	public void startTracking(EAdAdventureModel model) {
+	public void startTracking(AdventureGame model) {
 		this.model = model;
 		tracking = startTrackingImpl(model);
 	}
@@ -70,7 +70,7 @@ public abstract class AbstractGameTracker implements GameTracker,
 	 * @param model the model of the game
 	 * @return if tracking was successfully started
 	 */
-	protected abstract boolean startTrackingImpl(EAdAdventureModel model);
+	protected abstract boolean startTrackingImpl(AdventureGame model);
 
 	/**
 	 * @return if the tracker is successfully sending traces

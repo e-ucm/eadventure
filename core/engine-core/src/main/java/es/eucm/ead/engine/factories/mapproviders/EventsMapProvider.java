@@ -37,20 +37,12 @@
 
 package es.eucm.ead.engine.factories.mapproviders;
 
-import es.eucm.ead.engine.gameobjects.events.ConditionEvGO;
-import es.eucm.ead.engine.gameobjects.events.EventGO;
-import es.eucm.ead.engine.gameobjects.events.SceneElementEvGO;
-import es.eucm.ead.engine.gameobjects.events.WatchFieldEvGO;
-import es.eucm.ead.model.elements.EAdEvent;
-import es.eucm.ead.model.elements.events.ConditionedEv;
-import es.eucm.ead.model.elements.events.SceneElementEv;
-import es.eucm.ead.model.elements.events.TimedEv;
-import es.eucm.ead.model.elements.events.WatchFieldEv;
-import es.eucm.ead.engine.gameobjects.events.TimedEvGO;
+import es.eucm.ead.engine.gameobjects.events.*;
+import es.eucm.ead.model.elements.events.*;
 
 public class EventsMapProvider
 		extends
-		AbstractMapProvider<Class<? extends EAdEvent>, Class<? extends EventGO<? extends EAdEvent>>> {
+		AbstractMapProvider<Class<? extends Event>, Class<? extends EventGO<? extends Event>>> {
 
 	public EventsMapProvider() {
 		factoryMap.put(ConditionedEv.class, ConditionEvGO.class);

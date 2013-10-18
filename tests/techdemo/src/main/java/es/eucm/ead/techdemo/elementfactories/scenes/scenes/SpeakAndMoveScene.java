@@ -40,25 +40,23 @@ package es.eucm.ead.techdemo.elementfactories.scenes.scenes;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.text.BasicFont;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.ActorActionsEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
@@ -70,7 +68,7 @@ import es.eucm.ead.techdemo.elementfactories.scenes.normalguy.NgCommon;
 public class SpeakAndMoveScene extends EmptyScene {
 
 	private int dispY = 0;
-	private BasicField<EAdTrajectory> trajectoryField;
+	private ElementField<Trajectory> trajectoryField;
 
 	public SpeakAndMoveScene() {
 		this.setId("SpeakAndMoveScene");
@@ -99,7 +97,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, makeActive);
-		character.getEvents().add(event);
+		character.addEvent(event);
 
 		addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementToMouseEf());
@@ -129,7 +127,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		action.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
-		EAdList<EAdSceneElementDef> actions = new EAdList<EAdSceneElementDef>();
+		EAdList<SceneElementDef> actions = new EAdList<SceneElementDef>();
 
 		actions.add(action);
 
@@ -138,14 +136,13 @@ public class SpeakAndMoveScene extends EmptyScene {
 		actionsObject.getDefinition().setVarInitialValue(
 				ActorActionsEf.VAR_ACTIONS, actions);
 
-		EAdEffect showActions = new ActorActionsEf(actionsObject
-				.getDefinition());
+		Effect showActions = new ActorActionsEf(actionsObject.getDefinition());
 		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, showActions);
 		getSceneElements().add(actionsObject);
 
 		// Trajectories
 
-		trajectoryField = new BasicField<EAdTrajectory>(this,
+		trajectoryField = new ElementField<Trajectory>(this,
 				VAR_TRAJECTORY_DEFINITION);
 
 		SimpleTrajectory freeWalk = new SimpleTrajectory();
@@ -185,7 +182,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 						"techDemo.SpeakAndMoveScene.rectangle"));
 	}
 
-	private EAdSceneElement getChangeTrajectory(SimpleTrajectory freeWalk,
+	private SceneElement getChangeTrajectory(SimpleTrajectory freeWalk,
 			String string) {
 		dispY += 50;
 		Caption c = new Caption(string);

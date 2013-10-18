@@ -76,9 +76,9 @@ public class ScrollScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, makeActive);
-		character.getEvents().add(event);
+		character.addEvent(event);
 
-		this.getEvents().add(new ScrollWithSceneElementEv(this, character));
+		this.addEvent(new ScrollWithSceneElementEv(this, character));
 
 		SimpleTrajectory trajectory = new SimpleTrajectory(false);
 		trajectory.setLimits(0, 0, 1000, 1213);

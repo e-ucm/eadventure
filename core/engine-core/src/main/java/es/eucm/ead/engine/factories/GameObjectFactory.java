@@ -40,7 +40,7 @@ package es.eucm.ead.engine.factories;
 import com.badlogic.gdx.utils.Pool;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.gameobjects.GameObject;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.IdGenerator;
@@ -62,7 +62,7 @@ import java.util.Map;
  * </p>
  */
 @Singleton
-public class GameObjectFactory<S extends EAdElement, T extends GameObject<?>> {
+public class GameObjectFactory<S extends BasicElement, T extends GameObject<?>> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("GameObjectFactoryImpl");

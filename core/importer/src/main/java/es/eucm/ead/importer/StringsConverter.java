@@ -42,8 +42,8 @@ import com.google.inject.Singleton;
 import es.eucm.ead.model.elements.conditions.OperationCond;
 import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.params.text.EAdString;
 
 import java.util.HashMap;
@@ -141,10 +141,10 @@ public class StringsConverter {
 	 * @param text
 	 * @return
 	 */
-	public EAdList<EAdOperation> getOperations(String text) {
+	public EAdList<Operation> getOperations(String text) {
 		// [ST - Conditions]
 		int i = 0;
-		EAdList<EAdOperation> operations = new EAdList<EAdOperation>();
+		EAdList<Operation> operations = new EAdList<Operation>();
 		boolean finished = false;
 		while (!finished && i < text.length()) {
 			int beginIndex = text.indexOf('(', i);
@@ -152,8 +152,8 @@ public class StringsConverter {
 			int questionMark = text.indexOf('?', i);
 			if (beginIndex != -1 && endIndex != -1 && endIndex > beginIndex
 					&& questionMark > beginIndex) {
-				EAdOperation op = createOperation(text.substring(
-						beginIndex + 2, questionMark));
+				Operation op = createOperation(text.substring(beginIndex + 2,
+						questionMark));
 				if (op != null) {
 					operations.add(op);
 				}
@@ -170,7 +170,7 @@ public class StringsConverter {
 	 * @param condition
 	 * @return
 	 */
-	private EAdOperation createOperation(String condition) {
+	private Operation createOperation(String condition) {
 		Comparator comparator;
 		String[] comparison;
 		// Look for comparators. Comparators checked are those checked in es.eucm.eadventure.engine.engine.control.VarSummary
@@ -194,7 +194,7 @@ public class StringsConverter {
 		}
 
 		if (comparison.length == 2) {
-			EAdField<?> op1 = modelQuerier.getVariable(condition);
+			ElementField<?> op1 = modelQuerier.getVariable(condition);
 			Integer number;
 			try {
 				number = new Integer(comparison[1]);

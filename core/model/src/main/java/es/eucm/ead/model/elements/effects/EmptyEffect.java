@@ -45,6 +45,6 @@ import es.eucm.ead.model.interfaces.Element;
  * 
  */
 @Element
-public class EmptyEffect extends AbstractEffect {
+public class EmptyEffect extends Effect {
 
 }

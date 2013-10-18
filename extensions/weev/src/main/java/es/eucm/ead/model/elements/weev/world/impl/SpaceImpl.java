@@ -37,16 +37,16 @@
 
 package es.eucm.ead.model.elements.weev.world.impl;
 
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.weev.world.Space;
 
 /**
  * Default {@link es.eucm.ead.model.weev.world.Space} implementation
  */
 @Element
-public class SpaceImpl extends BasicScene implements Space {
+public class SpaceImpl extends Scene implements Space {
 
 	@Param
 	private int x;

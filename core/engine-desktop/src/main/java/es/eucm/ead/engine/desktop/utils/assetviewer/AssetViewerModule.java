@@ -42,14 +42,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.platform.assets.DesktopAssetHandler;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.StringHandlerImpl;
@@ -118,13 +118,13 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public EAdScene getPreviousScene() {
+		public Scene getPreviousScene() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public SceneElementGO getSceneElement(EAdSceneElement element) {
+		public SceneElementGO getSceneElement(SceneElement element) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -168,8 +168,7 @@ public class AssetViewerModule extends AbstractModule {
 		}
 
 		@Override
-		public String processTextVars(String text,
-				EAdList<EAdOperation> operations) {
+		public String processTextVars(String text, EAdList<Operation> operations) {
 			return text;
 		}
 

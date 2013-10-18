@@ -46,17 +46,20 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.effects.ActorActionsEf;
 import es.eucm.ead.model.elements.effects.enums.ChangeActorActions;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.util.Position.Corner;
 
 public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
@@ -78,7 +81,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	}
 
 	public void initialize() {
-		EAdGroupElement rep = getVisualRepresentation();
+		GroupElement rep = getVisualRepresentation();
 		if (rep != null) {
 			actions = sceneElementFactory.get(getVisualRepresentation());
 			actions.setInputProcessor(this, false);
@@ -91,12 +94,12 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	protected EAdGroupElement getVisualRepresentation() {
+	protected GroupElement getVisualRepresentation() {
 		if (effect.getChange() == ChangeActorActions.SHOW_ACTIONS) {
-			EAdSceneElementDef ref = effect.getActionElement();
+			SceneElementDef ref = effect.getActionElement();
 			GameState gameState = this.game.getGameState();
 			if (ref != null) {
-				EAdList<EAdSceneElementDef> list = gameState.getValue(ref,
+				EAdList<SceneElementDef> list = gameState.getValue(ref,
 						ActorActionsEf.VAR_ACTIONS);
 				if (list != null) {
 					float x = gameState.getValue(SystemFields.MOUSE_SCENE_X);
@@ -130,8 +133,8 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 					bg.setCatchAll(true);
 					hud.getSceneElements().add(bg);
 					boolean hasEnableActions = false;
-					for (EAdSceneElementDef a : list) {
-						EAdCondition cond = (EAdCondition) a.getVars().get(
+					for (SceneElementDef a : list) {
+						Condition cond = (Condition) a.getVars().get(
 								ActorActionsEf.VAR_ACTION_COND);
 						if (gameState.evaluate(cond)) {
 							hasEnableActions = true;
@@ -141,12 +144,12 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 							int targetY = (int) (Math.sin(accAngle) * radius);
 
 							Tween.to(
-									new BasicField<Float>(element,
+									new ElementField<Float>(element,
 											SceneElement.VAR_X), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetX)
 									.start(this.game.getTweenManager());
 							Tween.to(
-									new BasicField<Float>(element,
+									new ElementField<Float>(element,
 											SceneElement.VAR_Y), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetY)
 									.start(this.game.getTweenManager());

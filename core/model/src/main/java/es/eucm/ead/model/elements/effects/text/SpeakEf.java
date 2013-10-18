@@ -37,16 +37,16 @@
 
 package es.eucm.ead.model.elements.effects.text;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.enums.Alignment;
 import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
 import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.Paint;
 import es.eucm.ead.model.params.paint.EAdPaint;
@@ -59,16 +59,16 @@ import es.eucm.ead.model.params.text.EAdString;
  * 
  */
 @Element
-public class SpeakEf extends AbstractEffect {
+public class SpeakEf extends Effect {
 
 	private static final Paint BUBBLE_PAINT = new Paint(new ColorFill(255, 255,
 			255, 220), ColorFill.BLACK, 2);
 
 	@Param
-	private EAdOperation x;
+	private Operation x;
 
 	@Param
-	private EAdOperation y;
+	private Operation y;
 
 	@Param
 	private Caption caption;
@@ -80,7 +80,7 @@ public class SpeakEf extends AbstractEffect {
 	private BalloonType ballonType;
 
 	@Param
-	private EAdField<String> stateField;
+	private ElementField<String> stateField;
 
 	@Param
 	private int time;
@@ -121,7 +121,7 @@ public class SpeakEf extends AbstractEffect {
 	 *            y coordinate for the speaker
 	 * 
 	 */
-	public void setPosition(EAdOperation x, EAdOperation y) {
+	public void setPosition(Operation x, Operation y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -163,11 +163,11 @@ public class SpeakEf extends AbstractEffect {
 		return bubbleColor;
 	}
 
-	public EAdOperation getX() {
+	public Operation getX() {
 		return x;
 	}
 
-	public EAdOperation getY() {
+	public Operation getY() {
 		return y;
 	}
 
@@ -175,11 +175,11 @@ public class SpeakEf extends AbstractEffect {
 		this.caption.setAlignment(alignment);
 	}
 
-	public void setX(EAdOperation x) {
+	public void setX(Operation x) {
 		this.x = x;
 	}
 
-	public void setY(EAdOperation y) {
+	public void setY(Operation y) {
 		this.y = y;
 	}
 
@@ -195,11 +195,11 @@ public class SpeakEf extends AbstractEffect {
 		return caption.getLabel();
 	}
 
-	public void setStateField(EAdField<String> stateField) {
+	public void setStateField(ElementField<String> stateField) {
 		this.stateField = stateField;
 	}
 
-	public EAdField<String> getStateField() {
+	public ElementField<String> getStateField() {
 		return this.stateField;
 	}
 

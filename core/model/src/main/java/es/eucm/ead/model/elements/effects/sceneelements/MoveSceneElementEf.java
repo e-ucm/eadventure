@@ -37,18 +37,18 @@
 
 package es.eucm.ead.model.elements.effects.sceneelements;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.effects.enums.MovementSpeed;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.ValueOp;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 
 /**
  * 
- * {@link es.eucm.ead.model.elements.EAdEffect} to move an {@link EAdActorReference} to its current
+ * {@link es.eucm.ead.model.elements.Effect} to move an {@link EAdActorReference} to its current
  * position to another
  * 
  */
@@ -59,10 +59,10 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * Target coordinates
 	 */
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation xtarget;
+	private Operation xtarget;
 
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation ytarget;
+	private Operation ytarget;
 
 	/**
 	 * Movement speed
@@ -77,10 +77,10 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	private boolean useTrajectory;
 
 	@Param
-	private EAdSceneElementDef targetDefinition;
+	private SceneElementDef targetDefinition;
 
 	@Param
-	private EAdSceneElement targetSceneElement;
+	private SceneElement targetSceneElement;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -91,22 +91,22 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element) {
+	public MoveSceneElementEf(SceneElementDef element) {
 		this(element, new MathOp("0"), new MathOp("0"));
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element, EAdOperation xTarget,
-			EAdOperation yTarget) {
+	public MoveSceneElementEf(SceneElementDef element, Operation xTarget,
+			Operation yTarget) {
 		this(element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element, float xTarget,
+	public MoveSceneElementEf(SceneElementDef element, float xTarget,
 			float yTarget, MovementSpeed speed) {
 		this(element, new MathOp("" + xTarget), new MathOp("" + yTarget), speed);
 	}
 
-	public MoveSceneElementEf(EAdSceneElementDef element, EAdOperation xTarget,
-			EAdOperation yTarget, MovementSpeed speed) {
+	public MoveSceneElementEf(SceneElementDef element, Operation xTarget,
+			Operation yTarget, MovementSpeed speed) {
 		super();
 		setSceneElement(element);
 		this.xtarget = xTarget;
@@ -124,7 +124,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * @param y
 	 *            the expression to calculate the y value
 	 */
-	public void setTargetCoordiantes(EAdOperation x, EAdOperation y) {
+	public void setTargetCoordiantes(Operation x, Operation y) {
 		xtarget = x;
 		ytarget = y;
 	}
@@ -143,7 +143,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * 
 	 * @return x coordinate target
 	 */
-	public EAdOperation getXtarget() {
+	public Operation getXtarget() {
 		return xtarget;
 	}
 
@@ -151,7 +151,7 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 	 * 
 	 * @return y coordinate target
 	 */
-	public EAdOperation getYtarget() {
+	public Operation getYtarget() {
 		return ytarget;
 	}
 
@@ -187,39 +187,39 @@ public class MoveSceneElementEf extends AbstractSceneElementEffect {
 		return useTrajectory;
 	}
 
-	public void setTarget(EAdSceneElementDef sceneElementDef) {
+	public void setTarget(SceneElementDef sceneElementDef) {
 		setTargetDefinition(sceneElementDef);
 	}
 
-	public void setTarget(EAdSceneElement sceneElement) {
+	public void setTarget(SceneElement sceneElement) {
 		setTargetSceneElement(sceneElement);
 	}
 
-	public EAdSceneElementDef getTarget() {
+	public SceneElementDef getTarget() {
 		return targetDefinition;
 	}
 
-	public void setXtarget(EAdOperation xTarget) {
+	public void setXtarget(Operation xTarget) {
 		this.xtarget = xTarget;
 	}
 
-	public void setYtarget(EAdOperation yTarget) {
+	public void setYtarget(Operation yTarget) {
 		this.ytarget = yTarget;
 	}
 
-	public EAdSceneElementDef getTargetDefinition() {
+	public SceneElementDef getTargetDefinition() {
 		return targetDefinition;
 	}
 
-	public void setTargetDefinition(EAdSceneElementDef targetDefinition) {
+	public void setTargetDefinition(SceneElementDef targetDefinition) {
 		this.targetDefinition = targetDefinition;
 	}
 
-	public EAdSceneElement getTargetSceneElement() {
+	public SceneElement getTargetSceneElement() {
 		return targetSceneElement;
 	}
 
-	public void setTargetSceneElement(EAdSceneElement targetSceneElement) {
+	public void setTargetSceneElement(SceneElement targetSceneElement) {
 		this.targetSceneElement = targetSceneElement;
 	}
 

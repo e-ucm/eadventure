@@ -37,59 +37,41 @@
 
 package es.eucm.ead.editor.model;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.zip.ZipFile;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import es.eucm.ead.editor.model.nodes.EditorNodeFactory;
+import com.google.inject.Inject;
+import es.eucm.ead.editor.EditorStringHandler;
+import es.eucm.ead.editor.model.nodes.*;
+import es.eucm.ead.editor.model.nodes.asset.AssetFactory;
+import es.eucm.ead.editor.model.nodes.asset.AssetsNode;
+import es.eucm.ead.editor.model.visitor.ModelVisitor;
+import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
+import es.eucm.ead.editor.util.DataPrettifier;
+import es.eucm.ead.importer.AdventureConverter;
+import es.eucm.ead.importer.annotation.ImportAnnotator;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.reader.AdventureReader;
+import es.eucm.ead.reader.strings.StringsReader;
+import es.eucm.ead.tools.PropertiesReader;
+import es.eucm.ead.tools.StringHandler;
+import es.eucm.ead.tools.TextFileReader;
+import es.eucm.ead.tools.java.JavaTextFileReader;
+import es.eucm.ead.tools.java.JavaTextFileWriter;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import es.eucm.ead.tools.reflection.ReflectionProvider;
+import es.eucm.ead.tools.xml.XMLParser;
+import es.eucm.ead.writer.AdventureWriter;
+import es.eucm.ead.writer.StringWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.google.inject.Inject;
-
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.editor.EditorStringHandler;
-import es.eucm.ead.editor.model.nodes.ActorFactory;
-import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.editor.model.nodes.EditorNode;
-import es.eucm.ead.editor.model.nodes.EngineNode;
-import es.eucm.ead.editor.model.nodes.StringsNode;
-import es.eucm.ead.editor.model.nodes.asset.AssetFactory;
-import es.eucm.ead.editor.model.nodes.asset.AssetsNode;
-import es.eucm.ead.editor.model.visitor.ModelVisitor;
-import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
-import es.eucm.ead.importer.AdventureConverter;
-import ead.importer.EAdventureImporter;
-import ead.importer.annotation.ImportAnnotator;
-import es.eucm.ead.editor.model.nodes.SceneFactory;
-import es.eucm.ead.reader.AdventureReader;
-import es.eucm.ead.reader.strings.StringsReader;
-import es.eucm.ead.tools.PropertiesReader;
-import es.eucm.ead.tools.StringHandler;
-import es.eucm.ead.tools.TextFileReader;
-import es.eucm.ead.editor.util.DataPrettifier;
-import es.eucm.ead.tools.java.JavaTextFileReader;
-import es.eucm.ead.tools.java.JavaTextFileWriter;
-import es.eucm.ead.tools.reflection.ReflectionProvider;
-import es.eucm.ead.tools.xml.XMLParser;
-import es.eucm.ead.tools.java.utils.FileUtils;
-import es.eucm.ead.writer.AdventureWriter;
-import es.eucm.ead.writer.StringWriter;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.zip.ZipFile;
 
 /**
  * Loads an EditorModel.
@@ -206,7 +188,7 @@ public class EditorModelLoader {
 	 * //FIXME: Folder
 	 */
 	public void exportGame(File target) throws IOException {
-		writer.write((EAdAdventureModel) model.getEngineModel(), saveDir
+		writer.write((AdventureGame) model.getEngineModel(), saveDir
 				.getAbsolutePath(), new JavaTextFileWriter());
 		//	target.getAbsolutePath(), ".eap",
 		//				"Editor project, exported", true);
@@ -687,7 +669,7 @@ public class EditorModelLoader {
 			throws IOException {
 
 		// data
-		writer.write((EAdAdventureModel) model.getEngineModel(), dest
+		writer.write((AdventureGame) model.getEngineModel(), dest
 				.getAbsolutePath(), new JavaTextFileWriter());
 
 		if (humanReadable) {
@@ -716,7 +698,7 @@ public class EditorModelLoader {
 	 * Re-issues importer progress updates as own updates
 	 */
 	public class ProgressProxy implements
-			EAdventureImporter.ImporterProgressListener {
+			AdventureConverter.ImporterProgressListener {
 
 		private int start;
 		private float factor;

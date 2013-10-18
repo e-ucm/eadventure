@@ -41,8 +41,7 @@ import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
@@ -60,7 +59,7 @@ public class SharingEffectsScene extends EmptyScene {
 		SceneElement b = new SceneElement(new RectangleShape(50, 50,
 				ColorFill.RED));
 
-		EAdField<Float> field = new BasicField<Float>(
+		ElementField<Float> field = new ElementField<Float>(
 				SystemFields.ACTIVE_ELEMENT, SceneElement.VAR_ROTATION);
 		ChangeFieldEf effect = new ChangeFieldEf(field, new MathOp("[0] + 0.1",
 				field));

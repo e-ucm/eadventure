@@ -40,14 +40,14 @@ package es.eucm.ead.engine.gameobjects.effects.sceneelement;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.effects.AbstractEffectGO;
 import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.features.Identified;
 
 public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		extends AbstractEffectGO<T> {
 
-	protected EAdSceneElement sceneElement;
+	protected SceneElement sceneElement;
 
 	public SceneElementEffectGO(Game game) {
 		super(game);
@@ -59,8 +59,8 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		Identified sceneElement = game.getGameState().maybeDecodeField(
 				effect.getSceneElement());
 
-		if (sceneElement instanceof EAdSceneElement) {
-			this.sceneElement = (EAdSceneElement) sceneElement;
+		if (sceneElement instanceof SceneElement) {
+			this.sceneElement = (SceneElement) sceneElement;
 		} else if (sceneElement != null) {
 			this.sceneElement = game.getGameState().getValue(sceneElement,
 					SceneElementDef.VAR_SCENE_ELEMENT);

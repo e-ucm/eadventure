@@ -51,7 +51,7 @@ import es.eucm.ead.model.interfaces.Param;
  * </p>
  */
 @Element
-public class MathOp extends AbstractOperation {
+public class MathOp extends Operation {
 
 	/**
 	 * Expression to be evaluated
@@ -78,11 +78,11 @@ public class MathOp extends AbstractOperation {
 	 * @param floatVar2
 	 * @param fields
 	 */
-	public MathOp(String expression, EAdField<?>... fields) {
+	public MathOp(String expression, ElementField<?>... fields) {
 		super();
 		this.expression = expression;
 		if (fields != null) {
-			for (EAdField<?> f : fields) {
+			for (ElementField<?> f : fields) {
 				operations.add(f);
 			}
 		}
@@ -115,7 +115,7 @@ public class MathOp extends AbstractOperation {
 	 *            the increment
 	 * @return the operation
 	 */
-	public static MathOp getIncrementExpression(EAdField<?> var,
+	public static MathOp getIncrementExpression(ElementField<?> var,
 			Integer increment) {
 		return new MathOp("[0] + " + increment, var);
 	}
@@ -131,7 +131,7 @@ public class MathOp extends AbstractOperation {
 	public String toString() {
 		String s = expression;
 		int i = 0;
-		for (EAdOperation f : operations) {
+		for (Operation f : operations) {
 			s = s.replace("[" + i + "]", f + "");
 			i++;
 		}

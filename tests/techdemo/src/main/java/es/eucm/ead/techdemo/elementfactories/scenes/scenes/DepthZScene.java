@@ -45,8 +45,7 @@ import es.eucm.ead.model.elements.effects.enums.InterpolationType;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
@@ -73,9 +72,9 @@ public class DepthZScene extends EmptyScene {
 		getSceneElements().add(e2);
 		e2.setId("BallZ");
 
-		EAdField<Float> xField = new BasicField<Float>(e2, VAR_X);
-		EAdField<Integer> zField = new BasicField<Integer>(e2, VAR_Z);
-		EAdField<Float> scaleField = new BasicField<Float>(e2, VAR_SCALE);
+		ElementField<Float> xField = new ElementField<Float>(e2, VAR_X);
+		ElementField<Integer> zField = new ElementField<Integer>(e2, VAR_Z);
+		ElementField<Float> scaleField = new ElementField<Float>(e2, VAR_SCALE);
 
 		ChangeFieldEf changeZ1 = new ChangeFieldEf(zField, new ValueOp(1));
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scaleField, new ValueOp(
@@ -100,7 +99,7 @@ public class DepthZScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, changeZ1);
 
-		e2.getEvents().add(event);
+		e2.addEvent(event);
 
 	}
 

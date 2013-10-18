@@ -39,14 +39,13 @@ package es.eucm.ead.model.elements.transitions;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.scenes.BasicScene;
 
 /**
  * Basic empty transition
  *
  */
 @Element
-public class EmptyTransition extends BasicScene implements EAdTransition {
+public class EmptyTransition extends Transition {
 
 	private static final EmptyTransition transition = new EmptyTransition(0);
 

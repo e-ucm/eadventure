@@ -37,20 +37,18 @@
 
 package es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
+import es.eucm.ead.model.assets.AssetDescriptor;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class DefaultSceneLoader implements SceneLoader {
@@ -62,13 +60,13 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	private List<AssetDescriptor> currentAssets;
 
-	private List<EAdSceneElement> goList;
+	private List<SceneElement> goList;
 
-	private List<EAdSceneElement> currentGoList;
+	private List<SceneElement> currentGoList;
 
 	protected SceneLoaderListener sceneLoaderListener;
 
-	private EAdScene scene;
+	private Scene scene;
 
 	protected SceneGO sceneGO;
 
@@ -80,11 +78,11 @@ public class DefaultSceneLoader implements SceneLoader {
 	public DefaultSceneLoader(SceneElementFactory sceneElementFactory) {
 		this.sceneElementFactory = sceneElementFactory;
 		currentAssets = new ArrayList<AssetDescriptor>();
-		goList = new ArrayList<EAdSceneElement>();
-		currentGoList = new ArrayList<EAdSceneElement>();
+		goList = new ArrayList<SceneElement>();
+		currentGoList = new ArrayList<SceneElement>();
 	}
 
-	public void loadScene(EAdScene scene, SceneLoaderListener listener) {
+	public void loadScene(Scene scene, SceneLoaderListener listener) {
 		this.scene = scene;
 		this.sceneLoaderListener = listener;
 		logger.info("Loading next scene: " + scene.getId());
@@ -114,7 +112,7 @@ public class DefaultSceneLoader implements SceneLoader {
 		currentGoList.clear();
 
 		int i = 0;
-		for (EAdSceneElement e : goList) {
+		for (SceneElement e : goList) {
 			if (!currentGoList.contains(e)) {
 				sceneElementFactory.remove(e);
 				i++;

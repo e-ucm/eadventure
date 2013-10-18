@@ -41,9 +41,7 @@ import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.Node;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
@@ -75,20 +73,20 @@ public class DijkstraNodeTrajectoryGenerator {
 	}
 
 	public Path getTrajectory(NodeTrajectory trajectoryDefinition,
-			EAdSceneElement movingElement, float x, float y) {
+			SceneElement movingElement, float x, float y) {
 		return pathToNearestPoint(trajectoryDefinition, movingElement, x, y,
 				null);
 	}
 
 	public Path getTrajectory(NodeTrajectory trajectoryDefinition,
-			EAdSceneElement movingElement, float x, float y,
+			SceneElement movingElement, float x, float y,
 			SceneElementGO sceneElement) {
 		return pathToNearestPoint(trajectoryDefinition, movingElement, x, y,
 				sceneElement);
 	}
 
 	public boolean canGetTo(NodeTrajectory trajectoryDefinition,
-			EAdSceneElement movingElement, SceneElementGO sceneElement) {
+			SceneElement movingElement, SceneElementGO sceneElement) {
 		return pathToNearestPoint(trajectoryDefinition, movingElement,
 				sceneElement.getX(), sceneElement.getY(), sceneElement)
 				.isGetsTo();
@@ -113,7 +111,7 @@ public class DijkstraNodeTrajectoryGenerator {
 	 * @return The path to the destination
 	 */
 	private Path pathToNearestPoint(NodeTrajectory trajectoryDefinition,
-			EAdSceneElement movingElement, float toX, float toY,
+			SceneElement movingElement, float toX, float toY,
 			SceneElementGO sceneElement) {
 
 		Map<String, DijkstraNode> nodeMap = new HashMap<String, DijkstraNode>();
@@ -255,7 +253,7 @@ public class DijkstraNodeTrajectoryGenerator {
 	 * @return
 	 */
 	private DijkstraNode generateSides(NodeTrajectory trajectoryDefinition,
-			Map<String, DijkstraNode> nodeMap, EAdSceneElement movingElement,
+			Map<String, DijkstraNode> nodeMap, SceneElement movingElement,
 			float toX, float toY, SceneElementGO sceneElement) {
 
 		Side currentSide = getCurrentSide(trajectoryDefinition, movingElement);
@@ -395,8 +393,8 @@ public class DijkstraNodeTrajectoryGenerator {
 	 */
 	private void addInfluenceAreaIntersections(SceneElementGO sceneElement,
 			List<DijkstraNode> intersections) {
-		Rectangle rectangle = valueMap.getValue(new BasicField<Rectangle>(
-				(EAdSceneElement) sceneElement.getElement(),
+		Rectangle rectangle = valueMap.getValue(new ElementField<Rectangle>(
+				(SceneElement) sceneElement.getElement(),
 				NodeTrajectory.VAR_INFLUENCE_AREA));
 		// TODO check if the position of the element isn't relevant (i.e. if the
 		// position of the rectangle is not relative to the element)
@@ -419,8 +417,8 @@ public class DijkstraNodeTrajectoryGenerator {
 	private boolean isGetsTo(Position position, SceneElementGO sceneElement) {
 		if (sceneElement == null)
 			return false;
-		Rectangle rectangle = valueMap.getValue(new BasicField<Rectangle>(
-				(EAdSceneElement) sceneElement.getElement(),
+		Rectangle rectangle = valueMap.getValue(new ElementField<Rectangle>(
+				(SceneElement) sceneElement.getElement(),
 				NodeTrajectory.VAR_INFLUENCE_AREA));
 		if (rectangle == null)
 			return false;
@@ -445,10 +443,10 @@ public class DijkstraNodeTrajectoryGenerator {
 	 */
 	private void addBarrierIntersections(NodeTrajectory trajectoryDefinition,
 			List<DijkstraNode> intersections) {
-		for (EAdSceneElement barrier : trajectoryDefinition.getBarriers()) {
+		for (SceneElement barrier : trajectoryDefinition.getBarriers()) {
 			SceneElementGO go = gameObjectFactory.get(barrier);
-			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
-					NodeTrajectory.VAR_BARRIER_ON);
+			ElementField<Boolean> barrierOn = new ElementField<Boolean>(
+					barrier, NodeTrajectory.VAR_BARRIER_ON);
 			if (valueMap.getValue(barrierOn)) {
 				Position position = new Position(go.getX(), go.getY(), go
 						.getDispX(), go.getDispY());
@@ -566,7 +564,7 @@ public class DijkstraNodeTrajectoryGenerator {
 	 * @return
 	 */
 	private Side getCurrentSide(NodeTrajectory nodeTrajectoryDefinition,
-			EAdSceneElement movingElement) {
+			SceneElement movingElement) {
 		Side side = valueMap.getValue(movingElement,
 				NodeTrajectory.VAR_CURRENT_SIDE);
 		if (!nodeTrajectoryDefinition.getSides().contains(side))
@@ -594,7 +592,7 @@ public class DijkstraNodeTrajectoryGenerator {
 		return side;
 	}
 
-	private Position getCurrentPosition(EAdSceneElement element) {
+	private Position getCurrentPosition(SceneElement element) {
 		float x = valueMap.getValue(element, SceneElement.VAR_X);
 		float y = valueMap.getValue(element, SceneElement.VAR_Y);
 		return new Position(x, y);

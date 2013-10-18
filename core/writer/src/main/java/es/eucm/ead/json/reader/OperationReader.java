@@ -62,9 +62,9 @@ public class OperationReader {
 		this.conditionReader.setOperationReader(this);
 	}
 
-	public EAdOperation read(StringMap<Object> op) {
+	public Operation read(StringMap<Object> op) {
 		String type = (String) op.get("type");
-		EAdOperation operation = null;
+		Operation operation = null;
 		if (type.equals("field")) {
 			operation = parseField(op);
 		} else if (type.equals("cond")) {
@@ -95,7 +95,7 @@ public class OperationReader {
 		return operation;
 	}
 
-	private EAdOperation parseConditioned(StringMap<Object> op) {
+	private Operation parseConditioned(StringMap<Object> op) {
 		StringMap<Object> opT = (StringMap<Object>) op.get("opTrue");
 		StringMap<Object> opF = (StringMap<Object>) op.get("opFalse");
 		StringMap<Object> cond = (StringMap<Object>) op.get("cond");
@@ -103,7 +103,7 @@ public class OperationReader {
 				read(opF));
 	}
 
-	private EAdOperation parseConcatString(StringMap<Object> op) {
+	private Operation parseConcatString(StringMap<Object> op) {
 		String preffix = (String) op.get("preffix");
 		String suffix = (String) op.get("suffix");
 		ConcatenateStringsOp concat = new ConcatenateStringsOp(preffix, suffix);
@@ -111,7 +111,7 @@ public class OperationReader {
 		return concat;
 	}
 
-	private EAdOperation parseValueNumber(StringMap<Object> op) {
+	private Operation parseValueNumber(StringMap<Object> op) {
 		Number value = (Number) op.get("value");
 		Boolean integer = (Boolean) op.get("integer");
 		if (integer != null && integer.booleanValue()) {
@@ -121,7 +121,7 @@ public class OperationReader {
 		}
 	}
 
-	private EAdOperation parseMath(StringMap<Object> op) {
+	private Operation parseMath(StringMap<Object> op) {
 		String expression = (String) op.get("expression");
 		MathOp operation = new MathOp(expression);
 		Collection<StringMap<Object>> operations = (Collection<StringMap<Object>>) op
@@ -134,12 +134,12 @@ public class OperationReader {
 		return operation;
 	}
 
-	private EAdOperation parseField(StringMap<Object> op) {
+	private Operation parseField(StringMap<Object> op) {
 		String field = (String) op.get("field");
 		return translateField(field);
 	}
 
-	public EAdField<?> translateField(String field) {
+	public ElementField<?> translateField(String field) {
 		String[] fs = field.split("\\.");
 		if (fs.length != 2) {
 			logger.error("{} is not a valid field", field);

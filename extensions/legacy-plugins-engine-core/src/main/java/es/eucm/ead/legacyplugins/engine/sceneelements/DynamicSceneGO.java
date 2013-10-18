@@ -10,7 +10,7 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 /**
  * Override standard scene behavior to implement behavior of old scenes
@@ -35,7 +35,7 @@ public class DynamicSceneGO extends SceneGO {
 	}
 
 	@Override
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
 		firstPerson = game.getAdventureModel().getProperty(
 				LegacyVars.FIRST_PERSON, false);
@@ -61,7 +61,7 @@ public class DynamicSceneGO extends SceneGO {
 				}
 			} else {
 				// [GE - Follow]
-				EAdSceneElement s = gameState
+				SceneElement s = gameState
 						.getValue(SystemFields.ACTIVE_ELEMENT);
 				SceneElementGO active = gui.getSceneElement(s);
 				this.setX(-Math.max(Math.min(sceneWidth - gameWidth,

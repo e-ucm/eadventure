@@ -46,17 +46,16 @@ import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.basics.Image;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.ORCond;
 import es.eucm.ead.model.elements.effects.ActorActionsEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
@@ -115,7 +114,7 @@ public class ActionsConverter {
 	/**
 	 * Actions converted
 	 */
-	private EAdList<EAdSceneElementDef> definitions;
+	private EAdList<SceneElementDef> definitions;
 
 	/**
 	 * Map holding actions and its related trigger macro effect
@@ -135,17 +134,17 @@ public class ActionsConverter {
 	/**
 	 * Map holding actions and its related trigger macro effect
 	 */
-	private Map<Integer, EAdCondition> actionsConditions;
+	private Map<Integer, Condition> actionsConditions;
 
 	/**
 	 * Map holding custom actions and its related trigger macro effect
 	 */
-	private Map<String, EAdCondition> customActionsConditions;
+	private Map<String, Condition> customActionsConditions;
 
 	/**
 	 * Map holding custom interact actions and its related trigger macro effect
 	 */
-	private Map<String, EAdCondition> customInteractActionsConditions;
+	private Map<String, Condition> customInteractActionsConditions;
 
 	/**
 	 * Map relating trigger macro effects with their action definition
@@ -171,11 +170,11 @@ public class ActionsConverter {
 		customInteractActions = new HashMap<String, TriggerMacroEf>();
 		// We keep other three maps to hold visibility conditions for the
 		// actions
-		actionsConditions = new HashMap<Integer, EAdCondition>();
-		customActionsConditions = new HashMap<String, EAdCondition>();
-		customInteractActionsConditions = new HashMap<String, EAdCondition>();
+		actionsConditions = new HashMap<Integer, Condition>();
+		customActionsConditions = new HashMap<String, Condition>();
+		customInteractActionsConditions = new HashMap<String, Condition>();
 		// And finally, a list with all the actions definitions
-		definitions = new EAdList<EAdSceneElementDef>();
+		definitions = new EAdList<SceneElementDef>();
 		// A map relating trigger macro effects with actions definitions. We need them
 		// to update the visibility condition
 		macros = new EAdMap<TriggerMacroEf, SceneElementDef>();
@@ -188,7 +187,7 @@ public class ActionsConverter {
 	 * @param ac    the list of actions
 	 * @return the list of actions converted
 	 */
-	public EAdList<EAdSceneElementDef> convert(EAdSceneElementDef owner,
+	public EAdList<SceneElementDef> convert(SceneElementDef owner,
 			List<Action> ac) {
 		// Clean maps
 		actions.clear();
@@ -204,7 +203,7 @@ public class ActionsConverter {
 			if (a.getType() != Action.DRAG_TO)
 				convert(owner, a);
 		}
-		EAdList<EAdSceneElementDef> actions = new EAdList<EAdSceneElementDef>();
+		EAdList<SceneElementDef> actions = new EAdList<SceneElementDef>();
 		actions.addAll(definitions);
 		return actions;
 	}
@@ -215,10 +214,10 @@ public class ActionsConverter {
 	 * @param a
 	 * @return
 	 */
-	public void convert(EAdSceneElementDef owner, Action a) {
+	public void convert(SceneElementDef owner, Action a) {
 
 		TriggerMacroEf triggerMacroEf;
-		EAdCondition visibility;
+		Condition visibility;
 
 		// Fetch if the there is already an action like "a"
 		if (a.getType() == Action.CUSTOM) {
@@ -285,15 +284,15 @@ public class ActionsConverter {
 	 * @param visibility
 	 * @return the visibility condition updated
 	 */
-	private EAdCondition addEffects(EAdSceneElementDef owner, Action a,
-			TriggerMacroEf triggerMacroEf, EAdCondition visibility) {
-		List<EAdEffect> effects = effectsConverter.convert(a.getEffects());
+	private Condition addEffects(SceneElementDef owner, Action a,
+			TriggerMacroEf triggerMacroEf, Condition visibility) {
+		List<Effect> effects = effectsConverter.convert(a.getEffects());
 		if (effects.size() == 0) {
 			logger.debug("Action '" + getActionName(a.getType())
 					+ "' of element '" + owner.getId() + "' has no effects.");
 		}
 		// I think that click effects should always be empty for actions, but... whatever
-		List<EAdEffect> clickEffects = effectsConverter.convert(a
+		List<Effect> clickEffects = effectsConverter.convert(a
 				.getClickEffects());
 		if (clickEffects.size() > 0) {
 			if (effects.size() > 0) {
@@ -303,7 +302,7 @@ public class ActionsConverter {
 			effects.addAll(clickEffects);
 		}
 
-		EAdEffect firstEffect = null;
+		Effect firstEffect = null;
 		// Add move to, if necessary
 		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
 			MoveActiveElementToMouseEf moveTo = new MoveActiveElementToMouseEf();
@@ -317,7 +316,7 @@ public class ActionsConverter {
 			firstEffect = effects.get(0);
 		}
 
-		EAdCondition condition = conditionsConverter.convert(a.getConditions());
+		Condition condition = conditionsConverter.convert(a.getConditions());
 		if (effects.size() > 0) {
 			// We add the effect to the macro
 			if (firstEffect != null) {
@@ -330,7 +329,7 @@ public class ActionsConverter {
 		// If the action has not effects, it is always visible. By the way, the OR will be simplified in
 		// the writing process to TRUE, even if the condition is modified by posteriors actions
 		if (a.isActivatedNotEffects()) {
-			List<EAdEffect> notEffects = effectsConverter.convert(a
+			List<Effect> notEffects = effectsConverter.convert(a
 					.getNotEffects());
 			if (notEffects.size() > 0) {
 				triggerMacroEf.putEffect(new NOTCond(condition), notEffects

@@ -42,7 +42,7 @@ import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.multimedia.Music;
 
 @Element
-public class PlayMusicEf extends AbstractEffect {
+public class PlayMusicEf extends Effect {
 
 	@Param
 	private es.eucm.ead.model.assets.multimedia.Music music;

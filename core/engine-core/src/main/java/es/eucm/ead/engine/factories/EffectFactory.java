@@ -41,13 +41,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.mapproviders.EffectsMapProvider;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 @Singleton
 public class EffectFactory extends
-		GameObjectFactory<EAdEffect, EffectGO<? extends EAdEffect>> {
+		GameObjectFactory<Effect, EffectGO<? extends Effect>> {
 
 	@Inject
 	public EffectFactory(ReflectionProvider reflectionProvider,

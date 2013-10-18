@@ -40,6 +40,6 @@ package es.eucm.ead.model.elements.effects;
 import es.eucm.ead.model.interfaces.Element;
 
 @Element
-public class ToggleSoundEf extends AbstractEffect {
+public class ToggleSoundEf extends Effect {
 
 }

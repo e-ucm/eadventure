@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders;
 
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 
 /**
  * Implemented by those classes loading scenes assets
@@ -54,7 +54,7 @@ public interface SceneLoader {
 	 * @param listener
 	 *            the listener will be notices when the load is complete
 	 */
-	void loadScene(EAdScene scene, SceneLoaderListener listener);
+	void loadScene(Scene scene, SceneLoaderListener listener);
 
 	/**
 	 * Frees all the assets contained by the scene, and not used by the

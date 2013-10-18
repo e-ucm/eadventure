@@ -38,15 +38,15 @@
 package es.eucm.ead.editor.control;
 
 import es.eucm.ead.editor.view.generic.OptionPanel;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 
 /**
  * Controller for a specific element in the model
  *
  * @param S A type of element in the model, which must inherit from
- *        {@link EAdElement}
+ *        {@link BasicElement}
  */
-public interface ElementController<S extends EAdElement> {
+public interface ElementController<S extends BasicElement> {
 
 	/**
 	 * The types of views in the editor

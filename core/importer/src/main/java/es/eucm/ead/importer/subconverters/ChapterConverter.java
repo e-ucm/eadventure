@@ -45,23 +45,20 @@ import es.eucm.ead.importer.subconverters.actors.AtrezzoConverter;
 import es.eucm.ead.importer.subconverters.actors.ElementConverter.DropEvent;
 import es.eucm.ead.importer.subconverters.actors.ItemConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.EAdEvent;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.events.Event;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.guievents.DragGEv;
 import es.eucm.ead.model.params.guievents.enums.DragGEvType;
-import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
-import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,46 +105,46 @@ public class ChapterConverter {
 		modelQuerier.setConversationsConverter(conversationsConverter);
 	}
 
-	public EAdChapter convert(Chapter c) {
+	public Chapter convert(es.eucm.eadventure.common.data.chapter.Chapter c) {
 		modelQuerier.clear();
-		BasicChapter chapter = new BasicChapter();
+		Chapter chapter = new Chapter();
 		modelQuerier.setCurrentChapter(chapter, c);
 		modelQuerier.loadGlobalStates();
 
 		// Import Player
-		EAdSceneElementDef player = npcConverter.convert(c.getPlayer());
+		SceneElementDef player = npcConverter.convert(c.getPlayer());
 		elementsCache.put(player);
 
 		// Import atrezzos
 		for (Atrezzo a : c.getAtrezzo()) {
-			EAdSceneElementDef def = atrezzoConverter.convert(a);
+			SceneElementDef def = atrezzoConverter.convert(a);
 			elementsCache.put(def);
 		}
 
 		// Import items
 		for (Item a : c.getItems()) {
-			EAdSceneElementDef def = itemConverter.convert(a);
+			SceneElementDef def = itemConverter.convert(a);
 			elementsCache.put(def);
 		}
 
 		// Import NPCs
 		for (NPC a : c.getCharacters()) {
-			EAdSceneElementDef def = npcConverter.convert(a);
+			SceneElementDef def = npcConverter.convert(a);
 			elementsCache.put(def);
 		}
 
 		// Add actions after the cache contains all the actors
 		// Items actions
 		for (Item a : c.getItems()) {
-			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(a
-					.getId());
+			SceneElementDef def = (SceneElementDef) elementsCache
+					.get(a.getId());
 			itemConverter.addActions(a, def);
 
 		}
 		// NPCs actions
 		for (NPC a : c.getCharacters()) {
-			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(a
-					.getId());
+			SceneElementDef def = (SceneElementDef) elementsCache
+					.get(a.getId());
 			npcConverter.addActions(a, def);
 		}
 
@@ -157,8 +154,9 @@ public class ChapterConverter {
 		modelQuerier.loadConversations();
 
 		// Import scenes
-		for (Scene s : c.getScenes()) {
-			EAdScene scene = sceneConverter.convert(s);
+		for (es.eucm.eadventure.common.data.chapter.scenes.Scene s : c
+				.getScenes()) {
+			Scene scene = sceneConverter.convert(s);
 			chapter.addScene(scene);
 			if (c.getInitialGeneralScene() == s) {
 				chapter.setInitialScene(scene);
@@ -167,8 +165,8 @@ public class ChapterConverter {
 
 		// Import cutscenes
 		for (Cutscene cs : c.getCutscenes()) {
-			List<EAdScene> cutscene = cutsceneConverter.convert(cs);
-			for (EAdScene s : cutscene) {
+			List<Scene> cutscene = cutsceneConverter.convert(cs);
+			for (Scene s : cutscene) {
 				chapter.addScene(s);
 			}
 			if (c.getInitialGeneralScene() == cs) {
@@ -200,8 +198,8 @@ public class ChapterConverter {
 		// Import timers
 		// [TI - Chapter]
 		for (Timer t : c.getTimers()) {
-			EAdEvent timer = timerConverter.convert(t);
-			chapter.getEvents().add(timer);
+			Event timer = timerConverter.convert(t);
+			chapter.addEvent(timer);
 		}
 
 		return chapter;

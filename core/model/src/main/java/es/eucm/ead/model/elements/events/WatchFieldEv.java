@@ -37,38 +37,38 @@
 
 package es.eucm.ead.model.elements.events;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 
 @Element
-public class WatchFieldEv extends AbstractEvent {
+public class WatchFieldEv extends Event {
 
 	@Param
-	private EAdList<EAdField<?>> fields;
+	private EAdList<ElementField<?>> fields;
 
 	public WatchFieldEv() {
-		fields = new EAdList<EAdField<?>>();
+		fields = new EAdList<ElementField<?>>();
 	}
 
-	public EAdList<EAdField<?>> getFields() {
+	public EAdList<ElementField<?>> getFields() {
 		return fields;
 	}
 
-	public void setFields(EAdList<EAdField<?>> fields) {
+	public void setFields(EAdList<ElementField<?>> fields) {
 		this.fields = fields;
 	}
 
-	public void watchField(EAdField<?> f) {
+	public void watchField(ElementField<?> f) {
 		if (!fields.contains(f)) {
 			fields.add(f);
 		}
 	}
 
-	public void addEffect(EAdEffect effect) {
+	public void addEffect(Effect effect) {
 		addEffect(WatchFieldEvType.WATCH, effect);
 	}
 

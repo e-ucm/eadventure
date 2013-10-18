@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects;
 
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.gameobjects.events.EventGO;
-import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.interfaces.features.Evented;
 
 import java.util.ArrayList;
@@ -62,12 +62,14 @@ public class EventedGO implements GameObject<Evented> {
 	public void setElement(Evented element) {
 		this.element = element;
 		events.clear();
-		for (EAdEvent e : element.getEvents()) {
-			EventGO ev = eventFactory.get(e);
-			ev.setParent(null);
-			ev.setElement(e);
-			ev.initialize();
-			events.add(ev);
+		if (element.getEvents() != null) {
+			for (Event e : element.getEvents()) {
+				EventGO ev = eventFactory.get(e);
+				ev.setParent(null);
+				ev.setElement(e);
+				ev.initialize();
+				events.add(ev);
+			}
 		}
 	}
 

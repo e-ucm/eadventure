@@ -37,22 +37,22 @@
 
 package es.eucm.ead.editor.view.scene;
 
+import es.eucm.ead.editor.view.scene.listener.SceneListener;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.params.variables.VarDef;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.ead.editor.view.scene.listener.SceneListener;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.params.variables.VarDef;
-
 public abstract class AbstractSceneViewer implements SceneViewer {
 
-	protected EAdScene scene;
+	protected Scene scene;
 
 	protected List<SceneListener> listeners;
 
 	@Override
-	public void setScene(EAdScene scene) {
+	public void setScene(Scene scene) {
 		this.scene = scene;
 		this.listeners = new ArrayList<SceneListener>();
 	}
@@ -67,7 +67,7 @@ public abstract class AbstractSceneViewer implements SceneViewer {
 		listeners.remove(listener);
 	}
 
-	public <T> void notify(VarDef<T> varDef, EAdSceneElement element, T value) {
+	public <T> void notify(VarDef<T> varDef, SceneElement element, T value) {
 		for (SceneListener l : listeners) {
 			l.updateInitialValue(varDef, element, value);
 		}

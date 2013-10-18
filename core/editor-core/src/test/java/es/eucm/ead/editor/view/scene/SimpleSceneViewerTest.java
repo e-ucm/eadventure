@@ -39,10 +39,8 @@ package es.eucm.ead.editor.view.scene;
 
 import javax.swing.JFrame;
 
-import es.eucm.ead.editor.view.scene.SimpleSceneViewer;
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position.Corner;
@@ -75,9 +73,8 @@ public class SimpleSceneViewerTest {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public static EAdScene getSimpleScene() {
-		BasicScene scene = new BasicScene(new RectangleShape(800, 600,
-				ColorFill.RED));
+	public static Scene getSimpleScene() {
+		Scene scene = new Scene(new RectangleShape(800, 600, ColorFill.RED));
 
 		SceneElement button = new SceneElement(new RectangleShape(20, 20,
 				ColorFill.BLACK));

@@ -41,22 +41,21 @@
  */
 package es.eucm.ead.editor.model.nodes;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
-import java.util.Map;
-
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.model.params.variables.VarDef;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An engine-model node. Used as a base for the dependency-tracking mechanism
@@ -126,7 +125,7 @@ public class EngineNode<T> extends DependencyNode<T> {
 
 		String id = "" + m.getEditorId(o);
 		String cname = o.getClass().getSimpleName();
-		if (o instanceof EAdElement) {
+		if (o instanceof BasicElement) {
 			if (o instanceof VarDef) {
 				VarDef<?> v = ((VarDef) o);
 				sb.append(indent + v.getType().getSimpleName() + " "

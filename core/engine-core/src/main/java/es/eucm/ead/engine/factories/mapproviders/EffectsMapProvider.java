@@ -38,7 +38,6 @@
 package es.eucm.ead.engine.factories.mapproviders;
 
 import es.eucm.ead.engine.gameobjects.effects.*;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.*;
 import es.eucm.ead.model.elements.effects.hud.ModifyHUDEf;
 import es.eucm.ead.model.elements.effects.physics.PhApplyImpulseEf;
@@ -55,7 +54,7 @@ import es.eucm.ead.engine.gameobjects.effects.sceneelement.ChangeColorGO;
 
 public class EffectsMapProvider
 		extends
-		AbstractMapProvider<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> {
+		AbstractMapProvider<Class<? extends Effect>, Class<? extends EffectGO<? extends Effect>>> {
 
 	public EffectsMapProvider() {
 		factoryMap.put(ShowSceneElementEf.class, ShowSceneElementGO.class);

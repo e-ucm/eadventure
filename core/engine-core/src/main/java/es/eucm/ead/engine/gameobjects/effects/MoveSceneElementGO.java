@@ -48,9 +48,9 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.TrajectoryGO;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.enums.CommonStates;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
@@ -66,7 +66,7 @@ public class MoveSceneElementGO extends
 	public static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDef<MoveSceneElementGO>(
 			"element_moving", MoveSceneElementGO.class, null);
 
-	private static final EAdTrajectory DEFAULT_TRAJECTORY = new SimpleTrajectory();
+	private static final Trajectory DEFAULT_TRAJECTORY = new SimpleTrajectory();
 
 	private TrajectoryFactory trajectoryFactory;
 
@@ -74,7 +74,7 @@ public class MoveSceneElementGO extends
 
 	private GUI gui;
 
-	private TrajectoryGO<? extends EAdTrajectory> trajectory;
+	private TrajectoryGO<? extends Trajectory> trajectory;
 
 	private boolean cancelMovement;
 
@@ -121,13 +121,12 @@ public class MoveSceneElementGO extends
 		}
 
 		if (!cancelMovement) {
-			EAdTrajectory d = DEFAULT_TRAJECTORY;
+			Trajectory d = DEFAULT_TRAJECTORY;
 
 			if (effect.isUseTrajectory()) {
 
-				EAdTrajectory sceneTrajectory = gameState.getValue(gui
-						.getScene().getElement(),
-						BasicScene.VAR_TRAJECTORY_DEFINITION);
+				Trajectory sceneTrajectory = gameState.getValue(gui.getScene()
+						.getElement(), Scene.VAR_TRAJECTORY_DEFINITION);
 				if (sceneTrajectory != null) {
 					d = sceneTrajectory;
 				}

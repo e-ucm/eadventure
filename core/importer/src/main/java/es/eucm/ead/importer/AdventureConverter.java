@@ -47,23 +47,21 @@ import es.eucm.ead.legacyplugins.model.TimerEv;
 import es.eucm.ead.legacyplugins.model.elements.ClockDisplay;
 import es.eucm.ead.model.assets.drawable.basics.NinePatchImage;
 import es.eucm.ead.model.assets.text.BasicFont;
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.effects.AddChildEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.huds.BottomHud;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
-import es.eucm.ead.writer.StringWriter;
 import es.eucm.ead.writer.AdventureWriter;
+import es.eucm.ead.writer.StringWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
-import es.eucm.eadventure.common.data.chapter.Chapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,7 +93,7 @@ public class AdventureConverter {
 
 	private ResourcesConverter resourcesConverter;
 
-	private EAdAdventureModel model;
+	private AdventureGame model;
 
 	private Random rand;
 
@@ -112,7 +110,7 @@ public class AdventureConverter {
 		rand = new Random();
 	}
 
-	public EAdAdventureModel getModel() {
+	public AdventureGame getModel() {
 		return model;
 	}
 
@@ -153,12 +151,12 @@ public class AdventureConverter {
 		SceneElementEv initEvent = new SceneElementEv();
 		initEvent.addEffect(SceneElementEvType.INIT, addEffectsGhost);
 
-		model = new BasicAdventureModel();
-		model.getEvents().add(initEvent);
+		model = new AdventureGame();
+		model.addEvent(initEvent);
 
 		// Add some vars
 		// [AD - Title]
-		model.putProperty(BasicAdventureModel.GAME_TITLE, modelQuerier
+		model.putProperty(AdventureGame.GAME_TITLE, modelQuerier
 				.getAventureData().getTitle());
 		// Add some legacy vars
 		model.putProperty(LegacyVars.FIRST_PERSON, modelQuerier
@@ -168,7 +166,7 @@ public class AdventureConverter {
 				15, 15));
 		event.setFont(new BasicFont("@binary/fonts/ubuntu-16-bold"));
 		event.setTextPaint(ColorFill.WHITE);
-		model.getEvents().add(event);
+		model.addEvent(event);
 
 		// Setting plugins
 		EAdMap<String, String> eventPlugins = new EAdMap<String, String>();
@@ -179,18 +177,19 @@ public class AdventureConverter {
 		// [GE - Arrow] [GE - Follow]
 		EAdMap<String, String> sceneElementPlugins = new EAdMap<String, String>();
 		sceneElementPlugins
-				.put(BasicScene.class.getName(),
+				.put(Scene.class.getName(),
 						"es.eucm.ead.legacyplugins.engine.sceneelements.DynamicSceneGO");
 		sceneElementPlugins
 				.put(ClockDisplay.class.getName(),
 						"es.eucm.ead.legacyplugins.engine.sceneelements.ClockDisplayGO");
 
-		model.putProperty(BasicAdventureModel.EVENTS_BINDS, eventPlugins);
-		model.putProperty(BasicAdventureModel.SCENES_ELEMENT_BINDS,
+		model.putProperty(AdventureGame.EVENTS_BINDS, eventPlugins);
+		model.putProperty(AdventureGame.SCENES_ELEMENT_BINDS,
 				sceneElementPlugins);
 
-		for (Chapter c : adventureData.getChapters()) {
-			EAdChapter chapter = chapterConverter.convert(c);
+		for (es.eucm.eadventure.common.data.chapter.Chapter c : adventureData
+				.getChapters()) {
+			Chapter chapter = chapterConverter.convert(c);
 			model.addChapter(chapter);
 		}
 
@@ -220,5 +219,14 @@ public class AdventureConverter {
 
 	public void setEnableTranslations(boolean enableTranslations) {
 		writer.setEnableTranslations(enableTranslations);
+	}
+
+	public static interface ImporterProgressListener {
+
+		// TODO It would be interesting to pass two values, current
+		// and max, so the progress bar can extrapolate between the
+		// two and give the appearance of work most of the time
+		public void update(int progress, String text);
+
 	}
 }

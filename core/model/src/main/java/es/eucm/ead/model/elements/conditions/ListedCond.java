@@ -37,21 +37,18 @@
 
 package es.eucm.ead.model.elements.conditions;
 
+import es.eucm.ead.model.elements.conditions.enums.ConditionOperator;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.interfaces.Param;
+
 import java.util.Iterator;
 import java.util.List;
 
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.enums.ConditionOperator;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.AbstractOperation;
-import es.eucm.ead.model.elements.operations.EAdField;
-
-public abstract class ListedCond extends AbstractOperation implements
-		EAdCondition {
+public abstract class ListedCond extends Condition {
 
 	@Param
-	private EAdList<EAdCondition> conditions;
+	private EAdList<Condition> conditions;
 
 	@Param
 	private ConditionOperator operator;
@@ -60,19 +57,18 @@ public abstract class ListedCond extends AbstractOperation implements
 		this(null);
 	}
 
-	public ListedCond(ConditionOperator operator,
-			EAdList<EAdCondition> conditions) {
+	public ListedCond(ConditionOperator operator, EAdList<Condition> conditions) {
 		this.operator = operator;
 		this.conditions = conditions;
 	}
 
 	public ListedCond(ConditionOperator operator) {
-		this(operator, (EAdCondition) null);
+		this(operator, (Condition) null);
 	}
 
-	public ListedCond(ConditionOperator operator, EAdCondition... condition) {
+	public ListedCond(ConditionOperator operator, Condition... condition) {
 		super();
-		conditions = new EAdList<EAdCondition>();
+		conditions = new EAdList<Condition>();
 		for (int i = 0; i < condition.length; i++)
 			if (condition[i] != null)
 				conditions.add(condition[i]);
@@ -83,28 +79,27 @@ public abstract class ListedCond extends AbstractOperation implements
 		return operator;
 	}
 
-	public void addCondition(EAdCondition condition) {
+	public void addCondition(Condition condition) {
 		conditions.add(condition);
 	}
 
-	public void replaceCondition(EAdCondition oldCondition,
-			EAdCondition newCondition) {
+	public void replaceCondition(Condition oldCondition, Condition newCondition) {
 		if (conditions.remove(oldCondition))
 			conditions.add(newCondition);
 	}
 
-	public boolean removeCondition(EAdCondition condition) {
+	public boolean removeCondition(Condition condition) {
 		if (conditions.size() == 1)
 			return false;
 		else
 			return (conditions.remove(condition));
 	}
 
-	public Iterator<EAdCondition> getConditionsIterator() {
+	public Iterator<Condition> getConditionsIterator() {
 		return conditions.iterator();
 	}
 
-	public EAdList<EAdCondition> getConditions() {
+	public EAdList<Condition> getConditions() {
 		return conditions;
 	}
 
@@ -123,7 +118,7 @@ public abstract class ListedCond extends AbstractOperation implements
 		return "Empty list";
 	}
 
-	public void setConditions(EAdList<EAdCondition> conditions) {
+	public void setConditions(EAdList<Condition> conditions) {
 		this.conditions = conditions;
 	}
 
@@ -131,8 +126,8 @@ public abstract class ListedCond extends AbstractOperation implements
 		this.operator = operator;
 	}
 
-	public void extractFields(List<EAdField<?>> fields) {
-		for (EAdCondition c : conditions) {
+	public void extractFields(List<ElementField<?>> fields) {
+		for (Condition c : conditions) {
 			c.extractFields(fields);
 		}
 	}
@@ -146,8 +141,8 @@ public abstract class ListedCond extends AbstractOperation implements
 			if (listed.operator == this.operator
 					&& listed.conditions.size() == this.conditions.size()) {
 				for (int i = 0; i < conditions.size(); i++) {
-					EAdCondition c1 = conditions.get(i);
-					EAdCondition c2 = listed.conditions.get(i);
+					Condition c1 = conditions.get(i);
+					Condition c2 = listed.conditions.get(i);
 					if (!this.conditions.contains(c2)
 							|| !(listed.conditions.contains(c1))) {
 						return false;

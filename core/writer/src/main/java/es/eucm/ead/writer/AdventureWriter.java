@@ -37,11 +37,10 @@
 
 package es.eucm.ead.writer;
 
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.reader.model.Manifest;
 import es.eucm.ead.reader.model.XMLFileNames;
@@ -120,7 +119,7 @@ public class AdventureWriter implements WriterContext {
 	 *
 	 * @param model the game model
 	 */
-	public void write(EAdAdventureModel model, String path,
+	public void write(AdventureGame model, String path,
 			TextFileWriter textFileWriter) {
 		idGenerator.clear();
 		contextIds.clear();
@@ -140,13 +139,13 @@ public class AdventureWriter implements WriterContext {
 
 		ChangeContextListener changeContext = new ChangeContextListener(null);
 		// Write chapters
-		for (EAdChapter c : model.getChapters()) {
+		for (Chapter c : model.getChapters()) {
 			visitor.writeElement(null, null, changeContext);
 			visitor.writeElement(c, null, chapterListener);
 			visitor.finish();
 			ChangeContextListener changeContextScene = new ChangeContextListener(
 					c.getId());
-			for (EAdScene s : c.getScenes()) {
+			for (Scene s : c.getScenes()) {
 				visitor.writeElement(null, null, changeContextScene);
 				visitor.writeElement(s, null, sceneListener);
 				visitor.finish();
@@ -189,7 +188,7 @@ public class AdventureWriter implements WriterContext {
 	 * @param model
 	 * @return
 	 */
-	public Manifest generateManifest(EAdAdventureModel model) {
+	public Manifest generateManifest(AdventureGame model) {
 		Manifest manifest = new Manifest();
 		// We need to clear to initialize the manifest
 		manifest.clear();
@@ -202,10 +201,10 @@ public class AdventureWriter implements WriterContext {
 		// Set model
 		manifest.setModel(model);
 		// Chapters list
-		for (EAdChapter chapter : model.getChapters()) {
+		for (Chapter chapter : model.getChapters()) {
 			manifest.addChapterId(chapter.getId());
 			// Initial list
-			EAdScene scene = chapter.getInitialScene();
+			Scene scene = chapter.getInitialScene();
 			if (scene == null) {
 				logger.warn("Chapter {} has no initial scene.");
 				if (chapter.getScenes().size() > 0) {
@@ -216,20 +215,20 @@ public class AdventureWriter implements WriterContext {
 							.warn(
 									"Chapter {} has no scenes. That is a problem. An empty scene has been generated.",
 									chapter.getId());
-					scene = new BasicScene();
+					scene = new Scene();
 					scene
 							.setId(idGenerator
 									.generateNewId("placeholder_scene_"));
 				}
 			}
 			manifest.addInitScene(scene.getId());
-			for (EAdScene s : chapter.getScenes()) {
+			for (Scene s : chapter.getScenes()) {
 				manifest.addScene(chapter.getId(), s.getId());
 			}
 		}
 
 		// Initial chapter
-		EAdChapter initialChapter = model.getInitialChapter();
+		Chapter initialChapter = model.getInitialChapter();
 		if (initialChapter == null) {
 			if (model.getChapters().size() > 0) {
 				logger

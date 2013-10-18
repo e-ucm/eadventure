@@ -40,10 +40,9 @@ package es.eucm.ead.json.reader;
 import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
 import com.google.gson.reflect.TypeToken;
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.reader.ObjectsFactory;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
@@ -106,11 +105,11 @@ public class JsonReader {
 		writer = new AdventureWriter(reflectionProvider);
 	}
 
-	public EAdAdventureModel parseGame(String[] folders) {
-		BasicAdventureModel model = new BasicAdventureModel();
+	public AdventureGame parseGame(String[] folders) {
+		AdventureGame model = new AdventureGame();
 		model.setId("model");
 		getObjectsFactory().putIdentified(model);
-		BasicChapter chapter = new BasicChapter();
+		Chapter chapter = new Chapter();
 		model.getChapters().add(chapter);
 
 		for (String folder : folders) {
@@ -124,7 +123,7 @@ public class JsonReader {
 		}
 
 		for (String folder : folders) {
-			EAdScene scene = getScene(folder + "/scene.json");
+			Scene scene = getScene(folder + "/scene.json");
 			if (scene != null)
 				chapter.addScene(scene);
 		}
@@ -166,7 +165,7 @@ public class JsonReader {
 			effectsReader.readEffects(effects);
 	}
 
-	public void write(EAdAdventureModel model, String destination) {
+	public void write(AdventureGame model, String destination) {
 		writer.write(model, destination, new JavaTextFileWriter());
 	}
 
@@ -179,7 +178,7 @@ public class JsonReader {
 		return true;
 	}
 
-	public EAdScene getScene(String file) {
+	public Scene getScene(String file) {
 		StringMap<Object> scene = fromJson(file, StringMap.class);
 		if (scene != null)
 			return sceneReader.parseScene(scene);

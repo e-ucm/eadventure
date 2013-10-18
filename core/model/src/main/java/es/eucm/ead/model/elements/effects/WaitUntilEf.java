@@ -37,30 +37,30 @@
 
 package es.eucm.ead.model.elements.effects;
 
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdCondition;
 
 @Element
-public class WaitUntilEf extends AbstractEffect {
+public class WaitUntilEf extends Effect {
 
 	@Param
-	private es.eucm.ead.model.elements.EAdCondition waitCondition;
+	private Condition waitCondition;
 
 	public WaitUntilEf() {
 
 	}
 
-	public WaitUntilEf(EAdCondition waitCondition) {
+	public WaitUntilEf(Condition waitCondition) {
 		super();
 		this.waitCondition = waitCondition;
 	}
 
-	public EAdCondition getWaitCondition() {
+	public Condition getWaitCondition() {
 		return waitCondition;
 	}
 
-	public void setWaitCondition(EAdCondition waitCondition) {
+	public void setWaitCondition(Condition waitCondition) {
 		this.waitCondition = waitCondition;
 	}
 

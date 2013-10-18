@@ -42,8 +42,8 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.scenes.EAdGroupElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
 
 public class GroupElementGO extends SceneElementGO {
 
@@ -54,10 +54,10 @@ public class GroupElementGO extends SceneElementGO {
 		super(assetHandler, gameObjectFactory, game, eventFactory);
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
-		EAdGroupElement group = (EAdGroupElement) element;
-		for (EAdSceneElement sceneElement : group.getSceneElements()) {
+		GroupElement group = (GroupElement) element;
+		for (SceneElement sceneElement : group.getSceneElements()) {
 			addSceneElement(sceneElement);
 		}
 	}

@@ -43,13 +43,13 @@ public class ElementControllerGetPanelTest extends JFrame {
 	//
 	//	private static final long serialVersionUID = 1L;
 	//
-	//	private EAdScene scene, scene2;
+	//	private Scene scene, scene2;
 	//
 	//	private SwingProviderFactory swingProviderFactory;
 	//
-	//	private EAdSceneController sceneController, sceneController2;
+	//	private SceneController sceneController, sceneController2;
 	//
-	//	private EAdSceneElementDefController sceneElementController;
+	//	private SceneElementDefController sceneElementController;
 	//
 	//	private JComponent component;
 	//
@@ -73,19 +73,19 @@ public class ElementControllerGetPanelTest extends JFrame {
 	//
 	//        CommandManager commandManager = mock(CommandManager.class);
 	//
-	//        sceneController = new EAdSceneController();
+	//        sceneController = new SceneController();
 	//        sceneController.setElement(scene);
 	//
-	//        sceneController2 = new EAdSceneController();
+	//        sceneController2 = new SceneController();
 	//        sceneController2.setElement(scene2);
 	//
-	//        EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
+	//        SceneElementDef sceneElementDef = mock(SceneElementDef.class);
 	//        when(sceneElementDef.getName()).thenReturn(new EAdString(("testName"));
 	//        when(sceneElementDef.getDoc()).thenReturn(new EAdString(("testDocumentation"));
 	//        when(sceneElementDef.getDesc()).thenReturn(new EAdString(("testDescription"));
 	//        when(sceneElementDef.getDetailDesc()).thenReturn(new EAdString(("testDetailedDescription"));
 	//
-	//        sceneElementController = new EAdSceneElementDefController();
+	//        sceneElementController = new SceneElementDefController();
 	//        sceneElementController.setElement(sceneElementDef);
 	//
 	//        StringHandler stringHandler = new EditorStringHandler();

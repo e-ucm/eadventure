@@ -41,22 +41,17 @@
  */
 package es.eucm.ead.editor.view.components;
 
-import java.awt.Component;
-import java.awt.FlowLayout;
-
-import javax.swing.JFrame;
-
-import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import org.junit.BeforeClass;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import es.eucm.ead.editor.EditorGuiceModule;
-import ead.importer.BaseImporterModule;
+import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.editor.util.Log4jConfig;
+import org.junit.BeforeClass;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -76,9 +71,8 @@ public class EditorLinkTest {
 				Log4jConfig.Slf4jLevel.Debug, "ActorFactory",
 				Log4jConfig.Slf4jLevel.Debug, });
 
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new DesktopModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector

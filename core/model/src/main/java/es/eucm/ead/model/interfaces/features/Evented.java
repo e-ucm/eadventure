@@ -37,20 +37,26 @@
 
 package es.eucm.ead.model.interfaces.features;
 
-import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
 
 /**
  * General interfaces for elements with events
- * 
- *
  */
 public interface Evented {
 	/**
-	 * Returns a list of events associated with this element
-	 * 
+	 * Returns a list of events associated with this element. It could return null, if not event has been added yet
+	 * To add events, use
+	 *
 	 * @return The list of events associated with this element
 	 */
-	EAdList<EAdEvent> getEvents();
+	EAdList<Event> getEvents();
+
+	/**
+	 * Adds an event to the element
+	 *
+	 * @param e the event
+	 */
+	void addEvent(Event e);
 
 }

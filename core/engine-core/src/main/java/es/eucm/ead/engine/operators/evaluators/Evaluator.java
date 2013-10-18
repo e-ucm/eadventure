@@ -37,12 +37,12 @@
 
 package es.eucm.ead.engine.operators.evaluators;
 
-import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.engine.game.ValueMap;
+import es.eucm.ead.model.elements.conditions.Condition;
 
 /**
  * <p>
- * {@link EAdCondition} evaluator
+ * {@link es.eucm.ead.model.elements.conditions.Condition} evaluator
  * </p>
  * <p>
  * Classes that implement this interface evaluate a condition with the values of
@@ -51,13 +51,13 @@ import es.eucm.ead.engine.game.ValueMap;
  * </p>
  * 
  * @param <T>
- *            This class is parameterized for the specific {@link EAdCondition}
+ *            This class is parameterized for the specific {@link es.eucm.ead.model.elements.conditions.Condition}
  *            that it evaluates
  */
-public interface Evaluator<T extends EAdCondition> {
+public interface Evaluator<T extends Condition> {
 
 	/**
-	 * Evaluate a condition which extends {@link EAdCondition} according to the
+	 * Evaluate a condition which extends {@link es.eucm.ead.model.elements.conditions.Condition} according to the
 	 * values provided by the {@link ValueMap}
 	 * 
 	 * @param condition

@@ -39,10 +39,10 @@ package es.eucm.ead.json.reader;
 
 import com.google.gson.internal.StringMap;
 import es.eucm.ead.model.assets.text.EAdFont;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.text.QuestionEf;
 import es.eucm.ead.model.elements.extra.EAdList;
@@ -68,8 +68,8 @@ public class ConversationReader {
 	static private Logger logger = LoggerFactory
 			.getLogger(ConversationReader.class);
 
-	private Map<String, EAdEffect> segmentsStart;
-	private Map<String, EAdEffect> segmentsEnd;
+	private Map<String, Effect> segmentsStart;
+	private Map<String, Effect> segmentsEnd;
 	private Map<String, EAdPaint> texts;
 	private Map<String, EAdPaint> bubbles;
 	private Map<EAdString, String> strings;
@@ -85,8 +85,8 @@ public class ConversationReader {
 	public ConversationReader(ObjectsFactory objectsFactory,
 			EffectsReader effectsReader, ConditionReader conditionsReader,
 			TemplateReader templateReader) {
-		segmentsStart = new HashMap<String, EAdEffect>();
-		segmentsEnd = new HashMap<String, EAdEffect>();
+		segmentsStart = new HashMap<String, Effect>();
+		segmentsEnd = new HashMap<String, Effect>();
 		bubbles = new HashMap<String, EAdPaint>();
 		texts = new HashMap<String, EAdPaint>();
 		strings = new HashMap<EAdString, String>();
@@ -96,7 +96,7 @@ public class ConversationReader {
 		this.templateReader = templateReader;
 	}
 
-	public EAdEffect read(StringMap<Object> conv) {
+	public Effect read(StringMap<Object> conv) {
 		segmentsStart.clear();
 		segmentsEnd.clear();
 		strings.clear();
@@ -117,7 +117,7 @@ public class ConversationReader {
 		for (StringMap<Object> s : seg) {
 			addLinkQuestion(s);
 		}
-		EAdEffect effect = segmentsStart.get(conv.get("start"));
+		Effect effect = segmentsStart.get(conv.get("start"));
 		effect.setId(currentId);
 		objectsFactory.putIdentified(effect);
 		return effect;
@@ -146,14 +146,14 @@ public class ConversationReader {
 					strings.put(line, a.get("line").toString());
 					Collection<StringMap<Object>> effects = (Collection<StringMap<Object>>) a
 							.get("effects");
-					EAdEffect nextEffect = segmentsStart.get(a.get("nextNode")
+					Effect nextEffect = segmentsStart.get(a.get("nextNode")
 							.toString());
 					if (effects != null) {
-						EAdEffect firstEffect = null;
-						EAdEffect lastEffect = null;
+						Effect firstEffect = null;
+						Effect lastEffect = null;
 						for (StringMap<Object> e : effects) {
 							templateReader.applyTemplates(e);
-							EAdEffect effect = effectsReader.read(e);
+							Effect effect = effectsReader.read(e);
 							if (firstEffect == null) {
 								firstEffect = effect;
 							} else {
@@ -164,7 +164,7 @@ public class ConversationReader {
 						lastEffect.getNextEffects().add(nextEffect);
 						nextEffect = lastEffect;
 					}
-					EAdList<EAdEffect> answerEffects = new EAdList<EAdEffect>();
+					EAdList<Effect> answerEffects = new EAdList<Effect>();
 					answerEffects.add(nextEffect);
 					question.addAnswer(line, answerEffects);
 				}
@@ -179,21 +179,21 @@ public class ConversationReader {
 			String start = (String) l.get("start");
 			Collection<StringMap<Object>> ends = (Collection<StringMap<Object>>) l
 					.get("ends");
-			EAdEffect startEffect = segmentsEnd.get(start);
+			Effect startEffect = segmentsEnd.get(start);
 			if (ends.size() == 1) {
 				String next = (String) ends.iterator().next().get("id");
-				EAdEffect nextEffect = segmentsStart.get(next);
+				Effect nextEffect = segmentsStart.get(next);
 				startEffect.getNextEffects().add(nextEffect);
 			} else {
 				TriggerMacroEf triggerMacro = new TriggerMacroEf();
 				for (StringMap<Object> e : ends) {
 					String next = (String) e.get("id");
 					StringMap<Object> cond = (StringMap<Object>) e.get("cond");
-					EAdCondition condition = EmptyCond.TRUE;
+					Condition condition = EmptyCond.TRUE;
 					if (cond != null) {
 						condition = conditionsReader.read(cond);
 					}
-					EAdEffect nextEffect = segmentsStart.get(next);
+					Effect nextEffect = segmentsStart.get(next);
 					triggerMacro.putEffect(condition, nextEffect);
 				}
 				startEffect.getNextEffects().add(triggerMacro);
@@ -208,10 +208,10 @@ public class ConversationReader {
 			String id = (String) s.get("id");
 			Collection<StringMap<Object>> nodes = (Collection<StringMap<Object>>) s
 					.get("nodes");
-			EAdEffect firstEffect = null;
-			EAdEffect effect = null;
+			Effect firstEffect = null;
+			Effect effect = null;
 			for (StringMap<Object> n : nodes) {
-				EAdEffect nextEffect = transform(n);
+				Effect nextEffect = transform(n);
 				if (firstEffect == null) {
 					firstEffect = nextEffect;
 				} else {
@@ -226,13 +226,13 @@ public class ConversationReader {
 		}
 	}
 
-	private EAdEffect transform(StringMap<Object> n) {
-		EAdEffect effect = null;
+	private Effect transform(StringMap<Object> n) {
+		Effect effect = null;
 		String type = (String) n.get("node");
 		if (type != null) {
 			if (type.equals("line")) {
 				String character = (String) n.get("character");
-				EAdElement sceneElement = (EAdElement) objectsFactory
+				BasicElement sceneElement = (BasicElement) objectsFactory
 						.getObjectById(character);
 				String line = (String) n.get("line");
 				EAdString text = new EAdString(currentId + ".line." + id++);
@@ -258,7 +258,7 @@ public class ConversationReader {
 			} else if (type.equals("effects")) {
 				Collection<String> eff = (Collection<String>) n.get("effects");
 				for (String ref : eff) {
-					effect = (EAdEffect) objectsFactory.getObjectById(ref);
+					effect = (Effect) objectsFactory.getObjectById(ref);
 				}
 			} else if (type.equals("effect")) {
 				StringMap<Object> e = (StringMap<Object>) n.get("effect");

@@ -39,11 +39,10 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
-public abstract class AbstractEffectGO<P extends EAdEffect> implements
-		EffectGO<P> {
+public abstract class AbstractEffectGO<P extends Effect> implements EffectGO<P> {
 
 	/**
 	 * The game state
@@ -58,7 +57,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	/**
 	 * Element that launched the effect
 	 */
-	protected EAdSceneElement parent;
+	protected SceneElement parent;
 
 	/**
 	 * If the effect has been stopped
@@ -85,7 +84,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 	@Override
 	public void initialize() {
 		stopped = false;
-		for (EAdEffect e : effect.getSimultaneousEffects()) {
+		for (Effect e : effect.getSimultaneousEffects()) {
 			game.addEffect(e, action, parent);
 		}
 	}
@@ -113,7 +112,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 
 	public void finish() {
 		stopped = true;
-		for (EAdEffect e : effect.getNextEffects()) {
+		for (Effect e : effect.getNextEffects()) {
 			game.addEffect(e, action, parent);
 		}
 	}
@@ -122,7 +121,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> implements
 		this.action = action;
 	}
 
-	public void setParent(EAdSceneElement parent) {
+	public void setParent(SceneElement parent) {
 		this.parent = parent;
 	}
 

@@ -16,9 +16,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author anserran Date: 20/05/13 Time: 11:29
- */
 public class ScreenShotGO extends AbstractEffectGO<ScreenShotEf> implements
 		EngineHook {
 

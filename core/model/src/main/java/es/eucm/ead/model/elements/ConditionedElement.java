@@ -37,6 +37,7 @@
 
 package es.eucm.ead.model.elements;
 
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Conditioned;
 
@@ -48,19 +49,19 @@ public abstract class ConditionedElement extends BasicElement implements
 		Conditioned {
 
 	@Param
-	private EAdCondition condition;
+	private Condition condition;
 
 	public ConditionedElement() {
 		super();
 	}
 
 	@Override
-	public EAdCondition getCondition() {
+	public Condition getCondition() {
 		return condition;
 	}
 
 	@Override
-	public void setCondition(EAdCondition condition) {
+	public void setCondition(Condition condition) {
 		this.condition = condition;
 	}
 

@@ -37,14 +37,13 @@
 
 package es.eucm.ead.model.weev;
 
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.weev.adaptation.AdaptationStructure;
 
 /**
  * WEEV data model
  */
-public interface WEEVModel extends EAdElement {
+public interface WEEVModel {
 
 	/**
 	 * @return the list of {@link Actor}s in the WEEV model

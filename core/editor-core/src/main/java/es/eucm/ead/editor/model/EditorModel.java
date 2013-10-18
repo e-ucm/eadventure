@@ -37,18 +37,18 @@
 
 package es.eucm.ead.editor.model;
 
+import es.eucm.ead.editor.EditorStringHandler;
+import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.view.dock.ModelAccessor;
+import es.eucm.ead.model.elements.AdventureGame;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import es.eucm.ead.editor.EditorStringHandler;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.editor.view.dock.ModelAccessor;
-
 /**
  * Contains a full model of what is being edited. This is a super-set of an
- * EAdAdventureModel, encompassing both engine-related model objects and
+ * AdventureGame, encompassing both engine-related model objects and
  * resources, assets, and strings. Everything is searchable, and dependencies
  * are tracked as objects are changed.
  *
@@ -87,7 +87,7 @@ public interface EditorModel extends ModelAccessor {
 
 	// -------- saving, loading, and engine-model access
 
-	EAdAdventureModel getEngineModel();
+	AdventureGame getEngineModel();
 
 	EditorStringHandler getStringHandler();
 

@@ -41,7 +41,7 @@ import java.util.Collection;
 
 import com.google.gson.internal.StringMap;
 
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.elements.trajectories.Node;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
@@ -49,7 +49,7 @@ import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 @SuppressWarnings("unchecked")
 public class TrajectoryReader {
 
-	public EAdTrajectory read(StringMap<Object> t) {
+	public Trajectory read(StringMap<Object> t) {
 		String type = t.get("type").toString();
 		if (type.equals("nodes")) {
 			return parseNodes(t);
@@ -60,7 +60,7 @@ public class TrajectoryReader {
 		return null;
 	}
 
-	private EAdTrajectory parseNodes(StringMap<Object> t) {
+	private Trajectory parseNodes(StringMap<Object> t) {
 		NodeTrajectory trajectory = new NodeTrajectory();
 		Collection<StringMap<Object>> ns = (Collection<StringMap<Object>>) t
 				.get("nodes");

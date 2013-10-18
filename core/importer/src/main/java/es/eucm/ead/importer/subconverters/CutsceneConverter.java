@@ -45,18 +45,16 @@ import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.Video;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.QuitGameEf;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -101,15 +99,15 @@ public class CutsceneConverter {
 		this.effectsConverter = effectsConverter;
 	}
 
-	public List<EAdScene> convert(Cutscene scene) {
-		List<EAdScene> cutscene;
+	public List<Scene> convert(Cutscene scene) {
+		List<Scene> cutscene;
 		if (scene instanceof Slidescene) {
 			cutscene = convertSlidesScene((Slidescene) scene);
 		} else {
 			cutscene = convertVideoScene(scene);
 		}
 		int i = 0;
-		for (EAdScene s : cutscene) {
+		for (Scene s : cutscene) {
 			if (i == 0) {
 				s.setId(scene.getId());
 			} else {
@@ -120,8 +118,8 @@ public class CutsceneConverter {
 		return cutscene;
 	}
 
-	public List<EAdScene> convertSlidesScene(Slidescene cs) {
-		List<EAdScene> cutscene = new ArrayList<EAdScene>();
+	public List<Scene> convertSlidesScene(Slidescene cs) {
+		List<Scene> cutscene = new ArrayList<Scene>();
 		// XXX when more than one appearance, we need to create a series of
 		// different slides
 		for (Resources r : cs.getResources()) {
@@ -136,10 +134,10 @@ public class CutsceneConverter {
 							.getUri(), true);
 
 					// XXX Sound
-					BasicScene scene = new BasicScene();
+					Scene scene = new Scene();
 					scene.getBackground().getDefinition().setAppearance(
 							background);
-					EAdEffect nextEffect = null;
+					Effect nextEffect = null;
 
 					if (cs.getNext() == Slidescene.ENDCHAPTER) {
 						// XXX Games with more than one chapter will fail
@@ -152,8 +150,8 @@ public class CutsceneConverter {
 						if (i == anim.getFrames().size() - 1) {
 							// [SS - NextScene]
 							nextSlide.setNextScene(getNextScene(cs));
-							List<EAdEffect> effects = effectsConverter
-									.convert(cs.getEffects());
+							List<Effect> effects = effectsConverter.convert(cs
+									.getEffects());
 							if (effects.size() > 0) {
 								nextSlide.addNextEffect(effects.get(0));
 							}
@@ -211,32 +209,32 @@ public class CutsceneConverter {
 		}
 
 		// Add conditioned resources
-		for (EAdScene scene : cutscene) {
+		for (Scene scene : cutscene) {
 			utilsConverter.addResourcesConditions(cs.getResources(), scene
 					.getBackground(), SceneElement.VAR_BUNDLE_ID);
 		}
 
 		// We add an event that sets the IN_CUTSCENE field for the use of others
 		// (trigger cutscene effect, for example)
-		EAdScene firstScene = cutscene.get(0);
-		EAdScene lastScene = cutscene.get(cutscene.size() - 1);
-		BasicField<Boolean> inCutscene = new BasicField<Boolean>(firstScene,
-				IN_CUTSCENE);
+		Scene firstScene = cutscene.get(0);
+		Scene lastScene = cutscene.get(cutscene.size() - 1);
+		ElementField<Boolean> inCutscene = new ElementField<Boolean>(
+				firstScene, IN_CUTSCENE);
 		// Event for the first scene
 		SceneElementEv event1 = new SceneElementEv();
 		event1.addEffect(SceneElementEvType.ADDED, new ChangeFieldEf(
 				inCutscene, EmptyCond.TRUE));
-		firstScene.getEvents().add(event1);
+		firstScene.addEvent(event1);
 		// Event for the last scene
 		SceneElementEv event2 = new SceneElementEv();
 		event2.addEffect(SceneElementEvType.REMOVED, new ChangeFieldEf(
 				inCutscene, EmptyCond.FALSE));
-		lastScene.getEvents().add(event2);
+		lastScene.addEvent(event2);
 
 		return cutscene;
 	}
 
-	public List<EAdScene> convertVideoScene(Cutscene cs) {
+	public List<Scene> convertVideoScene(Cutscene cs) {
 		// [VI - Video]
 		Videoscene vs = (Videoscene) cs;
 		// XXX Not working when there's more than one resource
@@ -247,16 +245,16 @@ public class CutsceneConverter {
 		videoScene.setVideo(video);
 
 		// [VI - NextScene]
-		EAdElement nextScene = getNextScene(cs);
+		BasicElement nextScene = getNextScene(cs);
 		videoScene.addFinalEffect(new ChangeSceneEf(nextScene));
 
-		ArrayList<EAdScene> scenes = new ArrayList<EAdScene>();
+		ArrayList<Scene> scenes = new ArrayList<Scene>();
 		scenes.add(videoScene);
 		return scenes;
 	}
 
-	private EAdElement getNextScene(Cutscene cs) {
-		EAdElement nextScene = null;
+	private BasicElement getNextScene(Cutscene cs) {
+		BasicElement nextScene = null;
 		switch (cs.getNext()) {
 		// [CS - PrevScene]
 		case Slidescene.GOBACK:

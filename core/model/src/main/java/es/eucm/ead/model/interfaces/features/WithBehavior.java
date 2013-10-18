@@ -37,9 +37,9 @@
 
 package es.eucm.ead.model.interfaces.features;
 
-import es.eucm.ead.model.elements.EAdBehavior;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 
 /**
@@ -57,7 +57,7 @@ public interface WithBehavior {
 	 *            the GUI event
 	 * @return the effects list associated with the given event
 	 */
-	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
+	EAdList<Effect> getEffects(EAdGUIEvent event);
 
 	/**
 	 * Add an effect to the list of effects associated with the
@@ -68,7 +68,7 @@ public interface WithBehavior {
 	 * @param effect
 	 *            the new effect to be added to the list
 	 */
-	void addBehavior(EAdGUIEvent event, EAdEffect effect);
+	void addBehavior(EAdGUIEvent event, Effect effect);
 
 	/**
 	 * Adds the given effects to the list of the events that will be executed
@@ -79,13 +79,13 @@ public interface WithBehavior {
 	 * @param effects
 	 *            the list of effects
 	 */
-	void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects);
+	void addBehavior(EAdGUIEvent event, EAdList<Effect> effects);
 
 	/**
 	 * 
 	 * @return the behavior of the element
 	 */
-	EAdBehavior getBehavior();
+	EAdMap<EAdGUIEvent, EAdList<Effect>> getBehavior();
 
 	/**
 	 * Sets the behavior for the element
@@ -93,6 +93,6 @@ public interface WithBehavior {
 	 * @param behavior
 	 *            the behavior
 	 */
-	void setBehavior(EAdBehavior behavior);
+	void setBehavior(EAdMap<EAdGUIEvent, EAdList<Effect>> behavior);
 
 }

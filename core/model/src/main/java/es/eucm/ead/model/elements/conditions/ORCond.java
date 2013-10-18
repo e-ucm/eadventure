@@ -38,7 +38,6 @@
 package es.eucm.ead.model.elements.conditions;
 
 import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.conditions.enums.ConditionOperator;
 
 @Element
@@ -48,7 +47,7 @@ public class ORCond extends ListedCond {
 		super(ConditionOperator.OR);
 	}
 
-	public ORCond(EAdCondition... condition) {
+	public ORCond(Condition... condition) {
 		super(ConditionOperator.OR, condition);
 	}
 

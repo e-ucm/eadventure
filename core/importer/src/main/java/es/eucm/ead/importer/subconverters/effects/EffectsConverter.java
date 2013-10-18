@@ -40,21 +40,20 @@ package es.eucm.ead.importer.subconverters.effects;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.importer.*;
+import es.eucm.ead.importer.resources.ResourcesConverter;
+import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
+import es.eucm.ead.importer.subconverters.effects.variables.*;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.EmptyEffect;
 import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.importer.resources.ResourcesConverter;
-import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
-import es.eucm.ead.importer.subconverters.effects.variables.*;
 import es.eucm.eadventure.common.data.chapter.effects.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +79,7 @@ public class EffectsConverter {
 
 	private UtilsConverter utilsConverter;
 
-	private EAdField<Boolean> ghostEffectsVisible = new BasicField<Boolean>(
+	private ElementField<Boolean> ghostEffectsVisible = new ElementField<Boolean>(
 			new BasicElement(AdventureConverter.EFFECTS_GHOST_ID),
 			SceneElement.VAR_VISIBLE);
 	public ChangeFieldEf showGhostEffects = new ChangeFieldEf(
@@ -162,18 +161,17 @@ public class EffectsConverter {
 	}
 
 	@SuppressWarnings( { "rawtypes", "unchecked" })
-	public List<EAdEffect> convert(AbstractEffect e) {
+	public List<Effect> convert(AbstractEffect e) {
 		EffectConverter converter = converters.get(e.getClass());
 		if (converter == null) {
 			logger.warn("No effect converter for {}", e.getClass());
 		} else {
-			List<EAdEffect> effects = converter.convert(e);
+			List<Effect> effects = converter.convert(e);
 			if (e.getConditions() != null) {
-				EAdCondition cond = conditionConverter.convert(e
-						.getConditions());
+				Condition cond = conditionConverter.convert(e.getConditions());
 				effects.get(0).setCondition(cond);
 			}
-			for (EAdEffect effect : effects) {
+			for (es.eucm.ead.model.elements.effects.Effect effect : effects) {
 				// Effects are always executed (conditions may prevent its
 				// execution later)
 				effect.setNextEffectsAlways(true);
@@ -183,8 +181,8 @@ public class EffectsConverter {
 		return Collections.emptyList();
 	}
 
-	public interface EffectConverter<T extends Effect> {
-		List<EAdEffect> convert(T e);
+	public interface EffectConverter<T extends es.eucm.eadventure.common.data.chapter.effects.Effect> {
+		List<Effect> convert(T e);
 	}
 
 	/**
@@ -199,15 +197,15 @@ public class EffectsConverter {
 	 * @param ef
 	 * @return
 	 */
-	public EAdList<EAdEffect> convert(Effects ef) {
-		EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
-		EAdEffect effect = null;
+	public EAdList<Effect> convert(Effects ef) {
+		EAdList<Effect> effects = new EAdList<Effect>();
+		Effect effect = null;
 		for (AbstractEffect e : ef.getEffects()) {
-			List<EAdEffect> nextEffects = convert(e);
+			List<Effect> nextEffects = convert(e);
 			if (nextEffects.size() > 0) {
 				effects.addAll(nextEffects);
 				if (effect != null) {
-					EAdEffect nextEffect = simplifyEffects(nextEffects).get(0);
+					Effect nextEffect = simplifyEffects(nextEffects).get(0);
 					effect.getNextEffects().add(nextEffect);
 				}
 				effect = nextEffects.get(nextEffects.size() - 1);
@@ -216,7 +214,7 @@ public class EffectsConverter {
 
 		boolean nextShow = false;
 		int i = 0;
-		for (EAdEffect e : effects) {
+		for (Effect e : effects) {
 			if (i == 0) {
 				e.addSimultaneousEffect(showGhostEffects);
 			}
@@ -239,7 +237,7 @@ public class EffectsConverter {
 		return effects;
 	}
 
-	private List<EAdEffect> simplifyEffects(List<EAdEffect> nextEffects) {
+	private List<Effect> simplifyEffects(List<Effect> nextEffects) {
 		if (nextEffects.size() < 2) {
 			return nextEffects;
 		}
@@ -254,7 +252,7 @@ public class EffectsConverter {
 			return nextEffects;
 		}
 
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+		ArrayList<Effect> list = new ArrayList<Effect>();
 
 		int index = 0;
 		while (i < nextEffects.size()) {
@@ -267,7 +265,7 @@ public class EffectsConverter {
 					if (i == 0 && i - index > 2) {
 						EmptyEffect effect = new EmptyEffect();
 						for (int j = i; j < index; j++) {
-							EAdEffect e = nextEffects.get(j);
+							Effect e = nextEffects.get(j);
 							e.getNextEffects().clear();
 							effect.addNextEffect(e);
 							list.add(effect);
@@ -289,7 +287,7 @@ public class EffectsConverter {
 		return list;
 	}
 
-	private boolean isNotQueueable(EAdEffect e) {
+	private boolean isNotQueueable(Effect e) {
 		return e.getSimultaneousEffects().size() == 0
 				&& e.getNextEffects().size() == 1
 				&& (e instanceof ChangeFieldEf || e instanceof ChangeColorEf);

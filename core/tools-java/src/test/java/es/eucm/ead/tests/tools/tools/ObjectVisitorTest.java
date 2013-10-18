@@ -37,10 +37,10 @@
 
 package es.eucm.ead.tests.tools.tools;
 
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.tools.ObjectVisitor;
 import es.eucm.ead.tools.java.reflection.JavaReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
@@ -62,12 +62,12 @@ public class ObjectVisitorTest {
 				}
 			}
 		});
-		BasicAdventureModel model = new BasicAdventureModel();
+		AdventureGame model = new AdventureGame();
 		model.setId("Ejemplo");
-		BasicChapter chapter = new BasicChapter();
-		BasicChapter chapter2 = new BasicChapter();
+		Chapter chapter = new Chapter();
+		Chapter chapter2 = new Chapter();
 		chapter.setId("djk");
-		chapter.addScene(new BasicScene());
+		chapter.addScene(new Scene());
 		model.addChapter(chapter);
 		model.addChapter(chapter);
 		model.addChapter(chapter);

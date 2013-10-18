@@ -37,16 +37,14 @@
 
 package es.eucm.ead.engine.operators.evaluators;
 
-import java.util.Iterator;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.conditions.ListedCond;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.ListedCond;
+import java.util.Iterator;
 
 @Singleton
 public class ListedCondEvaluator implements Evaluator<ListedCond> {
@@ -67,9 +65,9 @@ public class ListedCondEvaluator implements Evaluator<ListedCond> {
 		if (condition.getNullOperator().getValue())
 			temp = true;
 
-		Iterator<EAdCondition> conditions = condition.getConditionsIterator();
+		Iterator<Condition> conditions = condition.getConditionsIterator();
 		while (conditions.hasNext()) {
-			EAdCondition cond = conditions.next();
+			Condition cond = conditions.next();
 			boolean temp2 = evaluatorFactory.evaluate(cond);
 			switch (condition.getOperator()) {
 			case AND:
