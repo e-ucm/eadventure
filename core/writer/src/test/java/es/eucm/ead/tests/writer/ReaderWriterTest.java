@@ -41,11 +41,11 @@ import es.eucm.ead.model.elements.BasicAdventureModel;
 import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.scenes.BasicScene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.reader2.AdventureReader;
+import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
 import es.eucm.ead.tools.java.xml.SaxXMLParser;
-import es.eucm.ead.writer2.AdventureWriter;
+import es.eucm.ead.writer.AdventureWriter;
 import org.junit.Test;
 
 public class ReaderWriterTest {

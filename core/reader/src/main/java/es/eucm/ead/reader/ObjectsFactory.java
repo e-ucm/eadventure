@@ -35,11 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader.model;
+package es.eucm.ead.reader;
 
-import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.operations.BasicField;
@@ -62,13 +60,13 @@ import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
+import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.reflection.ReflectionClass;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,28 +74,27 @@ public class ObjectsFactory {
 
 	static private Logger logger = LoggerFactory
 			.getLogger(ObjectsFactory.class);
-
-	private Map<Class<?>, Map<String, Object>> paramsMap;
-
-	private Map<String, Identified> elementsMap;
-
-	private Map<String, AssetDescriptor> assetsMap;
-
 	private ReflectionProvider reflectionProvider;
+	private Map<Class<?>, Map<String, Object>> paramsMap;
+	private Map<String, Identified> identified;
+	private ReaderVisitor readerVisitor;
 
 	private Map<String, EAdVarDef<?>> registeredVars;
 
-	private XMLVisitor xmlVisitor;
-
 	public ObjectsFactory(ReflectionProvider reflectionProvider,
-			XMLVisitor xmlVisitor) {
-		this.xmlVisitor = xmlVisitor;
+			ReaderVisitor readerVisitor) {
 		this.reflectionProvider = reflectionProvider;
+		this.readerVisitor = readerVisitor;
+		identified = new HashMap<String, Identified>();
 		paramsMap = new HashMap<Class<?>, Map<String, Object>>();
-		elementsMap = new HashMap<String, Identified>();
-		assetsMap = new HashMap<String, AssetDescriptor>();
 		registeredVars = new HashMap<String, EAdVarDef<?>>();
+
 		addDefaultVars();
+	}
+
+	public void clear() {
+		paramsMap.clear();
+		identified.clear();
 	}
 
 	private void addDefaultVars() {
@@ -119,6 +116,153 @@ public class ObjectsFactory {
 		registeredVars.put("bundle", SceneElement.VAR_BUNDLE_ID);
 		registeredVars.put("sound_on", SystemFields.SOUND_ON.getVarDef());
 
+	}
+
+	public Object getObjectById(String id) {
+		if (!identified.containsKey(id)) {
+			logger.info("Creating reference for element with id {}", id);
+			identified.put(id, new BasicElement(id));
+		}
+		return identified.get(id);
+	}
+
+	public boolean containsIdentified(String id) {
+		return identified.containsKey(id);
+	}
+
+	/**
+	 * Constructs and EAdParam from its literal representation
+	 *
+	 * @param value text value representing the param
+	 * @param clazz the parameter class
+	 * @return the param
+	 */
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	private EAdParam constructEAdParam(String value, Class<?> clazz) {
+		EAdParam p = null;
+		if (clazz.equals(EAdString.class)) {
+			p = new EAdString(value);
+		} else if (clazz.equals(ColorFill.class)) {
+			p = new ColorFill(value);
+		} else if (clazz.equals(LinearGradientFill.class)) {
+			p = new LinearGradientFill(value);
+		} else if (clazz.equals(Paint.class)) {
+			p = new Paint(value);
+		} else if (clazz.equals(Position.class)) {
+			p = new Position(value);
+		} else if (clazz.equals(Rectangle.class)) {
+			p = new Rectangle(value);
+		} else if (clazz.equals(MouseGEv.class)) {
+			p = new MouseGEv(value);
+		} else if (clazz.equals(KeyGEv.class)) {
+			p = new KeyGEv(value);
+		} else if (clazz.equals(DragGEv.class)) {
+			p = new DragGEv(value);
+		} else if (clazz.equals(VarDef.class)) {
+			p = registeredVars.get(value);
+			if (p == null) {
+				try {
+					Object initialValue = null;
+					String values[] = value.split(";");
+					Class<?> c = getClassFromName(values[1]);
+
+					boolean forLater = false;
+					if (values.length == 3) {
+						initialValue = this.getObject(values[2], c);
+						forLater = initialValue == null;
+					}
+					p = new VarDef(values[0], c, initialValue);
+					if (forLater) {
+						readerVisitor.addFinalStep(new VarInitStep(
+								(EAdVarDef) p, values[2]));
+					}
+				} catch (Exception e) {
+					logger.warn("VarDef with representation {} poorly parsed",
+							value);
+				}
+			}
+		}
+		return p;
+	}
+
+	@SuppressWarnings( { "unchecked", "rawtypes" })
+	private Object constructSimpleParam(String value, Class<?> clazz) {
+		if (clazz == String.class) {
+			return value;
+		} else if (clazz == Integer.class || clazz == int.class) {
+			return Integer.parseInt(value);
+		} else if (clazz == Boolean.class || clazz == boolean.class) {
+			return value.equals("t") || value.equals("true") ? Boolean.TRUE
+					: Boolean.FALSE;
+		} else if (clazz == Float.class || clazz == float.class) {
+			return Float.parseFloat(value);
+		} else if (clazz == Character.class || clazz == char.class) {
+			return value.charAt(0);
+		} else if (clazz == Class.class) {
+			return getClassFromName(value);
+		} else if (clazz.isEnum()) {
+			Class<? extends Enum> enumClass = (Class<? extends Enum>) clazz;
+			return Enum.valueOf(enumClass, value);
+		} else if (clazz == Matrix.class) {
+			return new Matrix(value);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the class object for the given class string
+	 *
+	 * @param clazz the string class
+	 * @return the class
+	 */
+	public Class<?> getClassFromName(String clazz) {
+		if (clazz.equals("java.lang.Float")) {
+			return Float.class;
+		} else if (clazz.equals("java.lang.Integer")) {
+			return Integer.class;
+		} else if (clazz.equals("java.lang.Boolean")) {
+			return Boolean.class;
+		} else if (clazz.equals("java.lang.Class")) {
+			return Class.class;
+		} else if (clazz.equals("java.lang.Character")) {
+			return Character.class;
+		} else if (clazz.equals("java.lang.String")) {
+			return String.class;
+		} else {
+			try {
+				return ReflectionClassLoader.getReflectionClass(clazz)
+						.getType();
+			} catch (Exception e) {
+				logger
+						.warn(
+								"Not match for class {}. Returning 'Object.class' instead",
+								clazz);
+				return Object.class;
+			}
+		}
+	}
+
+	/**
+	 * Create an object of the given class
+	 *
+	 * @param clazz the class
+	 * @param id    the element id
+	 * @return the object created
+	 */
+	public Object createObject(Class<?> clazz, String id) {
+		ReflectionClass<?> classType = ReflectionClassLoader
+				.getReflectionClass(clazz);
+		Object o = identified.get(id);
+		if (o == null) {
+			if (classType.getConstructor() != null) {
+				o = classType.getConstructor().newInstance();
+				identified.put(id, (Identified) o);
+				((Identified) o).setId(id);
+			} else {
+				logger.warn("No empty constructor for {}", clazz);
+			}
+		}
+		return o;
 	}
 
 	public Object getParam(String textValue, Class<?> clazz) {
@@ -154,12 +298,8 @@ public class ObjectsFactory {
 	@SuppressWarnings("rawtypes")
 	public Object getObject(String value, Class<?> c) {
 		Object result = null;
-		if (reflectionProvider.isAssignableFrom(EAdElement.class, c)) {
-			result = elementsMap.get(value);
-
-		} else if (reflectionProvider
-				.isAssignableFrom(AssetDescriptor.class, c)) {
-			result = assetsMap.get(value);
+		if (reflectionProvider.isAssignableFrom(Identified.class, c)) {
+			result = identified.get(value);
 		} else if (reflectionProvider.isAssignableFrom(EAdList.class, c)) {
 			EAdList list = new EAdList();
 			// Remove [ and final ]
@@ -186,213 +326,55 @@ public class ObjectsFactory {
 		return result;
 	}
 
-	/**
-	 * Constructs and EAdParam from its literal representation
-	 *
-	 * @param value text value representing the param
-	 * @param clazz the parameter class
-	 * @return
-	 */
-	@SuppressWarnings( { "unchecked", "rawtypes" })
-	private EAdParam constructEAdParam(String value, Class<?> clazz) {
-		EAdParam p = null;
-		if (clazz.equals(EAdString.class)) {
-			p = new EAdString(value);
-		} else if (clazz.equals(ColorFill.class)) {
-			p = new ColorFill(value);
-		} else if (clazz.equals(LinearGradientFill.class)) {
-			p = new LinearGradientFill(value);
-		} else if (clazz.equals(Paint.class)) {
-			p = new Paint(value);
-		} else if (clazz.equals(Position.class)) {
-			p = new Position(value);
-		} else if (clazz.equals(Rectangle.class)) {
-			p = new Rectangle(value);
-		} else if (clazz.equals(MouseGEv.class)) {
-			p = new MouseGEv(value);
-		} else if (clazz.equals(KeyGEv.class)) {
-			p = new KeyGEv(value);
-		} else if (clazz.equals(DragGEv.class)) {
-			p = new DragGEv(value);
-		} else if (clazz.equals(VarDef.class)) {
-			p = registeredVars.get(value);
-			if (p == null) {
-				try {
-					Object initialValue = null;
-					String values[] = value.split(";");
-					Class<?> c = getClassFromName(values[1]);
-
-					boolean forLater = false;
-					if (values.length == 3) {
-						initialValue = this.getObject(values[2], c);
-						forLater = initialValue == null
-								&& !"null".equals(values[2]);
-					}
-					p = new VarDef(values[0], c, initialValue);
-					if (forLater) {
-						xmlVisitor.addLoadInitalValue((VarDef) p, values[2]);
-					}
-				} catch (Exception e) {
-					logger.warn("VarDef with representation {} poorly parsed",
-							value);
-				}
-			}
-		}
-		return p;
+	public void putIdentified(Identified element) {
+		identified.put(element.getId(), element);
 	}
 
-	private EAdList getList(String value) {
-		//EAdList list =
-		return null;
-	}
-
-	@SuppressWarnings( { "unchecked", "rawtypes" })
-	private Object constructSimpleParam(String value, Class<?> clazz) {
-		if (clazz == String.class) {
-			return value;
-		} else if (clazz == Integer.class || clazz == int.class) {
-			return Integer.parseInt(value);
-		} else if (clazz == Boolean.class || clazz == boolean.class) {
-			return value.equals("t") || value.equals("true") ? Boolean.TRUE
-					: Boolean.FALSE;
-		} else if (clazz == Float.class || clazz == float.class) {
-			return Float.parseFloat(value);
-		} else if (clazz == Character.class || clazz == char.class) {
-			return value.charAt(0);
-		} else if (clazz == Class.class) {
-			return getClassFromName(value);
-		} else if (clazz.isEnum()) {
-			Class<? extends Enum> enumClass = (Class<? extends Enum>) clazz;
-			return Enum.valueOf(enumClass, value);
-		} else if (clazz == Matrix.class) {
-			return new Matrix(value);
-		}
-		return null;
-	}
-
-	/**
-	 * Returns the class object for the given class string
-	 *
-	 * @param clazz
-	 * @return
-	 */
-	public Class<?> getClassFromName(String clazz) {
-		if (clazz.equals("java.lang.Float")) {
-			return Float.class;
-		} else if (clazz.equals("java.lang.Integer")) {
-			return Integer.class;
-		} else if (clazz.equals("java.lang.Boolean")) {
-			return Boolean.class;
-		} else if (clazz.equals("java.lang.Class")) {
-			return Class.class;
-		} else if (clazz.equals("java.lang.Character")) {
-			return Character.class;
-		} else if (clazz.equals("java.lang.String")) {
-			return String.class;
+	public EAdPaint getPaint(String value) {
+		if (value.contains(Paint.SEPARATOR)) {
+			return (EAdPaint) getParam(value, Paint.class);
+		} else if (value.contains(LinearGradientFill.SEPARATOR)) {
+			return (EAdPaint) getParam(value, LinearGradientFill.class);
 		} else {
-			try {
-				Class<?> clazz2 = ReflectionClassLoader.getReflectionClass(
-						clazz).getType();
-				return clazz2;
-			} catch (Exception e) {
-				logger.warn(
-						"Not match for class {}. Object.class was returned",
-						clazz);
-				return Object.class;
-			}
+			return (EAdPaint) getParam(value, ColorFill.class);
 		}
 	}
 
-	/**
-	 * Create an object of the given class
-	 *
-	 * @param clazz
-	 * @return
-	 */
-	public Object createObject(Class<?> clazz) {
-		ReflectionClass<?> classType = ReflectionClassLoader
-				.getReflectionClass(clazz);
-		if (classType.getConstructor() != null) {
-			return classType.getConstructor().newInstance();
-		}
-		return null;
-	}
-
-	public void putAsset(String uniqueId, Identified assetDescriptor) {
-		assetsMap.put(uniqueId, (AssetDescriptor) assetDescriptor);
-	}
-
-	public void putEAdElement(String uniqueId, Identified eadElement) {
-		elementsMap.put(uniqueId, eadElement);
-	}
-
-	public Identified getAsset(String uniqueId) {
-		Identified i = assetsMap.get(uniqueId);
-		if (i == null) {
-			logger.warn("No asset for id {}", uniqueId);
-		}
-		return i;
-	}
-
-	public Identified getEAdElement(String uniqueId) {
-		return elementsMap.get(uniqueId);
-	}
-
-	public Object getReferencedElement(Object value) {
-		Object result = this.getAsset(value.toString());
-		if (result == null) {
-			result = this.getEAdElement(value.toString());
-		}
-		return result;
-	}
-
-	public void clear() {
-		assetsMap.clear();
-		elementsMap.clear();
-		paramsMap.clear();
-	}
-
-	public Collection<AssetDescriptor> getAssets() {
-		return assetsMap.values();
-	}
-
-	@SuppressWarnings( { "rawtypes", "unchecked" })
-	public EAdField<?> getField(String elementId, String varName) {
-		EAdElement element = null;
-		if (!elementId.equals("ead")) {
-			element = (EAdElement) this.getEAdElement(elementId);
-			if (element == null) {
-				element = new BasicElement(elementId);
-			}
-		}
-		EAdVarDef varDef = registeredVars.get(varName);
-		if (varDef == null) {
-			logger.warn("No variable registered for {}", varName);
+	public EAdField<?> getField(String element, String varName) {
+		if (registeredVars.containsKey(varName)) {
+			return new BasicField(new BasicElement(element), registeredVars
+					.get(varName));
 		} else {
-			return new BasicField<Boolean>(element, varDef);
+			return null;
 		}
-		return null;
 	}
 
-	public EAdVarDef<?> getVarDef(String key) {
+	public EAdVarDef getVarDef(String key) {
 		return registeredVars.get(key);
 	}
 
 	public void registerVariable(String string, EAdVarDef<?> var) {
 		registeredVars.put(string, var);
-
 	}
 
-	public EAdPaint getPaint(String p) {
-		EAdPaint paint = null;
-		if (p.indexOf(Paint.SEPARATOR) != -1) {
-			paint = (EAdPaint) getParam(p, Paint.class);
-		} else if (p.indexOf(LinearGradientFill.SEPARATOR) != -1) {
-			paint = (EAdPaint) getParam(p, LinearGradientFill.class);
-		} else {
-			paint = (EAdPaint) getParam(p, ColorFill.class);
+	public class VarInitStep implements ReaderVisitor.FinalStep {
+		private EAdVarDef varDef;
+		private String initialValue;
+
+		public VarInitStep(EAdVarDef<?> varDef, String initialValue) {
+			this.varDef = varDef;
+			this.initialValue = initialValue;
 		}
-		return paint;
-	}
 
+		@Override
+		@SuppressWarnings("unchecked")
+		public void execute() {
+			Object value = getObject(initialValue, varDef.getType());
+			if (value == null) {
+				logger.warn("Invalid value for variable definition {}", varDef);
+			} else {
+				varDef.setInitialValue(value);
+			}
+		}
+	}
 }

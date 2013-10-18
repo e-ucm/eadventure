@@ -81,7 +81,7 @@ public class OperationCondEvaluator implements Evaluator<OperationCond> {
 		if (value1.getClass() == value2.getClass()
 				&& value1 instanceof Comparable) {
 			int result = ((Comparable) value1).compareTo(value2);
-			switch (condition.getOperator()) {
+			switch (condition.getComparator()) {
 			case EQUAL:
 				return result == 0;
 			case GREATER:
@@ -99,7 +99,7 @@ public class OperationCondEvaluator implements Evaluator<OperationCond> {
 			}
 		} else {
 			boolean equals = value1.equals(value2);
-			switch (condition.getOperator()) {
+			switch (condition.getComparator()) {
 			case EQUAL:
 			case GREATER_EQUAL:
 			case LESS_EQUAL:

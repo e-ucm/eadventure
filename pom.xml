@@ -100,6 +100,11 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <gwt.module>es.eucm.ead.engine.Engine</gwt.module>
+                <gwt.logLevel>INFO</gwt.logLevel>
+                <gwt.style>OBFUSCATED</gwt.style>
+            </properties>
             <modules>
                 <module>build-tools</module>
                 <!-- Model: base for all the other projects -->
@@ -179,6 +184,27 @@
             <id>engine-android</id>
             <modules>
                 <module>core/engine-android</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>gwt</id>
+            <properties>
+                <gwt.module>es.eucm.ead.engine.EngineDebug</gwt.module>
+                <gwt.logLevel>DEBUG</gwt.logLevel>
+                <gwt.style>PRETTY</gwt.style>
+                <gwt.draftCompile>true</gwt.draftCompile>
+            </properties>
+            <modules>
+                <module>core/model</module>
+                <module>core/tools</module>
+                <module>core/tools-gwt</module>
+                <module>core/reader</module>
+                <module>core/engine-resources</module>
+                <module>core/engine-core</module>
+                <module>core/engine-html</module>
+                <module>extensions/legacy-plugins-model</module>
+                <module>extensions/legacy-plugins-engine-core</module>
+                <module>extensions/legacy-plugins-engine-desktop</module>
             </modules>
         </profile>
     </profiles>

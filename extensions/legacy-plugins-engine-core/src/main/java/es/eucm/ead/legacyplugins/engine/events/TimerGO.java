@@ -1,6 +1,7 @@
 package es.eucm.ead.legacyplugins.engine.events;
 
 import com.google.inject.Inject;
+import com.gwtent.reflection.client.Reflectable;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
@@ -12,6 +13,7 @@ import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.elements.huds.BottomHud;
 import es.eucm.ead.model.params.fills.Paint;
 
+@Reflectable
 public class TimerGO extends AbstractEventGO<TimerEv> {
 
 	private final SceneElementFactory sceneElementFactory;

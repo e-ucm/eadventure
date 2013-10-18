@@ -132,7 +132,7 @@ public class ConditionsConverter {
 		} else if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
 			// [COND - State]
 			EAdCondition cond = modelQuerier.getGlobalState(c.getId());
-			cond.addFields(fieldsInLastCond);
+			cond.extractFields(fieldsInLastCond);
 			return cond;
 		}
 		return null;

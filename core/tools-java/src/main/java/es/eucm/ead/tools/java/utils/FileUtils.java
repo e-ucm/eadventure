@@ -430,7 +430,7 @@ public class FileUtils {
 			r = new BufferedReader(new InputStreamReader(FileUtils.class
 					.getResourceAsStream(name), Charset.forName("UTF-8")));
 			String line;
-			String separator = System.lineSeparator();
+			String separator = System.getProperty("line.separator");
 			while ((line = r.readLine()) != null) {
 				sb.append(line).append(separator);
 			}
@@ -457,7 +457,7 @@ public class FileUtils {
 			r = new BufferedReader(new InputStreamReader(
 					new FileInputStream(f), Charset.forName("UTF-8")));
 			String line;
-			String separator = System.lineSeparator();
+			String separator = System.getProperty("line.separator");
 			while ((line = r.readLine()) != null) {
 				sb.append(line).append(separator);
 			}

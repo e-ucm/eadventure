@@ -140,9 +140,9 @@ public class GameState extends ValueMap implements
 		setValue(element, var, result);
 	}
 
-	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
-		super.setValue(element, varDef, value);
-		notifyWatchers(element, varDef, value);
+	public void setValue(String elementId, String varName, Object value) {
+		super.setValue(elementId, varName, value);
+		notifyWatchers(elementId, varName, value);
 	}
 
 	public int getValues(EAdField<?> field, int type, float[] values) {
@@ -314,17 +314,13 @@ public class GameState extends ValueMap implements
 	}
 
 	@SuppressWarnings( { "all" })
-	private <T> void notifyWatchers(Object element, EAdVarDef<T> varDef, T value) {
-		if (element instanceof Identified) {
-			Map<String, List<FieldWatcher>> map = fieldWatchers
-					.get(element == null ? null : ((Identified) element)
-							.getId());
-			if (map != null) {
-				List<FieldWatcher> list = map.get(varDef.getName());
-				if (list != null) {
-					for (FieldWatcher fw : list) {
-						fw.fieldUpdated(element, varDef, value);
-					}
+	private <T> void notifyWatchers(String elementId, String varName, T value) {
+		Map<String, List<FieldWatcher>> map = fieldWatchers.get(elementId);
+		if (map != null) {
+			List<FieldWatcher> list = map.get(varName);
+			if (list != null) {
+				for (FieldWatcher fw : list) {
+					fw.fieldUpdated(elementId, varName, value);
 				}
 			}
 		}
@@ -387,11 +383,20 @@ public class GameState extends ValueMap implements
 		updateList.clear();
 	}
 
+	public int countWatchers(String element, String varName) {
+		Map<String, List<FieldWatcher>> watchers = fieldWatchers.get(element);
+		if (watchers != null) {
+			List<FieldWatcher> list = watchers.get(varName);
+			return list == null ? 0 : list.size();
+		}
+		return 0;
+	}
+
 	public interface FieldWatcher {
 		/**
 		 * Call whenever the field is updated
 		 */
-		<T> void fieldUpdated(Object o, EAdVarDef<T> field, T value);
+		<T> void fieldUpdated(String elementId, String varName, T value);
 
 	}
 }

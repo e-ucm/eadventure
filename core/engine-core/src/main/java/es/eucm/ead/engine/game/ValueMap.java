@@ -68,7 +68,7 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	/**
 	 * Contains all variables values
 	 */
-	protected Map<String, Map<EAdVarDef<?>, Object>> valuesMap;
+	protected Map<String, Map<String, Object>> valuesMap;
 
 	/**
 	 * Contains the elements with variables updated
@@ -84,10 +84,44 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 			StringHandler stringHandler) {
 		this.stringHandler = stringHandler;
 		this.reflectionProvider = reflectionProvider;
-		valuesMap = new HashMap<String, Map<EAdVarDef<?>, Object>>();
+		valuesMap = new HashMap<String, Map<String, Object>>();
 		logger.info("New instance");
 		updateList = new ArrayList<Object>();
 		updateEnable = true;
+	}
+
+	@SuppressWarnings("all")
+	/**
+	 * Sets the value for the given element and the given variable name with the given value.
+	 * @param element element id
+	 * @param varName variable name
+	 * @param value the value for the variable
+	 */
+	public <S> void setValue(String element, String varName, S value) {
+		Map<String, Object> valMap = valuesMap.get(element);
+		if (valMap == null) {
+			valMap = new HashMap<String, Object>();
+			valuesMap.put(element == null ? null : element, valMap);
+		}
+
+		valMap.put(varName, (S) value);
+		if (updateEnable) {
+			// If the value map contains values for this element
+			addUpdatedElement(element);
+		}
+	}
+
+	/**
+	 * Sets the value a variable in a element
+	 *
+	 * @param element the element
+	 * @param varDef  the var definition
+	 * @param value the value
+	 */
+	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
+		addInitialVars(element);
+		this.setValue(element == null ? null : maybeDecodeField(element)
+				.getId(), varDef.getName(), value);
 	}
 
 	/**
@@ -100,65 +134,27 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
-	@SuppressWarnings("all")
 	/**
-	 * Sets the value a variable in a element
-	 *
-	 * @param element
-	 *            the element
-	 * @param varDef
-	 *            the var definition
-	 * @param value
+	 * Returns the value for a variable in the given element
+	 * Be cautious using this method because it could ignore initial values for variables
+	 * @param elementId the element identifier
+	 * @param varName the variable name
+	 * @param defaultValue the default value, in case it's not set
+	 * @return the value
 	 */
-	public <S> void setValue(Identified element, EAdVarDef<S> varDef, S value) {
-		if (value == null
-				|| reflectionProvider.isAssignableFrom(varDef.getType(), value
-						.getClass())) {
+	public Object getValue(String elementId, String varName, Object defaultValue) {
+		Map<String, Object> valMap = valuesMap.get(elementId);
 
-			Map<EAdVarDef<?>, Object> valMap = valuesMap
-					.get(element == null ? null : maybeDecodeField(element)
-							.getId());
-			if (valMap == null) {
-				valMap = new HashMap<EAdVarDef<?>, Object>();
-				valuesMap.put(element == null ? null : element.getId(), valMap);
-
-				// Sets initial values, if any
-				addInitVariables(element, valMap);
-			}
-
-			valMap.put(varDef, (S) value);
-			if (updateEnable)
-				/**
-				 * If the value map contains values for this element
-				 *
-				 * @param element
-				 * @return
-				 */
-				addUpdatedElement(element);
-
-		} else {
-			logger.warn("setValue failed: Impossible to cast "
-					+ varDef.getType() + " to " + value.getClass()
-					+ " for element " + element + " of class "
-					+ element.getClass());
+		if (valMap == null) {
+			valMap = new HashMap<String, Object>();
+			valuesMap.put(elementId, valMap);
 		}
-	}
+		Object value = valMap.get(varName);
+		// If the variable has not been set, returns the initial value
 
-	private void addInitVariables(Object o, Map<EAdVarDef<?>, Object> initVars) {
-		if (o instanceof Variabled) {
-			initVars.putAll(((Variabled) o).getVars());
-		}
-	}
-
-	/**
-	 * Returns the value of the field
-	 *
-	 * @param <S>   field type
-	 * @param field the field to be consulted
-	 * @return the value of the field
-	 */
-	public <S> S getValue(EAdField<S> field) {
-		return getValue(field.getElement(), field.getVarDef());
+		// reflectionProvider.isAssignableFrom is not used, because types are
+		// checked in setValue
+		return value == null ? defaultValue : value;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -175,23 +171,32 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @return the variable's value
 	 */
 	public <S> S getValue(Identified element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = valuesMap.get(element == null ? null
-				: maybeDecodeField(element).getId());
+		addInitialVars(element);
+		return (S) getValue(element == null ? null : maybeDecodeField(element)
+				.getId(), varDef.getName(), varDef.getInitialValue());
+	}
 
-		if (valMap == null) {
-			valMap = new HashMap<EAdVarDef<?>, Object>();
-			valuesMap.put(element == null ? null : element.getId(), valMap);
+	/**
+	 * Returns the value of the field
+	 *
+	 * @param <S>   field type
+	 * @param field the field to be consulted
+	 * @return the value of the field
+	 */
+	public <S> S getValue(EAdField<S> field) {
+		return getValue(field.getElement(), field.getVarDef());
+	}
 
-			// Sets initial values, if any
-			addInitVariables(element, valMap);
+	private void addInitialVars(Identified element) {
+		if (element != null && !valuesMap.containsKey(element.getId())
+				&& element instanceof Variabled) {
+			Variabled variabled = (Variabled) element;
+			for (Map.Entry<EAdVarDef<?>, Object> entry : variabled.getVars()
+					.entrySet()) {
+				setValue(element.getId(), entry.getKey().getName(), entry
+						.getValue());
+			}
 		}
-		Object value = valMap.get(varDef);
-		// If the variable has not been set, returns the initial value
-
-		// reflectionProvider.isAssignableFrom is not used, because types are
-		// checked in setValue
-		return value == null ? varDef.getInitialValue() : (S) value;
-
 	}
 
 	/**
@@ -201,8 +206,12 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @param element the element. If the element is null, it returns system vars
 	 * @return a map with the variables
 	 */
-	public Map<EAdVarDef<?>, Object> getElementVars(Identified element) {
-		return valuesMap.get(maybeDecodeField(element).getId());
+	public Map<String, Object> getElementVars(Identified element) {
+		return getElementVars(maybeDecodeField(element).getId());
+	}
+
+	public Map<String, Object> getElementVars(String elementId) {
+		return valuesMap.get(elementId);
 	}
 
 	/**
@@ -232,9 +241,9 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @param element the element
 	 * @return if any element's field has been updated since last check
 	 */
-	public boolean checkForUpdates(Object element) {
-		if (updateList.contains(element)) {
-			updateList.remove(element);
+	public boolean checkForUpdates(Identified element) {
+		if (updateList.contains(element.getId())) {
+			updateList.remove(element.getId());
 			return true;
 		}
 		return false;
@@ -278,12 +287,13 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	}
 
 	@Override
-	public int getValues(EAdField<?> eAdField, int i, float[] floats) {
-		return 0;
+	public int getValues(EAdField<?> eAdField, int tweentype, float[] floats) {
+		floats[0] = (Float) getValue(eAdField);
+		return 1;
 	}
 
 	@Override
-	public void setValues(EAdField<?> eAdField, int i, float[] floats) {
-		//To change body of implemented methods use File | Settings | File Templates.
+	public void setValues(EAdField eAdField, int tweentype, float[] floats) {
+		setValue(eAdField, floats[0]);
 	}
 }

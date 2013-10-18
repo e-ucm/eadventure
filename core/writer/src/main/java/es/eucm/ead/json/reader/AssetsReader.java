@@ -37,16 +37,7 @@
 
 package es.eucm.ead.json.reader;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.internal.StringMap;
-
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
@@ -65,7 +56,14 @@ import es.eucm.ead.model.assets.text.BasicFont;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.util.Matrix;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.ObjectsFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 @SuppressWarnings("unchecked")
 public class AssetsReader {
@@ -129,7 +127,7 @@ public class AssetsReader {
 				String assetId = (String) a.get("id");
 				if (assetId != null)
 					asset.setId(assetId);
-				objectsFactory.putAsset(asset.getId(), asset);
+				objectsFactory.putIdentified(asset);
 			} catch (Exception e) {
 				logger.error("Error parsing asset {} ", a, e);
 				return false;
@@ -143,7 +141,7 @@ public class AssetsReader {
 		StringMap<Object> s = (StringMap<Object>) a.get("states");
 		for (Entry<String, Object> e : s.entrySet()) {
 			states.addDrawable(e.getKey(), (EAdDrawable) objectsFactory
-					.getAsset(e.getValue().toString()));
+					.getObjectById(e.getValue().toString()));
 		}
 		return states;
 	}
@@ -173,8 +171,8 @@ public class AssetsReader {
 
 	private AssetDescriptor parseFilter(StringMap<Object> a) {
 		FilteredDrawable filteredDrawable = new FilteredDrawable();
-		EAdDrawable drawable = (EAdDrawable) objectsFactory.getAsset((String) a
-				.get("drawable"));
+		EAdDrawable drawable = (EAdDrawable) objectsFactory
+				.getObjectById((String) a.get("drawable"));
 		filteredDrawable.setDrawable(drawable);
 		String filterType = (String) a.get("filter");
 		if (filterType.equals("matrix")) {
@@ -220,7 +218,7 @@ public class AssetsReader {
 					i.setId("img_"
 							+ f.getName()
 									.substring(0, f.getName().length() - 4));
-					objectsFactory.putAsset(i.getId(), i);
+					objectsFactory.putIdentified(i);
 				}
 			}
 		}
@@ -233,7 +231,7 @@ public class AssetsReader {
 		Iterator<Number> it = times.iterator();
 		for (String f : frames) {
 			animation.addFrame(new Frame((EAdBasicDrawable) objectsFactory
-					.getAsset(f), it.next().intValue()));
+					.getObjectById(f), it.next().intValue()));
 		}
 		return animation;
 	}
@@ -264,7 +262,7 @@ public class AssetsReader {
 		Caption c = new Caption(a.get("string").toString());
 		EAdFont font = null;
 		if (a.get("fontRef") != null) {
-			font = (EAdFont) objectsFactory.getAsset(a.get("fontRef")
+			font = (EAdFont) objectsFactory.getObjectById(a.get("fontRef")
 					.toString());
 		}
 		String p = (String) a.get("textPaint");

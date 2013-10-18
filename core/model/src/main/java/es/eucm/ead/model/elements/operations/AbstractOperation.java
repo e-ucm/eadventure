@@ -83,7 +83,7 @@ public abstract class AbstractOperation extends BasicElement implements
 						return false;
 					}
 				}
-				return true;
+				return super.equals(o);
 			}
 		}
 		return false;

@@ -122,7 +122,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 						accAngle = -accAngle;
 					}
 
-					float angle = (float) (Math.PI / 4.5) * signum;
+					float angle = (float) (Math.PI / 2.5) * signum;
 
 					GroupElement hud = new GroupElement();
 
@@ -142,7 +142,7 @@ public class ActorActionsGO extends AbstractEffectGO<ActorActionsEf> implements
 
 							Tween.to(
 									new BasicField<Float>(element,
-											SceneElement.VAR_X), 0, 5000.0f)
+											SceneElement.VAR_X), 0, 500.0f)
 									.ease(Linear.INOUT).targetRelative(targetX)
 									.start(this.game.getTweenManager());
 							Tween.to(

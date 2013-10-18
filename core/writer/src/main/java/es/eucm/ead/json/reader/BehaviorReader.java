@@ -37,18 +37,16 @@
 
 package es.eucm.ead.json.reader;
 
-import java.util.Collection;
-
+import com.google.gson.internal.StringMap;
+import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.interfaces.features.WithBehavior;
+import es.eucm.ead.model.params.guievents.EAdGUIEvent;
+import es.eucm.ead.model.params.guievents.MouseGEv;
+import es.eucm.ead.reader.ObjectsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.internal.StringMap;
-
-import es.eucm.ead.model.interfaces.features.WithBehavior;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.params.guievents.EAdGUIEvent;
-import es.eucm.ead.model.params.guievents.MouseGEv;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import java.util.Collection;
 
 @SuppressWarnings("unchecked")
 public class BehaviorReader {
@@ -75,7 +73,7 @@ public class BehaviorReader {
 			templateReader.applyTemplates(b);
 			String id = b.get("target").toString();
 			WithBehavior element = (WithBehavior) objectsFactory
-					.getEAdElement(id);
+					.getObjectById(id);
 			if (element == null) {
 				logger.warn("No element for id {}", id);
 			}

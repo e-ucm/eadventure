@@ -56,14 +56,6 @@ public abstract class ResourcedElement extends AbstractElementWithBehavior
 	@Param
 	private EAdMap<String, EAdMap<String, AssetDescriptor>> resources;
 
-	/**
-	 * Constructs a {@link ResourcedElement} with the specified parent element.
-	 * 
-	 * @param id
-	 *            id of the element
-	 * @throws NullPointerException
-	 *             if {@code parent} is {@code null}.
-	 */
 	public ResourcedElement() {
 		super();
 		resources = new EAdMap<String, EAdMap<String, AssetDescriptor>>();

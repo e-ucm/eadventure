@@ -60,7 +60,7 @@ import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Rectangle;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.ObjectsFactory;
 
 import java.util.Collection;
 
@@ -91,9 +91,9 @@ public class SceneReader {
 		} else if (type.equals("video")) {
 			scene = getVideoScene(jsonScene);
 		}
-		if (id != null)
+		if (scene != null && id != null)
 			scene.setId(id);
-		objectsFactory.putEAdElement(scene.getId(), scene);
+		objectsFactory.putIdentified(scene);
 		return scene;
 	}
 
@@ -102,19 +102,20 @@ public class SceneReader {
 		scene.setVideo(new Video((String) jsonScene.get("uri")));
 		EAdElement nextScene = new BasicElement(jsonScene.get("nextScene")
 				.toString());
-		scene.getFinalEffects().add(new ChangeSceneEf((EAdScene) nextScene));
+		scene.getFinalEffects().add(new ChangeSceneEf(nextScene));
 		return scene;
 	}
 
 	public EAdScene getScene(StringMap<Object> jsonScene) {
 		EAdDrawable background = (EAdDrawable) objectsFactory
-				.getAsset((String) jsonScene.get("background"));
+				.getObjectById((String) jsonScene.get("background"));
 		BasicScene scene = new BasicScene(background);
 
 		if (jsonScene.containsKey("music")) {
 			String music = (String) jsonScene.get("music");
 			if (music != null) {
-				EAdSound bgMusic = (EAdSound) objectsFactory.getAsset(music);
+				EAdSound bgMusic = (EAdSound) objectsFactory
+						.getObjectById(music);
 				PlaySoundEf playBg = new PlaySoundEf(bgMusic);
 				scene.addInitEffect(playBg);
 			} else {
@@ -144,7 +145,7 @@ public class SceneReader {
 		String activeElement = (String) jsonScene.get("activeElement");
 		if (activeElement != null) {
 			EAdSceneElement e = (EAdSceneElement) objectsFactory
-					.getEAdElement(activeElement);
+					.getObjectById(activeElement);
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.ADDED, new ChangeFieldEf(
 					SystemFields.ACTIVE_ELEMENT, new ValueOp(e)));
@@ -161,7 +162,7 @@ public class SceneReader {
 
 		EAdDrawable d = null;
 		if (appearance != null) {
-			d = (EAdDrawable) objectsFactory.getAsset(appearance);
+			d = (EAdDrawable) objectsFactory.getObjectById(appearance);
 		}
 
 		SceneElement e = null;
@@ -187,7 +188,7 @@ public class SceneReader {
 		// Over appearance
 		String overappearance = (String) jsonSceneElement.get("overappearance");
 		if (overappearance != null) {
-			d = (EAdDrawable) objectsFactory.getAsset(overappearance);
+			d = (EAdDrawable) objectsFactory.getObjectById(overappearance);
 			e.setOverAppearance(d);
 		}
 
@@ -203,8 +204,7 @@ public class SceneReader {
 		// Contain bounds
 		Boolean containsBounds = (Boolean) jsonSceneElement
 				.get("containsBounds");
-		e.setContainsBounds(containsBounds != null
-				&& containsBounds.booleanValue());
+		e.setContainsBounds(containsBounds != null && containsBounds);
 
 		for (String key : jsonSceneElement.keySet()) {
 			EAdVarDef var = objectsFactory.getVarDef(key);
@@ -241,11 +241,11 @@ public class SceneReader {
 				overappearance = (String) b.get("appearance");
 				if (appearance != null) {
 					e.setAppearance(id, (EAdDrawable) objectsFactory
-							.getAsset(appearance));
+							.getObjectById(appearance));
 				}
 				if (overappearance != null) {
 					e.setOverAppearance(id, (EAdDrawable) objectsFactory
-							.getAsset(overappearance));
+							.getObjectById(overappearance));
 				}
 			}
 		}
@@ -253,7 +253,7 @@ public class SceneReader {
 		String id = (String) jsonSceneElement.get("id");
 		if (id != null)
 			e.setId(id);
-		objectsFactory.putEAdElement(e.getId(), e);
+		objectsFactory.putIdentified(e);
 
 		return e;
 	}

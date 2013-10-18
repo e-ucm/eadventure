@@ -57,47 +57,55 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 	public static final ValueOp TRUE = new ValueOp(Boolean.TRUE);
 	public static final ValueOp FALSE = new ValueOp(Boolean.FALSE);
 
-	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation op1;
+	static {
+		// Set engine ids for statics
+		TRUE.setId("#engine.value.true");
+		FALSE.setId("#engine.value.false");
+	}
 
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation op2;
+	private EAdOperation op1;
 
 	@Param
-	private es.eucm.ead.model.elements.conditions.enums.Comparator operator;
+	private EAdOperation op2;
+
+	@Param
+	private Comparator comparator;
 
 	public OperationCond() {
 		super();
 	}
 
-	public OperationCond(EAdOperation op1, EAdOperation op2, Comparator operator) {
+	public OperationCond(EAdOperation op1, EAdOperation op2,
+			Comparator comparator) {
 		super();
 		this.op1 = op1;
 		this.op2 = op2;
-		this.operator = operator;
+		this.comparator = comparator;
 	}
 
 	/**
 	 * @return the value
 	 */
-	public Comparator getOperator() {
-		return operator;
+	public Comparator getComparator() {
+		return comparator;
 	}
 
 	/**
-	 * @param operator
+	 * @param comparator
 	 *            the value to set
 	 */
-	public void setComparator(Comparator operator) {
-		this.operator = operator;
+	public void setComparator(Comparator comparator) {
+		this.comparator = comparator;
 	}
 
-	public OperationCond(EAdOperation operation, int value, Comparator operator) {
-		this(operation, new ValueOp(value), operator);
+	public OperationCond(EAdOperation operation, int value,
+			Comparator comparator) {
+		this(operation, new ValueOp(value), comparator);
 	}
 
-	public OperationCond(EAdOperation op, Object object, Comparator operator) {
-		this(op, new ValueOp(object), operator);
+	public OperationCond(EAdOperation op, Object object, Comparator comparator) {
+		this(op, new ValueOp(object), comparator);
 	}
 
 	public OperationCond(EAdField<Boolean> field) {
@@ -136,10 +144,10 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 
 	@Override
 	public String toString() {
-		return op1 + " " + operator + " than " + op2;
+		return op1 + " " + comparator + " than " + op2;
 	}
 
-	public void addFields(List<EAdField<?>> fields) {
+	public void extractFields(List<EAdField<?>> fields) {
 		if (op1 instanceof EAdField) {
 			fields.add((EAdField<?>) op1);
 		}
@@ -147,18 +155,6 @@ public class OperationCond extends AbstractCondition implements EAdCondition {
 		if (op2 instanceof EAdField) {
 			fields.add((EAdField<?>) op2);
 		}
-	}
-
-	public boolean equals(Object o) {
-		if (o instanceof OperationCond) {
-			OperationCond oc = (OperationCond) o;
-			return oc.operator == this.operator
-					&& (oc.op1 == this.op1 || (oc.op1 != null && oc.op1
-							.equals(this.op1)))
-					&& (oc.op2 == this.op2 || (oc.op2 != null && oc.op2
-							.equals(this.op2)));
-		}
-		return false;
 	}
 
 }

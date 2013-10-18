@@ -38,17 +38,16 @@
 package es.eucm.ead.reader.model.readers;
 
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.reader.model.ObjectsFactory;
-import es.eucm.ead.reader.model.XMLVisitor;
-import es.eucm.ead.reader.model.XMLVisitor.VisitorListener;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
 
 @SuppressWarnings("rawtypes")
 public class MapReader extends AbstractReader<EAdMap> {
 
-	private static final EAdMap EMPTY_MAP = new EAdMap();
+	private final EAdMap EMPTY_MAP = new EAdMap();
 
-	public MapReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
+	public MapReader(ObjectsFactory elementsFactory, ReaderVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
 	}
 
@@ -59,7 +58,7 @@ public class MapReader extends AbstractReader<EAdMap> {
 			EAdMap map = new EAdMap();
 			MapVisitorListener listener = new MapVisitorListener(map);
 			for (XMLNode n : node.getChildren()) {
-				xmlVisitor.loadElement(n, listener);
+				readerVisitor.loadElement(n, listener);
 			}
 			return map;
 		} else {
@@ -68,7 +67,7 @@ public class MapReader extends AbstractReader<EAdMap> {
 
 	}
 
-	public class MapVisitorListener implements VisitorListener {
+	public class MapVisitorListener implements ReaderVisitor.VisitorListener {
 		private EAdMap map;
 
 		private boolean waitingKey;
@@ -84,13 +83,17 @@ public class MapReader extends AbstractReader<EAdMap> {
 		@Override
 		public boolean loaded(XMLNode node, Object object,
 				boolean isNullInOrigin) {
+
 			if (waitingKey) {
 				key = object;
 				waitingKey = false;
 			} else {
 				map.put(key, object);
+				waitingKey = true;
 			}
+
 			return true;
+
 		}
 
 	}

@@ -115,7 +115,7 @@ public abstract class GUIImpl implements GUI {
 		// Debugger hud
 		SceneElement debuggerHud = new SceneElement();
 		debuggerHud.setId(GUI.DEBBUGERS_HUD_ID);
-		hudRoot.addSceneElement(sceneElementFactory.get(debuggerHud));
+		hudRoot.addSceneElement(debuggerHud);
 		// Add huds
 		hudRoot.addSceneElement(sceneElementFactory.get(new MouseHud()));
 

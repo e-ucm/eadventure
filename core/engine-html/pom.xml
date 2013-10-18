@@ -14,12 +14,10 @@
 	<name>eAdventure HTML Engine</name>
 
 	<properties>
-		<gwt.module>es.eucm.ead.engine.Engine</gwt.module>
 		<gwt.version>2.5.0</gwt.version>
 		<gwt.runTarget>es.eucm.ead.engine.html/GwtLauncher.java</gwt.runTarget>
 		<!-- switch to INFO (or worse: DEBUG) to enable ridiculous amounts of debugging output-->
-		<gwt.logLevel>INFO</gwt.logLevel>
-		<gwt.style>PRETTY</gwt.style>
+
 	</properties>
 
 	<dependencies>

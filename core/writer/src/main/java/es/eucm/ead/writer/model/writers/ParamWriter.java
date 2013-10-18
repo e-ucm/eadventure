@@ -43,61 +43,48 @@ import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.writer.model.ModelVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+public class ParamWriter implements Writer<Object> {
 
-public class ParamWriter extends AbstractWriter<Object> {
-
-	private ArrayList<String> params;
-
-	public ParamWriter(ModelVisitor modelVisitor) {
-		super(modelVisitor);
-		params = new ArrayList<String>();
-	}
+	static private Logger logger = LoggerFactory.getLogger(ParamWriter.class);
 
 	@Override
-	public XMLNode write(Object o) {
+	public XMLNode write(Object o, WriterContext context) {
 		if (o == null) {
 			return null;
 		}
 
 		XMLNode node = new XMLNode(DOMTags.PARAM_TAG);
-		if (o != null) {
-			String translatedClass = translateClass(o.getClass());
-			node.setAttribute(DOMTags.CLASS_AT, translatedClass);
-			String value;
-			if (o instanceof VarDef || o instanceof EAdPaint
-					|| o instanceof Enum || o instanceof EAdGUIEvent) {
-				value = translateParam(o.toString());
-			} else if (o instanceof EAdParam) {
-				value = ((EAdParam) o).toStringData();
-			} else if (o instanceof Class) {
-				value = ((Class<?>) o).getName();
-			} else if (o instanceof Boolean) {
-				value = ((Boolean) o).booleanValue() ? "t" : "f";
-			} else if (o instanceof Float) {
-				value = o.toString();
-				if (value.endsWith(".0")) {
-					value = value.substring(0, value.length() - 2);
-				}
-			} else {
-				value = o.toString();
+		String translatedClass = context.translateClass(o.getClass());
+		node.setAttribute(DOMTags.CLASS_AT, translatedClass);
+		String value;
+		if (o instanceof VarDef || o instanceof EAdPaint || o instanceof Enum
+				|| o instanceof EAdGUIEvent) {
+			value = context.translateParam(o.toString());
+		} else if (o instanceof EAdParam) {
+			value = ((EAdParam) o).toStringData();
+		} else if (o instanceof Class) {
+			value = ((Class<?>) o).getName();
+		} else if (o instanceof Boolean) {
+			value = (Boolean) o ? "t" : "f";
+		} else if (o instanceof Number) {
+			value = o.toString();
+			if (value.endsWith(".0")) {
+				value = value.substring(0, value.length() - 2);
 			}
-			node.setText(value);
-			if (!params.contains(value)) {
-				params.add(value);
-			}
+		} else if (o instanceof String) {
+			value = o.toString();
+		} else {
+			logger.warn(
+					"No writer for class {}. Using its string representation",
+					o.getClass());
+			value = o.toString();
 		}
+		node.setText(value);
 
 		return node;
 	}
 
-	public int getTotal() {
-		return params.size();
-	}
-
-	public void clear() {
-		this.params.clear();
-	}
 }

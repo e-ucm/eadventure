@@ -41,7 +41,6 @@ import es.eucm.ead.engine.assets.drawables.RuntimeDrawable;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.model.assets.AssetDescriptor;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.assets.multimedia.EAdVideo;
 import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.interfaces.features.Resourced;
@@ -232,36 +231,6 @@ public interface AssetHandler extends TextFileReader {
 	 * @return
 	 */
 	int getCacheSize();
-
-	/**
-	 * Makes aware the asset handler of an existing video
-	 *
-	 * @param v video asset
-	 */
-	void addVideo(EAdVideo v);
-
-	/**
-	 * Preloads the video in a separate thread (when possible)
-	 *
-	 * @return true if the preloading is possible
-	 */
-	boolean preloadVideos();
-
-	/**
-	 * Return if it is preloading videos
-	 *
-	 * @return
-	 */
-	boolean isPreloadingVideos();
-
-	/**
-	 * Returns an special asset renderer (for example, for a video)
-	 *
-	 * @param specialAsset
-	 * @return
-	 */
-	<T extends AssetDescriptor> SpecialAssetRenderer<T, ?> getSpecialAssetRenderer(
-			T specialAsset);
 
 	void clean();
 

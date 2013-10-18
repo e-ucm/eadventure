@@ -74,6 +74,8 @@ public class ListOptionTest extends AbstractOptionTest {
 			public String chooseElementToAdd() {
 				return "Elemento " + (++cosa);
 			}
+			
+			
 
 		});
 

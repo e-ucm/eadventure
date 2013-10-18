@@ -61,6 +61,9 @@ import es.eucm.ead.engine.gameobjects.trajectories.polygon.PolygonTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
 import es.eucm.ead.legacyplugins.engine.BubbleNameGO;
+import es.eucm.ead.legacyplugins.engine.events.TimerGO;
+import es.eucm.ead.legacyplugins.engine.sceneelements.ClockDisplayGO;
+import es.eucm.ead.legacyplugins.engine.sceneelements.DynamicSceneGO;
 import es.eucm.ead.tools.gwt.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -229,6 +232,12 @@ public class InjectorHelper implements Injector {
 		// Plugins FIXME
 		else if (clazz == BubbleNameGO.class)
 			o = ginjector.getBubbleNameGO();
+		else if (clazz == DynamicSceneGO.class)
+			o = ginjector.getDynamicSceneGO();
+		else if (clazz == ClockDisplayGO.class)
+			o = ginjector.getClockDisplayGO();
+		else if (clazz == TimerGO.class)
+			o = ginjector.getTimerGO();
 		if (o == null) {
 			logger
 					.warn("Instance for class {} not defined in ginjector",

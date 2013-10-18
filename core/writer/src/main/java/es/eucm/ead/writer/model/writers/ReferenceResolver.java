@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer2.model;
+package es.eucm.ead.writer.model.writers;
 
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.interfaces.features.Identified;

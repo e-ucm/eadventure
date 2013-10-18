@@ -2,6 +2,7 @@ package es.eucm.ead.legacyplugins.engine.sceneelements;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.Inject;
+import com.gwtent.reflection.client.Reflectable;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.fonts.RuntimeFont;
 import es.eucm.ead.engine.canvas.GdxCanvas;
@@ -13,6 +14,7 @@ import es.eucm.ead.legacyplugins.model.elements.ClockDisplay;
 import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.params.paint.EAdPaint;
 
+@Reflectable
 public class ClockDisplayGO extends SceneElementGO {
 
 	private EAdPaint paint;

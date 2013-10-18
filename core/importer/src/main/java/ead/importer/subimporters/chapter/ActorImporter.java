@@ -131,8 +131,6 @@ public abstract class ActorImporter<P extends Element> implements
 				oldObject.getDocumentation(), oldObject.getDescriptions(),
 				actor);
 
-		elementFactory.getCurrentChapterModel().getActors().add(actor);
-
 		// Add resources
 		initResourcesCorrespondencies();
 		resourceImporter.importResources(actor, oldObject.getResources(),

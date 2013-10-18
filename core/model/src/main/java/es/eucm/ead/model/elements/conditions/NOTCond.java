@@ -80,8 +80,8 @@ public class NOTCond extends AbstractCondition {
 		return "NOT " + condition.toString();
 	}
 
-	public void addFields(List<EAdField<?>> fields) {
-		condition.addFields(fields);
+	public void extractFields(List<EAdField<?>> fields) {
+		condition.extractFields(fields);
 	}
 
 	public boolean equals(Object o) {

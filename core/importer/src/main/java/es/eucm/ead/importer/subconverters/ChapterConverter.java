@@ -60,7 +60,6 @@ import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
-import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.scenes.Cutscene;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import org.slf4j.Logger;
@@ -117,29 +116,24 @@ public class ChapterConverter {
 
 		// Import Player
 		EAdSceneElementDef player = npcConverter.convert(c.getPlayer());
-		player.setId(Player.IDENTIFIER);
 		elementsCache.put(player);
-		chapter.getActors().add(player);
 
 		// Import atrezzos
 		for (Atrezzo a : c.getAtrezzo()) {
 			EAdSceneElementDef def = atrezzoConverter.convert(a);
 			elementsCache.put(def);
-			chapter.getActors().add(def);
 		}
 
 		// Import items
 		for (Item a : c.getItems()) {
 			EAdSceneElementDef def = itemConverter.convert(a);
 			elementsCache.put(def);
-			chapter.getActors().add(def);
 		}
 
 		// Import NPCs
 		for (NPC a : c.getCharacters()) {
 			EAdSceneElementDef def = npcConverter.convert(a);
 			elementsCache.put(def);
-			chapter.getActors().add(def);
 		}
 
 		// Add actions after the cache contains all the actors
@@ -156,10 +150,6 @@ public class ChapterConverter {
 					.getId());
 			npcConverter.addActions(a, def);
 		}
-
-		// Import player
-		EAdSceneElementDef def = npcConverter.convert(c.getPlayer());
-		elementsCache.put(def);
 
 		// Loads macros and conversations. It
 		// must be here, after all the actors has been loaded

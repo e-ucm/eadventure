@@ -38,26 +38,25 @@
 package es.eucm.ead.reader.model.readers;
 
 import es.eucm.ead.reader.DOMTags;
-import es.eucm.ead.reader.model.ObjectsFactory;
-import es.eucm.ead.reader.model.XMLVisitor;
-import es.eucm.ead.reader2.model.readers.Reader;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.reader.model.ReaderVisitor;
+import es.eucm.ead.tools.xml.XMLNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.ead.tools.xml.XMLNode;
-
 public abstract class AbstractReader<T> implements Reader<T> {
 
-	static protected Logger logger = LoggerFactory
+	static private Logger logger = LoggerFactory
 			.getLogger(AbstractReader.class);
 
-	protected ObjectsFactory elementsFactory;
+	protected ObjectsFactory objectsFactory;
 
-	protected XMLVisitor xmlVisitor;
+	protected ReaderVisitor readerVisitor;
 
-	public AbstractReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
-		this.elementsFactory = elementsFactory;
-		this.xmlVisitor = xmlVisitor;
+	public AbstractReader(ObjectsFactory objectsFactory,
+			ReaderVisitor readerVisitor) {
+		this.objectsFactory = objectsFactory;
+		this.readerVisitor = readerVisitor;
 	}
 
 	/**
@@ -74,7 +73,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		clazz = translateClass(clazz);
 		Class<?> c = null;
 		try {
-			c = elementsFactory.getClassFromName(clazz);
+			c = objectsFactory.getClassFromName(clazz);
 		} catch (NullPointerException e) {
 			logger.error("Error resolving class {}", clazz, e);
 		}
@@ -87,15 +86,15 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	 * @return
 	 */
 	public String translateClass(String clazz) {
-		return xmlVisitor.translateClazz(clazz);
+		return readerVisitor.translateClass(clazz);
 	}
 
 	public String translateField(String field) {
-		return xmlVisitor.translateField(field);
+		return readerVisitor.translateField(field);
 	}
 
 	public String translateParam(String param) {
-		return xmlVisitor.translateParam(param);
+		return readerVisitor.translateParam(param);
 	}
 
 }

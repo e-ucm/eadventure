@@ -44,17 +44,16 @@ import es.eucm.ead.model.params.guievents.DragGEv;
 import es.eucm.ead.model.params.guievents.KeyGEv;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.reader.model.ObjectsFactory;
-import es.eucm.ead.reader.model.XMLVisitor;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.tools.xml.XMLNode;
 
 /**
  * Parameters can be any type of object. Nodes with parameters have no children.
- * 
  */
 public class ParamReader extends AbstractReader<Object> {
 
-	public ParamReader(ObjectsFactory elementsFactory, XMLVisitor xmlVisitor) {
+	public ParamReader(ObjectsFactory elementsFactory, ReaderVisitor xmlVisitor) {
 		super(elementsFactory, xmlVisitor);
 	}
 
@@ -68,7 +67,7 @@ public class ParamReader extends AbstractReader<Object> {
 				|| clazz == DragGEv.class) {
 			value = translateParam(value);
 		}
-		return elementsFactory.getParam(value, clazz);
+		return objectsFactory.getParam(value, clazz);
 	}
 
 }

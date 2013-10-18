@@ -35,58 +35,60 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer2.model;
+package es.eucm.ead.writer.model.writers;
 
-import es.eucm.ead.tools.xml.XMLNode;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.scenes.EAdScene;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public interface WriterContext {
+public class SceneGraph {
 
-	/**
-	 * An id for the context
-	 * @return
-	 */
-	int getContextId();
+	static private Logger logger = LoggerFactory.getLogger(SceneGraph.class);
 
-	/**
-	 * Generates a new id, valid for this context
-	 * @return
-	 */
-	String generateNewId();
+	private EAdMap<String, EAdList<String>> graph;
 
-	/**
-	 * Returns if the given id has already been processed by this context
-	 * @param id
-	 * @return
-	 */
-	boolean containsId(String id);
+	private String currentScene;
 
-	/**
-	 * Translate the class to a symbolic string
-	 * @param type
-	 * @return
-	 */
-	String translateClass(Class<?> type);
+	public SceneGraph() {
+		graph = new EAdMap<String, EAdList<String>>();
+	}
 
-	/**
-	 * Translates the field to a symbolic string
-	 * @param name
-	 * @return
-	 */
-	String translateField(String name);
+	public void process(Object o) {
+		if (o instanceof EAdScene) {
+			currentScene = ((EAdScene) o).getId();
+		} else if (o instanceof ChangeSceneEf) {
+			String nextScene = ((ChangeSceneEf) o).getNextSceneId();
+			addConnection(nextScene);
+		}
+	}
 
-	/**
-	 * Translates the param to a symbolic string
-	 * @param param
-	 * @return
-	 */
-	String translateParam(String param);
+	private void addConnection(String nextScene) {
+		if (currentScene == null) {
+			logger
+					.warn("Found change scene with current scene set to null. Weird.");
+		} else {
+			EAdList<String> connections = graph.get(currentScene);
+			if (connections == null) {
+				connections = new EAdList<String>();
+				graph.put(currentScene, connections);
+			}
+			if (!connections.contains(nextScene)) {
+				logger.debug("{} -> {}",
+						new Object[] { currentScene, nextScene });
+				connections.add(nextScene);
+			}
+		}
+	}
 
-	/**
-	 * Process the object that is going to be written. This method can be used to analyze de model from the context,
-	 * since ALL objects in the model pass over here.
-	 *
-	 * @param object
-	 * @param node
-	 */
-	Object process(Object object, XMLNode node);
+	public EAdMap<String, EAdList<String>> getGraph() {
+		return graph;
+	}
+
+	public void clear() {
+		currentScene = null;
+		graph.clear();
+	}
 }

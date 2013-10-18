@@ -9,11 +9,12 @@ public class ImporterEngine {
 
 	public static void main(String args[]) {
 		AdventureConverter converter = new AdventureConverter();
-		String convertedFolder = converter.convert(TEST, null);
+		converter.setEnableTranslations(false);
+		String convertedFolder = converter.convert(TEST, TEST + "/ead2");
 
 		DesktopGame game = new DesktopGame();
+		game.setDebug(true);
 		game.setPath(convertedFolder);
 		game.start();
-		game.load();
 	}
 }

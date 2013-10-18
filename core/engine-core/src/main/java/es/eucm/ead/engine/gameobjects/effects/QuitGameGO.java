@@ -39,6 +39,7 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
+import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.engine.gameobjects.GameObject;
@@ -64,7 +65,7 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	public void initialize() {
 		super.initialize();
 		if (effect.isRestart()) {
-			gameLoader.loadGame();
+			gameLoader.loadGame((EAdEngine) Gdx.app.getApplicationListener());
 		} else {
 			Gdx.app.exit();
 		}

@@ -45,7 +45,8 @@ import es.eucm.ead.model.elements.BasicChapter;
 import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import es.eucm.ead.reader.model.ObjectsFactory;
+import es.eucm.ead.reader.ObjectsFactory;
+import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.writer.AdventureWriter;
 import org.slf4j.Logger;
@@ -89,7 +90,7 @@ public class JsonReader {
 		gson = new Gson();
 		templateReader = new TemplateReader();
 		objectsFactory = new ObjectsFactory(reflectionProvider, null);
-		conditionsReader = new ConditionReader(objectsFactory);
+		conditionsReader = new ConditionReader();
 		operationReader = new OperationReader(objectsFactory, conditionsReader);
 		sceneReader = new SceneReader(objectsFactory, templateReader);
 		effectsReader = new EffectsReader(objectsFactory, operationReader,
@@ -108,7 +109,7 @@ public class JsonReader {
 	public EAdAdventureModel parseGame(String[] folders) {
 		BasicAdventureModel model = new BasicAdventureModel();
 		model.setId("model");
-		getObjectsFactory().putEAdElement("model", model);
+		getObjectsFactory().putIdentified(model);
 		BasicChapter chapter = new BasicChapter();
 		model.getChapters().add(chapter);
 
@@ -166,7 +167,7 @@ public class JsonReader {
 	}
 
 	public void write(EAdAdventureModel model, String destination) {
-		writer.write(model, destination);
+		writer.write(model, destination, new JavaTextFileWriter());
 	}
 
 	public boolean addAssets(String file) {

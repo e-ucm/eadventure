@@ -514,13 +514,13 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	}
 
-	private static final Image normalLeft = new Image(
+	private final Image normalLeft = new Image(
 			"@drawable/default_left_arrow.png");
-	private static final Image overLeft = new Image(
+	private final Image overLeft = new Image(
 			"@drawable/default_left_over_arrow.png");
-	private static final Image normalRight = new Image(
+	private final Image normalRight = new Image(
 			"@drawable/default_right_arrow.png");
-	private static final Image overRight = new Image(
+	private final Image overRight = new Image(
 			"@drawable/default_right_over_arrow.png");
 
 	private AssetDescriptor getArrowAsset(Book book, String resource) {

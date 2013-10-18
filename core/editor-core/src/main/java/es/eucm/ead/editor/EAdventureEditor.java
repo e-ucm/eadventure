@@ -47,9 +47,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import es.eucm.ead.editor.control.Controller;
-import es.eucm.ead.editor.model.EditorModel;
-import es.eucm.ead.editor.model.EditorModelLoader;
-import es.eucm.ead.editor.model.visitor.ModelVisitorDriver;
 import es.eucm.ead.editor.util.Log4jConfig;
 import es.eucm.ead.editor.view.SplashScreenImpl;
 import es.eucm.ead.tools.java.JavaToolsModule;
@@ -57,8 +54,6 @@ import es.eucm.ead.tools.reflection.ReflectionClassLoader;
 import es.eucm.ead.editor.util.Log4jConfig.Slf4jLevel;
 import es.eucm.ead.editor.view.generic.AbstractOption;
 import es.eucm.ead.editor.view.panel.asset.ImageAssetPanel;
-import es.eucm.ead.reader2.AdventureReader;
-import es.eucm.ead.reader2.model.readers.ObjectReader;
 
 /**
  * eAdventure editor launcher. This class has a main method.

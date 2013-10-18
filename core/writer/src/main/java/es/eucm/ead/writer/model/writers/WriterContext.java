@@ -35,65 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer2.model.writers;
+package es.eucm.ead.writer.model.writers;
 
-import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.writer2.model.WriterContext;
-import es.eucm.ead.writer2.model.WriterVisitor;
 
-import java.util.Map;
-import java.util.Set;
+public interface WriterContext {
 
-@SuppressWarnings("rawtypes")
-public class MapWriter implements Writer<EAdMap> {
+	/**
+	 * An id for the context
+	 * @return
+	 */
+	int getContextId();
 
-	private WriterVisitor writerVisitor;
+	/**
+	 * Generates a new id, valid for this context
+	 * @return
+	 */
+	String generateNewId();
 
-	public MapWriter(WriterVisitor writerVisitor) {
-		this.writerVisitor = writerVisitor;
-	}
+	/**
+	 * Returns if the given id has already been processed by this context
+	 * @param id
+	 * @return
+	 */
+	boolean containsId(String id);
 
-	@Override
-	public XMLNode write(EAdMap object, WriterContext context) {
-		XMLNode node = new XMLNode(DOMTags.MAP_TAG);
+	/**
+	 * Translate the class to a symbolic string
+	 * @param type
+	 * @return
+	 */
+	String translateClass(Class<?> type);
 
-		MapWriterListener listener = new MapWriterListener(node);
-		Set<Map.Entry> set = object.entrySet();
-		for (Map.Entry entry : set) {
-			writerVisitor.writeElement(entry.getKey(), object, listener);
-			writerVisitor.writeElement(entry.getValue(), object, listener);
-		}
-		return node;
-	}
+	/**
+	 * Translates the field to a symbolic string
+	 * @param name
+	 * @return
+	 */
+	String translateField(String name);
 
-	public static class MapWriterListener implements
-			WriterVisitor.VisitorListener {
+	/**
+	 * Translates the param to a symbolic string
+	 * @param param
+	 * @return
+	 */
+	String translateParam(String param);
 
-		private XMLNode map;
+	/**
+	 * Process the object that is going to be written. This method can be used to analyze de model from the context,
+	 * since ALL objects in the model pass over here.
+	 *
+	 * @param object
+	 * @param node
+	 */
+	Object process(Object object, XMLNode node);
 
-		private XMLNode key;
-
-		public MapWriterListener(XMLNode map) {
-			this.map = map;
-			this.key = null;
-		}
-
-		public XMLNode getKey() {
-			return key;
-		}
-
-		@Override
-		public void load(XMLNode node, Object object) {
-			if (key == null) {
-				key = node;
-			} else {
-				map.append(key);
-				map.append(node);
-				key = null;
-			}
-		}
-
-	}
 }

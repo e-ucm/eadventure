@@ -35,55 +35,37 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader2.model.readers;
+package es.eucm.ead.exporter;
 
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.reader2.model.ObjectsFactory;
-import es.eucm.ead.reader2.model.ReaderVisitor;
-import es.eucm.ead.tools.xml.XMLNode;
+public class ExporterMain {
 
-@SuppressWarnings("rawtypes")
-public class ListReader extends AbstractReader<EAdList> {
+	public static void main(String args[]) {
+		int type = 0;
+		String warDirectory = null;
+		String source = null;
+		String destiny = null;
 
-	public static final EAdList EMPTY_LIST = new EAdList();
+		try {
+			if ("-war".equals(args[0])) {
+				type = 2;
+				warDirectory = args[1];
+				source = args[2];
+				destiny = args[3];
 
-	public ListReader(ObjectsFactory elementsFactory, ReaderVisitor visitor) {
-		super(elementsFactory, visitor);
-	}
-
-	@Override
-	public EAdList read(XMLNode node) {
-		if (node.hasChildNodes()) {
-			EAdList list = new EAdList();
-			for (XMLNode n : node.getChildren()) {
-				readerVisitor.loadElement(n, new ListVisitorListener(list));
 			}
-			return list;
-		} else {
-			return EMPTY_LIST;
-		}
 
-	}
-
-	public static class ListVisitorListener implements
-			ReaderVisitor.VisitorListener {
-		private EAdList list;
-
-		public ListVisitorListener(EAdList list) {
-			this.list = list;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public boolean loaded(XMLNode node, Object object,
-				boolean isNullInOrigin) {
-			if (object != null || isNullInOrigin) {
-				list.add(object);
-				return true;
+			switch (type) {
+			case 2:
+				System.out.println("Exporting war...");
+				WarExporter exporter = new WarExporter();
+				exporter.setWarPath(warDirectory);
+				exporter.export(source, destiny);
+				break;
 			}
-			return false;
+			System.out.println("Success.");
+		} catch (Exception e) {
+			System.out.println("Invalid command.");
 		}
-
 	}
 
 }

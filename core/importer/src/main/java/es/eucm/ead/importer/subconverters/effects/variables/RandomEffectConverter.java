@@ -45,11 +45,6 @@ import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author anserran
- *         Date: 17/05/13
- *         Time: 13:26
- */
 public class RandomEffectConverter implements
 		EffectsConverter.EffectConverter<RandomEffect> {
 

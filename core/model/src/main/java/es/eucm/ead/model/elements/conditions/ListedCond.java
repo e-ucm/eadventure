@@ -131,9 +131,9 @@ public abstract class ListedCond extends AbstractOperation implements
 		this.operator = operator;
 	}
 
-	public void addFields(List<EAdField<?>> fields) {
+	public void extractFields(List<EAdField<?>> fields) {
 		for (EAdCondition c : conditions) {
-			c.addFields(fields);
+			c.extractFields(fields);
 		}
 	}
 

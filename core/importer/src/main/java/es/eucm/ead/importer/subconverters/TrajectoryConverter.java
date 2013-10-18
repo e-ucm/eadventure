@@ -43,11 +43,6 @@ import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
 
-/**
- * @author anserran
- *         Date: 17/05/13
- *         Time: 16:05
- */
 @Singleton
 public class TrajectoryConverter {
 

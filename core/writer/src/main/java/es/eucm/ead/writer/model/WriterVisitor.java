@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.writer2.model;
+package es.eucm.ead.writer.model;
 
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
@@ -44,10 +44,11 @@ import es.eucm.ead.model.params.EAdParam;
 import es.eucm.ead.reader.DOMTags;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
-import es.eucm.ead.writer2.model.writers.ListWriter;
-import es.eucm.ead.writer2.model.writers.MapWriter;
-import es.eucm.ead.writer2.model.writers.ObjectWriter;
-import es.eucm.ead.writer2.model.writers.ParamWriter;
+import es.eucm.ead.writer.model.writers.WriterContext;
+import es.eucm.ead.writer.model.writers.ListWriter;
+import es.eucm.ead.writer.model.writers.MapWriter;
+import es.eucm.ead.writer.model.writers.ObjectWriter;
+import es.eucm.ead.writer.model.writers.ParamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,6 +131,7 @@ public class WriterVisitor {
 
 	public void clear() {
 		stepsQueue.clear();
+		objectWriter.clear();
 	}
 
 	public static class WriterStep {

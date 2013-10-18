@@ -37,9 +37,8 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import es.eucm.ead.importer.subconverters.CutsceneConverter;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.EAdEffect;
@@ -50,18 +49,21 @@ import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.WaitUntilEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.importer.subconverters.CutsceneConverter;
-import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("rawtypes")
 public class ChangeSceneConverter implements EffectConverter {
 
-	public ChangeSceneConverter() {
+	private EffectsConverter effectsConverter;
 
+	public ChangeSceneConverter(EffectsConverter effectsConverter) {
+		this.effectsConverter = effectsConverter;
 	}
 
 	@Override
@@ -87,10 +89,10 @@ public class ChangeSceneConverter implements EffectConverter {
 			WaitUntilEf waitUntil = new WaitUntilEf(cond);
 			waitUntil.setPersistent(true);
 			changeScene.getNextEffects().add(waitUntil);
-			changeScene.getNextEffects().add(EffectsConverter.hideGhostEffects);
+			changeScene.getNextEffects().add(effectsConverter.hideGhostEffects);
 			list.add(changeScene);
 			list.add(waitUntil);
-			waitUntil.getNextEffects().add(EffectsConverter.showGhostEffects);
+			waitUntil.getNextEffects().add(effectsConverter.showGhostEffects);
 		} else if (e instanceof TriggerLastSceneEffect) {
 			list.add(new ChangeSceneEf());
 		}

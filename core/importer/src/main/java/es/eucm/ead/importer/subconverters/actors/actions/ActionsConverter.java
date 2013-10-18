@@ -51,8 +51,10 @@ import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.ORCond;
+import es.eucm.ead.model.elements.effects.ActorActionsEf;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
 import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
@@ -78,7 +80,7 @@ public class ActionsConverter {
 	static private Logger logger = LoggerFactory
 			.getLogger(ActionsConverter.class);
 
-	private static Image[] actionImages = new Image[] {
+	private final Image[] actionImages = new Image[] {
 			new Image("@drawable/drag-normal.png"),
 			new Image("@drawable/giveto-normal.png"),
 			new Image("@drawable/grab-normal.png"),
@@ -88,7 +90,7 @@ public class ActionsConverter {
 			new Image("@drawable/talk-normal.png"),
 			new Image("@drawable/use-normal.png") };
 
-	private static Image[] actionImagesOver = new Image[] {
+	private final Image[] actionImagesOver = new Image[] {
 			new Image("@drawable/drag-pressed.png"),
 			new Image("@drawable/giveto-pressed.png"),
 			new Image("@drawable/grab-pressed.png"),
@@ -145,6 +147,11 @@ public class ActionsConverter {
 	 */
 	private Map<String, EAdCondition> customInteractActionsConditions;
 
+	/**
+	 * Map relating trigger macro effects with their action definition
+	 */
+	private Map<TriggerMacroEf, SceneElementDef> macros;
+
 	@Inject
 	public ActionsConverter(ResourcesConverter resourceConverter,
 			StringsConverter stringsConverter,
@@ -169,6 +176,9 @@ public class ActionsConverter {
 		customInteractActionsConditions = new HashMap<String, EAdCondition>();
 		// And finally, a list with all the actions definitions
 		definitions = new EAdList<EAdSceneElementDef>();
+		// A map relating trigger macro effects with actions definitions. We need them
+		// to update the visibility condition
+		macros = new EAdMap<TriggerMacroEf, SceneElementDef>();
 	}
 
 	/**
@@ -188,6 +198,7 @@ public class ActionsConverter {
 		customActionsConditions.clear();
 		customInteractActionsConditions.clear();
 		definitions.clear();
+		macros.clear();
 		// Conversion
 		for (Action a : ac) {
 			if (a.getType() != Action.DRAG_TO)
@@ -210,7 +221,7 @@ public class ActionsConverter {
 		EAdCondition visibility;
 
 		// Fetch if the there is already an action like "a"
-		if (a.getType() == Action.CUSTOM_INTERACT) {
+		if (a.getType() == Action.CUSTOM) {
 			String name = ((CustomAction) a).getName();
 			triggerMacroEf = customActions.get(name);
 			visibility = customActionsConditions.get(name);
@@ -223,7 +234,7 @@ public class ActionsConverter {
 			visibility = actionsConditions.get(a.getType());
 		}
 
-		// If not, we create one
+		// If not, create one
 		boolean created = false;
 		if (triggerMacroEf == null) {
 			created = true;
@@ -236,13 +247,17 @@ public class ActionsConverter {
 			def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacroEf);
 			// Add the definition to the list
 			definitions.add(def);
+			macros.put(triggerMacroEf, def);
 		}
 
 		// We add the effects to the macro and updates the visibility condition
 		visibility = addEffects(owner, a, triggerMacroEf, visibility);
+		// Update visibility
+		macros.get(triggerMacroEf).setVarInitialValue(
+				ActorActionsEf.VAR_ACTION_COND, visibility);
 
 		// We update the maps
-		if (a.getType() == Action.CUSTOM_INTERACT) {
+		if (a.getType() == Action.CUSTOM) {
 			String name = ((CustomAction) a).getName();
 			if (created) {
 				customActions.put(name, triggerMacroEf);

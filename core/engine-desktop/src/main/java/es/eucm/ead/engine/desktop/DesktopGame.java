@@ -42,6 +42,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import es.eucm.ead.engine.EAdEngine;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.desktop.platform.DesktopGUI;
 import es.eucm.ead.engine.desktop.platform.DesktopModule;
@@ -72,6 +73,7 @@ public class DesktopGame {
 	private int windowHeight = 600;
 
 	private boolean fullscreen;
+	private boolean debug;
 
 	/**
 	 * Creates a desktop game that ends when the user press the exit button
@@ -138,25 +140,25 @@ public class DesktopGame {
 		cfg.fullscreen = fullscreen;
 		cfg.forceExit = this.exitAtClose;
 		DesktopGUI gui = (DesktopGUI) injector.getInstance(GUI.class);
-		ApplicationListener engine = injector
+		final EAdEngine engine = (EAdEngine) injector
 				.getInstance(ApplicationListener.class);
+		engine.setDebug(debug);
+
+		JFrame frame = null;
 		if (cfg.fullscreen) {
 			cfg.setFromDisplayMode(LwjglApplicationConfiguration
 					.getDesktopDisplayMode());
 			new LwjglApplication(engine, cfg);
-			return null;
 		} else {
 			new LwjglApplication(engine, cfg, gui.createCanvas(width, height,
 					exitAtClose));
-			return gui.getFrame();
+			frame = gui.getFrame();
 		}
+		return frame;
 	}
 
-	/**
-	 * Loads the game in the given path
-	 */
-	public void load() {
-		gameLoader.loadGame();
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 
 	public void setWindowWidth(int windowWidth) {

@@ -40,7 +40,6 @@ package es.eucm.ead.model.elements;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Evented;
@@ -60,11 +59,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	private EAdScene initialScene;
 
-	/**
-	 * Actors of the game
-	 */
-	private transient EAdList<EAdSceneElementDef> actors;
-
 	@Param
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
@@ -75,7 +69,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	public BasicChapter() {
 		super();
 		scenes = new EAdList<EAdScene>();
-		actors = new EAdList<EAdSceneElementDef>();
 		events = new EAdList<EAdEvent>();
 		vars = new EAdMap<EAdVarDef<?>, Object>();
 	}
@@ -98,16 +91,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 	@Override
 	public EAdList<EAdScene> getScenes() {
 		return scenes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getActors()
-	 */
-	@Override
-	public EAdList<EAdSceneElementDef> getActors() {
-		return actors;
 	}
 
 	/*
@@ -157,10 +140,6 @@ public class BasicChapter extends ResourcedElement implements EAdChapter,
 
 	public void setScenes(EAdList<EAdScene> scenes) {
 		this.scenes = scenes;
-	}
-
-	public void setActors(EAdList<EAdSceneElementDef> actors) {
-		this.actors = actors;
 	}
 
 	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {

@@ -67,6 +67,7 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 	protected void rebuild() {
 		this.scene = (BasicScene) target.getFirst().getContent();
 		removeAll();
+
 		setLayout(new BorderLayout());
 
 		OptionPanel op = new PanelImpl("Scene properties",
@@ -131,6 +132,7 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 
 		add(op.getComponent(controller.getCommandManager()),
 				BorderLayout.CENTER);
+
 		revalidate();
 	}
 }

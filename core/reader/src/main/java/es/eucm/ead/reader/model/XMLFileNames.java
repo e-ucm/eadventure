@@ -35,22 +35,11 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.reader2.model.readers;
+package es.eucm.ead.reader.model;
 
-import es.eucm.ead.tools.xml.XMLNode;
+public class XMLFileNames {
 
-/**
- * Basic class for reading any type of element in eAdventure
- *
- * @param <T>
- */
-public interface Reader<T> {
-
-	/**
-	 * Reads the element contained by the node
-	 * @param node
-	 * @return
-	 */
-	T read(XMLNode node);
-
+	public static final String MANIFEST = "manifest.xml";
+	public static final String CHAPTER = "chapter";
+	public static final String SCENE = "scene";
 }
