@@ -35,39 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.ead.editor.view.generic;
+package es.eucm.ead.editor.view.generic.table;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractCellEditor;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
-import es.eucm.ead.editor.R;
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ListCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.view.generic.DefaultAbstractOption;
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
+import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
+import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
+import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
+import es.eucm.ead.editor.view.generic.table.TableSupport.MoveButtonWidget;
+import es.eucm.ead.editor.view.generic.table.TableSupport.MoveIt;
 import org.jdesktop.swingx.JXTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.editor.util.i18n.Resource;
 
 /**
  * An option that allows a list of elements to be manipulated.
@@ -75,7 +70,8 @@ import es.eucm.ead.editor.util.i18n.Resource;
  * @author mfreire
  * @param <T>
  */
-public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
+public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
+		TableLikeControl<T, Integer> {
 
 	static private Logger logger = LoggerFactory.getLogger(ListOption.class);
 
@@ -83,202 +79,24 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	private JXTable tableControl;
 	private JButton chooseMoreButton;
 	private ListTableModel tableModel;
-
-	protected ListCellRenderer outerRenderer;
+	private final Class<?> contentClass;
 
 	public ListOption(String title, String toolTipText, Object object,
-			String fieldName, DependencyNode... changed) {
+			String fieldName, Class<?> contentClass, DependencyNode... changed) {
 		super(title, toolTipText, object, fieldName, changed);
+		this.contentClass = contentClass;
 	}
 
 	public ListOption(String title, String toolTipText,
-			Accessor<EAdList<T>> fieldDescriptor, DependencyNode... changed) {
+			Accessor<EAdList<T>> fieldDescriptor, Class<?> contentClass,
+			DependencyNode... changed) {
 		super(title, toolTipText, fieldDescriptor, changed);
+		this.contentClass = contentClass;
 	}
 
-	/**
-	 * Allows easier customization of classes
-	 *
-	 * @param <T>
-	 */
-	public static class ColumnSpec<T> {
-		private String name;
-		private Class<?> clazz;
-		private boolean editable;
-		private int width;
-		private TableCellRenderer renderer;
-		private TableCellEditor editor;
-
-		public ColumnSpec(String name, Class<?> clazz, boolean editable,
-				int width) {
-			this.name = name;
-			this.clazz = clazz;
-			this.editable = editable;
-			this.width = width;
-		}
-
-		public void setRenderer(TableCellRenderer renderer) {
-			this.renderer = renderer;
-		}
-
-		public void setEditor(TableCellEditor editor) {
-			this.editor = editor;
-		}
-
-		public Object getValue(T o) {
-			return o;
-		}
-
-		public void setValue(T o, Object value) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public Class<?> getClazz() {
-			return clazz;
-		}
-
-		public int getWidth() {
-			return width;
-		}
-
-		public boolean isEditable() {
-			return editable;
-		}
-
-		public TableCellRenderer getRenderer() {
-			return renderer;
-		}
-
-		public TableCellEditor getEditor() {
-			return editor;
-		}
-	}
-
-	// marking class for a cell containing move buttons
-	private static class MoveIt {
-	}
-
-	// marking class for a cell containing a delete button
-	private static class DeleteIt {
-	}
-
-	private JButton createMinimalButton(String icon) {
-		JButton b = new JButton();
-		b.setIcon(new ImageIcon(Resource.loadImage(icon)));
-		b.setPreferredSize(new Dimension(16, 16));
-		b.setMargin(new Insets(0, 0, 0, 0));
-		b.setBorderPainted(false);
-		b.setContentAreaFilled(false);
-		return b;
-	}
-
-	/**
-	 * Renderer and editor for vertical 'move' buttons
-	 */
-	private class MoveButtonWidget extends AbstractCellEditor implements
-			TableCellEditor, TableCellRenderer {
-		private JButton upButton = createMinimalButton(R.Drawable.interface__upArrow_png);
-		private JButton downButton = createMinimalButton(R.Drawable.interface__downArrow_png);
-		private JPanel fillerPanel = new JPanel();
-		private JPanel buttonPanel = new JPanel(new BorderLayout());
-		private Object v; // whatever was last set for editing
-		private int editPos;
-
-		public MoveButtonWidget() {
-			upButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					moveUp(oldValue.get(editPos), editPos);
-				}
-			});
-			downButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					moveDown(oldValue.get(editPos), editPos);
-				}
-			});
-			buttonPanel.add(upButton, BorderLayout.NORTH);
-			buttonPanel.add(fillerPanel, BorderLayout.CENTER);
-			buttonPanel.add(downButton, BorderLayout.SOUTH);
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
-			return buttonPanel;
-		}
-
-		@Override
-		public Object getCellEditorValue() {
-			return v;
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
-			this.v = value;
-			this.editPos = row;
-			return buttonPanel;
-		}
-	}
-
-	/**
-	 * Renderer and editor for 'delete' buttons
-	 */
-	private class DeleteButtonWidget extends AbstractCellEditor implements
-			TableCellEditor, TableCellRenderer {
-		private final JButton deleteButton = createMinimalButton(R.Drawable.interface__delete_png);
-		private final JPanel fillerPanel = new JPanel();
-		private final JPanel buttonPanel = new JPanel(new BorderLayout());
-		private Object v; // whatever was last set for editing
-		private int deletePos;
-
-		public DeleteButtonWidget() {
-			deleteButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					remove(oldValue.get(deletePos), deletePos);
-				}
-			});
-			buttonPanel.add(deleteButton, BorderLayout.NORTH);
-			buttonPanel.add(fillerPanel, BorderLayout.CENTER);
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
-			return buttonPanel;
-		}
-
-		@Override
-		public Object getCellEditorValue() {
-			return v;
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
-			this.v = value;
-			this.deletePos = row;
-			return buttonPanel;
-		}
-	}
-
-	/**
-	 * Called to get settings for the "meat" columns.
-	 *
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
 	public ColumnSpec<T>[] getExtraColumns() {
-		return new ColumnSpec[] { new ColumnSpec("value", oldValue.get(0)
-				.getClass(), false, -1) };
+		return (ColumnSpec<T>[]) new ColumnSpec[] { new ColumnSpec<T>("Value",
+				contentClass, false, -1) };
 	}
 
 	/**
@@ -296,8 +114,8 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 					// do nothing; unchangeable values
 				}
 			};
-			upDown.setEditor(new MoveButtonWidget());
-			upDown.setRenderer(new MoveButtonWidget());
+			upDown.setEditor(new MoveButtonWidget(ListOption.this));
+			upDown.setRenderer(new MoveButtonWidget(ListOption.this));
 			ColumnSpec<T> delete = new ColumnSpec<T>("", DeleteIt.class, true,
 					20) {
 				@Override
@@ -305,8 +123,8 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 					// do nothing; unchangeable values
 				}
 			};
-			delete.setEditor(new DeleteButtonWidget());
-			delete.setRenderer(new DeleteButtonWidget());
+			delete.setEditor(new DeleteButtonWidget(ListOption.this));
+			delete.setRenderer(new DeleteButtonWidget(ListOption.this));
 			ColumnSpec<T>[] user = (ColumnSpec<T>[]) getExtraColumns();
 			cols = (ColumnSpec<T>[]) new ColumnSpec[user.length + 2];
 			cols[0] = upDown;
@@ -341,7 +159,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			return cols[columnIndex].getValue(oldValue.get(rowIndex));
+			return cols[columnIndex].getValue(rowIndex, oldValue.get(rowIndex));
 		}
 
 		@Override
@@ -377,13 +195,14 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 		tableControl.setColumnMargin(5);
 
 		chooseMoreButton = new JButton("+");
+		chooseMoreButton.setToolTipText(Messages.options_table_add);
 		chooseMoreButton.setPreferredSize(new Dimension(50, 16));
 		chooseMoreButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				T choice = chooseElementToAdd();
 				if (choice != null) {
-					add(choice);
+					add(choice, oldValue.size() - 1);
 				}
 			}
 		});
@@ -412,45 +231,44 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 		manager.performCommand(c);
 	}
 
-	/**
-	 * Removes an object from the list. Triggered either externally or via
-	 * button-click.
-	 *
-	 * @param o
-	 */
-	protected void remove(T o, int index) {
+	@Override
+	public void remove(Integer index) {
+		T o = oldValue.get(index);
 		logger.info("Removing {} (at {})", new Object[] { o, index });
 		Command c = new ListCommand.RemoveFromList<T>(oldValue, o, changed);
 		executeCommand(c);
 	}
 
-	/**
-	 * Allows user to choose from available elements to add one to the list
-	 *
-	 * @return
-	 */
-	protected T chooseElementToAdd() {
+	@Override
+	public T chooseElementToAdd() {
 		logger.info("User wants to CHOOSE something to ADD! Madness!!");
 		return null;
 	}
 
 	/**
-	 * Adds an object to the list. Triggered either externally or via
-	 * button-click.
-	 *
-	 * @param o
+	 * Launches UI prompt to add a key to a list element
 	 */
-	protected void add(T o) {
-		logger.info("Adding {}", o);
+	@Override
+	public Integer chooseKeyToAdd() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void add(T added, Integer index) {
+		logger.info("Adding {}", oldValue);
+		Command c = new ListCommand.AddToList<T>(oldValue, added, oldValue
+				.size(), changed);
+		executeCommand(c);
 	}
 
 	/**
 	 * Moves an object one position up. Triggered either externally or via
 	 * button-click.
-	 *
-	 * @param o
 	 */
-	protected void moveUp(T o, int index) {
+	@Override
+	public void moveUp(Integer index) {
+		T o = oldValue.get(index);
+
 		logger.info("MovingUp {} (at {})", new Object[] { o, index });
 		if (index == 0) {
 			logger.warn("You should NOT allow people to try to move above 0");
@@ -464,10 +282,10 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 	/**
 	 * Removes an object from the list. Triggered either externally or via
 	 * button-click.
-	 *
-	 * @param o
 	 */
-	protected void moveDown(T o, int index) {
+	@Override
+	public void moveDown(Integer index) {
+		T o = oldValue.get(index);
 		logger.info("MovingDown {} (at {})", new Object[] { o, index });
 		if (index == tableModel.getRowCount() - 1) {
 			logger.warn("You should NOT allow people to try to move below end");
@@ -476,6 +294,14 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> {
 		Command c = new ListCommand.ReorderInList<T>(oldValue, o, index,
 				index + 1, changed);
 		executeCommand(c);
+	}
+
+	/**
+	 * Returns the key for a given row
+	 */
+	@Override
+	public Integer keyForRow(int row) {
+		return row;
 	}
 
 	/**

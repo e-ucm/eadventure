@@ -44,7 +44,7 @@ import javax.swing.JComponent;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
-import es.eucm.ead.editor.view.generic.ListOption;
+import es.eucm.ead.editor.view.generic.table.ListOption;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
@@ -64,12 +64,18 @@ public class ListOptionTest extends AbstractOptionTest {
 				TextOption.ExpectedLength.SHORT, node1));
 		p1.add(new TextOption("name2", "toolTip2", model, "name",
 				TextOption.ExpectedLength.SHORT, node1));
-		p1
-				.add(new ListOption<String>("list1", "toolTip3", model, "list",
-						node1));
-		p1
-				.add(new ListOption<String>("list2", "toolTip4", model, "list",
-						node1));
+		p1.add(new ListOption<String>("list1", "toolTip3", model, "list",
+				String.class, node1));
+		p1.add(new ListOption<String>("list2", "toolTip4", model, "list",
+				String.class, node1) {
+			int cosa = 1;
+
+			@Override
+			public String chooseElementToAdd() {
+				return "Elemento " + (++cosa);
+			}
+
+		});
 
 		controller.getModel().addModelListener(p1);
 		JComponent internal = p1.getComponent(commandManager);
