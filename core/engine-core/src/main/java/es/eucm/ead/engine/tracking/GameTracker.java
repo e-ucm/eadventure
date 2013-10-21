@@ -40,7 +40,7 @@ package es.eucm.ead.engine.tracking;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.AdventureGame;
 
 /**
  * General interface for game engine trackers. Methods defined by this interface
@@ -53,7 +53,7 @@ public interface GameTracker {
 	 *
 	 * @param model the game model to be tracked
 	 */
-	void startTracking(EAdAdventureModel model);
+	void startTracking(AdventureGame model);
 
 	/**
 	 * Tracks an input action executed over the target

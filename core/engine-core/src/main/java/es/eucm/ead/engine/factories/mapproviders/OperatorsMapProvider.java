@@ -45,10 +45,9 @@ import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.ORCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ConcatenateStringsOp;
 import es.eucm.ead.model.elements.operations.ConditionedOp;
-import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.model.elements.operations.ListOp;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.StringOp;
@@ -106,8 +105,8 @@ public class OperatorsMapProvider extends
 
 		factoryMap.put(MathOp.class, new MathOperator(gameState));
 		factoryMap.put(ValueOp.class, new ValueOperator(reflectionProvider));
-		factoryMap.put(EAdField.class, fieldOperator);
-		factoryMap.put(BasicField.class, fieldOperator);
+		factoryMap.put(ElementField.class, fieldOperator);
+		factoryMap.put(ElementField.class, fieldOperator);
 		factoryMap.put(ListOp.class, new ListOperator(gameState));
 		factoryMap.put(ConditionedOp.class, new ConditionedOperator(
 				evaluatorFactory, operatorFactory));

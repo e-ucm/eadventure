@@ -39,9 +39,9 @@ package es.eucm.ead.engine.operators;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.ValueMap;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 
-public class FieldOperator implements Operator<EAdField<?>> {
+public class FieldOperator implements Operator<ElementField<?>> {
 
 	private ValueMap valueMap;
 
@@ -52,7 +52,7 @@ public class FieldOperator implements Operator<EAdField<?>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, EAdField<?> operation) {
+	public <S> S operate(Class<S> clazz, ElementField<?> operation) {
 		return (S) valueMap.getValue(operation);
 	}
 

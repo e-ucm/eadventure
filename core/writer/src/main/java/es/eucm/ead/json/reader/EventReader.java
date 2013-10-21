@@ -38,8 +38,8 @@
 package es.eucm.ead.json.reader;
 
 import com.google.gson.internal.StringMap;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.TimedEv;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
@@ -81,11 +81,11 @@ public class EventReader {
 						.warn("Null event. Make sure there is no additional commas in the file");
 				return false;
 			}
-			EAdEvent event = null;
+			Event event = null;
 			String type = (String) e.get("type");
 			Collection<StringMap<Object>> ef = (Collection<StringMap<Object>>) e
 					.get("effects");
-			List<EAdEffect> effects = getEffects(ef);
+			List<Effect> effects = getEffects(ef);
 			if (type.equals("added")) {
 				event = getSceneElementEvent(SceneElementEvType.ADDED, effects);
 			} else if (type.equals("removed")) {
@@ -105,13 +105,13 @@ public class EventReader {
 			for (String target : targets) {
 				Evented evented = (Evented) objectsFactory
 						.getObjectById(target);
-				evented.getEvents().add(event);
+				evented.addEvent(event);
 			}
 		}
 		return true;
 	}
 
-	private EAdEvent getTimeEvent(StringMap<Object> e, List<EAdEffect> effects) {
+	private Event getTimeEvent(StringMap<Object> e, List<Effect> effects) {
 		Number time = (Number) e.get("time");
 		TimedEv event = new TimedEv();
 		event.setTime(time.intValue());
@@ -120,8 +120,7 @@ public class EventReader {
 		return event;
 	}
 
-	private EAdEvent getWatchFieldEvent(StringMap<Object> e,
-			List<EAdEffect> effects) {
+	private Event getWatchFieldEvent(StringMap<Object> e, List<Effect> effects) {
 		WatchFieldEv event = new WatchFieldEv();
 		Collection<String> fields = (Collection<String>) e.get("fields");
 		for (String f : fields) {
@@ -131,19 +130,19 @@ public class EventReader {
 		return event;
 	}
 
-	public EAdEvent getSceneElementEvent(SceneElementEvType type,
-			List<EAdEffect> effects) {
+	public Event getSceneElementEvent(SceneElementEvType type,
+			List<Effect> effects) {
 		SceneElementEv event = new SceneElementEv();
 
 		event.addEffects(type, effects);
 		return event;
 	}
 
-	public List<EAdEffect> getEffects(Collection<StringMap<Object>> ef) {
-		ArrayList<EAdEffect> effects = new ArrayList<EAdEffect>();
+	public List<Effect> getEffects(Collection<StringMap<Object>> ef) {
+		ArrayList<Effect> effects = new ArrayList<Effect>();
 		for (StringMap<Object> e : ef) {
 			templatesReader.applyTemplates(e);
-			EAdEffect effect = effectsReader.read(e);
+			Effect effect = effectsReader.read(e);
 			effects.add(effect);
 		}
 		return effects;

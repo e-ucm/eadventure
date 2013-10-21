@@ -37,13 +37,13 @@
 
 package es.eucm.ead.writer.model.writers.simplifiers.elements;
 
-import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.tools.MathEvaluator;
 import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public class OperationsSimplifier implements ObjectSimplifier<EAdOperation> {
+public class OperationsSimplifier implements ObjectSimplifier<Operation> {
 
 	/**
 	 * MathEvaluator to help simplify MathOp with no values
@@ -54,7 +54,7 @@ public class OperationsSimplifier implements ObjectSimplifier<EAdOperation> {
 		mathEvaluator = new MathEvaluator();
 	}
 
-	public Object simplify(EAdOperation operation) {
+	public Object simplify(Operation operation) {
 		// If it is math expression with no operands, simplify to a ValueOp
 		if (operation instanceof MathOp
 				&& !((MathOp) operation).getExpression().contains("[")) {

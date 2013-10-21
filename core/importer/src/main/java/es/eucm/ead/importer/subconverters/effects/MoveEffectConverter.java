@@ -37,13 +37,16 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.importer.EAdElementsCache;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.enums.MovementSpeed;
 import es.eucm.ead.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
-import es.eucm.ead.importer.EAdElementsCache;
-import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
-import es.eucm.eadventure.common.data.chapter.effects.*;
+import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
+import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
+import es.eucm.eadventure.common.data.chapter.effects.MoveObjectEffect;
+import es.eucm.eadventure.common.data.chapter.effects.MovePlayerEffect;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 
 import java.util.ArrayList;
@@ -58,22 +61,22 @@ public class MoveEffectConverter implements EffectConverter<AbstractEffect> {
 	}
 
 	@Override
-	public List<EAdEffect> convert(AbstractEffect e) {
+	public List<Effect> convert(AbstractEffect e) {
 		// XXX It doesn't work if there's more than one element with the definition
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+		ArrayList<Effect> list = new ArrayList<Effect>();
 		SceneElementDef sceneElementDef = null;
 		boolean useTrajectory = false;
 		float x = 0;
 		float y = 0;
 		switch (e.getType()) {
-		case Effect.MOVE_NPC:
+		case es.eucm.eadventure.common.data.chapter.effects.Effect.MOVE_NPC:
 			MoveNPCEffect npcEf = (MoveNPCEffect) e;
 			x = npcEf.getX();
 			y = npcEf.getY();
 			sceneElementDef = (SceneElementDef) elementsCache.get(npcEf
 					.getTargetId());
 			break;
-		case Effect.MOVE_PLAYER:
+		case es.eucm.eadventure.common.data.chapter.effects.Effect.MOVE_PLAYER:
 			MovePlayerEffect ef = (MovePlayerEffect) e;
 			x = ef.getX();
 			y = ef.getY();
@@ -81,7 +84,7 @@ public class MoveEffectConverter implements EffectConverter<AbstractEffect> {
 			sceneElementDef = (SceneElementDef) elementsCache
 					.get(Player.IDENTIFIER);
 			break;
-		case Effect.MOVE_OBJECT:
+		case es.eucm.eadventure.common.data.chapter.effects.Effect.MOVE_OBJECT:
 			MoveObjectEffect obEf = (MoveObjectEffect) e;
 			x = obEf.getX();
 			y = obEf.getY();

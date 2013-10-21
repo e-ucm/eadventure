@@ -38,24 +38,12 @@
 package es.eucm.ead.editor;
 
 import com.google.inject.AbstractModule;
-import es.eucm.ead.editor.control.CommandManager;
-import es.eucm.ead.editor.control.CommandManagerImpl;
-import es.eucm.ead.editor.control.Controller;
-import es.eucm.ead.editor.control.ControllerImpl;
-import es.eucm.ead.editor.control.EditorConfig;
-import es.eucm.ead.editor.control.EditorConfigImpl;
-import es.eucm.ead.editor.control.NavigationController;
-import es.eucm.ead.editor.control.NavigationControllerImpl;
-import es.eucm.ead.editor.control.ProjectController;
-import es.eucm.ead.editor.control.ProjectControllerImpl;
-import es.eucm.ead.editor.control.ViewController;
+import es.eucm.ead.editor.control.*;
 import es.eucm.ead.editor.model.EditorAnnotator;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.EditorModelImpl;
 import es.eucm.ead.editor.view.EditorWindow;
-import ead.importer.annotation.ImportAnnotator;
-import es.eucm.ead.editor.control.ScriptController;
-import es.eucm.ead.editor.control.ScriptControllerImpl;
+import es.eucm.ead.importer.annotation.ImportAnnotator;
 
 /**
  * Google Guice ({@link http://code.google.com/p/google-guice/}) module to

@@ -39,21 +39,20 @@ package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.effects.EmptyEffect;
-import es.eucm.ead.model.elements.effects.text.QuestionEf;
-import es.eucm.ead.model.elements.effects.text.SpeakEf;
-import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
-import es.eucm.ead.model.params.text.EAdString;
-import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.EmptyEffect;
+import es.eucm.ead.model.elements.effects.text.QuestionEf;
+import es.eucm.ead.model.elements.effects.text.SpeakEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.params.text.EAdString;
+import es.eucm.ead.model.params.variables.VarDef;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
@@ -83,7 +82,7 @@ public class ConversationsConverter {
 
 	private EffectsConverter effectsConverter;
 
-	private Map<ConversationNode, List<EAdEffect>> nodes;
+	private Map<ConversationNode, List<Effect>> nodes;
 
 	@Inject
 	public ConversationsConverter(StringsConverter stringConverter,
@@ -91,7 +90,7 @@ public class ConversationsConverter {
 			EffectsConverter effectsConverter, ModelQuerier modelQuerier) {
 		this.conditionsConverter = conditionsConverter;
 		this.stringsConverter = stringConverter;
-		this.nodes = new HashMap<ConversationNode, List<EAdEffect>>();
+		this.nodes = new HashMap<ConversationNode, List<Effect>>();
 		this.effectsConverter = effectsConverter;
 		this.modelQuerier = modelQuerier;
 	}
@@ -102,7 +101,7 @@ public class ConversationsConverter {
 	 * @param c
 	 * @return
 	 */
-	public EAdEffect convert(Conversation c) {
+	public Effect convert(Conversation c) {
 		nodes.clear();
 		// Create the nodes
 		for (ConversationNode n : c.getAllNodes()) {
@@ -113,8 +112,8 @@ public class ConversationsConverter {
 		// subsequent effects until the conversation is finished. We used a wait
 		// until effect, with a condition that checks if the conversation is
 		// over
-		EAdEffect empty = modelQuerier.getConversation(c.getId());
-		EAdField<Boolean> inConversation = new BasicField<Boolean>(empty,
+		Effect empty = modelQuerier.getConversation(c.getId());
+		ElementField<Boolean> inConversation = new ElementField<Boolean>(empty,
 				IN_CONVERSATION);
 
 		ChangeFieldEf endConversation = new ChangeFieldEf(inConversation,
@@ -124,8 +123,8 @@ public class ConversationsConverter {
 			if (n.getType() == ConversationNode.DIALOGUE) {
 				DialogueConversationNode dn = (DialogueConversationNode) n;
 				if (dn.getChild(0) != null) {
-					List<EAdEffect> effects = nodes.get(dn);
-					EAdEffect nextEffect = nodes.get(dn.getChild(0)).get(0);
+					List<Effect> effects = nodes.get(dn);
+					Effect nextEffect = nodes.get(dn.getChild(0)).get(0);
 					effects.get(effects.size() - 1).addNextEffect(nextEffect);
 				}
 			} else {
@@ -133,11 +132,11 @@ public class ConversationsConverter {
 			}
 			// End condition
 			if (n.isTerminal()) {
-				List<EAdEffect> effects = nodes.get(n);
+				List<Effect> effects = nodes.get(n);
 				effects.get(effects.size() - 1).addNextEffect(endConversation);
 			}
 		}
-		EAdEffect root = nodes.get(c.getRootNode()).get(0);
+		Effect root = nodes.get(c.getRootNode()).get(0);
 		return root;
 	}
 
@@ -147,8 +146,8 @@ public class ConversationsConverter {
 	 * @param n
 	 * @return
 	 */
-	public List<EAdEffect> convert(ConversationNode n) {
-		List<EAdEffect> node = null;
+	public List<Effect> convert(ConversationNode n) {
+		List<Effect> node = null;
 		switch (n.getType()) {
 		case ConversationNode.DIALOGUE:
 			node = convertDialog((DialogueConversationNode) n);
@@ -160,8 +159,7 @@ public class ConversationsConverter {
 
 		// Add node effects
 		if (n.hasEffects()) {
-			List<EAdEffect> nextEffects = effectsConverter.convert(n
-					.getEffects());
+			List<Effect> nextEffects = effectsConverter.convert(n.getEffects());
 			if (node == null) {
 				node = nextEffects;
 			} else if (nextEffects.size() > 0) {
@@ -179,22 +177,22 @@ public class ConversationsConverter {
 	 * @param n
 	 * @return
 	 */
-	private List<EAdEffect> convertDialog(DialogueConversationNode n) {
-		ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
+	private List<Effect> convertDialog(DialogueConversationNode n) {
+		ArrayList<Effect> nodes = new ArrayList<Effect>();
 		// If it has no lines, we return an empty effect
 		if (n.getLineCount() == 0) {
 			nodes.add(new EmptyEffect());
 			return nodes;
 		}
 
-		EAdEffect lastEffect = null;
+		Effect lastEffect = null;
 		for (int i = 0; i < n.getLineCount(); i++) {
 			// XXX n.getAudioPath(i);
 			// XXX n.getSynthesizerVoice(line)
 			// XXX n.isKeepShowing()
 
 			EAdString text = stringsConverter.convert(n.getLineText(i), true);
-			List<EAdOperation> ops = stringsConverter.getOperations(n
+			List<Operation> ops = stringsConverter.getOperations(n
 					.getLineText(i));
 
 			SpeakEf nextEffect = modelQuerier.getSpeakFor(n.getLineName(i),
@@ -221,8 +219,8 @@ public class ConversationsConverter {
 	 * @param n
 	 * @return
 	 */
-	private List<EAdEffect> convertOption(OptionConversationNode n) {
-		ArrayList<EAdEffect> nodes = new ArrayList<EAdEffect>();
+	private List<Effect> convertOption(OptionConversationNode n) {
+		ArrayList<Effect> nodes = new ArrayList<Effect>();
 		QuestionEf node = new QuestionEf();
 
 		// XXX n.isTopPosition() n.isBottomPosition()
@@ -244,9 +242,9 @@ public class ConversationsConverter {
 			// In eAd1, expressions are not evaluated in answers
 			EAdString answer = stringsConverter
 					.convert(n.getLineText(i), false);
-			List<EAdEffect> nextEffects = nodes.get(n.getChild(i));
+			List<Effect> nextEffects = nodes.get(n.getChild(i));
 			if (nextEffects.size() > 0) {
-				EAdEffect nextEffect = nextEffects.get(0);
+				Effect nextEffect = nextEffects.get(0);
 				question.addAnswer(answer, nextEffect);
 			} else {
 				logger.debug("Weird. Answer with no next node.");

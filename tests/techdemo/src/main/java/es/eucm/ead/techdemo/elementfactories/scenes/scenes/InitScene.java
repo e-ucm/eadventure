@@ -43,8 +43,7 @@ import es.eucm.ead.model.assets.text.EAdFont;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.predef.sceneelements.Button;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.transitions.DisplaceTransition;
@@ -63,18 +62,18 @@ import java.util.List;
 
 public class InitScene extends EmptyScene {
 
-	private List<EAdScene> sceneDemos;
+	private List<Scene> sceneDemos;
 
 	private SceneElementDef goBack;
 
-	private EAdSceneElementDef infoButton;
+	private SceneElementDef infoButton;
 
 	private EAdFill fill = new ColorFill(255, 255, 255, 200);
 
 	private EAdFont font = BasicFont.REGULAR;
 
 	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
-	private EAdScene[] scenes;
+	private Scene[] scenes;
 
 	public InitScene() {
 		this.setId("InitScene");
@@ -85,7 +84,7 @@ public class InitScene extends EmptyScene {
 		initInfoButton();
 		int y = 200;
 		int x = 120;
-		for (EAdScene s : sceneDemos) {
+		for (Scene s : sceneDemos) {
 			EAdString name = new EAdString("techDemo." + s.getId());
 			EAdString description = new EAdString("techDemo." + s.getId()
 					+ ".description");
@@ -128,7 +127,7 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initList() {
-		sceneDemos = new ArrayList<EAdScene>();
+		sceneDemos = new ArrayList<Scene>();
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
 		sceneDemos.add(new TextsScene());
@@ -165,7 +164,7 @@ public class InitScene extends EmptyScene {
 		return "Scene Demo Chooser";
 	}
 
-	public List<EAdScene> getScenes() {
+	public List<Scene> getScenes() {
 		return sceneDemos;
 	}
 }

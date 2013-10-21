@@ -47,7 +47,7 @@ public class SceneElementDefSimplifier implements
 
 	public Object simplify(SceneElementDef object) {
 		// Simplify empty scene element definitions
-		if (object.getResources().isEmpty() && object.getEvents().isEmpty()
+		if (object.getResources().isEmpty() && object.getEvents() == null
 				&& object.getBehavior().isEmpty() && object.getVars().isEmpty()) {
 			return EMPTY_DEF;
 		}

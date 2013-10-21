@@ -51,13 +51,8 @@ import es.eucm.ead.model.elements.debuggers.ProfilerDebugger;
 import es.eucm.ead.model.elements.debuggers.TrajectoryDebugger;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.predef.LoadingScreen;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.GhostElement;
-import es.eucm.ead.model.elements.scenes.GroupElement;
-import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.VideoScene;
+import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.transitions.DisplaceTransition;
 import es.eucm.ead.model.elements.transitions.EmptyTransition;
 import es.eucm.ead.model.elements.transitions.FadeInTransition;
@@ -75,15 +70,15 @@ import es.eucm.ead.engine.gameobjects.widgets.TextAreaGO;
 
 public class SceneElementsMapProvider
 		extends
-		AbstractMapProvider<Class<? extends EAdSceneElement>, Class<? extends SceneElementGO>> {
+		AbstractMapProvider<Class<? extends SceneElement>, Class<? extends SceneElementGO>> {
 
 	public SceneElementsMapProvider() {
 		// Scene elements
 		factoryMap.put(SceneElement.class, SceneElementGO.class);
 		factoryMap.put(GhostElement.class, GhostElementGO.class);
 		factoryMap.put(GroupElement.class, GroupElementGO.class);
-		factoryMap.put(EAdScene.class, SceneGO.class);
-		factoryMap.put(BasicScene.class, SceneGO.class);
+		factoryMap.put(Scene.class, SceneGO.class);
+		factoryMap.put(Scene.class, SceneGO.class);
 		factoryMap.put(LoadingScreen.class, SceneGO.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(TextArea.class, TextAreaGO.class);

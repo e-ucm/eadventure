@@ -40,13 +40,8 @@ package es.eucm.ead.importer.subconverters.conditions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.importer.ModelQuerier;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.ANDCond;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.conditions.ORCond;
-import es.eucm.ead.model.elements.conditions.OperationCond;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.eadventure.common.data.chapter.conditions.Condition;
+import es.eucm.ead.model.elements.conditions.*;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
@@ -64,7 +59,7 @@ public class ConditionsConverter {
 	/**
 	 * A list with the fields contained by the last condition converted
 	 */
-	private List<EAdField<?>> fieldsInLastCond;
+	private List<ElementField<?>> fieldsInLastCond;
 
 	@Inject
 	public ConditionsConverter(FlagConditionConverter flagConditionConverter,
@@ -73,7 +68,7 @@ public class ConditionsConverter {
 		this.flagConditionConverter = flagConditionConverter;
 		this.varConditionConverter = varConditionConverter;
 		this.modelQuerier = modelQuerier;
-		this.fieldsInLastCond = new ArrayList<EAdField<?>>();
+		this.fieldsInLastCond = new ArrayList<ElementField<?>>();
 		modelQuerier.setConditionConverter(this);
 	}
 
@@ -82,7 +77,7 @@ public class ConditionsConverter {
 	 * @param oldObject
 	 * @return
 	 */
-	public EAdCondition convert(Conditions oldObject) {
+	public Condition convert(Conditions oldObject) {
 		fieldsInLastCond.clear();
 
 		// [COND - AndOr]
@@ -93,8 +88,9 @@ public class ConditionsConverter {
 			return EmptyCond.TRUE;
 		}
 
-		for (Condition c : oldObject.getSimpleConditions()) {
-			EAdCondition newC = getSimpleCondition(c);
+		for (es.eucm.eadventure.common.data.chapter.conditions.Condition c : oldObject
+				.getSimpleConditions()) {
+			Condition newC = getSimpleCondition(c);
 			if (newC != null) {
 				newCondition.addCondition(newC);
 			}
@@ -104,8 +100,9 @@ public class ConditionsConverter {
 		for (int i = 0; i < oldObject.getEitherConditionsBlockCount(); i++) {
 			ORCond orCondition = new ORCond();
 			Conditions conditions = oldObject.getEitherBlock(i);
-			for (Condition c : conditions.getSimpleConditions()) {
-				EAdCondition cond = this.getSimpleCondition(c);
+			for (es.eucm.eadventure.common.data.chapter.conditions.Condition c : conditions
+					.getSimpleConditions()) {
+				Condition cond = this.getSimpleCondition(c);
 				if (cond != null) {
 					orCondition.addCondition(cond);
 				}
@@ -118,27 +115,28 @@ public class ConditionsConverter {
 		return newCondition;
 	}
 
-	private EAdCondition getSimpleCondition(Condition c) {
-		if (c.getType() == Condition.FLAG_CONDITION) {
+	private Condition getSimpleCondition(
+			es.eucm.eadventure.common.data.chapter.conditions.Condition c) {
+		if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.FLAG_CONDITION) {
 			OperationCond cond = flagConditionConverter
 					.convert((FlagCondition) c);
-			fieldsInLastCond.add((EAdField<?>) cond.getOp1());
+			fieldsInLastCond.add((ElementField<?>) cond.getOp1());
 			return cond;
-		} else if (c.getType() == Condition.VAR_CONDITION) {
+		} else if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.VAR_CONDITION) {
 			OperationCond cond = varConditionConverter
 					.convert((VarCondition) c);
-			fieldsInLastCond.add((EAdField<?>) cond.getOp1());
+			fieldsInLastCond.add((ElementField<?>) cond.getOp1());
 			return cond;
-		} else if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
+		} else if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.GLOBAL_STATE_CONDITION) {
 			// [COND - State]
-			EAdCondition cond = modelQuerier.getGlobalState(c.getId());
+			Condition cond = modelQuerier.getGlobalState(c.getId());
 			cond.extractFields(fieldsInLastCond);
 			return cond;
 		}
 		return null;
 	}
 
-	public List<EAdField<?>> getFieldsLastCondition() {
+	public List<ElementField<?>> getFieldsLastCondition() {
 		return fieldsInLastCond;
 	}
 

@@ -38,7 +38,7 @@
 package es.eucm.ead.techdemo.elementfactories.sceneelements;
 
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -96,7 +96,7 @@ public class SceneElementFactory {
 	 * @return
 	 */
 	public SceneElement createSceneElement(EAdDrawable appearance, int x,
-			int y, EAdEffect effect) {
+			int y, Effect effect) {
 		SceneElement sceneElement = this.createSceneElement(appearance, x, y);
 		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		return sceneElement;
@@ -116,7 +116,7 @@ public class SceneElementFactory {
 	}
 
 	public SceneElement createSceneElement(String string, int x, int y,
-			EAdEffect effect) {
+			Effect effect) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(string), x, y, effect);
 	}

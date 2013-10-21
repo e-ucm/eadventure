@@ -38,7 +38,7 @@
 package es.eucm.ead.tools;
 
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
@@ -64,7 +64,7 @@ public class MathEvaluator {
 	private Node node = null;
 	private String expression = null;
 	private OperationResolver operationResolver;
-	private EAdList<EAdOperation> operationsList;
+	private EAdList<Operation> operationsList;
 
 	private Pool<Node> pool = new Pool<Node>() {
 
@@ -88,7 +88,7 @@ public class MathEvaluator {
 	 * creates a MathEvaluator and assign the math expression string.
 	 */
 	public MathEvaluator(String s, OperationResolver variables,
-			EAdList<EAdOperation> varList) {
+			EAdList<Operation> varList) {
 		init();
 		setExpression(s, variables, varList);
 	}
@@ -104,7 +104,7 @@ public class MathEvaluator {
 	 * @param eAdElementList
 	 */
 	public void setExpression(String s, OperationResolver operationResolver,
-			EAdList<EAdOperation> varList) {
+			EAdList<Operation> varList) {
 		expression = s;
 		this.operationResolver = operationResolver;
 		this.operationsList = varList;
@@ -260,7 +260,7 @@ public class MathEvaluator {
 			id = id.replace("[", "");
 			id = id.replace("]", "");
 			int index = Integer.parseInt(id);
-			EAdOperation number = operationsList.get(index);
+			Operation number = operationsList.get(index);
 			Object o = operationResolver.operate(Number.class, number);
 			if (o instanceof Number) {
 				return ((Number) o).floatValue();
@@ -572,7 +572,7 @@ public class MathEvaluator {
 
 		/**
 		 * <p>
-		 * Calculates the result of the given {@link EAdOperation} with the current
+		 * Calculates the result of the given {@link es.eucm.ead.model.elements.operations.Operation} with the current
 		 * game state
 		 * </p>
 		 *
@@ -582,6 +582,6 @@ public class MathEvaluator {
 		 * @return operation's result. If operation is {@code null}, a null is
 		 *         returned.
 		 */
-		<T extends EAdOperation, S> S operate(Class<S> clazz, T operation);
+		<T extends Operation, S> S operate(Class<S> clazz, T operation);
 	}
 }

@@ -43,8 +43,8 @@ import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.ead.legacyplugins.model.TimerEv;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.data.chapter.Timer;
 
@@ -66,7 +66,7 @@ public class TimerConverter {
 		this.effectsConverter = effectsConverter;
 	}
 
-	public EAdEvent convert(Timer t) {
+	public Event convert(Timer t) {
 		TimerEv timer = new TimerEv();
 		// [TI - Time]
 		timer.setTime((int) (t.getTime() * 1000));
@@ -93,12 +93,12 @@ public class TimerConverter {
 			timer.setStopCondition(conditionsConverter.convert(t.getEndCond()));
 		}
 		// [TI - Effects]
-		EAdList<EAdEffect> expiredEffects = new EAdList<EAdEffect>();
+		EAdList<Effect> expiredEffects = new EAdList<Effect>();
 		expiredEffects.add(effectsConverter.convert(t.getEffects()).get(0));
 		timer.setExpiredEffects(expiredEffects);
 		// [TI - StopEffects]
 		if (t.isUsesEndCondition()) {
-			EAdList<EAdEffect> stoppedEffects = new EAdList<EAdEffect>();
+			EAdList<Effect> stoppedEffects = new EAdList<Effect>();
 			stoppedEffects.add(effectsConverter.convert(t.getPostEffects())
 					.get(0));
 			timer.setStoppedEffects(stoppedEffects);

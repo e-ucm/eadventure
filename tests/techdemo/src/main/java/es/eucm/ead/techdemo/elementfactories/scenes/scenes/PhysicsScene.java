@@ -57,14 +57,12 @@ import es.eucm.ead.model.elements.effects.physics.PhysicsEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.LinearGradientFill;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -92,7 +90,7 @@ public class PhysicsScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.ADDED, effect);
 
-		// getEvents().add(event);
+		// addEvent(event);
 		getBackground().addBehavior(MouseGEv.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
@@ -158,16 +156,16 @@ public class PhysicsScene extends EmptyScene {
 
 		this.getSceneElements().add(grass);
 
-		EAdField<Float> rotationField = new BasicField<Float>(canyon,
+		ElementField<Float> rotationField = new ElementField<Float>(canyon,
 				VAR_ROTATION);
 
 		ChangeFieldEf followMouse = new ChangeFieldEf();
 
-		EAdField<Float> mouseX = SystemFields.MOUSE_X;
-		EAdField<Float> mouseY = SystemFields.MOUSE_Y;
-		EAdField<Float> canyonX = new BasicField<Float>(canyon, VAR_X);
+		ElementField<Float> mouseX = SystemFields.MOUSE_X;
+		ElementField<Float> mouseY = SystemFields.MOUSE_Y;
+		ElementField<Float> canyonX = new ElementField<Float>(canyon, VAR_X);
 
-		EAdField<Float> canyonY = new BasicField<Float>(canyon, VAR_Y);
+		ElementField<Float> canyonY = new ElementField<Float>(canyon, VAR_Y);
 
 		String expression = "deg( - acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) ) )";
 		MathOp op = new MathOp(expression, canyonX, canyonY, mouseX, mouseY);
@@ -175,15 +173,15 @@ public class PhysicsScene extends EmptyScene {
 		followMouse.addField(rotationField);
 		OperationCond c1 = new OperationCond(mouseX, 0,
 				Comparator.GREATER_EQUAL);
-		OperationCond c2 = new OperationCond(mouseY, new BasicField<Float>(
+		OperationCond c2 = new OperationCond(mouseY, new ElementField<Float>(
 				canyon, VAR_Y), Comparator.LESS_EQUAL);
-		OperationCond c3 = new OperationCond(mouseX, new BasicField<Float>(
+		OperationCond c3 = new OperationCond(mouseX, new ElementField<Float>(
 				canyon, VAR_X), Comparator.GREATER_EQUAL);
 		followMouse.setCondition(new ANDCond(c1, c2, c3));
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.ALWAYS, followMouse);
-		canyon.getEvents().add(event);
+		canyon.addEvent(event);
 
 		getSceneElements().add(canyon);
 		getSceneElements().add(canyonSupport);
@@ -193,7 +191,7 @@ public class PhysicsScene extends EmptyScene {
 		EAdShape circle = new CircleShape(10);
 		circle.setPaint(new LinearGradientFill(ColorFill.LIGHT_GRAY,
 				ColorFill.DARK_GRAY, 20, 20));
-		EAdSceneElementDef bullet = new SceneElementDef(circle);
+		SceneElementDef bullet = new SceneElementDef(circle);
 
 		PhApplyImpulseEf applyForce = new PhApplyImpulseEf();
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
@@ -235,19 +233,19 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	private void addSky() {
-		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
+		SceneElementDef backgroundDef = getBackground().getDefinition();
 		backgroundDef.addAsset(SceneElementDef.appearance, new Image(
 				"@drawable/sky.png"));
 
 		SceneElementEv event = new SceneElementEv();
 
-		InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
+		InterpolationEf effect = new InterpolationEf(new ElementField<Float>(
 				getBackground(), VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
 		event.addEffect(SceneElementEvType.INIT, effect);
 
-		this.getBackground().getEvents().add(event);
+		this.getBackground().addEvent(event);
 
 	}
 

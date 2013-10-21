@@ -37,14 +37,14 @@
 
 package es.eucm.ead.model.elements.conditions;
 
-import java.util.List;
-
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.operations.EAdField;
+
+import java.util.List;
 
 @Element
-public class EmptyCond extends AbstractCondition {
+public class EmptyCond extends Condition {
 
 	public static EmptyCond TRUE = new EmptyCond(true);
 
@@ -89,7 +89,7 @@ public class EmptyCond extends AbstractCondition {
 		return false;
 	}
 
-	public void extractFields(List<EAdField<?>> fields) {
+	public void extractFields(List<ElementField<?>> fields) {
 
 	}
 

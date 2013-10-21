@@ -45,11 +45,11 @@ import es.eucm.ead.engine.factories.EffectFactory;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.tracking.GameTracker;
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.reader.model.Manifest;
 import es.eucm.ead.tools.StringHandler;
@@ -70,9 +70,9 @@ public class GameLoader {
 
 	private Manifest currentManifest;
 
-	private Map<String, EAdChapter> chapters;
+	private Map<String, Chapter> chapters;
 
-	private Map<String, EAdScene> scenes;
+	private Map<String, Scene> scenes;
 
 	private String currentChapterId;
 
@@ -83,8 +83,8 @@ public class GameLoader {
 			StringHandler stringHandler, GameTracker gameTracker) {
 		this.game = game;
 		this.reader = reader;
-		this.chapters = new HashMap<String, EAdChapter>();
-		this.scenes = new HashMap<String, EAdScene>();
+		this.chapters = new HashMap<String, Chapter>();
+		this.scenes = new HashMap<String, Scene>();
 		this.eventFactory = eventFactory;
 		this.effectFactory = effectFactory;
 		this.sceneElementFactory = sceneElementFactory;
@@ -95,24 +95,23 @@ public class GameLoader {
 	@SuppressWarnings( { "all" })
 	public void loadGame(EAdEngine engine) {
 		currentManifest = reader.getManifest();
-		final EAdAdventureModel adventure = currentManifest.getModel();
+		final AdventureGame adventure = currentManifest.getModel();
 		// Load plugins
-		eventFactory.put(adventure
-				.getVarInitialValue(BasicAdventureModel.EVENTS_BINDS));
-		effectFactory.put(adventure
-				.getVarInitialValue(BasicAdventureModel.EFFECTS_BINDS));
-		sceneElementFactory.put(adventure
-				.getVarInitialValue(BasicAdventureModel.SCENES_ELEMENT_BINDS));
+		eventFactory.put(adventure.getProperty(AdventureGame.EVENTS_BINDS,
+				(EAdMap<String, String>) null));
+		effectFactory.put(adventure.getProperty(AdventureGame.EFFECTS_BINDS,
+				(EAdMap<String, String>) null));
+		sceneElementFactory.put(adventure.getProperty(
+				AdventureGame.SCENES_ELEMENT_BINDS,
+				(EAdMap<String, String>) null));
 
 		// FIXME detect language
 		stringHandler.setLanguage("");
 		game.getGUI().reset();
 		game.setAdventure(adventure);
 		game.doHook(Game.HOOK_AFTER_MODEL_READ);
-		int width = adventure
-				.getVarInitialValue(BasicAdventureModel.GAME_WIDTH);
-		int height = adventure
-				.getVarInitialValue(BasicAdventureModel.GAME_HEIGHT);
+		int width = adventure.getProperty(AdventureGame.GAME_WIDTH, 800);
+		int height = adventure.getProperty(AdventureGame.GAME_HEIGHT, 600);
 
 		engine.setGameWidth(width);
 		engine.setGameHeight(height);
@@ -131,7 +130,7 @@ public class GameLoader {
 
 	public void loadChapter(String chapterId) {
 		currentChapterId = chapterId;
-		EAdChapter currentChapter = chapters.get(chapterId);
+		Chapter currentChapter = chapters.get(chapterId);
 		if (currentChapter == null) {
 			currentChapter = reader.readChapter(chapterId);
 			chapters.put(chapterId, currentChapter);
@@ -145,7 +144,7 @@ public class GameLoader {
 			}
 			i++;
 		}
-		EAdScene scene = loadScene(initialScene);
+		Scene scene = loadScene(initialScene);
 		final ChangeSceneEf changeScene = new ChangeSceneEf(scene);
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
@@ -156,8 +155,8 @@ public class GameLoader {
 		});
 	}
 
-	public EAdScene loadScene(String sceneId) {
-		EAdScene scene = scenes.get(sceneId);
+	public Scene loadScene(String sceneId) {
+		Scene scene = scenes.get(sceneId);
 		if (scene == null) {
 			scene = reader.readScene(sceneId);
 			scenes.put(sceneId, scene);

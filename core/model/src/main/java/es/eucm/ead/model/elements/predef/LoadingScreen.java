@@ -44,13 +44,12 @@ import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.util.Position.Corner;
 
-public class LoadingScreen extends BasicScene implements EAdScene {
+public class LoadingScreen extends Scene {
 
 	private static final String ID = "#engine.LoadingScreen";
 
@@ -67,7 +66,7 @@ public class LoadingScreen extends BasicScene implements EAdScene {
 		watchField.watchField(SystemFields.LOADING);
 		watchField.addEffect(WatchFieldEvType.WATCH, new ChangeFieldEf(s
 				.getField(SceneElement.VAR_X), op));
-		s.getEvents().add(watchField);
+		s.addEvent(watchField);
 		add(s);
 
 		SceneElement bg = new SceneElement(new Image("@drawable/loading.png"));

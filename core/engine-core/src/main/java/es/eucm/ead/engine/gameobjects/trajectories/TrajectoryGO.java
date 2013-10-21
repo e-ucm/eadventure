@@ -40,18 +40,18 @@ package es.eucm.ead.engine.gameobjects.trajectories;
 import java.util.List;
 
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.engine.gameobjects.GameObject;
 
 /**
  * General interface for trajectories generators. Trajectories are build from a
- * {@link EAdTrajectory}
+ * {@link es.eucm.ead.model.elements.trajectories.Trajectory}
  * 
  * 
  * @param <T>
  *            the class of the trajectory definition
  */
-public interface TrajectoryGO<T extends EAdTrajectory> extends GameObject<T> {
+public interface TrajectoryGO<T extends Trajectory> extends GameObject<T> {
 
 	/***
 	 * Sets the attributes for the trajectory

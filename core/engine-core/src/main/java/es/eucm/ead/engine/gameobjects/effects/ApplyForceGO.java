@@ -70,7 +70,7 @@ public class ApplyForceGO extends AbstractEffectGO<PhApplyImpulseEf> {
 				valueMap
 						.setValue(finalElement, PhysicsEf.VAR_PH_FRICTION, 0.1f);
 				valueMap.setValue(finalElement, PhysicsEf.VAR_PH_DENSITY, 1.0f);
-				PhysicsEffectGO.createBody(w, (EAdSceneElement) effect
+				PhysicsEffectGO.createBody(w, (SceneElement) effect
 						.getSceneElement(), valueMap);
 				b = valueMap
 						.getValue(finalElement, PhysicsEffectGO.VAR_PH_BODY);

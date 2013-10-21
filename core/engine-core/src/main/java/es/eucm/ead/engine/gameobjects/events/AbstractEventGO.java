@@ -40,23 +40,23 @@ package es.eucm.ead.engine.gameobjects.events;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.GameObject;
 import es.eucm.ead.engine.gameobjects.GameObjectImpl;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdEvent;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 /**
  * Basic game object for events
  * 
  * @param <T>
  */
-public abstract class AbstractEventGO<T extends EAdEvent> extends
+public abstract class AbstractEventGO<T extends Event> extends
 		GameObjectImpl<T> implements GameObject<T>, EventGO<T> {
 
 	/**
 	 * Event parent (the element who launched the event)
 	 */
-	protected EAdSceneElement parent;
+	protected SceneElement parent;
 
 	protected Game game;
 
@@ -77,13 +77,13 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends
 	 * @param parent
 	 *            the scene element holding this event
 	 */
-	public void setParent(EAdSceneElement parent) {
+	public void setParent(SceneElement parent) {
 		this.parent = parent;
 	}
 
-	protected void runEffects(EAdList<EAdEffect> effects) {
+	protected void runEffects(EAdList<Effect> effects) {
 		if (effects != null) {
-			for (EAdEffect effect : effects)
+			for (Effect effect : effects)
 				game.addEffect(effect, null, parent);
 		}
 	}

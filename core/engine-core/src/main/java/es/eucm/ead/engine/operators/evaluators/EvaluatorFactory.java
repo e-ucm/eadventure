@@ -41,12 +41,12 @@ import es.eucm.ead.engine.factories.mapproviders.EvaluatorsMapProvider;
 import es.eucm.ead.engine.game.ValueMap;
 import es.eucm.ead.engine.operators.Operator;
 import es.eucm.ead.engine.operators.OperatorFactory;
-import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.tools.AbstractFactory;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
 public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
-		Operator<EAdCondition> {
+		Operator<Condition> {
 
 	public EvaluatorFactory(ReflectionProvider interfacesProvider,
 			OperatorFactory operatorFactory) {
@@ -56,7 +56,7 @@ public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, EAdCondition condition) {
+	public <S> S operate(Class<S> clazz, Condition condition) {
 		return (S) Boolean.valueOf(evaluate(condition));
 	}
 
@@ -72,7 +72,7 @@ public class EvaluatorFactory extends AbstractFactory<Evaluator<?>> implements
 	 *         of values
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends EAdCondition> boolean evaluate(T condition) {
+	public <T extends Condition> boolean evaluate(T condition) {
 		if (condition == null)
 			return true;
 		Evaluator<T> evaluator = (Evaluator<T>) get(condition.getClass());

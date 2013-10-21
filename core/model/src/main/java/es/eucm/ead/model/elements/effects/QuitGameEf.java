@@ -39,10 +39,9 @@ package es.eucm.ead.model.elements.effects;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdEffect;
 
 @Element
-public class QuitGameEf extends AbstractEffect implements EAdEffect {
+public class QuitGameEf extends Effect {
 
 	@Param
 	private boolean restart;

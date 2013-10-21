@@ -42,15 +42,13 @@ import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 
 /**
- * This event keeps an {@link EAdSceneElement} in the window bounds
+ * This event keeps an {@link SceneElement} in the window bounds
  * 
  */
 public class StayInBoundsEv extends SceneElementEv {
@@ -60,19 +58,22 @@ public class StayInBoundsEv extends SceneElementEv {
 	 * @param e
 	 *            the element to stay in bounds
 	 */
-	public StayInBoundsEv(EAdSceneElement e) {
+	public StayInBoundsEv(SceneElement e) {
 		super();
-		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
-		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
+		ElementField<Integer> maxX = SystemFields.GAME_WIDTH;
+		ElementField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
-		EAdField<Float> x = new BasicField<Float>(e, SceneElement.VAR_X);
+		ElementField<Float> x = new ElementField<Float>(e, SceneElement.VAR_X);
 
-		EAdField<Float> y = new BasicField<Float>(e, SceneElement.VAR_Y);
+		ElementField<Float> y = new ElementField<Float>(e, SceneElement.VAR_Y);
 
-		EAdField<Float> left = new BasicField<Float>(e, SceneElement.VAR_LEFT);
-		EAdField<Float> top = new BasicField<Float>(e, SceneElement.VAR_TOP);
-		EAdField<Float> right = new BasicField<Float>(e, SceneElement.VAR_RIGHT);
-		EAdField<Float> bottom = new BasicField<Float>(e,
+		ElementField<Float> left = new ElementField<Float>(e,
+				SceneElement.VAR_LEFT);
+		ElementField<Float> top = new ElementField<Float>(e,
+				SceneElement.VAR_TOP);
+		ElementField<Float> right = new ElementField<Float>(e,
+				SceneElement.VAR_RIGHT);
+		ElementField<Float> bottom = new ElementField<Float>(e,
 				SceneElement.VAR_BOTTOM);
 
 		// Correct X Left

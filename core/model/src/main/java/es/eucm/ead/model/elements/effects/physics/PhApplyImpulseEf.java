@@ -37,39 +37,38 @@
 
 package es.eucm.ead.model.elements.effects.physics;
 
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import es.eucm.ead.model.elements.operations.Operation;
+import es.eucm.ead.model.elements.operations.MathOp;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import es.eucm.ead.model.elements.operations.MathOp;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 
 @Element
 public class PhApplyImpulseEf extends AbstractSceneElementEffect {
 
 	@Param
-	private EAdOperation xForce;
+	private Operation xForce;
 
 	@Param
-	private EAdOperation yForce;
+	private Operation yForce;
 
 	public PhApplyImpulseEf() {
 		this(null, null, null);
 	}
 
-	public PhApplyImpulseEf(EAdSceneElement element, MathOp xForce,
-			MathOp yForce) {
+	public PhApplyImpulseEf(SceneElement element, MathOp xForce, MathOp yForce) {
 		super();
 		this.xForce = xForce;
 		this.yForce = yForce;
 		this.setSceneElement(element);
 	}
 
-	public EAdOperation getxForce() {
+	public Operation getxForce() {
 		return xForce;
 	}
 
-	public EAdOperation getyForce() {
+	public Operation getyForce() {
 		return yForce;
 	}
 

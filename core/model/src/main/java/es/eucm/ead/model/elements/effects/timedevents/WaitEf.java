@@ -37,9 +37,9 @@
 
 package es.eucm.ead.model.elements.effects.timedevents;
 
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
 
 /**
  * 
@@ -48,7 +48,7 @@ import es.eucm.ead.model.elements.effects.AbstractEffect;
  * 
  */
 @Element
-public class WaitEf extends AbstractEffect {
+public class WaitEf extends Effect {
 
 	/**
 	 * Time to wait for this effect, in milliseconds

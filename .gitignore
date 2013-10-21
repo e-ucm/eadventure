@@ -122,4 +122,6 @@ nbactions.xml
 /core/engine-android/bin/
 /core/engine-android/proguard.cfg
 
-
+*.scene
+*.chapter
+manifest.xml

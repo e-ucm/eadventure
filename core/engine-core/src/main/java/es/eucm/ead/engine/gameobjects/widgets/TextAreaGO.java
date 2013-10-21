@@ -45,7 +45,7 @@ import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.tools.StringHandler;
 
@@ -68,7 +68,7 @@ public class TextAreaGO extends SceneElementGO {
 	}
 
 	@Override
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
 		textCaption = new Caption(stringHandler.generateNewString());
 		textCaption.setPreferredHeight((int) this.getHeight());

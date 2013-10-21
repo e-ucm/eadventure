@@ -2,7 +2,7 @@ package es.eucm.ead.legacyplugins.model;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.params.text.EAdString;
 
 /**
@@ -11,7 +11,7 @@ import es.eucm.ead.model.params.text.EAdString;
  *         Time: 11:28
  */
 @Element
-public class ScreenShotEf extends AbstractEffect {
+public class ScreenShotEf extends Effect {
 
 	@Param
 	private EAdString dialogTitle;

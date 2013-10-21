@@ -37,22 +37,22 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.WaitUntilEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.importer.ModelQuerier;
-import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TriggerMacroConverter implements
 		EffectConverter<MacroReferenceEffect> {
@@ -66,15 +66,16 @@ public class TriggerMacroConverter implements
 		this.modelQuerier = modelQuerier;
 	}
 
-	public List<EAdEffect> convert(MacroReferenceEffect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+	public List<Effect> convert(MacroReferenceEffect e) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
 
 		TriggerMacroEf effect = new TriggerMacroEf();
-		EAdList<EAdEffect> macro = modelQuerier.getMacro(e.getTargetId());
+		EAdList<Effect> macro = modelQuerier.getMacro(e.getTargetId());
 		effect.putEffects(EmptyCond.TRUE, macro);
 		list.add(effect);
 		// Add IN_MACRO field to hold next effects until the macro ends
-		BasicField<Boolean> field = new BasicField<Boolean>(effect, IN_MACRO);
+		ElementField<Boolean> field = new ElementField<Boolean>(effect,
+				IN_MACRO);
 		ChangeFieldEf macroIn = new ChangeFieldEf(field, EmptyCond.TRUE);
 		effect.addSimultaneousEffect(macroIn);
 
@@ -86,7 +87,7 @@ public class TriggerMacroConverter implements
 		}
 
 		// Look for the last effect in the queue, and add the macro-out.
-		EAdEffect lastEffect = macro.get(macro.size() - 1);
+		Effect lastEffect = macro.get(macro.size() - 1);
 		boolean done = false;
 		while (!done) {
 			if (lastEffect.getNextEffects().size() == 0) {

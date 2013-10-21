@@ -48,7 +48,7 @@ import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.tracking.AbstractGameTracker;
-import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.AdventureGame;
 import es.eucm.gleaner.tracker.Tracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +96,7 @@ public class GleanerGameTracker extends AbstractGameTracker {
 	}
 
 	@Override
-	protected boolean startTrackingImpl(EAdAdventureModel model) {
+	protected boolean startTrackingImpl(AdventureGame model) {
 		if (assetHandler.fileExists(GLEANER_CONFIG)) {
 			JsonValue config = jsonReader.parse(assetHandler
 					.getTextFile(GLEANER_CONFIG));

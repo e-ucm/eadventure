@@ -38,7 +38,6 @@
 package es.eucm.ead.model.interfaces.features;
 
 import es.eucm.ead.model.assets.AssetDescriptor;
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**

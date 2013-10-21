@@ -37,19 +37,26 @@
 
 package es.eucm.ead.model.elements;
 
+import com.gwtent.reflection.client.Reflectable;
+import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.interfaces.features.Identified;
 
 /**
- * Implementation of a basic {@link EAdElement}. Most of the model elements
+ * Implementation of a basic element. Most of the model elements
  * inherits from this basis class.
  * 
  * They can also be used as reference of other elements
  */
 @Element
-public class BasicElement implements EAdElement {
+@Reflectable(relationTypes = true)
+public class BasicElement implements Identified {
 
 	private String id;
+
+	@Param
+	private EAdMap<String, Object> properties;
 
 	/**
 	 * Creates a reference to an element
@@ -74,21 +81,34 @@ public class BasicElement implements EAdElement {
 		this.id = id;
 	}
 
-	public String toString() {
-		return classToString(this.getClass())
-				+ (id != null ? id.toString() : "");
+	@SuppressWarnings("unchecked")
+	/**
+	 *
+	 * @param propertyId
+	 * @param defaultValue the default value in case the property is not defined for the {@link EAdElement}
+	 * @param <T>
+	 * @return
+	 */
+	public <T> T getProperty(String propertyId, T defaultValue) {
+		return (T) (properties == null ? defaultValue : properties
+				.containsKey(propertyId) ? properties.get(propertyId)
+				: defaultValue);
 	}
 
-	public boolean equals(Object o) {
-		if (o instanceof Identified) {
-			String id2 = ((Identified) o).getId();
-			return id == null ? super.equals(o) : id == id2 || id.equals(id2);
+	/**
+	 * Puts a property
+	 * @param propertyId the parameter identifier
+	 * @param value   the parameter value
+	 */
+	public void putProperty(String propertyId, Object value) {
+		if (properties == null) {
+			properties = new EAdMap<String, Object>();
 		}
-		return false;
+		properties.put(propertyId, value);
 	}
 
-	public int hashCode() {
-		return id == null ? super.hashCode() : getId().hashCode();
+	public String toString() {
+		return classToString(this.getClass()) + (id != null ? id : "");
 	}
 
 	/**
@@ -96,11 +116,21 @@ public class BasicElement implements EAdElement {
 	 * be used instead, and can be handy for debugging purposes
 	 * Default-generated ids use this, for instance.
 	 * 
-	 * @param o
+	 * @param c
 	 * @return
 	 */
 	public static String classToString(Class<?> c) {
 		String n = c.getName();
 		return n.substring(n.lastIndexOf('.') + 1);
+	}
+
+	// Required for GWT
+
+	public EAdMap<String, Object> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(EAdMap<String, Object> properties) {
+		this.properties = properties;
 	}
 }

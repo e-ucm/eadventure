@@ -48,27 +48,25 @@ import es.eucm.ead.importer.subconverters.actors.ElementConverter;
 import es.eucm.ead.importer.subconverters.actors.NPCConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
-import es.eucm.ead.legacyplugins.model.BubbleNameEv;
 import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.shapes.AbstractShape;
 import es.eucm.ead.model.assets.multimedia.Music;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.effects.EmptyEffect;
-import es.eucm.ead.model.elements.effects.PlayMusicEf;
-import es.eucm.ead.model.elements.effects.TriggerMacroEf;
+import es.eucm.ead.model.elements.effects.*;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.huds.MouseHud;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.predef.effects.MakeActiveElementEf;
 import es.eucm.ead.model.elements.predef.effects.MoveActiveElementToMouseEf;
-import es.eucm.ead.model.elements.scenes.*;
+import es.eucm.ead.model.elements.scenes.GhostElement;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.text.EAdString;
@@ -81,7 +79,6 @@ import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
-import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 
 import java.awt.*;
 import java.util.List;
@@ -147,10 +144,10 @@ public class SceneConverter {
 		this.elementConverter = elementConverter;
 	}
 
-	public EAdScene convert(Scene s) {
+	public Scene convert(es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 
 		SceneElement background = new SceneElement();
-		BasicScene scene = new BasicScene(background);
+		Scene scene = new Scene(background);
 		scene.setId(s.getId());
 
 		addAppearance(scene, s);
@@ -168,7 +165,8 @@ public class SceneConverter {
 		return scene;
 	}
 
-	public void addAppearance(BasicScene scene, Scene s) {
+	public void addAppearance(Scene scene,
+			es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 		// Appearance tab
 		SceneElement background = (SceneElement) scene.getBackground();
 		// The foreground is only initialized if needed
@@ -178,7 +176,7 @@ public class SceneConverter {
 		for (Resources r : s.getResources()) {
 			// Background [SC - Bg]
 			String backgroundPath = r
-					.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
+					.getAssetPath(es.eucm.eadventure.common.data.chapter.scenes.Scene.RESOURCE_TYPE_BACKGROUND);
 			EAdDrawable drawable = utilsConverter.getBackground(backgroundPath);
 			Dimension d = resourceConverter.getSize(backgroundPath);
 			float scale = 1.0f;
@@ -195,7 +193,7 @@ public class SceneConverter {
 			}
 			// Foreground [SC - Fg]
 			String foregroundPath = r
-					.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
+					.getAssetPath(es.eucm.eadventure.common.data.chapter.scenes.Scene.RESOURCE_TYPE_FOREGROUND);
 			if (foregroundPath != null) {
 				foregroundPath = utilsConverter.applyForegroundMask(
 						foregroundPath, backgroundPath);
@@ -214,7 +212,7 @@ public class SceneConverter {
 
 			int finalWidth = (int) (d.getWidth() * scale);
 			// [GE - Arrows] [GE - Follow]
-			scene.setVarInitialValue(LegacyVars.SCENE_WIDTH, finalWidth);
+			scene.putProperty(LegacyVars.SCENE_WIDTH, finalWidth);
 
 			i++;
 		}
@@ -230,7 +228,8 @@ public class SceneConverter {
 		this.addForegroundMusicConditions(scene, s.getResources(), foreground);
 	}
 
-	private void addReferences(BasicScene scene, Scene s) {
+	private void addReferences(Scene scene,
+			es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 		addReferences(scene, s.getAtrezzoReferences());
 		addReferences(scene, s.getItemReferences());
 		addReferences(scene, s.getCharacterReferences());
@@ -238,7 +237,7 @@ public class SceneConverter {
 		// Add player
 		if (modelQuerier.getAventureData().getPlayerMode() == AdventureData.MODE_PLAYER_3RDPERSON) {
 			SceneElement playerRef = new SceneElement(
-					(EAdSceneElementDef) elementsCache.get(Player.IDENTIFIER));
+					(SceneElementDef) elementsCache.get(Player.IDENTIFIER));
 			// [SC - Player Layer]
 			if (s.isAllowPlayerLayer() && s.getPlayerLayer() != -1) {
 				playerRef.setInitialZ(s.getPlayerLayer());
@@ -263,10 +262,9 @@ public class SceneConverter {
 		}
 	}
 
-	private void addReferences(BasicScene scene,
-			List<ElementReference> references) {
+	private void addReferences(Scene scene, List<ElementReference> references) {
 		for (ElementReference e : references) {
-			EAdSceneElementDef def = (EAdSceneElementDef) elementsCache.get(e
+			SceneElementDef def = (SceneElementDef) elementsCache.get(e
 					.getTargetId());
 			SceneElement sceneElement = new SceneElement(def);
 			sceneElement.setPosition(Corner.BOTTOM_CENTER, e.getX(), e.getY());
@@ -290,7 +288,8 @@ public class SceneConverter {
 		}
 	}
 
-	private void addExits(BasicScene scene, Scene s) {
+	private void addExits(Scene scene,
+			es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 		int i = 0;
 		for (Exit e : s.getExits()) {
 			AbstractShape shape = rectangleConverter.convert(e, EXIT_FILL);
@@ -301,9 +300,9 @@ public class SceneConverter {
 			}
 
 			// [EXIT - CondInactive] [EXIT - Conditions]
-			EAdCondition cond = conditionsConverter.convert(e.getConditions());
+			Condition cond = conditionsConverter.convert(e.getConditions());
 
-			EAdEffect effectWhenClick;
+			Effect effectWhenClick;
 
 			// Next scene
 			// [EXIT - Next]
@@ -315,7 +314,7 @@ public class SceneConverter {
 
 			// Add effects
 			// [EXIT - Effects]
-			List<EAdEffect> effects = effectConverter.convert(e.getEffects());
+			List<Effect> effects = effectConverter.convert(e.getEffects());
 			if (effects.size() > 0) {
 				effectWhenClick = effects.get(0);
 				effects.get(effects.size() - 1).getNextEffects().add(nextScene);
@@ -339,7 +338,7 @@ public class SceneConverter {
 			if (!"".equals(exitLook.getExitText())) {
 				EAdString text = stringsConverter.convert(exitLook
 						.getExitText(), false);
-				exit.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, text);
+				exit.putProperty(LegacyVars.BUBBLE_NAME, text);
 			}
 			// XXX For now, we use the default exit image
 			utilsConverter.addCursorChange(exit, MouseHud.EXIT_CURSOR);
@@ -354,7 +353,7 @@ public class SceneConverter {
 				// Add ACTIVE effects
 				triggerMacro.putEffect(cond, effectWhenClick);
 				// Add INACTIVE effects
-				EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+				EAdList<Effect> macro = new EAdList<Effect>();
 				effects = effectConverter.convert(e.getNotEffects());
 				if (effects.size() > 0) {
 					macro.add(effects.get(0));
@@ -381,7 +380,8 @@ public class SceneConverter {
 
 	}
 
-	private void addActiveZones(BasicScene scene, Scene s) {
+	private void addActiveZones(Scene scene,
+			es.eucm.eadventure.common.data.chapter.scenes.Scene s) {
 		int i = 0;
 		for (ActiveArea a : s.getActiveAreas()) {
 			// [AA - Shape]
@@ -390,9 +390,6 @@ public class SceneConverter {
 			GhostElement activeArea = new GhostElement(shape);
 			// Add actions
 			// [AA - Actions]
-			if ("Victima".equals(a.getId())) {
-				System.out.println();
-			}
 			elementConverter.addActions(a, activeArea.getDefinition());
 			elementConverter.addDescription(a, activeArea.getDefinition());
 
@@ -425,31 +422,33 @@ public class SceneConverter {
 	 * @param resources
 	 * @param foreground
 	 */
-	private void addForegroundMusicConditions(BasicScene scene,
+	private void addForegroundMusicConditions(Scene scene,
 			List<Resources> resources, SceneElement foreground) {
 		WatchFieldEv watchField = new WatchFieldEv();
 		boolean hasMusic = false;
 		TriggerMacroEf triggerMacroVisible = new TriggerMacroEf();
 		TriggerMacroEf triggerMacroMusic = new TriggerMacroEf();
 		// Prepare visibility for foreground
-		EAdField<Boolean> foregroundVisible = (foreground != null ? foreground
-				.getField(SceneElement.VAR_VISIBLE) : null);
+		ElementField<Boolean> foregroundVisible = (foreground != null ? foreground
+				.getField(SceneElement.VAR_VISIBLE)
+				: null);
 		ChangeFieldEf makeForegroundVisible = new ChangeFieldEf(
 				foregroundVisible, EmptyCond.TRUE);
 		ChangeFieldEf makeForegroundInvisible = new ChangeFieldEf(
 				foregroundVisible, EmptyCond.FALSE);
 
 		for (Resources r : resources) {
-			EAdCondition cond = conditionsConverter.convert(r.getConditions());
+			Condition cond = conditionsConverter.convert(r.getConditions());
 			// Watch all the fields in the condition
-			for (EAdField<?> field : conditionsConverter
+			for (ElementField<?> field : conditionsConverter
 					.getFieldsLastCondition()) {
 				watchField.watchField(field);
 			}
 
 			if (foreground != null) {
 				// Check if there is foreground in this bundle
-				if (r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND) == null) {
+				if (r
+						.getAssetPath(es.eucm.eadventure.common.data.chapter.scenes.Scene.RESOURCE_TYPE_FOREGROUND) == null) {
 					triggerMacroVisible
 							.putEffect(cond, makeForegroundInvisible);
 				} else {
@@ -458,7 +457,8 @@ public class SceneConverter {
 			}
 
 			// Check for music [SC - Music]
-			String musicPath = r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC);
+			String musicPath = r
+					.getAssetPath(es.eucm.eadventure.common.data.chapter.scenes.Scene.RESOURCE_TYPE_MUSIC);
 			if (musicPath != null) {
 				hasMusic = true;
 				Music music = resourceConverter.getMusic(musicPath);

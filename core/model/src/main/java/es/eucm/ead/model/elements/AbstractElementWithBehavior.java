@@ -37,13 +37,15 @@
 
 package es.eucm.ead.model.elements;
 
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.interfaces.features.Evented;
-import es.eucm.ead.model.interfaces.features.WithBehavior;
-import es.eucm.ead.model.elements.behaviors.Behavior;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.events.Event;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.extra.EAdMap;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Evented;
+import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 
 /**
@@ -53,14 +55,23 @@ import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 public abstract class AbstractElementWithBehavior extends BasicElement
 		implements Evented, WithBehavior {
 
-	@Param
-	protected EAdBehavior behavior;
-
 	/**
 	 * Events associated with this element
 	 */
 	@Param
-	protected es.eucm.ead.model.elements.extra.EAdList<EAdEvent> events;
+	protected es.eucm.ead.model.elements.extra.EAdList<Event> events;
+
+	/**
+	 * All behaviors contained by this bundle, associated with its events
+	 */
+	@Param
+	protected EAdMap<EAdGUIEvent, EAdList<Effect>> behavior;
+
+	/**
+	 * Calculated attribute with all effects contained by the behavior. It must
+	 * not be saved in the XML
+	 */
+	private transient EAdList<Effect> allEffects;
 
 	/**
 	 * Initial event for this element. This attribute WILL NOT BE SERIALIZED by
@@ -68,76 +79,32 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 */
 	private transient SceneElementEv initEvent;
 
-	public AbstractElementWithBehavior() {
-		super();
-		this.behavior = new Behavior();
-		this.events = new EAdList<EAdEvent>();
-	}
-
-	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {
-		return behavior.getEffects(event);
-	}
-
-	/**
-	 * Adds a behavior to this actor attached to the given event
-	 * 
-	 * @param event
-	 *            the event
-	 * @param effect
-	 *            the effect
-	 */
-	public void addBehavior(EAdGUIEvent event, EAdEffect effect) {
-		behavior.addBehavior(event, effect);
-	}
-
-	/**
-	 * Adds the given effects to the list of the events that will be executed
-	 * when the given event is processed by this element
-	 * 
-	 * @param event the GUI event
-	 * @param effects the list of effects
-	 */
-	public void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects) {
-		behavior.addBehavior(event, effects);
-	}
-
-	/**
-	 * Sets the behavior for this actor
-	 * 
-	 * @param behavior
-	 *            the behavior
-	 */
-	public void setBehavior(EAdBehavior behavior) {
-		this.behavior = behavior;
-	}
-
-	/**
-	 * Returns the behavior for this actor
-	 * 
-	 * @return the behavior for this actor
-	 */
-	public EAdBehavior getBehavior() {
-		return behavior;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
 	 */
 	@Override
-	public EAdList<EAdEvent> getEvents() {
+	public EAdList<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(EAdList<EAdEvent> events) {
+	@Override
+	public void addEvent(Event e) {
+		if (events == null) {
+			events = new EAdList<Event>();
+		}
+		events.add(e);
+	}
+
+	public void setEvents(EAdList<Event> events) {
 		this.events = events;
 	}
 
-	public void addAddedEffect(EAdEffect e) {
+	public void addAddedEffect(Effect e) {
 		if (initEvent == null) {
 			initEvent = new SceneElementEv();
-			this.getEvents().add(initEvent);
+			this.addEvent(initEvent);
 		}
 		initEvent.addEffect(SceneElementEvType.ADDED, e);
 	}
@@ -149,11 +116,87 @@ public abstract class AbstractElementWithBehavior extends BasicElement
 	 * @param e
 	 *            the effect
 	 */
-	public void addInitEffect(EAdEffect e) {
+	public void addInitEffect(Effect e) {
 		if (initEvent == null) {
 			initEvent = new SceneElementEv();
-			this.getEvents().add(initEvent);
+			this.addEvent(initEvent);
 		}
 		initEvent.addEffect(SceneElementEvType.INIT, e);
+	}
+
+	/**
+	 * Adds an effect associated with an event
+	 *
+	 * @param event  the event
+	 * @param effect the effect associated
+	 */
+	public void addBehavior(EAdGUIEvent event, Effect effect) {
+		if (behavior == null) {
+			behavior = new EAdMap<EAdGUIEvent, EAdList<Effect>>();
+		}
+		EAdList<Effect> list = behavior.get(event);
+		if (list == null) {
+			list = new EAdList<Effect>();
+			behavior.put(event, list);
+		}
+		list.add(effect);
+	}
+
+	/**
+	 * Returns a list with the attached effects to the given event, if exists.
+	 * If not, returns {@code null}
+	 *
+	 * @param event the GUI event
+	 * @return a list with the attached effects to the given event, if exists.
+	 *         If not, returns {@code null}
+	 */
+	public EAdList<Effect> getEffects(EAdGUIEvent event) {
+		return behavior == null ? null : behavior.get(event);
+	}
+
+	/**
+	 * Adds an effect associated with an event
+	 *
+	 * @param event   the event
+	 * @param effects a list of effects
+	 */
+	public void addBehavior(EAdGUIEvent event, EAdList<Effect> effects) {
+		for (int i = effects.size() - 1; i >= 0; i--)
+			addBehavior(event, effects.get(i));
+	}
+
+	public EAdMap<EAdGUIEvent, EAdList<Effect>> getBehavior() {
+		return behavior;
+	}
+
+	/**
+	 * Returns all the effects contained for this behavior. This list must NOT
+	 * be modified
+	 *
+	 * @return
+	 */
+	public EAdList<Effect> getAllEffects() {
+		if (allEffects == null) {
+			allEffects = new EAdList<Effect>();
+		}
+		allEffects.clear();
+		for (EAdList<Effect> l : behavior.values()) {
+			allEffects.addAll(l);
+		}
+
+		return allEffects;
+	}
+
+	public void setBehavior(EAdMap<EAdGUIEvent, EAdList<Effect>> behavior) {
+		this.behavior = behavior;
+	}
+
+	/**
+	 * Returns if this behavior is empty
+	 *
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return behavior.isEmpty();
 	}
 }

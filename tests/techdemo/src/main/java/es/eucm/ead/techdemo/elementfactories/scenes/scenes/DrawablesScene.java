@@ -46,7 +46,7 @@ import es.eucm.ead.model.assets.drawable.compounds.EAdComposedDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.EAdStateDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 import es.eucm.ead.model.elements.enums.CommonStates;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
@@ -168,13 +168,13 @@ public class DrawablesScene extends EmptyScene {
 		sceneElement.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
-								new BasicField<String>(sceneElement,
+								new ElementField<String>(sceneElement,
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.DEFAULT.toString())));
 		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeVarValueEffect(
-								new BasicField<String>(sceneElement,
+								new ElementField<String>(sceneElement,
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.TALKING.toString())));
 		getSceneElements().add(sceneElement);

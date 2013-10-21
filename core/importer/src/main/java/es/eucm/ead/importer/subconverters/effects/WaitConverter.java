@@ -37,19 +37,19 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
+import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
-import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
-import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
 
 public class WaitConverter implements EffectConverter<WaitTimeEffect> {
 
 	@Override
-	public List<EAdEffect> convert(WaitTimeEffect e) {
-		ArrayList<EAdEffect> list = new ArrayList<EAdEffect>();
+	public List<Effect> convert(WaitTimeEffect e) {
+		ArrayList<Effect> list = new ArrayList<Effect>();
 		list.add(new WaitEf(e.getTime() * 1000));
 		return list;
 	}

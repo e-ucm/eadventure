@@ -39,18 +39,18 @@ package es.eucm.ead.importer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.importer.subconverters.ConversationsConverter;
+import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
+import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.EmptyEffect;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.predef.effects.SpeakSceneElementEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.fills.Paint;
@@ -58,13 +58,8 @@ import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.paint.EAdPaint;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.VarDef;
-import es.eucm.ead.importer.subconverters.ConversationsConverter;
-import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
-import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
-import es.eucm.eadventure.common.data.chapter.Chapter;
-import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalState;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalStateCondition;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
@@ -98,15 +93,15 @@ public class ModelQuerier {
 
 	private AdventureData adventureData;
 
-	private EAdChapter currentChapter;
+	private Chapter currentChapter;
 
-	private Chapter oldChapter;
+	private es.eucm.eadventure.common.data.chapter.Chapter oldChapter;
 
-	private Map<String, EAdField<Boolean>> flagFields;
-	private Map<String, EAdField<Integer>> variableFields;
-	private Map<String, EAdCondition> globalStates;
-	private Map<String, EAdList<EAdEffect>> macros;
-	private Map<String, EAdEffect> conversations;
+	private Map<String, ElementField<Boolean>> flagFields;
+	private Map<String, ElementField<Integer>> variableFields;
+	private Map<String, Condition> globalStates;
+	private Map<String, EAdList<Effect>> macros;
+	private Map<String, Effect> conversations;
 	private Map<String, EAdPaint> npcTexts;
 	private Map<String, EAdPaint> npcBubbles;
 
@@ -122,16 +117,16 @@ public class ModelQuerier {
 	@Inject
 	public ModelQuerier(EAdElementsCache elementsCache) {
 		this.elementsCache = elementsCache;
-		flagFields = new HashMap<String, EAdField<Boolean>>();
-		variableFields = new HashMap<String, EAdField<Integer>>();
-		globalStates = new HashMap<String, EAdCondition>();
-		macros = new HashMap<String, EAdList<EAdEffect>>();
+		flagFields = new HashMap<String, ElementField<Boolean>>();
+		variableFields = new HashMap<String, ElementField<Integer>>();
+		globalStates = new HashMap<String, Condition>();
+		macros = new HashMap<String, EAdList<Effect>>();
 
 		macrosToLoad = new ArrayList<Macro>();
 		globalStatesToLoad = new ArrayList<GlobalState>();
 
 		// Conversations
-		conversations = new HashMap<String, EAdEffect>();
+		conversations = new HashMap<String, Effect>();
 		npcTexts = new HashMap<String, EAdPaint>();
 		npcBubbles = new HashMap<String, EAdPaint>();
 
@@ -162,7 +157,8 @@ public class ModelQuerier {
 		return adventureData;
 	}
 
-	public void setCurrentChapter(EAdChapter chapter, Chapter c) {
+	public void setCurrentChapter(Chapter chapter,
+			es.eucm.eadventure.common.data.chapter.Chapter c) {
 		this.currentChapter = chapter;
 		this.oldChapter = c;
 		flagFields.clear();
@@ -214,9 +210,10 @@ public class ModelQuerier {
 			// global state is still not loaded, we send this global state to
 			// the end of the queue
 			GlobalState g = globalStatesToLoad.remove(0);
-			for (List<Condition> l : g.getConditionsList()) {
-				for (Condition c : l) {
-					if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
+			for (List<es.eucm.eadventure.common.data.chapter.conditions.Condition> l : g
+					.getConditionsList()) {
+				for (es.eucm.eadventure.common.data.chapter.conditions.Condition c : l) {
+					if (c.getType() == es.eucm.eadventure.common.data.chapter.conditions.Condition.GLOBAL_STATE_CONDITION) {
 						GlobalStateCondition gs = (GlobalStateCondition) c;
 						if (!globalStates.containsKey(gs.getId())) {
 							toWait = true;
@@ -235,7 +232,7 @@ public class ModelQuerier {
 
 			} else {
 				iterations = 0;
-				EAdCondition cond = conditionConverter.convert(g);
+				Condition cond = conditionConverter.convert(g);
 				if (cond == null) {
 					logger.warn("Global state returned a {} after conversion",
 							g.getId());
@@ -288,8 +285,8 @@ public class ModelQuerier {
 				// If not, we load it
 			} else {
 				iterations = 0;
-				EAdList<EAdEffect> macro = getMacro(m.getId());
-				List<EAdEffect> effect = effectsConverter.convert(m);
+				EAdList<Effect> macro = getMacro(m.getId());
+				List<Effect> effect = effectsConverter.convert(m);
 				if (effect.size() > 0) {
 					macro.add(effect.get(0));
 				}
@@ -315,8 +312,8 @@ public class ModelQuerier {
 
 		// Load conversations
 		for (Conversation c : oldChapter.getConversations()) {
-			EAdEffect conversation = conversationsConverter.convert(c);
-			EAdEffect proxy = conversations.get(c.getId());
+			Effect conversation = conversationsConverter.convert(c);
+			Effect proxy = conversations.get(c.getId());
 			if (proxy != null) {
 				proxy.addNextEffect(conversation);
 			} else {
@@ -325,44 +322,44 @@ public class ModelQuerier {
 		}
 	}
 
-	public EAdField<Boolean> getFlag(String id) {
-		EAdField<Boolean> field = flagFields.get(id);
+	public ElementField<Boolean> getFlag(String id) {
+		ElementField<Boolean> field = flagFields.get(id);
 		if (field == null) {
-			field = new BasicField<Boolean>(currentChapter,
+			field = new ElementField<Boolean>(currentChapter,
 					new VarDef<Boolean>(id, Boolean.class, false));
 			flagFields.put(id, field);
 		}
 		return field;
 	}
 
-	public EAdField<Integer> getVariable(String id) {
-		EAdField<Integer> field = variableFields.get(id);
+	public ElementField<Integer> getVariable(String id) {
+		ElementField<Integer> field = variableFields.get(id);
 		if (field == null) {
-			field = new BasicField<Integer>(currentChapter,
+			field = new ElementField<Integer>(currentChapter,
 					new VarDef<Integer>(id, Integer.class, 0));
 			variableFields.put(id, field);
 		}
 		return field;
 	}
 
-	public EAdCondition getGlobalState(String id) {
-		EAdCondition globalState = globalStates.get(id);
+	public Condition getGlobalState(String id) {
+		Condition globalState = globalStates.get(id);
 		if (globalState == null) {
 			logger.warn("Global state '{}' not found", id);
 		}
 		return globalState;
 	}
 
-	public EAdList<EAdEffect> getMacro(String id) {
-		EAdList<EAdEffect> macro = macros.get(id);
+	public EAdList<Effect> getMacro(String id) {
+		EAdList<Effect> macro = macros.get(id);
 		if (macro == null) {
-			macro = new EAdList<EAdEffect>();
+			macro = new EAdList<Effect>();
 			macros.put(id, macro);
 		}
 		return macro;
 	}
 
-	public void addActionsInteraction(EAdSceneElementDef def, EAdEffect effect) {
+	public void addActionsInteraction(SceneElementDef def, Effect effect) {
 		def.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, effect);
 		if (getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_ACTIONS) {
 			def.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
@@ -377,14 +374,14 @@ public class ModelQuerier {
 	 * @return
 	 */
 	public SpeakEf getSpeakFor(String npc, EAdString text) {
-		EAdElement element = elementsCache.get(npc);
+		BasicElement element = elementsCache.get(npc);
 		SpeakEf effect;
 
 		if (adventureData.getPlayerMode() == AdventureData.MODE_PLAYER_1STPERSON
 				&& npc.equals(Player.IDENTIFIER)) {
 			effect = new SpeakEf(text);
 		} else {
-			EAdField<EAdSceneElement> fieldElement = elementsCache.getField(
+			ElementField<SceneElement> fieldElement = elementsCache.getField(
 					element, SceneElementDef.VAR_SCENE_ELEMENT);
 			effect = new SpeakSceneElementEf(element, text);
 			effect.setX(elementsCache.getField(fieldElement,
@@ -403,8 +400,8 @@ public class ModelQuerier {
 	 * @param id
 	 * @return
 	 */
-	public EAdEffect getConversation(String id) {
-		EAdEffect conversation = conversations.get(id);
+	public Effect getConversation(String id) {
+		Effect conversation = conversations.get(id);
 		if (conversation == null) {
 			conversation = new EmptyEffect();
 			conversations.put(id, conversation);

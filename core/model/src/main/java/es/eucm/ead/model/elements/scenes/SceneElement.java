@@ -37,16 +37,16 @@
 
 package es.eucm.ead.model.elements.scenes;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.elements.AbstractElementWithBehavior;
 import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.interfaces.Element;
+import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.model.params.util.Position.Corner;
 import es.eucm.ead.model.params.variables.EAdVarDef;
@@ -54,7 +54,7 @@ import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
 public class SceneElement extends AbstractElementWithBehavior implements
-		EAdSceneElement {
+		Variabled {
 
 	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new VarDef<Orientation>(
 			"orientation", Orientation.class, Orientation.S);
@@ -138,7 +138,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Param
-	protected EAdSceneElementDef definition;
+	protected SceneElementDef definition;
 
 	/**
 	 * Sets if the for the contains method, must be used only the scene element bounds
@@ -156,8 +156,6 @@ public class SceneElement extends AbstractElementWithBehavior implements
 	/**
 	 * Creates a basic scene element
 	 *
-	 * @param id
-	 *            the id
 	 * @param appearance
 	 *            the initial appearance
 	 */
@@ -171,7 +169,7 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		this.definition = new SceneElementDef(appearance, overAppearance);
 	}
 
-	public SceneElement(EAdSceneElementDef actor) {
+	public SceneElement(SceneElementDef actor) {
 		this();
 		this.definition = actor;
 	}
@@ -206,12 +204,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		vars.put(VAR_ORIENTATION, orientation);
 	}
 
-	@Override
 	public EAdMap<EAdVarDef<?>, Object> getVars() {
 		return vars;
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getVarInitialValue(EAdVarDef<T> var) {
 		if (vars.containsKey(var)) {
@@ -229,12 +225,11 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		setPosition(Position.volatileEAdPosition(corner, x, y));
 	}
 
-	@Override
-	public EAdSceneElementDef getDefinition() {
+	public SceneElementDef getDefinition() {
 		return definition;
 	}
 
-	public void setDefinition(EAdSceneElementDef def) {
+	public void setDefinition(SceneElementDef def) {
 		this.definition = def;
 	}
 
@@ -276,8 +271,8 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		setVarInitialValue(SceneElement.VAR_ROTATION, rotation);
 	}
 
-	public <T> EAdField<T> getField(EAdVarDef<T> varDef) {
-		return new BasicField<T>(this, varDef);
+	public <T> ElementField<T> getField(EAdVarDef<T> varDef) {
+		return new ElementField<T>(this, varDef);
 	}
 
 	public String toString() {
@@ -309,6 +304,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		setVarInitialValue(SceneElement.VAR_STATE, state);
 	}
 
+	/**
+	 *  If for the contains method, must be used only the scene element bounds
+	 */
 	public boolean isContainsBounds() {
 		return containsBounds;
 	}

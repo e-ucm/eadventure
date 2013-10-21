@@ -39,7 +39,6 @@ package es.eucm.ead.model.elements.trajectories;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.BasicElement;
 
 /**
  * A simple trajectory generator. Trace the trajectory to a point with a
@@ -47,7 +46,7 @@ import es.eucm.ead.model.elements.BasicElement;
  * 
  */
 @Element
-public class SimpleTrajectory extends BasicElement implements EAdTrajectory {
+public class SimpleTrajectory extends Trajectory {
 
 	@Param
 	private boolean onlyHorizontal;

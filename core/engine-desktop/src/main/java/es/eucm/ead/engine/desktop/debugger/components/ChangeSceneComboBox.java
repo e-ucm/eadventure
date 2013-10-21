@@ -38,11 +38,11 @@
 package es.eucm.ead.engine.desktop.debugger.components;
 
 import es.eucm.ead.engine.desktop.debugger.hooks.ChapterLoadedHook;
-import es.eucm.ead.engine.desktop.debugger.hooks.EffectsHook;
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.engine.desktop.debugger.hooks.DebuggerHook;
+import es.eucm.ead.engine.desktop.debugger.hooks.EffectsHook;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.effects.ChangeSceneEf;
+import es.eucm.ead.model.elements.scenes.Scene;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -54,7 +54,7 @@ import java.util.List;
  * Change scene debugger
  */
 public class ChangeSceneComboBox extends JComboBox implements
-		DebuggerHook.HookListener<EAdChapter> {
+		DebuggerHook.HookListener<Chapter> {
 
 	private EffectsHook effects;
 
@@ -68,37 +68,37 @@ public class ChangeSceneComboBox extends JComboBox implements
 		this.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				EAdScene scene = (EAdScene) getSelectedItem();
+				Scene scene = (Scene) getSelectedItem();
 				effects.addEffect(new ChangeSceneEf(scene));
 			}
 		});
 	}
 
 	@Override
-	public void handle(EAdChapter element) {
+	public void handle(Chapter element) {
 		model.loadScenes(element);
 	}
 
 	public class ScenesModel extends AbstractListModel implements ComboBoxModel {
 
-		private List<EAdScene> scenes;
+		private List<Scene> scenes;
 
-		private EAdScene currentScene;
+		private Scene currentScene;
 
 		public ScenesModel() {
-			scenes = new ArrayList<EAdScene>();
+			scenes = new ArrayList<Scene>();
 		}
 
-		public void loadScenes(EAdChapter chapter) {
+		public void loadScenes(Chapter chapter) {
 			scenes.clear();
-			for (EAdScene s : chapter.getScenes()) {
+			for (Scene s : chapter.getScenes()) {
 				scenes.add(s);
 			}
 		}
 
 		@Override
 		public void setSelectedItem(Object o) {
-			currentScene = (EAdScene) o;
+			currentScene = (Scene) o;
 		}
 
 		@Override

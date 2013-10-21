@@ -37,31 +37,27 @@
 
 package es.eucm.ead.writer.model.writers.simplifiers.elements;
 
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.conditions.ListedCond;
-import es.eucm.ead.model.elements.conditions.NOTCond;
-import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.conditions.*;
 import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
+public class ConditionsSimplifier implements ObjectSimplifier<Condition> {
 
 	/**
 	 * An auxiliary field
 	 */
-	private List<EAdCondition> conditionsAux;
-	private List<EAdCondition> conditionsAuxToAdd;
+	private List<Condition> conditionsAux;
+	private List<Condition> conditionsAuxToAdd;
 
 	public ConditionsSimplifier() {
-		conditionsAux = new ArrayList<EAdCondition>();
-		conditionsAuxToAdd = new ArrayList<EAdCondition>();
+		conditionsAux = new ArrayList<Condition>();
+		conditionsAuxToAdd = new ArrayList<Condition>();
 	}
 
-	public Object simplify(EAdCondition condition) {
+	public Object simplify(Condition condition) {
 		if (condition instanceof ListedCond) {
 			condition = simplifyListed((ListedCond) condition);
 		} else if (condition instanceof NOTCond) {
@@ -71,9 +67,9 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 		return condition;
 	}
 
-	private EAdCondition simplifyNot(NOTCond condition) {
+	private Condition simplifyNot(NOTCond condition) {
 		// If is the form NOT ( operation == value ) -> operation != value
-		EAdCondition nc = condition.getCondition();
+		Condition nc = condition.getCondition();
 		if (nc instanceof OperationCond) {
 			Comparator oppositeComparator = getOppositeComparator(((OperationCond) nc)
 					.getComparator());
@@ -83,11 +79,11 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 		return condition;
 	}
 
-	private EAdCondition simplifyListed(ListedCond condition) {
+	private Condition simplifyListed(ListedCond condition) {
 		// Conditions can be simplify as any boolean operation
 		conditionsAux.clear();
 		conditionsAuxToAdd.clear();
-		for (EAdCondition c : condition.getConditions()) {
+		for (Condition c : condition.getConditions()) {
 			if (c instanceof EmptyCond) {
 				// If it is the condition null operator, the whole condition is
 				// false
@@ -99,7 +95,7 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 					conditionsAux.add(c);
 				}
 			} else if (c instanceof ListedCond) {
-				EAdCondition c2 = simplifyListed((ListedCond) c);
+				Condition c2 = simplifyListed((ListedCond) c);
 				if (c2 != c) {
 					conditionsAux.add(c);
 					// If it's an OR inside another OR, we group them and remove
@@ -117,7 +113,7 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 					}
 				}
 			} else if (c instanceof NOTCond) {
-				EAdCondition cond = simplifyNot((NOTCond) c);
+				Condition cond = simplifyNot((NOTCond) c);
 				if (cond != c) {
 					conditionsAux.add(c);
 					conditionsAuxToAdd.add(cond);
@@ -125,11 +121,11 @@ public class ConditionsSimplifier implements ObjectSimplifier<EAdCondition> {
 			}
 		}
 
-		for (EAdCondition c : conditionsAux) {
+		for (Condition c : conditionsAux) {
 			condition.getConditions().remove(c);
 		}
 
-		for (EAdCondition c : conditionsAuxToAdd) {
+		for (Condition c : conditionsAuxToAdd) {
 			condition.getConditions().add(c);
 		}
 

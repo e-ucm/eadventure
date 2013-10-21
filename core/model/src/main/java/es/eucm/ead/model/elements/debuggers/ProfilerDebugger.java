@@ -37,11 +37,11 @@
 
 package es.eucm.ead.model.elements.debuggers;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.widgets.Label;
+import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.params.fills.ColorFill;
 
 /**
@@ -52,13 +52,13 @@ import es.eucm.ead.model.params.fills.ColorFill;
 @Element
 public class ProfilerDebugger extends GroupElement {
 
-	private EAdField<?>[] fields = new EAdField<?>[] {
+	private ElementField<?>[] fields = new ElementField<?>[] {
 			SystemFields.DEBUG_GAME_OBJECTS, SystemFields.DEBUG_ASSETS };
 
 	public ProfilerDebugger() {
 		int y = 0;
 		int marginY = 40;
-		for (EAdField<?> f : fields) {
+		for (ElementField<?> f : fields) {
 			Label l = new Label(f.getVarDef().getName() + ": [0]   ");
 			l.getCaption().setPadding(20);
 			l.getCaption().addOperation(f);

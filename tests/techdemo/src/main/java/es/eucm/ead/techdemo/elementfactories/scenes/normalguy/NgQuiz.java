@@ -38,7 +38,7 @@ package es.eucm.ead.techdemo.elementfactories.scenes.normalguy;
  */
 
 import es.eucm.ead.model.assets.drawable.basics.Image;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.text.QuestionEf;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -152,7 +152,7 @@ public class NgQuiz extends EmptyScene {
 		} else {
 			stringFactory.setString(effect.getQuestion(), questionWr);
 		}
-		effect.addAnswer(stringFactory.getString(finalQ), (EAdEffect) null);
+		effect.addAnswer(stringFactory.getString(finalQ), (Effect) null);
 
 		return effect;
 	}

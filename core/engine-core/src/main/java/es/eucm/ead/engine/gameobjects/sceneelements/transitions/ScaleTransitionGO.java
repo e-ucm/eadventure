@@ -44,7 +44,7 @@ import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.transitions.ScaleTransition;
 
 public class ScaleTransitionGO extends TransitionGO<ScaleTransition> {
@@ -62,7 +62,7 @@ public class ScaleTransitionGO extends TransitionGO<ScaleTransition> {
 		super(assetHandler, gameObjectFactory, game, eventFactory);
 	}
 
-	public void setElement(EAdSceneElement e) {
+	public void setElement(SceneElement e) {
 		super.setElement(e);
 		growing = transition.isGrow();
 		scale = growing ? 0 : 1;

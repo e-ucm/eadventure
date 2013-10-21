@@ -26,7 +26,7 @@ public interface TableLikeControl<T, K> {
 	 * @return
 	 */
 	T chooseElementToAdd();
-	
+
 	/**
 	 * Launches UI prompt to add a key to a list element
 	 */
@@ -56,7 +56,7 @@ public interface TableLikeControl<T, K> {
 	 * @param index
 	 */
 	void moveDown(K index);
-	
+
 	/**
 	 * Returns the key for a given row
 	 * @param row

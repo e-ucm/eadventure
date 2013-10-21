@@ -37,25 +37,24 @@
 
 package es.eucm.ead.model.elements.conditions;
 
-import java.util.List;
-
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.operations.EAdField;
+
+import java.util.List;
 
 @Element
-public class NOTCond extends AbstractCondition {
+public class NOTCond extends Condition {
 
 	@Param
-	private es.eucm.ead.model.elements.EAdCondition condition;
+	private Condition condition;
 
 	public NOTCond() {
 		super();
 		this.condition = EmptyCond.FALSE;
 	}
 
-	public NOTCond(EAdCondition condition) {
+	public NOTCond(Condition condition) {
 		super();
 		this.condition = condition;
 	}
@@ -63,7 +62,7 @@ public class NOTCond extends AbstractCondition {
 	/**
 	 * @return the condition
 	 */
-	public EAdCondition getCondition() {
+	public Condition getCondition() {
 		return condition;
 	}
 
@@ -71,7 +70,7 @@ public class NOTCond extends AbstractCondition {
 	 * @param condition
 	 *            the condition to set
 	 */
-	public void setCondition(EAdCondition condition) {
+	public void setCondition(Condition condition) {
 		this.condition = condition;
 	}
 
@@ -80,7 +79,7 @@ public class NOTCond extends AbstractCondition {
 		return "NOT " + condition.toString();
 	}
 
-	public void extractFields(List<EAdField<?>> fields) {
+	public void extractFields(List<ElementField<?>> fields) {
 		condition.extractFields(fields);
 	}
 

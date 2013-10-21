@@ -39,8 +39,7 @@ package es.eucm.ead.model.elements.effects.text;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.params.text.EAdString;
 
@@ -51,7 +50,7 @@ import es.eucm.ead.model.params.text.EAdString;
  * 
  */
 @Element
-public class QuestionEf extends AbstractEffect {
+public class QuestionEf extends Effect {
 
 	@Param
 	private EAdString question;
@@ -60,7 +59,7 @@ public class QuestionEf extends AbstractEffect {
 	private EAdList<EAdString> answers;
 
 	@Param
-	private EAdList<EAdList<EAdEffect>> effects;
+	private EAdList<EAdList<Effect>> effects;
 
 	@Param
 	private boolean randomAnswers;
@@ -68,16 +67,16 @@ public class QuestionEf extends AbstractEffect {
 	public QuestionEf() {
 		super();
 		answers = new EAdList<EAdString>();
-		effects = new EAdList<EAdList<EAdEffect>>();
+		effects = new EAdList<EAdList<Effect>>();
 	}
 
-	public void addAnswer(EAdString string, EAdList<EAdEffect> effects) {
+	public void addAnswer(EAdString string, EAdList<Effect> effects) {
 		answers.add(string);
 		this.effects.add(effects);
 	}
 
-	public void addAnswer(EAdString string, EAdEffect effect) {
-		EAdList<EAdEffect> effects = new EAdList<EAdEffect>();
+	public void addAnswer(EAdString string, Effect effect) {
+		EAdList<Effect> effects = new EAdList<Effect>();
 		effects.add(effect);
 		this.addAnswer(string, effects);
 	}
@@ -106,11 +105,11 @@ public class QuestionEf extends AbstractEffect {
 		this.answers = answers;
 	}
 
-	public EAdList<EAdList<EAdEffect>> getEffects() {
+	public EAdList<EAdList<Effect>> getEffects() {
 		return effects;
 	}
 
-	public void setEffects(EAdList<EAdList<EAdEffect>> effects) {
+	public void setEffects(EAdList<EAdList<Effect>> effects) {
 		this.effects = effects;
 	}
 }

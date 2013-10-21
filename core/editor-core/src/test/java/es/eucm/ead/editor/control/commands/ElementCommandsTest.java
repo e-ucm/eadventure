@@ -37,32 +37,28 @@
 
 package es.eucm.ead.editor.control.commands;
 
-import static org.mockito.Mockito.when;
-
-import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import es.eucm.ead.model.elements.EAdElement;
-import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.editor.EditorGuiceModule;
 import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
-import ead.importer.BaseImporterModule;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.when;
 
 /**
- * Class for testing the right functionality of generic Commands to modify the lists of EAdElement instances in the game model.
+ * Class for testing the right functionality of generic Commands to modify the lists of BasicElement instances in the game model.
  */
 public class ElementCommandsTest extends TestCase {
 
@@ -70,27 +66,27 @@ public class ElementCommandsTest extends TestCase {
 	 * The mock object list in which the elements will be modified
 	 */
 	@Mock
-	private EAdList<EAdElement> mockList;
+	private EAdList<BasicElement> mockList;
 	/**
 	 * The mock object element to be modified
 	 */
 	@Mock
-	private EAdElement mockElement;
+	private BasicElement mockElement;
 
 	/**
 	 * The list in which the elements will be modified
 	 */
-	private EAdList<EAdElement> elemList;
+	private EAdList<BasicElement> elemList;
 	/**
-	 * The parent element to create EAdElement instances
+	 * The parent element to create BasicElement instances
 	 */
 	@Mock
-	private EAdElement pelement;
+	private BasicElement pelement;
 	/**
 	 * The element that will be modified
 	 */
 	@Mock
-	private EAdElement element;
+	private BasicElement element;
 
 	@Mock
 	private Controller controller;
@@ -101,9 +97,8 @@ public class ElementCommandsTest extends TestCase {
 	 * Must be called after mocks initialized
 	 */
 	public void prepareControllerAndModel() {
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new DesktopModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector
@@ -117,15 +112,15 @@ public class ElementCommandsTest extends TestCase {
 	/**
 	 * The Command to add elements to a list
 	 */
-	private ListCommand.AddToList<EAdElement> addComm, mockAdd;
+	private ListCommand.AddToList<BasicElement> addComm, mockAdd;
 	/**
 	 * The Command to remove elements from a list
 	 */
-	private ListCommand.RemoveFromList<EAdElement> removeComm, mockRemove;
+	private ListCommand.RemoveFromList<BasicElement> removeComm, mockRemove;
 	/**
 	 * The Command to move elements in a list
 	 */
-	private ListCommand.ReorderInList<EAdElement> moveComm, mockMove;
+	private ListCommand.ReorderInList<BasicElement> moveComm, mockMove;
 
 	/**
 	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.
@@ -138,21 +133,21 @@ public class ElementCommandsTest extends TestCase {
 
 		MockitoAnnotations.initMocks(this);
 
-		elemList = new EAdList<EAdElement>();
+		elemList = new EAdList<BasicElement>();
 		elemList.add(pelement);
 
-		addComm = new ListCommand.AddToList<EAdElement>(elemList, element,
+		addComm = new ListCommand.AddToList<BasicElement>(elemList, element,
 				node1);
-		removeComm = new ListCommand.RemoveFromList<EAdElement>(elemList,
+		removeComm = new ListCommand.RemoveFromList<BasicElement>(elemList,
 				element, node1);
-		moveComm = new ListCommand.ReorderInList<EAdElement>(elemList, element,
-				0, node1);
+		moveComm = new ListCommand.ReorderInList<BasicElement>(elemList,
+				element, 0, node1);
 
-		mockAdd = new ListCommand.AddToList<EAdElement>(mockList, mockElement,
-				node1);
-		mockRemove = new ListCommand.RemoveFromList<EAdElement>(mockList,
+		mockAdd = new ListCommand.AddToList<BasicElement>(mockList,
 				mockElement, node1);
-		mockMove = new ListCommand.ReorderInList<EAdElement>(mockList,
+		mockRemove = new ListCommand.RemoveFromList<BasicElement>(mockList,
+				mockElement, node1);
+		mockMove = new ListCommand.ReorderInList<BasicElement>(mockList,
 				mockElement, 0, node1);
 
 		prepareControllerAndModel();

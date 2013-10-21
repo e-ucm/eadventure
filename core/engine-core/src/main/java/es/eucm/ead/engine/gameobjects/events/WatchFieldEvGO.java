@@ -40,10 +40,10 @@ package es.eucm.ead.engine.gameobjects.events;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameState;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.WatchFieldEv;
 import es.eucm.ead.model.elements.events.enums.WatchFieldEvType;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 
 public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 		GameState.FieldWatcher {
@@ -58,7 +58,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	public void setElement(WatchFieldEv ev) {
 		super.setElement(ev);
 		fieldUpdated = true;
-		for (EAdField<?> f : ev.getFields()) {
+		for (ElementField<?> f : ev.getFields()) {
 			game.getGameState().addFieldWatcher(this, f);
 		}
 	}
@@ -67,8 +67,7 @@ public class WatchFieldEvGO extends AbstractEventGO<WatchFieldEv> implements
 	public void act(float delta) {
 		if (fieldUpdated) {
 			fieldUpdated = false;
-			for (EAdEffect e : element
-					.getEffectsForEvent(WatchFieldEvType.WATCH)) {
+			for (Effect e : element.getEffectsForEvent(WatchFieldEvType.WATCH)) {
 				game.addEffect(e);
 			}
 		}

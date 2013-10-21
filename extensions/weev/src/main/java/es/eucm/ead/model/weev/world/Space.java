@@ -37,13 +37,12 @@
 
 package es.eucm.ead.model.weev.world;
 
-import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.model.weev.common.Positioned;
 
 /**
  * Represents a space in the {@WEEVModel}, equivalent to a
- * {@link EAdScene} in eAdventure
+ * {@link Scene} in eAdventure
  */
-public interface Space extends EAdScene, WorldElement, Positioned {
+public interface Space extends WorldElement, Positioned {
 
 }

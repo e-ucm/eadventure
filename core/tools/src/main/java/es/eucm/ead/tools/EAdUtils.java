@@ -107,8 +107,7 @@ public class EAdUtils {
 						&& ((BasicElement) o1).getId().equals(
 								((BasicElement) o2).getId());
 			} else if (o1 instanceof Number || o1 instanceof String
-					|| o1 instanceof Boolean
-					|| o1.getClass() == BasicElement.class) {
+					|| o1 instanceof Boolean) {
 				result = o1.equals(o2);
 			} else if (o1 instanceof List) {
 				List<?> list1 = (List<?>) o1;
@@ -127,7 +126,7 @@ public class EAdUtils {
 				while (result && it1.hasNext()) {
 					Object v1 = it1.next();
 					Object v2 = it2.next();
-					result = result && equalsImpl(v1, v2, handler);
+					result = equalsImpl(v1, v2, handler);
 				}
 
 				it1 = map1.values().iterator();
@@ -153,7 +152,7 @@ public class EAdUtils {
 							}
 							Object v1 = f.getFieldValue(o1);
 							Object v2 = f.getFieldValue(o2);
-							result = result && equalsImpl(v1, v2, handler);
+							result = equalsImpl(v1, v2, handler);
 						}
 					}
 					clazz = clazz.getSuperclass();

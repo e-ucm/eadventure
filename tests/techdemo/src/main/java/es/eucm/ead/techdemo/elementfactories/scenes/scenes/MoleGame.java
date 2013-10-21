@@ -41,8 +41,8 @@ import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
 import es.eucm.ead.model.elements.effects.enums.InterpolationType;
@@ -50,12 +50,10 @@ import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.TimedEv;
 import es.eucm.ead.model.elements.events.enums.TimedEvType;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ListOp;
 import es.eucm.ead.model.elements.operations.MathOp;
 import es.eucm.ead.model.elements.operations.enums.ListOpType;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -71,18 +69,18 @@ public class MoleGame extends EmptyScene {
 
 	private ChangeFieldEf dissapearMole;
 
-	private EAdVarDef<EAdSceneElement> moleVar = new VarDef<EAdSceneElement>(
-			"moleVar", EAdSceneElement.class, null);
+	private EAdVarDef<SceneElement> moleVar = new VarDef<SceneElement>(
+			"moleVar", SceneElement.class, null);
 
 	private EAdVarDef<EAdList> listVar;
 
-	private EAdField<EAdList> listField;
+	private ElementField<EAdList> listField;
 
-	private EAdField<EAdSceneElement> moleField;
+	private ElementField<SceneElement> moleField;
 
 	public MoleGame() {
 		setBackgroundFill(ColorFill.DARK_BROWN);
-		moleField = new BasicField<EAdSceneElement>(this, moleVar);
+		moleField = new ElementField<SceneElement>(this, moleVar);
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setParentVar(VAR_VISIBLE);
@@ -92,7 +90,7 @@ public class MoleGame extends EmptyScene {
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));
 		mole.addFrame(new Frame("@drawable/mole2.png", 500));
 
-		EAdList<EAdSceneElement> list = new EAdList<EAdSceneElement>();
+		EAdList<SceneElement> list = new EAdList<SceneElement>();
 
 		int row = 7;
 		int col = row;
@@ -100,33 +98,33 @@ public class MoleGame extends EmptyScene {
 		float scale = 0.15f;
 		for (int i = 0; i < col; i++)
 			for (int j = 0; j < row; j++) {
-				EAdSceneElement mole = getMole(size * i, size * j);
+				SceneElement mole = getMole(size * i, size * j);
 				mole.setVarInitialValue(VAR_SCALE, scale);
 				getSceneElements().add(mole);
 				list.add(mole);
-				EAdSceneElement hole = getHole(size * i, size * j + 25);
+				SceneElement hole = getHole(size * i, size * j + 25);
 				hole.setVarInitialValue(VAR_SCALE, scale);
 				this.getSceneElements().add(hole);
 
 			}
 		listVar = new VarDef<EAdList>("moleListVar", EAdList.class, list);
-		listField = new BasicField<EAdList>(this, listVar);
+		listField = new ElementField<EAdList>(this, listVar);
 		initLoop();
 
 	}
 
-	private EAdSceneElement getHole(int x, int y) {
+	private SceneElement getHole(int x, int y) {
 		SceneElement hole = new SceneElement(holeImage);
 		hole.setPosition(x, y);
-		hole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, (EAdEffect) null);
+		hole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, (Effect) null);
 		return hole;
 	}
 
-	private EAdSceneElement getMole(int x, int y) {
+	private SceneElement getMole(int x, int y) {
 		SceneElement mole = new SceneElement(this.mole);
 		mole.setPosition(x, y + 30);
 
-		// EAdSceneElementEventImpl event = new EAdSceneElementEventImpl();
+		// SceneElementEventImpl event = new SceneElementEventImpl();
 		// EAdFieldImpl<Integer> yField = new EAdFieldImpl<Integer>(mole,
 		// EAdBasicSceneElement.VAR_Y);
 		// EAdInterpolationEffect interpolation = new
@@ -141,7 +139,7 @@ public class MoleGame extends EmptyScene {
 		mole.setVarInitialValue(VAR_TIME_DISPLAYED, initTime);
 
 		mole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, dissapearMole);
-		// mole.getEvents().add(event);
+		// mole.addEvent(event);
 
 		return mole;
 
@@ -160,7 +158,7 @@ public class MoleGame extends EmptyScene {
 		event.addEffect(TimedEvType.END_TIME, effect);
 		event.addEffect(TimedEvType.END_TIME, interpolation);
 		event.setTime(1100);
-		this.getBackground().getEvents().add(event);
+		this.getBackground().addEvent(event);
 
 	}
 

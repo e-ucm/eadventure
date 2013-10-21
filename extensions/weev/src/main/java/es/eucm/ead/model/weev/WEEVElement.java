@@ -69,11 +69,11 @@
 
 package es.eucm.ead.model.weev;
 
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 
 /**
  * An element in the WEEV model
  */
-public interface WEEVElement extends EAdElement {
+public class WEEVElement extends BasicElement {
 
 }

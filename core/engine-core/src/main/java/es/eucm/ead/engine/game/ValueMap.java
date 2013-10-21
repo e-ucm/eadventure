@@ -38,7 +38,7 @@
 package es.eucm.ead.engine.game;
 
 import aurelienribon.tweenengine.TweenAccessor;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.interfaces.features.Identified;
 import es.eucm.ead.model.interfaces.features.Variabled;
 import es.eucm.ead.model.params.variables.EAdVarDef;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ValueMap implements TweenAccessor<EAdField<?>> {
+public class ValueMap implements TweenAccessor<ElementField<?>> {
 
 	static private Logger logger = LoggerFactory.getLogger(ValueMap.class);
 
@@ -130,7 +130,7 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @param field the field
 	 * @param value the value to the field
 	 */
-	public <S> void setValue(EAdField<S> field, S value) {
+	public <S> void setValue(ElementField<S> field, S value) {
 		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
@@ -183,7 +183,7 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @param field the field to be consulted
 	 * @return the value of the field
 	 */
-	public <S> S getValue(EAdField<S> field) {
+	public <S> S getValue(ElementField<S> field) {
 		return getValue(field.getElement(), field.getVarDef());
 	}
 
@@ -223,8 +223,8 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	 * @return the final element pointed by the element
 	 */
 	public Identified maybeDecodeField(Identified element) {
-		if (element != null && element instanceof EAdField<?>) {
-			EAdField<?> field = (EAdField<?>) element;
+		if (element != null && element instanceof ElementField<?>) {
+			ElementField<?> field = (ElementField<?>) element;
 			Object result = getValue(field.getElement(), field.getVarDef());
 			return maybeDecodeField((Identified) result);
 		}
@@ -287,13 +287,15 @@ public class ValueMap implements TweenAccessor<EAdField<?>> {
 	}
 
 	@Override
-	public int getValues(EAdField<?> eAdField, int tweentype, float[] floats) {
-		floats[0] = (Float) getValue(eAdField);
+	public int getValues(ElementField<?> elementField, int tweentype,
+			float[] floats) {
+		floats[0] = (Float) getValue(elementField);
 		return 1;
 	}
 
 	@Override
-	public void setValues(EAdField eAdField, int tweentype, float[] floats) {
-		setValue(eAdField, floats[0]);
+	public void setValues(ElementField elementField, int tweentype,
+			float[] floats) {
+		setValue(elementField, floats[0]);
 	}
 }

@@ -47,8 +47,8 @@ import aurelienribon.tweenengine.equations.Linear;
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		implements TweenCallback {
@@ -79,10 +79,10 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf>
 		}
 
 		int i = 0;
-		for (EAdField<?> f : effect.getFields()) {
-			EAdOperation op = effect.getInitialValues().get(i);
+		for (ElementField<?> f : effect.getFields()) {
+			Operation op = effect.getInitialValues().get(i);
 			Number n1 = game.getGameState().operate(Number.class, op);
-			EAdOperation opR = effect.getEndValues().get(i);
+			Operation opR = effect.getEndValues().get(i);
 			Number n2 = game.getGameState().operate(Number.class, opR);
 			if (n1 != null && n2 != null) {
 				float startValue = n1.floatValue();

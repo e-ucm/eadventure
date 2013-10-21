@@ -37,29 +37,26 @@
 
 package es.eucm.ead.techdemo.elementfactories.scenes.normalguy;
 
-import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.enums.CommonStates;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
+import es.eucm.ead.model.interfaces.features.enums.Orientation;
 
 public class NgCommon {
 
 	private static boolean init = false;
 
-	private static EAdSceneElementDef mainCharacter;
+	private static SceneElementDef mainCharacter;
 
-	private static EAdField<EAdSceneElement> mainCharacterSceneElement;
+	private static ElementField<SceneElement> mainCharacterSceneElement;
 
 	private static ChangeFieldEf lookNorth;
 	private static ChangeFieldEf lookEast;
@@ -75,17 +72,17 @@ public class NgCommon {
 
 	private static void createEffects() {
 		lookNorth = new ChangeFieldEf();
-		lookNorth.addField(new BasicField<Orientation>(
+		lookNorth.addField(new ElementField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookNorth.setOperation(new ValueOp(Orientation.N));
 
 		lookEast = new ChangeFieldEf();
-		lookEast.addField(new BasicField<Orientation>(
+		lookEast.addField(new ElementField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookEast.setOperation(new ValueOp(Orientation.E));
 
 		lookSouth = new ChangeFieldEf();
-		lookSouth.addField(new BasicField<Orientation>(
+		lookSouth.addField(new ElementField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookSouth.setOperation(new ValueOp(Orientation.S));
 	}
@@ -185,24 +182,24 @@ public class NgCommon {
 
 		stateDrawables.addDrawable(CommonStates.TALKING + "", oriented);
 
-		mainCharacterSceneElement = new BasicField<EAdSceneElement>(
+		mainCharacterSceneElement = new ElementField<SceneElement>(
 				mainCharacter, SceneElementDef.VAR_SCENE_ELEMENT);
 
 	}
 
-	public static EAdSceneElementDef getMainCharacter() {
+	public static SceneElementDef getMainCharacter() {
 		return mainCharacter;
 	}
 
-	public static EAdEffect getLookNorthEffect() {
+	public static Effect getLookNorthEffect() {
 		return lookNorth;
 	}
 
-	public static EAdEffect getLookEastEffect() {
+	public static Effect getLookEastEffect() {
 		return lookEast;
 	}
 
-	public static EAdEffect getLookSouthEffect() {
+	public static Effect getLookSouthEffect() {
 		return lookSouth;
 	}
 

@@ -37,14 +37,13 @@
 
 package es.eucm.ead.model.elements.trajectories;
 
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.params.util.Position;
 
 @Element
-public class PolygonTrajectory extends BasicElement implements EAdTrajectory {
+public class PolygonTrajectory extends Trajectory {
 
 	@Param
 	private EAdList<Position> points;

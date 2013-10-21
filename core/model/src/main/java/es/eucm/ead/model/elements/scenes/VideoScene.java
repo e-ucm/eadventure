@@ -38,22 +38,22 @@
 package es.eucm.ead.model.elements.scenes;
 
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 
 @Element
-public class VideoScene extends BasicScene implements EAdScene {
+public class VideoScene extends Scene {
 
 	public static final String video = "video";
 
 	@Param
-	private EAdList<EAdEffect> finalEffects;
+	private EAdList<Effect> finalEffects;
 
 	public VideoScene() {
 		super();
-		finalEffects = new EAdList<EAdEffect>();
+		finalEffects = new EAdList<Effect>();
 	}
 
 	public void setVideo(EAdVideo v) {
@@ -65,11 +65,11 @@ public class VideoScene extends BasicScene implements EAdScene {
 	 *
 	 * @return
 	 */
-	public EAdList<EAdEffect> getFinalEffects() {
+	public EAdList<Effect> getFinalEffects() {
 		return finalEffects;
 	}
 
-	public void setFinalEffects(EAdList<EAdEffect> finalEffects) {
+	public void setFinalEffects(EAdList<Effect> finalEffects) {
 		this.finalEffects = finalEffects;
 	}
 
@@ -83,7 +83,7 @@ public class VideoScene extends BasicScene implements EAdScene {
 	 *
 	 * @param e the effect
 	 */
-	public void addFinalEffect(EAdEffect e) {
+	public void addFinalEffect(Effect e) {
 		this.finalEffects.add(e);
 	}
 }

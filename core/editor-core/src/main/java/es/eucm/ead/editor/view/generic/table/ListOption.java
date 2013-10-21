@@ -189,7 +189,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 			public void actionPerformed(ActionEvent ae) {
 				T choice = chooseElementToAdd();
 				if (choice != null) {
-					add(choice, oldValue.size()-1);
+					add(choice, oldValue.size() - 1);
 				}
 			}
 		});
@@ -238,8 +238,8 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 	@Override
 	public Integer chooseKeyToAdd() {
 		throw new UnsupportedOperationException();
-	}	
-	
+	}
+
 	@Override
 	public void add(T added, Integer index) {
 		logger.info("Adding {}", oldValue);
@@ -290,7 +290,7 @@ public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 	public Integer keyForRow(int row) {
 		return row;
 	}
-	
+
 	/**
 	 * Consider contents to have changed, even if the list-reference does not
 	 * change.

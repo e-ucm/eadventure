@@ -51,13 +51,12 @@ import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.EventedGO;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.tracking.GameTracker;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,12 +108,12 @@ public class Game {
 	/**
 	 * Current adventure
 	 */
-	private EAdAdventureModel adventure;
+	private AdventureGame adventure;
 
 	/**
 	 * Current chapter
 	 */
-	private EAdChapter chapter;
+	private Chapter chapter;
 
 	/**
 	 * Current adventure game object
@@ -144,8 +143,8 @@ public class Game {
 		this.tracker = tracker;
 		this.effectsHandler = new EffectsHandler(gameState, effectFactory);
 		// Init tween manager
-		Tween.registerAccessor(EAdField.class, gameState);
-		Tween.registerAccessor(BasicField.class, gameState);
+		Tween.registerAccessor(ElementField.class, gameState);
+		Tween.registerAccessor(ElementField.class, gameState);
 		hooks = new HashMap<String, List<EngineHook>>();
 		// Aux
 		hookNameDelete = new ArrayList<String>();
@@ -175,7 +174,7 @@ public class Game {
 	 * Sets the current adventure
 	 * @param adventure the current adventure
 	 */
-	public void setAdventure(EAdAdventureModel adventure) {
+	public void setAdventure(AdventureGame adventure) {
 		logger.debug("Setting adventure");
 		this.adventure = adventure;
 		adventureGO.setElement(adventure);
@@ -186,7 +185,7 @@ public class Game {
 	 * Sets the current chapter
 	 * @param chapter the current chapter
 	 */
-	public void setChapter(EAdChapter chapter) {
+	public void setChapter(Chapter chapter) {
 		logger.debug("Setting chapter");
 		this.chapter = chapter;
 		Gdx.app.postRunnable(new Runnable() {
@@ -228,11 +227,11 @@ public class Game {
 	}
 
 	/**
-	 * Returns the current adventure game model ({@link EAdAdventureModel})
+	 * Returns the current adventure game model ({@link AdventureGame})
 	 *
 	 * @return The adventure game model
 	 */
-	public EAdAdventureModel getAdventureModel() {
+	public AdventureGame getAdventureModel() {
 		return adventure;
 	}
 
@@ -241,7 +240,7 @@ public class Game {
 	 *
 	 * @return
 	 */
-	public EAdChapter getCurrentChapter() {
+	public Chapter getCurrentChapter() {
 		return chapter;
 	}
 
@@ -347,7 +346,7 @@ public class Game {
 	 *
 	 * @param e the effect
 	 */
-	public void addEffect(EAdEffect e) {
+	public void addEffect(Effect e) {
 		addEffect(e, null, null);
 	}
 
@@ -359,8 +358,7 @@ public class Game {
 	 * @param parent scene element who launched the effect
 	 * @return the effect game object create from the effect element
 	 */
-	public EffectGO<?> addEffect(EAdEffect e, Event action,
-			EAdSceneElement parent) {
+	public EffectGO<?> addEffect(Effect e, Event action, SceneElement parent) {
 		return effectsHandler.addEffect(e, action, parent);
 
 	}

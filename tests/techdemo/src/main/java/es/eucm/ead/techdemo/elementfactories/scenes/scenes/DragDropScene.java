@@ -43,8 +43,7 @@ import es.eucm.ead.model.assets.drawable.basics.shapes.extra.BalloonType;
 import es.eucm.ead.model.elements.effects.DragEf;
 import es.eucm.ead.model.elements.effects.sceneelements.ChangeColorEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
@@ -110,7 +109,7 @@ public class DragDropScene extends EmptyScene {
 	}
 
 	private void addBehaviors(SceneElement e2, SceneElement e1) {
-		EAdField<Float> scale = new BasicField<Float>(e2,
+		ElementField<Float> scale = new ElementField<Float>(e2,
 				SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		ChangeFieldEf changeScale2 = new ChangeFieldEf(scale, new ValueOp(1.0f));
@@ -126,19 +125,19 @@ public class DragDropScene extends EmptyScene {
 		e1.addBehavior(MouseGEv.MOUSE_DROP, new ChangeFieldEf(e1
 				.getField(SceneElement.VAR_ROTATION), new ValueOp(0.0f)));
 
-		// BasicField<Integer> fieldX = new BasicField<Integer>(e1,
+		// EAdField<Integer> fieldX = new EAdField<Integer>(e1,
 		// SceneElement.VAR_X);
-		// BasicField<Integer> fieldY = new BasicField<Integer>(e1,
+		// EAdField<Integer> fieldY = new EAdField<Integer>(e1,
 		// SceneElement.VAR_Y);
 
 		// ChangeFieldEf changeX = new ChangeFieldEf(
 		// fieldX,
-		// new MathOp("[0]", new BasicField<Integer>(e2,
+		// new MathOp("[0]", new EAdField<Integer>(e2,
 		// SceneElement.VAR_X)));
 		//
 		// ChangeFieldEf changeY = new ChangeFieldEf(
 		// fieldY,
-		// new MathOp("[0]", new BasicField<Integer>(e2,
+		// new MathOp("[0]", new EAdField<Integer>(e2,
 		// SceneElement.VAR_Y)));
 
 		// e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(),

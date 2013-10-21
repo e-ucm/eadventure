@@ -42,9 +42,9 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 
 /**
@@ -65,7 +65,7 @@ public class SkipVideoSceneGO extends SceneGO {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		videoScene = (VideoScene) element;
 	}
 
@@ -75,7 +75,7 @@ public class SkipVideoSceneGO extends SceneGO {
 			game.addEffect(ef);
 
 		} else {
-			for (EAdEffect e : videoScene.getFinalEffects()) {
+			for (Effect e : videoScene.getFinalEffects()) {
 				game.addEffect(e);
 			}
 		}

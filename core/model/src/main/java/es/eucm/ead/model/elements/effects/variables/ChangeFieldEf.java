@@ -37,12 +37,12 @@
 
 package es.eucm.ead.model.elements.effects.variables;
 
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdField;
-import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 
 /**
@@ -50,13 +50,13 @@ import es.eucm.ead.model.params.variables.EAdVarDef;
  * 
  */
 @Element
-public class ChangeFieldEf extends AbstractEffect {
+public class ChangeFieldEf extends Effect {
 
 	/**
 	 * Fields to be changed
 	 */
 	@Param
-	private es.eucm.ead.model.elements.extra.EAdList<EAdField<?>> fields;
+	private es.eucm.ead.model.elements.extra.EAdList<ElementField<?>> fields;
 
 	@Param
 	private EAdVarDef<?> varDef;
@@ -66,7 +66,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * the variable
 	 */
 	@Param
-	private es.eucm.ead.model.elements.operations.EAdOperation operation;
+	private Operation operation;
 
 	/**
 	 * Creates an empty effect
@@ -88,9 +88,9 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * @param operation
 	 *            The operation to be performed to obtain the value of the field
 	 */
-	public ChangeFieldEf(EAdField<?> field, EAdOperation operation) {
+	public ChangeFieldEf(ElementField<?> field, Operation operation) {
 		super();
-		this.fields = new EAdList<EAdField<?>>();
+		this.fields = new EAdList<ElementField<?>>();
 		if (field != null)
 			fields.add(field);
 		this.operation = operation;
@@ -102,7 +102,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * @param var
 	 *            the variable
 	 */
-	public void addField(EAdField<?> var) {
+	public void addField(ElementField<?> var) {
 		fields.add(var);
 	}
 
@@ -113,7 +113,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * @param operation
 	 *            the operation
 	 */
-	public void setOperation(EAdOperation operation) {
+	public void setOperation(Operation operation) {
 		this.operation = operation;
 	}
 
@@ -122,7 +122,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * 
 	 * @return a list of the fields to be updated with the operation result
 	 */
-	public EAdList<EAdField<?>> getFields() {
+	public EAdList<ElementField<?>> getFields() {
 		return fields;
 	}
 
@@ -131,7 +131,7 @@ public class ChangeFieldEf extends AbstractEffect {
 	 * 
 	 * @return the operation to be done by this effect
 	 */
-	public EAdOperation getOperation() {
+	public Operation getOperation() {
 		return operation;
 	}
 
@@ -149,7 +149,7 @@ public class ChangeFieldEf extends AbstractEffect {
 		return varDef;
 	}
 
-	public void setFields(EAdList<EAdField<?>> fields) {
+	public void setFields(EAdList<ElementField<?>> fields) {
 		this.fields = fields;
 	}
 

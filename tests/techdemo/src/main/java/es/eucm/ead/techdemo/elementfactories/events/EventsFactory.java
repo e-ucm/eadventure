@@ -37,13 +37,13 @@
 
 package es.eucm.ead.techdemo.elementfactories.events;
 
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
 
 public class EventsFactory {
 
-	public SceneElementEv getEvent(SceneElementEvType type, EAdEffect effect) {
+	public SceneElementEv getEvent(SceneElementEvType type, Effect effect) {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(type, effect);
 		return event;

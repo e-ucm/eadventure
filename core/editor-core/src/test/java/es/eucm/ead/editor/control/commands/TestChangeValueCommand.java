@@ -37,29 +37,23 @@
 
 package es.eucm.ead.editor.control.commands;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import es.eucm.ead.editor.EditorGuiceModule;
 import es.eucm.ead.editor.control.Controller;
 import es.eucm.ead.editor.model.EditorModel;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.model.nodes.EngineNode;
-import ead.importer.BaseImporterModule;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
 import es.eucm.ead.tools.java.JavaToolsModule;
 import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Class for testing the right functionality of ChangeValueActions that modify the game model.
@@ -105,9 +99,8 @@ public class TestChangeValueCommand extends TestCase {
 	 * Must be called after mocks initialized
 	 */
 	public void prepareControllerAndModel() {
-		Injector injector = Guice.createInjector(new BaseImporterModule(),
-				new DesktopModule(), new EditorGuiceModule(),
-				new JavaToolsModule());
+		Injector injector = Guice.createInjector(new DesktopModule(),
+				new EditorGuiceModule(), new JavaToolsModule());
 
 		// init reflection
 		ReflectionClassLoader.init(injector

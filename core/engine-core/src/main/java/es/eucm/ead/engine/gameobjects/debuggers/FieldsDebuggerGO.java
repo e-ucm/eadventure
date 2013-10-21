@@ -46,7 +46,7 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.assets.drawable.basics.shapes.CircleShape;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.widgets.Label;
 import es.eucm.ead.model.params.fills.ColorFill;
@@ -111,7 +111,7 @@ public class FieldsDebuggerGO extends SceneElementGO {
 				}
 				labels.clear();
 				vars.clear();
-				EAdSceneElement s = (EAdSceneElement) go.getElement();
+				SceneElement s = (SceneElement) go.getElement();
 
 				Label l = new Label("Id: " + s.getId());
 				l.setBgColor(ColorFill.WHITE);

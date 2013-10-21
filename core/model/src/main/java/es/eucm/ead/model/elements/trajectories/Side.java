@@ -40,7 +40,6 @@ package es.eucm.ead.model.elements.trajectories;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdElement;
 
 @Element
 public class Side extends BasicElement {
@@ -98,7 +97,7 @@ public class Side extends BasicElement {
 		return length;
 	}
 
-	public EAdElement copy() {
+	public BasicElement copy() {
 
 		Side s = new Side(null, null);
 		s.idEnd = (idEnd != null ? new Node(idEnd) : null);

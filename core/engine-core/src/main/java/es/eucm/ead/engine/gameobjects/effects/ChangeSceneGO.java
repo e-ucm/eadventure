@@ -48,8 +48,8 @@ import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.Sce
 import es.eucm.ead.engine.gameobjects.sceneelements.transitions.sceneloaders.SceneLoaderListener;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.operations.ElementField;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.params.variables.VarDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	static private Logger logger = LoggerFactory.getLogger(ChangeSceneGO.class);
 
-	public static BasicField<Boolean> IN_TRANSITION = new BasicField<Boolean>(
+	public static ElementField<Boolean> IN_TRANSITION = new ElementField<Boolean>(
 			null, new VarDef<Boolean>("in_transition", Boolean.class, false));
 	private final GameLoader gameLoader;
 
@@ -97,7 +97,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		game.getGameState().setValue(IN_TRANSITION, true);
 		finished = false;
 		String nextSceneId = effect.getNextSceneId();
-		EAdScene nextScene;
+		Scene nextScene;
 
 		// if null, return to previous scene
 		if (nextSceneId == null) {

@@ -45,7 +45,7 @@ import com.badlogic.gdx.InputProcessor;
 
 import es.eucm.ead.editor.view.scene.SimpleSceneViewer;
 import es.eucm.ead.editor.view.scene.go.EditableGameObject;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 public class SceneViewerInputProcessor implements InputProcessor {
 
@@ -53,14 +53,14 @@ public class SceneViewerInputProcessor implements InputProcessor {
 
 	private SceneListener sceneListener;
 
-	private List<EAdSceneElement> selection;
+	private List<SceneElement> selection;
 
 	private boolean[] keyboard = new boolean[256];
 
 	public SceneViewerInputProcessor(SimpleSceneViewer viewer,
 			SceneListener sceneListener) {
 		this.viewer = viewer;
-		this.selection = new ArrayList<EAdSceneElement>();
+		this.selection = new ArrayList<SceneElement>();
 		this.sceneListener = sceneListener;
 	}
 

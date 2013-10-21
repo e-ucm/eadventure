@@ -44,9 +44,9 @@ import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.model.assets.multimedia.EAdVideo;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.VideoScene;
 import es.eucm.ead.model.elements.widgets.Label;
 import es.eucm.ead.model.params.fills.ColorFill;
@@ -81,7 +81,7 @@ public class VideoSceneGO extends SceneGO {
 		this.specialAssetRenderer = videoRenderer;
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
 		Label label = new Label("Loading...");
 		label.setColor(ColorFill.WHITE);
@@ -131,7 +131,7 @@ public class VideoSceneGO extends SceneGO {
 			game.addEffect(ef);
 
 		} else {
-			for (EAdEffect e : videoScene.getFinalEffects()) {
+			for (Effect e : videoScene.getFinalEffects()) {
 				game.addEffect(e);
 			}
 		}

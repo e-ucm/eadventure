@@ -37,30 +37,23 @@
 
 package es.eucm.ead.editor.model;
 
-import static org.junit.Assert.assertTrue;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import es.eucm.ead.editor.EditorGuiceModule;
+import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.engine.desktop.platform.DesktopModule;
+import es.eucm.ead.tools.java.JavaToolsModule;
+import es.eucm.ead.tools.java.utils.FileUtils;
+import es.eucm.ead.tools.reflection.ReflectionClassLoader;
+import org.junit.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import es.eucm.ead.engine.desktop.platform.DesktopModule;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import es.eucm.ead.editor.EditorGuiceModule;
-import ead.importer.BaseImporterModule;
-import es.eucm.ead.tools.java.JavaToolsModule;
-import es.eucm.ead.tools.reflection.ReflectionClassLoader;
-import es.eucm.ead.tools.java.utils.FileUtils;
-import es.eucm.ead.editor.util.Log4jConfig;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -166,7 +159,7 @@ public class EditorModelTest {
 		//					+ " "
 		//					+ e.getContent()
 		//					+ " :: "
-		//					+ (e.getContent() instanceof EAdElement ? ((EAdElement) e
+		//					+ (e.getContent() instanceof BasicElement ? ((EAdElement) e
 		//							.getContent()).getId() : "??"));
 		//			matches++;
 		//		}

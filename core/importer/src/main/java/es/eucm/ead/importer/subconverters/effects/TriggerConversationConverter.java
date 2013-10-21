@@ -37,21 +37,20 @@
 
 package es.eucm.ead.importer.subconverters.effects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.conditions.EmptyCond;
-import es.eucm.ead.model.elements.conditions.NOTCond;
-import es.eucm.ead.model.elements.conditions.OperationCond;
-import es.eucm.ead.model.elements.effects.WaitUntilEf;
-import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.subconverters.ConversationsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
+import es.eucm.ead.model.elements.conditions.EmptyCond;
+import es.eucm.ead.model.elements.conditions.NOTCond;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.WaitUntilEf;
+import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TriggerConversationConverter implements
 		EffectConverter<TriggerConversationEffect> {
@@ -63,12 +62,12 @@ public class TriggerConversationConverter implements
 	}
 
 	@Override
-	public List<EAdEffect> convert(TriggerConversationEffect e) {
-		ArrayList<EAdEffect> effects = new ArrayList<EAdEffect>();
+	public List<Effect> convert(TriggerConversationEffect e) {
+		ArrayList<Effect> effects = new ArrayList<Effect>();
 
-		EAdEffect root = modelQuerier.getConversation(e.getTargetId());
+		Effect root = modelQuerier.getConversation(e.getTargetId());
 
-		EAdField<Boolean> inConversation = new BasicField<Boolean>(root,
+		ElementField<Boolean> inConversation = new ElementField<Boolean>(root,
 				ConversationsConverter.IN_CONVERSATION);
 
 		ChangeFieldEf startConversation = new ChangeFieldEf(inConversation,

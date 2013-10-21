@@ -39,17 +39,18 @@ package es.eucm.ead.editor.view.panel;
 
 import es.eucm.ead.editor.model.nodes.SceneNode;
 import es.eucm.ead.editor.view.generic.AccessorColumn;
-import es.eucm.ead.editor.view.generic.table.ListOption;
 import es.eucm.ead.editor.view.generic.OptionPanel;
 import es.eucm.ead.editor.view.generic.OptionPanel.LayoutPolicy;
 import es.eucm.ead.editor.view.generic.PanelImpl;
 import es.eucm.ead.editor.view.generic.TextOption;
+import es.eucm.ead.editor.view.generic.table.ListOption;
 import es.eucm.ead.editor.view.generic.table.MapOption;
 import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.variables.EAdVarDef;
-import java.awt.BorderLayout;
+
+import java.awt.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,11 +63,11 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 
 	static private Logger logger = LoggerFactory.getLogger(ScenePanel.class);
 
-	private BasicScene scene;
+	private Scene scene;
 
 	@Override
 	protected void rebuild() {
-		this.scene = (BasicScene) target.getFirst().getContent();
+		this.scene = (Scene) target.getFirst().getContent();
 		removeAll();
 
 		setLayout(new BorderLayout());
@@ -76,15 +77,16 @@ public class ScenePanel extends AbstractElementPanel<SceneNode> {
 		op.add(new TextOption("Scene ID", "The unique ID for the scene", scene,
 				"id", TextOption.ExpectedLength.SHORT, target.getFirst()));
 
-		op.add(new ListOption<EAdSceneElement>("Elements",
+		op.add(new ListOption<SceneElement>("Elements",
 				"Contained sceneElements", scene, "sceneElements",
-				EAdSceneElement.class, target.getFirst()) {
+				SceneElement.class, target.getFirst()) {
 
 			@Override
-			public ColumnSpec<EAdSceneElement, Integer>[] getExtraColumns() {
+			public ColumnSpec<SceneElement, Integer>[] getExtraColumns() {
 				return new ColumnSpec[] { 
 					new AccessorColumn("ID", "id", String.class, -1)
 				};
+
 			}
 		});
 		op.add(new MapOption<EAdVarDef, Object>("Vars", "Available varDefs",

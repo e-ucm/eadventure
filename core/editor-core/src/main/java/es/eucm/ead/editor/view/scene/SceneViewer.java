@@ -37,8 +37,8 @@
 
 package es.eucm.ead.editor.view.scene;
 
-import es.eucm.ead.model.elements.scenes.EAdScene;
 import es.eucm.ead.editor.view.scene.listener.SceneListener;
+import es.eucm.ead.model.elements.scenes.Scene;
 
 /**
  * General interface for scene viewers
@@ -52,7 +52,7 @@ public interface SceneViewer {
 	 * @param scene
 	 *            the scene
 	 */
-	void setScene(EAdScene scene);
+	void setScene(Scene scene);
 
 	/**
 	 * Updates the view. This method is called when changes in the model must

@@ -61,7 +61,7 @@ public class LoaderSceneElement extends SceneElement {
 		rotate.addOperation(SystemFields.ELAPSED_TIME_PER_UPDATE);
 		event.addEffect(SceneElementEvType.ALWAYS, new ChangeFieldEf(
 				getField(SceneElement.VAR_ROTATION), rotate));
-		getEvents().add(event);
+		addEvent(event);
 		this.setInitialVisible(false);
 	}
 }

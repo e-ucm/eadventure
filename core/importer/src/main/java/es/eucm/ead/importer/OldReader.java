@@ -37,23 +37,20 @@
 
 package es.eucm.ead.importer;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import es.eucm.ead.importer.inputstreamcreators.ImporterInputStreamCreator;
-import ead.importer.auxiliar.ImporterImageLoaderFactory;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
+import java.util.ArrayList;
 
 @Singleton
 public class OldReader {

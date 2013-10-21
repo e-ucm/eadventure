@@ -41,8 +41,7 @@ import com.google.inject.Inject;
 
 import es.eucm.ead.model.assets.drawable.basics.Image;
 import es.eucm.ead.model.elements.effects.timedevents.WaitEf;
-import es.eucm.ead.model.elements.scenes.BasicScene;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -50,7 +49,7 @@ import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position;
 import es.eucm.ead.tools.StringHandler;
 
-public class EffectOpaqueBlockTestScreen extends BasicScene implements EAdScene {
+public class EffectOpaqueBlockTestScreen extends Scene {
 
 	private SceneElementDef buttonActor;
 	private StringHandler stringHandler;

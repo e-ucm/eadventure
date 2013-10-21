@@ -38,7 +38,7 @@
 package es.eucm.ead.techdemo.elementfactories.scenes.scenes;
 
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.fills.ColorFill;
 import es.eucm.ead.model.params.fills.LinearGradientFill;
@@ -48,7 +48,7 @@ import es.eucm.ead.model.params.paint.EAdFill;
  * An empty scene
  * 
  */
-public class EmptyScene extends BasicScene {
+public class EmptyScene extends Scene {
 
 	private RectangleShape rectangle;
 

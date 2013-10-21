@@ -1,10 +1,8 @@
 package es.eucm.ead.tests.techdemo.demos;
 
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdChapter;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.reader.model.Manifest;
 import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
@@ -35,10 +33,10 @@ public class DemosToXMLTest {
 		JavaTextFileReader fileReader = new JavaTextFileReader();
 
 		InitScene scene = new InitScene();
-		BasicChapter chapter = new BasicChapter(scene);
-		EAdAdventureModel model = new BasicAdventureModel();
+		Chapter chapter = new Chapter(scene);
+		AdventureGame model = new AdventureGame();
 		model.getChapters().add(chapter);
-		for (EAdScene s : scene.getScenes()) {
+		for (Scene s : scene.getScenes()) {
 			chapter.addScene(s);
 		}
 
@@ -68,9 +66,9 @@ public class DemosToXMLTest {
 
 		for (String c : manifest1.getChapterIds()) {
 			reader.setPath(path);
-			EAdChapter chapter1 = reader.readChapter(c);
+			Chapter chapter1 = reader.readChapter(c);
 			reader.setPath(path2);
-			EAdChapter chapter2 = reader.readChapter(c);
+			Chapter chapter2 = reader.readChapter(c);
 			assertTrue(EAdUtils.equals(chapter1, chapter2, false));
 		}
 		FileUtils.deleteRecursive(new File(path2));

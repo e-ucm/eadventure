@@ -37,54 +37,53 @@
 
 package es.eucm.ead.model.elements.effects;
 
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.extra.EAdList;
 
 /**
  * Effect to trigger the effects contained in a macro. It only trigger the first
  * macro whose conditions are true
  */
 @Element
-public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
+public class TriggerMacroEf extends Effect {
 
 	@Param
-	private EAdList<EAdList<EAdEffect>> macros;
+	private EAdList<EAdList<Effect>> macros;
 
 	@Param
-	private EAdList<EAdCondition> conditions;
+	private EAdList<Condition> conditions;
 
 	public TriggerMacroEf() {
 		super();
-		macros = new EAdList<EAdList<EAdEffect>>();
-		conditions = new EAdList<EAdCondition>();
+		macros = new EAdList<EAdList<Effect>>();
+		conditions = new EAdList<Condition>();
 	}
 
-	public void putEffects(EAdCondition condition, EAdList<EAdEffect> macro) {
+	public void putEffects(Condition condition, EAdList<Effect> macro) {
 		macros.add(macro);
 		conditions.add(condition);
 	}
 
-	public EAdList<EAdList<EAdEffect>> getMacros() {
+	public EAdList<EAdList<Effect>> getMacros() {
 		return macros;
 	}
 
-	public EAdList<EAdCondition> getConditions() {
+	public EAdList<Condition> getConditions() {
 		return conditions;
 	}
 
-	public void setMacros(EAdList<EAdList<EAdEffect>> macros) {
+	public void setMacros(EAdList<EAdList<Effect>> macros) {
 		this.macros = macros;
 	}
 
-	public void setConditions(EAdList<EAdCondition> conditions) {
+	public void setConditions(EAdList<Condition> conditions) {
 		this.conditions = conditions;
 	}
 
-	public void putEffect(EAdCondition c, EAdEffect effect) {
-		EAdList<EAdEffect> macro = new EAdList<EAdEffect>();
+	public void putEffect(Condition c, Effect effect) {
+		EAdList<Effect> macro = new EAdList<Effect>();
 		macro.add(effect);
 		putEffects(c, macro);
 

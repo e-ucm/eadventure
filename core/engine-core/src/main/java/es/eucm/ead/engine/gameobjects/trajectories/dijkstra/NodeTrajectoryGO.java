@@ -45,7 +45,7 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.trajectories.AbstractTrajectoryGO;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.interfaces.features.enums.Orientation;
@@ -85,7 +85,7 @@ public class NodeTrajectoryGO extends AbstractTrajectoryGO<NodeTrajectory> {
 
 	private int currentTime;
 
-	private EAdSceneElement sceneElement;
+	private SceneElement sceneElement;
 
 	private Vector2 direction = new Vector2();
 

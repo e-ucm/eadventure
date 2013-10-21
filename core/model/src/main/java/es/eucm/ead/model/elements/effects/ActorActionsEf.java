@@ -37,27 +37,27 @@
 
 package es.eucm.ead.model.elements.effects;
 
-import es.eucm.ead.model.elements.EAdCondition;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.effects.enums.ChangeActorActions;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
-public class ActorActionsEf extends AbstractEffect {
+public class ActorActionsEf extends Effect {
 
 	@SuppressWarnings("rawtypes")
 	public static final EAdVarDef<EAdList> VAR_ACTIONS = new VarDef<EAdList>(
 			"actions", EAdList.class, null);
 
-	public static final EAdVarDef<EAdCondition> VAR_ACTION_COND = new VarDef<EAdCondition>(
-			"action_cond", EAdCondition.class, null);
+	public static final EAdVarDef<Condition> VAR_ACTION_COND = new VarDef<Condition>(
+			"action_cond", Condition.class, null);
 
 	@Param
-	private EAdSceneElementDef actionElement;
+	private SceneElementDef actionElement;
 
 	@Param
 	private es.eucm.ead.model.elements.effects.enums.ChangeActorActions change;
@@ -66,20 +66,20 @@ public class ActorActionsEf extends AbstractEffect {
 		super();
 	}
 
-	public ActorActionsEf(EAdSceneElementDef actionElement) {
+	public ActorActionsEf(SceneElementDef actionElement) {
 		super();
 		this.actionElement = actionElement;
 		this.change = ChangeActorActions.SHOW_ACTIONS;
 	}
 
-	public ActorActionsEf(EAdSceneElementDef actionElement,
+	public ActorActionsEf(SceneElementDef actionElement,
 			ChangeActorActions change) {
 		super();
 		this.actionElement = actionElement;
 		this.change = change;
 	}
 
-	public EAdSceneElementDef getActionElement() {
+	public SceneElementDef getActionElement() {
 		return actionElement;
 	}
 
@@ -87,7 +87,7 @@ public class ActorActionsEf extends AbstractEffect {
 		return change;
 	}
 
-	public void setActionElement(EAdSceneElementDef actionElement) {
+	public void setActionElement(SceneElementDef actionElement) {
 		this.actionElement = actionElement;
 	}
 

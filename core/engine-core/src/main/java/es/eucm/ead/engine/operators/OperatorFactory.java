@@ -40,16 +40,15 @@ package es.eucm.ead.engine.operators;
 import es.eucm.ead.engine.factories.mapproviders.OperatorsMapProvider;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.operators.evaluators.EvaluatorFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.tools.AbstractFactory;
 import es.eucm.ead.tools.StringHandler;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * A factory with all {@link Operator} for all {@link EAdOperation}. The Game
+ * A factory with all {@link Operator} for all {@link es.eucm.ead.model.elements.operations.Operation}. The Game
  * State is the only class that should access to this factory. If you're using
  * it somewhere else, try to use
  */
@@ -67,7 +66,7 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 
 	/**
 	 * <p>
-	 * Calculates the result of the given {@link EAdOperation} with the current
+	 * Calculates the result of the given {@link es.eucm.ead.model.elements.operations.Operation} with the current
 	 * values in the {@link es.eucm.ead.engine.game.interfaces.ValueMap}
 	 * </p>
 	 * The value should be stored in the {@link es.eucm.ead.engine.game.interfaces.ValueMap} by the actual
@@ -82,7 +81,7 @@ public class OperatorFactory extends AbstractFactory<Operator<?>> {
 	 *         returned.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
+	public <T extends Operation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
 			logger
 					.warn(

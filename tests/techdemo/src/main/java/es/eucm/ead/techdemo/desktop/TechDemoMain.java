@@ -4,10 +4,9 @@ import com.badlogic.gdx.utils.Array;
 import es.eucm.ead.engine.desktop.DesktopGame;
 import es.eucm.ead.engine.tracking.GameTracker;
 import es.eucm.ead.engine.tracking.gleaner.GleanerGameTracker;
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.scenes.EAdScene;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
 import es.eucm.ead.tools.java.reflection.JavaReflectionProvider;
@@ -25,11 +24,11 @@ public class TechDemoMain {
 		g.setBind(Tracker.class, JerseyTracker.class);
 		g.setPath("src/main/resources");
 		InitScene scene = new InitScene();
-		BasicChapter chapter = new BasicChapter(scene);
-		for (EAdScene s : scene.getScenes()) {
+		Chapter chapter = new Chapter(scene);
+		for (Scene s : scene.getScenes()) {
 			chapter.addScene(s);
 		}
-		EAdAdventureModel model = new BasicAdventureModel();
+		AdventureGame model = new AdventureGame();
 		model.getChapters().add(chapter);
 		AdventureWriter writer = new AdventureWriter(
 				new JavaReflectionProvider());

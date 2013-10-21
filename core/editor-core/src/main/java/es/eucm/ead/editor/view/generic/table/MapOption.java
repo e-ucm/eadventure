@@ -249,8 +249,7 @@ public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 	@Override
 	public void add(V added, K key) {
 		logger.info("Adding {}", oldValue);
-		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, key,
-				changed);
+		Command c = new MapCommand.AddToMap<K, V>(oldValue, added, key, changed);
 		executeCommand(c);
 	}
 

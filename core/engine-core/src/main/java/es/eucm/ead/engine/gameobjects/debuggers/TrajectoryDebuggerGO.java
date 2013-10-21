@@ -79,9 +79,9 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 	private TrajectoryFactory trajectoryFactory;
 
-	private EAdScene currentScene;
+	private Scene currentScene;
 
-	private EAdTrajectory currentTrajectory;
+	private Trajectory currentTrajectory;
 
 	private List<EAdShape> barriers;
 
@@ -89,7 +89,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 	private String currentPathString;
 
-	private TrajectoryGO<? extends EAdTrajectory> trajectoryGO;
+	private TrajectoryGO<? extends Trajectory> trajectoryGO;
 
 	private SceneElementGO currentPathGO;
 
@@ -102,7 +102,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 		barriers = new ArrayList<EAdShape>();
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
 		SceneElement e = new SceneElement();
 		currentPathGO = sceneElementFactory.get(e);
@@ -110,9 +110,9 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 	public void act(float delta) {
 		super.act(delta);
-		EAdScene newScene = (EAdScene) gui.getScene().getElement();
-		EAdTrajectory newTrajectory = gameState.getValue(currentScene,
-				BasicScene.VAR_TRAJECTORY_DEFINITION);
+		Scene newScene = (Scene) gui.getScene().getElement();
+		Trajectory newTrajectory = gameState.getValue(currentScene,
+				Scene.VAR_TRAJECTORY_DEFINITION);
 		if (currentScene != newScene || newTrajectory != currentTrajectory) {
 			currentTrajectory = newTrajectory;
 			currentScene = newScene;
@@ -127,7 +127,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 
 		if (currentTrajectory instanceof NodeTrajectory) {
 			int i = 0;
-			for (EAdSceneElement e : ((NodeTrajectory) currentTrajectory)
+			for (SceneElement e : ((NodeTrajectory) currentTrajectory)
 					.getBarriers()) {
 				barriers
 						.get(i)
@@ -173,7 +173,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 			addSceneElement(representation);
 		} else if (currentTrajectory instanceof NodeTrajectory) {
 			createNodes((NodeTrajectory) currentTrajectory);
-			addInfluenceAreas(((EAdScene) gui.getScene().getElement())
+			addInfluenceAreas(((Scene) gui.getScene().getElement())
 					.getSceneElements());
 		} else if (currentTrajectory instanceof PolygonTrajectory) {
 			PolygonTrajectory def = (PolygonTrajectory) currentTrajectory;
@@ -291,9 +291,9 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 		return root;
 	}
 
-	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
+	private void addInfluenceAreas(EAdList<SceneElement> sceneElements) {
 		EAdPaint p = new ColorFill(0, 0, 200, 100);
-		for (EAdSceneElement sceneElement : sceneElements) {
+		for (SceneElement sceneElement : sceneElements) {
 			Rectangle rectangle = gameState.getValue(sceneElement,
 					NodeTrajectory.VAR_INFLUENCE_AREA);
 			if (rectangle != null) {
@@ -335,8 +335,8 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 		SceneElement mapElement = new SceneElement(map);
 		mapElement.setInitialEnable(false);
 
-		for (EAdSceneElement e : trajectory.getBarriers()) {
-			EAdSceneElementDef def = e.getDefinition();
+		for (SceneElement e : trajectory.getBarriers()) {
+			SceneElementDef def = e.getDefinition();
 			EAdShape s = (EAdShape) def.getAsset(SceneElementDef.appearance);
 			EAdShape barrier = (EAdShape) s.clone();
 			barrier.setPaint(ColorFill.YELLOW);
@@ -345,7 +345,7 @@ public class TrajectoryDebuggerGO extends SceneElementGO {
 			map.addDrawable(barrier, (int) go.getX(), (int) go.getY());
 		}
 
-		for (EAdSceneElement e : ((EAdScene) gui.getScene().getElement())
+		for (SceneElement e : ((Scene) gui.getScene().getElement())
 				.getSceneElements()) {
 			Rectangle r = (Rectangle) e.getVars().get(
 					NodeTrajectory.VAR_INFLUENCE_AREA);

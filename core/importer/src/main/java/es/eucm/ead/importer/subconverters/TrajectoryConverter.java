@@ -38,10 +38,9 @@
 package es.eucm.ead.importer.subconverters;
 
 import com.google.inject.Singleton;
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
-import es.eucm.eadventure.common.data.chapter.Trajectory;
 
 @Singleton
 public class TrajectoryConverter {
@@ -54,7 +53,8 @@ public class TrajectoryConverter {
 		simpleTrajectory.setFreeWalk(true);
 	}
 
-	public EAdTrajectory convert(Trajectory t) {
+	public Trajectory convert(
+			es.eucm.eadventure.common.data.chapter.Trajectory t) {
 		if (t == null) {
 			return simpleTrajectory;
 		}
@@ -62,11 +62,13 @@ public class TrajectoryConverter {
 
 		t.deleteUnconnectedNodes();
 
-		for (Trajectory.Node n : t.getNodes()) {
+		for (es.eucm.eadventure.common.data.chapter.Trajectory.Node n : t
+				.getNodes()) {
 			trajectory.addNode(n.getID(), n.getX(), n.getY(), n.getScale());
 		}
 
-		for (Trajectory.Side s : t.getSides()) {
+		for (es.eucm.eadventure.common.data.chapter.Trajectory.Side s : t
+				.getSides()) {
 			trajectory.addSide(s.getIDStart(), s.getIDEnd(), s.getLength());
 		}
 

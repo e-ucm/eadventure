@@ -42,7 +42,6 @@ import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.multimedia.EAdSound;
 import es.eucm.ead.model.assets.multimedia.Video;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdElement;
 import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.elements.effects.ChangeSceneEf;
 import es.eucm.ead.model.elements.effects.PlaySoundEf;
@@ -67,7 +66,7 @@ import java.util.Collection;
 @SuppressWarnings("unchecked")
 public class SceneReader {
 
-	private EAdElement mouse = new BasicElement(MouseHud.CURSOR_ID);
+	private BasicElement mouse = new BasicElement(MouseHud.CURSOR_ID);
 
 	private ObjectsFactory objectsFactory;
 
@@ -82,8 +81,8 @@ public class SceneReader {
 		this.trajectoryReader = new TrajectoryReader();
 	}
 
-	public EAdScene parseScene(StringMap<Object> jsonScene) {
-		EAdScene scene = null;
+	public Scene parseScene(StringMap<Object> jsonScene) {
+		Scene scene = null;
 		String type = (String) jsonScene.get("type");
 		String id = (String) jsonScene.get("id");
 		if (type == null || type.equals("scene")) {
@@ -97,19 +96,19 @@ public class SceneReader {
 		return scene;
 	}
 
-	private EAdScene getVideoScene(StringMap<Object> jsonScene) {
+	private Scene getVideoScene(StringMap<Object> jsonScene) {
 		VideoScene scene = new VideoScene();
 		scene.setVideo(new Video((String) jsonScene.get("uri")));
-		EAdElement nextScene = new BasicElement(jsonScene.get("nextScene")
+		BasicElement nextScene = new BasicElement(jsonScene.get("nextScene")
 				.toString());
 		scene.getFinalEffects().add(new ChangeSceneEf(nextScene));
 		return scene;
 	}
 
-	public EAdScene getScene(StringMap<Object> jsonScene) {
+	public Scene getScene(StringMap<Object> jsonScene) {
 		EAdDrawable background = (EAdDrawable) objectsFactory
 				.getObjectById((String) jsonScene.get("background"));
-		BasicScene scene = new BasicScene(background);
+		Scene scene = new Scene(background);
 
 		if (jsonScene.containsKey("music")) {
 			String music = (String) jsonScene.get("music");
@@ -129,7 +128,7 @@ public class SceneReader {
 
 		if (sceneElements != null) {
 			for (StringMap<Object> e : sceneElements) {
-				EAdSceneElement s = parseSceneElement(e);
+				SceneElement s = parseSceneElement(e);
 				scene.add(s);
 			}
 		}
@@ -144,18 +143,18 @@ public class SceneReader {
 		// Add active scene element
 		String activeElement = (String) jsonScene.get("activeElement");
 		if (activeElement != null) {
-			EAdSceneElement e = (EAdSceneElement) objectsFactory
+			SceneElement e = (SceneElement) objectsFactory
 					.getObjectById(activeElement);
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.ADDED, new ChangeFieldEf(
 					SystemFields.ACTIVE_ELEMENT, new ValueOp(e)));
-			scene.getEvents().add(event);
+			scene.addEvent(event);
 		}
 		return scene;
 	}
 
 	@SuppressWarnings( { "rawtypes" })
-	public EAdSceneElement parseSceneElement(StringMap<Object> jsonSceneElement) {
+	public SceneElement parseSceneElement(StringMap<Object> jsonSceneElement) {
 		templateReader.applyTemplates(jsonSceneElement);
 
 		String appearance = (String) jsonSceneElement.get("appearance");

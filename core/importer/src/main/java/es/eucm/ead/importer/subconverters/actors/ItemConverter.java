@@ -39,14 +39,6 @@ package es.eucm.ead.importer.subconverters.actors;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.ResourcedElement;
-import es.eucm.ead.model.elements.effects.TriggerMacroEf;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.huds.MouseHud;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
-import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.UtilsConverter;
@@ -54,6 +46,13 @@ import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.actors.actions.ActionsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
+import es.eucm.ead.model.elements.ResourcedElement;
+import es.eucm.ead.model.elements.conditions.Condition;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.effects.TriggerMacroEf;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.huds.MouseHud;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
@@ -71,8 +70,8 @@ public class ItemConverter extends ElementConverter {
 				stringsConverter);
 	}
 
-	public EAdSceneElementDef convert(Element a) {
-		EAdSceneElementDef definition = super.convert(a);
+	public SceneElementDef convert(Element a) {
+		SceneElementDef definition = super.convert(a);
 		convert(a, Item.RESOURCE_TYPE_IMAGEOVER, definition,
 				ResourcedElement.INITIAL_BUNDLE, SceneElementDef.overAppearance);
 		return definition;
@@ -83,15 +82,14 @@ public class ItemConverter extends ElementConverter {
 		return Item.RESOURCE_TYPE_IMAGE;
 	}
 
-	public void addActions(Element e, EAdSceneElementDef def) {
+	public void addActions(Element e, SceneElementDef def) {
 		Item i = (Item) e;
 		// If first action, the first action that meets the conditions is launched
 		if (i.getBehaviour() == Item.BehaviourType.FIRST_ACTION) {
 			TriggerMacroEf action = new TriggerMacroEf();
 			for (Action a : e.getActions()) {
-				EAdCondition cond = conditionsConverter.convert(a
-						.getConditions());
-				EAdList<EAdEffect> effects = effectsConverter.convert(a
+				Condition cond = conditionsConverter.convert(a.getConditions());
+				EAdList<Effect> effects = effectsConverter.convert(a
 						.getEffects());
 				action.putEffects(cond, effects);
 			}

@@ -37,29 +37,29 @@
 
 package es.eucm.ead.model.elements.effects.sceneelements;
 
+import es.eucm.ead.model.elements.BasicElement;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdElement;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
 
 /**
  * An abstract effect requiring a scene element
  * @author anserran
  *
  */
-public abstract class AbstractSceneElementEffect extends AbstractEffect {
+public abstract class AbstractSceneElementEffect extends Effect {
 
 	@Param
-	private EAdElement sceneElement;
+	private BasicElement sceneElement;
 
 	public AbstractSceneElementEffect() {
 		super();
 	}
 
-	public EAdElement getSceneElement() {
+	public BasicElement getSceneElement() {
 		return sceneElement;
 	}
 
-	public void setSceneElement(EAdElement element) {
+	public void setSceneElement(BasicElement element) {
 		this.sceneElement = element;
 	}
 

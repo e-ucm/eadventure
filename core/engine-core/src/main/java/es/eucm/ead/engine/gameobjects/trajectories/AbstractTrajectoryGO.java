@@ -43,10 +43,10 @@ import java.util.List;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 
-public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
+public abstract class AbstractTrajectoryGO<T extends Trajectory> implements
 		TrajectoryGO<T> {
 
 	protected GameState gameState;
@@ -55,7 +55,7 @@ public abstract class AbstractTrajectoryGO<T extends EAdTrajectory> implements
 
 	protected SceneElementGO movingElement;
 
-	protected EAdSceneElement sceneElement;
+	protected SceneElement sceneElement;
 
 	protected float destinationX;
 

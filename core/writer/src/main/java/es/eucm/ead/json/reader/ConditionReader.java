@@ -38,11 +38,10 @@
 package es.eucm.ead.json.reader;
 
 import com.google.gson.internal.StringMap;
-import es.eucm.ead.model.elements.EAdCondition;
 import es.eucm.ead.model.elements.conditions.*;
 import es.eucm.ead.model.elements.conditions.enums.Comparator;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +59,7 @@ public class ConditionReader {
 		this.operationReader = operationReader;
 	}
 
-	public EAdCondition read(StringMap<Object> c) {
+	public Condition read(StringMap<Object> c) {
 		String cond = (String) c.get("cond");
 		if (cond.equals("empty")) {
 			Boolean value = (Boolean) c.get("value");
@@ -79,36 +78,36 @@ public class ConditionReader {
 		return null;
 	}
 
-	private EAdCondition parseAnd(StringMap<Object> c) {
+	private Condition parseAnd(StringMap<Object> c) {
 		Collection<StringMap<Object>> operations = (Collection<StringMap<Object>>) c
 				.get("operations");
-		EAdList<EAdCondition> conditions = new EAdList<EAdCondition>();
+		EAdList<Condition> conditions = new EAdList<Condition>();
 		for (StringMap<Object> op : operations) {
 			conditions.add(read(op));
 		}
 		return new ANDCond(conditions);
 	}
 
-	private EAdCondition parseOr(StringMap<Object> c) {
+	private Condition parseOr(StringMap<Object> c) {
 		StringMap<Object> op1 = (StringMap<Object>) c.get("op1");
 		StringMap<Object> op2 = (StringMap<Object>) c.get("op2");
-		EAdCondition condition1 = read(op1);
-		EAdCondition condition2 = read(op2);
+		Condition condition1 = read(op1);
+		Condition condition2 = read(op2);
 		return new ORCond(condition1, condition2);
 	}
 
-	private EAdCondition parseNot(StringMap<Object> c) {
-		EAdCondition cond = read((StringMap<Object>) c.get("value"));
+	private Condition parseNot(StringMap<Object> c) {
+		Condition cond = read((StringMap<Object>) c.get("value"));
 		return new NOTCond(cond);
 	}
 
-	private EAdCondition parseBooleanField(StringMap<Object> c) {
+	private Condition parseBooleanField(StringMap<Object> c) {
 		String field = (String) c.get("field");
-		return new OperationCond((EAdField<Boolean>) operationReader
+		return new OperationCond((ElementField<Boolean>) operationReader
 				.translateField(field));
 	}
 
-	private EAdCondition parseComparison(StringMap<Object> c) {
+	private Condition parseComparison(StringMap<Object> c) {
 		OperationCond cond = new OperationCond();
 		String comparator = (String) c.get("comparator");
 		Comparator comp = null;

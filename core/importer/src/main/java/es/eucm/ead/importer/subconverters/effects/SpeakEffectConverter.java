@@ -41,11 +41,10 @@ import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.UtilsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter.EffectConverter;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.params.fills.Paint;
-import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
@@ -70,9 +69,10 @@ public class SpeakEffectConverter implements EffectConverter {
 		this.utilsConverter = utilsConverter;
 	}
 
-	public List<EAdEffect> convert(Effect e) {
+	public List<Effect> convert(
+			es.eucm.eadventure.common.data.chapter.effects.Effect e) {
 		// [ST - Speak]
-		ArrayList<EAdEffect> effects = new ArrayList<EAdEffect>();
+		ArrayList<Effect> effects = new ArrayList<Effect>();
 		SpeakEf effect = null;
 		// XXX e.getAudioPath()
 		String text = null;
@@ -101,7 +101,7 @@ public class SpeakEffectConverter implements EffectConverter {
 		}
 
 		// Add possible operations in the text
-		List<EAdOperation> ops = stringsConverter.getOperations(text);
+		List<Operation> ops = stringsConverter.getOperations(text);
 		if (ops.size() > 0) {
 			effect.getCaption().getOperations().addAll(ops);
 		}

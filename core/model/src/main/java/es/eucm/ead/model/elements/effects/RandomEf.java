@@ -39,7 +39,6 @@ package es.eucm.ead.model.elements.effects;
 
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.extra.EAdMap;
 
 /**
@@ -48,17 +47,17 @@ import es.eucm.ead.model.elements.extra.EAdMap;
  * 
  */
 @Element
-public class RandomEf extends AbstractEffect {
+public class RandomEf extends Effect {
 
 	/**
 	 * Effect's list
 	 */
 	@Param
-	private EAdMap<EAdEffect, Float> effects;
+	private EAdMap<Effect, Float> effects;
 
 	public RandomEf() {
 		super();
-		effects = new EAdMap<EAdEffect, Float>();
+		effects = new EAdMap<Effect, Float>();
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class RandomEf extends AbstractEffect {
 	 * @param probability
 	 *            the probability
 	 */
-	public void addEffect(EAdEffect effect, float probability) {
+	public void addEffect(Effect effect, float probability) {
 		effects.put(effect, probability);
 	}
 
@@ -78,11 +77,11 @@ public class RandomEf extends AbstractEffect {
 	 * 
 	 * @return the effects
 	 */
-	public EAdMap<EAdEffect, Float> getEffects() {
+	public EAdMap<Effect, Float> getEffects() {
 		return effects;
 	}
 
-	public void setEffects(EAdMap<EAdEffect, Float> effects) {
+	public void setEffects(EAdMap<Effect, Float> effects) {
 		this.effects = effects;
 	}
 

@@ -44,8 +44,7 @@ import es.eucm.ead.model.elements.effects.enums.InterpolationType;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.operations.ValueOp;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
@@ -79,7 +78,8 @@ public class ComplexElementScene extends EmptyScene {
 
 		getSceneElements().add(complex);
 
-		EAdField<Float> rotation = new BasicField<Float>(complex, VAR_ROTATION);
+		ElementField<Float> rotation = new ElementField<Float>(complex,
+				VAR_ROTATION);
 
 		InterpolationEf effect = new InterpolationEf(rotation, 0, 360.0f,
 				10000, InterpolationLoopType.RESTART, InterpolationType.LINEAR);
@@ -87,9 +87,9 @@ public class ComplexElementScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.INIT, effect);
 
-		complex.getEvents().add(event);
+		complex.addEvent(event);
 
-		EAdField<Float> rotation2 = new BasicField<Float>(e, VAR_ROTATION);
+		ElementField<Float> rotation2 = new ElementField<Float>(e, VAR_ROTATION);
 
 		e.addBehavior(MouseGEv.MOUSE_RIGHT_PRESSED, new ChangeFieldEf(rotation,
 				new ValueOp((float) 10.0f)));
@@ -100,9 +100,9 @@ public class ComplexElementScene extends EmptyScene {
 		SceneElementEv event2 = new SceneElementEv();
 		event2.addEffect(SceneElementEvType.INIT, effect2);
 
-		e.getEvents().add(event2);
+		e.addEvent(event2);
 
-		EAdField<Float> scale = new BasicField<Float>(complex, VAR_SCALE);
+		ElementField<Float> scale = new ElementField<Float>(complex, VAR_SCALE);
 
 		complex.setInitialScale(0.5f);
 		InterpolationEf effect3 = new InterpolationEf(scale, 0.0f, 1.5f, 5000,

@@ -37,33 +37,33 @@
 
 package es.eucm.ead.writer.model.writers.simplifiers.elements;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.writer.model.writers.simplifiers.ObjectSimplifier;
 
-public class FieldsSimplifier implements ObjectSimplifier<EAdField<?>> {
+import java.util.HashMap;
+import java.util.Map;
+
+public class FieldsSimplifier implements ObjectSimplifier<ElementField<?>> {
 
 	/**
 	 * Map to aggregate all repeated fields
 	 */
-	private Map<Object, Map<EAdVarDef<?>, EAdField<?>>> fields;
+	private Map<Object, Map<EAdVarDef<?>, ElementField<?>>> fields;
 
 	public FieldsSimplifier() {
-		fields = new HashMap<Object, Map<EAdVarDef<?>, EAdField<?>>>();
+		fields = new HashMap<Object, Map<EAdVarDef<?>, ElementField<?>>>();
 	}
 
-	public Object simplify(EAdField<?> field) {
+	public Object simplify(ElementField<?> field) {
 		// Never two different objects pointing the same field
-		Map<EAdVarDef<?>, EAdField<?>> elementFields = fields.get(field
+		Map<EAdVarDef<?>, ElementField<?>> elementFields = fields.get(field
 				.getElement());
 		if (elementFields == null) {
-			elementFields = new HashMap<EAdVarDef<?>, EAdField<?>>();
+			elementFields = new HashMap<EAdVarDef<?>, ElementField<?>>();
 			fields.put(field.getElement(), elementFields);
 		}
-		EAdField<?> copy = elementFields.get(field.getVarDef());
+		ElementField<?> copy = elementFields.get(field.getVarDef());
 		if (copy == null) {
 			copy = field;
 			elementFields.put(field.getVarDef(), copy);
@@ -76,7 +76,7 @@ public class FieldsSimplifier implements ObjectSimplifier<EAdField<?>> {
 		fields.clear();
 	}
 
-	public Map<Object, Map<EAdVarDef<?>, EAdField<?>>> getFields() {
+	public Map<Object, Map<EAdVarDef<?>, ElementField<?>>> getFields() {
 		return fields;
 	}
 

@@ -39,7 +39,7 @@ package es.eucm.ead.engine.gameobjects.effects;
 
 import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.RandomEf;
 
 import java.util.Map.Entry;
@@ -61,7 +61,7 @@ public class RandomGO extends AbstractEffectGO<RandomEf> {
 
 		float random = (float) (Math.random() * totalProbability);
 		totalProbability = 0.0f;
-		for (Entry<EAdEffect, Float> entry : effect.getEffects().entrySet()) {
+		for (Entry<Effect, Float> entry : effect.getEffects().entrySet()) {
 			if (totalProbability < random
 					&& random < totalProbability + entry.getValue()) {
 				game.addEffect(entry.getKey());

@@ -46,7 +46,7 @@ import es.eucm.ead.model.interfaces.Param;
  * 
  */
 @Element
-public class ValueOp extends AbstractOperation {
+public class ValueOp extends Operation {
 
 	@Param
 	private Object value;

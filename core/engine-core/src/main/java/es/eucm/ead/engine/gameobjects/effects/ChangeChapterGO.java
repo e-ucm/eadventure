@@ -37,6 +37,7 @@
 
 package es.eucm.ead.engine.gameobjects.effects;
 
+import com.google.inject.Inject;
 import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.game.GameLoader;
 import es.eucm.ead.model.elements.effects.ChangeChapterEf;
@@ -45,6 +46,7 @@ public class ChangeChapterGO extends AbstractEffectGO<ChangeChapterEf> {
 
 	private GameLoader gameLoader;
 
+	@Inject
 	public ChangeChapterGO(GameLoader gameLoader, Game game) {
 		super(game);
 		this.gameLoader = gameLoader;

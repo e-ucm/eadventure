@@ -50,8 +50,7 @@ import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.effects.LoadGameEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.huds.MouseHud;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.reader.AdventureReader;
 import org.slf4j.Logger;
@@ -88,8 +87,8 @@ public class LoadGameGO extends AbstractEffectGO<LoadGameEf> {
 	private static final ChangeFieldEf HIDE_CURSOR;
 
 	static {
-		EAdField<Boolean> field = new BasicField<Boolean>(MouseHud.MOUSE_REF,
-				SceneElement.VAR_VISIBLE);
+		ElementField<Boolean> field = new ElementField<Boolean>(
+				MouseHud.MOUSE_REF, SceneElement.VAR_VISIBLE);
 		SHOW_CURSOR = new ChangeFieldEf(field, EmptyCond.TRUE);
 		HIDE_CURSOR = new ChangeFieldEf(field, EmptyCond.FALSE);
 	}

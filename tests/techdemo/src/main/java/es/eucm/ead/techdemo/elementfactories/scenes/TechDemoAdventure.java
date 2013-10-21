@@ -37,41 +37,26 @@
 
 package es.eucm.ead.techdemo.elementfactories.scenes;
 
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.techdemo.elementfactories.scenes.normalguy.NgMainScreen;
+import es.eucm.ead.techdemo.elementfactories.scenes.scenes.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.normalguy.NgMainScreen;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.CharacterScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.ComplexElementScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.DepthZScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.DragDropScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.DrawablesScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.EmptyScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.FiltersDemo;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.InitScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.PhysicsScene2;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.PositionScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.ScrollScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.ShapeScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.SharingEffectsScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.ShowQuestionScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.SpeakAndMoveScene;
-import es.eucm.ead.techdemo.elementfactories.scenes.scenes.TrajectoriesScene;
+public class TechDemoAdventure extends AdventureGame {
 
-public class TechDemoAdventure extends BasicAdventureModel {
+	private List<Scene> sceneDemos;
 
-	private List<EAdScene> sceneDemos;
-
-	private BasicChapter chapter;
+	private Chapter chapter;
 
 	public TechDemoAdventure() {
-		chapter = new BasicChapter();
+		chapter = new Chapter();
 		this.getChapters().add(chapter);
 
-		sceneDemos = new ArrayList<EAdScene>();
+		sceneDemos = new ArrayList<Scene>();
 		sceneDemos.add(new InitScene());
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
@@ -97,19 +82,19 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		//		sceneDemos.add(new NgRoom1());
 	}
 
-	public List<EAdScene> getScenes() {
+	public List<Scene> getScenes() {
 		return sceneDemos;
 	}
 
 	public List<String> getSceneDemosDescriptions() {
 		ArrayList<String> strings = new ArrayList<String>();
-		for (EAdScene s : sceneDemos) {
+		for (Scene s : sceneDemos) {
 			strings.add(s.toString());
 		}
 		return strings;
 	}
 
-	public void setInitialScene(EAdScene scene) {
+	public void setInitialScene(Scene scene) {
 		chapter.setInitialScene(scene);
 	}
 

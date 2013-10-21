@@ -39,10 +39,9 @@ package es.eucm.ead.importer.subconverters.conditions;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import es.eucm.ead.model.elements.conditions.OperationCond;
-import es.eucm.ead.model.elements.operations.EAdField;
 import es.eucm.ead.importer.ModelQuerier;
+import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 
 @Singleton
@@ -57,7 +56,7 @@ public class FlagConditionConverter {
 
 	public OperationCond convert(FlagCondition oldObject) {
 		// [COND - Flag]
-		EAdField<Boolean> var = modelQuerier.getFlag(oldObject.getId());
+		ElementField<Boolean> var = modelQuerier.getFlag(oldObject.getId());
 		OperationCond f = new OperationCond(var);
 		if (oldObject.isActiveState())
 			f.setOp2(OperationCond.TRUE);

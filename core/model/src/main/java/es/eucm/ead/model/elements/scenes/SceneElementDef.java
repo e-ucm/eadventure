@@ -43,16 +43,19 @@ import es.eucm.ead.model.elements.ResourcedElement;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
+import es.eucm.ead.model.interfaces.features.ResourcedEvented;
+import es.eucm.ead.model.interfaces.features.Variabled;
+import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.variables.EAdVarDef;
 import es.eucm.ead.model.params.variables.VarDef;
 
 @Element
 public class SceneElementDef extends ResourcedElement implements
-		EAdSceneElementDef {
+		ResourcedEvented, WithBehavior, Variabled {
 
-	public static final EAdVarDef<EAdSceneElement> VAR_SCENE_ELEMENT = new VarDef<EAdSceneElement>(
-			"scene_element", EAdSceneElement.class, null);
+	public static final EAdVarDef<SceneElement> VAR_SCENE_ELEMENT = new VarDef<SceneElement>(
+			"scene_element", SceneElement.class, null);
 
 	public static final EAdVarDef<EAdString> VAR_DOC_NAME = new VarDef<EAdString>(
 			"doc_name", EAdString.class, null);
@@ -92,22 +95,18 @@ public class SceneElementDef extends ResourcedElement implements
 		addAsset(SceneElementDef.overAppearance, overAppearance);
 	}
 
-	@Override
 	public void setName(EAdString name) {
 		setVarInitialValue(VAR_DOC_NAME, name);
 	}
 
-	@Override
 	public void setDesc(EAdString description) {
 		setVarInitialValue(VAR_DOC_DESC, description);
 	}
 
-	@Override
 	public void setDetailDesc(EAdString detailedDescription) {
 		setVarInitialValue(VAR_DOC_DETAILED_DESC, detailedDescription);
 	}
 
-	@Override
 	public void setDoc(EAdString documentation) {
 		setVarInitialValue(VAR_DOCUMENTATION, documentation);
 	}
@@ -117,32 +116,26 @@ public class SceneElementDef extends ResourcedElement implements
 	 *
 	 * @param appearance the initial appearance
 	 */
-	@Override
 	public void setAppearance(EAdDrawable d) {
 		addAsset(SceneElementDef.appearance, d);
 	}
 
-	@Override
 	public void setOverAppearance(String bundle, EAdDrawable drawable) {
 		addAsset(bundle, SceneElementDef.appearance, drawable);
 	}
 
-	@Override
 	public void setOverAppearance(EAdDrawable drawable) {
 		addAsset(SceneElementDef.overAppearance, drawable);
 	}
 
-	@Override
 	public EAdDrawable getAppearance() {
 		return (EAdDrawable) getResources().get(SceneElementDef.appearance);
 	}
 
-	@Override
 	public EAdMap<EAdVarDef<?>, Object> getVars() {
 		return vars;
 	}
 
-	@Override
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
 	}

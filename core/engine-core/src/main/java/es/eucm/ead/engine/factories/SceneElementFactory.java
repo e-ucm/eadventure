@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.ead.engine.factories.mapproviders.SceneElementsMapProvider;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.tools.GenericInjector;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 
@@ -50,7 +50,7 @@ import java.util.List;
 
 @Singleton
 public class SceneElementFactory extends
-		GameObjectFactory<EAdSceneElement, SceneElementGO> {
+		GameObjectFactory<SceneElement, SceneElementGO> {
 
 	private List<SceneElementGO> auxList = new ArrayList<SceneElementGO>();
 

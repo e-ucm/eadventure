@@ -37,7 +37,7 @@
 
 package es.eucm.ead.engine.factories.mapproviders;
 
-import es.eucm.ead.model.elements.trajectories.EAdTrajectory;
+import es.eucm.ead.model.elements.trajectories.Trajectory;
 import es.eucm.ead.model.elements.trajectories.NodeTrajectory;
 import es.eucm.ead.model.elements.trajectories.PolygonTrajectory;
 import es.eucm.ead.model.elements.trajectories.SimpleTrajectory;
@@ -48,7 +48,7 @@ import es.eucm.ead.engine.gameobjects.trajectories.simple.SimpleTrajectoryGO;
 
 public class TrajectoriesMapProvider
 		extends
-		AbstractMapProvider<Class<? extends EAdTrajectory>, Class<? extends TrajectoryGO<? extends EAdTrajectory>>> {
+		AbstractMapProvider<Class<? extends Trajectory>, Class<? extends TrajectoryGO<? extends Trajectory>>> {
 
 	public TrajectoriesMapProvider() {
 		factoryMap.put(SimpleTrajectory.class, SimpleTrajectoryGO.class);

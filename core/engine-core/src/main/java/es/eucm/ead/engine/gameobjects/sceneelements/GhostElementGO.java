@@ -44,7 +44,7 @@ import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.factories.EventFactory;
 import es.eucm.ead.engine.factories.SceneElementFactory;
 import es.eucm.ead.engine.game.Game;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 
 public class GhostElementGO extends SceneElementGO {
@@ -60,7 +60,7 @@ public class GhostElementGO extends SceneElementGO {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
-	public void setElement(EAdSceneElement e) {
+	public void setElement(SceneElement e) {
 		super.setElement(e);
 		catchAll = ((GhostElement) e).isCatchAll();
 		ghostVisible = false;

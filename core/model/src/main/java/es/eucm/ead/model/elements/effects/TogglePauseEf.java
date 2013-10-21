@@ -45,6 +45,6 @@ import es.eucm.ead.model.interfaces.Element;
  * 
  */
 @Element
-public class TogglePauseEf extends AbstractEffect {
+public class TogglePauseEf extends Effect {
 
 }

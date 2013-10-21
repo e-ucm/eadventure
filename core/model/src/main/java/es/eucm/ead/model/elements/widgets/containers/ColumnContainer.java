@@ -41,33 +41,32 @@ import es.eucm.ead.model.elements.effects.DragEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
-import es.eucm.ead.model.elements.scenes.GroupElement;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
+import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.params.guievents.MouseGEv;
 import es.eucm.ead.model.params.util.Position.Corner;
 
 public class ColumnContainer extends GroupElement {
 
-	private EAdSceneElement lastAdded;
+	private SceneElement lastAdded;
 
 	public ColumnContainer() {
 		this.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new DragEf());
 	}
 
-	public void add(EAdSceneElement element) {
+	public void add(SceneElement element) {
 		element.setPosition(Corner.TOP_LEFT, 0, 0);
 		if (lastAdded != null) {
-			BasicField<Float> fieldBottom = new BasicField<Float>(lastAdded,
-					SceneElement.VAR_BOTTOM);
-			BasicField<Float> fieldY = new BasicField<Float>(element,
+			ElementField<Float> fieldBottom = new ElementField<Float>(
+					lastAdded, SceneElement.VAR_BOTTOM);
+			ElementField<Float> fieldY = new ElementField<Float>(element,
 					SceneElement.VAR_Y);
 
 			SceneElementEv event = new SceneElementEv();
 			ChangeFieldEf updateField = new ChangeFieldEf(fieldY, fieldBottom);
 			event.addEffect(SceneElementEvType.ALWAYS, updateField);
-			element.getEvents().add(event);
+			element.addEvent(event);
 		}
 		getSceneElements().add(element);
 		lastAdded = element;

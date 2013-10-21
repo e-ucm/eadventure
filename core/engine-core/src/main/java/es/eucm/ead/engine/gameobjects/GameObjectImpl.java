@@ -37,7 +37,7 @@
 
 package es.eucm.ead.engine.gameobjects;
 
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 
 /**
  * Basic game object implementation for eAdventure elements
@@ -46,7 +46,7 @@ import es.eucm.ead.model.elements.EAdElement;
  * @param <T>
  *            the class of the eAdventure element contained by this game object
  */
-public abstract class GameObjectImpl<T extends EAdElement> implements
+public abstract class GameObjectImpl<T extends BasicElement> implements
 		GameObject<T> {
 
 	protected T element;

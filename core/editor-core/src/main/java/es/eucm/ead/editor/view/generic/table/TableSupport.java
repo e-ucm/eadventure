@@ -119,8 +119,8 @@ public class TableSupport {
 	/**
 	 * Renderer and editor for vertical 'move' buttons
 	 */
-	public static class MoveButtonWidget<T> extends AbstractCellEditor implements
-			TableCellEditor, TableCellRenderer {
+	public static class MoveButtonWidget<T> extends AbstractCellEditor
+			implements TableCellEditor, TableCellRenderer {
 		private final JButton upButton = createMinimalButton(
 				R.Drawable.interface__upArrow_png,
 				Messages.options_table_upArrow);
@@ -177,8 +177,8 @@ public class TableSupport {
 	/**
 	 * Renderer and editor for 'delete' buttons
 	 */
-	public static class DeleteButtonWidget<T, K> extends AbstractCellEditor implements
-			TableCellEditor, TableCellRenderer {
+	public static class DeleteButtonWidget<T, K> extends AbstractCellEditor
+			implements TableCellEditor, TableCellRenderer {
 		private final JButton deleteButton = createMinimalButton(
 				R.Drawable.interface__delete_png, Messages.options_table_delete);
 		private final JPanel fillerPanel = new JPanel();

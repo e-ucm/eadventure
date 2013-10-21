@@ -46,18 +46,17 @@ import es.eucm.ead.importer.resources.ResourcesConverter;
 import es.eucm.ead.importer.subconverters.actors.actions.ActionsConverter;
 import es.eucm.ead.importer.subconverters.conditions.ConditionsConverter;
 import es.eucm.ead.importer.subconverters.effects.EffectsConverter;
-import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
-import es.eucm.ead.model.elements.EAdCondition;
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.ResourcedElement;
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.elements.effects.ActorActionsEf;
 import es.eucm.ead.model.elements.effects.DragEf;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.huds.MouseHud;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -105,7 +104,7 @@ public abstract class ElementConverter {
 		this.stringsConverter = stringsConverter;
 	}
 
-	public EAdSceneElementDef convert(Element a) {
+	public SceneElementDef convert(Element a) {
 		SceneElementDef definition = new SceneElementDef();
 		definition.setId(a.getId());
 		// Appearance
@@ -118,8 +117,8 @@ public abstract class ElementConverter {
 		return definition;
 	}
 
-	protected EAdSceneElementDef convert(Element a, String resourceType,
-			EAdSceneElementDef definition, String bundle, String resourceId) {
+	protected SceneElementDef convert(Element a, String resourceType,
+			SceneElementDef definition, String bundle, String resourceId) {
 		// One bundle for each bundle (DUH)
 		int i = 0;
 		for (Resources r : a.getResources()) {
@@ -145,15 +144,15 @@ public abstract class ElementConverter {
 		return definition;
 	}
 
-	public void addDescription(Element element, EAdSceneElementDef def) {
+	public void addDescription(Element element, SceneElementDef def) {
 		// XXX Multiple descriptions
 		if (element.getDescriptions().size() > 0) {
 			String name = element.getDescription(0).getName();
 			if (!name.equals("")) {
 				EAdString string = stringsConverter.convert(name, true);
-				def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_NAME, string);
-				def.setVarInitialValue(BubbleNameEv.VAR_BUBBLE_OPERATIONS,
-						stringsConverter.getOperations(name));
+				def.putProperty(LegacyVars.BUBBLE_NAME, string);
+				def.putProperty(LegacyVars.BUBBLE_OPERATIONS, stringsConverter
+						.getOperations(name));
 			}
 			// Descriptions are only showed if the default click action is "show details"
 			if (modelQuerier.getAventureData().getDefaultClickAction() == DescriptorData.DefaultClickAction.SHOW_DETAILS) {
@@ -165,10 +164,10 @@ public abstract class ElementConverter {
 		}
 	}
 
-	public void addActions(Element element, EAdSceneElementDef def) {
+	public void addActions(Element element, SceneElementDef def) {
 		// Add actions
 		if (element.getActions().size() > 0) {
-			EAdList<EAdSceneElementDef> actions = actionsConverter.convert(def,
+			EAdList<SceneElementDef> actions = actionsConverter.convert(def,
 					element.getActions());
 			def.setVarInitialValue(ActorActionsEf.VAR_ACTIONS, actions);
 			modelQuerier.addActionsInteraction(def, new ActorActionsEf(def));
@@ -181,7 +180,7 @@ public abstract class ElementConverter {
 						drags = new TriggerMacroEf();
 					}
 					// click effects and effects and action are the same, so add all
-					EAdCondition cond = conditionsConverter.convert(a
+					Condition cond = conditionsConverter.convert(a
 							.getConditions());
 					DragEf drag = new DragEf();
 					drag.setReturnAfterDrag(element.isReturnsWhenDragged());
@@ -221,9 +220,9 @@ public abstract class ElementConverter {
 
 		public String target;
 
-		public EAdList<EAdEffect> effects;
+		public EAdList<Effect> effects;
 
-		public DropEvent(String owner, String target, EAdList<EAdEffect> effects) {
+		public DropEvent(String owner, String target, EAdList<Effect> effects) {
 			this.owner = owner;
 			this.target = target;
 			this.effects = effects;

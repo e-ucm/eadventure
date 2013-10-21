@@ -41,7 +41,7 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 
 @Element
-public class TimedEv extends AbstractEvent {
+public class TimedEv extends Event {
 
 	@Param
 	private int time;

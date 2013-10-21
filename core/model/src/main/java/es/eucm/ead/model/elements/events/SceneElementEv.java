@@ -37,18 +37,18 @@
 
 package es.eucm.ead.model.elements.events;
 
-import es.eucm.ead.model.interfaces.Element;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
+import es.eucm.ead.model.interfaces.Element;
 
 @Element
-public class SceneElementEv extends AbstractEvent {
+public class SceneElementEv extends Event {
 
 	public SceneElementEv() {
 		super();
 	}
 
-	public SceneElementEv(SceneElementEvType type, EAdEffect effect) {
+	public SceneElementEv(SceneElementEvType type, Effect effect) {
 		this();
 		this.addEffect(type, effect);
 	}

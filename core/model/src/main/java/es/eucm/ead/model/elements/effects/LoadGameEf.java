@@ -37,15 +37,15 @@
 
 package es.eucm.ead.model.elements.effects;
 
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.scenes.EAdScene;
 
 @Element
-public class LoadGameEf extends AbstractEffect {
+public class LoadGameEf extends Effect {
 
 	@Param
-	private EAdScene loadingScene;
+	private Scene loadingScene;
 
 	@Param
 	private boolean reloadAssets;
@@ -58,11 +58,11 @@ public class LoadGameEf extends AbstractEffect {
 		this.reloadAssets = reloadAssets;
 	}
 
-	public EAdScene getLoadingScene() {
+	public Scene getLoadingScene() {
 		return loadingScene;
 	}
 
-	public void setLoadingScene(EAdScene loadingScene) {
+	public void setLoadingScene(Scene loadingScene) {
 		this.loadingScene = loadingScene;
 	}
 

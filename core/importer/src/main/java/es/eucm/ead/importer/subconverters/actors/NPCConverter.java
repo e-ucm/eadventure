@@ -44,7 +44,7 @@ import es.eucm.ead.model.interfaces.features.enums.Orientation;
 import es.eucm.ead.model.assets.drawable.EAdDrawable;
 import es.eucm.ead.model.assets.drawable.compounds.StateDrawable;
 import es.eucm.ead.model.elements.enums.CommonStates;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.importer.ModelQuerier;
 import es.eucm.ead.importer.StringsConverter;
 import es.eucm.ead.importer.UtilsConverter;
@@ -82,8 +82,8 @@ public class NPCConverter extends ElementConverter {
 				stringsConverter);
 	}
 
-	public EAdSceneElementDef convert(NPC npc) {
-		EAdSceneElementDef def = super.convert(npc);
+	public SceneElementDef convert(NPC npc) {
+		SceneElementDef def = super.convert(npc);
 		return def;
 	}
 

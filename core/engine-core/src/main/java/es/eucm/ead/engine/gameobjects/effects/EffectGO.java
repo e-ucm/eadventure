@@ -38,12 +38,11 @@
 package es.eucm.ead.engine.gameobjects.effects;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
-
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.engine.gameobjects.GameObject;
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
-public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
+public interface EffectGO<P extends Effect> extends GameObject<P> {
 
 	/**
 	 * Sets the gui action that launched this effect
@@ -58,7 +57,7 @@ public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 	 * 
 	 * @param parent
 	 */
-	void setParent(EAdSceneElement parent);
+	void setParent(SceneElement parent);
 
 	/**
 	 * Initializes the effect game object

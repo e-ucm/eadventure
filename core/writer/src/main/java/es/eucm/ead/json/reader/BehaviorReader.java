@@ -38,7 +38,7 @@
 package es.eucm.ead.json.reader;
 
 import com.google.gson.internal.StringMap;
-import es.eucm.ead.model.elements.EAdEffect;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.interfaces.features.WithBehavior;
 import es.eucm.ead.model.params.guievents.EAdGUIEvent;
 import es.eucm.ead.model.params.guievents.MouseGEv;
@@ -81,7 +81,7 @@ public class BehaviorReader {
 			Collection<StringMap<Object>> effects = (Collection<StringMap<Object>>) b
 					.get("effects");
 			for (StringMap<Object> s : effects) {
-				EAdEffect effect = effectsReader.read(s);
+				Effect effect = effectsReader.read(s);
 				element.addBehavior(event, effect);
 			}
 		}

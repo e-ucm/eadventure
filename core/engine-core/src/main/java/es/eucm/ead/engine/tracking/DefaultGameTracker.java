@@ -43,7 +43,7 @@ import com.google.inject.Singleton;
 import es.eucm.ead.engine.game.GameState;
 import es.eucm.ead.engine.gameobjects.effects.EffectGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
-import es.eucm.ead.model.elements.EAdAdventureModel;
+import es.eucm.ead.model.elements.AdventureGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +72,7 @@ public class DefaultGameTracker extends AbstractGameTracker {
 	}
 
 	@Override
-	protected boolean startTrackingImpl(EAdAdventureModel model) {
+	protected boolean startTrackingImpl(AdventureGame model) {
 		logger.info("Tracking starts.");
 		return true;
 	}

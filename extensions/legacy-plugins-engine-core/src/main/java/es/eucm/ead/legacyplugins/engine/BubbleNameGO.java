@@ -11,18 +11,23 @@ import es.eucm.ead.engine.game.Game;
 import es.eucm.ead.engine.gameobjects.events.AbstractEventGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.legacyplugins.model.BubbleNameEv;
+import es.eucm.ead.legacyplugins.model.LegacyVars;
 import es.eucm.ead.model.assets.drawable.basics.Caption;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.operations.EAdField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.text.EAdString;
 import es.eucm.ead.model.params.util.Position.Corner;
+import es.eucm.ead.model.params.variables.EAdVarDef;
+import es.eucm.ead.model.params.variables.VarDef;
 
 @Reflectable
 public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
+
+	private EAdVarDef<EAdString> NAME = new VarDef<EAdString>("name",
+			EAdString.class, null);
 
 	private final float TIME = 100.0f;
 
@@ -38,7 +43,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 
 	private SceneElementGO bubble;
 
-	private EAdField<EAdString> currentDescription;
+	private ElementField<EAdString> currentDescription;
 
 	private AssetHandler assetHandler;
 
@@ -58,8 +63,7 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 	@Override
 	public void setElement(BubbleNameEv element) {
 		super.setElement(element);
-		currentDescription = new BasicField<EAdString>(element,
-				BubbleNameEv.VAR_BUBBLE_NAME);
+		currentDescription = new ElementField<EAdString>(element, NAME);
 		SceneElement e = new SceneElement();
 		e.setId("#engine.huds.namesbubble");
 		e.setInitialZ(500);
@@ -92,11 +96,10 @@ public class BubbleNameGO extends AbstractEventGO<BubbleNameEv> {
 		if (s != current) {
 			current = s;
 			if (current != null) {
-				EAdString name = game.getGameState().getValue(
-						current.getElement(), BubbleNameEv.VAR_BUBBLE_NAME);
-				EAdList operations = game.getGameState().getValue(
-						current.getElement(),
-						BubbleNameEv.VAR_BUBBLE_OPERATIONS);
+				EAdString name = current.getElement().getProperty(
+						LegacyVars.BUBBLE_NAME, null);
+				EAdList operations = current.getElement().getProperty(
+						LegacyVars.BUBBLE_OPERATIONS, null);
 				if (operations != null && operations.size() > 0) {
 					caption.getCaption().getOperations().clear();
 					caption.getCaption().getOperations().addAll(operations);

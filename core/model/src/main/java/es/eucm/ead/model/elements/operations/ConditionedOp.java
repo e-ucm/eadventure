@@ -37,55 +37,54 @@
 
 package es.eucm.ead.model.elements.operations;
 
+import es.eucm.ead.model.elements.conditions.Condition;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.EAdCondition;
 
 @Element
-public class ConditionedOp extends AbstractOperation {
+public class ConditionedOp extends Operation {
 
 	@Param
-	private es.eucm.ead.model.elements.EAdCondition condition;
+	private Condition condition;
 
 	@Param
-	private EAdOperation opTrue;
+	private Operation opTrue;
 
 	@Param
-	private EAdOperation opFalse;
+	private Operation opFalse;
 
 	public ConditionedOp() {
 
 	}
 
-	public ConditionedOp(EAdCondition c, EAdOperation opTrue,
-			EAdOperation opFalse) {
+	public ConditionedOp(Condition c, Operation opTrue, Operation opFalse) {
 		super();
 		this.opTrue = opTrue;
 		this.opFalse = opFalse;
 		this.condition = c;
 	}
 
-	public EAdCondition getCondition() {
+	public Condition getCondition() {
 		return condition;
 	}
 
-	public EAdOperation getOpTrue() {
+	public Operation getOpTrue() {
 		return opTrue;
 	}
 
-	public EAdOperation getOpFalse() {
+	public Operation getOpFalse() {
 		return opFalse;
 	}
 
-	public void setCondition(EAdCondition condition) {
+	public void setCondition(Condition condition) {
 		this.condition = condition;
 	}
 
-	public void setOpTrue(EAdOperation opTrue) {
+	public void setOpTrue(Operation opTrue) {
 		this.opTrue = opTrue;
 	}
 
-	public void setOpFalse(EAdOperation opFalse) {
+	public void setOpFalse(Operation opFalse) {
 		this.opFalse = opFalse;
 	}
 

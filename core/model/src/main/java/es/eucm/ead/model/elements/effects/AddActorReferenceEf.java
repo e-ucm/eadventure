@@ -40,7 +40,7 @@ package es.eucm.ead.model.elements.effects;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import es.eucm.ead.model.elements.scenes.EAdSceneElementDef;
+import es.eucm.ead.model.elements.scenes.SceneElementDef;
 import es.eucm.ead.model.params.util.Position;
 
 /**
@@ -49,10 +49,10 @@ import es.eucm.ead.model.params.util.Position;
  * 
  */
 @Element
-public class AddActorReferenceEf extends AbstractEffect {
+public class AddActorReferenceEf extends Effect {
 
 	@Param
-	private EAdSceneElementDef actor;
+	private SceneElementDef actor;
 
 	@Param
 	private es.eucm.ead.model.params.util.Position position;
@@ -64,7 +64,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 
 	}
 
-	public AddActorReferenceEf(EAdSceneElementDef actor, Position p,
+	public AddActorReferenceEf(SceneElementDef actor, Position p,
 			AbstractSceneElementEffect effect) {
 		this.actor = actor;
 		this.position = p;
@@ -75,7 +75,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 		this.effect = effect;
 	}
 
-	public void setActor(EAdSceneElementDef actor) {
+	public void setActor(SceneElementDef actor) {
 		this.actor = actor;
 	}
 
@@ -83,7 +83,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 		this.position = position;
 	}
 
-	public EAdSceneElementDef getActor() {
+	public SceneElementDef getActor() {
 		return actor;
 	}
 

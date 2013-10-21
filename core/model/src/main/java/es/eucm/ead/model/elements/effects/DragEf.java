@@ -41,7 +41,7 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 
 @Element
-public class DragEf extends AbstractEffect {
+public class DragEf extends Effect {
 
 	@Param
 	private boolean returnAfterDrag;

@@ -37,13 +37,13 @@
 
 package es.eucm.ead.model.elements.predef.effects;
 
-import es.eucm.ead.model.elements.EAdEffect;
 import es.eucm.ead.model.elements.conditions.EmptyCond;
 import es.eucm.ead.model.elements.conditions.NOTCond;
 import es.eucm.ead.model.elements.conditions.OperationCond;
+import es.eucm.ead.model.elements.effects.Effect;
 import es.eucm.ead.model.elements.effects.TriggerMacroEf;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.ead.model.elements.operations.BasicField;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.params.variables.VarDef;
 
 /**
@@ -59,7 +59,7 @@ public class OneShotEf extends ChangeFieldEf {
 	 * 
 	 * @param effect the effect to launch only once
 	 */
-	public OneShotEf(EAdEffect effect) {
+	public OneShotEf(Effect effect) {
 		this(effect, null);
 	}
 
@@ -68,9 +68,9 @@ public class OneShotEf extends ChangeFieldEf {
 	 * @param effect the effect to launch only once
 	 * @param noEffect the effect to launch all times except first
 	 */
-	public OneShotEf(EAdEffect effect, EAdEffect noEffect) {
+	public OneShotEf(Effect effect, Effect noEffect) {
 		// Sets true launched variable
-		BasicField<Boolean> f = new BasicField<Boolean>(this, LAUNCHED);
+		ElementField<Boolean> f = new ElementField<Boolean>(this, LAUNCHED);
 		OperationCond cond = new OperationCond(f);
 
 		if (noEffect != null) {

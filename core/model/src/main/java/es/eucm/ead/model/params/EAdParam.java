@@ -39,8 +39,6 @@ package es.eucm.ead.model.params;
 
 import com.gwtent.reflection.client.Reflectable;
 
-import es.eucm.ead.model.elements.EAdElement;
-
 /**
  * <p>
  * An eAdventure parameter is data that it's used by the {@link EAdElement}s. A

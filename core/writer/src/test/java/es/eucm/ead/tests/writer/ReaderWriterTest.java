@@ -37,9 +37,9 @@
 
 package es.eucm.ead.tests.writer;
 
-import es.eucm.ead.model.elements.BasicAdventureModel;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.scenes.BasicScene;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.reader.AdventureReader;
 import es.eucm.ead.tools.java.JavaTextFileWriter;
@@ -53,14 +53,14 @@ public class ReaderWriterTest {
 	@Test
 	public void testReadWrite() {
 		String path = "src/test/resources/tests";
-		BasicAdventureModel model = new BasicAdventureModel();
-		BasicChapter chapter = new BasicChapter();
-		BasicChapter chapter2 = new BasicChapter();
+		AdventureGame model = new AdventureGame();
+		Chapter chapter = new Chapter();
+		Chapter chapter2 = new Chapter();
 		model.getChapters().add(chapter);
 		model.getChapters().add(chapter2);
-		BasicScene scene1 = new BasicScene();
+		Scene scene1 = new Scene();
 		scene1.addSceneElement(new SceneElement());
-		BasicScene scene2 = new BasicScene();
+		Scene scene2 = new Scene();
 		scene2.addSceneElement(new SceneElement());
 		chapter.addScene(scene1);
 		chapter.addScene(scene2);

@@ -37,64 +37,61 @@
 
 package es.eucm.ead.model.elements.effects.timedevents;
 
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.operations.ElementField;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
-import es.eucm.ead.model.elements.EAdEffect;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
 import es.eucm.ead.model.elements.effects.InterpolationEf;
 import es.eucm.ead.model.elements.effects.enums.InterpolationLoopType;
 import es.eucm.ead.model.elements.effects.enums.ShowTextAnimation;
 import es.eucm.ead.model.elements.events.SceneElementEv;
 import es.eucm.ead.model.elements.events.enums.SceneElementEvType;
-import es.eucm.ead.model.elements.operations.BasicField;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
 import es.eucm.ead.model.params.util.Position;
 
 /**
  * <p>
- * {@link EAdEffect} to show text on the screen
+ * {@link es.eucm.ead.model.elements.Effect} to show text on the screen
  * </p>
  * 
  */
 @Element
-public class ShowSceneElementEf extends AbstractEffect {
+public class ShowSceneElementEf extends Effect {
 
 	@Param
 	private int time;
 
 	@Param
-	private EAdSceneElement sceneElement;
+	private SceneElement sceneElement;
 
 	public ShowSceneElementEf() {
 		super();
 	}
 
-	public void setSceneElement(EAdSceneElement text) {
+	public void setSceneElement(SceneElement text) {
 		setSceneElement(text, ShowTextAnimation.NONE);
 	}
 
-	public void setSceneElement(EAdSceneElement text,
-			ShowTextAnimation animation) {
+	public void setSceneElement(SceneElement text, ShowTextAnimation animation) {
 		this.sceneElement = text;
 		switch (animation) {
 		case FADE_IN:
 			text.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
-			InterpolationEf effect = new InterpolationEf(new BasicField<Float>(
-					text, SceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
-					InterpolationLoopType.NO_LOOP);
+			InterpolationEf effect = new InterpolationEf(
+					new ElementField<Float>(text, SceneElement.VAR_ALPHA),
+					0.0f, 1.0f, 500, InterpolationLoopType.NO_LOOP);
 
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.INIT, effect);
 
-			text.getEvents().add(event);
+			text.addEvent(event);
 			break;
 		default:
 		}
 	}
 
-	public EAdSceneElement getSceneElement() {
+	public SceneElement getSceneElement() {
 		return sceneElement;
 	}
 

@@ -1,10 +1,10 @@
 package es.eucm.ead.legacyplugins.model;
 
+import es.eucm.ead.model.elements.effects.Effect;
+import es.eucm.ead.model.elements.extra.EAdList;
+import es.eucm.ead.model.elements.operations.Operation;
 import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.interfaces.Param;
-import es.eucm.ead.model.elements.effects.AbstractEffect;
-import es.eucm.ead.model.elements.extra.EAdList;
-import es.eucm.ead.model.elements.operations.EAdOperation;
 import es.eucm.ead.model.params.text.EAdString;
 
 /**
@@ -13,10 +13,10 @@ import es.eucm.ead.model.params.text.EAdString;
  *         Time: 12:50
  */
 @Element
-public class HtmlReportEf extends AbstractEffect {
+public class HtmlReportEf extends Effect {
 
 	@Param
-	private EAdList<EAdOperation> operations;
+	private EAdList<Operation> operations;
 
 	@Param
 	private EAdList<EAdString> labels;
@@ -28,11 +28,11 @@ public class HtmlReportEf extends AbstractEffect {
 
 	}
 
-	public EAdList<EAdOperation> getOperations() {
+	public EAdList<Operation> getOperations() {
 		return operations;
 	}
 
-	public void setOperations(EAdList<EAdOperation> variables) {
+	public void setOperations(EAdList<Operation> variables) {
 		this.operations = variables;
 	}
 

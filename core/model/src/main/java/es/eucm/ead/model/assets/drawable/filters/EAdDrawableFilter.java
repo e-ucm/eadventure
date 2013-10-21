@@ -37,12 +37,12 @@
 
 package es.eucm.ead.model.assets.drawable.filters;
 
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.assets.AssetDescriptor;
 
 /**
  * A filter to be applied to a drawable
  *
  */
-public interface EAdDrawableFilter extends EAdElement {
+public interface EAdDrawableFilter extends AssetDescriptor {
 
 }

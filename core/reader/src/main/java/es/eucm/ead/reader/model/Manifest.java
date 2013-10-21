@@ -37,8 +37,8 @@
 
 package es.eucm.ead.reader.model;
 
+import es.eucm.ead.model.elements.AdventureGame;
 import es.eucm.ead.model.elements.BasicElement;
-import es.eucm.ead.model.elements.EAdAdventureModel;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import es.eucm.ead.model.interfaces.Param;
@@ -88,7 +88,7 @@ public class Manifest extends BasicElement {
 	private EAdMap<String, String> params;
 
 	@Param
-	private EAdAdventureModel model;
+	private AdventureGame model;
 
 	@Param
 	private EAdMap<String, EAdList<String>> sceneGraph;
@@ -146,11 +146,11 @@ public class Manifest extends BasicElement {
 		this.initialChapter = initialChapter;
 	}
 
-	public void setModel(EAdAdventureModel model) {
+	public void setModel(AdventureGame model) {
 		this.model = model;
 	}
 
-	public EAdAdventureModel getModel() {
+	public AdventureGame getModel() {
 		return model;
 	}
 

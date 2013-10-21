@@ -44,8 +44,8 @@ import com.google.inject.Inject;
 import es.eucm.ead.engine.assets.AssetHandler;
 import es.eucm.ead.engine.assets.drawables.RuntimeCaption;
 import es.eucm.ead.engine.factories.SceneElementFactory;
-import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.game.Game;
+import es.eucm.ead.engine.game.interfaces.GUI;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.model.assets.drawable.basics.EAdCaption;
 import es.eucm.ead.model.assets.drawable.basics.EAdShape;
@@ -54,11 +54,10 @@ import es.eucm.ead.model.assets.drawable.basics.animation.Frame;
 import es.eucm.ead.model.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.ead.model.assets.drawable.basics.shapes.BalloonShape;
 import es.eucm.ead.model.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.ead.model.elements.EAdElement;
+import es.eucm.ead.model.elements.BasicElement;
 import es.eucm.ead.model.elements.effects.text.SpeakEf;
 import es.eucm.ead.model.elements.enums.CommonStates;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdGroupElement;
 import es.eucm.ead.model.elements.scenes.GhostElement;
 import es.eucm.ead.model.elements.scenes.GroupElement;
 import es.eucm.ead.model.elements.scenes.SceneElement;
@@ -117,7 +116,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 	public void initialize() {
 		super.initialize();
 		if (effect.getStateField() != null) {
-			EAdElement element = effect.getStateField().getElement();
+			BasicElement element = effect.getStateField().getElement();
 			MoveSceneElementGO moving = game.getGameState().getValue(element,
 					MoveSceneElementGO.VAR_ELEMENT_MOVING);
 			if (moving != null) {
@@ -142,7 +141,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		}
 	}
 
-	protected EAdGroupElement getVisualRepresentation2() {
+	protected GroupElement getVisualRepresentation2() {
 		//		int horizontalMargin = width / MARGIN_PROPORTION;
 		//		int verticalMargin = height / MARGIN_PROPORTION;
 		//		int left = horizontalMargin;
@@ -159,7 +158,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> implements EventListener 
 		return null;
 	}
 
-	protected EAdGroupElement getVisualRepresentation() {
+	protected GroupElement getVisualRepresentation() {
 		int width = game.getGameState().getValue(SystemFields.GAME_WIDTH);
 		int height = game.getGameState().getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;

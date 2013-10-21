@@ -37,20 +37,20 @@
 
 package es.eucm.ead.engine.operators;
 
-import es.eucm.ead.model.elements.operations.EAdOperation;
+import es.eucm.ead.model.elements.operations.Operation;
 
 /**
  * 
- * Takes an {@link EAdOperation} and calculates its result through
- * {@link Operator#operate(Class, EAdOperation)}
+ * Takes an {@link es.eucm.ead.model.elements.operations.Operation} and calculates its result through
+ * {@link Operator#operate(Class, es.eucm.ead.model.elements.operations.Operation)}
  * 
  * @param <T> lass of the operation
  */
-public interface Operator<T extends EAdOperation> {
+public interface Operator<T extends Operation> {
 
 	/**
 	 * <p>
-	 * Calculates the result of an {@link EAdOperation}
+	 * Calculates the result of an {@link es.eucm.ead.model.elements.operations.Operation}
 	 * </p>
 	 * 
 	 * 

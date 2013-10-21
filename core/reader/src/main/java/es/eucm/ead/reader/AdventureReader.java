@@ -39,16 +39,15 @@ package es.eucm.ead.reader;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import es.eucm.ead.model.elements.BasicChapter;
-import es.eucm.ead.model.elements.EAdAdventureModel;
-import es.eucm.ead.model.elements.EAdChapter;
+import es.eucm.ead.model.elements.AdventureGame;
+import es.eucm.ead.model.elements.Chapter;
 import es.eucm.ead.model.elements.extra.EAdList;
 import es.eucm.ead.model.elements.extra.EAdMap;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.reader.model.translators.MapClassTranslator;
+import es.eucm.ead.model.elements.scenes.Scene;
 import es.eucm.ead.reader.model.Manifest;
 import es.eucm.ead.reader.model.ReaderVisitor;
 import es.eucm.ead.reader.model.XMLFileNames;
+import es.eucm.ead.reader.model.translators.MapClassTranslator;
 import es.eucm.ead.tools.TextFileReader;
 import es.eucm.ead.tools.reflection.ReflectionProvider;
 import es.eucm.ead.tools.xml.XMLNode;
@@ -124,12 +123,12 @@ public class AdventureReader {
 	 *
 	 * @return the complete model of the game
 	 */
-	public EAdAdventureModel readFullModel() {
+	public AdventureGame readFullModel() {
 		// Manifest
 		Manifest manifest = getManifest();
 
 		// Model
-		EAdAdventureModel model = manifest.getModel();
+		AdventureGame model = manifest.getModel();
 		int chapterIndex = 0;
 
 		EAdMap<String, EAdList<String>> chaptersScenes = manifest
@@ -137,7 +136,7 @@ public class AdventureReader {
 
 		for (String chapterId : manifest.getChapterIds()) {
 			// Chapters
-			BasicChapter c = (BasicChapter) readChapter(chapterId);
+			Chapter c = (Chapter) readChapter(chapterId);
 			model.addChapter(c);
 			if (chapterId.equals(manifest.getInitialChapter())) {
 				model.setInitialChapter(c);
@@ -148,7 +147,7 @@ public class AdventureReader {
 					chapterIndex++);
 			EAdList<String> chapterScenes = chaptersScenes.get(chapterId);
 			for (String sceneId : chapterScenes) {
-				EAdScene s = readScene(sceneId);
+				Scene s = readScene(sceneId);
 				c.addScene(s);
 				if (sceneId.equals(initialSceneId)) {
 					c.setInitialScene(s);
@@ -158,12 +157,12 @@ public class AdventureReader {
 		return model;
 	}
 
-	public EAdChapter readChapter(String chapterId) {
-		return (EAdChapter) read(chapterId + "." + XMLFileNames.CHAPTER);
+	public Chapter readChapter(String chapterId) {
+		return (Chapter) read(chapterId + "." + XMLFileNames.CHAPTER);
 	}
 
-	public EAdScene readScene(String sceneId) {
-		return (EAdScene) read(sceneId + "." + XMLFileNames.SCENE);
+	public Scene readScene(String sceneId) {
+		return (Scene) read(sceneId + "." + XMLFileNames.SCENE);
 	}
 
 	public void clear() {

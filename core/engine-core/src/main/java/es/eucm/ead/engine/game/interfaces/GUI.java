@@ -40,8 +40,8 @@ package es.eucm.ead.engine.game.interfaces;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
-import es.eucm.ead.model.elements.scenes.EAdScene;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.Scene;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 /**
  * This interface is implemented by the class that implements the high level
@@ -136,9 +136,9 @@ public interface GUI {
 	SceneGO getScene();
 
 	/**
-	 * @return the {@link EAdScene} previously visible in the game
+	 * @return the {@link Scene} previously visible in the game
 	 */
-	EAdScene getPreviousScene();
+	Scene getPreviousScene();
 
 	/**
 	 * Returns the scene element representing the given model element
@@ -146,7 +146,7 @@ public interface GUI {
 	 * @param element
 	 * @return
 	 */
-	SceneElementGO getSceneElement(EAdSceneElement element);
+	SceneElementGO getSceneElement(SceneElement element);
 
 	SceneElementGO getRoot();
 

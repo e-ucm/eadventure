@@ -41,7 +41,7 @@ import es.eucm.ead.model.interfaces.Element;
 import es.eucm.ead.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.ead.model.elements.operations.SystemFields;
 import es.eucm.ead.model.elements.operations.ValueOp;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 /**
  * Makes an element the active element in the game.
@@ -53,7 +53,7 @@ public class MakeActiveElementEf extends ChangeFieldEf {
 		super();
 	}
 
-	public MakeActiveElementEf(EAdSceneElement element) {
+	public MakeActiveElementEf(SceneElement element) {
 		super(SystemFields.ACTIVE_ELEMENT, new ValueOp(element));
 	}
 

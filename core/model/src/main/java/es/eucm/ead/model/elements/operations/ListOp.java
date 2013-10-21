@@ -44,19 +44,19 @@ import es.eucm.ead.model.elements.operations.enums.ListOpType;
 
 @Element
 @SuppressWarnings("rawtypes")
-public class ListOp extends AbstractOperation {
+public class ListOp extends Operation {
 
 	@Param
 	private ListOpType operation;
 
 	@Param
-	private EAdField<EAdList> listField;
+	private ElementField<EAdList> listField;
 
 	public ListOp() {
 
 	}
 
-	public ListOp(EAdField<EAdList> listField, ListOpType operation) {
+	public ListOp(ElementField<EAdList> listField, ListOpType operation) {
 		super();
 		this.operation = operation;
 		this.listField = listField;
@@ -66,7 +66,7 @@ public class ListOp extends AbstractOperation {
 		return operation;
 	}
 
-	public EAdField<EAdList> getListField() {
+	public ElementField<EAdList> getListField() {
 		return listField;
 	}
 

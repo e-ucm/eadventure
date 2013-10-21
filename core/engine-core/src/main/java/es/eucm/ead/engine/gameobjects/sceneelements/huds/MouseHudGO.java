@@ -46,7 +46,7 @@ import es.eucm.ead.engine.gameobjects.sceneelements.SceneElementGO;
 import es.eucm.ead.engine.gameobjects.sceneelements.SceneGO;
 import es.eucm.ead.model.elements.huds.MouseHud;
 import es.eucm.ead.model.elements.operations.SystemFields;
-import es.eucm.ead.model.elements.scenes.EAdSceneElement;
+import es.eucm.ead.model.elements.scenes.SceneElement;
 
 public class MouseHudGO extends SceneGO {
 
@@ -59,7 +59,7 @@ public class MouseHudGO extends SceneGO {
 		super(assetHandler, sceneElementFactory, game, eventFactory);
 	}
 
-	public void setElement(EAdSceneElement element) {
+	public void setElement(SceneElement element) {
 		super.setElement(element);
 		mouse = sceneElementFactory.get(MouseHud.CURSOR_ID);
 	}
