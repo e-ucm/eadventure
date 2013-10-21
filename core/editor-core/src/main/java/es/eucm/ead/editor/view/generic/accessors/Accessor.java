@@ -50,11 +50,13 @@ package es.eucm.ead.editor.view.generic.accessors;
 public interface Accessor<S> {
 	/**
 	 * Writes the field
+	 * @param data to write
 	 */
 	void write(S data);
 
 	/**
 	 * Reads the field
+	 * @return whatever was read
 	 */
 	S read();
 }

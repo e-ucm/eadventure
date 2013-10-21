@@ -56,10 +56,10 @@ import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFileCommand;
 import es.eucm.ead.editor.control.commands.FileCache;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import es.eucm.ead.editor.util.i18n.I18N;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 
-public class FileOption extends DefaultAbstractOption<File> {
+public class FileOption extends AbstractOption<File> {
 
 	private JPanel controls;
 	private JTextField textField;
@@ -68,18 +68,10 @@ public class FileOption extends DefaultAbstractOption<File> {
 	private String buttonText;
 
 	public FileOption(String title, String toolTipText, String buttonText,
-			Accessor<File> fieldDescriptor, FileCache fileCache,
+			Object target, String fieldName, FileCache fileCache,
 			DependencyNode... changed) {
-		super(title, toolTipText, fieldDescriptor, changed);
-		this.fileCache = fileCache;
-		this.buttonText = buttonText;
-		validityConstraint.getList().add(new FileMustExistsAndBeReadable());
-	}
-
-	public FileOption(String title, String toolTipText, String buttonText,
-			Object object, String fieldName, FileCache fileCache,
-			DependencyNode... changed) {
-		super(title, toolTipText, object, fieldName, changed);
+		super(title, toolTipText, 
+			new IntrospectingAccessor<File>(target, fieldName), changed);
 		this.fileCache = fileCache;
 		this.buttonText = buttonText;
 		validityConstraint.getList().add(new FileMustExistsAndBeReadable());
@@ -100,7 +92,7 @@ public class FileOption extends DefaultAbstractOption<File> {
 		controls = new JPanel(new BorderLayout(4, 0));
 		textField = new JTextField(getTitle(), 20);
 		textField.setToolTipText(getToolTipText());
-		textField.setText(fieldDescriptor.read().getPath());
+		textField.setText(accessor.read().getPath());
 		textField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent de) {
@@ -136,7 +128,7 @@ public class FileOption extends DefaultAbstractOption<File> {
 
 	@Override
 	protected Command createUpdateCommand() {
-		return new ChangeFileCommand(getControlValue(), getFieldDescriptor(),
+		return new ChangeFileCommand(getControlValue(), accessor,
 				fileCache, changed);
 	}
 

@@ -46,8 +46,9 @@ import javax.swing.event.ChangeListener;
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 
-public class IntegerOption extends DefaultAbstractOption<Integer> {
+public class IntegerOption extends AbstractOption<Integer> {
 
 	protected JSpinner spinner;
 	protected SpinnerNumberModel model;
@@ -63,7 +64,7 @@ public class IntegerOption extends DefaultAbstractOption<Integer> {
 	 */
 	public IntegerOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, SpinnerNumberModel model) {
-		super(title, toolTipText, object, fieldName, node);
+		super(title, toolTipText, new IntrospectingAccessor<Integer>(object, fieldName), node);
 		this.model = model;
 	}
 
@@ -80,7 +81,7 @@ public class IntegerOption extends DefaultAbstractOption<Integer> {
 	@Override
 	public JComponent createControl() {
 		spinner = new JSpinner(model);
-		model.setValue(readModelValue());
+		model.setValue(accessor.read());
 		spinner.setToolTipText(getToolTipText());
 		model.addChangeListener(new ChangeListener() {
 
@@ -96,7 +97,7 @@ public class IntegerOption extends DefaultAbstractOption<Integer> {
 	protected Command createUpdateCommand() {
 		// Users expect to undo/redo entire words, rather than character-by-character
 		return new ChangeFieldCommand<Integer>(getControlValue(),
-				getFieldDescriptor(), changed) {
+				accessor, changed) {
 			@Override
 			public boolean likesToCombine(Integer nextValue) {
 				// return Math.abs(nextValue - oldValue) <= 1;

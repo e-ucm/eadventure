@@ -375,10 +375,10 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 				@Override
 				public Command createUpdateCommand() {
 					return new ChangeFieldCommand<String>(getControlValue(),
-							getFieldDescriptor(), imageAsset) {
+							accessor, imageAsset) {
 						@Override
 						protected ModelEvent setValue(String value) {
-							File src = resolveFile(getFieldDescriptor().read());
+							File src = resolveFile(accessor.read());
 							ModelEvent me = super.setValue(value);
 							imageFile = resolveFile(value);
 							if (!src.renameTo(imageFile)) {
@@ -397,7 +397,7 @@ public class ImageAssetPanel extends AbstractElementPanel<ImageAssetNode> {
 				@Override
 				public Command createUpdateCommand() {
 					return new ChangeFileCommand(getControlValue(),
-							getFieldDescriptor(), fileCache, imageAsset) {
+							accessor, fileCache, imageAsset) {
 						@Override
 						protected ModelEvent setValue(File value) {
 							ModelEvent me = super.setValue(value);

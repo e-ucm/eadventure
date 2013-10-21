@@ -36,9 +36,10 @@ public class TableSupport {
 	/**
 	 * Allows easier customization of classes
 	 *
-	 * @param <T>
+	 * @param <T> object-type for rows
+	 * @param <K> object-type for row-keys
 	 */
-	public static class ColumnSpec<T> {
+	public static class ColumnSpec<T, K> {
 		private final String name;
 		private final Class<?> clazz;
 		private final boolean editable;
@@ -62,13 +63,11 @@ public class TableSupport {
 			this.editor = editor;
 		}
 
-		public Object getValue(int index, T o) {
+		public Object getValue(T o, K i) {
 			return o;
 		}
 
-		public void setValue(T o, Object value) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
+		public void setValue(T o, K i, Object value) {}
 
 		public String getName() {
 			return name;

@@ -51,9 +51,10 @@ import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import javax.swing.border.Border;
 
-public class TextOption extends DefaultAbstractOption<String> {
+public class TextOption extends AbstractOption<String> {
 
 	public static enum ExpectedLength {
 		SHORT, NORMAL, LONG
@@ -66,7 +67,7 @@ public class TextOption extends DefaultAbstractOption<String> {
 
 	public TextOption(String title, String toolTipText, Object object,
 			String fieldName, ExpectedLength expectedLength, DependencyNode node) {
-		super(title, toolTipText, object, fieldName, node);
+		super(title, toolTipText, new IntrospectingAccessor<String>(object, fieldName), node);
 		this.expectedLength = expectedLength;
 	}
 
@@ -125,7 +126,7 @@ public class TextOption extends DefaultAbstractOption<String> {
 					+ expectedLength);
 		}
 		textField.setToolTipText(getToolTipText());
-		textField.setText(fieldDescriptor.read());
+		textField.setText(accessor.read());
 		textField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent de) {
@@ -157,7 +158,7 @@ public class TextOption extends DefaultAbstractOption<String> {
 	protected Command createUpdateCommand() {
 		// Users expect to undo/redo entire words, rather than character-by-character
 		return new ChangeFieldCommand<String>(getControlValue(),
-				getFieldDescriptor(), changed) {
+				accessor, changed) {
 			@Override
 			public boolean likesToCombine(String nextValue) {
 				return nextValue.startsWith(newValue)

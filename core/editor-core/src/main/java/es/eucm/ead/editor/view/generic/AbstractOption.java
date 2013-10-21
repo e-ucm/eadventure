@@ -47,8 +47,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.eucm.ead.editor.control.CommandManager;
+import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.control.commands.EmptyCommand;
 import es.eucm.ead.editor.util.Log4jConfig;
+import es.eucm.ead.editor.view.generic.accessors.Accessor;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
@@ -94,6 +96,10 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 */
 	protected S oldValue;
 	/**
+	 * Accessor used to read and write model values
+	 */
+	protected Accessor<S> accessor;
+	/**
 	 * Keeps a reference to the current commandManager
 	 */
 	protected CommandManager manager;
@@ -124,10 +130,11 @@ public abstract class AbstractOption<S> implements Option<S> {
 	 * @param toolTipText The toolTipText in the option (cannot be null)
 	 * @param changed dependency nodes to be considered "changed" when this changes
 	 */
-	public AbstractOption(String label, String toolTipText,
+	public AbstractOption(String label, String toolTipText, Accessor<S> accessor, 
 			DependencyNode... changed) {
 		this.label = label;
 		this.toolTipText = toolTipText;
+		this.accessor = accessor;
 		if (toolTipText == null || toolTipText.isEmpty()) {
 			throw new RuntimeException(
 					"ToolTipTexts MUST be provided for all interface elements!");
@@ -154,24 +161,24 @@ public abstract class AbstractOption<S> implements Option<S> {
 		logger.debug("option {} notified of change: {}", new Object[] {
 				hashCode(), event });
 		if (ModelEventUtils.changes(event, changed)) {
-			uncontestedUpdate(readModelValue(), UpdateType.Event);
+			uncontestedUpdate(accessor.read(), UpdateType.Event);
 		} else {
 			logger.debug("why am I even receiving this?");
 		}
 	}
-
+	
 	/**
-	 * Reads model value.
-	 * @return
+	 * Retargets exposed object. Essentially resets 
+	 * @param accessor access to newly-exposed object
+	 * @param changed updated dependency information; overwrites previous information
 	 */
-	public abstract S readModelValue();
-
-	/**
-	 * Queried within modelChanged before considering a change to
-	 * have occurred.
-	 * @return
-	 */
-	protected abstract boolean changeConsideredRelevant(S oldValue, S newValue);
+	public JComponent retarget(Accessor<S> accessor, DependencyNode... changed) {		
+		this.accessor = accessor;
+		this.oldValue = accessor.read();
+		setControlValue(oldValue);
+		this.changed = changed == null ? new DependencyNode[0] : changed;	
+		return component;
+	}
 
 	/**
 	 * Retrieves title (used for label).
@@ -227,23 +234,35 @@ public abstract class AbstractOption<S> implements Option<S> {
 
 	/**
 	 * Reads the value of the control.
-	 * @return
+	 * @return whatever was read from the control
 	 */
 	public abstract S getControlValue();
 
 	/**
 	 * Writes the value of the control.
-	 * @return
+	 * @param newValue to write to control
 	 */
 	protected abstract void setControlValue(S newValue);
+
+	/**
+	 * Queried within modelChanged before considering a change to
+	 * have occurred.
+	 * @return
+	 */
+	protected boolean changeConsideredRelevant(S oldValue, S newValue) {
+		return ChangeFieldCommand.defaultIsChange(oldValue, newValue);
+	}
 
 	/**
 	 * Creates a Command that describes a change to the manager.
 	 * No change should be described if no change exists.
 	 * @return
 	 */
-	protected abstract Command createUpdateCommand();
-
+	protected Command createUpdateCommand() {
+		return new ChangeFieldCommand<S>(getControlValue(),
+				accessor, changed);
+	}	
+	
 	/**
 	 * Should return whether a value is valid or not. Invalid values will
 	 * not generate updates, and will therefore not affect either model or other

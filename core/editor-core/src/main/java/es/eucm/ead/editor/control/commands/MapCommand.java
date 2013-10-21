@@ -86,8 +86,8 @@ public abstract class MapCommand<K, V> extends Command {
 		this.changed = changed;
 	}
 
-	protected ModelEvent put(EditorModel em, K key) {
-		elementMap.put(key, anElement);
+	protected ModelEvent put(EditorModel em, K key, V value) {
+		elementMap.put(key, value);
 		return new DefaultModelEvent(commandName, this, null, null, changed);
 	}
 
@@ -128,6 +128,9 @@ public abstract class MapCommand<K, V> extends Command {
 	 */
 	public static class AddToMap<K, V> extends MapCommand<K, V> {
 
+		private boolean wasEmpty = false;
+		private V oldValue = null;
+		
 		public AddToMap(EAdMap<K, V> map, V e, K key, DependencyNode... changed) {
 			super(map, e, null, key, changed);
 			commandName = "AddToMap";
@@ -140,12 +143,18 @@ public abstract class MapCommand<K, V> extends Command {
 
 		@Override
 		public ModelEvent undoCommand(EditorModel em) {
-			return remove(em, newKey);
+			return wasEmpty ?
+				remove(em, newKey) :
+				put(em, newKey, oldValue);
 		}
 
 		@Override
 		public ModelEvent redoCommand(EditorModel em) {
-			return put(em, newKey);
+			wasEmpty = ! elementMap.containsKey(newKey);
+			if ( ! wasEmpty) {
+				oldValue = elementMap.get(newKey);
+			}
+			return put(em, newKey, anElement);
 		}
 	}
 
@@ -155,7 +164,7 @@ public abstract class MapCommand<K, V> extends Command {
 	public static class RemoveFromMap<K, V> extends MapCommand<K, V> {
 
 		public RemoveFromMap(EAdMap<K, V> map, K key, DependencyNode... changed) {
-			super(map, map.get(key), null, key, changed);
+			super(map, map.get(key), key, null, changed);
 			commandName = "RemoveFromMap";
 		}
 
@@ -166,7 +175,7 @@ public abstract class MapCommand<K, V> extends Command {
 
 		@Override
 		public ModelEvent undoCommand(EditorModel em) {
-			return put(em, oldKey);
+			return put(em, oldKey, anElement);
 		}
 
 		@Override

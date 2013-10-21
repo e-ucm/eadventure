@@ -51,14 +51,15 @@ import javax.swing.JOptionPane;
 
 import es.eucm.ead.editor.model.nodes.DependencyNode;
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 
-public class ColorOption extends DefaultAbstractOption<Color> {
+public class ColorOption extends AbstractOption<Color> {
 
 	private static JColorChooser jcc = new JColorChooser();
 	private Color controlValue = null;
 
 	private JButton colorButton;
-	private BufferedImage colorImage = new BufferedImage(32, 32,
+	private final BufferedImage colorImage = new BufferedImage(32, 32,
 			BufferedImage.TYPE_INT_ARGB);
 
 	private void paintIcon(Color color) {
@@ -73,27 +74,28 @@ public class ColorOption extends DefaultAbstractOption<Color> {
 		}
 	}
 
-	public ColorOption(String title, String toolTipText, Object object,
-			String fieldName, DependencyNode... changed) {
-		super(title, toolTipText, object, fieldName, changed);
+	public ColorOption(String title, String toolTipText,
+			Object target, String fieldName, DependencyNode... changed) {
+		super(title, toolTipText, 
+				new IntrospectingAccessor<Color>(target, fieldName), changed);
 	}
 
 	public ColorOption(String title, String toolTipText,
-			Accessor<Color> fieldDescriptor, DependencyNode... changed) {
-		super(title, toolTipText, fieldDescriptor, changed);
+			Accessor<Color> accessor, DependencyNode... changed) {
+		super(title, toolTipText, accessor, changed);
 	}
-
+	
 	@Override
 	protected JComponent createControl() {
 		colorButton = new JButton();
-		oldValue = readModelValue();
+		oldValue = accessor.read();
 		setControlValue(oldValue);
 		colorButton.setToolTipText(getToolTipText());
 
 		colorButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				setControlValue(readModelValue());
+				setControlValue(accessor.read());
 				jcc.setColor(controlValue);
 				JOptionPane.showMessageDialog(colorButton.getParent(), jcc,
 						"Select a color", JOptionPane.QUESTION_MESSAGE);

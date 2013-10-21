@@ -115,7 +115,8 @@ public class IntrospectingAccessor<S> implements Accessor<S> {
 			Method method = getPropertyDescriptor().getReadMethod();
 			return (S) method.invoke(element);
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field " + fieldName, e);
+			throw new RuntimeException("Error reading field '" 
+					+ fieldName + "' in '" + element + "' of type " + element.getClass(), e);
 		}
 	}
 

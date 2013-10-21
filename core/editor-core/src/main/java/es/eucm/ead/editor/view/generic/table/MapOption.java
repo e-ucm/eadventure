@@ -8,8 +8,8 @@ package es.eucm.ead.editor.view.generic.table;
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.MapCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.editor.view.generic.DefaultAbstractOption;
-import es.eucm.ead.editor.view.generic.accessors.Accessor;
+import es.eucm.ead.editor.view.generic.AbstractOption;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import es.eucm.ead.model.elements.extra.EAdMap;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -27,14 +27,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An option that allows a map of elements to be manipulated.
- * Conceptually very similar to manipulating a list.
- * 
+ * An option that allows a map of elements to be manipulated. Conceptually very
+ * similar to manipulating a list.
+ *
  * @author mfreire
  * @param <K> key-type
  * @param <V> value-type (for underlying list)
  */
-public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
+public class MapOption<K, V> extends AbstractOption<EAdMap<K, V>>
 		implements TableLikeControl<V, K> {
 
 	static private Logger logger = LoggerFactory.getLogger(MapOption.class);
@@ -47,37 +47,34 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 
 	public MapOption(String title, String toolTipText, Object object,
 			String fieldName, Class<?> contentClass, DependencyNode... changed) {
-		super(title, toolTipText, object, fieldName, changed);
+		super(title, toolTipText,
+				new IntrospectingAccessor<EAdMap<K, V>>(object, fieldName), changed);
 		this.contentClass = contentClass;
+
 	}
 
-	public MapOption(String title, String toolTipText,
-			Accessor<EAdMap<K, V>> fieldDescriptor, Class<?> contentClass,
-			DependencyNode... changed) {
-		super(title, toolTipText, fieldDescriptor, changed);
-		this.contentClass = contentClass;
-	}
-
-	public TableSupport.ColumnSpec<V>[] getKeyColumns() {
-		return (TableSupport.ColumnSpec<V>[]) new TableSupport.ColumnSpec[] { new TableSupport.ColumnSpec(
-				"Key", String.class, false, -1) {
+	public TableSupport.ColumnSpec<V, K>[] getKeyColumns() {
+		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[]{
+			new TableSupport.ColumnSpec<V, K>(
+			"Key", String.class, false, -1) {
 			@Override
-			public Object getValue(int index, Object o) {
-				return indexToKey(index).toString();
-			}
-		} };
+			public Object getValue(V o, K i) {
+				return i.toString();
+			}}};
 	}
 
-	public TableSupport.ColumnSpec<V>[] getValueColumns() {
-		return (TableSupport.ColumnSpec<V>[]) new TableSupport.ColumnSpec[] { new TableSupport.ColumnSpec(
-				"Value", contentClass, false, -1) };
+	public TableSupport.ColumnSpec<V, K>[] getValueColumns() {
+		return (TableSupport.ColumnSpec<V, K>[]) new TableSupport.ColumnSpec[]{
+			new TableSupport.ColumnSpec(
+			"Value", contentClass, false, -1)};
 	}
 
 	public int keyToIndex(K key) {
 		Iterator<K> it = oldValue.keySet().iterator();
 		for (int i = 0; it.hasNext(); i++) {
-			if (it.next() == key)
+			if (it.next() == key) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -86,8 +83,9 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 		Iterator<K> it = oldValue.keySet().iterator();
 		for (int i = 0; it.hasNext(); i++) {
 			K key = it.next();
-			if (i == index)
+			if (i == index) {
 				return key;
+			}
 		}
 		return null;
 	}
@@ -97,36 +95,25 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	 * always be updated.
 	 */
 	private class MapTableModel extends AbstractTableModel {
-		private TableSupport.ColumnSpec<V>[] cols;
+
+		private TableSupport.ColumnSpec<V, K>[] cols;
 
 		@SuppressWarnings("unchecked")
 		public MapTableModel() {
-			TableSupport.ColumnSpec<V> upDown = new TableSupport.ColumnSpec<V>(
-					"", TableSupport.MoveIt.class, true, 16) {
-				@Override
-				public void setValue(V o, Object value) {
-					// do nothing; unchangeable values
-				}
-			};
+			TableSupport.ColumnSpec<V, K> upDown = new TableSupport.ColumnSpec<V, K>(
+					"", TableSupport.MoveIt.class, true, 16);
 			upDown.setEditor(new TableSupport.MoveButtonWidget(MapOption.this));
-			upDown
-					.setRenderer(new TableSupport.MoveButtonWidget(
-							MapOption.this));
-			TableSupport.ColumnSpec<V> delete = new TableSupport.ColumnSpec<V>(
-					"", TableSupport.DeleteIt.class, true, 20) {
-				@Override
-				public void setValue(V o, Object value) {
-					// do nothing; unchangeable values
-				}
-			};
-			delete
-					.setEditor(new TableSupport.DeleteButtonWidget(
-							MapOption.this));
+			upDown.setRenderer(new TableSupport.MoveButtonWidget(
+					MapOption.this));
+			TableSupport.ColumnSpec<V, K> delete = new TableSupport.ColumnSpec<V, K>(
+					"", TableSupport.DeleteIt.class, true, 20);
+			delete.setEditor(new TableSupport.DeleteButtonWidget(
+					MapOption.this));
 			delete.setRenderer(new TableSupport.DeleteButtonWidget(
 					MapOption.this));
-			TableSupport.ColumnSpec<V>[] keys = (TableSupport.ColumnSpec<V>[]) getKeyColumns();
-			TableSupport.ColumnSpec<V>[] values = (TableSupport.ColumnSpec<V>[]) getValueColumns();
-			cols = (TableSupport.ColumnSpec<V>[]) new TableSupport.ColumnSpec[keys.length
+			TableSupport.ColumnSpec<V,K>[] keys = (TableSupport.ColumnSpec<V,K>[]) getKeyColumns();
+			TableSupport.ColumnSpec<V,K>[] values = (TableSupport.ColumnSpec<V,K>[]) getValueColumns();
+			cols = (TableSupport.ColumnSpec<V,K>[]) new TableSupport.ColumnSpec[keys.length
 					+ values.length + 1];
 			System.arraycopy(keys, 0, cols, 0, keys.length);
 			System.arraycopy(values, 0, cols, keys.length, values.length);
@@ -160,25 +147,25 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			return cols[columnIndex].getValue(rowIndex, oldValue
-					.get(indexToKey(rowIndex)));
+			K k = keyForRow(rowIndex);
+			return cols[columnIndex].getValue(oldValue.get(k), k);
 		}
 
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			cols[columnIndex].setValue(oldValue.get(indexToKey(rowIndex)),
-					aValue);
+			K k = keyForRow(rowIndex);
+			cols[columnIndex].setValue(oldValue.get(k), k, aValue);
 		}
 	}
 
 	@Override
 	protected JComponent createControl() {
 
-		oldValue = fieldDescriptor.read();
+		oldValue = accessor.read();
 		tableModel = new MapTableModel();
 		tableControl = new JXTable(tableModel);
 		for (int i = 0; i < tableModel.cols.length; i++) {
-			TableSupport.ColumnSpec<V> c = tableModel.cols[i];
+			TableSupport.ColumnSpec<V, K> c = tableModel.cols[i];
 			if (c.getRenderer() != null) {
 				tableControl.setDefaultRenderer(c.getClazz(), c.getRenderer());
 			}
@@ -223,7 +210,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 
 	@Override
 	public EAdMap<K, V> getControlValue() {
-		return fieldDescriptor.read();
+		return accessor.read();
 	}
 
 	@Override
@@ -238,7 +225,7 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	@Override
 	public void remove(K key) {
 		V o = oldValue.get(key);
-		logger.info("Removing {} (at {})", new Object[] { o, key });
+		logger.info("Removing {} (at {})", new Object[]{o, key});
 		Command c = new MapCommand.RemoveFromMap<K, V>(oldValue, key, changed);
 		executeCommand(c);
 	}
@@ -291,8 +278,8 @@ public class MapOption<K, V> extends DefaultAbstractOption<EAdMap<K, V>>
 	@Override
 	public K keyForRow(int row) {
 		return indexToKey(row);
-	}	
-	
+	}
+
 	/**
 	 * Consider contents to have changed, even if the list-reference does not
 	 * change.

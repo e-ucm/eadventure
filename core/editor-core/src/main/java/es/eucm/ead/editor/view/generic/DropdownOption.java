@@ -49,8 +49,9 @@ import javax.swing.JComponent;
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ChangeFieldCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 
-public class DropdownOption<T> extends DefaultAbstractOption<T> {
+public class DropdownOption<T> extends AbstractOption<T> {
 
 	protected JComboBox combo;
 	protected ComboBoxModel model;
@@ -98,7 +99,7 @@ public class DropdownOption<T> extends DefaultAbstractOption<T> {
 	 */
 	public DropdownOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, T[] choices) {
-		super(title, toolTipText, object, fieldName, node);
+		super(title, toolTipText, new IntrospectingAccessor<T>(object, fieldName), node);
 		initializeItems(choices, null, null);
 		this.model = new DefaultComboBoxModel(items);
 	}
@@ -114,7 +115,7 @@ public class DropdownOption<T> extends DefaultAbstractOption<T> {
 	 */
 	public DropdownOption(String title, String toolTipText, Object object,
 			String fieldName, DependencyNode node, T[] choices, String[] names) {
-		super(title, toolTipText, object, fieldName, node);
+		super(title, toolTipText, new IntrospectingAccessor<T>(object, fieldName), node);
 		initializeItems(choices, names, null);
 		this.model = new DefaultComboBoxModel(items);
 	}
@@ -135,13 +136,13 @@ public class DropdownOption<T> extends DefaultAbstractOption<T> {
 	@Override
 	public JComponent createControl() {
 		combo = new JComboBox(model);
-		model.setSelectedItem(readModelValue());
+		model.setSelectedItem(accessor.read());
 		combo.setToolTipText(getToolTipText());
 		combo.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (changeConsideredRelevant(readModelValue(),
+				if (changeConsideredRelevant(accessor.read(),
 						getControlValue())) {
 					update();
 				}
@@ -153,6 +154,6 @@ public class DropdownOption<T> extends DefaultAbstractOption<T> {
 	@Override
 	protected Command createUpdateCommand() {
 		return new ChangeFieldCommand<T>(getControlValue(),
-				getFieldDescriptor(), changed);
+				accessor, changed);
 	}
 }

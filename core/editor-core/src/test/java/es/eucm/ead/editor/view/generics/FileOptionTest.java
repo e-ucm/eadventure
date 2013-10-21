@@ -68,7 +68,7 @@ public class FileOptionTest extends AbstractOptionTest {
 			@Override
 			public Command createUpdateCommand() {
 				return new ChangeFileCommand(getControlValue(),
-						getFieldDescriptor(), fc, changed) {
+						accessor, fc, changed) {
 					@Override
 					protected ModelEvent setValue(File value) {
 						ModelEvent me = super.setValue(value);
@@ -89,10 +89,10 @@ public class FileOptionTest extends AbstractOptionTest {
 			@Override
 			public Command createUpdateCommand() {
 				return new ChangeFieldCommand<String>(getControlValue(),
-						getFieldDescriptor(), changed) {
+						accessor, changed) {
 					@Override
 					protected ModelEvent setValue(String value) {
-						File src = resolveFile(getFieldDescriptor().read());
+						File src = resolveFile(accessor.read());
 						ModelEvent me = super.setValue(value);
 						target = resolveFile(value);
 						if (!src.renameTo(target)) {
@@ -104,7 +104,7 @@ public class FileOptionTest extends AbstractOptionTest {
 				};
 			}
 		};
-		target = fno.resolveFile(fno.readModelValue());
+		target = fno.resolveFile(((ExampleClass)model).getName());
 
 		OptionPanel p1 = new PanelImpl("Test",
 				OptionPanel.LayoutPolicy.VerticalBlocks, 4);

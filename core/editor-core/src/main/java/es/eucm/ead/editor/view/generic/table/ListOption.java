@@ -51,8 +51,9 @@ import javax.swing.table.AbstractTableModel;
 import es.eucm.ead.editor.control.Command;
 import es.eucm.ead.editor.control.commands.ListCommand;
 import es.eucm.ead.editor.model.nodes.DependencyNode;
-import es.eucm.ead.editor.view.generic.DefaultAbstractOption;
+import es.eucm.ead.editor.view.generic.AbstractOption;
 import es.eucm.ead.editor.view.generic.accessors.Accessor;
+import es.eucm.ead.editor.view.generic.accessors.IntrospectingAccessor;
 import es.eucm.ead.editor.view.generic.table.TableSupport.ColumnSpec;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteButtonWidget;
 import es.eucm.ead.editor.view.generic.table.TableSupport.DeleteIt;
@@ -70,7 +71,7 @@ import es.eucm.ead.model.elements.extra.EAdList;
  * @author mfreire
  * @param <T>
  */
-public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
+public class ListOption<T> extends AbstractOption<EAdList<T>> implements
 		TableLikeControl<T, Integer> {
 
 	static private Logger logger = LoggerFactory.getLogger(ListOption.class);
@@ -83,19 +84,14 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 
 	public ListOption(String title, String toolTipText, Object object,
 			String fieldName, Class<?> contentClass, DependencyNode... changed) {
-		super(title, toolTipText, object, fieldName, changed);
+		super(title, toolTipText, 
+				new IntrospectingAccessor<EAdList<T>>(object, fieldName), changed);
 		this.contentClass = contentClass;
 	}
 
-	public ListOption(String title, String toolTipText,
-			Accessor<EAdList<T>> fieldDescriptor, Class<?> contentClass,
-			DependencyNode... changed) {
-		super(title, toolTipText, fieldDescriptor, changed);
-		this.contentClass = contentClass;
-	}
-
-	public ColumnSpec<T>[] getExtraColumns() {
-		return (ColumnSpec<T>[]) new ColumnSpec[] { new ColumnSpec<T>("Value",
+	public ColumnSpec<T, Integer>[] getExtraColumns() {
+		return (ColumnSpec<T, Integer>[]) new ColumnSpec[] { 
+			new ColumnSpec<T, Integer>("Value",
 				contentClass, false, -1) };
 	}
 
@@ -104,29 +100,18 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 	 * always be updated.
 	 */
 	private class ListTableModel extends AbstractTableModel {
-		private ColumnSpec<T>[] cols;
+		private ColumnSpec<T, Integer>[] cols;
 
 		@SuppressWarnings("unchecked")
 		public ListTableModel() {
-			ColumnSpec<T> upDown = new ColumnSpec<T>("", MoveIt.class, true, 16) {
-				@Override
-				public void setValue(T o, Object value) {
-					// do nothing; unchangeable values
-				}
-			};
+			ColumnSpec<T, Integer> upDown = new ColumnSpec<T, Integer>("", MoveIt.class, true, 16);
 			upDown.setEditor(new MoveButtonWidget(ListOption.this));
 			upDown.setRenderer(new MoveButtonWidget(ListOption.this));
-			ColumnSpec<T> delete = new ColumnSpec<T>("", DeleteIt.class, true,
-					20) {
-				@Override
-				public void setValue(T o, Object value) {
-					// do nothing; unchangeable values
-				}
-			};
+			ColumnSpec<T, Integer> delete = new ColumnSpec<T, Integer>("", DeleteIt.class, true,	20);
 			delete.setEditor(new DeleteButtonWidget(ListOption.this));
 			delete.setRenderer(new DeleteButtonWidget(ListOption.this));
-			ColumnSpec<T>[] user = (ColumnSpec<T>[]) getExtraColumns();
-			cols = (ColumnSpec<T>[]) new ColumnSpec[user.length + 2];
+			ColumnSpec<T, Integer>[] user = (ColumnSpec<T, Integer>[]) getExtraColumns();
+			cols = (ColumnSpec<T, Integer>[]) new ColumnSpec[user.length + 2];
 			cols[0] = upDown;
 			cols[cols.length - 1] = delete;
 			System.arraycopy(user, 0, cols, 1, user.length);
@@ -159,23 +144,25 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			return cols[columnIndex].getValue(rowIndex, oldValue.get(rowIndex));
+			return cols[columnIndex].getValue(
+					oldValue.get(rowIndex), keyForRow(rowIndex));
 		}
 
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			cols[columnIndex].setValue(oldValue.get(rowIndex), aValue);
+			cols[columnIndex].setValue(
+					oldValue.get(rowIndex), keyForRow(rowIndex), aValue);
 		}
 	}
 
 	@Override
 	protected JComponent createControl() {
 
-		oldValue = fieldDescriptor.read();
+		oldValue = accessor.read();
 		tableModel = new ListTableModel();
 		tableControl = new JXTable(tableModel);
 		for (int i = 0; i < tableModel.cols.length; i++) {
-			ColumnSpec<T> c = tableModel.cols[i];
+			ColumnSpec<T, Integer> c = tableModel.cols[i];
 			if (c.getRenderer() != null) {
 				tableControl.setDefaultRenderer(c.getClazz(), c.getRenderer());
 			}
@@ -219,7 +206,7 @@ public class ListOption<T> extends DefaultAbstractOption<EAdList<T>> implements
 
 	@Override
 	public EAdList<T> getControlValue() {
-		return fieldDescriptor.read();
+		return accessor.read();
 	}
 
 	@Override
